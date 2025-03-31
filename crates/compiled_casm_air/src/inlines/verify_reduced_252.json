@@ -2,7 +2,9 @@
   "name": "verify_reduced_252",
   "relation_name": null,
   "description": "Verify Reduced 252",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "verify_reduced_252_input",
     "Felt252",
@@ -30,7 +32,6 @@
     "ms_and_mid_limbs_are_max_col1",
     "rc_input_col2"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_8": 2
   },

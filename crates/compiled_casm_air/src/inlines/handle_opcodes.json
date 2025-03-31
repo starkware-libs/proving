@@ -2,7 +2,9 @@
   "name": "handle_opcodes",
   "relation_name": null,
   "description": "Handle Opcodes",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "handle_opcodes_input",
     "(CasmState, [M31; 20], [M31; 3], [Felt252; 3])",
@@ -26,7 +28,6 @@
     "()"
   ],
   "state_names": [],
-  "padding_type": "None",
   "lookup_names": {},
   "inline_calls": {
     "cond_felt_252_as_addr": []

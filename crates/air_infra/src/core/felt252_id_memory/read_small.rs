@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::memory::*;
@@ -30,7 +30,7 @@ pub const LIMBS_IN_M31: usize = 3;
 /// Receives a felt252, and conditionally constrains its sign bits as a relative-immediate
 /// (the "case" bits: msb and mid_limbs_set).
 /// Returns the deduced sign bits.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct CondDecodeSmallSign {}
 
 impl AirFn for CondDecodeSmallSign {
@@ -114,9 +114,9 @@ pub fn small_to_felt252(
     full_value_limbs.into()
 }
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct ReadSmall {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

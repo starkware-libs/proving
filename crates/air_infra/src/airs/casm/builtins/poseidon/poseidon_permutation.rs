@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::cube252::*;
 use super::full_round::*;
@@ -48,7 +48,7 @@ const PARTIAL_TO_FULL_KEYS: [[u128; 2]; 2] = [
 /// Note that both input and output packed felts are not range checked in the air, as it is expected
 /// that the caller has them in unpacked or otherwise range-checked forms. It is crucial for
 /// soundness that they are indeed range checked.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct PoseidonHadesPermutation {}
 
 impl AirFn for PoseidonHadesPermutation {
@@ -62,7 +62,7 @@ impl AirFn for PoseidonHadesPermutation {
         let state = state
             .into_iter()
             .zip(keys)
-            .map(|(x, k)| air_builder.call(&LinearCombination { coefs: [1, 1] }, [x, k]))
+            .map(|(x, k)| air_builder.call(&LinearCombination::new([1, 1]), [x, k]))
             .collect::<Vec<_>>()
             .try_into()
             .unwrap();
@@ -76,16 +76,12 @@ impl AirFn for PoseidonHadesPermutation {
         let [key_z5, key_z6] = FULL_TO_PARTIAL_KEYS.map(|[x, y]| const_felt252_expr!(x, y).into());
         let z4_3 = air_builder.lookup_call(&Cube252 {}, (), z4.clone());
         let z5 = air_builder.call(
-            &LinearCombination {
-                coefs: [1, 1, -2, 1],
-            },
+            &LinearCombination::new([1, 1, -2, 1]),
             [x4.clone(), y4, z4_3.clone(), key_z5],
         );
         let z5_3 = air_builder.lookup_call(&Cube252 {}, (), z5.clone());
         let z6 = air_builder.call(
-            &LinearCombination {
-                coefs: [4, 2, -2, 1],
-            },
+            &LinearCombination::new([4, 2, -2, 1]),
             [x4, z4_3.clone(), z5_3.clone(), key_z6],
         );
         // The remaining 81 partial rounds (in a 27x3 chain).
@@ -99,15 +95,11 @@ impl AirFn for PoseidonHadesPermutation {
         let [key_y87, key_x87] =
             PARTIAL_TO_FULL_KEYS.map(|[x, y]| const_felt252_expr!(x, y).into());
         let y87 = air_builder.call(
-            &LinearCombination {
-                coefs: [4, 2, 1, 1],
-            },
+            &LinearCombination::new([4, 2, 1, 1]),
             [z85_3, z86, z86_3.clone(), key_y87],
         );
         let x87 = air_builder.call(
-            &LinearCombination {
-                coefs: [4, 2, 1, 1],
-            },
+            &LinearCombination::new([4, 2, 1, 1]),
             [z86_3, z87.clone(), y87.clone(), key_x87],
         );
 

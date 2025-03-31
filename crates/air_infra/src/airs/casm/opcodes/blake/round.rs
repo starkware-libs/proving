@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::g::*;
 use super::read_blake_word::*;
@@ -29,9 +29,9 @@ pub const G_STATE_INDICES: [[usize; 4]; 8] = [
     [3, 4, 9, 14],
 ];
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct BlakeRound {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

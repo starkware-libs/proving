@@ -2,7 +2,9 @@
   "name": "poseidon_builtin",
   "relation_name": null,
   "description": "Poseidon Builtin",
+  "instance_definition": "{}",
   "type": "Builtin",
+  "padding_type": "None",
   "prover_input": [
     "poseidon_builtin_input",
     "()",
@@ -374,7 +376,6 @@
     "unpacked_limb_25_col345",
     "output_state_2_id_col346"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 6,
     "MemoryIdToBig": 6,

@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::sigma::*;
 use crate::airs::casm::const_tables::seq::*;
@@ -14,7 +14,7 @@ use crate::core::variables::*;
 /// extra padding.
 /// The output consists of constant columns with a width of 16, containing the message permutation
 /// for the corresponding round.
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct BlakeRoundSigma {}
 
 impl AirFn for BlakeRoundSigma {

@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::decode_generic_instruction::*;
 use super::eval_operands::*;
@@ -17,9 +17,9 @@ pub const INSTRUCTION_SIZE_INDEX: usize = 19;
 pub const GENERIC_FLAGS_SIZE: usize = 20;
 
 /// Implements a generic Cairo0 instructions.
-#[derive(Clone, Debug, InstDef, Default)]
+#[derive(Clone, Debug, Serialize, Default)]
 pub struct GenericOpcode {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

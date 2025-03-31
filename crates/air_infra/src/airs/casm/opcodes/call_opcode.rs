@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -18,11 +18,13 @@ use crate::core::felt252_id_memory::memory::*;
 /// - call abs [ap + offset]
 /// - call abs [fp + offset]
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct CallOpcode {
+    #[serde(skip_serializing_if = "crate::utils::is_false")]
     pub rel: bool,
+    #[serde(skip_serializing_if = "crate::utils::is_false")]
     pub op1_base_fp: bool,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

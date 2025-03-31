@@ -2,7 +2,9 @@
   "name": "bitwise_builtin",
   "relation_name": null,
   "description": "Bitwise Builtin",
+  "instance_definition": "{}",
   "type": "Builtin",
+  "padding_type": "None",
   "prover_input": [
     "bitwise_builtin_input",
     "()",
@@ -116,7 +118,6 @@
     "xor_id_col87",
     "or_id_col88"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 5,
     "MemoryIdToBig": 5,

@@ -2,7 +2,9 @@
   "name": "mem_verify",
   "relation_name": null,
   "description": "Mem Verify",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "mem_verify_input",
     "(M31, Felt252)",
@@ -28,7 +30,6 @@
   "state_names": [
     "id_col0"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 1,
     "MemoryIdToBig": 1

@@ -3,7 +3,7 @@
   "relation_name": null,
   "description": "Bit Unpack N 4",
   "inst_def": {
-    "N": "4"
+    "n": 4
   },
   "input": {
     "name": "bit_unpack_n_4_input",
@@ -11,19 +11,19 @@
   },
   "output": [
     {
-      "name": "div_2_output_tmp_ee5bd_2.0",
+      "name": "div_2_output_tmp_9eca5_2.0",
       "type": "Bool"
     },
     {
-      "name": "div_2_output_tmp_ee5bd_5.0",
+      "name": "div_2_output_tmp_9eca5_5.0",
       "type": "Bool"
     },
     {
-      "name": "div_2_output_tmp_ee5bd_8.0",
+      "name": "div_2_output_tmp_9eca5_8.0",
       "type": "Bool"
     },
     {
-      "name": "div_2_output_tmp_ee5bd_11.0",
+      "name": "div_2_output_tmp_9eca5_11.0",
       "type": "Bool"
     }
   ],
@@ -42,14 +42,14 @@
           "name": "bit_unpack_n_4_input",
           "type": "UInt16"
         },
-        "output_name": "div_2_output_tmp_ee5bd_2",
+        "output_name": "div_2_output_tmp_9eca5_2",
         "output": [
           {
-            "name": "div_2_output_tmp_ee5bd_2.0",
+            "name": "div_2_output_tmp_9eca5_2.0",
             "type": "Bool"
           },
           {
-            "name": "div_2_output_tmp_ee5bd_2.1",
+            "name": "div_2_output_tmp_9eca5_2.1",
             "type": "UInt16"
           }
         ],
@@ -63,17 +63,17 @@
         "air_fn_name": "div_2",
         "air_fn_description": "Div 2",
         "input": {
-          "name": "div_2_output_tmp_ee5bd_2.1",
+          "name": "div_2_output_tmp_9eca5_2.1",
           "type": "UInt16"
         },
-        "output_name": "div_2_output_tmp_ee5bd_5",
+        "output_name": "div_2_output_tmp_9eca5_5",
         "output": [
           {
-            "name": "div_2_output_tmp_ee5bd_5.0",
+            "name": "div_2_output_tmp_9eca5_5.0",
             "type": "Bool"
           },
           {
-            "name": "div_2_output_tmp_ee5bd_5.1",
+            "name": "div_2_output_tmp_9eca5_5.1",
             "type": "UInt16"
           }
         ],
@@ -87,17 +87,17 @@
         "air_fn_name": "div_2",
         "air_fn_description": "Div 2",
         "input": {
-          "name": "div_2_output_tmp_ee5bd_5.1",
+          "name": "div_2_output_tmp_9eca5_5.1",
           "type": "UInt16"
         },
-        "output_name": "div_2_output_tmp_ee5bd_8",
+        "output_name": "div_2_output_tmp_9eca5_8",
         "output": [
           {
-            "name": "div_2_output_tmp_ee5bd_8.0",
+            "name": "div_2_output_tmp_9eca5_8.0",
             "type": "Bool"
           },
           {
-            "name": "div_2_output_tmp_ee5bd_8.1",
+            "name": "div_2_output_tmp_9eca5_8.1",
             "type": "UInt16"
           }
         ],
@@ -111,17 +111,17 @@
         "air_fn_name": "div_2",
         "air_fn_description": "Div 2",
         "input": {
-          "name": "div_2_output_tmp_ee5bd_8.1",
+          "name": "div_2_output_tmp_9eca5_8.1",
           "type": "UInt16"
         },
-        "output_name": "div_2_output_tmp_ee5bd_11",
+        "output_name": "div_2_output_tmp_9eca5_11",
         "output": [
           {
-            "name": "div_2_output_tmp_ee5bd_11.0",
+            "name": "div_2_output_tmp_9eca5_11.0",
             "type": "Bool"
           },
           {
-            "name": "div_2_output_tmp_ee5bd_11.1",
+            "name": "div_2_output_tmp_9eca5_11.1",
             "type": "UInt16"
           }
         ],

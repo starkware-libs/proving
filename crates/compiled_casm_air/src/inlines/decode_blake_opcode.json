@@ -2,7 +2,9 @@
   "name": "decode_blake_opcode",
   "relation_name": null,
   "description": "Decode Blake Opcode",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "decode_blake_opcode_input",
     "CasmState",
@@ -373,7 +375,6 @@
     "high_5_ms_bits_col28",
     "dst_id_col29"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "VerifyInstruction": 1,
     "MemoryAddressToId": 4,
@@ -381,7 +382,7 @@
     "RangeCheck_7_2_5": 1
   },
   "inline_calls": {
-    "decode_instruction_275ccfe81e8aa6ca": [
+    "decode_instruction_64420902f4d72579": [
       "VerifyInstruction"
     ],
     "read_blake_word": [
@@ -648,7 +649,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10_limb_0",
+        "name": "decode_instruction_64420902f4d72579_output_tmp_47e62_10_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -668,7 +669,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10_limb_1",
+        "name": "decode_instruction_64420902f4d72579_output_tmp_47e62_10_limb_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -688,7 +689,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10_limb_2",
+        "name": "decode_instruction_64420902f4d72579_output_tmp_47e62_10_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -845,7 +846,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10_limb_1"
+                  "decode_instruction_64420902f4d72579_output_tmp_47e62_10_limb_1"
                 ]
               }
             ]
@@ -1090,7 +1091,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10_limb_2"
+                  "decode_instruction_64420902f4d72579_output_tmp_47e62_10_limb_2"
                 ]
               }
             ]
@@ -1579,7 +1580,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10_limb_0"
+                  "decode_instruction_64420902f4d72579_output_tmp_47e62_10_limb_0"
                 ]
               }
             ]
@@ -3142,7 +3143,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10",
+        "name": "decode_instruction_64420902f4d72579_output_tmp_47e62_10",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -3345,7 +3346,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[1]"
+                      "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[1]"
                     ]
                   }
                 ]
@@ -3394,7 +3395,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[1]"
+                "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[1]"
               ]
             }
           ]
@@ -3414,7 +3415,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[1]"
+                  "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[1]"
                 ]
               }
             ]
@@ -3906,7 +3907,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[2]"
+                      "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[2]"
                     ]
                   }
                 ]
@@ -3955,7 +3956,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[2]"
+                "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[2]"
               ]
             }
           ]
@@ -3975,7 +3976,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[2]"
+                  "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[2]"
                 ]
               }
             ]
@@ -4980,7 +4981,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[0]"
+                      "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[0]"
                     ]
                   }
                 ]
@@ -5462,7 +5463,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[0]"
+                      "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[0]"
                     ]
                   }
                 ]
@@ -5492,7 +5493,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[0]"
+                "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[0]"
               ]
             }
           ]
@@ -5512,7 +5513,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_275ccfe81e8aa6ca_output_tmp_47e62_10.0[0]"
+                  "decode_instruction_64420902f4d72579_output_tmp_47e62_10.0[0]"
                 ]
               }
             ]

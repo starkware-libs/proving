@@ -19,8 +19,8 @@ impl EncodeOffsets {
         offset2_mid_col6: E::F,
         offset2_high_col7: E::F,
         eval: &mut E,
-        range_check_4_3_lookup_elements: &relations::RangeCheck_4_3,
         range_check_7_2_5_lookup_elements: &relations::RangeCheck_7_2_5,
+        range_check_4_3_lookup_elements: &relations::RangeCheck_4_3,
     ) -> [E::F; 6] {
         let M31_128 = E::F::from(M31::from(128));
         let M31_16 = E::F::from(M31::from(16));

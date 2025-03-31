@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
@@ -8,12 +8,12 @@ use crate::core::air_fn::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::read_positive::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct RangeCheckBuiltin {
     pub bits: usize,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub segment_start: PublicParam,
 }
 

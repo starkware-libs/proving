@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -30,9 +30,9 @@ pub const RET_FLAGS: Flags = Flags {
     opcode_assert_eq: Some(false),
 };
 
-#[derive(Debug, Default, InstDef)]
+#[derive(Debug, Default, Serialize)]
 pub struct RetOpcode {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

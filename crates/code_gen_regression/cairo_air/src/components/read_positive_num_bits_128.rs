@@ -45,12 +45,12 @@ impl ReadPositiveNumBits128 {
 
         // msb is a bit.
         eval.add_constraint((msb_col16.clone() * (M31_1.clone() - msb_col16.clone())));
-        let bit_before_msb_tmp_49cd3_3 = eval
+        let bit_before_msb_tmp_6b6ba_3 = eval
             .add_intermediate((value_limb_14_col15.clone() - (msb_col16.clone() * M31_2.clone())));
         // bit before msb is a bit.
         eval.add_constraint(
-            (bit_before_msb_tmp_49cd3_3.clone()
-                * (M31_1.clone() - bit_before_msb_tmp_49cd3_3.clone())),
+            (bit_before_msb_tmp_6b6ba_3.clone()
+                * (M31_1.clone() - bit_before_msb_tmp_6b6ba_3.clone())),
         );
 
         eval.add_to_relation(RelationEntry::new(

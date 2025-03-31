@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
@@ -21,9 +21,9 @@ impl ExtTable for MemIdForBig {
     type T = FeltExpr;
 }
 
-#[derive(Debug, Clone, Default, InstDef)]
+#[derive(Debug, Clone, Default, Serialize)]
 pub struct MemoryIdToBig {
-    #[instdef(skip)]
+    #[serde(skip)]
     memory: Memory<FeltExpr, Felt252Expr>,
 }
 
@@ -55,7 +55,7 @@ impl AirFn for MemoryIdToBig {
         }
 
         air_builder.call(
-            &RangeCheckMemValue::<FELT252_N_WORDS> {},
+            &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
             value_in_state
                 .as_felts()
                 .try_into()
@@ -74,8 +74,16 @@ impl AirFn for MemoryIdToBig {
     }
 }
 
-#[derive(Debug, Clone, Default, InstDef)]
-pub struct RangeCheckMemValue<const N: usize> {}
+#[derive(Debug, Clone, Default, Serialize)]
+pub struct RangeCheckMemValue<const N: usize> {
+    n: usize,
+}
+
+impl<const N: usize> RangeCheckMemValue<N> {
+    pub fn new() -> Self {
+        Self { n: N }
+    }
+}
 
 // RangeCheckMemValue assumes there are 9 bits per felt in a felt252 (FELT252_BITS_PER_WORD).
 impl<const N: usize> AirFn for RangeCheckMemValue<N> {

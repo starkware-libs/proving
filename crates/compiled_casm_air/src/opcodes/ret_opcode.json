@@ -2,7 +2,9 @@
   "name": "ret_opcode",
   "relation_name": "Opcodes",
   "description": "Ret Opcode",
+  "instance_definition": "{}",
   "type": "Opcode",
+  "padding_type": "Enabler",
   "prover_input": [
     "ret_opcode_input",
     "CasmState",
@@ -222,7 +224,6 @@
     "next_fp_limb_1_col9",
     "next_fp_limb_2_col10"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "VerifyInstruction": 1,
     "MemoryAddressToId": 2,
@@ -230,7 +231,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_e46923e076e93350": [
+    "decode_instruction_15a61c6002c544ec": [
       "VerifyInstruction"
     ],
     "read_positive_num_bits_27": [
@@ -969,7 +970,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_e46923e076e93350_output_tmp_e23a5_2",
+        "name": "decode_instruction_15a61c6002c544ec_output_tmp_e23a5_2",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [

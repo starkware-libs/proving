@@ -1,5 +1,6 @@
 // use core::range::Range;
-use inst_def::InstDef;
+use serde::Serialize;
+use serde_arrays;
 use stwo_cairo_common::prover_types::cpu::{
     FELT252WIDTH27_BITS_PER_WORD, FELT252WIDTH27_N_WORDS, P_PACKED27_FELTS,
 };
@@ -23,9 +24,17 @@ use crate::{const_expr, const_felt252_expr};
 ///
 /// Soundness (that the linear combination must be equivalent to the output modulo P) is guaranteed
 /// as long as the input and output are range-checked, regardless of whether they are reduced.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct LinearCombination<const N: usize> {
-    pub coefs: [i32; N],
+    n: usize,
+    #[serde(with = "serde_arrays")]
+    coefs: [i32; N],
+}
+
+impl<const N: usize> LinearCombination<N> {
+    pub fn new(coefs: [i32; N]) -> Self {
+        Self { n: N, coefs }
+    }
 }
 
 impl<const N: usize> AirFn for LinearCombination<N> {

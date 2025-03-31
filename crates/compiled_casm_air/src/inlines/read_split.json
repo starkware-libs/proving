@@ -2,7 +2,9 @@
   "name": "read_split",
   "relation_name": null,
   "description": "Read Split",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "read_split_input",
     "M31",
@@ -796,7 +798,6 @@
     "ms_limb_high_col28",
     "id_col29"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_5_4": 1,
     "MemoryAddressToId": 1,

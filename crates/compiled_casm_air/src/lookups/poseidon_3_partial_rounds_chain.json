@@ -2,7 +2,9 @@
   "name": "poseidon_3_partial_rounds_chain",
   "relation_name": "Poseidon3PartialRoundsChain",
   "description": "Poseidon 3 Partial Rounds Chain",
+  "instance_definition": "{}",
   "type": "ChainRound",
+  "padding_type": "Enabler",
   "prover_input": [
     "poseidon_3_partial_rounds_chain_input",
     "(M31, M31, [Felt252Width27; 4])",
@@ -379,7 +381,6 @@
     "combination_limb_9_col166",
     "p_coef_col167"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "PoseidonRoundKeys": 1,
     "Cube252": 3,

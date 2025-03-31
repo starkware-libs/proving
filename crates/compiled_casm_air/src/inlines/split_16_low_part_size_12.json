@@ -2,7 +2,9 @@
   "name": "split_16_low_part_size_12",
   "relation_name": null,
   "description": "Split 16 Low Part Size 12",
+  "instance_definition": "{\"low_part_size\":12}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "split_16_low_part_size_12_input",
     "UInt16",
@@ -92,7 +94,6 @@
   "state_names": [
     "ms_4_bits_col0"
   ],
-  "padding_type": "None",
   "lookup_names": {},
   "inline_calls": {},
   "public_params": [],
@@ -101,7 +102,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "ms_4_bits_tmp_af54a_0",
+        "name": "ms_4_bits_tmp_cbf45_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -128,7 +129,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_4_bits_tmp_af54a_0"
+              "ms_4_bits_tmp_cbf45_0"
             ]
           },
           "as_m31",

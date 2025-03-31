@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
 
 use super::verify_mul252::*;
@@ -12,7 +12,7 @@ use crate::core::variables::*;
 /// The result is not constrained to be fully reduced,
 /// i.e. an assignement with c = ((a / b) % P) + P could satisfy the constraints.
 /// The function will panic if the denominator is 0 modulo P.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Div252 {}
 
 impl AirFn for Div252 {
@@ -24,7 +24,7 @@ impl AirFn for Div252 {
         let b = air_builder.deduce_air_var(c.clone() / a.clone(), "div_res");
 
         air_builder.call(
-            &RangeCheckMemValue::<FELT252_N_WORDS> {},
+            &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
             b.as_felts()
                 .try_into()
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),

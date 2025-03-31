@@ -2,7 +2,9 @@
   "name": "bitwise_xor_num_bits_9",
   "relation_name": null,
   "description": "Bitwise Xor Num Bits 9",
+  "instance_definition": "{\"num_bits\":9}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "bitwise_xor_num_bits_9_input",
     "[M31; 2]",
@@ -28,7 +30,6 @@
   "state_names": [
     "xor_col0"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "VerifyBitwiseXor_9": 1
   },
@@ -63,7 +64,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "xor_tmp_86752_0",
+        "name": "xor_tmp_d7d95_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -104,7 +105,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_86752_0"
+              "xor_tmp_d7d95_0"
             ]
           },
           "as_m31",

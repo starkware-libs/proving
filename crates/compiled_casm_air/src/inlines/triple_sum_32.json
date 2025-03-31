@@ -2,7 +2,9 @@
   "name": "triple_sum_32",
   "relation_name": null,
   "description": "Triple Sum 32",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "triple_sum_32_input",
     "[UInt32; 3]",
@@ -39,7 +41,6 @@
     "triple_sum32_res_limb_0_col0",
     "triple_sum32_res_limb_1_col1"
   ],
-  "padding_type": "None",
   "lookup_names": {},
   "inline_calls": {},
   "public_params": [],

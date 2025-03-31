@@ -2,7 +2,9 @@
   "name": "add_mod_builtin",
   "relation_name": null,
   "description": "Add Mod Builtin",
+  "instance_definition": "{}",
   "type": "Builtin",
+  "padding_type": "None",
   "prover_input": [
     "add_mod_builtin_input",
     "()",
@@ -278,7 +280,6 @@
     "carry_12_col249",
     "carry_13_col250"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 29,
     "MemoryIdToBig": 24

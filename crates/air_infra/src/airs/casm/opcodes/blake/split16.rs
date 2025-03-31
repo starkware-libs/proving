@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -6,7 +6,7 @@ use crate::core::expressions::uint16_expr::*;
 // Macros
 use crate::{const_expr, const_u16_expr};
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct Split16 {
     pub low_part_size: usize,
 }

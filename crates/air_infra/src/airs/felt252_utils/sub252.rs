@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
 
 use super::verify_add252::*;
@@ -11,7 +11,7 @@ use crate::core::variables::*;
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
 /// The result is not constrained to be fully reduced, i.e. an assignement with b = ((c-a) % P) + P
 /// could satisfy the constraints.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Sub252 {}
 
 impl AirFn for Sub252 {
@@ -23,7 +23,7 @@ impl AirFn for Sub252 {
         let b = air_builder.deduce_air_var(c.clone() - a.clone(), "sub_res");
 
         air_builder.call(
-            &RangeCheckMemValue::<FELT252_N_WORDS> {},
+            &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
             b.as_felts()
                 .try_into()
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),

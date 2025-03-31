@@ -2,7 +2,9 @@
   "name": "verify_mul_252",
   "relation_name": null,
   "description": "Verify Mul 252",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "verify_mul_252_input",
     "[Felt252; 3]",
@@ -55,7 +57,6 @@
     "carry_25_col26",
     "carry_26_col27"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_19": 28
   },

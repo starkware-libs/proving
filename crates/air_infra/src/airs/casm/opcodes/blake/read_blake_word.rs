@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::verify_blake_word::*;
 use crate::airs::casm::casm_state::*;
@@ -11,9 +11,9 @@ use crate::core::expressions::uint16_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct ReadBlakeWord {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

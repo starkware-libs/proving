@@ -2,7 +2,9 @@
   "name": "update_registers",
   "relation_name": null,
   "description": "Update Registers",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "update_registers_input",
     "(CasmState, [M31; 20], [Felt252; 3])",
@@ -70,7 +72,6 @@
     "next_ap_col9",
     "next_fp_col10"
   ],
-  "padding_type": "None",
   "lookup_names": {},
   "inline_calls": {
     "cond_felt_252_as_addr": [],

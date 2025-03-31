@@ -1,13 +1,13 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::memory::*;
 use crate::airs::casm::casm_state::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct MemVerifyEqual {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -32,9 +32,9 @@ impl AirFn for MemVerifyEqual {
     }
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct MemCondVerifyEqualKnownId {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

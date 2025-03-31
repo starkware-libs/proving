@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::const_expr;
@@ -6,7 +6,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct VerifyReduced252 {}
 
 /// Verify that a given Felt252 is < P252. Assumes that the input has range-checked limbs.

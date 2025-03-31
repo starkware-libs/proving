@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::round::*;
 use super::triple_xor32::*;
@@ -7,7 +7,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::uint32_expr::*;
 
 pub type BlakeH = [UInt32Expr; 8];
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct CreateBlakeOutput {}
 
 /// Creates the BlakeCompress output from `h` (the input array of 8 `u32` elements) and the

@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -52,9 +52,9 @@ new_verify_bitwise_xor!(8, VerifyBitwiseXor_8_Const);
 new_verify_bitwise_xor!(9, VerifyBitwiseXor_9_Const);
 new_verify_bitwise_xor!(12, VerifyBitwiseXor_12_Const);
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct VerifyBitwiseXor<V: VerifyBitwiseXorSize> {
-    #[instdef(skip)]
+    #[serde(skip)]
     _phantom: PhantomData<V>,
 }
 

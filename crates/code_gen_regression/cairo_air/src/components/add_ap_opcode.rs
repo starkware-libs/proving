@@ -4,10 +4,10 @@ pub const N_TRACE_COLUMNS: usize = 14;
 
 pub struct Eval {
     pub claim: Claim,
+    pub verify_instruction_lookup_elements: relations::VerifyInstruction,
     pub memory_address_to_id_lookup_elements: relations::MemoryAddressToId,
     pub memory_id_to_big_lookup_elements: relations::MemoryIdToBig,
     pub opcodes_lookup_elements: relations::Opcodes,
-    pub verify_instruction_lookup_elements: relations::VerifyInstruction,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -113,23 +113,23 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        let decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5_limb_2 =
+        let decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_2 =
             eval.add_intermediate((offset2_col3.clone() - M31_32768.clone()));
-        let decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5_limb_7 = eval
+        let decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_7 = eval
             .add_intermediate(((M31_1.clone() - op1_imm_col4.clone()) - op1_base_fp_col5.clone()));
 
         // if imm then offset2 is 1.
         eval.add_constraint(
             (op1_imm_col4.clone()
                 * (M31_1.clone()
-                    - decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5_limb_2.clone())),
+                    - decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_2.clone())),
         );
         // mem1_base.
         eval.add_constraint(
             (mem1_base_col6.clone()
                 - (((op1_imm_col4.clone() * input_pc_col0.clone())
                     + (op1_base_fp_col5.clone() * input_fp_col2.clone()))
-                    + (decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5_limb_7.clone()
+                    + (decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_7.clone()
                         * input_ap_col1.clone()))),
         );
 
@@ -140,7 +140,7 @@ impl FrameworkEval for Eval {
             E::EF::one(),
             &[
                 (mem1_base_col6.clone()
-                    + decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5_limb_2.clone()),
+                    + decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_2.clone()),
                 op1_id_col7.clone(),
             ],
         ));
@@ -239,10 +239,10 @@ mod tests {
     fn add_ap_opcode_constraints_regression() {
         let eval = Eval {
             claim: Claim { log_size: 4 },
+            verify_instruction_lookup_elements: relations::VerifyInstruction::dummy(),
             memory_address_to_id_lookup_elements: relations::MemoryAddressToId::dummy(),
             memory_id_to_big_lookup_elements: relations::MemoryIdToBig::dummy(),
             opcodes_lookup_elements: relations::Opcodes::dummy(),
-            verify_instruction_lookup_elements: relations::VerifyInstruction::dummy(),
         };
 
         let expr_eval = eval.evaluate(ExprEvaluator::new());

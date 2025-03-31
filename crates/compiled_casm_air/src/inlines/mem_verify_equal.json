@@ -2,7 +2,9 @@
   "name": "mem_verify_equal",
   "relation_name": null,
   "description": "Mem Verify Equal",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "mem_verify_equal_input",
     "[M31; 2]",
@@ -28,7 +30,6 @@
   "state_names": [
     "id_col0"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 2
   },

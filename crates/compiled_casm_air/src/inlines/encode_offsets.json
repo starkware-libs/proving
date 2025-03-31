@@ -2,7 +2,9 @@
   "name": "encode_offsets",
   "relation_name": null,
   "description": "Encode Offsets",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "encode_offsets_input",
     "[M31; 3]",
@@ -149,7 +151,6 @@
     "offset2_mid_col6",
     "offset2_high_col7"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_7_2_5": 1,
     "RangeCheck_4_3": 1

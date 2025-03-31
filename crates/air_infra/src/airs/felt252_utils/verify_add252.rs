@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_FELTS};
 
 // Macros
@@ -12,7 +12,7 @@ use crate::core::expressions::uint16_expr::*;
 /// Verifying that two 252-bit felts sum to a third.
 /// The function assumes all inputs have range-checked limbs.
 /// None of the inputs are constrained to be fully reduced, but a + b - c may equal only 0 or P.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct VerifyAdd252 {}
 
 impl AirFn for VerifyAdd252 {

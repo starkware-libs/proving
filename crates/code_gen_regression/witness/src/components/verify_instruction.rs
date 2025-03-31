@@ -281,10 +281,10 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
+        range_check_7_2_5: &relations::RangeCheck_7_2_5,
+        range_check_4_3: &relations::RangeCheck_4_3,
         memory_address_to_id: &relations::MemoryAddressToId,
         memory_id_to_big: &relations::MemoryIdToBig,
-        range_check_4_3: &relations::RangeCheck_4_3,
-        range_check_7_2_5: &relations::RangeCheck_7_2_5,
         verify_instruction: &relations::VerifyInstruction,
     ) -> InteractionClaim {
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);

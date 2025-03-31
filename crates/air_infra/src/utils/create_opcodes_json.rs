@@ -79,7 +79,7 @@ pub fn create_air_fn_registry(arguments: AirFnArgs) -> AirFnRegistry {
         AirFnArgs::Fib(arguments) => registry.add_entry(&Fib {
             claim_index: arguments.claim_index,
         }),
-        AirFnArgs::BitUnpack => registry.add_entry(&BitUnpack::<4> {}),
+        AirFnArgs::BitUnpack => registry.add_entry(&BitUnpack::<4>::new()),
         AirFnArgs::Ret => registry.add_entry(&RetOpcode::default()),
     };
     registry

@@ -1,6 +1,6 @@
 use std::cmp::{max, min};
 
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::const_tables::range_check::*;
@@ -17,7 +17,7 @@ const NUM_LIMBS: usize = 4;
 // 2*NUM_LIMBS*FELT252_BITS_PER_WORD bit felt.
 // The function assumes all inputs have range-checked limbs.
 // It is assumed that 2*NUM_LIMBS*FELT252_BITS_PER_WORD < 252.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct VerifyMulSmall {}
 
 impl AirFn for VerifyMulSmall {

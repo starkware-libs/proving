@@ -18,14 +18,14 @@ impl RangeCheckLastLimbBitsInMsLimb2 {
 
         // msb is a bit.
         eval.add_constraint((msb_col0.clone() * (M31_1.clone() - msb_col0.clone())));
-        let bit_before_msb_tmp_ca841_1 = eval.add_intermediate(
+        let bit_before_msb_tmp_f851f_1 = eval.add_intermediate(
             (range_check_last_limb_bits_in_ms_limb_2_input.clone()
                 - (msb_col0.clone() * M31_2.clone())),
         );
         // bit before msb is a bit.
         eval.add_constraint(
-            (bit_before_msb_tmp_ca841_1.clone()
-                * (M31_1.clone() - bit_before_msb_tmp_ca841_1.clone())),
+            (bit_before_msb_tmp_f851f_1.clone()
+                * (M31_1.clone() - bit_before_msb_tmp_f851f_1.clone())),
         );
         ()
     }

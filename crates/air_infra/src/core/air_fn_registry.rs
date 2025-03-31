@@ -19,7 +19,7 @@ pub struct AirFnEntry {
     pub(crate) name: String,
     pub(crate) relation_name: Option<String>,
     pub(crate) description: String,
-    pub(crate) inst_def: IndexMap<String, String>,
+    pub(crate) inst_def: serde_json::Value,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) ext_input: Option<AirVarImpl>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -69,7 +69,10 @@ impl AirFnEntry {
             name: self.name.clone(),
             relation_name: self.relation_name,
             description: self.description,
+            instance_definition: serde_json::to_string(&self.inst_def)
+                .expect("Failed to serialize"),
             r#type: self.trace_type,
+            padding_type,
             prover_input: (
                 input_name.clone(),
                 input.prover_type(),
@@ -90,7 +93,6 @@ impl AirFnEntry {
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),
-            padding_type,
             public_params: self.air_body.get_public_params(),
             external_states: self.air_body.get_external_states(),
         }

@@ -1,29 +1,17 @@
 {
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-  "name": "decode_instruction_82fc79ef08936af9",
-========
-  "name": "decode_instruction_d1fb316849293db4",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+  "name": "decode_instruction_43e1c26dca5a217",
   "relation_name": null,
   "description": "Decode Instruction",
-  "instance_definition": "{\"const_offsets\":[null,-1,1],\"const_flags\":{\"dst_base_fp\":true,\"op0_base_fp\":true,\"op1_imm\":true,\"op1_base_fp\":false,\"op1_base_ap\":false,\"res_add\":false,\"res_mul\":false,\"pc_update_jump\":false,\"pc_update_jump_rel\":false,\"pc_update_jnz\":true,\"ap_update_add\":false,\"ap_update_add_1\":null,\"opcode_call\":false,\"opcode_ret\":false,\"opcode_assert_eq\":false},\"const_opcode_extension\":\"Stone\",\"flag_sets_of_sum_1\":[]}",
+  "instance_definition": "{\"const_offsets\":[-1,-1,null],\"const_flags\":{\"dst_base_fp\":true,\"op0_base_fp\":true,\"op1_imm\":false,\"op1_base_fp\":null,\"op1_base_ap\":null,\"res_add\":false,\"res_mul\":false,\"pc_update_jump\":true,\"pc_update_jump_rel\":false,\"pc_update_jnz\":false,\"ap_update_add\":false,\"ap_update_add_1\":null,\"opcode_call\":false,\"opcode_ret\":false,\"opcode_assert_eq\":false},\"const_opcode_extension\":\"Stone\",\"flag_sets_of_sum_1\":[]}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-    "decode_instruction_82fc79ef08936af9_input",
-========
-    "decode_instruction_d1fb316849293db4_input",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+    "decode_instruction_43e1c26dca5a217_input",
     "M31",
     "PackedM31"
   ],
   "verifier_input": [
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-    "decode_instruction_82fc79ef08936af9_input",
-========
-    "decode_instruction_d1fb316849293db4_input",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+    "decode_instruction_43e1c26dca5a217_input",
     "M31"
   ],
   "prover_output": [
@@ -31,20 +19,6 @@
       "Tuple": [
         {
           "Array": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "offset0_col0"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
-              ]
-            },
             {
               "Const": [
                 "M31",
@@ -54,7 +28,21 @@
             {
               "Const": [
                 "M31",
-                "1"
+                "2147483646"
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset2_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
               ]
             }
           ]
@@ -62,9 +50,6 @@
         {
           "Array": [
             {
-              "State": "dst_base_fp_col1"
-            },
-            {
               "Const": [
                 "M31",
                 "1"
@@ -83,22 +68,10 @@
               ]
             },
             {
-              "Const": [
-                "M31",
-                "0"
-              ]
+              "State": "op1_base_fp_col1"
             },
             {
-              "Const": [
-                "M31",
-                "0"
-              ]
-            },
-            {
-              "Const": [
-                "M31",
-                "0"
-              ]
+              "State": "op1_base_ap_col2"
             },
             {
               "Const": [
@@ -125,7 +98,19 @@
               ]
             },
             {
-              "State": "ap_update_add_1_col2"
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "State": "ap_update_add_1_col3"
             },
             {
               "Const": [
@@ -162,9 +147,21 @@
     {
       "Array": [
         {
+          "Const": [
+            "M31",
+            "2147483646"
+          ]
+        },
+        {
+          "Const": [
+            "M31",
+            "2147483646"
+          ]
+        },
+        {
           "BinaryOp": [
             {
-              "State": "offset0_col0"
+              "State": "offset2_col0"
             },
             "-",
             {
@@ -178,21 +175,6 @@
         {
           "Const": [
             "M31",
-            "2147483646"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        },
-        {
-          "State": "dst_base_fp_col1"
-        },
-        {
-          "Const": [
-            "M31",
             "1"
           ]
         },
@@ -209,22 +191,10 @@
           ]
         },
         {
-          "Const": [
-            "M31",
-            "0"
-          ]
+          "State": "op1_base_fp_col1"
         },
         {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
+          "State": "op1_base_ap_col2"
         },
         {
           "Const": [
@@ -251,7 +221,19 @@
           ]
         },
         {
-          "State": "ap_update_add_1_col2"
+          "Const": [
+            "M31",
+            "0"
+          ]
+        },
+        {
+          "Const": [
+            "M31",
+            "0"
+          ]
+        },
+        {
+          "State": "ap_update_add_1_col3"
         },
         {
           "Const": [
@@ -282,9 +264,10 @@
     "[M31; 19]"
   ],
   "state_names": [
-    "offset0_col0",
-    "dst_base_fp_col1",
-    "ap_update_add_1_col2"
+    "offset2_col0",
+    "op1_base_fp_col1",
+    "op1_base_ap_col2",
+    "ap_update_add_1_col3"
   ],
   "lookup_names": {
     "VerifyInstruction": 1
@@ -298,7 +281,7 @@
         {
           "BinaryOp": [
             {
-              "State": "dst_base_fp_col1"
+              "State": "op1_base_fp_col1"
             },
             "*",
             {
@@ -311,13 +294,13 @@
                 },
                 "-",
                 {
-                  "State": "dst_base_fp_col1"
+                  "State": "op1_base_fp_col1"
                 }
               ]
             }
           ]
         },
-        "Flag dst_base_fp is a bit"
+        "Flag op1_base_fp is a bit"
       ]
     },
     {
@@ -325,7 +308,7 @@
         {
           "BinaryOp": [
             {
-              "State": "ap_update_add_1_col2"
+              "State": "op1_base_ap_col2"
             },
             "*",
             {
@@ -338,7 +321,34 @@
                 },
                 "-",
                 {
-                  "State": "ap_update_add_1_col2"
+                  "State": "op1_base_ap_col2"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_base_ap is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "ap_update_add_1_col3"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "ap_update_add_1_col3"
                 }
               ]
             }
@@ -354,15 +364,8 @@
           {
             "Var": [
               "M31",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-              "decode_instruction_82fc79ef08936af9_input"
-========
-              "decode_instruction_d1fb316849293db4_input"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+              "decode_instruction_43e1c26dca5a217_input"
             ]
-          },
-          {
-            "State": "offset0_col0"
           },
           {
             "Const": [
@@ -373,41 +376,52 @@
           {
             "Const": [
               "M31",
-              "32769"
+              "32767"
             ]
+          },
+          {
+            "State": "offset2_col0"
           },
           {
             "BinaryOp": [
               {
                 "BinaryOp": [
                   {
+                    "Const": [
+                      "M31",
+                      "24"
+                    ]
+                  },
+                  "+",
+                  {
                     "BinaryOp": [
                       {
-                        "State": "dst_base_fp_col1"
+                        "State": "op1_base_fp_col1"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "8"
+                          "64"
                         ]
                       }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "16"
                     ]
                   }
                 ]
               },
               "+",
               {
-                "Const": [
-                  "M31",
-                  "32"
+                "BinaryOp": [
+                  {
+                    "State": "op1_base_ap_col2"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
                 ]
               }
             ]
@@ -417,14 +431,14 @@
               {
                 "Const": [
                   "M31",
-                  "8"
+                  "2"
                 ]
               },
               "+",
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col2"
+                    "State": "ap_update_add_1_col3"
                   },
                   "*",
                   {
@@ -451,11 +465,7 @@
   "deductions": [
     {
       "Intermediate": {
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-        "name": "memory_address_to_id_value_tmp_82fc7_0",
-========
-        "name": "memory_address_to_id_value_tmp_d1fb3_0",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+        "name": "memory_address_to_id_value_tmp_43e1c_0",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -464,11 +474,7 @@
               {
                 "Var": [
                   "M31",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                  "decode_instruction_82fc79ef08936af9_input"
-========
-                  "decode_instruction_d1fb316849293db4_input"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+                  "decode_instruction_43e1c26dca5a217_input"
                 ]
               }
             ]
@@ -478,11 +484,7 @@
     },
     {
       "Intermediate": {
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-        "name": "memory_id_to_big_value_tmp_82fc7_1",
-========
-        "name": "memory_id_to_big_value_tmp_d1fb3_1",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+        "name": "memory_id_to_big_value_tmp_43e1c_1",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -491,11 +493,7 @@
               {
                 "Var": [
                   "M31",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                  "memory_address_to_id_value_tmp_82fc7_0"
-========
-                  "memory_address_to_id_value_tmp_d1fb3_0"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+                  "memory_address_to_id_value_tmp_43e1c_0"
                 ]
               }
             ]
@@ -505,42 +503,87 @@
     },
     {
       "Intermediate": {
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-        "name": "offset0_tmp_82fc7_2",
-========
-        "name": "offset0_tmp_d1fb3_2",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+        "name": "offset2_tmp_43e1c_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
-              "StaticCall": [
-                "UInt16::from_m31",
-                [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "Felt252",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                          "memory_id_to_big_value_tmp_82fc7_1"
-========
-                          "memory_id_to_big_value_tmp_d1fb3_1"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "memory_id_to_big_value_tmp_43e1c_1"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "3"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
                         ]
-                      },
-                      "get_m31",
-                      [
-                        {
-                          "Const": [
-                            "usize",
-                            "0"
-                          ]
-                        }
                       ]
-                    ]
-                  }
-                ]
+                    },
+                    ">>",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "5"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "memory_id_to_big_value_tmp_43e1c_1"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "4"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "<<",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "4"
+                      ]
+                    }
+                  ]
+                }
               ]
             },
             "+",
@@ -557,11 +600,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                                  "memory_id_to_big_value_tmp_82fc7_1"
-========
-                                  "memory_id_to_big_value_tmp_d1fb3_1"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+                                  "memory_id_to_big_value_tmp_43e1c_1"
                                 ]
                               },
                               "get_m31",
@@ -569,7 +608,7 @@
                                 {
                                   "Const": [
                                     "usize",
-                                    "1"
+                                    "5"
                                   ]
                                 }
                               ]
@@ -582,7 +621,7 @@
                     {
                       "Const": [
                         "UInt16",
-                        "127"
+                        "7"
                       ]
                     }
                   ]
@@ -591,7 +630,7 @@
                 {
                   "Const": [
                     "UInt16",
-                    "9"
+                    "13"
                   ]
                 }
               ]
@@ -606,11 +645,7 @@
           {
             "Var": [
               "UInt16",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-              "offset0_tmp_82fc7_2"
-========
-              "offset0_tmp_d1fb3_2"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+              "offset2_tmp_43e1c_2"
             ]
           },
           "as_m31",
@@ -620,11 +655,7 @@
     },
     {
       "Intermediate": {
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-        "name": "dst_base_fp_tmp_82fc7_3",
-========
-        "name": "ap_update_add_1_tmp_d1fb3_3",
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+        "name": "op1_base_fp_tmp_43e1c_3",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -643,11 +674,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                                      "memory_id_to_big_value_tmp_82fc7_1"
-========
-                                      "memory_id_to_big_value_tmp_d1fb3_1"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+                                      "memory_id_to_big_value_tmp_43e1c_1"
                                     ]
                                   },
                                   "get_m31",
@@ -685,8 +712,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                                      "memory_id_to_big_value_tmp_82fc7_1"
+                                      "memory_id_to_big_value_tmp_43e1c_1"
                                     ]
                                   },
                                   "get_m31",
@@ -718,7 +744,7 @@
                 {
                   "Const": [
                     "UInt16",
-                    "0"
+                    "3"
                   ]
                 }
               ]
@@ -740,7 +766,7 @@
           {
             "Var": [
               "UInt16",
-              "dst_base_fp_tmp_82fc7_3"
+              "op1_base_fp_tmp_43e1c_3"
             ]
           },
           "as_m31",
@@ -750,7 +776,7 @@
     },
     {
       "Intermediate": {
-        "name": "ap_update_add_1_tmp_82fc7_4",
+        "name": "op1_base_ap_tmp_43e1c_4",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -769,7 +795,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_82fc7_1"
+                                      "memory_id_to_big_value_tmp_43e1c_1"
                                     ]
                                   },
                                   "get_m31",
@@ -807,10 +833,128 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_82fc7_1"
-========
-                                      "memory_id_to_big_value_tmp_d1fb3_1"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+                                      "memory_id_to_big_value_tmp_43e1c_1"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "4"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "op1_base_ap_tmp_43e1c_4"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_43e1c_5",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "memory_id_to_big_value_tmp_43e1c_1"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "memory_id_to_big_value_tmp_43e1c_1"
                                     ]
                                   },
                                   "get_m31",
@@ -864,11 +1008,7 @@
           {
             "Var": [
               "UInt16",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-              "ap_update_add_1_tmp_82fc7_4"
-========
-              "ap_update_add_1_tmp_d1fb3_3"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+              "ap_update_add_1_tmp_43e1c_5"
             ]
           },
           "as_m31",
@@ -884,18 +1024,11 @@
             {
               "Var": [
                 "M31",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-                "decode_instruction_82fc79ef08936af9_input"
-========
-                "decode_instruction_d1fb316849293db4_input"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+                "decode_instruction_43e1c26dca5a217_input"
               ]
             },
             {
               "Array": [
-                {
-                  "State": "offset0_col0"
-                },
                 {
                   "Const": [
                     "M31",
@@ -905,8 +1038,11 @@
                 {
                   "Const": [
                     "M31",
-                    "32769"
+                    "32767"
                   ]
+                },
+                {
+                  "State": "offset2_col0"
                 }
               ]
             },
@@ -917,33 +1053,41 @@
                     {
                       "BinaryOp": [
                         {
+                          "Const": [
+                            "M31",
+                            "24"
+                          ]
+                        },
+                        "+",
+                        {
                           "BinaryOp": [
                             {
-                              "State": "dst_base_fp_col1"
+                              "State": "op1_base_fp_col1"
                             },
                             "*",
                             {
                               "Const": [
                                 "M31",
-                                "8"
+                                "64"
                               ]
                             }
-                          ]
-                        },
-                        "+",
-                        {
-                          "Const": [
-                            "M31",
-                            "16"
                           ]
                         }
                       ]
                     },
                     "+",
                     {
-                      "Const": [
-                        "M31",
-                        "32"
+                      "BinaryOp": [
+                        {
+                          "State": "op1_base_ap_col2"
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "128"
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -953,14 +1097,14 @@
                     {
                       "Const": [
                         "M31",
-                        "8"
+                        "2"
                       ]
                     },
                     "+",
                     {
                       "BinaryOp": [
                         {
-                          "State": "ap_update_add_1_col2"
+                          "State": "ap_update_add_1_col3"
                         },
                         "*",
                         {
@@ -992,15 +1136,8 @@
           {
             "Var": [
               "M31",
-<<<<<<<< HEAD:crates/compiled_casm_air/src/inlines/decode_instruction_82fc79ef08936af9.json
-              "decode_instruction_82fc79ef08936af9_input"
-========
-              "decode_instruction_d1fb316849293db4_input"
->>>>>>>> 2e877f6e (Change InstDef to Serialize and add it to CompiledAirFn):crates/compiled_casm_air/src/inlines/decode_instruction_d1fb316849293db4.json
+              "decode_instruction_43e1c26dca5a217_input"
             ]
-          },
-          {
-            "State": "offset0_col0"
           },
           {
             "Const": [
@@ -1011,41 +1148,52 @@
           {
             "Const": [
               "M31",
-              "32769"
+              "32767"
             ]
+          },
+          {
+            "State": "offset2_col0"
           },
           {
             "BinaryOp": [
               {
                 "BinaryOp": [
                   {
+                    "Const": [
+                      "M31",
+                      "24"
+                    ]
+                  },
+                  "+",
+                  {
                     "BinaryOp": [
                       {
-                        "State": "dst_base_fp_col1"
+                        "State": "op1_base_fp_col1"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "8"
+                          "64"
                         ]
                       }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "16"
                     ]
                   }
                 ]
               },
               "+",
               {
-                "Const": [
-                  "M31",
-                  "32"
+                "BinaryOp": [
+                  {
+                    "State": "op1_base_ap_col2"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
                 ]
               }
             ]
@@ -1055,14 +1203,14 @@
               {
                 "Const": [
                   "M31",
-                  "8"
+                  "2"
                 ]
               },
               "+",
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col2"
+                    "State": "ap_update_add_1_col3"
                   },
                   "*",
                   {

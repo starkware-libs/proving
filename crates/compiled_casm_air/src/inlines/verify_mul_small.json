@@ -2,7 +2,9 @@
   "name": "verify_mul_small",
   "relation_name": null,
   "description": "Verify Mul Small",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "verify_mul_small_input",
     "[Felt252; 3]",
@@ -30,7 +32,6 @@
     "carry_3_col1",
     "carry_5_col2"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_11": 3
   },

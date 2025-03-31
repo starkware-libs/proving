@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::bit_unpack::*;
 use super::div2::*;
@@ -15,7 +15,7 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_bit_unpacking() {
-    let func = BitUnpack::<4> {};
+    let func = BitUnpack::<4>::new();
     let (registry, entry) = AirFnRegistry::new(&func);
 
     let (state, output) = registry.run_air(&func, (), const_u16_expr!(10));
@@ -35,7 +35,7 @@ fn test_bit_unpacking() {
     );
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 struct AirFnBitMux {}
 
 impl AirFn for AirFnBitMux {

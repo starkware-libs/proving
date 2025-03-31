@@ -2,7 +2,9 @@
   "name": "xor_rot_32_r_7",
   "relation_name": null,
   "description": "Xor Rot 32 R 7",
+  "instance_definition": "{\"r\":7}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "xor_rot_32_r_7_input",
     "[UInt32; 2]",
@@ -16,7 +18,7 @@
     {
       "Var": [
         "UInt32",
-        "xor_rot_7_output_tmp_edf16_16"
+        "xor_rot_7_output_tmp_e97b9_16"
       ]
     },
     "UInt32",
@@ -28,13 +30,13 @@
         {
           "Var": [
             "M31",
-            "xor_rot_7_output_tmp_edf16_16_limb_0"
+            "xor_rot_7_output_tmp_e97b9_16_limb_0"
           ]
         },
         {
           "Var": [
             "M31",
-            "xor_rot_7_output_tmp_edf16_16_limb_1"
+            "xor_rot_7_output_tmp_e97b9_16_limb_1"
           ]
         }
       ]
@@ -51,7 +53,6 @@
     "xor_col6",
     "xor_col7"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "VerifyBitwiseXor_7": 2,
     "VerifyBitwiseXor_9": 2
@@ -73,7 +74,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_1_limb_0",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_1_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -108,7 +109,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_3_limb_0",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_3_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -143,7 +144,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_5_limb_0",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_5_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -178,7 +179,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_7_limb_0",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_7_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -218,13 +219,13 @@
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_1_limb_0"
+              "split_16_low_part_size_7_output_tmp_e97b9_1_limb_0"
             ]
           },
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_5_limb_0"
+              "split_16_low_part_size_7_output_tmp_e97b9_5_limb_0"
             ]
           },
           {
@@ -266,13 +267,13 @@
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_3_limb_0"
+              "split_16_low_part_size_7_output_tmp_e97b9_3_limb_0"
             ]
           },
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_7_limb_0"
+              "split_16_low_part_size_7_output_tmp_e97b9_7_limb_0"
             ]
           },
           {
@@ -306,7 +307,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "xor_rot_7_output_tmp_edf16_16_limb_0",
+        "name": "xor_rot_7_output_tmp_e97b9_16_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -334,7 +335,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_rot_7_output_tmp_edf16_16_limb_1",
+        "name": "xor_rot_7_output_tmp_e97b9_16_limb_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -367,7 +368,7 @@
     },
     {
       "Intermediate": {
-        "name": "ms_9_bits_tmp_edf16_0",
+        "name": "ms_9_bits_tmp_e97b9_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -400,7 +401,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_9_bits_tmp_edf16_0"
+              "ms_9_bits_tmp_e97b9_0"
             ]
           },
           "as_m31",
@@ -410,7 +411,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_1",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_1",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -464,7 +465,7 @@
     },
     {
       "Intermediate": {
-        "name": "ms_9_bits_tmp_edf16_2",
+        "name": "ms_9_bits_tmp_e97b9_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -497,7 +498,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_9_bits_tmp_edf16_2"
+              "ms_9_bits_tmp_e97b9_2"
             ]
           },
           "as_m31",
@@ -507,7 +508,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_3",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_3",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -561,7 +562,7 @@
     },
     {
       "Intermediate": {
-        "name": "ms_9_bits_tmp_edf16_4",
+        "name": "ms_9_bits_tmp_e97b9_4",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -594,7 +595,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_9_bits_tmp_edf16_4"
+              "ms_9_bits_tmp_e97b9_4"
             ]
           },
           "as_m31",
@@ -604,7 +605,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_5",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_5",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -658,7 +659,7 @@
     },
     {
       "Intermediate": {
-        "name": "ms_9_bits_tmp_edf16_6",
+        "name": "ms_9_bits_tmp_e97b9_6",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -691,7 +692,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_9_bits_tmp_edf16_6"
+              "ms_9_bits_tmp_e97b9_6"
             ]
           },
           "as_m31",
@@ -701,7 +702,7 @@
     },
     {
       "Intermediate": {
-        "name": "split_16_low_part_size_7_output_tmp_edf16_7",
+        "name": "split_16_low_part_size_7_output_tmp_e97b9_7",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -755,7 +756,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_edf16_8",
+        "name": "xor_tmp_e97b9_8",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -766,7 +767,7 @@
                   {
                     "Var": [
                       "M31",
-                      "split_16_low_part_size_7_output_tmp_edf16_1[0]"
+                      "split_16_low_part_size_7_output_tmp_e97b9_1[0]"
                     ]
                   }
                 ]
@@ -780,7 +781,7 @@
                   {
                     "Var": [
                       "M31",
-                      "split_16_low_part_size_7_output_tmp_edf16_5[0]"
+                      "split_16_low_part_size_7_output_tmp_e97b9_5[0]"
                     ]
                   }
                 ]
@@ -796,7 +797,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_edf16_8"
+              "xor_tmp_e97b9_8"
             ]
           },
           "as_m31",
@@ -812,13 +813,13 @@
             {
               "Var": [
                 "M31",
-                "split_16_low_part_size_7_output_tmp_edf16_1[0]"
+                "split_16_low_part_size_7_output_tmp_e97b9_1[0]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "split_16_low_part_size_7_output_tmp_edf16_5[0]"
+                "split_16_low_part_size_7_output_tmp_e97b9_5[0]"
               ]
             },
             {
@@ -835,13 +836,13 @@
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_1[0]"
+              "split_16_low_part_size_7_output_tmp_e97b9_1[0]"
             ]
           },
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_5[0]"
+              "split_16_low_part_size_7_output_tmp_e97b9_5[0]"
             ]
           },
           {
@@ -857,7 +858,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_edf16_10",
+        "name": "xor_tmp_e97b9_10",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -892,7 +893,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_edf16_10"
+              "xor_tmp_e97b9_10"
             ]
           },
           "as_m31",
@@ -941,7 +942,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_edf16_12",
+        "name": "xor_tmp_e97b9_12",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -952,7 +953,7 @@
                   {
                     "Var": [
                       "M31",
-                      "split_16_low_part_size_7_output_tmp_edf16_3[0]"
+                      "split_16_low_part_size_7_output_tmp_e97b9_3[0]"
                     ]
                   }
                 ]
@@ -966,7 +967,7 @@
                   {
                     "Var": [
                       "M31",
-                      "split_16_low_part_size_7_output_tmp_edf16_7[0]"
+                      "split_16_low_part_size_7_output_tmp_e97b9_7[0]"
                     ]
                   }
                 ]
@@ -982,7 +983,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_edf16_12"
+              "xor_tmp_e97b9_12"
             ]
           },
           "as_m31",
@@ -998,13 +999,13 @@
             {
               "Var": [
                 "M31",
-                "split_16_low_part_size_7_output_tmp_edf16_3[0]"
+                "split_16_low_part_size_7_output_tmp_e97b9_3[0]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "split_16_low_part_size_7_output_tmp_edf16_7[0]"
+                "split_16_low_part_size_7_output_tmp_e97b9_7[0]"
               ]
             },
             {
@@ -1021,13 +1022,13 @@
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_3[0]"
+              "split_16_low_part_size_7_output_tmp_e97b9_3[0]"
             ]
           },
           {
             "Var": [
               "M31",
-              "split_16_low_part_size_7_output_tmp_edf16_7[0]"
+              "split_16_low_part_size_7_output_tmp_e97b9_7[0]"
             ]
           },
           {
@@ -1043,7 +1044,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_edf16_14",
+        "name": "xor_tmp_e97b9_14",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1078,7 +1079,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_edf16_14"
+              "xor_tmp_e97b9_14"
             ]
           },
           "as_m31",
@@ -1124,7 +1125,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "xor_rot_7_output_tmp_edf16_16",
+        "name": "xor_rot_7_output_tmp_e97b9_16",
         "type": "UInt32",
         "var": {
           "StaticCall": [

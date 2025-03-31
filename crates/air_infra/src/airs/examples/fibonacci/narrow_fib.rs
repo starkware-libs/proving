@@ -1,14 +1,14 @@
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::fib_step::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
 /// Returns the Fibonacci number at the given index.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct NarrowFib {
     pub num_steps: usize,
 }

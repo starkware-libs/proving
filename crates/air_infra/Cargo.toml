@@ -6,12 +6,13 @@ edition.workspace = true
 [dependencies]
 compiled_casm_air = { path = "../compiled_casm_air" }
 serde = { workspace = true, features = ["derive", "rc"] }
-stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "78fc836" }
+stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "c9a4ea1" }
 serde_json.workspace = true
 enum_dispatch = "0.3.13"
 clap = { version = "4.5.9", features = ["derive"] }
 indexmap = { workspace = true, features = ["serde"] }
-inst_def = { path = "../derive_macros/inst_def" }
 convert_case.workspace = true
 regex = "1.11.1"
 blake2 = "0.10.6"
+serde_arrays = "0.1.0"
+

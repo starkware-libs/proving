@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::keys::*;
 use crate::airs::casm::const_tables::seq::*;
@@ -15,7 +15,7 @@ use crate::core::variables::*;
 ///    4..31 correspond to 27 triplets of partial rounds (6-87);
 ///    31..35 correspond to the last 4 full rounds;
 /// The output consists of 30 constant columns, representing 3 Felt252s in Width27 form.
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct PoseidonRoundKeys {}
 
 impl AirFn for PoseidonRoundKeys {

@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
@@ -12,9 +12,9 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct DecodeGenericInstruction {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

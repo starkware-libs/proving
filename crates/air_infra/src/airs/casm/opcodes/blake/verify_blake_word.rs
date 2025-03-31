@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
@@ -13,9 +13,9 @@ use crate::core::expressions::uint32_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::verify::*;
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct VerifyBlakeWord {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

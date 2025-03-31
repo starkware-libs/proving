@@ -2,7 +2,9 @@
   "name": "verify_blake_word",
   "relation_name": null,
   "description": "Verify Blake Word",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "verify_blake_word_input",
     "(M31, UInt32)",
@@ -31,7 +33,6 @@
     "high_5_ms_bits_col2",
     "id_col3"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_7_2_5": 1,
     "MemoryAddressToId": 1,

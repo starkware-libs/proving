@@ -2,7 +2,9 @@
   "name": "partial_ec_mul",
   "relation_name": "PartialEcMul",
   "description": "Partial Ec Mul",
+  "instance_definition": "{}",
   "type": "ChainRound",
+  "padding_type": "Enabler",
   "prover_input": [
     "partial_ec_mul_input",
     "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
@@ -822,7 +824,6 @@
     "sub_res_limb_27_col469",
     "sub_p_bit_col470"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "PedersenPointsTable": 1,
     "RangeCheck_9_9": 126,

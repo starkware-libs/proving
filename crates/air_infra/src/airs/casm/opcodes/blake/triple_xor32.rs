@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::opcodes::blake::split16::*;
@@ -11,7 +11,7 @@ use crate::core::expressions::uint32_expr::*;
 
 /// Receives a, b and c each as UInt32 which is a pair of felts - low and high.
 /// Returns their bitwixe xor.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct TripleXor32 {}
 
 impl AirFn for TripleXor32 {

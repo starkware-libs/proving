@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::qm31_read_reduced::*;
 use crate::airs::casm::casm_state::*;
@@ -25,9 +25,9 @@ use crate::core::felt252_id_memory::memory::*;
 /// where i is a square root of -1, j is a square root of 2+i and k=i*j.
 /// Those 4 M31 coordinates are represented by 4 nonegative integers smaller than 2^31-1 (reduced
 /// form) and packed into a single Felt252 in memory by each using 4 columns of 9 bits.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct QM31AddMulOpcode {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

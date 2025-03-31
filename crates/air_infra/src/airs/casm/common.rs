@@ -1,3 +1,4 @@
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 // Macros
@@ -42,7 +43,7 @@ pub const FLAG_NAMES: [&str; 15] = [
     "opcode_assert_eq",
 ];
 
-#[derive(Clone, Debug, Copy)]
+#[derive(Clone, Debug, Copy, Serialize)]
 pub enum OpcodeExtension {
     Stone,
     Blake,
@@ -61,7 +62,7 @@ impl From<OpcodeExtension> for FeltExpr {
     }
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Serialize)]
 pub struct Flags {
     pub dst_base_fp: Option<bool>,
     pub op0_base_fp: Option<bool>,

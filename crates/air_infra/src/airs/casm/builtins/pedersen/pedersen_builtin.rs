@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::partial_ec_mul::*;
 use super::points_table::*;
@@ -18,9 +18,9 @@ use crate::{const_expr, const_felt252_expr_from_felt252};
 
 const PEDERSEN_INSTANCE_SIZE: u32 = 3;
 
-#[derive(Debug, Default, InstDef)]
+#[derive(Debug, Default, Serialize)]
 pub struct PedersenBuiltin {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

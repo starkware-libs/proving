@@ -2,7 +2,9 @@
   "name": "qm_31_read_reduced",
   "relation_name": null,
   "description": "Qm 31 Read Reduced",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "qm_31_read_reduced_input",
     "M31",
@@ -538,7 +540,6 @@
     "delta_ab_inv_col17",
     "delta_cd_inv_col18"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 1,
     "MemoryIdToBig": 1,

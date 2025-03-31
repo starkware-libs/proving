@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::felt252_utils::felt252_packing27::*;
 use crate::airs::felt252_utils::mul252::*;
@@ -11,7 +11,7 @@ use crate::core::expressions::felt252width27_expr::*;
 /// explicitly range-checks the limbs after expansion.
 /// The result is not constrained to be fully reduced, i.e. an assignement with y = ((x*x*x) % P) +
 /// P could satisfy the constraints.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Cube252 {}
 
 impl AirFn for Cube252 {

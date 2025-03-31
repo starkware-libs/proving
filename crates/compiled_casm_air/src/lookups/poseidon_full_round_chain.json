@@ -2,7 +2,9 @@
   "name": "poseidon_full_round_chain",
   "relation_name": "PoseidonFullRoundChain",
   "description": "Poseidon Full Round Chain",
+  "instance_definition": "{}",
   "type": "ChainRound",
+  "padding_type": "Enabler",
   "prover_input": [
     "poseidon_full_round_chain_input",
     "(M31, M31, [Felt252Width27; 3])",
@@ -300,7 +302,6 @@
     "combination_limb_9_col123",
     "p_coef_col124"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "Cube252": 3,
     "PoseidonRoundKeys": 1,

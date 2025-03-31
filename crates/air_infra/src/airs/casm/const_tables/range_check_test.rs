@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::range_check::*;
 // Macros
@@ -7,7 +7,7 @@ use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 struct SmallAdd {}
 
 // A simple AirFn, just for tests: add two felts, asserting that both the
