@@ -1,0 +1,18 @@
+[package]
+name = "cairo_air"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+num-traits.workspace = true
+serde.workspace = true
+starknet-ff.workspace = true
+stwo-prover.workspace = true
+stwo-cairo-serialize.workspace = true
+
+[dev-dependencies]
+rand = { version = "0.8.5" }
+
+# used by the macro CairoSerialize yet flagged by machete as unused
+[package.metadata.cargo-machete]
+ignored = ["starknet-ff"]

@@ -21,9 +21,11 @@ mod tests {
             generate_component_code(inline_air_fn);
         }
 
-        const COMPONENTS_DIR: &str = "../generated_components/src/components";
-        let folder_path = project_root().join(COMPONENTS_DIR);
-        compare_contents_or_fix_with_path(air_fn, &folder_path);
+        const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+        const WITNESS_DIR: &str = "../code_gen_regression/witness/src/components";
+        let [constraints_folder_path, witness_folder_path] =
+            [CONSTRAINTS_DIR, WITNESS_DIR].map(|dir| project_root().join(dir));
+        compare_contents_or_fix_with_path(air_fn, &constraints_folder_path, &witness_folder_path);
     }
 
     // TODO(Gali): handle no sub components case.
