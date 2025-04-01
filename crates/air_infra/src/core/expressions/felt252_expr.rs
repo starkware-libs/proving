@@ -1,6 +1,5 @@
 use stwo_cairo_common::prover_types::cpu::{Felt252, FELT252_N_WORDS};
 
-use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
@@ -15,14 +14,14 @@ const CHILD_NAME: &str = "get_m31";
 impl TryIntoFeltExpr for Felt252Expr {}
 
 impl VarExprUpdate for VarExpr<Felt252> {
-    fn create_children(&mut self) {
+    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
         let children = (0..FELT252_N_WORDS)
             .map(|i| {
                 FeltExpr::Var(VarExpr::new(
                     CHILD_NAME.to_string(),
                     self.value.map(|v| v.get_m31(i)),
-                    self.is_const,
-                    self.in_state(),
+                    is_const,
+                    in_state,
                 ))
                 .into()
             })

@@ -233,6 +233,10 @@ fn test_conversion_bool_to_uint16() {
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
     assert_eq!(&i.to_string(), "UInt16::from_bool(tmp0)");
+
+    b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
+    let i: UInt16Expr = b.clone().into();
+    assert!(i.in_state());
 }
 
 #[test]
@@ -255,8 +259,45 @@ fn test_conversion_felt_to_uint16() {
         .let_for_deduction(format!("{}0", INTERMEDIATE_VAR_SUFFIX))
         .0;
     i = f.into();
-    assert_eq!(&i.as_felt().to_string(), "tmp0");
-    assert_eq!(&i.to_string(), "UInt16::from_m31(tmp0)");
+    assert_eq!(&i.as_felt().to_string(), "col0");
+    assert_eq!(&i.to_string(), "UInt16::from_m31(col0)");
+}
+
+#[test]
+fn test_in_state() {
+    let mut x = u32_expr!("x".to_string(), 0xFFFF);
+    assert!(!x.low().as_felt().in_state());
+
+    x.low_mut()
+        .as_felt_mut()
+        .to_state(StateInfo::StateIndex(0, None));
+    assert!(x.low().as_felt().in_state());
+    assert!(!x.high().as_felt().in_state());
+
+    x = x.let_for_deduction("new_x".to_string()).0;
+    assert!(x.low().as_felt().in_state());
+    assert!(!x.high().as_felt().in_state());
+
+    x.high_mut()
+        .as_felt_mut()
+        .to_state(StateInfo::StateIndex(1, None));
+    assert!(x.low().as_felt().in_state());
+    assert!(x.high().as_felt().in_state());
+
+    x = x.let_for_deduction("newer_x".to_string()).0;
+    assert!(x.low().as_felt().in_state());
+    assert!(x.high().as_felt().in_state());
+}
+
+#[test]
+fn test_is_const() {
+    let mut x: UInt32Expr = vec![const_expr!(0), expr!("x", 0xFFFF)].into();
+    assert!(!x.is_const());
+    assert!(x.get_felt(0).is_const());
+
+    x = x.let_for_deduction("new_x".to_string()).0;
+    assert!(!x.is_const());
+    assert!(x.get_felt(0).is_const());
 }
 
 #[test]

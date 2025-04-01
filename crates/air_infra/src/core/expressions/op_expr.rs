@@ -72,42 +72,57 @@ where
         }
     }
 
-    pub fn as_felt(&self) -> FeltExpr {
+    pub fn as_felt(&self) -> Result<FeltExpr, String> {
         if !self.op.is_from_felts() {
-            panic!("Operation {:?} does not allow extracting felts", self.op);
+            return Err(format!(
+                "Operation {:?} does not allow extracting felts",
+                self.op
+            ));
         }
-        self.children[0].as_felt()
+        Ok(self.children[0].as_felt())
     }
 
-    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
+    pub fn as_felt_mut(&mut self) -> Result<&mut FeltExpr, String> {
         if !self.op.is_from_felts() {
-            panic!("Operation {:?} does not allow extracting felts", self.op);
+            return Err(format!(
+                "Operation {:?} does not allow extracting felts",
+                self.op
+            ));
         }
-        self.children[0].as_felt_mut()
+        Ok(self.children[0].as_felt_mut())
     }
 
-    pub fn get_felt(&self, index: usize) -> FeltExpr {
+    pub fn get_felt(&self, index: usize) -> Result<FeltExpr, String> {
         if !self.op.is_from_felts() {
-            panic!("Operation {:?} does not allow extracting felts", self.op);
+            return Err(format!(
+                "Operation {:?} does not allow extracting felts",
+                self.op
+            ));
         }
-        self.children[0].get_felt(index)
+        Ok(self.children[0].get_felt(index))
     }
 
-    pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
+    pub fn get_felt_mut(&mut self, index: usize) -> Result<&mut FeltExpr, String> {
         if !self.op.is_from_felts() {
-            panic!("Operation {:?} does not allow extracting felts", self.op);
+            return Err(format!(
+                "Operation {:?} does not allow extracting felts",
+                self.op
+            ));
         }
-        self.children[0].get_felt_mut(index)
+        Ok(self.children[0].get_felt_mut(index))
     }
 
-    pub fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+    pub fn as_felts_mut(&mut self) -> Result<Vec<&mut FeltExpr>, String> {
         if !self.op.is_from_felts() {
-            panic!("Operation {:?} does not allow extracting felts", self.op);
+            return Err(format!(
+                "Operation {:?} does not allow extracting felts",
+                self.op
+            ));
         }
         match &mut self.children[0] {
-            AirVarImpl::Expr(expr) => vec![expr.as_felt_mut()],
-            AirVarImpl::Array(arr) => arr.iter_mut().map(|v| v.as_felt_mut()).collect(),
-            _ => panic!("Cannot convert to felts"),
+            AirVarImpl::Expr(expr) => Ok(vec![expr.as_felt_mut()]),
+            AirVarImpl::Array(arr) => Ok(arr.iter_mut().map(|v| v.as_felt_mut()).collect()),
+            _ => Err("Cannot convert to felts".to_string()),
         }
     }
 }

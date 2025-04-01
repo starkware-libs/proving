@@ -46,6 +46,8 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
 
+    // TODO(AnatG): Improve implementation of this function. It should be possible to implement it
+    // without clone of self.
     fn as_felts(&self) -> Vec<FeltExpr> {
         self.clone()
             .as_felts_mut()
