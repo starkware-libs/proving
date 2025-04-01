@@ -423,6 +423,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "cairo_air"
+version = "0.1.0"
+dependencies = [
+ "num-traits",
+ "rand",
+ "serde",
+ "starknet-ff",
+ "stwo-cairo-serialize 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=c9a4ea1)",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=8ab5601)",
+]
+
+[[package]]
 name = "cc"
 version = "1.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -802,23 +814,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.98",
-]
-
-[[package]]
-name = "generated_components"
-version = "0.1.0"
-dependencies = [
- "itertools 0.12.1",
- "num-traits",
- "rand",
- "rayon",
- "serde",
- "starknet-ff",
- "stwo-air-utils",
- "stwo-air-utils-derive",
- "stwo-cairo-common 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=c9a4ea1)",
- "stwo-cairo-serialize 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=c9a4ea1)",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=8ab5601)",
 ]
 
 [[package]]
@@ -2316,6 +2311,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3268f3d866458b787f390cf61f4bbb563b922d091359f9608842999eaee3943c"
 dependencies = [
  "bitflags",
+]
+
+[[package]]
+name = "witness"
+version = "0.1.0"
+dependencies = [
+ "cairo_air",
+ "itertools 0.12.1",
+ "num-traits",
+ "rayon",
+ "stwo-air-utils",
+ "stwo-air-utils-derive",
+ "stwo-cairo-common 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=c9a4ea1)",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=8ab5601)",
 ]
 
 [[package]]

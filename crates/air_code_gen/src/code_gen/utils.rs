@@ -4,11 +4,10 @@ use std::path::{Path, PathBuf};
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceType};
 use genco::lang::rust;
 use genco::quote;
-use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
-use super::constraints::{generate_component_code, generate_inline_code};
+use super::constraints::{generate_constraints_code, generate_inline_code};
 use super::trace_gen::RustProverGen;
 
 pub fn project_root() -> PathBuf {
@@ -35,77 +34,74 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 }
 
 // Generates the prover & verifier code.
-pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
-    let rust_codegen = RustProverGen::new(air_fn.clone());
-
-    let (eval_tokens, claim_provers) = if air_fn.r#type == TraceType::Inline {
-        (generate_inline_code(&air_fn), quote!())
+pub fn dump_component_code(
+    air_fn: &CompiledAirFn,
+    constraints_folder_path: &Path,
+    witness_folder_path: &Path,
+) {
+    let (constraints_code, witness_code) = if air_fn.r#type == TraceType::Inline {
+        (generate_inline_code(air_fn), quote!())
     } else {
         (
-            generate_component_code(&air_fn),
-            rust_codegen.generate_simd_claim_prover(),
+            generate_constraints_code(air_fn),
+            RustProverGen::new(air_fn.clone()).generate_witness_code(),
         )
     };
 
     // Write the generated code to files.
-    let text = reformat_rust_code(claim_provers.to_string().unwrap());
-    fs::write(folder_path.join("prover.rs"), text).unwrap();
-    let text = reformat_rust_code(eval_tokens.to_string().unwrap());
-    fs::write(folder_path.join("component.rs"), text).unwrap();
+    let file_name = &format!("{}.rs", air_fn.name);
 
-    // Generate mod.rs, if it does not exist.
-    let mod_rs_path = folder_path.join("mod.rs");
-    if !std::path::Path::new(&mod_rs_path).exists() {
-        let mut mod_rs_code: rust::Tokens = quote! {
-            pub mod component;
-            pub mod prover;
-        };
-        if air_fn.r#type != TraceType::Inline {
-            mod_rs_code.append(quote!(
-                pub use component::{Claim, InteractionClaim, Component, Eval};
-                pub use prover::{ClaimGenerator, InteractionClaimGenerator};
-            ));
-        }
-
-        let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
-        fs::write(mod_rs_path, text).unwrap();
+    // TODO(Gali): handle witness sub-routines.
+    if air_fn.r#type != TraceType::Inline {
+        let witness_code = reformat_rust_code(witness_code.to_string().unwrap());
+        fs::write(witness_folder_path.join(file_name), witness_code).unwrap();
     }
+    let constraints_code = reformat_rust_code(constraints_code.to_string().unwrap());
+    fs::write(constraints_folder_path.join(file_name), constraints_code).unwrap();
 }
 
-pub fn assert_generated_code_unchanged(air_fn: CompiledAirFn, folder_path: &Path) {
+pub fn assert_generated_code_unchanged(
+    air_fn: CompiledAirFn,
+    constraints_folder_path: &Path,
+    witness_folder_path: &Path,
+) {
+    let air_fn_name = air_fn.name.clone();
     let temp_dir = tempdir().expect("Could not open temporary folder!");
     let temp_dir = temp_dir.path();
-    dump_component_code(air_fn, temp_dir);
-    let generated_file_paths = fs::read_dir(temp_dir)
-        .unwrap()
-        .filter_map(|entry| {
-            let path = entry.ok()?.path();
-            if path.is_file() && path.file_name().unwrap().to_str().unwrap().ends_with(".rs") {
-                Some(path)
-            } else {
-                None
-            }
-        })
-        .collect_vec();
-    for path in generated_file_paths {
-        if path.file_name().unwrap() == "mod.rs" {
-            continue;
-        }
+    let temp_witness_folder_path = temp_dir.join("witness");
+    let temp_constraints_folder_path = temp_dir.join("constraints");
+    fs::create_dir_all(&temp_constraints_folder_path).ok();
+    fs::create_dir_all(&temp_witness_folder_path).ok();
+    dump_component_code(
+        &air_fn,
+        &temp_constraints_folder_path,
+        &temp_witness_folder_path,
+    );
 
-        let generated_code = fs::read_to_string(&path).unwrap();
-        let exisitng_file_path = folder_path.join(path.file_name().unwrap());
-        let existing_code = fs::read_to_string(&exisitng_file_path).unwrap();
-
+    let rust_file_name = &format!("{}.rs", air_fn_name);
+    let mut files_to_compare = vec![(
+        constraints_folder_path.join(rust_file_name),
+        temp_constraints_folder_path.join(rust_file_name),
+    )];
+    if air_fn.r#type != TraceType::Inline {
+        files_to_compare.push((
+            witness_folder_path.join(rust_file_name),
+            temp_witness_folder_path.join(rust_file_name),
+        ));
+    }
+    for (existing_code_path, generated_code_path) in files_to_compare {
+        let existing_code = fs::read_to_string(&existing_code_path).unwrap();
+        let generated_code = fs::read_to_string(&generated_code_path).unwrap();
         pretty_assertions::assert_eq!(
-            generated_code,
             existing_code,
+            generated_code,
             r#"
             Generated code in {}.
             is different from the code in {}.
             Run the following  to update the code:
             '$ FIX_CODE=1 cargo test'"#,
-            path.display(),
-            exisitng_file_path.display()
+            generated_code_path.display(),
+            existing_code_path.display(),
         );
     }
 }
@@ -146,15 +142,18 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
-pub fn compare_contents_or_fix_with_path(air_fn: CompiledAirFn, folder_path: &Path) {
-    let component_name = air_fn.name.clone();
-    let folder_path = folder_path.join(component_name + "/");
-    fs::create_dir_all(&folder_path).ok();
+pub fn compare_contents_or_fix_with_path(
+    air_fn: CompiledAirFn,
+    constraints_folder_path: &Path,
+    witness_folder_path: &Path,
+) {
+    fs::create_dir_all(witness_folder_path).ok();
+    fs::create_dir_all(constraints_folder_path).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
     if is_fix_mode {
-        dump_component_code(air_fn, &folder_path);
+        dump_component_code(&air_fn, constraints_folder_path, witness_folder_path);
     } else {
-        assert_generated_code_unchanged(air_fn, &folder_path);
+        assert_generated_code_unchanged(air_fn, constraints_folder_path, witness_folder_path);
     }
 }
 

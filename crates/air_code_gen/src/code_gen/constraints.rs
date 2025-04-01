@@ -12,7 +12,7 @@ use super::parse::seek_consts;
 use super::utils::{block_doc, get_variable_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 
-pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports())
         $['\n']
@@ -140,7 +140,7 @@ fn get_state_names(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn imports() -> rust::Tokens {
     quote! {
-        use crate::components::prelude::constraint_eval::*;
+        use crate::components::prelude::*;
     }
 }
 
@@ -148,11 +148,11 @@ fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
     // TODO(Gali): Add mults column support.
     if lists.padding_type == PaddingType::Enabler {
         quote! {
-            pub(super) const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
+            pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
         }
     } else {
         quote! {
-            pub(super) const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
+            pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
         }
     }
 }

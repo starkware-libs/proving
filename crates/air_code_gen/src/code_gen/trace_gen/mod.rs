@@ -66,7 +66,7 @@ impl RustProverGen {
         }
     }
 
-    pub fn generate_simd_claim_prover(&self) -> rust::Tokens {
+    pub fn generate_witness_code(&self) -> rust::Tokens {
         let attributes = self.attributes();
         let imports_code = self.generate_imports_code();
         let typedefs = self.generate_input_output_typedefs();
@@ -747,12 +747,12 @@ impl RustProverGen {
         let mut sub_component_imports = rust::Tokens::new();
         self.write_trace_context.iter().for_each(|fn_name| {
             sub_component_imports.extend(quote! {
-                use crate::components::$(fn_name);
+                use crate::witness::components::$(fn_name);
             })
         });
         quote! {
-            use crate::components::prelude::proving::*;
-            use super::component::{Claim, InteractionClaim, N_TRACE_COLUMNS};
+            use crate::witness::prelude::*;
+            use cairo_air::components::$(&self.lists.name)::{Claim, InteractionClaim, N_TRACE_COLUMNS};
             $(sub_component_imports)
         }
     }
