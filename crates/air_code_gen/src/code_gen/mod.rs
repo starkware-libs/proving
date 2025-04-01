@@ -48,8 +48,7 @@ mod tests {
 
     #[test]
     fn add_ap_code_gen() {
-        let serialized_air_fn =
-            read_json("../compiled_casm_air/src/opcodes/add_ap_opcode_imm.json");
+        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/add_ap_opcode.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }

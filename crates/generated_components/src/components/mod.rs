@@ -6,7 +6,7 @@ use stwo_prover::core::pcs::TreeSubspan;
 use stwo_prover::core::poly::circle::CircleEvaluation;
 use stwo_prover::core::poly::BitReversedOrder;
 
-pub mod add_ap_opcode_imm;
+pub mod add_ap_opcode;
 pub mod cond_decode_small_sign;
 pub mod constraints_regression_test_values;
 pub mod decode_instruction_8ad7e540e219b042;

@@ -15,8 +15,6 @@ use crate::utils::test_utils::*;
 fn test_add_ap_negative_imm() {
     // Build the air function
     let mut add_ap_opcode = AddApOpcode {
-        imm: true,
-        op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -24,6 +22,9 @@ fn test_add_ap_negative_imm() {
     let pc = 30;
     let ap = 11;
     let fp = 6;
+
+    // Create the non-constant flags
+    let non_consts_flags = vec![true, false, false];
 
     // Fill memory
     let memory_values = vec![
@@ -34,7 +35,9 @@ fn test_add_ap_negative_imm() {
                     -1,
                     -1,
                     1,
-                    add_ap_opcode.get_flags().into(),
+                    add_ap_opcode
+                        .get_flags()
+                        .non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0
@@ -62,6 +65,10 @@ fn test_add_ap_negative_imm() {
         (30, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
+        (32769, "offset2"),
+        (1, "op1_imm"),
+        (0, "op1_base_fp"),
+        (30, "mem1_base"),
         (1, "op1_id"),
         (1, "msb"),
         (0, "mid_limbs_set"),
@@ -77,8 +84,6 @@ fn test_add_ap_negative_imm() {
 fn test_add_ap_deref_base_fp() {
     // Build the air function
     let mut add_ap_opcode = AddApOpcode {
-        imm: false,
-        op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -89,6 +94,9 @@ fn test_add_ap_deref_base_fp() {
     let op1 = 299;
     let offset2 = 400;
 
+    // Create the non-constant flags
+    let non_consts_flags = vec![false, true, false];
+
     // Fill memory
     let memory_values = vec![
         (
@@ -98,7 +106,9 @@ fn test_add_ap_deref_base_fp() {
                     -1,
                     -1,
                     offset2,
-                    add_ap_opcode.get_flags().into(),
+                    add_ap_opcode
+                        .get_flags()
+                        .non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0
@@ -130,6 +140,9 @@ fn test_add_ap_deref_base_fp() {
         (11, "input_ap"),
         (6, "input_fp"),
         (33168, "offset2"),
+        (0, "op1_imm"),
+        (1, "op1_base_fp"),
+        (6, "mem1_base"),
         (1, "op1_id"),
         (0, "msb"),
         (0, "mid_limbs_set"),
@@ -142,12 +155,10 @@ fn test_add_ap_deref_base_fp() {
 }
 
 #[test]
-#[should_panic(expected = "FLAG_OP1_IMM and FLAG_OP1_BASE_FP cannot be set at the same time.")]
+#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
 fn test_failed_op1_src() {
     // Build the air function
     let mut add_ap_opcode = AddApOpcode {
-        imm: true,
-        op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -158,6 +169,9 @@ fn test_failed_op1_src() {
     let op1 = 299;
     let offset2 = 400;
 
+    // Create the non-constant flags
+    let non_consts_flags = vec![true, true, false];
+
     // Fill memory
     let memory_values = vec![
         (
@@ -167,7 +181,9 @@ fn test_failed_op1_src() {
                     -1,
                     -1,
                     offset2,
-                    add_ap_opcode.get_flags().into(),
+                    add_ap_opcode
+                        .get_flags()
+                        .non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0

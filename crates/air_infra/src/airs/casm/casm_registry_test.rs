@@ -67,18 +67,6 @@ fn test_casm_registry() {
     reg.add_entry(&GenericOpcode::default());
     // AddAp opcode
     reg.add_entry(&AddApOpcode {
-        imm: false,
-        op1_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AddApOpcode {
-        imm: true,
-        op1_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AddApOpcode {
-        imm: false,
-        op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     // Add opcode
