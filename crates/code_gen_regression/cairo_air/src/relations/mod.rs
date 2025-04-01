@@ -10,3 +10,6 @@ relation!(RangeCheck_4_3, 2);
 relation!(RangeCheck_7_2_5, 3);
 relation!(VerifyInstruction, 29);
 relation!(NarrowFibNumSteps20, 4);
+relation!(RangeCheck_3_6_6_3, 4);
+relation!(RangeCheck_12, 1);
+relation!(RangeCheck_18, 1);
