@@ -3,7 +3,7 @@ use std::cmp::{max, min};
 
 use inst_def::InstDef;
 
-use super::bounded_felt::BoundedFeltExpr;
+use super::bounded_felt::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
