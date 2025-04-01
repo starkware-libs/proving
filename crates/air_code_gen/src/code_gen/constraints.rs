@@ -9,7 +9,7 @@ use genco::quote;
 use itertools::chain;
 
 use super::parse::seek_consts;
-use super::utils::{block_doc, get_const_name, replace_generics_with_turbofish};
+use super::utils::{block_doc, get_variable_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
@@ -289,7 +289,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     }
     let mut const_names = HashMap::new();
     for (ty, val) in constants.into_iter() {
-        let name = get_const_name(&ty, &val);
+        let name = get_variable_name(&ty, &val);
         const_names.insert((ty.clone(), val.clone()), name.clone());
         if ty == "M31" {
             code.append(quote! {
@@ -310,7 +310,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             });
         } else {
             code.append(quote! {
-                let $(&name.to_lowercase())_$(args.join("_")) = eval.get_preprocessed_column(($name::new($(args.join(", ")))).id());
+                let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) = eval.get_preprocessed_column(($name::new($(args.join(", ")))).id());
             });
         }
     }

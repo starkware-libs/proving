@@ -123,7 +123,7 @@ pub fn remove_trailing_zeroes(felts: &[CompiledAirVar]) -> Vec<CompiledAirVar> {
     felts
 }
 
-pub fn get_const_name(ty: &str, val: &str) -> String {
+pub fn get_variable_name(ty: &str, val: &str) -> String {
     format!("{ty}_{val}")
         .replace([',', '<', '['], "_")
         .replace("::", "_")
