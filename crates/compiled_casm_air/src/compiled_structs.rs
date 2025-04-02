@@ -1,6 +1,4 @@
-use std::collections::BTreeSet;
-
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
 
 use crate::public_params::PublicParam;
@@ -34,13 +32,13 @@ pub struct CompiledAirFn {
     pub lookup_names: IndexMap<String, usize>,
 
     // The names of the air functions that are inlined into this one, and their lookup names.
-    pub inline_calls: IndexMap<String, BTreeSet<String>>,
+    pub inline_calls: IndexMap<String, IndexSet<String>>,
 
     // The set of public parameters used in the air function.
-    pub public_params: BTreeSet<PublicParam>,
+    pub public_params: IndexSet<PublicParam>,
 
     // The set of external states used in the air function.
-    pub external_states: BTreeSet<(String, Vec<String>)>,
+    pub external_states: IndexSet<(String, Vec<String>)>,
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,

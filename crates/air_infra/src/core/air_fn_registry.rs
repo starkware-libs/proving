@@ -1,10 +1,10 @@
 use std::cell::{Ref, RefCell};
-use std::collections::{BTreeSet, HashSet};
+use std::collections::HashSet;
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
 
 use super::air_body::*;
@@ -60,7 +60,7 @@ impl AirFnEntry {
                         .get_lookup_names()
                         .keys()
                         .cloned()
-                        .collect::<BTreeSet<String>>(),
+                        .collect::<IndexSet<String>>(),
                 )
             })
             .collect();

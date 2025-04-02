@@ -283,21 +283,21 @@
       "TripleXor32"
     ],
     "create_blake_round_input": [
+      "RangeCheck_7_2_5",
       "MemoryAddressToId",
       "MemoryIdToBig",
-      "RangeCheck_7_2_5",
       "VerifyBitwiseXor_8"
     ],
     "decode_blake_opcode": [
-      "MemoryAddressToId",
-      "MemoryIdToBig",
-      "RangeCheck_7_2_5",
-      "VerifyInstruction"
-    ],
-    "verify_blake_word": [
+      "VerifyInstruction",
       "MemoryAddressToId",
       "MemoryIdToBig",
       "RangeCheck_7_2_5"
+    ],
+    "verify_blake_word": [
+      "RangeCheck_7_2_5",
+      "MemoryAddressToId",
+      "MemoryIdToBig"
     ]
   },
   "public_params": [],
