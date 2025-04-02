@@ -237,6 +237,7 @@ mod tests {
 
     #[test]
     fn add_ap_opcode_constraints_regression() {
+        let mut rng = SmallRng::seed_from_u64(0);
         let eval = Eval {
             claim: Claim { log_size: 4 },
             verify_instruction_lookup_elements: relations::VerifyInstruction::dummy(),
@@ -244,12 +245,12 @@ mod tests {
             memory_id_to_big_lookup_elements: relations::MemoryIdToBig::dummy(),
             opcodes_lookup_elements: relations::Opcodes::dummy(),
         };
-
         let expr_eval = eval.evaluate(ExprEvaluator::new());
-        let mut rng = SmallRng::seed_from_u64(0);
+        let assignment = expr_eval.random_assignment();
+
         let mut sum = QM31::zero();
         for c in expr_eval.constraints {
-            sum += c.random_eval() * rng.gen::<QM31>();
+            sum += c.assign(&assignment) * rng.gen::<QM31>();
         }
 
         assert_eq!(sum, ADD_AP_OPCODE);
