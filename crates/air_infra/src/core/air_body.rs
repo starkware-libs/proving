@@ -6,7 +6,7 @@ use compiled_casm_air::compiled_structs::{
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
 
@@ -208,8 +208,8 @@ impl AirBody {
         self.0.push(component);
     }
 
-    pub fn get_external_states(&self) -> BTreeSet<(String, Vec<String>)> {
-        let mut external_states = BTreeSet::<(String, Vec<String>)>::default();
+    pub fn get_external_states(&self) -> IndexSet<(String, Vec<String>)> {
+        let mut external_states = IndexSet::<(String, Vec<String>)>::default();
 
         for component in self.0.clone() {
             match component {
@@ -242,8 +242,8 @@ impl AirBody {
         external_states
     }
 
-    pub fn get_public_params(&self) -> BTreeSet<PublicParam> {
-        let mut public_params = BTreeSet::<PublicParam>::default();
+    pub fn get_public_params(&self) -> IndexSet<PublicParam> {
+        let mut public_params = IndexSet::<PublicParam>::default();
 
         for component in self.0.clone() {
             match component {
