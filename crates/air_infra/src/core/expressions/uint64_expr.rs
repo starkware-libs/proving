@@ -1,6 +1,5 @@
 use stwo_cairo_common::prover_types::cpu::UInt64;
 
-use super::super::variables::*;
 use super::expr::*;
 use super::op_expr::*;
 use super::uint32_expr::*;
@@ -40,18 +39,18 @@ impl VarExpr<UInt64> {
 }
 
 impl VarExprUpdate for VarExpr<UInt64> {
-    fn create_children(&mut self) {
+    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
         let low = VarExpr::new(
             LOW_NAME.to_string(),
             self.value.map(|v| v.low()),
-            self.is_const,
-            self.in_state(),
+            is_const,
+            in_state,
         );
         let high = VarExpr::new(
             HIGH_NAME.to_string(),
             self.value.map(|v| v.high()),
-            self.is_const,
-            self.in_state(),
+            is_const,
+            in_state,
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![
             UInt32Expr::Var(low).into(),

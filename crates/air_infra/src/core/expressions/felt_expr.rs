@@ -21,6 +21,7 @@ pub struct FeltInfo {
     pub state_info: StateInfo,
     // If some, the felt is an intermediate variable used in constraints.
     pub constraint_intermediate: Option<String>,
+    pub is_const: bool,
 }
 
 // Describes where in the state this FeltExpr resides
@@ -43,8 +44,12 @@ pub enum StateInfo {
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
-    fn create_children(&mut self) {
-        // Felt does not have children.
+    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
+        self.complex_or_felt = ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::IsPolyOfState(in_state),
+            constraint_intermediate: None,
+            is_const,
+        });
     }
     fn update_children(&mut self) {
         // Felt does not have children.
@@ -71,7 +76,7 @@ impl FeltExpr {
                 v.name = name;
             }
             _ => {
-                *self = VarExpr::new_from(name, self).into();
+                *self = Expr::new_var_from(name, self);
             }
         }
         self.as_var_mut()
@@ -102,9 +107,9 @@ impl FeltExpr {
 
     pub fn let_for_constraint(&mut self, name: String) {
         if let FeltExpr::Op(_) = self {
-            let mut var = VarExpr::new_from(name.clone(), self);
-            var.visibility.in_deductions = false;
-            *self = var.into();
+            let mut var = Expr::new_var_from(name.clone(), self);
+            var.as_var_mut().visibility.in_deductions = false;
+            *self = var;
         }
         self.as_var_mut()
             .complex_or_felt

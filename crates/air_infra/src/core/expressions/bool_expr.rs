@@ -1,6 +1,5 @@
 use stwo_cairo_common::prover_types::cpu::{Bool, SingleFeltType};
 
-use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
@@ -13,12 +12,12 @@ const CHILD_NAME: &str = "as_m31";
 impl TryIntoFeltExpr for BoolExpr {}
 
 impl VarExprUpdate for VarExpr<Bool> {
-    fn create_children(&mut self) {
+    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
         let child = VarExpr::new(
             CHILD_NAME.to_string(),
             self.value.map(|v| v.as_m31()),
-            self.is_const,
-            self.in_state(),
+            is_const,
+            in_state,
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![FeltExpr::Var(child).into()]);
     }

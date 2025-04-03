@@ -58,14 +58,14 @@ where
     pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
             Expr::Var(v) => v.as_felt_mut(),
-            Expr::Op(o) => o.as_felt_mut(),
+            Expr::Op(o) => o.as_felt_mut().unwrap_or_else(|e| panic!("{}", e)),
         }
     }
 
     pub fn as_felt(&self) -> FeltExpr {
         match self {
             Expr::Var(v) => v.as_felt(),
-            Expr::Op(o) => o.as_felt(),
+            Expr::Op(o) => o.as_felt().unwrap_or_else(|e| panic!("{}", e)),
         }
     }
 
@@ -74,14 +74,14 @@ where
     pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
         match self {
             Expr::Var(v) => v.get_felt_mut(index),
-            Expr::Op(o) => o.get_felt_mut(index),
+            Expr::Op(o) => o.get_felt_mut(index).unwrap_or_else(|e| panic!("{}", e)),
         }
     }
 
     pub fn get_felt(&self, index: usize) -> FeltExpr {
         match self {
             Expr::Var(v) => v.get_felt(index),
-            Expr::Op(o) => o.get_felt(index),
+            Expr::Op(o) => o.get_felt(index).unwrap_or_else(|e| panic!("{}", e)),
         }
     }
 
@@ -89,6 +89,66 @@ where
         match self {
             Expr::Var(v) => v.compile(compile_for),
             Expr::Op(o) => o.compile(compile_for),
+        }
+    }
+
+    // Creates a new variable from the given name and the expression <from>.
+    // Copies from <from> its value and its felts.
+    pub fn new_var_from(name: String, from: &Expr<T>) -> Self
+    where
+        Self: Into<ExprImpl> + TryIntoFeltExpr,
+        VarExpr<T>: VarExprUpdate,
+    {
+        if from.clone().try_into_felt().is_some() {
+            return match from {
+                Expr::Var(_) => {
+                    let mut res = from.clone();
+                    res.as_var_mut().name = name;
+                    res
+                }
+                Expr::Op(_) => Expr::Var(VarExpr::new(
+                    name,
+                    from.value(),
+                    from.is_const(),
+                    from.in_state(),
+                )),
+            };
+        }
+
+        let mut res = Expr::Var(VarExpr::new(name, from.value(), from.is_const(), false));
+        if let Ok(orig_felts) = from.clone().as_felts_mut_res() {
+            for (felt, orig_felt) in res.as_felts_mut().into_iter().zip(orig_felts) {
+                if let Expr::Var(ref orig_v) = orig_felt.clone() {
+                    *felt.as_var_mut() = orig_v.clone();
+                } else if orig_felt.in_state() {
+                    felt.as_var_mut()
+                        .complex_or_felt
+                        .as_felt_info_mut()
+                        .state_info = StateInfo::IsPolyOfState(true);
+                }
+            }
+        }
+
+        res
+    }
+
+    fn as_felts_mut_res(&mut self) -> Result<Vec<&mut FeltExpr>, String>
+    where
+        Self: Into<ExprImpl> + TryIntoFeltExpr,
+        VarExpr<T>: VarExprUpdate,
+    {
+        if self.try_into_felt().is_some() {
+            return Ok(vec![self.try_into_felt().unwrap()]);
+        }
+
+        match self {
+            Expr::Var(v) => Ok(v
+                .complex_or_felt
+                .as_complex_mut()
+                .iter_mut()
+                .flat_map(|c| c.as_felts_mut())
+                .collect()),
+            Expr::Op(o) => o.as_felts_mut(),
         }
     }
 }
@@ -111,25 +171,13 @@ where
 
     fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
         let interm = Intermediate::new_for_deduction(&name, self);
-        let mut var = VarExpr::new_from(name, self);
-        var.is_deduction_intermediate = true;
-        (var.into(), interm)
+        let mut var = Self::new_var_from(name, self);
+        var.as_var_mut().is_deduction_intermediate = true;
+        (var, interm)
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        if self.try_into_felt().is_some() {
-            return vec![self.try_into_felt().unwrap()];
-        }
-
-        match self {
-            Expr::Var(v) => v
-                .complex_or_felt
-                .as_complex_mut()
-                .iter_mut()
-                .flat_map(|c| c.as_felts_mut())
-                .collect(),
-            Expr::Op(o) => o.as_felts_mut(),
-        }
+        self.as_felts_mut_res().unwrap_or_else(|e| panic!("{}", e))
     }
 }
 

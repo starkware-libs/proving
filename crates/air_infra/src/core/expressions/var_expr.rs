@@ -11,7 +11,7 @@ use super::felt_expr::*;
 use crate::core::Felt;
 
 pub trait VarExprUpdate {
-    fn create_children(&mut self);
+    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool);
     fn update_children(&mut self);
 }
 
@@ -22,7 +22,6 @@ where
 {
     pub(super) name: String,
     pub(super) value: Option<T>,
-    pub(super) is_const: bool,
     pub(super) parent: Option<ParentExpr>,
     pub(super) complex_or_felt: ComplexOrFelt,
     pub(super) is_deduction_intermediate: bool,
@@ -45,37 +44,18 @@ where
         let mut var = VarExpr {
             name,
             value,
-            is_const,
             parent: None,
-            complex_or_felt: ComplexOrFelt::Felt(FeltInfo {
-                state_info: StateInfo::IsPolyOfState(in_state),
-                constraint_intermediate: None,
-            }),
+            // This is updated when calling <create_complex_or_felt>.
+            complex_or_felt: ComplexOrFelt::default(),
             is_deduction_intermediate: false,
             visibility: Visibility {
                 in_deductions: true,
                 in_constraints: is_const && T::r#type() == Felt::r#type(),
             },
         };
-        var.create_children();
+        var.create_complex_or_felt(is_const, in_state);
         var.update_children();
         var
-    }
-
-    // Copies everything from <from> except the <name>, <complex_or_felt>,
-    // <is_deductions_intermediate> and <visibility>. <state_info> becomes
-    // <IsPolyOfState(from.in_state())>, and the rest are set as in a new variable.
-    // These are later updated by the caller if necessary (see <Expr::let_for_deduction>,
-    // <FeltExpr::to_state>, and <FeltExpr::let_for_constraint>).
-    pub fn new_from(name: String, from: &Expr<T>) -> Self
-    where
-        Self: VarExprUpdate,
-    {
-        let mut res = Self::new(name, from.value(), from.is_const(), from.in_state());
-        if let Expr::Var(v) = from {
-            res.parent = v.parent.clone();
-        }
-        res
     }
 
     pub fn new_const(value: T) -> Self
@@ -150,9 +130,16 @@ where
             .as_felt()
     }
 
+    fn is_const(&self) -> bool {
+        match &self.complex_or_felt {
+            ComplexOrFelt::Felt(FeltInfo { is_const, .. }) => *is_const,
+            ComplexOrFelt::Complex(children) => children.iter().all(|c| c.is_const()),
+        }
+    }
+
     pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
         // self is a constant
-        if self.is_const {
+        if self.is_const() {
             return CompiledAirVar::Const(
                 T::r#type(),
                 self.value.expect("Const must have a value").calc(),
@@ -163,6 +150,7 @@ where
         if let ComplexOrFelt::Felt(FeltInfo {
             state_info: StateInfo::StateIndex(i, desc),
             constraint_intermediate: _,
+            is_const: _,
         }) = self.complex_or_felt
         {
             return CompiledAirVar::State(State::get_cell_name(i, &desc));
@@ -172,6 +160,7 @@ where
         if let ComplexOrFelt::Felt(FeltInfo {
             state_info: StateInfo::ExtTableState(name, args),
             constraint_intermediate: _,
+            is_const: _,
         }) = self.complex_or_felt
         {
             return CompiledAirVar::ExternalState(name, args);
@@ -181,6 +170,7 @@ where
         if let ComplexOrFelt::Felt(FeltInfo {
             state_info: StateInfo::PublicParam(param),
             constraint_intermediate: _,
+            is_const: _,
         }) = self.complex_or_felt
         {
             return CompiledAirVar::PublicParam(param.name());
@@ -197,6 +187,7 @@ where
             if let ComplexOrFelt::Felt(FeltInfo {
                 state_info: _,
                 constraint_intermediate: Some(name),
+                is_const: _,
             }) = self.complex_or_felt
             {
                 return CompiledAirVar::Var(T::r#type(), name);
@@ -227,25 +218,29 @@ where
     T: ProverType,
 {
     fn get_info(&self) -> HashSet<AirVarInfo> {
-        let in_state = if self.is_const {
+        let in_state = if self.is_const() {
             true
         } else {
             match &self.complex_or_felt {
                 ComplexOrFelt::Felt(FeltInfo {
                     state_info: StateInfo::StateIndex(..),
                     constraint_intermediate: _,
+                    is_const: _,
                 }) => true,
                 ComplexOrFelt::Felt(FeltInfo {
                     state_info: StateInfo::IsPolyOfState(b),
                     constraint_intermediate: _,
+                    is_const: _,
                 }) => *b,
                 ComplexOrFelt::Felt(FeltInfo {
                     state_info: StateInfo::ExtTableState { .. },
                     constraint_intermediate: _,
+                    is_const: _,
                 }) => true,
                 ComplexOrFelt::Felt(FeltInfo {
                     state_info: StateInfo::PublicParam(_),
                     constraint_intermediate: _,
+                    is_const: _,
                 }) => true,
                 ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
             }
@@ -253,11 +248,12 @@ where
 
         let info = AirVarInfo {
             in_state,
-            is_const: self.is_const,
+            is_const: self.is_const(),
             visibility: self.visibility,
             public_param: if let ComplexOrFelt::Felt(FeltInfo {
                 state_info: StateInfo::PublicParam(ref p),
                 constraint_intermediate: _,
+                is_const: _,
             }) = self.complex_or_felt
             {
                 Some(p.clone())
@@ -267,6 +263,7 @@ where
             external_state: if let ComplexOrFelt::Felt(FeltInfo {
                 state_info: StateInfo::ExtTableState(name, args),
                 constraint_intermediate: _,
+                is_const: _,
             }) = self.complex_or_felt.clone()
             {
                 Some((name, args))
@@ -320,6 +317,12 @@ impl From<ParentExpr> for CompiledAirVar {
 pub(super) enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
     Felt(FeltInfo),
+}
+
+impl Default for ComplexOrFelt {
+    fn default() -> Self {
+        ComplexOrFelt::Complex(vec![])
+    }
 }
 
 impl ComplexOrFelt {
