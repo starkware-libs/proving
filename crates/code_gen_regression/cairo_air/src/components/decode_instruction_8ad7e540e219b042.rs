@@ -1,15 +1,15 @@
 use crate::components::prelude::*;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
-pub struct DecodeInstruction8Ad7E540E219B042 {}
+pub struct DecodeInstruction78A1572Ef0Bba9B6 {}
 
-impl DecodeInstruction8Ad7E540E219B042 {
+impl DecodeInstruction78A1572Ef0Bba9B6 {
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     #[allow(clippy::unused_unit)]
     pub fn evaluate<E: EvalAtRow>(
-        decode_instruction_8ad7e540e219b042_input: E::F,
+        decode_instruction_78a1572ef0bba9b6_input: E::F,
         eval: &mut E,
         verify_instruction_lookup_elements: &relations::VerifyInstruction,
     ) -> [E::F; 19] {
@@ -25,7 +25,7 @@ impl DecodeInstruction8Ad7E540E219B042 {
             verify_instruction_lookup_elements,
             E::EF::one(),
             &[
-                decode_instruction_8ad7e540e219b042_input.clone(),
+                decode_instruction_78a1572ef0bba9b6_input.clone(),
                 M31_32767.clone(),
                 M31_32767.clone(),
                 M31_32769.clone(),

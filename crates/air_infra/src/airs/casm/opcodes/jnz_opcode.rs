@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::P_FELTS;
 
 use super::super::casm_state::*;
@@ -19,10 +19,11 @@ use crate::core::variables::*;
 /// - jump rel imm if [ap + offset] != 0
 /// - jump rel imm if [fp + offset] != 0
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct JnzOpcode {
+    #[serde(skip_serializing_if = "crate::utils::is_false")]
     pub taken: bool,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

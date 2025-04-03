@@ -2,7 +2,9 @@
   "name": "create_blake_round_input",
   "relation_name": null,
   "description": "Create Blake Round Input",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "create_blake_round_input_input",
     "(M31, UInt32, Bool)",
@@ -621,7 +623,6 @@
     "xor_col52",
     "xor_col53"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_7_2_5": 8,
     "MemoryAddressToId": 8,

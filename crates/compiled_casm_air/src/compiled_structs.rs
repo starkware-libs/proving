@@ -8,7 +8,11 @@ pub struct CompiledAirFn {
     pub name: String,
     pub relation_name: Option<String>,
     pub description: String,
+    pub instance_definition: String,
     pub r#type: TraceType,
+    // The index of the multiplicity column in the lookup table that is used / yielded.
+    // None for chain lookup relations, such as "Opcodes".
+    pub padding_type: PaddingType,
 
     // The input to the air function for write trace.
     // The first string is the name of the input, the second is its prover type, and the third is
@@ -23,10 +27,6 @@ pub struct CompiledAirFn {
     pub verifier_output: (CompiledAirVar, String),
 
     pub state_names: Vec<String>,
-
-    // The index of the multiplicity column in the lookup table that is used / yielded.
-    // None for chain lookup relations, such as "Opcodes".
-    pub padding_type: PaddingType,
 
     // The names of the lookup relations used/yielded and the number of terms per relation.
     pub lookup_names: IndexMap<String, usize>,

@@ -2,7 +2,9 @@
   "name": "range_check_9_9",
   "relation_name": "RangeCheck_9_9",
   "description": "Range Check 9 9",
+  "instance_definition": "{}",
   "type": "Component",
+  "padding_type": "Multiplicity",
   "prover_input": [
     "range_check_9_9_input",
     "[M31; 2]",
@@ -26,7 +28,6 @@
     "()"
   ],
   "state_names": [],
-  "padding_type": "Multiplicity",
   "lookup_names": {
     "RangeCheck_9_9": 1
   },

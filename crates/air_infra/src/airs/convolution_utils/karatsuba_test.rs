@@ -15,7 +15,7 @@ pub const MUL252_KARATSUBA_N: usize = FELT252_N_WORDS / 4;
 
 #[test]
 fn test_single_karatsuba_input_len_16() {
-    let air_fn = SingleKaratsuba::<MUL_MOD_KARATSUBA_N> {};
+    let air_fn = SingleKaratsuba::<MUL_MOD_KARATSUBA_N>::new();
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let x_array: [FeltExpr; 2 * MUL_MOD_KARATSUBA_N] = [
@@ -74,9 +74,7 @@ fn test_single_karatsuba_input_len_16() {
 
 #[test]
 fn test_double_karatsuba_input_len_32() {
-    let air_fn = DoubleKaratsuba::<MUL_MOD_KARATSUBA_N> {
-        limb_max_bound: MUL_MOD_MAX_LIMB,
-    };
+    let air_fn = DoubleKaratsuba::<MUL_MOD_KARATSUBA_N>::new(MUL_MOD_MAX_LIMB);
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let x_array: [FeltExpr; 4 * MUL_MOD_KARATSUBA_N] = [
@@ -167,7 +165,7 @@ fn test_double_karatsuba_input_len_32() {
 
 #[test]
 fn test_single_karatsuba_input_len_14() {
-    let air_fn = SingleKaratsuba::<MUL252_KARATSUBA_N> {};
+    let air_fn = SingleKaratsuba::<MUL252_KARATSUBA_N>::new();
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let x_array: [FeltExpr; 2 * MUL252_KARATSUBA_N] = [
@@ -222,9 +220,7 @@ fn test_single_karatsuba_input_len_14() {
 
 #[test]
 fn test_double_karatsuba_input_len_28() {
-    let air_fn = DoubleKaratsuba::<MUL252_KARATSUBA_N> {
-        limb_max_bound: FELT252_MAX_LIMB,
-    };
+    let air_fn = DoubleKaratsuba::<MUL252_KARATSUBA_N>::new(FELT252_MAX_LIMB);
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let x_array: [FeltExpr; 28] = [

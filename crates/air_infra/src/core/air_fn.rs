@@ -9,8 +9,8 @@ use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
 use convert_case::{Case, Casing};
-use indexmap::IndexMap;
 use regex::Regex;
+use serde::Serialize;
 
 use super::air_body::*;
 use super::air_fn_registry::*;
@@ -45,7 +45,11 @@ pub trait AirFn: Debug + InstDefTrait {
             .map(|i| name[i + 2..].to_string())
             .unwrap_or(name);
 
-        let mut res = format!("{}_{:?}", name, self.inst_def());
+        let mut res = format!(
+            "{}_{}",
+            name,
+            serde_json::to_string_pretty(&self.inst_def()).expect("Failed to serialize inst def")
+        );
         res = res
             .chars()
             .map(|x| match x {
@@ -54,6 +58,7 @@ pub trait AirFn: Debug + InstDefTrait {
             })
             .collect();
         res = res.replace('\"', "");
+        res = res.replace("_true", "");
         while res.contains("__") {
             res = res.replace("__", "_");
         }
@@ -87,7 +92,7 @@ pub trait AirFn: Debug + InstDefTrait {
     }
 
     fn hash(&self) -> u64 {
-        let name = format!("{}{:?}", type_name::<Self>(), InstDefTrait::inst_def(self));
+        let name = format!("{}{}", type_name::<Self>(), self.inst_def());
         let mut s = DefaultHasher::new();
         name.hash(&mut s);
         s.finish()
@@ -215,7 +220,16 @@ where
 
 // Seperated from the air fn trait to support automated implementation
 pub trait InstDefTrait {
-    fn inst_def(&self) -> IndexMap<String, String>;
+    fn inst_def(&self) -> serde_json::Value;
+}
+
+impl<F> InstDefTrait for F
+where
+    F: AirFn + Serialize,
+{
+    fn inst_def(&self) -> serde_json::Value {
+        serde_json::to_value(self).expect("Failed to serialize inst def")
+    }
 }
 
 // AirBuilder is a struct that is used to build an air function.

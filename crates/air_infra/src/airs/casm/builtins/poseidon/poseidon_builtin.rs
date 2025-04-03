@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::poseidon_permutation::*;
 use crate::airs::casm::casm_state::*;
@@ -20,9 +20,9 @@ pub const CELLS_PER_POSEIDON: u32 = 6;
 /// The builtin enforces that
 ///   PoseidonHadesPermutation(mem[addr : addr + 3]) = mem[addr + 3 : addr + 6]
 /// where addr = PoseidonBuiltinSegmentStart + Seq * 6.
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct PoseidonBuiltin {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

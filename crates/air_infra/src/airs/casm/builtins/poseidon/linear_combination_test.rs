@@ -8,9 +8,7 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_linear_combination_for_x() {
-    let air_fn = LinearCombination {
-        coefs: [-3, 1, 1, 1],
-    };
+    let air_fn = LinearCombination::new([-3, 1, 1, 1]);
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let (state, output) = registry.run_air(
@@ -96,9 +94,7 @@ fn test_linear_combination_for_x() {
 
 #[test]
 fn test_linear_combination_for_part_round() {
-    let air_fn = LinearCombination {
-        coefs: [2, 1, 4, 3, -1],
-    };
+    let air_fn = LinearCombination::new([2, 1, 4, 3, -1]);
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let (state, output) = registry.run_air(

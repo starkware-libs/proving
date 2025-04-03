@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 // Macros
 use crate::core::air_fn::*;
@@ -8,7 +8,7 @@ use crate::core::expressions::felt_expr::*;
 
 /// Calculates the sum of the squares of the two input numbers.
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct FibStep {}
 
 impl AirFn for FibStep {

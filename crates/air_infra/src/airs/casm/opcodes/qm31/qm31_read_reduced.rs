@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
@@ -15,9 +15,9 @@ use crate::core::variables::*;
 // The QM31ReadReduced inline AirFn.
 // Reads a 144-bit value from the memory representing a packed QM31 element and outputs its M31
 // coordinates and its id. Constrains the value to be in reduced form.
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct QM31ReadReduced {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

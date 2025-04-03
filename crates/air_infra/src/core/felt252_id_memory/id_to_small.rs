@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -21,9 +21,9 @@ impl ExtTable for MemIdForSmall {
     type T = FeltExpr;
 }
 
-#[derive(Debug, Clone, Default, InstDef)]
+#[derive(Debug, Clone, Default, Serialize)]
 pub struct MemoryIdToSmall {
-    #[instdef(skip)]
+    #[serde(skip)]
     memory: Memory<FeltExpr, Felt252Expr>,
 }
 
@@ -59,7 +59,7 @@ impl AirFn for MemoryIdToSmall {
         }
 
         air_builder.call(
-            &RangeCheckMemValue::<SMALL_MEM_VALUE_N_FELTS> {},
+            &RangeCheckMemValue::<SMALL_MEM_VALUE_N_FELTS>::new(),
             value_in_state
                 .clone()
                 .try_into()

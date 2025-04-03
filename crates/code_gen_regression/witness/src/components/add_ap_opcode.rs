@@ -202,7 +202,7 @@ fn write_trace_simd(
                     M31_16,
                     M31_0,
                 ];
-                let decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5 = (
+                let decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5 = (
                     [
                         M31_2147483646,
                         M31_2147483646,
@@ -230,7 +230,7 @@ fn write_trace_simd(
 
                 let mem1_base_col6 = ((((op1_imm_col4) * (input_pc_col0))
                     + ((op1_base_fp_col5) * (input_fp_col2)))
-                    + ((decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5.1[4])
+                    + ((decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.1[4])
                         * (input_ap_col1)));
                 *row[6] = mem1_base_col6;
 
@@ -239,17 +239,17 @@ fn write_trace_simd(
                 let memory_address_to_id_value_tmp_c921e_6 = memory_address_to_id_state
                     .deduce_output(
                         ((mem1_base_col6)
-                            + (decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5.0[2])),
+                            + (decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.0[2])),
                     );
                 let memory_id_to_big_value_tmp_c921e_7 =
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_c921e_6);
                 let op1_id_col7 = memory_address_to_id_value_tmp_c921e_6;
                 *row[7] = op1_id_col7;
                 *sub_component_inputs.memory_address_to_id[0] = ((mem1_base_col6)
-                    + (decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5.0[2]));
+                    + (decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.0[2]));
                 *lookup_data.memory_address_to_id_0 = [
                     ((mem1_base_col6)
-                        + (decode_instruction_6a31a33b12bf4afe_output_tmp_c921e_5.0[2])),
+                        + (decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.0[2])),
                     op1_id_col7,
                 ];
 
@@ -341,10 +341,10 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
+        verify_instruction: &relations::VerifyInstruction,
         memory_address_to_id: &relations::MemoryAddressToId,
         memory_id_to_big: &relations::MemoryIdToBig,
         opcodes: &relations::Opcodes,
-        verify_instruction: &relations::VerifyInstruction,
     ) -> InteractionClaim {
         let enabler_col = Enabler::new(self.n_rows);
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);

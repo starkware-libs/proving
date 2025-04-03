@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::P_FELTS;
 
 use super::generic_opcode::*;
@@ -12,7 +12,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 // Find the next pc, ap, fp and add constraints for jump not zero.
 pub struct UpdateRegisters {}
 

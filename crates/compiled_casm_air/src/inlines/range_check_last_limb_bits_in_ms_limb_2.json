@@ -2,7 +2,9 @@
   "name": "range_check_last_limb_bits_in_ms_limb_2",
   "relation_name": null,
   "description": "Range Check Last Limb Bits In Ms Limb 2",
+  "instance_definition": "{\"bits_in_ms_limb\":2}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "range_check_last_limb_bits_in_ms_limb_2_input",
     "M31",
@@ -28,7 +30,6 @@
   "state_names": [
     "msb_col0"
   ],
-  "padding_type": "None",
   "lookup_names": {},
   "inline_calls": {},
   "public_params": [],
@@ -63,7 +64,7 @@
     },
     {
       "Intermediate": {
-        "name": "bit_before_msb_tmp_ca841_1",
+        "name": "bit_before_msb_tmp_f851f_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -99,7 +100,7 @@
             {
               "Var": [
                 "M31",
-                "bit_before_msb_tmp_ca841_1"
+                "bit_before_msb_tmp_f851f_1"
               ]
             },
             "*",
@@ -115,7 +116,7 @@
                 {
                   "Var": [
                     "M31",
-                    "bit_before_msb_tmp_ca841_1"
+                    "bit_before_msb_tmp_f851f_1"
                   ]
                 }
               ]
@@ -129,7 +130,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "msb_tmp_ca841_0",
+        "name": "msb_tmp_f851f_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -174,7 +175,7 @@
           {
             "Var": [
               "UInt16",
-              "msb_tmp_ca841_0"
+              "msb_tmp_f851f_0"
             ]
           },
           "as_m31",

@@ -1,7 +1,7 @@
 use std::array::from_fn;
 use std::cmp::{max, min};
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::bounded_felt::*;
 use crate::const_expr;
@@ -12,10 +12,21 @@ use crate::core::expressions::felt_expr::*;
 /// Given two arrays of FeltExprs of length 4*N, this function computes their convolution
 /// using the Karatsuba algorithm twice, meaning that the inner convolutions of length 2*N
 /// are computed using SingleKaratsuba.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct DoubleKaratsuba<const N: usize> {
-    pub limb_max_bound: i32,
+    n: usize,
+    limb_max_bound: i32,
 }
+
+impl<const N: usize> DoubleKaratsuba<N> {
+    pub fn new(limb_max_bound: i32) -> Self {
+        Self {
+            n: N,
+            limb_max_bound,
+        }
+    }
+}
+
 impl<const N: usize> AirFn for DoubleKaratsuba<N>
 where
     [(); 4 * N]:,
@@ -32,7 +43,7 @@ where
         let y0 = from_fn(|i| y[i].clone());
         let y1 = from_fn(|i| y[i + 2 * N].clone());
 
-        let single_karatsuba = SingleKaratsuba::<N> {};
+        let single_karatsuba = SingleKaratsuba::<N>::new();
 
         // Compute the convolutions z0 = x0 * y0 and z2 = x1 * y1
         let z0 = air_builder.call(&single_karatsuba, [x0.clone(), y0.clone()]);
@@ -64,8 +75,17 @@ where
 /// Given two arrays of FeltExprs of length 2*N, this function computes their convolution
 /// by applying the Karatsuba algorithm once, meaning that the inner convolutions of length N
 /// are computed using simple_convolution.
-#[derive(Clone, Debug, InstDef)]
-pub struct SingleKaratsuba<const N: usize> {}
+#[derive(Clone, Debug, Serialize)]
+pub struct SingleKaratsuba<const N: usize> {
+    n: usize,
+}
+
+impl<const N: usize> SingleKaratsuba<N> {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        Self { n: N }
+    }
+}
 
 impl<const N: usize> AirFn for SingleKaratsuba<N>
 where

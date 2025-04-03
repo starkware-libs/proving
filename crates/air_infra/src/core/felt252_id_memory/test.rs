@@ -165,7 +165,7 @@ fn test_verify_all() {
         (const_expr!(12343), const_felt252_expr!(78945, 0)),
     ];
     let memory = Felt252IdMemory::new_with_data(mem_data.clone());
-    let verify_all = MemVerifyAll::<6> { memory };
+    let verify_all = MemVerifyAll::<6>::new(memory);
     let (registry, _) = AirFnRegistry::new(&verify_all);
     let (state, _) = registry.run_air(
         &verify_all,
@@ -196,7 +196,7 @@ fn test_failed_verify_all() {
         (const_expr!(12343), const_felt252_expr!(78945, 0)),
     ];
     let memory = Felt252IdMemory::new_with_data(mem_data.clone());
-    let verify_all = MemVerifyAll::<6> { memory };
+    let verify_all = MemVerifyAll::<6>::new(memory);
     let (registry, _) = AirFnRegistry::new(&verify_all);
     registry.run_air(
         &verify_all,

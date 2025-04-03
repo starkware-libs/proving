@@ -2,7 +2,9 @@
   "name": "jump_opcode",
   "relation_name": "Opcodes",
   "description": "Jump Opcode",
+  "instance_definition": "{}",
   "type": "Opcode",
+  "padding_type": "Enabler",
   "prover_input": [
     "jump_opcode_input",
     "CasmState",
@@ -163,7 +165,6 @@
     "next_pc_limb_1_col10",
     "next_pc_limb_2_col11"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "VerifyInstruction": 1,
     "MemoryAddressToId": 1,
@@ -171,7 +172,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_c20090ead04cf422": [
+    "decode_instruction_43e1c26dca5a217": [
       "VerifyInstruction"
     ],
     "read_positive_num_bits_27": [
@@ -369,7 +370,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6_limb_2",
+        "name": "decode_instruction_43e1c26dca5a217_output_tmp_39ce3_6_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -471,7 +472,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6_limb_2"
+                  "decode_instruction_43e1c26dca5a217_output_tmp_39ce3_6_limb_2"
                 ]
               }
             ]
@@ -1526,7 +1527,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6",
+        "name": "decode_instruction_43e1c26dca5a217_output_tmp_39ce3_6",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -1705,7 +1706,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6.0[2]"
+                      "decode_instruction_43e1c26dca5a217_output_tmp_39ce3_6.0[2]"
                     ]
                   }
                 ]
@@ -1754,7 +1755,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6.0[2]"
+                "decode_instruction_43e1c26dca5a217_output_tmp_39ce3_6.0[2]"
               ]
             }
           ]
@@ -1774,7 +1775,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6.0[2]"
+                  "decode_instruction_43e1c26dca5a217_output_tmp_39ce3_6.0[2]"
                 ]
               }
             ]

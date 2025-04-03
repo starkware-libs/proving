@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
 
 use super::generic_opcode::*;
@@ -16,9 +16,9 @@ use crate::core::felt252_id_memory::memory::*;
 
 // Reads and verifies op0, op1 and dst from the memory.
 // Calculates res and adds the relevant constraints.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct EvalOperands {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

@@ -2,7 +2,9 @@
   "name": "poseidon_partial_round",
   "relation_name": null,
   "description": "Poseidon Partial Round",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "poseidon_partial_round_input",
     "([Felt252Width27; 4], Felt252Width27)",
@@ -265,7 +267,6 @@
     "combination_limb_9_col30",
     "p_coef_col31"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "Cube252": 1,
     "RangeCheck_4_4_4_4": 2,

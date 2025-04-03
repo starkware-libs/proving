@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -14,13 +14,13 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct DecodeInstruction {
     pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
     pub const_opcode_extension: Option<OpcodeExtension>,
     pub flag_sets_of_sum_1: BTreeSet<BTreeSet<usize>>,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

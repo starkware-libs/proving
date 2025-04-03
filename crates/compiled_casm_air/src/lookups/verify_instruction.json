@@ -2,7 +2,9 @@
   "name": "verify_instruction",
   "relation_name": "VerifyInstruction",
   "description": "Verify Instruction",
+  "instance_definition": "{}",
   "type": "Component",
+  "padding_type": "Multiplicity",
   "prover_input": [
     "verify_instruction_input",
     "(M31, [M31; 3], [M31; 2], M31)",
@@ -43,7 +45,6 @@
     "offset2_high_col14",
     "instruction_id_col15"
   ],
-  "padding_type": "Multiplicity",
   "lookup_names": {
     "RangeCheck_7_2_5": 1,
     "RangeCheck_4_3": 1,

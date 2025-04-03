@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
@@ -7,9 +7,9 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 
-#[derive(Debug, Clone, Default, InstDef)]
+#[derive(Debug, Clone, Default, Serialize)]
 pub struct MemoryAddressToId {
-    #[instdef(skip)]
+    #[serde(skip)]
     memory: Memory<CasmAddress, FeltExpr>,
 }
 

@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::read_blake_word::*;
 use crate::airs::casm::casm_state::*;
@@ -20,9 +20,9 @@ pub type BlakePointers = [CasmAddress; 3];
 // [ap_update_add_1, is_last_block]
 pub type BlakeFlags = [BoolExpr; 2];
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct DecodeBlakeOpcode {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

@@ -2,7 +2,9 @@
   "name": "mul_252",
   "relation_name": null,
   "description": "Mul 252",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "mul_252_input",
     "[Felt252; 2]",
@@ -171,7 +173,6 @@
     "carry_25_col54",
     "carry_26_col55"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_9_9": 14,
     "RangeCheck_19": 28

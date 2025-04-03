@@ -2,7 +2,9 @@
   "name": "blake_g",
   "relation_name": "BlakeG",
   "description": "Blake G",
+  "instance_definition": "{}",
   "type": "Component",
+  "padding_type": "Enabler",
   "prover_input": [
     "blake_g_input",
     "[UInt32; 6]",
@@ -141,7 +143,6 @@
     "xor_col50",
     "xor_col51"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "VerifyBitwiseXor_8": 8,
     "VerifyBitwiseXor_12": 2,

@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::super::const_tables::range_check::*;
@@ -9,7 +9,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct EncodeOffsets {}
 
 // | - |   9   | 9 |   9   | 9 |   9   | 9 | Felts in the instruction

@@ -2,7 +2,9 @@
   "name": "create_blake_output",
   "relation_name": null,
   "description": "Create Blake Output",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "create_blake_output_input",
     "([UInt32; 8], [UInt32; 16])",
@@ -141,7 +143,6 @@
     "triple_xor_32_output_limb_0_col14",
     "triple_xor_32_output_limb_1_col15"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "TripleXor32": 8
   },

@@ -2,7 +2,9 @@
   "name": "wide_fib_num_narrow_8_narrow_size_20",
   "relation_name": null,
   "description": "Wide Fib Num Narrow 8 Narrow Size 20",
+  "instance_definition": "{\"num_narrow\":8,\"narrow_size\":20}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "wide_fib_num_narrow_8_narrow_size_20_input",
     "M31",
@@ -44,7 +46,6 @@
     "narrow_fib_num_steps_20_output_limb_0_col15",
     "narrow_fib_num_steps_20_output_limb_1_col16"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "NarrowFibNumSteps20": 8
   },
@@ -245,7 +246,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_0",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_0",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -273,7 +274,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_0[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_0[0]"
         ]
       }
     },
@@ -281,7 +282,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_0[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_0[1]"
         ]
       }
     },
@@ -325,7 +326,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_1",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_1",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -350,7 +351,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_1[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_1[0]"
         ]
       }
     },
@@ -358,7 +359,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_1[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_1[1]"
         ]
       }
     },
@@ -399,7 +400,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_2",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_2",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -424,7 +425,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_2[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_2[0]"
         ]
       }
     },
@@ -432,7 +433,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_2[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_2[1]"
         ]
       }
     },
@@ -473,7 +474,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_3",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_3",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -498,7 +499,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_3[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_3[0]"
         ]
       }
     },
@@ -506,7 +507,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_3[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_3[1]"
         ]
       }
     },
@@ -547,7 +548,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_4",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_4",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -572,7 +573,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_4[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_4[0]"
         ]
       }
     },
@@ -580,7 +581,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_4[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_4[1]"
         ]
       }
     },
@@ -621,7 +622,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_5",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_5",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -646,7 +647,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_5[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_5[0]"
         ]
       }
     },
@@ -654,7 +655,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_5[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_5[1]"
         ]
       }
     },
@@ -695,7 +696,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_6",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_6",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -720,7 +721,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_6[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_6[0]"
         ]
       }
     },
@@ -728,7 +729,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_6[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_6[1]"
         ]
       }
     },
@@ -769,7 +770,7 @@
     },
     {
       "Intermediate": {
-        "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_7",
+        "name": "narrow_fib_num_steps_20_output_tmp_bf63c_7",
         "type": "[M31; 2]",
         "var": {
           "StaticCall": [
@@ -794,7 +795,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_7[0]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_7[0]"
         ]
       }
     },
@@ -802,7 +803,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "narrow_fib_num_steps_20_output_tmp_d7cf2_7[1]"
+          "narrow_fib_num_steps_20_output_tmp_bf63c_7[1]"
         ]
       }
     },

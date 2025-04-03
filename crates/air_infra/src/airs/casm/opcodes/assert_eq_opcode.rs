@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -19,11 +19,13 @@ use crate::core::felt252_id_memory::verify_equal::*;
 /// - [ap/fp + offset0] = [[ap/fp + offset1] + offset2]
 /// - [ap/fp + offset0] = imm
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct AssertEqOpcode {
+    #[serde(skip_serializing_if = "crate::utils::is_false")]
     pub double_deref: bool,
+    #[serde(skip_serializing_if = "crate::utils::is_false")]
     pub imm: bool,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

@@ -4,10 +4,10 @@ pub const N_TRACE_COLUMNS: usize = 45;
 
 pub struct Eval {
     pub claim: Claim,
+    pub verify_instruction_lookup_elements: relations::VerifyInstruction,
     pub memory_address_to_id_lookup_elements: relations::MemoryAddressToId,
     pub memory_id_to_big_lookup_elements: relations::MemoryIdToBig,
     pub opcodes_lookup_elements: relations::Opcodes,
-    pub verify_instruction_lookup_elements: relations::VerifyInstruction,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -136,7 +136,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        let decode_instruction_82fc79ef08936af9_output_tmp_65b05_5_limb_0 =
+        let decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5_limb_0 =
             eval.add_intermediate((offset0_col3.clone() - M31_32768.clone()));
 
         // mem_dst_base.
@@ -153,7 +153,7 @@ impl FrameworkEval for Eval {
             E::EF::one(),
             &[
                 (mem_dst_base_col6.clone()
-                    + decode_instruction_82fc79ef08936af9_output_tmp_65b05_5_limb_0.clone()),
+                    + decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5_limb_0.clone()),
                 dst_id_col7.clone(),
             ],
         ));
@@ -227,17 +227,17 @@ impl FrameworkEval for Eval {
                 * res_col36.clone())
                 - M31_1.clone()),
         );
-        let diff_from_p_tmp_65b05_9 =
+        let diff_from_p_tmp_f51a9_9 =
             eval.add_intermediate((dst_limb_0_col8.clone() - M31_1.clone()));
-        let diff_from_p_tmp_65b05_10 =
+        let diff_from_p_tmp_f51a9_10 =
             eval.add_intermediate((dst_limb_21_col29.clone() - M31_136.clone()));
-        let diff_from_p_tmp_65b05_11 =
+        let diff_from_p_tmp_f51a9_11 =
             eval.add_intermediate((dst_limb_27_col35.clone() - M31_256.clone()));
         // dst doesn't equal P.
         eval.add_constraint(
-            ((((((((((((((((((((((((((((((diff_from_p_tmp_65b05_9
+            ((((((((((((((((((((((((((((((diff_from_p_tmp_f51a9_9
                 .clone()
-                * diff_from_p_tmp_65b05_9.clone())
+                * diff_from_p_tmp_f51a9_9.clone())
                 + dst_limb_1_col9.clone())
                 + dst_limb_2_col10.clone())
                 + dst_limb_3_col11.clone())
@@ -258,13 +258,13 @@ impl FrameworkEval for Eval {
                 + dst_limb_18_col26.clone())
                 + dst_limb_19_col27.clone())
                 + dst_limb_20_col28.clone())
-                + (diff_from_p_tmp_65b05_10.clone() * diff_from_p_tmp_65b05_10.clone()))
+                + (diff_from_p_tmp_f51a9_10.clone() * diff_from_p_tmp_f51a9_10.clone()))
                 + dst_limb_22_col30.clone())
                 + dst_limb_23_col31.clone())
                 + dst_limb_24_col32.clone())
                 + dst_limb_25_col33.clone())
                 + dst_limb_26_col34.clone())
-                + (diff_from_p_tmp_65b05_11.clone() * diff_from_p_tmp_65b05_11.clone()))
+                + (diff_from_p_tmp_f51a9_11.clone() * diff_from_p_tmp_f51a9_11.clone()))
                 * res_squares_col37.clone())
                 - M31_1.clone()),
         );
@@ -327,7 +327,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        let read_small_output_tmp_65b05_17_limb_0 = eval.add_intermediate(
+        let read_small_output_tmp_f51a9_17_limb_0 = eval.add_intermediate(
             ((((next_pc_limb_0_col41.clone() + (next_pc_limb_1_col42.clone() * M31_512.clone()))
                 + (next_pc_limb_2_col43.clone() * M31_262144.clone()))
                 - msb_col39.clone())
@@ -348,7 +348,7 @@ impl FrameworkEval for Eval {
             &self.opcodes_lookup_elements,
             -E::EF::from(enabler.clone()),
             &[
-                (input_pc_col0.clone() + read_small_output_tmp_65b05_17_limb_0.clone()),
+                (input_pc_col0.clone() + read_small_output_tmp_f51a9_17_limb_0.clone()),
                 (input_ap_col1.clone() + ap_update_add_1_col5.clone()),
                 input_fp_col2.clone(),
             ],
@@ -374,10 +374,10 @@ mod tests {
     fn jnz_opcode_taken_constraints_regression() {
         let eval = Eval {
             claim: Claim { log_size: 4 },
+            verify_instruction_lookup_elements: relations::VerifyInstruction::dummy(),
             memory_address_to_id_lookup_elements: relations::MemoryAddressToId::dummy(),
             memory_id_to_big_lookup_elements: relations::MemoryIdToBig::dummy(),
             opcodes_lookup_elements: relations::Opcodes::dummy(),
-            verify_instruction_lookup_elements: relations::VerifyInstruction::dummy(),
         };
 
         let expr_eval = eval.evaluate(ExprEvaluator::new());

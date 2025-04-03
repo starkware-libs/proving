@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::triple_sum32::*;
 use super::xor_rot32::*;
@@ -12,7 +12,7 @@ const NUM_OUTPUT_WORDS_G: usize = 4;
 // Macros
 use crate::const_u32_expr;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct BlakeG {}
 
 impl AirFn for BlakeG {

@@ -2,7 +2,9 @@
   "name": "mem_cond_verify_equal_known_id",
   "relation_name": null,
   "description": "Mem Cond Verify Equal Known Id",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "mem_cond_verify_equal_known_id_input",
     "(M31, M31, M31)",
@@ -28,7 +30,6 @@
   "state_names": [
     "id_col0"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 1
   },

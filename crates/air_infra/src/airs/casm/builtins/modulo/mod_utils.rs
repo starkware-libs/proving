@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::casm_state::*;
@@ -28,9 +28,9 @@ pub const TOTAL_SUBWORDS: usize = MOD_BUILTIN_N_WORDS * N_SUBWORDS_IN_WORD;
 // Number of inputs for each instance, i.e. p0,...,p3, values_ptr, offsets_ptr, n.
 pub const N_VAR_INPUTS: usize = 7;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct ModUtils {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

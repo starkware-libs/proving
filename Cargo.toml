@@ -9,7 +9,6 @@ members = [
     "crates/code_gen_regression/cairo_air",
     "crates/compiled_casm_air",
     "crates/code_gen_regression/witness",
-    "crates/derive_macros/inst_def",
 ]
 
 [workspace.package]
@@ -21,7 +20,7 @@ genco = "0.17.8"
 itertools = "0.12.1"
 num-traits = "0.2.18"
 serde = "1.0.196"
-serde_json = "1.0.113"
+serde_json = { version = "1.0.113", features = ["preserve_order"] }
 starknet-ff = "0.3.7"
 xshell = "0.2.5"
 indexmap = "2.2.6"

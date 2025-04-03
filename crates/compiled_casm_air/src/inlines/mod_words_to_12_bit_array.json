@@ -2,7 +2,9 @@
   "name": "mod_words_to_12_bit_array",
   "relation_name": null,
   "description": "Mod Words To 12 Bit Array",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "mod_words_to_12_bit_array_input",
     "[Felt252; 2]",
@@ -1031,7 +1033,6 @@
     "limb6b_1_col8",
     "limb9b_1_col9"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_3_6_6_3": 5
   },

@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::bitwise_xor::*;
@@ -24,9 +24,9 @@ pub const CELLS_PER_BITWISE: u32 = 5;
 // where addr = first_addr + 5 * i for 0 <= i < base.size,
 // where {&, |, ^} are bitwise {and, or, xor} respectively on 251-bit integers (the field elements
 // are guaranteed to be representable as 251-bit integers).
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct BitwiseBuiltin {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

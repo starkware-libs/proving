@@ -2,7 +2,9 @@
   "name": "range_check_mem_value_n_28",
   "relation_name": null,
   "description": "Range Check Mem Value N 28",
+  "instance_definition": "{\"n\":28}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "range_check_mem_value_n_28_input",
     "[M31; 28]",
@@ -26,7 +28,6 @@
     "()"
   ],
   "state_names": [],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_9_9": 14
   },

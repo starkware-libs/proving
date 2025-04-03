@@ -4,10 +4,10 @@ pub const N_TRACE_COLUMNS: usize = 16;
 
 pub struct Eval {
     pub claim: Claim,
+    pub range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5,
+    pub range_check_4_3_lookup_elements: relations::RangeCheck_4_3,
     pub memory_address_to_id_lookup_elements: relations::MemoryAddressToId,
     pub memory_id_to_big_lookup_elements: relations::MemoryIdToBig,
-    pub range_check_4_3_lookup_elements: relations::RangeCheck_4_3,
-    pub range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5,
     pub verify_instruction_lookup_elements: relations::VerifyInstruction,
 }
 
@@ -176,10 +176,10 @@ mod tests {
     fn verify_instruction_constraints_regression() {
         let eval = Eval {
             claim: Claim { log_size: 4 },
+            range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5::dummy(),
+            range_check_4_3_lookup_elements: relations::RangeCheck_4_3::dummy(),
             memory_address_to_id_lookup_elements: relations::MemoryAddressToId::dummy(),
             memory_id_to_big_lookup_elements: relations::MemoryIdToBig::dummy(),
-            range_check_4_3_lookup_elements: relations::RangeCheck_4_3::dummy(),
-            range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5::dummy(),
             verify_instruction_lookup_elements: relations::VerifyInstruction::dummy(),
         };
 

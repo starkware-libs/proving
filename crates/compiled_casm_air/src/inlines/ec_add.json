@@ -2,7 +2,9 @@
   "name": "ec_add",
   "relation_name": null,
   "description": "Ec Add",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "ec_add_input",
     "[Felt252; 4]",
@@ -551,7 +553,6 @@
     "sub_res_limb_27_col340",
     "sub_p_bit_col341"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_9_9": 126,
     "RangeCheck_19": 84

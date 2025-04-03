@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
@@ -19,7 +19,7 @@ use crate::core::variables::*;
 /// The function assumes all inputs have range-checked limbs.
 /// None of the inputs are constrained to be fully reduced,
 /// but (a * b - c)/P must be in [0, 2**252).
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct VerifyMul252 {}
 
 impl AirFn for VerifyMul252 {
@@ -39,9 +39,7 @@ impl AirFn for VerifyMul252 {
         // convolution of a and b, minus the i-th coefficient of c (where i < FELT252_N_WORDS).
 
         // Compute the convolution a * b using Karatsuba.
-        let karatsuba = DoubleKaratsuba::<{ FELT252_N_WORDS / 4 }> {
-            limb_max_bound: MAX_WORD,
-        };
+        let karatsuba = DoubleKaratsuba::<{ FELT252_N_WORDS / 4 }>::new(MAX_WORD);
         let error_message = &format!("felt252 should have {} limbs", FELT252_N_WORDS);
         let mut conv_tmps = air_builder.call(
             &karatsuba,

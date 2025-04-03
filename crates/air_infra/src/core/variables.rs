@@ -5,7 +5,6 @@ use std::fmt::Debug;
 use compiled_casm_air::compiled_structs::{CompiledAirVar, TraceType};
 use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
-use inst_def::InstDef;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
 
@@ -269,12 +268,12 @@ pub trait ExtTable: Default + Debug + Clone {
     }
 }
 
-#[derive(Clone, Debug, Default, InstDef)]
+#[derive(Clone, Debug, Default, Serialize)]
 pub struct ExtTableAirFn<E>
 where
     E: ExtTable,
 {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub(super) ext_table: E,
 }
 

@@ -2,7 +2,9 @@
   "name": "mul_mod_builtin",
   "relation_name": null,
   "description": "Mul Mod Builtin",
+  "instance_definition": "{}",
   "type": "Builtin",
+  "padding_type": "None",
   "prover_input": [
     "mul_mod_builtin_input",
     "()",
@@ -437,7 +439,6 @@
     "carry_60_col408",
     "carry_61_col409"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 29,
     "MemoryIdToBig": 24,

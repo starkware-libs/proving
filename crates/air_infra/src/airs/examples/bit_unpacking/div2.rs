@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 // Macros
 use crate::const_expr;
@@ -12,7 +12,7 @@ use crate::core::expressions::uint16_expr::*;
 
 /// Divides a 16-bit unsigned integer by 2. Returns the quotient and the remainder.
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Div2 {}
 
 impl AirFn for Div2 {

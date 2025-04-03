@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 #[cfg(test)]
 use super::utils::*;
@@ -88,7 +88,7 @@ impl ExtTable for PedersenPoints {
     }
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct PedersenPointsTable {}
 
 impl AirFn for PedersenPointsTable {

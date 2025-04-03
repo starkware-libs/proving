@@ -2,7 +2,9 @@
   "name": "verify_bitwise_xor_9",
   "relation_name": "VerifyBitwiseXor_9",
   "description": "Verify Bitwise Xor 9",
+  "instance_definition": "{}",
   "type": "Component",
+  "padding_type": "Multiplicity",
   "prover_input": [
     "verify_bitwise_xor_9_input",
     "[M31; 3]",
@@ -26,7 +28,6 @@
     "()"
   ],
   "state_names": [],
-  "padding_type": "Multiplicity",
   "lookup_names": {
     "VerifyBitwiseXor_9": 1
   },

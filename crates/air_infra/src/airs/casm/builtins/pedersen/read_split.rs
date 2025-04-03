@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::casm_state::*;
@@ -12,9 +12,9 @@ use crate::core::felt252_id_memory::verify::*;
 use crate::core::variables::*;
 use crate::{const_expr, const_u16_expr};
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct ReadSplit {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

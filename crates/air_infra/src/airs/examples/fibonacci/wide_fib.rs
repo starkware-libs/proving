@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::narrow_fib::*;
 // Macros
@@ -6,7 +6,7 @@ use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct WideFib {
     pub num_narrow: usize,
     pub narrow_size: usize,

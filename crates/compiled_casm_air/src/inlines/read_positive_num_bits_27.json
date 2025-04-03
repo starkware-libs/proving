@@ -2,7 +2,9 @@
   "name": "read_positive_num_bits_27",
   "relation_name": null,
   "description": "Read Positive Num Bits 27",
+  "instance_definition": "{\"num_bits\":27}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "read_positive_num_bits_27_input",
     "M31",
@@ -368,7 +370,6 @@
     "value_limb_1_col2",
     "value_limb_2_col3"
   ],
-  "padding_type": "None",
   "lookup_names": {
     "MemoryAddressToId": 1,
     "MemoryIdToBig": 1
@@ -568,7 +569,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_6fb3b_0",
+        "name": "memory_address_to_id_value_tmp_9f9a2_0",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -587,7 +588,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_6fb3b_1",
+        "name": "memory_id_to_big_value_tmp_9f9a2_1",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -596,7 +597,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_6fb3b_0"
+                  "memory_address_to_id_value_tmp_9f9a2_0"
                 ]
               }
             ]
@@ -608,7 +609,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_6fb3b_0"
+          "memory_address_to_id_value_tmp_9f9a2_0"
         ]
       }
     },
@@ -646,7 +647,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_6fb3b_1"
+              "memory_id_to_big_value_tmp_9f9a2_1"
             ]
           },
           "get_m31",
@@ -667,7 +668,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_6fb3b_1"
+              "memory_id_to_big_value_tmp_9f9a2_1"
             ]
           },
           "get_m31",
@@ -688,7 +689,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_6fb3b_1"
+              "memory_id_to_big_value_tmp_9f9a2_1"
             ]
           },
           "get_m31",

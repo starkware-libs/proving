@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::seq::*;
 use crate::core::air_fn::*;
@@ -63,9 +63,9 @@ new_range_check!([4, 4], RangeCheck_4_4_Const);
 new_range_check!([3, 3, 3, 3, 3], RangeCheck_3_3_3_3_3_Const);
 new_range_check!([2, 2, 2, 2, 2], RangeCheck_2_2_2_2_2_Const);
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct RangeCheck<R: RangeCheckSize> {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub _phantom: PhantomData<R>,
 }
 

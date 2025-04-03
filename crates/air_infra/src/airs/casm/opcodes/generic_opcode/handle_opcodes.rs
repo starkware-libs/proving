@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
@@ -12,11 +12,11 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 // Add the relevant constraints for valid call, assert equal and ret opcodes.
 // Note that jump and jnz are handled in the UpdateRegisters air function.
 pub struct HandleOpcodes {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

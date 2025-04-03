@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::opcodes::blake::split16::*;
@@ -10,7 +10,7 @@ use crate::core::expressions::uint32_expr::*;
 
 const BLAKE_NUM_BITS_PER_FELT: usize = 16;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct XorRot32 {
     pub r: usize,
 }

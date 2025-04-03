@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 // Macros
 use crate::const_expr;
@@ -9,7 +9,7 @@ use crate::core::expressions::uint32_expr::*;
 /// Receives a, b and c each as UInt32 which is a pair of felts - low and high.
 /// Returns their sum mod 2^32.
 /// The caller is responsible to range check the output.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct TripleSum32 {}
 
 impl AirFn for TripleSum32 {

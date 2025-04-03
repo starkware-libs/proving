@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::div2::*;
 use crate::core::air_fn::*;
@@ -9,8 +9,17 @@ use crate::core::expressions::uint16_expr::*;
 
 /// Unpacks a 16-bit unsigned integer into a vector of bits.
 
-#[derive(Clone, Debug, InstDef)]
-pub struct BitUnpack<const N: usize> {}
+#[derive(Clone, Debug, Serialize)]
+pub struct BitUnpack<const N: usize> {
+    n: usize,
+}
+
+impl<const N: usize> BitUnpack<N> {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        Self { n: N }
+    }
+}
 
 impl<const N: usize> AirFn for BitUnpack<N> {
     type ExtIn = ();

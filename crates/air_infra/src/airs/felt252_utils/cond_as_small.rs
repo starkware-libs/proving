@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
 
 use crate::airs::casm::casm_state::*;
@@ -14,7 +14,7 @@ use crate::core::variables::*;
 // Receives a felt252 that has been written to the trace and adds constraints to verify that
 // it is a valid address, i.e., between 0 and 2^27, if the given condition holds.
 // Return the felt252 as an address.
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct CondFelt252AsAddr {}
 
 impl AirFn for CondFelt252AsAddr {
@@ -36,7 +36,7 @@ impl AirFn for CondFelt252AsAddr {
 // Receives a felt252 that has been written to the trace and adds constraints to verify that
 // it is a valid relative immediate, i.e., between [-2^27, 2^27 - 1], if the given condition holds.
 // Returns the felt252 as a relative immediate.
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct CondFelt252AsRelImm {}
 
 impl AirFn for CondFelt252AsRelImm {

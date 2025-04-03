@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::fib_step::*;
 // Macros
@@ -9,7 +9,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
 /// Returns the Fibonacci number at the given index.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Fib {
     pub claim_index: usize,
 }

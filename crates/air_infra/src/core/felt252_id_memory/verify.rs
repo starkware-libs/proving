@@ -1,13 +1,13 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::memory::*;
 use crate::airs::casm::casm_state::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct MemVerify {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -33,10 +33,17 @@ impl AirFn for MemVerify {
 }
 
 /// Receives an array of addresses and a value. Verifies that all the addresses contain this value.
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct MemVerifyAll<const N: usize> {
-    #[instdef(skip)]
-    pub memory: Felt252IdMemory,
+    n: usize,
+    #[serde(skip)]
+    memory: Felt252IdMemory,
+}
+
+impl<const N: usize> MemVerifyAll<N> {
+    pub fn new(memory: Felt252IdMemory) -> Self {
+        Self { n: N, memory }
+    }
 }
 
 impl<const N: usize> AirFn for MemVerifyAll<N> {

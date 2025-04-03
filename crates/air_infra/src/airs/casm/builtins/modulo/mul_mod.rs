@@ -2,7 +2,7 @@ use core::array::from_fn;
 
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::mod_utils::*;
 use crate::airs::casm::casm_state::*;
@@ -39,9 +39,9 @@ pub const MUL_MOD_KARATSUBA_N: usize = {
     MUL_MOD_NUM_LIMBS / 4
 };
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct MulModBuiltin {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -100,9 +100,7 @@ impl AirFn for MulModBuiltin {
         let mut limb_accumulator = BoundedFeltExpr::default();
 
         // Compute the convolutions a * b and k * p using Karatsuba.
-        let karatsuba = DoubleKaratsuba::<{ MUL_MOD_NUM_LIMBS / 4 }> {
-            limb_max_bound: MUL_MOD_MAX_LIMB,
-        };
+        let karatsuba = DoubleKaratsuba::<{ MUL_MOD_NUM_LIMBS / 4 }>::new(MUL_MOD_MAX_LIMB);
 
         let a_mul_b_array = ab.call(&karatsuba, [a_12bits, b_12bits]);
         let k_mul_p_array = ab.call(
@@ -159,7 +157,7 @@ impl AirFn for MulModBuiltin {
     }
 }
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct ModWordsTo12BitArray {}
 
 impl AirFn for ModWordsTo12BitArray {

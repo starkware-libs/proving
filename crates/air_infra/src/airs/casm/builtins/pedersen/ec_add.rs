@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use crate::airs::felt252_utils::add252::*;
 use crate::airs::felt252_utils::div252::*;
@@ -7,7 +7,7 @@ use crate::airs::felt252_utils::sub252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct ECAdd {}
 
 // Elliptic curve point addition.

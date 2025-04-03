@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::memory::*;
@@ -13,10 +13,10 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::variables::*;
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct ReadPositive {
     pub num_bits: usize,
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -88,7 +88,7 @@ impl AirFn for ReadPositive {
     }
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct RangeCheckLastLimb {
     pub bits_in_ms_limb: usize,
 }

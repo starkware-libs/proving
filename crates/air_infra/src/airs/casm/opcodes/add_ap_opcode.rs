@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -16,9 +16,9 @@ use crate::core::felt252_id_memory::memory::*;
 /// Implements the Cairo0 instructions:
 /// - ap += imm
 /// - ap += [fp/ap + offset]
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct AddApOpcode {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

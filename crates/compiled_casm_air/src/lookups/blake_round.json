@@ -2,7 +2,9 @@
   "name": "blake_round",
   "relation_name": "BlakeRound",
   "description": "Blake Round",
+  "instance_definition": "{}",
   "type": "ChainRound",
+  "padding_type": "Enabler",
   "prover_input": [
     "blake_round_input",
     "(M31, M31, ([UInt32; 16], M31))",
@@ -480,7 +482,6 @@
     "blake_g_output_limb_6_col209",
     "blake_g_output_limb_7_col210"
   ],
-  "padding_type": "Enabler",
   "lookup_names": {
     "BlakeRoundSigma": 1,
     "RangeCheck_7_2_5": 16,

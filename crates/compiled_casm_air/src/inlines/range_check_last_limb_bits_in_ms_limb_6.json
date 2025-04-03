@@ -2,7 +2,9 @@
   "name": "range_check_last_limb_bits_in_ms_limb_6",
   "relation_name": null,
   "description": "Range Check Last Limb Bits In Ms Limb 6",
+  "instance_definition": "{\"bits_in_ms_limb\":6}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "range_check_last_limb_bits_in_ms_limb_6_input",
     "M31",
@@ -26,7 +28,6 @@
     "()"
   ],
   "state_names": [],
-  "padding_type": "None",
   "lookup_names": {
     "RangeCheck_6": 1
   },

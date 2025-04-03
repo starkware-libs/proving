@@ -2,7 +2,9 @@
   "name": "fib_step",
   "relation_name": null,
   "description": "Fib Step",
+  "instance_definition": "{}",
   "type": "Inline",
+  "padding_type": "None",
   "prover_input": [
     "fib_step_input",
     "[M31; 2]",
@@ -28,7 +30,6 @@
   "state_names": [
     "col0"
   ],
-  "padding_type": "None",
   "lookup_names": {},
   "inline_calls": {},
   "public_params": [],

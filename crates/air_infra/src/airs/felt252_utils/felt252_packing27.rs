@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{
     FELT252WIDTH27_N_WORDS, FELT252_BITS_PER_WORD, FELT252_N_WORDS,
 };
@@ -16,8 +16,9 @@ use crate::core::variables::*;
 
 /// Unpacks a Felt252Width27Expr into a Felt252Expr.
 /// If the range_check_output flag is set, also range checks the unpacked limbs.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Felt252UnpackFrom27 {
+    #[serde(skip_serializing_if = "crate::utils::is_false")]
     pub range_check_output: bool,
 }
 
@@ -60,7 +61,7 @@ impl AirFn for Felt252UnpackFrom27 {
             // duplicated between the rangecheck lookups and the return value.
             unpacked = air_builder.let_(unpacked, "unpacked");
             air_builder.call(
-                &RangeCheckMemValue::<FELT252_N_WORDS> {},
+                &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
                 unpacked
                     .as_felts()
                     .try_into()
@@ -97,7 +98,7 @@ pub fn felt252_pack_into27(unpacked: Felt252Expr) -> Felt252Width27Expr {
 }
 
 /// Rangechecks a Felt252Width27Expr by partial unpacking.
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct RangeCheckFelt252Width27 {}
 
 impl AirFn for RangeCheckFelt252Width27 {

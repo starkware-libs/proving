@@ -2,7 +2,7 @@ use std::array::from_fn;
 
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
-use inst_def::InstDef;
+use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::mod_utils::*;
@@ -35,9 +35,9 @@ pub const TOTAL_SUBWORDS_PADDED: usize = SUBWORD_BUNDLE_SIZE * TOTAL_SUBWORD_BUN
 //  bundle_idx ->   ...  3   3   3   2   2   2   1   1   1   0   0   0
 // bundle_bits ->    ...     24          27          27          27
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 pub struct AddModBuiltin {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

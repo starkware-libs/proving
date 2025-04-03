@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::cube252::*;
 use super::linear_combination::*;
@@ -14,7 +14,7 @@ use crate::core::variables::*;
 /// The inputs are all passed into Cube252, and therefore are range checked by this air.
 /// The outputs are LinearCombination outputs, and thus are not range checked by this air, and must
 /// be range checked elsewhere (typicially in the next full round, or directly otherwise).
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, Serialize)]
 pub struct PoseidonFullRoundChain {}
 
 impl AirFn for PoseidonFullRoundChain {
@@ -36,23 +36,14 @@ impl AirFn for PoseidonFullRoundChain {
         let [key_x, key_y, key_z] =
             air_builder.lookup_call(&PoseidonRoundKeys {}, [round.clone()], ());
         let x_new = air_builder.call(
-            &LinearCombination {
-                coefs: [3, 1, 1, 1],
-            },
+            &LinearCombination::new([3, 1, 1, 1]),
             [x.clone(), y.clone(), z.clone(), key_x],
         );
         let y_new = air_builder.call(
-            &LinearCombination {
-                coefs: [1, -1, 1, 1],
-            },
+            &LinearCombination::new([1, -1, 1, 1]),
             [x.clone(), y.clone(), z.clone(), key_y],
         );
-        let z_new = air_builder.call(
-            &LinearCombination {
-                coefs: [1, 1, -2, 1],
-            },
-            [x, y, z, key_z],
-        );
+        let z_new = air_builder.call(&LinearCombination::new([1, 1, -2, 1]), [x, y, z, key_z]);
 
         let new_state = [x_new, y_new, z_new];
         (chain, round + const_expr!(1), new_state)

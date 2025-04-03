@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::create_blake_output::*;
 use super::decode_blake_opcode::*;
@@ -14,9 +14,9 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 
-#[derive(Clone, Debug, InstDef, Default)]
+#[derive(Clone, Debug, Serialize, Default)]
 pub struct BlakeCompressOpcode {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

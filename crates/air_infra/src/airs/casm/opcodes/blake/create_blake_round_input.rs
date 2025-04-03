@@ -1,4 +1,4 @@
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::read_blake_word::*;
 use super::round::*;
@@ -30,9 +30,9 @@ pub const STATE14_LAST_BLOCK: [u32; 2] = [0x2654, 0xE07C];
 
 /// Creates a BlakeState from the BlakeCompress input, i.e, `h` (an array of 8 `u32` elements), `t`
 /// (the count of bytes that have been compressed), and `IsLastBlock`.
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 pub struct CreateBlakeRoundInput {
-    #[instdef(skip)]
+    #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 

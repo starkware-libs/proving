@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use inst_def::InstDef;
+use serde::Serialize;
 
 use super::air_fn::*;
 use super::air_fn_registry::*;
@@ -9,7 +9,7 @@ use super::expressions::uint32_expr::*;
 use super::variables::*;
 use crate::{const_expr, const_felt252_expr, const_u32_expr};
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 struct AirFnWithIncorrectConstraint {}
 
 impl AirFn for AirFnWithIncorrectConstraint {
@@ -37,7 +37,7 @@ fn test_incompleteness() {
     registry.run_air(&func, (), const_expr!(1234));
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 struct AirFnWithUInt32 {}
 
 impl AirFn for AirFnWithUInt32 {
@@ -70,7 +70,7 @@ fn test_uint32_deduce() {
     assert!(out.calc() == "9");
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, Serialize)]
 struct AirFnWithFelt252 {}
 
 impl AirFn for AirFnWithFelt252 {
@@ -101,7 +101,7 @@ fn test_felt252_deduce() {
 
 type TestState = FeltExpr;
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 struct TestChainRound {}
 impl AirFn for TestChainRound {
     type ExtIn = ();
@@ -136,7 +136,7 @@ impl ChainRoundAirFn<TestState> for TestChainRound {
     }
 }
 
-#[derive(Debug, InstDef, Default)]
+#[derive(Debug, Serialize, Default)]
 struct TestChainLookupCall {}
 impl AirFn for TestChainLookupCall {
     type ExtIn = ();
