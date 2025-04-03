@@ -68,6 +68,14 @@ mod tests {
         let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_6.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
+
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_12.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_18.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
     }
 
     #[test]
@@ -81,6 +89,13 @@ mod tests {
     fn rc128_builtin_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/builtins/range_check_builtin_bits_128.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn mul_mod_builtin_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/builtins/mul_mod_builtin.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
