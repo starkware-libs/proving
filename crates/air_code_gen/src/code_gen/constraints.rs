@@ -47,6 +47,7 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
 
             #[test]
             fn $(air_fn.name.clone())_constraints_regression() {
+                let mut rng = SmallRng::seed_from_u64(0);
                 let eval = Eval {
                     claim: Claim {
                         log_size: 4,
@@ -54,12 +55,12 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
                     },
                     $(get_dummy_lookup_elements(air_fn))
                 };
-
                 let expr_eval = eval.evaluate(ExprEvaluator::new());
-                let mut rng = SmallRng::seed_from_u64(0);
+                let assignment = expr_eval.random_assignment();
+
                 let mut sum = QM31::zero();
                 for c in expr_eval.constraints {
-                    sum += c.random_eval() * rng.gen::<QM31>();
+                    sum += c.assign(&assignment) * rng.gen::<QM31>();
                 }
 
                 assert_eq!(sum, $(air_fn.name.to_case(Case::UpperSnake)));
@@ -82,7 +83,7 @@ fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     for param in &air_fn.public_params {
         code.append(quote! {
-         $(param.name()): 0u32,
+         $(param.name()): rng.gen::<u32>(),
         });
     }
     code
