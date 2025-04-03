@@ -10,6 +10,7 @@ pub mod add_ap_opcode;
 pub mod jnz_opcode_taken;
 pub mod memory_address_to_id;
 pub mod memory_id_to_big;
+pub mod range_check_3_6_6_3;
 pub mod range_check_4_3;
 pub mod range_check_6;
 pub mod range_check_7_2_5;
