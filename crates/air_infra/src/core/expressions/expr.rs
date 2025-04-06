@@ -1,7 +1,6 @@
 #[cfg(test)]
 use std::fmt::Display;
 
-use compiled_casm_air::compiled_structs::CompiledAirVar;
 use enum_dispatch::enum_dispatch;
 use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
@@ -82,13 +81,6 @@ where
         match self {
             Expr::Var(v) => v.get_felt(index),
             Expr::Op(o) => o.get_felt(index).unwrap_or_else(|e| panic!("{}", e)),
-        }
-    }
-
-    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
-        match self {
-            Expr::Var(v) => v.compile(compile_for),
-            Expr::Op(o) => o.compile(compile_for),
         }
     }
 
@@ -267,20 +259,6 @@ impl ExprImpl {
             ExprImpl::Felt252Width27(f) => f.as_felts(),
             ExprImpl::BigUInt384(b) => b.as_felts(),
             ExprImpl::BigUInt768(b) => b.as_felts(),
-        }
-    }
-
-    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
-        match self {
-            ExprImpl::Felt(f) => f.compile(compile_for),
-            ExprImpl::UInt16(u) => u.compile(compile_for),
-            ExprImpl::Bool(b) => b.compile(compile_for),
-            ExprImpl::UInt32(u) => u.compile(compile_for),
-            ExprImpl::UInt64(u) => u.compile(compile_for),
-            ExprImpl::Felt252(f) => f.compile(compile_for),
-            ExprImpl::Felt252Width27(f) => f.compile(compile_for),
-            ExprImpl::BigUInt384(b) => b.compile(compile_for),
-            ExprImpl::BigUInt768(b) => b.compile(compile_for),
         }
     }
 }

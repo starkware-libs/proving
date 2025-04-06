@@ -120,6 +120,8 @@ pub trait InternalAirVarInfo {
         None
     }
 
+    fn compile(self, compile_for: CompileFor) -> CompiledAirVar;
+
     // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in
     // trace cells. Used to verify that expressions of constraints are polynomials of felts
     // written to the trace. We check this in run mode, since when building an air body, we want
@@ -425,35 +427,6 @@ impl AirVarImpl {
         }
     }
 
-    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
-        match self {
-            AirVarImpl::Expr(expr) => expr.compile(compile_for),
-            AirVarImpl::Tuple(v) => {
-                CompiledAirVar::Tuple(v.into_iter().map(|v| v.compile(compile_for)).collect())
-            }
-            AirVarImpl::Array(v) => {
-                CompiledAirVar::Array(v.into_iter().map(|v| v.compile(compile_for)).collect())
-            }
-            AirVarImpl::Struct {
-                name,
-                r#type,
-                fields,
-            } => {
-                if let Some(n) = name {
-                    CompiledAirVar::Var(r#type, n)
-                } else {
-                    CompiledAirVar::Struct {
-                        r#type,
-                        fields: fields
-                            .into_iter()
-                            .map(|(name, v)| (name, v.compile(compile_for)))
-                            .collect(),
-                    }
-                }
-            }
-        }
-    }
-
     // Returns the prover type with a "Packed" prefix.
     pub fn packed_prover_type(&self) -> String {
         match self {
@@ -546,6 +519,35 @@ impl InternalAirVarInfo for AirVarImpl {
                     })
                     .collect(),
             ),
+        }
+    }
+
+    fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        match self {
+            AirVarImpl::Expr(expr) => expr.compile(compile_for),
+            AirVarImpl::Tuple(v) => {
+                CompiledAirVar::Tuple(v.into_iter().map(|v| v.compile(compile_for)).collect())
+            }
+            AirVarImpl::Array(v) => {
+                CompiledAirVar::Array(v.into_iter().map(|v| v.compile(compile_for)).collect())
+            }
+            AirVarImpl::Struct {
+                name,
+                r#type,
+                fields,
+            } => {
+                if let Some(n) = name {
+                    CompiledAirVar::Var(r#type, n)
+                } else {
+                    CompiledAirVar::Struct {
+                        r#type,
+                        fields: fields
+                            .into_iter()
+                            .map(|(name, v)| (name, v.compile(compile_for)))
+                            .collect(),
+                    }
+                }
+            }
         }
     }
 }
