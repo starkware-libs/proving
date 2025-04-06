@@ -57,7 +57,8 @@ pub fn dump_component_code(
         fs::write(witness_folder_path.join(file_name), witness_code).unwrap();
     }
     let constraints_code = reformat_rust_code(constraints_code.to_string().unwrap());
-    fs::write(constraints_folder_path.join(file_name), constraints_code).unwrap();
+    let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
+    fs::write(constraints_folder_path.join(suffix), constraints_code).unwrap();
 }
 
 pub fn assert_generated_code_unchanged(
@@ -71,6 +72,7 @@ pub fn assert_generated_code_unchanged(
     let temp_witness_folder_path = temp_dir.join("witness");
     let temp_constraints_folder_path = temp_dir.join("constraints");
     fs::create_dir_all(&temp_constraints_folder_path).ok();
+    fs::create_dir_all(temp_constraints_folder_path.join("subroutines")).ok();
     fs::create_dir_all(&temp_witness_folder_path).ok();
     dump_component_code(
         &air_fn,
@@ -79,9 +81,10 @@ pub fn assert_generated_code_unchanged(
     );
 
     let rust_file_name = &format!("{}.rs", air_fn_name);
+    let suffix = &get_constraints_folder_path_suffix(&air_fn.r#type, rust_file_name);
     let mut files_to_compare = vec![(
-        constraints_folder_path.join(rust_file_name),
-        temp_constraints_folder_path.join(rust_file_name),
+        constraints_folder_path.join(suffix),
+        temp_constraints_folder_path.join(suffix),
     )];
     if air_fn.r#type != TraceType::Inline {
         files_to_compare.push((
@@ -103,6 +106,14 @@ pub fn assert_generated_code_unchanged(
             generated_code_path.display(),
             existing_code_path.display(),
         );
+    }
+}
+
+fn get_constraints_folder_path_suffix(r#type: &TraceType, file_name: &String) -> String {
+    if r#type == &TraceType::Inline {
+        format!("subroutines/{}", file_name)
+    } else {
+        file_name.clone()
     }
 }
 
@@ -136,7 +147,7 @@ pub fn replace_generics_with_turbofish(ty: &str) -> String {
 
 pub fn block_doc(msg: &str) -> rust::Tokens {
     quote! {
-        $['\n']$("//")$msg.$['\n']
+        $['\n']$("// ")$msg.$['\n']
     }
 }
 

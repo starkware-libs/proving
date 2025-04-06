@@ -14,7 +14,7 @@ mod tests {
     fn generate_component_code(air_fn: CompiledAirFn) {
         for inline_fn in air_fn.inline_calls.keys() {
             let serialized_inline_air_fn = read_json(&format!(
-                "../compiled_casm_air/src/inlines/{}.json",
+                "../compiled_casm_air/src/subroutines/{}.json",
                 inline_fn
             ));
             let inline_air_fn: CompiledAirFn = from_value(serialized_inline_air_fn).unwrap();

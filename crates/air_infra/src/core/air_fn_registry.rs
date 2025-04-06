@@ -51,16 +51,20 @@ impl AirFnEntry {
             .get_inline_calls()
             .into_iter()
             .map(|n| {
+                let ab = &called_fns
+                    .get(&n)
+                    .expect("Cannot find called air function")
+                    .air_body;
                 (
                     n.clone(),
-                    called_fns
-                        .get(&n)
-                        .expect("Cannot find called air function")
-                        .air_body
-                        .get_lookup_names()
-                        .keys()
-                        .cloned()
-                        .collect::<IndexSet<String>>(),
+                    (
+                        ab.get_lookup_names()
+                            .keys()
+                            .cloned()
+                            .collect::<IndexSet<String>>(),
+                        ab.get_public_params().clone(),
+                        ab.get_external_states().clone(),
+                    ),
                 )
             })
             .collect();

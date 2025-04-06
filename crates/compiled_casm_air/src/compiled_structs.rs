@@ -31,8 +31,17 @@ pub struct CompiledAirFn {
     // The names of the lookup relations used/yielded and the number of terms per relation.
     pub lookup_names: IndexMap<String, usize>,
 
-    // The names of the air functions that are inlined into this one, and their lookup names.
-    pub inline_calls: IndexMap<String, IndexSet<String>>,
+    // The names of the air functions that are inlined into this one, with their lookup names,
+    // public params, and external states.
+    #[allow(clippy::type_complexity)]
+    pub inline_calls: IndexMap<
+        String,
+        (
+            IndexSet<String>,
+            IndexSet<PublicParam>,
+            IndexSet<(String, Vec<String>)>,
+        ),
+    >,
 
     // The set of public parameters used in the air function.
     pub public_params: IndexSet<PublicParam>,
@@ -129,11 +138,6 @@ pub enum TraceGenStep {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum ConstraintEvalStep {
-    // Constains a description of the following code block.
-    StartBlock(String),
-
-    EndBlock,
-
     // The first argument is a polynomial in in-state values. The constraint requires it
     // to evaluate to zero.
     // The second argument is the description of the constraint.

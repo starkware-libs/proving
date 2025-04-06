@@ -125,15 +125,27 @@
   },
   "inline_calls": {
     "bitwise_xor_num_bits_9": [
-      "VerifyBitwiseXor_9"
+      [
+        "VerifyBitwiseXor_9"
+      ],
+      [],
+      []
     ],
     "mem_verify": [
-      "MemoryAddressToId",
-      "MemoryIdToBig"
+      [
+        "MemoryAddressToId",
+        "MemoryIdToBig"
+      ],
+      [],
+      []
     ],
     "read_positive_num_bits_252": [
-      "MemoryAddressToId",
-      "MemoryIdToBig"
+      [
+        "MemoryAddressToId",
+        "MemoryIdToBig"
+      ],
+      [],
+      []
     ]
   },
   "public_params": [
@@ -147,149 +159,13 @@
   ],
   "constraints": [
     {
-      "StartBlock": "Read Positive Num Bits 252"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "PublicParam": "bitwise_builtin_segment_start"
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "5"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "op0_id_col0"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "op0_id_col0"
-          },
-          {
-            "State": "op0_limb_0_col1"
-          },
-          {
-            "State": "op0_limb_1_col2"
-          },
-          {
-            "State": "op0_limb_2_col3"
-          },
-          {
-            "State": "op0_limb_3_col4"
-          },
-          {
-            "State": "op0_limb_4_col5"
-          },
-          {
-            "State": "op0_limb_5_col6"
-          },
-          {
-            "State": "op0_limb_6_col7"
-          },
-          {
-            "State": "op0_limb_7_col8"
-          },
-          {
-            "State": "op0_limb_8_col9"
-          },
-          {
-            "State": "op0_limb_9_col10"
-          },
-          {
-            "State": "op0_limb_10_col11"
-          },
-          {
-            "State": "op0_limb_11_col12"
-          },
-          {
-            "State": "op0_limb_12_col13"
-          },
-          {
-            "State": "op0_limb_13_col14"
-          },
-          {
-            "State": "op0_limb_14_col15"
-          },
-          {
-            "State": "op0_limb_15_col16"
-          },
-          {
-            "State": "op0_limb_16_col17"
-          },
-          {
-            "State": "op0_limb_17_col18"
-          },
-          {
-            "State": "op0_limb_18_col19"
-          },
-          {
-            "State": "op0_limb_19_col20"
-          },
-          {
-            "State": "op0_limb_20_col21"
-          },
-          {
-            "State": "op0_limb_21_col22"
-          },
-          {
-            "State": "op0_limb_22_col23"
-          },
-          {
-            "State": "op0_limb_23_col24"
-          },
-          {
-            "State": "op0_limb_24_col25"
-          },
-          {
-            "State": "op0_limb_25_col26"
-          },
-          {
-            "State": "op0_limb_26_col27"
-          },
-          {
-            "State": "op0_limb_27_col28"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Read Positive Num Bits 252"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
+      "Intermediate": {
+        "name": "[read_positive_num_bits_252_output_tmp_efb2a_2_limb_0, read_positive_num_bits_252_output_tmp_efb2a_2_limb_1, read_positive_num_bits_252_output_tmp_efb2a_2_limb_2, read_positive_num_bits_252_output_tmp_efb2a_2_limb_3, read_positive_num_bits_252_output_tmp_efb2a_2_limb_4, read_positive_num_bits_252_output_tmp_efb2a_2_limb_5, read_positive_num_bits_252_output_tmp_efb2a_2_limb_6, read_positive_num_bits_252_output_tmp_efb2a_2_limb_7, read_positive_num_bits_252_output_tmp_efb2a_2_limb_8, read_positive_num_bits_252_output_tmp_efb2a_2_limb_9, read_positive_num_bits_252_output_tmp_efb2a_2_limb_10, read_positive_num_bits_252_output_tmp_efb2a_2_limb_11, read_positive_num_bits_252_output_tmp_efb2a_2_limb_12, read_positive_num_bits_252_output_tmp_efb2a_2_limb_13, read_positive_num_bits_252_output_tmp_efb2a_2_limb_14, read_positive_num_bits_252_output_tmp_efb2a_2_limb_15, read_positive_num_bits_252_output_tmp_efb2a_2_limb_16, read_positive_num_bits_252_output_tmp_efb2a_2_limb_17, read_positive_num_bits_252_output_tmp_efb2a_2_limb_18, read_positive_num_bits_252_output_tmp_efb2a_2_limb_19, read_positive_num_bits_252_output_tmp_efb2a_2_limb_20, read_positive_num_bits_252_output_tmp_efb2a_2_limb_21, read_positive_num_bits_252_output_tmp_efb2a_2_limb_22, read_positive_num_bits_252_output_tmp_efb2a_2_limb_23, read_positive_num_bits_252_output_tmp_efb2a_2_limb_24, read_positive_num_bits_252_output_tmp_efb2a_2_limb_25, read_positive_num_bits_252_output_tmp_efb2a_2_limb_26, read_positive_num_bits_252_output_tmp_efb2a_2_limb_27, read_positive_num_bits_252_output_tmp_efb2a_2_limb_28]",
+        "type": "[M31; 29]",
+        "var": {
+          "StaticCall": [
+            "read_positive_num_bits_252::evaluate",
+            [
               {
                 "BinaryOp": [
                   {
@@ -315,139 +191,260 @@
                   }
                 ]
               },
-              "+",
               {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
+                "State": "op0_id_col0"
+              },
+              {
+                "State": "op0_limb_0_col1"
+              },
+              {
+                "State": "op0_limb_1_col2"
+              },
+              {
+                "State": "op0_limb_2_col3"
+              },
+              {
+                "State": "op0_limb_3_col4"
+              },
+              {
+                "State": "op0_limb_4_col5"
+              },
+              {
+                "State": "op0_limb_5_col6"
+              },
+              {
+                "State": "op0_limb_6_col7"
+              },
+              {
+                "State": "op0_limb_7_col8"
+              },
+              {
+                "State": "op0_limb_8_col9"
+              },
+              {
+                "State": "op0_limb_9_col10"
+              },
+              {
+                "State": "op0_limb_10_col11"
+              },
+              {
+                "State": "op0_limb_11_col12"
+              },
+              {
+                "State": "op0_limb_12_col13"
+              },
+              {
+                "State": "op0_limb_13_col14"
+              },
+              {
+                "State": "op0_limb_14_col15"
+              },
+              {
+                "State": "op0_limb_15_col16"
+              },
+              {
+                "State": "op0_limb_16_col17"
+              },
+              {
+                "State": "op0_limb_17_col18"
+              },
+              {
+                "State": "op0_limb_18_col19"
+              },
+              {
+                "State": "op0_limb_19_col20"
+              },
+              {
+                "State": "op0_limb_20_col21"
+              },
+              {
+                "State": "op0_limb_21_col22"
+              },
+              {
+                "State": "op0_limb_22_col23"
+              },
+              {
+                "State": "op0_limb_23_col24"
+              },
+              {
+                "State": "op0_limb_24_col25"
+              },
+              {
+                "State": "op0_limb_25_col26"
+              },
+              {
+                "State": "op0_limb_26_col27"
+              },
+              {
+                "State": "op0_limb_27_col28"
               }
             ]
-          },
-          {
-            "State": "op1_id_col29"
-          }
-        ],
-        "use_or_yield": "Use"
+          ]
+        }
       }
     },
     {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "op1_id_col29"
-          },
-          {
-            "State": "op1_limb_0_col30"
-          },
-          {
-            "State": "op1_limb_1_col31"
-          },
-          {
-            "State": "op1_limb_2_col32"
-          },
-          {
-            "State": "op1_limb_3_col33"
-          },
-          {
-            "State": "op1_limb_4_col34"
-          },
-          {
-            "State": "op1_limb_5_col35"
-          },
-          {
-            "State": "op1_limb_6_col36"
-          },
-          {
-            "State": "op1_limb_7_col37"
-          },
-          {
-            "State": "op1_limb_8_col38"
-          },
-          {
-            "State": "op1_limb_9_col39"
-          },
-          {
-            "State": "op1_limb_10_col40"
-          },
-          {
-            "State": "op1_limb_11_col41"
-          },
-          {
-            "State": "op1_limb_12_col42"
-          },
-          {
-            "State": "op1_limb_13_col43"
-          },
-          {
-            "State": "op1_limb_14_col44"
-          },
-          {
-            "State": "op1_limb_15_col45"
-          },
-          {
-            "State": "op1_limb_16_col46"
-          },
-          {
-            "State": "op1_limb_17_col47"
-          },
-          {
-            "State": "op1_limb_18_col48"
-          },
-          {
-            "State": "op1_limb_19_col49"
-          },
-          {
-            "State": "op1_limb_20_col50"
-          },
-          {
-            "State": "op1_limb_21_col51"
-          },
-          {
-            "State": "op1_limb_22_col52"
-          },
-          {
-            "State": "op1_limb_23_col53"
-          },
-          {
-            "State": "op1_limb_24_col54"
-          },
-          {
-            "State": "op1_limb_25_col55"
-          },
-          {
-            "State": "op1_limb_26_col56"
-          },
-          {
-            "State": "op1_limb_27_col57"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "[read_positive_num_bits_252_output_tmp_efb2a_5_limb_0, read_positive_num_bits_252_output_tmp_efb2a_5_limb_1, read_positive_num_bits_252_output_tmp_efb2a_5_limb_2, read_positive_num_bits_252_output_tmp_efb2a_5_limb_3, read_positive_num_bits_252_output_tmp_efb2a_5_limb_4, read_positive_num_bits_252_output_tmp_efb2a_5_limb_5, read_positive_num_bits_252_output_tmp_efb2a_5_limb_6, read_positive_num_bits_252_output_tmp_efb2a_5_limb_7, read_positive_num_bits_252_output_tmp_efb2a_5_limb_8, read_positive_num_bits_252_output_tmp_efb2a_5_limb_9, read_positive_num_bits_252_output_tmp_efb2a_5_limb_10, read_positive_num_bits_252_output_tmp_efb2a_5_limb_11, read_positive_num_bits_252_output_tmp_efb2a_5_limb_12, read_positive_num_bits_252_output_tmp_efb2a_5_limb_13, read_positive_num_bits_252_output_tmp_efb2a_5_limb_14, read_positive_num_bits_252_output_tmp_efb2a_5_limb_15, read_positive_num_bits_252_output_tmp_efb2a_5_limb_16, read_positive_num_bits_252_output_tmp_efb2a_5_limb_17, read_positive_num_bits_252_output_tmp_efb2a_5_limb_18, read_positive_num_bits_252_output_tmp_efb2a_5_limb_19, read_positive_num_bits_252_output_tmp_efb2a_5_limb_20, read_positive_num_bits_252_output_tmp_efb2a_5_limb_21, read_positive_num_bits_252_output_tmp_efb2a_5_limb_22, read_positive_num_bits_252_output_tmp_efb2a_5_limb_23, read_positive_num_bits_252_output_tmp_efb2a_5_limb_24, read_positive_num_bits_252_output_tmp_efb2a_5_limb_25, read_positive_num_bits_252_output_tmp_efb2a_5_limb_26, read_positive_num_bits_252_output_tmp_efb2a_5_limb_27, read_positive_num_bits_252_output_tmp_efb2a_5_limb_28]",
+        "type": "[M31; 29]",
+        "var": {
+          "StaticCall": [
+            "read_positive_num_bits_252::evaluate",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "PublicParam": "bitwise_builtin_segment_start"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "ExternalState": [
+                              "Seq",
+                              []
+                            ]
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "5"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  }
+                ]
+              },
+              {
+                "State": "op1_id_col29"
+              },
+              {
+                "State": "op1_limb_0_col30"
+              },
+              {
+                "State": "op1_limb_1_col31"
+              },
+              {
+                "State": "op1_limb_2_col32"
+              },
+              {
+                "State": "op1_limb_3_col33"
+              },
+              {
+                "State": "op1_limb_4_col34"
+              },
+              {
+                "State": "op1_limb_5_col35"
+              },
+              {
+                "State": "op1_limb_6_col36"
+              },
+              {
+                "State": "op1_limb_7_col37"
+              },
+              {
+                "State": "op1_limb_8_col38"
+              },
+              {
+                "State": "op1_limb_9_col39"
+              },
+              {
+                "State": "op1_limb_10_col40"
+              },
+              {
+                "State": "op1_limb_11_col41"
+              },
+              {
+                "State": "op1_limb_12_col42"
+              },
+              {
+                "State": "op1_limb_13_col43"
+              },
+              {
+                "State": "op1_limb_14_col44"
+              },
+              {
+                "State": "op1_limb_15_col45"
+              },
+              {
+                "State": "op1_limb_16_col46"
+              },
+              {
+                "State": "op1_limb_17_col47"
+              },
+              {
+                "State": "op1_limb_18_col48"
+              },
+              {
+                "State": "op1_limb_19_col49"
+              },
+              {
+                "State": "op1_limb_20_col50"
+              },
+              {
+                "State": "op1_limb_21_col51"
+              },
+              {
+                "State": "op1_limb_22_col52"
+              },
+              {
+                "State": "op1_limb_23_col53"
+              },
+              {
+                "State": "op1_limb_24_col54"
+              },
+              {
+                "State": "op1_limb_25_col55"
+              },
+              {
+                "State": "op1_limb_26_col56"
+              },
+              {
+                "State": "op1_limb_27_col57"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_0_col1"
-          },
-          {
-            "State": "op1_limb_0_col30"
-          },
-          {
-            "State": "xor_col58"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_7",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_0_col1"
+                  },
+                  {
+                    "State": "op1_limb_0_col30"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col58"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_8",
@@ -485,26 +482,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_1_col2"
-          },
-          {
-            "State": "op1_limb_1_col31"
-          },
-          {
-            "State": "xor_col59"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_10",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_1_col2"
+                  },
+                  {
+                    "State": "op1_limb_1_col31"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col59"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_11",
@@ -542,26 +544,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_2_col3"
-          },
-          {
-            "State": "op1_limb_2_col32"
-          },
-          {
-            "State": "xor_col60"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_13",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_2_col3"
+                  },
+                  {
+                    "State": "op1_limb_2_col32"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col60"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_14",
@@ -599,26 +606,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_3_col4"
-          },
-          {
-            "State": "op1_limb_3_col33"
-          },
-          {
-            "State": "xor_col61"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_16",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_3_col4"
+                  },
+                  {
+                    "State": "op1_limb_3_col33"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col61"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_17",
@@ -656,26 +668,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_4_col5"
-          },
-          {
-            "State": "op1_limb_4_col34"
-          },
-          {
-            "State": "xor_col62"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_19",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_4_col5"
+                  },
+                  {
+                    "State": "op1_limb_4_col34"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col62"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_20",
@@ -713,26 +730,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_5_col6"
-          },
-          {
-            "State": "op1_limb_5_col35"
-          },
-          {
-            "State": "xor_col63"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_22",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_5_col6"
+                  },
+                  {
+                    "State": "op1_limb_5_col35"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col63"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_23",
@@ -770,26 +792,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_6_col7"
-          },
-          {
-            "State": "op1_limb_6_col36"
-          },
-          {
-            "State": "xor_col64"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_25",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_6_col7"
+                  },
+                  {
+                    "State": "op1_limb_6_col36"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col64"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_26",
@@ -827,26 +854,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_7_col8"
-          },
-          {
-            "State": "op1_limb_7_col37"
-          },
-          {
-            "State": "xor_col65"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_28",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_7_col8"
+                  },
+                  {
+                    "State": "op1_limb_7_col37"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col65"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_29",
@@ -884,26 +916,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_8_col9"
-          },
-          {
-            "State": "op1_limb_8_col38"
-          },
-          {
-            "State": "xor_col66"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_31",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_8_col9"
+                  },
+                  {
+                    "State": "op1_limb_8_col38"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col66"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_32",
@@ -941,26 +978,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_9_col10"
-          },
-          {
-            "State": "op1_limb_9_col39"
-          },
-          {
-            "State": "xor_col67"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_34",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_9_col10"
+                  },
+                  {
+                    "State": "op1_limb_9_col39"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col67"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_35",
@@ -998,26 +1040,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_10_col11"
-          },
-          {
-            "State": "op1_limb_10_col40"
-          },
-          {
-            "State": "xor_col68"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_37",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_10_col11"
+                  },
+                  {
+                    "State": "op1_limb_10_col40"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col68"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_38",
@@ -1055,26 +1102,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_11_col12"
-          },
-          {
-            "State": "op1_limb_11_col41"
-          },
-          {
-            "State": "xor_col69"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_40",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_11_col12"
+                  },
+                  {
+                    "State": "op1_limb_11_col41"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col69"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_41",
@@ -1112,26 +1164,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_12_col13"
-          },
-          {
-            "State": "op1_limb_12_col42"
-          },
-          {
-            "State": "xor_col70"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_43",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_12_col13"
+                  },
+                  {
+                    "State": "op1_limb_12_col42"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col70"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_44",
@@ -1169,26 +1226,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_13_col14"
-          },
-          {
-            "State": "op1_limb_13_col43"
-          },
-          {
-            "State": "xor_col71"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_46",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_13_col14"
+                  },
+                  {
+                    "State": "op1_limb_13_col43"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col71"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_47",
@@ -1226,26 +1288,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_14_col15"
-          },
-          {
-            "State": "op1_limb_14_col44"
-          },
-          {
-            "State": "xor_col72"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_49",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_14_col15"
+                  },
+                  {
+                    "State": "op1_limb_14_col44"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col72"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_50",
@@ -1283,26 +1350,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_15_col16"
-          },
-          {
-            "State": "op1_limb_15_col45"
-          },
-          {
-            "State": "xor_col73"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_52",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_15_col16"
+                  },
+                  {
+                    "State": "op1_limb_15_col45"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col73"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_53",
@@ -1340,26 +1412,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_16_col17"
-          },
-          {
-            "State": "op1_limb_16_col46"
-          },
-          {
-            "State": "xor_col74"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_55",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_16_col17"
+                  },
+                  {
+                    "State": "op1_limb_16_col46"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col74"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_56",
@@ -1397,26 +1474,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_17_col18"
-          },
-          {
-            "State": "op1_limb_17_col47"
-          },
-          {
-            "State": "xor_col75"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_58",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_17_col18"
+                  },
+                  {
+                    "State": "op1_limb_17_col47"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col75"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_59",
@@ -1454,26 +1536,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_18_col19"
-          },
-          {
-            "State": "op1_limb_18_col48"
-          },
-          {
-            "State": "xor_col76"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_61",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_18_col19"
+                  },
+                  {
+                    "State": "op1_limb_18_col48"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col76"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_62",
@@ -1511,26 +1598,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_19_col20"
-          },
-          {
-            "State": "op1_limb_19_col49"
-          },
-          {
-            "State": "xor_col77"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_64",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_19_col20"
+                  },
+                  {
+                    "State": "op1_limb_19_col49"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col77"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_65",
@@ -1568,26 +1660,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_20_col21"
-          },
-          {
-            "State": "op1_limb_20_col50"
-          },
-          {
-            "State": "xor_col78"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_67",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_20_col21"
+                  },
+                  {
+                    "State": "op1_limb_20_col50"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col78"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_68",
@@ -1625,26 +1722,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_21_col22"
-          },
-          {
-            "State": "op1_limb_21_col51"
-          },
-          {
-            "State": "xor_col79"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_70",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_21_col22"
+                  },
+                  {
+                    "State": "op1_limb_21_col51"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col79"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_71",
@@ -1682,26 +1784,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_22_col23"
-          },
-          {
-            "State": "op1_limb_22_col52"
-          },
-          {
-            "State": "xor_col80"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_73",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_22_col23"
+                  },
+                  {
+                    "State": "op1_limb_22_col52"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col80"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_74",
@@ -1739,26 +1846,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_23_col24"
-          },
-          {
-            "State": "op1_limb_23_col53"
-          },
-          {
-            "State": "xor_col81"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_76",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_23_col24"
+                  },
+                  {
+                    "State": "op1_limb_23_col53"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col81"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_77",
@@ -1796,26 +1908,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_24_col25"
-          },
-          {
-            "State": "op1_limb_24_col54"
-          },
-          {
-            "State": "xor_col82"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_79",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_24_col25"
+                  },
+                  {
+                    "State": "op1_limb_24_col54"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col82"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_80",
@@ -1853,26 +1970,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_25_col26"
-          },
-          {
-            "State": "op1_limb_25_col55"
-          },
-          {
-            "State": "xor_col83"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_82",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_25_col26"
+                  },
+                  {
+                    "State": "op1_limb_25_col55"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col83"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_83",
@@ -1910,26 +2032,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_26_col27"
-          },
-          {
-            "State": "op1_limb_26_col56"
-          },
-          {
-            "State": "xor_col84"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_85",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_26_col27"
+                  },
+                  {
+                    "State": "op1_limb_26_col56"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col84"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_86",
@@ -1967,26 +2094,31 @@
       }
     },
     {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "op0_limb_27_col28"
-          },
-          {
-            "State": "op1_limb_27_col57"
-          },
-          {
-            "State": "xor_col85"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_88",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_9::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "op0_limb_27_col28"
+                  },
+                  {
+                    "State": "op1_limb_27_col57"
+                  }
+                ]
+              },
+              {
+                "State": "xor_col85"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "Intermediate": {
         "name": "and_tmp_efb2a_89",
@@ -2024,835 +2156,817 @@
       }
     },
     {
-      "StartBlock": "Mem Verify"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
+      "Intermediate": {
+        "name": "()",
+        "type": "()",
+        "var": {
+          "StaticCall": [
+            "mem_verify::evaluate",
+            [
               {
-                "BinaryOp": [
-                  {
-                    "PublicParam": "bitwise_builtin_segment_start"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
+                        "BinaryOp": [
+                          {
+                            "PublicParam": "bitwise_builtin_segment_start"
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "ExternalState": [
+                                  "Seq",
+                                  []
+                                ]
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "5"
+                                ]
+                              }
+                            ]
+                          }
                         ]
                       },
-                      "*",
+                      "+",
                       {
                         "Const": [
                           "M31",
-                          "5"
+                          "2"
                         ]
+                      }
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_8"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_11"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_14"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_17"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_20"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_23"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_26"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_29"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_32"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_35"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_38"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_41"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_44"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_47"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_50"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_53"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_56"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_59"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_62"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_65"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_68"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_71"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_74"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_77"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_80"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_83"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_86"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "and_tmp_efb2a_89"
+                    ]
+                  }
+                ]
+              },
+              {
+                "State": "and_id_col86"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "()",
+        "type": "()",
+        "var": {
+          "StaticCall": [
+            "mem_verify::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "PublicParam": "bitwise_builtin_segment_start"
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "ExternalState": [
+                                  "Seq",
+                                  []
+                                ]
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "5"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "3"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "xor_col58"
+                  },
+                  {
+                    "State": "xor_col59"
+                  },
+                  {
+                    "State": "xor_col60"
+                  },
+                  {
+                    "State": "xor_col61"
+                  },
+                  {
+                    "State": "xor_col62"
+                  },
+                  {
+                    "State": "xor_col63"
+                  },
+                  {
+                    "State": "xor_col64"
+                  },
+                  {
+                    "State": "xor_col65"
+                  },
+                  {
+                    "State": "xor_col66"
+                  },
+                  {
+                    "State": "xor_col67"
+                  },
+                  {
+                    "State": "xor_col68"
+                  },
+                  {
+                    "State": "xor_col69"
+                  },
+                  {
+                    "State": "xor_col70"
+                  },
+                  {
+                    "State": "xor_col71"
+                  },
+                  {
+                    "State": "xor_col72"
+                  },
+                  {
+                    "State": "xor_col73"
+                  },
+                  {
+                    "State": "xor_col74"
+                  },
+                  {
+                    "State": "xor_col75"
+                  },
+                  {
+                    "State": "xor_col76"
+                  },
+                  {
+                    "State": "xor_col77"
+                  },
+                  {
+                    "State": "xor_col78"
+                  },
+                  {
+                    "State": "xor_col79"
+                  },
+                  {
+                    "State": "xor_col80"
+                  },
+                  {
+                    "State": "xor_col81"
+                  },
+                  {
+                    "State": "xor_col82"
+                  },
+                  {
+                    "State": "xor_col83"
+                  },
+                  {
+                    "State": "xor_col84"
+                  },
+                  {
+                    "State": "xor_col85"
+                  }
+                ]
+              },
+              {
+                "State": "xor_id_col87"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "()",
+        "type": "()",
+        "var": {
+          "StaticCall": [
+            "mem_verify::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "PublicParam": "bitwise_builtin_segment_start"
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "ExternalState": [
+                                  "Seq",
+                                  []
+                                ]
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "5"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "4"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_8"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col58"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_11"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col59"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_14"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col60"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_17"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col61"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_20"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col62"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_23"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col63"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_26"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col64"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_29"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col65"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_32"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col66"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_35"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col67"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_38"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col68"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_41"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col69"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_44"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col70"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_47"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col71"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_50"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col72"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_53"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col73"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_56"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col74"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_59"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col75"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_62"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col76"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_65"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col77"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_68"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col78"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_71"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col79"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_74"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col80"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_77"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col81"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_80"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col82"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_83"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col83"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_86"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col84"
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "and_tmp_efb2a_89"
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": "xor_col85"
                       }
                     ]
                   }
                 ]
               },
-              "+",
               {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
+                "State": "or_id_col88"
               }
             ]
-          },
-          {
-            "State": "and_id_col86"
-          }
-        ],
-        "use_or_yield": "Use"
+          ]
+        }
       }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "and_id_col86"
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_8"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_11"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_14"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_17"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_20"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_23"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_26"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_29"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_32"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_35"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_38"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_41"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_44"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_47"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_50"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_53"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_56"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_59"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_62"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_65"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_68"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_71"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_74"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_77"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_80"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_83"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_86"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "and_tmp_efb2a_89"
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Mem Verify"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "PublicParam": "bitwise_builtin_segment_start"
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "5"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_id_col87"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "xor_id_col87"
-          },
-          {
-            "State": "xor_col58"
-          },
-          {
-            "State": "xor_col59"
-          },
-          {
-            "State": "xor_col60"
-          },
-          {
-            "State": "xor_col61"
-          },
-          {
-            "State": "xor_col62"
-          },
-          {
-            "State": "xor_col63"
-          },
-          {
-            "State": "xor_col64"
-          },
-          {
-            "State": "xor_col65"
-          },
-          {
-            "State": "xor_col66"
-          },
-          {
-            "State": "xor_col67"
-          },
-          {
-            "State": "xor_col68"
-          },
-          {
-            "State": "xor_col69"
-          },
-          {
-            "State": "xor_col70"
-          },
-          {
-            "State": "xor_col71"
-          },
-          {
-            "State": "xor_col72"
-          },
-          {
-            "State": "xor_col73"
-          },
-          {
-            "State": "xor_col74"
-          },
-          {
-            "State": "xor_col75"
-          },
-          {
-            "State": "xor_col76"
-          },
-          {
-            "State": "xor_col77"
-          },
-          {
-            "State": "xor_col78"
-          },
-          {
-            "State": "xor_col79"
-          },
-          {
-            "State": "xor_col80"
-          },
-          {
-            "State": "xor_col81"
-          },
-          {
-            "State": "xor_col82"
-          },
-          {
-            "State": "xor_col83"
-          },
-          {
-            "State": "xor_col84"
-          },
-          {
-            "State": "xor_col85"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Mem Verify"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "PublicParam": "bitwise_builtin_segment_start"
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "5"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "4"
-                ]
-              }
-            ]
-          },
-          {
-            "State": "or_id_col88"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "or_id_col88"
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_8"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col58"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_11"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col59"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_14"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col60"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_17"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col61"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_20"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col62"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_23"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col63"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_26"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col64"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_29"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col65"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_32"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col66"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_35"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col67"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_38"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col68"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_41"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col69"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_44"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col70"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_47"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col71"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_50"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col72"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_53"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col73"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_56"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col74"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_59"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col75"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_62"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col76"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_65"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col77"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_68"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col78"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_71"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col79"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_74"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col80"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_77"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col81"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_80"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col82"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_83"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col83"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_86"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col84"
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "and_tmp_efb2a_89"
-                ]
-              },
-              "+",
-              {
-                "State": "xor_col85"
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock"
+    }
   ],
   "deductions": [
     {
