@@ -176,9 +176,8 @@ fn imports(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_consts(lists: &CompiledAirFn) -> rust::Tokens {
-    // TODO(Gali): Add mults column support.
     let mut consts = match lists.padding_type {
-        PaddingType::Enabler => {
+        PaddingType::Enabler | PaddingType::Multiplicity => {
             // Add a padding column to the trace
             quote! {
                 pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
@@ -386,13 +385,20 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    if lists.padding_type == PaddingType::Enabler {
-        // Add enabler column to the trace
-        code.append(quote! {
-            let enabler = eval.next_trace_mask();
-            // Check enabler column is a bit.
-            eval.add_constraint(enabler.clone() * enabler.clone() - enabler.clone());
-        })
+    match lists.padding_type {
+        PaddingType::Enabler => {
+            // Add enabler column to the trace
+            code.append(quote! {
+                let enabler = eval.next_trace_mask();
+                // Check enabler column is a bit.
+                eval.add_constraint(enabler.clone() * enabler.clone() - enabler.clone());
+            });
+        }
+        PaddingType::Multiplicity => {
+            // Add multiplicity column to the trace
+            code.append(quote! { let multiplicity = eval.next_trace_mask();});
+        }
+        _ => {}
     }
 
     code.extend(quote! { $("\n\n") });

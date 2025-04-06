@@ -1,6 +1,6 @@
 use crate::components::prelude::*;
 
-pub const N_TRACE_COLUMNS: usize = 0;
+pub const N_TRACE_COLUMNS: usize = 1;
 pub const LOG_SIZE: u32 = 4;
 
 pub struct Eval {
@@ -48,10 +48,11 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
+        let multiplicity = eval.next_trace_mask();
 
         eval.add_to_relation(RelationEntry::new(
             &self.range_check_12_lookup_elements,
-            -E::EF::one(),
+            -E::EF::from(multiplicity),
             &[seq.clone()],
         ));
 
