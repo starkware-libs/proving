@@ -6,19 +6,11 @@ use crate::witness::components::{
 };
 use crate::witness::prelude::*;
 
-#[derive(Default)]
 pub struct ClaimGenerator {
     pub log_size: u32,
     pub mul_mod_builtin_segment_start: u32,
 }
 impl ClaimGenerator {
-    pub fn new(log_size: u32, mul_mod_builtin_segment_start: u32) -> Self {
-        Self {
-            log_size,
-            mul_mod_builtin_segment_start,
-        }
-    }
-
     pub fn write_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,

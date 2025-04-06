@@ -6,19 +6,11 @@ use cairo_air::components::range_check_builtin_bits_128::{
 use crate::witness::components::{memory_address_to_id, memory_id_to_big};
 use crate::witness::prelude::*;
 
-#[derive(Default)]
 pub struct ClaimGenerator {
     pub log_size: u32,
     pub range_check_builtin_segment_start: u32,
 }
 impl ClaimGenerator {
-    pub fn new(log_size: u32, range_check_builtin_segment_start: u32) -> Self {
-        Self {
-            log_size,
-            range_check_builtin_segment_start,
-        }
-    }
-
     pub fn write_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
