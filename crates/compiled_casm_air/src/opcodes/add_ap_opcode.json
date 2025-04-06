@@ -141,7 +141,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_d2a10466ff437b2e": [
+    "decode_instruction_d2a10": [
       "VerifyInstruction"
     ],
     "read_small": [
@@ -396,7 +396,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_2",
+        "name": "decode_instruction_d2a10_output_tmp_c921e_5_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -416,7 +416,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_7",
+        "name": "decode_instruction_d2a10_output_tmp_c921e_5_limb_7",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -463,7 +463,7 @@
                 {
                   "Var": [
                     "M31",
-                    "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_2"
+                    "decode_instruction_d2a10_output_tmp_c921e_5_limb_2"
                   ]
                 }
               ]
@@ -516,7 +516,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_7"
+                        "decode_instruction_d2a10_output_tmp_c921e_5_limb_7"
                       ]
                     },
                     "*",
@@ -548,7 +548,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5_limb_2"
+                  "decode_instruction_d2a10_output_tmp_c921e_5_limb_2"
                 ]
               }
             ]
@@ -1831,7 +1831,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5",
+        "name": "decode_instruction_d2a10_output_tmp_c921e_5",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -2016,7 +2016,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.1[4]"
+                  "decode_instruction_d2a10_output_tmp_c921e_5.1[4]"
                 ]
               },
               "*",
@@ -2048,7 +2048,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.0[2]"
+                      "decode_instruction_d2a10_output_tmp_c921e_5.0[2]"
                     ]
                   }
                 ]
@@ -2097,7 +2097,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.0[2]"
+                "decode_instruction_d2a10_output_tmp_c921e_5.0[2]"
               ]
             }
           ]
@@ -2117,7 +2117,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_d2a10466ff437b2e_output_tmp_c921e_5.0[2]"
+                  "decode_instruction_d2a10_output_tmp_c921e_5.0[2]"
                 ]
               }
             ]

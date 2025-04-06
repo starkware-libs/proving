@@ -72,7 +72,7 @@ pub trait AirFn: Debug + InstDefTrait {
         if res.len() < MAX_NAME_LEN {
             res
         } else {
-            format!("{}_{:x}", name.to_case(Case::Snake), self.hash())
+            format!("{}_{}", name.to_case(Case::Snake), self.hash())
         }
     }
 
@@ -91,11 +91,12 @@ pub trait AirFn: Debug + InstDefTrait {
         self.name().to_case(Case::Title)
     }
 
-    fn hash(&self) -> u64 {
+    fn hash(&self) -> String {
         let name = format!("{}{}", type_name::<Self>(), self.inst_def());
         let mut s = DefaultHasher::new();
         name.hash(&mut s);
-        s.finish()
+        let res: u64 = s.finish();
+        format!("{h:.*}", 5, h = format!("{:x}", res))
     }
 
     fn trace_type(&self) -> TraceType {
@@ -244,6 +245,7 @@ pub struct AirBuilder {
     #[cfg(test)]
     pub(super) run: bool,
     pub(super) registry: AirFnRegistry,
+    // TODO(AnatG): Move this to component_context.
     pub(super) intermediate_id: Rc<RefCell<(String, usize)>>,
 }
 

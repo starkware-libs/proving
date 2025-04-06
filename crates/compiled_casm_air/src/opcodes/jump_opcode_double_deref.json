@@ -176,7 +176,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_9bd8670ed070e5a5": [
+    "decode_instruction_9bd86": [
       "VerifyInstruction"
     ],
     "read_positive_num_bits_27": [
@@ -325,7 +325,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6_limb_1",
+        "name": "decode_instruction_9bd86_output_tmp_22134_6_limb_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -345,7 +345,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6_limb_2",
+        "name": "decode_instruction_9bd86_output_tmp_22134_6_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -431,7 +431,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6_limb_1"
+                  "decode_instruction_9bd86_output_tmp_22134_6_limb_1"
                 ]
               }
             ]
@@ -668,7 +668,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6_limb_2"
+                  "decode_instruction_9bd86_output_tmp_22134_6_limb_2"
                 ]
               }
             ]
@@ -1710,7 +1710,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6",
+        "name": "decode_instruction_9bd86_output_tmp_22134_6",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -1911,7 +1911,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6.0[1]"
+                      "decode_instruction_9bd86_output_tmp_22134_6.0[1]"
                     ]
                   }
                 ]
@@ -1960,7 +1960,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6.0[1]"
+                "decode_instruction_9bd86_output_tmp_22134_6.0[1]"
               ]
             }
           ]
@@ -1980,7 +1980,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6.0[1]"
+                  "decode_instruction_9bd86_output_tmp_22134_6.0[1]"
                 ]
               }
             ]
@@ -2475,7 +2475,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6.0[2]"
+                      "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
                     ]
                   }
                 ]
@@ -2562,7 +2562,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6.0[2]"
+                "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
               ]
             }
           ]
@@ -2620,7 +2620,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_9bd8670ed070e5a5_output_tmp_22134_6.0[2]"
+                  "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
                 ]
               }
             ]

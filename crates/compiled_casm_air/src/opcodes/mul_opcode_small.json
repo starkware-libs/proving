@@ -159,7 +159,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_4b8cfd7f4c406cba": [
+    "decode_instruction_4b8cf": [
       "VerifyInstruction"
     ],
     "read_positive_num_bits_36": [
@@ -553,7 +553,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_0",
+        "name": "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -573,7 +573,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_1",
+        "name": "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -593,7 +593,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_2",
+        "name": "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -613,7 +613,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_7",
+        "name": "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_7",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -660,7 +660,7 @@
                 {
                   "Var": [
                     "M31",
-                    "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_2"
+                    "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_2"
                   ]
                 }
               ]
@@ -815,7 +815,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_7"
+                        "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_7"
                       ]
                     },
                     "*",
@@ -847,7 +847,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_0"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_0"
                 ]
               }
             ]
@@ -1031,7 +1031,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_1"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_1"
                 ]
               }
             ]
@@ -1227,7 +1227,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10_limb_2"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_2"
                 ]
               }
             ]
@@ -3463,7 +3463,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10",
+        "name": "decode_instruction_4b8cf_output_tmp_9d1ad_10",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -3735,7 +3735,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.1[4]"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10.1[4]"
                 ]
               },
               "*",
@@ -3767,7 +3767,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[0]"
+                      "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[0]"
                     ]
                   }
                 ]
@@ -3816,7 +3816,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[0]"
+                "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[0]"
               ]
             }
           ]
@@ -3836,7 +3836,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[0]"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[0]"
                 ]
               }
             ]
@@ -4368,7 +4368,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[1]"
+                      "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[1]"
                     ]
                   }
                 ]
@@ -4417,7 +4417,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[1]"
+                "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[1]"
               ]
             }
           ]
@@ -4437,7 +4437,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[1]"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[1]"
                 ]
               }
             ]
@@ -4909,7 +4909,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[2]"
+                      "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[2]"
                     ]
                   }
                 ]
@@ -4958,7 +4958,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[2]"
+                "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[2]"
               ]
             }
           ]
@@ -4978,7 +4978,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_4b8cfd7f4c406cba_output_tmp_9d1ad_10.0[2]"
+                  "decode_instruction_4b8cf_output_tmp_9d1ad_10.0[2]"
                 ]
               }
             ]

@@ -1,17 +1,17 @@
 {
-  "name": "decode_instruction_cb32bef316ee78d5",
+  "name": "decode_instruction_bc3cd",
   "relation_name": null,
   "description": "Decode Instruction",
-  "instance_definition": "{\"const_offsets\":[null,null,null],\"const_flags\":{\"dst_base_fp\":null,\"op0_base_fp\":null,\"op1_imm\":false,\"op1_base_fp\":false,\"op1_base_ap\":false,\"res_add\":false,\"res_mul\":false,\"pc_update_jump\":false,\"pc_update_jump_rel\":false,\"pc_update_jnz\":false,\"ap_update_add\":false,\"ap_update_add_1\":null,\"opcode_call\":false,\"opcode_ret\":false,\"opcode_assert_eq\":true},\"const_opcode_extension\":\"Stone\",\"flag_sets_of_sum_1\":[]}",
+  "instance_definition": "{\"const_offsets\":[null,null,null],\"const_flags\":{\"dst_base_fp\":null,\"op0_base_fp\":null,\"op1_imm\":null,\"op1_base_fp\":null,\"op1_base_ap\":null,\"res_add\":true,\"res_mul\":false,\"pc_update_jump\":false,\"pc_update_jump_rel\":false,\"pc_update_jnz\":false,\"ap_update_add\":false,\"ap_update_add_1\":null,\"opcode_call\":false,\"opcode_ret\":false,\"opcode_assert_eq\":true},\"const_opcode_extension\":\"Stone\",\"flag_sets_of_sum_1\":[[2,3,4]]}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-    "decode_instruction_cb32bef316ee78d5_input",
+    "decode_instruction_bc3cd_input",
     "M31",
     "PackedM31"
   ],
   "verifier_input": [
-    "decode_instruction_cb32bef316ee78d5_input",
+    "decode_instruction_bc3cd_input",
     "M31"
   ],
   "prover_output": [
@@ -72,9 +72,37 @@
               "State": "op0_base_fp_col4"
             },
             {
+              "State": "op1_imm_col5"
+            },
+            {
+              "State": "op1_base_fp_col6"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "op1_imm_col5"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_base_fp_col6"
+                }
+              ]
+            },
+            {
               "Const": [
                 "M31",
-                "0"
+                "1"
               ]
             },
             {
@@ -108,25 +136,7 @@
               ]
             },
             {
-              "Const": [
-                "M31",
-                "0"
-              ]
-            },
-            {
-              "Const": [
-                "M31",
-                "0"
-              ]
-            },
-            {
-              "Const": [
-                "M31",
-                "0"
-              ]
-            },
-            {
-              "State": "ap_update_add_1_col5"
+              "State": "ap_update_add_1_col7"
             },
             {
               "Const": [
@@ -211,9 +221,37 @@
           "State": "op0_base_fp_col4"
         },
         {
+          "State": "op1_imm_col5"
+        },
+        {
+          "State": "op1_base_fp_col6"
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_imm_col5"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "op1_base_fp_col6"
+            }
+          ]
+        },
+        {
           "Const": [
             "M31",
-            "0"
+            "1"
           ]
         },
         {
@@ -247,25 +285,7 @@
           ]
         },
         {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "State": "ap_update_add_1_col5"
+          "State": "ap_update_add_1_col7"
         },
         {
           "Const": [
@@ -301,7 +321,9 @@
     "offset2_col2",
     "dst_base_fp_col3",
     "op0_base_fp_col4",
-    "ap_update_add_1_col5"
+    "op1_imm_col5",
+    "op1_base_fp_col6",
+    "ap_update_add_1_col7"
   ],
   "lookup_names": {
     "VerifyInstruction": 1
@@ -369,7 +391,7 @@
         {
           "BinaryOp": [
             {
-              "State": "ap_update_add_1_col5"
+              "State": "op1_imm_col5"
             },
             "*",
             {
@@ -382,7 +404,126 @@
                 },
                 "-",
                 {
-                  "State": "ap_update_add_1_col5"
+                  "State": "op1_imm_col5"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_imm is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "op1_base_fp_col6"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_base_fp_col6"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "op1_imm_col5"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_base_fp_col6"
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": "op1_imm_col5"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "op1_base_fp_col6"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_base_ap is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "ap_update_add_1_col7"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "ap_update_add_1_col7"
                 }
               ]
             }
@@ -398,7 +539,7 @@
           {
             "Var": [
               "M31",
-              "decode_instruction_cb32bef316ee78d5_input"
+              "decode_instruction_bc3cd_input"
             ]
           },
           {
@@ -415,30 +556,117 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "dst_base_fp_col3"
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "dst_base_fp_col3"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "8"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "op0_base_fp_col4"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "16"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "op1_imm_col5"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "32"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "op1_base_fp_col6"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "64"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
-                  "*",
+                  "+",
                   {
-                    "Const": [
-                      "M31",
-                      "8"
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "Const": [
+                                  "M31",
+                                  "1"
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "op1_imm_col5"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": "op1_base_fp_col6"
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "128"
+                        ]
+                      }
                     ]
                   }
                 ]
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "op0_base_fp_col4"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "16"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "256"
                 ]
               }
             ]
@@ -448,7 +676,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col5"
+                    "State": "ap_update_add_1_col7"
                   },
                   "*",
                   {
@@ -482,7 +710,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_cb32b_0",
+        "name": "memory_address_to_id_value_tmp_bc3cd_0",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -491,7 +719,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_cb32bef316ee78d5_input"
+                  "decode_instruction_bc3cd_input"
                 ]
               }
             ]
@@ -501,7 +729,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_cb32b_1",
+        "name": "memory_id_to_big_value_tmp_bc3cd_1",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -510,7 +738,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_cb32b_0"
+                  "memory_address_to_id_value_tmp_bc3cd_0"
                 ]
               }
             ]
@@ -520,7 +748,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset0_tmp_cb32b_2",
+        "name": "offset0_tmp_bc3cd_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -533,7 +761,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_cb32b_1"
+                          "memory_id_to_big_value_tmp_bc3cd_1"
                         ]
                       },
                       "get_m31",
@@ -564,7 +792,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -609,7 +837,7 @@
           {
             "Var": [
               "UInt16",
-              "offset0_tmp_cb32b_2"
+              "offset0_tmp_bc3cd_2"
             ]
           },
           "as_m31",
@@ -619,7 +847,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset1_tmp_cb32b_3",
+        "name": "offset1_tmp_bc3cd_3",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -636,7 +864,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -674,7 +902,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -716,7 +944,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -761,7 +989,7 @@
           {
             "Var": [
               "UInt16",
-              "offset1_tmp_cb32b_3"
+              "offset1_tmp_bc3cd_3"
             ]
           },
           "as_m31",
@@ -771,7 +999,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset2_tmp_cb32b_4",
+        "name": "offset2_tmp_bc3cd_4",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -788,7 +1016,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -826,7 +1054,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -868,7 +1096,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memory_id_to_big_value_tmp_cb32b_1"
+                                  "memory_id_to_big_value_tmp_bc3cd_1"
                                 ]
                               },
                               "get_m31",
@@ -913,7 +1141,7 @@
           {
             "Var": [
               "UInt16",
-              "offset2_tmp_cb32b_4"
+              "offset2_tmp_bc3cd_4"
             ]
           },
           "as_m31",
@@ -923,7 +1151,7 @@
     },
     {
       "Intermediate": {
-        "name": "dst_base_fp_tmp_cb32b_5",
+        "name": "dst_base_fp_tmp_bc3cd_5",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -942,7 +1170,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_cb32b_1"
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
                                     ]
                                   },
                                   "get_m31",
@@ -980,7 +1208,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_cb32b_1"
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
                                     ]
                                   },
                                   "get_m31",
@@ -1034,7 +1262,7 @@
           {
             "Var": [
               "UInt16",
-              "dst_base_fp_tmp_cb32b_5"
+              "dst_base_fp_tmp_bc3cd_5"
             ]
           },
           "as_m31",
@@ -1044,7 +1272,7 @@
     },
     {
       "Intermediate": {
-        "name": "op0_base_fp_tmp_cb32b_6",
+        "name": "op0_base_fp_tmp_bc3cd_6",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1063,7 +1291,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_cb32b_1"
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
                                     ]
                                   },
                                   "get_m31",
@@ -1101,7 +1329,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_cb32b_1"
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
                                     ]
                                   },
                                   "get_m31",
@@ -1155,7 +1383,7 @@
           {
             "Var": [
               "UInt16",
-              "op0_base_fp_tmp_cb32b_6"
+              "op0_base_fp_tmp_bc3cd_6"
             ]
           },
           "as_m31",
@@ -1165,7 +1393,7 @@
     },
     {
       "Intermediate": {
-        "name": "ap_update_add_1_tmp_cb32b_7",
+        "name": "op1_imm_tmp_bc3cd_7",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1184,7 +1412,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_cb32b_1"
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
                                     ]
                                   },
                                   "get_m31",
@@ -1222,7 +1450,249 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memory_id_to_big_value_tmp_cb32b_1"
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "op1_imm_tmp_bc3cd_7"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_bc3cd_8",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "3"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "op1_base_fp_tmp_bc3cd_8"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_bc3cd_9",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "memory_id_to_big_value_tmp_bc3cd_1"
                                     ]
                                   },
                                   "get_m31",
@@ -1276,7 +1746,7 @@
           {
             "Var": [
               "UInt16",
-              "ap_update_add_1_tmp_cb32b_7"
+              "ap_update_add_1_tmp_bc3cd_9"
             ]
           },
           "as_m31",
@@ -1292,7 +1762,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_cb32bef316ee78d5_input"
+                "decode_instruction_bc3cd_input"
               ]
             },
             {
@@ -1315,30 +1785,117 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "dst_base_fp_col3"
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "dst_base_fp_col3"
+                                        },
+                                        "*",
+                                        {
+                                          "Const": [
+                                            "M31",
+                                            "8"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "op0_base_fp_col4"
+                                        },
+                                        "*",
+                                        {
+                                          "Const": [
+                                            "M31",
+                                            "16"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "op1_imm_col5"
+                                    },
+                                    "*",
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "32"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "op1_base_fp_col6"
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "64"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         },
-                        "*",
+                        "+",
                         {
-                          "Const": [
-                            "M31",
-                            "8"
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "1"
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "op1_imm_col5"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "op1_base_fp_col6"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "128"
+                              ]
+                            }
                           ]
                         }
                       ]
                     },
                     "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "State": "op0_base_fp_col4"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "16"
-                          ]
-                        }
+                      "Const": [
+                        "M31",
+                        "256"
                       ]
                     }
                   ]
@@ -1348,7 +1905,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "ap_update_add_1_col5"
+                          "State": "ap_update_add_1_col7"
                         },
                         "*",
                         {
@@ -1387,7 +1944,7 @@
           {
             "Var": [
               "M31",
-              "decode_instruction_cb32bef316ee78d5_input"
+              "decode_instruction_bc3cd_input"
             ]
           },
           {
@@ -1404,30 +1961,117 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "dst_base_fp_col3"
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "dst_base_fp_col3"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "8"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "op0_base_fp_col4"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "16"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "op1_imm_col5"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "32"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "op1_base_fp_col6"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "64"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
-                  "*",
+                  "+",
                   {
-                    "Const": [
-                      "M31",
-                      "8"
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "Const": [
+                                  "M31",
+                                  "1"
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "op1_imm_col5"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": "op1_base_fp_col6"
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "128"
+                        ]
+                      }
                     ]
                   }
                 ]
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "op0_base_fp_col4"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "16"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "256"
                 ]
               }
             ]
@@ -1437,7 +2081,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col5"
+                    "State": "ap_update_add_1_col7"
                   },
                   "*",
                   {

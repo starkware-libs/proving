@@ -204,7 +204,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_fdb6eeac016f2351": [
+    "decode_instruction_fdb6e": [
       "VerifyInstruction"
     ],
     "read_positive_num_bits_27": [
@@ -264,7 +264,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_fdb6eeac016f2351_output_tmp_32b66_3_limb_2",
+        "name": "decode_instruction_fdb6e_output_tmp_32b66_3_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -805,7 +805,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_fdb6eeac016f2351_output_tmp_32b66_3_limb_2"
+                  "decode_instruction_fdb6e_output_tmp_32b66_3_limb_2"
                 ]
               }
             ]
@@ -1397,7 +1397,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_fdb6eeac016f2351_output_tmp_32b66_3",
+        "name": "decode_instruction_fdb6e_output_tmp_32b66_3",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -2575,7 +2575,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_fdb6eeac016f2351_output_tmp_32b66_3.0[2]"
+                      "decode_instruction_fdb6e_output_tmp_32b66_3.0[2]"
                     ]
                   }
                 ]
@@ -2624,7 +2624,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_fdb6eeac016f2351_output_tmp_32b66_3.0[2]"
+                "decode_instruction_fdb6e_output_tmp_32b66_3.0[2]"
               ]
             }
           ]
@@ -2644,7 +2644,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_fdb6eeac016f2351_output_tmp_32b66_3.0[2]"
+                  "decode_instruction_fdb6e_output_tmp_32b66_3.0[2]"
                 ]
               }
             ]

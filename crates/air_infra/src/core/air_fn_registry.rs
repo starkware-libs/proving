@@ -157,7 +157,7 @@ impl AirFnRegistry {
             self.add_entry(&ext_input_air_fn);
         }
 
-        let air_fn_id = format!("{h:.*}", 5, h = format!("{:x}", air_fn.hash()));
+        let air_fn_id = air_fn.hash();
         assert!(
             !self.air_fn_ids.borrow().contains(&air_fn_id),
             "Air function with the same hash already exists"
