@@ -195,7 +195,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_3802d5ea8e8d383b": [
+    "decode_instruction_3802d": [
       "VerifyInstruction"
     ],
     "qm_31_read_reduced": [
@@ -637,7 +637,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_0",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_11_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -657,7 +657,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_1",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_11_limb_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -677,7 +677,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_2",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_11_limb_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -697,7 +697,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_7",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_11_limb_7",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -725,7 +725,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_9",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_11_limb_9",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -757,7 +757,7 @@
                 {
                   "Var": [
                     "M31",
-                    "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_2"
+                    "decode_instruction_3802d_output_tmp_fa85a_11_limb_2"
                   ]
                 },
                 "-",
@@ -905,7 +905,7 @@
                         {
                           "Var": [
                             "M31",
-                            "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_7"
+                            "decode_instruction_3802d_output_tmp_fa85a_11_limb_7"
                           ]
                         },
                         "*",
@@ -954,7 +954,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_0"
+                  "decode_instruction_3802d_output_tmp_fa85a_11_limb_0"
                 ]
               }
             ]
@@ -1612,7 +1612,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_1"
+                  "decode_instruction_3802d_output_tmp_fa85a_11_limb_1"
                 ]
               }
             ]
@@ -2270,7 +2270,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_2"
+                  "decode_instruction_3802d_output_tmp_fa85a_11_limb_2"
                 ]
               }
             ]
@@ -3066,7 +3066,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_9"
+                        "decode_instruction_3802d_output_tmp_fa85a_11_limb_9"
                       ]
                     }
                   ]
@@ -3261,7 +3261,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_9"
+                        "decode_instruction_3802d_output_tmp_fa85a_11_limb_9"
                       ]
                     }
                   ]
@@ -3401,7 +3401,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_9"
+                        "decode_instruction_3802d_output_tmp_fa85a_11_limb_9"
                       ]
                     }
                   ]
@@ -3541,7 +3541,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11_limb_9"
+                        "decode_instruction_3802d_output_tmp_fa85a_11_limb_9"
                       ]
                     }
                   ]
@@ -5240,7 +5240,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_11",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -5503,7 +5503,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.1[4]"
+                      "decode_instruction_3802d_output_tmp_fa85a_11.1[4]"
                     ]
                   },
                   "*",
@@ -5552,7 +5552,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[0]"
+                      "decode_instruction_3802d_output_tmp_fa85a_11.0[0]"
                     ]
                   }
                 ]
@@ -5601,7 +5601,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[0]"
+                "decode_instruction_3802d_output_tmp_fa85a_11.0[0]"
               ]
             }
           ]
@@ -5621,7 +5621,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[0]"
+                  "decode_instruction_3802d_output_tmp_fa85a_11.0[0]"
                 ]
               }
             ]
@@ -6753,7 +6753,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[1]"
+                      "decode_instruction_3802d_output_tmp_fa85a_11.0[1]"
                     ]
                   }
                 ]
@@ -6802,7 +6802,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[1]"
+                "decode_instruction_3802d_output_tmp_fa85a_11.0[1]"
               ]
             }
           ]
@@ -6822,7 +6822,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[1]"
+                  "decode_instruction_3802d_output_tmp_fa85a_11.0[1]"
                 ]
               }
             ]
@@ -7954,7 +7954,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[2]"
+                      "decode_instruction_3802d_output_tmp_fa85a_11.0[2]"
                     ]
                   }
                 ]
@@ -8003,7 +8003,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[2]"
+                "decode_instruction_3802d_output_tmp_fa85a_11.0[2]"
               ]
             }
           ]
@@ -8023,7 +8023,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d5ea8e8d383b_output_tmp_fa85a_11.0[2]"
+                  "decode_instruction_3802d_output_tmp_fa85a_11.0[2]"
                 ]
               }
             ]

@@ -1,17 +1,17 @@
 {
-  "name": "decode_instruction_15a61c6002c544ec",
+  "name": "decode_instruction_15a61",
   "relation_name": null,
   "description": "Decode Instruction",
   "instance_definition": "{\"const_offsets\":[-2,-1,-1],\"const_flags\":{\"dst_base_fp\":true,\"op0_base_fp\":true,\"op1_imm\":false,\"op1_base_fp\":true,\"op1_base_ap\":false,\"res_add\":false,\"res_mul\":false,\"pc_update_jump\":true,\"pc_update_jump_rel\":false,\"pc_update_jnz\":false,\"ap_update_add\":false,\"ap_update_add_1\":false,\"opcode_call\":false,\"opcode_ret\":true,\"opcode_assert_eq\":false},\"const_opcode_extension\":\"Stone\",\"flag_sets_of_sum_1\":[]}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-    "decode_instruction_15a61c6002c544ec_input",
+    "decode_instruction_15a61_input",
     "M31",
     "PackedM31"
   ],
   "verifier_input": [
-    "decode_instruction_15a61c6002c544ec_input",
+    "decode_instruction_15a61_input",
     "M31"
   ],
   "prover_output": [
@@ -280,7 +280,7 @@
           {
             "Var": [
               "M31",
-              "decode_instruction_15a61c6002c544ec_input"
+              "decode_instruction_15a61_input"
             ]
           },
           {
@@ -336,7 +336,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_15a61c6002c544ec_input"
+                  "decode_instruction_15a61_input"
                 ]
               }
             ]
@@ -371,7 +371,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_15a61c6002c544ec_input"
+                "decode_instruction_15a61_input"
               ]
             },
             {
@@ -429,7 +429,7 @@
           {
             "Var": [
               "M31",
-              "decode_instruction_15a61c6002c544ec_input"
+              "decode_instruction_15a61_input"
             ]
           },
           {

@@ -113,7 +113,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_161c97dc78559210": [
+    "decode_instruction_161c9": [
       "VerifyInstruction"
     ],
     "mem_verify_equal": [
@@ -275,7 +275,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_161c97dc78559210_output_tmp_bb09e_5_limb_0",
+        "name": "decode_instruction_161c9_output_tmp_bb09e_5_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -361,7 +361,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_161c97dc78559210_output_tmp_bb09e_5_limb_0"
+                  "decode_instruction_161c9_output_tmp_bb09e_5_limb_0"
                 ]
               }
             ]
@@ -1054,7 +1054,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_161c97dc78559210_output_tmp_bb09e_5",
+        "name": "decode_instruction_161c9_output_tmp_bb09e_5",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -1247,7 +1247,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_161c97dc78559210_output_tmp_bb09e_5.0[0]"
+                      "decode_instruction_161c9_output_tmp_bb09e_5.0[0]"
                     ]
                   }
                 ]
@@ -1277,7 +1277,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_161c97dc78559210_output_tmp_bb09e_5.0[0]"
+                "decode_instruction_161c9_output_tmp_bb09e_5.0[0]"
               ]
             }
           ]
@@ -1297,7 +1297,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_161c97dc78559210_output_tmp_bb09e_5.0[0]"
+                  "decode_instruction_161c9_output_tmp_bb09e_5.0[0]"
                 ]
               }
             ]

@@ -150,7 +150,7 @@
     "Opcodes": 2
   },
   "inline_calls": {
-    "decode_instruction_de75ab42b9e8d1d4": [
+    "decode_instruction_de75a": [
       "VerifyInstruction"
     ],
     "read_positive_num_bits_252": [
@@ -317,7 +317,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5_limb_0",
+        "name": "decode_instruction_de75a_output_tmp_f51a9_5_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -403,7 +403,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5_limb_0"
+                  "decode_instruction_de75a_output_tmp_f51a9_5_limb_0"
                 ]
               }
             ]
@@ -2280,7 +2280,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5",
+        "name": "decode_instruction_de75a_output_tmp_f51a9_5",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -2473,7 +2473,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5.0[0]"
+                      "decode_instruction_de75a_output_tmp_f51a9_5.0[0]"
                     ]
                   }
                 ]
@@ -2522,7 +2522,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5.0[0]"
+                "decode_instruction_de75a_output_tmp_f51a9_5.0[0]"
               ]
             }
           ]
@@ -2542,7 +2542,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_de75ab42b9e8d1d4_output_tmp_f51a9_5.0[0]"
+                  "decode_instruction_de75a_output_tmp_f51a9_5.0[0]"
                 ]
               }
             ]
