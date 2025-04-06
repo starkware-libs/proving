@@ -7,51 +7,50 @@ use crate::witness::prelude::*;
 pub type InputType = [M31; 1];
 pub type PackedInputType = [PackedM31; 1];
 
-#[derive(Default)]
 pub struct ClaimGenerator {
-    pub inputs: Vec<InputType>,
+    pub mults: AtomicMultiplicityColumn,
 }
 impl ClaimGenerator {
-    pub fn new(inputs: Vec<InputType>) -> Self {
-        Self { inputs }
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        Self {
+            mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+        }
     }
 
     pub fn write_trace(
-        mut self,
+        self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
     ) -> (Claim, InteractionClaimGenerator) {
-        let n_rows = self.inputs.len();
-        assert_ne!(n_rows, 0);
-        let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-        let log_size = size.ilog2();
-        self.inputs.resize(size, *self.inputs.first().unwrap());
-        let packed_inputs = pack_values(&self.inputs);
+        let mults = self.mults.into_simd_vec();
 
-        let (trace, lookup_data) = write_trace_simd(n_rows, packed_inputs);
+        let (trace, lookup_data) = write_trace_simd(mults);
         tree_builder.extend_evals(trace.to_evals());
 
         (Claim {}, InteractionClaimGenerator { lookup_data })
     }
 
-    pub fn add_packed_input(&self, input: &PackedInputType) {
-        unimplemented!("Implement manually");
+    pub fn add_input(&self, _input: &InputType) {
+        todo!()
     }
 
-    pub fn add_packed_inputs(&self, inputs: &[PackedInputType]) {
-        unimplemented!("Implement manually");
+    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
+        packed_inputs.into_par_iter().for_each(|packed_input| {
+            packed_input.unpack().into_iter().for_each(|input| {
+                self.add_input(&input);
+            });
+        });
     }
 }
 
-fn write_trace_simd(
-    n_rows: usize,
-    inputs: Vec<PackedInputType>,
-) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
+fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
     unimplemented!()
 }
 
 #[derive(Uninitialized, IterMut, ParIterMut)]
 struct LookupData {
     range_check_6_0: Vec<[PackedM31; 1]>,
+    mults: Vec<PackedM31>,
 }
 
 pub struct InteractionClaimGenerator {

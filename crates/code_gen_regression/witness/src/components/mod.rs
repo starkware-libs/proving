@@ -42,3 +42,13 @@ pub trait TreeBuilder<B: Backend> {
         columns: impl IntoIterator<Item = CircleEvaluation<B, M31, BitReversedOrder>>,
     ) -> TreeSubspan;
 }
+
+pub struct AtomicMultiplicityColumn {}
+impl AtomicMultiplicityColumn {
+    pub const fn new(size: usize) -> Self {
+        Self {}
+    }
+    pub fn into_simd_vec(&self) -> Vec<PackedM31> {
+        vec![]
+    }
+}
