@@ -402,24 +402,6 @@ impl RustProverGen {
     }
 
     fn generate_simd_write_trace_code(&self) -> rust::Tokens {
-        let mut return_tuple = (
-            quote! { ComponentTrace<N_TRACE_COLUMNS>, LookupData, },
-            quote! {trace, lookup_data, },
-        );
-        if self.contains_sub_components() {
-            return_tuple.0.extend(quote! {SubComponentInputs, });
-            return_tuple.1.extend(quote! {sub_component_inputs, });
-        };
-        let contains_state_names = !self.lists.state_names.is_empty();
-        if !contains_state_names {
-            return quote! {
-                fn write_trace_simd(
-                    $(self.generate_write_trace_simd_params())
-                ) -> ($(return_tuple.0)) {
-                unimplemented!()
-            }};
-        }
-
         // declare constants.
         let mut constants_def_code = quote! {};
         let constants = deduction_consts(&self.lists.deductions);
@@ -478,6 +460,11 @@ impl RustProverGen {
             quote! {mut row, lookup_data, },
         );
 
+        let mut return_tuple = (
+            quote! { ComponentTrace<N_TRACE_COLUMNS>, LookupData, },
+            quote! {trace, lookup_data, },
+        );
+
         if self.contains_sub_components() {
             init_code.0.extend(quote! { mut sub_component_inputs, });
             init_code.1.extend(quote! {
@@ -489,6 +476,8 @@ impl RustProverGen {
             lambda_producer.1.extend(quote! {
                 sub_component_inputs,
             });
+            return_tuple.0.extend(quote! {SubComponentInputs, });
+            return_tuple.1.extend(quote! {sub_component_inputs, });
         };
 
         match self.mode {
