@@ -28,8 +28,8 @@ mod tests {
         compare_contents_or_fix_with_path(air_fn, &constraints_folder_path, &witness_folder_path);
     }
 
-    // TODO(Gali): handle no sub components case.
-    #[ignore = "no_sub_components"]
+    // TODO(Gali): handle sub routines in example folder.
+    #[ignore = "subroutines in example folder not handled yet"]
     #[test]
     fn narrow_fib_gen() {
         let serialized_air_fn =

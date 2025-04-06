@@ -1,5 +1,4 @@
 #![allow(unused_parens)]
-#![allow(dead_code)]
 use cairo_air::components::range_check_18::{Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS};
 
 use crate::witness::prelude::*;
