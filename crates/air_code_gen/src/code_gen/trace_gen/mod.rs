@@ -129,12 +129,9 @@ impl RustProverGen {
     }
 
     fn generate_sub_component_inputs_struct(&self) -> rust::Tokens {
-        if self.add_input_mults.is_empty() {
-            return quote!(
-                struct SubComponentInputs {}
-            );
-        };
-
+        if !self.contains_sub_components() {
+            return quote! {};
+        }
         let members = self
             .add_input_mults
             .iter()
@@ -265,6 +262,11 @@ impl RustProverGen {
             _ => quote! {},
         };
 
+        let sub_component_inputs = if self.contains_sub_components() {
+            quote! { sub_component_inputs }
+        } else {
+            quote! {}
+        };
         let add_inputs = self
             .add_input_mults
             .iter()
@@ -278,7 +280,7 @@ impl RustProverGen {
         quote! {
             $(init_code)
 
-            let (trace, lookup_data, sub_component_inputs) =
+            let (trace, lookup_data, $sub_component_inputs) =
                     write_trace_simd($(self.generate_write_trace_simd_args()));
             $add_inputs
             tree_builder.extend_evals(trace.to_evals());
@@ -360,13 +362,20 @@ impl RustProverGen {
     }
 
     fn generate_simd_write_trace_code(&self) -> rust::Tokens {
+        let mut return_tuple = (
+            quote! { ComponentTrace<N_TRACE_COLUMNS>, LookupData, },
+            quote! {trace, lookup_data, },
+        );
+        if self.contains_sub_components() {
+            return_tuple.0.extend(quote! {SubComponentInputs, });
+            return_tuple.1.extend(quote! {sub_component_inputs, });
+        };
         let contains_state_names = !self.lists.state_names.is_empty();
         if !contains_state_names {
             return quote! {
                 fn write_trace_simd(
                     $(self.generate_write_trace_simd_params())
-                ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-                    LookupData, SubComponentInputs) {
+                ) -> ($(return_tuple.0)) {
                 unimplemented!()
             }};
         }
@@ -407,12 +416,11 @@ impl RustProverGen {
             },
         };
 
-        let init_code = (
-            quote! { mut trace, mut lookup_data, mut sub_component_inputs},
+        let mut init_code = (
+            quote! { mut trace, mut lookup_data,},
             quote! {
                 ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
                 LookupData::uninitialized(log_n_packed_rows),
-                SubComponentInputs::uninitialized(log_n_packed_rows),
             },
         );
 
@@ -420,10 +428,22 @@ impl RustProverGen {
             quote! {
                 trace.par_iter_mut(),
                 lookup_data.par_iter_mut(),
-                sub_component_inputs.par_iter_mut(),
             },
-            quote! {mut row, lookup_data, sub_component_inputs,},
+            quote! {mut row, lookup_data, },
         );
+
+        if self.contains_sub_components() {
+            init_code.0.extend(quote! { mut sub_component_inputs, });
+            init_code.1.extend(quote! {
+                SubComponentInputs::uninitialized(log_n_packed_rows),
+            });
+            lambda_producer.0.extend(quote! {
+                sub_component_inputs.par_iter_mut(),
+            });
+            lambda_producer.1.extend(quote! {
+                sub_component_inputs,
+            });
+        };
 
         match self.mode {
             Mode::Opcode | Mode::View => {
@@ -451,8 +471,7 @@ impl RustProverGen {
             #[allow(non_snake_case)]
             fn write_trace_simd(
                 $(self.generate_write_trace_simd_params())
-            ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-                LookupData, SubComponentInputs) {
+            ) -> ($(return_tuple.0)) {
                 $(prelude_code)
                 let ($(init_code.0)) = unsafe {
                     ($(init_code.1))
@@ -470,7 +489,7 @@ impl RustProverGen {
                         $(self.write_trace_lambda())
                     });
 
-                (trace, lookup_data, sub_component_inputs)
+                ($(return_tuple.1))
             }
             $['\n']
         });
@@ -756,6 +775,10 @@ impl RustProverGen {
             $(sub_component_imports)
         }
     }
+
+    fn contains_sub_components(&self) -> bool {
+        !self.add_input_mults.is_empty()
+    }
 }
 
 fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
@@ -1021,6 +1044,8 @@ pub fn mask_relation(lists: &CompiledAirFn, relation_name: &str) -> rust::Tokens
     }
 }
 
+/// Builds the IndexMap of the number of inputs for each sub-component, meaning how many inputs
+/// should be added to each sub-component per row in the trace.
 fn add_inputs_mults(deductions: &[TraceGenStep]) -> IndexMap<String, usize> {
     let mut add_input_mults = IndexMap::new();
     for deduction in deductions {
