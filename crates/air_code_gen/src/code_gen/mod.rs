@@ -28,26 +28,6 @@ mod tests {
         compare_contents_or_fix_with_path(air_fn, &constraints_folder_path, &witness_folder_path);
     }
 
-    // TODO(Gali): handle sub routines in example folder.
-    #[ignore = "subroutines in example folder not handled yet"]
-    #[test]
-    fn narrow_fib_gen() {
-        let serialized_air_fn =
-            read_json("../air_infra/src/airs/examples/test_jsons/narrow_fib_num_steps_20.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-    }
-
-    #[ignore = "missing deduce_output function"]
-    #[test]
-    fn wide_fib_code_gen() {
-        let serialized_air_fn = read_json(
-            "../air_infra/src/airs/examples/test_jsons/wide_fib_num_narrow_8_narrow_size_20.json",
-        );
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-    }
-
     #[test]
     fn add_ap_code_gen() {
         let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/add_ap_opcode.json");
@@ -55,11 +35,39 @@ mod tests {
         generate_component_code(air_fn);
     }
 
-    #[ignore = "mults component with inputs"]
     #[test]
-    fn verify_instruction_code_gen() {
+    fn jnz_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/jnz_opcode_taken.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn mul_mod_builtin_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/builtins/mul_mod_builtin.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn partial_ec_mul_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/partial_ec_mul.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn pedersen_points_table_code_gen() {
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/verify_instruction.json");
+            read_json("../compiled_casm_air/src/lookups/pedersen_points_table.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn rc128_builtin_code_gen() {
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/builtins/range_check_builtin_bits_128.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
@@ -77,26 +85,50 @@ mod tests {
         let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_18.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
-    }
 
-    #[test]
-    fn jnz_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/jnz_opcode_taken.json");
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
-    }
 
-    #[test]
-    fn rc128_builtin_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_9_9.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_4_3.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/builtins/range_check_builtin_bits_128.json");
+            read_json("../compiled_casm_air/src/lookups/range_check_7_2_5.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/lookups/range_check_3_6_6_3.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
-    fn mul_mod_builtin_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/builtins/mul_mod_builtin.json");
+    fn triple_xor_32_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/triple_xor_32.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn verify_bitwise_xor_7_code_gen() {
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/lookups/verify_bitwise_xor_8.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[ignore = "mults component with inputs"]
+    #[test]
+    fn verify_instruction_code_gen() {
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/lookups/verify_instruction.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }

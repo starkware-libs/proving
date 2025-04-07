@@ -16,4 +16,6 @@ pub use stwo_prover::core::backend::Column;
 pub use stwo_prover::core::fields::m31::M31;
 pub use stwo_prover::core::fields::FieldExpOps;
 
-pub use crate::components::{pack_values, AtomicMultiplicityColumn, Enabler, TreeBuilder};
+pub use crate::components::{
+    pack_values, AtomicMultiplicityColumn, Enabler, PackedPedersenPointsTable, TreeBuilder,
+};
