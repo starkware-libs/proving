@@ -114,10 +114,6 @@ impl FeltExpr {
             .constraint_intermediate = Some(name);
         self.as_var_mut().visibility.in_constraints = true;
     }
-
-    pub fn copy_parent(&mut self, copy_from: &FeltExpr) {
-        self.as_var_mut().parent = copy_from.as_var().parent.clone();
-    }
 }
 
 impl TryIntoFeltExpr for FeltExpr {

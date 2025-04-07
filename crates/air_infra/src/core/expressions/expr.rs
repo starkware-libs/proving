@@ -4,6 +4,7 @@ use std::fmt::Display;
 use enum_dispatch::enum_dispatch;
 use stwo_cairo_common::prover_types::cpu::ProverType;
 
+#[cfg(test)]
 use super::super::air_body::*;
 use super::super::variables::*;
 use super::biguint_expr::*;
