@@ -136,72 +136,6 @@ where
             ComplexOrFelt::Complex(children) => children.iter().all(|c| c.is_const()),
         }
     }
-
-    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
-        // self is a constant
-        if self.is_const() {
-            return CompiledAirVar::Const(
-                T::r#type(),
-                self.value.expect("Const must have a value").calc(),
-            );
-        }
-
-        // self was written to the trace
-        if let ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::StateIndex(i, desc),
-            constraint_intermediate: _,
-            is_const: _,
-        }) = self.complex_or_felt
-        {
-            return CompiledAirVar::State(State::get_cell_name(i, &desc));
-        }
-
-        // self was written to the trace of an external const table
-        if let ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::ExtTableState(name, args),
-            constraint_intermediate: _,
-            is_const: _,
-        }) = self.complex_or_felt
-        {
-            return CompiledAirVar::ExternalState(name, args);
-        }
-
-        // self is a public param
-        if let ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::PublicParam(param),
-            constraint_intermediate: _,
-            is_const: _,
-        }) = self.complex_or_felt
-        {
-            return CompiledAirVar::PublicParam(param.name());
-        }
-
-        if compile_for == CompileFor::Deductions {
-            // self is an intermediate visible in deductions
-            if self.is_deduction_intermediate {
-                return CompiledAirVar::Var(T::r#type(), self.name);
-            }
-        } else {
-            // <compile_for> == CompileFor::Constraints
-            // self is an intermediate visible in constraints
-            if let ComplexOrFelt::Felt(FeltInfo {
-                state_info: _,
-                constraint_intermediate: Some(name),
-                is_const: _,
-            }) = self.complex_or_felt
-            {
-                return CompiledAirVar::Var(T::r#type(), name);
-            }
-        }
-
-        // self is a field of another variable
-        if let Some(parent) = self.parent {
-            return parent.get_compiled_child();
-        }
-
-        // self is a standalone variable
-        CompiledAirVar::Var(T::r#type(), self.name)
-    }
 }
 
 impl<T> AsProverType<T> for VarExpr<T>
@@ -276,6 +210,72 @@ where
 
     fn prover_type(&self) -> String {
         T::r#type()
+    }
+
+    fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        // self is a constant
+        if self.is_const() {
+            return CompiledAirVar::Const(
+                T::r#type(),
+                self.value.expect("Const must have a value").calc(),
+            );
+        }
+
+        // self was written to the trace
+        if let ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::StateIndex(i, desc),
+            constraint_intermediate: _,
+            is_const: _,
+        }) = self.complex_or_felt
+        {
+            return CompiledAirVar::State(State::get_cell_name(i, &desc));
+        }
+
+        // self was written to the trace of an external const table
+        if let ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::ExtTableState(name, args),
+            constraint_intermediate: _,
+            is_const: _,
+        }) = self.complex_or_felt
+        {
+            return CompiledAirVar::ExternalState(name, args);
+        }
+
+        // self is a public param
+        if let ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::PublicParam(param),
+            constraint_intermediate: _,
+            is_const: _,
+        }) = self.complex_or_felt
+        {
+            return CompiledAirVar::PublicParam(param.name());
+        }
+
+        if compile_for == CompileFor::Deductions {
+            // self is an intermediate visible in deductions
+            if self.is_deduction_intermediate {
+                return CompiledAirVar::Var(T::r#type(), self.name);
+            }
+        } else {
+            // <compile_for> == CompileFor::Constraints
+            // self is an intermediate visible in constraints
+            if let ComplexOrFelt::Felt(FeltInfo {
+                state_info: _,
+                constraint_intermediate: Some(name),
+                is_const: _,
+            }) = self.complex_or_felt
+            {
+                return CompiledAirVar::Var(T::r#type(), name);
+            }
+        }
+
+        // self is a field of another variable
+        if let Some(parent) = self.parent {
+            return parent.get_compiled_child();
+        }
+
+        // self is a standalone variable
+        CompiledAirVar::Var(T::r#type(), self.name)
     }
 }
 

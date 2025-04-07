@@ -47,31 +47,6 @@ where
         }
     }
 
-    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
-        match self.children.len() {
-            1 => {
-                let child = self.children[0].clone().compile(compile_for);
-                match self.op.into() {
-                    OpType::Op(op) => CompiledAirVar::UnaryOp(op, Box::new(child)),
-                    OpType::Method(op) => CompiledAirVar::MethodCall(Box::new(child), op, vec![]),
-                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![child]),
-                }
-            }
-            2 => {
-                let left = self.children[0].clone().compile(compile_for);
-                let right = self.children[1].clone().compile(compile_for);
-                match self.op.into() {
-                    OpType::Op(op) => CompiledAirVar::BinaryOp(Box::new(left), op, Box::new(right)),
-                    OpType::Method(op) => {
-                        CompiledAirVar::MethodCall(Box::new(left), op, vec![right])
-                    }
-                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![left, right]),
-                }
-            }
-            _ => panic!("Invalid number of children for operation"),
-        }
-    }
-
     pub fn as_felt(&self) -> Result<FeltExpr, String> {
         if !self.op.is_from_felts() {
             return Err(format!(
@@ -146,6 +121,31 @@ where
 
     fn prover_type(&self) -> String {
         T::r#type()
+    }
+
+    fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        match self.children.len() {
+            1 => {
+                let child = self.children[0].clone().compile(compile_for);
+                match self.op.into() {
+                    OpType::Op(op) => CompiledAirVar::UnaryOp(op, Box::new(child)),
+                    OpType::Method(op) => CompiledAirVar::MethodCall(Box::new(child), op, vec![]),
+                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![child]),
+                }
+            }
+            2 => {
+                let left = self.children[0].clone().compile(compile_for);
+                let right = self.children[1].clone().compile(compile_for);
+                match self.op.into() {
+                    OpType::Op(op) => CompiledAirVar::BinaryOp(Box::new(left), op, Box::new(right)),
+                    OpType::Method(op) => {
+                        CompiledAirVar::MethodCall(Box::new(left), op, vec![right])
+                    }
+                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![left, right]),
+                }
+            }
+            _ => panic!("Invalid number of children for operation"),
+        }
     }
 }
 
