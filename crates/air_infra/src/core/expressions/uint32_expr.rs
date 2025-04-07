@@ -39,18 +39,18 @@ impl VarExpr<UInt32> {
 }
 
 impl VarExprUpdate for VarExpr<UInt32> {
-    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
+    fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>) {
         let low = VarExpr::new(
             LOW_NAME.to_string(),
             self.value.map(|v| v.low()),
             is_const,
-            in_state,
+            deg_in_state,
         );
         let high = VarExpr::new(
             HIGH_NAME.to_string(),
             self.value.map(|v| v.high()),
             is_const,
-            in_state,
+            deg_in_state,
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![
             UInt16Expr::Var(low).into(),
@@ -103,7 +103,7 @@ macro_rules! u32_expr {
             $name.to_string(),
             Some(UInt32::from($val)),
             false,
-            false,
+            None,
         ))
     };
 }

@@ -8,7 +8,7 @@ use super::expressions::felt_expr::*;
 use super::variables::*;
 
 pub trait StructVarTrait {
-    fn new_from_name(name: String, in_state: bool) -> Self;
+    fn new_from_name(name: String, deg_in_state: Option<usize>) -> Self;
     fn prover_type() -> String;
 }
 
@@ -50,8 +50,8 @@ where
         (res, interm)
     }
 
-    fn new(name: String, in_state: bool) -> Self {
-        Self::new_from_name(name, in_state)
+    fn new(name: String, deg_in_state: Option<usize>) -> Self {
+        Self::new_from_name(name, deg_in_state)
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
@@ -95,9 +95,9 @@ impl<V: AirVar, D: Clone + Debug> AirVar for VarWrapper<V, D> {
         (res, interm)
     }
 
-    fn new(name: String, in_state: bool) -> Self {
+    fn new(name: String, deg_in_state: Option<usize>) -> Self {
         Self {
-            var: V::new(name.clone(), in_state),
+            var: V::new(name.clone(), deg_in_state),
             extra_info: None,
         }
     }

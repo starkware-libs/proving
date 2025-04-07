@@ -98,21 +98,21 @@ where
                     name,
                     from.value(),
                     from.is_const(),
-                    from.in_state(),
+                    from.deg_in_state(),
                 )),
             };
         }
 
-        let mut res = Expr::Var(VarExpr::new(name, from.value(), from.is_const(), false));
+        let mut res = Expr::Var(VarExpr::new(name, from.value(), from.is_const(), None));
         if let Ok(orig_felts) = from.clone().try_as_felts_mut() {
             for (felt, orig_felt) in res.as_felts_mut().into_iter().zip(orig_felts) {
                 if let Expr::Var(ref orig_v) = orig_felt {
                     *felt.as_var_mut() = orig_v.clone();
-                } else if orig_felt.in_state() {
+                } else {
                     felt.as_var_mut()
                         .complex_or_felt
                         .as_felt_info_mut()
-                        .state_info = StateInfo::IsPolyOfState(true);
+                        .state_info = StateInfo::DegPolyOfState(orig_felt.deg_in_state());
                 }
             }
         }
@@ -153,8 +153,8 @@ where
     Self: Into<ExprImpl> + TryIntoFeltExpr,
     VarExpr<T>: VarExprUpdate,
 {
-    fn new(name: String, in_state: bool) -> Self {
-        VarExpr::new(name, None, false, in_state).into()
+    fn new(name: String, deg_in_state: Option<usize>) -> Self {
+        VarExpr::new(name, None, false, deg_in_state).into()
     }
 
     fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {

@@ -266,7 +266,7 @@ impl AirFnRegistry {
     {
         let ext_input = E::new();
         let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
-        let mut input = I::new(input_name.clone(), true);
+        let mut input = I::new(input_name.clone(), Some(1));
         input = input.rec_let(input_name).0;
 
         let mut air_builder = AirBuilder {

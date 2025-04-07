@@ -20,14 +20,14 @@ impl TryIntoFeltExpr for BigUInt384Expr {}
 impl TryIntoFeltExpr for BigUInt768Expr {}
 
 impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<BigUInt<B, L, F>> {
-    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
+    fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>) {
         let children = (0..F)
             .map(|i| {
                 FeltExpr::Var(VarExpr::new(
                     CHILD_NAME.to_string(),
                     self.value.map(|v| v.get_m31(i)),
                     is_const,
-                    in_state,
+                    deg_in_state,
                 ))
                 .into()
             })
@@ -74,7 +74,7 @@ macro_rules! bigu384_expr {
                 $limb0, $limb1, $limb2, $limb3, $limb4, $limb5,
             ])),
             false,
-            false,
+            None,
         ))
     };
 }

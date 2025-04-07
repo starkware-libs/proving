@@ -1,12 +1,10 @@
 use super::range_check::*;
 use crate::airs::casm::casm_state::*;
+#[cfg(test)]
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-#[cfg(test)]
-use crate::core::expressions::var_expr::*;
 use crate::core::variables::*;
-#[cfg(test)]
-use crate::core::Felt;
 
 const STWO_COMPONENT_TYPE_SEQ: &str = "Seq";
 
@@ -22,12 +20,7 @@ impl ExtTable for Seq {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
             let row_number = _air_builder.row_number().expect("Row number not set");
-            return FeltExpr::Var(VarExpr::new(
-                Self::CONST_TRACE_ID.to_string(),
-                Some(Felt::from(row_number as u32)),
-                true,
-                true,
-            ));
+            return const_expr!(row_number);
         }
 
         Self::T::default()

@@ -12,12 +12,12 @@ const CHILD_NAME: &str = "as_m31";
 impl TryIntoFeltExpr for BoolExpr {}
 
 impl VarExprUpdate for VarExpr<Bool> {
-    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
+    fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>) {
         let child = VarExpr::new(
             CHILD_NAME.to_string(),
             self.value.map(|v| v.as_m31()),
             is_const,
-            in_state,
+            deg_in_state,
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![FeltExpr::Var(child).into()]);
     }
@@ -47,7 +47,7 @@ macro_rules! bool_expr {
             $name.to_string(),
             Some(Bool::from($val)),
             false,
-            false,
+            None,
         ))
     };
 }

@@ -11,7 +11,7 @@ use super::felt_expr::*;
 use crate::core::Felt;
 
 pub trait VarExprUpdate {
-    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool);
+    fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>);
     fn update_children(&mut self);
 }
 
@@ -33,7 +33,7 @@ impl<T> VarExpr<T>
 where
     T: ProverType,
 {
-    pub fn new(name: String, value: Option<T>, is_const: bool, in_state: bool) -> Self
+    pub fn new(name: String, value: Option<T>, is_const: bool, deg_in_state: Option<usize>) -> Self
     where
         Self: VarExprUpdate,
     {
@@ -53,7 +53,7 @@ where
                 in_constraints: is_const && T::r#type() == Felt::r#type(),
             },
         };
-        var.create_complex_or_felt(is_const, in_state);
+        var.create_complex_or_felt(is_const, deg_in_state);
         var.update_children();
         var
     }
@@ -62,7 +62,7 @@ where
     where
         Self: VarExprUpdate,
     {
-        Self::new(value.calc(), Some(value), true, false)
+        Self::new(value.calc(), Some(value), true, Some(0))
     }
 
     pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
@@ -152,36 +152,7 @@ where
     T: ProverType,
 {
     fn get_info(&self) -> HashSet<AirVarInfo> {
-        let in_state = if self.is_const() {
-            true
-        } else {
-            match &self.complex_or_felt {
-                ComplexOrFelt::Felt(FeltInfo {
-                    state_info: StateInfo::StateIndex(..),
-                    constraint_intermediate: _,
-                    is_const: _,
-                }) => true,
-                ComplexOrFelt::Felt(FeltInfo {
-                    state_info: StateInfo::IsPolyOfState(b),
-                    constraint_intermediate: _,
-                    is_const: _,
-                }) => *b,
-                ComplexOrFelt::Felt(FeltInfo {
-                    state_info: StateInfo::ExtTableState { .. },
-                    constraint_intermediate: _,
-                    is_const: _,
-                }) => true,
-                ComplexOrFelt::Felt(FeltInfo {
-                    state_info: StateInfo::PublicParam(_),
-                    constraint_intermediate: _,
-                    is_const: _,
-                }) => true,
-                ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
-            }
-        };
-
         let info = AirVarInfo {
-            in_state,
             is_const: self.is_const(),
             visibility: self.visibility,
             public_param: if let ComplexOrFelt::Felt(FeltInfo {
@@ -206,6 +177,23 @@ where
             },
         };
         HashSet::from([info])
+    }
+
+    fn deg_in_state(&self) -> Option<usize> {
+        if T::r#type() != Felt::r#type() {
+            panic!("Only felt variables can have a degree in state");
+        }
+
+        if self.is_const() {
+            Some(0)
+        } else {
+            match &self.complex_or_felt.as_felt_info().state_info {
+                StateInfo::StateIndex(..) => Some(1),
+                StateInfo::DegPolyOfState(deg) => *deg,
+                StateInfo::ExtTableState { .. } => Some(1),
+                StateInfo::PublicParam(_) => Some(0),
+            }
+        }
     }
 
     fn prover_type(&self) -> String {

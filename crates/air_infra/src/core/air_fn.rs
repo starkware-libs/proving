@@ -143,7 +143,7 @@ pub trait AirFn: Debug + InstDefTrait {
                 air_builder.component_context.state_mut().add(felt, "input");
             }
 
-            let mut output = Self::Out::new("".to_string(), false);
+            let mut output = Self::Out::new("".to_string(), None);
             for felt in output.as_felts_mut() {
                 air_builder
                     .component_context
@@ -548,7 +548,7 @@ impl AirBuilder {
         self.registry.add_entry(air_fn);
 
         let mut output_name = "".to_string();
-        let mut output = <(ChainIdVar, RoundNumVar, S)>::new("".to_string(), false);
+        let mut output = <(ChainIdVar, RoundNumVar, S)>::new("".to_string(), None);
 
         let call_index = self.component_context.get_chain_call_index(air_fn);
         let chain_id = self.call_external_table(&Seq {})
@@ -614,7 +614,7 @@ impl AirBuilder {
         O: AirVar,
     {
         #[allow(unused_mut)]
-        let mut output = O::new(output_name.clone().unwrap_or_default(), false);
+        let mut output = O::new(output_name.clone().unwrap_or_default(), None);
         let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
         let input_option = (!I::is_empty()).then(|| input.clone().into());
 
@@ -669,7 +669,7 @@ impl AirBuilder {
 
         let value_name = self.get_intermediate_name(Some(format!("{}_value", memory.name())));
         #[allow(unused_mut)]
-        let mut value = V::new(value_name.clone(), false);
+        let mut value = V::new(value_name.clone(), None);
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),

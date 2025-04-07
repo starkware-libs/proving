@@ -15,7 +15,7 @@ pub struct PublicParams {
 
 impl PublicParams {
     fn create_public_param_expr(param: PublicParam, value: Option<M31>) -> FeltExpr {
-        let mut result: FeltExpr = VarExpr::new("".to_string(), value, false, false).into();
+        let mut result: FeltExpr = VarExpr::new("".to_string(), value, false, None).into();
         result.to_state(StateInfo::PublicParam(param));
         result
     }

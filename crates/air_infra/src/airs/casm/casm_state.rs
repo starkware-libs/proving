@@ -32,21 +32,21 @@ impl Default for CasmAddress {
 }
 
 impl StructVarTrait for CasmStateVar {
-    fn new_from_name(name: String, in_state: bool) -> Self {
+    fn new_from_name(name: String, deg_in_state: Option<usize>) -> Self {
         Self {
             name: Some(name.clone()),
             fields: IndexMap::from([
                 (
                     "pc".to_string(),
-                    CasmAddress::new(FeltExpr::new(format!("{}.pc", name), in_state), "pc"),
+                    CasmAddress::new(FeltExpr::new(format!("{}.pc", name), deg_in_state), "pc"),
                 ),
                 (
                     "ap".to_string(),
-                    CasmAddress::new(FeltExpr::new(format!("{}.ap", name), in_state), "ap"),
+                    CasmAddress::new(FeltExpr::new(format!("{}.ap", name), deg_in_state), "ap"),
                 ),
                 (
                     "fp".to_string(),
-                    CasmAddress::new(FeltExpr::new(format!("{}.fp", name), in_state), "fp"),
+                    CasmAddress::new(FeltExpr::new(format!("{}.fp", name), deg_in_state), "fp"),
                 ),
             ]),
             r#type: PhantomData,

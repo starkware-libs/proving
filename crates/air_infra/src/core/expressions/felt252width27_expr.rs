@@ -12,14 +12,14 @@ const CHILD_NAME: &str = "get_m31";
 impl TryIntoFeltExpr for Felt252Width27Expr {}
 
 impl VarExprUpdate for VarExpr<Felt252Width27> {
-    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
+    fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>) {
         let children = (0..FELT252WIDTH27_N_WORDS)
             .map(|i| {
                 FeltExpr::Var(VarExpr::new(
                     CHILD_NAME.to_string(),
                     self.value.map(|v| v.get_m31(i)),
                     is_const,
-                    in_state,
+                    deg_in_state,
                 ))
                 .into()
             })

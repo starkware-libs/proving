@@ -7,34 +7,84 @@ use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::variables::*;
+use crate::airs::casm::const_tables::range_check::*;
 use crate::{const_expr, const_felt252_expr, const_u32_expr};
-
-#[derive(Debug, Serialize)]
-struct AirFnWithIncorrectConstraint {}
-
-impl AirFn for AirFnWithIncorrectConstraint {
-    type ExtIn = ();
-    type In = FeltExpr;
-    type Out = FeltExpr;
-
-    fn call(&self, air_builder: &mut AirBuilder, _: (), mut input: Self::In) -> Self::Out {
-        // Add the input twice to the state
-        let x0 = air_builder.deduce(&mut input, "");
-        let x1 = air_builder.deduce(&mut input, "");
-
-        // Add incorrect constraint
-        air_builder.constrain((x0 - x1) - const_expr!(1), "");
-
-        input
-    }
-}
 
 #[test]
 #[should_panic(expected = "incorrect constraint")]
 fn test_incompleteness() {
+    #[derive(Debug, Serialize)]
+    struct AirFnWithIncorrectConstraint {}
+
+    impl AirFn for AirFnWithIncorrectConstraint {
+        type ExtIn = ();
+        type In = FeltExpr;
+        type Out = FeltExpr;
+
+        fn call(&self, air_builder: &mut AirBuilder, _: (), mut input: Self::In) -> Self::Out {
+            // Add the input twice to the state
+            let x0 = air_builder.deduce(&mut input, "");
+            let x1 = air_builder.deduce(&mut input, "");
+
+            // Add incorrect constraint
+            air_builder.constrain((x0 - x1) - const_expr!(1), "");
+
+            input
+        }
+    }
+
     let func = AirFnWithIncorrectConstraint {};
     let (registry, _) = AirFnRegistry::new(&func);
     registry.run_air(&func, (), const_expr!(1234));
+}
+
+#[test]
+#[should_panic(expected = "constraint must have degree <= 3")]
+fn test_high_degree_constraint_validation() {
+    #[derive(Debug, Serialize)]
+    struct AirFnWithHighDegreeConstraint {}
+
+    impl AirFn for AirFnWithHighDegreeConstraint {
+        type ExtIn = ();
+        type In = FeltExpr;
+        type Out = ();
+
+        fn call(&self, air_builder: &mut AirBuilder, _: (), input: Self::In) -> Self::Out {
+            // Add high degree constraint
+            let prod = input.clone()
+                * (input.clone() - const_expr!(1))
+                * (input.clone() - const_expr!(2))
+                * (input - const_expr!(3));
+            air_builder.constrain(prod, "range_check_2_on_input");
+        }
+    }
+
+    let func = AirFnWithHighDegreeConstraint {};
+    let (registry, _) = AirFnRegistry::new(&func);
+    registry.run_air(&func, (), const_expr!(2));
+}
+
+#[test]
+#[should_panic(expected = "lookup term must have degree <= 1")]
+fn test_high_degree_lookup_validation() {
+    #[derive(Debug, Serialize)]
+    struct AirFnWithHighDegreeLookup {}
+
+    impl AirFn for AirFnWithHighDegreeLookup {
+        type ExtIn = ();
+        type In = FeltExpr;
+        type Out = ();
+
+        fn call(&self, air_builder: &mut AirBuilder, _: (), input: Self::In) -> Self::Out {
+            // Add high degree constraint
+            let prod = input.clone() * (input.clone() - const_expr!(1));
+            range_check(air_builder, &[12], &[prod]);
+        }
+    }
+
+    let func = AirFnWithHighDegreeLookup {};
+    let (registry, _) = AirFnRegistry::new(&func);
+    registry.run_air(&func, (), const_expr!(17));
 }
 
 #[derive(Debug, Serialize)]
