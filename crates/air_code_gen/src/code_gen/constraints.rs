@@ -12,13 +12,15 @@ use itertools::chain;
 
 use super::parse::seek_consts;
 use super::utils::{get_variable_name, replace_generics_with_turbofish};
-use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
+use crate::code_gen::parse::{
+    constraint_consts, is_const_size_component, parse_eval_constraint, parse_lookup_constraint,
+};
 
 pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports(lists))
         $['\n']
-        $(generate_n_trace_columns(lists))
+        $(generate_consts(lists))
         $['\n']
         $(generate_component_structs(lists))
         $['\n']
@@ -35,6 +37,12 @@ pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let log_size = if is_const_size_component(air_fn) {
+        quote! {}
+    } else {
+        quote! {log_size: 4,}
+    };
+
     quote! {
         #[cfg(test)]
         mod tests {
@@ -52,7 +60,7 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let mut rng = SmallRng::seed_from_u64(0);
                 let eval = Eval {
                     claim: Claim {
-                        log_size: 4,
+                        $log_size
                         $(get_dummy_public_params(air_fn))
                     },
                     $(get_dummy_lookup_elements(air_fn))
@@ -185,17 +193,25 @@ fn imports(lists: &CompiledAirFn) -> rust::Tokens {
     res
 }
 
-fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_consts(lists: &CompiledAirFn) -> rust::Tokens {
     // TODO(Gali): Add mults column support.
-    if lists.padding_type == PaddingType::Enabler {
-        quote! {
-            pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
+    let mut consts = match lists.padding_type {
+        PaddingType::Enabler => {
+            // Add a padding column to the trace
+            quote! {
+                pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
+            }
         }
-    } else {
-        quote! {
+        _ => quote! {
             pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
-        }
+        },
+    };
+    if is_const_size_component(lists) {
+        consts.extend(quote! {
+            pub const LOG_SIZE: u32 = 4; // Implement manually, set to 4 initially so LOG_SIZE - LOG_N_LANES >= 0.
+        });
     }
+    consts
 }
 
 fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
@@ -221,8 +237,13 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut channel_mix_code = quote! { channel.mix_u64(self.log_size as u64); };
-    let mut members = quote! { pub log_size: u32, };
+    let (log_size, mut members) = if is_const_size_component(lists) {
+        (quote! { LOG_SIZE }, quote! {})
+    } else {
+        (quote! { self.log_size }, quote! { pub log_size: u32, })
+    };
+
+    let mut channel_mix_code = quote! { channel.mix_u64($(&log_size) as u64); };
     for public_param in &lists.public_params {
         // TODO(Gali): Get the types of the public params from air_infra.
         members.append(quote! {
@@ -253,8 +274,8 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
-                let interaction_log_sizes = vec![self.log_size; $(n_logup_columns)];
+                let trace_log_sizes = vec![$(&log_size); N_TRACE_COLUMNS];
+                let interaction_log_sizes = vec![$log_size; $(n_logup_columns)];
                 TreeVec::new(vec![
                     vec![],
                     trace_log_sizes,
@@ -298,10 +319,15 @@ fn generate_component_type_def() -> rust::Tokens {
 
 fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
+    let log_size = if is_const_size_component(lists) {
+        quote! { LOG_SIZE }
+    } else {
+        quote! { self.claim.log_size }
+    };
     code.append(quote! {
         impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
-                self.claim.log_size
+                $log_size
             }
 
             fn max_constraint_log_degree_bound(&self) -> u32 {

@@ -233,6 +233,13 @@ pub fn parse_eval_constraint(
     }
 }
 
+/// Returns true if the component is of const size.
+pub fn is_const_size_component(lists: &CompiledAirFn) -> bool {
+    // Assuming the components that have multiplicity column are always of const size.
+    // TODO(Gali): Support non const size components with multiplicity column.
+    lists.padding_type == PaddingType::Multiplicity
+}
+
 /// Checks if the relation should be masked, meaning it's numerator should be altered.
 /// A relation is masked when and the relation name matches it's component's relation name (it's
 /// component must contain an enabler/multiplicity columns).

@@ -1,6 +1,6 @@
 #![allow(unused_parens)]
 #![allow(dead_code)]
-use cairo_air::components::range_check_6::{Claim, InteractionClaim, N_TRACE_COLUMNS};
+use cairo_air::components::range_check_6::{Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS};
 
 use crate::witness::prelude::*;
 
@@ -30,13 +30,7 @@ impl ClaimGenerator {
         let (trace, lookup_data) = write_trace_simd(n_rows, packed_inputs);
         tree_builder.extend_evals(trace.to_evals());
 
-        (
-            Claim { log_size },
-            InteractionClaimGenerator {
-                log_size,
-                lookup_data,
-            },
-        )
+        (Claim {}, InteractionClaimGenerator { lookup_data })
     }
 
     pub fn add_packed_input(&self, input: &PackedInputType) {
@@ -61,7 +55,6 @@ struct LookupData {
 }
 
 pub struct InteractionClaimGenerator {
-    log_size: u32,
     lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
@@ -70,7 +63,7 @@ impl InteractionClaimGenerator {
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
         range_check_6: &relations::RangeCheck_6,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
+        let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
 
         // Sum last logup term.
         let mut col_gen = logup_gen.new_col();
