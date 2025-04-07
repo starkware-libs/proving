@@ -36,7 +36,7 @@ fn test_fibonacci() {
 
     // Check entry
     compare_json(
-        &entry,
+        registry.compile().get(&entry.name).unwrap(),
         &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, entry.name),
     );
 }

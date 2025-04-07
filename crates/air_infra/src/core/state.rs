@@ -8,7 +8,6 @@ use std::fmt::Display;
 use std::rc::Rc;
 
 use compiled_casm_air::utils::STATE_VAR_SUFFIX;
-use serde::Serialize;
 
 use super::air_fn::*;
 use super::expressions::felt_expr::*;
@@ -60,10 +59,10 @@ impl ComponentContext {
     }
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug)]
 pub struct StateCell(FeltExpr, Option<String>);
 
-#[derive(Clone, Debug, Default, Serialize)]
+#[derive(Clone, Debug, Default)]
 pub struct State {
     row: Vec<StateCell>,
 }

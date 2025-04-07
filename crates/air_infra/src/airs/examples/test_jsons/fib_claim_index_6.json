@@ -2,143 +2,292 @@
   "name": "fib_claim_index_6",
   "relation_name": null,
   "description": "Fib Claim Index 6",
-  "inst_def": {
-    "claim_index": 6
-  },
-  "input": {
-    "name": "fib_claim_index_6_input",
-    "type": "M31"
-  },
-  "output": {
-    "name": "col4",
-    "type": "M31"
-  },
-  "trace_type": "Inline",
-  "air_body": [
+  "instance_definition": "{\"claim_index\":6}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "fib_claim_index_6_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input": [
+    "fib_claim_index_6_input",
+    "M31"
+  ],
+  "prover_output": [
     {
-      "Deduction": [
-        "fib_claim_index_6_input"
-      ]
+      "State": "col4"
     },
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
     {
-      "Call": {
-        "air_fn_name": "fib_step",
-        "air_fn_description": "Fib Step",
-        "input": [
-          {
-            "name": "1",
-            "type": "M31"
-          },
-          {
-            "name": "col0",
-            "type": "M31"
-          }
-        ],
-        "output_name": "fib_step_output_tmp_e6b3d_0",
-        "output": {
-          "name": "col1",
-          "type": "M31"
-        },
-        "state_names": [
-          "col1"
-        ]
+      "State": "col4"
+    },
+    "M31"
+  ],
+  "state_names": [
+    "col0",
+    "col1",
+    "col2",
+    "col3",
+    "col4"
+  ],
+  "lookup_names": {},
+  "inline_calls": {
+    "fib_step": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "name": "fib_step_output_tmp_e6b3d_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  },
+                  {
+                    "State": "col0"
+                  }
+                ]
+              },
+              {
+                "State": "col1"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "Call": {
-        "air_fn_name": "fib_step",
-        "air_fn_description": "Fib Step",
-        "input": [
-          {
-            "name": "col0",
-            "type": "M31"
-          },
-          {
-            "name": "col1",
-            "type": "M31"
-          }
-        ],
-        "output_name": "fib_step_output_tmp_e6b3d_1",
-        "output": {
-          "name": "col2",
-          "type": "M31"
-        },
-        "state_names": [
-          "col2"
-        ]
+      "Intermediate": {
+        "name": "fib_step_output_tmp_e6b3d_1",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col0"
+                  },
+                  {
+                    "State": "col1"
+                  }
+                ]
+              },
+              {
+                "State": "col2"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "Call": {
-        "air_fn_name": "fib_step",
-        "air_fn_description": "Fib Step",
-        "input": [
-          {
-            "name": "col1",
-            "type": "M31"
-          },
-          {
-            "name": "col2",
-            "type": "M31"
-          }
-        ],
-        "output_name": "fib_step_output_tmp_e6b3d_2",
-        "output": {
-          "name": "col3",
-          "type": "M31"
-        },
-        "state_names": [
-          "col3"
-        ]
+      "Intermediate": {
+        "name": "fib_step_output_tmp_e6b3d_2",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col1"
+                  },
+                  {
+                    "State": "col2"
+                  }
+                ]
+              },
+              {
+                "State": "col3"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "Call": {
-        "air_fn_name": "fib_step",
-        "air_fn_description": "Fib Step",
-        "input": [
-          {
-            "name": "col2",
-            "type": "M31"
-          },
-          {
-            "name": "col3",
-            "type": "M31"
-          }
-        ],
-        "output_name": "fib_step_output_tmp_e6b3d_3",
-        "output": {
-          "name": "col4",
-          "type": "M31"
-        },
-        "state_names": [
-          "col4"
-        ]
+      "Intermediate": {
+        "name": "fib_step_output_tmp_e6b3d_3",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col2"
+                  },
+                  {
+                    "State": "col3"
+                  }
+                ]
+              },
+              {
+                "State": "col4"
+              }
+            ]
+          ]
+        }
       }
     }
   ],
-  "state": {
-    "row": [
-      [
-        "col0",
-        null
-      ],
-      [
-        "col1",
-        null
-      ],
-      [
-        "col2",
-        null
-      ],
-      [
-        "col3",
-        null
-      ],
-      [
-        "col4",
-        null
-      ]
-    ]
-  }
+  "deductions": [
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "fib_claim_index_6_input"
+        ]
+      }
+    },
+    {
+      "StartBlock": "Fib Step"
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col0"
+              },
+              "*",
+              {
+                "State": "col0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Fib Step"
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col0"
+              },
+              "*",
+              {
+                "State": "col0"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col1"
+              },
+              "*",
+              {
+                "State": "col1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Fib Step"
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col1"
+              },
+              "*",
+              {
+                "State": "col1"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col2"
+              },
+              "*",
+              {
+                "State": "col2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Fib Step"
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col2"
+              },
+              "*",
+              {
+                "State": "col2"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col3"
+              },
+              "*",
+              {
+                "State": "col3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock"
+  ]
 }

@@ -2,162 +2,606 @@
   "name": "bit_unpack_n_4",
   "relation_name": null,
   "description": "Bit Unpack N 4",
-  "inst_def": {
-    "n": 4
-  },
-  "input": {
-    "name": "bit_unpack_n_4_input",
-    "type": "UInt16"
-  },
-  "output": [
-    {
-      "name": "div_2_output_tmp_9eca5_2.0",
-      "type": "Bool"
-    },
-    {
-      "name": "div_2_output_tmp_9eca5_5.0",
-      "type": "Bool"
-    },
-    {
-      "name": "div_2_output_tmp_9eca5_8.0",
-      "type": "Bool"
-    },
-    {
-      "name": "div_2_output_tmp_9eca5_11.0",
-      "type": "Bool"
-    }
+  "instance_definition": "{\"n\":4}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "bit_unpack_n_4_input",
+    "UInt16",
+    "PackedUInt16"
   ],
-  "trace_type": "Inline",
-  "air_body": [
+  "verifier_input": [
+    "[bit_unpack_n_4_input_limb_0]",
+    "[M31; 1]"
+  ],
+  "prover_output": [
     {
-      "Deduction": [
-        "bit_unpack_n_4_input.as_m31()"
+      "Array": [
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_9eca5_2.0"
+          ]
+        },
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_9eca5_5.0"
+          ]
+        },
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_9eca5_8.0"
+          ]
+        },
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_9eca5_11.0"
+          ]
+        }
       ]
     },
+    "[Bool; 4]",
+    "[PackedBool; 4]"
+  ],
+  "verifier_output": [
     {
-      "Call": {
-        "air_fn_name": "div_2",
-        "air_fn_description": "Div 2",
-        "input": {
-          "name": "bit_unpack_n_4_input",
-          "type": "UInt16"
+      "Array": [
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_9eca5_2_limb_0"
+          ]
         },
-        "output_name": "div_2_output_tmp_9eca5_2",
-        "output": [
-          {
-            "name": "div_2_output_tmp_9eca5_2.0",
-            "type": "Bool"
-          },
-          {
-            "name": "div_2_output_tmp_9eca5_2.1",
-            "type": "UInt16"
-          }
-        ],
-        "state_names": [
-          "col1"
-        ]
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_9eca5_5_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_9eca5_8_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_9eca5_11_limb_0"
+          ]
+        }
+      ]
+    },
+    "[M31; 4]"
+  ],
+  "state_names": [
+    "col0",
+    "col1",
+    "col2",
+    "col3",
+    "col4"
+  ],
+  "lookup_names": {},
+  "inline_calls": {
+    "div_2": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "name": "[div_2_output_tmp_9eca5_2_limb_0, div_2_output_tmp_9eca5_2_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col0"
+                  }
+                ]
+              },
+              {
+                "State": "col1"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "Call": {
-        "air_fn_name": "div_2",
-        "air_fn_description": "Div 2",
-        "input": {
-          "name": "div_2_output_tmp_9eca5_2.1",
-          "type": "UInt16"
-        },
-        "output_name": "div_2_output_tmp_9eca5_5",
-        "output": [
-          {
-            "name": "div_2_output_tmp_9eca5_5.0",
-            "type": "Bool"
-          },
-          {
-            "name": "div_2_output_tmp_9eca5_5.1",
-            "type": "UInt16"
-          }
-        ],
-        "state_names": [
-          "col2"
-        ]
+      "Intermediate": {
+        "name": "[div_2_output_tmp_9eca5_5_limb_0, div_2_output_tmp_9eca5_5_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col1"
+                  }
+                ]
+              },
+              {
+                "State": "col2"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "Call": {
-        "air_fn_name": "div_2",
-        "air_fn_description": "Div 2",
-        "input": {
-          "name": "div_2_output_tmp_9eca5_5.1",
-          "type": "UInt16"
-        },
-        "output_name": "div_2_output_tmp_9eca5_8",
-        "output": [
-          {
-            "name": "div_2_output_tmp_9eca5_8.0",
-            "type": "Bool"
-          },
-          {
-            "name": "div_2_output_tmp_9eca5_8.1",
-            "type": "UInt16"
-          }
-        ],
-        "state_names": [
-          "col3"
-        ]
+      "Intermediate": {
+        "name": "[div_2_output_tmp_9eca5_8_limb_0, div_2_output_tmp_9eca5_8_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col2"
+                  }
+                ]
+              },
+              {
+                "State": "col3"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "Call": {
-        "air_fn_name": "div_2",
-        "air_fn_description": "Div 2",
-        "input": {
-          "name": "div_2_output_tmp_9eca5_8.1",
-          "type": "UInt16"
-        },
-        "output_name": "div_2_output_tmp_9eca5_11",
-        "output": [
-          {
-            "name": "div_2_output_tmp_9eca5_11.0",
-            "type": "Bool"
-          },
-          {
-            "name": "div_2_output_tmp_9eca5_11.1",
-            "type": "UInt16"
-          }
-        ],
-        "state_names": [
-          "col4"
-        ]
+      "Intermediate": {
+        "name": "[div_2_output_tmp_9eca5_11_limb_0, div_2_output_tmp_9eca5_11_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col3"
+                  }
+                ]
+              },
+              {
+                "State": "col4"
+              }
+            ]
+          ]
+        }
       }
     },
     {
       "Constraint": [
-        "col4"
+        {
+          "State": "col4"
+        },
+        null
       ]
     }
   ],
-  "state": {
-    "row": [
-      [
-        "col0",
-        null
-      ],
-      [
-        "col1",
-        null
-      ],
-      [
-        "col2",
-        null
-      ],
-      [
-        "col3",
-        null
-      ],
-      [
-        "col4",
-        null
-      ]
-    ]
-  }
+  "deductions": [
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "bit_unpack_n_4_input"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "bit_unpack_n_4_input"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_9eca5_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_9eca5_2",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_9eca5_1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_9eca5_0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_3",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "div_2_output_tmp_9eca5_2.1"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_9eca5_3"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_4",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col1"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_9eca5_5",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_9eca5_4"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_9eca5_3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_6",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "div_2_output_tmp_9eca5_5.1"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_9eca5_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col2"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_9eca5_8",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_9eca5_7"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_9eca5_6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_9",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "div_2_output_tmp_9eca5_8.1"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_9eca5_9"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_9eca5_10",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col3"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col4"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_9eca5_11",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_9eca5_10"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_9eca5_9"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock"
+  ]
 }

@@ -20,7 +20,7 @@ use crate::core::Felt;
 // A Call is an air_body component that represents a call to another air function.
 // It contains the name of the air function, the input argument, the output of the call
 // and the air_body of the called function.
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug)]
 pub struct Call {
     pub air_fn_name: String,
     pub air_fn_description: String,
@@ -28,18 +28,15 @@ pub struct Call {
     pub output_name: String,
     pub output: AirVarImpl,
     pub state_names: Vec<String>,
-    #[serde(skip)]
     pub air_body: AirBody,
 }
 
 // Computes the output of the component into an intermediate variable named <output_name>.
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug)]
 pub struct LookupCall {
     pub air_fn_name: String,
     pub method_name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub ext_input: Option<AirVarImpl>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub input: Option<AirVarImpl>,
     pub output_name: String,
     pub output: AirVarImpl,
@@ -47,26 +44,19 @@ pub struct LookupCall {
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
 // These describe the steps to execute the function.
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug)]
 pub enum AirBodyComponent {
     // Add a constraint that the given expression equals zero.
-    Constraint(
-        FeltExpr,
-        #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
-    ),
+    Constraint(FeltExpr, Option<String>),
 
     // Write the value of the given expression to the next cell in the state.
-    Deduction(
-        FeltExpr,
-        #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
-    ),
+    Deduction(FeltExpr, Option<String>),
 
     // An assignment is a constraint and a deduction referring to the same trace cell.
     // For example, when copying a value from one trace cell to another.
     Assignment {
         constraint: FeltExpr,
         deduction: FeltExpr,
-        #[serde(skip_serializing_if = "Option::is_none")]
         desc: Option<String>,
     },
 
@@ -84,9 +74,7 @@ pub enum AirBodyComponent {
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         air_fn_name: String,
-        #[serde(skip_serializing_if = "Option::is_none")]
         ext_input: Option<AirVarImpl>,
-        #[serde(skip_serializing_if = "Option::is_none")]
         input: Option<AirVarImpl>,
     },
 
@@ -101,7 +89,7 @@ pub enum AirBodyComponent {
 }
 
 // A structure for the air_body of an air_fn.
-#[derive(Debug, Clone, Serialize, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct AirBody(Vec<AirBodyComponent>);
 
 impl AirBody {

@@ -3,11 +3,7 @@ use std::fmt::Display;
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use enum_dispatch::enum_dispatch;
-use serde::ser::SerializeStruct;
-use serde::{Serialize, Serializer};
-use stwo_cairo_common::prover_types::cpu::{
-    BigUInt, Bool, Felt252, Felt252Width27, ProverType, UInt16, UInt32, UInt64,
-};
+use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::super::air_body::*;
 use super::super::variables::*;
@@ -21,7 +17,6 @@ use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 use super::var_expr::*;
-use crate::core::Felt;
 
 /// Experssions can be manipulated with binary and unary operations.
 /// They have a type that determines the operations that can be performed on them.
@@ -210,20 +205,6 @@ pub enum ExprImpl {
 }
 
 impl ExprImpl {
-    fn r#type(&self) -> String {
-        match self {
-            ExprImpl::Felt(_) => Felt::r#type(),
-            ExprImpl::UInt16(_) => UInt16::r#type(),
-            ExprImpl::Bool(_) => Bool::r#type(),
-            ExprImpl::UInt32(_) => UInt32::r#type(),
-            ExprImpl::UInt64(_) => UInt64::r#type(),
-            ExprImpl::Felt252(_) => Felt252::r#type(),
-            ExprImpl::Felt252Width27(_) => Felt252Width27::r#type(),
-            ExprImpl::BigUInt384(_) => BigUInt::<384, 6, 32>::r#type(),
-            ExprImpl::BigUInt768(_) => BigUInt::<768, 12, 64>::r#type(),
-        }
-    }
-
     pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
             ExprImpl::Felt(f) => f,
@@ -291,20 +272,5 @@ where
 {
     fn from(expr: E) -> AirVarImpl {
         AirVarImpl::Expr(expr.into())
-    }
-}
-
-impl Serialize for ExprImpl {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut expr = serializer.serialize_struct("Expr", 2)?;
-        expr.serialize_field(
-            "name",
-            &self.clone().compile(CompileFor::Deductions).to_string(),
-        )?;
-        expr.serialize_field("type", &self.r#type())?;
-        expr.end()
     }
 }

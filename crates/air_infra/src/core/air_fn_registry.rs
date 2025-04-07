@@ -5,7 +5,6 @@ use std::rc::Rc;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use indexmap::{IndexMap, IndexSet};
-use serde::Serialize;
 
 use super::air_body::*;
 use super::air_fn::*;
@@ -14,15 +13,13 @@ use super::state::*;
 use super::variables::*;
 
 // AirFnEntry describes everything we know about an Air function.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone)]
 pub struct AirFnEntry {
     pub(crate) name: String,
     pub(crate) relation_name: Option<String>,
     pub(crate) description: String,
     pub(crate) inst_def: serde_json::Value,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) ext_input: Option<AirVarImpl>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) input: Option<AirVarImpl>,
     pub(crate) output: AirVarImpl,
     pub(crate) trace_type: TraceType,
@@ -114,11 +111,10 @@ impl AirFnEntry {
 
 // AirFnRegistry is created for a specific air function. It keeps all the air function entries
 // for the air function and its subroutines.
-#[derive(Debug, Clone, Serialize, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct AirFnRegistry {
     pub air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
     pub air_fn_ids: Rc<RefCell<HashSet<String>>>,
-    #[serde(skip)]
     pub public_params: PublicParams,
 }
 
@@ -319,7 +315,6 @@ impl AirFnRegistry {
         (air_builder.air_body, state, ext_input, input, output)
     }
 
-    #[cfg(test)]
     pub fn compile(&self) -> IndexMap<String, CompiledAirFn> {
         self.air_fns
             .borrow()

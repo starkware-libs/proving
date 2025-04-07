@@ -1,4 +1,6 @@
-use compiled_casm_air::utils::{dump_to_file, read_json};
+use std::fs;
+
+use compiled_casm_air::utils::dump_to_file;
 use serde::Serialize;
 
 use crate::core::state::*;
@@ -13,10 +15,14 @@ where
     if is_fix_mode {
         dump_to_file(value, Some(file_path));
     } else {
-        let expected_json = read_json(file_path);
-        let given_json = serde_json::to_value(value).expect("Failed to serialize the given value");
+        // It is more efficient to compare strings than jsons.
+        let expected =
+            fs::read_to_string(file_path).expect("Failed to read the expected JSON file");
+        let mut given = serde_json::to_string_pretty(value).expect("serialization failed");
+        given.push('\n');
+
         assert!(
-            given_json == expected_json,
+            given == expected,
             r#"
             Given value
             is different from the json in {}.

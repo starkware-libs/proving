@@ -2,62 +2,252 @@
   "name": "air_fn_bit_mux",
   "relation_name": null,
   "description": "Air Fn Bit Mux",
-  "inst_def": {},
-  "input": {
-    "name": "air_fn_bit_mux_input",
-    "type": "UInt16"
-  },
-  "output": {
-    "name": "div_2_output_tmp_6ffde_2.0",
-    "type": "Bool"
-  },
-  "trace_type": "Inline",
-  "air_body": [
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "air_fn_bit_mux_input",
+    "UInt16",
+    "PackedUInt16"
+  ],
+  "verifier_input": [
+    "[air_fn_bit_mux_input_limb_0]",
+    "[M31; 1]"
+  ],
+  "prover_output": [
     {
-      "Deduction": [
-        "air_fn_bit_mux_input.as_m31()"
+      "Var": [
+        "Bool",
+        "div_2_output_tmp_6ffde_2.0"
       ]
     },
+    "Bool",
+    "PackedBool"
+  ],
+  "verifier_output": [
     {
-      "Call": {
-        "air_fn_name": "div_2",
-        "air_fn_description": "Div 2",
-        "input": {
-          "name": "air_fn_bit_mux_input",
-          "type": "UInt16"
-        },
-        "output_name": "div_2_output_tmp_6ffde_2",
-        "output": [
-          {
-            "name": "div_2_output_tmp_6ffde_2.0",
-            "type": "Bool"
-          },
-          {
-            "name": "div_2_output_tmp_6ffde_2.1",
-            "type": "UInt16"
-          }
-        ],
-        "state_names": [
-          "col1"
-        ]
+      "Array": [
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_6ffde_2_limb_0"
+          ]
+        }
+      ]
+    },
+    "[M31; 1]"
+  ],
+  "state_names": [
+    "col0",
+    "col1"
+  ],
+  "lookup_names": {},
+  "inline_calls": {
+    "div_2": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "name": "[div_2_output_tmp_6ffde_2_limb_0, div_2_output_tmp_6ffde_2_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col0"
+                  }
+                ]
+              },
+              {
+                "State": "col1"
+              }
+            ]
+          ]
+        }
       }
     },
     {
       "Constraint": [
-        "((tmp_6ffde_1 * col0) + ((1 - tmp_6ffde_1) * (col0 - 2)))"
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "div_2_output_tmp_6ffde_2_limb_0"
+                  ]
+                },
+                "*",
+                {
+                  "State": "col0"
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "div_2_output_tmp_6ffde_2_limb_0"
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "col0"
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "2"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
       ]
     }
   ],
-  "state": {
-    "row": [
-      [
-        "col0",
-        null
-      ],
-      [
-        "col1",
-        null
-      ]
-    ]
-  }
+  "deductions": [
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "air_fn_bit_mux_input"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_6ffde_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "air_fn_bit_mux_input"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_6ffde_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_6ffde_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_6ffde_2",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_6ffde_1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_6ffde_0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock"
+  ]
 }
