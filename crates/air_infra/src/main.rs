@@ -21,7 +21,7 @@ pub fn main() {
         MainCommands::FnSizes => print_fn_sizes(),
         MainCommands::WriteJson(command) => {
             println!("Input args {:?}", command.args);
-            dump_to_file(&create_air_fn_registry(command.args), None);
+            dump_to_file(&create_air_fn_registry(command.args).compile(), None);
         }
     }
 }

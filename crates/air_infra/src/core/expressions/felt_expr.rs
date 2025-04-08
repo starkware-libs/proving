@@ -1,9 +1,6 @@
-use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
-use serde::{Serialize, Serializer};
 
-use super::super::air_body::*;
 use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -133,17 +130,6 @@ impl TryIntoFeltExpr for FeltExpr {
 impl Default for FeltExpr {
     fn default() -> Self {
         const_expr!(0)
-    }
-}
-
-// Serialize is implemented for FeltExpr because it appears in air body.
-impl Serialize for FeltExpr {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let var: CompiledAirVar = self.clone().compile(CompileFor::Deductions);
-        serializer.collect_str(&var.to_string())
     }
 }
 

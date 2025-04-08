@@ -182,7 +182,7 @@ pub struct AirVarInfo {
     pub external_state: Option<(String, Vec<String>)>,
 }
 
-#[derive(Clone, Copy, Debug, Serialize, PartialEq, Eq, Hash, Default)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Default)]
 pub struct Visibility {
     pub in_constraints: bool,
     pub in_deductions: bool,
@@ -197,7 +197,7 @@ impl Visibility {
     }
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug)]
 pub struct Intermediate {
     pub name: String,
     pub var: AirVarImpl,
@@ -316,8 +316,7 @@ where
 }
 
 // Air variables as represented in the air_body.
-#[derive(Clone, Debug, Serialize)]
-#[serde(untagged)]
+#[derive(Clone, Debug)]
 pub enum AirVarImpl {
     Expr(ExprImpl),
     Tuple(Vec<AirVarImpl>),
