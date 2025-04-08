@@ -93,10 +93,8 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
         let mut vars = vec![interm0];
 
         for (i, (orig_felt, felt)) in orig_felts.iter_mut().zip(res.as_felts_mut()).enumerate() {
-            let parent_source = felt.clone();
             if orig_felt.is_directly_in_state() {
                 *felt = orig_felt.clone();
-                felt.copy_parent(&parent_source);
                 continue;
             }
 
