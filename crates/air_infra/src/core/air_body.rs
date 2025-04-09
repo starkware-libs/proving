@@ -96,10 +96,18 @@ impl AirBody {
     // Checks visibility and in_state status of the variables in the new component and adds it.
     pub fn push(&mut self, component: AirBodyComponent) {
         match &component {
-            AirBodyComponent::Constraint(expr, _) => {
+            AirBodyComponent::Constraint(expr, desc) => {
                 assert!(
                     expr.visibility().in_constraints && expr.in_state(),
                     "constraint must be in state and have only intermediate variables known in constraints"
+                );
+                let deg = expr.deg_in_state().unwrap();
+                assert!(
+                    deg <= 3,
+                    "constraint must have degree <= 3, encountered degree {} in constraint named '{}' with expression\n{:#?}",
+                    deg,
+                    desc.clone().unwrap_or_default(),
+                    expr
                 );
             }
             AirBodyComponent::Deduction(expr, _) => {
@@ -129,12 +137,12 @@ impl AirBody {
             }) => {
                 assert!(
                     visibility.in_deductions || visibility.in_constraints,
-                    "Visibility of intermediates must be set"
+                    "visibility of intermediates must be set"
                 );
                 if visibility.in_constraints {
                     assert!(
                         var.prover_type() == Felt::r#type(),
-                        "Only felts can be intermediates in constraints"
+                        "only felts can be intermediates in constraints"
                     );
                 }
                 if visibility.in_constraints {
@@ -185,11 +193,23 @@ impl AirBody {
                     );
                 }
             }
-            AirBodyComponent::LookupTerm { felts, .. } => {
+            AirBodyComponent::LookupTerm {
+                felts,
+                relation_name,
+                ..
+            } => {
                 for f in felts {
                     assert!(
                         f.visibility().in_deductions && f.visibility().in_constraints && f.in_state(),
                         "lookup term must be in state and have only intermediate variables known in deductions and constraints"
+                    );
+                    let deg = f.deg_in_state().unwrap();
+                    assert!(
+                        deg <= 1,
+                        "lookup term must have degree <= 1, encountered degree {} in term named '{}' with expression\n{:#?}",
+                        deg,
+                        relation_name,
+                        f
                     );
                 }
             }

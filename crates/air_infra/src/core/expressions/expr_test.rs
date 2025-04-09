@@ -235,8 +235,9 @@ fn test_conversion_bool_to_uint16() {
     assert_eq!(&i.to_string(), "UInt16::from_bool(tmp0)");
 
     b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
-    let i: UInt16Expr = b.clone().into();
-    assert!(i.in_state());
+    let mut i: UInt16Expr = b.clone().into();
+    i = i.let_for_deduction("tmp0".to_string()).0;
+    assert!(!i.as_felt().in_state());
 }
 
 #[test]
@@ -298,6 +299,44 @@ fn test_is_const() {
     x = x.let_for_deduction("new_x".to_string()).0;
     assert!(!x.is_const());
     assert!(x.get_felt(0).is_const());
+}
+
+#[test]
+fn test_degree_in_state() {
+    let mut f = expr!("x", 17);
+    f = f
+        .let_for_deduction(format!("{}0", INTERMEDIATE_VAR_SUFFIX))
+        .0;
+    assert!(!f.in_state());
+    assert!(f.deg_in_state().is_none());
+
+    f.to_state(StateInfo::StateIndex(0, None));
+    assert!(f.in_state());
+    assert_eq!(f.deg_in_state(), Some(1));
+
+    let f2 = f.clone() * f.clone();
+    assert!(f2.in_state());
+    assert_eq!(f2.deg_in_state(), Some(2));
+
+    let c = const_expr!(32);
+    assert!(c.in_state());
+    assert_eq!(c.deg_in_state(), Some(0));
+
+    let f3 = f.clone() * f.clone() * f.clone();
+    assert_eq!(f3.deg_in_state(), Some(3));
+
+    let f4 = f3.clone() - f2.clone() + f.clone() - c.clone();
+    assert!(f4.in_state());
+    assert_eq!(f4.deg_in_state(), Some(3));
+
+    let x = c.clone() * f.clone();
+    assert_eq!(x.deg_in_state(), Some(1));
+
+    let x = f.clone() / c.clone();
+    assert_eq!(x.deg_in_state(), Some(1));
+
+    let x = c.clone() / f.clone();
+    assert_eq!(x.deg_in_state(), None);
 }
 
 #[test]

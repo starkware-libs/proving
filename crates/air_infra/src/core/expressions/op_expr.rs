@@ -147,6 +147,51 @@ where
             _ => panic!("Invalid number of children for operation"),
         }
     }
+
+    fn deg_in_state(&self) -> Option<usize> {
+        if T::r#type() != Felt::r#type()
+            || self
+                .children
+                .iter()
+                .any(|c| c.prover_type() != Felt::r#type())
+        {
+            panic!("Only felt variables can have a degree in state");
+        }
+
+        let degs: Vec<Option<usize>> = self.children.iter().map(|c| c.deg_in_state()).collect();
+        if degs.iter().any(|c| c.is_none()) {
+            return None;
+        }
+
+        // OpExpr-s need unique degree computation logic, to correctly evaluate degrees of products.
+        match self.op {
+            Operation::Add | Operation::Sub => {
+                assert!(degs.len() == 2);
+                Some(std::cmp::max(degs[0].unwrap(), degs[1].unwrap()))
+            }
+            Operation::Mul => {
+                assert!(degs.len() == 2);
+                Some(degs[0].unwrap() + degs[1].unwrap())
+            }
+            // Inverting or dividing a non-constant expression is not a low degree polynomial.
+            Operation::Div => {
+                assert!(degs.len() == 2);
+                if degs[1] == Some(0) {
+                    degs[0]
+                } else {
+                    None
+                }
+            }
+            Operation::Inverse => {
+                if degs[0] == Some(0) {
+                    Some(0)
+                } else {
+                    None
+                }
+            }
+            _ => panic!("Shouldn't reach here"),
+        }
+    }
 }
 
 #[derive(Copy, Clone, Default, Debug, Eq, PartialEq, PartialOrd, Ord, Serialize, Deserialize)]

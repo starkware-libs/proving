@@ -40,7 +40,7 @@ pub type ChainIdVar = FeltExpr;
 #[allow(private_bounds)]
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
-    fn new(name: String, in_state: bool) -> Self;
+    fn new(name: String, deg_in_state: Option<usize>) -> Self;
 
     fn let_for_deduction(&self, name: String) -> (Self, Intermediate);
 
@@ -122,11 +122,15 @@ pub trait InternalAirVarInfo {
 
     // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in
     // trace cells. Used to verify that expressions of constraints are polynomials of felts
-    // written to the trace. We check this in run mode, since when building an air body, we want
-    // all constraints to refer to sepecial inputs carrying the AirFn name.
+    // written to the trace.
     fn in_state(&self) -> bool {
-        self.get_info().iter().all(|i| i.in_state)
+        self.deg_in_state().is_some()
     }
+
+    // An AirVar which is in_state has an associated degree of the polynomial of the stored trace
+    // cells felt (if it is stored directly, the degree is 1). Used to verify that the degrees of
+    // expressions of constraints or lookup terms are polynomials of sufficiently small degree.
+    fn deg_in_state(&self) -> Option<usize>;
 
     // An AirVar is_const if was created with a value and the flag is_const = true, or if it is the
     // result of operations on other constants.
@@ -173,7 +177,6 @@ pub trait InternalAirVarInfo {
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct AirVarInfo {
-    pub in_state: bool,
     pub is_const: bool,
     pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
@@ -235,7 +238,7 @@ pub trait ExtTable: Default + Debug + Clone {
     type T: AirVar;
 
     fn new() -> Self::T {
-        let mut res = Self::T::new("".to_string(), false);
+        let mut res = Self::T::new("".to_string(), None);
         Self::to_state(&mut res);
         res
     }
@@ -464,6 +467,13 @@ impl InternalAirVarInfo for AirVarImpl {
         }
     }
 
+    fn deg_in_state(&self) -> Option<usize> {
+        match self {
+            AirVarImpl::Expr(expr) => expr.deg_in_state(),
+            _ => panic!("Cannot get degree in state for tuples, arrays or structs"),
+        }
+    }
+
     fn prover_type(&self) -> String {
         match self {
             AirVarImpl::Expr(expr) => expr.prover_type(),
@@ -562,7 +572,7 @@ impl AirVar for () {
     fn is_empty() -> bool {
         true
     }
-    fn new(_name: String, _in_state: bool) -> Self {}
+    fn new(_name: String, _deg_in_state: Option<usize>) -> Self {}
     fn let_for_deduction(&self, _name: String) -> (Self, Intermediate) {
         ((), Intermediate::new_for_deduction("", self))
     }
@@ -680,8 +690,8 @@ macro_rules! impl_air_var {
                 }
                 (res, interm)
             }
-            fn new(name: String, in_state: bool) -> Self {
-                from_fn(|j| from_fn(|i| <$s as AirVar>::new(format!("{}_{}[{}]", name, j, i), in_state)))
+            fn new(name: String, deg_in_state: Option<usize>) -> Self {
+                from_fn(|j| from_fn(|i| <$s as AirVar>::new(format!("{}_{}[{}]", name, j, i), deg_in_state)))
             }
         }
 
@@ -702,8 +712,8 @@ macro_rules! impl_air_var {
                 let interm = Intermediate::new_for_deduction(&name, self);
                 (from_fn(|i| self[i].let_for_deduction(format!("{}[{}]", name, i)).0), interm)
             }
-            fn new(name: String, in_state: bool) -> Self {
-                from_fn(|i| <$s as AirVar>::new(format!("{}[{}]", name, i), in_state))
+            fn new(name: String, deg_in_state: Option<usize>) -> Self {
+                from_fn(|i| <$s as AirVar>::new(format!("{}[{}]", name, i), deg_in_state))
             }
         }
 
@@ -732,9 +742,9 @@ macro_rules! impl_air_var {
                 let mut i = 0;
                 (($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i - 1 })).0,)+), interm)
             }
-            fn new(name: String, in_state: bool) -> Self {
+            fn new(name: String, deg_in_state: Option<usize>) -> Self {
                 let mut i = 0;
-                ($(<$s$(< $( $lt ),+ >)? as AirVar>::new(format!("{}.{}", name, { i += 1; i - 1 }), in_state),)+)
+                ($(<$s$(< $( $lt ),+ >)? as AirVar>::new(format!("{}.{}", name, { i += 1; i - 1 }), deg_in_state),)+)
             }
         }
 

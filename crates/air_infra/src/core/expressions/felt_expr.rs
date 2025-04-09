@@ -28,11 +28,11 @@ pub enum StateInfo {
     // The second argument is the description of the trace cell. It is used only for compilation.
     // Consider moving to a compilation context.
     StateIndex(usize, Option<String>),
-    // If the <bool> value is true, the felt is a polynomial expression in the state. It is
-    // unspecified what this polynomial is. If the <bool> is false, the felt is not a
+    // If the <Option> value is Some(<deg>), the felt is a polynomial expression in the state, of
+    // degree at most <deg>. If the <Option> is None, the felt is not a
     // polynomial expression in the state (for example, a value read from the memory and not
     // written to the state yet).
-    IsPolyOfState(bool),
+    DegPolyOfState(Option<usize>),
     // The felt is in  an external state (a preprocessed column). The arguments are the name of
     // the preprocessed column class, and the arguments its constructor.
     ExtTableState(String, Vec<String>),
@@ -41,9 +41,9 @@ pub enum StateInfo {
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
-    fn create_complex_or_felt(&mut self, is_const: bool, in_state: bool) {
+    fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>) {
         self.complex_or_felt = ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::IsPolyOfState(in_state),
+            state_info: StateInfo::DegPolyOfState(deg_in_state),
             constraint_intermediate: None,
             is_const,
         });
@@ -59,8 +59,8 @@ impl FeltExpr {
     pub fn to_state(&mut self, new_state_info: StateInfo) {
         let name = match &new_state_info {
             StateInfo::StateIndex(index, desc) => State::get_cell_name(*index, desc),
-            StateInfo::IsPolyOfState(_) => {
-                panic!("to_state shouldn't be used to make a FeltExpr an IsPolyOfState")
+            StateInfo::DegPolyOfState(_) => {
+                panic!("to_state shouldn't be used to make a FeltExpr an DegPolyOfState")
             }
             StateInfo::ExtTableState(name, args) => {
                 format!("{}({})", name.to_case(Case::Snake), args.join(", "))
@@ -154,7 +154,7 @@ macro_rules! expr {
             $name.to_string(),
             Some($crate::core::Felt::from($val)),
             false,
-            false,
+            None,
         ))
     };
 }
