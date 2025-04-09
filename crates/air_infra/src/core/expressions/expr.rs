@@ -104,9 +104,9 @@ where
         }
 
         let mut res = Expr::Var(VarExpr::new(name, from.value(), from.is_const(), false));
-        if let Ok(orig_felts) = from.clone().as_felts_mut_res() {
+        if let Ok(orig_felts) = from.clone().try_as_felts_mut() {
             for (felt, orig_felt) in res.as_felts_mut().into_iter().zip(orig_felts) {
-                if let Expr::Var(ref orig_v) = orig_felt.clone() {
+                if let Expr::Var(ref orig_v) = orig_felt {
                     *felt.as_var_mut() = orig_v.clone();
                 } else if orig_felt.in_state() {
                     felt.as_var_mut()
@@ -120,7 +120,7 @@ where
         res
     }
 
-    fn as_felts_mut_res(&mut self) -> Result<Vec<&mut FeltExpr>, String>
+    fn try_as_felts_mut(&mut self) -> Result<Vec<&mut FeltExpr>, String>
     where
         Self: Into<ExprImpl> + TryIntoFeltExpr,
         VarExpr<T>: VarExprUpdate,
@@ -165,7 +165,7 @@ where
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.as_felts_mut_res().unwrap_or_else(|e| panic!("{}", e))
+        self.try_as_felts_mut().unwrap_or_else(|e| panic!("{}", e))
     }
 }
 
