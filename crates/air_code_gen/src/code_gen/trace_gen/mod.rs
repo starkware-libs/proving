@@ -13,6 +13,7 @@ use itertools::Itertools;
 
 use super::parse::{is_masked_relation, seek_consts};
 use super::utils::{block_doc, get_variable_name, replace_generics_with_turbofish};
+use crate::code_gen::parse::is_const_size_component;
 
 pub enum Mode {
     Opcode,
@@ -74,7 +75,7 @@ impl RustProverGen {
         let sub_component_inputs_struct = self.generate_sub_component_inputs_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
-        let interaction_struct = interaction_prover_struct(&self.lists.padding_type);
+        let interaction_struct = interaction_prover_struct(&self.lists);
         let interaction_impl = self.generate_interaction_impl();
         let write_trace_code = self.generate_simd_write_trace_code();
         quote! {
@@ -237,7 +238,11 @@ impl RustProverGen {
     }
 
     fn write_trace_body_simd(&self) -> rust::Tokens {
-        let mut claim_fields = quote! {log_size,};
+        let mut claim_fields = if is_const_size_component(&self.lists) {
+            quote! {}
+        } else {
+            quote! {log_size,}
+        };
         for public_param in &self.public_params {
             claim_fields.extend(quote! {
                 $(public_param.name()): self.$(public_param.name()),
@@ -257,10 +262,13 @@ impl RustProverGen {
                let log_size = self.log_size;
             },
         };
-        let n_rows = match self.lists.padding_type {
+        let mut interaction_claim_fields = match self.lists.padding_type {
             PaddingType::Enabler => quote! { n_rows, },
             _ => quote! {},
         };
+        if !is_const_size_component(&self.lists) {
+            interaction_claim_fields.extend(quote! { log_size, });
+        }
 
         let sub_component_inputs = if self.contains_sub_components() {
             quote! { sub_component_inputs }
@@ -290,8 +298,7 @@ impl RustProverGen {
                 $(claim_fields)
             },
             InteractionClaimGenerator {
-                $(n_rows)
-                log_size,
+                $(interaction_claim_fields)
                 lookup_data,
             },
             )
@@ -392,12 +399,18 @@ impl RustProverGen {
             });
         }
 
+        let log_size = if is_const_size_component(&self.lists) {
+            quote! { LOG_SIZE }
+        } else {
+            quote! {log_size}
+        };
+
         let mut preprocessed_def_code = quote! {};
         for (name, args) in &self.lists.external_states {
             // Seq is the only preprocessed column that is of unfixed size.
             if name == "Seq" {
                 preprocessed_def_code.extend(quote! {
-                    let seq = Seq::new(log_size);
+                    let seq = Seq::new($(&log_size));
                 });
             } else {
                 preprocessed_def_code.extend(quote! {
@@ -408,7 +421,7 @@ impl RustProverGen {
 
         let prelude_code = match self.mode {
             Mode::Builtin => quote! {
-            let log_n_packed_rows = log_size - LOG_N_LANES;
+            let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
             _ => quote! {
             let log_n_packed_rows = inputs.len().ilog2();
@@ -419,7 +432,7 @@ impl RustProverGen {
         let mut init_code = (
             quote! { mut trace, mut lookup_data,},
             quote! {
-                ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+                ComponentTrace::<N_TRACE_COLUMNS>::uninitialized($log_size),
                 LookupData::uninitialized(log_n_packed_rows),
             },
         );
@@ -611,10 +624,14 @@ impl RustProverGen {
                 tokens
             });
 
-        let padding = if let PaddingType::Enabler = self.lists.padding_type {
-            quote!(let enabler_col = Enabler::new(self.n_rows);)
+        let padding = match self.lists.padding_type {
+            PaddingType::Enabler => quote! {let enabler_col = Enabler::new(self.n_rows);},
+            _ => quote! {},
+        };
+        let log_size = if is_const_size_component(&self.lists) {
+            quote! {LOG_SIZE}
         } else {
-            quote!()
+            quote! {self.log_size}
         };
         quote! {
             impl InteractionClaimGenerator {
@@ -626,7 +643,7 @@ impl RustProverGen {
                 ) -> InteractionClaim
                 {
                     $(padding)
-                    let mut logup_gen = LogupTraceGenerator::new(self.log_size);
+                    let mut logup_gen = LogupTraceGenerator::new($log_size);
 
                     $(self.generate_write_interaction_trace_body())
                     let (trace, claimed_sum) = logup_gen.finalize_last();
@@ -769,6 +786,10 @@ impl RustProverGen {
                 use crate::witness::components::$(fn_name);
             })
         });
+        if is_const_size_component(&self.lists) {
+            sub_component_imports
+                .extend(quote! {use cairo_air::components::$(&self.lists.name)::LOG_SIZE;});
+        }
         quote! {
             use crate::witness::prelude::*;
             use cairo_air::components::$(&self.lists.name)::{Claim, InteractionClaim, N_TRACE_COLUMNS};
@@ -813,17 +834,20 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
         .collect()
 }
 
-fn interaction_prover_struct(padding_type: &PaddingType) -> rust::Tokens {
+fn interaction_prover_struct(lists: &CompiledAirFn) -> rust::Tokens {
     // Opcodes mask is determined by the number of "real" instances.
     // Both log_size and n_rows is needed because padding might not be to the next power of 2.
-    let n_rows = match padding_type {
+    let mut interaction_claim_fields = match lists.padding_type {
         PaddingType::Enabler => quote! { n_rows: usize, },
         _ => quote! {},
     };
+    if !is_const_size_component(lists) {
+        interaction_claim_fields.extend(quote! { log_size: u32, });
+    }
+
     quote! {
         pub struct InteractionClaimGenerator {
-            $(n_rows)
-            log_size: u32,
+            $(interaction_claim_fields)
             lookup_data: LookupData,
         }
     }

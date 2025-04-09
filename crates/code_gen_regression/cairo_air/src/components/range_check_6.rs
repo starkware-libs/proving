@@ -1,6 +1,7 @@
 use crate::components::prelude::*;
 
 pub const N_TRACE_COLUMNS: usize = 0;
+pub const LOG_SIZE: u32 = 4;
 
 pub struct Eval {
     pub claim: Claim,
@@ -8,18 +9,16 @@ pub struct Eval {
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
-pub struct Claim {
-    pub log_size: u32,
-}
+pub struct Claim {}
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-        let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
-        let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE];
+        let trace_log_sizes = vec![LOG_SIZE; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![LOG_SIZE; SECURE_EXTENSION_DEGREE];
         TreeVec::new(vec![vec![], trace_log_sizes, interaction_log_sizes])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_u64(self.log_size as u64);
+        channel.mix_u64(LOG_SIZE as u64);
     }
 }
 
@@ -37,7 +36,7 @@ pub type Component = FrameworkComponent<Eval>;
 
 impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
-        self.claim.log_size
+        LOG_SIZE
     }
 
     fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -76,7 +75,7 @@ mod tests {
     fn range_check_6_constraints_regression() {
         let mut rng = SmallRng::seed_from_u64(0);
         let eval = Eval {
-            claim: Claim { log_size: 4 },
+            claim: Claim {},
             range_check_6_lookup_elements: relations::RangeCheck_6::dummy(),
         };
         let expr_eval = eval.evaluate(ExprEvaluator::new());

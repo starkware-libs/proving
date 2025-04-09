@@ -3,6 +3,7 @@ use crate::components::subroutines::encode_offsets::EncodeOffsets;
 use crate::components::subroutines::mem_verify::MemVerify;
 
 pub const N_TRACE_COLUMNS: usize = 16;
+pub const LOG_SIZE: u32 = 4;
 
 pub struct Eval {
     pub claim: Claim,
@@ -14,18 +15,16 @@ pub struct Eval {
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
-pub struct Claim {
-    pub log_size: u32,
-}
+pub struct Claim {}
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-        let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
-        let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 3];
+        let trace_log_sizes = vec![LOG_SIZE; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![LOG_SIZE; SECURE_EXTENSION_DEGREE * 3];
         TreeVec::new(vec![vec![], trace_log_sizes, interaction_log_sizes])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_u64(self.log_size as u64);
+        channel.mix_u64(LOG_SIZE as u64);
     }
 }
 
@@ -43,7 +42,7 @@ pub type Component = FrameworkComponent<Eval>;
 
 impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
-        self.claim.log_size
+        LOG_SIZE
     }
 
     fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -164,7 +163,7 @@ mod tests {
     fn verify_instruction_constraints_regression() {
         let mut rng = SmallRng::seed_from_u64(0);
         let eval = Eval {
-            claim: Claim { log_size: 4 },
+            claim: Claim {},
             range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5::dummy(),
             range_check_4_3_lookup_elements: relations::RangeCheck_4_3::dummy(),
             memory_address_to_id_lookup_elements: relations::MemoryAddressToId::dummy(),

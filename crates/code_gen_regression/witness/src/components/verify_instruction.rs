@@ -1,5 +1,7 @@
 #![allow(unused_parens)]
-use cairo_air::components::verify_instruction::{Claim, InteractionClaim, N_TRACE_COLUMNS};
+use cairo_air::components::verify_instruction::{
+    Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS,
+};
 
 use crate::witness::components::{
     memory_address_to_id, memory_id_to_big, range_check_4_3, range_check_7_2_5,
@@ -67,13 +69,7 @@ impl ClaimGenerator {
             });
         tree_builder.extend_evals(trace.to_evals());
 
-        (
-            Claim { log_size },
-            InteractionClaimGenerator {
-                log_size,
-                lookup_data,
-            },
-        )
+        (Claim {}, InteractionClaimGenerator { lookup_data })
     }
 
     pub fn add_packed_input(&self, input: &PackedInputType) {
@@ -113,7 +109,7 @@ fn write_trace_simd(
     let log_size = log_n_packed_rows + LOG_N_LANES;
     let (mut trace, mut lookup_data, mut sub_component_inputs) = unsafe {
         (
-            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(LOG_SIZE),
             LookupData::uninitialized(log_n_packed_rows),
             SubComponentInputs::uninitialized(log_n_packed_rows),
         )
@@ -274,7 +270,6 @@ struct LookupData {
 }
 
 pub struct InteractionClaimGenerator {
-    log_size: u32,
     lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
@@ -287,7 +282,7 @@ impl InteractionClaimGenerator {
         memory_id_to_big: &relations::MemoryIdToBig,
         verify_instruction: &relations::VerifyInstruction,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
+        let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
 
         // Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
