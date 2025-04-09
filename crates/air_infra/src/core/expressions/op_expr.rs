@@ -111,12 +111,15 @@ where
     }
 }
 
-impl<T> InternalAirVarInfo for OpExpr<T>
+impl<T> AirVarImplInfo for OpExpr<T>
 where
     T: ProverType,
 {
-    fn get_info(&self) -> HashSet<AirVarInfo> {
-        self.children.iter().flat_map(|v| v.get_info()).collect()
+    fn var_expr_infos(&self) -> HashSet<VarExprInfo> {
+        self.children
+            .iter()
+            .flat_map(|v| v.var_expr_infos())
+            .collect()
     }
 
     fn prover_type(&self) -> String {

@@ -21,7 +21,7 @@ use super::var_expr::*;
 /// Experssions can be manipulated with binary and unary operations.
 /// They have a type that determines the operations that can be performed on them.
 #[derive(Clone, Debug)]
-#[enum_dispatch(InternalAirVarInfo, AsProverType<T>)]
+#[enum_dispatch(AirVarImplInfo, AsProverType<T>)]
 pub enum Expr<T>
 where
     T: ProverType,
@@ -184,7 +184,7 @@ where
 
 // All expressions.
 #[derive(Clone, Debug)]
-#[enum_dispatch(InternalAirVarInfo)]
+#[enum_dispatch(AirVarImplInfo)]
 pub enum ExprImpl {
     Felt(FeltExpr),
     UInt16(UInt16Expr),

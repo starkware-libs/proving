@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
-use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
+use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
 use indexmap::{IndexMap, IndexSet};
 
 use super::air_body::*;
@@ -43,6 +43,7 @@ impl AirFnEntry {
         };
         let input = Self::generate_input(self.ext_input, self.input);
         let input_name = format!("{}_{}", self.name, INPUT_VAR_SUFFIX);
+        let output_name = format!("{}_{}", self.name, OUTPUT_VAR_SUFFIX);
         let inline_calls = self
             .air_body
             .get_inline_calls()
@@ -82,11 +83,13 @@ impl AirFnEntry {
             verifier_input: (input.verifier_name(input_name), input.verifier_type()),
             prover_output: (
                 self.output.clone().compile(CompileFor::Deductions),
+                output_name.clone(),
                 self.output.prover_type(),
                 self.output.packed_prover_type(),
             ),
             verifier_output: (
                 self.output.as_limbs().compile(CompileFor::Constraints),
+                self.output.verifier_name(output_name),
                 self.output.verifier_type(),
             ),
             state_names: self.state.get_state_names(),

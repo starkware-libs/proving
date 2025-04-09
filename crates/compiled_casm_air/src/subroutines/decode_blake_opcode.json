@@ -187,6 +187,7 @@
         }
       ]
     },
+    "decode_blake_opcode_output",
     "([M31; 3], UInt32, [Bool; 2])",
     "([PackedM31; 3], PackedUInt32, [PackedBool; 2])"
   ],
@@ -341,6 +342,7 @@
         }
       ]
     },
+    "[decode_blake_opcode_output_limb_0, decode_blake_opcode_output_limb_1, decode_blake_opcode_output_limb_2, decode_blake_opcode_output_limb_3, decode_blake_opcode_output_limb_4, decode_blake_opcode_output_limb_5, decode_blake_opcode_output_limb_6]",
     "[M31; 7]"
   ],
   "state_names": [

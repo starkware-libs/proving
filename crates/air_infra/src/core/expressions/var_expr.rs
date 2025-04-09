@@ -147,12 +147,12 @@ where
     }
 }
 
-impl<T> InternalAirVarInfo for VarExpr<T>
+impl<T> AirVarImplInfo for VarExpr<T>
 where
     T: ProverType,
 {
-    fn get_info(&self) -> HashSet<AirVarInfo> {
-        let info = AirVarInfo {
+    fn var_expr_infos(&self) -> HashSet<VarExprInfo> {
+        let info = VarExprInfo {
             is_const: self.is_const(),
             visibility: self.visibility,
             public_param: if let ComplexOrFelt::Felt(FeltInfo {

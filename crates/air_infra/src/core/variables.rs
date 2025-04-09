@@ -109,8 +109,8 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
 // Information about air variables used by the air builder.
 #[enum_dispatch]
-pub trait InternalAirVarInfo {
-    fn get_info(&self) -> HashSet<AirVarInfo>;
+pub trait AirVarImplInfo {
+    fn var_expr_infos(&self) -> HashSet<VarExprInfo>;
 
     fn prover_type(&self) -> String;
 
@@ -139,7 +139,7 @@ pub trait InternalAirVarInfo {
     // Note that in runtime, we allow deduction of constant variables in internal calls, since an
     // AirFn can be called with different inputs in different calls.
     fn is_const(&self) -> bool {
-        self.get_info().iter().all(|i| i.is_const)
+        self.var_expr_infos().iter().all(|i| i.is_const)
     }
 
     // An AirVar is visible in constraints if it's a felt and each of its intermediate variables is
@@ -150,7 +150,7 @@ pub trait InternalAirVarInfo {
     // context.
     fn visibility(&self) -> Visibility {
         let visibilities = self
-            .get_info()
+            .var_expr_infos()
             .iter()
             .map(|i| i.visibility)
             .collect::<HashSet<_>>();
@@ -161,14 +161,14 @@ pub trait InternalAirVarInfo {
     }
 
     fn public_params(&self) -> BTreeSet<PublicParam> {
-        self.get_info()
+        self.var_expr_infos()
             .iter()
             .filter_map(|i| i.public_param.clone())
             .collect()
     }
 
     fn external_states(&self) -> BTreeSet<(String, Vec<String>)> {
-        self.get_info()
+        self.var_expr_infos()
             .iter()
             .filter_map(|i| i.external_state.clone())
             .collect()
@@ -176,7 +176,7 @@ pub trait InternalAirVarInfo {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
-pub struct AirVarInfo {
+pub struct VarExprInfo {
     pub is_const: bool,
     pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
@@ -374,9 +374,8 @@ impl AirVarImpl {
                 }
                 format!(
                     "[{}]",
-                    vars.iter()
-                        .enumerate()
-                        .map(|(i, _)| self.get_limb_name(&name, i))
+                    (0..vars.len())
+                        .map(|i| self.get_limb_name(&name, i))
                         .collect::<Vec<_>>()
                         .join(", ")
                 )
@@ -452,18 +451,21 @@ impl AirVarImpl {
     }
 }
 
-impl InternalAirVarInfo for AirVarImpl {
-    fn get_info(&self) -> HashSet<AirVarInfo> {
+impl AirVarImplInfo for AirVarImpl {
+    fn var_expr_infos(&self) -> HashSet<VarExprInfo> {
         match self {
-            AirVarImpl::Expr(expr) => expr.get_info(),
+            AirVarImpl::Expr(expr) => expr.var_expr_infos(),
             AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => {
-                vars.iter().flat_map(|v| v.get_info()).collect()
+                vars.iter().flat_map(|v| v.var_expr_infos()).collect()
             }
             AirVarImpl::Struct {
                 name: _,
                 r#type: _,
                 fields,
-            } => fields.iter().flat_map(|(_, v)| v.get_info()).collect(),
+            } => fields
+                .iter()
+                .flat_map(|(_, v)| v.var_expr_infos())
+                .collect(),
         }
     }
 
