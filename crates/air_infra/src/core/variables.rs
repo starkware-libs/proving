@@ -684,14 +684,10 @@ macro_rules! impl_air_var {
             }
             fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
                 let interm = Intermediate::new_for_deduction(&name, self);
-                let mut res = self.clone();
-                for (i, s) in res.iter_mut().enumerate() {
-                    (*s, _) = s.let_for_deduction(format!("{}[{}]", name, i));
-                }
-                (res, interm)
+                (from_fn(|i| self[i].let_for_deduction(format!("{}[{}]", name, i)).0), interm)
             }
             fn new(name: String, deg_in_state: Option<usize>) -> Self {
-                from_fn(|j| from_fn(|i| <$s as AirVar>::new(format!("{}_{}[{}]", name, j, i), deg_in_state)))
+                from_fn(|i| <[$s;N] as AirVar>::new(format!("{}[{}]", name, i), deg_in_state))
             }
         }
 
