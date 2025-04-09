@@ -103,7 +103,7 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
     let name = lists.name.to_case(Case::Pascal);
     let input_name = lists.verifier_input.0.clone();
     let input_type = lists.verifier_input.1.clone();
-    let output_type = lists.verifier_output.1.clone().replace("M31", "E::F");
+    let output_type = lists.verifier_output.2.clone().replace("M31", "E::F");
 
     // TODO(AnatG): Find a way to remove <#[allow(unused_variables)]> below.
     quote! {

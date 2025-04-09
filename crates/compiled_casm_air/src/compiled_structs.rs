@@ -15,16 +15,18 @@ pub struct CompiledAirFn {
     pub padding_type: PaddingType,
 
     // The input to the air function for write trace.
-    // The first string is the name of the input, the second is its prover type, and the third is
-    // its packed prover type.
+    // Contains the name of the input, its prover type, and its packed prover type.
     pub prover_input: (String, String, String),
     // The input to the air function for the constraints evaluation.
-    // The first string is the name of the input, and the second is its type (M31 or an array of
-    // M31s).
+    // Contains the name of the input, and its type (M31 or an array of M31s).
     pub verifier_input: (String, String),
 
-    pub prover_output: (CompiledAirVar, String, String),
-    pub verifier_output: (CompiledAirVar, String),
+    // The output of the air function for write trace.
+    // Contains the output, its name, its prover type, and its packed prover type.
+    pub prover_output: (CompiledAirVar, String, String, String),
+    // The output of the air function for the constraints evaluation.
+    // Contains the output, its name, and its type.
+    pub verifier_output: (CompiledAirVar, String, String),
 
     pub state_names: Vec<String>,
 
