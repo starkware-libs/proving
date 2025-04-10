@@ -26,6 +26,7 @@ pub struct Call {
     pub air_fn_description: String,
     pub input: AirVarImpl,
     pub output_name: String,
+    pub output_expr_descriptions: Option<Vec<Option<String>>>,
     pub output: AirVarImpl,
     pub state_names: Vec<String>,
     pub air_body: AirBody,
@@ -419,7 +420,9 @@ impl AirBody {
                             .collect::<Vec<_>>();
 
                         constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                            name: call.output.verifier_name(call.output_name),
+                            name: call
+                                .output
+                                .verifier_name(call.output_name, call.output_expr_descriptions),
                             r#type: call.output.verifier_type(),
                             var: CompiledAirVar::StaticCall(
                                 format!("{}::{}", call.air_fn_name, CONSTRAINT_EVAL_FUNCTION_NAME),

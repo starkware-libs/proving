@@ -25,6 +25,14 @@ impl AirFn for UpdateRegisters {
     );
     type Out = CasmStateVar;
 
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("pc".to_string()),
+            Some("ap".to_string()),
+            Some("fp".to_string()),
+        ])
+    }
+
     fn call(
         &self,
         air_builder: &mut AirBuilder,

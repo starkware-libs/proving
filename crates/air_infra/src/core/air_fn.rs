@@ -103,6 +103,28 @@ pub trait AirFn: Debug + InstDefTrait {
         TraceType::Inline
     }
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        match self.trace_type() {
+            TraceType::Opcode => Some(vec![
+                Some("pc".to_string()),
+                Some("ap".to_string()),
+                Some("fp".to_string()),
+            ]),
+            _ => None,
+        }
+    }
+
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        match self.trace_type() {
+            TraceType::Opcode => Some(vec![
+                Some("pc".to_string()),
+                Some("ap".to_string()),
+                Some("fp".to_string()),
+            ]),
+            _ => None,
+        }
+    }
+
     fn call(
         &self,
         air_builder: &mut AirBuilder,
@@ -117,7 +139,11 @@ pub trait AirFn: Debug + InstDefTrait {
         input: Self::In,
     ) -> (Self::Out, String) {
         let output = self.call(air_builder, ext_input, input);
-        air_builder.let_with_name(output, &format!("{}_{}", self.name(), OUTPUT_VAR_SUFFIX))
+        air_builder.let_with_name(
+            output,
+            &format!("{}_{}", self.name(), OUTPUT_VAR_SUFFIX),
+            self.output_expr_descriptions(),
+        )
     }
 
     fn lookup_call(
@@ -158,7 +184,11 @@ pub trait AirFn: Debug + InstDefTrait {
                 // The name is irrelevant in run mode.
                 input = input.let_for_deduction("".to_string()).0;
             }
-            air_builder.deduce_intermediate_var(&mut input, "input");
+            air_builder.deduce_intermediate_var(
+                &mut input,
+                "input",
+                self.input_expr_descriptions(),
+            );
         }
 
         // Perform AirFn logic
@@ -326,35 +356,33 @@ impl AirBuilder {
         }
 
         var = self.let_for_deduction(var, desc);
-        self.deduce_intermediate_var(&mut var, desc);
+        self.deduce_intermediate_var(&mut var, desc, None);
         var
     }
 
-    pub(super) fn deduce_intermediate_var<V>(&mut self, var: &mut V, desc: &str)
-    where
+    pub(super) fn deduce_intermediate_var<V>(
+        &mut self,
+        var: &mut V,
+        desc: &str,
+        expr_descriptions: Option<Vec<Option<String>>>,
+    ) where
         V: AirVar,
     {
         let mut felts = var.as_felts_mut();
-
         if felts.len() == 1 {
             self.deduce(felts[0], desc);
             return;
         }
 
-        if let Some(descs) = var.clone().into().felt_descriptions() {
-            for (felt, felt_desc) in var.as_felts_mut().into_iter().zip(descs) {
-                self.deduce(felt, &format!("{}_{}", desc, felt_desc));
-            }
-        } else {
-            // Make sure there are no state variables named "limb_col0" because it's not clear what
-            // the "limb" refers to.
-            assert!(
-                !desc.is_empty(),
-                "Intermediate variable description is required for deducing multiple felts"
-            );
-            for (i, felt) in var.as_felts_mut().into_iter().enumerate() {
-                self.deduce(felt, &format!("{}_limb_{}", desc, i));
-            }
+        assert!(
+            !desc.is_empty(),
+            "Intermediate variable description is required for deducing multiple felts"
+        );
+
+        let air_val_impl: AirVarImpl = var.clone().into();
+        for (i, felt) in var.as_felts_mut().into_iter().enumerate() {
+            let name = air_val_impl.get_limb_name(desc, i, &expr_descriptions);
+            self.deduce(felt, &name);
         }
     }
 
@@ -400,10 +428,15 @@ impl AirBuilder {
     where
         O: AirVar,
     {
-        self.let_with_name(expr, desc).0
+        self.let_with_name(expr, desc, None).0
     }
 
-    pub(super) fn let_with_name<O>(&mut self, expr: O, desc: &str) -> (O, String)
+    pub(super) fn let_with_name<O>(
+        &mut self,
+        expr: O,
+        desc: &str,
+        expr_descriptions: Option<Vec<Option<String>>>,
+    ) -> (O, String)
     where
         O: AirVar,
     {
@@ -412,7 +445,7 @@ impl AirBuilder {
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let (new_expr, vars) = expr.rec_let(name.clone());
+        let (new_expr, vars) = expr.rec_let(name.clone(), expr_descriptions);
         for var in vars {
             self.air_body.push(AirBodyComponent::Intermediate(var));
         }
@@ -457,6 +490,7 @@ impl AirBuilder {
             air_fn_description: air_fn.description(),
             input: input.into(),
             output_name,
+            output_expr_descriptions: air_fn.output_expr_descriptions(),
             output: output.clone().into(),
             state_names: state_names_after[state_offset..].to_vec(),
             air_body: air_builder.air_body,
@@ -485,8 +519,9 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let output_name = (!O::is_empty())
-            .then(|| self.get_intermediate_name(Some(format!("{}_output", air_fn.name()))));
+        let output_name = (!O::is_empty()).then(|| {
+            self.get_intermediate_name(Some(format!("{}_{}", air_fn.name(), OUTPUT_VAR_SUFFIX)))
+        });
         let mut output = self.lookup_add_input_and_compute(
             air_fn,
             ext_input.clone(),
@@ -497,7 +532,11 @@ impl AirBuilder {
         // Deduce the output if it is not empty.
         if !O::is_empty() {
             (output, _) = output.let_for_deduction(output_name.expect("Output name not set"));
-            self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
+            self.deduce_intermediate_var(
+                &mut output,
+                &format!("{}_output", air_fn.name()),
+                air_fn.output_expr_descriptions(),
+            );
         }
 
         self.air_body.push(AirBodyComponent::LookupTerm {
@@ -589,7 +628,11 @@ impl AirBuilder {
         // TODO(AnatG): Consider not deducing the const parts of the output.
         // Deduce the output of the last round.
         output = output.let_for_deduction(output_name).0;
-        self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
+        self.deduce_intermediate_var(
+            &mut output,
+            &format!("{}_output", air_fn.name()),
+            air_fn.output_expr_descriptions(),
+        );
 
         // Use the output of the last round.
         self.air_body.push(AirBodyComponent::LookupTerm {

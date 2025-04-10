@@ -70,7 +70,11 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
     // Defines a new variable for the top level variable, visibile in deductions, and a variable for
     // each felt, visible in constraints.
-    fn rec_let(&self, name: String) -> (Self, Vec<Intermediate>) {
+    fn rec_let(
+        &self,
+        name: String,
+        expr_descriptions: Option<Vec<Option<String>>>,
+    ) -> (Self, Vec<Intermediate>) {
         let (mut res, mut interm0) = self.let_for_deduction(name.clone());
 
         // When the expression is a single felt, create an intermediate known both in deductions and
@@ -93,14 +97,14 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
         let mut vars = vec![interm0];
 
         for (i, (orig_felt, felt)) in orig_felts.iter_mut().zip(res.as_felts_mut()).enumerate() {
-            if orig_felt.is_directly_in_state() {
-                *felt = orig_felt.clone();
-                continue;
+            if !orig_felt.is_directly_in_state() {
+                let felt_name = self
+                    .clone()
+                    .into()
+                    .get_limb_name(&name, i, &expr_descriptions);
+                vars.push(Intermediate::new_for_constraint(&felt_name, orig_felt));
+                felt.let_for_constraint(felt_name);
             }
-
-            let felt_name = self.clone().into().get_limb_name(&name, i);
-            vars.push(Intermediate::new_for_constraint(&felt_name, orig_felt));
-            felt.let_for_constraint(felt_name);
         }
 
         (res, vars)
@@ -113,10 +117,6 @@ pub trait AirVarImplInfo {
     fn var_expr_infos(&self) -> HashSet<VarExprInfo>;
 
     fn prover_type(&self) -> String;
-
-    fn felt_descriptions(&self) -> Option<Vec<String>> {
-        None
-    }
 
     fn compile(self, compile_for: CompileFor) -> CompiledAirVar;
 
@@ -364,7 +364,11 @@ impl AirVarImpl {
         }
     }
 
-    pub fn verifier_name(&self, name: String) -> String {
+    pub fn verifier_name(
+        &self,
+        name: String,
+        expr_descriptions: Option<Vec<Option<String>>>,
+    ) -> String {
         let limbs = self.as_limbs();
         match limbs {
             AirVarImpl::Expr(ExprImpl::Felt(_)) => name,
@@ -375,7 +379,7 @@ impl AirVarImpl {
                 format!(
                     "[{}]",
                     (0..vars.len())
-                        .map(|i| self.get_limb_name(&name, i))
+                        .map(|i| self.get_limb_name(&name, i, &expr_descriptions))
                         .collect::<Vec<_>>()
                         .join(", ")
                 )
@@ -384,11 +388,50 @@ impl AirVarImpl {
         }
     }
 
-    pub fn get_limb_name(&self, name: &String, index: usize) -> String {
-        if let Some(descs) = self.felt_descriptions() {
-            return format!("{}_{}", name, descs[index]);
+    pub fn get_limb_name(
+        &self,
+        name: &str,
+        index: usize,
+        expr_descriptions: &Option<Vec<Option<String>>>,
+    ) -> String {
+        let (expr_i, expr_size, felt_in_expr_i) = self.expr_felt_index(index);
+        let expr_desc = expr_descriptions
+            .as_ref()
+            .map(|descs| descs.get(expr_i))
+            .unwrap_or(None)
+            .unwrap_or(&None)
+            .clone();
+
+        match (expr_desc, expr_size) {
+            (Some(expr_desc), 1) => format!("{}_{}", name, expr_desc),
+            (Some(expr_desc), _) => format!("{}_{}_limb_{}", name, expr_desc, felt_in_expr_i),
+            _ => format!("{}_limb_{}", name, index),
         }
-        format!("{}_limb_{}", name, index)
+    }
+
+    fn as_exprs(&self) -> Vec<ExprImpl> {
+        match self {
+            AirVarImpl::Expr(expr) => vec![expr.clone()],
+            AirVarImpl::Tuple(vars) => vars.iter().flat_map(|v| v.as_exprs()).collect(),
+            AirVarImpl::Array(vars) => vars.iter().flat_map(|v| v.as_exprs()).collect(),
+            AirVarImpl::Struct { fields, .. } => {
+                fields.iter().flat_map(|(_, v)| v.as_exprs()).collect()
+            }
+        }
+    }
+
+    // Given a felt inedx in the air variable, returns the index of the expression, the number of
+    // felts in the expression, and the index of the felt in the expression.
+    fn expr_felt_index(&self, mut felt_index: usize) -> (usize, usize, usize) {
+        let exprs = self.as_exprs();
+        let num_of_felts = exprs.iter().map(|e| e.as_felts().len()).collect::<Vec<_>>();
+        for (i, n) in num_of_felts.iter().enumerate() {
+            if felt_index < *n {
+                return (i, *n, felt_index);
+            }
+            felt_index -= n;
+        }
+        panic!("Felt index {} is out of bounds", felt_index)
     }
 
     pub fn verifier_type(&self) -> String {
@@ -500,34 +543,6 @@ impl AirVarImplInfo for AirVarImpl {
                 r#type,
                 fields: _,
             } => r#type.to_string(),
-        }
-    }
-
-    fn felt_descriptions(&self) -> Option<Vec<String>> {
-        match self {
-            AirVarImpl::Expr(expr) => expr.felt_descriptions(),
-            AirVarImpl::Array(vars) | AirVarImpl::Tuple(vars) => vars
-                .iter()
-                .map(|v| v.felt_descriptions())
-                .collect::<Option<Vec<_>>>()
-                .map(|v| v.into_iter().flatten().collect()),
-            AirVarImpl::Struct {
-                name: _,
-                r#type: _,
-                fields,
-            } => Some(
-                fields
-                    .iter()
-                    .flat_map(|(n, f)| {
-                        if let Some(descs) = f.felt_descriptions() {
-                            descs.iter().map(|d| format!("{}_{}", n, d)).collect()
-                        } else {
-                            let n_felts = f.as_felts().len();
-                            vec![n.clone(); n_felts]
-                        }
-                    })
-                    .collect(),
-            ),
         }
     }
 

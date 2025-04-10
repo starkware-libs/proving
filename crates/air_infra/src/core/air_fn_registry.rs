@@ -15,24 +15,23 @@ use super::variables::*;
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone)]
 pub struct AirFnEntry {
-    pub(crate) name: String,
-    pub(crate) relation_name: Option<String>,
-    pub(crate) description: String,
-    pub(crate) inst_def: serde_json::Value,
-    pub(crate) ext_input: Option<AirVarImpl>,
-    pub(crate) input: Option<AirVarImpl>,
-    pub(crate) output: AirVarImpl,
-    pub(crate) trace_type: TraceType,
-    pub(crate) air_body: AirBody,
-    pub(crate) state: State,
+    pub name: String,
+    pub relation_name: Option<String>,
+    pub description: String,
+    pub inst_def: serde_json::Value,
+    pub ext_input: Option<AirVarImpl>,
+    pub input: Option<AirVarImpl>,
+    pub input_expr_descriptions: Option<Vec<Option<String>>>,
+    pub output: AirVarImpl,
+    pub output_expr_descriptions: Option<Vec<Option<String>>>,
+    pub trace_type: TraceType,
+    pub air_body: AirBody,
+    pub state: State,
 }
 
 impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
-    pub(crate) fn compile(
-        self,
-        called_fns: Ref<'_, IndexMap<String, AirFnEntry>>,
-    ) -> CompiledAirFn {
+    pub fn compile(self, called_fns: Ref<'_, IndexMap<String, AirFnEntry>>) -> CompiledAirFn {
         let padding_type = match self.trace_type {
             TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
             TraceType::Opcode | TraceType::ChainRound => PaddingType::Enabler,
@@ -80,7 +79,10 @@ impl AirFnEntry {
                 input.prover_type(),
                 input.packed_prover_type(),
             ),
-            verifier_input: (input.verifier_name(input_name), input.verifier_type()),
+            verifier_input: (
+                input.verifier_name(input_name, self.input_expr_descriptions),
+                input.verifier_type(),
+            ),
             prover_output: (
                 self.output.clone().compile(CompileFor::Deductions),
                 output_name.clone(),
@@ -89,7 +91,8 @@ impl AirFnEntry {
             ),
             verifier_output: (
                 self.output.as_limbs().compile(CompileFor::Constraints),
-                self.output.verifier_name(output_name),
+                self.output
+                    .verifier_name(output_name, self.output_expr_descriptions),
                 self.output.verifier_type(),
             ),
             state_names: self.state.get_state_names(),
@@ -142,7 +145,7 @@ impl AirFnRegistry {
         (registry, entry)
     }
 
-    pub(crate) fn add_entry<E, I, O>(
+    pub fn add_entry<E, I, O>(
         &mut self,
         air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
     ) -> AirFnEntry
@@ -178,7 +181,9 @@ impl AirFnRegistry {
             inst_def: air_fn.inst_def(),
             ext_input: ext_input_option,
             input: input_option,
+            input_expr_descriptions: air_fn.input_expr_descriptions(),
             output: output.into(),
+            output_expr_descriptions: air_fn.output_expr_descriptions(),
             trace_type: air_fn.trace_type(),
             air_body,
             state,
@@ -270,7 +275,9 @@ impl AirFnRegistry {
         let ext_input = E::new();
         let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
         let mut input = I::new(input_name.clone(), Some(1));
-        input = input.rec_let(input_name).0;
+        input = input
+            .rec_let(input_name, air_fn.input_expr_descriptions())
+            .0;
 
         let mut air_builder = AirBuilder {
             component_context: Default::default(),
