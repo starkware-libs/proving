@@ -27,6 +27,18 @@ impl AirFn for VerifyInstruction {
     type In = (CasmAddress, [FeltExpr; 3], [FeltExpr; 2], FeltExpr);
     type Out = ();
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("pc".to_string()),
+            Some("offset0".to_string()),
+            Some("offset1".to_string()),
+            Some("offset2".to_string()),
+            Some("inst_felt5_high".to_string()),
+            Some("inst_felt6".to_string()),
+            Some("opcode_extension".to_string()),
+        ])
+    }
+
     fn call(
         &self,
         ab: &mut AirBuilder,

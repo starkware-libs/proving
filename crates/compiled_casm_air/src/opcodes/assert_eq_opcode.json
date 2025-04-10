@@ -138,7 +138,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_fe864_output_tmp_d6f03_7_limb_0, decode_instruction_fe864_output_tmp_d6f03_7_limb_1, decode_instruction_fe864_output_tmp_d6f03_7_limb_2, decode_instruction_fe864_output_tmp_d6f03_7_limb_3, decode_instruction_fe864_output_tmp_d6f03_7_limb_4, decode_instruction_fe864_output_tmp_d6f03_7_limb_5, decode_instruction_fe864_output_tmp_d6f03_7_limb_6, decode_instruction_fe864_output_tmp_d6f03_7_limb_7, decode_instruction_fe864_output_tmp_d6f03_7_limb_8, decode_instruction_fe864_output_tmp_d6f03_7_limb_9, decode_instruction_fe864_output_tmp_d6f03_7_limb_10, decode_instruction_fe864_output_tmp_d6f03_7_limb_11, decode_instruction_fe864_output_tmp_d6f03_7_limb_12, decode_instruction_fe864_output_tmp_d6f03_7_limb_13, decode_instruction_fe864_output_tmp_d6f03_7_limb_14, decode_instruction_fe864_output_tmp_d6f03_7_limb_15, decode_instruction_fe864_output_tmp_d6f03_7_limb_16, decode_instruction_fe864_output_tmp_d6f03_7_limb_17, decode_instruction_fe864_output_tmp_d6f03_7_limb_18]",
+        "name": "[decode_instruction_fe864_output_tmp_d6f03_7_offset0, decode_instruction_fe864_output_tmp_d6f03_7_offset1, decode_instruction_fe864_output_tmp_d6f03_7_offset2, decode_instruction_fe864_output_tmp_d6f03_7_dst_base_fp, decode_instruction_fe864_output_tmp_d6f03_7_op0_base_fp, decode_instruction_fe864_output_tmp_d6f03_7_op1_imm, decode_instruction_fe864_output_tmp_d6f03_7_op1_base_fp, decode_instruction_fe864_output_tmp_d6f03_7_op1_base_ap, decode_instruction_fe864_output_tmp_d6f03_7_res_add, decode_instruction_fe864_output_tmp_d6f03_7_res_mul, decode_instruction_fe864_output_tmp_d6f03_7_pc_update_jump, decode_instruction_fe864_output_tmp_d6f03_7_pc_update_jump_rel, decode_instruction_fe864_output_tmp_d6f03_7_pc_update_jnz, decode_instruction_fe864_output_tmp_d6f03_7_ap_update_add, decode_instruction_fe864_output_tmp_d6f03_7_ap_update_add_1, decode_instruction_fe864_output_tmp_d6f03_7_opcode_call, decode_instruction_fe864_output_tmp_d6f03_7_opcode_ret, decode_instruction_fe864_output_tmp_d6f03_7_opcode_assert_eq, decode_instruction_fe864_output_tmp_d6f03_7_opcode_extension]",
         "type": "[M31; 19]",
         "var": {
           "StaticCall": [
@@ -245,7 +245,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_fe864_output_tmp_d6f03_7_limb_7"
+                        "decode_instruction_fe864_output_tmp_d6f03_7_op1_base_ap"
                       ]
                     },
                     "*",
@@ -280,7 +280,7 @@
                       {
                         "Var": [
                           "M31",
-                          "decode_instruction_fe864_output_tmp_d6f03_7_limb_0"
+                          "decode_instruction_fe864_output_tmp_d6f03_7_offset0"
                         ]
                       }
                     ]
@@ -294,7 +294,7 @@
                       {
                         "Var": [
                           "M31",
-                          "decode_instruction_fe864_output_tmp_d6f03_7_limb_2"
+                          "decode_instruction_fe864_output_tmp_d6f03_7_offset2"
                         ]
                       }
                     ]

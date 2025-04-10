@@ -7,7 +7,9 @@ use std::rc::Rc;
 use compiled_casm_air::compiled_structs::{TraceType, UseOrYield};
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
+use compiled_casm_air::utils::{
+    INTERMEDIATE_VAR_SUFFIX, OUTPUT_VAR_SUFFIX, STATE_INPUT_VAR, STATE_OUTPUT_VAR_SUFFIX,
+};
 use convert_case::{Case, Casing};
 use regex::Regex;
 use serde::Serialize;
@@ -166,15 +168,18 @@ pub trait AirFn: Debug + InstDefTrait {
         if self.trace_type() == TraceType::Memory {
             // Memory - Assume input & output are already in state (filled by Stwo)
             for felt in input.as_felts_mut() {
-                air_builder.component_context.state_mut().add(felt, "input");
+                air_builder
+                    .component_context
+                    .state_mut()
+                    .add(felt, STATE_INPUT_VAR);
             }
 
             let mut output = Self::Out::new("".to_string(), None);
             for felt in output.as_felts_mut() {
-                air_builder
-                    .component_context
-                    .state_mut()
-                    .add(felt, &format!("{}_output", self.name()));
+                air_builder.component_context.state_mut().add(
+                    felt,
+                    &format!("{}_{}", self.name(), STATE_OUTPUT_VAR_SUFFIX),
+                );
             }
         } else {
             // Anything else - deduce input
@@ -186,7 +191,7 @@ pub trait AirFn: Debug + InstDefTrait {
             }
             air_builder.deduce_intermediate_var(
                 &mut input,
-                "input",
+                STATE_INPUT_VAR,
                 self.input_expr_descriptions(),
             );
         }
@@ -374,6 +379,8 @@ impl AirBuilder {
             return;
         }
 
+        // Make sure there are no state variables with names like "_pc" or "_limb_7_col202", where
+        // it's not clear what the "limb" or "pc" refers to.
         assert!(
             !desc.is_empty(),
             "Intermediate variable description is required for deducing multiple felts"
@@ -531,10 +538,11 @@ impl AirBuilder {
 
         // Deduce the output if it is not empty.
         if !O::is_empty() {
+            // Output already has name <output_name>, but in run mode it might not be a variable.
             (output, _) = output.let_for_deduction(output_name.expect("Output name not set"));
             self.deduce_intermediate_var(
                 &mut output,
-                &format!("{}_output", air_fn.name()),
+                &format!("{}_{}", air_fn.name(), STATE_OUTPUT_VAR_SUFFIX),
                 air_fn.output_expr_descriptions(),
             );
         }
@@ -627,10 +635,11 @@ impl AirBuilder {
 
         // TODO(AnatG): Consider not deducing the const parts of the output.
         // Deduce the output of the last round.
+        // Output already has name <output_name>, but in run mode it might not be a variable.
         output = output.let_for_deduction(output_name).0;
         self.deduce_intermediate_var(
             &mut output,
-            &format!("{}_output", air_fn.name()),
+            &format!("{}_{}", air_fn.name(), STATE_OUTPUT_VAR_SUFFIX),
             air_fn.output_expr_descriptions(),
         );
 

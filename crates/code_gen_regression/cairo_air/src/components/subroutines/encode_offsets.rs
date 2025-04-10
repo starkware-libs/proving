@@ -11,7 +11,7 @@ impl EncodeOffsets {
     #[allow(unused_variables)]
     #[allow(clippy::too_many_arguments)]
     pub fn evaluate<E: EvalAtRow>(
-        [encode_offsets_input_limb_0, encode_offsets_input_limb_1, encode_offsets_input_limb_2]: [E::F; 3],
+        [encode_offsets_input_offset0, encode_offsets_input_offset1, encode_offsets_input_offset2]: [E::F; 3],
         offset0_low_col0: E::F,
         offset0_mid_col1: E::F,
         offset1_low_col2: E::F,
@@ -35,19 +35,19 @@ impl EncodeOffsets {
         // Reconstructed offset0 is correct.
         eval.add_constraint(
             ((offset0_low_col0.clone() + (offset0_mid_col1.clone() * M31_512.clone()))
-                - encode_offsets_input_limb_0.clone()),
+                - encode_offsets_input_offset0.clone()),
         );
         // Reconstructed offset1 is correct.
         eval.add_constraint(
             (((offset1_low_col2.clone() + (offset1_mid_col3.clone() * M31_4.clone()))
                 + (offset1_high_col4.clone() * M31_2048.clone()))
-                - encode_offsets_input_limb_1.clone()),
+                - encode_offsets_input_offset1.clone()),
         );
         // Reconstructed offset2 is correct.
         eval.add_constraint(
             (((offset2_low_col5.clone() + (offset2_mid_col6.clone() * M31_16.clone()))
                 + (offset2_high_col7.clone() * M31_8192.clone()))
-                - encode_offsets_input_limb_2.clone()),
+                - encode_offsets_input_offset2.clone()),
         );
         eval.add_to_relation(RelationEntry::new(
             range_check_7_2_5_lookup_elements,

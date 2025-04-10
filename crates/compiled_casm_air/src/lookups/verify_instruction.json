@@ -11,7 +11,7 @@
     "(PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31)"
   ],
   "verifier_input": [
-    "[verify_instruction_input_limb_0, verify_instruction_input_limb_1, verify_instruction_input_limb_2, verify_instruction_input_limb_3, verify_instruction_input_limb_4, verify_instruction_input_limb_5, verify_instruction_input_limb_6]",
+    "[verify_instruction_input_pc, verify_instruction_input_offset0, verify_instruction_input_offset1, verify_instruction_input_offset2, verify_instruction_input_inst_felt5_high, verify_instruction_input_inst_felt6, verify_instruction_input_opcode_extension]",
     "[M31; 7]"
   ],
   "prover_output": [
@@ -30,13 +30,13 @@
     "()"
   ],
   "state_names": [
-    "input_limb_0_col0",
-    "input_limb_1_col1",
-    "input_limb_2_col2",
-    "input_limb_3_col3",
-    "input_limb_4_col4",
-    "input_limb_5_col5",
-    "input_limb_6_col6",
+    "input_pc_col0",
+    "input_offset0_col1",
+    "input_offset1_col2",
+    "input_offset2_col3",
+    "input_inst_felt5_high_col4",
+    "input_inst_felt6_col5",
+    "input_opcode_extension_col6",
     "offset0_low_col7",
     "offset0_mid_col8",
     "offset1_low_col9",
@@ -86,13 +86,13 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_1_col1"
+                    "State": "input_offset0_col1"
                   },
                   {
-                    "State": "input_limb_2_col2"
+                    "State": "input_offset1_col2"
                   },
                   {
-                    "State": "input_limb_3_col3"
+                    "State": "input_offset2_col3"
                   }
                 ]
               },
@@ -136,7 +136,7 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_0_col0"
+                    "State": "input_pc_col0"
                   },
                   {
                     "State": "offset0_low_col7"
@@ -166,15 +166,15 @@
                       },
                       "+",
                       {
-                        "State": "input_limb_4_col4"
+                        "State": "input_inst_felt5_high_col4"
                       }
                     ]
                   },
                   {
-                    "State": "input_limb_5_col5"
+                    "State": "input_inst_felt6_col5"
                   },
                   {
-                    "State": "input_limb_6_col6"
+                    "State": "input_opcode_extension_col6"
                   },
                   {
                     "Const": [
@@ -311,25 +311,25 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "State": "input_limb_0_col0"
+            "State": "input_pc_col0"
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_offset0_col1"
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_offset1_col2"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_offset2_col3"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_inst_felt5_high_col4"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_inst_felt6_col5"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_opcode_extension_col6"
           }
         ],
         "use_or_yield": "Yield"
@@ -407,7 +407,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "input_limb_1_col1"
+                    "State": "input_offset0_col1"
                   }
                 ]
               ]
@@ -448,7 +448,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "input_limb_1_col1"
+                    "State": "input_offset0_col1"
                   }
                 ]
               ]
@@ -489,7 +489,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "input_limb_2_col2"
+                    "State": "input_offset1_col2"
                   }
                 ]
               ]
@@ -532,7 +532,7 @@
                     "UInt16::from_m31",
                     [
                       {
-                        "State": "input_limb_2_col2"
+                        "State": "input_offset1_col2"
                       }
                     ]
                   ]
@@ -582,7 +582,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "input_limb_2_col2"
+                    "State": "input_offset1_col2"
                   }
                 ]
               ]
@@ -623,7 +623,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "input_limb_3_col3"
+                    "State": "input_offset2_col3"
                   }
                 ]
               ]
@@ -666,7 +666,7 @@
                     "UInt16::from_m31",
                     [
                       {
-                        "State": "input_limb_3_col3"
+                        "State": "input_offset2_col3"
                       }
                     ]
                   ]
@@ -716,7 +716,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "input_limb_3_col3"
+                    "State": "input_offset2_col3"
                   }
                 ]
               ]
@@ -889,7 +889,7 @@
             "MemoryAddressToId::deduce_output",
             [
               {
-                "State": "input_limb_0_col0"
+                "State": "input_pc_col0"
               }
             ]
           ]
@@ -908,7 +908,7 @@
       "LookupAddInput": {
         "fn_name": "memory_address_to_id",
         "input": {
-          "State": "input_limb_0_col0"
+          "State": "input_pc_col0"
         }
       }
     },
@@ -917,7 +917,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "State": "input_limb_0_col0"
+            "State": "input_pc_col0"
           },
           {
             "State": "instruction_id_col15"
@@ -969,15 +969,15 @@
               },
               "+",
               {
-                "State": "input_limb_4_col4"
+                "State": "input_inst_felt5_high_col4"
               }
             ]
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_inst_felt6_col5"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_opcode_extension_col6"
           },
           {
             "Const": [
@@ -1109,25 +1109,25 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "State": "input_limb_0_col0"
+            "State": "input_pc_col0"
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_offset0_col1"
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_offset1_col2"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_offset2_col3"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_inst_felt5_high_col4"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_inst_felt6_col5"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_opcode_extension_col6"
           }
         ],
         "use_or_yield": "Yield"

@@ -420,8 +420,8 @@ impl AirVarImpl {
         }
     }
 
-    // Given a felt inedx in the air variable, returns the index of the expression, the number of
-    // felts in the expression, and the index of the felt in the expression.
+    // Given a felt index in the air variable, returns the index of the expression that contains it,
+    // the number of felts in the expression, and the index of the felt in the expression.
     fn expr_felt_index(&self, mut felt_index: usize) -> (usize, usize, usize) {
         let exprs = self.as_exprs();
         let num_of_felts = exprs.iter().map(|e| e.as_felts().len()).collect::<Vec<_>>();

@@ -221,19 +221,19 @@
         {
           "Var": [
             "M31",
-            "decode_instruction_df7a6_output_tmp_62f3c_20_limb_0"
+            "decode_instruction_df7a6_output_tmp_62f3c_20_offset0"
           ]
         },
         {
           "Var": [
             "M31",
-            "decode_instruction_df7a6_output_tmp_62f3c_20_limb_1"
+            "decode_instruction_df7a6_output_tmp_62f3c_20_offset1"
           ]
         },
         {
           "Var": [
             "M31",
-            "decode_instruction_df7a6_output_tmp_62f3c_20_limb_2"
+            "decode_instruction_df7a6_output_tmp_62f3c_20_offset2"
           ]
         }
       ]
@@ -278,7 +278,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_df7a6_output_tmp_62f3c_20_limb_0, decode_instruction_df7a6_output_tmp_62f3c_20_limb_1, decode_instruction_df7a6_output_tmp_62f3c_20_limb_2, decode_instruction_df7a6_output_tmp_62f3c_20_limb_3, decode_instruction_df7a6_output_tmp_62f3c_20_limb_4, decode_instruction_df7a6_output_tmp_62f3c_20_limb_5, decode_instruction_df7a6_output_tmp_62f3c_20_limb_6, decode_instruction_df7a6_output_tmp_62f3c_20_limb_7, decode_instruction_df7a6_output_tmp_62f3c_20_limb_8, decode_instruction_df7a6_output_tmp_62f3c_20_limb_9, decode_instruction_df7a6_output_tmp_62f3c_20_limb_10, decode_instruction_df7a6_output_tmp_62f3c_20_limb_11, decode_instruction_df7a6_output_tmp_62f3c_20_limb_12, decode_instruction_df7a6_output_tmp_62f3c_20_limb_13, decode_instruction_df7a6_output_tmp_62f3c_20_limb_14, decode_instruction_df7a6_output_tmp_62f3c_20_limb_15, decode_instruction_df7a6_output_tmp_62f3c_20_limb_16, decode_instruction_df7a6_output_tmp_62f3c_20_limb_17, decode_instruction_df7a6_output_tmp_62f3c_20_limb_18]",
+        "name": "[decode_instruction_df7a6_output_tmp_62f3c_20_offset0, decode_instruction_df7a6_output_tmp_62f3c_20_offset1, decode_instruction_df7a6_output_tmp_62f3c_20_offset2, decode_instruction_df7a6_output_tmp_62f3c_20_dst_base_fp, decode_instruction_df7a6_output_tmp_62f3c_20_op0_base_fp, decode_instruction_df7a6_output_tmp_62f3c_20_op1_imm, decode_instruction_df7a6_output_tmp_62f3c_20_op1_base_fp, decode_instruction_df7a6_output_tmp_62f3c_20_op1_base_ap, decode_instruction_df7a6_output_tmp_62f3c_20_res_add, decode_instruction_df7a6_output_tmp_62f3c_20_res_mul, decode_instruction_df7a6_output_tmp_62f3c_20_pc_update_jump, decode_instruction_df7a6_output_tmp_62f3c_20_pc_update_jump_rel, decode_instruction_df7a6_output_tmp_62f3c_20_pc_update_jnz, decode_instruction_df7a6_output_tmp_62f3c_20_ap_update_add, decode_instruction_df7a6_output_tmp_62f3c_20_ap_update_add_1, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_call, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_ret, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_assert_eq, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_extension]",
         "type": "[M31; 19]",
         "var": {
           "StaticCall": [

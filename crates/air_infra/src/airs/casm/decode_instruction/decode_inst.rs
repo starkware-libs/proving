@@ -71,10 +71,38 @@ impl AirFn for DecodeInstruction {
     type In = CasmAddress;
     type Out = ([FeltExpr; 3], [FeltExpr; 15], FeltExpr);
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![Some("pc".to_string())])
+    }
+
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("offset0".to_string()),
+            Some("offset1".to_string()),
+            Some("offset2".to_string()),
+            Some("dst_base_fp".to_string()),
+            Some("op0_base_fp".to_string()),
+            Some("op1_imm".to_string()),
+            Some("op1_base_fp".to_string()),
+            Some("op1_base_ap".to_string()),
+            Some("res_add".to_string()),
+            Some("res_mul".to_string()),
+            Some("pc_update_jump".to_string()),
+            Some("pc_update_jump_rel".to_string()),
+            Some("pc_update_jnz".to_string()),
+            Some("ap_update_add".to_string()),
+            Some("ap_update_add_1".to_string()),
+            Some("opcode_call".to_string()),
+            Some("opcode_ret".to_string()),
+            Some("opcode_assert_eq".to_string()),
+            Some("opcode_extension".to_string()),
+        ])
+    }
+
     fn call(&self, ab: &mut AirBuilder, _: (), pc: Self::In) -> Self::Out {
         // Decode the instruction without verification
         let (instruction, _) = self.memory.read_unverified(ab, &pc);
-        let ([mut off0, mut off1, mut off2, flags], mut opcode_extnesion) =
+        let ([mut off0, mut off1, mut off2, flags], mut opcode_extension) =
             Self::decode_instruction(instruction);
 
         // Deduce the non-constant offsets
@@ -152,9 +180,9 @@ impl AirFn for DecodeInstruction {
 
         // Deduce opcode extension if is not a constant
         if let Some(constant) = self.const_opcode_extension {
-            opcode_extnesion = constant.into();
+            opcode_extension = constant.into();
         } else {
-            ab.deduce(&mut opcode_extnesion, "opcode_extension");
+            ab.deduce(&mut opcode_extension, "opcode_extension");
         };
         // Construct the felts holding the flags
         let [felt5_high, felt6] = Self::flags_to_felts(flags_array.clone());
@@ -169,7 +197,7 @@ impl AirFn for DecodeInstruction {
                 pc.clone(),
                 [off0.as_felt(), off1.as_felt(), off2.as_felt()],
                 [felt5_high, felt6],
-                opcode_extnesion.clone(),
+                opcode_extension.clone(),
             ),
         );
 
@@ -180,7 +208,7 @@ impl AirFn for DecodeInstruction {
                 offset_as_signed(off2.as_felt()),
             ],
             flags_array,
-            opcode_extnesion,
+            opcode_extension,
         )
     }
 
