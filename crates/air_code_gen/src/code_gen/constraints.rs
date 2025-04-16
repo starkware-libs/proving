@@ -121,11 +121,8 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(clippy::too_many_arguments)]
                 pub fn evaluate<E: EvalAtRow>(
                     $(input_name.clone()): $(input_type.clone().replace("M31", "E::F")),
-                    $(get_state_names(lists))
+                    $(get_inline_args(lists))
                     eval: &mut E,
-                    $(get_lookup_elements(lists))
-                    $(get_public_params(lists))
-                    $(get_external_states(lists))
             ) -> $(output_type)
             {
                 $(generate_evaluate(lists))
@@ -134,28 +131,23 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn get_lookup_elements(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
+    for state_name in &air_fn.state_names {
+        code.append(quote! {
+            $(state_name): E::F,
+        });
+    }
     for relation in air_fn.lookup_names.keys() {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
         });
     }
-    code
-}
-
-fn get_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
     for param in &air_fn.public_params {
         code.append(quote! {
-            $(param.name()): u32,
+            $(param.name()): E::F,
         });
     }
-    code
-}
-
-fn get_external_states(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
     for (name, args) in &air_fn.external_states {
         if name == "Seq" {
             code.append(quote! {
@@ -166,16 +158,6 @@ fn get_external_states(air_fn: &CompiledAirFn) -> rust::Tokens {
                 $(get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())): E::F,
             });
         }
-    }
-    code
-}
-
-fn get_state_names(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
-    for state_name in &lists.state_names {
-        code.append(quote! {
-            $(state_name): E::F,
-        });
     }
     code
 }
@@ -236,46 +218,19 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
-    let (log_size, mut members) = if is_const_size_component(lists) {
-        (quote! { LOG_SIZE }, quote! {})
-    } else {
-        (quote! { self.log_size }, quote! { pub log_size: u32, })
-    };
-
-    let mut channel_mix_code = quote! { channel.mix_u64($(&log_size) as u64); };
-    for public_param in &lists.public_params {
-        // TODO(Gali): Get the types of the public params from air_infra.
-        members.append(quote! {
-            pub $(public_param.name()): u32,
-        });
-        channel_mix_code.append(quote! {
-            channel.mix_u64(self.$(public_param.name()) as u64);
-        });
-    }
-
+fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
     let struct_code = quote! {
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct Claim {
-            $(members)
-        }
-    };
-
-    let n_lookup_terms: usize = lists.lookup_names.values().sum();
-    let n_logup_columns = match n_lookup_terms {
-        0 => unimplemented!(),
-        1..=2 => quote!(SECURE_EXTENSION_DEGREE),
-        n => {
-            let n_batches = n.div_ceil(2);
-            quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
+            $(get_claim_members(air_fn))
         }
     };
 
     let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let trace_log_sizes = vec![$(&log_size); N_TRACE_COLUMNS];
-                let interaction_log_sizes = vec![$log_size; $(n_logup_columns)];
+                let trace_log_sizes = vec![$(get_log_size(air_fn, true)); N_TRACE_COLUMNS];
+                let interaction_log_sizes = vec![$(get_log_size(air_fn, true)); $(get_n_logup_columns(air_fn))];
                 TreeVec::new(vec![
                     vec![],
                     trace_log_sizes,
@@ -284,12 +239,63 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
             }
              // TODO(Ohad): better mix_into.
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                $(channel_mix_code)
+                $(get_channel_mix_code(air_fn))
             }
         }
     };
 
     chain!(struct_code, impl_code).collect()
+}
+
+pub fn get_n_logup_columns(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let n_lookup_terms: usize = air_fn.lookup_names.values().sum();
+    match n_lookup_terms {
+        0 => unimplemented!(),
+        1..=2 => quote!(SECURE_EXTENSION_DEGREE),
+        n => {
+            let n_batches = n.div_ceil(2);
+            quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
+        }
+    }
+}
+
+pub fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut members = quote! {};
+    if !is_const_size_component(air_fn) {
+        members.append(quote! { pub log_size: u32, });
+    };
+
+    for public_param in &air_fn.public_params {
+        members.append(quote! {
+            pub $(public_param.name()): u32,
+        });
+    }
+    members
+}
+
+/// Create an expression that evaluates to the log size of the current AirFn
+/// air_fn - The AirFn
+/// in_claim - If true, return code that works inside the generated `Claim` struct (where the type
+/// of `self` is `Claim`). Otherwise, return code that works inside the generated `Eval` struct
+/// (where the type of `self` is `Eval`).
+pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
+    if is_const_size_component(air_fn) {
+        quote! { LOG_SIZE }
+    } else if in_claim {
+        quote! { self.log_size }
+    } else {
+        quote! { self.claim.log_size }
+    }
+}
+
+fn get_channel_mix_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut channel_mix_code = quote! { channel.mix_u64($(get_log_size(air_fn, true)) as u64); };
+    for public_param in &air_fn.public_params {
+        channel_mix_code.append(quote! {
+            channel.mix_u64(self.$(public_param.name()) as u64);
+        });
+    }
+    channel_mix_code
 }
 
 fn generate_interaction_claim_struct() -> rust::Tokens {
@@ -319,15 +325,10 @@ fn generate_component_type_def() -> rust::Tokens {
 
 fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    let log_size = if is_const_size_component(lists) {
-        quote! { LOG_SIZE }
-    } else {
-        quote! { self.claim.log_size }
-    };
     code.append(quote! {
         impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
-                $log_size
+                $(get_log_size(lists, false))
             }
 
             fn max_constraint_log_degree_bound(&self) -> u32 {

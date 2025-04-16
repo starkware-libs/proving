@@ -79,8 +79,8 @@ impl FrameworkEval for Eval {
                 offset2_col3.clone(),
                 op1_imm_col4.clone(),
                 op1_base_fp_col5.clone(),
-                &mut eval,
                 &self.verify_instruction_lookup_elements,
+                &mut eval,
             );
         // if imm then offset2 is 1.
         eval.add_constraint(
@@ -107,9 +107,9 @@ impl FrameworkEval for Eval {
                 op1_limb_0_col10.clone(),
                 op1_limb_1_col11.clone(),
                 op1_limb_2_col12.clone(),
-                &mut eval,
                 &self.memory_address_to_id_lookup_elements,
                 &self.memory_id_to_big_lookup_elements,
+                &mut eval,
             );
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,
