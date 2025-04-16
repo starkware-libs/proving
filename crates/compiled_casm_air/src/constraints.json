@@ -9361,163 +9361,163 @@
     "intermediates": [
       [
         "z0_tmp_9a554_0_limb_0",
-        "(verify_mul_252_input_limb_0 * verify_mul_252_input_limb_28)"
+        "(verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_0)"
       ],
       [
         "z0_tmp_9a554_0_limb_1",
-        "((verify_mul_252_input_limb_0 * verify_mul_252_input_limb_29) + (verify_mul_252_input_limb_1 * verify_mul_252_input_limb_28))"
+        "((verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_1) + (verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_9a554_0_limb_2",
-        "(((verify_mul_252_input_limb_0 * verify_mul_252_input_limb_30) + (verify_mul_252_input_limb_1 * verify_mul_252_input_limb_29)) + (verify_mul_252_input_limb_2 * verify_mul_252_input_limb_28))"
+        "(((verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_2) + (verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_1)) + (verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_9a554_0_limb_3",
-        "((((verify_mul_252_input_limb_0 * verify_mul_252_input_limb_31) + (verify_mul_252_input_limb_1 * verify_mul_252_input_limb_30)) + (verify_mul_252_input_limb_2 * verify_mul_252_input_limb_29)) + (verify_mul_252_input_limb_3 * verify_mul_252_input_limb_28))"
+        "((((verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_3) + (verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_2)) + (verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_1)) + (verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_9a554_0_limb_4",
-        "(((((verify_mul_252_input_limb_0 * verify_mul_252_input_limb_32) + (verify_mul_252_input_limb_1 * verify_mul_252_input_limb_31)) + (verify_mul_252_input_limb_2 * verify_mul_252_input_limb_30)) + (verify_mul_252_input_limb_3 * verify_mul_252_input_limb_29)) + (verify_mul_252_input_limb_4 * verify_mul_252_input_limb_28))"
+        "(((((verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_4) + (verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_3)) + (verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_2)) + (verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_1)) + (verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_9a554_0_limb_5",
-        "((((((verify_mul_252_input_limb_0 * verify_mul_252_input_limb_33) + (verify_mul_252_input_limb_1 * verify_mul_252_input_limb_32)) + (verify_mul_252_input_limb_2 * verify_mul_252_input_limb_31)) + (verify_mul_252_input_limb_3 * verify_mul_252_input_limb_30)) + (verify_mul_252_input_limb_4 * verify_mul_252_input_limb_29)) + (verify_mul_252_input_limb_5 * verify_mul_252_input_limb_28))"
+        "((((((verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_5) + (verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_4)) + (verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_3)) + (verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_2)) + (verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_1)) + (verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_9a554_0_limb_6",
-        "(((((((verify_mul_252_input_limb_0 * verify_mul_252_input_limb_34) + (verify_mul_252_input_limb_1 * verify_mul_252_input_limb_33)) + (verify_mul_252_input_limb_2 * verify_mul_252_input_limb_32)) + (verify_mul_252_input_limb_3 * verify_mul_252_input_limb_31)) + (verify_mul_252_input_limb_4 * verify_mul_252_input_limb_30)) + (verify_mul_252_input_limb_5 * verify_mul_252_input_limb_29)) + (verify_mul_252_input_limb_6 * verify_mul_252_input_limb_28))"
+        "(((((((verify_mul_252_input_a_limb_0 * verify_mul_252_input_b_limb_6) + (verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_5)) + (verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_4)) + (verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_3)) + (verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_2)) + (verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_1)) + (verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_9a554_0_limb_7",
-        "((((((verify_mul_252_input_limb_1 * verify_mul_252_input_limb_34) + (verify_mul_252_input_limb_2 * verify_mul_252_input_limb_33)) + (verify_mul_252_input_limb_3 * verify_mul_252_input_limb_32)) + (verify_mul_252_input_limb_4 * verify_mul_252_input_limb_31)) + (verify_mul_252_input_limb_5 * verify_mul_252_input_limb_30)) + (verify_mul_252_input_limb_6 * verify_mul_252_input_limb_29))"
+        "((((((verify_mul_252_input_a_limb_1 * verify_mul_252_input_b_limb_6) + (verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_5)) + (verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_4)) + (verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_3)) + (verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_2)) + (verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_1))"
       ],
       [
         "z0_tmp_9a554_0_limb_8",
-        "(((((verify_mul_252_input_limb_2 * verify_mul_252_input_limb_34) + (verify_mul_252_input_limb_3 * verify_mul_252_input_limb_33)) + (verify_mul_252_input_limb_4 * verify_mul_252_input_limb_32)) + (verify_mul_252_input_limb_5 * verify_mul_252_input_limb_31)) + (verify_mul_252_input_limb_6 * verify_mul_252_input_limb_30))"
+        "(((((verify_mul_252_input_a_limb_2 * verify_mul_252_input_b_limb_6) + (verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_5)) + (verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_4)) + (verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_3)) + (verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_2))"
       ],
       [
         "z0_tmp_9a554_0_limb_9",
-        "((((verify_mul_252_input_limb_3 * verify_mul_252_input_limb_34) + (verify_mul_252_input_limb_4 * verify_mul_252_input_limb_33)) + (verify_mul_252_input_limb_5 * verify_mul_252_input_limb_32)) + (verify_mul_252_input_limb_6 * verify_mul_252_input_limb_31))"
+        "((((verify_mul_252_input_a_limb_3 * verify_mul_252_input_b_limb_6) + (verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_5)) + (verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_4)) + (verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_3))"
       ],
       [
         "z0_tmp_9a554_0_limb_10",
-        "(((verify_mul_252_input_limb_4 * verify_mul_252_input_limb_34) + (verify_mul_252_input_limb_5 * verify_mul_252_input_limb_33)) + (verify_mul_252_input_limb_6 * verify_mul_252_input_limb_32))"
+        "(((verify_mul_252_input_a_limb_4 * verify_mul_252_input_b_limb_6) + (verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_5)) + (verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_4))"
       ],
       [
         "z0_tmp_9a554_0_limb_11",
-        "((verify_mul_252_input_limb_5 * verify_mul_252_input_limb_34) + (verify_mul_252_input_limb_6 * verify_mul_252_input_limb_33))"
+        "((verify_mul_252_input_a_limb_5 * verify_mul_252_input_b_limb_6) + (verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_5))"
       ],
       [
         "z0_tmp_9a554_0_limb_12",
-        "(verify_mul_252_input_limb_6 * verify_mul_252_input_limb_34)"
+        "(verify_mul_252_input_a_limb_6 * verify_mul_252_input_b_limb_6)"
       ],
       [
         "z2_tmp_9a554_1_limb_0",
-        "(verify_mul_252_input_limb_7 * verify_mul_252_input_limb_35)"
+        "(verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_7)"
       ],
       [
         "z2_tmp_9a554_1_limb_1",
-        "((verify_mul_252_input_limb_7 * verify_mul_252_input_limb_36) + (verify_mul_252_input_limb_8 * verify_mul_252_input_limb_35))"
+        "((verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_8) + (verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_9a554_1_limb_2",
-        "(((verify_mul_252_input_limb_7 * verify_mul_252_input_limb_37) + (verify_mul_252_input_limb_8 * verify_mul_252_input_limb_36)) + (verify_mul_252_input_limb_9 * verify_mul_252_input_limb_35))"
+        "(((verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_9) + (verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_8)) + (verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_9a554_1_limb_3",
-        "((((verify_mul_252_input_limb_7 * verify_mul_252_input_limb_38) + (verify_mul_252_input_limb_8 * verify_mul_252_input_limb_37)) + (verify_mul_252_input_limb_9 * verify_mul_252_input_limb_36)) + (verify_mul_252_input_limb_10 * verify_mul_252_input_limb_35))"
+        "((((verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_10) + (verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_9)) + (verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_8)) + (verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_9a554_1_limb_4",
-        "(((((verify_mul_252_input_limb_7 * verify_mul_252_input_limb_39) + (verify_mul_252_input_limb_8 * verify_mul_252_input_limb_38)) + (verify_mul_252_input_limb_9 * verify_mul_252_input_limb_37)) + (verify_mul_252_input_limb_10 * verify_mul_252_input_limb_36)) + (verify_mul_252_input_limb_11 * verify_mul_252_input_limb_35))"
+        "(((((verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_11) + (verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_10)) + (verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_9)) + (verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_8)) + (verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_9a554_1_limb_5",
-        "((((((verify_mul_252_input_limb_7 * verify_mul_252_input_limb_40) + (verify_mul_252_input_limb_8 * verify_mul_252_input_limb_39)) + (verify_mul_252_input_limb_9 * verify_mul_252_input_limb_38)) + (verify_mul_252_input_limb_10 * verify_mul_252_input_limb_37)) + (verify_mul_252_input_limb_11 * verify_mul_252_input_limb_36)) + (verify_mul_252_input_limb_12 * verify_mul_252_input_limb_35))"
+        "((((((verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_12) + (verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_11)) + (verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_10)) + (verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_9)) + (verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_8)) + (verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_9a554_1_limb_6",
-        "(((((((verify_mul_252_input_limb_7 * verify_mul_252_input_limb_41) + (verify_mul_252_input_limb_8 * verify_mul_252_input_limb_40)) + (verify_mul_252_input_limb_9 * verify_mul_252_input_limb_39)) + (verify_mul_252_input_limb_10 * verify_mul_252_input_limb_38)) + (verify_mul_252_input_limb_11 * verify_mul_252_input_limb_37)) + (verify_mul_252_input_limb_12 * verify_mul_252_input_limb_36)) + (verify_mul_252_input_limb_13 * verify_mul_252_input_limb_35))"
+        "(((((((verify_mul_252_input_a_limb_7 * verify_mul_252_input_b_limb_13) + (verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_12)) + (verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_11)) + (verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_10)) + (verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_9)) + (verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_8)) + (verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_9a554_1_limb_7",
-        "((((((verify_mul_252_input_limb_8 * verify_mul_252_input_limb_41) + (verify_mul_252_input_limb_9 * verify_mul_252_input_limb_40)) + (verify_mul_252_input_limb_10 * verify_mul_252_input_limb_39)) + (verify_mul_252_input_limb_11 * verify_mul_252_input_limb_38)) + (verify_mul_252_input_limb_12 * verify_mul_252_input_limb_37)) + (verify_mul_252_input_limb_13 * verify_mul_252_input_limb_36))"
+        "((((((verify_mul_252_input_a_limb_8 * verify_mul_252_input_b_limb_13) + (verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_12)) + (verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_11)) + (verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_10)) + (verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_9)) + (verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_8))"
       ],
       [
         "z2_tmp_9a554_1_limb_8",
-        "(((((verify_mul_252_input_limb_9 * verify_mul_252_input_limb_41) + (verify_mul_252_input_limb_10 * verify_mul_252_input_limb_40)) + (verify_mul_252_input_limb_11 * verify_mul_252_input_limb_39)) + (verify_mul_252_input_limb_12 * verify_mul_252_input_limb_38)) + (verify_mul_252_input_limb_13 * verify_mul_252_input_limb_37))"
+        "(((((verify_mul_252_input_a_limb_9 * verify_mul_252_input_b_limb_13) + (verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_12)) + (verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_11)) + (verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_10)) + (verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_9))"
       ],
       [
         "z2_tmp_9a554_1_limb_9",
-        "((((verify_mul_252_input_limb_10 * verify_mul_252_input_limb_41) + (verify_mul_252_input_limb_11 * verify_mul_252_input_limb_40)) + (verify_mul_252_input_limb_12 * verify_mul_252_input_limb_39)) + (verify_mul_252_input_limb_13 * verify_mul_252_input_limb_38))"
+        "((((verify_mul_252_input_a_limb_10 * verify_mul_252_input_b_limb_13) + (verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_12)) + (verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_11)) + (verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_10))"
       ],
       [
         "z2_tmp_9a554_1_limb_10",
-        "(((verify_mul_252_input_limb_11 * verify_mul_252_input_limb_41) + (verify_mul_252_input_limb_12 * verify_mul_252_input_limb_40)) + (verify_mul_252_input_limb_13 * verify_mul_252_input_limb_39))"
+        "(((verify_mul_252_input_a_limb_11 * verify_mul_252_input_b_limb_13) + (verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_12)) + (verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_11))"
       ],
       [
         "z2_tmp_9a554_1_limb_11",
-        "((verify_mul_252_input_limb_12 * verify_mul_252_input_limb_41) + (verify_mul_252_input_limb_13 * verify_mul_252_input_limb_40))"
+        "((verify_mul_252_input_a_limb_12 * verify_mul_252_input_b_limb_13) + (verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_12))"
       ],
       [
         "z2_tmp_9a554_1_limb_12",
-        "(verify_mul_252_input_limb_13 * verify_mul_252_input_limb_41)"
+        "(verify_mul_252_input_a_limb_13 * verify_mul_252_input_b_limb_13)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_0",
-        "(verify_mul_252_input_limb_0 + verify_mul_252_input_limb_7)"
+        "(verify_mul_252_input_a_limb_0 + verify_mul_252_input_a_limb_7)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_1",
-        "(verify_mul_252_input_limb_1 + verify_mul_252_input_limb_8)"
+        "(verify_mul_252_input_a_limb_1 + verify_mul_252_input_a_limb_8)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_2",
-        "(verify_mul_252_input_limb_2 + verify_mul_252_input_limb_9)"
+        "(verify_mul_252_input_a_limb_2 + verify_mul_252_input_a_limb_9)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_3",
-        "(verify_mul_252_input_limb_3 + verify_mul_252_input_limb_10)"
+        "(verify_mul_252_input_a_limb_3 + verify_mul_252_input_a_limb_10)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_4",
-        "(verify_mul_252_input_limb_4 + verify_mul_252_input_limb_11)"
+        "(verify_mul_252_input_a_limb_4 + verify_mul_252_input_a_limb_11)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_5",
-        "(verify_mul_252_input_limb_5 + verify_mul_252_input_limb_12)"
+        "(verify_mul_252_input_a_limb_5 + verify_mul_252_input_a_limb_12)"
       ],
       [
         "x_sum_tmp_9a554_2_limb_6",
-        "(verify_mul_252_input_limb_6 + verify_mul_252_input_limb_13)"
+        "(verify_mul_252_input_a_limb_6 + verify_mul_252_input_a_limb_13)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_0",
-        "(verify_mul_252_input_limb_28 + verify_mul_252_input_limb_35)"
+        "(verify_mul_252_input_b_limb_0 + verify_mul_252_input_b_limb_7)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_1",
-        "(verify_mul_252_input_limb_29 + verify_mul_252_input_limb_36)"
+        "(verify_mul_252_input_b_limb_1 + verify_mul_252_input_b_limb_8)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_2",
-        "(verify_mul_252_input_limb_30 + verify_mul_252_input_limb_37)"
+        "(verify_mul_252_input_b_limb_2 + verify_mul_252_input_b_limb_9)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_3",
-        "(verify_mul_252_input_limb_31 + verify_mul_252_input_limb_38)"
+        "(verify_mul_252_input_b_limb_3 + verify_mul_252_input_b_limb_10)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_4",
-        "(verify_mul_252_input_limb_32 + verify_mul_252_input_limb_39)"
+        "(verify_mul_252_input_b_limb_4 + verify_mul_252_input_b_limb_11)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_5",
-        "(verify_mul_252_input_limb_33 + verify_mul_252_input_limb_40)"
+        "(verify_mul_252_input_b_limb_5 + verify_mul_252_input_b_limb_12)"
       ],
       [
         "y_sum_tmp_9a554_3_limb_6",
-        "(verify_mul_252_input_limb_34 + verify_mul_252_input_limb_41)"
+        "(verify_mul_252_input_b_limb_6 + verify_mul_252_input_b_limb_13)"
       ],
       [
         "single_karatsuba_n_7_output_tmp_9a554_4_limb_0",
@@ -9629,163 +9629,163 @@
       ],
       [
         "z0_tmp_9a554_5_limb_0",
-        "(verify_mul_252_input_limb_14 * verify_mul_252_input_limb_42)"
+        "(verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_14)"
       ],
       [
         "z0_tmp_9a554_5_limb_1",
-        "((verify_mul_252_input_limb_14 * verify_mul_252_input_limb_43) + (verify_mul_252_input_limb_15 * verify_mul_252_input_limb_42))"
+        "((verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_15) + (verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_9a554_5_limb_2",
-        "(((verify_mul_252_input_limb_14 * verify_mul_252_input_limb_44) + (verify_mul_252_input_limb_15 * verify_mul_252_input_limb_43)) + (verify_mul_252_input_limb_16 * verify_mul_252_input_limb_42))"
+        "(((verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_16) + (verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_15)) + (verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_9a554_5_limb_3",
-        "((((verify_mul_252_input_limb_14 * verify_mul_252_input_limb_45) + (verify_mul_252_input_limb_15 * verify_mul_252_input_limb_44)) + (verify_mul_252_input_limb_16 * verify_mul_252_input_limb_43)) + (verify_mul_252_input_limb_17 * verify_mul_252_input_limb_42))"
+        "((((verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_17) + (verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_16)) + (verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_15)) + (verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_9a554_5_limb_4",
-        "(((((verify_mul_252_input_limb_14 * verify_mul_252_input_limb_46) + (verify_mul_252_input_limb_15 * verify_mul_252_input_limb_45)) + (verify_mul_252_input_limb_16 * verify_mul_252_input_limb_44)) + (verify_mul_252_input_limb_17 * verify_mul_252_input_limb_43)) + (verify_mul_252_input_limb_18 * verify_mul_252_input_limb_42))"
+        "(((((verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_18) + (verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_17)) + (verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_16)) + (verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_15)) + (verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_9a554_5_limb_5",
-        "((((((verify_mul_252_input_limb_14 * verify_mul_252_input_limb_47) + (verify_mul_252_input_limb_15 * verify_mul_252_input_limb_46)) + (verify_mul_252_input_limb_16 * verify_mul_252_input_limb_45)) + (verify_mul_252_input_limb_17 * verify_mul_252_input_limb_44)) + (verify_mul_252_input_limb_18 * verify_mul_252_input_limb_43)) + (verify_mul_252_input_limb_19 * verify_mul_252_input_limb_42))"
+        "((((((verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_19) + (verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_18)) + (verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_17)) + (verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_16)) + (verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_15)) + (verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_9a554_5_limb_6",
-        "(((((((verify_mul_252_input_limb_14 * verify_mul_252_input_limb_48) + (verify_mul_252_input_limb_15 * verify_mul_252_input_limb_47)) + (verify_mul_252_input_limb_16 * verify_mul_252_input_limb_46)) + (verify_mul_252_input_limb_17 * verify_mul_252_input_limb_45)) + (verify_mul_252_input_limb_18 * verify_mul_252_input_limb_44)) + (verify_mul_252_input_limb_19 * verify_mul_252_input_limb_43)) + (verify_mul_252_input_limb_20 * verify_mul_252_input_limb_42))"
+        "(((((((verify_mul_252_input_a_limb_14 * verify_mul_252_input_b_limb_20) + (verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_19)) + (verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_18)) + (verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_17)) + (verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_16)) + (verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_15)) + (verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_9a554_5_limb_7",
-        "((((((verify_mul_252_input_limb_15 * verify_mul_252_input_limb_48) + (verify_mul_252_input_limb_16 * verify_mul_252_input_limb_47)) + (verify_mul_252_input_limb_17 * verify_mul_252_input_limb_46)) + (verify_mul_252_input_limb_18 * verify_mul_252_input_limb_45)) + (verify_mul_252_input_limb_19 * verify_mul_252_input_limb_44)) + (verify_mul_252_input_limb_20 * verify_mul_252_input_limb_43))"
+        "((((((verify_mul_252_input_a_limb_15 * verify_mul_252_input_b_limb_20) + (verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_19)) + (verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_18)) + (verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_17)) + (verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_16)) + (verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_15))"
       ],
       [
         "z0_tmp_9a554_5_limb_8",
-        "(((((verify_mul_252_input_limb_16 * verify_mul_252_input_limb_48) + (verify_mul_252_input_limb_17 * verify_mul_252_input_limb_47)) + (verify_mul_252_input_limb_18 * verify_mul_252_input_limb_46)) + (verify_mul_252_input_limb_19 * verify_mul_252_input_limb_45)) + (verify_mul_252_input_limb_20 * verify_mul_252_input_limb_44))"
+        "(((((verify_mul_252_input_a_limb_16 * verify_mul_252_input_b_limb_20) + (verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_19)) + (verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_18)) + (verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_17)) + (verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_16))"
       ],
       [
         "z0_tmp_9a554_5_limb_9",
-        "((((verify_mul_252_input_limb_17 * verify_mul_252_input_limb_48) + (verify_mul_252_input_limb_18 * verify_mul_252_input_limb_47)) + (verify_mul_252_input_limb_19 * verify_mul_252_input_limb_46)) + (verify_mul_252_input_limb_20 * verify_mul_252_input_limb_45))"
+        "((((verify_mul_252_input_a_limb_17 * verify_mul_252_input_b_limb_20) + (verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_19)) + (verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_18)) + (verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_17))"
       ],
       [
         "z0_tmp_9a554_5_limb_10",
-        "(((verify_mul_252_input_limb_18 * verify_mul_252_input_limb_48) + (verify_mul_252_input_limb_19 * verify_mul_252_input_limb_47)) + (verify_mul_252_input_limb_20 * verify_mul_252_input_limb_46))"
+        "(((verify_mul_252_input_a_limb_18 * verify_mul_252_input_b_limb_20) + (verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_19)) + (verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_18))"
       ],
       [
         "z0_tmp_9a554_5_limb_11",
-        "((verify_mul_252_input_limb_19 * verify_mul_252_input_limb_48) + (verify_mul_252_input_limb_20 * verify_mul_252_input_limb_47))"
+        "((verify_mul_252_input_a_limb_19 * verify_mul_252_input_b_limb_20) + (verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_19))"
       ],
       [
         "z0_tmp_9a554_5_limb_12",
-        "(verify_mul_252_input_limb_20 * verify_mul_252_input_limb_48)"
+        "(verify_mul_252_input_a_limb_20 * verify_mul_252_input_b_limb_20)"
       ],
       [
         "z2_tmp_9a554_6_limb_0",
-        "(verify_mul_252_input_limb_21 * verify_mul_252_input_limb_49)"
+        "(verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_21)"
       ],
       [
         "z2_tmp_9a554_6_limb_1",
-        "((verify_mul_252_input_limb_21 * verify_mul_252_input_limb_50) + (verify_mul_252_input_limb_22 * verify_mul_252_input_limb_49))"
+        "((verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_22) + (verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_9a554_6_limb_2",
-        "(((verify_mul_252_input_limb_21 * verify_mul_252_input_limb_51) + (verify_mul_252_input_limb_22 * verify_mul_252_input_limb_50)) + (verify_mul_252_input_limb_23 * verify_mul_252_input_limb_49))"
+        "(((verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_23) + (verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_22)) + (verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_9a554_6_limb_3",
-        "((((verify_mul_252_input_limb_21 * verify_mul_252_input_limb_52) + (verify_mul_252_input_limb_22 * verify_mul_252_input_limb_51)) + (verify_mul_252_input_limb_23 * verify_mul_252_input_limb_50)) + (verify_mul_252_input_limb_24 * verify_mul_252_input_limb_49))"
+        "((((verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_24) + (verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_23)) + (verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_22)) + (verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_9a554_6_limb_4",
-        "(((((verify_mul_252_input_limb_21 * verify_mul_252_input_limb_53) + (verify_mul_252_input_limb_22 * verify_mul_252_input_limb_52)) + (verify_mul_252_input_limb_23 * verify_mul_252_input_limb_51)) + (verify_mul_252_input_limb_24 * verify_mul_252_input_limb_50)) + (verify_mul_252_input_limb_25 * verify_mul_252_input_limb_49))"
+        "(((((verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_25) + (verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_24)) + (verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_23)) + (verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_22)) + (verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_9a554_6_limb_5",
-        "((((((verify_mul_252_input_limb_21 * verify_mul_252_input_limb_54) + (verify_mul_252_input_limb_22 * verify_mul_252_input_limb_53)) + (verify_mul_252_input_limb_23 * verify_mul_252_input_limb_52)) + (verify_mul_252_input_limb_24 * verify_mul_252_input_limb_51)) + (verify_mul_252_input_limb_25 * verify_mul_252_input_limb_50)) + (verify_mul_252_input_limb_26 * verify_mul_252_input_limb_49))"
+        "((((((verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_26) + (verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_25)) + (verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_24)) + (verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_23)) + (verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_22)) + (verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_9a554_6_limb_6",
-        "(((((((verify_mul_252_input_limb_21 * verify_mul_252_input_limb_55) + (verify_mul_252_input_limb_22 * verify_mul_252_input_limb_54)) + (verify_mul_252_input_limb_23 * verify_mul_252_input_limb_53)) + (verify_mul_252_input_limb_24 * verify_mul_252_input_limb_52)) + (verify_mul_252_input_limb_25 * verify_mul_252_input_limb_51)) + (verify_mul_252_input_limb_26 * verify_mul_252_input_limb_50)) + (verify_mul_252_input_limb_27 * verify_mul_252_input_limb_49))"
+        "(((((((verify_mul_252_input_a_limb_21 * verify_mul_252_input_b_limb_27) + (verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_26)) + (verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_25)) + (verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_24)) + (verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_23)) + (verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_22)) + (verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_9a554_6_limb_7",
-        "((((((verify_mul_252_input_limb_22 * verify_mul_252_input_limb_55) + (verify_mul_252_input_limb_23 * verify_mul_252_input_limb_54)) + (verify_mul_252_input_limb_24 * verify_mul_252_input_limb_53)) + (verify_mul_252_input_limb_25 * verify_mul_252_input_limb_52)) + (verify_mul_252_input_limb_26 * verify_mul_252_input_limb_51)) + (verify_mul_252_input_limb_27 * verify_mul_252_input_limb_50))"
+        "((((((verify_mul_252_input_a_limb_22 * verify_mul_252_input_b_limb_27) + (verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_26)) + (verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_25)) + (verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_24)) + (verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_23)) + (verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_22))"
       ],
       [
         "z2_tmp_9a554_6_limb_8",
-        "(((((verify_mul_252_input_limb_23 * verify_mul_252_input_limb_55) + (verify_mul_252_input_limb_24 * verify_mul_252_input_limb_54)) + (verify_mul_252_input_limb_25 * verify_mul_252_input_limb_53)) + (verify_mul_252_input_limb_26 * verify_mul_252_input_limb_52)) + (verify_mul_252_input_limb_27 * verify_mul_252_input_limb_51))"
+        "(((((verify_mul_252_input_a_limb_23 * verify_mul_252_input_b_limb_27) + (verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_26)) + (verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_25)) + (verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_24)) + (verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_23))"
       ],
       [
         "z2_tmp_9a554_6_limb_9",
-        "((((verify_mul_252_input_limb_24 * verify_mul_252_input_limb_55) + (verify_mul_252_input_limb_25 * verify_mul_252_input_limb_54)) + (verify_mul_252_input_limb_26 * verify_mul_252_input_limb_53)) + (verify_mul_252_input_limb_27 * verify_mul_252_input_limb_52))"
+        "((((verify_mul_252_input_a_limb_24 * verify_mul_252_input_b_limb_27) + (verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_26)) + (verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_25)) + (verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_24))"
       ],
       [
         "z2_tmp_9a554_6_limb_10",
-        "(((verify_mul_252_input_limb_25 * verify_mul_252_input_limb_55) + (verify_mul_252_input_limb_26 * verify_mul_252_input_limb_54)) + (verify_mul_252_input_limb_27 * verify_mul_252_input_limb_53))"
+        "(((verify_mul_252_input_a_limb_25 * verify_mul_252_input_b_limb_27) + (verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_26)) + (verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_25))"
       ],
       [
         "z2_tmp_9a554_6_limb_11",
-        "((verify_mul_252_input_limb_26 * verify_mul_252_input_limb_55) + (verify_mul_252_input_limb_27 * verify_mul_252_input_limb_54))"
+        "((verify_mul_252_input_a_limb_26 * verify_mul_252_input_b_limb_27) + (verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_26))"
       ],
       [
         "z2_tmp_9a554_6_limb_12",
-        "(verify_mul_252_input_limb_27 * verify_mul_252_input_limb_55)"
+        "(verify_mul_252_input_a_limb_27 * verify_mul_252_input_b_limb_27)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_0",
-        "(verify_mul_252_input_limb_14 + verify_mul_252_input_limb_21)"
+        "(verify_mul_252_input_a_limb_14 + verify_mul_252_input_a_limb_21)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_1",
-        "(verify_mul_252_input_limb_15 + verify_mul_252_input_limb_22)"
+        "(verify_mul_252_input_a_limb_15 + verify_mul_252_input_a_limb_22)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_2",
-        "(verify_mul_252_input_limb_16 + verify_mul_252_input_limb_23)"
+        "(verify_mul_252_input_a_limb_16 + verify_mul_252_input_a_limb_23)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_3",
-        "(verify_mul_252_input_limb_17 + verify_mul_252_input_limb_24)"
+        "(verify_mul_252_input_a_limb_17 + verify_mul_252_input_a_limb_24)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_4",
-        "(verify_mul_252_input_limb_18 + verify_mul_252_input_limb_25)"
+        "(verify_mul_252_input_a_limb_18 + verify_mul_252_input_a_limb_25)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_5",
-        "(verify_mul_252_input_limb_19 + verify_mul_252_input_limb_26)"
+        "(verify_mul_252_input_a_limb_19 + verify_mul_252_input_a_limb_26)"
       ],
       [
         "x_sum_tmp_9a554_7_limb_6",
-        "(verify_mul_252_input_limb_20 + verify_mul_252_input_limb_27)"
+        "(verify_mul_252_input_a_limb_20 + verify_mul_252_input_a_limb_27)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_0",
-        "(verify_mul_252_input_limb_42 + verify_mul_252_input_limb_49)"
+        "(verify_mul_252_input_b_limb_14 + verify_mul_252_input_b_limb_21)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_1",
-        "(verify_mul_252_input_limb_43 + verify_mul_252_input_limb_50)"
+        "(verify_mul_252_input_b_limb_15 + verify_mul_252_input_b_limb_22)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_2",
-        "(verify_mul_252_input_limb_44 + verify_mul_252_input_limb_51)"
+        "(verify_mul_252_input_b_limb_16 + verify_mul_252_input_b_limb_23)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_3",
-        "(verify_mul_252_input_limb_45 + verify_mul_252_input_limb_52)"
+        "(verify_mul_252_input_b_limb_17 + verify_mul_252_input_b_limb_24)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_4",
-        "(verify_mul_252_input_limb_46 + verify_mul_252_input_limb_53)"
+        "(verify_mul_252_input_b_limb_18 + verify_mul_252_input_b_limb_25)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_5",
-        "(verify_mul_252_input_limb_47 + verify_mul_252_input_limb_54)"
+        "(verify_mul_252_input_b_limb_19 + verify_mul_252_input_b_limb_26)"
       ],
       [
         "y_sum_tmp_9a554_8_limb_6",
-        "(verify_mul_252_input_limb_48 + verify_mul_252_input_limb_55)"
+        "(verify_mul_252_input_b_limb_20 + verify_mul_252_input_b_limb_27)"
       ],
       [
         "single_karatsuba_n_7_output_tmp_9a554_9_limb_0",
@@ -9897,115 +9897,115 @@
       ],
       [
         "x_sum_tmp_9a554_10_limb_0",
-        "(verify_mul_252_input_limb_0 + verify_mul_252_input_limb_14)"
+        "(verify_mul_252_input_a_limb_0 + verify_mul_252_input_a_limb_14)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_1",
-        "(verify_mul_252_input_limb_1 + verify_mul_252_input_limb_15)"
+        "(verify_mul_252_input_a_limb_1 + verify_mul_252_input_a_limb_15)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_2",
-        "(verify_mul_252_input_limb_2 + verify_mul_252_input_limb_16)"
+        "(verify_mul_252_input_a_limb_2 + verify_mul_252_input_a_limb_16)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_3",
-        "(verify_mul_252_input_limb_3 + verify_mul_252_input_limb_17)"
+        "(verify_mul_252_input_a_limb_3 + verify_mul_252_input_a_limb_17)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_4",
-        "(verify_mul_252_input_limb_4 + verify_mul_252_input_limb_18)"
+        "(verify_mul_252_input_a_limb_4 + verify_mul_252_input_a_limb_18)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_5",
-        "(verify_mul_252_input_limb_5 + verify_mul_252_input_limb_19)"
+        "(verify_mul_252_input_a_limb_5 + verify_mul_252_input_a_limb_19)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_6",
-        "(verify_mul_252_input_limb_6 + verify_mul_252_input_limb_20)"
+        "(verify_mul_252_input_a_limb_6 + verify_mul_252_input_a_limb_20)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_7",
-        "(verify_mul_252_input_limb_7 + verify_mul_252_input_limb_21)"
+        "(verify_mul_252_input_a_limb_7 + verify_mul_252_input_a_limb_21)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_8",
-        "(verify_mul_252_input_limb_8 + verify_mul_252_input_limb_22)"
+        "(verify_mul_252_input_a_limb_8 + verify_mul_252_input_a_limb_22)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_9",
-        "(verify_mul_252_input_limb_9 + verify_mul_252_input_limb_23)"
+        "(verify_mul_252_input_a_limb_9 + verify_mul_252_input_a_limb_23)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_10",
-        "(verify_mul_252_input_limb_10 + verify_mul_252_input_limb_24)"
+        "(verify_mul_252_input_a_limb_10 + verify_mul_252_input_a_limb_24)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_11",
-        "(verify_mul_252_input_limb_11 + verify_mul_252_input_limb_25)"
+        "(verify_mul_252_input_a_limb_11 + verify_mul_252_input_a_limb_25)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_12",
-        "(verify_mul_252_input_limb_12 + verify_mul_252_input_limb_26)"
+        "(verify_mul_252_input_a_limb_12 + verify_mul_252_input_a_limb_26)"
       ],
       [
         "x_sum_tmp_9a554_10_limb_13",
-        "(verify_mul_252_input_limb_13 + verify_mul_252_input_limb_27)"
+        "(verify_mul_252_input_a_limb_13 + verify_mul_252_input_a_limb_27)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_0",
-        "(verify_mul_252_input_limb_28 + verify_mul_252_input_limb_42)"
+        "(verify_mul_252_input_b_limb_0 + verify_mul_252_input_b_limb_14)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_1",
-        "(verify_mul_252_input_limb_29 + verify_mul_252_input_limb_43)"
+        "(verify_mul_252_input_b_limb_1 + verify_mul_252_input_b_limb_15)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_2",
-        "(verify_mul_252_input_limb_30 + verify_mul_252_input_limb_44)"
+        "(verify_mul_252_input_b_limb_2 + verify_mul_252_input_b_limb_16)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_3",
-        "(verify_mul_252_input_limb_31 + verify_mul_252_input_limb_45)"
+        "(verify_mul_252_input_b_limb_3 + verify_mul_252_input_b_limb_17)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_4",
-        "(verify_mul_252_input_limb_32 + verify_mul_252_input_limb_46)"
+        "(verify_mul_252_input_b_limb_4 + verify_mul_252_input_b_limb_18)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_5",
-        "(verify_mul_252_input_limb_33 + verify_mul_252_input_limb_47)"
+        "(verify_mul_252_input_b_limb_5 + verify_mul_252_input_b_limb_19)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_6",
-        "(verify_mul_252_input_limb_34 + verify_mul_252_input_limb_48)"
+        "(verify_mul_252_input_b_limb_6 + verify_mul_252_input_b_limb_20)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_7",
-        "(verify_mul_252_input_limb_35 + verify_mul_252_input_limb_49)"
+        "(verify_mul_252_input_b_limb_7 + verify_mul_252_input_b_limb_21)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_8",
-        "(verify_mul_252_input_limb_36 + verify_mul_252_input_limb_50)"
+        "(verify_mul_252_input_b_limb_8 + verify_mul_252_input_b_limb_22)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_9",
-        "(verify_mul_252_input_limb_37 + verify_mul_252_input_limb_51)"
+        "(verify_mul_252_input_b_limb_9 + verify_mul_252_input_b_limb_23)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_10",
-        "(verify_mul_252_input_limb_38 + verify_mul_252_input_limb_52)"
+        "(verify_mul_252_input_b_limb_10 + verify_mul_252_input_b_limb_24)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_11",
-        "(verify_mul_252_input_limb_39 + verify_mul_252_input_limb_53)"
+        "(verify_mul_252_input_b_limb_11 + verify_mul_252_input_b_limb_25)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_12",
-        "(verify_mul_252_input_limb_40 + verify_mul_252_input_limb_54)"
+        "(verify_mul_252_input_b_limb_12 + verify_mul_252_input_b_limb_26)"
       ],
       [
         "y_sum_tmp_9a554_11_limb_13",
-        "(verify_mul_252_input_limb_41 + verify_mul_252_input_limb_55)"
+        "(verify_mul_252_input_b_limb_13 + verify_mul_252_input_b_limb_27)"
       ],
       [
         "z0_tmp_9a554_12_limb_0",
@@ -10497,115 +10497,115 @@
       ],
       [
         "conv_tmp_9a554_18_limb_0",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_0 - verify_mul_252_input_limb_56)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_0 - verify_mul_252_input_c_limb_0)"
       ],
       [
         "conv_tmp_9a554_18_limb_1",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_1 - verify_mul_252_input_limb_57)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_1 - verify_mul_252_input_c_limb_1)"
       ],
       [
         "conv_tmp_9a554_18_limb_2",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_2 - verify_mul_252_input_limb_58)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_2 - verify_mul_252_input_c_limb_2)"
       ],
       [
         "conv_tmp_9a554_18_limb_3",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_3 - verify_mul_252_input_limb_59)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_3 - verify_mul_252_input_c_limb_3)"
       ],
       [
         "conv_tmp_9a554_18_limb_4",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_4 - verify_mul_252_input_limb_60)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_4 - verify_mul_252_input_c_limb_4)"
       ],
       [
         "conv_tmp_9a554_18_limb_5",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_5 - verify_mul_252_input_limb_61)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_5 - verify_mul_252_input_c_limb_5)"
       ],
       [
         "conv_tmp_9a554_18_limb_6",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_6 - verify_mul_252_input_limb_62)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_6 - verify_mul_252_input_c_limb_6)"
       ],
       [
         "conv_tmp_9a554_18_limb_7",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_7 - verify_mul_252_input_limb_63)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_7 - verify_mul_252_input_c_limb_7)"
       ],
       [
         "conv_tmp_9a554_18_limb_8",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_8 - verify_mul_252_input_limb_64)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_8 - verify_mul_252_input_c_limb_8)"
       ],
       [
         "conv_tmp_9a554_18_limb_9",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_9 - verify_mul_252_input_limb_65)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_9 - verify_mul_252_input_c_limb_9)"
       ],
       [
         "conv_tmp_9a554_18_limb_10",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_10 - verify_mul_252_input_limb_66)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_10 - verify_mul_252_input_c_limb_10)"
       ],
       [
         "conv_tmp_9a554_18_limb_11",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_11 - verify_mul_252_input_limb_67)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_11 - verify_mul_252_input_c_limb_11)"
       ],
       [
         "conv_tmp_9a554_18_limb_12",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_12 - verify_mul_252_input_limb_68)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_12 - verify_mul_252_input_c_limb_12)"
       ],
       [
         "conv_tmp_9a554_18_limb_13",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_13 - verify_mul_252_input_limb_69)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_13 - verify_mul_252_input_c_limb_13)"
       ],
       [
         "conv_tmp_9a554_18_limb_14",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_14 - verify_mul_252_input_limb_70)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_14 - verify_mul_252_input_c_limb_14)"
       ],
       [
         "conv_tmp_9a554_18_limb_15",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_15 - verify_mul_252_input_limb_71)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_15 - verify_mul_252_input_c_limb_15)"
       ],
       [
         "conv_tmp_9a554_18_limb_16",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_16 - verify_mul_252_input_limb_72)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_16 - verify_mul_252_input_c_limb_16)"
       ],
       [
         "conv_tmp_9a554_18_limb_17",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_17 - verify_mul_252_input_limb_73)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_17 - verify_mul_252_input_c_limb_17)"
       ],
       [
         "conv_tmp_9a554_18_limb_18",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_18 - verify_mul_252_input_limb_74)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_18 - verify_mul_252_input_c_limb_18)"
       ],
       [
         "conv_tmp_9a554_18_limb_19",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_19 - verify_mul_252_input_limb_75)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_19 - verify_mul_252_input_c_limb_19)"
       ],
       [
         "conv_tmp_9a554_18_limb_20",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_20 - verify_mul_252_input_limb_76)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_20 - verify_mul_252_input_c_limb_20)"
       ],
       [
         "conv_tmp_9a554_18_limb_21",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_21 - verify_mul_252_input_limb_77)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_21 - verify_mul_252_input_c_limb_21)"
       ],
       [
         "conv_tmp_9a554_18_limb_22",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_22 - verify_mul_252_input_limb_78)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_22 - verify_mul_252_input_c_limb_22)"
       ],
       [
         "conv_tmp_9a554_18_limb_23",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_23 - verify_mul_252_input_limb_79)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_23 - verify_mul_252_input_c_limb_23)"
       ],
       [
         "conv_tmp_9a554_18_limb_24",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_24 - verify_mul_252_input_limb_80)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_24 - verify_mul_252_input_c_limb_24)"
       ],
       [
         "conv_tmp_9a554_18_limb_25",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_25 - verify_mul_252_input_limb_81)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_25 - verify_mul_252_input_c_limb_25)"
       ],
       [
         "conv_tmp_9a554_18_limb_26",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_26 - verify_mul_252_input_limb_82)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_26 - verify_mul_252_input_c_limb_26)"
       ],
       [
         "conv_tmp_9a554_18_limb_27",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_27 - verify_mul_252_input_limb_83)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_27 - verify_mul_252_input_c_limb_27)"
       ],
       [
         "conv_tmp_9a554_18_limb_28",
@@ -11035,163 +11035,163 @@
     "intermediates": [
       [
         "z0_tmp_e0e72_1_limb_0",
-        "(mul_252_input_limb_0 * mul_252_input_limb_28)"
+        "(mul_252_input_a_limb_0 * mul_252_input_b_limb_0)"
       ],
       [
         "z0_tmp_e0e72_1_limb_1",
-        "((mul_252_input_limb_0 * mul_252_input_limb_29) + (mul_252_input_limb_1 * mul_252_input_limb_28))"
+        "((mul_252_input_a_limb_0 * mul_252_input_b_limb_1) + (mul_252_input_a_limb_1 * mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_e0e72_1_limb_2",
-        "(((mul_252_input_limb_0 * mul_252_input_limb_30) + (mul_252_input_limb_1 * mul_252_input_limb_29)) + (mul_252_input_limb_2 * mul_252_input_limb_28))"
+        "(((mul_252_input_a_limb_0 * mul_252_input_b_limb_2) + (mul_252_input_a_limb_1 * mul_252_input_b_limb_1)) + (mul_252_input_a_limb_2 * mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_e0e72_1_limb_3",
-        "((((mul_252_input_limb_0 * mul_252_input_limb_31) + (mul_252_input_limb_1 * mul_252_input_limb_30)) + (mul_252_input_limb_2 * mul_252_input_limb_29)) + (mul_252_input_limb_3 * mul_252_input_limb_28))"
+        "((((mul_252_input_a_limb_0 * mul_252_input_b_limb_3) + (mul_252_input_a_limb_1 * mul_252_input_b_limb_2)) + (mul_252_input_a_limb_2 * mul_252_input_b_limb_1)) + (mul_252_input_a_limb_3 * mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_e0e72_1_limb_4",
-        "(((((mul_252_input_limb_0 * mul_252_input_limb_32) + (mul_252_input_limb_1 * mul_252_input_limb_31)) + (mul_252_input_limb_2 * mul_252_input_limb_30)) + (mul_252_input_limb_3 * mul_252_input_limb_29)) + (mul_252_input_limb_4 * mul_252_input_limb_28))"
+        "(((((mul_252_input_a_limb_0 * mul_252_input_b_limb_4) + (mul_252_input_a_limb_1 * mul_252_input_b_limb_3)) + (mul_252_input_a_limb_2 * mul_252_input_b_limb_2)) + (mul_252_input_a_limb_3 * mul_252_input_b_limb_1)) + (mul_252_input_a_limb_4 * mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_e0e72_1_limb_5",
-        "((((((mul_252_input_limb_0 * mul_252_input_limb_33) + (mul_252_input_limb_1 * mul_252_input_limb_32)) + (mul_252_input_limb_2 * mul_252_input_limb_31)) + (mul_252_input_limb_3 * mul_252_input_limb_30)) + (mul_252_input_limb_4 * mul_252_input_limb_29)) + (mul_252_input_limb_5 * mul_252_input_limb_28))"
+        "((((((mul_252_input_a_limb_0 * mul_252_input_b_limb_5) + (mul_252_input_a_limb_1 * mul_252_input_b_limb_4)) + (mul_252_input_a_limb_2 * mul_252_input_b_limb_3)) + (mul_252_input_a_limb_3 * mul_252_input_b_limb_2)) + (mul_252_input_a_limb_4 * mul_252_input_b_limb_1)) + (mul_252_input_a_limb_5 * mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_e0e72_1_limb_6",
-        "(((((((mul_252_input_limb_0 * mul_252_input_limb_34) + (mul_252_input_limb_1 * mul_252_input_limb_33)) + (mul_252_input_limb_2 * mul_252_input_limb_32)) + (mul_252_input_limb_3 * mul_252_input_limb_31)) + (mul_252_input_limb_4 * mul_252_input_limb_30)) + (mul_252_input_limb_5 * mul_252_input_limb_29)) + (mul_252_input_limb_6 * mul_252_input_limb_28))"
+        "(((((((mul_252_input_a_limb_0 * mul_252_input_b_limb_6) + (mul_252_input_a_limb_1 * mul_252_input_b_limb_5)) + (mul_252_input_a_limb_2 * mul_252_input_b_limb_4)) + (mul_252_input_a_limb_3 * mul_252_input_b_limb_3)) + (mul_252_input_a_limb_4 * mul_252_input_b_limb_2)) + (mul_252_input_a_limb_5 * mul_252_input_b_limb_1)) + (mul_252_input_a_limb_6 * mul_252_input_b_limb_0))"
       ],
       [
         "z0_tmp_e0e72_1_limb_7",
-        "((((((mul_252_input_limb_1 * mul_252_input_limb_34) + (mul_252_input_limb_2 * mul_252_input_limb_33)) + (mul_252_input_limb_3 * mul_252_input_limb_32)) + (mul_252_input_limb_4 * mul_252_input_limb_31)) + (mul_252_input_limb_5 * mul_252_input_limb_30)) + (mul_252_input_limb_6 * mul_252_input_limb_29))"
+        "((((((mul_252_input_a_limb_1 * mul_252_input_b_limb_6) + (mul_252_input_a_limb_2 * mul_252_input_b_limb_5)) + (mul_252_input_a_limb_3 * mul_252_input_b_limb_4)) + (mul_252_input_a_limb_4 * mul_252_input_b_limb_3)) + (mul_252_input_a_limb_5 * mul_252_input_b_limb_2)) + (mul_252_input_a_limb_6 * mul_252_input_b_limb_1))"
       ],
       [
         "z0_tmp_e0e72_1_limb_8",
-        "(((((mul_252_input_limb_2 * mul_252_input_limb_34) + (mul_252_input_limb_3 * mul_252_input_limb_33)) + (mul_252_input_limb_4 * mul_252_input_limb_32)) + (mul_252_input_limb_5 * mul_252_input_limb_31)) + (mul_252_input_limb_6 * mul_252_input_limb_30))"
+        "(((((mul_252_input_a_limb_2 * mul_252_input_b_limb_6) + (mul_252_input_a_limb_3 * mul_252_input_b_limb_5)) + (mul_252_input_a_limb_4 * mul_252_input_b_limb_4)) + (mul_252_input_a_limb_5 * mul_252_input_b_limb_3)) + (mul_252_input_a_limb_6 * mul_252_input_b_limb_2))"
       ],
       [
         "z0_tmp_e0e72_1_limb_9",
-        "((((mul_252_input_limb_3 * mul_252_input_limb_34) + (mul_252_input_limb_4 * mul_252_input_limb_33)) + (mul_252_input_limb_5 * mul_252_input_limb_32)) + (mul_252_input_limb_6 * mul_252_input_limb_31))"
+        "((((mul_252_input_a_limb_3 * mul_252_input_b_limb_6) + (mul_252_input_a_limb_4 * mul_252_input_b_limb_5)) + (mul_252_input_a_limb_5 * mul_252_input_b_limb_4)) + (mul_252_input_a_limb_6 * mul_252_input_b_limb_3))"
       ],
       [
         "z0_tmp_e0e72_1_limb_10",
-        "(((mul_252_input_limb_4 * mul_252_input_limb_34) + (mul_252_input_limb_5 * mul_252_input_limb_33)) + (mul_252_input_limb_6 * mul_252_input_limb_32))"
+        "(((mul_252_input_a_limb_4 * mul_252_input_b_limb_6) + (mul_252_input_a_limb_5 * mul_252_input_b_limb_5)) + (mul_252_input_a_limb_6 * mul_252_input_b_limb_4))"
       ],
       [
         "z0_tmp_e0e72_1_limb_11",
-        "((mul_252_input_limb_5 * mul_252_input_limb_34) + (mul_252_input_limb_6 * mul_252_input_limb_33))"
+        "((mul_252_input_a_limb_5 * mul_252_input_b_limb_6) + (mul_252_input_a_limb_6 * mul_252_input_b_limb_5))"
       ],
       [
         "z0_tmp_e0e72_1_limb_12",
-        "(mul_252_input_limb_6 * mul_252_input_limb_34)"
+        "(mul_252_input_a_limb_6 * mul_252_input_b_limb_6)"
       ],
       [
         "z2_tmp_e0e72_2_limb_0",
-        "(mul_252_input_limb_7 * mul_252_input_limb_35)"
+        "(mul_252_input_a_limb_7 * mul_252_input_b_limb_7)"
       ],
       [
         "z2_tmp_e0e72_2_limb_1",
-        "((mul_252_input_limb_7 * mul_252_input_limb_36) + (mul_252_input_limb_8 * mul_252_input_limb_35))"
+        "((mul_252_input_a_limb_7 * mul_252_input_b_limb_8) + (mul_252_input_a_limb_8 * mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_e0e72_2_limb_2",
-        "(((mul_252_input_limb_7 * mul_252_input_limb_37) + (mul_252_input_limb_8 * mul_252_input_limb_36)) + (mul_252_input_limb_9 * mul_252_input_limb_35))"
+        "(((mul_252_input_a_limb_7 * mul_252_input_b_limb_9) + (mul_252_input_a_limb_8 * mul_252_input_b_limb_8)) + (mul_252_input_a_limb_9 * mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_e0e72_2_limb_3",
-        "((((mul_252_input_limb_7 * mul_252_input_limb_38) + (mul_252_input_limb_8 * mul_252_input_limb_37)) + (mul_252_input_limb_9 * mul_252_input_limb_36)) + (mul_252_input_limb_10 * mul_252_input_limb_35))"
+        "((((mul_252_input_a_limb_7 * mul_252_input_b_limb_10) + (mul_252_input_a_limb_8 * mul_252_input_b_limb_9)) + (mul_252_input_a_limb_9 * mul_252_input_b_limb_8)) + (mul_252_input_a_limb_10 * mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_e0e72_2_limb_4",
-        "(((((mul_252_input_limb_7 * mul_252_input_limb_39) + (mul_252_input_limb_8 * mul_252_input_limb_38)) + (mul_252_input_limb_9 * mul_252_input_limb_37)) + (mul_252_input_limb_10 * mul_252_input_limb_36)) + (mul_252_input_limb_11 * mul_252_input_limb_35))"
+        "(((((mul_252_input_a_limb_7 * mul_252_input_b_limb_11) + (mul_252_input_a_limb_8 * mul_252_input_b_limb_10)) + (mul_252_input_a_limb_9 * mul_252_input_b_limb_9)) + (mul_252_input_a_limb_10 * mul_252_input_b_limb_8)) + (mul_252_input_a_limb_11 * mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_e0e72_2_limb_5",
-        "((((((mul_252_input_limb_7 * mul_252_input_limb_40) + (mul_252_input_limb_8 * mul_252_input_limb_39)) + (mul_252_input_limb_9 * mul_252_input_limb_38)) + (mul_252_input_limb_10 * mul_252_input_limb_37)) + (mul_252_input_limb_11 * mul_252_input_limb_36)) + (mul_252_input_limb_12 * mul_252_input_limb_35))"
+        "((((((mul_252_input_a_limb_7 * mul_252_input_b_limb_12) + (mul_252_input_a_limb_8 * mul_252_input_b_limb_11)) + (mul_252_input_a_limb_9 * mul_252_input_b_limb_10)) + (mul_252_input_a_limb_10 * mul_252_input_b_limb_9)) + (mul_252_input_a_limb_11 * mul_252_input_b_limb_8)) + (mul_252_input_a_limb_12 * mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_e0e72_2_limb_6",
-        "(((((((mul_252_input_limb_7 * mul_252_input_limb_41) + (mul_252_input_limb_8 * mul_252_input_limb_40)) + (mul_252_input_limb_9 * mul_252_input_limb_39)) + (mul_252_input_limb_10 * mul_252_input_limb_38)) + (mul_252_input_limb_11 * mul_252_input_limb_37)) + (mul_252_input_limb_12 * mul_252_input_limb_36)) + (mul_252_input_limb_13 * mul_252_input_limb_35))"
+        "(((((((mul_252_input_a_limb_7 * mul_252_input_b_limb_13) + (mul_252_input_a_limb_8 * mul_252_input_b_limb_12)) + (mul_252_input_a_limb_9 * mul_252_input_b_limb_11)) + (mul_252_input_a_limb_10 * mul_252_input_b_limb_10)) + (mul_252_input_a_limb_11 * mul_252_input_b_limb_9)) + (mul_252_input_a_limb_12 * mul_252_input_b_limb_8)) + (mul_252_input_a_limb_13 * mul_252_input_b_limb_7))"
       ],
       [
         "z2_tmp_e0e72_2_limb_7",
-        "((((((mul_252_input_limb_8 * mul_252_input_limb_41) + (mul_252_input_limb_9 * mul_252_input_limb_40)) + (mul_252_input_limb_10 * mul_252_input_limb_39)) + (mul_252_input_limb_11 * mul_252_input_limb_38)) + (mul_252_input_limb_12 * mul_252_input_limb_37)) + (mul_252_input_limb_13 * mul_252_input_limb_36))"
+        "((((((mul_252_input_a_limb_8 * mul_252_input_b_limb_13) + (mul_252_input_a_limb_9 * mul_252_input_b_limb_12)) + (mul_252_input_a_limb_10 * mul_252_input_b_limb_11)) + (mul_252_input_a_limb_11 * mul_252_input_b_limb_10)) + (mul_252_input_a_limb_12 * mul_252_input_b_limb_9)) + (mul_252_input_a_limb_13 * mul_252_input_b_limb_8))"
       ],
       [
         "z2_tmp_e0e72_2_limb_8",
-        "(((((mul_252_input_limb_9 * mul_252_input_limb_41) + (mul_252_input_limb_10 * mul_252_input_limb_40)) + (mul_252_input_limb_11 * mul_252_input_limb_39)) + (mul_252_input_limb_12 * mul_252_input_limb_38)) + (mul_252_input_limb_13 * mul_252_input_limb_37))"
+        "(((((mul_252_input_a_limb_9 * mul_252_input_b_limb_13) + (mul_252_input_a_limb_10 * mul_252_input_b_limb_12)) + (mul_252_input_a_limb_11 * mul_252_input_b_limb_11)) + (mul_252_input_a_limb_12 * mul_252_input_b_limb_10)) + (mul_252_input_a_limb_13 * mul_252_input_b_limb_9))"
       ],
       [
         "z2_tmp_e0e72_2_limb_9",
-        "((((mul_252_input_limb_10 * mul_252_input_limb_41) + (mul_252_input_limb_11 * mul_252_input_limb_40)) + (mul_252_input_limb_12 * mul_252_input_limb_39)) + (mul_252_input_limb_13 * mul_252_input_limb_38))"
+        "((((mul_252_input_a_limb_10 * mul_252_input_b_limb_13) + (mul_252_input_a_limb_11 * mul_252_input_b_limb_12)) + (mul_252_input_a_limb_12 * mul_252_input_b_limb_11)) + (mul_252_input_a_limb_13 * mul_252_input_b_limb_10))"
       ],
       [
         "z2_tmp_e0e72_2_limb_10",
-        "(((mul_252_input_limb_11 * mul_252_input_limb_41) + (mul_252_input_limb_12 * mul_252_input_limb_40)) + (mul_252_input_limb_13 * mul_252_input_limb_39))"
+        "(((mul_252_input_a_limb_11 * mul_252_input_b_limb_13) + (mul_252_input_a_limb_12 * mul_252_input_b_limb_12)) + (mul_252_input_a_limb_13 * mul_252_input_b_limb_11))"
       ],
       [
         "z2_tmp_e0e72_2_limb_11",
-        "((mul_252_input_limb_12 * mul_252_input_limb_41) + (mul_252_input_limb_13 * mul_252_input_limb_40))"
+        "((mul_252_input_a_limb_12 * mul_252_input_b_limb_13) + (mul_252_input_a_limb_13 * mul_252_input_b_limb_12))"
       ],
       [
         "z2_tmp_e0e72_2_limb_12",
-        "(mul_252_input_limb_13 * mul_252_input_limb_41)"
+        "(mul_252_input_a_limb_13 * mul_252_input_b_limb_13)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_0",
-        "(mul_252_input_limb_0 + mul_252_input_limb_7)"
+        "(mul_252_input_a_limb_0 + mul_252_input_a_limb_7)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_1",
-        "(mul_252_input_limb_1 + mul_252_input_limb_8)"
+        "(mul_252_input_a_limb_1 + mul_252_input_a_limb_8)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_2",
-        "(mul_252_input_limb_2 + mul_252_input_limb_9)"
+        "(mul_252_input_a_limb_2 + mul_252_input_a_limb_9)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_3",
-        "(mul_252_input_limb_3 + mul_252_input_limb_10)"
+        "(mul_252_input_a_limb_3 + mul_252_input_a_limb_10)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_4",
-        "(mul_252_input_limb_4 + mul_252_input_limb_11)"
+        "(mul_252_input_a_limb_4 + mul_252_input_a_limb_11)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_5",
-        "(mul_252_input_limb_5 + mul_252_input_limb_12)"
+        "(mul_252_input_a_limb_5 + mul_252_input_a_limb_12)"
       ],
       [
         "x_sum_tmp_e0e72_3_limb_6",
-        "(mul_252_input_limb_6 + mul_252_input_limb_13)"
+        "(mul_252_input_a_limb_6 + mul_252_input_a_limb_13)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_0",
-        "(mul_252_input_limb_28 + mul_252_input_limb_35)"
+        "(mul_252_input_b_limb_0 + mul_252_input_b_limb_7)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_1",
-        "(mul_252_input_limb_29 + mul_252_input_limb_36)"
+        "(mul_252_input_b_limb_1 + mul_252_input_b_limb_8)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_2",
-        "(mul_252_input_limb_30 + mul_252_input_limb_37)"
+        "(mul_252_input_b_limb_2 + mul_252_input_b_limb_9)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_3",
-        "(mul_252_input_limb_31 + mul_252_input_limb_38)"
+        "(mul_252_input_b_limb_3 + mul_252_input_b_limb_10)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_4",
-        "(mul_252_input_limb_32 + mul_252_input_limb_39)"
+        "(mul_252_input_b_limb_4 + mul_252_input_b_limb_11)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_5",
-        "(mul_252_input_limb_33 + mul_252_input_limb_40)"
+        "(mul_252_input_b_limb_5 + mul_252_input_b_limb_12)"
       ],
       [
         "y_sum_tmp_e0e72_4_limb_6",
-        "(mul_252_input_limb_34 + mul_252_input_limb_41)"
+        "(mul_252_input_b_limb_6 + mul_252_input_b_limb_13)"
       ],
       [
         "single_karatsuba_n_7_output_tmp_e0e72_5_limb_0",
@@ -11303,163 +11303,163 @@
       ],
       [
         "z0_tmp_e0e72_6_limb_0",
-        "(mul_252_input_limb_14 * mul_252_input_limb_42)"
+        "(mul_252_input_a_limb_14 * mul_252_input_b_limb_14)"
       ],
       [
         "z0_tmp_e0e72_6_limb_1",
-        "((mul_252_input_limb_14 * mul_252_input_limb_43) + (mul_252_input_limb_15 * mul_252_input_limb_42))"
+        "((mul_252_input_a_limb_14 * mul_252_input_b_limb_15) + (mul_252_input_a_limb_15 * mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_e0e72_6_limb_2",
-        "(((mul_252_input_limb_14 * mul_252_input_limb_44) + (mul_252_input_limb_15 * mul_252_input_limb_43)) + (mul_252_input_limb_16 * mul_252_input_limb_42))"
+        "(((mul_252_input_a_limb_14 * mul_252_input_b_limb_16) + (mul_252_input_a_limb_15 * mul_252_input_b_limb_15)) + (mul_252_input_a_limb_16 * mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_e0e72_6_limb_3",
-        "((((mul_252_input_limb_14 * mul_252_input_limb_45) + (mul_252_input_limb_15 * mul_252_input_limb_44)) + (mul_252_input_limb_16 * mul_252_input_limb_43)) + (mul_252_input_limb_17 * mul_252_input_limb_42))"
+        "((((mul_252_input_a_limb_14 * mul_252_input_b_limb_17) + (mul_252_input_a_limb_15 * mul_252_input_b_limb_16)) + (mul_252_input_a_limb_16 * mul_252_input_b_limb_15)) + (mul_252_input_a_limb_17 * mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_e0e72_6_limb_4",
-        "(((((mul_252_input_limb_14 * mul_252_input_limb_46) + (mul_252_input_limb_15 * mul_252_input_limb_45)) + (mul_252_input_limb_16 * mul_252_input_limb_44)) + (mul_252_input_limb_17 * mul_252_input_limb_43)) + (mul_252_input_limb_18 * mul_252_input_limb_42))"
+        "(((((mul_252_input_a_limb_14 * mul_252_input_b_limb_18) + (mul_252_input_a_limb_15 * mul_252_input_b_limb_17)) + (mul_252_input_a_limb_16 * mul_252_input_b_limb_16)) + (mul_252_input_a_limb_17 * mul_252_input_b_limb_15)) + (mul_252_input_a_limb_18 * mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_e0e72_6_limb_5",
-        "((((((mul_252_input_limb_14 * mul_252_input_limb_47) + (mul_252_input_limb_15 * mul_252_input_limb_46)) + (mul_252_input_limb_16 * mul_252_input_limb_45)) + (mul_252_input_limb_17 * mul_252_input_limb_44)) + (mul_252_input_limb_18 * mul_252_input_limb_43)) + (mul_252_input_limb_19 * mul_252_input_limb_42))"
+        "((((((mul_252_input_a_limb_14 * mul_252_input_b_limb_19) + (mul_252_input_a_limb_15 * mul_252_input_b_limb_18)) + (mul_252_input_a_limb_16 * mul_252_input_b_limb_17)) + (mul_252_input_a_limb_17 * mul_252_input_b_limb_16)) + (mul_252_input_a_limb_18 * mul_252_input_b_limb_15)) + (mul_252_input_a_limb_19 * mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_e0e72_6_limb_6",
-        "(((((((mul_252_input_limb_14 * mul_252_input_limb_48) + (mul_252_input_limb_15 * mul_252_input_limb_47)) + (mul_252_input_limb_16 * mul_252_input_limb_46)) + (mul_252_input_limb_17 * mul_252_input_limb_45)) + (mul_252_input_limb_18 * mul_252_input_limb_44)) + (mul_252_input_limb_19 * mul_252_input_limb_43)) + (mul_252_input_limb_20 * mul_252_input_limb_42))"
+        "(((((((mul_252_input_a_limb_14 * mul_252_input_b_limb_20) + (mul_252_input_a_limb_15 * mul_252_input_b_limb_19)) + (mul_252_input_a_limb_16 * mul_252_input_b_limb_18)) + (mul_252_input_a_limb_17 * mul_252_input_b_limb_17)) + (mul_252_input_a_limb_18 * mul_252_input_b_limb_16)) + (mul_252_input_a_limb_19 * mul_252_input_b_limb_15)) + (mul_252_input_a_limb_20 * mul_252_input_b_limb_14))"
       ],
       [
         "z0_tmp_e0e72_6_limb_7",
-        "((((((mul_252_input_limb_15 * mul_252_input_limb_48) + (mul_252_input_limb_16 * mul_252_input_limb_47)) + (mul_252_input_limb_17 * mul_252_input_limb_46)) + (mul_252_input_limb_18 * mul_252_input_limb_45)) + (mul_252_input_limb_19 * mul_252_input_limb_44)) + (mul_252_input_limb_20 * mul_252_input_limb_43))"
+        "((((((mul_252_input_a_limb_15 * mul_252_input_b_limb_20) + (mul_252_input_a_limb_16 * mul_252_input_b_limb_19)) + (mul_252_input_a_limb_17 * mul_252_input_b_limb_18)) + (mul_252_input_a_limb_18 * mul_252_input_b_limb_17)) + (mul_252_input_a_limb_19 * mul_252_input_b_limb_16)) + (mul_252_input_a_limb_20 * mul_252_input_b_limb_15))"
       ],
       [
         "z0_tmp_e0e72_6_limb_8",
-        "(((((mul_252_input_limb_16 * mul_252_input_limb_48) + (mul_252_input_limb_17 * mul_252_input_limb_47)) + (mul_252_input_limb_18 * mul_252_input_limb_46)) + (mul_252_input_limb_19 * mul_252_input_limb_45)) + (mul_252_input_limb_20 * mul_252_input_limb_44))"
+        "(((((mul_252_input_a_limb_16 * mul_252_input_b_limb_20) + (mul_252_input_a_limb_17 * mul_252_input_b_limb_19)) + (mul_252_input_a_limb_18 * mul_252_input_b_limb_18)) + (mul_252_input_a_limb_19 * mul_252_input_b_limb_17)) + (mul_252_input_a_limb_20 * mul_252_input_b_limb_16))"
       ],
       [
         "z0_tmp_e0e72_6_limb_9",
-        "((((mul_252_input_limb_17 * mul_252_input_limb_48) + (mul_252_input_limb_18 * mul_252_input_limb_47)) + (mul_252_input_limb_19 * mul_252_input_limb_46)) + (mul_252_input_limb_20 * mul_252_input_limb_45))"
+        "((((mul_252_input_a_limb_17 * mul_252_input_b_limb_20) + (mul_252_input_a_limb_18 * mul_252_input_b_limb_19)) + (mul_252_input_a_limb_19 * mul_252_input_b_limb_18)) + (mul_252_input_a_limb_20 * mul_252_input_b_limb_17))"
       ],
       [
         "z0_tmp_e0e72_6_limb_10",
-        "(((mul_252_input_limb_18 * mul_252_input_limb_48) + (mul_252_input_limb_19 * mul_252_input_limb_47)) + (mul_252_input_limb_20 * mul_252_input_limb_46))"
+        "(((mul_252_input_a_limb_18 * mul_252_input_b_limb_20) + (mul_252_input_a_limb_19 * mul_252_input_b_limb_19)) + (mul_252_input_a_limb_20 * mul_252_input_b_limb_18))"
       ],
       [
         "z0_tmp_e0e72_6_limb_11",
-        "((mul_252_input_limb_19 * mul_252_input_limb_48) + (mul_252_input_limb_20 * mul_252_input_limb_47))"
+        "((mul_252_input_a_limb_19 * mul_252_input_b_limb_20) + (mul_252_input_a_limb_20 * mul_252_input_b_limb_19))"
       ],
       [
         "z0_tmp_e0e72_6_limb_12",
-        "(mul_252_input_limb_20 * mul_252_input_limb_48)"
+        "(mul_252_input_a_limb_20 * mul_252_input_b_limb_20)"
       ],
       [
         "z2_tmp_e0e72_7_limb_0",
-        "(mul_252_input_limb_21 * mul_252_input_limb_49)"
+        "(mul_252_input_a_limb_21 * mul_252_input_b_limb_21)"
       ],
       [
         "z2_tmp_e0e72_7_limb_1",
-        "((mul_252_input_limb_21 * mul_252_input_limb_50) + (mul_252_input_limb_22 * mul_252_input_limb_49))"
+        "((mul_252_input_a_limb_21 * mul_252_input_b_limb_22) + (mul_252_input_a_limb_22 * mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_e0e72_7_limb_2",
-        "(((mul_252_input_limb_21 * mul_252_input_limb_51) + (mul_252_input_limb_22 * mul_252_input_limb_50)) + (mul_252_input_limb_23 * mul_252_input_limb_49))"
+        "(((mul_252_input_a_limb_21 * mul_252_input_b_limb_23) + (mul_252_input_a_limb_22 * mul_252_input_b_limb_22)) + (mul_252_input_a_limb_23 * mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_e0e72_7_limb_3",
-        "((((mul_252_input_limb_21 * mul_252_input_limb_52) + (mul_252_input_limb_22 * mul_252_input_limb_51)) + (mul_252_input_limb_23 * mul_252_input_limb_50)) + (mul_252_input_limb_24 * mul_252_input_limb_49))"
+        "((((mul_252_input_a_limb_21 * mul_252_input_b_limb_24) + (mul_252_input_a_limb_22 * mul_252_input_b_limb_23)) + (mul_252_input_a_limb_23 * mul_252_input_b_limb_22)) + (mul_252_input_a_limb_24 * mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_e0e72_7_limb_4",
-        "(((((mul_252_input_limb_21 * mul_252_input_limb_53) + (mul_252_input_limb_22 * mul_252_input_limb_52)) + (mul_252_input_limb_23 * mul_252_input_limb_51)) + (mul_252_input_limb_24 * mul_252_input_limb_50)) + (mul_252_input_limb_25 * mul_252_input_limb_49))"
+        "(((((mul_252_input_a_limb_21 * mul_252_input_b_limb_25) + (mul_252_input_a_limb_22 * mul_252_input_b_limb_24)) + (mul_252_input_a_limb_23 * mul_252_input_b_limb_23)) + (mul_252_input_a_limb_24 * mul_252_input_b_limb_22)) + (mul_252_input_a_limb_25 * mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_e0e72_7_limb_5",
-        "((((((mul_252_input_limb_21 * mul_252_input_limb_54) + (mul_252_input_limb_22 * mul_252_input_limb_53)) + (mul_252_input_limb_23 * mul_252_input_limb_52)) + (mul_252_input_limb_24 * mul_252_input_limb_51)) + (mul_252_input_limb_25 * mul_252_input_limb_50)) + (mul_252_input_limb_26 * mul_252_input_limb_49))"
+        "((((((mul_252_input_a_limb_21 * mul_252_input_b_limb_26) + (mul_252_input_a_limb_22 * mul_252_input_b_limb_25)) + (mul_252_input_a_limb_23 * mul_252_input_b_limb_24)) + (mul_252_input_a_limb_24 * mul_252_input_b_limb_23)) + (mul_252_input_a_limb_25 * mul_252_input_b_limb_22)) + (mul_252_input_a_limb_26 * mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_e0e72_7_limb_6",
-        "(((((((mul_252_input_limb_21 * mul_252_input_limb_55) + (mul_252_input_limb_22 * mul_252_input_limb_54)) + (mul_252_input_limb_23 * mul_252_input_limb_53)) + (mul_252_input_limb_24 * mul_252_input_limb_52)) + (mul_252_input_limb_25 * mul_252_input_limb_51)) + (mul_252_input_limb_26 * mul_252_input_limb_50)) + (mul_252_input_limb_27 * mul_252_input_limb_49))"
+        "(((((((mul_252_input_a_limb_21 * mul_252_input_b_limb_27) + (mul_252_input_a_limb_22 * mul_252_input_b_limb_26)) + (mul_252_input_a_limb_23 * mul_252_input_b_limb_25)) + (mul_252_input_a_limb_24 * mul_252_input_b_limb_24)) + (mul_252_input_a_limb_25 * mul_252_input_b_limb_23)) + (mul_252_input_a_limb_26 * mul_252_input_b_limb_22)) + (mul_252_input_a_limb_27 * mul_252_input_b_limb_21))"
       ],
       [
         "z2_tmp_e0e72_7_limb_7",
-        "((((((mul_252_input_limb_22 * mul_252_input_limb_55) + (mul_252_input_limb_23 * mul_252_input_limb_54)) + (mul_252_input_limb_24 * mul_252_input_limb_53)) + (mul_252_input_limb_25 * mul_252_input_limb_52)) + (mul_252_input_limb_26 * mul_252_input_limb_51)) + (mul_252_input_limb_27 * mul_252_input_limb_50))"
+        "((((((mul_252_input_a_limb_22 * mul_252_input_b_limb_27) + (mul_252_input_a_limb_23 * mul_252_input_b_limb_26)) + (mul_252_input_a_limb_24 * mul_252_input_b_limb_25)) + (mul_252_input_a_limb_25 * mul_252_input_b_limb_24)) + (mul_252_input_a_limb_26 * mul_252_input_b_limb_23)) + (mul_252_input_a_limb_27 * mul_252_input_b_limb_22))"
       ],
       [
         "z2_tmp_e0e72_7_limb_8",
-        "(((((mul_252_input_limb_23 * mul_252_input_limb_55) + (mul_252_input_limb_24 * mul_252_input_limb_54)) + (mul_252_input_limb_25 * mul_252_input_limb_53)) + (mul_252_input_limb_26 * mul_252_input_limb_52)) + (mul_252_input_limb_27 * mul_252_input_limb_51))"
+        "(((((mul_252_input_a_limb_23 * mul_252_input_b_limb_27) + (mul_252_input_a_limb_24 * mul_252_input_b_limb_26)) + (mul_252_input_a_limb_25 * mul_252_input_b_limb_25)) + (mul_252_input_a_limb_26 * mul_252_input_b_limb_24)) + (mul_252_input_a_limb_27 * mul_252_input_b_limb_23))"
       ],
       [
         "z2_tmp_e0e72_7_limb_9",
-        "((((mul_252_input_limb_24 * mul_252_input_limb_55) + (mul_252_input_limb_25 * mul_252_input_limb_54)) + (mul_252_input_limb_26 * mul_252_input_limb_53)) + (mul_252_input_limb_27 * mul_252_input_limb_52))"
+        "((((mul_252_input_a_limb_24 * mul_252_input_b_limb_27) + (mul_252_input_a_limb_25 * mul_252_input_b_limb_26)) + (mul_252_input_a_limb_26 * mul_252_input_b_limb_25)) + (mul_252_input_a_limb_27 * mul_252_input_b_limb_24))"
       ],
       [
         "z2_tmp_e0e72_7_limb_10",
-        "(((mul_252_input_limb_25 * mul_252_input_limb_55) + (mul_252_input_limb_26 * mul_252_input_limb_54)) + (mul_252_input_limb_27 * mul_252_input_limb_53))"
+        "(((mul_252_input_a_limb_25 * mul_252_input_b_limb_27) + (mul_252_input_a_limb_26 * mul_252_input_b_limb_26)) + (mul_252_input_a_limb_27 * mul_252_input_b_limb_25))"
       ],
       [
         "z2_tmp_e0e72_7_limb_11",
-        "((mul_252_input_limb_26 * mul_252_input_limb_55) + (mul_252_input_limb_27 * mul_252_input_limb_54))"
+        "((mul_252_input_a_limb_26 * mul_252_input_b_limb_27) + (mul_252_input_a_limb_27 * mul_252_input_b_limb_26))"
       ],
       [
         "z2_tmp_e0e72_7_limb_12",
-        "(mul_252_input_limb_27 * mul_252_input_limb_55)"
+        "(mul_252_input_a_limb_27 * mul_252_input_b_limb_27)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_0",
-        "(mul_252_input_limb_14 + mul_252_input_limb_21)"
+        "(mul_252_input_a_limb_14 + mul_252_input_a_limb_21)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_1",
-        "(mul_252_input_limb_15 + mul_252_input_limb_22)"
+        "(mul_252_input_a_limb_15 + mul_252_input_a_limb_22)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_2",
-        "(mul_252_input_limb_16 + mul_252_input_limb_23)"
+        "(mul_252_input_a_limb_16 + mul_252_input_a_limb_23)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_3",
-        "(mul_252_input_limb_17 + mul_252_input_limb_24)"
+        "(mul_252_input_a_limb_17 + mul_252_input_a_limb_24)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_4",
-        "(mul_252_input_limb_18 + mul_252_input_limb_25)"
+        "(mul_252_input_a_limb_18 + mul_252_input_a_limb_25)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_5",
-        "(mul_252_input_limb_19 + mul_252_input_limb_26)"
+        "(mul_252_input_a_limb_19 + mul_252_input_a_limb_26)"
       ],
       [
         "x_sum_tmp_e0e72_8_limb_6",
-        "(mul_252_input_limb_20 + mul_252_input_limb_27)"
+        "(mul_252_input_a_limb_20 + mul_252_input_a_limb_27)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_0",
-        "(mul_252_input_limb_42 + mul_252_input_limb_49)"
+        "(mul_252_input_b_limb_14 + mul_252_input_b_limb_21)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_1",
-        "(mul_252_input_limb_43 + mul_252_input_limb_50)"
+        "(mul_252_input_b_limb_15 + mul_252_input_b_limb_22)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_2",
-        "(mul_252_input_limb_44 + mul_252_input_limb_51)"
+        "(mul_252_input_b_limb_16 + mul_252_input_b_limb_23)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_3",
-        "(mul_252_input_limb_45 + mul_252_input_limb_52)"
+        "(mul_252_input_b_limb_17 + mul_252_input_b_limb_24)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_4",
-        "(mul_252_input_limb_46 + mul_252_input_limb_53)"
+        "(mul_252_input_b_limb_18 + mul_252_input_b_limb_25)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_5",
-        "(mul_252_input_limb_47 + mul_252_input_limb_54)"
+        "(mul_252_input_b_limb_19 + mul_252_input_b_limb_26)"
       ],
       [
         "y_sum_tmp_e0e72_9_limb_6",
-        "(mul_252_input_limb_48 + mul_252_input_limb_55)"
+        "(mul_252_input_b_limb_20 + mul_252_input_b_limb_27)"
       ],
       [
         "single_karatsuba_n_7_output_tmp_e0e72_10_limb_0",
@@ -11571,115 +11571,115 @@
       ],
       [
         "x_sum_tmp_e0e72_11_limb_0",
-        "(mul_252_input_limb_0 + mul_252_input_limb_14)"
+        "(mul_252_input_a_limb_0 + mul_252_input_a_limb_14)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_1",
-        "(mul_252_input_limb_1 + mul_252_input_limb_15)"
+        "(mul_252_input_a_limb_1 + mul_252_input_a_limb_15)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_2",
-        "(mul_252_input_limb_2 + mul_252_input_limb_16)"
+        "(mul_252_input_a_limb_2 + mul_252_input_a_limb_16)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_3",
-        "(mul_252_input_limb_3 + mul_252_input_limb_17)"
+        "(mul_252_input_a_limb_3 + mul_252_input_a_limb_17)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_4",
-        "(mul_252_input_limb_4 + mul_252_input_limb_18)"
+        "(mul_252_input_a_limb_4 + mul_252_input_a_limb_18)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_5",
-        "(mul_252_input_limb_5 + mul_252_input_limb_19)"
+        "(mul_252_input_a_limb_5 + mul_252_input_a_limb_19)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_6",
-        "(mul_252_input_limb_6 + mul_252_input_limb_20)"
+        "(mul_252_input_a_limb_6 + mul_252_input_a_limb_20)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_7",
-        "(mul_252_input_limb_7 + mul_252_input_limb_21)"
+        "(mul_252_input_a_limb_7 + mul_252_input_a_limb_21)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_8",
-        "(mul_252_input_limb_8 + mul_252_input_limb_22)"
+        "(mul_252_input_a_limb_8 + mul_252_input_a_limb_22)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_9",
-        "(mul_252_input_limb_9 + mul_252_input_limb_23)"
+        "(mul_252_input_a_limb_9 + mul_252_input_a_limb_23)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_10",
-        "(mul_252_input_limb_10 + mul_252_input_limb_24)"
+        "(mul_252_input_a_limb_10 + mul_252_input_a_limb_24)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_11",
-        "(mul_252_input_limb_11 + mul_252_input_limb_25)"
+        "(mul_252_input_a_limb_11 + mul_252_input_a_limb_25)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_12",
-        "(mul_252_input_limb_12 + mul_252_input_limb_26)"
+        "(mul_252_input_a_limb_12 + mul_252_input_a_limb_26)"
       ],
       [
         "x_sum_tmp_e0e72_11_limb_13",
-        "(mul_252_input_limb_13 + mul_252_input_limb_27)"
+        "(mul_252_input_a_limb_13 + mul_252_input_a_limb_27)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_0",
-        "(mul_252_input_limb_28 + mul_252_input_limb_42)"
+        "(mul_252_input_b_limb_0 + mul_252_input_b_limb_14)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_1",
-        "(mul_252_input_limb_29 + mul_252_input_limb_43)"
+        "(mul_252_input_b_limb_1 + mul_252_input_b_limb_15)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_2",
-        "(mul_252_input_limb_30 + mul_252_input_limb_44)"
+        "(mul_252_input_b_limb_2 + mul_252_input_b_limb_16)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_3",
-        "(mul_252_input_limb_31 + mul_252_input_limb_45)"
+        "(mul_252_input_b_limb_3 + mul_252_input_b_limb_17)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_4",
-        "(mul_252_input_limb_32 + mul_252_input_limb_46)"
+        "(mul_252_input_b_limb_4 + mul_252_input_b_limb_18)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_5",
-        "(mul_252_input_limb_33 + mul_252_input_limb_47)"
+        "(mul_252_input_b_limb_5 + mul_252_input_b_limb_19)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_6",
-        "(mul_252_input_limb_34 + mul_252_input_limb_48)"
+        "(mul_252_input_b_limb_6 + mul_252_input_b_limb_20)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_7",
-        "(mul_252_input_limb_35 + mul_252_input_limb_49)"
+        "(mul_252_input_b_limb_7 + mul_252_input_b_limb_21)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_8",
-        "(mul_252_input_limb_36 + mul_252_input_limb_50)"
+        "(mul_252_input_b_limb_8 + mul_252_input_b_limb_22)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_9",
-        "(mul_252_input_limb_37 + mul_252_input_limb_51)"
+        "(mul_252_input_b_limb_9 + mul_252_input_b_limb_23)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_10",
-        "(mul_252_input_limb_38 + mul_252_input_limb_52)"
+        "(mul_252_input_b_limb_10 + mul_252_input_b_limb_24)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_11",
-        "(mul_252_input_limb_39 + mul_252_input_limb_53)"
+        "(mul_252_input_b_limb_11 + mul_252_input_b_limb_25)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_12",
-        "(mul_252_input_limb_40 + mul_252_input_limb_54)"
+        "(mul_252_input_b_limb_12 + mul_252_input_b_limb_26)"
       ],
       [
         "y_sum_tmp_e0e72_12_limb_13",
-        "(mul_252_input_limb_41 + mul_252_input_limb_55)"
+        "(mul_252_input_b_limb_13 + mul_252_input_b_limb_27)"
       ],
       [
         "z0_tmp_e0e72_13_limb_0",
@@ -19970,111 +19970,111 @@
     "intermediates": [
       [
         "carry_tmp_4afb1_1",
-        "((((verify_add_252_input_limb_0 + verify_add_252_input_limb_28) - verify_add_252_input_limb_56) - sub_p_bit_col0) * 4194304)"
+        "((((verify_add_252_input_a_limb_0 + verify_add_252_input_b_limb_0) - verify_add_252_input_c_limb_0) - sub_p_bit_col0) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_2",
-        "((((verify_add_252_input_limb_1 + verify_add_252_input_limb_29) + carry_tmp_4afb1_1) - verify_add_252_input_limb_57) * 4194304)"
+        "((((verify_add_252_input_a_limb_1 + verify_add_252_input_b_limb_1) + carry_tmp_4afb1_1) - verify_add_252_input_c_limb_1) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_3",
-        "((((verify_add_252_input_limb_2 + verify_add_252_input_limb_30) + carry_tmp_4afb1_2) - verify_add_252_input_limb_58) * 4194304)"
+        "((((verify_add_252_input_a_limb_2 + verify_add_252_input_b_limb_2) + carry_tmp_4afb1_2) - verify_add_252_input_c_limb_2) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_4",
-        "((((verify_add_252_input_limb_3 + verify_add_252_input_limb_31) + carry_tmp_4afb1_3) - verify_add_252_input_limb_59) * 4194304)"
+        "((((verify_add_252_input_a_limb_3 + verify_add_252_input_b_limb_3) + carry_tmp_4afb1_3) - verify_add_252_input_c_limb_3) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_5",
-        "((((verify_add_252_input_limb_4 + verify_add_252_input_limb_32) + carry_tmp_4afb1_4) - verify_add_252_input_limb_60) * 4194304)"
+        "((((verify_add_252_input_a_limb_4 + verify_add_252_input_b_limb_4) + carry_tmp_4afb1_4) - verify_add_252_input_c_limb_4) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_6",
-        "((((verify_add_252_input_limb_5 + verify_add_252_input_limb_33) + carry_tmp_4afb1_5) - verify_add_252_input_limb_61) * 4194304)"
+        "((((verify_add_252_input_a_limb_5 + verify_add_252_input_b_limb_5) + carry_tmp_4afb1_5) - verify_add_252_input_c_limb_5) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_7",
-        "((((verify_add_252_input_limb_6 + verify_add_252_input_limb_34) + carry_tmp_4afb1_6) - verify_add_252_input_limb_62) * 4194304)"
+        "((((verify_add_252_input_a_limb_6 + verify_add_252_input_b_limb_6) + carry_tmp_4afb1_6) - verify_add_252_input_c_limb_6) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_8",
-        "((((verify_add_252_input_limb_7 + verify_add_252_input_limb_35) + carry_tmp_4afb1_7) - verify_add_252_input_limb_63) * 4194304)"
+        "((((verify_add_252_input_a_limb_7 + verify_add_252_input_b_limb_7) + carry_tmp_4afb1_7) - verify_add_252_input_c_limb_7) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_9",
-        "((((verify_add_252_input_limb_8 + verify_add_252_input_limb_36) + carry_tmp_4afb1_8) - verify_add_252_input_limb_64) * 4194304)"
+        "((((verify_add_252_input_a_limb_8 + verify_add_252_input_b_limb_8) + carry_tmp_4afb1_8) - verify_add_252_input_c_limb_8) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_10",
-        "((((verify_add_252_input_limb_9 + verify_add_252_input_limb_37) + carry_tmp_4afb1_9) - verify_add_252_input_limb_65) * 4194304)"
+        "((((verify_add_252_input_a_limb_9 + verify_add_252_input_b_limb_9) + carry_tmp_4afb1_9) - verify_add_252_input_c_limb_9) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_11",
-        "((((verify_add_252_input_limb_10 + verify_add_252_input_limb_38) + carry_tmp_4afb1_10) - verify_add_252_input_limb_66) * 4194304)"
+        "((((verify_add_252_input_a_limb_10 + verify_add_252_input_b_limb_10) + carry_tmp_4afb1_10) - verify_add_252_input_c_limb_10) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_12",
-        "((((verify_add_252_input_limb_11 + verify_add_252_input_limb_39) + carry_tmp_4afb1_11) - verify_add_252_input_limb_67) * 4194304)"
+        "((((verify_add_252_input_a_limb_11 + verify_add_252_input_b_limb_11) + carry_tmp_4afb1_11) - verify_add_252_input_c_limb_11) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_13",
-        "((((verify_add_252_input_limb_12 + verify_add_252_input_limb_40) + carry_tmp_4afb1_12) - verify_add_252_input_limb_68) * 4194304)"
+        "((((verify_add_252_input_a_limb_12 + verify_add_252_input_b_limb_12) + carry_tmp_4afb1_12) - verify_add_252_input_c_limb_12) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_14",
-        "((((verify_add_252_input_limb_13 + verify_add_252_input_limb_41) + carry_tmp_4afb1_13) - verify_add_252_input_limb_69) * 4194304)"
+        "((((verify_add_252_input_a_limb_13 + verify_add_252_input_b_limb_13) + carry_tmp_4afb1_13) - verify_add_252_input_c_limb_13) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_15",
-        "((((verify_add_252_input_limb_14 + verify_add_252_input_limb_42) + carry_tmp_4afb1_14) - verify_add_252_input_limb_70) * 4194304)"
+        "((((verify_add_252_input_a_limb_14 + verify_add_252_input_b_limb_14) + carry_tmp_4afb1_14) - verify_add_252_input_c_limb_14) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_16",
-        "((((verify_add_252_input_limb_15 + verify_add_252_input_limb_43) + carry_tmp_4afb1_15) - verify_add_252_input_limb_71) * 4194304)"
+        "((((verify_add_252_input_a_limb_15 + verify_add_252_input_b_limb_15) + carry_tmp_4afb1_15) - verify_add_252_input_c_limb_15) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_17",
-        "((((verify_add_252_input_limb_16 + verify_add_252_input_limb_44) + carry_tmp_4afb1_16) - verify_add_252_input_limb_72) * 4194304)"
+        "((((verify_add_252_input_a_limb_16 + verify_add_252_input_b_limb_16) + carry_tmp_4afb1_16) - verify_add_252_input_c_limb_16) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_18",
-        "((((verify_add_252_input_limb_17 + verify_add_252_input_limb_45) + carry_tmp_4afb1_17) - verify_add_252_input_limb_73) * 4194304)"
+        "((((verify_add_252_input_a_limb_17 + verify_add_252_input_b_limb_17) + carry_tmp_4afb1_17) - verify_add_252_input_c_limb_17) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_19",
-        "((((verify_add_252_input_limb_18 + verify_add_252_input_limb_46) + carry_tmp_4afb1_18) - verify_add_252_input_limb_74) * 4194304)"
+        "((((verify_add_252_input_a_limb_18 + verify_add_252_input_b_limb_18) + carry_tmp_4afb1_18) - verify_add_252_input_c_limb_18) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_20",
-        "((((verify_add_252_input_limb_19 + verify_add_252_input_limb_47) + carry_tmp_4afb1_19) - verify_add_252_input_limb_75) * 4194304)"
+        "((((verify_add_252_input_a_limb_19 + verify_add_252_input_b_limb_19) + carry_tmp_4afb1_19) - verify_add_252_input_c_limb_19) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_21",
-        "((((verify_add_252_input_limb_20 + verify_add_252_input_limb_48) + carry_tmp_4afb1_20) - verify_add_252_input_limb_76) * 4194304)"
+        "((((verify_add_252_input_a_limb_20 + verify_add_252_input_b_limb_20) + carry_tmp_4afb1_20) - verify_add_252_input_c_limb_20) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_22",
-        "(((((verify_add_252_input_limb_21 + verify_add_252_input_limb_49) + carry_tmp_4afb1_21) - verify_add_252_input_limb_77) - (136 * sub_p_bit_col0)) * 4194304)"
+        "(((((verify_add_252_input_a_limb_21 + verify_add_252_input_b_limb_21) + carry_tmp_4afb1_21) - verify_add_252_input_c_limb_21) - (136 * sub_p_bit_col0)) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_23",
-        "((((verify_add_252_input_limb_22 + verify_add_252_input_limb_50) + carry_tmp_4afb1_22) - verify_add_252_input_limb_78) * 4194304)"
+        "((((verify_add_252_input_a_limb_22 + verify_add_252_input_b_limb_22) + carry_tmp_4afb1_22) - verify_add_252_input_c_limb_22) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_24",
-        "((((verify_add_252_input_limb_23 + verify_add_252_input_limb_51) + carry_tmp_4afb1_23) - verify_add_252_input_limb_79) * 4194304)"
+        "((((verify_add_252_input_a_limb_23 + verify_add_252_input_b_limb_23) + carry_tmp_4afb1_23) - verify_add_252_input_c_limb_23) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_25",
-        "((((verify_add_252_input_limb_24 + verify_add_252_input_limb_52) + carry_tmp_4afb1_24) - verify_add_252_input_limb_80) * 4194304)"
+        "((((verify_add_252_input_a_limb_24 + verify_add_252_input_b_limb_24) + carry_tmp_4afb1_24) - verify_add_252_input_c_limb_24) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_26",
-        "((((verify_add_252_input_limb_25 + verify_add_252_input_limb_53) + carry_tmp_4afb1_25) - verify_add_252_input_limb_81) * 4194304)"
+        "((((verify_add_252_input_a_limb_25 + verify_add_252_input_b_limb_25) + carry_tmp_4afb1_25) - verify_add_252_input_c_limb_25) * 4194304)"
       ],
       [
         "carry_tmp_4afb1_27",
-        "((((verify_add_252_input_limb_26 + verify_add_252_input_limb_54) + carry_tmp_4afb1_26) - verify_add_252_input_limb_82) * 4194304)"
+        "((((verify_add_252_input_a_limb_26 + verify_add_252_input_b_limb_26) + carry_tmp_4afb1_26) - verify_add_252_input_c_limb_26) * 4194304)"
       ]
     ],
     "constraints": [
@@ -20106,7 +20106,7 @@
       "(carry_tmp_4afb1_25 * ((carry_tmp_4afb1_25 * carry_tmp_4afb1_25) - 1))",
       "(carry_tmp_4afb1_26 * ((carry_tmp_4afb1_26 * carry_tmp_4afb1_26) - 1))",
       "(carry_tmp_4afb1_27 * ((carry_tmp_4afb1_27 * carry_tmp_4afb1_27) - 1))",
-      "((((verify_add_252_input_limb_27 + verify_add_252_input_limb_55) + carry_tmp_4afb1_27) - verify_add_252_input_limb_83) - (256 * sub_p_bit_col0))"
+      "((((verify_add_252_input_a_limb_27 + verify_add_252_input_b_limb_27) + carry_tmp_4afb1_27) - verify_add_252_input_c_limb_27) - (256 * sub_p_bit_col0))"
     ],
     "lookups": []
   },
@@ -20145,111 +20145,111 @@
     "intermediates": [
       [
         "carry_tmp_fda18_2",
-        "((((sub_252_input_limb_28 + sub_res_limb_0_col0) - sub_252_input_limb_0) - sub_p_bit_col28) * 4194304)"
+        "((((sub_252_input_a_limb_0 + sub_res_limb_0_col0) - sub_252_input_c_limb_0) - sub_p_bit_col28) * 4194304)"
       ],
       [
         "carry_tmp_fda18_3",
-        "((((sub_252_input_limb_29 + sub_res_limb_1_col1) + carry_tmp_fda18_2) - sub_252_input_limb_1) * 4194304)"
+        "((((sub_252_input_a_limb_1 + sub_res_limb_1_col1) + carry_tmp_fda18_2) - sub_252_input_c_limb_1) * 4194304)"
       ],
       [
         "carry_tmp_fda18_4",
-        "((((sub_252_input_limb_30 + sub_res_limb_2_col2) + carry_tmp_fda18_3) - sub_252_input_limb_2) * 4194304)"
+        "((((sub_252_input_a_limb_2 + sub_res_limb_2_col2) + carry_tmp_fda18_3) - sub_252_input_c_limb_2) * 4194304)"
       ],
       [
         "carry_tmp_fda18_5",
-        "((((sub_252_input_limb_31 + sub_res_limb_3_col3) + carry_tmp_fda18_4) - sub_252_input_limb_3) * 4194304)"
+        "((((sub_252_input_a_limb_3 + sub_res_limb_3_col3) + carry_tmp_fda18_4) - sub_252_input_c_limb_3) * 4194304)"
       ],
       [
         "carry_tmp_fda18_6",
-        "((((sub_252_input_limb_32 + sub_res_limb_4_col4) + carry_tmp_fda18_5) - sub_252_input_limb_4) * 4194304)"
+        "((((sub_252_input_a_limb_4 + sub_res_limb_4_col4) + carry_tmp_fda18_5) - sub_252_input_c_limb_4) * 4194304)"
       ],
       [
         "carry_tmp_fda18_7",
-        "((((sub_252_input_limb_33 + sub_res_limb_5_col5) + carry_tmp_fda18_6) - sub_252_input_limb_5) * 4194304)"
+        "((((sub_252_input_a_limb_5 + sub_res_limb_5_col5) + carry_tmp_fda18_6) - sub_252_input_c_limb_5) * 4194304)"
       ],
       [
         "carry_tmp_fda18_8",
-        "((((sub_252_input_limb_34 + sub_res_limb_6_col6) + carry_tmp_fda18_7) - sub_252_input_limb_6) * 4194304)"
+        "((((sub_252_input_a_limb_6 + sub_res_limb_6_col6) + carry_tmp_fda18_7) - sub_252_input_c_limb_6) * 4194304)"
       ],
       [
         "carry_tmp_fda18_9",
-        "((((sub_252_input_limb_35 + sub_res_limb_7_col7) + carry_tmp_fda18_8) - sub_252_input_limb_7) * 4194304)"
+        "((((sub_252_input_a_limb_7 + sub_res_limb_7_col7) + carry_tmp_fda18_8) - sub_252_input_c_limb_7) * 4194304)"
       ],
       [
         "carry_tmp_fda18_10",
-        "((((sub_252_input_limb_36 + sub_res_limb_8_col8) + carry_tmp_fda18_9) - sub_252_input_limb_8) * 4194304)"
+        "((((sub_252_input_a_limb_8 + sub_res_limb_8_col8) + carry_tmp_fda18_9) - sub_252_input_c_limb_8) * 4194304)"
       ],
       [
         "carry_tmp_fda18_11",
-        "((((sub_252_input_limb_37 + sub_res_limb_9_col9) + carry_tmp_fda18_10) - sub_252_input_limb_9) * 4194304)"
+        "((((sub_252_input_a_limb_9 + sub_res_limb_9_col9) + carry_tmp_fda18_10) - sub_252_input_c_limb_9) * 4194304)"
       ],
       [
         "carry_tmp_fda18_12",
-        "((((sub_252_input_limb_38 + sub_res_limb_10_col10) + carry_tmp_fda18_11) - sub_252_input_limb_10) * 4194304)"
+        "((((sub_252_input_a_limb_10 + sub_res_limb_10_col10) + carry_tmp_fda18_11) - sub_252_input_c_limb_10) * 4194304)"
       ],
       [
         "carry_tmp_fda18_13",
-        "((((sub_252_input_limb_39 + sub_res_limb_11_col11) + carry_tmp_fda18_12) - sub_252_input_limb_11) * 4194304)"
+        "((((sub_252_input_a_limb_11 + sub_res_limb_11_col11) + carry_tmp_fda18_12) - sub_252_input_c_limb_11) * 4194304)"
       ],
       [
         "carry_tmp_fda18_14",
-        "((((sub_252_input_limb_40 + sub_res_limb_12_col12) + carry_tmp_fda18_13) - sub_252_input_limb_12) * 4194304)"
+        "((((sub_252_input_a_limb_12 + sub_res_limb_12_col12) + carry_tmp_fda18_13) - sub_252_input_c_limb_12) * 4194304)"
       ],
       [
         "carry_tmp_fda18_15",
-        "((((sub_252_input_limb_41 + sub_res_limb_13_col13) + carry_tmp_fda18_14) - sub_252_input_limb_13) * 4194304)"
+        "((((sub_252_input_a_limb_13 + sub_res_limb_13_col13) + carry_tmp_fda18_14) - sub_252_input_c_limb_13) * 4194304)"
       ],
       [
         "carry_tmp_fda18_16",
-        "((((sub_252_input_limb_42 + sub_res_limb_14_col14) + carry_tmp_fda18_15) - sub_252_input_limb_14) * 4194304)"
+        "((((sub_252_input_a_limb_14 + sub_res_limb_14_col14) + carry_tmp_fda18_15) - sub_252_input_c_limb_14) * 4194304)"
       ],
       [
         "carry_tmp_fda18_17",
-        "((((sub_252_input_limb_43 + sub_res_limb_15_col15) + carry_tmp_fda18_16) - sub_252_input_limb_15) * 4194304)"
+        "((((sub_252_input_a_limb_15 + sub_res_limb_15_col15) + carry_tmp_fda18_16) - sub_252_input_c_limb_15) * 4194304)"
       ],
       [
         "carry_tmp_fda18_18",
-        "((((sub_252_input_limb_44 + sub_res_limb_16_col16) + carry_tmp_fda18_17) - sub_252_input_limb_16) * 4194304)"
+        "((((sub_252_input_a_limb_16 + sub_res_limb_16_col16) + carry_tmp_fda18_17) - sub_252_input_c_limb_16) * 4194304)"
       ],
       [
         "carry_tmp_fda18_19",
-        "((((sub_252_input_limb_45 + sub_res_limb_17_col17) + carry_tmp_fda18_18) - sub_252_input_limb_17) * 4194304)"
+        "((((sub_252_input_a_limb_17 + sub_res_limb_17_col17) + carry_tmp_fda18_18) - sub_252_input_c_limb_17) * 4194304)"
       ],
       [
         "carry_tmp_fda18_20",
-        "((((sub_252_input_limb_46 + sub_res_limb_18_col18) + carry_tmp_fda18_19) - sub_252_input_limb_18) * 4194304)"
+        "((((sub_252_input_a_limb_18 + sub_res_limb_18_col18) + carry_tmp_fda18_19) - sub_252_input_c_limb_18) * 4194304)"
       ],
       [
         "carry_tmp_fda18_21",
-        "((((sub_252_input_limb_47 + sub_res_limb_19_col19) + carry_tmp_fda18_20) - sub_252_input_limb_19) * 4194304)"
+        "((((sub_252_input_a_limb_19 + sub_res_limb_19_col19) + carry_tmp_fda18_20) - sub_252_input_c_limb_19) * 4194304)"
       ],
       [
         "carry_tmp_fda18_22",
-        "((((sub_252_input_limb_48 + sub_res_limb_20_col20) + carry_tmp_fda18_21) - sub_252_input_limb_20) * 4194304)"
+        "((((sub_252_input_a_limb_20 + sub_res_limb_20_col20) + carry_tmp_fda18_21) - sub_252_input_c_limb_20) * 4194304)"
       ],
       [
         "carry_tmp_fda18_23",
-        "(((((sub_252_input_limb_49 + sub_res_limb_21_col21) + carry_tmp_fda18_22) - sub_252_input_limb_21) - (136 * sub_p_bit_col28)) * 4194304)"
+        "(((((sub_252_input_a_limb_21 + sub_res_limb_21_col21) + carry_tmp_fda18_22) - sub_252_input_c_limb_21) - (136 * sub_p_bit_col28)) * 4194304)"
       ],
       [
         "carry_tmp_fda18_24",
-        "((((sub_252_input_limb_50 + sub_res_limb_22_col22) + carry_tmp_fda18_23) - sub_252_input_limb_22) * 4194304)"
+        "((((sub_252_input_a_limb_22 + sub_res_limb_22_col22) + carry_tmp_fda18_23) - sub_252_input_c_limb_22) * 4194304)"
       ],
       [
         "carry_tmp_fda18_25",
-        "((((sub_252_input_limb_51 + sub_res_limb_23_col23) + carry_tmp_fda18_24) - sub_252_input_limb_23) * 4194304)"
+        "((((sub_252_input_a_limb_23 + sub_res_limb_23_col23) + carry_tmp_fda18_24) - sub_252_input_c_limb_23) * 4194304)"
       ],
       [
         "carry_tmp_fda18_26",
-        "((((sub_252_input_limb_52 + sub_res_limb_24_col24) + carry_tmp_fda18_25) - sub_252_input_limb_24) * 4194304)"
+        "((((sub_252_input_a_limb_24 + sub_res_limb_24_col24) + carry_tmp_fda18_25) - sub_252_input_c_limb_24) * 4194304)"
       ],
       [
         "carry_tmp_fda18_27",
-        "((((sub_252_input_limb_53 + sub_res_limb_25_col25) + carry_tmp_fda18_26) - sub_252_input_limb_25) * 4194304)"
+        "((((sub_252_input_a_limb_25 + sub_res_limb_25_col25) + carry_tmp_fda18_26) - sub_252_input_c_limb_25) * 4194304)"
       ],
       [
         "carry_tmp_fda18_28",
-        "((((sub_252_input_limb_54 + sub_res_limb_26_col26) + carry_tmp_fda18_27) - sub_252_input_limb_26) * 4194304)"
+        "((((sub_252_input_a_limb_26 + sub_res_limb_26_col26) + carry_tmp_fda18_27) - sub_252_input_c_limb_26) * 4194304)"
       ]
     ],
     "constraints": [
@@ -20281,7 +20281,7 @@
       "(carry_tmp_fda18_26 * ((carry_tmp_fda18_26 * carry_tmp_fda18_26) - 1))",
       "(carry_tmp_fda18_27 * ((carry_tmp_fda18_27 * carry_tmp_fda18_27) - 1))",
       "(carry_tmp_fda18_28 * ((carry_tmp_fda18_28 * carry_tmp_fda18_28) - 1))",
-      "((((sub_252_input_limb_55 + sub_res_limb_27_col27) + carry_tmp_fda18_28) - sub_252_input_limb_27) - (256 * sub_p_bit_col28))"
+      "((((sub_252_input_a_limb_27 + sub_res_limb_27_col27) + carry_tmp_fda18_28) - sub_252_input_c_limb_27) - (256 * sub_p_bit_col28))"
     ],
     "lookups": [
       [
@@ -20377,111 +20377,111 @@
     "intermediates": [
       [
         "carry_tmp_dd24c_2",
-        "((((add_252_input_limb_0 + add_252_input_limb_28) - add_res_limb_0_col0) - sub_p_bit_col28) * 4194304)"
+        "((((add_252_input_a_limb_0 + add_252_input_b_limb_0) - add_res_limb_0_col0) - sub_p_bit_col28) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_3",
-        "((((add_252_input_limb_1 + add_252_input_limb_29) + carry_tmp_dd24c_2) - add_res_limb_1_col1) * 4194304)"
+        "((((add_252_input_a_limb_1 + add_252_input_b_limb_1) + carry_tmp_dd24c_2) - add_res_limb_1_col1) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_4",
-        "((((add_252_input_limb_2 + add_252_input_limb_30) + carry_tmp_dd24c_3) - add_res_limb_2_col2) * 4194304)"
+        "((((add_252_input_a_limb_2 + add_252_input_b_limb_2) + carry_tmp_dd24c_3) - add_res_limb_2_col2) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_5",
-        "((((add_252_input_limb_3 + add_252_input_limb_31) + carry_tmp_dd24c_4) - add_res_limb_3_col3) * 4194304)"
+        "((((add_252_input_a_limb_3 + add_252_input_b_limb_3) + carry_tmp_dd24c_4) - add_res_limb_3_col3) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_6",
-        "((((add_252_input_limb_4 + add_252_input_limb_32) + carry_tmp_dd24c_5) - add_res_limb_4_col4) * 4194304)"
+        "((((add_252_input_a_limb_4 + add_252_input_b_limb_4) + carry_tmp_dd24c_5) - add_res_limb_4_col4) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_7",
-        "((((add_252_input_limb_5 + add_252_input_limb_33) + carry_tmp_dd24c_6) - add_res_limb_5_col5) * 4194304)"
+        "((((add_252_input_a_limb_5 + add_252_input_b_limb_5) + carry_tmp_dd24c_6) - add_res_limb_5_col5) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_8",
-        "((((add_252_input_limb_6 + add_252_input_limb_34) + carry_tmp_dd24c_7) - add_res_limb_6_col6) * 4194304)"
+        "((((add_252_input_a_limb_6 + add_252_input_b_limb_6) + carry_tmp_dd24c_7) - add_res_limb_6_col6) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_9",
-        "((((add_252_input_limb_7 + add_252_input_limb_35) + carry_tmp_dd24c_8) - add_res_limb_7_col7) * 4194304)"
+        "((((add_252_input_a_limb_7 + add_252_input_b_limb_7) + carry_tmp_dd24c_8) - add_res_limb_7_col7) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_10",
-        "((((add_252_input_limb_8 + add_252_input_limb_36) + carry_tmp_dd24c_9) - add_res_limb_8_col8) * 4194304)"
+        "((((add_252_input_a_limb_8 + add_252_input_b_limb_8) + carry_tmp_dd24c_9) - add_res_limb_8_col8) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_11",
-        "((((add_252_input_limb_9 + add_252_input_limb_37) + carry_tmp_dd24c_10) - add_res_limb_9_col9) * 4194304)"
+        "((((add_252_input_a_limb_9 + add_252_input_b_limb_9) + carry_tmp_dd24c_10) - add_res_limb_9_col9) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_12",
-        "((((add_252_input_limb_10 + add_252_input_limb_38) + carry_tmp_dd24c_11) - add_res_limb_10_col10) * 4194304)"
+        "((((add_252_input_a_limb_10 + add_252_input_b_limb_10) + carry_tmp_dd24c_11) - add_res_limb_10_col10) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_13",
-        "((((add_252_input_limb_11 + add_252_input_limb_39) + carry_tmp_dd24c_12) - add_res_limb_11_col11) * 4194304)"
+        "((((add_252_input_a_limb_11 + add_252_input_b_limb_11) + carry_tmp_dd24c_12) - add_res_limb_11_col11) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_14",
-        "((((add_252_input_limb_12 + add_252_input_limb_40) + carry_tmp_dd24c_13) - add_res_limb_12_col12) * 4194304)"
+        "((((add_252_input_a_limb_12 + add_252_input_b_limb_12) + carry_tmp_dd24c_13) - add_res_limb_12_col12) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_15",
-        "((((add_252_input_limb_13 + add_252_input_limb_41) + carry_tmp_dd24c_14) - add_res_limb_13_col13) * 4194304)"
+        "((((add_252_input_a_limb_13 + add_252_input_b_limb_13) + carry_tmp_dd24c_14) - add_res_limb_13_col13) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_16",
-        "((((add_252_input_limb_14 + add_252_input_limb_42) + carry_tmp_dd24c_15) - add_res_limb_14_col14) * 4194304)"
+        "((((add_252_input_a_limb_14 + add_252_input_b_limb_14) + carry_tmp_dd24c_15) - add_res_limb_14_col14) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_17",
-        "((((add_252_input_limb_15 + add_252_input_limb_43) + carry_tmp_dd24c_16) - add_res_limb_15_col15) * 4194304)"
+        "((((add_252_input_a_limb_15 + add_252_input_b_limb_15) + carry_tmp_dd24c_16) - add_res_limb_15_col15) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_18",
-        "((((add_252_input_limb_16 + add_252_input_limb_44) + carry_tmp_dd24c_17) - add_res_limb_16_col16) * 4194304)"
+        "((((add_252_input_a_limb_16 + add_252_input_b_limb_16) + carry_tmp_dd24c_17) - add_res_limb_16_col16) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_19",
-        "((((add_252_input_limb_17 + add_252_input_limb_45) + carry_tmp_dd24c_18) - add_res_limb_17_col17) * 4194304)"
+        "((((add_252_input_a_limb_17 + add_252_input_b_limb_17) + carry_tmp_dd24c_18) - add_res_limb_17_col17) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_20",
-        "((((add_252_input_limb_18 + add_252_input_limb_46) + carry_tmp_dd24c_19) - add_res_limb_18_col18) * 4194304)"
+        "((((add_252_input_a_limb_18 + add_252_input_b_limb_18) + carry_tmp_dd24c_19) - add_res_limb_18_col18) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_21",
-        "((((add_252_input_limb_19 + add_252_input_limb_47) + carry_tmp_dd24c_20) - add_res_limb_19_col19) * 4194304)"
+        "((((add_252_input_a_limb_19 + add_252_input_b_limb_19) + carry_tmp_dd24c_20) - add_res_limb_19_col19) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_22",
-        "((((add_252_input_limb_20 + add_252_input_limb_48) + carry_tmp_dd24c_21) - add_res_limb_20_col20) * 4194304)"
+        "((((add_252_input_a_limb_20 + add_252_input_b_limb_20) + carry_tmp_dd24c_21) - add_res_limb_20_col20) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_23",
-        "(((((add_252_input_limb_21 + add_252_input_limb_49) + carry_tmp_dd24c_22) - add_res_limb_21_col21) - (136 * sub_p_bit_col28)) * 4194304)"
+        "(((((add_252_input_a_limb_21 + add_252_input_b_limb_21) + carry_tmp_dd24c_22) - add_res_limb_21_col21) - (136 * sub_p_bit_col28)) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_24",
-        "((((add_252_input_limb_22 + add_252_input_limb_50) + carry_tmp_dd24c_23) - add_res_limb_22_col22) * 4194304)"
+        "((((add_252_input_a_limb_22 + add_252_input_b_limb_22) + carry_tmp_dd24c_23) - add_res_limb_22_col22) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_25",
-        "((((add_252_input_limb_23 + add_252_input_limb_51) + carry_tmp_dd24c_24) - add_res_limb_23_col23) * 4194304)"
+        "((((add_252_input_a_limb_23 + add_252_input_b_limb_23) + carry_tmp_dd24c_24) - add_res_limb_23_col23) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_26",
-        "((((add_252_input_limb_24 + add_252_input_limb_52) + carry_tmp_dd24c_25) - add_res_limb_24_col24) * 4194304)"
+        "((((add_252_input_a_limb_24 + add_252_input_b_limb_24) + carry_tmp_dd24c_25) - add_res_limb_24_col24) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_27",
-        "((((add_252_input_limb_25 + add_252_input_limb_53) + carry_tmp_dd24c_26) - add_res_limb_25_col25) * 4194304)"
+        "((((add_252_input_a_limb_25 + add_252_input_b_limb_25) + carry_tmp_dd24c_26) - add_res_limb_25_col25) * 4194304)"
       ],
       [
         "carry_tmp_dd24c_28",
-        "((((add_252_input_limb_26 + add_252_input_limb_54) + carry_tmp_dd24c_27) - add_res_limb_26_col26) * 4194304)"
+        "((((add_252_input_a_limb_26 + add_252_input_b_limb_26) + carry_tmp_dd24c_27) - add_res_limb_26_col26) * 4194304)"
       ]
     ],
     "constraints": [
@@ -20513,7 +20513,7 @@
       "(carry_tmp_dd24c_26 * ((carry_tmp_dd24c_26 * carry_tmp_dd24c_26) - 1))",
       "(carry_tmp_dd24c_27 * ((carry_tmp_dd24c_27 * carry_tmp_dd24c_27) - 1))",
       "(carry_tmp_dd24c_28 * ((carry_tmp_dd24c_28 * carry_tmp_dd24c_28) - 1))",
-      "((((add_252_input_limb_27 + add_252_input_limb_55) + carry_tmp_dd24c_28) - add_res_limb_27_col27) - (256 * sub_p_bit_col28))"
+      "((((add_252_input_a_limb_27 + add_252_input_b_limb_27) + carry_tmp_dd24c_28) - add_res_limb_27_col27) - (256 * sub_p_bit_col28))"
     ],
     "lookups": [
       [
@@ -20636,135 +20636,135 @@
     "intermediates": [
       [
         "z0_tmp_1ac93_1_limb_0",
-        "(div_252_input_limb_28 * div_res_limb_0_col0)"
+        "(div_252_input_a_limb_0 * div_res_limb_0_col0)"
       ],
       [
         "z0_tmp_1ac93_1_limb_1",
-        "((div_252_input_limb_28 * div_res_limb_1_col1) + (div_252_input_limb_29 * div_res_limb_0_col0))"
+        "((div_252_input_a_limb_0 * div_res_limb_1_col1) + (div_252_input_a_limb_1 * div_res_limb_0_col0))"
       ],
       [
         "z0_tmp_1ac93_1_limb_2",
-        "(((div_252_input_limb_28 * div_res_limb_2_col2) + (div_252_input_limb_29 * div_res_limb_1_col1)) + (div_252_input_limb_30 * div_res_limb_0_col0))"
+        "(((div_252_input_a_limb_0 * div_res_limb_2_col2) + (div_252_input_a_limb_1 * div_res_limb_1_col1)) + (div_252_input_a_limb_2 * div_res_limb_0_col0))"
       ],
       [
         "z0_tmp_1ac93_1_limb_3",
-        "((((div_252_input_limb_28 * div_res_limb_3_col3) + (div_252_input_limb_29 * div_res_limb_2_col2)) + (div_252_input_limb_30 * div_res_limb_1_col1)) + (div_252_input_limb_31 * div_res_limb_0_col0))"
+        "((((div_252_input_a_limb_0 * div_res_limb_3_col3) + (div_252_input_a_limb_1 * div_res_limb_2_col2)) + (div_252_input_a_limb_2 * div_res_limb_1_col1)) + (div_252_input_a_limb_3 * div_res_limb_0_col0))"
       ],
       [
         "z0_tmp_1ac93_1_limb_4",
-        "(((((div_252_input_limb_28 * div_res_limb_4_col4) + (div_252_input_limb_29 * div_res_limb_3_col3)) + (div_252_input_limb_30 * div_res_limb_2_col2)) + (div_252_input_limb_31 * div_res_limb_1_col1)) + (div_252_input_limb_32 * div_res_limb_0_col0))"
+        "(((((div_252_input_a_limb_0 * div_res_limb_4_col4) + (div_252_input_a_limb_1 * div_res_limb_3_col3)) + (div_252_input_a_limb_2 * div_res_limb_2_col2)) + (div_252_input_a_limb_3 * div_res_limb_1_col1)) + (div_252_input_a_limb_4 * div_res_limb_0_col0))"
       ],
       [
         "z0_tmp_1ac93_1_limb_5",
-        "((((((div_252_input_limb_28 * div_res_limb_5_col5) + (div_252_input_limb_29 * div_res_limb_4_col4)) + (div_252_input_limb_30 * div_res_limb_3_col3)) + (div_252_input_limb_31 * div_res_limb_2_col2)) + (div_252_input_limb_32 * div_res_limb_1_col1)) + (div_252_input_limb_33 * div_res_limb_0_col0))"
+        "((((((div_252_input_a_limb_0 * div_res_limb_5_col5) + (div_252_input_a_limb_1 * div_res_limb_4_col4)) + (div_252_input_a_limb_2 * div_res_limb_3_col3)) + (div_252_input_a_limb_3 * div_res_limb_2_col2)) + (div_252_input_a_limb_4 * div_res_limb_1_col1)) + (div_252_input_a_limb_5 * div_res_limb_0_col0))"
       ],
       [
         "z0_tmp_1ac93_1_limb_6",
-        "(((((((div_252_input_limb_28 * div_res_limb_6_col6) + (div_252_input_limb_29 * div_res_limb_5_col5)) + (div_252_input_limb_30 * div_res_limb_4_col4)) + (div_252_input_limb_31 * div_res_limb_3_col3)) + (div_252_input_limb_32 * div_res_limb_2_col2)) + (div_252_input_limb_33 * div_res_limb_1_col1)) + (div_252_input_limb_34 * div_res_limb_0_col0))"
+        "(((((((div_252_input_a_limb_0 * div_res_limb_6_col6) + (div_252_input_a_limb_1 * div_res_limb_5_col5)) + (div_252_input_a_limb_2 * div_res_limb_4_col4)) + (div_252_input_a_limb_3 * div_res_limb_3_col3)) + (div_252_input_a_limb_4 * div_res_limb_2_col2)) + (div_252_input_a_limb_5 * div_res_limb_1_col1)) + (div_252_input_a_limb_6 * div_res_limb_0_col0))"
       ],
       [
         "z0_tmp_1ac93_1_limb_7",
-        "((((((div_252_input_limb_29 * div_res_limb_6_col6) + (div_252_input_limb_30 * div_res_limb_5_col5)) + (div_252_input_limb_31 * div_res_limb_4_col4)) + (div_252_input_limb_32 * div_res_limb_3_col3)) + (div_252_input_limb_33 * div_res_limb_2_col2)) + (div_252_input_limb_34 * div_res_limb_1_col1))"
+        "((((((div_252_input_a_limb_1 * div_res_limb_6_col6) + (div_252_input_a_limb_2 * div_res_limb_5_col5)) + (div_252_input_a_limb_3 * div_res_limb_4_col4)) + (div_252_input_a_limb_4 * div_res_limb_3_col3)) + (div_252_input_a_limb_5 * div_res_limb_2_col2)) + (div_252_input_a_limb_6 * div_res_limb_1_col1))"
       ],
       [
         "z0_tmp_1ac93_1_limb_8",
-        "(((((div_252_input_limb_30 * div_res_limb_6_col6) + (div_252_input_limb_31 * div_res_limb_5_col5)) + (div_252_input_limb_32 * div_res_limb_4_col4)) + (div_252_input_limb_33 * div_res_limb_3_col3)) + (div_252_input_limb_34 * div_res_limb_2_col2))"
+        "(((((div_252_input_a_limb_2 * div_res_limb_6_col6) + (div_252_input_a_limb_3 * div_res_limb_5_col5)) + (div_252_input_a_limb_4 * div_res_limb_4_col4)) + (div_252_input_a_limb_5 * div_res_limb_3_col3)) + (div_252_input_a_limb_6 * div_res_limb_2_col2))"
       ],
       [
         "z0_tmp_1ac93_1_limb_9",
-        "((((div_252_input_limb_31 * div_res_limb_6_col6) + (div_252_input_limb_32 * div_res_limb_5_col5)) + (div_252_input_limb_33 * div_res_limb_4_col4)) + (div_252_input_limb_34 * div_res_limb_3_col3))"
+        "((((div_252_input_a_limb_3 * div_res_limb_6_col6) + (div_252_input_a_limb_4 * div_res_limb_5_col5)) + (div_252_input_a_limb_5 * div_res_limb_4_col4)) + (div_252_input_a_limb_6 * div_res_limb_3_col3))"
       ],
       [
         "z0_tmp_1ac93_1_limb_10",
-        "(((div_252_input_limb_32 * div_res_limb_6_col6) + (div_252_input_limb_33 * div_res_limb_5_col5)) + (div_252_input_limb_34 * div_res_limb_4_col4))"
+        "(((div_252_input_a_limb_4 * div_res_limb_6_col6) + (div_252_input_a_limb_5 * div_res_limb_5_col5)) + (div_252_input_a_limb_6 * div_res_limb_4_col4))"
       ],
       [
         "z0_tmp_1ac93_1_limb_11",
-        "((div_252_input_limb_33 * div_res_limb_6_col6) + (div_252_input_limb_34 * div_res_limb_5_col5))"
+        "((div_252_input_a_limb_5 * div_res_limb_6_col6) + (div_252_input_a_limb_6 * div_res_limb_5_col5))"
       ],
       [
         "z0_tmp_1ac93_1_limb_12",
-        "(div_252_input_limb_34 * div_res_limb_6_col6)"
+        "(div_252_input_a_limb_6 * div_res_limb_6_col6)"
       ],
       [
         "z2_tmp_1ac93_2_limb_0",
-        "(div_252_input_limb_35 * div_res_limb_7_col7)"
+        "(div_252_input_a_limb_7 * div_res_limb_7_col7)"
       ],
       [
         "z2_tmp_1ac93_2_limb_1",
-        "((div_252_input_limb_35 * div_res_limb_8_col8) + (div_252_input_limb_36 * div_res_limb_7_col7))"
+        "((div_252_input_a_limb_7 * div_res_limb_8_col8) + (div_252_input_a_limb_8 * div_res_limb_7_col7))"
       ],
       [
         "z2_tmp_1ac93_2_limb_2",
-        "(((div_252_input_limb_35 * div_res_limb_9_col9) + (div_252_input_limb_36 * div_res_limb_8_col8)) + (div_252_input_limb_37 * div_res_limb_7_col7))"
+        "(((div_252_input_a_limb_7 * div_res_limb_9_col9) + (div_252_input_a_limb_8 * div_res_limb_8_col8)) + (div_252_input_a_limb_9 * div_res_limb_7_col7))"
       ],
       [
         "z2_tmp_1ac93_2_limb_3",
-        "((((div_252_input_limb_35 * div_res_limb_10_col10) + (div_252_input_limb_36 * div_res_limb_9_col9)) + (div_252_input_limb_37 * div_res_limb_8_col8)) + (div_252_input_limb_38 * div_res_limb_7_col7))"
+        "((((div_252_input_a_limb_7 * div_res_limb_10_col10) + (div_252_input_a_limb_8 * div_res_limb_9_col9)) + (div_252_input_a_limb_9 * div_res_limb_8_col8)) + (div_252_input_a_limb_10 * div_res_limb_7_col7))"
       ],
       [
         "z2_tmp_1ac93_2_limb_4",
-        "(((((div_252_input_limb_35 * div_res_limb_11_col11) + (div_252_input_limb_36 * div_res_limb_10_col10)) + (div_252_input_limb_37 * div_res_limb_9_col9)) + (div_252_input_limb_38 * div_res_limb_8_col8)) + (div_252_input_limb_39 * div_res_limb_7_col7))"
+        "(((((div_252_input_a_limb_7 * div_res_limb_11_col11) + (div_252_input_a_limb_8 * div_res_limb_10_col10)) + (div_252_input_a_limb_9 * div_res_limb_9_col9)) + (div_252_input_a_limb_10 * div_res_limb_8_col8)) + (div_252_input_a_limb_11 * div_res_limb_7_col7))"
       ],
       [
         "z2_tmp_1ac93_2_limb_5",
-        "((((((div_252_input_limb_35 * div_res_limb_12_col12) + (div_252_input_limb_36 * div_res_limb_11_col11)) + (div_252_input_limb_37 * div_res_limb_10_col10)) + (div_252_input_limb_38 * div_res_limb_9_col9)) + (div_252_input_limb_39 * div_res_limb_8_col8)) + (div_252_input_limb_40 * div_res_limb_7_col7))"
+        "((((((div_252_input_a_limb_7 * div_res_limb_12_col12) + (div_252_input_a_limb_8 * div_res_limb_11_col11)) + (div_252_input_a_limb_9 * div_res_limb_10_col10)) + (div_252_input_a_limb_10 * div_res_limb_9_col9)) + (div_252_input_a_limb_11 * div_res_limb_8_col8)) + (div_252_input_a_limb_12 * div_res_limb_7_col7))"
       ],
       [
         "z2_tmp_1ac93_2_limb_6",
-        "(((((((div_252_input_limb_35 * div_res_limb_13_col13) + (div_252_input_limb_36 * div_res_limb_12_col12)) + (div_252_input_limb_37 * div_res_limb_11_col11)) + (div_252_input_limb_38 * div_res_limb_10_col10)) + (div_252_input_limb_39 * div_res_limb_9_col9)) + (div_252_input_limb_40 * div_res_limb_8_col8)) + (div_252_input_limb_41 * div_res_limb_7_col7))"
+        "(((((((div_252_input_a_limb_7 * div_res_limb_13_col13) + (div_252_input_a_limb_8 * div_res_limb_12_col12)) + (div_252_input_a_limb_9 * div_res_limb_11_col11)) + (div_252_input_a_limb_10 * div_res_limb_10_col10)) + (div_252_input_a_limb_11 * div_res_limb_9_col9)) + (div_252_input_a_limb_12 * div_res_limb_8_col8)) + (div_252_input_a_limb_13 * div_res_limb_7_col7))"
       ],
       [
         "z2_tmp_1ac93_2_limb_7",
-        "((((((div_252_input_limb_36 * div_res_limb_13_col13) + (div_252_input_limb_37 * div_res_limb_12_col12)) + (div_252_input_limb_38 * div_res_limb_11_col11)) + (div_252_input_limb_39 * div_res_limb_10_col10)) + (div_252_input_limb_40 * div_res_limb_9_col9)) + (div_252_input_limb_41 * div_res_limb_8_col8))"
+        "((((((div_252_input_a_limb_8 * div_res_limb_13_col13) + (div_252_input_a_limb_9 * div_res_limb_12_col12)) + (div_252_input_a_limb_10 * div_res_limb_11_col11)) + (div_252_input_a_limb_11 * div_res_limb_10_col10)) + (div_252_input_a_limb_12 * div_res_limb_9_col9)) + (div_252_input_a_limb_13 * div_res_limb_8_col8))"
       ],
       [
         "z2_tmp_1ac93_2_limb_8",
-        "(((((div_252_input_limb_37 * div_res_limb_13_col13) + (div_252_input_limb_38 * div_res_limb_12_col12)) + (div_252_input_limb_39 * div_res_limb_11_col11)) + (div_252_input_limb_40 * div_res_limb_10_col10)) + (div_252_input_limb_41 * div_res_limb_9_col9))"
+        "(((((div_252_input_a_limb_9 * div_res_limb_13_col13) + (div_252_input_a_limb_10 * div_res_limb_12_col12)) + (div_252_input_a_limb_11 * div_res_limb_11_col11)) + (div_252_input_a_limb_12 * div_res_limb_10_col10)) + (div_252_input_a_limb_13 * div_res_limb_9_col9))"
       ],
       [
         "z2_tmp_1ac93_2_limb_9",
-        "((((div_252_input_limb_38 * div_res_limb_13_col13) + (div_252_input_limb_39 * div_res_limb_12_col12)) + (div_252_input_limb_40 * div_res_limb_11_col11)) + (div_252_input_limb_41 * div_res_limb_10_col10))"
+        "((((div_252_input_a_limb_10 * div_res_limb_13_col13) + (div_252_input_a_limb_11 * div_res_limb_12_col12)) + (div_252_input_a_limb_12 * div_res_limb_11_col11)) + (div_252_input_a_limb_13 * div_res_limb_10_col10))"
       ],
       [
         "z2_tmp_1ac93_2_limb_10",
-        "(((div_252_input_limb_39 * div_res_limb_13_col13) + (div_252_input_limb_40 * div_res_limb_12_col12)) + (div_252_input_limb_41 * div_res_limb_11_col11))"
+        "(((div_252_input_a_limb_11 * div_res_limb_13_col13) + (div_252_input_a_limb_12 * div_res_limb_12_col12)) + (div_252_input_a_limb_13 * div_res_limb_11_col11))"
       ],
       [
         "z2_tmp_1ac93_2_limb_11",
-        "((div_252_input_limb_40 * div_res_limb_13_col13) + (div_252_input_limb_41 * div_res_limb_12_col12))"
+        "((div_252_input_a_limb_12 * div_res_limb_13_col13) + (div_252_input_a_limb_13 * div_res_limb_12_col12))"
       ],
       [
         "z2_tmp_1ac93_2_limb_12",
-        "(div_252_input_limb_41 * div_res_limb_13_col13)"
+        "(div_252_input_a_limb_13 * div_res_limb_13_col13)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_0",
-        "(div_252_input_limb_28 + div_252_input_limb_35)"
+        "(div_252_input_a_limb_0 + div_252_input_a_limb_7)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_1",
-        "(div_252_input_limb_29 + div_252_input_limb_36)"
+        "(div_252_input_a_limb_1 + div_252_input_a_limb_8)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_2",
-        "(div_252_input_limb_30 + div_252_input_limb_37)"
+        "(div_252_input_a_limb_2 + div_252_input_a_limb_9)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_3",
-        "(div_252_input_limb_31 + div_252_input_limb_38)"
+        "(div_252_input_a_limb_3 + div_252_input_a_limb_10)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_4",
-        "(div_252_input_limb_32 + div_252_input_limb_39)"
+        "(div_252_input_a_limb_4 + div_252_input_a_limb_11)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_5",
-        "(div_252_input_limb_33 + div_252_input_limb_40)"
+        "(div_252_input_a_limb_5 + div_252_input_a_limb_12)"
       ],
       [
         "x_sum_tmp_1ac93_3_limb_6",
-        "(div_252_input_limb_34 + div_252_input_limb_41)"
+        "(div_252_input_a_limb_6 + div_252_input_a_limb_13)"
       ],
       [
         "y_sum_tmp_1ac93_4_limb_0",
@@ -20904,135 +20904,135 @@
       ],
       [
         "z0_tmp_1ac93_6_limb_0",
-        "(div_252_input_limb_42 * div_res_limb_14_col14)"
+        "(div_252_input_a_limb_14 * div_res_limb_14_col14)"
       ],
       [
         "z0_tmp_1ac93_6_limb_1",
-        "((div_252_input_limb_42 * div_res_limb_15_col15) + (div_252_input_limb_43 * div_res_limb_14_col14))"
+        "((div_252_input_a_limb_14 * div_res_limb_15_col15) + (div_252_input_a_limb_15 * div_res_limb_14_col14))"
       ],
       [
         "z0_tmp_1ac93_6_limb_2",
-        "(((div_252_input_limb_42 * div_res_limb_16_col16) + (div_252_input_limb_43 * div_res_limb_15_col15)) + (div_252_input_limb_44 * div_res_limb_14_col14))"
+        "(((div_252_input_a_limb_14 * div_res_limb_16_col16) + (div_252_input_a_limb_15 * div_res_limb_15_col15)) + (div_252_input_a_limb_16 * div_res_limb_14_col14))"
       ],
       [
         "z0_tmp_1ac93_6_limb_3",
-        "((((div_252_input_limb_42 * div_res_limb_17_col17) + (div_252_input_limb_43 * div_res_limb_16_col16)) + (div_252_input_limb_44 * div_res_limb_15_col15)) + (div_252_input_limb_45 * div_res_limb_14_col14))"
+        "((((div_252_input_a_limb_14 * div_res_limb_17_col17) + (div_252_input_a_limb_15 * div_res_limb_16_col16)) + (div_252_input_a_limb_16 * div_res_limb_15_col15)) + (div_252_input_a_limb_17 * div_res_limb_14_col14))"
       ],
       [
         "z0_tmp_1ac93_6_limb_4",
-        "(((((div_252_input_limb_42 * div_res_limb_18_col18) + (div_252_input_limb_43 * div_res_limb_17_col17)) + (div_252_input_limb_44 * div_res_limb_16_col16)) + (div_252_input_limb_45 * div_res_limb_15_col15)) + (div_252_input_limb_46 * div_res_limb_14_col14))"
+        "(((((div_252_input_a_limb_14 * div_res_limb_18_col18) + (div_252_input_a_limb_15 * div_res_limb_17_col17)) + (div_252_input_a_limb_16 * div_res_limb_16_col16)) + (div_252_input_a_limb_17 * div_res_limb_15_col15)) + (div_252_input_a_limb_18 * div_res_limb_14_col14))"
       ],
       [
         "z0_tmp_1ac93_6_limb_5",
-        "((((((div_252_input_limb_42 * div_res_limb_19_col19) + (div_252_input_limb_43 * div_res_limb_18_col18)) + (div_252_input_limb_44 * div_res_limb_17_col17)) + (div_252_input_limb_45 * div_res_limb_16_col16)) + (div_252_input_limb_46 * div_res_limb_15_col15)) + (div_252_input_limb_47 * div_res_limb_14_col14))"
+        "((((((div_252_input_a_limb_14 * div_res_limb_19_col19) + (div_252_input_a_limb_15 * div_res_limb_18_col18)) + (div_252_input_a_limb_16 * div_res_limb_17_col17)) + (div_252_input_a_limb_17 * div_res_limb_16_col16)) + (div_252_input_a_limb_18 * div_res_limb_15_col15)) + (div_252_input_a_limb_19 * div_res_limb_14_col14))"
       ],
       [
         "z0_tmp_1ac93_6_limb_6",
-        "(((((((div_252_input_limb_42 * div_res_limb_20_col20) + (div_252_input_limb_43 * div_res_limb_19_col19)) + (div_252_input_limb_44 * div_res_limb_18_col18)) + (div_252_input_limb_45 * div_res_limb_17_col17)) + (div_252_input_limb_46 * div_res_limb_16_col16)) + (div_252_input_limb_47 * div_res_limb_15_col15)) + (div_252_input_limb_48 * div_res_limb_14_col14))"
+        "(((((((div_252_input_a_limb_14 * div_res_limb_20_col20) + (div_252_input_a_limb_15 * div_res_limb_19_col19)) + (div_252_input_a_limb_16 * div_res_limb_18_col18)) + (div_252_input_a_limb_17 * div_res_limb_17_col17)) + (div_252_input_a_limb_18 * div_res_limb_16_col16)) + (div_252_input_a_limb_19 * div_res_limb_15_col15)) + (div_252_input_a_limb_20 * div_res_limb_14_col14))"
       ],
       [
         "z0_tmp_1ac93_6_limb_7",
-        "((((((div_252_input_limb_43 * div_res_limb_20_col20) + (div_252_input_limb_44 * div_res_limb_19_col19)) + (div_252_input_limb_45 * div_res_limb_18_col18)) + (div_252_input_limb_46 * div_res_limb_17_col17)) + (div_252_input_limb_47 * div_res_limb_16_col16)) + (div_252_input_limb_48 * div_res_limb_15_col15))"
+        "((((((div_252_input_a_limb_15 * div_res_limb_20_col20) + (div_252_input_a_limb_16 * div_res_limb_19_col19)) + (div_252_input_a_limb_17 * div_res_limb_18_col18)) + (div_252_input_a_limb_18 * div_res_limb_17_col17)) + (div_252_input_a_limb_19 * div_res_limb_16_col16)) + (div_252_input_a_limb_20 * div_res_limb_15_col15))"
       ],
       [
         "z0_tmp_1ac93_6_limb_8",
-        "(((((div_252_input_limb_44 * div_res_limb_20_col20) + (div_252_input_limb_45 * div_res_limb_19_col19)) + (div_252_input_limb_46 * div_res_limb_18_col18)) + (div_252_input_limb_47 * div_res_limb_17_col17)) + (div_252_input_limb_48 * div_res_limb_16_col16))"
+        "(((((div_252_input_a_limb_16 * div_res_limb_20_col20) + (div_252_input_a_limb_17 * div_res_limb_19_col19)) + (div_252_input_a_limb_18 * div_res_limb_18_col18)) + (div_252_input_a_limb_19 * div_res_limb_17_col17)) + (div_252_input_a_limb_20 * div_res_limb_16_col16))"
       ],
       [
         "z0_tmp_1ac93_6_limb_9",
-        "((((div_252_input_limb_45 * div_res_limb_20_col20) + (div_252_input_limb_46 * div_res_limb_19_col19)) + (div_252_input_limb_47 * div_res_limb_18_col18)) + (div_252_input_limb_48 * div_res_limb_17_col17))"
+        "((((div_252_input_a_limb_17 * div_res_limb_20_col20) + (div_252_input_a_limb_18 * div_res_limb_19_col19)) + (div_252_input_a_limb_19 * div_res_limb_18_col18)) + (div_252_input_a_limb_20 * div_res_limb_17_col17))"
       ],
       [
         "z0_tmp_1ac93_6_limb_10",
-        "(((div_252_input_limb_46 * div_res_limb_20_col20) + (div_252_input_limb_47 * div_res_limb_19_col19)) + (div_252_input_limb_48 * div_res_limb_18_col18))"
+        "(((div_252_input_a_limb_18 * div_res_limb_20_col20) + (div_252_input_a_limb_19 * div_res_limb_19_col19)) + (div_252_input_a_limb_20 * div_res_limb_18_col18))"
       ],
       [
         "z0_tmp_1ac93_6_limb_11",
-        "((div_252_input_limb_47 * div_res_limb_20_col20) + (div_252_input_limb_48 * div_res_limb_19_col19))"
+        "((div_252_input_a_limb_19 * div_res_limb_20_col20) + (div_252_input_a_limb_20 * div_res_limb_19_col19))"
       ],
       [
         "z0_tmp_1ac93_6_limb_12",
-        "(div_252_input_limb_48 * div_res_limb_20_col20)"
+        "(div_252_input_a_limb_20 * div_res_limb_20_col20)"
       ],
       [
         "z2_tmp_1ac93_7_limb_0",
-        "(div_252_input_limb_49 * div_res_limb_21_col21)"
+        "(div_252_input_a_limb_21 * div_res_limb_21_col21)"
       ],
       [
         "z2_tmp_1ac93_7_limb_1",
-        "((div_252_input_limb_49 * div_res_limb_22_col22) + (div_252_input_limb_50 * div_res_limb_21_col21))"
+        "((div_252_input_a_limb_21 * div_res_limb_22_col22) + (div_252_input_a_limb_22 * div_res_limb_21_col21))"
       ],
       [
         "z2_tmp_1ac93_7_limb_2",
-        "(((div_252_input_limb_49 * div_res_limb_23_col23) + (div_252_input_limb_50 * div_res_limb_22_col22)) + (div_252_input_limb_51 * div_res_limb_21_col21))"
+        "(((div_252_input_a_limb_21 * div_res_limb_23_col23) + (div_252_input_a_limb_22 * div_res_limb_22_col22)) + (div_252_input_a_limb_23 * div_res_limb_21_col21))"
       ],
       [
         "z2_tmp_1ac93_7_limb_3",
-        "((((div_252_input_limb_49 * div_res_limb_24_col24) + (div_252_input_limb_50 * div_res_limb_23_col23)) + (div_252_input_limb_51 * div_res_limb_22_col22)) + (div_252_input_limb_52 * div_res_limb_21_col21))"
+        "((((div_252_input_a_limb_21 * div_res_limb_24_col24) + (div_252_input_a_limb_22 * div_res_limb_23_col23)) + (div_252_input_a_limb_23 * div_res_limb_22_col22)) + (div_252_input_a_limb_24 * div_res_limb_21_col21))"
       ],
       [
         "z2_tmp_1ac93_7_limb_4",
-        "(((((div_252_input_limb_49 * div_res_limb_25_col25) + (div_252_input_limb_50 * div_res_limb_24_col24)) + (div_252_input_limb_51 * div_res_limb_23_col23)) + (div_252_input_limb_52 * div_res_limb_22_col22)) + (div_252_input_limb_53 * div_res_limb_21_col21))"
+        "(((((div_252_input_a_limb_21 * div_res_limb_25_col25) + (div_252_input_a_limb_22 * div_res_limb_24_col24)) + (div_252_input_a_limb_23 * div_res_limb_23_col23)) + (div_252_input_a_limb_24 * div_res_limb_22_col22)) + (div_252_input_a_limb_25 * div_res_limb_21_col21))"
       ],
       [
         "z2_tmp_1ac93_7_limb_5",
-        "((((((div_252_input_limb_49 * div_res_limb_26_col26) + (div_252_input_limb_50 * div_res_limb_25_col25)) + (div_252_input_limb_51 * div_res_limb_24_col24)) + (div_252_input_limb_52 * div_res_limb_23_col23)) + (div_252_input_limb_53 * div_res_limb_22_col22)) + (div_252_input_limb_54 * div_res_limb_21_col21))"
+        "((((((div_252_input_a_limb_21 * div_res_limb_26_col26) + (div_252_input_a_limb_22 * div_res_limb_25_col25)) + (div_252_input_a_limb_23 * div_res_limb_24_col24)) + (div_252_input_a_limb_24 * div_res_limb_23_col23)) + (div_252_input_a_limb_25 * div_res_limb_22_col22)) + (div_252_input_a_limb_26 * div_res_limb_21_col21))"
       ],
       [
         "z2_tmp_1ac93_7_limb_6",
-        "(((((((div_252_input_limb_49 * div_res_limb_27_col27) + (div_252_input_limb_50 * div_res_limb_26_col26)) + (div_252_input_limb_51 * div_res_limb_25_col25)) + (div_252_input_limb_52 * div_res_limb_24_col24)) + (div_252_input_limb_53 * div_res_limb_23_col23)) + (div_252_input_limb_54 * div_res_limb_22_col22)) + (div_252_input_limb_55 * div_res_limb_21_col21))"
+        "(((((((div_252_input_a_limb_21 * div_res_limb_27_col27) + (div_252_input_a_limb_22 * div_res_limb_26_col26)) + (div_252_input_a_limb_23 * div_res_limb_25_col25)) + (div_252_input_a_limb_24 * div_res_limb_24_col24)) + (div_252_input_a_limb_25 * div_res_limb_23_col23)) + (div_252_input_a_limb_26 * div_res_limb_22_col22)) + (div_252_input_a_limb_27 * div_res_limb_21_col21))"
       ],
       [
         "z2_tmp_1ac93_7_limb_7",
-        "((((((div_252_input_limb_50 * div_res_limb_27_col27) + (div_252_input_limb_51 * div_res_limb_26_col26)) + (div_252_input_limb_52 * div_res_limb_25_col25)) + (div_252_input_limb_53 * div_res_limb_24_col24)) + (div_252_input_limb_54 * div_res_limb_23_col23)) + (div_252_input_limb_55 * div_res_limb_22_col22))"
+        "((((((div_252_input_a_limb_22 * div_res_limb_27_col27) + (div_252_input_a_limb_23 * div_res_limb_26_col26)) + (div_252_input_a_limb_24 * div_res_limb_25_col25)) + (div_252_input_a_limb_25 * div_res_limb_24_col24)) + (div_252_input_a_limb_26 * div_res_limb_23_col23)) + (div_252_input_a_limb_27 * div_res_limb_22_col22))"
       ],
       [
         "z2_tmp_1ac93_7_limb_8",
-        "(((((div_252_input_limb_51 * div_res_limb_27_col27) + (div_252_input_limb_52 * div_res_limb_26_col26)) + (div_252_input_limb_53 * div_res_limb_25_col25)) + (div_252_input_limb_54 * div_res_limb_24_col24)) + (div_252_input_limb_55 * div_res_limb_23_col23))"
+        "(((((div_252_input_a_limb_23 * div_res_limb_27_col27) + (div_252_input_a_limb_24 * div_res_limb_26_col26)) + (div_252_input_a_limb_25 * div_res_limb_25_col25)) + (div_252_input_a_limb_26 * div_res_limb_24_col24)) + (div_252_input_a_limb_27 * div_res_limb_23_col23))"
       ],
       [
         "z2_tmp_1ac93_7_limb_9",
-        "((((div_252_input_limb_52 * div_res_limb_27_col27) + (div_252_input_limb_53 * div_res_limb_26_col26)) + (div_252_input_limb_54 * div_res_limb_25_col25)) + (div_252_input_limb_55 * div_res_limb_24_col24))"
+        "((((div_252_input_a_limb_24 * div_res_limb_27_col27) + (div_252_input_a_limb_25 * div_res_limb_26_col26)) + (div_252_input_a_limb_26 * div_res_limb_25_col25)) + (div_252_input_a_limb_27 * div_res_limb_24_col24))"
       ],
       [
         "z2_tmp_1ac93_7_limb_10",
-        "(((div_252_input_limb_53 * div_res_limb_27_col27) + (div_252_input_limb_54 * div_res_limb_26_col26)) + (div_252_input_limb_55 * div_res_limb_25_col25))"
+        "(((div_252_input_a_limb_25 * div_res_limb_27_col27) + (div_252_input_a_limb_26 * div_res_limb_26_col26)) + (div_252_input_a_limb_27 * div_res_limb_25_col25))"
       ],
       [
         "z2_tmp_1ac93_7_limb_11",
-        "((div_252_input_limb_54 * div_res_limb_27_col27) + (div_252_input_limb_55 * div_res_limb_26_col26))"
+        "((div_252_input_a_limb_26 * div_res_limb_27_col27) + (div_252_input_a_limb_27 * div_res_limb_26_col26))"
       ],
       [
         "z2_tmp_1ac93_7_limb_12",
-        "(div_252_input_limb_55 * div_res_limb_27_col27)"
+        "(div_252_input_a_limb_27 * div_res_limb_27_col27)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_0",
-        "(div_252_input_limb_42 + div_252_input_limb_49)"
+        "(div_252_input_a_limb_14 + div_252_input_a_limb_21)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_1",
-        "(div_252_input_limb_43 + div_252_input_limb_50)"
+        "(div_252_input_a_limb_15 + div_252_input_a_limb_22)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_2",
-        "(div_252_input_limb_44 + div_252_input_limb_51)"
+        "(div_252_input_a_limb_16 + div_252_input_a_limb_23)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_3",
-        "(div_252_input_limb_45 + div_252_input_limb_52)"
+        "(div_252_input_a_limb_17 + div_252_input_a_limb_24)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_4",
-        "(div_252_input_limb_46 + div_252_input_limb_53)"
+        "(div_252_input_a_limb_18 + div_252_input_a_limb_25)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_5",
-        "(div_252_input_limb_47 + div_252_input_limb_54)"
+        "(div_252_input_a_limb_19 + div_252_input_a_limb_26)"
       ],
       [
         "x_sum_tmp_1ac93_8_limb_6",
-        "(div_252_input_limb_48 + div_252_input_limb_55)"
+        "(div_252_input_a_limb_20 + div_252_input_a_limb_27)"
       ],
       [
         "y_sum_tmp_1ac93_9_limb_0",
@@ -21172,59 +21172,59 @@
       ],
       [
         "x_sum_tmp_1ac93_11_limb_0",
-        "(div_252_input_limb_28 + div_252_input_limb_42)"
+        "(div_252_input_a_limb_0 + div_252_input_a_limb_14)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_1",
-        "(div_252_input_limb_29 + div_252_input_limb_43)"
+        "(div_252_input_a_limb_1 + div_252_input_a_limb_15)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_2",
-        "(div_252_input_limb_30 + div_252_input_limb_44)"
+        "(div_252_input_a_limb_2 + div_252_input_a_limb_16)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_3",
-        "(div_252_input_limb_31 + div_252_input_limb_45)"
+        "(div_252_input_a_limb_3 + div_252_input_a_limb_17)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_4",
-        "(div_252_input_limb_32 + div_252_input_limb_46)"
+        "(div_252_input_a_limb_4 + div_252_input_a_limb_18)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_5",
-        "(div_252_input_limb_33 + div_252_input_limb_47)"
+        "(div_252_input_a_limb_5 + div_252_input_a_limb_19)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_6",
-        "(div_252_input_limb_34 + div_252_input_limb_48)"
+        "(div_252_input_a_limb_6 + div_252_input_a_limb_20)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_7",
-        "(div_252_input_limb_35 + div_252_input_limb_49)"
+        "(div_252_input_a_limb_7 + div_252_input_a_limb_21)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_8",
-        "(div_252_input_limb_36 + div_252_input_limb_50)"
+        "(div_252_input_a_limb_8 + div_252_input_a_limb_22)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_9",
-        "(div_252_input_limb_37 + div_252_input_limb_51)"
+        "(div_252_input_a_limb_9 + div_252_input_a_limb_23)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_10",
-        "(div_252_input_limb_38 + div_252_input_limb_52)"
+        "(div_252_input_a_limb_10 + div_252_input_a_limb_24)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_11",
-        "(div_252_input_limb_39 + div_252_input_limb_53)"
+        "(div_252_input_a_limb_11 + div_252_input_a_limb_25)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_12",
-        "(div_252_input_limb_40 + div_252_input_limb_54)"
+        "(div_252_input_a_limb_12 + div_252_input_a_limb_26)"
       ],
       [
         "x_sum_tmp_1ac93_11_limb_13",
-        "(div_252_input_limb_41 + div_252_input_limb_55)"
+        "(div_252_input_a_limb_13 + div_252_input_a_limb_27)"
       ],
       [
         "y_sum_tmp_1ac93_12_limb_0",
@@ -21772,115 +21772,115 @@
       ],
       [
         "conv_tmp_1ac93_19_limb_0",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_0 - div_252_input_limb_0)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_0 - div_252_input_c_limb_0)"
       ],
       [
         "conv_tmp_1ac93_19_limb_1",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_1 - div_252_input_limb_1)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_1 - div_252_input_c_limb_1)"
       ],
       [
         "conv_tmp_1ac93_19_limb_2",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_2 - div_252_input_limb_2)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_2 - div_252_input_c_limb_2)"
       ],
       [
         "conv_tmp_1ac93_19_limb_3",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_3 - div_252_input_limb_3)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_3 - div_252_input_c_limb_3)"
       ],
       [
         "conv_tmp_1ac93_19_limb_4",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_4 - div_252_input_limb_4)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_4 - div_252_input_c_limb_4)"
       ],
       [
         "conv_tmp_1ac93_19_limb_5",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_5 - div_252_input_limb_5)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_5 - div_252_input_c_limb_5)"
       ],
       [
         "conv_tmp_1ac93_19_limb_6",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_6 - div_252_input_limb_6)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_6 - div_252_input_c_limb_6)"
       ],
       [
         "conv_tmp_1ac93_19_limb_7",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_7 - div_252_input_limb_7)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_7 - div_252_input_c_limb_7)"
       ],
       [
         "conv_tmp_1ac93_19_limb_8",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_8 - div_252_input_limb_8)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_8 - div_252_input_c_limb_8)"
       ],
       [
         "conv_tmp_1ac93_19_limb_9",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_9 - div_252_input_limb_9)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_9 - div_252_input_c_limb_9)"
       ],
       [
         "conv_tmp_1ac93_19_limb_10",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_10 - div_252_input_limb_10)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_10 - div_252_input_c_limb_10)"
       ],
       [
         "conv_tmp_1ac93_19_limb_11",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_11 - div_252_input_limb_11)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_11 - div_252_input_c_limb_11)"
       ],
       [
         "conv_tmp_1ac93_19_limb_12",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_12 - div_252_input_limb_12)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_12 - div_252_input_c_limb_12)"
       ],
       [
         "conv_tmp_1ac93_19_limb_13",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_13 - div_252_input_limb_13)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_13 - div_252_input_c_limb_13)"
       ],
       [
         "conv_tmp_1ac93_19_limb_14",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_14 - div_252_input_limb_14)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_14 - div_252_input_c_limb_14)"
       ],
       [
         "conv_tmp_1ac93_19_limb_15",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_15 - div_252_input_limb_15)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_15 - div_252_input_c_limb_15)"
       ],
       [
         "conv_tmp_1ac93_19_limb_16",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_16 - div_252_input_limb_16)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_16 - div_252_input_c_limb_16)"
       ],
       [
         "conv_tmp_1ac93_19_limb_17",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_17 - div_252_input_limb_17)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_17 - div_252_input_c_limb_17)"
       ],
       [
         "conv_tmp_1ac93_19_limb_18",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_18 - div_252_input_limb_18)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_18 - div_252_input_c_limb_18)"
       ],
       [
         "conv_tmp_1ac93_19_limb_19",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_19 - div_252_input_limb_19)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_19 - div_252_input_c_limb_19)"
       ],
       [
         "conv_tmp_1ac93_19_limb_20",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_20 - div_252_input_limb_20)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_20 - div_252_input_c_limb_20)"
       ],
       [
         "conv_tmp_1ac93_19_limb_21",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_21 - div_252_input_limb_21)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_21 - div_252_input_c_limb_21)"
       ],
       [
         "conv_tmp_1ac93_19_limb_22",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_22 - div_252_input_limb_22)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_22 - div_252_input_c_limb_22)"
       ],
       [
         "conv_tmp_1ac93_19_limb_23",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_23 - div_252_input_limb_23)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_23 - div_252_input_c_limb_23)"
       ],
       [
         "conv_tmp_1ac93_19_limb_24",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_24 - div_252_input_limb_24)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_24 - div_252_input_c_limb_24)"
       ],
       [
         "conv_tmp_1ac93_19_limb_25",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_25 - div_252_input_limb_25)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_25 - div_252_input_c_limb_25)"
       ],
       [
         "conv_tmp_1ac93_19_limb_26",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_26 - div_252_input_limb_26)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_26 - div_252_input_c_limb_26)"
       ],
       [
         "conv_tmp_1ac93_19_limb_27",
-        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_27 - div_252_input_limb_27)"
+        "(double_karatsuba_n_7_limb_max_bound_511_output_tmp_1ac93_18_limb_27 - div_252_input_c_limb_27)"
       ],
       [
         "conv_tmp_1ac93_19_limb_28",
@@ -35973,9 +35973,9 @@
     ],
     "intermediates": [],
     "constraints": [
-      "((offset0_low_col0 + (offset0_mid_col1 * 512)) - encode_offsets_input_limb_0)",
-      "(((offset1_low_col2 + (offset1_mid_col3 * 4)) + (offset1_high_col4 * 2048)) - encode_offsets_input_limb_1)",
-      "(((offset2_low_col5 + (offset2_mid_col6 * 16)) + (offset2_high_col7 * 8192)) - encode_offsets_input_limb_2)"
+      "((offset0_low_col0 + (offset0_mid_col1 * 512)) - encode_offsets_input_offset0)",
+      "(((offset1_low_col2 + (offset1_mid_col3 * 4)) + (offset1_high_col4 * 2048)) - encode_offsets_input_offset1)",
+      "(((offset2_low_col5 + (offset2_mid_col6 * 16)) + (offset2_high_col7 * 8192)) - encode_offsets_input_offset2)"
     ],
     "lookups": [
       [
@@ -35990,13 +35990,13 @@
   },
   "verify_instruction": {
     "state_names": [
-      "input_limb_0_col0",
-      "input_limb_1_col1",
-      "input_limb_2_col2",
-      "input_limb_3_col3",
-      "input_limb_4_col4",
-      "input_limb_5_col5",
-      "input_limb_6_col6",
+      "input_pc_col0",
+      "input_offset0_col1",
+      "input_offset1_col2",
+      "input_offset2_col3",
+      "input_inst_felt5_high_col4",
+      "input_inst_felt6_col5",
+      "input_opcode_extension_col6",
       "offset0_low_col7",
       "offset0_mid_col8",
       "offset1_low_col9",
@@ -36018,9 +36018,9 @@
       ]
     ],
     "constraints": [
-      "((offset0_low_col7 + (offset0_mid_col8 * 512)) - input_limb_1_col1)",
-      "(((offset1_low_col9 + (offset1_mid_col10 * 4)) + (offset1_high_col11 * 2048)) - input_limb_2_col2)",
-      "(((offset2_low_col12 + (offset2_mid_col13 * 16)) + (offset2_high_col14 * 8192)) - input_limb_3_col3)"
+      "((offset0_low_col7 + (offset0_mid_col8 * 512)) - input_offset0_col1)",
+      "(((offset1_low_col9 + (offset1_mid_col10 * 4)) + (offset1_high_col11 * 2048)) - input_offset1_col2)",
+      "(((offset2_low_col12 + (offset2_mid_col13 * 16)) + (offset2_high_col14 * 8192)) - input_offset2_col3)"
     ],
     "lookups": [
       [
@@ -36033,11 +36033,11 @@
       ],
       [
         "MemoryAddressToId",
-        "input_limb_0_col0, instruction_id_col15"
+        "input_pc_col0, instruction_id_col15"
       ],
       [
         "MemoryIdToBig",
-        "instruction_id_col15, offset0_low_col7, encode_offsets_output_tmp_16a4f_8_limb_1, offset1_mid_col10, encode_offsets_output_tmp_16a4f_8_limb_3, offset2_mid_col13, (offset2_high_col14 + input_limb_4_col4), input_limb_5_col5, input_limb_6_col6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "instruction_id_col15, offset0_low_col7, encode_offsets_output_tmp_16a4f_8_limb_1, offset1_mid_col10, encode_offsets_output_tmp_16a4f_8_limb_3, offset2_mid_col13, (offset2_high_col14 + input_inst_felt5_high_col4), input_inst_felt6_col5, input_opcode_extension_col6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -36110,15 +36110,15 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_df7a6_output_tmp_62f3c_20_limb_0",
+        "decode_instruction_df7a6_output_tmp_62f3c_20_offset0",
         "(offset0_col0 - 32768)"
       ],
       [
-        "decode_instruction_df7a6_output_tmp_62f3c_20_limb_1",
+        "decode_instruction_df7a6_output_tmp_62f3c_20_offset1",
         "(offset1_col1 - 32768)"
       ],
       [
-        "decode_instruction_df7a6_output_tmp_62f3c_20_limb_2",
+        "decode_instruction_df7a6_output_tmp_62f3c_20_offset2",
         "(offset2_col2 - 32768)"
       ],
       [
@@ -38906,15 +38906,15 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_df7a6_output_tmp_57455_20_limb_0",
+        "decode_instruction_df7a6_output_tmp_57455_20_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_df7a6_output_tmp_57455_20_limb_1",
+        "decode_instruction_df7a6_output_tmp_57455_20_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_df7a6_output_tmp_57455_20_limb_2",
+        "decode_instruction_df7a6_output_tmp_57455_20_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
@@ -38959,15 +38959,15 @@
       ],
       [
         "decode_generic_instruction_output_tmp_57455_26_limb_20",
-        "decode_instruction_df7a6_output_tmp_57455_20_limb_0"
+        "decode_instruction_df7a6_output_tmp_57455_20_offset0"
       ],
       [
         "decode_generic_instruction_output_tmp_57455_26_limb_21",
-        "decode_instruction_df7a6_output_tmp_57455_20_limb_1"
+        "decode_instruction_df7a6_output_tmp_57455_20_offset1"
       ],
       [
         "decode_generic_instruction_output_tmp_57455_26_limb_22",
-        "decode_instruction_df7a6_output_tmp_57455_20_limb_2"
+        "decode_instruction_df7a6_output_tmp_57455_20_offset2"
       ],
       [
         "cond_felt_252_as_addr_output_tmp_57455_33",
@@ -41220,11 +41220,11 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_d2a10_output_tmp_c921e_5_limb_2",
+        "decode_instruction_d2a10_output_tmp_c921e_5_offset2",
         "(offset2_col3 - 32768)"
       ],
       [
-        "decode_instruction_d2a10_output_tmp_c921e_5_limb_7",
+        "decode_instruction_d2a10_output_tmp_c921e_5_op1_base_ap",
         "((1 - op1_imm_col4) - op1_base_fp_col5)"
       ],
       [
@@ -41236,8 +41236,8 @@
       "(op1_imm_col4 * (1 - op1_imm_col4))",
       "(op1_base_fp_col5 * (1 - op1_base_fp_col5))",
       "(((1 - op1_imm_col4) - op1_base_fp_col5) * (1 - ((1 - op1_imm_col4) - op1_base_fp_col5)))",
-      "(op1_imm_col4 * (1 - decode_instruction_d2a10_output_tmp_c921e_5_limb_2))",
-      "(mem1_base_col6 - (((op1_imm_col4 * input_pc_col0) + (op1_base_fp_col5 * input_fp_col2)) + (decode_instruction_d2a10_output_tmp_c921e_5_limb_7 * input_ap_col1)))",
+      "(op1_imm_col4 * (1 - decode_instruction_d2a10_output_tmp_c921e_5_offset2))",
+      "(mem1_base_col6 - (((op1_imm_col4 * input_pc_col0) + (op1_base_fp_col5 * input_fp_col2)) + (decode_instruction_d2a10_output_tmp_c921e_5_op1_base_ap * input_ap_col1)))",
       "(msb_col8 * (msb_col8 - 1))",
       "(mid_limbs_set_col9 * (mid_limbs_set_col9 - 1))",
       "(mid_limbs_set_col9 * (msb_col8 - 1))"
@@ -41249,7 +41249,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col6 + decode_instruction_d2a10_output_tmp_c921e_5_limb_2), op1_id_col7"
+        "(mem1_base_col6 + decode_instruction_d2a10_output_tmp_c921e_5_offset2), op1_id_col7"
       ],
       [
         "MemoryIdToBig",
@@ -41321,19 +41321,19 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_bc3cd_output_tmp_756b7_10_limb_0",
+        "decode_instruction_bc3cd_output_tmp_756b7_10_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_bc3cd_output_tmp_756b7_10_limb_1",
+        "decode_instruction_bc3cd_output_tmp_756b7_10_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_bc3cd_output_tmp_756b7_10_limb_2",
+        "decode_instruction_bc3cd_output_tmp_756b7_10_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
-        "decode_instruction_bc3cd_output_tmp_756b7_10_limb_7",
+        "decode_instruction_bc3cd_output_tmp_756b7_10_op1_base_ap",
         "((1 - op1_imm_col8) - op1_base_fp_col9)"
       ],
       [
@@ -41356,10 +41356,10 @@
       "(op1_base_fp_col9 * (1 - op1_base_fp_col9))",
       "(((1 - op1_imm_col8) - op1_base_fp_col9) * (1 - ((1 - op1_imm_col8) - op1_base_fp_col9)))",
       "(ap_update_add_1_col10 * (1 - ap_update_add_1_col10))",
-      "(op1_imm_col8 * (1 - decode_instruction_bc3cd_output_tmp_756b7_10_limb_2))",
+      "(op1_imm_col8 * (1 - decode_instruction_bc3cd_output_tmp_756b7_10_offset2))",
       "(mem_dst_base_col11 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
       "(mem0_base_col12 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_bc3cd_output_tmp_756b7_10_limb_7 * input_ap_col1)))",
+      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_bc3cd_output_tmp_756b7_10_op1_base_ap * input_ap_col1)))",
       "(msb_col15 * (msb_col15 - 1))",
       "(mid_limbs_set_col16 * (mid_limbs_set_col16 - 1))",
       "(mid_limbs_set_col16 * (msb_col15 - 1))",
@@ -41378,7 +41378,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col11 + decode_instruction_bc3cd_output_tmp_756b7_10_limb_0), dst_id_col14"
+        "(mem_dst_base_col11 + decode_instruction_bc3cd_output_tmp_756b7_10_offset0), dst_id_col14"
       ],
       [
         "MemoryIdToBig",
@@ -41386,7 +41386,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col12 + decode_instruction_bc3cd_output_tmp_756b7_10_limb_1), op0_id_col20"
+        "(mem0_base_col12 + decode_instruction_bc3cd_output_tmp_756b7_10_offset1), op0_id_col20"
       ],
       [
         "MemoryIdToBig",
@@ -41394,7 +41394,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col13 + decode_instruction_bc3cd_output_tmp_756b7_10_limb_2), op1_id_col26"
+        "(mem1_base_col13 + decode_instruction_bc3cd_output_tmp_756b7_10_offset2), op1_id_col26"
       ],
       [
         "MemoryIdToBig",
@@ -41509,19 +41509,19 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_bc3cd_output_tmp_3fa46_10_limb_0",
+        "decode_instruction_bc3cd_output_tmp_3fa46_10_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_bc3cd_output_tmp_3fa46_10_limb_1",
+        "decode_instruction_bc3cd_output_tmp_3fa46_10_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_bc3cd_output_tmp_3fa46_10_limb_2",
+        "decode_instruction_bc3cd_output_tmp_3fa46_10_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
-        "decode_instruction_bc3cd_output_tmp_3fa46_10_limb_7",
+        "decode_instruction_bc3cd_output_tmp_3fa46_10_op1_base_ap",
         "((1 - op1_imm_col8) - op1_base_fp_col9)"
       ],
       [
@@ -41640,10 +41640,10 @@
       "(op1_base_fp_col9 * (1 - op1_base_fp_col9))",
       "(((1 - op1_imm_col8) - op1_base_fp_col9) * (1 - ((1 - op1_imm_col8) - op1_base_fp_col9)))",
       "(ap_update_add_1_col10 * (1 - ap_update_add_1_col10))",
-      "(op1_imm_col8 * (1 - decode_instruction_bc3cd_output_tmp_3fa46_10_limb_2))",
+      "(op1_imm_col8 * (1 - decode_instruction_bc3cd_output_tmp_3fa46_10_offset2))",
       "(mem_dst_base_col11 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
       "(mem0_base_col12 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_bc3cd_output_tmp_3fa46_10_limb_7 * input_ap_col1)))",
+      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_bc3cd_output_tmp_3fa46_10_op1_base_ap * input_ap_col1)))",
       "(sub_p_bit_col101 * (sub_p_bit_col101 - 1))",
       "(carry_tmp_3fa46_21 * ((carry_tmp_3fa46_21 * carry_tmp_3fa46_21) - 1))",
       "(carry_tmp_3fa46_22 * ((carry_tmp_3fa46_22 * carry_tmp_3fa46_22) - 1))",
@@ -41681,7 +41681,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col11 + decode_instruction_bc3cd_output_tmp_3fa46_10_limb_0), dst_id_col14"
+        "(mem_dst_base_col11 + decode_instruction_bc3cd_output_tmp_3fa46_10_offset0), dst_id_col14"
       ],
       [
         "MemoryIdToBig",
@@ -41689,7 +41689,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col12 + decode_instruction_bc3cd_output_tmp_3fa46_10_limb_1), op0_id_col43"
+        "(mem0_base_col12 + decode_instruction_bc3cd_output_tmp_3fa46_10_offset1), op0_id_col43"
       ],
       [
         "MemoryIdToBig",
@@ -41697,7 +41697,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col13 + decode_instruction_bc3cd_output_tmp_3fa46_10_limb_2), op1_id_col72"
+        "(mem1_base_col13 + decode_instruction_bc3cd_output_tmp_3fa46_10_offset2), op1_id_col72"
       ],
       [
         "MemoryIdToBig",
@@ -41759,15 +41759,15 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_fe864_output_tmp_d6f03_7_limb_0",
+        "decode_instruction_fe864_output_tmp_d6f03_7_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_fe864_output_tmp_d6f03_7_limb_2",
+        "decode_instruction_fe864_output_tmp_d6f03_7_offset2",
         "(offset2_col4 - 32768)"
       ],
       [
-        "decode_instruction_fe864_output_tmp_d6f03_7_limb_7",
+        "decode_instruction_fe864_output_tmp_d6f03_7_op1_base_ap",
         "(1 - op1_base_fp_col6)"
       ]
     ],
@@ -41776,7 +41776,7 @@
       "(op1_base_fp_col6 * (1 - op1_base_fp_col6))",
       "(ap_update_add_1_col7 * (1 - ap_update_add_1_col7))",
       "(mem_dst_base_col8 - ((dst_base_fp_col5 * input_fp_col2) + ((1 - dst_base_fp_col5) * input_ap_col1)))",
-      "(mem1_base_col9 - ((op1_base_fp_col6 * input_fp_col2) + (decode_instruction_fe864_output_tmp_d6f03_7_limb_7 * input_ap_col1)))"
+      "(mem1_base_col9 - ((op1_base_fp_col6 * input_fp_col2) + (decode_instruction_fe864_output_tmp_d6f03_7_op1_base_ap * input_ap_col1)))"
     ],
     "lookups": [
       [
@@ -41785,11 +41785,11 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col8 + decode_instruction_fe864_output_tmp_d6f03_7_limb_0), dst_id_col10"
+        "(mem_dst_base_col8 + decode_instruction_fe864_output_tmp_d6f03_7_offset0), dst_id_col10"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col9 + decode_instruction_fe864_output_tmp_d6f03_7_limb_2), dst_id_col10"
+        "(mem1_base_col9 + decode_instruction_fe864_output_tmp_d6f03_7_offset2), dst_id_col10"
       ]
     ]
   },
@@ -41836,15 +41836,15 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_cb32b_output_tmp_b1151_8_limb_0",
+        "decode_instruction_cb32b_output_tmp_b1151_8_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_cb32b_output_tmp_b1151_8_limb_1",
+        "decode_instruction_cb32b_output_tmp_b1151_8_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_cb32b_output_tmp_b1151_8_limb_2",
+        "decode_instruction_cb32b_output_tmp_b1151_8_offset2",
         "(offset2_col5 - 32768)"
       ]
     ],
@@ -41862,7 +41862,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col10 + decode_instruction_cb32b_output_tmp_b1151_8_limb_1), mem1_base_id_col11"
+        "(mem0_base_col10 + decode_instruction_cb32b_output_tmp_b1151_8_offset1), mem1_base_id_col11"
       ],
       [
         "MemoryIdToBig",
@@ -41870,11 +41870,11 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col9 + decode_instruction_cb32b_output_tmp_b1151_8_limb_0), dst_id_col15"
+        "(mem_dst_base_col9 + decode_instruction_cb32b_output_tmp_b1151_8_offset0), dst_id_col15"
       ],
       [
         "MemoryAddressToId",
-        "(((mem1_base_limb_0_col12 + (mem1_base_limb_1_col13 * 512)) + (mem1_base_limb_2_col14 * 262144)) + decode_instruction_cb32b_output_tmp_b1151_8_limb_2), dst_id_col15"
+        "(((mem1_base_limb_0_col12 + (mem1_base_limb_1_col13 * 512)) + (mem1_base_limb_2_col14 * 262144)) + decode_instruction_cb32b_output_tmp_b1151_8_offset2), dst_id_col15"
       ]
     ]
   },
@@ -41909,7 +41909,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_161c9_output_tmp_bb09e_5_limb_0",
+        "decode_instruction_161c9_output_tmp_bb09e_5_offset0",
         "(offset0_col3 - 32768)"
       ]
     ],
@@ -41925,7 +41925,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col6 + decode_instruction_161c9_output_tmp_bb09e_5_limb_0), dst_id_col7"
+        "(mem_dst_base_col6 + decode_instruction_161c9_output_tmp_bb09e_5_offset0), dst_id_col7"
       ],
       [
         "MemoryAddressToId",
@@ -41967,7 +41967,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_fdb6e_output_tmp_32b66_3_limb_2",
+        "decode_instruction_fdb6e_output_tmp_32b66_3_offset2",
         "(offset2_col3 - 32768)"
       ]
     ],
@@ -41998,7 +41998,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(input_ap_col1 + decode_instruction_fdb6e_output_tmp_32b66_3_limb_2), next_pc_id_col12"
+        "(input_ap_col1 + decode_instruction_fdb6e_output_tmp_32b66_3_offset2), next_pc_id_col12"
       ],
       [
         "MemoryIdToBig",
@@ -42115,7 +42115,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_ea769_output_tmp_6d870_3_limb_2",
+        "decode_instruction_ea769_output_tmp_6d870_3_offset2",
         "(offset2_col3 - 32768)"
       ]
     ],
@@ -42146,7 +42146,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(input_fp_col2 + decode_instruction_ea769_output_tmp_6d870_3_limb_2), next_pc_id_col12"
+        "(input_fp_col2 + decode_instruction_ea769_output_tmp_6d870_3_offset2), next_pc_id_col12"
       ],
       [
         "MemoryIdToBig",
@@ -42221,7 +42221,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_de75a_output_tmp_f51a9_5_limb_0",
+        "decode_instruction_de75a_output_tmp_f51a9_5_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
@@ -42258,7 +42258,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col6 + decode_instruction_de75a_output_tmp_f51a9_5_limb_0), dst_id_col7"
+        "(mem_dst_base_col6 + decode_instruction_de75a_output_tmp_f51a9_5_offset0), dst_id_col7"
       ],
       [
         "MemoryIdToBig",
@@ -42315,7 +42315,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_de75a_output_tmp_e1597_5_limb_0",
+        "decode_instruction_de75a_output_tmp_e1597_5_offset0",
         "(offset0_col3 - 32768)"
       ]
     ],
@@ -42332,7 +42332,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col6 + decode_instruction_de75a_output_tmp_e1597_5_limb_0), dst_id_col7"
+        "(mem_dst_base_col6 + decode_instruction_de75a_output_tmp_e1597_5_offset0), dst_id_col7"
       ],
       [
         "MemoryIdToBig",
@@ -42434,7 +42434,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_3b105_output_tmp_62dfc_6_limb_2",
+        "decode_instruction_3b105_output_tmp_62dfc_6_offset2",
         "(offset2_col3 - 32768)"
       ],
       [
@@ -42459,7 +42459,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col7 + decode_instruction_3b105_output_tmp_62dfc_6_limb_2), next_pc_id_col8"
+        "(mem1_base_col7 + decode_instruction_3b105_output_tmp_62dfc_6_offset2), next_pc_id_col8"
       ],
       [
         "MemoryIdToBig",
@@ -42507,11 +42507,11 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_9bd86_output_tmp_22134_6_limb_1",
+        "decode_instruction_9bd86_output_tmp_22134_6_offset1",
         "(offset1_col3 - 32768)"
       ],
       [
-        "decode_instruction_9bd86_output_tmp_22134_6_limb_2",
+        "decode_instruction_9bd86_output_tmp_22134_6_offset2",
         "(offset2_col4 - 32768)"
       ]
     ],
@@ -42527,7 +42527,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col7 + decode_instruction_9bd86_output_tmp_22134_6_limb_1), mem1_base_id_col8"
+        "(mem0_base_col7 + decode_instruction_9bd86_output_tmp_22134_6_offset1), mem1_base_id_col8"
       ],
       [
         "MemoryIdToBig",
@@ -42535,7 +42535,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(((mem1_base_limb_0_col9 + (mem1_base_limb_1_col10 * 512)) + (mem1_base_limb_2_col11 * 262144)) + decode_instruction_9bd86_output_tmp_22134_6_limb_2), next_pc_id_col12"
+        "(((mem1_base_limb_0_col9 + (mem1_base_limb_1_col10 * 512)) + (mem1_base_limb_2_col11 * 262144)) + decode_instruction_9bd86_output_tmp_22134_6_offset2), next_pc_id_col12"
       ],
       [
         "MemoryIdToBig",
@@ -42580,7 +42580,7 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_43e1c_output_tmp_39ce3_6_limb_2",
+        "decode_instruction_43e1c_output_tmp_39ce3_6_offset2",
         "(offset2_col3 - 32768)"
       ]
     ],
@@ -42598,7 +42598,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col7 + decode_instruction_43e1c_output_tmp_39ce3_6_limb_2), next_pc_id_col8"
+        "(mem1_base_col7 + decode_instruction_43e1c_output_tmp_39ce3_6_offset2), next_pc_id_col8"
       ],
       [
         "MemoryIdToBig",
@@ -42693,10 +42693,10 @@
     ],
     "intermediates": [],
     "constraints": [
-      "((carry_1_col0 * 262144) - (((((verify_mul_small_input_limb_0 * verify_mul_small_input_limb_28) - verify_mul_small_input_limb_56) + ((verify_mul_small_input_limb_0 * verify_mul_small_input_limb_29) * 512)) + ((verify_mul_small_input_limb_1 * verify_mul_small_input_limb_28) * 512)) - (verify_mul_small_input_limb_57 * 512)))",
-      "((carry_3_col1 * 262144) - (((((((((carry_1_col0 + (verify_mul_small_input_limb_0 * verify_mul_small_input_limb_30)) + (verify_mul_small_input_limb_1 * verify_mul_small_input_limb_29)) + (verify_mul_small_input_limb_2 * verify_mul_small_input_limb_28)) - verify_mul_small_input_limb_58) + ((verify_mul_small_input_limb_0 * verify_mul_small_input_limb_31) * 512)) + ((verify_mul_small_input_limb_1 * verify_mul_small_input_limb_30) * 512)) + ((verify_mul_small_input_limb_2 * verify_mul_small_input_limb_29) * 512)) + ((verify_mul_small_input_limb_3 * verify_mul_small_input_limb_28) * 512)) - (verify_mul_small_input_limb_59 * 512)))",
-      "((carry_5_col2 * 262144) - (((((((carry_3_col1 + (verify_mul_small_input_limb_1 * verify_mul_small_input_limb_31)) + (verify_mul_small_input_limb_2 * verify_mul_small_input_limb_30)) + (verify_mul_small_input_limb_3 * verify_mul_small_input_limb_29)) - verify_mul_small_input_limb_60) + ((verify_mul_small_input_limb_2 * verify_mul_small_input_limb_31) * 512)) + ((verify_mul_small_input_limb_3 * verify_mul_small_input_limb_30) * 512)) - (verify_mul_small_input_limb_61 * 512)))",
-      "(((carry_5_col2 + (verify_mul_small_input_limb_3 * verify_mul_small_input_limb_31)) - (verify_mul_small_input_limb_63 * 512)) - verify_mul_small_input_limb_62)"
+      "((carry_1_col0 * 262144) - (((((verify_mul_small_input_a_limb_0 * verify_mul_small_input_b_limb_0) - verify_mul_small_input_c_limb_0) + ((verify_mul_small_input_a_limb_0 * verify_mul_small_input_b_limb_1) * 512)) + ((verify_mul_small_input_a_limb_1 * verify_mul_small_input_b_limb_0) * 512)) - (verify_mul_small_input_c_limb_1 * 512)))",
+      "((carry_3_col1 * 262144) - (((((((((carry_1_col0 + (verify_mul_small_input_a_limb_0 * verify_mul_small_input_b_limb_2)) + (verify_mul_small_input_a_limb_1 * verify_mul_small_input_b_limb_1)) + (verify_mul_small_input_a_limb_2 * verify_mul_small_input_b_limb_0)) - verify_mul_small_input_c_limb_2) + ((verify_mul_small_input_a_limb_0 * verify_mul_small_input_b_limb_3) * 512)) + ((verify_mul_small_input_a_limb_1 * verify_mul_small_input_b_limb_2) * 512)) + ((verify_mul_small_input_a_limb_2 * verify_mul_small_input_b_limb_1) * 512)) + ((verify_mul_small_input_a_limb_3 * verify_mul_small_input_b_limb_0) * 512)) - (verify_mul_small_input_c_limb_3 * 512)))",
+      "((carry_5_col2 * 262144) - (((((((carry_3_col1 + (verify_mul_small_input_a_limb_1 * verify_mul_small_input_b_limb_3)) + (verify_mul_small_input_a_limb_2 * verify_mul_small_input_b_limb_2)) + (verify_mul_small_input_a_limb_3 * verify_mul_small_input_b_limb_1)) - verify_mul_small_input_c_limb_4) + ((verify_mul_small_input_a_limb_2 * verify_mul_small_input_b_limb_3) * 512)) + ((verify_mul_small_input_a_limb_3 * verify_mul_small_input_b_limb_2) * 512)) - (verify_mul_small_input_c_limb_5 * 512)))",
+      "(((carry_5_col2 + (verify_mul_small_input_a_limb_3 * verify_mul_small_input_b_limb_3)) - (verify_mul_small_input_c_limb_7 * 512)) - verify_mul_small_input_c_limb_6)"
     ],
     "lookups": [
       [
@@ -42754,19 +42754,19 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_0",
+        "decode_instruction_4b8cf_output_tmp_9d1ad_10_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_1",
+        "decode_instruction_4b8cf_output_tmp_9d1ad_10_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_2",
+        "decode_instruction_4b8cf_output_tmp_9d1ad_10_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
-        "decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_7",
+        "decode_instruction_4b8cf_output_tmp_9d1ad_10_op1_base_ap",
         "((1 - op1_imm_col8) - op1_base_fp_col9)"
       ]
     ],
@@ -42777,10 +42777,10 @@
       "(op1_base_fp_col9 * (1 - op1_base_fp_col9))",
       "(((1 - op1_imm_col8) - op1_base_fp_col9) * (1 - ((1 - op1_imm_col8) - op1_base_fp_col9)))",
       "(ap_update_add_1_col10 * (1 - ap_update_add_1_col10))",
-      "(op1_imm_col8 * (1 - decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_2))",
+      "(op1_imm_col8 * (1 - decode_instruction_4b8cf_output_tmp_9d1ad_10_offset2))",
       "(mem_dst_base_col11 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
       "(mem0_base_col12 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_7 * input_ap_col1)))",
+      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_4b8cf_output_tmp_9d1ad_10_op1_base_ap * input_ap_col1)))",
       "((carry_1_col33 * 262144) - (((((op0_limb_0_col24 * op1_limb_0_col29) - dst_limb_0_col15) + ((op0_limb_0_col24 * op1_limb_1_col30) * 512)) + ((op0_limb_1_col25 * op1_limb_0_col29) * 512)) - (dst_limb_1_col16 * 512)))",
       "((carry_3_col34 * 262144) - (((((((((carry_1_col33 + (op0_limb_0_col24 * op1_limb_2_col31)) + (op0_limb_1_col25 * op1_limb_1_col30)) + (op0_limb_2_col26 * op1_limb_0_col29)) - dst_limb_2_col17) + ((op0_limb_0_col24 * op1_limb_3_col32) * 512)) + ((op0_limb_1_col25 * op1_limb_2_col31) * 512)) + ((op0_limb_2_col26 * op1_limb_1_col30) * 512)) + ((op0_limb_3_col27 * op1_limb_0_col29) * 512)) - (dst_limb_3_col18 * 512)))",
       "((carry_5_col35 * 262144) - (((((((carry_3_col34 + (op0_limb_1_col25 * op1_limb_3_col32)) + (op0_limb_2_col26 * op1_limb_2_col31)) + (op0_limb_3_col27 * op1_limb_1_col30)) - dst_limb_4_col19) + ((op0_limb_2_col26 * op1_limb_3_col32) * 512)) + ((op0_limb_3_col27 * op1_limb_2_col31) * 512)) - (dst_limb_5_col20 * 512)))",
@@ -42793,7 +42793,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col11 + decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_0), dst_id_col14"
+        "(mem_dst_base_col11 + decode_instruction_4b8cf_output_tmp_9d1ad_10_offset0), dst_id_col14"
       ],
       [
         "MemoryIdToBig",
@@ -42801,7 +42801,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col12 + decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_1), op0_id_col23"
+        "(mem0_base_col12 + decode_instruction_4b8cf_output_tmp_9d1ad_10_offset1), op0_id_col23"
       ],
       [
         "MemoryIdToBig",
@@ -42809,7 +42809,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col13 + decode_instruction_4b8cf_output_tmp_9d1ad_10_limb_2), op1_id_col28"
+        "(mem1_base_col13 + decode_instruction_4b8cf_output_tmp_9d1ad_10_offset2), op1_id_col28"
       ],
       [
         "MemoryIdToBig",
@@ -42963,19 +42963,19 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_4b8cf_output_tmp_42314_10_limb_0",
+        "decode_instruction_4b8cf_output_tmp_42314_10_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_4b8cf_output_tmp_42314_10_limb_1",
+        "decode_instruction_4b8cf_output_tmp_42314_10_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_4b8cf_output_tmp_42314_10_limb_2",
+        "decode_instruction_4b8cf_output_tmp_42314_10_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
-        "decode_instruction_4b8cf_output_tmp_42314_10_limb_7",
+        "decode_instruction_4b8cf_output_tmp_42314_10_op1_base_ap",
         "((1 - op1_imm_col8) - op1_base_fp_col9)"
       ],
       [
@@ -44454,10 +44454,10 @@
       "(op1_base_fp_col9 * (1 - op1_base_fp_col9))",
       "(((1 - op1_imm_col8) - op1_base_fp_col9) * (1 - ((1 - op1_imm_col8) - op1_base_fp_col9)))",
       "(ap_update_add_1_col10 * (1 - ap_update_add_1_col10))",
-      "(op1_imm_col8 * (1 - decode_instruction_4b8cf_output_tmp_42314_10_limb_2))",
+      "(op1_imm_col8 * (1 - decode_instruction_4b8cf_output_tmp_42314_10_offset2))",
       "(mem_dst_base_col11 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
       "(mem0_base_col12 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_4b8cf_output_tmp_42314_10_limb_7 * input_ap_col1)))",
+      "(mem1_base_col13 - (((op1_imm_col8 * input_pc_col0) + (op1_base_fp_col9 * input_fp_col2)) + (decode_instruction_4b8cf_output_tmp_42314_10_op1_base_ap * input_ap_col1)))",
       "((carry_0_col102 * 512) - (conv_mod_tmp_42314_39_limb_0 - k_col101))",
       "((carry_1_col103 * 512) - (conv_mod_tmp_42314_39_limb_1 + carry_0_col102))",
       "((carry_2_col104 * 512) - (conv_mod_tmp_42314_39_limb_2 + carry_1_col103))",
@@ -44494,7 +44494,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col11 + decode_instruction_4b8cf_output_tmp_42314_10_limb_0), dst_id_col14"
+        "(mem_dst_base_col11 + decode_instruction_4b8cf_output_tmp_42314_10_offset0), dst_id_col14"
       ],
       [
         "MemoryIdToBig",
@@ -44502,7 +44502,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col12 + decode_instruction_4b8cf_output_tmp_42314_10_limb_1), op0_id_col43"
+        "(mem0_base_col12 + decode_instruction_4b8cf_output_tmp_42314_10_offset1), op0_id_col43"
       ],
       [
         "MemoryIdToBig",
@@ -44510,7 +44510,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col13 + decode_instruction_4b8cf_output_tmp_42314_10_limb_2), op1_id_col72"
+        "(mem1_base_col13 + decode_instruction_4b8cf_output_tmp_42314_10_offset2), op1_id_col72"
       ],
       [
         "MemoryIdToBig",
@@ -44861,23 +44861,23 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_3802d_output_tmp_fa85a_11_limb_0",
+        "decode_instruction_3802d_output_tmp_fa85a_11_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_3802d_output_tmp_fa85a_11_limb_1",
+        "decode_instruction_3802d_output_tmp_fa85a_11_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_3802d_output_tmp_fa85a_11_limb_2",
+        "decode_instruction_3802d_output_tmp_fa85a_11_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
-        "decode_instruction_3802d_output_tmp_fa85a_11_limb_7",
+        "decode_instruction_3802d_output_tmp_fa85a_11_op1_base_ap",
         "((1 - op1_imm_col8) - op1_base_fp_col9)"
       ],
       [
-        "decode_instruction_3802d_output_tmp_fa85a_11_limb_9",
+        "decode_instruction_3802d_output_tmp_fa85a_11_res_mul",
         "(1 - res_add_col10)"
       ],
       [
@@ -44937,20 +44937,20 @@
       "(((1 - op1_imm_col8) - op1_base_fp_col9) * (1 - ((1 - op1_imm_col8) - op1_base_fp_col9)))",
       "(res_add_col10 * (1 - res_add_col10))",
       "(ap_update_add_1_col11 * (1 - ap_update_add_1_col11))",
-      "(op1_imm_col8 * (decode_instruction_3802d_output_tmp_fa85a_11_limb_2 - 1))",
+      "(op1_imm_col8 * (decode_instruction_3802d_output_tmp_fa85a_11_offset2 - 1))",
       "(mem_dst_base_col12 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
       "(mem0_base_col13 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(mem1_base_col14 - (((op1_base_fp_col9 * input_fp_col2) + (decode_instruction_3802d_output_tmp_fa85a_11_limb_7 * input_ap_col1)) + (op1_imm_col8 * input_pc_col0)))",
+      "(mem1_base_col14 - (((op1_base_fp_col9 * input_fp_col2) + (decode_instruction_3802d_output_tmp_fa85a_11_op1_base_ap * input_ap_col1)) + (op1_imm_col8 * input_pc_col0)))",
       "(((((((dst_limb_0_col16 + dst_limb_1_col17) + dst_limb_2_col18) + dst_limb_3_col19) - 1548) * ((((dst_limb_4_col20 + dst_limb_5_col21) + dst_limb_6_col22) + dst_limb_7_col23) - 1548)) * dst_delta_ab_inv_col32) - 1)",
       "(((((((dst_limb_8_col24 + dst_limb_9_col25) + dst_limb_10_col26) + dst_limb_11_col27) - 1548) * ((((dst_limb_12_col28 + dst_limb_13_col29) + dst_limb_14_col30) + dst_limb_15_col31) - 1548)) * dst_delta_cd_inv_col33) - 1)",
       "(((((((op0_limb_0_col35 + op0_limb_1_col36) + op0_limb_2_col37) + op0_limb_3_col38) - 1548) * ((((op0_limb_4_col39 + op0_limb_5_col40) + op0_limb_6_col41) + op0_limb_7_col42) - 1548)) * op0_delta_ab_inv_col51) - 1)",
       "(((((((op0_limb_8_col43 + op0_limb_9_col44) + op0_limb_10_col45) + op0_limb_11_col46) - 1548) * ((((op0_limb_12_col47 + op0_limb_13_col48) + op0_limb_14_col49) + op0_limb_15_col50) - 1548)) * op0_delta_cd_inv_col52) - 1)",
       "(((((((op1_limb_0_col54 + op1_limb_1_col55) + op1_limb_2_col56) + op1_limb_3_col57) - 1548) * ((((op1_limb_4_col58 + op1_limb_5_col59) + op1_limb_6_col60) + op1_limb_7_col61) - 1548)) * op1_delta_ab_inv_col70) - 1)",
       "(((((((op1_limb_8_col62 + op1_limb_9_col63) + op1_limb_10_col64) + op1_limb_11_col65) - 1548) * ((((op1_limb_12_col66 + op1_limb_13_col67) + op1_limb_14_col68) + op1_limb_15_col69) - 1548)) * op1_delta_cd_inv_col71) - 1)",
-      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_0 - ((((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1)) + (2 * ((qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)))) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)) * decode_instruction_3802d_output_tmp_fa85a_11_limb_9)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 + qm_31_read_reduced_output_tmp_fa85a_23_limb_0) * res_add_col10))",
-      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_1 - ((((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0)) + (2 * ((qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)))) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)) * decode_instruction_3802d_output_tmp_fa85a_11_limb_9)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_1 + qm_31_read_reduced_output_tmp_fa85a_23_limb_1) * res_add_col10))",
-      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_2 - (((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0)) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1)) * decode_instruction_3802d_output_tmp_fa85a_11_limb_9)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_2 + qm_31_read_reduced_output_tmp_fa85a_23_limb_2) * res_add_col10))",
-      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_3 - (((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1)) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0)) * decode_instruction_3802d_output_tmp_fa85a_11_limb_9)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_3 + qm_31_read_reduced_output_tmp_fa85a_23_limb_3) * res_add_col10))"
+      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_0 - ((((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1)) + (2 * ((qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)))) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)) * decode_instruction_3802d_output_tmp_fa85a_11_res_mul)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 + qm_31_read_reduced_output_tmp_fa85a_23_limb_0) * res_add_col10))",
+      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_1 - ((((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0)) + (2 * ((qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)))) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)) * decode_instruction_3802d_output_tmp_fa85a_11_res_mul)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_1 + qm_31_read_reduced_output_tmp_fa85a_23_limb_1) * res_add_col10))",
+      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_2 - (((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3)) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0)) - (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1)) * decode_instruction_3802d_output_tmp_fa85a_11_res_mul)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_2 + qm_31_read_reduced_output_tmp_fa85a_23_limb_2) * res_add_col10))",
+      "((qm_31_read_reduced_output_tmp_fa85a_15_limb_3 - (((((qm_31_read_reduced_output_tmp_fa85a_19_limb_0 * qm_31_read_reduced_output_tmp_fa85a_23_limb_3) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_1 * qm_31_read_reduced_output_tmp_fa85a_23_limb_2)) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_2 * qm_31_read_reduced_output_tmp_fa85a_23_limb_1)) + (qm_31_read_reduced_output_tmp_fa85a_19_limb_3 * qm_31_read_reduced_output_tmp_fa85a_23_limb_0)) * decode_instruction_3802d_output_tmp_fa85a_11_res_mul)) - ((qm_31_read_reduced_output_tmp_fa85a_19_limb_3 + qm_31_read_reduced_output_tmp_fa85a_23_limb_3) * res_add_col10))"
     ],
     "lookups": [
       [
@@ -44959,7 +44959,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col12 + decode_instruction_3802d_output_tmp_fa85a_11_limb_0), dst_id_col15"
+        "(mem_dst_base_col12 + decode_instruction_3802d_output_tmp_fa85a_11_offset0), dst_id_col15"
       ],
       [
         "MemoryIdToBig",
@@ -44971,7 +44971,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col13 + decode_instruction_3802d_output_tmp_fa85a_11_limb_1), op0_id_col34"
+        "(mem0_base_col13 + decode_instruction_3802d_output_tmp_fa85a_11_offset1), op0_id_col34"
       ],
       [
         "MemoryIdToBig",
@@ -44983,7 +44983,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col14 + decode_instruction_3802d_output_tmp_fa85a_11_limb_2), op1_id_col53"
+        "(mem1_base_col14 + decode_instruction_3802d_output_tmp_fa85a_11_offset2), op1_id_col53"
       ],
       [
         "MemoryIdToBig",
@@ -45107,15 +45107,15 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_64420_output_tmp_47e62_10_limb_0",
+        "decode_instruction_64420_output_tmp_47e62_10_offset0",
         "(offset0_col0 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_47e62_10_limb_1",
+        "decode_instruction_64420_output_tmp_47e62_10_offset1",
         "(offset1_col1 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_47e62_10_limb_2",
+        "decode_instruction_64420_output_tmp_47e62_10_offset2",
         "(offset2_col2 - 32768)"
       ]
     ],
@@ -45138,7 +45138,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col9 + decode_instruction_64420_output_tmp_47e62_10_limb_1), op0_id_col10"
+        "(mem0_base_col9 + decode_instruction_64420_output_tmp_47e62_10_offset1), op0_id_col10"
       ],
       [
         "MemoryIdToBig",
@@ -45146,7 +45146,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col14 + decode_instruction_64420_output_tmp_47e62_10_limb_2), op1_id_col15"
+        "(mem1_base_col14 + decode_instruction_64420_output_tmp_47e62_10_offset2), op1_id_col15"
       ],
       [
         "MemoryIdToBig",
@@ -45166,7 +45166,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col23 + decode_instruction_64420_output_tmp_47e62_10_limb_0), dst_id_col29"
+        "(mem_dst_base_col23 + decode_instruction_64420_output_tmp_47e62_10_offset0), dst_id_col29"
       ],
       [
         "MemoryIdToBig",
@@ -46781,15 +46781,15 @@
     ],
     "intermediates": [
       [
-        "decode_instruction_64420_output_tmp_53f39_10_limb_0",
+        "decode_instruction_64420_output_tmp_53f39_10_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_53f39_10_limb_1",
+        "decode_instruction_64420_output_tmp_53f39_10_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_53f39_10_limb_2",
+        "decode_instruction_64420_output_tmp_53f39_10_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
@@ -46852,7 +46852,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col12 + decode_instruction_64420_output_tmp_53f39_10_limb_1), op0_id_col13"
+        "(mem0_base_col12 + decode_instruction_64420_output_tmp_53f39_10_offset1), op0_id_col13"
       ],
       [
         "MemoryIdToBig",
@@ -46860,7 +46860,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col17 + decode_instruction_64420_output_tmp_53f39_10_limb_2), op1_id_col18"
+        "(mem1_base_col17 + decode_instruction_64420_output_tmp_53f39_10_offset2), op1_id_col18"
       ],
       [
         "MemoryIdToBig",
@@ -46880,7 +46880,7 @@
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col26 + decode_instruction_64420_output_tmp_53f39_10_limb_0), dst_id_col32"
+        "(mem_dst_base_col26 + decode_instruction_64420_output_tmp_53f39_10_offset0), dst_id_col32"
       ],
       [
         "MemoryIdToBig",

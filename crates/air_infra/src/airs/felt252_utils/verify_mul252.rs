@@ -27,6 +27,14 @@ impl AirFn for VerifyMul252 {
     type In = [Felt252Expr; 3];
     type Out = ();
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("a".to_string()),
+            Some("b".to_string()),
+            Some("c".to_string()),
+        ])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
         let shift_inverse = shift.clone().inverse();

@@ -19,6 +19,14 @@ impl AirFn for Sub252 {
     type In = [Felt252Expr; 2];
     type Out = Felt252Expr;
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![Some("c".to_string()), Some("a".to_string())])
+    }
+
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![Some("sub_res".to_string())])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), [c, a]: Self::In) -> Self::Out {
         let b = air_builder.deduce_air_var(c.clone() - a.clone(), "sub_res");
 

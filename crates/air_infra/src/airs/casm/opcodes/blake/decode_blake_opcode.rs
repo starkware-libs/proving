@@ -60,6 +60,14 @@ impl AirFn for DecodeBlakeOpcode {
     type In = CasmStateVar;
     type Out = (BlakePointers, UInt32Expr, BlakeFlags);
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("pc".to_string()),
+            Some("ap".to_string()),
+            Some("fp".to_string()),
+        ])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Decode the instruction.
         let ([offset0, offset1, offset2], flags, opcode_extension) = air_builder.call(

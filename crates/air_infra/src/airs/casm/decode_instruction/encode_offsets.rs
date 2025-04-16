@@ -25,6 +25,14 @@ impl AirFn for EncodeOffsets {
     type In = [FeltExpr; 3];
     type Out = [FeltExpr; 6];
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("offset0".to_string()),
+            Some("offset1".to_string()),
+            Some("offset2".to_string()),
+        ])
+    }
+
     fn call(&self, ab: &mut AirBuilder, _: (), [off0_f, off1_f, off2_f]: Self::In) -> Self::Out {
         assert_eq!(
             FELT252_BITS_PER_WORD, 9,

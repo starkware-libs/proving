@@ -43,13 +43,13 @@ fn test_verify_inst() {
         ),
     );
     let expected_state = vec![
-        (0, "input_limb_0"),      // pc
-        (0x8001, "input_limb_1"), // offset_0
-        (0x7fff, "input_limb_2"), // offset_1
-        (0x8002, "input_limb_3"), // offset_2
-        (0x50, "input_limb_4"),   // felt5_high
-        (0x11a, "input_limb_5"),  // felt6
-        (0, "input_limb_6"),      // opcode_extension
+        (0, "input_pc"),
+        (0x8001, "input_offset0"),
+        (0x7fff, "input_offset1"),
+        (0x8002, "input_offset2"),
+        (0x50, "input_inst_felt5_high"),
+        (0x11a, "input_inst_felt6"),
+        (0, "input_opcode_extension"),
         (1, "offset0_low"),
         (0x40, "offset0_mid"),
         (3, "offset1_low"),

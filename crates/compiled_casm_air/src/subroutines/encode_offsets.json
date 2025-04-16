@@ -11,7 +11,7 @@
     "[PackedM31; 3]"
   ],
   "verifier_input": [
-    "[encode_offsets_input_limb_0, encode_offsets_input_limb_1, encode_offsets_input_limb_2]",
+    "[encode_offsets_input_offset0, encode_offsets_input_offset1, encode_offsets_input_offset2]",
     "[M31; 3]"
   ],
   "prover_output": [
@@ -191,7 +191,7 @@
             {
               "Var": [
                 "M31",
-                "encode_offsets_input_limb_0"
+                "encode_offsets_input_offset0"
               ]
             }
           ]
@@ -248,7 +248,7 @@
             {
               "Var": [
                 "M31",
-                "encode_offsets_input_limb_1"
+                "encode_offsets_input_offset1"
               ]
             }
           ]
@@ -305,7 +305,7 @@
             {
               "Var": [
                 "M31",
-                "encode_offsets_input_limb_2"
+                "encode_offsets_input_offset2"
               ]
             }
           ]
