@@ -3,8 +3,8 @@
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm,
-    PaddingType, TraceType, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
+    LookupTerm, PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -167,7 +167,11 @@ pub fn parse_eval_constraint(
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
-        CompiledAirVar::ExternalState(name, args) => {
+        CompiledAirVar::ExternalState(ExternalState {
+            name,
+            generic_param: _,
+            args,
+        }) => {
             if name == "Seq" {
                 name.to_lowercase() + ".clone()"
             } else {
@@ -214,10 +218,10 @@ fn gen_evaluate_call(
             constant_names,
         ));
     }
-    for (name, args) in external_states {
+    for ext_state in external_states {
         arg_str.push(parse_eval_constraint(
             air_fn,
-            &CompiledAirVar::ExternalState(name.clone(), args.clone()),
+            &CompiledAirVar::ExternalState(ext_state.clone()),
             constant_names,
         ));
     }

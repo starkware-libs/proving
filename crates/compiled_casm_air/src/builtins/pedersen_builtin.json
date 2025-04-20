@@ -1,6 +1,7 @@
 {
   "name": "pedersen_builtin",
   "relation_name": null,
+  "relation_size": null,
   "description": "Pedersen Builtin",
   "instance_definition": "{}",
   "type": "Builtin",
@@ -427,10 +428,11 @@
     "PedersenBuiltinSegmentStart"
   ],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -442,10 +444,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -926,10 +929,11 @@
           {
             "BinaryOp": [
               {
-                "ExternalState": [
-                  "Seq",
-                  []
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "generic_param": null,
+                  "args": []
+                }
               },
               "*",
               {
@@ -1836,10 +1840,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -2360,10 +2365,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -3111,10 +3117,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -3758,10 +3765,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -6997,10 +7005,11 @@
           {
             "BinaryOp": [
               {
-                "ExternalState": [
-                  "Seq",
-                  []
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "generic_param": null,
+                  "args": []
+                }
               },
               "*",
               {
@@ -7679,10 +7688,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -8054,10 +8064,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -8427,10 +8438,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -8578,10 +8590,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -8727,10 +8740,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -8878,10 +8892,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -9027,10 +9042,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -9178,10 +9194,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -9327,10 +9344,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -9478,10 +9496,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -9627,10 +9646,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -9778,10 +9798,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -9927,10 +9948,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -10078,10 +10100,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -10227,10 +10250,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -10378,10 +10402,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -10527,10 +10552,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -10678,10 +10704,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -10827,10 +10854,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -10978,10 +11006,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -11127,10 +11156,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -11278,10 +11308,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -11427,10 +11458,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -11578,10 +11610,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -11727,10 +11760,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -11878,10 +11912,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -12027,10 +12062,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -12178,10 +12214,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -13867,10 +13904,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -14165,10 +14203,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -14324,10 +14363,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -16019,10 +16059,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -16544,10 +16585,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -16930,10 +16972,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -17314,10 +17357,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -17476,10 +17520,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -17636,10 +17681,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -17798,10 +17844,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -17958,10 +18005,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18120,10 +18168,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -18280,10 +18329,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18442,10 +18492,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -18602,10 +18653,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18764,10 +18816,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -18924,10 +18977,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -19086,10 +19140,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -19246,10 +19301,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -19408,10 +19464,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -19568,10 +19625,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -19730,10 +19788,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -19890,10 +19949,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -20052,10 +20112,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -20212,10 +20273,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -20374,10 +20436,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -20534,10 +20597,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -20696,10 +20760,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -20856,10 +20921,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -21018,10 +21084,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -21178,10 +21245,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -21340,10 +21408,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -23038,10 +23107,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -23336,10 +23406,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -23495,10 +23566,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {

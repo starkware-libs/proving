@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm,
-    PaddingType, TraceType,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
+    LookupTerm, PaddingType, TraceType,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -148,7 +148,12 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
             $(param.name()): E::F,
         });
     }
-    for (name, args) in &lists.external_states {
+    for ExternalState {
+        name,
+        generic_param: _,
+        args,
+    } in &lists.external_states
+    {
         if name == "Seq" {
             code.append(quote! {
                 seq: E::F,
@@ -363,7 +368,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     }
 
     if lists.r#type != TraceType::Inline {
-        for (name, args) in &lists.external_states {
+        for ExternalState {
+            name,
+            generic_param: _,
+            args,
+        } in &lists.external_states
+        {
             // Seq is the only preprocessed column that is of unfixed size.
             if name == "Seq" {
                 code.append(quote! {

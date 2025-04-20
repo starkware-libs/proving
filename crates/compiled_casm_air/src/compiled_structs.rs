@@ -7,6 +7,7 @@ use crate::public_params::PublicParam;
 pub struct CompiledAirFn {
     pub name: String,
     pub relation_name: Option<String>,
+    pub relation_size: Option<usize>,
     pub description: String,
     pub instance_definition: String,
     pub r#type: TraceType,
@@ -39,7 +40,7 @@ pub struct CompiledAirFn {
         (
             IndexSet<String>,
             IndexSet<PublicParam>,
-            IndexSet<(String, Vec<String>)>,
+            IndexSet<ExternalState>,
         ),
     >,
 
@@ -47,7 +48,7 @@ pub struct CompiledAirFn {
     pub public_params: IndexSet<PublicParam>,
 
     // The set of external states used in the air function.
-    pub external_states: IndexSet<(String, Vec<String>)>,
+    pub external_states: IndexSet<ExternalState>,
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
@@ -175,13 +176,20 @@ pub enum CompiledAirVar {
         fields: Vec<(String, CompiledAirVar)>,
     },
     // A variable written to a preprocessed column.
-    // The first string is the name of the preprocessed column class, and the rest are the
-    // arguments to its constructor. unless it's a Seq column of unknown length, in which case
-    // we don't pass its arguments.
-    ExternalState(String, Vec<String>),
+    ExternalState(ExternalState),
     // A value passed to the verifier outside the trace. Can influence the constraints
     // that the verifier checks.
     PublicParam(String),
+}
+
+// A preprocessed column represented by its name, it's generic argument if there's one, and the
+// arguments to its constructor. If it's a Seq column of unknown length, we don't pass its
+// arguments.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
+pub struct ExternalState {
+    pub name: String,
+    pub generic_param: Option<u32>,
+    pub args: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

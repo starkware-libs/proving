@@ -1,6 +1,7 @@
 {
   "name": "range_check_3_3_3_3_3",
   "relation_name": "RangeCheck_3_3_3_3_3",
+  "relation_size": 5,
   "description": "Range Check 3 3 3 3 3",
   "instance_definition": "{}",
   "type": "Component",
@@ -36,41 +37,46 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "RangeCheck",
-      [
+    {
+      "name": "RangeCheck",
+      "generic_param": 5,
+      "args": [
         "[3,3,3,3,3]",
         "0"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 5,
+      "args": [
         "[3,3,3,3,3]",
         "1"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 5,
+      "args": [
         "[3,3,3,3,3]",
         "2"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 5,
+      "args": [
         "[3,3,3,3,3]",
         "3"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 5,
+      "args": [
         "[3,3,3,3,3]",
         "4"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -78,49 +84,54 @@
         "relation_name": "RangeCheck_3_3_3_3_3",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "2"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "3"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "4"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -133,49 +144,54 @@
         "relation_name": "RangeCheck_3_3_3_3_3",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "2"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "3"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 5,
+              "args": [
                 "[3,3,3,3,3]",
                 "4"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

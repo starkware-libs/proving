@@ -1,6 +1,7 @@
 {
   "name": "mul_mod_builtin",
   "relation_name": null,
+  "relation_size": null,
   "description": "Mul Mod Builtin",
   "instance_definition": "{}",
   "type": "Builtin",
@@ -474,10 +475,11 @@
     "MulModBuiltinSegmentStart"
   ],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -494,10 +496,11 @@
                     "PublicParam": "mul_mod_builtin_segment_start"
                   },
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   }
                 ]
               },
@@ -9607,10 +9610,11 @@
         "var": {
           "MethodCall": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             "eq",
             [
@@ -9663,10 +9667,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "ExternalState": [
-                            "Seq",
-                            []
-                          ]
+                          "ExternalState": {
+                            "name": "Seq",
+                            "generic_param": null,
+                            "args": []
+                          }
                         },
                         "-",
                         {
@@ -9709,10 +9714,11 @@
                 },
                 "*",
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 }
               ]
             }

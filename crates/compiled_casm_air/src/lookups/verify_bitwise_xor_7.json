@@ -1,6 +1,7 @@
 {
   "name": "verify_bitwise_xor_7",
   "relation_name": "VerifyBitwiseXor_7",
+  "relation_size": 3,
   "description": "Verify Bitwise Xor 7",
   "instance_definition": "{}",
   "type": "Component",
@@ -36,27 +37,30 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "BitwiseXor",
-      [
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
         "7",
         "0"
       ]
-    ],
-    [
-      "BitwiseXor",
-      [
+    },
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
         "7",
         "1"
       ]
-    ],
-    [
-      "BitwiseXor",
-      [
+    },
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
         "7",
         "2"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -64,31 +68,34 @@
         "relation_name": "VerifyBitwiseXor_7",
         "felts": [
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "7",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "7",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "7",
                 "2"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -101,31 +108,34 @@
         "relation_name": "VerifyBitwiseXor_7",
         "felts": [
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "7",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "7",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "7",
                 "2"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

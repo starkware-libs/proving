@@ -76,7 +76,11 @@ impl Display for CompiledAirVar {
                     .join(", ");
                 write!(f, "{{{}}}", strs)
             }
-            CompiledAirVar::ExternalState(name, args) => {
+            CompiledAirVar::ExternalState(ExternalState {
+                name,
+                generic_param: _,
+                args,
+            }) => {
                 write!(f, "{}({})", name.to_case(Case::Snake), args.join(", "))
             }
             CompiledAirVar::PublicParam(name) => {

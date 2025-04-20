@@ -2,7 +2,8 @@ use std::collections::BTreeSet;
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState, LookupTerm,
+    TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
@@ -219,8 +220,8 @@ impl AirBody {
         self.0.push(component);
     }
 
-    pub fn get_external_states(&self) -> IndexSet<(String, Vec<String>)> {
-        let mut external_states = IndexSet::<(String, Vec<String>)>::default();
+    pub fn get_external_states(&self) -> IndexSet<ExternalState> {
+        let mut external_states = IndexSet::<ExternalState>::default();
 
         for component in self.0.clone() {
             match component {

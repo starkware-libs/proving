@@ -1,6 +1,7 @@
 {
   "name": "range_check_5_4",
   "relation_name": "RangeCheck_5_4",
+  "relation_size": 2,
   "description": "Range Check 5 4",
   "instance_definition": "{}",
   "type": "Component",
@@ -36,20 +37,22 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "RangeCheck",
-      [
+    {
+      "name": "RangeCheck",
+      "generic_param": 2,
+      "args": [
         "[5,4]",
         "0"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 2,
+      "args": [
         "[5,4]",
         "1"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -57,22 +60,24 @@
         "relation_name": "RangeCheck_5_4",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 2,
+              "args": [
                 "[5,4]",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 2,
+              "args": [
                 "[5,4]",
                 "1"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -85,22 +90,24 @@
         "relation_name": "RangeCheck_5_4",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 2,
+              "args": [
                 "[5,4]",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 2,
+              "args": [
                 "[5,4]",
                 "1"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

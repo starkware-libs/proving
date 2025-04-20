@@ -1,6 +1,7 @@
 {
   "name": "poseidon_hades_permutation",
   "relation_name": null,
+  "relation_size": null,
   "description": "Poseidon Hades Permutation",
   "instance_definition": "{}",
   "type": "Inline",
@@ -385,10 +386,11 @@
   },
   "public_params": [],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -908,10 +910,11 @@
           {
             "BinaryOp": [
               {
-                "ExternalState": [
-                  "Seq",
-                  []
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "generic_param": null,
+                  "args": []
+                }
               },
               "*",
               {
@@ -1743,10 +1746,11 @@
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              []
-            ]
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": []
+            }
           },
           {
             "Const": [
@@ -2421,10 +2425,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -5621,10 +5626,11 @@
           {
             "BinaryOp": [
               {
-                "ExternalState": [
-                  "Seq",
-                  []
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "generic_param": null,
+                  "args": []
+                }
               },
               "*",
               {
@@ -5743,10 +5749,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -5802,10 +5809,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -5859,10 +5867,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -5918,10 +5927,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -5975,10 +5985,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -6034,10 +6045,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -6091,10 +6103,11 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 },
                 "*",
                 {
@@ -6150,10 +6163,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": [
-                          "Seq",
-                          []
-                        ]
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
                       },
                       "*",
                       {
@@ -10953,10 +10967,11 @@
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              []
-            ]
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": []
+            }
           },
           {
             "Const": [
@@ -11094,10 +11109,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11148,10 +11164,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11200,10 +11217,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11254,10 +11272,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11306,10 +11325,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11360,10 +11380,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11412,10 +11433,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11466,10 +11488,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11518,10 +11541,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11572,10 +11596,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11624,10 +11649,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11678,10 +11704,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11730,10 +11757,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11784,10 +11812,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11836,10 +11865,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11890,10 +11920,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -11942,10 +11973,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -11996,10 +12028,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12048,10 +12081,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12102,10 +12136,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12154,10 +12189,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12208,10 +12244,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12260,10 +12297,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12314,10 +12352,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12366,10 +12405,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12420,10 +12460,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12472,10 +12513,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12526,10 +12568,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12578,10 +12621,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12632,10 +12676,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12684,10 +12729,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12738,10 +12784,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12790,10 +12837,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12844,10 +12892,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -12896,10 +12945,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -12950,10 +13000,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13002,10 +13053,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13056,10 +13108,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13108,10 +13161,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13162,10 +13216,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13214,10 +13269,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13268,10 +13324,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13320,10 +13377,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13374,10 +13432,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13426,10 +13485,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13480,10 +13540,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13532,10 +13593,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13586,10 +13648,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13638,10 +13701,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13692,10 +13756,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13744,10 +13809,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13798,10 +13864,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13850,10 +13917,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13904,10 +13972,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -18251,10 +18320,11 @@
               {
                 "BinaryOp": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   "*",
                   {
@@ -18384,10 +18454,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18454,10 +18525,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -18522,10 +18594,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18592,10 +18665,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -18660,10 +18734,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18730,10 +18805,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {
@@ -18798,10 +18874,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "ExternalState": [
-                        "Seq",
-                        []
-                      ]
+                      "ExternalState": {
+                        "name": "Seq",
+                        "generic_param": null,
+                        "args": []
+                      }
                     },
                     "*",
                     {
@@ -18868,10 +18945,11 @@
                       {
                         "BinaryOp": [
                           {
-                            "ExternalState": [
-                              "Seq",
-                              []
-                            ]
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
                           },
                           "*",
                           {

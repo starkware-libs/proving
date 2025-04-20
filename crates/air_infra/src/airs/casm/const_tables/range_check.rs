@@ -143,6 +143,10 @@ macro_rules! new_range_check {
             fn args() -> Vec<String> {
                 vec![format!("[{}]", [$b0.to_string(), $($b.to_string()),+].join(","))]
             }
+
+            fn generic_param() -> Option<u32> {
+                Some([$b0,$($b),+].len() as u32)
+            }
         }
     };
 }

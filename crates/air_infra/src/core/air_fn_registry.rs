@@ -65,10 +65,19 @@ impl AirFnEntry {
                 )
             })
             .collect();
+        let relation_size =
+            if self.trace_type == TraceType::Opcode || self.trace_type == TraceType::ChainRound {
+                Some(input.as_felts().len())
+            } else {
+                self.relation_name
+                    .clone()
+                    .map(|_| input.as_felts().len() + self.output.as_felts().len())
+            };
 
         CompiledAirFn {
             name: self.name.clone(),
             relation_name: self.relation_name,
+            relation_size,
             description: self.description,
             instance_definition: serde_json::to_string(&self.inst_def)
                 .expect("Failed to serialize"),

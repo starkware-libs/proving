@@ -1,6 +1,7 @@
 {
   "name": "memory_id_to_big",
   "relation_name": "MemoryIdToBig",
+  "relation_size": 29,
   "description": "Memory Id To Big",
   "instance_definition": "{}",
   "type": "Memory",
@@ -251,10 +252,11 @@
   },
   "public_params": [],
   "external_states": [
-    [
-      "MemoryIdForBig",
-      []
-    ]
+    {
+      "name": "MemoryIdForBig",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -363,10 +365,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": [
-              "MemoryIdForBig",
-              []
-            ]
+            "ExternalState": {
+              "name": "MemoryIdForBig",
+              "generic_param": null,
+              "args": []
+            }
           },
           {
             "State": "memory_id_to_big_output_col0"
@@ -873,10 +876,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": [
-              "MemoryIdForBig",
-              []
-            ]
+            "ExternalState": {
+              "name": "MemoryIdForBig",
+              "generic_param": null,
+              "args": []
+            }
           },
           {
             "State": "memory_id_to_big_output_col0"

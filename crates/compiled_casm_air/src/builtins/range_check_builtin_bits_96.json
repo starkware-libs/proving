@@ -1,6 +1,7 @@
 {
   "name": "range_check_builtin_bits_96",
   "relation_name": null,
+  "relation_size": null,
   "description": "Range Check Builtin Bits 96",
   "instance_definition": "{\"bits\":96}",
   "type": "Builtin",
@@ -63,10 +64,11 @@
     "RangeCheck96BuiltinSegmentStart"
   ],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -84,10 +86,11 @@
                   },
                   "+",
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   }
                 ]
               },
@@ -152,10 +155,11 @@
                   },
                   "+",
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   }
                 ]
               }
@@ -201,10 +205,11 @@
             },
             "+",
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             }
           ]
         }
@@ -221,10 +226,11 @@
               },
               "+",
               {
-                "ExternalState": [
-                  "Seq",
-                  []
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "generic_param": null,
+                  "args": []
+                }
               }
             ]
           },
