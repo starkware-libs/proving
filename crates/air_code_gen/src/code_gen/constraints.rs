@@ -36,8 +36,8 @@ pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let log_size = if is_const_size_component(air_fn) {
+pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
+    let log_size = if is_const_size_component(lists) {
         quote! {}
     } else {
         quote! {log_size: 4,}
@@ -53,17 +53,17 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
             use stwo_prover::core::fields::qm31::QM31;
 
             use super::*;
-            use crate::components::constraints_regression_test_values::$(air_fn.name.to_case(Case::UpperSnake));
+            use crate::components::constraints_regression_test_values::$(lists.name.to_case(Case::UpperSnake));
 
             #[test]
-            fn $(air_fn.name.clone())_constraints_regression() {
+            fn $(lists.name.clone())_constraints_regression() {
                 let mut rng = SmallRng::seed_from_u64(0);
                 let eval = Eval {
                     claim: Claim {
                         $log_size
-                        $(get_dummy_public_params(air_fn))
+                        $(get_dummy_public_params(lists))
                     },
-                    $(get_dummy_lookup_elements(air_fn))
+                    $(get_dummy_lookup_elements(lists))
                 };
                 let expr_eval = eval.evaluate(ExprEvaluator::new());
                 let assignment = expr_eval.random_assignment();
@@ -73,15 +73,15 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
                     sum += c.assign(&assignment) * rng.gen::<QM31>();
                 }
 
-                assert_eq!(sum, $(air_fn.name.to_case(Case::UpperSnake)));
+                assert_eq!(sum, $(lists.name.to_case(Case::UpperSnake)));
             }
         }
     }
 }
 
-fn get_dummy_lookup_elements(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for relation in air_fn.lookup_names.keys() {
+    for relation in lists.lookup_names.keys() {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
         });
@@ -89,9 +89,9 @@ fn get_dummy_lookup_elements(air_fn: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn get_dummy_public_params(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for param in &air_fn.public_params {
+    for param in &lists.public_params {
         code.append(quote! {
          $(param.name()): rng.gen::<u32>(),
         });
@@ -131,24 +131,24 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for state_name in &air_fn.state_names {
+    for state_name in &lists.state_names {
         code.append(quote! {
             $(state_name): E::F,
         });
     }
-    for relation in air_fn.lookup_names.keys() {
+    for relation in lists.lookup_names.keys() {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
         });
     }
-    for param in &air_fn.public_params {
+    for param in &lists.public_params {
         code.append(quote! {
             $(param.name()): E::F,
         });
     }
-    for (name, args) in &air_fn.external_states {
+    for (name, args) in &lists.external_states {
         if name == "Seq" {
             code.append(quote! {
                 seq: E::F,
@@ -218,19 +218,32 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
+    let log_size = if is_const_size_component(lists) {
+        quote! { LOG_SIZE }
+    } else {
+        quote! { self.log_size }
+    };
+
+    let mut channel_mix_code = quote! { channel.mix_u64($(&log_size) as u64); };
+    for public_param in &lists.public_params {
+        channel_mix_code.append(quote! {
+            channel.mix_u64(self.$(public_param.name()) as u64);
+        });
+    }
+
     let struct_code = quote! {
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct Claim {
-            $(get_claim_members(air_fn))
+            $(get_claim_members(lists))
         }
     };
 
     let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let trace_log_sizes = vec![$(get_log_size(air_fn, true)); N_TRACE_COLUMNS];
-                let interaction_log_sizes = vec![$(get_log_size(air_fn, true)); $(get_n_logup_columns(air_fn))];
+                let trace_log_sizes = vec![$(&log_size); N_TRACE_COLUMNS];
+                let interaction_log_sizes = vec![$log_size; $(get_n_logup_columns(lists))];
                 TreeVec::new(vec![
                     vec![],
                     trace_log_sizes,
@@ -239,7 +252,7 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
             }
              // TODO(Ohad): better mix_into.
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                $(get_channel_mix_code(air_fn))
+                $(channel_mix_code)
             }
         }
     };
@@ -247,8 +260,8 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
     chain!(struct_code, impl_code).collect()
 }
 
-pub fn get_n_logup_columns(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let n_lookup_terms: usize = air_fn.lookup_names.values().sum();
+pub fn get_n_logup_columns(lists: &CompiledAirFn) -> rust::Tokens {
+    let n_lookup_terms: usize = lists.lookup_names.values().sum();
     match n_lookup_terms {
         0 => unimplemented!(),
         1..=2 => quote!(SECURE_EXTENSION_DEGREE),
@@ -259,43 +272,18 @@ pub fn get_n_logup_columns(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-pub fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn get_claim_members(lists: &CompiledAirFn) -> rust::Tokens {
     let mut members = quote! {};
-    if !is_const_size_component(air_fn) {
+    if !is_const_size_component(lists) {
         members.append(quote! { pub log_size: u32, });
     };
 
-    for public_param in &air_fn.public_params {
+    for public_param in &lists.public_params {
         members.append(quote! {
             pub $(public_param.name()): u32,
         });
     }
     members
-}
-
-/// Create an expression that evaluates to the log size of the current AirFn
-/// air_fn - The AirFn
-/// in_claim - If true, return code that works inside the generated `Claim` struct (where the type
-/// of `self` is `Claim`). Otherwise, return code that works inside the generated `Eval` struct
-/// (where the type of `self` is `Eval`).
-pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
-    if is_const_size_component(air_fn) {
-        quote! { LOG_SIZE }
-    } else if in_claim {
-        quote! { self.log_size }
-    } else {
-        quote! { self.claim.log_size }
-    }
-}
-
-fn get_channel_mix_code(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut channel_mix_code = quote! { channel.mix_u64($(get_log_size(air_fn, true)) as u64); };
-    for public_param in &air_fn.public_params {
-        channel_mix_code.append(quote! {
-            channel.mix_u64(self.$(public_param.name()) as u64);
-        });
-    }
-    channel_mix_code
 }
 
 fn generate_interaction_claim_struct() -> rust::Tokens {
@@ -325,10 +313,15 @@ fn generate_component_type_def() -> rust::Tokens {
 
 fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
+    let log_size = if is_const_size_component(lists) {
+        quote! { LOG_SIZE }
+    } else {
+        quote! { self.claim.log_size }
+    };
     code.append(quote! {
         impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
-                $(get_log_size(lists, false))
+                $log_size
             }
 
             fn max_constraint_log_degree_bound(&self) -> u32 {
