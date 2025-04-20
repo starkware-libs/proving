@@ -113,8 +113,8 @@ impl FrameworkEval for Eval {
                 offset0_col3.clone(),
                 dst_base_fp_col4.clone(),
                 ap_update_add_1_col5.clone(),
-                &mut eval,
                 &self.verify_instruction_lookup_elements,
+                &mut eval,
             );
         // mem_dst_base.
         eval.add_constraint(
@@ -157,9 +157,9 @@ impl FrameworkEval for Eval {
                 dst_limb_25_col33.clone(),
                 dst_limb_26_col34.clone(),
                 dst_limb_27_col35.clone(),
-                &mut eval,
                 &self.memory_address_to_id_lookup_elements,
                 &self.memory_id_to_big_lookup_elements,
+                &mut eval,
             );
         // dst doesn't equal 0.
         eval.add_constraint(
@@ -246,9 +246,9 @@ impl FrameworkEval for Eval {
                 next_pc_limb_0_col41.clone(),
                 next_pc_limb_1_col42.clone(),
                 next_pc_limb_2_col43.clone(),
-                &mut eval,
                 &self.memory_address_to_id_lookup_elements,
                 &self.memory_id_to_big_lookup_elements,
+                &mut eval,
             );
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,

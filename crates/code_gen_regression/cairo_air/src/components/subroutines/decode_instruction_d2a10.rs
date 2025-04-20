@@ -15,8 +15,8 @@ impl DecodeInstructionD2A10 {
         offset2_col0: E::F,
         op1_imm_col1: E::F,
         op1_base_fp_col2: E::F,
-        eval: &mut E,
         verify_instruction_lookup_elements: &relations::VerifyInstruction,
+        eval: &mut E,
     ) -> [E::F; 19] {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));

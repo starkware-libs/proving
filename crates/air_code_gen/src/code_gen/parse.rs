@@ -102,64 +102,16 @@ pub fn parse_eval_constraint(
         }
         CompiledAirVar::State(name) => format!("{}.clone()", name),
         CompiledAirVar::StaticCall(id, args) => {
+            if id.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME) {
+                return gen_evaluate_call(air_fn, id, args, constant_names);
+            }
+
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
                 arg_str.push_str(&parse_eval_constraint(air_fn, arg, constant_names));
-            }
-
-            if id.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME) {
-                if air_fn.r#type == TraceType::Inline {
-                    arg_str.push_str(", eval");
-                } else {
-                    arg_str.push_str(", &mut eval");
-                }
-                let inline_fn =
-                    id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
-                let (relations, params, external_states) =
-                    air_fn.inline_calls.get(inline_fn).unwrap();
-                for relation in relations {
-                    if air_fn.r#type == TraceType::Inline {
-                        arg_str.push_str(&format!(
-                            ", {}_lookup_elements",
-                            relation.to_case(Case::Snake)
-                        ));
-                    } else {
-                        arg_str.push_str(&format!(
-                            ", &self.{}_lookup_elements",
-                            relation.to_case(Case::Snake)
-                        ));
-                    }
-                }
-                for param in params {
-                    if air_fn.r#type == TraceType::Inline {
-                        arg_str.push_str(&format!(", {}", param.name()));
-                    } else {
-                        arg_str.push_str(&format!(", self.claim.{}", param.name()));
-                    }
-                }
-                for (name, args) in external_states {
-                    if name == "Seq" {
-                        arg_str.push_str(", seq.clone()");
-                    } else {
-                        arg_str.push_str(&format!(
-                            ", {}.clone()",
-                            get_variable_name(
-                                name.to_lowercase().as_str(),
-                                args.join("_").as_str()
-                            )
-                        ));
-                    }
-                }
-
-                return format!(
-                    "{}::{}({})\n",
-                    inline_fn.to_case(Case::Pascal),
-                    CONSTRAINT_EVAL_FUNCTION_NAME,
-                    arg_str
-                );
             }
 
             format!("{}({})", id, arg_str)
@@ -225,12 +177,62 @@ pub fn parse_eval_constraint(
         }
         CompiledAirVar::PublicParam(public_param) => {
             if air_fn.r#type == TraceType::Inline {
-                format!("E::F::from(M31::from({public_param}))")
+                public_param.clone() + ".clone()"
             } else {
                 format!("E::F::from(M31::from(self.claim.{public_param}))")
             }
         }
     }
+}
+
+fn gen_evaluate_call(
+    air_fn: &CompiledAirFn,
+    id: &str,
+    args: &[CompiledAirVar],
+    constant_names: &HashMap<(String, String), String>,
+) -> String {
+    let mut arg_str = args
+        .iter()
+        .map(|arg| parse_eval_constraint(air_fn, arg, constant_names))
+        .collect::<Vec<_>>();
+    let inline_fn = id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
+    let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
+    for relation in relations {
+        if air_fn.r#type == TraceType::Inline {
+            arg_str.push(format!("{}_lookup_elements", relation.to_case(Case::Snake)));
+        } else {
+            arg_str.push(format!(
+                "&self.{}_lookup_elements",
+                relation.to_case(Case::Snake)
+            ));
+        }
+    }
+    for param in params {
+        arg_str.push(parse_eval_constraint(
+            air_fn,
+            &CompiledAirVar::PublicParam(param.name()),
+            constant_names,
+        ));
+    }
+    for (name, args) in external_states {
+        arg_str.push(parse_eval_constraint(
+            air_fn,
+            &CompiledAirVar::ExternalState(name.clone(), args.clone()),
+            constant_names,
+        ));
+    }
+    if air_fn.r#type == TraceType::Inline {
+        arg_str.push("eval".to_string());
+    } else {
+        arg_str.push("&mut eval".to_string());
+    }
+
+    format!(
+        "{}::{}({})\n",
+        inline_fn.to_case(Case::Pascal),
+        CONSTRAINT_EVAL_FUNCTION_NAME,
+        arg_str.join(", ")
+    )
 }
 
 /// Returns true if the component is of const size.
