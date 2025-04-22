@@ -178,10 +178,9 @@ impl RustProverGen {
         for public_param in &self.public_params {
             claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
         }
-        let derive_default = if self.lists.padding_type == PaddingType::Multiplicity {
-            quote! {}
-        } else {
-            quote! { #[derive(Default)] }
+        let derive_default = match self.mode {
+            Mode::NoInputs | Mode::Mults => quote! {},
+            _ => quote! { #[derive(Default)] },
         };
         quote! {
             $derive_default
@@ -192,27 +191,10 @@ impl RustProverGen {
     }
 
     fn generate_claim_generator_impl(&self) -> rust::Tokens {
-        let (
-            mut claim_generator_fields,
-            mut claim_generator_parameters,
-            add_inputs_code,
-            self_param,
-        ) = match self.mode {
-            Mode::NoInputs => (
-                quote! { log_size, },
-                quote! { log_size: u32, },
-                quote! {},
-                quote! {self, },
-            ),
-            Mode::Inputs => (
-                quote! { inputs, },
-                quote! { inputs: $(vec_of_type("InputType")), },
-                quote! {},
-                quote! {mut self, },
-            ),
+        let (add_inputs_code, self_param) = match self.mode {
+            Mode::NoInputs => (quote! {}, quote! {self, }),
+            Mode::Inputs => (quote! {}, quote! {mut self, }),
             Mode::PackedInputs => (
-                quote! { packed_inputs, },
-                quote! { packed_inputs: $(vec_of_type("PackedInputType")), },
                 quote! {
                     pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType]) {
                         self.packed_inputs.extend(inputs);
@@ -221,8 +203,6 @@ impl RustProverGen {
                 quote! {mut self, },
             ),
             Mode::Mults => (
-                quote! { mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE), },
-                quote! {},
                 quote! {
                 pub fn add_input(&self, _input: &InputType) {
                     todo!() // Implement manually
@@ -238,22 +218,21 @@ impl RustProverGen {
                 quote! {self, },
             ),
         };
-        let new_without_default = if self.lists.padding_type == PaddingType::Multiplicity {
-            quote! {#[allow(clippy::new_without_default)]}
+        let default_mult_code = if self.lists.padding_type == PaddingType::Multiplicity {
+            quote! {
+                impl Default for ClaimGenerator {
+                fn default() -> Self {
+                    Self {
+                        mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+                    }
+                }
+            }}
         } else {
             quote! {}
         };
-        for public_param in &self.public_params {
-            claim_generator_fields.extend(quote! { $(public_param.name()), });
-            claim_generator_parameters.extend(quote! { $(public_param.name()): u32, });
-        }
         quote! {
+            $(default_mult_code)
             impl ClaimGenerator {
-                $new_without_default
-                pub fn new($(claim_generator_parameters)) -> Self {
-                    Self { $(claim_generator_fields) }
-                }
-
                 pub fn write_trace(
                     $(self_param)
                     tree_builder: &mut impl TreeBuilder<SimdBackend>,

@@ -10,14 +10,14 @@ pub type PackedInputType = [PackedM31; 1];
 pub struct ClaimGenerator {
     pub mults: AtomicMultiplicityColumn,
 }
-impl ClaimGenerator {
-    #[allow(clippy::new_without_default)]
-    pub fn new() -> Self {
+impl Default for ClaimGenerator {
+    fn default() -> Self {
         Self {
             mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
         }
     }
-
+}
+impl ClaimGenerator {
     pub fn write_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,

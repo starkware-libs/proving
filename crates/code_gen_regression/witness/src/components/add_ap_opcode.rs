@@ -12,10 +12,6 @@ pub struct ClaimGenerator {
     pub inputs: Vec<InputType>,
 }
 impl ClaimGenerator {
-    pub fn new(inputs: Vec<InputType>) -> Self {
-        Self { inputs }
-    }
-
     pub fn write_trace(
         mut self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
