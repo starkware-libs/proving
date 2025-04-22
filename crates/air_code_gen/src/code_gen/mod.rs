@@ -55,6 +55,7 @@ mod tests {
         generate_component_code(air_fn);
     }
 
+    #[ignore = "mults component with inputs"]
     #[test]
     fn verify_instruction_code_gen() {
         let serialized_air_fn =

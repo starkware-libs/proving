@@ -1,3 +1,5 @@
+use std::sync::atomic::AtomicU32;
+
 use stwo_prover::core::backend::simd::conversion::Pack;
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::Backend;
@@ -42,6 +44,17 @@ impl Enabler {
     }
 }
 
+pub struct AtomicMultiplicityColumn {
+    _data: Vec<AtomicU32>,
+}
+impl AtomicMultiplicityColumn {
+    pub fn new(size: usize) -> Self {
+        unimplemented!()
+    }
+    pub fn into_simd_vec(self) -> Vec<PackedM31> {
+        unimplemented!()
+    }
+}
 pub trait TreeBuilder<B: Backend> {
     fn extend_evals(
         &mut self,

@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledIntermediate, LookupTerm, PaddingType, TraceGenStep,
-    UseOrYield,
+    TraceType, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
@@ -16,9 +16,10 @@ use super::utils::{block_doc, get_variable_name, replace_generics_with_turbofish
 use crate::code_gen::parse::is_const_size_component;
 
 pub enum Mode {
-    Opcode,
-    Builtin,
-    View,
+    NoInputs,
+    Inputs, // TODO(Gali): Unite with PackedInputs.
+    PackedInputs,
+    Mults,
 }
 
 pub struct RustProverGen {
@@ -33,19 +34,27 @@ pub struct RustProverGen {
 }
 impl RustProverGen {
     pub fn new(lists: CompiledAirFn) -> Self {
-        // TODO(Ohad): replace this predicate.
-        let is_builtin = lists.name.contains("builtin");
-        let is_opcode = lists.name.contains("opcode");
+        let supported_paddings = [
+            PaddingType::None,
+            PaddingType::Enabler,
+            PaddingType::Multiplicity,
+        ];
+        assert!(
+            supported_paddings.contains(&lists.padding_type),
+            "unsupported padding type"
+        );
 
-        // TODO(Gali): handle mults column.
-        let mode = match (is_builtin, is_opcode) {
-            (true, false) => Mode::Builtin,
-            (false, true) => Mode::Opcode,
-            (false, false) => {
-                assert!(contains_inputs(&lists));
-                Mode::View
+        let mode = match lists.r#type {
+            TraceType::Builtin | TraceType::Const => Mode::NoInputs,
+            TraceType::ChainRound => Mode::PackedInputs,
+            TraceType::Component => {
+                if lists.padding_type == PaddingType::Multiplicity {
+                    Mode::Mults
+                } else {
+                    Mode::PackedInputs
+                }
             }
-            (true, true) => panic!("unsupported mode"),
+            TraceType::Opcode | TraceType::Memory | TraceType::Inline => Mode::Inputs,
         };
 
         let public_params = lists.public_params.iter().cloned().collect_vec();
@@ -100,11 +109,15 @@ impl RustProverGen {
     }
 
     fn generate_input_output_typedefs(&self) -> rust::Tokens {
+        let (_name, ty, packed_ty) = &self.lists.prover_input;
         match self.mode {
-            // Builtins have no inputs.
-            Mode::Builtin => quote!(),
-            Mode::Opcode | Mode::View => {
-                let (_name, ty, packed_ty) = &self.lists.prover_input;
+            Mode::NoInputs => quote!(),
+            Mode::PackedInputs => {
+                quote! {
+                    pub type PackedInputType = $packed_ty;
+                }
+            }
+            Mode::Inputs | Mode::Mults => {
                 quote! {
                     pub type InputType = $ty;
                     pub type PackedInputType = $packed_ty;
@@ -154,15 +167,24 @@ impl RustProverGen {
 
     fn generate_claim_generator_struct(&self) -> rust::Tokens {
         let mut claim_generator_fields = match self.mode {
-            Mode::View | Mode::Opcode => quote! { pub inputs: $(vec_of_type("InputType")), },
-            _ => quote! { pub log_size: u32, },
+            Mode::NoInputs => quote! { pub log_size: u32, },
+            Mode::PackedInputs => {
+                quote! { pub packed_inputs: $(vec_of_type("PackedInputType")), }
+            }
+            Mode::Inputs => quote! { pub inputs: $(vec_of_type("InputType")), },
+            Mode::Mults => quote! { pub mults: AtomicMultiplicityColumn, },
         };
         // TODO(Gali): Get the types of the public params from air_infra.
         for public_param in &self.public_params {
             claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
         }
+        let derive_default = if self.lists.padding_type == PaddingType::Multiplicity {
+            quote! {}
+        } else {
+            quote! { #[derive(Default)] }
+        };
         quote! {
-            #[derive(Default)]
+            $derive_default
             pub struct ClaimGenerator {
                 $(claim_generator_fields)
             }
@@ -176,50 +198,59 @@ impl RustProverGen {
             add_inputs_code,
             self_param,
         ) = match self.mode {
-            Mode::View => (
-                quote! { inputs, },
-                quote! { inputs: Vec<InputType>, },
-                quote! {
-                    pub fn add_packed_input(&self, input: &PackedInputType,) {
-                        $(add_input_simd_body())
-                    }
-
-                    // TODO(Ohad): consider removing this.
-                    pub fn add_packed_inputs (&self, inputs: &[PackedInputType]) {
-                        $(add_input_simd_body())
-                    }
-                },
-                quote! {mut self, },
-            ),
-            Mode::Builtin => (
+            Mode::NoInputs => (
                 quote! { log_size, },
                 quote! { log_size: u32, },
                 quote! {},
                 quote! {self, },
             ),
-            Mode::Opcode => (
+            Mode::Inputs => (
                 quote! { inputs, },
-                quote! { inputs: Vec<InputType>, },
+                quote! { inputs: $(vec_of_type("InputType")), },
                 quote! {},
                 quote! {mut self, },
             ),
+            Mode::PackedInputs => (
+                quote! { packed_inputs, },
+                quote! { packed_inputs: $(vec_of_type("PackedInputType")), },
+                quote! {
+                    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType]) {
+                        self.packed_inputs.extend(inputs);
+                    }
+                },
+                quote! {mut self, },
+            ),
+            Mode::Mults => (
+                quote! { mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE), },
+                quote! {},
+                quote! {
+                pub fn add_input(&self, _input: &InputType) {
+                    todo!() // Implement manually
+                }
+
+                pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
+                    packed_inputs.into_par_iter().for_each(|packed_input| {
+                        packed_input.unpack().into_iter().for_each(|input| {
+                            self.add_input(&input);
+                        });
+                    });
+                }},
+                quote! {self, },
+            ),
+        };
+        let new_without_default = if self.lists.padding_type == PaddingType::Multiplicity {
+            quote! {#[allow(clippy::new_without_default)]}
+        } else {
+            quote! {}
         };
         for public_param in &self.public_params {
             claim_generator_fields.extend(quote! { $(public_param.name()), });
             claim_generator_parameters.extend(quote! { $(public_param.name()): u32, });
         }
-        let builtins_assertion = match self.mode {
-            Mode::Builtin => {
-                quote! {assert!(log_size >= LOG_N_LANES);}
-            }
-            _ => {
-                quote! {}
-            }
-        };
         quote! {
             impl ClaimGenerator {
+                $new_without_default
                 pub fn new($(claim_generator_parameters)) -> Self {
-                    $builtins_assertion
                     Self { $(claim_generator_fields) }
                 }
 
@@ -250,7 +281,18 @@ impl RustProverGen {
         }
 
         let init_code = match self.mode {
-            Mode::Opcode | Mode::View => quote! {
+            Mode::NoInputs => quote! {
+               let log_size = self.log_size;
+            },
+            Mode::PackedInputs => quote! {
+                assert!(!self.packed_inputs.is_empty());
+                let n_vec_rows = self.packed_inputs.len();
+                let n_rows = n_vec_rows * N_LANES;
+                let packed_size = n_vec_rows.next_power_of_two();
+                let log_size = packed_size.ilog2() + LOG_N_LANES;
+                self.packed_inputs.resize(packed_size, *self.packed_inputs.first().unwrap());
+            },
+            Mode::Inputs => quote! {
                 let n_rows = self.inputs.len();
                 assert_ne!(n_rows, 0);
                 let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
@@ -258,8 +300,8 @@ impl RustProverGen {
                 self.inputs.resize(size, *self.inputs.first().unwrap());
                 let packed_inputs = pack_values(&self.inputs);
             },
-            _ => quote! {
-               let log_size = self.log_size;
+            Mode::Mults => quote! {
+                let mults = self.mults.into_simd_vec();
             },
         };
         let mut interaction_claim_fields = match self.lists.padding_type {
@@ -308,11 +350,15 @@ impl RustProverGen {
     // Generates the parameters for `write_trace_simd` function.
     fn generate_write_trace_simd_params(&self) -> rust::Tokens {
         let mut params = match self.mode {
-            Mode::Opcode | Mode::View => {
-                quote! { n_rows: usize, inputs: $(vec_of_type("PackedInputType")), }
+            Mode::NoInputs => quote! { log_size: u32, },
+            Mode::PackedInputs | Mode::Inputs => {
+                quote! { inputs: $(vec_of_type("PackedInputType")), }
             }
-            _ => quote! { log_size: u32, },
+            Mode::Mults => quote! { mults: $(vec_of_type("PackedM31")), },
         };
+        if self.lists.padding_type == PaddingType::Enabler {
+            params.extend(quote! { n_rows: usize, })
+        }
         for public_param in &self.public_params {
             params.extend(quote! { $(public_param.name()): u32, });
         }
@@ -323,9 +369,14 @@ impl RustProverGen {
     // Generates the arguments for `write_trace_simd` function.
     fn generate_write_trace_simd_args(&self) -> rust::Tokens {
         let mut args = match self.mode {
-            Mode::Opcode | Mode::View => quote! { n_rows, packed_inputs, },
-            _ => quote! { log_size, },
+            Mode::NoInputs => quote! { log_size, },
+            Mode::PackedInputs => quote! { self.packed_inputs, },
+            Mode::Inputs => quote! { packed_inputs, },
+            Mode::Mults => quote! { mults, },
         };
+        if self.lists.padding_type == PaddingType::Enabler {
+            args.extend(quote! { n_rows, })
+        }
         for public_param in &self.public_params {
             args.extend(quote! { self.$(public_param.name()), });
         }
@@ -360,6 +411,9 @@ impl RustProverGen {
                 });
             }
         }
+        if self.lists.padding_type == PaddingType::Multiplicity {
+            members_code.extend(quote! { mults: $(vec_of_type("PackedM31")), })
+        };
 
         quote! {
             #[derive(Uninitialized,IterMut, ParIterMut)]
@@ -420,7 +474,7 @@ impl RustProverGen {
         }
 
         let prelude_code = match self.mode {
-            Mode::Builtin => quote! {
+            Mode::NoInputs | Mode::Mults => quote! {
             let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
             _ => quote! {
@@ -459,15 +513,15 @@ impl RustProverGen {
         };
 
         match self.mode {
-            Mode::Opcode | Mode::View => {
+            Mode::NoInputs | Mode::Mults => {}
+            _ => {
                 lambda_producer.0.extend(quote! {
                    inputs.into_par_iter(),
                 });
                 lambda_producer
                     .1
-                    .extend(quote! { $(&self.lists.name)_input });
+                    .extend(quote! { $(&self.lists.name)_input, });
             }
-            Mode::Builtin => {}
         }
 
         let padding = match self.lists.padding_type {
@@ -874,13 +928,6 @@ fn write_trace_args(context: &[String]) -> rust::Tokens {
     args
 }
 
-// TODO(Ohad): add logic.
-fn add_input_simd_body() -> rust::Tokens {
-    quote! {
-        unimplemented!("Implement manually");
-    }
-}
-
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
 fn simd_parse_air_var(
     expr: &CompiledAirVar,
@@ -1014,11 +1061,6 @@ fn packed_name(ty: &str) -> String {
 
 fn vec_of_type(ty: &str) -> String {
     format!("Vec<{}>", ty)
-}
-
-fn contains_inputs(lists: &CompiledAirFn) -> bool {
-    // No inputs is defined by an empty tuple.
-    lists.prover_input.1 != "()"
 }
 
 fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
