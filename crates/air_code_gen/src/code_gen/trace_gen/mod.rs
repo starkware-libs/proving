@@ -658,6 +658,12 @@ impl RustProverGen {
             PaddingType::Enabler => quote! {
                 *row[$(offset)] = enabler_col.packed_at(row_index);
             },
+            PaddingType::Multiplicity => quote! {
+
+                let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
+                *row[$(offset)] = mult_at_row;
+                *lookup_data.mults = mult_at_row;
+            },
             _ => quote!(),
         });
 
@@ -766,22 +772,27 @@ impl RustProverGen {
                 },
                 "denom0 * denom1",
             );
-            let (for_each, enumerate) = if self.lists.padding_type == PaddingType::Enabler
-                && (is_masked_relation(&self.lists, relation0)
-                    || is_masked_relation(&self.lists, relation1))
-            {
-                (
+            let is_masked = is_masked_relation(&self.lists, relation0)
+                || is_masked_relation(&self.lists, relation1);
+            let (for_each, enumerate, mults) = match self.lists.padding_type {
+                PaddingType::Multiplicity if is_masked => (
+                    quote! { (writer, values0, values1, mults) },
+                    quote! {},
+                    quote! {, self.lookup_data.mults},
+                ),
+                PaddingType::Enabler if is_masked => (
                     quote! { (i, (writer, values0, values1)) },
                     quote! {.enumerate()},
-                )
-            } else {
-                (quote! { (writer, values0, values1)}, quote! {})
+                    quote! {},
+                ),
+                _ => (quote! { (writer, values0, values1)}, quote! {}, quote! {}),
             };
             code.extend(quote! {
                 let mut col_gen = logup_gen.new_col();
                 (col_gen.par_iter_mut(),
                 &self.lookup_data.$(relation_0_snake_case)_$(term0_offset),
-                &self.lookup_data.$(relation_1_snake_case)_$(term1_offset))
+                &self.lookup_data.$(relation_1_snake_case)_$(term1_offset)
+                $mults)
                 .into_par_iter()$enumerate.for_each(|$for_each| {
                 let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
                 let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
@@ -804,19 +815,27 @@ impl RustProverGen {
                 UseOrYield::Use => "",
                 UseOrYield::Yield => "-",
             };
-            let (for_each, enumerate) = if self.lists.padding_type == PaddingType::Enabler
-                && is_masked_relation(&self.lists, &relation_name)
-            {
-                (quote! { (i, (writer, values)) }, quote! {.enumerate()})
-            } else {
-                (quote! { (writer, values)}, quote! {})
+            let is_masked = is_masked_relation(&self.lists, &relation_name);
+            let (for_each, enumerate, mults) = match self.lists.padding_type {
+                PaddingType::Multiplicity if is_masked => (
+                    quote! { (writer, values, mults) },
+                    quote! {},
+                    quote! {, self.lookup_data.mults},
+                ),
+                PaddingType::Enabler if is_masked => (
+                    quote! { (i, (writer, values)) },
+                    quote! {.enumerate()},
+                    quote! {},
+                ),
+                _ => (quote! { (writer, values)}, quote! {}, quote! {}),
             };
             code.extend(quote! {
                     $['\n']$("//")$(format!("Sum last logup term."))
                     let mut col_gen = logup_gen.new_col();
                     (col_gen.par_iter_mut(),
                         &self.lookup_data
-                        .$(relation_name.to_case(Case::Snake))_$(*term_offset))
+                        .$(relation_name.to_case(Case::Snake))_$(*term_offset)
+                        $mults)
                         .into_par_iter()$enumerate.for_each(|$for_each| {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
@@ -1106,6 +1125,7 @@ pub fn mask_relation(lists: &CompiledAirFn, relation_name: &str) -> rust::Tokens
     let is_masked = is_masked_relation(lists, relation_name);
     match lists.padding_type {
         PaddingType::Enabler if is_masked => quote! { * enabler_col.packed_at(i)},
+        PaddingType::Multiplicity if is_masked => quote! { * mults },
         _ => quote! {},
     }
 }

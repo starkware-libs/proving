@@ -267,6 +267,7 @@ pub fn parse_lookup_constraint(
     let is_masked = is_masked_relation(lists, relation_name);
     let numerator = match lists.padding_type {
         PaddingType::Enabler if is_masked => quote! {E::EF::from(enabler.clone())},
+        PaddingType::Multiplicity if is_masked => quote! {E::EF::from(multiplicity)},
         _ => quote! {E::EF::one()},
     };
     if lists.r#type == TraceType::Inline {

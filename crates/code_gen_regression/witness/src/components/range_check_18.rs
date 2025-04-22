@@ -66,11 +66,15 @@ impl InteractionClaimGenerator {
 
         // Sum last logup term.
         let mut col_gen = logup_gen.new_col();
-        (col_gen.par_iter_mut(), &self.lookup_data.range_check_18_0)
+        (
+            col_gen.par_iter_mut(),
+            &self.lookup_data.range_check_18_0,
+            self.lookup_data.mults,
+        )
             .into_par_iter()
-            .for_each(|(writer, values)| {
+            .for_each(|(writer, values, mults)| {
                 let denom = range_check_18.combine(values);
-                writer.write_frac(-PackedQM31::one(), denom);
+                writer.write_frac(-PackedQM31::one() * mults, denom);
             });
         col_gen.finalize_col();
 
