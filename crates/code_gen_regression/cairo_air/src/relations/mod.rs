@@ -2,14 +2,23 @@
 use stwo_prover::relation;
 
 // TODO(Ohad): generate from json and rename these.
+relation!(Cube252, 20);
 relation!(MemoryAddressToId, 2);
 relation!(MemoryIdToBig, 29);
-relation!(Opcodes, 3);
-relation!(RangeCheck_6, 1);
-relation!(RangeCheck_4_3, 2);
-relation!(RangeCheck_7_2_5, 3);
-relation!(VerifyInstruction, 29);
 relation!(NarrowFibNumSteps20, 4);
-relation!(RangeCheck_3_6_6_3, 4);
+relation!(Opcodes, 3);
+relation!(PartialEcMul, 73);
+relation!(PedersenPointsTable, 57);
+relation!(RangeCheck_6, 1);
 relation!(RangeCheck_12, 1);
 relation!(RangeCheck_18, 1);
+relation!(RangeCheck_19, 1);
+relation!(RangeCheck_4_3, 2);
+relation!(RangeCheck_9_9, 2);
+relation!(RangeCheck_7_2_5, 3);
+relation!(RangeCheck_3_6_6_3, 4);
+relation!(RangeCheck_3_3_3_3_3, 5);
+relation!(TripleXor32, 3);
+relation!(VerifyBitwiseXor_7, 3);
+relation!(VerifyBitwiseXor_8, 3);
+relation!(VerifyInstruction, 29);

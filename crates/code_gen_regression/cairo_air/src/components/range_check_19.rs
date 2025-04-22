@@ -5,7 +5,7 @@ pub const LOG_SIZE: u32 = 4;
 
 pub struct Eval {
     pub claim: Claim,
-    pub range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5,
+    pub range_check_19_lookup_elements: relations::RangeCheck_19,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -47,19 +47,13 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let rangecheck_7_2_5_0 = eval.get_preprocessed_column((RangeCheck::new([7, 2, 5], 0)).id());
-        let rangecheck_7_2_5_1 = eval.get_preprocessed_column((RangeCheck::new([7, 2, 5], 1)).id());
-        let rangecheck_7_2_5_2 = eval.get_preprocessed_column((RangeCheck::new([7, 2, 5], 2)).id());
+        let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let multiplicity = eval.next_trace_mask();
 
         eval.add_to_relation(RelationEntry::new(
-            &self.range_check_7_2_5_lookup_elements,
+            &self.range_check_19_lookup_elements,
             -E::EF::from(multiplicity),
-            &[
-                rangecheck_7_2_5_0.clone(),
-                rangecheck_7_2_5_1.clone(),
-                rangecheck_7_2_5_2.clone(),
-            ],
+            &[seq.clone()],
         ));
 
         eval.finalize_logup_in_pairs();
@@ -76,14 +70,14 @@ mod tests {
     use stwo_prover::core::fields::qm31::QM31;
 
     use super::*;
-    use crate::components::constraints_regression_test_values::RANGE_CHECK_7_2_5;
+    use crate::components::constraints_regression_test_values::RANGE_CHECK_19;
 
     #[test]
-    fn range_check_7_2_5_constraints_regression() {
+    fn range_check_19_constraints_regression() {
         let mut rng = SmallRng::seed_from_u64(0);
         let eval = Eval {
             claim: Claim {},
-            range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5::dummy(),
+            range_check_19_lookup_elements: relations::RangeCheck_19::dummy(),
         };
         let expr_eval = eval.evaluate(ExprEvaluator::new());
         let assignment = expr_eval.random_assignment();
@@ -93,6 +87,6 @@ mod tests {
             sum += c.assign(&assignment) * rng.gen::<QM31>();
         }
 
-        assert_eq!(sum, RANGE_CHECK_7_2_5);
+        assert_eq!(sum, RANGE_CHECK_19);
     }
 }

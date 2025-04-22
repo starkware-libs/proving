@@ -1,12 +1,12 @@
 #![allow(unused_parens)]
-use cairo_air::components::range_check_3_6_6_3::{
+use cairo_air::components::verify_bitwise_xor_8::{
     Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS,
 };
 
 use crate::witness::prelude::*;
 
-pub type InputType = [M31; 4];
-pub type PackedInputType = [PackedM31; 4];
+pub type InputType = [M31; 3];
+pub type PackedInputType = [PackedM31; 3];
 
 pub struct ClaimGenerator {
     pub mults: AtomicMultiplicityColumn,
@@ -57,25 +57,18 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
         )
     };
 
-    let rangecheck_3_6_6_3_0 = RangeCheck::new([3, 6, 6, 3], 0);
-    let rangecheck_3_6_6_3_1 = RangeCheck::new([3, 6, 6, 3], 1);
-    let rangecheck_3_6_6_3_2 = RangeCheck::new([3, 6, 6, 3], 2);
-    let rangecheck_3_6_6_3_3 = RangeCheck::new([3, 6, 6, 3], 3);
+    let bitwisexor_8_0 = BitwiseXor::new(8, 0);
+    let bitwisexor_8_1 = BitwiseXor::new(8, 1);
+    let bitwisexor_8_2 = BitwiseXor::new(8, 2);
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut())
         .into_par_iter()
         .enumerate()
         .for_each(|(row_index, (mut row, lookup_data))| {
-            let rangecheck_3_6_6_3_0 = rangecheck_3_6_6_3_0.packed_at(row_index);
-            let rangecheck_3_6_6_3_1 = rangecheck_3_6_6_3_1.packed_at(row_index);
-            let rangecheck_3_6_6_3_2 = rangecheck_3_6_6_3_2.packed_at(row_index);
-            let rangecheck_3_6_6_3_3 = rangecheck_3_6_6_3_3.packed_at(row_index);
-            *lookup_data.range_check_3_6_6_3_0 = [
-                rangecheck_3_6_6_3_0,
-                rangecheck_3_6_6_3_1,
-                rangecheck_3_6_6_3_2,
-                rangecheck_3_6_6_3_3,
-            ];
+            let bitwisexor_8_0 = bitwisexor_8_0.packed_at(row_index);
+            let bitwisexor_8_1 = bitwisexor_8_1.packed_at(row_index);
+            let bitwisexor_8_2 = bitwisexor_8_2.packed_at(row_index);
+            *lookup_data.verify_bitwise_xor_8_0 = [bitwisexor_8_0, bitwisexor_8_1, bitwisexor_8_2];
             let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = mult_at_row;
             *lookup_data.mults = mult_at_row;
@@ -86,7 +79,7 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
 
 #[derive(Uninitialized, IterMut, ParIterMut)]
 struct LookupData {
-    range_check_3_6_6_3_0: Vec<[PackedM31; 4]>,
+    verify_bitwise_xor_8_0: Vec<[PackedM31; 3]>,
     mults: Vec<PackedM31>,
 }
 
@@ -97,7 +90,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
-        range_check_3_6_6_3: &relations::RangeCheck_3_6_6_3,
+        verify_bitwise_xor_8: &relations::VerifyBitwiseXor_8,
     ) -> InteractionClaim {
         let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
 
@@ -105,12 +98,12 @@ impl InteractionClaimGenerator {
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),
-            &self.lookup_data.range_check_3_6_6_3_0,
+            &self.lookup_data.verify_bitwise_xor_8_0,
             self.lookup_data.mults,
         )
             .into_par_iter()
             .for_each(|(writer, values, mults)| {
-                let denom = range_check_3_6_6_3.combine(values);
+                let denom = verify_bitwise_xor_8.combine(values);
                 writer.write_frac(-PackedQM31::one() * mults, denom);
             });
         col_gen.finalize_col();

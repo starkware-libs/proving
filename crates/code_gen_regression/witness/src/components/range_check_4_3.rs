@@ -1,99 +1,112 @@
 #![allow(unused_parens)]
-#![allow(unused_imports)]
-#![allow(unused_variables)]
-#![allow(dead_code)]
-use cairo_air::components::range_check_4_3::{Claim, InteractionClaim, RelationElements};
-use itertools::{chain, zip_eq, Itertools};
-use num_traits::{One, Zero};
-use stwo_cairo_common::prover_types::cpu::*;
-use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
-use stwo_prover::core::air::Component;
-use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
-use stwo_prover::core::backend::simd::qm31::PackedQM31;
-use stwo_prover::core::backend::simd::SimdBackend;
-use stwo_prover::core::backend::{Col, Column};
-use stwo_prover::core::fields::m31::M31;
-use stwo_prover::core::pcs::TreeBuilder;
-use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
-use stwo_prover::core::poly::BitReversedOrder;
-use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
+use cairo_air::components::range_check_4_3::{Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS};
+
+use crate::witness::prelude::*;
 
 pub type InputType = [M31; 2];
 pub type PackedInputType = [PackedM31; 2];
 
-#[derive(Default)]
 pub struct ClaimGenerator {
-    pub inputs: Vec<InputType>,
+    pub mults: AtomicMultiplicityColumn,
+}
+impl Default for ClaimGenerator {
+    fn default() -> Self {
+        Self {
+            mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+        }
+    }
 }
 impl ClaimGenerator {
     pub fn write_trace(
         self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-    ) -> InteractionClaimGenerator {
+        tree_builder: &mut impl TreeBuilder<SimdBackend>,
+    ) -> (Claim, InteractionClaimGenerator) {
+        let mults = self.mults.into_simd_vec();
+
+        let (trace, lookup_data) = write_trace_simd(mults);
+        tree_builder.extend_evals(trace.to_evals());
+
+        (Claim {}, InteractionClaimGenerator { lookup_data })
+    }
+
+    pub fn add_input(&self, _input: &InputType) {
         todo!()
     }
 
-    pub fn add_packed_inputs(&self, addresses: &[PackedInputType]) {
-        todo!()
-    }
-
-    pub fn add_packed_input(&self, input: &PackedInputType) {
-        todo!()
-    }
-}
-
-#[allow(non_snake_case)]
-pub struct SubComponentInputs {}
-impl SubComponentInputs {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {}
+    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
+        packed_inputs.into_par_iter().for_each(|packed_input| {
+            packed_input.unpack().into_iter().for_each(|input| {
+                self.add_input(&input);
+            });
+        });
     }
 }
 
-pub fn write_trace_simd(
-    inputs: Vec<InputType>,
-) -> (
-    Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
-    SubComponentInputs,
-    LookupData,
-) {
-    todo!()
-}
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
-fn write_trace_row(
-    dst: &mut [Col<SimdBackend, M31>],
-    range_check_4_3_input: InputType,
-    row_index: usize,
-    sub_component_inputs: &mut SubComponentInputs,
-    lookup_data: &mut LookupData,
-) {
+#[allow(clippy::double_parens)]
+#[allow(non_snake_case)]
+fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
+    let log_n_packed_rows = LOG_SIZE - LOG_N_LANES;
+    let (mut trace, mut lookup_data) = unsafe {
+        (
+            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(LOG_SIZE),
+            LookupData::uninitialized(log_n_packed_rows),
+        )
+    };
+
+    let rangecheck_4_3_0 = RangeCheck::new([4, 3], 0);
+    let rangecheck_4_3_1 = RangeCheck::new([4, 3], 1);
+
+    (trace.par_iter_mut(), lookup_data.par_iter_mut())
+        .into_par_iter()
+        .enumerate()
+        .for_each(|(row_index, (mut row, lookup_data))| {
+            let rangecheck_4_3_0 = rangecheck_4_3_0.packed_at(row_index);
+            let rangecheck_4_3_1 = rangecheck_4_3_1.packed_at(row_index);
+            *lookup_data.range_check_4_3_0 = [rangecheck_4_3_0, rangecheck_4_3_1];
+            let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
+            *row[0] = mult_at_row;
+            *lookup_data.mults = mult_at_row;
+        });
+
+    (trace, lookup_data)
 }
 
-#[allow(non_snake_case)]
-pub struct LookupData {
-    pub range_check_4_3: [Vec<Vec<PackedM31>>; 1],
-}
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            range_check_4_3: [Vec::with_capacity(capacity)],
-        }
-    }
+#[derive(Uninitialized, IterMut, ParIterMut)]
+struct LookupData {
+    range_check_4_3_0: Vec<[PackedM31; 2]>,
+    mults: Vec<PackedM31>,
 }
 
 pub struct InteractionClaimGenerator {
-    pub claim: Claim,
-    pub lookup_data: LookupData,
+    lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        range_check_n_2_bits_4_3_lookup_elements: &cairo_air::relations::RangeCheck_4_3,
+        tree_builder: &mut impl TreeBuilder<SimdBackend>,
+        range_check_4_3: &relations::RangeCheck_4_3,
     ) -> InteractionClaim {
-        todo!()
+        let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
+
+        // Sum last logup term.
+        let mut col_gen = logup_gen.new_col();
+        (
+            col_gen.par_iter_mut(),
+            &self.lookup_data.range_check_4_3_0,
+            self.lookup_data.mults,
+        )
+            .into_par_iter()
+            .for_each(|(writer, values, mults)| {
+                let denom = range_check_4_3.combine(values);
+                writer.write_frac(-PackedQM31::one() * mults, denom);
+            });
+        col_gen.finalize_col();
+
+        let (trace, claimed_sum) = logup_gen.finalize_last();
+        tree_builder.extend_evals(trace);
+
+        InteractionClaim { claimed_sum }
     }
 }

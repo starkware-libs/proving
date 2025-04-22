@@ -1,44 +1,28 @@
-#![allow(non_camel_case_types)]
-#![allow(unused_imports)]
-use num_traits::One;
-use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
-use stwo_prover::core::backend::simd::m31::PackedM31;
-use stwo_prover::core::channel::Channel;
-use stwo_prover::core::fields::m31::M31;
-use stwo_prover::core::fields::qm31::SecureField;
-use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
-use stwo_prover::core::pcs::TreeVec;
-use stwo_prover::relation;
+use crate::components::prelude::*;
 
-use crate::relations;
-
-relation!(RelationElements, 2);
+pub const N_TRACE_COLUMNS: usize = 1;
+pub const LOG_SIZE: u32 = 4;
 
 pub struct Eval {
     pub claim: Claim,
-    pub interaction_claim: InteractionClaim,
     pub range_check_4_3_lookup_elements: relations::RangeCheck_4_3,
 }
 
-#[derive(Copy, Clone)]
-pub struct Claim {
-    pub log_size: u32,
-    pub n_calls: usize,
-}
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+pub struct Claim {}
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-        let interaction_0_log_sizes = vec![self.log_size; 0];
-        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 4];
-        TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
+        let trace_log_sizes = vec![LOG_SIZE; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![LOG_SIZE; SECURE_EXTENSION_DEGREE];
+        TreeVec::new(vec![vec![], trace_log_sizes, interaction_log_sizes])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_u64(self.log_size as u64);
-        channel.mix_u64(self.n_calls as u64);
+        channel.mix_u64(LOG_SIZE as u64);
     }
 }
 
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
 pub struct InteractionClaim {
     pub claimed_sum: SecureField,
 }
@@ -48,12 +32,11 @@ impl InteractionClaim {
     }
 }
 
-#[allow(non_snake_case)]
 pub type Component = FrameworkComponent<Eval>;
 
 impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
-        self.claim.log_size
+        LOG_SIZE
     }
 
     fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -62,7 +45,49 @@ impl FrameworkEval for Eval {
 
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
-    fn evaluate<E: EvalAtRow>(&self, mut _eval: E) -> E {
-        todo!()
+    #[allow(non_snake_case)]
+    fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let rangecheck_4_3_0 = eval.get_preprocessed_column((RangeCheck::new([4, 3], 0)).id());
+        let rangecheck_4_3_1 = eval.get_preprocessed_column((RangeCheck::new([4, 3], 1)).id());
+        let multiplicity = eval.next_trace_mask();
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.range_check_4_3_lookup_elements,
+            -E::EF::from(multiplicity),
+            &[rangecheck_4_3_0.clone(), rangecheck_4_3_1.clone()],
+        ));
+
+        eval.finalize_logup_in_pairs();
+        eval
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use num_traits::Zero;
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
+    use stwo_prover::constraint_framework::expr::ExprEvaluator;
+    use stwo_prover::core::fields::qm31::QM31;
+
+    use super::*;
+    use crate::components::constraints_regression_test_values::RANGE_CHECK_4_3;
+
+    #[test]
+    fn range_check_4_3_constraints_regression() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let eval = Eval {
+            claim: Claim {},
+            range_check_4_3_lookup_elements: relations::RangeCheck_4_3::dummy(),
+        };
+        let expr_eval = eval.evaluate(ExprEvaluator::new());
+        let assignment = expr_eval.random_assignment();
+
+        let mut sum = QM31::zero();
+        for c in expr_eval.constraints {
+            sum += c.assign(&assignment) * rng.gen::<QM31>();
+        }
+
+        assert_eq!(sum, RANGE_CHECK_4_3);
     }
 }
