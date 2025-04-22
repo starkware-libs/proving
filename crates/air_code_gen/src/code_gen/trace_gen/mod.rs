@@ -134,10 +134,6 @@ impl RustProverGen {
                 #![cfg_attr(rustfmt, rustfmt_skip)]
             });
         };
-        // TODO(Gali): Remove allow dead code.
-        if self.lists.state_names.is_empty() {
-            attributes.append(quote! { #![allow(dead_code)] });
-        };
 
         attributes
     }
