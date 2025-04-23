@@ -17,6 +17,14 @@ impl AirFn for TripleSum32 {
     type In = [UInt32Expr; 3];
     type Out = UInt32Expr;
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("a".to_string()),
+            Some("b".to_string()),
+            Some("c".to_string()),
+        ])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let s = air_builder.deduce_air_var(a.clone() + b.clone() + c.clone(), "triple_sum32_res");
 

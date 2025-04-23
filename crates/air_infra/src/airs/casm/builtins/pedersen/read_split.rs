@@ -26,6 +26,18 @@ impl AirFn for ReadSplit {
     type In = CasmAddress;
     type Out = [Felt252Expr; 3]; // [low, high, original (high << 248 + low)]
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![Some("address".to_string())])
+    }
+
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("high".to_string()),
+            Some("low".to_string()),
+            Some("original".to_string()),
+        ])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
         const LOW_BITS_IN_MS_LIMB: u16 =
             (248 - (FELT252_N_WORDS - 1) * FELT252_BITS_PER_WORD) as u16;

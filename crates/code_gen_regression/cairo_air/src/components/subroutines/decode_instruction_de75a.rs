@@ -11,7 +11,7 @@ impl DecodeInstructionDe75A {
     #[allow(unused_variables)]
     #[allow(clippy::too_many_arguments)]
     pub fn evaluate<E: EvalAtRow>(
-        decode_instruction_de75a_input: E::F,
+        decode_instruction_de75a_input_pc: E::F,
         offset0_col0: E::F,
         dst_base_fp_col1: E::F,
         ap_update_add_1_col2: E::F,
@@ -40,7 +40,7 @@ impl DecodeInstructionDe75A {
             verify_instruction_lookup_elements,
             E::EF::one(),
             &[
-                decode_instruction_de75a_input.clone(),
+                decode_instruction_de75a_input_pc.clone(),
                 offset0_col0.clone(),
                 M31_32767.clone(),
                 M31_32769.clone(),

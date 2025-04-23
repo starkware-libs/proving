@@ -11,7 +11,7 @@
     "[PackedUInt32; 3]"
   ],
   "verifier_input": [
-    "[triple_sum_32_input_limb_0, triple_sum_32_input_limb_1, triple_sum_32_input_limb_2, triple_sum_32_input_limb_3, triple_sum_32_input_limb_4, triple_sum_32_input_limb_5]",
+    "[triple_sum_32_input_a_limb_0, triple_sum_32_input_a_limb_1, triple_sum_32_input_b_limb_0, triple_sum_32_input_b_limb_1, triple_sum_32_input_c_limb_0, triple_sum_32_input_c_limb_1]",
     "[M31; 6]"
   ],
   "prover_output": [
@@ -63,14 +63,14 @@
                         {
                           "Var": [
                             "M31",
-                            "triple_sum_32_input_limb_0"
+                            "triple_sum_32_input_a_limb_0"
                           ]
                         },
                         "+",
                         {
                           "Var": [
                             "M31",
-                            "triple_sum_32_input_limb_2"
+                            "triple_sum_32_input_b_limb_0"
                           ]
                         }
                       ]
@@ -79,7 +79,7 @@
                     {
                       "Var": [
                         "M31",
-                        "triple_sum_32_input_limb_4"
+                        "triple_sum_32_input_c_limb_0"
                       ]
                     }
                   ]
@@ -173,14 +173,14 @@
                             {
                               "Var": [
                                 "M31",
-                                "triple_sum_32_input_limb_1"
+                                "triple_sum_32_input_a_limb_1"
                               ]
                             },
                             "+",
                             {
                               "Var": [
                                 "M31",
-                                "triple_sum_32_input_limb_3"
+                                "triple_sum_32_input_b_limb_1"
                               ]
                             }
                           ]
@@ -189,7 +189,7 @@
                         {
                           "Var": [
                             "M31",
-                            "triple_sum_32_input_limb_5"
+                            "triple_sum_32_input_c_limb_1"
                           ]
                         }
                       ]

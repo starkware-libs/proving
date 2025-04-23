@@ -75,19 +75,14 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
         name: String,
         expr_descriptions: Option<Vec<Option<String>>>,
     ) -> (Self, Vec<Intermediate>) {
-        let (mut res, mut interm0) = self.let_for_deduction(name.clone());
+        let (mut res, interm0) = self.let_for_deduction(name.clone());
 
-        // When the expression is a single felt, create an intermediate known both in deductions and
-        // constraints.
+        // When the expression is a single felt that is directly in state, no intermediates
+        // are neccessary.
         if let AirVarImpl::Expr(ExprImpl::Felt(f)) = self.clone().into() {
             if f.is_directly_in_state() {
                 return (self.clone(), vec![]);
             }
-            // Cast <res> into a mut felt expression.
-            let res_as_felt = res.as_felts_mut().into_iter().next().expect("No felts");
-            res_as_felt.let_for_constraint(name.clone());
-            interm0.visibility.in_constraints = true;
-            return (res, vec![interm0]);
         }
 
         // We have to create the variable for <self> before its felts, because <let_> creates
@@ -371,7 +366,7 @@ impl AirVarImpl {
     ) -> String {
         let limbs = self.as_limbs();
         match limbs {
-            AirVarImpl::Expr(ExprImpl::Felt(_)) => name,
+            AirVarImpl::Expr(ExprImpl::Felt(_)) => self.get_limb_name(&name, 0, &expr_descriptions),
             AirVarImpl::Array(vars) => {
                 if vars.is_empty() {
                     return "()".to_string();
@@ -405,7 +400,13 @@ impl AirVarImpl {
         match (expr_desc, expr_size) {
             (Some(expr_desc), 1) => format!("{}_{}", name, expr_desc),
             (Some(expr_desc), _) => format!("{}_{}_limb_{}", name, expr_desc, felt_in_expr_i),
-            _ => format!("{}_limb_{}", name, index),
+            (None, _) => {
+                if self.as_felts().len() == 1 {
+                    name.to_string()
+                } else {
+                    format!("{}_limb_{}", name, index)
+                }
+            }
         }
     }
 

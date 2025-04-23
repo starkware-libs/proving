@@ -18,6 +18,15 @@ impl AirFn for ECAdd {
     type In = [Felt252Expr; 4];
     type Out = [Felt252Expr; 2];
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("x1".to_string()),
+            Some("y1".to_string()),
+            Some("x2".to_string()),
+            Some("y2".to_string()),
+        ])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), [x1, y1, x2, y2]: Self::In) -> Self::Out {
         let x_diff = air_builder.call(&Sub252 {}, [x2.clone(), x1.clone()]);
         let x_sum = air_builder.call(&Add252 {}, [x2, x1.clone()]);

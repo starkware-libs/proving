@@ -26,6 +26,16 @@ impl AirFn for PoseidonPartialRound {
     type In = ([Felt252Width27Expr; 4], Felt252Width27Expr);
     type Out = [Felt252Width27Expr; 4];
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("z0_3".to_string()),
+            Some("z1".to_string()),
+            Some("z1_3".to_string()),
+            Some("z2".to_string()),
+            Some("half_key".to_string()),
+        ])
+    }
+
     fn call(
         &self,
         air_builder: &mut AirBuilder,

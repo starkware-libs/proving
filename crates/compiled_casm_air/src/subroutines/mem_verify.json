@@ -11,7 +11,7 @@
     "(PackedM31, PackedFelt252)"
   ],
   "verifier_input": [
-    "[mem_verify_input_limb_0, mem_verify_input_limb_1, mem_verify_input_limb_2, mem_verify_input_limb_3, mem_verify_input_limb_4, mem_verify_input_limb_5, mem_verify_input_limb_6, mem_verify_input_limb_7, mem_verify_input_limb_8, mem_verify_input_limb_9, mem_verify_input_limb_10, mem_verify_input_limb_11, mem_verify_input_limb_12, mem_verify_input_limb_13, mem_verify_input_limb_14, mem_verify_input_limb_15, mem_verify_input_limb_16, mem_verify_input_limb_17, mem_verify_input_limb_18, mem_verify_input_limb_19, mem_verify_input_limb_20, mem_verify_input_limb_21, mem_verify_input_limb_22, mem_verify_input_limb_23, mem_verify_input_limb_24, mem_verify_input_limb_25, mem_verify_input_limb_26, mem_verify_input_limb_27, mem_verify_input_limb_28]",
+    "[mem_verify_input_address, mem_verify_input_value_limb_0, mem_verify_input_value_limb_1, mem_verify_input_value_limb_2, mem_verify_input_value_limb_3, mem_verify_input_value_limb_4, mem_verify_input_value_limb_5, mem_verify_input_value_limb_6, mem_verify_input_value_limb_7, mem_verify_input_value_limb_8, mem_verify_input_value_limb_9, mem_verify_input_value_limb_10, mem_verify_input_value_limb_11, mem_verify_input_value_limb_12, mem_verify_input_value_limb_13, mem_verify_input_value_limb_14, mem_verify_input_value_limb_15, mem_verify_input_value_limb_16, mem_verify_input_value_limb_17, mem_verify_input_value_limb_18, mem_verify_input_value_limb_19, mem_verify_input_value_limb_20, mem_verify_input_value_limb_21, mem_verify_input_value_limb_22, mem_verify_input_value_limb_23, mem_verify_input_value_limb_24, mem_verify_input_value_limb_25, mem_verify_input_value_limb_26, mem_verify_input_value_limb_27]",
     "[M31; 29]"
   ],
   "prover_output": [
@@ -47,7 +47,7 @@
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_0"
+              "mem_verify_input_address"
             ]
           },
           {
@@ -67,169 +67,169 @@
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_1"
+              "mem_verify_input_value_limb_0"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_2"
+              "mem_verify_input_value_limb_1"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_3"
+              "mem_verify_input_value_limb_2"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_4"
+              "mem_verify_input_value_limb_3"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_5"
+              "mem_verify_input_value_limb_4"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_6"
+              "mem_verify_input_value_limb_5"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_7"
+              "mem_verify_input_value_limb_6"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_8"
+              "mem_verify_input_value_limb_7"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_9"
+              "mem_verify_input_value_limb_8"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_10"
+              "mem_verify_input_value_limb_9"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_11"
+              "mem_verify_input_value_limb_10"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_12"
+              "mem_verify_input_value_limb_11"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_13"
+              "mem_verify_input_value_limb_12"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_14"
+              "mem_verify_input_value_limb_13"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_15"
+              "mem_verify_input_value_limb_14"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_16"
+              "mem_verify_input_value_limb_15"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_17"
+              "mem_verify_input_value_limb_16"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_18"
+              "mem_verify_input_value_limb_17"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_19"
+              "mem_verify_input_value_limb_18"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_20"
+              "mem_verify_input_value_limb_19"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_21"
+              "mem_verify_input_value_limb_20"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_22"
+              "mem_verify_input_value_limb_21"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_23"
+              "mem_verify_input_value_limb_22"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_24"
+              "mem_verify_input_value_limb_23"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_25"
+              "mem_verify_input_value_limb_24"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_26"
+              "mem_verify_input_value_limb_25"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_27"
+              "mem_verify_input_value_limb_26"
             ]
           },
           {
             "Var": [
               "M31",
-              "mem_verify_input_limb_28"
+              "mem_verify_input_value_limb_27"
             ]
           }
         ],

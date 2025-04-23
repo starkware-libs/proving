@@ -11,7 +11,7 @@
     "[PackedM31; 2]"
   ],
   "verifier_input": [
-    "[mem_verify_equal_input_limb_0, mem_verify_equal_input_limb_1]",
+    "[mem_verify_equal_input_address1, mem_verify_equal_input_address2]",
     "[M31; 2]"
   ],
   "prover_output": [
@@ -46,7 +46,7 @@
           {
             "Var": [
               "M31",
-              "mem_verify_equal_input_limb_0"
+              "mem_verify_equal_input_address1"
             ]
           },
           {
@@ -63,7 +63,7 @@
           {
             "Var": [
               "M31",
-              "mem_verify_equal_input_limb_1"
+              "mem_verify_equal_input_address2"
             ]
           },
           {
