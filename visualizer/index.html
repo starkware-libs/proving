@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script lang="javascript" src="main.js" type="module"></script>
+    </head>
+    <style>
+.template-range {
+    color: blue
+}
+
+.constraint {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.constraint-comment {
+    color: green;
+}
+
+.air-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.panel-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.code-font {
+    font-family: monospace;
+    font-size: 12pt;
+}
+
+.highlighted-full {
+    background: yellow;
+}
+
+.highlighted-half {
+    background: repeating-linear-gradient(45deg,
+                        yellow,
+                        yellow 7px,
+                        transparent 7px,
+                        transparent 14px);
+}
+
+.highlighted-none {
+    background: transparent;
+}
+    </style>
+    <body>
+        <select id="component_select">
+            <option value="">Choose a component</option>
+        </select>
+        <br/><br/>
+        <div class="panel-title">Instance definition (decode_instruction only)</div>
+        <div class="code-font" id="inst_def_panel"></div>
+        <br/>
+        <div class="panel-title">Inputs</div>
+        <div class="code-font" id="inputs_panel" style="display: flex;"></div>
+        <br/>
+        <div class="panel-title" id="cells_panel_title">State Cells</div>
+        <div class="code-font" id="cells_panel" style="display: flex;"></div>
+        <br/>
+        <div class="panel-title">Variables</div>
+        <div class="code-font" id="vars_panel" style="display: flex;"></div>
+        <br/>
+        <div class="panel-title">Constraints</div>
+        <div class="code-font" id="constraints_panel"></div>
+        <br/>
+        <div class="panel-title">Output</div>
+        <div class="code-font" id="output_panel"></div>
+    </body>
+</html>
