@@ -299,7 +299,7 @@
   },
   "poseidon_builtin": {
     "trace_type": "Builtin",
-    "num_state_cols": 347,
+    "num_state_cols": 341,
     "lookup_use_cols": {
       "MemoryAddressToId": 6,
       "MemoryIdToBig": 6,
@@ -324,8 +324,8 @@
     },
     "lookup_yield": false,
     "padding_type": "None",
-    "total_num_trace_cols": 407,
-    "trace_cells_upper_bound": 47945
+    "total_num_trace_cols": 401,
+    "trace_cells_upper_bound": 47939
   },
   "range_check_5_4": {
     "trace_type": "Component",
@@ -378,7 +378,7 @@
   },
   "pedersen_builtin": {
     "trace_type": "Builtin",
-    "num_state_cols": 359,
+    "num_state_cols": 351,
     "lookup_use_cols": {
       "RangeCheck_5_4": 2,
       "MemoryAddressToId": 3,
@@ -395,8 +395,8 @@
     },
     "lookup_yield": false,
     "padding_type": "None",
-    "total_num_trace_cols": 391,
-    "trace_cells_upper_bound": 27391
+    "total_num_trace_cols": 383,
+    "trace_cells_upper_bound": 27383
   },
   "range_check_7_2_5": {
     "trace_type": "Component",
@@ -945,7 +945,7 @@
   },
   "blake_compress_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 170,
+    "num_state_cols": 168,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 20,
@@ -967,7 +967,7 @@
     },
     "lookup_yield": true,
     "padding_type": "Enabler",
-    "total_num_trace_cols": 319,
-    "trace_cells_upper_bound": 11087
+    "total_num_trace_cols": 317,
+    "trace_cells_upper_bound": 11085
   }
 }

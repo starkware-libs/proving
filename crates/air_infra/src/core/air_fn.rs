@@ -598,10 +598,9 @@ impl AirBuilder {
         let mut output = <(ChainIdVar, RoundNumVar, S)>::new("".to_string(), None);
 
         let call_index = self.component_context.get_chain_call_index(air_fn);
-        let chain_id = self.call_external_table(&Seq {})
-            * const_expr!(air_fn.number_of_chains() as u32)
+        let chain_id = self.call_external_table(&Seq {}) * const_expr!(air_fn.number_of_chains())
             + const_expr!(call_index);
-        let mut input = (chain_id, const_expr!(first_round as u32), state);
+        let mut input = (chain_id.clone(), const_expr!(first_round), state);
 
         // Yield the input to the first round.
         self.air_body.push(AirBodyComponent::LookupTerm {
@@ -633,24 +632,33 @@ impl AirBuilder {
             );
         }
 
-        // TODO(AnatG): Consider not deducing the const parts of the output.
-        // Deduce the output of the last round.
         // Output already has name <output_name>, but in run mode it might not be a variable.
         output = output.let_for_deduction(output_name).0;
+
+        // Deduce the output of the last round.
+        let mut final_state = output.2;
+        let final_state_descriptions = air_fn
+            .output_expr_descriptions()
+            .map(|descrs| descrs.split_at(2).1.to_vec());
         self.deduce_intermediate_var(
-            &mut output,
+            &mut final_state,
             &format!("{}_{}", air_fn.name(), STATE_OUTPUT_VAR_SUFFIX),
-            air_fn.output_expr_descriptions(),
+            final_state_descriptions,
         );
 
         // Use the output of the last round.
         self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
-            felts: output.as_felts(),
+            felts: (
+                chain_id,
+                const_expr!(first_round + num_of_rounds),
+                final_state.clone(),
+            )
+                .as_felts(),
             use_or_yield: UseOrYield::Use,
         });
 
-        output.2
+        final_state
     }
 
     fn lookup_add_input_and_compute<E, I, O>(
