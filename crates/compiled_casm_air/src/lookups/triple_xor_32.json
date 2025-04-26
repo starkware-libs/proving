@@ -68,14 +68,24 @@
     "xor_col18",
     "xor_col19"
   ],
-  "lookup_names": {
-    "VerifyBitwiseXor_8": 8,
-    "TripleXor32": 1
-  },
+  "lookup_names": [
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "TripleXor32"
+  ],
   "inline_calls": {
     "bitwise_xor_num_bits_8": [
       [
-        "VerifyBitwiseXor_8"
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ]
       ],
       [],
       []

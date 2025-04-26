@@ -10,6 +10,7 @@ use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
+use indexmap::IndexSet;
 use itertools::Itertools;
 
 use super::utils::get_variable_name;
@@ -117,18 +118,14 @@ pub fn parse_eval_constraint(
             format!("{}({})", id, arg_str)
         }
         CompiledAirVar::MethodCall(id, func, args) => {
-            let mut arg_str = String::new();
-            for (i, arg) in args.iter().enumerate() {
-                if i > 0 {
-                    arg_str.push_str(", ");
-                }
-                arg_str.push_str(&parse_eval_constraint(air_fn, arg, constant_names));
-            }
             format!(
                 "{}.{}({})",
                 parse_eval_constraint(air_fn, id, constant_names),
                 func,
-                arg_str
+                args.iter()
+                    .map(|arg| parse_eval_constraint(air_fn, arg, constant_names))
+                    .collect_vec()
+                    .join(", ")
             )
         }
         CompiledAirVar::Var(_, id) => id.to_string() + ".clone()",
@@ -201,14 +198,15 @@ fn gen_evaluate_call(
         .collect::<Vec<_>>();
     let inline_fn = id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
     let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
-    for relation in relations {
+    let relation_names = relations
+        .iter()
+        .map(|(relation, _)| relation.to_case(Case::Snake))
+        .collect::<IndexSet<_>>();
+    for relation in relation_names {
         if air_fn.r#type == TraceType::Inline {
-            arg_str.push(format!("{}_lookup_elements", relation.to_case(Case::Snake)));
+            arg_str.push(format!("{relation}_lookup_elements"));
         } else {
-            arg_str.push(format!(
-                "&self.{}_lookup_elements",
-                relation.to_case(Case::Snake)
-            ));
+            arg_str.push(format!("&self.{relation}_lookup_elements"));
         }
     }
     for param in params {

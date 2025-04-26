@@ -220,24 +220,38 @@
     "op1_limb_27_col100",
     "sub_p_bit_col101"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 3,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_bc3cd": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_252": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

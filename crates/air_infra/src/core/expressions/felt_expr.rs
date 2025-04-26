@@ -34,8 +34,7 @@ pub enum StateInfo {
     // polynomial expression in the state (for example, a value read from the memory and not
     // written to the state yet).
     DegPolyOfState(Option<usize>),
-    // The felt is in  an external state (a preprocessed column). The arguments are the name of
-    // the preprocessed column class, and the arguments its constructor.
+    // The felt is in  an external state (a preprocessed column).
     ExternalState(ExternalState),
     // The felt is one of the public parameters.
     PublicParam(PublicParam),

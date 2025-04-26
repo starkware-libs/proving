@@ -56,21 +56,29 @@
     "xor_col6",
     "xor_col7"
   ],
-  "lookup_names": {
-    "VerifyBitwiseXor_7": 2,
-    "VerifyBitwiseXor_9": 2
-  },
+  "lookup_names": [
+    "VerifyBitwiseXor_7",
+    "VerifyBitwiseXor_9",
+    "VerifyBitwiseXor_7",
+    "VerifyBitwiseXor_9"
+  ],
   "inline_calls": {
     "bitwise_xor_num_bits_7": [
       [
-        "VerifyBitwiseXor_7"
+        [
+          "VerifyBitwiseXor_7",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "bitwise_xor_num_bits_9": [
       [
-        "VerifyBitwiseXor_9"
+        [
+          "VerifyBitwiseXor_9",
+          "Use"
+        ]
       ],
       [],
       []

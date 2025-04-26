@@ -48,17 +48,26 @@
     "high_5_ms_bits_col4",
     "id_col5"
   ],
-  "lookup_names": {
-    "RangeCheck_7_2_5": 1,
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "verify_blake_word": [
       [
-        "RangeCheck_7_2_5",
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

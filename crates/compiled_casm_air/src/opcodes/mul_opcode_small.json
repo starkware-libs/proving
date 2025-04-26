@@ -154,40 +154,73 @@
     "carry_3_col34",
     "carry_5_col35"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 3,
-    "RangeCheck_11": 3,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_11",
+    "RangeCheck_11",
+    "RangeCheck_11",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_4b8cf": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_36": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_72": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "verify_mul_small": [
       [
-        "RangeCheck_11"
+        [
+          "RangeCheck_11",
+          "Use"
+        ],
+        [
+          "RangeCheck_11",
+          "Use"
+        ],
+        [
+          "RangeCheck_11",
+          "Use"
+        ]
       ],
       [],
       []

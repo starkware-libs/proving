@@ -459,23 +459,19 @@ impl AirBody {
 
     // Returns the names of the lookup relations used or yielded by the air function, and the number
     // of terms per relation.
-    pub fn get_lookup_names(&self) -> IndexMap<String, usize> {
-        let mut lookup_calls = IndexMap::new();
+    pub fn get_lookup_names(&self) -> Vec<(String, UseOrYield)> {
+        let mut lookup_calls = vec![];
         for component in &self.0 {
             match component {
                 AirBodyComponent::Call(f) => {
-                    for (relation_name, n_uses) in f.air_body.get_lookup_names() {
-                        let v = lookup_calls.entry(relation_name.clone()).or_insert(0);
-                        *v += n_uses;
-                    }
+                    lookup_calls.extend(f.air_body.get_lookup_names());
                 }
                 AirBodyComponent::LookupTerm {
                     relation_name,
-                    use_or_yield: _,
+                    use_or_yield,
                     ..
                 } => {
-                    let v = lookup_calls.entry(relation_name.clone()).or_insert(0);
-                    *v += 1;
+                    lookup_calls.push((relation_name.clone(), *use_or_yield));
                 }
                 _ => (),
             }

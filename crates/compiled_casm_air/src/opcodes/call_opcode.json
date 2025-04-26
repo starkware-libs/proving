@@ -200,24 +200,38 @@
     "next_pc_limb_1_col14",
     "next_pc_limb_2_col15"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 3,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_fdb6e": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_27": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

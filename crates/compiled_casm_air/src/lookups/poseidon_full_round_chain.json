@@ -305,30 +305,59 @@
     "combination_limb_9_col123",
     "p_coef_col124"
   ],
-  "lookup_names": {
-    "Cube252": 3,
-    "PoseidonRoundKeys": 1,
-    "RangeCheck_3_3_3_3_3": 6,
-    "PoseidonFullRoundChain": 2
-  },
+  "lookup_names": [
+    "Cube252",
+    "Cube252",
+    "Cube252",
+    "PoseidonRoundKeys",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "PoseidonFullRoundChain",
+    "PoseidonFullRoundChain"
+  ],
   "inline_calls": {
     "linear_combination_n_4_coefs_1_1_m2_1": [
       [
-        "RangeCheck_3_3_3_3_3"
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "linear_combination_n_4_coefs_1_m1_1_1": [
       [
-        "RangeCheck_3_3_3_3_3"
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "linear_combination_n_4_coefs_3_1_1_1": [
       [
-        "RangeCheck_3_3_3_3_3"
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ]
       ],
       [],
       []

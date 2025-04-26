@@ -8,13 +8,14 @@ use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
+use indexmap::IndexSet;
 use itertools::chain;
 
-use super::parse::seek_consts;
-use super::utils::{get_variable_name, replace_generics_with_turbofish};
-use crate::code_gen::parse::{
+use super::parse::{
     constraint_consts, is_const_size_component, parse_eval_constraint, parse_lookup_constraint,
+    seek_consts,
 };
+use super::utils::{get_variable_name, replace_generics_with_turbofish};
 
 pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
@@ -81,7 +82,7 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for relation in lists.lookup_names.keys() {
+    for relation in lists.lookup_names.iter().collect::<IndexSet<_>>() {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
         });
@@ -138,7 +139,7 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
             $(state_name): E::F,
         });
     }
-    for relation in lists.lookup_names.keys() {
+    for relation in lists.lookup_names.iter().collect::<IndexSet<_>>() {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
         });
@@ -209,7 +210,7 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     });
 
     // Sub-components Lookup elements.
-    for relation in lists.lookup_names.keys() {
+    for relation in lists.lookup_names.iter().collect::<IndexSet<_>>() {
         members.append(quote! {
             pub $(&relation.to_case(Case::Snake))_lookup_elements: relations::$(relation),
         });
@@ -265,7 +266,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 pub fn get_n_logup_columns(lists: &CompiledAirFn) -> rust::Tokens {
-    let n_lookup_terms: usize = lists.lookup_names.values().sum();
+    let n_lookup_terms: usize = lists.lookup_names.len();
     match n_lookup_terms {
         0 => unimplemented!(),
         1..=2 => quote!(SECURE_EXTENSION_DEGREE),

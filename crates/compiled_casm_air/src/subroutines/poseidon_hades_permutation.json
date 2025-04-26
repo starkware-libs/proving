@@ -345,15 +345,29 @@
     "poseidon_full_round_chain_output_limb_30_col201",
     "poseidon_full_round_chain_output_limb_31_col202"
   ],
-  "lookup_names": {
-    "PoseidonFullRoundChain": 4,
-    "RangeCheckFelt252Width27": 2,
-    "Cube252": 2,
-    "RangeCheck_3_3_3_3_3": 2,
-    "RangeCheck_4_4_4_4": 6,
-    "RangeCheck_4_4": 3,
-    "Poseidon3PartialRoundsChain": 2
-  },
+  "lookup_names": [
+    "PoseidonFullRoundChain",
+    "PoseidonFullRoundChain",
+    "RangeCheckFelt252Width27",
+    "RangeCheckFelt252Width27",
+    "Cube252",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "Cube252",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "Poseidon3PartialRoundsChain",
+    "Poseidon3PartialRoundsChain",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "PoseidonFullRoundChain",
+    "PoseidonFullRoundChain"
+  ],
   "inline_calls": {
     "linear_combination_n_2_coefs_1_1": [
       [],
@@ -362,23 +376,50 @@
     ],
     "linear_combination_n_4_coefs_1_1_m2_1": [
       [
-        "RangeCheck_3_3_3_3_3"
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "linear_combination_n_4_coefs_4_2_1_1": [
       [
-        "RangeCheck_4_4_4_4",
-        "RangeCheck_4_4"
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "linear_combination_n_4_coefs_4_2_m2_1": [
       [
-        "RangeCheck_4_4_4_4",
-        "RangeCheck_4_4"
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4",
+          "Use"
+        ]
       ],
       [],
       []

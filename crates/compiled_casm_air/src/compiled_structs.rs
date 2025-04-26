@@ -29,8 +29,8 @@ pub struct CompiledAirFn {
 
     pub state_names: Vec<String>,
 
-    // The names of the lookup relations used/yielded and the number of terms per relation.
-    pub lookup_names: IndexMap<String, usize>,
+    // The names of the lookup relations used/yielded.
+    pub lookup_names: Vec<String>,
 
     // The names of the air functions that are inlined into this one, with their lookup names,
     // public params, and external states.
@@ -38,7 +38,7 @@ pub struct CompiledAirFn {
     pub inline_calls: IndexMap<
         String,
         (
-            IndexSet<String>,
+            Vec<(String, UseOrYield)>,
             IndexSet<PublicParam>,
             IndexSet<ExternalState>,
         ),

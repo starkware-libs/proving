@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 
 use super::air_body::*;
 use super::air_fn::*;
@@ -55,10 +55,7 @@ impl AirFnEntry {
                 (
                     n.clone(),
                     (
-                        ab.get_lookup_names()
-                            .keys()
-                            .cloned()
-                            .collect::<IndexSet<String>>(),
+                        ab.get_lookup_names().clone(),
                         ab.get_public_params().clone(),
                         ab.get_external_states().clone(),
                     ),
@@ -105,7 +102,12 @@ impl AirFnEntry {
                 self.output.verifier_type(),
             ),
             state_names: self.state.get_state_names(),
-            lookup_names: self.air_body.get_lookup_names(),
+            lookup_names: self
+                .air_body
+                .get_lookup_names()
+                .into_iter()
+                .map(|(name, _)| name)
+                .collect(),
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),

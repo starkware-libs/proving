@@ -110,22 +110,34 @@
     "mem_dst_base_col6",
     "dst_id_col7"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 2,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_161c9": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "mem_verify_equal": [
       [
-        "MemoryAddressToId"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
       ],
       [],
       []

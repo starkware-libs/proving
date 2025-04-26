@@ -626,25 +626,61 @@
     "xor_col52",
     "xor_col53"
   ],
-  "lookup_names": {
-    "RangeCheck_7_2_5": 8,
-    "MemoryAddressToId": 8,
-    "MemoryIdToBig": 8,
-    "VerifyBitwiseXor_8": 4
-  },
+  "lookup_names": [
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8"
+  ],
   "inline_calls": {
     "bitwise_xor_num_bits_8": [
       [
-        "VerifyBitwiseXor_8"
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_blake_word": [
       [
-        "RangeCheck_7_2_5",
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

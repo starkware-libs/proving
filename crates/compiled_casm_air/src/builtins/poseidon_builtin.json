@@ -379,17 +379,41 @@
     "unpacked_limb_25_col345",
     "output_state_2_id_col346"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 6,
-    "MemoryIdToBig": 6,
-    "PoseidonFullRoundChain": 4,
-    "RangeCheckFelt252Width27": 2,
-    "Cube252": 2,
-    "RangeCheck_3_3_3_3_3": 2,
-    "RangeCheck_4_4_4_4": 6,
-    "RangeCheck_4_4": 3,
-    "Poseidon3PartialRoundsChain": 2
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "PoseidonFullRoundChain",
+    "PoseidonFullRoundChain",
+    "RangeCheckFelt252Width27",
+    "RangeCheckFelt252Width27",
+    "Cube252",
+    "RangeCheck_3_3_3_3_3",
+    "RangeCheck_3_3_3_3_3",
+    "Cube252",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "Poseidon3PartialRoundsChain",
+    "Poseidon3PartialRoundsChain",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "PoseidonFullRoundChain",
+    "PoseidonFullRoundChain",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "felt_252_unpack_from_27": [
       [],
@@ -398,21 +422,104 @@
     ],
     "mem_verify": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "poseidon_hades_permutation": [
       [
-        "PoseidonFullRoundChain",
-        "RangeCheckFelt252Width27",
-        "Cube252",
-        "RangeCheck_3_3_3_3_3",
-        "RangeCheck_4_4_4_4",
-        "RangeCheck_4_4",
-        "Poseidon3PartialRoundsChain"
+        [
+          "PoseidonFullRoundChain",
+          "Yield"
+        ],
+        [
+          "PoseidonFullRoundChain",
+          "Use"
+        ],
+        [
+          "RangeCheckFelt252Width27",
+          "Use"
+        ],
+        [
+          "RangeCheckFelt252Width27",
+          "Use"
+        ],
+        [
+          "Cube252",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_3_3_3_3",
+          "Use"
+        ],
+        [
+          "Cube252",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4",
+          "Use"
+        ],
+        [
+          "Poseidon3PartialRoundsChain",
+          "Yield"
+        ],
+        [
+          "Poseidon3PartialRoundsChain",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4",
+          "Use"
+        ],
+        [
+          "PoseidonFullRoundChain",
+          "Yield"
+        ],
+        [
+          "PoseidonFullRoundChain",
+          "Use"
+        ]
       ],
       [],
       [
@@ -425,8 +532,14 @@
     ],
     "read_positive_num_bits_252": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

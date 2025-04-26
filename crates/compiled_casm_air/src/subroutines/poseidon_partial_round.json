@@ -270,12 +270,13 @@
     "combination_limb_9_col30",
     "p_coef_col31"
   ],
-  "lookup_names": {
-    "Cube252": 1,
-    "RangeCheck_4_4_4_4": 2,
-    "RangeCheck_4_4": 1,
-    "RangeCheckFelt252Width27": 1
-  },
+  "lookup_names": [
+    "Cube252",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4",
+    "RangeCheckFelt252Width27"
+  ],
   "inline_calls": {
     "linear_combination_n_1_coefs_2": [
       [],
@@ -284,8 +285,18 @@
     ],
     "linear_combination_n_6_coefs_4_2_3_1_m1_1": [
       [
-        "RangeCheck_4_4_4_4",
-        "RangeCheck_4_4"
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4",
+          "Use"
+        ]
       ],
       [],
       []

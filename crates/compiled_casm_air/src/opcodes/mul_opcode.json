@@ -247,32 +247,184 @@
     "carry_25_col127",
     "carry_26_col128"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 3,
-    "RangeCheck_19": 28,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_4b8cf": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_252": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "verify_mul_252": [
       [
-        "RangeCheck_19"
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_19",
+          "Use"
+        ]
       ],
       [],
       []

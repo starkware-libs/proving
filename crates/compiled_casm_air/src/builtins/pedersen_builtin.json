@@ -391,34 +391,71 @@
     "partial_ec_mul_output_limb_72_col357",
     "pedersen_result_id_col358"
   ],
-  "lookup_names": {
-    "RangeCheck_5_4": 2,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 3,
-    "RangeCheck_8": 4,
-    "PartialEcMul": 8
-  },
+  "lookup_names": [
+    "RangeCheck_5_4",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_5_4",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_8",
+    "RangeCheck_8",
+    "RangeCheck_8",
+    "RangeCheck_8",
+    "PartialEcMul",
+    "PartialEcMul",
+    "PartialEcMul",
+    "PartialEcMul",
+    "PartialEcMul",
+    "PartialEcMul",
+    "PartialEcMul",
+    "PartialEcMul",
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "mem_verify": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_split": [
       [
-        "RangeCheck_5_4",
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "RangeCheck_5_4",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "verify_reduced_252": [
       [
-        "RangeCheck_8"
+        [
+          "RangeCheck_8",
+          "Use"
+        ],
+        [
+          "RangeCheck_8",
+          "Use"
+        ]
       ],
       [],
       []

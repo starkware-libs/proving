@@ -801,16 +801,22 @@
     "ms_limb_high_col28",
     "id_col29"
   ],
-  "lookup_names": {
-    "RangeCheck_5_4": 1,
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "RangeCheck_5_4",
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "mem_verify": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
