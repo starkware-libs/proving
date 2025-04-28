@@ -17,6 +17,10 @@ impl AirFn for MemVerify {
     type In = (CasmAddress, Felt252Expr);
     type Out = ();
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![Some("address".to_string()), Some("value".to_string())])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), (address, value): Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
         air_builder.deduce(

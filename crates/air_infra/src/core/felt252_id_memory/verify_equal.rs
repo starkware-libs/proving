@@ -17,6 +17,13 @@ impl AirFn for MemVerifyEqual {
     type In = [CasmAddress; 2];
     type Out = ();
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("address1".to_string()),
+            Some("address2".to_string()),
+        ])
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), [addr1, addr2]: Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1);
         air_builder.deduce(
