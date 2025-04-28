@@ -1,6 +1,7 @@
 {
   "name": "verify_instruction",
   "relation_name": "VerifyInstruction",
+  "relation_size": 7,
   "description": "Verify Instruction",
   "instance_definition": "{}",
   "type": "Component",
@@ -47,26 +48,38 @@
     "offset2_high_col14",
     "instruction_id_col15"
   ],
-  "lookup_names": {
-    "RangeCheck_7_2_5": 1,
-    "RangeCheck_4_3": 1,
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1,
-    "VerifyInstruction": 1
-  },
+  "lookup_names": [
+    "RangeCheck_7_2_5",
+    "RangeCheck_4_3",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "VerifyInstruction"
+  ],
   "inline_calls": {
     "encode_offsets": [
       [
-        "RangeCheck_7_2_5",
-        "RangeCheck_4_3"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_3",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "mem_verify": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

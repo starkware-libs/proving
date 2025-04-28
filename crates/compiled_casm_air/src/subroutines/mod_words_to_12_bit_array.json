@@ -1,6 +1,7 @@
 {
   "name": "mod_words_to_12_bit_array",
   "relation_name": null,
+  "relation_size": null,
   "description": "Mod Words To 12 Bit Array",
   "instance_definition": "{}",
   "type": "Inline",
@@ -1035,9 +1036,13 @@
     "limb6b_1_col8",
     "limb9b_1_col9"
   ],
-  "lookup_names": {
-    "RangeCheck_3_6_6_3": 5
-  },
+  "lookup_names": [
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

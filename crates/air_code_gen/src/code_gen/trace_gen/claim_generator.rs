@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledIntermediate, LookupTerm, PaddingType, TraceGenStep,
+    CompiledAirVar, CompiledIntermediate, ExternalState, LookupTerm, PaddingType, TraceGenStep,
 };
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
@@ -233,7 +233,12 @@ impl RustProverGen {
         };
 
         let mut preprocessed_def_code = quote! {};
-        for (name, args) in &self.lists.external_states {
+        for ExternalState {
+            name,
+            generic_param: _,
+            args,
+        } in &self.lists.external_states
+        {
             // Seq is the only preprocessed column that is of unfixed size.
             if name == "Seq" {
                 preprocessed_def_code.extend(quote! {
@@ -358,7 +363,12 @@ impl RustProverGen {
                 add_inputs_offsets.insert(fn_name, 0);
             }
         }
-        for (name, args) in &self.lists.external_states {
+        for ExternalState {
+            name,
+            generic_param: _,
+            args,
+        } in &self.lists.external_states
+        {
             if name == "Seq" {
                 write_trace_body.append(quote! {
                     let $(&name.to_lowercase()) = $(&name.to_lowercase()).packed_at(row_index);
@@ -585,7 +595,11 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState(name, args) => {
+        CompiledAirVar::ExternalState(ExternalState {
+            name,
+            generic_param: _,
+            args,
+        }) => {
             if name == "Seq" {
                 name.to_lowercase()
             } else {

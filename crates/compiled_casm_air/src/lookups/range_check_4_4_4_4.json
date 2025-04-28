@@ -1,6 +1,7 @@
 {
   "name": "range_check_4_4_4_4",
   "relation_name": "RangeCheck_4_4_4_4",
+  "relation_size": 4,
   "description": "Range Check 4 4 4 4",
   "instance_definition": "{}",
   "type": "Component",
@@ -30,40 +31,44 @@
     "()"
   ],
   "state_names": [],
-  "lookup_names": {
-    "RangeCheck_4_4_4_4": 1
-  },
+  "lookup_names": [
+    "RangeCheck_4_4_4_4"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "RangeCheck",
-      [
+    {
+      "name": "RangeCheck",
+      "generic_param": 4,
+      "args": [
         "[4,4,4,4]",
         "0"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 4,
+      "args": [
         "[4,4,4,4]",
         "1"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 4,
+      "args": [
         "[4,4,4,4]",
         "2"
       ]
-    ],
-    [
-      "RangeCheck",
-      [
+    },
+    {
+      "name": "RangeCheck",
+      "generic_param": 4,
+      "args": [
         "[4,4,4,4]",
         "3"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -71,40 +76,44 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "2"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "3"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -117,40 +126,44 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "2"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck",
-              [
+            "ExternalState": {
+              "name": "RangeCheck",
+              "generic_param": 4,
+              "args": [
                 "[4,4,4,4]",
                 "3"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

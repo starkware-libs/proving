@@ -1,6 +1,7 @@
 {
   "name": "read_positive_num_bits_128",
   "relation_name": null,
+  "relation_size": null,
   "description": "Read Positive Num Bits 128",
   "instance_definition": "{\"num_bits\":128}",
   "type": "Inline",
@@ -313,10 +314,10 @@
     "value_limb_14_col15",
     "msb_col16"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "range_check_last_limb_bits_in_ms_limb_2": [
       [],

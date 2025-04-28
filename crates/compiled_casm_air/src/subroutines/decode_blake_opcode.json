@@ -1,6 +1,7 @@
 {
   "name": "decode_blake_opcode",
   "relation_name": null,
+  "relation_size": null,
   "description": "Decode Blake Opcode",
   "instance_definition": "{}",
   "type": "Inline",
@@ -377,33 +378,57 @@
     "high_5_ms_bits_col28",
     "dst_id_col29"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 4,
-    "MemoryIdToBig": 4,
-    "RangeCheck_7_2_5": 1
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "decode_instruction_64420": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_blake_word": [
       [
-        "RangeCheck_7_2_5",
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_27": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

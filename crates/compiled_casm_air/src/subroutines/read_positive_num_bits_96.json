@@ -1,6 +1,7 @@
 {
   "name": "read_positive_num_bits_96",
   "relation_name": null,
+  "relation_size": null,
   "description": "Read Positive Num Bits 96",
   "instance_definition": "{\"num_bits\":96}",
   "type": "Inline",
@@ -332,15 +333,18 @@
     "value_limb_9_col10",
     "value_limb_10_col11"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 1,
-    "RangeCheck_6": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "RangeCheck_6",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "range_check_last_limb_bits_in_ms_limb_6": [
       [
-        "RangeCheck_6"
+        [
+          "RangeCheck_6",
+          "Use"
+        ]
       ],
       [],
       []

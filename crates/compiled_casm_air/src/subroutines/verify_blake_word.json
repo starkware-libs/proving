@@ -1,6 +1,7 @@
 {
   "name": "verify_blake_word",
   "relation_name": null,
+  "relation_size": null,
   "description": "Verify Blake Word",
   "instance_definition": "{}",
   "type": "Inline",
@@ -35,16 +36,22 @@
     "high_5_ms_bits_col2",
     "id_col3"
   ],
-  "lookup_names": {
-    "RangeCheck_7_2_5": 1,
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "mem_verify": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

@@ -10,7 +10,7 @@ use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use interaction_claim_generator::interaction_prover_struct;
 use itertools::Itertools;
 
@@ -64,7 +64,13 @@ impl RustProverGen {
         let constants = deduction_consts(&lists.deductions);
         let add_input_mults = add_inputs_mults(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
-        let relation_calls = lists.lookup_names.keys().cloned().collect::<Vec<_>>();
+        let relation_calls = lists
+            .lookup_names
+            .iter()
+            .cloned()
+            .collect::<IndexSet<_>>()
+            .into_iter()
+            .collect_vec();
 
         Self {
             lists,

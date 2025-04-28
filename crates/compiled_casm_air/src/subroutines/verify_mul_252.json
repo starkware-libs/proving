@@ -1,6 +1,7 @@
 {
   "name": "verify_mul_252",
   "relation_name": null,
+  "relation_size": null,
   "description": "Verify Mul 252",
   "instance_definition": "{}",
   "type": "Inline",
@@ -59,9 +60,36 @@
     "carry_25_col26",
     "carry_26_col27"
   ],
-  "lookup_names": {
-    "RangeCheck_19": 28
-  },
+  "lookup_names": [
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19",
+    "RangeCheck_19"
+  ],
   "inline_calls": {
     "double_karatsuba_n_7_limb_max_bound_511": [
       [],

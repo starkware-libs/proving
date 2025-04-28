@@ -1,6 +1,7 @@
 {
   "name": "range_check_builtin_bits_128",
   "relation_name": null,
+  "relation_size": null,
   "description": "Range Check Builtin Bits 128",
   "instance_definition": "{\"bits\":128}",
   "type": "Builtin",
@@ -48,15 +49,21 @@
     "value_limb_14_col15",
     "msb_col16"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "read_positive_num_bits_128": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
@@ -66,10 +73,11 @@
     "RangeCheckBuiltinSegmentStart"
   ],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -87,10 +95,11 @@
                   },
                   "+",
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   }
                 ]
               },
@@ -170,10 +179,11 @@
                   },
                   "+",
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   }
                 ]
               }
@@ -219,10 +229,11 @@
             },
             "+",
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             }
           ]
         }
@@ -239,10 +250,11 @@
               },
               "+",
               {
-                "ExternalState": [
-                  "Seq",
-                  []
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "generic_param": null,
+                  "args": []
+                }
               }
             ]
           },

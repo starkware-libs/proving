@@ -1,6 +1,7 @@
 {
   "name": "decode_generic_instruction",
   "relation_name": null,
+  "relation_size": null,
   "description": "Decode Generic Instruction",
   "instance_definition": "{}",
   "type": "Inline",
@@ -261,13 +262,16 @@
     "opcode_ret_col16",
     "opcode_assert_eq_col17"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1
-  },
+  "lookup_names": [
+    "VerifyInstruction"
+  ],
   "inline_calls": {
     "decode_instruction_df7a6": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []

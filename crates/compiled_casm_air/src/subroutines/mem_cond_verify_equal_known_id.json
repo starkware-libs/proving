@@ -1,6 +1,7 @@
 {
   "name": "mem_cond_verify_equal_known_id",
   "relation_name": null,
+  "relation_size": null,
   "description": "Mem Cond Verify Equal Known Id",
   "instance_definition": "{}",
   "type": "Inline",
@@ -32,9 +33,9 @@
   "state_names": [
     "id_col0"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 1
-  },
+  "lookup_names": [
+    "MemoryAddressToId"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

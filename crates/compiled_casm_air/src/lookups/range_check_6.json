@@ -1,6 +1,7 @@
 {
   "name": "range_check_6",
   "relation_name": "RangeCheck_6",
+  "relation_size": 1,
   "description": "Range Check 6",
   "instance_definition": "{}",
   "type": "Component",
@@ -30,18 +31,19 @@
     "()"
   ],
   "state_names": [],
-  "lookup_names": {
-    "RangeCheck_6": 1
-  },
+  "lookup_names": [
+    "RangeCheck_6"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "Seq",
-      [
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": [
         "6"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -49,12 +51,13 @@
         "relation_name": "RangeCheck_6",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              [
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": [
                 "6"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -67,12 +70,13 @@
         "relation_name": "RangeCheck_6",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              [
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": [
                 "6"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

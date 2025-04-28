@@ -1,6 +1,7 @@
 {
   "name": "narrow_fib_num_steps_20",
   "relation_name": "NarrowFibNumSteps20",
+  "relation_size": 4,
   "description": "Narrow Fib Num Steps 20",
   "instance_definition": "{\"num_steps\":20}",
   "type": "Component",
@@ -67,9 +68,9 @@
     "col20",
     "col21"
   ],
-  "lookup_names": {
-    "NarrowFibNumSteps20": 1
-  },
+  "lookup_names": [
+    "NarrowFibNumSteps20"
+  ],
   "inline_calls": {
     "fib_step": [
       [],

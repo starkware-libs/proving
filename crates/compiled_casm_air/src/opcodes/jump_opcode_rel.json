@@ -1,6 +1,7 @@
 {
   "name": "jump_opcode_rel",
   "relation_name": "Opcodes",
+  "relation_size": 3,
   "description": "Jump Opcode Rel",
   "instance_definition": "{\"rel\":true}",
   "type": "Opcode",
@@ -115,24 +116,34 @@
     "next_pc_limb_1_col12",
     "next_pc_limb_2_col13"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_3b105": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_small": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

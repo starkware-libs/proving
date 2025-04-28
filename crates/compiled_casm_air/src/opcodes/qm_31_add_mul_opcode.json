@@ -1,6 +1,7 @@
 {
   "name": "qm_31_add_mul_opcode",
   "relation_name": "Opcodes",
+  "relation_size": 3,
   "description": "Qm 31 Add Mul Opcode",
   "instance_definition": "{}",
   "type": "Opcode",
@@ -189,26 +190,45 @@
     "op1_delta_ab_inv_col70",
     "op1_delta_cd_inv_col71"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 3,
-    "RangeCheck_4_4_4_4": 3,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_4_4_4_4",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_4_4_4_4",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_4_4_4_4",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_3802d": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "qm_31_read_reduced": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig",
-        "RangeCheck_4_4_4_4"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_4_4_4_4",
+          "Use"
+        ]
       ],
       [],
       []

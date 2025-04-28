@@ -1,6 +1,7 @@
 {
   "name": "assert_eq_opcode_double_deref",
   "relation_name": "Opcodes",
+  "relation_size": 3,
   "description": "Assert Eq Opcode Double Deref",
   "instance_definition": "{\"double_deref\":true}",
   "type": "Opcode",
@@ -117,31 +118,50 @@
     "mem1_base_limb_2_col14",
     "dst_id_col15"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 3,
-    "MemoryIdToBig": 1,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_cb32b": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "mem_verify_equal": [
       [
-        "MemoryAddressToId"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_27": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

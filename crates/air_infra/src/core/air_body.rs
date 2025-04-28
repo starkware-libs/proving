@@ -2,7 +2,8 @@ use std::collections::BTreeSet;
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState, LookupTerm,
+    TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
@@ -219,8 +220,8 @@ impl AirBody {
         self.0.push(component);
     }
 
-    pub fn get_external_states(&self) -> IndexSet<(String, Vec<String>)> {
-        let mut external_states = IndexSet::<(String, Vec<String>)>::default();
+    pub fn get_external_states(&self) -> IndexSet<ExternalState> {
+        let mut external_states = IndexSet::<ExternalState>::default();
 
         for component in self.0.clone() {
             match component {
@@ -458,23 +459,19 @@ impl AirBody {
 
     // Returns the names of the lookup relations used or yielded by the air function, and the number
     // of terms per relation.
-    pub fn get_lookup_names(&self) -> IndexMap<String, usize> {
-        let mut lookup_calls = IndexMap::new();
+    pub fn get_lookup_names(&self) -> Vec<(String, UseOrYield)> {
+        let mut lookup_calls = vec![];
         for component in &self.0 {
             match component {
                 AirBodyComponent::Call(f) => {
-                    for (relation_name, n_uses) in f.air_body.get_lookup_names() {
-                        let v = lookup_calls.entry(relation_name.clone()).or_insert(0);
-                        *v += n_uses;
-                    }
+                    lookup_calls.extend(f.air_body.get_lookup_names());
                 }
                 AirBodyComponent::LookupTerm {
                     relation_name,
-                    use_or_yield: _,
+                    use_or_yield,
                     ..
                 } => {
-                    let v = lookup_calls.entry(relation_name.clone()).or_insert(0);
-                    *v += 1;
+                    lookup_calls.push((relation_name.clone(), *use_or_yield));
                 }
                 _ => (),
             }

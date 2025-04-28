@@ -1,6 +1,7 @@
 {
   "name": "mul_mod_builtin",
   "relation_name": null,
+  "relation_size": null,
   "description": "Mul Mod Builtin",
   "instance_definition": "{}",
   "type": "Builtin",
@@ -441,13 +442,195 @@
     "carry_60_col408",
     "carry_61_col409"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 29,
-    "MemoryIdToBig": 24,
-    "RangeCheck_12": 32,
-    "RangeCheck_3_6_6_3": 40,
-    "RangeCheck_18": 62
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_12",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_3_6_6_3",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_18"
+  ],
   "inline_calls": {
     "double_karatsuba_n_8_limb_max_bound_4095": [
       [],
@@ -456,15 +639,244 @@
     ],
     "mod_utils": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "mod_words_to_12_bit_array": [
       [
-        "RangeCheck_3_6_6_3"
+        [
+          "RangeCheck_3_6_6_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_6_6_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_6_6_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_6_6_3",
+          "Use"
+        ],
+        [
+          "RangeCheck_3_6_6_3",
+          "Use"
+        ]
       ],
       [],
       []
@@ -474,10 +886,11 @@
     "MulModBuiltinSegmentStart"
   ],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -494,10 +907,11 @@
                     "PublicParam": "mul_mod_builtin_segment_start"
                   },
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   }
                 ]
               },
@@ -9607,10 +10021,11 @@
         "var": {
           "MethodCall": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             "eq",
             [
@@ -9663,10 +10078,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "ExternalState": [
-                            "Seq",
-                            []
-                          ]
+                          "ExternalState": {
+                            "name": "Seq",
+                            "generic_param": null,
+                            "args": []
+                          }
                         },
                         "-",
                         {
@@ -9709,10 +10125,11 @@
                 },
                 "*",
                 {
-                  "ExternalState": [
-                    "Seq",
-                    []
-                  ]
+                  "ExternalState": {
+                    "name": "Seq",
+                    "generic_param": null,
+                    "args": []
+                  }
                 }
               ]
             }

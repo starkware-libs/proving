@@ -1,6 +1,7 @@
 {
   "name": "blake_g",
   "relation_name": "BlakeG",
+  "relation_size": 20,
   "description": "Blake G",
   "instance_definition": "{}",
   "type": "Component",
@@ -145,14 +146,25 @@
     "xor_col50",
     "xor_col51"
   ],
-  "lookup_names": {
-    "VerifyBitwiseXor_8": 8,
-    "VerifyBitwiseXor_12": 2,
-    "VerifyBitwiseXor_4": 2,
-    "VerifyBitwiseXor_7": 2,
-    "VerifyBitwiseXor_9": 2,
-    "BlakeG": 1
-  },
+  "lookup_names": [
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_12",
+    "VerifyBitwiseXor_4",
+    "VerifyBitwiseXor_12",
+    "VerifyBitwiseXor_4",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_7",
+    "VerifyBitwiseXor_9",
+    "VerifyBitwiseXor_7",
+    "VerifyBitwiseXor_9",
+    "BlakeG"
+  ],
   "inline_calls": {
     "triple_sum_32": [
       [],
@@ -161,30 +173,88 @@
     ],
     "xor_rot_32_r_12": [
       [
-        "VerifyBitwiseXor_12",
-        "VerifyBitwiseXor_4"
+        [
+          "VerifyBitwiseXor_12",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_4",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_12",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_4",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "xor_rot_32_r_16": [
       [
-        "VerifyBitwiseXor_8"
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "xor_rot_32_r_7": [
       [
-        "VerifyBitwiseXor_7",
-        "VerifyBitwiseXor_9"
+        [
+          "VerifyBitwiseXor_7",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_9",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_7",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_9",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "xor_rot_32_r_8": [
       [
-        "VerifyBitwiseXor_8"
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ]
       ],
       [],
       []

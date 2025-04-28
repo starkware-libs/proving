@@ -1,6 +1,7 @@
 {
   "name": "verify_bitwise_xor_12",
   "relation_name": "VerifyBitwiseXor_12",
+  "relation_size": 3,
   "description": "Verify Bitwise Xor 12",
   "instance_definition": "{}",
   "type": "Component",
@@ -30,33 +31,36 @@
     "()"
   ],
   "state_names": [],
-  "lookup_names": {
-    "VerifyBitwiseXor_12": 1
-  },
+  "lookup_names": [
+    "VerifyBitwiseXor_12"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "BitwiseXor",
-      [
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
         "12",
         "0"
       ]
-    ],
-    [
-      "BitwiseXor",
-      [
+    },
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
         "12",
         "1"
       ]
-    ],
-    [
-      "BitwiseXor",
-      [
+    },
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
         "12",
         "2"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -64,31 +68,34 @@
         "relation_name": "VerifyBitwiseXor_12",
         "felts": [
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "12",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "12",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "12",
                 "2"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -101,31 +108,34 @@
         "relation_name": "VerifyBitwiseXor_12",
         "felts": [
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "12",
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "12",
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BitwiseXor",
-              [
+            "ExternalState": {
+              "name": "BitwiseXor",
+              "generic_param": null,
+              "args": [
                 "12",
                 "2"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

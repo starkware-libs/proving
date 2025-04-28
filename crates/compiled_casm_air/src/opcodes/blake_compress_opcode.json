@@ -1,6 +1,7 @@
 {
   "name": "blake_compress_opcode",
   "relation_name": "Opcodes",
+  "relation_size": 3,
   "description": "Blake Compress Opcode",
   "instance_definition": "{}",
   "type": "Opcode",
@@ -271,49 +272,299 @@
     "high_5_ms_bits_col168",
     "new_state_7_id_col169"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 20,
-    "MemoryIdToBig": 20,
-    "RangeCheck_7_2_5": 17,
-    "VerifyBitwiseXor_8": 4,
-    "BlakeRound": 2,
-    "TripleXor32": 8,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8",
+    "BlakeRound",
+    "BlakeRound",
+    "TripleXor32",
+    "TripleXor32",
+    "TripleXor32",
+    "TripleXor32",
+    "TripleXor32",
+    "TripleXor32",
+    "TripleXor32",
+    "TripleXor32",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "create_blake_output": [
       [
-        "TripleXor32"
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ],
+        [
+          "TripleXor32",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "create_blake_round_input": [
       [
-        "RangeCheck_7_2_5",
-        "MemoryAddressToId",
-        "MemoryIdToBig",
-        "VerifyBitwiseXor_8"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ],
+        [
+          "VerifyBitwiseXor_8",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "decode_blake_opcode": [
       [
-        "VerifyInstruction",
-        "MemoryAddressToId",
-        "MemoryIdToBig",
-        "RangeCheck_7_2_5"
+        [
+          "VerifyInstruction",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ],
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "verify_blake_word": [
       [
-        "RangeCheck_7_2_5",
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []
@@ -321,10 +572,11 @@
   },
   "public_params": [],
   "external_states": [
-    [
-      "Seq",
-      []
-    ]
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": []
+    }
   ],
   "constraints": [
     {
@@ -645,10 +897,11 @@
         "relation_name": "BlakeRound",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              []
-            ]
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": []
+            }
           },
           {
             "Const": [
@@ -13224,10 +13477,11 @@
         "relation_name": "BlakeRound",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              []
-            ]
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": []
+            }
           },
           {
             "Const": [
@@ -13443,10 +13697,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13579,10 +13834,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13713,10 +13969,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -13849,10 +14106,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -13983,10 +14241,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -14119,10 +14378,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -14253,10 +14513,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -14389,10 +14650,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -14523,10 +14785,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -14659,10 +14922,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -14793,10 +15057,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -14929,10 +15194,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -15063,10 +15329,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -15199,10 +15466,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -15333,10 +15601,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -15469,10 +15738,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -15603,10 +15873,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -15739,10 +16010,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [
@@ -15873,10 +16145,11 @@
         "input": {
           "Tuple": [
             {
-              "ExternalState": [
-                "Seq",
-                []
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "generic_param": null,
+                "args": []
+              }
             },
             {
               "Const": [
@@ -16009,10 +16282,11 @@
               {
                 "Tuple": [
                   {
-                    "ExternalState": [
-                      "Seq",
-                      []
-                    ]
+                    "ExternalState": {
+                      "name": "Seq",
+                      "generic_param": null,
+                      "args": []
+                    }
                   },
                   {
                     "Const": [

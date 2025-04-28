@@ -1,6 +1,7 @@
 {
   "name": "verify_reduced_252",
   "relation_name": null,
+  "relation_size": null,
   "description": "Verify Reduced 252",
   "instance_definition": "{}",
   "type": "Inline",
@@ -34,9 +35,10 @@
     "ms_and_mid_limbs_are_max_col1",
     "rc_input_col2"
   ],
-  "lookup_names": {
-    "RangeCheck_8": 2
-  },
+  "lookup_names": [
+    "RangeCheck_8",
+    "RangeCheck_8"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

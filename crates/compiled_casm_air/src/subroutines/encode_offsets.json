@@ -1,6 +1,7 @@
 {
   "name": "encode_offsets",
   "relation_name": null,
+  "relation_size": null,
   "description": "Encode Offsets",
   "instance_definition": "{}",
   "type": "Inline",
@@ -153,10 +154,10 @@
     "offset2_mid_col6",
     "offset2_high_col7"
   ],
-  "lookup_names": {
-    "RangeCheck_7_2_5": 1,
-    "RangeCheck_4_3": 1
-  },
+  "lookup_names": [
+    "RangeCheck_7_2_5",
+    "RangeCheck_4_3"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

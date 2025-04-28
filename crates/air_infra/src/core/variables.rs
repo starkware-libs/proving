@@ -2,7 +2,7 @@ use std::array::from_fn;
 use std::collections::{BTreeSet, HashSet};
 use std::fmt::Debug;
 
-use compiled_casm_air::compiled_structs::{CompiledAirVar, TraceType};
+use compiled_casm_air::compiled_structs::{CompiledAirVar, ExternalState, TraceType};
 use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
 use serde::Serialize;
@@ -162,7 +162,7 @@ pub trait AirVarImplInfo {
             .collect()
     }
 
-    fn external_states(&self) -> BTreeSet<(String, Vec<String>)> {
+    fn external_states(&self) -> BTreeSet<ExternalState> {
         self.var_expr_infos()
             .iter()
             .filter_map(|i| i.external_state.clone())
@@ -175,7 +175,7 @@ pub struct VarExprInfo {
     pub is_const: bool,
     pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
-    pub external_state: Option<(String, Vec<String>)>,
+    pub external_state: Option<ExternalState>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Default)]
@@ -244,6 +244,10 @@ pub trait ExtTable: Default + Debug + Clone {
         vec![]
     }
 
+    fn generic_param() -> Option<u32> {
+        None
+    }
+
     fn to_state(v: &mut Self::T) {
         let felts = v.as_felts_mut();
         let n = felts.len();
@@ -254,10 +258,11 @@ pub trait ExtTable: Default + Debug + Clone {
                 args.extend_from_slice(&[i.to_string()]);
             };
 
-            f.to_state(StateInfo::ExtTableState(
-                Self::CONST_TRACE_ID.to_string(),
+            f.to_state(StateInfo::ExternalState(ExternalState {
+                name: Self::CONST_TRACE_ID.to_string(),
+                generic_param: Self::generic_param(),
                 args,
-            ));
+            }));
         }
     }
 

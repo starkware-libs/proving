@@ -1,6 +1,7 @@
 {
   "name": "felt_252_unpack_from_27_range_check_output",
   "relation_name": null,
+  "relation_size": null,
   "description": "Felt 252 Unpack From 27 Range Check Output",
   "instance_definition": "{\"range_check_output\":true}",
   "type": "Inline",
@@ -167,13 +168,81 @@
     "unpacked_limb_24_col16",
     "unpacked_limb_25_col17"
   ],
-  "lookup_names": {
-    "RangeCheck_9_9": 14
-  },
+  "lookup_names": [
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9"
+  ],
   "inline_calls": {
     "range_check_mem_value_n_28": [
       [
-        "RangeCheck_9_9"
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ]
       ],
       [],
       []

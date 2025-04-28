@@ -1,6 +1,7 @@
 {
   "name": "range_check_felt_252_width_27",
   "relation_name": "RangeCheckFelt252Width27",
+  "relation_size": 10,
   "description": "Range Check Felt 252 Width 27",
   "instance_definition": "{}",
   "type": "Component",
@@ -50,11 +51,23 @@
     "limb_7_low_part_col17",
     "limb_8_high_part_col18"
   ],
-  "lookup_names": {
-    "RangeCheck_9_9": 5,
-    "RangeCheck_18": 9,
-    "RangeCheckFelt252Width27": 1
-  },
+  "lookup_names": [
+    "RangeCheck_9_9",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_9_9",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_9_9",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_9_9",
+    "RangeCheck_18",
+    "RangeCheck_18",
+    "RangeCheck_9_9",
+    "RangeCheck_18",
+    "RangeCheckFelt252Width27"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

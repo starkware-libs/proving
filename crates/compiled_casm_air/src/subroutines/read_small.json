@@ -1,6 +1,7 @@
 {
   "name": "read_small",
   "relation_name": null,
+  "relation_size": null,
   "description": "Read Small",
   "instance_definition": "{}",
   "type": "Inline",
@@ -181,10 +182,10 @@
     "value_limb_1_col4",
     "value_limb_2_col5"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {
     "cond_decode_small_sign": [
       [],

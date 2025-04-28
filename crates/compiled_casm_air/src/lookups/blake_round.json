@@ -1,6 +1,7 @@
 {
   "name": "blake_round",
   "relation_name": "BlakeRound",
+  "relation_size": 35,
   "description": "Blake Round",
   "instance_definition": "{}",
   "type": "ChainRound",
@@ -484,20 +485,82 @@
     "blake_g_output_limb_6_col209",
     "blake_g_output_limb_7_col210"
   ],
-  "lookup_names": {
-    "BlakeRoundSigma": 1,
-    "RangeCheck_7_2_5": 16,
-    "MemoryAddressToId": 16,
-    "MemoryIdToBig": 16,
-    "BlakeG": 8,
-    "BlakeRound": 2
-  },
+  "lookup_names": [
+    "BlakeRoundSigma",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "RangeCheck_7_2_5",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "BlakeG",
+    "BlakeG",
+    "BlakeG",
+    "BlakeG",
+    "BlakeG",
+    "BlakeG",
+    "BlakeG",
+    "BlakeG",
+    "BlakeRound",
+    "BlakeRound"
+  ],
   "inline_calls": {
     "read_blake_word": [
       [
-        "RangeCheck_7_2_5",
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

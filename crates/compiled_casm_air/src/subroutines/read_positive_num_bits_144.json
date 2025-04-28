@@ -1,6 +1,7 @@
 {
   "name": "read_positive_num_bits_144",
   "relation_name": null,
+  "relation_size": null,
   "description": "Read Positive Num Bits 144",
   "instance_definition": "{\"num_bits\":144}",
   "type": "Inline",
@@ -307,10 +308,10 @@
     "value_limb_14_col15",
     "value_limb_15_col16"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 1,
-    "MemoryIdToBig": 1
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

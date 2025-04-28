@@ -1,6 +1,7 @@
 {
   "name": "mem_verify_equal",
   "relation_name": null,
+  "relation_size": null,
   "description": "Mem Verify Equal",
   "instance_definition": "{}",
   "type": "Inline",
@@ -32,9 +33,10 @@
   "state_names": [
     "id_col0"
   ],
-  "lookup_names": {
-    "MemoryAddressToId": 2
-  },
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryAddressToId"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

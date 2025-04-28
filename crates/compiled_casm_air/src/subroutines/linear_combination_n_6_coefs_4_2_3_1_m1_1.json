@@ -1,6 +1,7 @@
 {
   "name": "linear_combination_n_6_coefs_4_2_3_1_m1_1",
   "relation_name": null,
+  "relation_size": null,
   "description": "Linear Combination N 6 Coefs 4 2 3 1 M 1 1",
   "instance_definition": "{\"n\":6,\"coefs\":[4,2,3,1,-1,1]}",
   "type": "Inline",
@@ -76,10 +77,11 @@
     "combination_limb_9_col9",
     "p_coef_col10"
   ],
-  "lookup_names": {
-    "RangeCheck_4_4_4_4": 2,
-    "RangeCheck_4_4": 1
-  },
+  "lookup_names": [
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4_4_4",
+    "RangeCheck_4_4"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

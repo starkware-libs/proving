@@ -1,6 +1,7 @@
 {
   "name": "bitwise_xor_num_bits_12",
   "relation_name": null,
+  "relation_size": null,
   "description": "Bitwise Xor Num Bits 12",
   "instance_definition": "{\"num_bits\":12}",
   "type": "Inline",
@@ -32,9 +33,9 @@
   "state_names": [
     "xor_col0"
   ],
-  "lookup_names": {
-    "VerifyBitwiseXor_12": 1
-  },
+  "lookup_names": [
+    "VerifyBitwiseXor_12"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],

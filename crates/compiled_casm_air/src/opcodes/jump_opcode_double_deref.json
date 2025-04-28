@@ -1,6 +1,7 @@
 {
   "name": "jump_opcode_double_deref",
   "relation_name": "Opcodes",
+  "relation_size": 3,
   "description": "Jump Opcode Double Deref",
   "instance_definition": "{\"double_deref\":true}",
   "type": "Opcode",
@@ -171,24 +172,36 @@
     "next_pc_limb_1_col14",
     "next_pc_limb_2_col15"
   ],
-  "lookup_names": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 2,
-    "MemoryIdToBig": 2,
-    "Opcodes": 2
-  },
+  "lookup_names": [
+    "VerifyInstruction",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "Opcodes",
+    "Opcodes"
+  ],
   "inline_calls": {
     "decode_instruction_9bd86": [
       [
-        "VerifyInstruction"
+        [
+          "VerifyInstruction",
+          "Use"
+        ]
       ],
       [],
       []
     ],
     "read_positive_num_bits_27": [
       [
-        "MemoryAddressToId",
-        "MemoryIdToBig"
+        [
+          "MemoryAddressToId",
+          "Use"
+        ],
+        [
+          "MemoryIdToBig",
+          "Use"
+        ]
       ],
       [],
       []

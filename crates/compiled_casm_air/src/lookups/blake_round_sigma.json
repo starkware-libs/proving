@@ -1,6 +1,7 @@
 {
   "name": "blake_round_sigma",
   "relation_name": "BlakeRoundSigma",
+  "relation_size": 17,
   "description": "Blake Round Sigma",
   "instance_definition": "{}",
   "type": "Component",
@@ -18,132 +19,148 @@
     {
       "Array": [
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "0"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "1"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "2"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "3"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "4"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "5"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "6"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "7"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "8"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "9"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "10"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "11"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "12"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "13"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "14"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "15"
             ]
-          ]
+          }
         }
       ]
     },
@@ -155,132 +172,148 @@
     {
       "Array": [
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "0"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "1"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "2"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "3"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "4"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "5"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "6"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "7"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "8"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "9"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "10"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "11"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "12"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "13"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "14"
             ]
-          ]
+          }
         },
         {
-          "ExternalState": [
-            "BlakeSigma",
-            [
+          "ExternalState": {
+            "name": "BlakeSigma",
+            "generic_param": null,
+            "args": [
               "15"
             ]
-          ]
+          }
         }
       ]
     },
@@ -288,114 +321,131 @@
     "[M31; 16]"
   ],
   "state_names": [],
-  "lookup_names": {
-    "BlakeRoundSigma": 1
-  },
+  "lookup_names": [
+    "BlakeRoundSigma"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    [
-      "Seq",
-      [
+    {
+      "name": "Seq",
+      "generic_param": null,
+      "args": [
         "4"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "0"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "1"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "2"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "3"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "4"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "5"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "6"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "7"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "8"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "9"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "10"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "11"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "12"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "13"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "14"
       ]
-    ],
-    [
-      "BlakeSigma",
-      [
+    },
+    {
+      "name": "BlakeSigma",
+      "generic_param": null,
+      "args": [
         "15"
       ]
-    ]
+    }
   ],
   "constraints": [
     {
@@ -403,140 +453,157 @@
         "relation_name": "BlakeRoundSigma",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              [
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": [
                 "4"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "2"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "3"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "4"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "5"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "6"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "7"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "8"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "9"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "10"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "11"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "12"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "13"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "14"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "15"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -549,140 +616,157 @@
         "relation_name": "BlakeRoundSigma",
         "felts": [
           {
-            "ExternalState": [
-              "Seq",
-              [
+            "ExternalState": {
+              "name": "Seq",
+              "generic_param": null,
+              "args": [
                 "4"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "0"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "1"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "2"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "3"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "4"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "5"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "6"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "7"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "8"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "9"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "10"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "11"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "12"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "13"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "14"
               ]
-            ]
+            }
           },
           {
-            "ExternalState": [
-              "BlakeSigma",
-              [
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "generic_param": null,
+              "args": [
                 "15"
               ]
-            ]
+            }
           }
         ],
         "use_or_yield": "Yield"

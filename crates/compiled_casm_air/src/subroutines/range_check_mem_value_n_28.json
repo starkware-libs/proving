@@ -1,6 +1,7 @@
 {
   "name": "range_check_mem_value_n_28",
   "relation_name": null,
+  "relation_size": null,
   "description": "Range Check Mem Value N 28",
   "instance_definition": "{\"n\":28}",
   "type": "Inline",
@@ -30,9 +31,22 @@
     "()"
   ],
   "state_names": [],
-  "lookup_names": {
-    "RangeCheck_9_9": 14
-  },
+  "lookup_names": [
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9",
+    "RangeCheck_9_9"
+  ],
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
