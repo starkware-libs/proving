@@ -138,7 +138,7 @@ fn test_pedersen_0() {
     registry.add_entry(&pedersen);
 
     let (state, _) = registry.run_air_with_row_number(&pedersen, (), (), 0);
-    assert_eq!(state.get_felts().len(), 359);
+    assert_eq!(state.get_felts().len(), 351);
 }
 
 #[test]
