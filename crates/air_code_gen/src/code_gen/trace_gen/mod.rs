@@ -16,6 +16,7 @@ use itertools::Itertools;
 
 use super::parse::seek_consts;
 use crate::code_gen::parse::is_const_size_component;
+use crate::code_gen::utils::filter_lookup_terms;
 
 pub enum Mode {
     NoInputs,
@@ -228,19 +229,6 @@ impl RustProverGen {
     fn contains_sub_components(&self) -> bool {
         !self.add_input_mults.is_empty()
     }
-}
-
-fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
-    deductions
-        .iter()
-        .filter_map(|d| {
-            if let TraceGenStep::LookupTerm(lookup_data) = d {
-                Some(lookup_data.clone())
-            } else {
-                None
-            }
-        })
-        .collect()
 }
 
 // Returns the context of the write_trace function.

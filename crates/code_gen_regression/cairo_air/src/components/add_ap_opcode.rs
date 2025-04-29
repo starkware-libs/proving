@@ -3,6 +3,24 @@ use crate::components::subroutines::decode_instruction_d2a10::DecodeInstructionD
 use crate::components::subroutines::read_small::ReadSmall;
 
 pub const N_TRACE_COLUMNS: usize = 14;
+pub const RELATION_USES_PER_ROW: [RelationUse; 4] = [
+    RelationUse {
+        relation_id: "MemoryAddressToId",
+        uses: 1,
+    },
+    RelationUse {
+        relation_id: "MemoryIdToBig",
+        uses: 1,
+    },
+    RelationUse {
+        relation_id: "Opcodes",
+        uses: 1,
+    },
+    RelationUse {
+        relation_id: "VerifyInstruction",
+        uses: 1,
+    },
+];
 
 pub struct Eval {
     pub claim: Claim,

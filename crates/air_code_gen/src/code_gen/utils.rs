@@ -1,7 +1,9 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceType};
+use compiled_casm_air::compiled_structs::{
+    CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, TraceType,
+};
 use genco::lang::rust;
 use genco::quote;
 use tempfile::tempdir;
@@ -149,6 +151,19 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
     quote! {
         $['\n']$("// ")$msg.$['\n']
     }
+}
+
+pub fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
+    deductions
+        .iter()
+        .filter_map(|d| {
+            if let TraceGenStep::LookupTerm(lookup_data) = d {
+                Some(lookup_data.clone())
+            } else {
+                None
+            }
+        })
+        .collect()
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
