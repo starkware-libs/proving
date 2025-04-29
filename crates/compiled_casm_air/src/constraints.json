@@ -41196,7 +41196,8 @@
       "mid_limbs_set_col9",
       "op1_limb_0_col10",
       "op1_limb_1_col11",
-      "op1_limb_2_col12"
+      "op1_limb_2_col12",
+      "next_ap_bot8bits_col13"
     ],
     "intermediates": [
       [
@@ -41210,6 +41211,10 @@
       [
         "read_small_output_tmp_c921e_11_limb_0",
         "((((op1_limb_0_col10 + (op1_limb_1_col11 * 512)) + (op1_limb_2_col12 * 262144)) - msb_col8) - (134217728 * mid_limbs_set_col9))"
+      ],
+      [
+        "next_ap_tmp_c921e_12",
+        "(input_ap_col1 + read_small_output_tmp_c921e_11_limb_0)"
       ]
     ],
     "constraints": [
@@ -41234,6 +41239,14 @@
       [
         "MemoryIdToBig",
         "op1_id_col7, op1_limb_0_col10, op1_limb_1_col11, op1_limb_2_col12, (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), ((136 * msb_col8) - mid_limbs_set_col9), 0, 0, 0, 0, 0, (msb_col8 * 256)"
+      ],
+      [
+        "RangeCheck_19",
+        "((next_ap_tmp_c921e_12 - next_ap_bot8bits_col13) * 8388608)"
+      ],
+      [
+        "RangeCheck_8",
+        "next_ap_bot8bits_col13"
       ]
     ]
   },

@@ -1,7 +1,9 @@
 #![allow(unused_parens)]
 use cairo_air::components::add_ap_opcode::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
-use crate::witness::components::{memory_address_to_id, memory_id_to_big, verify_instruction};
+use crate::witness::components::{
+    memory_address_to_id, memory_id_to_big, range_check_19, range_check_8, verify_instruction,
+};
 use crate::witness::prelude::*;
 
 pub type InputType = CasmState;
@@ -17,6 +19,8 @@ impl ClaimGenerator {
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
         memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
         memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
+        range_check_19_state: &range_check_19::ClaimGenerator,
+        range_check_8_state: &range_check_8::ClaimGenerator,
         verify_instruction_state: &verify_instruction::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
         let n_rows = self.inputs.len();
@@ -31,6 +35,8 @@ impl ClaimGenerator {
             n_rows,
             memory_address_to_id_state,
             memory_id_to_big_state,
+            range_check_19_state,
+            range_check_8_state,
             verify_instruction_state,
         );
         sub_component_inputs
@@ -51,6 +57,18 @@ impl ClaimGenerator {
             .for_each(|inputs| {
                 memory_id_to_big_state.add_packed_inputs(inputs);
             });
+        sub_component_inputs
+            .range_check_19
+            .iter()
+            .for_each(|inputs| {
+                range_check_19_state.add_packed_inputs(inputs);
+            });
+        sub_component_inputs
+            .range_check_8
+            .iter()
+            .for_each(|inputs| {
+                range_check_8_state.add_packed_inputs(inputs);
+            });
         tree_builder.extend_evals(trace.to_evals());
 
         (
@@ -69,6 +87,8 @@ struct SubComponentInputs {
     verify_instruction: [Vec<verify_instruction::PackedInputType>; 1],
     memory_address_to_id: [Vec<memory_address_to_id::PackedInputType>; 1],
     memory_id_to_big: [Vec<memory_id_to_big::PackedInputType>; 1],
+    range_check_19: [Vec<range_check_19::PackedInputType>; 1],
+    range_check_8: [Vec<range_check_8::PackedInputType>; 1],
 }
 
 #[allow(clippy::useless_conversion)]
@@ -80,6 +100,8 @@ fn write_trace_simd(
     n_rows: usize,
     memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
     memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
+    range_check_19_state: &range_check_19::ClaimGenerator,
+    range_check_8_state: &range_check_8::ClaimGenerator,
     verify_instruction_state: &verify_instruction::ClaimGenerator,
 ) -> (
     ComponentTrace<N_TRACE_COLUMNS>,
@@ -112,6 +134,7 @@ fn write_trace_simd(
     let M31_511 = PackedM31::broadcast(M31::from(511));
     let M31_512 = PackedM31::broadcast(M31::from(512));
     let M31_64 = PackedM31::broadcast(M31::from(64));
+    let M31_8388608 = PackedM31::broadcast(M31::from(8388608));
     let UInt16_1 = PackedUInt16::broadcast(UInt16::from(1));
     let UInt16_13 = PackedUInt16::broadcast(UInt16::from(13));
     let UInt16_2 = PackedUInt16::broadcast(UInt16::from(2));
@@ -120,6 +143,7 @@ fn write_trace_simd(
     let UInt16_5 = PackedUInt16::broadcast(UInt16::from(5));
     let UInt16_6 = PackedUInt16::broadcast(UInt16::from(6));
     let UInt16_7 = PackedUInt16::broadcast(UInt16::from(7));
+    let UInt32_255 = PackedUInt32::broadcast(UInt32::from(255));
     let enabler_col = Enabler::new(n_rows);
 
     (
@@ -303,13 +327,24 @@ fn write_trace_simd(
                     op1_id_col7,
                 );
 
+                let next_ap_tmp_c921e_12 = ((input_ap_col1) + (read_small_output_tmp_c921e_11.0));
+                let next_ap_bot8bits_u32_tmp_c921e_13 =
+                    ((PackedUInt32::from_m31(next_ap_tmp_c921e_12)) & (UInt32_255));
+                let next_ap_bot8bits_col13 = next_ap_bot8bits_u32_tmp_c921e_13.low().as_m31();
+                *row[13] = next_ap_bot8bits_col13;
+                *sub_component_inputs.range_check_19[0] =
+                    [(((next_ap_tmp_c921e_12) - (next_ap_bot8bits_col13)) * (M31_8388608))];
+                *lookup_data.range_check_19_0 =
+                    [(((next_ap_tmp_c921e_12) - (next_ap_bot8bits_col13)) * (M31_8388608))];
+                *sub_component_inputs.range_check_8[0] = [next_ap_bot8bits_col13];
+                *lookup_data.range_check_8_0 = [next_ap_bot8bits_col13];
                 *lookup_data.opcodes_0 = [input_pc_col0, input_ap_col1, input_fp_col2];
                 *lookup_data.opcodes_1 = [
                     ((input_pc_col0) + ((M31_1) + (op1_imm_col4))),
-                    ((input_ap_col1) + (read_small_output_tmp_c921e_11.0)),
+                    next_ap_tmp_c921e_12,
                     input_fp_col2,
                 ];
-                *row[13] = enabler_col.packed_at(row_index);
+                *row[14] = enabler_col.packed_at(row_index);
             },
         );
 
@@ -322,6 +357,8 @@ struct LookupData {
     memory_id_to_big_0: Vec<[PackedM31; 29]>,
     opcodes_0: Vec<[PackedM31; 3]>,
     opcodes_1: Vec<[PackedM31; 3]>,
+    range_check_19_0: Vec<[PackedM31; 1]>,
+    range_check_8_0: Vec<[PackedM31; 1]>,
     verify_instruction_0: Vec<[PackedM31; 7]>,
 }
 
@@ -337,6 +374,8 @@ impl InteractionClaimGenerator {
         verify_instruction: &relations::VerifyInstruction,
         memory_address_to_id: &relations::MemoryAddressToId,
         memory_id_to_big: &relations::MemoryIdToBig,
+        range_check_19: &relations::RangeCheck_19,
+        range_check_8: &relations::RangeCheck_8,
         opcodes: &relations::Opcodes,
     ) -> InteractionClaim {
         let enabler_col = Enabler::new(self.n_rows);
@@ -361,12 +400,26 @@ impl InteractionClaimGenerator {
         (
             col_gen.par_iter_mut(),
             &self.lookup_data.memory_id_to_big_0,
+            &self.lookup_data.range_check_19_0,
+        )
+            .into_par_iter()
+            .for_each(|(writer, values0, values1)| {
+                let denom0: PackedQM31 = memory_id_to_big.combine(values0);
+                let denom1: PackedQM31 = range_check_19.combine(values1);
+                writer.write_frac(denom0 + denom1, denom0 * denom1);
+            });
+        col_gen.finalize_col();
+
+        let mut col_gen = logup_gen.new_col();
+        (
+            col_gen.par_iter_mut(),
+            &self.lookup_data.range_check_8_0,
             &self.lookup_data.opcodes_0,
         )
             .into_par_iter()
             .enumerate()
             .for_each(|(i, (writer, values0, values1))| {
-                let denom0: PackedQM31 = memory_id_to_big.combine(values0);
+                let denom0: PackedQM31 = range_check_8.combine(values0);
                 let denom1: PackedQM31 = opcodes.combine(values1);
                 writer.write_frac(denom0 * enabler_col.packed_at(i) + denom1, denom0 * denom1);
             });

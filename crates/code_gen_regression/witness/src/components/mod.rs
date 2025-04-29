@@ -21,6 +21,7 @@ pub mod range_check_3_6_6_3;
 pub mod range_check_4_3;
 pub mod range_check_6;
 pub mod range_check_7_2_5;
+pub mod range_check_8;
 pub mod range_check_9_9;
 pub mod range_check_builtin_bits_128;
 pub mod triple_xor_32;
