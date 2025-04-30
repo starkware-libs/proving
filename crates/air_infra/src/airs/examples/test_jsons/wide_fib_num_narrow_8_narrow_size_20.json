@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "wide_fib_num_narrow_8_narrow_size_20_input",
-    "M31"
+    "[wide_fib_num_narrow_8_narrow_size_20_input]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -25,10 +25,10 @@
   ],
   "verifier_output": [
     {
-      "State": "narrow_fib_num_steps_20_output_limb_1_col16"
+      "Array": []
     },
-    "wide_fib_num_narrow_8_narrow_size_20_output",
-    "M31"
+    "()",
+    "()"
   ],
   "state_names": [
     "col0",

@@ -12,8 +12,8 @@
     "[PackedM31; 1]"
   ],
   "verifier_input": [
-    "[blake_round_sigma_input]",
-    "[M31; 1]"
+    "()",
+    "()"
   ],
   "prover_output": [
     {
@@ -170,155 +170,10 @@
   ],
   "verifier_output": [
     {
-      "Array": [
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "0"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "1"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "2"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "3"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "4"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "5"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "6"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "7"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "8"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "9"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "10"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "11"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "12"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "13"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "14"
-            ]
-          }
-        },
-        {
-          "ExternalState": {
-            "name": "BlakeSigma",
-            "generic_param": null,
-            "args": [
-              "15"
-            ]
-          }
-        }
-      ]
+      "Array": []
     },
-    "[blake_round_sigma_output_limb_0, blake_round_sigma_output_limb_1, blake_round_sigma_output_limb_2, blake_round_sigma_output_limb_3, blake_round_sigma_output_limb_4, blake_round_sigma_output_limb_5, blake_round_sigma_output_limb_6, blake_round_sigma_output_limb_7, blake_round_sigma_output_limb_8, blake_round_sigma_output_limb_9, blake_round_sigma_output_limb_10, blake_round_sigma_output_limb_11, blake_round_sigma_output_limb_12, blake_round_sigma_output_limb_13, blake_round_sigma_output_limb_14, blake_round_sigma_output_limb_15]",
-    "[M31; 16]"
+    "()",
+    "()"
   ],
   "state_names": [],
   "lookup_names": [

@@ -113,14 +113,11 @@
               ]
             }
           ]
-        },
-        {
-          "State": "input_fp_col2"
         }
       ]
     },
-    "[add_ap_opcode_output_pc, add_ap_opcode_output_ap, add_ap_opcode_output_fp]",
-    "[M31; 3]"
+    "[add_ap_opcode_output_pc, add_ap_opcode_output_ap]",
+    "[M31; 2]"
   ],
   "state_names": [
     "input_pc_col0",
@@ -175,14 +172,18 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_d2a10_output_tmp_c921e_5_offset0, decode_instruction_d2a10_output_tmp_c921e_5_offset1, decode_instruction_d2a10_output_tmp_c921e_5_offset2, decode_instruction_d2a10_output_tmp_c921e_5_dst_base_fp, decode_instruction_d2a10_output_tmp_c921e_5_op0_base_fp, decode_instruction_d2a10_output_tmp_c921e_5_op1_imm, decode_instruction_d2a10_output_tmp_c921e_5_op1_base_fp, decode_instruction_d2a10_output_tmp_c921e_5_op1_base_ap, decode_instruction_d2a10_output_tmp_c921e_5_res_add, decode_instruction_d2a10_output_tmp_c921e_5_res_mul, decode_instruction_d2a10_output_tmp_c921e_5_pc_update_jump, decode_instruction_d2a10_output_tmp_c921e_5_pc_update_jump_rel, decode_instruction_d2a10_output_tmp_c921e_5_pc_update_jnz, decode_instruction_d2a10_output_tmp_c921e_5_ap_update_add, decode_instruction_d2a10_output_tmp_c921e_5_ap_update_add_1, decode_instruction_d2a10_output_tmp_c921e_5_opcode_call, decode_instruction_d2a10_output_tmp_c921e_5_opcode_ret, decode_instruction_d2a10_output_tmp_c921e_5_opcode_assert_eq, decode_instruction_d2a10_output_tmp_c921e_5_opcode_extension]",
-        "type": "[M31; 19]",
+        "name": "[decode_instruction_d2a10_output_tmp_c921e_5_offset2, decode_instruction_d2a10_output_tmp_c921e_5_op1_base_ap]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "decode_instruction_d2a10::evaluate",
             [
               {
-                "State": "input_pc_col0"
+                "Array": [
+                  {
+                    "State": "input_pc_col0"
+                  }
+                ]
               },
               {
                 "State": "offset2_col3"
@@ -289,22 +290,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_small_output_tmp_c921e_11_limb_0, read_small_output_tmp_c921e_11_limb_1]",
-        "type": "[M31; 2]",
+        "name": "[read_small_output_tmp_c921e_11_limb_0]",
+        "type": "[M31; 1]",
         "var": {
           "StaticCall": [
             "read_small::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "mem1_base_col6"
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_instruction_d2a10_output_tmp_c921e_5_offset2"
+                    "BinaryOp": [
+                      {
+                        "State": "mem1_base_col6"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "decode_instruction_d2a10_output_tmp_c921e_5_offset2"
+                        ]
+                      }
                     ]
                   }
                 ]

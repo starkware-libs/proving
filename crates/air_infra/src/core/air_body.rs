@@ -15,7 +15,6 @@ use stwo_cairo_common::prover_types::cpu::ProverType;
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
-use crate::const_expr;
 use crate::core::Felt;
 
 // A Call is an air_body component that represents a call to another air function.
@@ -23,11 +22,9 @@ use crate::core::Felt;
 // and the air_body of the called function.
 #[derive(Clone, Debug)]
 pub struct Call {
-    pub air_fn_name: String,
-    pub air_fn_description: String,
+    pub entry: AirFnEntry,
     pub input: AirVarImpl,
     pub output_name: String,
-    pub output_expr_descriptions: Option<Vec<Option<String>>>,
     pub output: AirVarImpl,
     pub state_names: Vec<String>,
     pub air_body: AirBody,
@@ -321,7 +318,7 @@ impl AirBody {
                 AirBodyComponent::Call(call) => {
                     let call_deductions = call.air_body.compile_for_deductions();
                     if !call_deductions.is_empty() {
-                        deductions.push(TraceGenStep::StartBlock(call.air_fn_description));
+                        deductions.push(TraceGenStep::StartBlock(call.entry.description));
                         deductions.extend(call_deductions);
                         deductions.push(TraceGenStep::EndBlock);
                     }
@@ -403,31 +400,25 @@ impl AirBody {
                         }));
                     }
                 }
-                AirBodyComponent::Call(mut call) => {
+                AirBodyComponent::Call(call) => {
                     let call_constraints = call.air_body.compile_for_constraints();
                     if !call_constraints.is_empty() {
-                        // TODO(AnatG): Consider changing the signature of the function instead of
-                        // sending zeros.
-                        for f in call.input.as_felts_mut() {
-                            if !f.visibility().in_constraints {
-                                *f = const_expr!(0);
-                            }
-                        }
-
                         let state_vars = call
                             .state_names
                             .iter()
                             .map(|s| CompiledAirVar::State(s.clone()))
                             .collect::<Vec<_>>();
+                        let input = call
+                            .entry
+                            .input_as_limbs(call.input)
+                            .compile(CompileFor::Constraints);
 
                         constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                            name: call
-                                .output
-                                .verifier_name(call.output_name, call.output_expr_descriptions),
-                            r#type: call.output.verifier_type(),
+                            name: call.entry.output_verifier_name(call.output_name),
+                            r#type: call.entry.output_verifier_type(),
                             var: CompiledAirVar::StaticCall(
-                                format!("{}::{}", call.air_fn_name, CONSTRAINT_EVAL_FUNCTION_NAME),
-                                vec![call.input.as_limbs().compile(CompileFor::Constraints)]
+                                format!("{}::{}", call.entry.name, CONSTRAINT_EVAL_FUNCTION_NAME),
+                                vec![input]
                                     .into_iter()
                                     .chain(state_vars.into_iter())
                                     .collect(),
@@ -483,7 +474,7 @@ impl AirBody {
         let mut inline_calls = BTreeSet::new();
         for component in &self.0 {
             if let AirBodyComponent::Call(call) = component {
-                inline_calls.insert(call.air_fn_name.clone());
+                inline_calls.insert(call.entry.name.clone());
             }
         }
         inline_calls
@@ -526,6 +517,46 @@ impl AirBody {
             }
         });
         lookup_uses
+    }
+
+    pub fn get_constraint_intermediates(&self) -> Vec<String> {
+        self.get_constraint_exprs()
+            .into_iter()
+            .flat_map(|e| e.get_constraint_intermediates())
+            .collect()
+    }
+
+    fn get_constraint_exprs(&self) -> Vec<FeltExpr> {
+        let mut constraints = vec![];
+        for comp in self.0.clone().into_iter() {
+            match comp {
+                AirBodyComponent::Constraint(expr, _) => constraints.push(expr),
+                AirBodyComponent::Assignment { constraint, .. } => constraints.push(constraint),
+                AirBodyComponent::Intermediate(Intermediate {
+                    name: _,
+                    var,
+                    visibility,
+                }) if visibility.in_constraints => {
+                    constraints.push(var.as_felt());
+                }
+                AirBodyComponent::Call(Call {
+                    entry,
+                    input,
+                    output,
+                    air_body,
+                    ..
+                }) => {
+                    constraints.extend(entry.input_as_limbs(input).as_felts());
+                    constraints.extend(entry.output_as_limbs(output).as_felts());
+                    constraints.extend(air_body.get_constraint_exprs());
+                }
+                AirBodyComponent::LookupTerm { felts, .. } => {
+                    constraints.extend(felts.into_iter());
+                }
+                _ => {}
+            }
+        }
+        constraints
     }
 
     pub fn get_constraints(&self) -> Constraints {

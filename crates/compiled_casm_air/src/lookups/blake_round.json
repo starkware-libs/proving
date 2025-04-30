@@ -152,9 +152,6 @@
     {
       "Array": [
         {
-          "State": "input_limb_0_col0"
-        },
-        {
           "BinaryOp": [
             {
               "State": "input_limb_1_col1"
@@ -167,110 +164,11 @@
               ]
             }
           ]
-        },
-        {
-          "State": "blake_g_output_limb_0_col179"
-        },
-        {
-          "State": "blake_g_output_limb_1_col180"
-        },
-        {
-          "State": "blake_g_output_limb_0_col187"
-        },
-        {
-          "State": "blake_g_output_limb_1_col188"
-        },
-        {
-          "State": "blake_g_output_limb_0_col195"
-        },
-        {
-          "State": "blake_g_output_limb_1_col196"
-        },
-        {
-          "State": "blake_g_output_limb_0_col203"
-        },
-        {
-          "State": "blake_g_output_limb_1_col204"
-        },
-        {
-          "State": "blake_g_output_limb_2_col205"
-        },
-        {
-          "State": "blake_g_output_limb_3_col206"
-        },
-        {
-          "State": "blake_g_output_limb_2_col181"
-        },
-        {
-          "State": "blake_g_output_limb_3_col182"
-        },
-        {
-          "State": "blake_g_output_limb_2_col189"
-        },
-        {
-          "State": "blake_g_output_limb_3_col190"
-        },
-        {
-          "State": "blake_g_output_limb_2_col197"
-        },
-        {
-          "State": "blake_g_output_limb_3_col198"
-        },
-        {
-          "State": "blake_g_output_limb_4_col199"
-        },
-        {
-          "State": "blake_g_output_limb_5_col200"
-        },
-        {
-          "State": "blake_g_output_limb_4_col207"
-        },
-        {
-          "State": "blake_g_output_limb_5_col208"
-        },
-        {
-          "State": "blake_g_output_limb_4_col183"
-        },
-        {
-          "State": "blake_g_output_limb_5_col184"
-        },
-        {
-          "State": "blake_g_output_limb_4_col191"
-        },
-        {
-          "State": "blake_g_output_limb_5_col192"
-        },
-        {
-          "State": "blake_g_output_limb_6_col193"
-        },
-        {
-          "State": "blake_g_output_limb_7_col194"
-        },
-        {
-          "State": "blake_g_output_limb_6_col201"
-        },
-        {
-          "State": "blake_g_output_limb_7_col202"
-        },
-        {
-          "State": "blake_g_output_limb_6_col209"
-        },
-        {
-          "State": "blake_g_output_limb_7_col210"
-        },
-        {
-          "State": "blake_g_output_limb_6_col185"
-        },
-        {
-          "State": "blake_g_output_limb_7_col186"
-        },
-        {
-          "State": "input_limb_34_col34"
         }
       ]
     },
-    "[blake_round_output_limb_0, blake_round_output_limb_1, blake_round_output_limb_2, blake_round_output_limb_3, blake_round_output_limb_4, blake_round_output_limb_5, blake_round_output_limb_6, blake_round_output_limb_7, blake_round_output_limb_8, blake_round_output_limb_9, blake_round_output_limb_10, blake_round_output_limb_11, blake_round_output_limb_12, blake_round_output_limb_13, blake_round_output_limb_14, blake_round_output_limb_15, blake_round_output_limb_16, blake_round_output_limb_17, blake_round_output_limb_18, blake_round_output_limb_19, blake_round_output_limb_20, blake_round_output_limb_21, blake_round_output_limb_22, blake_round_output_limb_23, blake_round_output_limb_24, blake_round_output_limb_25, blake_round_output_limb_26, blake_round_output_limb_27, blake_round_output_limb_28, blake_round_output_limb_29, blake_round_output_limb_30, blake_round_output_limb_31, blake_round_output_limb_32, blake_round_output_limb_33, blake_round_output_limb_34]",
-    "[M31; 35]"
+    "[blake_round_output_limb_1]",
+    "[M31; 1]"
   ],
   "state_names": [
     "input_limb_0_col0",
@@ -630,20 +528,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_9_limb_0, read_blake_word_output_tmp_92ff8_9_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_0_col35"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_0_col35"
+                      }
+                    ]
                   }
                 ]
               },
@@ -672,20 +574,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_18_limb_0, read_blake_word_output_tmp_92ff8_18_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_1_col36"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_1_col36"
+                      }
+                    ]
                   }
                 ]
               },
@@ -714,20 +620,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_27_limb_0, read_blake_word_output_tmp_92ff8_27_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_2_col37"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_2_col37"
+                      }
+                    ]
                   }
                 ]
               },
@@ -756,20 +666,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_36_limb_0, read_blake_word_output_tmp_92ff8_36_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_3_col38"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_3_col38"
+                      }
+                    ]
                   }
                 ]
               },
@@ -798,20 +712,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_45_limb_0, read_blake_word_output_tmp_92ff8_45_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_4_col39"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_4_col39"
+                      }
+                    ]
                   }
                 ]
               },
@@ -840,20 +758,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_54_limb_0, read_blake_word_output_tmp_92ff8_54_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_5_col40"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_5_col40"
+                      }
+                    ]
                   }
                 ]
               },
@@ -882,20 +804,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_63_limb_0, read_blake_word_output_tmp_92ff8_63_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_6_col41"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_6_col41"
+                      }
+                    ]
                   }
                 ]
               },
@@ -924,20 +850,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_72_limb_0, read_blake_word_output_tmp_92ff8_72_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_7_col42"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_7_col42"
+                      }
+                    ]
                   }
                 ]
               },
@@ -966,20 +896,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_81_limb_0, read_blake_word_output_tmp_92ff8_81_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_8_col43"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_8_col43"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1008,20 +942,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_90_limb_0, read_blake_word_output_tmp_92ff8_90_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_9_col44"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_9_col44"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1050,20 +988,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_99_limb_0, read_blake_word_output_tmp_92ff8_99_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_10_col45"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_10_col45"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1092,20 +1034,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_108_limb_0, read_blake_word_output_tmp_92ff8_108_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_11_col46"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_11_col46"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1134,20 +1080,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_117_limb_0, read_blake_word_output_tmp_92ff8_117_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_12_col47"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_12_col47"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1176,20 +1126,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_126_limb_0, read_blake_word_output_tmp_92ff8_126_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_13_col48"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_13_col48"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1218,20 +1172,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_135_limb_0, read_blake_word_output_tmp_92ff8_135_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_14_col49"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_14_col49"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1260,20 +1218,24 @@
     },
     {
       "Intermediate": {
-        "name": "[read_blake_word_output_tmp_92ff8_144_limb_0, read_blake_word_output_tmp_92ff8_144_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_limb_34_col34"
-                  },
-                  "+",
-                  {
-                    "State": "blake_round_sigma_output_limb_15_col50"
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_34_col34"
+                      },
+                      "+",
+                      {
+                        "State": "blake_round_sigma_output_limb_15_col50"
+                      }
+                    ]
                   }
                 ]
               },

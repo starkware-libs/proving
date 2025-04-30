@@ -12,8 +12,8 @@
     "(PackedFelt252, PackedM31)"
   ],
   "verifier_input": [
-    "[cond_decode_small_sign_input_limb_0, cond_decode_small_sign_input_limb_1, cond_decode_small_sign_input_limb_2, cond_decode_small_sign_input_limb_3, cond_decode_small_sign_input_limb_4, cond_decode_small_sign_input_limb_5, cond_decode_small_sign_input_limb_6, cond_decode_small_sign_input_limb_7, cond_decode_small_sign_input_limb_8, cond_decode_small_sign_input_limb_9, cond_decode_small_sign_input_limb_10, cond_decode_small_sign_input_limb_11, cond_decode_small_sign_input_limb_12, cond_decode_small_sign_input_limb_13, cond_decode_small_sign_input_limb_14, cond_decode_small_sign_input_limb_15, cond_decode_small_sign_input_limb_16, cond_decode_small_sign_input_limb_17, cond_decode_small_sign_input_limb_18, cond_decode_small_sign_input_limb_19, cond_decode_small_sign_input_limb_20, cond_decode_small_sign_input_limb_21, cond_decode_small_sign_input_limb_22, cond_decode_small_sign_input_limb_23, cond_decode_small_sign_input_limb_24, cond_decode_small_sign_input_limb_25, cond_decode_small_sign_input_limb_26, cond_decode_small_sign_input_limb_27, cond_decode_small_sign_input_limb_28]",
-    "[M31; 29]"
+    "[cond_decode_small_sign_input_limb_28]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -32,17 +32,10 @@
   ],
   "verifier_output": [
     {
-      "Array": [
-        {
-          "State": "msb_col0"
-        },
-        {
-          "State": "mid_limbs_set_col1"
-        }
-      ]
+      "Array": []
     },
-    "[cond_decode_small_sign_output_limb_0, cond_decode_small_sign_output_limb_1]",
-    "[M31; 2]"
+    "()",
+    "()"
   ],
   "state_names": [
     "msb_col0",

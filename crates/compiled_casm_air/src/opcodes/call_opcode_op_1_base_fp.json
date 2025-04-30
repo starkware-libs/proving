@@ -242,14 +242,18 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_ea769_output_tmp_6d870_3_offset0, decode_instruction_ea769_output_tmp_6d870_3_offset1, decode_instruction_ea769_output_tmp_6d870_3_offset2, decode_instruction_ea769_output_tmp_6d870_3_dst_base_fp, decode_instruction_ea769_output_tmp_6d870_3_op0_base_fp, decode_instruction_ea769_output_tmp_6d870_3_op1_imm, decode_instruction_ea769_output_tmp_6d870_3_op1_base_fp, decode_instruction_ea769_output_tmp_6d870_3_op1_base_ap, decode_instruction_ea769_output_tmp_6d870_3_res_add, decode_instruction_ea769_output_tmp_6d870_3_res_mul, decode_instruction_ea769_output_tmp_6d870_3_pc_update_jump, decode_instruction_ea769_output_tmp_6d870_3_pc_update_jump_rel, decode_instruction_ea769_output_tmp_6d870_3_pc_update_jnz, decode_instruction_ea769_output_tmp_6d870_3_ap_update_add, decode_instruction_ea769_output_tmp_6d870_3_ap_update_add_1, decode_instruction_ea769_output_tmp_6d870_3_opcode_call, decode_instruction_ea769_output_tmp_6d870_3_opcode_ret, decode_instruction_ea769_output_tmp_6d870_3_opcode_assert_eq, decode_instruction_ea769_output_tmp_6d870_3_opcode_extension]",
-        "type": "[M31; 19]",
+        "name": "[decode_instruction_ea769_output_tmp_6d870_3_offset2]",
+        "type": "[M31; 1]",
         "var": {
           "StaticCall": [
             "decode_instruction_ea769::evaluate",
             [
               {
-                "State": "input_pc_col0"
+                "Array": [
+                  {
+                    "State": "input_pc_col0"
+                  }
+                ]
               },
               {
                 "State": "offset2_col3"
@@ -261,14 +265,18 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_tmp_6d870_6_limb_0, read_positive_num_bits_27_output_tmp_6d870_6_limb_1, read_positive_num_bits_27_output_tmp_6d870_6_limb_2, read_positive_num_bits_27_output_tmp_6d870_6_limb_3, read_positive_num_bits_27_output_tmp_6d870_6_limb_4, read_positive_num_bits_27_output_tmp_6d870_6_limb_5, read_positive_num_bits_27_output_tmp_6d870_6_limb_6, read_positive_num_bits_27_output_tmp_6d870_6_limb_7, read_positive_num_bits_27_output_tmp_6d870_6_limb_8, read_positive_num_bits_27_output_tmp_6d870_6_limb_9, read_positive_num_bits_27_output_tmp_6d870_6_limb_10, read_positive_num_bits_27_output_tmp_6d870_6_limb_11, read_positive_num_bits_27_output_tmp_6d870_6_limb_12, read_positive_num_bits_27_output_tmp_6d870_6_limb_13, read_positive_num_bits_27_output_tmp_6d870_6_limb_14, read_positive_num_bits_27_output_tmp_6d870_6_limb_15, read_positive_num_bits_27_output_tmp_6d870_6_limb_16, read_positive_num_bits_27_output_tmp_6d870_6_limb_17, read_positive_num_bits_27_output_tmp_6d870_6_limb_18, read_positive_num_bits_27_output_tmp_6d870_6_limb_19, read_positive_num_bits_27_output_tmp_6d870_6_limb_20, read_positive_num_bits_27_output_tmp_6d870_6_limb_21, read_positive_num_bits_27_output_tmp_6d870_6_limb_22, read_positive_num_bits_27_output_tmp_6d870_6_limb_23, read_positive_num_bits_27_output_tmp_6d870_6_limb_24, read_positive_num_bits_27_output_tmp_6d870_6_limb_25, read_positive_num_bits_27_output_tmp_6d870_6_limb_26, read_positive_num_bits_27_output_tmp_6d870_6_limb_27, read_positive_num_bits_27_output_tmp_6d870_6_limb_28]",
-        "type": "[M31; 29]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
             [
               {
-                "State": "input_ap_col1"
+                "Array": [
+                  {
+                    "State": "input_ap_col1"
+                  }
+                ]
               },
               {
                 "State": "stored_fp_id_col4"
@@ -343,22 +351,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_tmp_6d870_9_limb_0, read_positive_num_bits_27_output_tmp_6d870_9_limb_1, read_positive_num_bits_27_output_tmp_6d870_9_limb_2, read_positive_num_bits_27_output_tmp_6d870_9_limb_3, read_positive_num_bits_27_output_tmp_6d870_9_limb_4, read_positive_num_bits_27_output_tmp_6d870_9_limb_5, read_positive_num_bits_27_output_tmp_6d870_9_limb_6, read_positive_num_bits_27_output_tmp_6d870_9_limb_7, read_positive_num_bits_27_output_tmp_6d870_9_limb_8, read_positive_num_bits_27_output_tmp_6d870_9_limb_9, read_positive_num_bits_27_output_tmp_6d870_9_limb_10, read_positive_num_bits_27_output_tmp_6d870_9_limb_11, read_positive_num_bits_27_output_tmp_6d870_9_limb_12, read_positive_num_bits_27_output_tmp_6d870_9_limb_13, read_positive_num_bits_27_output_tmp_6d870_9_limb_14, read_positive_num_bits_27_output_tmp_6d870_9_limb_15, read_positive_num_bits_27_output_tmp_6d870_9_limb_16, read_positive_num_bits_27_output_tmp_6d870_9_limb_17, read_positive_num_bits_27_output_tmp_6d870_9_limb_18, read_positive_num_bits_27_output_tmp_6d870_9_limb_19, read_positive_num_bits_27_output_tmp_6d870_9_limb_20, read_positive_num_bits_27_output_tmp_6d870_9_limb_21, read_positive_num_bits_27_output_tmp_6d870_9_limb_22, read_positive_num_bits_27_output_tmp_6d870_9_limb_23, read_positive_num_bits_27_output_tmp_6d870_9_limb_24, read_positive_num_bits_27_output_tmp_6d870_9_limb_25, read_positive_num_bits_27_output_tmp_6d870_9_limb_26, read_positive_num_bits_27_output_tmp_6d870_9_limb_27, read_positive_num_bits_27_output_tmp_6d870_9_limb_28]",
-        "type": "[M31; 29]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_ap_col1"
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
+                    "BinaryOp": [
+                      {
+                        "State": "input_ap_col1"
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -447,22 +459,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_tmp_6d870_12_limb_0, read_positive_num_bits_27_output_tmp_6d870_12_limb_1, read_positive_num_bits_27_output_tmp_6d870_12_limb_2, read_positive_num_bits_27_output_tmp_6d870_12_limb_3, read_positive_num_bits_27_output_tmp_6d870_12_limb_4, read_positive_num_bits_27_output_tmp_6d870_12_limb_5, read_positive_num_bits_27_output_tmp_6d870_12_limb_6, read_positive_num_bits_27_output_tmp_6d870_12_limb_7, read_positive_num_bits_27_output_tmp_6d870_12_limb_8, read_positive_num_bits_27_output_tmp_6d870_12_limb_9, read_positive_num_bits_27_output_tmp_6d870_12_limb_10, read_positive_num_bits_27_output_tmp_6d870_12_limb_11, read_positive_num_bits_27_output_tmp_6d870_12_limb_12, read_positive_num_bits_27_output_tmp_6d870_12_limb_13, read_positive_num_bits_27_output_tmp_6d870_12_limb_14, read_positive_num_bits_27_output_tmp_6d870_12_limb_15, read_positive_num_bits_27_output_tmp_6d870_12_limb_16, read_positive_num_bits_27_output_tmp_6d870_12_limb_17, read_positive_num_bits_27_output_tmp_6d870_12_limb_18, read_positive_num_bits_27_output_tmp_6d870_12_limb_19, read_positive_num_bits_27_output_tmp_6d870_12_limb_20, read_positive_num_bits_27_output_tmp_6d870_12_limb_21, read_positive_num_bits_27_output_tmp_6d870_12_limb_22, read_positive_num_bits_27_output_tmp_6d870_12_limb_23, read_positive_num_bits_27_output_tmp_6d870_12_limb_24, read_positive_num_bits_27_output_tmp_6d870_12_limb_25, read_positive_num_bits_27_output_tmp_6d870_12_limb_26, read_positive_num_bits_27_output_tmp_6d870_12_limb_27, read_positive_num_bits_27_output_tmp_6d870_12_limb_28]",
-        "type": "[M31; 29]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "input_fp_col2"
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_instruction_ea769_output_tmp_6d870_3_offset2"
+                    "BinaryOp": [
+                      {
+                        "State": "input_fp_col2"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "decode_instruction_ea769_output_tmp_6d870_3_offset2"
+                        ]
+                      }
                     ]
                   }
                 ]

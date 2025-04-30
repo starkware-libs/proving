@@ -145,14 +145,11 @@
               "State": "ap_update_add_1_col6"
             }
           ]
-        },
-        {
-          "State": "input_fp_col2"
         }
       ]
     },
-    "[jump_opcode_double_deref_output_pc, jump_opcode_double_deref_output_ap, jump_opcode_double_deref_output_fp]",
-    "[M31; 3]"
+    "[jump_opcode_double_deref_output_pc, jump_opcode_double_deref_output_ap]",
+    "[M31; 2]"
   ],
   "state_names": [
     "input_pc_col0",
@@ -212,14 +209,18 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_9bd86_output_tmp_22134_6_offset0, decode_instruction_9bd86_output_tmp_22134_6_offset1, decode_instruction_9bd86_output_tmp_22134_6_offset2, decode_instruction_9bd86_output_tmp_22134_6_dst_base_fp, decode_instruction_9bd86_output_tmp_22134_6_op0_base_fp, decode_instruction_9bd86_output_tmp_22134_6_op1_imm, decode_instruction_9bd86_output_tmp_22134_6_op1_base_fp, decode_instruction_9bd86_output_tmp_22134_6_op1_base_ap, decode_instruction_9bd86_output_tmp_22134_6_res_add, decode_instruction_9bd86_output_tmp_22134_6_res_mul, decode_instruction_9bd86_output_tmp_22134_6_pc_update_jump, decode_instruction_9bd86_output_tmp_22134_6_pc_update_jump_rel, decode_instruction_9bd86_output_tmp_22134_6_pc_update_jnz, decode_instruction_9bd86_output_tmp_22134_6_ap_update_add, decode_instruction_9bd86_output_tmp_22134_6_ap_update_add_1, decode_instruction_9bd86_output_tmp_22134_6_opcode_call, decode_instruction_9bd86_output_tmp_22134_6_opcode_ret, decode_instruction_9bd86_output_tmp_22134_6_opcode_assert_eq, decode_instruction_9bd86_output_tmp_22134_6_opcode_extension]",
-        "type": "[M31; 19]",
+        "name": "[decode_instruction_9bd86_output_tmp_22134_6_offset1, decode_instruction_9bd86_output_tmp_22134_6_offset2]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "decode_instruction_9bd86::evaluate",
             [
               {
-                "State": "input_pc_col0"
+                "Array": [
+                  {
+                    "State": "input_pc_col0"
+                  }
+                ]
               },
               {
                 "State": "offset1_col3"
@@ -291,22 +292,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_tmp_22134_9_limb_0, read_positive_num_bits_27_output_tmp_22134_9_limb_1, read_positive_num_bits_27_output_tmp_22134_9_limb_2, read_positive_num_bits_27_output_tmp_22134_9_limb_3, read_positive_num_bits_27_output_tmp_22134_9_limb_4, read_positive_num_bits_27_output_tmp_22134_9_limb_5, read_positive_num_bits_27_output_tmp_22134_9_limb_6, read_positive_num_bits_27_output_tmp_22134_9_limb_7, read_positive_num_bits_27_output_tmp_22134_9_limb_8, read_positive_num_bits_27_output_tmp_22134_9_limb_9, read_positive_num_bits_27_output_tmp_22134_9_limb_10, read_positive_num_bits_27_output_tmp_22134_9_limb_11, read_positive_num_bits_27_output_tmp_22134_9_limb_12, read_positive_num_bits_27_output_tmp_22134_9_limb_13, read_positive_num_bits_27_output_tmp_22134_9_limb_14, read_positive_num_bits_27_output_tmp_22134_9_limb_15, read_positive_num_bits_27_output_tmp_22134_9_limb_16, read_positive_num_bits_27_output_tmp_22134_9_limb_17, read_positive_num_bits_27_output_tmp_22134_9_limb_18, read_positive_num_bits_27_output_tmp_22134_9_limb_19, read_positive_num_bits_27_output_tmp_22134_9_limb_20, read_positive_num_bits_27_output_tmp_22134_9_limb_21, read_positive_num_bits_27_output_tmp_22134_9_limb_22, read_positive_num_bits_27_output_tmp_22134_9_limb_23, read_positive_num_bits_27_output_tmp_22134_9_limb_24, read_positive_num_bits_27_output_tmp_22134_9_limb_25, read_positive_num_bits_27_output_tmp_22134_9_limb_26, read_positive_num_bits_27_output_tmp_22134_9_limb_27, read_positive_num_bits_27_output_tmp_22134_9_limb_28]",
-        "type": "[M31; 29]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "mem0_base_col7"
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_instruction_9bd86_output_tmp_22134_6_offset1"
+                    "BinaryOp": [
+                      {
+                        "State": "mem0_base_col7"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "decode_instruction_9bd86_output_tmp_22134_6_offset1"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -330,32 +335,51 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_tmp_22134_12_limb_0, read_positive_num_bits_27_output_tmp_22134_12_limb_1, read_positive_num_bits_27_output_tmp_22134_12_limb_2, read_positive_num_bits_27_output_tmp_22134_12_limb_3, read_positive_num_bits_27_output_tmp_22134_12_limb_4, read_positive_num_bits_27_output_tmp_22134_12_limb_5, read_positive_num_bits_27_output_tmp_22134_12_limb_6, read_positive_num_bits_27_output_tmp_22134_12_limb_7, read_positive_num_bits_27_output_tmp_22134_12_limb_8, read_positive_num_bits_27_output_tmp_22134_12_limb_9, read_positive_num_bits_27_output_tmp_22134_12_limb_10, read_positive_num_bits_27_output_tmp_22134_12_limb_11, read_positive_num_bits_27_output_tmp_22134_12_limb_12, read_positive_num_bits_27_output_tmp_22134_12_limb_13, read_positive_num_bits_27_output_tmp_22134_12_limb_14, read_positive_num_bits_27_output_tmp_22134_12_limb_15, read_positive_num_bits_27_output_tmp_22134_12_limb_16, read_positive_num_bits_27_output_tmp_22134_12_limb_17, read_positive_num_bits_27_output_tmp_22134_12_limb_18, read_positive_num_bits_27_output_tmp_22134_12_limb_19, read_positive_num_bits_27_output_tmp_22134_12_limb_20, read_positive_num_bits_27_output_tmp_22134_12_limb_21, read_positive_num_bits_27_output_tmp_22134_12_limb_22, read_positive_num_bits_27_output_tmp_22134_12_limb_23, read_positive_num_bits_27_output_tmp_22134_12_limb_24, read_positive_num_bits_27_output_tmp_22134_12_limb_25, read_positive_num_bits_27_output_tmp_22134_12_limb_26, read_positive_num_bits_27_output_tmp_22134_12_limb_27, read_positive_num_bits_27_output_tmp_22134_12_limb_28]",
-        "type": "[M31; 29]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
                     "BinaryOp": [
                       {
                         "BinaryOp": [
                           {
-                            "State": "mem1_base_limb_0_col9"
+                            "BinaryOp": [
+                              {
+                                "State": "mem1_base_limb_0_col9"
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "mem1_base_limb_1_col10"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "512"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
                           },
                           "+",
                           {
                             "BinaryOp": [
                               {
-                                "State": "mem1_base_limb_1_col10"
+                                "State": "mem1_base_limb_2_col11"
                               },
                               "*",
                               {
                                 "Const": [
                                   "M31",
-                                  "512"
+                                  "262144"
                                 ]
                               }
                             ]
@@ -364,26 +388,11 @@
                       },
                       "+",
                       {
-                        "BinaryOp": [
-                          {
-                            "State": "mem1_base_limb_2_col11"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "262144"
-                            ]
-                          }
+                        "Var": [
+                          "M31",
+                          "decode_instruction_9bd86_output_tmp_22134_6_offset2"
                         ]
                       }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_instruction_9bd86_output_tmp_22134_6_offset2"
                     ]
                   }
                 ]

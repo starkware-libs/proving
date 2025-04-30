@@ -52,12 +52,6 @@
     {
       "Array": [
         {
-          "State": "triple_sum32_res_limb_0_col32"
-        },
-        {
-          "State": "triple_sum32_res_limb_1_col33"
-        },
-        {
           "Var": [
             "M31",
             "xor_rot_32_r_7_output_tmp_f72c8_87_limb_0"
@@ -68,12 +62,6 @@
             "M31",
             "xor_rot_32_r_7_output_tmp_f72c8_87_limb_1"
           ]
-        },
-        {
-          "State": "triple_sum32_res_limb_0_col42"
-        },
-        {
-          "State": "triple_sum32_res_limb_1_col43"
         },
         {
           "Var": [
@@ -89,8 +77,8 @@
         }
       ]
     },
-    "[blake_g_output_limb_0, blake_g_output_limb_1, blake_g_output_limb_2, blake_g_output_limb_3, blake_g_output_limb_4, blake_g_output_limb_5, blake_g_output_limb_6, blake_g_output_limb_7]",
-    "[M31; 8]"
+    "[blake_g_output_limb_2, blake_g_output_limb_3, blake_g_output_limb_6, blake_g_output_limb_7]",
+    "[M31; 4]"
   ],
   "state_names": [
     "input_limb_0_col0",
@@ -265,8 +253,8 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[triple_sum_32_output_tmp_f72c8_3_limb_0, triple_sum_32_output_tmp_f72c8_3_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -359,8 +347,8 @@
     },
     {
       "Intermediate": {
-        "name": "[triple_sum_32_output_tmp_f72c8_25_limb_0, triple_sum_32_output_tmp_f72c8_25_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -465,8 +453,8 @@
     },
     {
       "Intermediate": {
-        "name": "[triple_sum_32_output_tmp_f72c8_47_limb_0, triple_sum_32_output_tmp_f72c8_47_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -571,8 +559,8 @@
     },
     {
       "Intermediate": {
-        "name": "[triple_sum_32_output_tmp_f72c8_69_limb_0, triple_sum_32_output_tmp_f72c8_69_limb_1]",
-        "type": "[M31; 2]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",

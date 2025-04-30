@@ -106,6 +106,27 @@ impl FeltExpr {
         }
     }
 
+    pub fn get_constraint_intermediates(&self) -> Vec<String> {
+        match self {
+            FeltExpr::Var(v) => {
+                if let Some(name) = v
+                    .complex_or_felt
+                    .as_felt_info()
+                    .constraint_intermediate
+                    .as_ref()
+                {
+                    return vec![name.clone()];
+                }
+                vec![]
+            }
+            FeltExpr::Op(op) => op
+                .children
+                .iter()
+                .flat_map(|c| c.as_felt().get_constraint_intermediates())
+                .collect(),
+        }
+    }
+
     pub fn let_for_constraint(&mut self, name: String) {
         if let FeltExpr::Op(_) = self {
             let mut var = Expr::new_var_from(name.clone(), self);

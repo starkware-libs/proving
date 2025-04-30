@@ -40,9 +40,7 @@ impl AirFnEntry {
             TraceType::Component if self.ext_input.is_some() => PaddingType::Multiplicity,
             _ => PaddingType::Enabler,
         };
-        let input = Self::generate_input(self.ext_input, self.input);
-        let input_name = format!("{}_{}", self.name, INPUT_VAR_SUFFIX);
-        let output_name = format!("{}_{}", self.name, OUTPUT_VAR_SUFFIX);
+        let input = Self::generate_input(self.ext_input.clone(), self.input.clone());
         let inline_calls = self
             .air_body
             .get_inline_calls()
@@ -73,33 +71,30 @@ impl AirFnEntry {
 
         CompiledAirFn {
             name: self.name.clone(),
-            relation_name: self.relation_name,
+            relation_name: self.relation_name.clone(),
             relation_size,
-            description: self.description,
+            description: self.description.clone(),
             instance_definition: serde_json::to_string(&self.inst_def)
                 .expect("Failed to serialize"),
             r#type: self.trace_type,
             padding_type,
             prover_input: (
-                input_name.clone(),
+                Self::input_name(&self.name),
                 input.prover_type(),
                 input.packed_prover_type(),
             ),
-            verifier_input: (
-                input.verifier_name(input_name, self.input_expr_descriptions),
-                input.verifier_type(),
-            ),
+            verifier_input: (self.input_verifier_name(), self.input_verifier_type()),
             prover_output: (
                 self.output.clone().compile(CompileFor::Deductions),
-                output_name.clone(),
+                Self::output_name(&self.name),
                 self.output.prover_type(),
                 self.output.packed_prover_type(),
             ),
             verifier_output: (
-                self.output.as_limbs().compile(CompileFor::Constraints),
-                self.output
-                    .verifier_name(output_name, self.output_expr_descriptions),
-                self.output.verifier_type(),
+                self.output_as_limbs(self.output.clone())
+                    .compile(CompileFor::Constraints),
+                self.output_verifier_name(Self::output_name(&self.name)),
+                self.output_verifier_type(),
             ),
             state_names: self.state.get_state_names(),
             lookup_names: self
@@ -123,6 +118,117 @@ impl AirFnEntry {
             (Some(ext_input), Some(input)) => AirVarImpl::Tuple(vec![ext_input, input]),
             (None, None) => AirVarImpl::Tuple(vec![]),
         }
+    }
+
+    pub fn output_name(air_fn_name: &String) -> String {
+        format!("{}_{}", air_fn_name, OUTPUT_VAR_SUFFIX)
+    }
+
+    pub fn input_name(air_fn_name: &String) -> String {
+        format!("{}_{}", air_fn_name, INPUT_VAR_SUFFIX)
+    }
+
+    pub fn output_as_limbs(&self, output: AirVarImpl) -> AirVarImpl {
+        AirVarImpl::Array(
+            self.get_output_optional_limbs(output)
+                .into_iter()
+                .flatten()
+                .collect(),
+        )
+    }
+
+    pub fn input_as_limbs(&self, input: AirVarImpl) -> AirVarImpl {
+        AirVarImpl::Array(
+            self.get_input_optional_limbs(input)
+                .into_iter()
+                .flatten()
+                .collect(),
+        )
+    }
+
+    pub fn output_verifier_type(&self) -> String {
+        self.output_as_limbs(self.output.clone()).prover_type()
+    }
+
+    pub fn input_verifier_type(&self) -> String {
+        let input = Self::generate_input(self.ext_input.clone(), self.input.clone());
+        self.input_as_limbs(input).prover_type()
+    }
+
+    pub fn output_verifier_name(&self, name: String) -> String {
+        let optional_limbs = self.get_output_optional_limbs(self.output.clone());
+        if optional_limbs.iter().all(|v| v.is_none()) {
+            return "()".to_string();
+        }
+
+        format!(
+            "[{}]",
+            optional_limbs
+                .into_iter()
+                .enumerate()
+                .filter_map(|(i, v)| v.map(|_| self.output.get_limb_name(
+                    &name,
+                    i,
+                    &self.output_expr_descriptions
+                )))
+                .collect::<Vec<_>>()
+                .join(", ")
+        )
+    }
+
+    pub fn input_verifier_name(&self) -> String {
+        let input = Self::generate_input(self.ext_input.clone(), self.input.clone());
+        let optional_limbs = self.get_input_optional_limbs(input.clone());
+        let name = Self::input_name(&self.name);
+
+        if optional_limbs.iter().all(|v| v.is_none()) {
+            return "()".to_string();
+        }
+
+        format!(
+            "[{}]",
+            optional_limbs
+                .into_iter()
+                .enumerate()
+                .filter_map(|(i, v)| v.map(|_| input.get_limb_name(
+                    &name,
+                    i,
+                    &self.input_expr_descriptions
+                )))
+                .collect::<Vec<_>>()
+                .join(", ")
+        )
+    }
+
+    fn get_output_optional_limbs(&self, output: AirVarImpl) -> Vec<Option<AirVarImpl>> {
+        output
+            .as_felts()
+            .into_iter()
+            .zip(self.output.as_felts())
+            .map(|(f, entry_f)| (!entry_f.is_directly_in_state()).then_some(f.into()))
+            .collect()
+    }
+
+    fn get_input_optional_limbs(&self, input: AirVarImpl) -> Vec<Option<AirVarImpl>> {
+        let input_name = Self::input_name(&self.name);
+        let mut constraint_intermediates = self.air_body.get_constraint_intermediates();
+        constraint_intermediates.extend(
+            self.output
+                .as_felts()
+                .into_iter()
+                .flat_map(|f| f.get_constraint_intermediates()),
+        );
+        let entry_input = Self::generate_input(self.ext_input.clone(), self.input.clone());
+
+        input
+            .as_felts()
+            .into_iter()
+            .enumerate()
+            .map(|(i, f)| {
+                let name = entry_input.get_limb_name(&input_name, i, &self.input_expr_descriptions);
+                constraint_intermediates.contains(&name).then_some(f.into())
+            })
+            .collect()
     }
 }
 
@@ -284,7 +390,7 @@ impl AirFnRegistry {
         O: AirVar,
     {
         let ext_input = E::new();
-        let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
+        let input_name = AirFnEntry::input_name(&air_fn.name());
         let mut input = I::new(input_name.clone(), Some(1));
         input = input
             .rec_let(input_name, air_fn.input_expr_descriptions())

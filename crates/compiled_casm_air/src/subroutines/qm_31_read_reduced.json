@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "qm_31_read_reduced_input",
-    "M31"
+    "[qm_31_read_reduced_input]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -513,14 +513,11 @@
               ]
             }
           ]
-        },
-        {
-          "State": "id_col0"
         }
       ]
     },
-    "[qm_31_read_reduced_output_limb_0, qm_31_read_reduced_output_limb_1, qm_31_read_reduced_output_limb_2, qm_31_read_reduced_output_limb_3, qm_31_read_reduced_output_limb_4]",
-    "[M31; 5]"
+    "[qm_31_read_reduced_output_limb_0, qm_31_read_reduced_output_limb_1, qm_31_read_reduced_output_limb_2, qm_31_read_reduced_output_limb_3]",
+    "[M31; 4]"
   ],
   "state_names": [
     "id_col0",
@@ -569,16 +566,20 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_144_output_tmp_26093_2_limb_0, read_positive_num_bits_144_output_tmp_26093_2_limb_1, read_positive_num_bits_144_output_tmp_26093_2_limb_2, read_positive_num_bits_144_output_tmp_26093_2_limb_3, read_positive_num_bits_144_output_tmp_26093_2_limb_4, read_positive_num_bits_144_output_tmp_26093_2_limb_5, read_positive_num_bits_144_output_tmp_26093_2_limb_6, read_positive_num_bits_144_output_tmp_26093_2_limb_7, read_positive_num_bits_144_output_tmp_26093_2_limb_8, read_positive_num_bits_144_output_tmp_26093_2_limb_9, read_positive_num_bits_144_output_tmp_26093_2_limb_10, read_positive_num_bits_144_output_tmp_26093_2_limb_11, read_positive_num_bits_144_output_tmp_26093_2_limb_12, read_positive_num_bits_144_output_tmp_26093_2_limb_13, read_positive_num_bits_144_output_tmp_26093_2_limb_14, read_positive_num_bits_144_output_tmp_26093_2_limb_15, read_positive_num_bits_144_output_tmp_26093_2_limb_16, read_positive_num_bits_144_output_tmp_26093_2_limb_17, read_positive_num_bits_144_output_tmp_26093_2_limb_18, read_positive_num_bits_144_output_tmp_26093_2_limb_19, read_positive_num_bits_144_output_tmp_26093_2_limb_20, read_positive_num_bits_144_output_tmp_26093_2_limb_21, read_positive_num_bits_144_output_tmp_26093_2_limb_22, read_positive_num_bits_144_output_tmp_26093_2_limb_23, read_positive_num_bits_144_output_tmp_26093_2_limb_24, read_positive_num_bits_144_output_tmp_26093_2_limb_25, read_positive_num_bits_144_output_tmp_26093_2_limb_26, read_positive_num_bits_144_output_tmp_26093_2_limb_27, read_positive_num_bits_144_output_tmp_26093_2_limb_28]",
-        "type": "[M31; 29]",
+        "name": "()",
+        "type": "()",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_144::evaluate",
             [
               {
-                "Var": [
-                  "M31",
-                  "qm_31_read_reduced_input"
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "qm_31_read_reduced_input"
+                    ]
+                  }
                 ]
               },
               {

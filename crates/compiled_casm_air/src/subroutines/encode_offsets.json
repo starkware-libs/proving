@@ -84,9 +84,6 @@
     {
       "Array": [
         {
-          "State": "offset0_low_col0"
-        },
-        {
           "BinaryOp": [
             {
               "State": "offset0_mid_col1"
@@ -109,9 +106,6 @@
           ]
         },
         {
-          "State": "offset1_mid_col3"
-        },
-        {
           "BinaryOp": [
             {
               "State": "offset1_high_col4"
@@ -132,17 +126,11 @@
               ]
             }
           ]
-        },
-        {
-          "State": "offset2_mid_col6"
-        },
-        {
-          "State": "offset2_high_col7"
         }
       ]
     },
-    "[encode_offsets_output_limb_0, encode_offsets_output_limb_1, encode_offsets_output_limb_2, encode_offsets_output_limb_3, encode_offsets_output_limb_4, encode_offsets_output_limb_5]",
-    "[M31; 6]"
+    "[encode_offsets_output_limb_1, encode_offsets_output_limb_3]",
+    "[M31; 2]"
   ],
   "state_names": [
     "offset0_low_col0",

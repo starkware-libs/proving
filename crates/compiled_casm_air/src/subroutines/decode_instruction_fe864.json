@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "decode_instruction_fe864_input_pc",
-    "M31"
+    "[decode_instruction_fe864_input_pc]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -179,12 +179,6 @@
           ]
         },
         {
-          "Const": [
-            "M31",
-            "2147483646"
-          ]
-        },
-        {
           "BinaryOp": [
             {
               "State": "offset2_col1"
@@ -199,24 +193,6 @@
           ]
         },
         {
-          "State": "dst_base_fp_col2"
-        },
-        {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "State": "op1_base_fp_col3"
-        },
-        {
           "BinaryOp": [
             {
               "Const": [
@@ -229,74 +205,11 @@
               "State": "op1_base_fp_col3"
             }
           ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "State": "ap_update_add_1_col4"
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
         }
       ]
     },
-    "[decode_instruction_fe864_output_offset0, decode_instruction_fe864_output_offset1, decode_instruction_fe864_output_offset2, decode_instruction_fe864_output_dst_base_fp, decode_instruction_fe864_output_op0_base_fp, decode_instruction_fe864_output_op1_imm, decode_instruction_fe864_output_op1_base_fp, decode_instruction_fe864_output_op1_base_ap, decode_instruction_fe864_output_res_add, decode_instruction_fe864_output_res_mul, decode_instruction_fe864_output_pc_update_jump, decode_instruction_fe864_output_pc_update_jump_rel, decode_instruction_fe864_output_pc_update_jnz, decode_instruction_fe864_output_ap_update_add, decode_instruction_fe864_output_ap_update_add_1, decode_instruction_fe864_output_opcode_call, decode_instruction_fe864_output_opcode_ret, decode_instruction_fe864_output_opcode_assert_eq, decode_instruction_fe864_output_opcode_extension]",
-    "[M31; 19]"
+    "[decode_instruction_fe864_output_offset0, decode_instruction_fe864_output_offset2, decode_instruction_fe864_output_op1_base_ap]",
+    "[M31; 3]"
   ],
   "state_names": [
     "offset0_col0",
