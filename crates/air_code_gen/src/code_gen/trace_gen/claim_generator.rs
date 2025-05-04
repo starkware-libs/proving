@@ -568,17 +568,13 @@ fn simd_parse_air_var(
             format!("({})", expr_str)
         }
         CompiledAirVar::Array(exprs) => {
-            if exprs.is_empty() {
-                return "()".to_string();
-            }
-            let mut expr_str = String::new();
-            for (i, expr) in exprs.iter().enumerate() {
-                if i > 0 {
-                    expr_str.push_str(", ");
-                }
-                expr_str.push_str(&simd_parse_air_var(expr, constant_names));
-            }
-            format!("[{}]", expr_str)
+            format!(
+                "[{}]",
+                exprs
+                    .iter()
+                    .map(|e| simd_parse_air_var(e, constant_names))
+                    .join(", ")
+            )
         }
         CompiledAirVar::Struct { r#type, fields } => {
             let members_code = fields

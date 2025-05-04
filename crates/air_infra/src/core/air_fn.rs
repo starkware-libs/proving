@@ -446,7 +446,7 @@ impl AirBuilder {
         O: AirVar,
     {
         if O::is_empty() {
-            return (expr, "()".to_string());
+            return (expr, "[]".to_string());
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));

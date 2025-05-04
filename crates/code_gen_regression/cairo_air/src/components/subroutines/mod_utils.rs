@@ -255,7 +255,7 @@ impl ModUtils {
         memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
         eval: &mut E,
-    ) -> () {
+    ) -> [E::F; 0] {
         let M31_1 = E::F::from(M31::from(1));
         let M31_2 = E::F::from(M31::from(2));
         let M31_262144 = E::F::from(M31::from(262144));
@@ -772,6 +772,6 @@ impl ModUtils {
             memory_id_to_big_lookup_elements,
             eval,
         );
-        ()
+        []
     }
 }

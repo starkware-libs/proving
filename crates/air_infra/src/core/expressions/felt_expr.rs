@@ -1,6 +1,7 @@
 use compiled_casm_air::compiled_structs::ExternalState;
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
+use indexmap::IndexSet;
 
 use super::super::state::*;
 use super::super::variables::*;
@@ -106,7 +107,7 @@ impl FeltExpr {
         }
     }
 
-    pub fn get_constraint_intermediates(&self) -> Vec<String> {
+    pub fn get_constraint_intermediates(&self) -> IndexSet<String> {
         match self {
             FeltExpr::Var(v) => {
                 if let Some(name) = v
@@ -115,9 +116,9 @@ impl FeltExpr {
                     .constraint_intermediate
                     .as_ref()
                 {
-                    return vec![name.clone()];
+                    return IndexSet::from([name.clone()]);
                 }
-                vec![]
+                IndexSet::new()
             }
             FeltExpr::Op(op) => op
                 .children

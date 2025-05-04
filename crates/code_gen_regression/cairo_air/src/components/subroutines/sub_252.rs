@@ -45,7 +45,7 @@ impl Sub252 {
         sub_p_bit_col28: E::F,
         range_check_9_9_lookup_elements: &relations::RangeCheck_9_9,
         eval: &mut E,
-    ) -> () {
+    ) -> [E::F; 0] {
         RangeCheckMemValueN28::evaluate(
             [
                 sub_res_limb_0_col0.clone(),
@@ -170,6 +170,6 @@ impl Sub252 {
             sub_p_bit_col28.clone(),
             eval,
         );
-        ()
+        []
     }
 }

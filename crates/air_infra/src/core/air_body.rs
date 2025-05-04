@@ -143,8 +143,6 @@ impl AirBody {
                         var.prover_type() == Felt::r#type(),
                         "only felts can be intermediates in constraints"
                     );
-                }
-                if visibility.in_constraints {
                     // We check that the variable is in_state since we don't want to create
                     // variables for constraints before deduction.
                     assert!(
@@ -159,7 +157,22 @@ impl AirBody {
                     );
                 }
             }
-            AirBodyComponent::Call(_) => {}
+            AirBodyComponent::Call(call) => {
+                assert!(
+                    call.entry
+                        .filter_input_limbs(call.input.clone())
+                        .visibility()
+                        .in_constraints,
+                    "call input must have only intermediate variables known in constraints"
+                );
+                assert!(
+                    call.entry
+                        .filter_output_limbs(call.output.clone())
+                        .visibility()
+                        .in_deductions,
+                    "call output must have only intermediate variables known in constraints"
+                );
+            }
             AirBodyComponent::LookupCall(LookupCall {
                 ext_input, input, ..
             }) => {
@@ -329,7 +342,7 @@ impl AirBody {
                         r#type: call.output.prover_type(),
                         var: CompiledAirVar::StaticCall(
                             call.method_name,
-                            vec![AirFnEntry::generate_input(call.ext_input, call.input)
+                            vec![AirFnEntry::join_inputs(call.ext_input, call.input)
                                 .compile(CompileFor::Deductions)],
                         ),
                     }));
@@ -341,7 +354,7 @@ impl AirBody {
                 } => {
                     deductions.push(TraceGenStep::LookupAddInput {
                         fn_name: air_fn_name,
-                        input: AirFnEntry::generate_input(ext_input, input)
+                        input: AirFnEntry::join_inputs(ext_input, input)
                             .compile(CompileFor::Deductions),
                     });
                 }
@@ -410,12 +423,12 @@ impl AirBody {
                             .collect::<Vec<_>>();
                         let input = call
                             .entry
-                            .input_as_limbs(call.input)
+                            .filter_input_limbs(call.input)
                             .compile(CompileFor::Constraints);
 
                         constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                            name: call.entry.output_verifier_name(call.output_name),
-                            r#type: call.entry.output_verifier_type(),
+                            name: call.entry.output_limbs_name(call.output_name),
+                            r#type: call.entry.output_limbs_type(),
                             var: CompiledAirVar::StaticCall(
                                 format!("{}::{}", call.entry.name, CONSTRAINT_EVAL_FUNCTION_NAME),
                                 vec![input]
@@ -519,13 +532,15 @@ impl AirBody {
         lookup_uses
     }
 
-    pub fn get_constraint_intermediates(&self) -> Vec<String> {
+    pub fn get_constraint_intermediates(&self) -> IndexSet<String> {
         self.get_constraint_exprs()
             .into_iter()
             .flat_map(|e| e.get_constraint_intermediates())
             .collect()
     }
 
+    // Returns all expressions that appear in the constraints of this air_body, including
+    // constraints in called air fns.
     fn get_constraint_exprs(&self) -> Vec<FeltExpr> {
         let mut constraints = vec![];
         for comp in self.0.clone().into_iter() {
@@ -546,8 +561,8 @@ impl AirBody {
                     air_body,
                     ..
                 }) => {
-                    constraints.extend(entry.input_as_limbs(input).as_felts());
-                    constraints.extend(entry.output_as_limbs(output).as_felts());
+                    constraints.extend(entry.filter_input_limbs(input).as_felts());
+                    constraints.extend(entry.filter_output_limbs(output).as_felts());
                     constraints.extend(air_body.get_constraint_exprs());
                 }
                 AirBodyComponent::LookupTerm { felts, .. } => {

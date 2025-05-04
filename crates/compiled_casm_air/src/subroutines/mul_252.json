@@ -30,8 +30,8 @@
     {
       "Array": []
     },
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "mul_res_limb_0_col0",
@@ -322,8 +322,8 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "range_check_mem_value_n_28::evaluate",
@@ -423,8 +423,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_mul_252::evaluate",

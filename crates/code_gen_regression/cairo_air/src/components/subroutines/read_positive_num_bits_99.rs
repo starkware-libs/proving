@@ -27,7 +27,7 @@ impl ReadPositiveNumBits99 {
         memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
         eval: &mut E,
-    ) -> () {
+    ) -> [E::F; 0] {
         eval.add_to_relation(RelationEntry::new(
             memory_address_to_id_lookup_elements,
             E::EF::one(),
@@ -53,6 +53,6 @@ impl ReadPositiveNumBits99 {
             ],
         ));
 
-        ()
+        []
     }
 }

@@ -361,7 +361,7 @@ impl EcAdd {
         range_check_9_9_lookup_elements: &relations::RangeCheck_9_9,
         range_check_19_lookup_elements: &relations::RangeCheck_19,
         eval: &mut E,
-    ) -> () {
+    ) -> [E::F; 0] {
         Sub252::evaluate(
             [
                 ec_add_input_x2_limb_0.clone(),
@@ -1265,6 +1265,6 @@ impl EcAdd {
             range_check_9_9_lookup_elements,
             eval,
         );
-        ()
+        []
     }
 }

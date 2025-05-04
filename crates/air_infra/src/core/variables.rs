@@ -442,7 +442,7 @@ impl AirVarImpl {
             }
             AirVarImpl::Array(vars) => {
                 if vars.is_empty() {
-                    return "()".to_string();
+                    return "[PackedM31; 0]".to_string();
                 }
 
                 format!("[{}; {}]", vars[0].packed_prover_type(), vars.len())
@@ -491,7 +491,7 @@ impl AirVarImplInfo for AirVarImpl {
             }
             AirVarImpl::Array(vars) => {
                 if vars.is_empty() {
-                    return "()".to_string();
+                    return "[M31; 0]".to_string();
                 }
 
                 format!("[{}; {}]", vars[0].prover_type(), vars.len())

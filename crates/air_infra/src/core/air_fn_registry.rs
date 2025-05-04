@@ -21,15 +21,76 @@ pub struct AirFnEntry {
     pub inst_def: serde_json::Value,
     pub ext_input: Option<AirVarImpl>,
     pub input: Option<AirVarImpl>,
+    pub joined_input: AirVarImpl,
     pub input_expr_descriptions: Option<Vec<Option<String>>>,
+    // <true> for felts in <joined_input> that participate in constraints, <false> otherwise.
+    pub input_limbs_mask: Vec<bool>,
     pub output: AirVarImpl,
     pub output_expr_descriptions: Option<Vec<Option<String>>>,
+    // <false> for felts in <output> that are directly in state, <true> otherwise.
+    pub output_limbs_mask: Vec<bool>,
     pub trace_type: TraceType,
     pub air_body: AirBody,
     pub state: State,
 }
 
 impl AirFnEntry {
+    pub fn new<E, I, O>(
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        air_body: AirBody,
+        state: State,
+        ext_input: E::T,
+        input: I,
+        output: O,
+    ) -> Self
+    where
+        E: ExtTable,
+        I: AirVar,
+        O: AirVar,
+    {
+        let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
+        let input_option = (!I::is_empty()).then(|| input.clone().into());
+        let joined_input = AirFnEntry::join_inputs(ext_input_option.clone(), input_option.clone());
+        let mut constraint_intermediates = air_body.get_constraint_intermediates();
+        constraint_intermediates.extend(
+            output
+                .as_felts()
+                .into_iter()
+                .flat_map(|f| f.get_constraint_intermediates()),
+        );
+        let input_name = AirFnEntry::input_name(&air_fn.name());
+        let input_limbs_mask = (0..joined_input.as_felts().len())
+            .map(|i| {
+                let name =
+                    joined_input.get_limb_name(&input_name, i, &air_fn.input_expr_descriptions());
+                constraint_intermediates.contains(&name)
+            })
+            .collect();
+        let output_limbs_mask = output
+            .as_felts()
+            .into_iter()
+            .map(|f| (!f.is_directly_in_state()))
+            .collect();
+
+        Self {
+            name: air_fn.name(),
+            relation_name: air_fn.relation_name(),
+            description: air_fn.description(),
+            inst_def: air_fn.inst_def(),
+            ext_input: ext_input_option,
+            input: input_option,
+            joined_input,
+            input_expr_descriptions: air_fn.input_expr_descriptions(),
+            input_limbs_mask,
+            output: output.into(),
+            output_expr_descriptions: air_fn.output_expr_descriptions(),
+            output_limbs_mask,
+            trace_type: air_fn.trace_type(),
+            air_body,
+            state,
+        }
+    }
+
     // Compiles the air function entry into a compiled air function.
     pub fn compile(self, called_fns: Ref<'_, IndexMap<String, AirFnEntry>>) -> CompiledAirFn {
         let padding_type = match self.trace_type {
@@ -40,7 +101,6 @@ impl AirFnEntry {
             TraceType::Component if self.ext_input.is_some() => PaddingType::Multiplicity,
             _ => PaddingType::Enabler,
         };
-        let input = Self::generate_input(self.ext_input.clone(), self.input.clone());
         let inline_calls = self
             .air_body
             .get_inline_calls()
@@ -62,11 +122,11 @@ impl AirFnEntry {
             .collect();
         let relation_size =
             if self.trace_type == TraceType::Opcode || self.trace_type == TraceType::ChainRound {
-                Some(input.as_felts().len())
+                Some(self.joined_input.as_felts().len())
             } else {
                 self.relation_name
                     .clone()
-                    .map(|_| input.as_felts().len() + self.output.as_felts().len())
+                    .map(|_| self.joined_input.as_felts().len() + self.output.as_felts().len())
             };
 
         CompiledAirFn {
@@ -80,10 +140,10 @@ impl AirFnEntry {
             padding_type,
             prover_input: (
                 Self::input_name(&self.name),
-                input.prover_type(),
-                input.packed_prover_type(),
+                self.joined_input.prover_type(),
+                self.joined_input.packed_prover_type(),
             ),
-            verifier_input: (self.input_verifier_name(), self.input_verifier_type()),
+            verifier_input: (self.input_limbs_name(), self.input_limbs_type()),
             prover_output: (
                 self.output.clone().compile(CompileFor::Deductions),
                 Self::output_name(&self.name),
@@ -91,10 +151,10 @@ impl AirFnEntry {
                 self.output.packed_prover_type(),
             ),
             verifier_output: (
-                self.output_as_limbs(self.output.clone())
+                self.filter_output_limbs(self.output.clone())
                     .compile(CompileFor::Constraints),
-                self.output_verifier_name(Self::output_name(&self.name)),
-                self.output_verifier_type(),
+                self.output_limbs_name(Self::output_name(&self.name)),
+                self.output_limbs_type(),
             ),
             state_names: self.state.get_state_names(),
             lookup_names: self
@@ -111,7 +171,7 @@ impl AirFnEntry {
         }
     }
 
-    pub fn generate_input(ext_input: Option<AirVarImpl>, input: Option<AirVarImpl>) -> AirVarImpl {
+    pub fn join_inputs(ext_input: Option<AirVarImpl>, input: Option<AirVarImpl>) -> AirVarImpl {
         match (ext_input, input) {
             (Some(ext_input), None) => ext_input,
             (None, Some(input)) => input,
@@ -128,107 +188,75 @@ impl AirFnEntry {
         format!("{}_{}", air_fn_name, INPUT_VAR_SUFFIX)
     }
 
-    pub fn output_as_limbs(&self, output: AirVarImpl) -> AirVarImpl {
+    // Given an output of the air function, returns an array of the felts of the output that are in
+    // the mask.
+    pub fn filter_output_limbs(&self, output: AirVarImpl) -> AirVarImpl {
         AirVarImpl::Array(
-            self.get_output_optional_limbs(output)
-                .into_iter()
-                .flatten()
+            self.output_limbs_mask
+                .iter()
+                .zip(output.as_felts())
+                .filter_map(|(b, f)| b.then(|| f.into()))
                 .collect(),
         )
     }
 
-    pub fn input_as_limbs(&self, input: AirVarImpl) -> AirVarImpl {
+    // Given an input to the air function, returns an array of the felts of the input that are in
+    // the mask.
+    pub fn filter_input_limbs(&self, input: AirVarImpl) -> AirVarImpl {
         AirVarImpl::Array(
-            self.get_input_optional_limbs(input)
-                .into_iter()
-                .flatten()
+            self.input_limbs_mask
+                .iter()
+                .zip(input.as_felts())
+                .filter_map(|(b, f)| b.then(|| f.into()))
                 .collect(),
         )
     }
 
-    pub fn output_verifier_type(&self) -> String {
-        self.output_as_limbs(self.output.clone()).prover_type()
+    pub fn output_limbs_type(&self) -> String {
+        self.filter_output_limbs(self.output.clone()).prover_type()
     }
 
-    pub fn input_verifier_type(&self) -> String {
-        let input = Self::generate_input(self.ext_input.clone(), self.input.clone());
-        self.input_as_limbs(input).prover_type()
+    pub fn input_limbs_type(&self) -> String {
+        self.filter_input_limbs(self.joined_input.clone())
+            .prover_type()
     }
 
-    pub fn output_verifier_name(&self, name: String) -> String {
-        let optional_limbs = self.get_output_optional_limbs(self.output.clone());
-        if optional_limbs.iter().all(|v| v.is_none()) {
-            return "()".to_string();
-        }
-
+    // Given the name of the output intermediate variable, uses the <output_expr_descriptions> and
+    // returns the names of the limbs of the output (the felts that are in the mask).
+    pub fn output_limbs_name(&self, name: String) -> String {
         format!(
             "[{}]",
-            optional_limbs
-                .into_iter()
+            self.output_limbs_mask
+                .iter()
                 .enumerate()
-                .filter_map(|(i, v)| v.map(|_| self.output.get_limb_name(
-                    &name,
-                    i,
-                    &self.output_expr_descriptions
-                )))
+                .filter(|(_, &b)| b)
+                .map(|(i, _)| self
+                    .output
+                    .get_limb_name(&name, i, &self.output_expr_descriptions))
                 .collect::<Vec<_>>()
                 .join(", ")
         )
     }
 
-    pub fn input_verifier_name(&self) -> String {
-        let input = Self::generate_input(self.ext_input.clone(), self.input.clone());
-        let optional_limbs = self.get_input_optional_limbs(input.clone());
+    // Uses the name of the input intermediate variable (see <input_name>) and the
+    // <input_expr_descriptions>, and returns the names of the limbs of the input (the felts that
+    // are in the mask).
+    pub fn input_limbs_name(&self) -> String {
         let name = Self::input_name(&self.name);
-
-        if optional_limbs.iter().all(|v| v.is_none()) {
-            return "()".to_string();
-        }
-
         format!(
             "[{}]",
-            optional_limbs
-                .into_iter()
+            self.input_limbs_mask
+                .iter()
                 .enumerate()
-                .filter_map(|(i, v)| v.map(|_| input.get_limb_name(
+                .filter(|(_, &b)| b)
+                .map(|(i, _)| self.joined_input.get_limb_name(
                     &name,
                     i,
                     &self.input_expr_descriptions
-                )))
+                ))
                 .collect::<Vec<_>>()
                 .join(", ")
         )
-    }
-
-    fn get_output_optional_limbs(&self, output: AirVarImpl) -> Vec<Option<AirVarImpl>> {
-        output
-            .as_felts()
-            .into_iter()
-            .zip(self.output.as_felts())
-            .map(|(f, entry_f)| (!entry_f.is_directly_in_state()).then_some(f.into()))
-            .collect()
-    }
-
-    fn get_input_optional_limbs(&self, input: AirVarImpl) -> Vec<Option<AirVarImpl>> {
-        let input_name = Self::input_name(&self.name);
-        let mut constraint_intermediates = self.air_body.get_constraint_intermediates();
-        constraint_intermediates.extend(
-            self.output
-                .as_felts()
-                .into_iter()
-                .flat_map(|f| f.get_constraint_intermediates()),
-        );
-        let entry_input = Self::generate_input(self.ext_input.clone(), self.input.clone());
-
-        input
-            .as_felts()
-            .into_iter()
-            .enumerate()
-            .map(|(i, f)| {
-                let name = entry_input.get_limb_name(&input_name, i, &self.input_expr_descriptions);
-                constraint_intermediates.contains(&name).then_some(f.into())
-            })
-            .collect()
     }
 }
 
@@ -288,23 +316,7 @@ impl AirFnRegistry {
         self.air_fn_ids.borrow_mut().insert(air_fn_id.clone());
 
         let (air_body, state, ext_input, input, output) = self.build_air(air_fn, air_fn_id);
-        let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
-        let input_option = (!I::is_empty()).then(|| input.clone().into());
-
-        let entry = AirFnEntry {
-            name: air_fn.name(),
-            relation_name: air_fn.relation_name(),
-            description: air_fn.description(),
-            inst_def: air_fn.inst_def(),
-            ext_input: ext_input_option,
-            input: input_option,
-            input_expr_descriptions: air_fn.input_expr_descriptions(),
-            output: output.into(),
-            output_expr_descriptions: air_fn.output_expr_descriptions(),
-            trace_type: air_fn.trace_type(),
-            air_body,
-            state,
-        };
+        let entry = AirFnEntry::new(air_fn, air_body, state, ext_input, input, output);
 
         self.air_fns
             .borrow_mut()

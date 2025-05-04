@@ -15,7 +15,7 @@ impl CondDecodeSmallSign {
         msb_col0: E::F,
         mid_limbs_set_col1: E::F,
         eval: &mut E,
-    ) -> () {
+    ) -> [E::F; 0] {
         let M31_1 = E::F::from(M31::from(1));
 
         // msb is a bit.
@@ -29,6 +29,6 @@ impl CondDecodeSmallSign {
             ((cond_decode_small_sign_input_limb_28.clone() * mid_limbs_set_col1.clone())
                 * (msb_col0.clone() - M31_1.clone())),
         );
-        ()
+        []
     }
 }

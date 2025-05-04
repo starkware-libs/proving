@@ -15,7 +15,7 @@ impl BitwiseXorNumBits8 {
         xor_col0: E::F,
         verify_bitwise_xor_8_lookup_elements: &relations::VerifyBitwiseXor_8,
         eval: &mut E,
-    ) -> () {
+    ) -> [E::F; 0] {
         eval.add_to_relation(RelationEntry::new(
             verify_bitwise_xor_8_lookup_elements,
             E::EF::one(),
@@ -26,6 +26,6 @@ impl BitwiseXorNumBits8 {
             ],
         ));
 
-        ()
+        []
     }
 }
