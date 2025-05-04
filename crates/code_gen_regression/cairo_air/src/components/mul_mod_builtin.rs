@@ -4,6 +4,28 @@ use crate::components::subroutines::mod_utils::ModUtils;
 use crate::components::subroutines::mod_words_to_12_bit_array::ModWordsTo12BitArray;
 
 pub const N_TRACE_COLUMNS: usize = 410;
+pub const RELATION_USES_PER_ROW: [RelationUse; 5] = [
+    RelationUse {
+        relation_id: "MemoryAddressToId",
+        uses: 29,
+    },
+    RelationUse {
+        relation_id: "MemoryIdToBig",
+        uses: 24,
+    },
+    RelationUse {
+        relation_id: "RangeCheck_12",
+        uses: 32,
+    },
+    RelationUse {
+        relation_id: "RangeCheck_18",
+        uses: 62,
+    },
+    RelationUse {
+        relation_id: "RangeCheck_3_6_6_3",
+        uses: 40,
+    },
+];
 
 pub struct Eval {
     pub claim: Claim,

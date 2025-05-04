@@ -67,3 +67,9 @@ pub trait TreeBuilder<B: Backend> {
         columns: impl IntoIterator<Item = CircleEvaluation<B, M31, BitReversedOrder>>,
     ) -> TreeSubspan;
 }
+
+#[derive(Clone)]
+pub struct RelationUse {
+    pub relation_id: &'static str,
+    pub uses: u32,
+}

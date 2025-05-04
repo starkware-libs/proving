@@ -10,5 +10,6 @@ pub use stwo_prover::core::fields::qm31::SecureField;
 pub use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 pub use stwo_prover::core::pcs::TreeVec;
 
+pub use crate::components::RelationUse;
 pub use crate::preprocessed::*;
 pub use crate::relations;

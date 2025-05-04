@@ -2,20 +2,20 @@ use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
-    LookupTerm, PaddingType, TraceType,
+    LookupTerm, PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexSet;
-use itertools::chain;
+use itertools::{chain, Itertools};
 
 use super::parse::{
     constraint_consts, is_const_size_component, parse_eval_constraint, parse_lookup_constraint,
     seek_consts,
 };
-use super::utils::{get_variable_name, replace_generics_with_turbofish};
+use super::utils::{filter_lookup_terms, get_variable_name, replace_generics_with_turbofish};
 
 pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
@@ -198,7 +198,43 @@ fn generate_consts(lists: &CompiledAirFn) -> rust::Tokens {
             pub const LOG_SIZE: u32 = 4; // Implement manually, set to 4 initially so LOG_SIZE - LOG_N_LANES >= 0.
         });
     }
+
+    consts.extend(generate_relation_uses(lists));
+
     consts
+}
+
+/// Counts the number of times each relation is used (not including yield) in the component, for
+/// each row.
+fn generate_relation_uses(lists: &CompiledAirFn) -> rust::Tokens {
+    let mut relation_use_count = HashMap::new();
+    for LookupTerm {
+        relation_name,
+        use_or_yield,
+        ..
+    } in filter_lookup_terms(&lists.deductions)
+    {
+        if use_or_yield == UseOrYield::Use {
+            let offset = relation_use_count.entry(relation_name).or_insert(0);
+            *offset += 1;
+        }
+    }
+
+    let mut code = rust::Tokens::new();
+    for (relation, uses) in relation_use_count
+        .iter()
+        .sorted_by_key(|(relation, _)| *relation)
+    {
+        code.append(quote! {
+            RelationUse {
+                relation_id: $("\"")$(relation.clone())$("\""),
+                uses: $(*uses),
+            },
+        });
+    }
+    quote! {
+        pub const RELATION_USES_PER_ROW: [RelationUse; $(relation_use_count.len())] = [$(code)];
+    }
 }
 
 fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
@@ -248,7 +284,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
                 let trace_log_sizes = vec![$(&log_size); N_TRACE_COLUMNS];
-                let interaction_log_sizes = vec![$log_size; $(get_n_logup_columns(lists))];
+                let interaction_log_sizes = vec![$(&log_size); $(get_n_logup_columns(lists))];
                 TreeVec::new(vec![
                     vec![],
                     trace_log_sizes,
