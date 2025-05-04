@@ -22,9 +22,12 @@ use crate::const_expr;
 pub struct ComponentContext {
     // The state of the component. Contains all the values deduced so far.
     state: Rc<RefCell<State>>,
-    // For each chain round component, how many times this component called it so far. Used
-    // to assign each call a unique ID in chain_lookup_call.
+    // For each chain round component, how many times this component was called so far. Used to
+    // assign each call a unique ID in chain_lookup_call.
     chain_call_counts: Rc<RefCell<HashMap<String, usize>>>,
+    // For each chain round component, an intermediate for seq * number of chains. Used to assign
+    // each call a unique ID in chain_lookup_call.
+    chain_call_intermediates: Rc<RefCell<HashMap<String, FeltExpr>>>,
 }
 
 impl ComponentContext {
@@ -56,6 +59,30 @@ impl ComponentContext {
         );
         *value_in_map = current_count + 1;
         current_count
+    }
+
+    pub fn get_chain_call_intermediate<S>(
+        &self,
+        called_round: &dyn ChainRoundAirFn<S>,
+    ) -> Option<FeltExpr>
+    where
+        S: AirVar,
+        (ChainIdVar, RoundNumVar, S): AirVar,
+    {
+        let chain_call_intermediates = self.chain_call_intermediates.borrow();
+        chain_call_intermediates.get(&called_round.name()).cloned()
+    }
+
+    pub fn set_chain_call_intermediate<S>(
+        &self,
+        called_round: &dyn ChainRoundAirFn<S>,
+        var: FeltExpr,
+    ) where
+        S: AirVar,
+        (ChainIdVar, RoundNumVar, S): AirVar,
+    {
+        let mut chain_call_intermediates = self.chain_call_intermediates.borrow_mut();
+        chain_call_intermediates.insert(called_round.name(), var);
     }
 }
 

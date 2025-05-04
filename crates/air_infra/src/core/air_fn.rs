@@ -593,8 +593,25 @@ impl AirBuilder {
         let mut output = <(ChainIdVar, RoundNumVar, S)>::new("".to_string(), None);
 
         let call_index = self.component_context.get_chain_call_index(air_fn);
-        let chain_id = self.call_external_table(&Seq {}) * const_expr!(air_fn.number_of_chains())
-            + const_expr!(call_index);
+        let chain_tmp = self
+            .component_context
+            .get_chain_call_intermediate(air_fn)
+            .unwrap_or_else(|| {
+                let mut chain_tmp =
+                    self.call_external_table(&Seq {}) * const_expr!(air_fn.number_of_chains());
+                chain_tmp = self.let_(chain_tmp, &format!("{}_chain_tmp", air_fn.name()));
+                self.component_context
+                    .set_chain_call_intermediate(air_fn, chain_tmp.clone());
+                chain_tmp
+            });
+        let chain_id = if call_index == 0 {
+            chain_tmp
+        } else {
+            self.let_(
+                chain_tmp + const_expr!(call_index),
+                &format!("{}_chain_id", air_fn.name()),
+            )
+        };
         let mut input = (chain_id.clone(), const_expr!(first_round), state);
 
         // Yield the input to the first round.
