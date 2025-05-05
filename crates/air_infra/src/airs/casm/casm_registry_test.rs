@@ -155,12 +155,10 @@ fn test_casm_registry() {
     });
     // Ret opcode
     reg.add_entry(&RetOpcode::default());
-
     // QM31AddMul opcode
     reg.add_entry(&QM31AddMulOpcode {
         memory: Felt252IdMemory::default(),
     });
-
     // Blake opcode
     reg.add_entry(&BlakeCompressOpcode::default());
 
@@ -232,22 +230,24 @@ fn add_entry_statistics(
     compiled_entry: &CompiledAirFn,
     stat: &mut IndexMap<String, CompiledAirFnStat>,
 ) {
-    let entry = reg.get(&compiled_entry.name).unwrap();
-    assert!(entry.trace_type != TraceType::Const && entry.trace_type != TraceType::Inline);
+    assert!(
+        compiled_entry.r#type != TraceType::Const && compiled_entry.r#type != TraceType::Inline
+    );
 
-    // Bulitins don't have yield columns.
-    let lookup_yield = entry.trace_type != TraceType::Builtin;
     let padding = compiled_entry.padding_type == PaddingType::Multiplicity
         || compiled_entry.padding_type == PaddingType::Enabler;
     let num_state_cols = compiled_entry.state_names.len();
-    let lookup_use_cols = entry.air_body.get_lookup_n_use_cols();
-    let num_lookup_cols: usize = lookup_use_cols.iter().map(|(_, count)| count).sum();
+    let num_lookup_cols: usize = compiled_entry.lookup_names.len();
 
     let total_num_trace_cols = num_state_cols
-        + (TRACE_COLUMNS_PER_LOGUP * (num_lookup_cols + lookup_yield as usize))
-        + (((num_lookup_cols + lookup_yield as usize) % 2) * TRACE_COLUMNS_PER_LOGUP)
+        + (TRACE_COLUMNS_PER_LOGUP * num_lookup_cols)
+        + ((num_lookup_cols % 2) * TRACE_COLUMNS_PER_LOGUP)
         + (padding as usize);
 
+    let mut lookup_cols: IndexMap<String, usize> = IndexMap::new();
+    for name in compiled_entry.lookup_names.clone() {
+        *lookup_cols.entry(name).or_default() += 1;
+    }
     // An upper bound on the number of cells added to the trace for each `AddInput`
     // to this component. Includes rows added to other lookup components called by
     // this component. Doesn't include cells from components that are always filled
@@ -260,7 +260,9 @@ fn add_entry_statistics(
     // such components always add new rows.
     let mut trace_cells_upper_bound = total_num_trace_cols;
 
+    let entry = reg.get(&compiled_entry.name).unwrap();
     let lookup_rows = entry.air_body.get_lookup_n_rows();
+
     for (name, cnt) in lookup_rows.iter() {
         let called_entry = reg.get(name).unwrap();
         let entry_stats = stat.get(name).unwrap();
@@ -277,12 +279,11 @@ fn add_entry_statistics(
     stat.insert(
         compiled_entry.name.clone(),
         CompiledAirFnStat {
-            trace_type: format!("{:?}", entry.trace_type),
+            trace_type: compiled_entry.r#type,
             num_state_cols,
-            lookup_use_cols,
+            lookup_cols,
             lookup_rows,
-            lookup_yield,
-            padding_type: compiled_entry.padding_type.clone(),
+            padding_type: compiled_entry.padding_type,
             total_num_trace_cols,
             trace_cells_upper_bound,
         },

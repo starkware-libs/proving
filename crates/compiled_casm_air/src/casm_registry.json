@@ -2,9 +2,10 @@
   "memory_address_to_id": {
     "trace_type": "Memory",
     "num_state_cols": 1,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "MemoryAddressToId": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 6,
     "trace_cells_upper_bound": 6
@@ -12,9 +13,10 @@
   "range_check_9_9": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_9_9": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -22,13 +24,13 @@
   "memory_id_to_big": {
     "trace_type": "Memory",
     "num_state_cols": 28,
-    "lookup_use_cols": {
-      "RangeCheck_9_9": 14
+    "lookup_cols": {
+      "RangeCheck_9_9": 14,
+      "MemoryIdToBig": 1
     },
     "lookup_rows": {
       "range_check_9_9": 14
     },
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 61,
     "trace_cells_upper_bound": 61
@@ -36,9 +38,10 @@
   "verify_bitwise_xor_9": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "VerifyBitwiseXor_9": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -46,7 +49,7 @@
   "bitwise_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 89,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "MemoryAddressToId": 5,
       "MemoryIdToBig": 5,
       "VerifyBitwiseXor_9": 28
@@ -56,7 +59,6 @@
       "memory_id_to_big": 5,
       "verify_bitwise_xor_9": 28
     },
-    "lookup_yield": false,
     "padding_type": "None",
     "total_num_trace_cols": 165,
     "trace_cells_upper_bound": 165
@@ -64,7 +66,7 @@
   "range_check_builtin_bits_128": {
     "trace_type": "Builtin",
     "num_state_cols": 17,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1
     },
@@ -72,7 +74,6 @@
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": false,
     "padding_type": "None",
     "total_num_trace_cols": 21,
     "trace_cells_upper_bound": 21
@@ -80,9 +81,10 @@
   "range_check_6": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_6": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -90,7 +92,7 @@
   "range_check_builtin_bits_96": {
     "trace_type": "Builtin",
     "num_state_cols": 12,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "MemoryAddressToId": 1,
       "RangeCheck_6": 1,
       "MemoryIdToBig": 1
@@ -100,7 +102,6 @@
       "range_check_6": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": false,
     "padding_type": "None",
     "total_num_trace_cols": 20,
     "trace_cells_upper_bound": 20
@@ -108,7 +109,7 @@
   "add_mod_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 251,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "MemoryAddressToId": 29,
       "MemoryIdToBig": 24
     },
@@ -116,7 +117,6 @@
       "memory_address_to_id": 29,
       "memory_id_to_big": 24
     },
-    "lookup_yield": false,
     "padding_type": "None",
     "total_num_trace_cols": 359,
     "trace_cells_upper_bound": 359
@@ -124,9 +124,10 @@
   "range_check_12": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_12": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -134,9 +135,10 @@
   "range_check_3_6_6_3": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_3_6_6_3": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -144,9 +146,10 @@
   "range_check_18": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_18": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -154,7 +157,7 @@
   "mul_mod_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 410,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "MemoryAddressToId": 29,
       "MemoryIdToBig": 24,
       "RangeCheck_12": 32,
@@ -168,7 +171,6 @@
       "range_check_3_6_6_3": 40,
       "range_check_18": 62
     },
-    "lookup_yield": false,
     "padding_type": "None",
     "total_num_trace_cols": 786,
     "trace_cells_upper_bound": 786
@@ -176,9 +178,10 @@
   "range_check_19": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_19": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -186,15 +189,15 @@
   "cube_252": {
     "trace_type": "Component",
     "num_state_cols": 140,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "RangeCheck_9_9": 42,
-      "RangeCheck_19": 56
+      "RangeCheck_19": 56,
+      "Cube252": 1
     },
     "lookup_rows": {
       "range_check_9_9": 42,
       "range_check_19": 56
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 341,
     "trace_cells_upper_bound": 341
@@ -202,9 +205,10 @@
   "poseidon_round_keys": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "PoseidonRoundKeys": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -212,9 +216,10 @@
   "range_check_3_3_3_3_3": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_3_3_3_3_3": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -222,18 +227,17 @@
   "poseidon_full_round_chain": {
     "trace_type": "ChainRound",
     "num_state_cols": 125,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "Cube252": 3,
       "PoseidonRoundKeys": 1,
       "RangeCheck_3_3_3_3_3": 6,
-      "PoseidonFullRoundChain": 1
+      "PoseidonFullRoundChain": 2
     },
     "lookup_rows": {
       "cube_252": 3,
       "poseidon_round_keys": 1,
       "range_check_3_3_3_3_3": 6
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 150,
     "trace_cells_upper_bound": 1173
@@ -241,15 +245,15 @@
   "range_check_felt_252_width_27": {
     "trace_type": "Component",
     "num_state_cols": 19,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "RangeCheck_9_9": 5,
-      "RangeCheck_18": 9
+      "RangeCheck_18": 9,
+      "RangeCheckFelt252Width27": 1
     },
     "lookup_rows": {
       "range_check_9_9": 5,
       "range_check_18": 9
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 52,
     "trace_cells_upper_bound": 52
@@ -257,9 +261,10 @@
   "range_check_4_4_4_4": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_4_4_4_4": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -267,9 +272,10 @@
   "range_check_4_4": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_4_4": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -277,13 +283,13 @@
   "poseidon_3_partial_rounds_chain": {
     "trace_type": "ChainRound",
     "num_state_cols": 168,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "PoseidonRoundKeys": 1,
       "Cube252": 3,
       "RangeCheck_4_4_4_4": 6,
       "RangeCheck_4_4": 3,
       "RangeCheckFelt252Width27": 3,
-      "Poseidon3PartialRoundsChain": 1
+      "Poseidon3PartialRoundsChain": 2
     },
     "lookup_rows": {
       "poseidon_round_keys": 1,
@@ -292,7 +298,6 @@
       "range_check_4_4": 3,
       "range_check_felt_252_width_27": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 205,
     "trace_cells_upper_bound": 1384
@@ -300,16 +305,16 @@
   "poseidon_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 341,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "MemoryAddressToId": 6,
       "MemoryIdToBig": 6,
-      "PoseidonFullRoundChain": 2,
+      "PoseidonFullRoundChain": 4,
       "RangeCheckFelt252Width27": 2,
       "Cube252": 2,
       "RangeCheck_3_3_3_3_3": 2,
       "RangeCheck_4_4_4_4": 6,
       "RangeCheck_4_4": 3,
-      "Poseidon3PartialRoundsChain": 1
+      "Poseidon3PartialRoundsChain": 2
     },
     "lookup_rows": {
       "memory_address_to_id": 6,
@@ -322,17 +327,17 @@
       "range_check_4_4": 3,
       "poseidon_3_partial_rounds_chain": 27
     },
-    "lookup_yield": false,
     "padding_type": "None",
-    "total_num_trace_cols": 401,
-    "trace_cells_upper_bound": 47939
+    "total_num_trace_cols": 409,
+    "trace_cells_upper_bound": 47947
   },
   "range_check_5_4": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_5_4": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -340,9 +345,10 @@
   "range_check_8": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_8": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -350,9 +356,10 @@
   "pedersen_points_table": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "PedersenPointsTable": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -360,18 +367,17 @@
   "partial_ec_mul": {
     "trace_type": "ChainRound",
     "num_state_cols": 471,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "PedersenPointsTable": 1,
       "RangeCheck_9_9": 126,
       "RangeCheck_19": 84,
-      "PartialEcMul": 1
+      "PartialEcMul": 2
     },
     "lookup_rows": {
       "pedersen_points_table": 1,
       "range_check_9_9": 126,
       "range_check_19": 84
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 900,
     "trace_cells_upper_bound": 900
@@ -379,12 +385,12 @@
   "pedersen_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 351,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "RangeCheck_5_4": 2,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
       "RangeCheck_8": 4,
-      "PartialEcMul": 4
+      "PartialEcMul": 8
     },
     "lookup_rows": {
       "range_check_5_4": 2,
@@ -393,17 +399,17 @@
       "range_check_8": 4,
       "partial_ec_mul": 30
     },
-    "lookup_yield": false,
     "padding_type": "None",
-    "total_num_trace_cols": 383,
-    "trace_cells_upper_bound": 27383
+    "total_num_trace_cols": 391,
+    "trace_cells_upper_bound": 27391
   },
   "range_check_7_2_5": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_7_2_5": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -411,9 +417,10 @@
   "range_check_4_3": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_4_3": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -421,11 +428,12 @@
   "verify_instruction": {
     "trace_type": "Component",
     "num_state_cols": 16,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "RangeCheck_7_2_5": 1,
       "RangeCheck_4_3": 1,
       "MemoryAddressToId": 1,
-      "MemoryIdToBig": 1
+      "MemoryIdToBig": 1,
+      "VerifyInstruction": 1
     },
     "lookup_rows": {
       "range_check_7_2_5": 1,
@@ -433,7 +441,6 @@
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 29,
     "trace_cells_upper_bound": 29
@@ -441,13 +448,13 @@
   "generic_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 235,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
       "RangeCheck_9_9": 28,
       "RangeCheck_19": 28,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
@@ -456,7 +463,6 @@
       "range_check_9_9": 28,
       "range_check_19": 28
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 368,
     "trace_cells_upper_bound": 368
@@ -464,18 +470,17 @@
   "add_ap_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 13,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 26,
     "trace_cells_upper_bound": 26
@@ -483,18 +488,17 @@
   "add_opcode_small": {
     "trace_type": "Opcode",
     "num_state_cols": 32,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 3,
       "memory_id_to_big": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 53,
     "trace_cells_upper_bound": 53
@@ -502,18 +506,17 @@
   "add_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 102,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 3,
       "memory_id_to_big": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 123,
     "trace_cells_upper_bound": 123
@@ -521,16 +524,15 @@
   "assert_eq_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 11,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 2
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 24,
     "trace_cells_upper_bound": 24
@@ -538,18 +540,17 @@
   "assert_eq_opcode_double_deref": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 1,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 3,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 33,
     "trace_cells_upper_bound": 33
@@ -557,16 +558,15 @@
   "assert_eq_opcode_imm": {
     "trace_type": "Opcode",
     "num_state_cols": 8,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 2
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 21,
     "trace_cells_upper_bound": 21
@@ -574,18 +574,17 @@
   "call_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 3,
       "memory_id_to_big": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 37,
     "trace_cells_upper_bound": 37
@@ -593,18 +592,17 @@
   "call_opcode_rel": {
     "trace_type": "Opcode",
     "num_state_cols": 17,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 3,
       "memory_id_to_big": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 38,
     "trace_cells_upper_bound": 38
@@ -612,18 +610,17 @@
   "call_opcode_op_1_base_fp": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 3,
       "memory_id_to_big": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 37,
     "trace_cells_upper_bound": 37
@@ -631,18 +628,17 @@
   "jnz_opcode_taken": {
     "trace_type": "Opcode",
     "num_state_cols": 44,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
       "MemoryIdToBig": 2,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 2,
       "memory_id_to_big": 2
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 61,
     "trace_cells_upper_bound": 61
@@ -650,18 +646,17 @@
   "jnz_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 36,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 49,
     "trace_cells_upper_bound": 49
@@ -669,18 +664,17 @@
   "jump_opcode_rel_imm": {
     "trace_type": "Opcode",
     "num_state_cols": 10,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 23,
     "trace_cells_upper_bound": 23
@@ -688,18 +682,17 @@
   "jump_opcode_rel": {
     "trace_type": "Opcode",
     "num_state_cols": 14,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 27,
     "trace_cells_upper_bound": 27
@@ -707,18 +700,17 @@
   "jump_opcode_double_deref": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
       "MemoryIdToBig": 2,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 2,
       "memory_id_to_big": 2
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 33,
     "trace_cells_upper_bound": 33
@@ -726,18 +718,17 @@
   "jump_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 12,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 1,
       "memory_id_to_big": 1
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 25,
     "trace_cells_upper_bound": 25
@@ -745,9 +736,10 @@
   "range_check_11": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "RangeCheck_11": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -755,12 +747,12 @@
   "mul_opcode_small": {
     "trace_type": "Opcode",
     "num_state_cols": 36,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
       "RangeCheck_11": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
@@ -768,7 +760,6 @@
       "memory_id_to_big": 3,
       "range_check_11": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 61,
     "trace_cells_upper_bound": 61
@@ -776,12 +767,12 @@
   "mul_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 129,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
       "RangeCheck_19": 28,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
@@ -789,7 +780,6 @@
       "memory_id_to_big": 3,
       "range_check_19": 28
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 206,
     "trace_cells_upper_bound": 206
@@ -797,18 +787,17 @@
   "ret_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 11,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
       "MemoryIdToBig": 2,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 2,
       "memory_id_to_big": 2
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 28,
     "trace_cells_upper_bound": 28
@@ -816,12 +805,12 @@
   "qm_31_add_mul_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 72,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
       "RangeCheck_4_4_4_4": 3,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
@@ -829,7 +818,6 @@
       "memory_id_to_big": 3,
       "range_check_4_4_4_4": 3
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 97,
     "trace_cells_upper_bound": 97
@@ -837,9 +825,10 @@
   "verify_bitwise_xor_8": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "VerifyBitwiseXor_8": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -847,9 +836,10 @@
   "blake_round_sigma": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "BlakeRoundSigma": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -857,9 +847,10 @@
   "verify_bitwise_xor_12": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "VerifyBitwiseXor_12": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -867,9 +858,10 @@
   "verify_bitwise_xor_4": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "VerifyBitwiseXor_4": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -877,9 +869,10 @@
   "verify_bitwise_xor_7": {
     "trace_type": "Component",
     "num_state_cols": 0,
-    "lookup_use_cols": {},
+    "lookup_cols": {
+      "VerifyBitwiseXor_7": 1
+    },
     "lookup_rows": {},
-    "lookup_yield": true,
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
@@ -887,12 +880,13 @@
   "blake_g": {
     "trace_type": "Component",
     "num_state_cols": 52,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyBitwiseXor_8": 8,
       "VerifyBitwiseXor_12": 2,
       "VerifyBitwiseXor_4": 2,
       "VerifyBitwiseXor_7": 2,
-      "VerifyBitwiseXor_9": 2
+      "VerifyBitwiseXor_9": 2,
+      "BlakeG": 1
     },
     "lookup_rows": {
       "verify_bitwise_xor_8": 8,
@@ -901,7 +895,6 @@
       "verify_bitwise_xor_7": 2,
       "verify_bitwise_xor_9": 2
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 89,
     "trace_cells_upper_bound": 89
@@ -909,13 +902,13 @@
   "blake_round": {
     "trace_type": "ChainRound",
     "num_state_cols": 211,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "BlakeRoundSigma": 1,
       "RangeCheck_7_2_5": 16,
       "MemoryAddressToId": 16,
       "MemoryIdToBig": 16,
       "BlakeG": 8,
-      "BlakeRound": 1
+      "BlakeRound": 2
     },
     "lookup_rows": {
       "blake_round_sigma": 1,
@@ -924,7 +917,6 @@
       "memory_id_to_big": 16,
       "blake_g": 8
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 332,
     "trace_cells_upper_bound": 1044
@@ -932,13 +924,13 @@
   "triple_xor_32": {
     "trace_type": "Component",
     "num_state_cols": 20,
-    "lookup_use_cols": {
-      "VerifyBitwiseXor_8": 8
+    "lookup_cols": {
+      "VerifyBitwiseXor_8": 8,
+      "TripleXor32": 1
     },
     "lookup_rows": {
       "verify_bitwise_xor_8": 8
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 41,
     "trace_cells_upper_bound": 41
@@ -946,15 +938,15 @@
   "blake_compress_opcode": {
     "trace_type": "Opcode",
     "num_state_cols": 168,
-    "lookup_use_cols": {
+    "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 20,
       "MemoryIdToBig": 20,
       "RangeCheck_7_2_5": 17,
       "VerifyBitwiseXor_8": 4,
-      "BlakeRound": 1,
+      "BlakeRound": 2,
       "TripleXor32": 8,
-      "Opcodes": 1
+      "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
@@ -965,7 +957,6 @@
       "blake_round": 10,
       "triple_xor_32": 8
     },
-    "lookup_yield": true,
     "padding_type": "Enabler",
     "total_num_trace_cols": 317,
     "trace_cells_upper_bound": 11085
