@@ -68,7 +68,7 @@ pub enum PaddingType {
     Both,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TraceType {
     // Doesn't have its own component in the trace, always inlined into its caller.
     // Can be called only with call.

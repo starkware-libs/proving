@@ -12,8 +12,8 @@
     "()"
   ],
   "verifier_input": [
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "prover_output": [
     {
@@ -27,8 +27,8 @@
     {
       "Array": []
     },
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "op0_id_col0",
@@ -214,32 +214,36 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_efb2a_2_limb_0, read_positive_num_bits_252_output_tmp_efb2a_2_limb_1, read_positive_num_bits_252_output_tmp_efb2a_2_limb_2, read_positive_num_bits_252_output_tmp_efb2a_2_limb_3, read_positive_num_bits_252_output_tmp_efb2a_2_limb_4, read_positive_num_bits_252_output_tmp_efb2a_2_limb_5, read_positive_num_bits_252_output_tmp_efb2a_2_limb_6, read_positive_num_bits_252_output_tmp_efb2a_2_limb_7, read_positive_num_bits_252_output_tmp_efb2a_2_limb_8, read_positive_num_bits_252_output_tmp_efb2a_2_limb_9, read_positive_num_bits_252_output_tmp_efb2a_2_limb_10, read_positive_num_bits_252_output_tmp_efb2a_2_limb_11, read_positive_num_bits_252_output_tmp_efb2a_2_limb_12, read_positive_num_bits_252_output_tmp_efb2a_2_limb_13, read_positive_num_bits_252_output_tmp_efb2a_2_limb_14, read_positive_num_bits_252_output_tmp_efb2a_2_limb_15, read_positive_num_bits_252_output_tmp_efb2a_2_limb_16, read_positive_num_bits_252_output_tmp_efb2a_2_limb_17, read_positive_num_bits_252_output_tmp_efb2a_2_limb_18, read_positive_num_bits_252_output_tmp_efb2a_2_limb_19, read_positive_num_bits_252_output_tmp_efb2a_2_limb_20, read_positive_num_bits_252_output_tmp_efb2a_2_limb_21, read_positive_num_bits_252_output_tmp_efb2a_2_limb_22, read_positive_num_bits_252_output_tmp_efb2a_2_limb_23, read_positive_num_bits_252_output_tmp_efb2a_2_limb_24, read_positive_num_bits_252_output_tmp_efb2a_2_limb_25, read_positive_num_bits_252_output_tmp_efb2a_2_limb_26, read_positive_num_bits_252_output_tmp_efb2a_2_limb_27, read_positive_num_bits_252_output_tmp_efb2a_2_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
-                  {
-                    "PublicParam": "bitwise_builtin_segment_start"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": {
-                          "name": "Seq",
-                          "generic_param": null,
-                          "args": []
-                        }
+                        "PublicParam": "bitwise_builtin_segment_start"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "5"
+                        "BinaryOp": [
+                          {
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "5"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -340,45 +344,49 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_efb2a_5_limb_0, read_positive_num_bits_252_output_tmp_efb2a_5_limb_1, read_positive_num_bits_252_output_tmp_efb2a_5_limb_2, read_positive_num_bits_252_output_tmp_efb2a_5_limb_3, read_positive_num_bits_252_output_tmp_efb2a_5_limb_4, read_positive_num_bits_252_output_tmp_efb2a_5_limb_5, read_positive_num_bits_252_output_tmp_efb2a_5_limb_6, read_positive_num_bits_252_output_tmp_efb2a_5_limb_7, read_positive_num_bits_252_output_tmp_efb2a_5_limb_8, read_positive_num_bits_252_output_tmp_efb2a_5_limb_9, read_positive_num_bits_252_output_tmp_efb2a_5_limb_10, read_positive_num_bits_252_output_tmp_efb2a_5_limb_11, read_positive_num_bits_252_output_tmp_efb2a_5_limb_12, read_positive_num_bits_252_output_tmp_efb2a_5_limb_13, read_positive_num_bits_252_output_tmp_efb2a_5_limb_14, read_positive_num_bits_252_output_tmp_efb2a_5_limb_15, read_positive_num_bits_252_output_tmp_efb2a_5_limb_16, read_positive_num_bits_252_output_tmp_efb2a_5_limb_17, read_positive_num_bits_252_output_tmp_efb2a_5_limb_18, read_positive_num_bits_252_output_tmp_efb2a_5_limb_19, read_positive_num_bits_252_output_tmp_efb2a_5_limb_20, read_positive_num_bits_252_output_tmp_efb2a_5_limb_21, read_positive_num_bits_252_output_tmp_efb2a_5_limb_22, read_positive_num_bits_252_output_tmp_efb2a_5_limb_23, read_positive_num_bits_252_output_tmp_efb2a_5_limb_24, read_positive_num_bits_252_output_tmp_efb2a_5_limb_25, read_positive_num_bits_252_output_tmp_efb2a_5_limb_26, read_positive_num_bits_252_output_tmp_efb2a_5_limb_27, read_positive_num_bits_252_output_tmp_efb2a_5_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "PublicParam": "bitwise_builtin_segment_start"
-                      },
-                      "+",
-                      {
                         "BinaryOp": [
                           {
-                            "ExternalState": {
-                              "name": "Seq",
-                              "generic_param": null,
-                              "args": []
-                            }
+                            "PublicParam": "bitwise_builtin_segment_start"
                           },
-                          "*",
+                          "+",
                           {
-                            "Const": [
-                              "M31",
-                              "5"
+                            "BinaryOp": [
+                              {
+                                "ExternalState": {
+                                  "name": "Seq",
+                                  "generic_param": null,
+                                  "args": []
+                                }
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "5"
+                                ]
+                              }
                             ]
                           }
                         ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
                       }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
                     ]
                   }
                 ]
@@ -477,8 +485,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_7",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -539,8 +547,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_10",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -601,8 +609,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_13",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -663,8 +671,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_16",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -725,8 +733,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_19",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -787,8 +795,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_22",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -849,8 +857,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_25",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -911,8 +919,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_28",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -973,8 +981,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_31",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1035,8 +1043,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_34",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1097,8 +1105,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_37",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1159,8 +1167,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_40",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1221,8 +1229,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_43",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1283,8 +1291,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_46",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1345,8 +1353,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_49",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1407,8 +1415,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_52",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1469,8 +1477,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_55",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1531,8 +1539,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_58",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1593,8 +1601,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_61",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1655,8 +1663,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_64",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1717,8 +1725,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_67",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1779,8 +1787,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_70",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1841,8 +1849,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_73",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1903,8 +1911,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_76",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -1965,8 +1973,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_79",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -2027,8 +2035,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_82",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -2089,8 +2097,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_85",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -2151,8 +2159,8 @@
     },
     {
       "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output_tmp_efb2a_88",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "bitwise_xor_num_bits_9::evaluate",
@@ -2213,8 +2221,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",
@@ -2438,8 +2446,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",
@@ -2579,8 +2587,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",

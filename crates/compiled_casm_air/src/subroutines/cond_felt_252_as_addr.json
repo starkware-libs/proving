@@ -111,13 +111,35 @@
   ],
   "verifier_output": [
     {
-      "BinaryOp": [
+      "Array": [
         {
           "BinaryOp": [
             {
-              "Var": [
-                "M31",
-                "cond_felt_252_as_addr_input_limb_0"
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_input_limb_0"
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_addr_input_limb_1"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
               ]
             },
             "+",
@@ -126,42 +148,24 @@
                 {
                   "Var": [
                     "M31",
-                    "cond_felt_252_as_addr_input_limb_1"
+                    "cond_felt_252_as_addr_input_limb_2"
                   ]
                 },
                 "*",
                 {
                   "Const": [
                     "M31",
-                    "512"
+                    "262144"
                   ]
                 }
-              ]
-            }
-          ]
-        },
-        "+",
-        {
-          "BinaryOp": [
-            {
-              "Var": [
-                "M31",
-                "cond_felt_252_as_addr_input_limb_2"
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "262144"
               ]
             }
           ]
         }
       ]
     },
-    "cond_felt_252_as_addr_output",
-    "M31"
+    "[cond_felt_252_as_addr_output]",
+    "[M31; 1]"
   ],
   "state_names": [],
   "lookup_names": [],

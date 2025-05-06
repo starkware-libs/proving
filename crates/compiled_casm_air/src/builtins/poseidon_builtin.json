@@ -12,8 +12,8 @@
     "()"
   ],
   "verifier_input": [
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "prover_output": [
     {
@@ -27,8 +27,8 @@
     {
       "Array": []
     },
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "input_state_0_id_col0",
@@ -552,32 +552,36 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_51986_2_limb_0, read_positive_num_bits_252_output_tmp_51986_2_limb_1, read_positive_num_bits_252_output_tmp_51986_2_limb_2, read_positive_num_bits_252_output_tmp_51986_2_limb_3, read_positive_num_bits_252_output_tmp_51986_2_limb_4, read_positive_num_bits_252_output_tmp_51986_2_limb_5, read_positive_num_bits_252_output_tmp_51986_2_limb_6, read_positive_num_bits_252_output_tmp_51986_2_limb_7, read_positive_num_bits_252_output_tmp_51986_2_limb_8, read_positive_num_bits_252_output_tmp_51986_2_limb_9, read_positive_num_bits_252_output_tmp_51986_2_limb_10, read_positive_num_bits_252_output_tmp_51986_2_limb_11, read_positive_num_bits_252_output_tmp_51986_2_limb_12, read_positive_num_bits_252_output_tmp_51986_2_limb_13, read_positive_num_bits_252_output_tmp_51986_2_limb_14, read_positive_num_bits_252_output_tmp_51986_2_limb_15, read_positive_num_bits_252_output_tmp_51986_2_limb_16, read_positive_num_bits_252_output_tmp_51986_2_limb_17, read_positive_num_bits_252_output_tmp_51986_2_limb_18, read_positive_num_bits_252_output_tmp_51986_2_limb_19, read_positive_num_bits_252_output_tmp_51986_2_limb_20, read_positive_num_bits_252_output_tmp_51986_2_limb_21, read_positive_num_bits_252_output_tmp_51986_2_limb_22, read_positive_num_bits_252_output_tmp_51986_2_limb_23, read_positive_num_bits_252_output_tmp_51986_2_limb_24, read_positive_num_bits_252_output_tmp_51986_2_limb_25, read_positive_num_bits_252_output_tmp_51986_2_limb_26, read_positive_num_bits_252_output_tmp_51986_2_limb_27, read_positive_num_bits_252_output_tmp_51986_2_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
-                  {
-                    "PublicParam": "poseidon_builtin_segment_start"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "ExternalState": {
-                          "name": "Seq",
-                          "generic_param": null,
-                          "args": []
-                        }
+                        "PublicParam": "poseidon_builtin_segment_start"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "6"
+                        "BinaryOp": [
+                          {
+                            "ExternalState": {
+                              "name": "Seq",
+                              "generic_param": null,
+                              "args": []
+                            }
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "6"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -1101,45 +1105,49 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_51986_6_limb_0, read_positive_num_bits_252_output_tmp_51986_6_limb_1, read_positive_num_bits_252_output_tmp_51986_6_limb_2, read_positive_num_bits_252_output_tmp_51986_6_limb_3, read_positive_num_bits_252_output_tmp_51986_6_limb_4, read_positive_num_bits_252_output_tmp_51986_6_limb_5, read_positive_num_bits_252_output_tmp_51986_6_limb_6, read_positive_num_bits_252_output_tmp_51986_6_limb_7, read_positive_num_bits_252_output_tmp_51986_6_limb_8, read_positive_num_bits_252_output_tmp_51986_6_limb_9, read_positive_num_bits_252_output_tmp_51986_6_limb_10, read_positive_num_bits_252_output_tmp_51986_6_limb_11, read_positive_num_bits_252_output_tmp_51986_6_limb_12, read_positive_num_bits_252_output_tmp_51986_6_limb_13, read_positive_num_bits_252_output_tmp_51986_6_limb_14, read_positive_num_bits_252_output_tmp_51986_6_limb_15, read_positive_num_bits_252_output_tmp_51986_6_limb_16, read_positive_num_bits_252_output_tmp_51986_6_limb_17, read_positive_num_bits_252_output_tmp_51986_6_limb_18, read_positive_num_bits_252_output_tmp_51986_6_limb_19, read_positive_num_bits_252_output_tmp_51986_6_limb_20, read_positive_num_bits_252_output_tmp_51986_6_limb_21, read_positive_num_bits_252_output_tmp_51986_6_limb_22, read_positive_num_bits_252_output_tmp_51986_6_limb_23, read_positive_num_bits_252_output_tmp_51986_6_limb_24, read_positive_num_bits_252_output_tmp_51986_6_limb_25, read_positive_num_bits_252_output_tmp_51986_6_limb_26, read_positive_num_bits_252_output_tmp_51986_6_limb_27, read_positive_num_bits_252_output_tmp_51986_6_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "PublicParam": "poseidon_builtin_segment_start"
-                      },
-                      "+",
-                      {
                         "BinaryOp": [
                           {
-                            "ExternalState": {
-                              "name": "Seq",
-                              "generic_param": null,
-                              "args": []
-                            }
+                            "PublicParam": "poseidon_builtin_segment_start"
                           },
-                          "*",
+                          "+",
                           {
-                            "Const": [
-                              "M31",
-                              "6"
+                            "BinaryOp": [
+                              {
+                                "ExternalState": {
+                                  "name": "Seq",
+                                  "generic_param": null,
+                                  "args": []
+                                }
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "6"
+                                ]
+                              }
                             ]
                           }
                         ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
                       }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
                     ]
                   }
                 ]
@@ -1661,45 +1669,49 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_51986_10_limb_0, read_positive_num_bits_252_output_tmp_51986_10_limb_1, read_positive_num_bits_252_output_tmp_51986_10_limb_2, read_positive_num_bits_252_output_tmp_51986_10_limb_3, read_positive_num_bits_252_output_tmp_51986_10_limb_4, read_positive_num_bits_252_output_tmp_51986_10_limb_5, read_positive_num_bits_252_output_tmp_51986_10_limb_6, read_positive_num_bits_252_output_tmp_51986_10_limb_7, read_positive_num_bits_252_output_tmp_51986_10_limb_8, read_positive_num_bits_252_output_tmp_51986_10_limb_9, read_positive_num_bits_252_output_tmp_51986_10_limb_10, read_positive_num_bits_252_output_tmp_51986_10_limb_11, read_positive_num_bits_252_output_tmp_51986_10_limb_12, read_positive_num_bits_252_output_tmp_51986_10_limb_13, read_positive_num_bits_252_output_tmp_51986_10_limb_14, read_positive_num_bits_252_output_tmp_51986_10_limb_15, read_positive_num_bits_252_output_tmp_51986_10_limb_16, read_positive_num_bits_252_output_tmp_51986_10_limb_17, read_positive_num_bits_252_output_tmp_51986_10_limb_18, read_positive_num_bits_252_output_tmp_51986_10_limb_19, read_positive_num_bits_252_output_tmp_51986_10_limb_20, read_positive_num_bits_252_output_tmp_51986_10_limb_21, read_positive_num_bits_252_output_tmp_51986_10_limb_22, read_positive_num_bits_252_output_tmp_51986_10_limb_23, read_positive_num_bits_252_output_tmp_51986_10_limb_24, read_positive_num_bits_252_output_tmp_51986_10_limb_25, read_positive_num_bits_252_output_tmp_51986_10_limb_26, read_positive_num_bits_252_output_tmp_51986_10_limb_27, read_positive_num_bits_252_output_tmp_51986_10_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "PublicParam": "poseidon_builtin_segment_start"
-                      },
-                      "+",
-                      {
                         "BinaryOp": [
                           {
-                            "ExternalState": {
-                              "name": "Seq",
-                              "generic_param": null,
-                              "args": []
-                            }
+                            "PublicParam": "poseidon_builtin_segment_start"
                           },
-                          "*",
+                          "+",
                           {
-                            "Const": [
-                              "M31",
-                              "6"
+                            "BinaryOp": [
+                              {
+                                "ExternalState": {
+                                  "name": "Seq",
+                                  "generic_param": null,
+                                  "args": []
+                                }
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "6"
+                                ]
+                              }
                             ]
                           }
                         ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "2"
+                        ]
                       }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "2"
                     ]
                   }
                 ]
@@ -2221,8 +2233,8 @@
     },
     {
       "Intermediate": {
-        "name": "[poseidon_hades_permutation_output_tmp_51986_163_limb_0, poseidon_hades_permutation_output_tmp_51986_163_limb_1, poseidon_hades_permutation_output_tmp_51986_163_limb_2, poseidon_hades_permutation_output_tmp_51986_163_limb_3, poseidon_hades_permutation_output_tmp_51986_163_limb_4, poseidon_hades_permutation_output_tmp_51986_163_limb_5, poseidon_hades_permutation_output_tmp_51986_163_limb_6, poseidon_hades_permutation_output_tmp_51986_163_limb_7, poseidon_hades_permutation_output_tmp_51986_163_limb_8, poseidon_hades_permutation_output_tmp_51986_163_limb_9, poseidon_hades_permutation_output_tmp_51986_163_limb_10, poseidon_hades_permutation_output_tmp_51986_163_limb_11, poseidon_hades_permutation_output_tmp_51986_163_limb_12, poseidon_hades_permutation_output_tmp_51986_163_limb_13, poseidon_hades_permutation_output_tmp_51986_163_limb_14, poseidon_hades_permutation_output_tmp_51986_163_limb_15, poseidon_hades_permutation_output_tmp_51986_163_limb_16, poseidon_hades_permutation_output_tmp_51986_163_limb_17, poseidon_hades_permutation_output_tmp_51986_163_limb_18, poseidon_hades_permutation_output_tmp_51986_163_limb_19, poseidon_hades_permutation_output_tmp_51986_163_limb_20, poseidon_hades_permutation_output_tmp_51986_163_limb_21, poseidon_hades_permutation_output_tmp_51986_163_limb_22, poseidon_hades_permutation_output_tmp_51986_163_limb_23, poseidon_hades_permutation_output_tmp_51986_163_limb_24, poseidon_hades_permutation_output_tmp_51986_163_limb_25, poseidon_hades_permutation_output_tmp_51986_163_limb_26, poseidon_hades_permutation_output_tmp_51986_163_limb_27, poseidon_hades_permutation_output_tmp_51986_163_limb_28, poseidon_hades_permutation_output_tmp_51986_163_limb_29]",
-        "type": "[M31; 30]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "poseidon_hades_permutation::evaluate",
@@ -3000,8 +3012,8 @@
     },
     {
       "Intermediate": {
-        "name": "[felt_252_unpack_from_27_output_tmp_51986_165_limb_0, felt_252_unpack_from_27_output_tmp_51986_165_limb_1, felt_252_unpack_from_27_output_tmp_51986_165_limb_2, felt_252_unpack_from_27_output_tmp_51986_165_limb_3, felt_252_unpack_from_27_output_tmp_51986_165_limb_4, felt_252_unpack_from_27_output_tmp_51986_165_limb_5, felt_252_unpack_from_27_output_tmp_51986_165_limb_6, felt_252_unpack_from_27_output_tmp_51986_165_limb_7, felt_252_unpack_from_27_output_tmp_51986_165_limb_8, felt_252_unpack_from_27_output_tmp_51986_165_limb_9, felt_252_unpack_from_27_output_tmp_51986_165_limb_10, felt_252_unpack_from_27_output_tmp_51986_165_limb_11, felt_252_unpack_from_27_output_tmp_51986_165_limb_12, felt_252_unpack_from_27_output_tmp_51986_165_limb_13, felt_252_unpack_from_27_output_tmp_51986_165_limb_14, felt_252_unpack_from_27_output_tmp_51986_165_limb_15, felt_252_unpack_from_27_output_tmp_51986_165_limb_16, felt_252_unpack_from_27_output_tmp_51986_165_limb_17, felt_252_unpack_from_27_output_tmp_51986_165_limb_18, felt_252_unpack_from_27_output_tmp_51986_165_limb_19, felt_252_unpack_from_27_output_tmp_51986_165_limb_20, felt_252_unpack_from_27_output_tmp_51986_165_limb_21, felt_252_unpack_from_27_output_tmp_51986_165_limb_22, felt_252_unpack_from_27_output_tmp_51986_165_limb_23, felt_252_unpack_from_27_output_tmp_51986_165_limb_24, felt_252_unpack_from_27_output_tmp_51986_165_limb_25, felt_252_unpack_from_27_output_tmp_51986_165_limb_26, felt_252_unpack_from_27_output_tmp_51986_165_limb_27]",
-        "type": "[M31; 28]",
+        "name": "[felt_252_unpack_from_27_output_tmp_51986_165_limb_2, felt_252_unpack_from_27_output_tmp_51986_165_limb_5, felt_252_unpack_from_27_output_tmp_51986_165_limb_8, felt_252_unpack_from_27_output_tmp_51986_165_limb_11, felt_252_unpack_from_27_output_tmp_51986_165_limb_14, felt_252_unpack_from_27_output_tmp_51986_165_limb_17, felt_252_unpack_from_27_output_tmp_51986_165_limb_20, felt_252_unpack_from_27_output_tmp_51986_165_limb_23, felt_252_unpack_from_27_output_tmp_51986_165_limb_26, felt_252_unpack_from_27_output_tmp_51986_165_limb_27]",
+        "type": "[M31; 10]",
         "var": {
           "StaticCall": [
             "felt_252_unpack_from_27::evaluate",
@@ -3101,8 +3113,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",
@@ -3269,8 +3281,8 @@
     },
     {
       "Intermediate": {
-        "name": "[felt_252_unpack_from_27_output_tmp_51986_168_limb_0, felt_252_unpack_from_27_output_tmp_51986_168_limb_1, felt_252_unpack_from_27_output_tmp_51986_168_limb_2, felt_252_unpack_from_27_output_tmp_51986_168_limb_3, felt_252_unpack_from_27_output_tmp_51986_168_limb_4, felt_252_unpack_from_27_output_tmp_51986_168_limb_5, felt_252_unpack_from_27_output_tmp_51986_168_limb_6, felt_252_unpack_from_27_output_tmp_51986_168_limb_7, felt_252_unpack_from_27_output_tmp_51986_168_limb_8, felt_252_unpack_from_27_output_tmp_51986_168_limb_9, felt_252_unpack_from_27_output_tmp_51986_168_limb_10, felt_252_unpack_from_27_output_tmp_51986_168_limb_11, felt_252_unpack_from_27_output_tmp_51986_168_limb_12, felt_252_unpack_from_27_output_tmp_51986_168_limb_13, felt_252_unpack_from_27_output_tmp_51986_168_limb_14, felt_252_unpack_from_27_output_tmp_51986_168_limb_15, felt_252_unpack_from_27_output_tmp_51986_168_limb_16, felt_252_unpack_from_27_output_tmp_51986_168_limb_17, felt_252_unpack_from_27_output_tmp_51986_168_limb_18, felt_252_unpack_from_27_output_tmp_51986_168_limb_19, felt_252_unpack_from_27_output_tmp_51986_168_limb_20, felt_252_unpack_from_27_output_tmp_51986_168_limb_21, felt_252_unpack_from_27_output_tmp_51986_168_limb_22, felt_252_unpack_from_27_output_tmp_51986_168_limb_23, felt_252_unpack_from_27_output_tmp_51986_168_limb_24, felt_252_unpack_from_27_output_tmp_51986_168_limb_25, felt_252_unpack_from_27_output_tmp_51986_168_limb_26, felt_252_unpack_from_27_output_tmp_51986_168_limb_27]",
-        "type": "[M31; 28]",
+        "name": "[felt_252_unpack_from_27_output_tmp_51986_168_limb_2, felt_252_unpack_from_27_output_tmp_51986_168_limb_5, felt_252_unpack_from_27_output_tmp_51986_168_limb_8, felt_252_unpack_from_27_output_tmp_51986_168_limb_11, felt_252_unpack_from_27_output_tmp_51986_168_limb_14, felt_252_unpack_from_27_output_tmp_51986_168_limb_17, felt_252_unpack_from_27_output_tmp_51986_168_limb_20, felt_252_unpack_from_27_output_tmp_51986_168_limb_23, felt_252_unpack_from_27_output_tmp_51986_168_limb_26, felt_252_unpack_from_27_output_tmp_51986_168_limb_27]",
+        "type": "[M31; 10]",
         "var": {
           "StaticCall": [
             "felt_252_unpack_from_27::evaluate",
@@ -3370,8 +3382,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",
@@ -3538,8 +3550,8 @@
     },
     {
       "Intermediate": {
-        "name": "[felt_252_unpack_from_27_output_tmp_51986_171_limb_0, felt_252_unpack_from_27_output_tmp_51986_171_limb_1, felt_252_unpack_from_27_output_tmp_51986_171_limb_2, felt_252_unpack_from_27_output_tmp_51986_171_limb_3, felt_252_unpack_from_27_output_tmp_51986_171_limb_4, felt_252_unpack_from_27_output_tmp_51986_171_limb_5, felt_252_unpack_from_27_output_tmp_51986_171_limb_6, felt_252_unpack_from_27_output_tmp_51986_171_limb_7, felt_252_unpack_from_27_output_tmp_51986_171_limb_8, felt_252_unpack_from_27_output_tmp_51986_171_limb_9, felt_252_unpack_from_27_output_tmp_51986_171_limb_10, felt_252_unpack_from_27_output_tmp_51986_171_limb_11, felt_252_unpack_from_27_output_tmp_51986_171_limb_12, felt_252_unpack_from_27_output_tmp_51986_171_limb_13, felt_252_unpack_from_27_output_tmp_51986_171_limb_14, felt_252_unpack_from_27_output_tmp_51986_171_limb_15, felt_252_unpack_from_27_output_tmp_51986_171_limb_16, felt_252_unpack_from_27_output_tmp_51986_171_limb_17, felt_252_unpack_from_27_output_tmp_51986_171_limb_18, felt_252_unpack_from_27_output_tmp_51986_171_limb_19, felt_252_unpack_from_27_output_tmp_51986_171_limb_20, felt_252_unpack_from_27_output_tmp_51986_171_limb_21, felt_252_unpack_from_27_output_tmp_51986_171_limb_22, felt_252_unpack_from_27_output_tmp_51986_171_limb_23, felt_252_unpack_from_27_output_tmp_51986_171_limb_24, felt_252_unpack_from_27_output_tmp_51986_171_limb_25, felt_252_unpack_from_27_output_tmp_51986_171_limb_26, felt_252_unpack_from_27_output_tmp_51986_171_limb_27]",
-        "type": "[M31; 28]",
+        "name": "[felt_252_unpack_from_27_output_tmp_51986_171_limb_2, felt_252_unpack_from_27_output_tmp_51986_171_limb_5, felt_252_unpack_from_27_output_tmp_51986_171_limb_8, felt_252_unpack_from_27_output_tmp_51986_171_limb_11, felt_252_unpack_from_27_output_tmp_51986_171_limb_14, felt_252_unpack_from_27_output_tmp_51986_171_limb_17, felt_252_unpack_from_27_output_tmp_51986_171_limb_20, felt_252_unpack_from_27_output_tmp_51986_171_limb_23, felt_252_unpack_from_27_output_tmp_51986_171_limb_26, felt_252_unpack_from_27_output_tmp_51986_171_limb_27]",
+        "type": "[M31; 10]",
         "var": {
           "StaticCall": [
             "felt_252_unpack_from_27::evaluate",
@@ -3639,8 +3651,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",

@@ -28,20 +28,10 @@
   ],
   "verifier_output": [
     {
-      "Array": [
-        {
-          "State": "next_pc_col232"
-        },
-        {
-          "State": "next_ap_col233"
-        },
-        {
-          "State": "next_fp_col234"
-        }
-      ]
+      "Array": []
     },
-    "[generic_opcode_output_pc, generic_opcode_output_ap, generic_opcode_output_fp]",
-    "[M31; 3]"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "input_pc_col0",
@@ -628,14 +618,18 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_generic_instruction_output_tmp_57455_26_limb_0, decode_generic_instruction_output_tmp_57455_26_limb_1, decode_generic_instruction_output_tmp_57455_26_limb_2, decode_generic_instruction_output_tmp_57455_26_limb_3, decode_generic_instruction_output_tmp_57455_26_limb_4, decode_generic_instruction_output_tmp_57455_26_limb_5, decode_generic_instruction_output_tmp_57455_26_limb_6, decode_generic_instruction_output_tmp_57455_26_limb_7, decode_generic_instruction_output_tmp_57455_26_limb_8, decode_generic_instruction_output_tmp_57455_26_limb_9, decode_generic_instruction_output_tmp_57455_26_limb_10, decode_generic_instruction_output_tmp_57455_26_limb_11, decode_generic_instruction_output_tmp_57455_26_limb_12, decode_generic_instruction_output_tmp_57455_26_limb_13, decode_generic_instruction_output_tmp_57455_26_limb_14, decode_generic_instruction_output_tmp_57455_26_limb_15, decode_generic_instruction_output_tmp_57455_26_limb_16, decode_generic_instruction_output_tmp_57455_26_limb_17, decode_generic_instruction_output_tmp_57455_26_limb_18, decode_generic_instruction_output_tmp_57455_26_limb_19, decode_generic_instruction_output_tmp_57455_26_limb_20, decode_generic_instruction_output_tmp_57455_26_limb_21, decode_generic_instruction_output_tmp_57455_26_limb_22]",
-        "type": "[M31; 23]",
+        "name": "[decode_generic_instruction_output_tmp_57455_26_limb_15, decode_generic_instruction_output_tmp_57455_26_limb_16, decode_generic_instruction_output_tmp_57455_26_limb_17, decode_generic_instruction_output_tmp_57455_26_limb_18, decode_generic_instruction_output_tmp_57455_26_limb_19, decode_generic_instruction_output_tmp_57455_26_limb_20, decode_generic_instruction_output_tmp_57455_26_limb_21, decode_generic_instruction_output_tmp_57455_26_limb_22]",
+        "type": "[M31; 8]",
         "var": {
           "StaticCall": [
             "decode_generic_instruction::evaluate",
             [
               {
-                "State": "input_pc_col0"
+                "Array": [
+                  {
+                    "State": "input_pc_col0"
+                  }
+                ]
               },
               {
                 "State": "offset0_col3"
@@ -698,8 +692,8 @@
     },
     {
       "Intermediate": {
-        "name": "[eval_operands_output_tmp_57455_92_limb_0, eval_operands_output_tmp_57455_92_limb_1, eval_operands_output_tmp_57455_92_limb_2, eval_operands_output_tmp_57455_92_limb_3, eval_operands_output_tmp_57455_92_limb_4, eval_operands_output_tmp_57455_92_limb_5, eval_operands_output_tmp_57455_92_limb_6, eval_operands_output_tmp_57455_92_limb_7, eval_operands_output_tmp_57455_92_limb_8, eval_operands_output_tmp_57455_92_limb_9, eval_operands_output_tmp_57455_92_limb_10, eval_operands_output_tmp_57455_92_limb_11, eval_operands_output_tmp_57455_92_limb_12, eval_operands_output_tmp_57455_92_limb_13, eval_operands_output_tmp_57455_92_limb_14, eval_operands_output_tmp_57455_92_limb_15, eval_operands_output_tmp_57455_92_limb_16, eval_operands_output_tmp_57455_92_limb_17, eval_operands_output_tmp_57455_92_limb_18, eval_operands_output_tmp_57455_92_limb_19, eval_operands_output_tmp_57455_92_limb_20, eval_operands_output_tmp_57455_92_limb_21, eval_operands_output_tmp_57455_92_limb_22, eval_operands_output_tmp_57455_92_limb_23, eval_operands_output_tmp_57455_92_limb_24, eval_operands_output_tmp_57455_92_limb_25, eval_operands_output_tmp_57455_92_limb_26, eval_operands_output_tmp_57455_92_limb_27, eval_operands_output_tmp_57455_92_limb_28, eval_operands_output_tmp_57455_92_limb_29, eval_operands_output_tmp_57455_92_limb_30, eval_operands_output_tmp_57455_92_limb_31, eval_operands_output_tmp_57455_92_limb_32, eval_operands_output_tmp_57455_92_limb_33, eval_operands_output_tmp_57455_92_limb_34, eval_operands_output_tmp_57455_92_limb_35, eval_operands_output_tmp_57455_92_limb_36, eval_operands_output_tmp_57455_92_limb_37, eval_operands_output_tmp_57455_92_limb_38, eval_operands_output_tmp_57455_92_limb_39, eval_operands_output_tmp_57455_92_limb_40, eval_operands_output_tmp_57455_92_limb_41, eval_operands_output_tmp_57455_92_limb_42, eval_operands_output_tmp_57455_92_limb_43, eval_operands_output_tmp_57455_92_limb_44, eval_operands_output_tmp_57455_92_limb_45, eval_operands_output_tmp_57455_92_limb_46, eval_operands_output_tmp_57455_92_limb_47, eval_operands_output_tmp_57455_92_limb_48, eval_operands_output_tmp_57455_92_limb_49, eval_operands_output_tmp_57455_92_limb_50, eval_operands_output_tmp_57455_92_limb_51, eval_operands_output_tmp_57455_92_limb_52, eval_operands_output_tmp_57455_92_limb_53, eval_operands_output_tmp_57455_92_limb_54, eval_operands_output_tmp_57455_92_limb_55, eval_operands_output_tmp_57455_92_limb_56, eval_operands_output_tmp_57455_92_limb_57, eval_operands_output_tmp_57455_92_limb_58, eval_operands_output_tmp_57455_92_limb_59, eval_operands_output_tmp_57455_92_limb_60, eval_operands_output_tmp_57455_92_limb_61, eval_operands_output_tmp_57455_92_limb_62, eval_operands_output_tmp_57455_92_limb_63, eval_operands_output_tmp_57455_92_limb_64, eval_operands_output_tmp_57455_92_limb_65, eval_operands_output_tmp_57455_92_limb_66, eval_operands_output_tmp_57455_92_limb_67, eval_operands_output_tmp_57455_92_limb_68, eval_operands_output_tmp_57455_92_limb_69, eval_operands_output_tmp_57455_92_limb_70, eval_operands_output_tmp_57455_92_limb_71, eval_operands_output_tmp_57455_92_limb_72, eval_operands_output_tmp_57455_92_limb_73, eval_operands_output_tmp_57455_92_limb_74, eval_operands_output_tmp_57455_92_limb_75, eval_operands_output_tmp_57455_92_limb_76, eval_operands_output_tmp_57455_92_limb_77, eval_operands_output_tmp_57455_92_limb_78, eval_operands_output_tmp_57455_92_limb_79, eval_operands_output_tmp_57455_92_limb_80, eval_operands_output_tmp_57455_92_limb_81, eval_operands_output_tmp_57455_92_limb_82, eval_operands_output_tmp_57455_92_limb_83, eval_operands_output_tmp_57455_92_limb_84, eval_operands_output_tmp_57455_92_limb_85, eval_operands_output_tmp_57455_92_limb_86, eval_operands_output_tmp_57455_92_limb_87, eval_operands_output_tmp_57455_92_limb_88, eval_operands_output_tmp_57455_92_limb_89, eval_operands_output_tmp_57455_92_limb_90, eval_operands_output_tmp_57455_92_limb_91, eval_operands_output_tmp_57455_92_limb_92, eval_operands_output_tmp_57455_92_limb_93, eval_operands_output_tmp_57455_92_limb_94, eval_operands_output_tmp_57455_92_limb_95, eval_operands_output_tmp_57455_92_limb_96, eval_operands_output_tmp_57455_92_limb_97, eval_operands_output_tmp_57455_92_limb_98, eval_operands_output_tmp_57455_92_limb_99, eval_operands_output_tmp_57455_92_limb_100, eval_operands_output_tmp_57455_92_limb_101, eval_operands_output_tmp_57455_92_limb_102, eval_operands_output_tmp_57455_92_limb_103, eval_operands_output_tmp_57455_92_limb_104, eval_operands_output_tmp_57455_92_limb_105, eval_operands_output_tmp_57455_92_limb_106, eval_operands_output_tmp_57455_92_limb_107, eval_operands_output_tmp_57455_92_limb_108, eval_operands_output_tmp_57455_92_limb_109, eval_operands_output_tmp_57455_92_limb_110, eval_operands_output_tmp_57455_92_limb_111]",
-        "type": "[M31; 112]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "eval_operands::evaluate",
@@ -737,28 +731,7 @@
                     "State": "res_mul_col12"
                   },
                   {
-                    "State": "pc_update_jump_col13"
-                  },
-                  {
-                    "State": "pc_update_jump_rel_col14"
-                  },
-                  {
                     "State": "pc_update_jnz_col15"
-                  },
-                  {
-                    "State": "ap_update_add_col16"
-                  },
-                  {
-                    "State": "ap_update_add_1_col17"
-                  },
-                  {
-                    "State": "opcode_call_col18"
-                  },
-                  {
-                    "State": "opcode_ret_col19"
-                  },
-                  {
-                    "State": "opcode_assert_eq_col20"
                   },
                   {
                     "Var": [
@@ -770,24 +743,6 @@
                     "Var": [
                       "M31",
                       "decode_generic_instruction_output_tmp_57455_26_limb_16"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_17"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_18"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_19"
                     ]
                   },
                   {
@@ -1426,8 +1381,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "handle_opcodes::evaluate",
@@ -1436,9 +1391,6 @@
                 "Array": [
                   {
                     "State": "input_pc_col0"
-                  },
-                  {
-                    "State": "input_ap_col1"
                   },
                   {
                     "State": "input_fp_col2"
@@ -1450,34 +1402,10 @@
                     "State": "op0_base_fp_col7"
                   },
                   {
-                    "State": "op1_imm_col8"
-                  },
-                  {
                     "State": "op1_base_fp_col9"
                   },
                   {
-                    "State": "op1_base_ap_col10"
-                  },
-                  {
-                    "State": "res_add_col11"
-                  },
-                  {
-                    "State": "res_mul_col12"
-                  },
-                  {
                     "State": "pc_update_jump_col13"
-                  },
-                  {
-                    "State": "pc_update_jump_rel_col14"
-                  },
-                  {
-                    "State": "pc_update_jnz_col15"
-                  },
-                  {
-                    "State": "ap_update_add_col16"
-                  },
-                  {
-                    "State": "ap_update_add_1_col17"
                   },
                   {
                     "State": "opcode_call_col18"
@@ -1491,25 +1419,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_15"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
                       "decode_generic_instruction_output_tmp_57455_26_limb_16"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_17"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_18"
                     ]
                   },
                   {
@@ -1797,8 +1707,8 @@
     },
     {
       "Intermediate": {
-        "name": "[update_registers_output_tmp_57455_110_pc, update_registers_output_tmp_57455_110_ap, update_registers_output_tmp_57455_110_fp]",
-        "type": "[M31; 3]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "update_registers::evaluate",
@@ -1813,27 +1723,6 @@
                   },
                   {
                     "State": "input_fp_col2"
-                  },
-                  {
-                    "State": "dst_base_fp_col6"
-                  },
-                  {
-                    "State": "op0_base_fp_col7"
-                  },
-                  {
-                    "State": "op1_imm_col8"
-                  },
-                  {
-                    "State": "op1_base_fp_col9"
-                  },
-                  {
-                    "State": "op1_base_ap_col10"
-                  },
-                  {
-                    "State": "res_add_col11"
-                  },
-                  {
-                    "State": "res_mul_col12"
                   },
                   {
                     "State": "pc_update_jump_col13"
@@ -1855,21 +1744,6 @@
                   },
                   {
                     "State": "opcode_ret_col19"
-                  },
-                  {
-                    "State": "opcode_assert_eq_col20"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_15"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_16"
-                    ]
                   },
                   {
                     "Var": [

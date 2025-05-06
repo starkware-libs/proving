@@ -1,6 +1,7 @@
 use compiled_casm_air::compiled_structs::ExternalState;
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
+use indexmap::IndexSet;
 
 use super::super::state::*;
 use super::super::variables::*;
@@ -103,6 +104,27 @@ impl FeltExpr {
                     | StateInfo::PublicParam(_)
             ),
             _ => false,
+        }
+    }
+
+    pub fn get_constraint_intermediates(&self) -> IndexSet<String> {
+        match self {
+            FeltExpr::Var(v) => {
+                if let Some(name) = v
+                    .complex_or_felt
+                    .as_felt_info()
+                    .constraint_intermediate
+                    .as_ref()
+                {
+                    return IndexSet::from([name.clone()]);
+                }
+                IndexSet::new()
+            }
+            FeltExpr::Op(op) => op
+                .children
+                .iter()
+                .flat_map(|c| c.as_felt().get_constraint_intermediates())
+                .collect(),
         }
     }
 

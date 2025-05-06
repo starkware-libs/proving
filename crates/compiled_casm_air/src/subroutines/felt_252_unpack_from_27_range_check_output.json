@@ -30,22 +30,10 @@
     {
       "Array": [
         {
-          "State": "unpacked_limb_0_col0"
-        },
-        {
-          "State": "unpacked_limb_1_col1"
-        },
-        {
           "Var": [
             "M31",
             "unpacked_tmp_4f7f8_1_limb_2"
           ]
-        },
-        {
-          "State": "unpacked_limb_3_col2"
-        },
-        {
-          "State": "unpacked_limb_4_col3"
         },
         {
           "Var": [
@@ -54,22 +42,10 @@
           ]
         },
         {
-          "State": "unpacked_limb_6_col4"
-        },
-        {
-          "State": "unpacked_limb_7_col5"
-        },
-        {
           "Var": [
             "M31",
             "unpacked_tmp_4f7f8_1_limb_8"
           ]
-        },
-        {
-          "State": "unpacked_limb_9_col6"
-        },
-        {
-          "State": "unpacked_limb_10_col7"
         },
         {
           "Var": [
@@ -78,22 +54,10 @@
           ]
         },
         {
-          "State": "unpacked_limb_12_col8"
-        },
-        {
-          "State": "unpacked_limb_13_col9"
-        },
-        {
           "Var": [
             "M31",
             "unpacked_tmp_4f7f8_1_limb_14"
           ]
-        },
-        {
-          "State": "unpacked_limb_15_col10"
-        },
-        {
-          "State": "unpacked_limb_16_col11"
         },
         {
           "Var": [
@@ -102,34 +66,16 @@
           ]
         },
         {
-          "State": "unpacked_limb_18_col12"
-        },
-        {
-          "State": "unpacked_limb_19_col13"
-        },
-        {
           "Var": [
             "M31",
             "unpacked_tmp_4f7f8_1_limb_20"
           ]
         },
         {
-          "State": "unpacked_limb_21_col14"
-        },
-        {
-          "State": "unpacked_limb_22_col15"
-        },
-        {
           "Var": [
             "M31",
             "unpacked_tmp_4f7f8_1_limb_23"
           ]
-        },
-        {
-          "State": "unpacked_limb_24_col16"
-        },
-        {
-          "State": "unpacked_limb_25_col17"
         },
         {
           "Var": [
@@ -145,8 +91,8 @@
         }
       ]
     },
-    "[felt_252_unpack_from_27_range_check_output_output_limb_0, felt_252_unpack_from_27_range_check_output_output_limb_1, felt_252_unpack_from_27_range_check_output_output_limb_2, felt_252_unpack_from_27_range_check_output_output_limb_3, felt_252_unpack_from_27_range_check_output_output_limb_4, felt_252_unpack_from_27_range_check_output_output_limb_5, felt_252_unpack_from_27_range_check_output_output_limb_6, felt_252_unpack_from_27_range_check_output_output_limb_7, felt_252_unpack_from_27_range_check_output_output_limb_8, felt_252_unpack_from_27_range_check_output_output_limb_9, felt_252_unpack_from_27_range_check_output_output_limb_10, felt_252_unpack_from_27_range_check_output_output_limb_11, felt_252_unpack_from_27_range_check_output_output_limb_12, felt_252_unpack_from_27_range_check_output_output_limb_13, felt_252_unpack_from_27_range_check_output_output_limb_14, felt_252_unpack_from_27_range_check_output_output_limb_15, felt_252_unpack_from_27_range_check_output_output_limb_16, felt_252_unpack_from_27_range_check_output_output_limb_17, felt_252_unpack_from_27_range_check_output_output_limb_18, felt_252_unpack_from_27_range_check_output_output_limb_19, felt_252_unpack_from_27_range_check_output_output_limb_20, felt_252_unpack_from_27_range_check_output_output_limb_21, felt_252_unpack_from_27_range_check_output_output_limb_22, felt_252_unpack_from_27_range_check_output_output_limb_23, felt_252_unpack_from_27_range_check_output_output_limb_24, felt_252_unpack_from_27_range_check_output_output_limb_25, felt_252_unpack_from_27_range_check_output_output_limb_26, felt_252_unpack_from_27_range_check_output_output_limb_27]",
-    "[M31; 28]"
+    "[felt_252_unpack_from_27_range_check_output_output_limb_2, felt_252_unpack_from_27_range_check_output_output_limb_5, felt_252_unpack_from_27_range_check_output_output_limb_8, felt_252_unpack_from_27_range_check_output_output_limb_11, felt_252_unpack_from_27_range_check_output_output_limb_14, felt_252_unpack_from_27_range_check_output_output_limb_17, felt_252_unpack_from_27_range_check_output_output_limb_20, felt_252_unpack_from_27_range_check_output_output_limb_23, felt_252_unpack_from_27_range_check_output_output_limb_26, felt_252_unpack_from_27_range_check_output_output_limb_27]",
+    "[M31; 10]"
   ],
   "state_names": [
     "unpacked_limb_0_col0",
@@ -715,8 +661,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "range_check_mem_value_n_28::evaluate",

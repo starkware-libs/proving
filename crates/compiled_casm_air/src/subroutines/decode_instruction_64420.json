@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "decode_instruction_64420_input_pc",
-    "M31"
+    "[decode_instruction_64420_input_pc]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -196,89 +196,11 @@
               ]
             }
           ]
-        },
-        {
-          "State": "dst_base_fp_col3"
-        },
-        {
-          "State": "op0_base_fp_col4"
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "State": "op1_base_fp_col5"
-        },
-        {
-          "State": "op1_base_ap_col6"
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "State": "ap_update_add_1_col7"
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "Const": [
-            "M31",
-            "0"
-          ]
-        },
-        {
-          "State": "opcode_extension_col8"
         }
       ]
     },
-    "[decode_instruction_64420_output_offset0, decode_instruction_64420_output_offset1, decode_instruction_64420_output_offset2, decode_instruction_64420_output_dst_base_fp, decode_instruction_64420_output_op0_base_fp, decode_instruction_64420_output_op1_imm, decode_instruction_64420_output_op1_base_fp, decode_instruction_64420_output_op1_base_ap, decode_instruction_64420_output_res_add, decode_instruction_64420_output_res_mul, decode_instruction_64420_output_pc_update_jump, decode_instruction_64420_output_pc_update_jump_rel, decode_instruction_64420_output_pc_update_jnz, decode_instruction_64420_output_ap_update_add, decode_instruction_64420_output_ap_update_add_1, decode_instruction_64420_output_opcode_call, decode_instruction_64420_output_opcode_ret, decode_instruction_64420_output_opcode_assert_eq, decode_instruction_64420_output_opcode_extension]",
-    "[M31; 19]"
+    "[decode_instruction_64420_output_offset0, decode_instruction_64420_output_offset1, decode_instruction_64420_output_offset2]",
+    "[M31; 3]"
   ],
   "state_names": [
     "offset0_col0",

@@ -12,8 +12,8 @@
     "()"
   ],
   "verifier_input": [
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "prover_output": [
     {
@@ -27,8 +27,8 @@
     {
       "Array": []
     },
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "value_limb_0_col0",
@@ -498,16 +498,20 @@
     },
     {
       "Intermediate": {
-        "name": "[read_split_output_tmp_d00c6_6_high_limb_0, read_split_output_tmp_d00c6_6_high_limb_1, read_split_output_tmp_d00c6_6_high_limb_2, read_split_output_tmp_d00c6_6_high_limb_3, read_split_output_tmp_d00c6_6_high_limb_4, read_split_output_tmp_d00c6_6_high_limb_5, read_split_output_tmp_d00c6_6_high_limb_6, read_split_output_tmp_d00c6_6_high_limb_7, read_split_output_tmp_d00c6_6_high_limb_8, read_split_output_tmp_d00c6_6_high_limb_9, read_split_output_tmp_d00c6_6_high_limb_10, read_split_output_tmp_d00c6_6_high_limb_11, read_split_output_tmp_d00c6_6_high_limb_12, read_split_output_tmp_d00c6_6_high_limb_13, read_split_output_tmp_d00c6_6_high_limb_14, read_split_output_tmp_d00c6_6_high_limb_15, read_split_output_tmp_d00c6_6_high_limb_16, read_split_output_tmp_d00c6_6_high_limb_17, read_split_output_tmp_d00c6_6_high_limb_18, read_split_output_tmp_d00c6_6_high_limb_19, read_split_output_tmp_d00c6_6_high_limb_20, read_split_output_tmp_d00c6_6_high_limb_21, read_split_output_tmp_d00c6_6_high_limb_22, read_split_output_tmp_d00c6_6_high_limb_23, read_split_output_tmp_d00c6_6_high_limb_24, read_split_output_tmp_d00c6_6_high_limb_25, read_split_output_tmp_d00c6_6_high_limb_26, read_split_output_tmp_d00c6_6_high_limb_27, read_split_output_tmp_d00c6_6_low_limb_0, read_split_output_tmp_d00c6_6_low_limb_1, read_split_output_tmp_d00c6_6_low_limb_2, read_split_output_tmp_d00c6_6_low_limb_3, read_split_output_tmp_d00c6_6_low_limb_4, read_split_output_tmp_d00c6_6_low_limb_5, read_split_output_tmp_d00c6_6_low_limb_6, read_split_output_tmp_d00c6_6_low_limb_7, read_split_output_tmp_d00c6_6_low_limb_8, read_split_output_tmp_d00c6_6_low_limb_9, read_split_output_tmp_d00c6_6_low_limb_10, read_split_output_tmp_d00c6_6_low_limb_11, read_split_output_tmp_d00c6_6_low_limb_12, read_split_output_tmp_d00c6_6_low_limb_13, read_split_output_tmp_d00c6_6_low_limb_14, read_split_output_tmp_d00c6_6_low_limb_15, read_split_output_tmp_d00c6_6_low_limb_16, read_split_output_tmp_d00c6_6_low_limb_17, read_split_output_tmp_d00c6_6_low_limb_18, read_split_output_tmp_d00c6_6_low_limb_19, read_split_output_tmp_d00c6_6_low_limb_20, read_split_output_tmp_d00c6_6_low_limb_21, read_split_output_tmp_d00c6_6_low_limb_22, read_split_output_tmp_d00c6_6_low_limb_23, read_split_output_tmp_d00c6_6_low_limb_24, read_split_output_tmp_d00c6_6_low_limb_25, read_split_output_tmp_d00c6_6_low_limb_26, read_split_output_tmp_d00c6_6_low_limb_27, read_split_output_tmp_d00c6_6_original_limb_0, read_split_output_tmp_d00c6_6_original_limb_1, read_split_output_tmp_d00c6_6_original_limb_2, read_split_output_tmp_d00c6_6_original_limb_3, read_split_output_tmp_d00c6_6_original_limb_4, read_split_output_tmp_d00c6_6_original_limb_5, read_split_output_tmp_d00c6_6_original_limb_6, read_split_output_tmp_d00c6_6_original_limb_7, read_split_output_tmp_d00c6_6_original_limb_8, read_split_output_tmp_d00c6_6_original_limb_9, read_split_output_tmp_d00c6_6_original_limb_10, read_split_output_tmp_d00c6_6_original_limb_11, read_split_output_tmp_d00c6_6_original_limb_12, read_split_output_tmp_d00c6_6_original_limb_13, read_split_output_tmp_d00c6_6_original_limb_14, read_split_output_tmp_d00c6_6_original_limb_15, read_split_output_tmp_d00c6_6_original_limb_16, read_split_output_tmp_d00c6_6_original_limb_17, read_split_output_tmp_d00c6_6_original_limb_18, read_split_output_tmp_d00c6_6_original_limb_19, read_split_output_tmp_d00c6_6_original_limb_20, read_split_output_tmp_d00c6_6_original_limb_21, read_split_output_tmp_d00c6_6_original_limb_22, read_split_output_tmp_d00c6_6_original_limb_23, read_split_output_tmp_d00c6_6_original_limb_24, read_split_output_tmp_d00c6_6_original_limb_25, read_split_output_tmp_d00c6_6_original_limb_26, read_split_output_tmp_d00c6_6_original_limb_27]",
-        "type": "[M31; 84]",
+        "name": "[read_split_output_tmp_d00c6_6_original_limb_27]",
+        "type": "[M31; 1]",
         "var": {
           "StaticCall": [
             "read_split::evaluate",
             [
               {
-                "Var": [
-                  "M31",
-                  "instance_addr_tmp_d00c6_0"
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_d00c6_0"
+                    ]
+                  }
                 ]
               },
               {
@@ -607,25 +611,29 @@
     },
     {
       "Intermediate": {
-        "name": "[read_split_output_tmp_d00c6_12_high_limb_0, read_split_output_tmp_d00c6_12_high_limb_1, read_split_output_tmp_d00c6_12_high_limb_2, read_split_output_tmp_d00c6_12_high_limb_3, read_split_output_tmp_d00c6_12_high_limb_4, read_split_output_tmp_d00c6_12_high_limb_5, read_split_output_tmp_d00c6_12_high_limb_6, read_split_output_tmp_d00c6_12_high_limb_7, read_split_output_tmp_d00c6_12_high_limb_8, read_split_output_tmp_d00c6_12_high_limb_9, read_split_output_tmp_d00c6_12_high_limb_10, read_split_output_tmp_d00c6_12_high_limb_11, read_split_output_tmp_d00c6_12_high_limb_12, read_split_output_tmp_d00c6_12_high_limb_13, read_split_output_tmp_d00c6_12_high_limb_14, read_split_output_tmp_d00c6_12_high_limb_15, read_split_output_tmp_d00c6_12_high_limb_16, read_split_output_tmp_d00c6_12_high_limb_17, read_split_output_tmp_d00c6_12_high_limb_18, read_split_output_tmp_d00c6_12_high_limb_19, read_split_output_tmp_d00c6_12_high_limb_20, read_split_output_tmp_d00c6_12_high_limb_21, read_split_output_tmp_d00c6_12_high_limb_22, read_split_output_tmp_d00c6_12_high_limb_23, read_split_output_tmp_d00c6_12_high_limb_24, read_split_output_tmp_d00c6_12_high_limb_25, read_split_output_tmp_d00c6_12_high_limb_26, read_split_output_tmp_d00c6_12_high_limb_27, read_split_output_tmp_d00c6_12_low_limb_0, read_split_output_tmp_d00c6_12_low_limb_1, read_split_output_tmp_d00c6_12_low_limb_2, read_split_output_tmp_d00c6_12_low_limb_3, read_split_output_tmp_d00c6_12_low_limb_4, read_split_output_tmp_d00c6_12_low_limb_5, read_split_output_tmp_d00c6_12_low_limb_6, read_split_output_tmp_d00c6_12_low_limb_7, read_split_output_tmp_d00c6_12_low_limb_8, read_split_output_tmp_d00c6_12_low_limb_9, read_split_output_tmp_d00c6_12_low_limb_10, read_split_output_tmp_d00c6_12_low_limb_11, read_split_output_tmp_d00c6_12_low_limb_12, read_split_output_tmp_d00c6_12_low_limb_13, read_split_output_tmp_d00c6_12_low_limb_14, read_split_output_tmp_d00c6_12_low_limb_15, read_split_output_tmp_d00c6_12_low_limb_16, read_split_output_tmp_d00c6_12_low_limb_17, read_split_output_tmp_d00c6_12_low_limb_18, read_split_output_tmp_d00c6_12_low_limb_19, read_split_output_tmp_d00c6_12_low_limb_20, read_split_output_tmp_d00c6_12_low_limb_21, read_split_output_tmp_d00c6_12_low_limb_22, read_split_output_tmp_d00c6_12_low_limb_23, read_split_output_tmp_d00c6_12_low_limb_24, read_split_output_tmp_d00c6_12_low_limb_25, read_split_output_tmp_d00c6_12_low_limb_26, read_split_output_tmp_d00c6_12_low_limb_27, read_split_output_tmp_d00c6_12_original_limb_0, read_split_output_tmp_d00c6_12_original_limb_1, read_split_output_tmp_d00c6_12_original_limb_2, read_split_output_tmp_d00c6_12_original_limb_3, read_split_output_tmp_d00c6_12_original_limb_4, read_split_output_tmp_d00c6_12_original_limb_5, read_split_output_tmp_d00c6_12_original_limb_6, read_split_output_tmp_d00c6_12_original_limb_7, read_split_output_tmp_d00c6_12_original_limb_8, read_split_output_tmp_d00c6_12_original_limb_9, read_split_output_tmp_d00c6_12_original_limb_10, read_split_output_tmp_d00c6_12_original_limb_11, read_split_output_tmp_d00c6_12_original_limb_12, read_split_output_tmp_d00c6_12_original_limb_13, read_split_output_tmp_d00c6_12_original_limb_14, read_split_output_tmp_d00c6_12_original_limb_15, read_split_output_tmp_d00c6_12_original_limb_16, read_split_output_tmp_d00c6_12_original_limb_17, read_split_output_tmp_d00c6_12_original_limb_18, read_split_output_tmp_d00c6_12_original_limb_19, read_split_output_tmp_d00c6_12_original_limb_20, read_split_output_tmp_d00c6_12_original_limb_21, read_split_output_tmp_d00c6_12_original_limb_22, read_split_output_tmp_d00c6_12_original_limb_23, read_split_output_tmp_d00c6_12_original_limb_24, read_split_output_tmp_d00c6_12_original_limb_25, read_split_output_tmp_d00c6_12_original_limb_26, read_split_output_tmp_d00c6_12_original_limb_27]",
-        "type": "[M31; 84]",
+        "name": "[read_split_output_tmp_d00c6_12_original_limb_27]",
+        "type": "[M31; 1]",
         "var": {
           "StaticCall": [
             "read_split::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_d00c6_0"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "instance_addr_tmp_d00c6_0"
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -727,8 +735,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_reduced_252::evaluate",
@@ -840,8 +848,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_reduced_252::evaluate",
@@ -3769,8 +3777,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",

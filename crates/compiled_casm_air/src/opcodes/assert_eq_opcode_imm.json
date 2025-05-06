@@ -91,14 +91,11 @@
               "State": "ap_update_add_1_col5"
             }
           ]
-        },
-        {
-          "State": "input_fp_col2"
         }
       ]
     },
-    "[assert_eq_opcode_imm_output_pc, assert_eq_opcode_imm_output_ap, assert_eq_opcode_imm_output_fp]",
-    "[M31; 3]"
+    "[assert_eq_opcode_imm_output_pc, assert_eq_opcode_imm_output_ap]",
+    "[M31; 2]"
   ],
   "state_names": [
     "input_pc_col0",
@@ -148,14 +145,18 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_161c9_output_tmp_bb09e_5_offset0, decode_instruction_161c9_output_tmp_bb09e_5_offset1, decode_instruction_161c9_output_tmp_bb09e_5_offset2, decode_instruction_161c9_output_tmp_bb09e_5_dst_base_fp, decode_instruction_161c9_output_tmp_bb09e_5_op0_base_fp, decode_instruction_161c9_output_tmp_bb09e_5_op1_imm, decode_instruction_161c9_output_tmp_bb09e_5_op1_base_fp, decode_instruction_161c9_output_tmp_bb09e_5_op1_base_ap, decode_instruction_161c9_output_tmp_bb09e_5_res_add, decode_instruction_161c9_output_tmp_bb09e_5_res_mul, decode_instruction_161c9_output_tmp_bb09e_5_pc_update_jump, decode_instruction_161c9_output_tmp_bb09e_5_pc_update_jump_rel, decode_instruction_161c9_output_tmp_bb09e_5_pc_update_jnz, decode_instruction_161c9_output_tmp_bb09e_5_ap_update_add, decode_instruction_161c9_output_tmp_bb09e_5_ap_update_add_1, decode_instruction_161c9_output_tmp_bb09e_5_opcode_call, decode_instruction_161c9_output_tmp_bb09e_5_opcode_ret, decode_instruction_161c9_output_tmp_bb09e_5_opcode_assert_eq, decode_instruction_161c9_output_tmp_bb09e_5_opcode_extension]",
-        "type": "[M31; 19]",
+        "name": "[decode_instruction_161c9_output_tmp_bb09e_5_offset0]",
+        "type": "[M31; 1]",
         "var": {
           "StaticCall": [
             "decode_instruction_161c9::evaluate",
             [
               {
-                "State": "input_pc_col0"
+                "Array": [
+                  {
+                    "State": "input_pc_col0"
+                  }
+                ]
               },
               {
                 "State": "offset0_col3"
@@ -224,8 +225,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify_equal::evaluate",

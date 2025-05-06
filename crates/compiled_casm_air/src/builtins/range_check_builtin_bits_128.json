@@ -12,8 +12,8 @@
     "()"
   ],
   "verifier_input": [
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "prover_output": [
     {
@@ -27,8 +27,8 @@
     {
       "Array": []
     },
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "value_id_col0",
@@ -82,24 +82,28 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_128_output_tmp_66b3a_4_limb_0, read_positive_num_bits_128_output_tmp_66b3a_4_limb_1, read_positive_num_bits_128_output_tmp_66b3a_4_limb_2, read_positive_num_bits_128_output_tmp_66b3a_4_limb_3, read_positive_num_bits_128_output_tmp_66b3a_4_limb_4, read_positive_num_bits_128_output_tmp_66b3a_4_limb_5, read_positive_num_bits_128_output_tmp_66b3a_4_limb_6, read_positive_num_bits_128_output_tmp_66b3a_4_limb_7, read_positive_num_bits_128_output_tmp_66b3a_4_limb_8, read_positive_num_bits_128_output_tmp_66b3a_4_limb_9, read_positive_num_bits_128_output_tmp_66b3a_4_limb_10, read_positive_num_bits_128_output_tmp_66b3a_4_limb_11, read_positive_num_bits_128_output_tmp_66b3a_4_limb_12, read_positive_num_bits_128_output_tmp_66b3a_4_limb_13, read_positive_num_bits_128_output_tmp_66b3a_4_limb_14, read_positive_num_bits_128_output_tmp_66b3a_4_limb_15, read_positive_num_bits_128_output_tmp_66b3a_4_limb_16, read_positive_num_bits_128_output_tmp_66b3a_4_limb_17, read_positive_num_bits_128_output_tmp_66b3a_4_limb_18, read_positive_num_bits_128_output_tmp_66b3a_4_limb_19, read_positive_num_bits_128_output_tmp_66b3a_4_limb_20, read_positive_num_bits_128_output_tmp_66b3a_4_limb_21, read_positive_num_bits_128_output_tmp_66b3a_4_limb_22, read_positive_num_bits_128_output_tmp_66b3a_4_limb_23, read_positive_num_bits_128_output_tmp_66b3a_4_limb_24, read_positive_num_bits_128_output_tmp_66b3a_4_limb_25, read_positive_num_bits_128_output_tmp_66b3a_4_limb_26, read_positive_num_bits_128_output_tmp_66b3a_4_limb_27, read_positive_num_bits_128_output_tmp_66b3a_4_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_128::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "PublicParam": "range_check_builtin_segment_start"
-                  },
-                  "+",
-                  {
-                    "ExternalState": {
-                      "name": "Seq",
-                      "generic_param": null,
-                      "args": []
-                    }
+                    "BinaryOp": [
+                      {
+                        "PublicParam": "range_check_builtin_segment_start"
+                      },
+                      "+",
+                      {
+                        "ExternalState": {
+                          "name": "Seq",
+                          "generic_param": null,
+                          "args": []
+                        }
+                      }
+                    ]
                   }
                 ]
               },

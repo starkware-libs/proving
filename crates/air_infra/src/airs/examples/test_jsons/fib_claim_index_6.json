@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "fib_claim_index_6_input",
-    "M31"
+    "[fib_claim_index_6_input]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -25,10 +25,10 @@
   ],
   "verifier_output": [
     {
-      "State": "col4"
+      "Array": []
     },
-    "fib_claim_index_6_output",
-    "M31"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "col0",
@@ -50,8 +50,8 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "fib_step_output_tmp_e6b3d_0",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "fib_step::evaluate",
@@ -79,8 +79,8 @@
     },
     {
       "Intermediate": {
-        "name": "fib_step_output_tmp_e6b3d_1",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "fib_step::evaluate",
@@ -105,8 +105,8 @@
     },
     {
       "Intermediate": {
-        "name": "fib_step_output_tmp_e6b3d_2",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "fib_step::evaluate",
@@ -131,8 +131,8 @@
     },
     {
       "Intermediate": {
-        "name": "fib_step_output_tmp_e6b3d_3",
-        "type": "M31",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "fib_step::evaluate",

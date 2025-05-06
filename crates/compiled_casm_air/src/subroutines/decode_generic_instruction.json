@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "decode_generic_instruction_input",
-    "M31"
+    "[decode_generic_instruction_input]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -137,51 +137,6 @@
     {
       "Array": [
         {
-          "State": "dst_base_fp_col3"
-        },
-        {
-          "State": "op0_base_fp_col4"
-        },
-        {
-          "State": "op1_imm_col5"
-        },
-        {
-          "State": "op1_base_fp_col6"
-        },
-        {
-          "State": "op1_base_ap_col7"
-        },
-        {
-          "State": "res_add_col8"
-        },
-        {
-          "State": "res_mul_col9"
-        },
-        {
-          "State": "pc_update_jump_col10"
-        },
-        {
-          "State": "pc_update_jump_rel_col11"
-        },
-        {
-          "State": "pc_update_jnz_col12"
-        },
-        {
-          "State": "ap_update_add_col13"
-        },
-        {
-          "State": "ap_update_add_1_col14"
-        },
-        {
-          "State": "opcode_call_col15"
-        },
-        {
-          "State": "opcode_ret_col16"
-        },
-        {
-          "State": "opcode_assert_eq_col17"
-        },
-        {
           "Var": [
             "M31",
             "op1_base_op0_tmp_62f3c_21"
@@ -239,8 +194,8 @@
         }
       ]
     },
-    "[decode_generic_instruction_output_limb_0, decode_generic_instruction_output_limb_1, decode_generic_instruction_output_limb_2, decode_generic_instruction_output_limb_3, decode_generic_instruction_output_limb_4, decode_generic_instruction_output_limb_5, decode_generic_instruction_output_limb_6, decode_generic_instruction_output_limb_7, decode_generic_instruction_output_limb_8, decode_generic_instruction_output_limb_9, decode_generic_instruction_output_limb_10, decode_generic_instruction_output_limb_11, decode_generic_instruction_output_limb_12, decode_generic_instruction_output_limb_13, decode_generic_instruction_output_limb_14, decode_generic_instruction_output_limb_15, decode_generic_instruction_output_limb_16, decode_generic_instruction_output_limb_17, decode_generic_instruction_output_limb_18, decode_generic_instruction_output_limb_19, decode_generic_instruction_output_limb_20, decode_generic_instruction_output_limb_21, decode_generic_instruction_output_limb_22]",
-    "[M31; 23]"
+    "[decode_generic_instruction_output_limb_15, decode_generic_instruction_output_limb_16, decode_generic_instruction_output_limb_17, decode_generic_instruction_output_limb_18, decode_generic_instruction_output_limb_19, decode_generic_instruction_output_limb_20, decode_generic_instruction_output_limb_21, decode_generic_instruction_output_limb_22]",
+    "[M31; 8]"
   ],
   "state_names": [
     "offset0_col0",
@@ -282,16 +237,20 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_df7a6_output_tmp_62f3c_20_offset0, decode_instruction_df7a6_output_tmp_62f3c_20_offset1, decode_instruction_df7a6_output_tmp_62f3c_20_offset2, decode_instruction_df7a6_output_tmp_62f3c_20_dst_base_fp, decode_instruction_df7a6_output_tmp_62f3c_20_op0_base_fp, decode_instruction_df7a6_output_tmp_62f3c_20_op1_imm, decode_instruction_df7a6_output_tmp_62f3c_20_op1_base_fp, decode_instruction_df7a6_output_tmp_62f3c_20_op1_base_ap, decode_instruction_df7a6_output_tmp_62f3c_20_res_add, decode_instruction_df7a6_output_tmp_62f3c_20_res_mul, decode_instruction_df7a6_output_tmp_62f3c_20_pc_update_jump, decode_instruction_df7a6_output_tmp_62f3c_20_pc_update_jump_rel, decode_instruction_df7a6_output_tmp_62f3c_20_pc_update_jnz, decode_instruction_df7a6_output_tmp_62f3c_20_ap_update_add, decode_instruction_df7a6_output_tmp_62f3c_20_ap_update_add_1, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_call, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_ret, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_assert_eq, decode_instruction_df7a6_output_tmp_62f3c_20_opcode_extension]",
-        "type": "[M31; 19]",
+        "name": "[decode_instruction_df7a6_output_tmp_62f3c_20_offset0, decode_instruction_df7a6_output_tmp_62f3c_20_offset1, decode_instruction_df7a6_output_tmp_62f3c_20_offset2]",
+        "type": "[M31; 3]",
         "var": {
           "StaticCall": [
             "decode_instruction_df7a6::evaluate",
             [
               {
-                "Var": [
-                  "M31",
-                  "decode_generic_instruction_input"
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "decode_generic_instruction_input"
+                    ]
+                  }
                 ]
               },
               {

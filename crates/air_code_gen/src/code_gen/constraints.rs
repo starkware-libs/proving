@@ -465,7 +465,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 });
             }
             ConstraintEvalStep::Intermediate(CompiledIntermediate { name, r#type, var }) => {
-                if r#type == "()" {
+                if r#type == "[M31; 0]" {
                     code.extend(quote! {
                         $(parse_eval_constraint(lists, var, &const_names));
                     });

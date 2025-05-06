@@ -91,14 +91,11 @@
               "State": "ap_update_add_1_col10"
             }
           ]
-        },
-        {
-          "State": "input_fp_col2"
         }
       ]
     },
-    "[blake_compress_opcode_output_pc, blake_compress_opcode_output_ap, blake_compress_opcode_output_fp]",
-    "[M31; 3]"
+    "[blake_compress_opcode_output_pc, blake_compress_opcode_output_ap]",
+    "[M31; 2]"
   ],
   "state_names": [
     "input_pc_col0",
@@ -579,8 +576,8 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_blake_opcode_output_tmp_53f39_29_limb_0, decode_blake_opcode_output_tmp_53f39_29_limb_1, decode_blake_opcode_output_tmp_53f39_29_limb_2, decode_blake_opcode_output_tmp_53f39_29_limb_3, decode_blake_opcode_output_tmp_53f39_29_limb_4, decode_blake_opcode_output_tmp_53f39_29_limb_5, decode_blake_opcode_output_tmp_53f39_29_limb_6]",
-        "type": "[M31; 7]",
+        "name": "[decode_blake_opcode_output_tmp_53f39_29_limb_0, decode_blake_opcode_output_tmp_53f39_29_limb_1, decode_blake_opcode_output_tmp_53f39_29_limb_2, decode_blake_opcode_output_tmp_53f39_29_limb_6]",
+        "type": "[M31; 4]",
         "var": {
           "StaticCall": [
             "decode_blake_opcode::evaluate",
@@ -695,8 +692,8 @@
     },
     {
       "Intermediate": {
-        "name": "[create_blake_round_input_output_tmp_53f39_114_limb_0, create_blake_round_input_output_tmp_53f39_114_limb_1, create_blake_round_input_output_tmp_53f39_114_limb_2, create_blake_round_input_output_tmp_53f39_114_limb_3, create_blake_round_input_output_tmp_53f39_114_limb_4, create_blake_round_input_output_tmp_53f39_114_limb_5, create_blake_round_input_output_tmp_53f39_114_limb_6, create_blake_round_input_output_tmp_53f39_114_limb_7, create_blake_round_input_output_tmp_53f39_114_limb_8, create_blake_round_input_output_tmp_53f39_114_limb_9, create_blake_round_input_output_tmp_53f39_114_limb_10, create_blake_round_input_output_tmp_53f39_114_limb_11, create_blake_round_input_output_tmp_53f39_114_limb_12, create_blake_round_input_output_tmp_53f39_114_limb_13, create_blake_round_input_output_tmp_53f39_114_limb_14, create_blake_round_input_output_tmp_53f39_114_limb_15, create_blake_round_input_output_tmp_53f39_114_limb_16, create_blake_round_input_output_tmp_53f39_114_limb_17, create_blake_round_input_output_tmp_53f39_114_limb_18, create_blake_round_input_output_tmp_53f39_114_limb_19, create_blake_round_input_output_tmp_53f39_114_limb_20, create_blake_round_input_output_tmp_53f39_114_limb_21, create_blake_round_input_output_tmp_53f39_114_limb_22, create_blake_round_input_output_tmp_53f39_114_limb_23, create_blake_round_input_output_tmp_53f39_114_limb_24, create_blake_round_input_output_tmp_53f39_114_limb_25, create_blake_round_input_output_tmp_53f39_114_limb_26, create_blake_round_input_output_tmp_53f39_114_limb_27, create_blake_round_input_output_tmp_53f39_114_limb_28, create_blake_round_input_output_tmp_53f39_114_limb_29, create_blake_round_input_output_tmp_53f39_114_limb_30, create_blake_round_input_output_tmp_53f39_114_limb_31]",
-        "type": "[M31; 32]",
+        "name": "[create_blake_round_input_output_tmp_53f39_114_limb_24, create_blake_round_input_output_tmp_53f39_114_limb_25, create_blake_round_input_output_tmp_53f39_114_limb_28, create_blake_round_input_output_tmp_53f39_114_limb_29]",
+        "type": "[M31; 4]",
         "var": {
           "StaticCall": [
             "create_blake_round_input::evaluate",
@@ -1183,8 +1180,8 @@
     },
     {
       "Intermediate": {
-        "name": "[create_blake_output_output_tmp_53f39_133_limb_0, create_blake_output_output_tmp_53f39_133_limb_1, create_blake_output_output_tmp_53f39_133_limb_2, create_blake_output_output_tmp_53f39_133_limb_3, create_blake_output_output_tmp_53f39_133_limb_4, create_blake_output_output_tmp_53f39_133_limb_5, create_blake_output_output_tmp_53f39_133_limb_6, create_blake_output_output_tmp_53f39_133_limb_7, create_blake_output_output_tmp_53f39_133_limb_8, create_blake_output_output_tmp_53f39_133_limb_9, create_blake_output_output_tmp_53f39_133_limb_10, create_blake_output_output_tmp_53f39_133_limb_11, create_blake_output_output_tmp_53f39_133_limb_12, create_blake_output_output_tmp_53f39_133_limb_13, create_blake_output_output_tmp_53f39_133_limb_14, create_blake_output_output_tmp_53f39_133_limb_15]",
-        "type": "[M31; 16]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "create_blake_output::evaluate",
@@ -1392,8 +1389,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1433,8 +1430,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1485,8 +1482,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1537,8 +1534,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1589,8 +1586,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1641,8 +1638,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1693,8 +1690,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",
@@ -1745,8 +1742,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",

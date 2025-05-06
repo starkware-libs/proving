@@ -12,8 +12,8 @@
     "PackedM31"
   ],
   "verifier_input": [
-    "read_blake_word_input",
-    "M31"
+    "[read_blake_word_input]",
+    "[M31; 1]"
   ],
   "prover_output": [
     {
@@ -28,17 +28,10 @@
   ],
   "verifier_output": [
     {
-      "Array": [
-        {
-          "State": "low_16_bits_col0"
-        },
-        {
-          "State": "high_16_bits_col1"
-        }
-      ]
+      "Array": []
     },
-    "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-    "[M31; 2]"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "low_16_bits_col0",
@@ -78,8 +71,8 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "verify_blake_word::evaluate",

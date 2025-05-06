@@ -7,9 +7,7 @@ use std::rc::Rc;
 use compiled_casm_air::compiled_structs::{TraceType, UseOrYield};
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use compiled_casm_air::utils::{
-    INTERMEDIATE_VAR_SUFFIX, OUTPUT_VAR_SUFFIX, STATE_INPUT_VAR, STATE_OUTPUT_VAR_SUFFIX,
-};
+use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, STATE_INPUT_VAR, STATE_OUTPUT_VAR_SUFFIX};
 use convert_case::{Case, Casing};
 use regex::Regex;
 use serde::Serialize;
@@ -143,7 +141,7 @@ pub trait AirFn: Debug + InstDefTrait {
         let output = self.call(air_builder, ext_input, input);
         air_builder.let_with_name(
             output,
-            &format!("{}_{}", self.name(), OUTPUT_VAR_SUFFIX),
+            &AirFnEntry::output_name(&self.name()),
             self.output_expr_descriptions(),
         )
     }
@@ -448,7 +446,7 @@ impl AirBuilder {
         O: AirVar,
     {
         if O::is_empty() {
-            return (expr, "()".to_string());
+            return (expr, "[]".to_string());
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
@@ -476,7 +474,7 @@ impl AirBuilder {
         );
 
         // Make sure the callee is in the registry
-        self.registry.add_entry(air_fn);
+        let entry = self.registry.add_entry(air_fn);
 
         let mut air_builder = Self {
             component_context: self.component_context.clone(),
@@ -493,11 +491,9 @@ impl AirBuilder {
         let state_names_after = self.component_context.state().get_state_names();
 
         self.air_body.push(AirBodyComponent::Call(Call {
-            air_fn_name: air_fn.name(),
-            air_fn_description: air_fn.description(),
+            entry,
             input: input.into(),
             output_name,
-            output_expr_descriptions: air_fn.output_expr_descriptions(),
             output: output.clone().into(),
             state_names: state_names_after[state_offset..].to_vec(),
             air_body: air_builder.air_body,
@@ -526,9 +522,8 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let output_name = (!O::is_empty()).then(|| {
-            self.get_intermediate_name(Some(format!("{}_{}", air_fn.name(), OUTPUT_VAR_SUFFIX)))
-        });
+        let output_name = (!O::is_empty())
+            .then(|| self.get_intermediate_name(Some(AirFnEntry::output_name(&air_fn.name()))));
         let mut output = self.lookup_add_input_and_compute(
             air_fn,
             ext_input.clone(),

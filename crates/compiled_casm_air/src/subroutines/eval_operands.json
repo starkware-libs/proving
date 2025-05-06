@@ -12,8 +12,8 @@
     "(PackedCasmState, [PackedM31; 20], [PackedM31; 3])"
   ],
   "verifier_input": [
-    "[eval_operands_input_limb_0, eval_operands_input_limb_1, eval_operands_input_limb_2, eval_operands_input_limb_3, eval_operands_input_limb_4, eval_operands_input_limb_5, eval_operands_input_limb_6, eval_operands_input_limb_7, eval_operands_input_limb_8, eval_operands_input_limb_9, eval_operands_input_limb_10, eval_operands_input_limb_11, eval_operands_input_limb_12, eval_operands_input_limb_13, eval_operands_input_limb_14, eval_operands_input_limb_15, eval_operands_input_limb_16, eval_operands_input_limb_17, eval_operands_input_limb_18, eval_operands_input_limb_19, eval_operands_input_limb_20, eval_operands_input_limb_21, eval_operands_input_limb_22, eval_operands_input_limb_23, eval_operands_input_limb_24, eval_operands_input_limb_25]",
-    "[M31; 26]"
+    "[eval_operands_input_limb_0, eval_operands_input_limb_1, eval_operands_input_limb_2, eval_operands_input_limb_3, eval_operands_input_limb_4, eval_operands_input_limb_5, eval_operands_input_limb_6, eval_operands_input_limb_7, eval_operands_input_limb_8, eval_operands_input_limb_9, eval_operands_input_limb_12, eval_operands_input_limb_18, eval_operands_input_limb_19, eval_operands_input_limb_23, eval_operands_input_limb_24, eval_operands_input_limb_25]",
+    "[M31; 16]"
   ],
   "prover_output": [
     {
@@ -50,347 +50,10 @@
   ],
   "verifier_output": [
     {
-      "Array": [
-        {
-          "State": "dst_limb_0_col2"
-        },
-        {
-          "State": "dst_limb_1_col3"
-        },
-        {
-          "State": "dst_limb_2_col4"
-        },
-        {
-          "State": "dst_limb_3_col5"
-        },
-        {
-          "State": "dst_limb_4_col6"
-        },
-        {
-          "State": "dst_limb_5_col7"
-        },
-        {
-          "State": "dst_limb_6_col8"
-        },
-        {
-          "State": "dst_limb_7_col9"
-        },
-        {
-          "State": "dst_limb_8_col10"
-        },
-        {
-          "State": "dst_limb_9_col11"
-        },
-        {
-          "State": "dst_limb_10_col12"
-        },
-        {
-          "State": "dst_limb_11_col13"
-        },
-        {
-          "State": "dst_limb_12_col14"
-        },
-        {
-          "State": "dst_limb_13_col15"
-        },
-        {
-          "State": "dst_limb_14_col16"
-        },
-        {
-          "State": "dst_limb_15_col17"
-        },
-        {
-          "State": "dst_limb_16_col18"
-        },
-        {
-          "State": "dst_limb_17_col19"
-        },
-        {
-          "State": "dst_limb_18_col20"
-        },
-        {
-          "State": "dst_limb_19_col21"
-        },
-        {
-          "State": "dst_limb_20_col22"
-        },
-        {
-          "State": "dst_limb_21_col23"
-        },
-        {
-          "State": "dst_limb_22_col24"
-        },
-        {
-          "State": "dst_limb_23_col25"
-        },
-        {
-          "State": "dst_limb_24_col26"
-        },
-        {
-          "State": "dst_limb_25_col27"
-        },
-        {
-          "State": "dst_limb_26_col28"
-        },
-        {
-          "State": "dst_limb_27_col29"
-        },
-        {
-          "State": "op0_limb_0_col32"
-        },
-        {
-          "State": "op0_limb_1_col33"
-        },
-        {
-          "State": "op0_limb_2_col34"
-        },
-        {
-          "State": "op0_limb_3_col35"
-        },
-        {
-          "State": "op0_limb_4_col36"
-        },
-        {
-          "State": "op0_limb_5_col37"
-        },
-        {
-          "State": "op0_limb_6_col38"
-        },
-        {
-          "State": "op0_limb_7_col39"
-        },
-        {
-          "State": "op0_limb_8_col40"
-        },
-        {
-          "State": "op0_limb_9_col41"
-        },
-        {
-          "State": "op0_limb_10_col42"
-        },
-        {
-          "State": "op0_limb_11_col43"
-        },
-        {
-          "State": "op0_limb_12_col44"
-        },
-        {
-          "State": "op0_limb_13_col45"
-        },
-        {
-          "State": "op0_limb_14_col46"
-        },
-        {
-          "State": "op0_limb_15_col47"
-        },
-        {
-          "State": "op0_limb_16_col48"
-        },
-        {
-          "State": "op0_limb_17_col49"
-        },
-        {
-          "State": "op0_limb_18_col50"
-        },
-        {
-          "State": "op0_limb_19_col51"
-        },
-        {
-          "State": "op0_limb_20_col52"
-        },
-        {
-          "State": "op0_limb_21_col53"
-        },
-        {
-          "State": "op0_limb_22_col54"
-        },
-        {
-          "State": "op0_limb_23_col55"
-        },
-        {
-          "State": "op0_limb_24_col56"
-        },
-        {
-          "State": "op0_limb_25_col57"
-        },
-        {
-          "State": "op0_limb_26_col58"
-        },
-        {
-          "State": "op0_limb_27_col59"
-        },
-        {
-          "State": "op1_limb_0_col62"
-        },
-        {
-          "State": "op1_limb_1_col63"
-        },
-        {
-          "State": "op1_limb_2_col64"
-        },
-        {
-          "State": "op1_limb_3_col65"
-        },
-        {
-          "State": "op1_limb_4_col66"
-        },
-        {
-          "State": "op1_limb_5_col67"
-        },
-        {
-          "State": "op1_limb_6_col68"
-        },
-        {
-          "State": "op1_limb_7_col69"
-        },
-        {
-          "State": "op1_limb_8_col70"
-        },
-        {
-          "State": "op1_limb_9_col71"
-        },
-        {
-          "State": "op1_limb_10_col72"
-        },
-        {
-          "State": "op1_limb_11_col73"
-        },
-        {
-          "State": "op1_limb_12_col74"
-        },
-        {
-          "State": "op1_limb_13_col75"
-        },
-        {
-          "State": "op1_limb_14_col76"
-        },
-        {
-          "State": "op1_limb_15_col77"
-        },
-        {
-          "State": "op1_limb_16_col78"
-        },
-        {
-          "State": "op1_limb_17_col79"
-        },
-        {
-          "State": "op1_limb_18_col80"
-        },
-        {
-          "State": "op1_limb_19_col81"
-        },
-        {
-          "State": "op1_limb_20_col82"
-        },
-        {
-          "State": "op1_limb_21_col83"
-        },
-        {
-          "State": "op1_limb_22_col84"
-        },
-        {
-          "State": "op1_limb_23_col85"
-        },
-        {
-          "State": "op1_limb_24_col86"
-        },
-        {
-          "State": "op1_limb_25_col87"
-        },
-        {
-          "State": "op1_limb_26_col88"
-        },
-        {
-          "State": "op1_limb_27_col89"
-        },
-        {
-          "State": "res_limb_0_col175"
-        },
-        {
-          "State": "res_limb_1_col176"
-        },
-        {
-          "State": "res_limb_2_col177"
-        },
-        {
-          "State": "res_limb_3_col178"
-        },
-        {
-          "State": "res_limb_4_col179"
-        },
-        {
-          "State": "res_limb_5_col180"
-        },
-        {
-          "State": "res_limb_6_col181"
-        },
-        {
-          "State": "res_limb_7_col182"
-        },
-        {
-          "State": "res_limb_8_col183"
-        },
-        {
-          "State": "res_limb_9_col184"
-        },
-        {
-          "State": "res_limb_10_col185"
-        },
-        {
-          "State": "res_limb_11_col186"
-        },
-        {
-          "State": "res_limb_12_col187"
-        },
-        {
-          "State": "res_limb_13_col188"
-        },
-        {
-          "State": "res_limb_14_col189"
-        },
-        {
-          "State": "res_limb_15_col190"
-        },
-        {
-          "State": "res_limb_16_col191"
-        },
-        {
-          "State": "res_limb_17_col192"
-        },
-        {
-          "State": "res_limb_18_col193"
-        },
-        {
-          "State": "res_limb_19_col194"
-        },
-        {
-          "State": "res_limb_20_col195"
-        },
-        {
-          "State": "res_limb_21_col196"
-        },
-        {
-          "State": "res_limb_22_col197"
-        },
-        {
-          "State": "res_limb_23_col198"
-        },
-        {
-          "State": "res_limb_24_col199"
-        },
-        {
-          "State": "res_limb_25_col200"
-        },
-        {
-          "State": "res_limb_26_col201"
-        },
-        {
-          "State": "res_limb_27_col202"
-        }
-      ]
+      "Array": []
     },
-    "[eval_operands_output_limb_0, eval_operands_output_limb_1, eval_operands_output_limb_2, eval_operands_output_limb_3, eval_operands_output_limb_4, eval_operands_output_limb_5, eval_operands_output_limb_6, eval_operands_output_limb_7, eval_operands_output_limb_8, eval_operands_output_limb_9, eval_operands_output_limb_10, eval_operands_output_limb_11, eval_operands_output_limb_12, eval_operands_output_limb_13, eval_operands_output_limb_14, eval_operands_output_limb_15, eval_operands_output_limb_16, eval_operands_output_limb_17, eval_operands_output_limb_18, eval_operands_output_limb_19, eval_operands_output_limb_20, eval_operands_output_limb_21, eval_operands_output_limb_22, eval_operands_output_limb_23, eval_operands_output_limb_24, eval_operands_output_limb_25, eval_operands_output_limb_26, eval_operands_output_limb_27, eval_operands_output_limb_28, eval_operands_output_limb_29, eval_operands_output_limb_30, eval_operands_output_limb_31, eval_operands_output_limb_32, eval_operands_output_limb_33, eval_operands_output_limb_34, eval_operands_output_limb_35, eval_operands_output_limb_36, eval_operands_output_limb_37, eval_operands_output_limb_38, eval_operands_output_limb_39, eval_operands_output_limb_40, eval_operands_output_limb_41, eval_operands_output_limb_42, eval_operands_output_limb_43, eval_operands_output_limb_44, eval_operands_output_limb_45, eval_operands_output_limb_46, eval_operands_output_limb_47, eval_operands_output_limb_48, eval_operands_output_limb_49, eval_operands_output_limb_50, eval_operands_output_limb_51, eval_operands_output_limb_52, eval_operands_output_limb_53, eval_operands_output_limb_54, eval_operands_output_limb_55, eval_operands_output_limb_56, eval_operands_output_limb_57, eval_operands_output_limb_58, eval_operands_output_limb_59, eval_operands_output_limb_60, eval_operands_output_limb_61, eval_operands_output_limb_62, eval_operands_output_limb_63, eval_operands_output_limb_64, eval_operands_output_limb_65, eval_operands_output_limb_66, eval_operands_output_limb_67, eval_operands_output_limb_68, eval_operands_output_limb_69, eval_operands_output_limb_70, eval_operands_output_limb_71, eval_operands_output_limb_72, eval_operands_output_limb_73, eval_operands_output_limb_74, eval_operands_output_limb_75, eval_operands_output_limb_76, eval_operands_output_limb_77, eval_operands_output_limb_78, eval_operands_output_limb_79, eval_operands_output_limb_80, eval_operands_output_limb_81, eval_operands_output_limb_82, eval_operands_output_limb_83, eval_operands_output_limb_84, eval_operands_output_limb_85, eval_operands_output_limb_86, eval_operands_output_limb_87, eval_operands_output_limb_88, eval_operands_output_limb_89, eval_operands_output_limb_90, eval_operands_output_limb_91, eval_operands_output_limb_92, eval_operands_output_limb_93, eval_operands_output_limb_94, eval_operands_output_limb_95, eval_operands_output_limb_96, eval_operands_output_limb_97, eval_operands_output_limb_98, eval_operands_output_limb_99, eval_operands_output_limb_100, eval_operands_output_limb_101, eval_operands_output_limb_102, eval_operands_output_limb_103, eval_operands_output_limb_104, eval_operands_output_limb_105, eval_operands_output_limb_106, eval_operands_output_limb_107, eval_operands_output_limb_108, eval_operands_output_limb_109, eval_operands_output_limb_110, eval_operands_output_limb_111]",
-    "[M31; 112]"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "dst_src_col0",
@@ -986,22 +649,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_3172c_2_limb_0, read_positive_num_bits_252_output_tmp_3172c_2_limb_1, read_positive_num_bits_252_output_tmp_3172c_2_limb_2, read_positive_num_bits_252_output_tmp_3172c_2_limb_3, read_positive_num_bits_252_output_tmp_3172c_2_limb_4, read_positive_num_bits_252_output_tmp_3172c_2_limb_5, read_positive_num_bits_252_output_tmp_3172c_2_limb_6, read_positive_num_bits_252_output_tmp_3172c_2_limb_7, read_positive_num_bits_252_output_tmp_3172c_2_limb_8, read_positive_num_bits_252_output_tmp_3172c_2_limb_9, read_positive_num_bits_252_output_tmp_3172c_2_limb_10, read_positive_num_bits_252_output_tmp_3172c_2_limb_11, read_positive_num_bits_252_output_tmp_3172c_2_limb_12, read_positive_num_bits_252_output_tmp_3172c_2_limb_13, read_positive_num_bits_252_output_tmp_3172c_2_limb_14, read_positive_num_bits_252_output_tmp_3172c_2_limb_15, read_positive_num_bits_252_output_tmp_3172c_2_limb_16, read_positive_num_bits_252_output_tmp_3172c_2_limb_17, read_positive_num_bits_252_output_tmp_3172c_2_limb_18, read_positive_num_bits_252_output_tmp_3172c_2_limb_19, read_positive_num_bits_252_output_tmp_3172c_2_limb_20, read_positive_num_bits_252_output_tmp_3172c_2_limb_21, read_positive_num_bits_252_output_tmp_3172c_2_limb_22, read_positive_num_bits_252_output_tmp_3172c_2_limb_23, read_positive_num_bits_252_output_tmp_3172c_2_limb_24, read_positive_num_bits_252_output_tmp_3172c_2_limb_25, read_positive_num_bits_252_output_tmp_3172c_2_limb_26, read_positive_num_bits_252_output_tmp_3172c_2_limb_27, read_positive_num_bits_252_output_tmp_3172c_2_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "dst_src_col0"
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "eval_operands_input_limb_23"
+                    "BinaryOp": [
+                      {
+                        "State": "dst_src_col0"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "eval_operands_input_limb_23"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1163,22 +830,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_3172c_5_limb_0, read_positive_num_bits_252_output_tmp_3172c_5_limb_1, read_positive_num_bits_252_output_tmp_3172c_5_limb_2, read_positive_num_bits_252_output_tmp_3172c_5_limb_3, read_positive_num_bits_252_output_tmp_3172c_5_limb_4, read_positive_num_bits_252_output_tmp_3172c_5_limb_5, read_positive_num_bits_252_output_tmp_3172c_5_limb_6, read_positive_num_bits_252_output_tmp_3172c_5_limb_7, read_positive_num_bits_252_output_tmp_3172c_5_limb_8, read_positive_num_bits_252_output_tmp_3172c_5_limb_9, read_positive_num_bits_252_output_tmp_3172c_5_limb_10, read_positive_num_bits_252_output_tmp_3172c_5_limb_11, read_positive_num_bits_252_output_tmp_3172c_5_limb_12, read_positive_num_bits_252_output_tmp_3172c_5_limb_13, read_positive_num_bits_252_output_tmp_3172c_5_limb_14, read_positive_num_bits_252_output_tmp_3172c_5_limb_15, read_positive_num_bits_252_output_tmp_3172c_5_limb_16, read_positive_num_bits_252_output_tmp_3172c_5_limb_17, read_positive_num_bits_252_output_tmp_3172c_5_limb_18, read_positive_num_bits_252_output_tmp_3172c_5_limb_19, read_positive_num_bits_252_output_tmp_3172c_5_limb_20, read_positive_num_bits_252_output_tmp_3172c_5_limb_21, read_positive_num_bits_252_output_tmp_3172c_5_limb_22, read_positive_num_bits_252_output_tmp_3172c_5_limb_23, read_positive_num_bits_252_output_tmp_3172c_5_limb_24, read_positive_num_bits_252_output_tmp_3172c_5_limb_25, read_positive_num_bits_252_output_tmp_3172c_5_limb_26, read_positive_num_bits_252_output_tmp_3172c_5_limb_27, read_positive_num_bits_252_output_tmp_3172c_5_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "op0_src_col30"
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "eval_operands_input_limb_24"
+                    "BinaryOp": [
+                      {
+                        "State": "op0_src_col30"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "eval_operands_input_limb_24"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1277,8 +948,8 @@
     },
     {
       "Intermediate": {
-        "name": "cond_felt_252_as_addr_output_tmp_3172c_6",
-        "type": "M31",
+        "name": "[cond_felt_252_as_addr_output_tmp_3172c_6]",
+        "type": "[M31; 1]",
         "var": {
           "StaticCall": [
             "cond_felt_252_as_addr::evaluate",
@@ -1480,22 +1151,26 @@
     },
     {
       "Intermediate": {
-        "name": "[read_positive_num_bits_252_output_tmp_3172c_9_limb_0, read_positive_num_bits_252_output_tmp_3172c_9_limb_1, read_positive_num_bits_252_output_tmp_3172c_9_limb_2, read_positive_num_bits_252_output_tmp_3172c_9_limb_3, read_positive_num_bits_252_output_tmp_3172c_9_limb_4, read_positive_num_bits_252_output_tmp_3172c_9_limb_5, read_positive_num_bits_252_output_tmp_3172c_9_limb_6, read_positive_num_bits_252_output_tmp_3172c_9_limb_7, read_positive_num_bits_252_output_tmp_3172c_9_limb_8, read_positive_num_bits_252_output_tmp_3172c_9_limb_9, read_positive_num_bits_252_output_tmp_3172c_9_limb_10, read_positive_num_bits_252_output_tmp_3172c_9_limb_11, read_positive_num_bits_252_output_tmp_3172c_9_limb_12, read_positive_num_bits_252_output_tmp_3172c_9_limb_13, read_positive_num_bits_252_output_tmp_3172c_9_limb_14, read_positive_num_bits_252_output_tmp_3172c_9_limb_15, read_positive_num_bits_252_output_tmp_3172c_9_limb_16, read_positive_num_bits_252_output_tmp_3172c_9_limb_17, read_positive_num_bits_252_output_tmp_3172c_9_limb_18, read_positive_num_bits_252_output_tmp_3172c_9_limb_19, read_positive_num_bits_252_output_tmp_3172c_9_limb_20, read_positive_num_bits_252_output_tmp_3172c_9_limb_21, read_positive_num_bits_252_output_tmp_3172c_9_limb_22, read_positive_num_bits_252_output_tmp_3172c_9_limb_23, read_positive_num_bits_252_output_tmp_3172c_9_limb_24, read_positive_num_bits_252_output_tmp_3172c_9_limb_25, read_positive_num_bits_252_output_tmp_3172c_9_limb_26, read_positive_num_bits_252_output_tmp_3172c_9_limb_27, read_positive_num_bits_252_output_tmp_3172c_9_limb_28]",
-        "type": "[M31; 29]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
             [
               {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "op1_src_col60"
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "eval_operands_input_limb_25"
+                    "BinaryOp": [
+                      {
+                        "State": "op1_src_col60"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "eval_operands_input_limb_25"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1594,8 +1269,8 @@
     },
     {
       "Intermediate": {
-        "name": "[add_252_output_tmp_3172c_39_add_res_limb_0, add_252_output_tmp_3172c_39_add_res_limb_1, add_252_output_tmp_3172c_39_add_res_limb_2, add_252_output_tmp_3172c_39_add_res_limb_3, add_252_output_tmp_3172c_39_add_res_limb_4, add_252_output_tmp_3172c_39_add_res_limb_5, add_252_output_tmp_3172c_39_add_res_limb_6, add_252_output_tmp_3172c_39_add_res_limb_7, add_252_output_tmp_3172c_39_add_res_limb_8, add_252_output_tmp_3172c_39_add_res_limb_9, add_252_output_tmp_3172c_39_add_res_limb_10, add_252_output_tmp_3172c_39_add_res_limb_11, add_252_output_tmp_3172c_39_add_res_limb_12, add_252_output_tmp_3172c_39_add_res_limb_13, add_252_output_tmp_3172c_39_add_res_limb_14, add_252_output_tmp_3172c_39_add_res_limb_15, add_252_output_tmp_3172c_39_add_res_limb_16, add_252_output_tmp_3172c_39_add_res_limb_17, add_252_output_tmp_3172c_39_add_res_limb_18, add_252_output_tmp_3172c_39_add_res_limb_19, add_252_output_tmp_3172c_39_add_res_limb_20, add_252_output_tmp_3172c_39_add_res_limb_21, add_252_output_tmp_3172c_39_add_res_limb_22, add_252_output_tmp_3172c_39_add_res_limb_23, add_252_output_tmp_3172c_39_add_res_limb_24, add_252_output_tmp_3172c_39_add_res_limb_25, add_252_output_tmp_3172c_39_add_res_limb_26, add_252_output_tmp_3172c_39_add_res_limb_27]",
-        "type": "[M31; 28]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "add_252::evaluate",
@@ -1866,8 +1541,8 @@
     },
     {
       "Intermediate": {
-        "name": "[mul_252_output_tmp_3172c_62_mul_res_limb_0, mul_252_output_tmp_3172c_62_mul_res_limb_1, mul_252_output_tmp_3172c_62_mul_res_limb_2, mul_252_output_tmp_3172c_62_mul_res_limb_3, mul_252_output_tmp_3172c_62_mul_res_limb_4, mul_252_output_tmp_3172c_62_mul_res_limb_5, mul_252_output_tmp_3172c_62_mul_res_limb_6, mul_252_output_tmp_3172c_62_mul_res_limb_7, mul_252_output_tmp_3172c_62_mul_res_limb_8, mul_252_output_tmp_3172c_62_mul_res_limb_9, mul_252_output_tmp_3172c_62_mul_res_limb_10, mul_252_output_tmp_3172c_62_mul_res_limb_11, mul_252_output_tmp_3172c_62_mul_res_limb_12, mul_252_output_tmp_3172c_62_mul_res_limb_13, mul_252_output_tmp_3172c_62_mul_res_limb_14, mul_252_output_tmp_3172c_62_mul_res_limb_15, mul_252_output_tmp_3172c_62_mul_res_limb_16, mul_252_output_tmp_3172c_62_mul_res_limb_17, mul_252_output_tmp_3172c_62_mul_res_limb_18, mul_252_output_tmp_3172c_62_mul_res_limb_19, mul_252_output_tmp_3172c_62_mul_res_limb_20, mul_252_output_tmp_3172c_62_mul_res_limb_21, mul_252_output_tmp_3172c_62_mul_res_limb_22, mul_252_output_tmp_3172c_62_mul_res_limb_23, mul_252_output_tmp_3172c_62_mul_res_limb_24, mul_252_output_tmp_3172c_62_mul_res_limb_25, mul_252_output_tmp_3172c_62_mul_res_limb_26, mul_252_output_tmp_3172c_62_mul_res_limb_27]",
-        "type": "[M31; 28]",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mul_252::evaluate",

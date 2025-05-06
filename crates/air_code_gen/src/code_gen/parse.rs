@@ -151,9 +151,6 @@ pub fn parse_eval_constraint(
             format!("({vars_str})")
         }
         CompiledAirVar::Array(vars) => {
-            if vars.is_empty() {
-                return "()".to_string();
-            }
             let vars_str = vars
                 .iter()
                 .map(|var| parse_eval_constraint(air_fn, var, constant_names))

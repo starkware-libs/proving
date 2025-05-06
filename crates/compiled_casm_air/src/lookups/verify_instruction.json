@@ -27,8 +27,8 @@
     {
       "Array": []
     },
-    "()",
-    "()"
+    "[]",
+    "[M31; 0]"
   ],
   "state_names": [
     "input_pc_col0",
@@ -90,8 +90,8 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[encode_offsets_output_tmp_16a4f_8_limb_0, encode_offsets_output_tmp_16a4f_8_limb_1, encode_offsets_output_tmp_16a4f_8_limb_2, encode_offsets_output_tmp_16a4f_8_limb_3, encode_offsets_output_tmp_16a4f_8_limb_4, encode_offsets_output_tmp_16a4f_8_limb_5]",
-        "type": "[M31; 6]",
+        "name": "[encode_offsets_output_tmp_16a4f_8_limb_1, encode_offsets_output_tmp_16a4f_8_limb_3]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "encode_offsets::evaluate",
@@ -140,8 +140,8 @@
     },
     {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "[]",
+        "type": "[M31; 0]",
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",
