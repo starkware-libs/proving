@@ -509,29 +509,6 @@ impl AirBody {
         lookup_rows
     }
 
-    // Counts the number of uses per lookup.
-    pub fn get_lookup_n_use_cols(&self) -> IndexMap<String, usize> {
-        let mut lookup_uses = IndexMap::new();
-        self.0.iter().for_each(|comp| {
-            if let AirBodyComponent::LookupTerm {
-                relation_name,
-                use_or_yield,
-                ..
-            } = comp
-            {
-                if *use_or_yield == UseOrYield::Use {
-                    *lookup_uses.entry(relation_name.clone()).or_insert(0) += 1;
-                }
-            }
-            if let AirBodyComponent::Call(call) = comp {
-                for (name, cnt) in call.air_body.get_lookup_n_use_cols() {
-                    *lookup_uses.entry(name).or_insert(0) += cnt;
-                }
-            }
-        });
-        lookup_uses
-    }
-
     pub fn get_constraint_intermediates(&self) -> IndexSet<String> {
         self.get_constraint_exprs()
             .into_iter()

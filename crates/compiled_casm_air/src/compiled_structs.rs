@@ -54,7 +54,7 @@ pub struct CompiledAirFn {
     pub deductions: Vec<TraceGenStep>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum PaddingType {
     // The multiplicity column is used to pad the lookups to const columns, memory, and verify
     // instruction.
@@ -215,11 +215,10 @@ pub enum UseOrYield {
 /// See `casm_registry.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFnStat {
-    pub trace_type: String,
+    pub trace_type: TraceType,
     pub num_state_cols: usize,
-    pub lookup_use_cols: IndexMap<String, usize>,
+    pub lookup_cols: IndexMap<String, usize>,
     pub lookup_rows: IndexMap<String, usize>,
-    pub lookup_yield: bool,
     pub padding_type: PaddingType,
     pub total_num_trace_cols: usize,
     // To this we should add the number of trace cells in:
