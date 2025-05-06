@@ -469,21 +469,25 @@
   },
   "add_ap_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 13,
+    "num_state_cols": 14,
     "lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1,
+      "RangeCheck_19": 1,
+      "RangeCheck_8": 1,
       "Opcodes": 2
     },
     "lookup_rows": {
       "verify_instruction": 1,
       "memory_address_to_id": 1,
-      "memory_id_to_big": 1
+      "memory_id_to_big": 1,
+      "range_check_19": 1,
+      "range_check_8": 1
     },
     "padding_type": "Enabler",
-    "total_num_trace_cols": 26,
-    "trace_cells_upper_bound": 26
+    "total_num_trace_cols": 31,
+    "trace_cells_upper_bound": 31
   },
   "add_opcode_small": {
     "trace_type": "Opcode",

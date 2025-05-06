@@ -10,6 +10,7 @@ relation!(Opcodes, 3);
 relation!(PartialEcMul, 73);
 relation!(PedersenPointsTable, 57);
 relation!(RangeCheck_6, 1);
+relation!(RangeCheck_8, 1);
 relation!(RangeCheck_12, 1);
 relation!(RangeCheck_18, 1);
 relation!(RangeCheck_19, 1);

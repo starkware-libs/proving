@@ -6,10 +6,13 @@ use serde::Serialize;
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
+use crate::airs::casm::const_tables::range_check::*;
 // Macros
 use crate::const_expr;
+use crate::const_u32_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint32_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 
 /// The add ap opcode.
@@ -87,9 +90,24 @@ impl AirFn for AddApOpcode {
             .memory
             .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "op1"));
 
+        let next_ap = ab.let_(casm_state.ap().var + op1, "next_ap");
+
+        let next_ap_u32 = UInt32Expr::from(next_ap.clone());
+        let next_ap_bot8bits_u32 =
+            ab.let_for_deduction(next_ap_u32 & const_u32_expr!(0xFF), "next_ap_bot8bits_u32");
+
+        let next_ap_bot8bits = ab.deduce(
+            &mut next_ap_bot8bits_u32.low().as_felt(),
+            "next_ap_bot8bits",
+        );
+        let next_ap_top19bits = (next_ap.clone() - next_ap_bot8bits.clone()) / const_expr!(1 << 8);
+
+        range_check(ab, &[19], &[next_ap_top19bits]);
+        range_check(ab, &[8], &[next_ap_bot8bits]);
+
         CasmStateVar::new(
             casm_state.pc().var + (const_expr!(1) + flag_op1_imm),
-            casm_state.ap().var + op1,
+            next_ap,
             casm_state.fp().var,
         )
     }

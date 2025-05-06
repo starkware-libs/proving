@@ -78,6 +78,10 @@ mod tests {
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_8.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
         let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_12.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);

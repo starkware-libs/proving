@@ -75,6 +75,7 @@ fn test_add_ap_negative_imm() {
         (0, "op1_limb_0"),
         (0, "op1_limb_1"),
         (0, "op1_limb_2"),
+        (10, "next_ap_bot8bits"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -149,6 +150,7 @@ fn test_add_ap_deref_base_fp() {
         (299, "op1_limb_0"),
         (0, "op1_limb_1"),
         (0, "op1_limb_2"),
+        (54, "next_ap_bot8bits"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -193,6 +195,52 @@ fn test_failed_op1_src() {
             const_expr!((fp as i16 + offset2) as u32),
             const_felt252_expr!(op1),
         ),
+    ];
+    add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
+    registry.run_air(
+        &add_ap_opcode,
+        (),
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 524288")]
+fn test_add_ap_too_big() {
+    // Build the air function
+    let mut add_ap_opcode = AddApOpcode {
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Register values at opcode start
+    let pc = 30;
+    let ap = (1 << 27) - 5;
+    let fp = 6;
+
+    // Create the non-constant flags
+    let non_consts_flags = vec![true, false, false];
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(
+                    -1,
+                    -1,
+                    1,
+                    add_ap_opcode
+                        .get_flags()
+                        .non_constants_to_arr(&non_consts_flags),
+                    OpcodeExtension::Stone
+                ),
+                0
+            ),
+        ),
+        (const_expr!(pc + 1), const_felt252_expr!(10i128)),
     ];
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
