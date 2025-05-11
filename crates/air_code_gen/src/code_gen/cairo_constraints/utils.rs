@@ -1,3 +1,4 @@
+use std::fs;
 use std::path::Path;
 use std::process::Command;
 use std::str::from_utf8;
@@ -6,6 +7,9 @@ use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType}
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
+
+use crate::code_gen::cairo_constraints::component::generate_cairo_constraints_code;
+use crate::code_gen::utils::{get_constraints_folder_path_suffix, project_root};
 
 pub fn get_git_rev(directory: &Path) -> String {
     let git_show_output = Command::new("git")
@@ -24,6 +28,15 @@ pub fn get_git_rev(directory: &Path) -> String {
         .expect("Git output is valid UTF-8")
         .trim()
         .to_string()
+}
+
+pub fn dump_component_cairo_constraints_code(air_fn: &CompiledAirFn) {
+    const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+    let cairo_code = generate_cairo_constraints_code(air_fn);
+    let file_name = &format!("{}.cairo", air_fn.name);
+    let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
+    let path = project_root().join(CONSTRAINTS_DIR).join(suffix);
+    fs::write(path.clone(), cairo_code.to_string().unwrap()).unwrap();
 }
 
 pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {

@@ -111,7 +111,7 @@ pub fn assert_generated_code_unchanged(
     }
 }
 
-fn get_constraints_folder_path_suffix(r#type: &TraceType, file_name: &String) -> String {
+pub fn get_constraints_folder_path_suffix(r#type: &TraceType, file_name: &String) -> String {
     if r#type == &TraceType::Inline {
         format!("subroutines/{}", file_name)
     } else {
