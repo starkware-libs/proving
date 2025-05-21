@@ -10,6 +10,7 @@ mod tests {
     use compiled_casm_air::utils::read_json;
     use serde_json::from_value;
 
+    use crate::code_gen::cairo_constraints::utils::dump_component_cairo_constraints_code;
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     fn generate_component_code(air_fn: CompiledAirFn) {
@@ -27,6 +28,14 @@ mod tests {
         let [constraints_folder_path, witness_folder_path] =
             [CONSTRAINTS_DIR, WITNESS_DIR].map(|dir| project_root().join(dir));
         compare_contents_or_fix_with_path(air_fn, &constraints_folder_path, &witness_folder_path);
+    }
+
+    #[ignore = "Cannot run scarb fmt nor build"]
+    #[test]
+    fn add_ap_cairo_code_gen() {
+        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/add_ap_opcode.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        dump_component_cairo_constraints_code(&air_fn);
     }
 
     #[test]
