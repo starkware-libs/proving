@@ -45,9 +45,18 @@
     "value_limb_10_col11"
   ],
   "lookup_names": [
-    "MemoryAddressToId",
-    "RangeCheck_6",
-    "MemoryIdToBig"
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "RangeCheck_6",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ]
   ],
   "inline_calls": {
     "read_positive_num_bits_96": [

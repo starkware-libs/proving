@@ -136,11 +136,26 @@
     "dst_limb_27_col35"
   ],
   "lookup_names": [
-    "VerifyInstruction",
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "Opcodes",
-    "Opcodes"
+    [
+      "VerifyInstruction",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Yield"
+    ]
   ],
   "inline_calls": {
     "decode_instruction_de75a": [

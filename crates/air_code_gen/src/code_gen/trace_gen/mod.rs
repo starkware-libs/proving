@@ -68,7 +68,7 @@ impl RustProverGen {
         let relation_calls = lists
             .lookup_names
             .iter()
-            .cloned()
+            .map(|(relation, _)| relation.clone())
             .collect::<IndexSet<_>>()
             .into_iter()
             .collect_vec();

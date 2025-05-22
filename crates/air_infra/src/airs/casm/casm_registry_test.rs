@@ -1,7 +1,7 @@
 use std::cell::Ref;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, LeanCompare, PaddingType, TraceType,
+    CompiledAirFn, CompiledAirFnStat, LeanCompare, PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
@@ -244,10 +244,23 @@ fn add_entry_statistics(
         + ((num_lookup_cols % 2) * TRACE_COLUMNS_PER_LOGUP)
         + (padding as usize);
 
-    let mut lookup_cols: IndexMap<String, usize> = IndexMap::new();
-    for name in compiled_entry.lookup_names.clone() {
-        *lookup_cols.entry(name).or_default() += 1;
+    let mut use_lookup_cols: IndexMap<String, usize> = IndexMap::new();
+    for (name, _) in compiled_entry
+        .lookup_names
+        .iter()
+        .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Use)
+    {
+        *use_lookup_cols.entry(name.clone()).or_default() += 1;
     }
+    let mut yield_lookup_cols: IndexMap<String, usize> = IndexMap::new();
+    for (name, _) in compiled_entry
+        .lookup_names
+        .iter()
+        .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Yield)
+    {
+        *yield_lookup_cols.entry(name.clone()).or_default() += 1;
+    }
+
     // An upper bound on the number of cells added to the trace for each `AddInput`
     // to this component. Includes rows added to other lookup components called by
     // this component. Doesn't include cells from components that are always filled
@@ -281,7 +294,8 @@ fn add_entry_statistics(
         CompiledAirFnStat {
             trace_type: compiled_entry.r#type,
             num_state_cols,
-            lookup_cols,
+            use_lookup_cols,
+            yield_lookup_cols,
             lookup_rows,
             padding_type: compiled_entry.padding_type,
             total_num_trace_cols,

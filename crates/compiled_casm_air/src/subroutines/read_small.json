@@ -180,8 +180,14 @@
     "value_limb_2_col5"
   ],
   "lookup_names": [
-    "MemoryAddressToId",
-    "MemoryIdToBig"
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ]
   ],
   "inline_calls": {
     "cond_decode_small_sign": [

@@ -116,13 +116,34 @@
     "dst_id_col15"
   ],
   "lookup_names": [
-    "VerifyInstruction",
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "MemoryAddressToId",
-    "MemoryAddressToId",
-    "Opcodes",
-    "Opcodes"
+    [
+      "VerifyInstruction",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Yield"
+    ]
   ],
   "inline_calls": {
     "decode_instruction_cb32b": [

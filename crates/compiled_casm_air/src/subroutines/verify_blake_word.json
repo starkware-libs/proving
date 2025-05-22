@@ -37,9 +37,18 @@
     "id_col3"
   ],
   "lookup_names": [
-    "RangeCheck_7_2_5",
-    "MemoryAddressToId",
-    "MemoryIdToBig"
+    [
+      "RangeCheck_7_2_5",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ]
   ],
   "inline_calls": {
     "mem_verify": [

@@ -225,13 +225,34 @@
     "next_fp_limb_2_col10"
   ],
   "lookup_names": [
-    "VerifyInstruction",
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "Opcodes",
-    "Opcodes"
+    [
+      "VerifyInstruction",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Yield"
+    ]
   ],
   "inline_calls": {
     "decode_instruction_15a61": [

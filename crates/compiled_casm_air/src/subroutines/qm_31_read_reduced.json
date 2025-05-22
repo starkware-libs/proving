@@ -541,9 +541,18 @@
     "delta_cd_inv_col18"
   ],
   "lookup_names": [
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "RangeCheck_4_4_4_4"
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "RangeCheck_4_4_4_4",
+      "Use"
+    ]
   ],
   "inline_calls": {
     "read_positive_num_bits_144": [

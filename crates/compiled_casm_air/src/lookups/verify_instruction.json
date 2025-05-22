@@ -49,11 +49,26 @@
     "instruction_id_col15"
   ],
   "lookup_names": [
-    "RangeCheck_7_2_5",
-    "RangeCheck_4_3",
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "VerifyInstruction"
+    [
+      "RangeCheck_7_2_5",
+      "Use"
+    ],
+    [
+      "RangeCheck_4_3",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "VerifyInstruction",
+      "Yield"
+    ]
   ],
   "inline_calls": {
     "encode_offsets": [
