@@ -1,13 +1,13 @@
 {
-  "name": "range_check_5_4",
-  "relation_name": "RangeCheck_5_4",
+  "name": "range_check_9_9_d",
+  "relation_name": "RangeCheck_9_9_D",
   "relation_size": 2,
-  "description": "Range Check 5 4",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "description": "Range Check 9 9 D",
+  "instance_definition": "{\"variant\":\"D\"}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
-    "range_check_5_4_input",
+    "range_check_9_9_d_input",
     "[M31; 2]",
     "[PackedM31; 2]"
   ],
@@ -19,7 +19,7 @@
     {
       "Tuple": []
     },
-    "range_check_5_4_output",
+    "range_check_9_9_d_output",
     "()",
     "()"
   ],
@@ -33,7 +33,7 @@
   "state_names": [],
   "lookup_names": [
     [
-      "RangeCheck_5_4",
+      "RangeCheck_9_9_D",
       "Yield"
     ]
   ],
@@ -44,7 +44,7 @@
       "name": "RangeCheck",
       "generic_param": 2,
       "args": [
-        "[5,4]",
+        "[9,9]",
         "0"
       ]
     },
@@ -52,7 +52,7 @@
       "name": "RangeCheck",
       "generic_param": 2,
       "args": [
-        "[5,4]",
+        "[9,9]",
         "1"
       ]
     }
@@ -60,14 +60,14 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_5_4",
+        "relation_name": "RangeCheck_9_9_D",
         "felts": [
           {
             "ExternalState": {
               "name": "RangeCheck",
               "generic_param": 2,
               "args": [
-                "[5,4]",
+                "[9,9]",
                 "0"
               ]
             }
@@ -77,7 +77,7 @@
               "name": "RangeCheck",
               "generic_param": 2,
               "args": [
-                "[5,4]",
+                "[9,9]",
                 "1"
               ]
             }
@@ -90,14 +90,14 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_5_4",
+        "relation_name": "RangeCheck_9_9_D",
         "felts": [
           {
             "ExternalState": {
               "name": "RangeCheck",
               "generic_param": 2,
               "args": [
-                "[5,4]",
+                "[9,9]",
                 "0"
               ]
             }
@@ -107,7 +107,7 @@
               "name": "RangeCheck",
               "generic_param": 2,
               "args": [
-                "[5,4]",
+                "[9,9]",
                 "1"
               ]
             }

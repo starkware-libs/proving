@@ -165,10 +165,11 @@ impl AirFn for VerifyMul252 {
             assert!(carry.max_bound() < (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17));
             assert!(carry.min_bound() >= -(1i32 << 17));
 
-            range_check(
+            range_check_variant(
                 air_builder,
                 &[MUL_RANGE_CHECKS],
                 &[carry.var.clone() + const_expr!(1u32 << 17)],
+                i % 4,
             );
 
             // Bounds on the carry based on the range-check constraint.
