@@ -18,9 +18,9 @@ pub fn get_git_rev(directory: &Path) -> String {
             directory
                 .to_str()
                 .expect("The directory should be valid UTF-8"),
-            "show",
-            "-s",
-            "--format=%h",
+            "describe",
+            "--always",
+            "--dirty",
         ])
         .output()
         .unwrap();
