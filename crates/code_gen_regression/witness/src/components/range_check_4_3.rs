@@ -91,18 +91,14 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
 
         // Sum last logup term.
-        let mut col_gen = logup_gen.new_col();
-        (
-            col_gen.par_iter_mut(),
-            &self.lookup_data.range_check_4_3_0,
-            self.lookup_data.mults,
-        )
-            .into_par_iter()
-            .for_each(|(writer, values, mults)| {
-                let denom = range_check_4_3.combine(values);
-                writer.write_frac(-PackedQM31::one() * mults, denom);
-            });
-        col_gen.finalize_col();
+        logup_gen.col_from_par_iter(
+            (&self.lookup_data.range_check_4_3_0, self.lookup_data.mults)
+                .into_par_iter()
+                .map(|(values, mults)| {
+                    let denom = range_check_4_3.combine(values);
+                    (-PackedQM31::one() * mults, denom)
+                }),
+        );
 
         let (trace, claimed_sum) = logup_gen.finalize_last();
         tree_builder.extend_evals(trace);

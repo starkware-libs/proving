@@ -243,19 +243,18 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum logup terms in pairs.
-        let mut col_gen = logup_gen.new_col();
-        (
-            col_gen.par_iter_mut(),
-            &self.lookup_data.memory_address_to_id_0,
-            &self.lookup_data.memory_id_to_big_0,
-        )
-            .into_par_iter()
-            .for_each(|(writer, values0, values1)| {
-                let denom0: PackedQM31 = memory_address_to_id.combine(values0);
-                let denom1: PackedQM31 = memory_id_to_big.combine(values1);
-                writer.write_frac(denom0 + denom1, denom0 * denom1);
-            });
-        col_gen.finalize_col();
+        logup_gen.col_from_par_iter(
+            (
+                &self.lookup_data.memory_address_to_id_0,
+                &self.lookup_data.memory_id_to_big_0,
+            )
+                .into_par_iter()
+                .map(|(values0, values1)| {
+                    let denom0: PackedQM31 = memory_address_to_id.combine(values0);
+                    let denom1: PackedQM31 = memory_id_to_big.combine(values1);
+                    (denom0 + denom1, denom0 * denom1)
+                }),
+        );
 
         let (trace, claimed_sum) = logup_gen.finalize_last();
         tree_builder.extend_evals(trace);

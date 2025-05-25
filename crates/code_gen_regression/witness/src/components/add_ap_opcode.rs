@@ -382,59 +382,56 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum logup terms in pairs.
-        let mut col_gen = logup_gen.new_col();
-        (
-            col_gen.par_iter_mut(),
-            &self.lookup_data.verify_instruction_0,
-            &self.lookup_data.memory_address_to_id_0,
-        )
-            .into_par_iter()
-            .for_each(|(writer, values0, values1)| {
-                let denom0: PackedQM31 = verify_instruction.combine(values0);
-                let denom1: PackedQM31 = memory_address_to_id.combine(values1);
-                writer.write_frac(denom0 + denom1, denom0 * denom1);
-            });
-        col_gen.finalize_col();
+        logup_gen.col_from_par_iter(
+            (
+                &self.lookup_data.verify_instruction_0,
+                &self.lookup_data.memory_address_to_id_0,
+            )
+                .into_par_iter()
+                .map(|(values0, values1)| {
+                    let denom0: PackedQM31 = verify_instruction.combine(values0);
+                    let denom1: PackedQM31 = memory_address_to_id.combine(values1);
+                    (denom0 + denom1, denom0 * denom1)
+                }),
+        );
 
-        let mut col_gen = logup_gen.new_col();
-        (
-            col_gen.par_iter_mut(),
-            &self.lookup_data.memory_id_to_big_0,
-            &self.lookup_data.range_check_19_0,
-        )
-            .into_par_iter()
-            .for_each(|(writer, values0, values1)| {
-                let denom0: PackedQM31 = memory_id_to_big.combine(values0);
-                let denom1: PackedQM31 = range_check_19.combine(values1);
-                writer.write_frac(denom0 + denom1, denom0 * denom1);
-            });
-        col_gen.finalize_col();
+        logup_gen.col_from_par_iter(
+            (
+                &self.lookup_data.memory_id_to_big_0,
+                &self.lookup_data.range_check_19_0,
+            )
+                .into_par_iter()
+                .map(|(values0, values1)| {
+                    let denom0: PackedQM31 = memory_id_to_big.combine(values0);
+                    let denom1: PackedQM31 = range_check_19.combine(values1);
+                    (denom0 + denom1, denom0 * denom1)
+                }),
+        );
 
-        let mut col_gen = logup_gen.new_col();
-        (
-            col_gen.par_iter_mut(),
-            &self.lookup_data.range_check_8_0,
-            &self.lookup_data.opcodes_0,
-        )
-            .into_par_iter()
-            .enumerate()
-            .for_each(|(i, (writer, values0, values1))| {
-                let denom0: PackedQM31 = range_check_8.combine(values0);
-                let denom1: PackedQM31 = opcodes.combine(values1);
-                writer.write_frac(denom0 * enabler_col.packed_at(i) + denom1, denom0 * denom1);
-            });
-        col_gen.finalize_col();
+        logup_gen.col_from_par_iter(
+            (
+                &self.lookup_data.range_check_8_0,
+                &self.lookup_data.opcodes_0,
+            )
+                .into_par_iter()
+                .enumerate()
+                .map(|(i, (values0, values1))| {
+                    let denom0: PackedQM31 = range_check_8.combine(values0);
+                    let denom1: PackedQM31 = opcodes.combine(values1);
+                    (denom0 * enabler_col.packed_at(i) + denom1, denom0 * denom1)
+                }),
+        );
 
         // Sum last logup term.
-        let mut col_gen = logup_gen.new_col();
-        (col_gen.par_iter_mut(), &self.lookup_data.opcodes_1)
-            .into_par_iter()
-            .enumerate()
-            .for_each(|(i, (writer, values))| {
-                let denom = opcodes.combine(values);
-                writer.write_frac(-PackedQM31::one() * enabler_col.packed_at(i), denom);
-            });
-        col_gen.finalize_col();
+        logup_gen.col_from_par_iter(
+            (&self.lookup_data.opcodes_1)
+                .into_par_iter()
+                .enumerate()
+                .map(|(i, (values))| {
+                    let denom = opcodes.combine(values);
+                    (-PackedQM31::one() * enabler_col.packed_at(i), denom)
+                }),
+        );
 
         let (trace, claimed_sum) = logup_gen.finalize_last();
         tree_builder.extend_evals(trace);
