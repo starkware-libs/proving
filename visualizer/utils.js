@@ -1,4 +1,39 @@
 
+import htm from "./htm/index.js"
+
+function flat_append(elem, nested_children) {
+    for (const child of nested_children) {
+        if (Array.isArray(child)) {
+            flat_append(elem, child)
+        } else {
+            elem.append(child)
+        }
+    }
+}
+
+function create_element(tag, props, ...children) {
+    // Disable caching (see htm/README.md)
+    // With caching, multiple calls to html`...<element>Some content</element>...` can reuse
+    // <element>. This is problematic because this function returns a HTMLElement, and
+    // adding the same HTMLElement to multiple parents is forbidden.
+    this[0] = 3;
+
+    let result
+    if (tag == "svg" || tag == "rect" || tag == "circle" || tag == "polygon" || tag == "path") {
+        result = document.createElementNS("http://www.w3.org/2000/svg", tag)
+    } else {
+        result = document.createElement(tag)
+    }
+
+    for (const key in props) {
+        result.setAttribute(key, props[key])
+    }
+
+    flat_append(result, children)
+    return result
+}
+export const html = htm.bind(create_element)
+
 export function is_number(str) {
     return str.match(/^[0-9]+$/)
 }
@@ -139,6 +174,14 @@ export class DefaultMap {
     set(key, value) {
         return this.map.set(key, value)
     }
+}
+
+export function create_var_span(var_obj, air_view) {
+    const result = html`
+        <span title=${var_obj.id}>
+            ${var_obj.display_name}
+        </span>`
+    return result
 }
 
 /**
