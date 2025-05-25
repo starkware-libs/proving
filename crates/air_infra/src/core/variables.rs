@@ -317,6 +317,7 @@ where
 }
 
 // Air variables as represented in the air_body.
+#[allow(clippy::large_enum_variant)]
 #[derive(Clone, Debug)]
 pub enum AirVarImpl {
     Expr(ExprImpl),

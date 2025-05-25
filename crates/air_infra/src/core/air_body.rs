@@ -43,6 +43,7 @@ pub struct LookupCall {
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
 // These describe the steps to execute the function.
+#[allow(clippy::large_enum_variant)]
 #[derive(Clone, Debug)]
 pub enum AirBodyComponent {
     // Add a constraint that the given expression equals zero.

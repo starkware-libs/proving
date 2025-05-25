@@ -131,7 +131,7 @@ fn karatsuba_finish<const N: usize>(
     z2: &[FeltExpr; N],
     z3: &[FeltExpr; N],
 ) -> [FeltExpr; 2 * N + 1] {
-    let ceil_half_len = (N + 1) / 2;
+    let ceil_half_len = N.div_ceil(2);
     let mut res = vec![];
 
     // Add z0
