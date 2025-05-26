@@ -82,7 +82,12 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for relation in lists.lookup_names.iter().collect::<IndexSet<_>>() {
+    for relation in lists
+        .lookup_names
+        .iter()
+        .map(|(r, _)| r)
+        .collect::<IndexSet<_>>()
+    {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
         });
@@ -139,7 +144,12 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
             $(state_name): E::F,
         });
     }
-    for relation in lists.lookup_names.iter().collect::<IndexSet<_>>() {
+    for relation in lists
+        .lookup_names
+        .iter()
+        .map(|(r, _)| r)
+        .collect::<IndexSet<_>>()
+    {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
         });
@@ -246,7 +256,12 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     });
 
     // Sub-components Lookup elements.
-    for relation in lists.lookup_names.iter().collect::<IndexSet<_>>() {
+    for relation in lists
+        .lookup_names
+        .iter()
+        .map(|(r, _)| r)
+        .collect::<IndexSet<_>>()
+    {
         members.append(quote! {
             pub $(&relation.to_case(Case::Snake))_lookup_elements: relations::$(relation),
         });

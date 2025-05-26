@@ -21,7 +21,7 @@ pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
         pub struct Component {
             pub claim: Claim,
             pub interaction_claim: InteractionClaim,
-            $(air_fn.lookup_names.iter().collect::<IndexSet<_>>().iter().map(|relation| {
+            $(air_fn.lookup_names.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
                 format!(
                     "pub {}_lookup_elements: crate::{relation}Elements,", relation.to_case(Case::Snake)
                 )
@@ -81,7 +81,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     // Relation sums
-    for (i, relation) in air_fn.lookup_names.iter().enumerate() {
+    for (i, (relation, _)) in air_fn.lookup_names.iter().enumerate() {
         code.append(quote! {
             let mut $(relation.to_case(Case::Snake))_sum_$(i): QM31 = Zero::zero();
         });

@@ -108,11 +108,26 @@
     "dst_id_col7"
   ],
   "lookup_names": [
-    "VerifyInstruction",
-    "MemoryAddressToId",
-    "MemoryAddressToId",
-    "Opcodes",
-    "Opcodes"
+    [
+      "VerifyInstruction",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Yield"
+    ]
   ],
   "inline_calls": {
     "decode_instruction_161c9": [

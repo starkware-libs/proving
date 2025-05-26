@@ -157,12 +157,7 @@ impl AirFnEntry {
                 self.output_limbs_type(),
             ),
             state_names: self.state.get_state_names(),
-            lookup_names: self
-                .air_body
-                .get_lookup_names()
-                .into_iter()
-                .map(|(name, _)| name)
-                .collect(),
+            lookup_names: self.air_body.get_lookup_names(),
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),

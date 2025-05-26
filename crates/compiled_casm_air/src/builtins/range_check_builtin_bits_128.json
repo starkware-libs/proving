@@ -50,8 +50,14 @@
     "msb_col16"
   ],
   "lookup_names": [
-    "MemoryAddressToId",
-    "MemoryIdToBig"
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ]
   ],
   "inline_calls": {
     "read_positive_num_bits_128": [

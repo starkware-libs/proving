@@ -30,7 +30,7 @@ pub struct CompiledAirFn {
     pub state_names: Vec<String>,
 
     // The names of the lookup relations used/yielded.
-    pub lookup_names: Vec<String>,
+    pub lookup_names: Vec<(String, UseOrYield)>,
 
     // The names of the air functions that are inlined into this one, with their lookup names,
     // public params, and external states.
@@ -217,7 +217,8 @@ pub enum UseOrYield {
 pub struct CompiledAirFnStat {
     pub trace_type: TraceType,
     pub num_state_cols: usize,
-    pub lookup_cols: IndexMap<String, usize>,
+    pub use_lookup_cols: IndexMap<String, usize>,
+    pub yield_lookup_cols: IndexMap<String, usize>,
     pub lookup_rows: IndexMap<String, usize>,
     pub padding_type: PaddingType,
     pub total_num_trace_cols: usize,

@@ -120,13 +120,34 @@
     "next_ap_bot8bits_col13"
   ],
   "lookup_names": [
-    "VerifyInstruction",
-    "MemoryAddressToId",
-    "MemoryIdToBig",
-    "RangeCheck_19",
-    "RangeCheck_8",
-    "Opcodes",
-    "Opcodes"
+    [
+      "VerifyInstruction",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ],
+    [
+      "RangeCheck_19",
+      "Use"
+    ],
+    [
+      "RangeCheck_8",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Use"
+    ],
+    [
+      "Opcodes",
+      "Yield"
+    ]
   ],
   "inline_calls": {
     "decode_instruction_d2a10": [
