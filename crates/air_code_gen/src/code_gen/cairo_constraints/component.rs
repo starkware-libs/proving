@@ -6,8 +6,9 @@ use indexmap::IndexSet;
 
 use super::super::utils::{get_variable_name, project_root};
 use super::utils::{
-    gen_consts, gen_imports, get_git_rev, get_log_size, has_enabler_or_mult_column, n_logup_columns,
+    gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, n_logup_columns,
 };
+use crate::code_gen::utils::get_git_rev;
 
 pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     let version_hash = get_git_rev(&project_root());

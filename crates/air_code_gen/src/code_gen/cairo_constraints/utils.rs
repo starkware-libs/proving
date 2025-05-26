@@ -1,7 +1,4 @@
 use std::fs;
-use std::path::Path;
-use std::process::Command;
-use std::str::from_utf8;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use convert_case::{Case, Casing};
@@ -10,25 +7,6 @@ use genco::quote;
 
 use crate::code_gen::cairo_constraints::component::generate_cairo_constraints_code;
 use crate::code_gen::utils::{get_constraints_folder_path_suffix, project_root};
-
-pub fn get_git_rev(directory: &Path) -> String {
-    let git_show_output = Command::new("git")
-        .args([
-            "-C",
-            directory
-                .to_str()
-                .expect("The directory should be valid UTF-8"),
-            "describe",
-            "--always",
-            "--dirty",
-        ])
-        .output()
-        .unwrap();
-    from_utf8(git_show_output.stdout.as_slice())
-        .expect("Git output is valid UTF-8")
-        .trim()
-        .to_string()
-}
 
 pub fn dump_component_cairo_constraints_code(air_fn: &CompiledAirFn) {
     const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
