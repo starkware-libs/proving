@@ -66,15 +66,12 @@ where
         let actual_key = key.to_values().expect("key has no values");
         assert!(value.clone().into().is_const());
 
-        if !self.data.borrow().contains_key(&actual_key) {
-            self.data.borrow_mut().insert(actual_key.clone(), value);
-        } else {
-            let v = self.data.borrow().get(&actual_key).cloned().unwrap();
-            assert!(
-                v.to_values() == value.to_values(),
-                "Memory::set() failed for key {:?}- given value != value in memory",
-                actual_key
-            );
-        }
+        let mut data = self.data.borrow_mut();
+        let entry = data.entry(actual_key.clone()).or_insert(value.clone());
+        assert!(
+            entry.to_values() == value.to_values(),
+            "Memory::set() failed for key {:?}- given value != value in memory",
+            actual_key
+        );
     }
 }

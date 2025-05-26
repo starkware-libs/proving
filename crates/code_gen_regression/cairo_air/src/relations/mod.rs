@@ -19,7 +19,7 @@ relation!(RangeCheck_9_9, 2);
 relation!(RangeCheck_7_2_5, 3);
 relation!(RangeCheck_3_6_6_3, 4);
 relation!(RangeCheck_3_3_3_3_3, 5);
-relation!(TripleXor32, 3);
+relation!(TripleXor32, 8);
 relation!(VerifyBitwiseXor_7, 3);
 relation!(VerifyBitwiseXor_8, 3);
 relation!(VerifyInstruction, 29);

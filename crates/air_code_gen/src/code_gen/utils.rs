@@ -23,7 +23,7 @@ pub fn reformat_rust_code(code_text: String) -> String {
 
 pub fn reformat_rust_code_inner(code_text: String) -> String {
     let shell = Shell::new().unwrap();
-    shell.set_var("RUSTUP_TOOLCHAIN", "nightly-2024-12-16");
+    shell.set_var("RUSTUP_TOOLCHAIN", "nightly-2025-04-06");
     let rustfmt_toml = project_root().join("../../rustfmt.toml");
     let mut stdout = cmd!(shell, "rustfmt --config-path {rustfmt_toml}")
         .stdin(code_text)

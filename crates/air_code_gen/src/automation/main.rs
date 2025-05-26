@@ -46,7 +46,7 @@ fn process_json_files(
             // Generate code.
             let serialized_air_fn = read_json(
                 path.to_str()
-                    .ok_or_else(|| io::Error::new(io::ErrorKind::Other, "Invalid file path"))?,
+                    .ok_or_else(|| io::Error::other("Invalid file path"))?,
             );
             let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
             dump_component_code(&air_fn, constraints_dir, witness_dir);
