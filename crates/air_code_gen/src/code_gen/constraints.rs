@@ -17,7 +17,8 @@ use super::parse::{
 };
 use super::utils::{filter_lookup_terms, get_variable_name, replace_generics_with_turbofish};
 
-pub fn generate_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
+/// Generate constraints evaluation code for an AirFn that is not called from other AirFns
+pub fn generate_toplevel_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports(lists))
         $['\n']
@@ -105,7 +106,9 @@ fn get_dummy_public_params(lists: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
+/// Generate constraints evaluation code for an inline AirFn (AirFn that is only called from
+/// other AirFns)
+pub fn generate_inline_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     let name = lists.name.to_case(Case::Pascal);
     let input_name = lists.verifier_input.0.clone();
     let input_type = lists.verifier_input.1.clone();
@@ -134,6 +137,13 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
                 $(generate_evaluate(lists))
             }
         }
+    }
+}
+
+pub fn generate_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+    match air_fn.r#type {
+        TraceType::Inline => generate_inline_constraints_code(air_fn),
+        _ => generate_toplevel_constraints_code(air_fn),
     }
 }
 
