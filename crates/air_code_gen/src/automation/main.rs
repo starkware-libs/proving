@@ -2,13 +2,10 @@ use std::io::{self};
 use std::path::Path;
 use std::{fs, process};
 
-use air_code_gen::code_gen::cairo_constraints::utils::get_git_rev;
-use air_code_gen::code_gen::constraints::generate_constraints_code;
 use air_code_gen::code_gen::supported_components::{
     get_supported_components, AutogenCodeFile, AutogenCodeType,
 };
-use air_code_gen::code_gen::trace_gen::RustProverGen;
-use air_code_gen::code_gen::utils::{add_rust_file_to_module, reformat_rust_code};
+use air_code_gen::code_gen::utils::{generate_air_fn_code, get_git_rev, write_air_fn_code};
 use clap::Parser;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, TraceType};
 use compiled_casm_air::utils::read_json;
@@ -75,27 +72,14 @@ fn process_json_files(args: &Args) -> io::Result<()> {
             continue;
         }
 
-        let (code, dest_dir) = match job.code_type {
-            AutogenCodeType::WITNESS => (
-                RustProverGen::new(air_fn.clone()).generate_witness_code(),
-                witness_dir,
-            ),
-            AutogenCodeType::AIR => (generate_constraints_code(&air_fn), constraints_dir),
+        let dest_dir = match job.code_type {
+            AutogenCodeType::WITNESS => witness_dir,
+            AutogenCodeType::AIR => constraints_dir,
         };
-        let code = source_rev_comment.clone() + &code.to_string().unwrap();
+        let code = generate_air_fn_code(&air_fn, job.code_type);
+        let code = source_rev_comment.clone() + &code;
 
-        let dest_dir = match air_fn.r#type {
-            TraceType::Inline => dest_dir.join("subroutines/"),
-            _ => dest_dir.to_path_buf(),
-        };
-
-        let filename = &format!("{}.rs", air_fn.name);
-
-        let dest_path = dest_dir.join(filename);
-
-        let formatted_code = reformat_rust_code(code);
-
-        add_rust_file_to_module(dest_path.as_path(), formatted_code);
+        write_air_fn_code(&air_fn, code, dest_dir);
     }
 
     Ok(())

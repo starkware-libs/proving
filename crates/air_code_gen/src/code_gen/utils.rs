@@ -1,5 +1,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::process::Command;
+use std::str::from_utf8;
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, TraceType,
@@ -10,6 +12,7 @@ use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
 use super::constraints::generate_constraints_code;
+use super::supported_components::AutogenCodeType;
 use super::trace_gen::RustProverGen;
 
 pub fn project_root() -> PathBuf {
@@ -35,26 +38,38 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
     stdout
 }
 
+pub fn get_git_rev(directory: &Path) -> String {
+    let git_show_output = Command::new("git")
+        .args([
+            "-C",
+            directory
+                .to_str()
+                .expect("The directory should be valid UTF-8"),
+            "describe",
+            "--always",
+            "--dirty",
+        ])
+        .output()
+        .unwrap();
+    from_utf8(git_show_output.stdout.as_slice())
+        .expect("Git output is valid UTF-8")
+        .trim()
+        .to_string()
+}
+
 // Generates the prover & verifier code.
 pub fn dump_component_code(
     air_fn: &CompiledAirFn,
     constraints_folder_path: &Path,
     witness_folder_path: &Path,
 ) {
-    let constraints_code = generate_constraints_code(air_fn);
-
-    // Write the generated code to files.
-    let file_name = &format!("{}.rs", air_fn.name);
-
     // TODO(Gali): handle witness sub-routines.
     if air_fn.r#type != TraceType::Inline {
-        let witness_code = RustProverGen::new(air_fn.clone()).generate_witness_code();
-        let witness_code = reformat_rust_code(witness_code.to_string().unwrap());
-        fs::write(witness_folder_path.join(file_name), witness_code).unwrap();
+        let witness_code = generate_air_fn_code(air_fn, AutogenCodeType::WITNESS);
+        write_air_fn_code(air_fn, witness_code, witness_folder_path);
     }
-    let constraints_code = reformat_rust_code(constraints_code.to_string().unwrap());
-    let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
-    fs::write(constraints_folder_path.join(suffix), constraints_code).unwrap();
+    let constraints_code = generate_air_fn_code(air_fn, AutogenCodeType::AIR);
+    write_air_fn_code(air_fn, constraints_code, constraints_folder_path);
 }
 
 /// Create the file `file_path` with the given content, and update the `mod.rs`
@@ -93,6 +108,27 @@ pub fn add_rust_file_to_module(file_path: &Path, file_content: String) {
     // Write new file and updated mod file
     fs::write(file_path, file_content).unwrap();
     fs::write(mod_file_path, mod_file_content).unwrap();
+}
+
+pub fn generate_air_fn_code(air_fn: &CompiledAirFn, code_type: AutogenCodeType) -> String {
+    let code = match code_type {
+        AutogenCodeType::WITNESS => RustProverGen::new(air_fn.clone()).generate_witness_code(),
+        AutogenCodeType::AIR => generate_constraints_code(air_fn),
+    };
+    reformat_rust_code(code.to_string().unwrap())
+}
+
+pub fn write_air_fn_code(air_fn: &CompiledAirFn, code: String, dest_dir: &Path) {
+    let dest_dir = match air_fn.r#type {
+        TraceType::Inline => dest_dir.join("subroutines/"),
+        _ => dest_dir.to_path_buf(),
+    };
+
+    let filename = &format!("{}.rs", air_fn.name);
+
+    let dest_path = dest_dir.join(filename);
+
+    add_rust_file_to_module(dest_path.as_path(), code);
 }
 
 pub fn assert_generated_code_unchanged(
