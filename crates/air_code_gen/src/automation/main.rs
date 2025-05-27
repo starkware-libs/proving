@@ -1,21 +1,46 @@
-use std::fs::{self};
 use std::io::{self};
 use std::path::Path;
-use std::process;
+use std::{fs, process};
 
-use air_code_gen::code_gen::utils::dump_component_code;
+use air_code_gen::code_gen::cairo_constraints::utils::get_git_rev;
+use air_code_gen::code_gen::constraints::generate_constraints_code;
+use air_code_gen::code_gen::supported_components::{
+    get_supported_components, AutogenCodeFile, AutogenCodeType,
+};
+use air_code_gen::code_gen::trace_gen::RustProverGen;
+use air_code_gen::code_gen::utils::{add_rust_file_to_module, reformat_rust_code};
 use clap::Parser;
-use compiled_casm_air::compiled_structs::CompiledAirFn;
+use compiled_casm_air::compiled_structs::{CompiledAirFn, TraceType};
 use compiled_casm_air::utils::read_json;
 use serde_json::from_value;
 
-/// Generates component code for every `.json` file in the source directory.
-// TODO(Ohad): separate constraints and witness code generation.
-fn process_json_files(
-    src_dir: &Path,
-    constraints_dir: &Path,
-    witness_dir: &Path,
-) -> io::Result<()> {
+/// For each JSON in the given directory, create two AutogenCodeFile jobs:
+/// One for its AIR and one for its WITNESS.
+fn codegen_jobs_from_dir(dir: &Path) -> Vec<AutogenCodeFile> {
+    let mut result = vec![];
+    for entry in fs::read_dir(dir).unwrap() {
+        let filename = entry.unwrap().file_name();
+        let filename = filename.to_str().expect("Invalid filename");
+        if filename.ends_with(".json") {
+            result.push(AutogenCodeFile {
+                source_rel_path: filename.to_string(),
+                code_type: AutogenCodeType::AIR,
+            });
+            result.push(AutogenCodeFile {
+                source_rel_path: filename.to_string(),
+                code_type: AutogenCodeType::WITNESS,
+            });
+        }
+    }
+    result
+}
+
+/// Generates component code from JSON files in the source directory.
+fn process_json_files(args: &Args) -> io::Result<()> {
+    let src_dir = Path::new(&args.source);
+    let constraints_dir = Path::new(&args.constraints_dest);
+    let witness_dir = Path::new(&args.witness_dest);
+
     if !constraints_dir.exists() {
         panic!(
             "Destination directory does not exist: {:?}",
@@ -26,50 +51,63 @@ fn process_json_files(
         panic!("Witness directory does not exist: {:?}", witness_dir);
     }
 
-    let constraints_mod_file_path = constraints_dir.join("mod.rs");
-    let mut constraints_mod_file_content = String::new();
-    let witness_mod_file_path = witness_dir.join("mod.rs");
-    let mut witness_mod_file_content = String::new();
+    let files_to_generate = if args.all {
+        codegen_jobs_from_dir(src_dir)
+    } else {
+        get_supported_components()
+    };
 
-    if constraints_mod_file_path.exists() {
-        constraints_mod_file_content = fs::read_to_string(&constraints_mod_file_path)?;
-    }
-    if witness_mod_file_path.exists() {
-        witness_mod_file_content = fs::read_to_string(&witness_mod_file_path)?;
-    }
+    let source_repo_rev = get_git_rev(src_dir);
+    let source_rev_comment = format!("// AIR version {}\n", source_repo_rev);
 
-    for entry in fs::read_dir(src_dir)? {
-        let entry = entry?;
-        let path = entry.path();
+    for job in files_to_generate {
+        let json_path = src_dir.join(&job.source_rel_path);
+        let serialized_air_fn = read_json(
+            json_path
+                .to_str()
+                .ok_or_else(|| io::Error::other("Invalid file path"))?,
+        );
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
 
-        if path.extension().and_then(|e| e.to_str()) == Some("json") {
-            // Generate code.
-            let serialized_air_fn = read_json(
-                path.to_str()
-                    .ok_or_else(|| io::Error::other("Invalid file path"))?,
-            );
-            let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-            dump_component_code(&air_fn, constraints_dir, witness_dir);
-
-            // Update the `mod.rs` files.
-            let file_stem = air_fn.name.clone();
-            if !constraints_mod_file_content.contains(&format!("mod {file_stem};")) {
-                constraints_mod_file_content.push_str(&format!("pub mod {file_stem};\n"));
-            }
-            if !witness_mod_file_content.contains(&format!("mod {file_stem};")) {
-                witness_mod_file_content.push_str(&format!("pub mod {file_stem};\n"));
-            }
+        if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
+            // Inline functions don't have witness-generation code (it is inlined into the
+            // witness-generation code of their callers)
+            continue;
         }
+
+        let (code, dest_dir) = match job.code_type {
+            AutogenCodeType::WITNESS => (
+                RustProverGen::new(air_fn.clone()).generate_witness_code(),
+                witness_dir,
+            ),
+            AutogenCodeType::AIR => (generate_constraints_code(&air_fn), constraints_dir),
+        };
+        let code = source_rev_comment.clone() + &code.to_string().unwrap();
+
+        let dest_dir = match air_fn.r#type {
+            TraceType::Inline => dest_dir.join("subroutines/"),
+            _ => dest_dir.to_path_buf(),
+        };
+
+        let filename = &format!("{}.rs", air_fn.name);
+
+        let dest_path = dest_dir.join(filename);
+
+        let formatted_code = reformat_rust_code(code);
+
+        add_rust_file_to_module(dest_path.as_path(), formatted_code);
     }
-    // Write the updated `mod.rs` files.
-    fs::write(constraints_mod_file_path, constraints_mod_file_content)?;
-    fs::write(witness_mod_file_path, witness_mod_file_content)?;
 
     Ok(())
 }
 
 #[derive(Debug, Parser)]
 struct Args {
+    /// Generate code from all JSONs in the source directory (default: only generate
+    /// components known to be supported by stwo-cairo)
+    #[clap(short, long)]
+    all: bool,
+
     #[clap(short, long)]
     source: String,
 
@@ -87,15 +125,10 @@ struct Args {
 /// ~/stwo-cairo/stwo_cairo_prover/crates/cairo_air/src/components --witness-dest
 /// ~/stwo-cairo/stwo_cairo_prover/crates/prover/src/witness/components`
 fn main() {
-    let args = Args::try_parse_from(std::env::args()).expect("Could not parse CLI arguments.");
-
-    // Parse CLI.
-    let src_dir = Path::new(&args.source);
-    let constraints_dest = Path::new(&args.constraints_dest);
-    let witness_dest = Path::new(&args.witness_dest);
+    let args = Args::try_parse_from(std::env::args()).unwrap_or_else(|e| e.exit());
 
     // Process JSON files.
-    match process_json_files(src_dir, constraints_dest, witness_dest) {
+    match process_json_files(&args) {
         Ok(_) => {
             println!(
                 "Successfully processed JSON files from {} to {} and {}",

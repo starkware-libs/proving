@@ -9,7 +9,7 @@ use genco::quote;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
-use super::constraints::{generate_constraints_code, generate_inline_code};
+use super::constraints::generate_constraints_code;
 use super::trace_gen::RustProverGen;
 
 pub fn project_root() -> PathBuf {
@@ -41,26 +41,58 @@ pub fn dump_component_code(
     constraints_folder_path: &Path,
     witness_folder_path: &Path,
 ) {
-    let (constraints_code, witness_code) = if air_fn.r#type == TraceType::Inline {
-        (generate_inline_code(air_fn), quote!())
-    } else {
-        (
-            generate_constraints_code(air_fn),
-            RustProverGen::new(air_fn.clone()).generate_witness_code(),
-        )
-    };
+    let constraints_code = generate_constraints_code(air_fn);
 
     // Write the generated code to files.
     let file_name = &format!("{}.rs", air_fn.name);
 
     // TODO(Gali): handle witness sub-routines.
     if air_fn.r#type != TraceType::Inline {
+        let witness_code = RustProverGen::new(air_fn.clone()).generate_witness_code();
         let witness_code = reformat_rust_code(witness_code.to_string().unwrap());
         fs::write(witness_folder_path.join(file_name), witness_code).unwrap();
     }
     let constraints_code = reformat_rust_code(constraints_code.to_string().unwrap());
     let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
     fs::write(constraints_folder_path.join(suffix), constraints_code).unwrap();
+}
+
+/// Create the file `file_path` with the given content, and update the `mod.rs`
+/// file in the same directory to include the new file.
+pub fn add_rust_file_to_module(file_path: &Path, file_content: String) {
+    assert!(
+        file_path.file_name().unwrap() != "mod.rs",
+        "This function is not for adding the mod.rs file itself"
+    );
+
+    // Read mod file contents
+    let mod_file_path = file_path
+        .parent()
+        .expect("path should include directory name")
+        .join("mod.rs");
+    let mut mod_file_content = match mod_file_path.exists() {
+        true => fs::read_to_string(&mod_file_path)
+            .unwrap_or_else(|_| panic!("Cannot read mod file {}", mod_file_path.to_string_lossy())),
+        false => "".into(),
+    };
+
+    // Add mod file line for the new file
+    let mod_file_line = &format!(
+        "pub mod {};",
+        file_path
+            .file_stem()
+            .expect("Invalid filename")
+            .to_str()
+            .expect("Invalid filename")
+    );
+    if !mod_file_content.contains(mod_file_line) {
+        mod_file_content.push_str(mod_file_line);
+        mod_file_content.push('\n');
+    }
+
+    // Write new file and updated mod file
+    fs::write(file_path, file_content).unwrap();
+    fs::write(mod_file_path, mod_file_content).unwrap();
 }
 
 pub fn assert_generated_code_unchanged(
