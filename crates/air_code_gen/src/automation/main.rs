@@ -1,33 +1,51 @@
 use std::io::{self};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::{fs, process};
 
 use air_code_gen::code_gen::supported_components::{
-    get_supported_components, AutogenCodeFile, AutogenCodeType,
+    is_supported, AutogenCodeFile, AutogenCodeType,
 };
 use air_code_gen::code_gen::utils::{generate_air_fn_code, get_git_rev, write_air_fn_code};
 use clap::Parser;
-use compiled_casm_air::compiled_structs::{CompiledAirFn, TraceType};
+use compiled_casm_air::compiled_structs::CompiledAirFn;
 use compiled_casm_air::utils::read_json;
 use serde_json::from_value;
+
+fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
+    let mut result = vec![];
+    for entry in fs::read_dir(dir).unwrap() {
+        let path = entry.unwrap().path();
+        if path.is_file() {
+            let filename = path.file_name().unwrap().to_str().unwrap();
+            if filename.ends_with(".json") {
+                result.push(path);
+            }
+        } else {
+            result.append(&mut jsons_in_dir(&path));
+        }
+    }
+    result
+}
 
 /// For each JSON in the given directory, create two AutogenCodeFile jobs:
 /// One for its AIR and one for its WITNESS.
 fn codegen_jobs_from_dir(dir: &Path) -> Vec<AutogenCodeFile> {
     let mut result = vec![];
-    for entry in fs::read_dir(dir).unwrap() {
-        let filename = entry.unwrap().file_name();
-        let filename = filename.to_str().expect("Invalid filename");
-        if filename.ends_with(".json") {
-            result.push(AutogenCodeFile {
-                source_rel_path: filename.to_string(),
-                code_type: AutogenCodeType::AIR,
-            });
-            result.push(AutogenCodeFile {
-                source_rel_path: filename.to_string(),
-                code_type: AutogenCodeType::WITNESS,
-            });
-        }
+    for json_path in jsons_in_dir(dir) {
+        let rel_path: String = json_path
+            .strip_prefix(dir)
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .into();
+        result.push(AutogenCodeFile {
+            source_rel_path: rel_path.clone(),
+            code_type: AutogenCodeType::AIR,
+        });
+        result.push(AutogenCodeFile {
+            source_rel_path: rel_path,
+            code_type: AutogenCodeType::WITNESS,
+        });
     }
     result
 }
@@ -48,16 +66,14 @@ fn process_json_files(args: &Args) -> io::Result<()> {
         panic!("Witness directory does not exist: {:?}", witness_dir);
     }
 
-    let files_to_generate = if args.all {
-        codegen_jobs_from_dir(src_dir)
-    } else {
-        get_supported_components()
-    };
+    let files_to_generate = codegen_jobs_from_dir(src_dir);
 
     let source_repo_rev = get_git_rev(src_dir);
     let source_rev_comment = format!("// AIR version {}\n", source_repo_rev);
 
-    for job in files_to_generate {
+    let mut skipped_files = 0;
+
+    for job in files_to_generate.iter() {
         let json_path = src_dir.join(&job.source_rel_path);
         let serialized_air_fn = read_json(
             json_path
@@ -66,9 +82,9 @@ fn process_json_files(args: &Args) -> io::Result<()> {
         );
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
 
-        if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
-            // Inline functions don't have witness-generation code (it is inlined into the
-            // witness-generation code of their callers)
+        if !is_supported(job, &air_fn) && !args.all {
+            // The autogeneration logic doesn't support this.
+            skipped_files += 1;
             continue;
         }
 
@@ -81,6 +97,11 @@ fn process_json_files(args: &Args) -> io::Result<()> {
 
         write_air_fn_code(&air_fn, code, dest_dir);
     }
+
+    let generated_files = files_to_generate.len() - skipped_files;
+    println!(
+        "Generated {generated_files} files. Skipped {skipped_files} manually-implemented files."
+    );
 
     Ok(())
 }
