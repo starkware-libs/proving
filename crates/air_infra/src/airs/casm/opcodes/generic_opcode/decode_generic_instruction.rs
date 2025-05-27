@@ -25,6 +25,17 @@ impl AirFn for DecodeGenericInstruction {
     type In = CasmAddress;
     type Out = ([FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3]);
 
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        let mut result = vec![];
+        for name in GENERIC_FLAG_NAMES.iter() {
+            result.push(Some(name.to_string()));
+        }
+        result.push(Some("offset0".to_string()));
+        result.push(Some("offset1".to_string()));
+        result.push(Some("offset2".to_string()));
+        Some(result)
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, _: (), pc: Self::In) -> Self::Out {
         let (offsets, flags, _) = air_builder.call(
             &DecodeInstruction {

@@ -25,6 +25,21 @@ impl AirFn for UpdateRegisters {
     );
     type Out = CasmStateVar;
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        let mut result = vec![
+            Some("pc".to_string()),
+            Some("ap".to_string()),
+            Some("fp".to_string()),
+        ];
+        for name in GENERIC_FLAG_NAMES.iter() {
+            result.push(Some(name.to_string()))
+        }
+        result.push(Some("dst".to_string()));
+        result.push(Some("op1".to_string()));
+        result.push(Some("res".to_string()));
+        Some(result)
+    }
+
     fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
         Some(vec![
             Some("pc".to_string()),
