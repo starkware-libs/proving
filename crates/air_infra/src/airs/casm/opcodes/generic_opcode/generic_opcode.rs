@@ -1,3 +1,5 @@
+use std::sync::LazyLock;
+
 use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 
@@ -6,6 +8,7 @@ use super::eval_operands::*;
 use super::handle_opcodes::*;
 use super::update_registers::*;
 use crate::airs::casm::casm_state::*;
+use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::felt252_id_memory::memory::*;
 
@@ -15,6 +18,21 @@ pub const FLAG_PC_UPDATE_REGULAR_INDEX: usize = 17;
 pub const FLAG_FP_UPDATE_REGULAR_INDEX: usize = 18;
 pub const INSTRUCTION_SIZE_INDEX: usize = 19;
 pub const GENERIC_FLAGS_SIZE: usize = 20;
+
+pub static GENERIC_FLAG_NAMES: LazyLock<Vec<&str>> = LazyLock::new(|| {
+    [
+        FLAG_NAMES.as_slice(),
+        [
+            "op1_base_op0",
+            "res_op1",
+            "pc_update_regular",
+            "fp_update_regular",
+            "instruction_size",
+        ]
+        .as_slice(),
+    ]
+    .concat()
+});
 
 /// Implements a generic Cairo0 instructions.
 #[derive(Clone, Debug, Serialize, Default)]

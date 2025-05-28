@@ -12,7 +12,7 @@
     "(PackedCasmState, [PackedM31; 20], [PackedFelt252; 3])"
   ],
   "verifier_input": [
-    "[update_registers_input_limb_0, update_registers_input_limb_1, update_registers_input_limb_2, update_registers_input_limb_10, update_registers_input_limb_11, update_registers_input_limb_12, update_registers_input_limb_13, update_registers_input_limb_14, update_registers_input_limb_15, update_registers_input_limb_16, update_registers_input_limb_20, update_registers_input_limb_21, update_registers_input_limb_22, update_registers_input_limb_23, update_registers_input_limb_24, update_registers_input_limb_25, update_registers_input_limb_26, update_registers_input_limb_27, update_registers_input_limb_28, update_registers_input_limb_29, update_registers_input_limb_30, update_registers_input_limb_31, update_registers_input_limb_32, update_registers_input_limb_33, update_registers_input_limb_34, update_registers_input_limb_35, update_registers_input_limb_36, update_registers_input_limb_37, update_registers_input_limb_38, update_registers_input_limb_39, update_registers_input_limb_40, update_registers_input_limb_41, update_registers_input_limb_42, update_registers_input_limb_43, update_registers_input_limb_44, update_registers_input_limb_45, update_registers_input_limb_46, update_registers_input_limb_47, update_registers_input_limb_48, update_registers_input_limb_49, update_registers_input_limb_50, update_registers_input_limb_51, update_registers_input_limb_52, update_registers_input_limb_53, update_registers_input_limb_54, update_registers_input_limb_55, update_registers_input_limb_56, update_registers_input_limb_57, update_registers_input_limb_58, update_registers_input_limb_59, update_registers_input_limb_60, update_registers_input_limb_61, update_registers_input_limb_62, update_registers_input_limb_63, update_registers_input_limb_64, update_registers_input_limb_65, update_registers_input_limb_66, update_registers_input_limb_67, update_registers_input_limb_68, update_registers_input_limb_69, update_registers_input_limb_70, update_registers_input_limb_71, update_registers_input_limb_72, update_registers_input_limb_73, update_registers_input_limb_74, update_registers_input_limb_75, update_registers_input_limb_76, update_registers_input_limb_77, update_registers_input_limb_78, update_registers_input_limb_79, update_registers_input_limb_80, update_registers_input_limb_81, update_registers_input_limb_82, update_registers_input_limb_83, update_registers_input_limb_84, update_registers_input_limb_85, update_registers_input_limb_86, update_registers_input_limb_87, update_registers_input_limb_88, update_registers_input_limb_89, update_registers_input_limb_90, update_registers_input_limb_91, update_registers_input_limb_92, update_registers_input_limb_93, update_registers_input_limb_94, update_registers_input_limb_95, update_registers_input_limb_96, update_registers_input_limb_97, update_registers_input_limb_98, update_registers_input_limb_99, update_registers_input_limb_100, update_registers_input_limb_101, update_registers_input_limb_102, update_registers_input_limb_103, update_registers_input_limb_104, update_registers_input_limb_105, update_registers_input_limb_106]",
+    "[update_registers_input_pc, update_registers_input_ap, update_registers_input_fp, update_registers_input_pc_update_jump, update_registers_input_pc_update_jump_rel, update_registers_input_pc_update_jnz, update_registers_input_ap_update_add, update_registers_input_ap_update_add_1, update_registers_input_opcode_call, update_registers_input_opcode_ret, update_registers_input_pc_update_regular, update_registers_input_fp_update_regular, update_registers_input_instruction_size, update_registers_input_dst_limb_0, update_registers_input_dst_limb_1, update_registers_input_dst_limb_2, update_registers_input_dst_limb_3, update_registers_input_dst_limb_4, update_registers_input_dst_limb_5, update_registers_input_dst_limb_6, update_registers_input_dst_limb_7, update_registers_input_dst_limb_8, update_registers_input_dst_limb_9, update_registers_input_dst_limb_10, update_registers_input_dst_limb_11, update_registers_input_dst_limb_12, update_registers_input_dst_limb_13, update_registers_input_dst_limb_14, update_registers_input_dst_limb_15, update_registers_input_dst_limb_16, update_registers_input_dst_limb_17, update_registers_input_dst_limb_18, update_registers_input_dst_limb_19, update_registers_input_dst_limb_20, update_registers_input_dst_limb_21, update_registers_input_dst_limb_22, update_registers_input_dst_limb_23, update_registers_input_dst_limb_24, update_registers_input_dst_limb_25, update_registers_input_dst_limb_26, update_registers_input_dst_limb_27, update_registers_input_op1_limb_0, update_registers_input_op1_limb_1, update_registers_input_op1_limb_2, update_registers_input_op1_limb_3, update_registers_input_op1_limb_4, update_registers_input_op1_limb_5, update_registers_input_op1_limb_6, update_registers_input_op1_limb_7, update_registers_input_op1_limb_8, update_registers_input_op1_limb_9, update_registers_input_op1_limb_10, update_registers_input_op1_limb_11, update_registers_input_op1_limb_12, update_registers_input_op1_limb_13, update_registers_input_op1_limb_14, update_registers_input_op1_limb_15, update_registers_input_op1_limb_16, update_registers_input_op1_limb_17, update_registers_input_op1_limb_18, update_registers_input_op1_limb_19, update_registers_input_op1_limb_20, update_registers_input_op1_limb_21, update_registers_input_op1_limb_22, update_registers_input_op1_limb_23, update_registers_input_op1_limb_24, update_registers_input_op1_limb_25, update_registers_input_op1_limb_26, update_registers_input_op1_limb_27, update_registers_input_res_limb_0, update_registers_input_res_limb_1, update_registers_input_res_limb_2, update_registers_input_res_limb_3, update_registers_input_res_limb_4, update_registers_input_res_limb_5, update_registers_input_res_limb_6, update_registers_input_res_limb_7, update_registers_input_res_limb_8, update_registers_input_res_limb_9, update_registers_input_res_limb_10, update_registers_input_res_limb_11, update_registers_input_res_limb_12, update_registers_input_res_limb_13, update_registers_input_res_limb_14, update_registers_input_res_limb_15, update_registers_input_res_limb_16, update_registers_input_res_limb_17, update_registers_input_res_limb_18, update_registers_input_res_limb_19, update_registers_input_res_limb_20, update_registers_input_res_limb_21, update_registers_input_res_limb_22, update_registers_input_res_limb_23, update_registers_input_res_limb_24, update_registers_input_res_limb_25, update_registers_input_res_limb_26, update_registers_input_res_limb_27]",
     "[M31; 97]"
   ],
   "prover_output": [
@@ -94,175 +94,175 @@
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_79"
+                      "update_registers_input_res_limb_0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_80"
+                      "update_registers_input_res_limb_1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_81"
+                      "update_registers_input_res_limb_2"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_82"
+                      "update_registers_input_res_limb_3"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_83"
+                      "update_registers_input_res_limb_4"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_84"
+                      "update_registers_input_res_limb_5"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_85"
+                      "update_registers_input_res_limb_6"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_86"
+                      "update_registers_input_res_limb_7"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_87"
+                      "update_registers_input_res_limb_8"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_88"
+                      "update_registers_input_res_limb_9"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_89"
+                      "update_registers_input_res_limb_10"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_90"
+                      "update_registers_input_res_limb_11"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_91"
+                      "update_registers_input_res_limb_12"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_92"
+                      "update_registers_input_res_limb_13"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_93"
+                      "update_registers_input_res_limb_14"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_94"
+                      "update_registers_input_res_limb_15"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_95"
+                      "update_registers_input_res_limb_16"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_96"
+                      "update_registers_input_res_limb_17"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_97"
+                      "update_registers_input_res_limb_18"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_98"
+                      "update_registers_input_res_limb_19"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_99"
+                      "update_registers_input_res_limb_20"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_100"
+                      "update_registers_input_res_limb_21"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_101"
+                      "update_registers_input_res_limb_22"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_102"
+                      "update_registers_input_res_limb_23"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_103"
+                      "update_registers_input_res_limb_24"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_104"
+                      "update_registers_input_res_limb_25"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_105"
+                      "update_registers_input_res_limb_26"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_106"
+                      "update_registers_input_res_limb_27"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_10"
+                      "update_registers_input_pc_update_jump"
                     ]
                   }
                 ]
@@ -285,175 +285,175 @@
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_23"
+                      "update_registers_input_dst_limb_0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_24"
+                      "update_registers_input_dst_limb_1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_25"
+                      "update_registers_input_dst_limb_2"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_26"
+                      "update_registers_input_dst_limb_3"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_27"
+                      "update_registers_input_dst_limb_4"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_28"
+                      "update_registers_input_dst_limb_5"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_29"
+                      "update_registers_input_dst_limb_6"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_30"
+                      "update_registers_input_dst_limb_7"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_31"
+                      "update_registers_input_dst_limb_8"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_32"
+                      "update_registers_input_dst_limb_9"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_33"
+                      "update_registers_input_dst_limb_10"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_34"
+                      "update_registers_input_dst_limb_11"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_35"
+                      "update_registers_input_dst_limb_12"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_36"
+                      "update_registers_input_dst_limb_13"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_37"
+                      "update_registers_input_dst_limb_14"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_38"
+                      "update_registers_input_dst_limb_15"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_39"
+                      "update_registers_input_dst_limb_16"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_40"
+                      "update_registers_input_dst_limb_17"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_41"
+                      "update_registers_input_dst_limb_18"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_42"
+                      "update_registers_input_dst_limb_19"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_43"
+                      "update_registers_input_dst_limb_20"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_44"
+                      "update_registers_input_dst_limb_21"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_45"
+                      "update_registers_input_dst_limb_22"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_46"
+                      "update_registers_input_dst_limb_23"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_47"
+                      "update_registers_input_dst_limb_24"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_48"
+                      "update_registers_input_dst_limb_25"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_49"
+                      "update_registers_input_dst_limb_26"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_50"
+                      "update_registers_input_dst_limb_27"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_16"
+                      "update_registers_input_opcode_ret"
                     ]
                   }
                 ]
@@ -476,169 +476,169 @@
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_79"
+                      "update_registers_input_res_limb_0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_80"
+                      "update_registers_input_res_limb_1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_81"
+                      "update_registers_input_res_limb_2"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_82"
+                      "update_registers_input_res_limb_3"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_83"
+                      "update_registers_input_res_limb_4"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_84"
+                      "update_registers_input_res_limb_5"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_85"
+                      "update_registers_input_res_limb_6"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_86"
+                      "update_registers_input_res_limb_7"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_87"
+                      "update_registers_input_res_limb_8"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_88"
+                      "update_registers_input_res_limb_9"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_89"
+                      "update_registers_input_res_limb_10"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_90"
+                      "update_registers_input_res_limb_11"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_91"
+                      "update_registers_input_res_limb_12"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_92"
+                      "update_registers_input_res_limb_13"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_93"
+                      "update_registers_input_res_limb_14"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_94"
+                      "update_registers_input_res_limb_15"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_95"
+                      "update_registers_input_res_limb_16"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_96"
+                      "update_registers_input_res_limb_17"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_97"
+                      "update_registers_input_res_limb_18"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_98"
+                      "update_registers_input_res_limb_19"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_99"
+                      "update_registers_input_res_limb_20"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_100"
+                      "update_registers_input_res_limb_21"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_101"
+                      "update_registers_input_res_limb_22"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_102"
+                      "update_registers_input_res_limb_23"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_103"
+                      "update_registers_input_res_limb_24"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_104"
+                      "update_registers_input_res_limb_25"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_105"
+                      "update_registers_input_res_limb_26"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_106"
+                      "update_registers_input_res_limb_27"
                     ]
                   },
                   {
@@ -646,14 +646,14 @@
                       {
                         "Var": [
                           "M31",
-                          "update_registers_input_limb_11"
+                          "update_registers_input_pc_update_jump_rel"
                         ]
                       },
                       "+",
                       {
                         "Var": [
                           "M31",
-                          "update_registers_input_limb_13"
+                          "update_registers_input_ap_update_add"
                         ]
                       }
                     ]
@@ -680,7 +680,7 @@
             {
               "Var": [
                 "M31",
-                "update_registers_input_limb_23"
+                "update_registers_input_dst_limb_0"
               ]
             },
             "-",
@@ -703,7 +703,7 @@
             {
               "Var": [
                 "M31",
-                "update_registers_input_limb_44"
+                "update_registers_input_dst_limb_21"
               ]
             },
             "-",
@@ -726,7 +726,7 @@
             {
               "Var": [
                 "M31",
-                "update_registers_input_limb_50"
+                "update_registers_input_dst_limb_27"
               ]
             },
             "-",
@@ -821,7 +821,7 @@
                                                                                                                             {
                                                                                                                               "Var": [
                                                                                                                                 "M31",
-                                                                                                                                "update_registers_input_limb_24"
+                                                                                                                                "update_registers_input_dst_limb_1"
                                                                                                                               ]
                                                                                                                             }
                                                                                                                           ]
@@ -830,7 +830,7 @@
                                                                                                                         {
                                                                                                                           "Var": [
                                                                                                                             "M31",
-                                                                                                                            "update_registers_input_limb_25"
+                                                                                                                            "update_registers_input_dst_limb_2"
                                                                                                                           ]
                                                                                                                         }
                                                                                                                       ]
@@ -839,7 +839,7 @@
                                                                                                                     {
                                                                                                                       "Var": [
                                                                                                                         "M31",
-                                                                                                                        "update_registers_input_limb_26"
+                                                                                                                        "update_registers_input_dst_limb_3"
                                                                                                                       ]
                                                                                                                     }
                                                                                                                   ]
@@ -848,7 +848,7 @@
                                                                                                                 {
                                                                                                                   "Var": [
                                                                                                                     "M31",
-                                                                                                                    "update_registers_input_limb_27"
+                                                                                                                    "update_registers_input_dst_limb_4"
                                                                                                                   ]
                                                                                                                 }
                                                                                                               ]
@@ -857,7 +857,7 @@
                                                                                                             {
                                                                                                               "Var": [
                                                                                                                 "M31",
-                                                                                                                "update_registers_input_limb_28"
+                                                                                                                "update_registers_input_dst_limb_5"
                                                                                                               ]
                                                                                                             }
                                                                                                           ]
@@ -866,7 +866,7 @@
                                                                                                         {
                                                                                                           "Var": [
                                                                                                             "M31",
-                                                                                                            "update_registers_input_limb_29"
+                                                                                                            "update_registers_input_dst_limb_6"
                                                                                                           ]
                                                                                                         }
                                                                                                       ]
@@ -875,7 +875,7 @@
                                                                                                     {
                                                                                                       "Var": [
                                                                                                         "M31",
-                                                                                                        "update_registers_input_limb_30"
+                                                                                                        "update_registers_input_dst_limb_7"
                                                                                                       ]
                                                                                                     }
                                                                                                   ]
@@ -884,7 +884,7 @@
                                                                                                 {
                                                                                                   "Var": [
                                                                                                     "M31",
-                                                                                                    "update_registers_input_limb_31"
+                                                                                                    "update_registers_input_dst_limb_8"
                                                                                                   ]
                                                                                                 }
                                                                                               ]
@@ -893,7 +893,7 @@
                                                                                             {
                                                                                               "Var": [
                                                                                                 "M31",
-                                                                                                "update_registers_input_limb_32"
+                                                                                                "update_registers_input_dst_limb_9"
                                                                                               ]
                                                                                             }
                                                                                           ]
@@ -902,7 +902,7 @@
                                                                                         {
                                                                                           "Var": [
                                                                                             "M31",
-                                                                                            "update_registers_input_limb_33"
+                                                                                            "update_registers_input_dst_limb_10"
                                                                                           ]
                                                                                         }
                                                                                       ]
@@ -911,7 +911,7 @@
                                                                                     {
                                                                                       "Var": [
                                                                                         "M31",
-                                                                                        "update_registers_input_limb_34"
+                                                                                        "update_registers_input_dst_limb_11"
                                                                                       ]
                                                                                     }
                                                                                   ]
@@ -920,7 +920,7 @@
                                                                                 {
                                                                                   "Var": [
                                                                                     "M31",
-                                                                                    "update_registers_input_limb_35"
+                                                                                    "update_registers_input_dst_limb_12"
                                                                                   ]
                                                                                 }
                                                                               ]
@@ -929,7 +929,7 @@
                                                                             {
                                                                               "Var": [
                                                                                 "M31",
-                                                                                "update_registers_input_limb_36"
+                                                                                "update_registers_input_dst_limb_13"
                                                                               ]
                                                                             }
                                                                           ]
@@ -938,7 +938,7 @@
                                                                         {
                                                                           "Var": [
                                                                             "M31",
-                                                                            "update_registers_input_limb_37"
+                                                                            "update_registers_input_dst_limb_14"
                                                                           ]
                                                                         }
                                                                       ]
@@ -947,7 +947,7 @@
                                                                     {
                                                                       "Var": [
                                                                         "M31",
-                                                                        "update_registers_input_limb_38"
+                                                                        "update_registers_input_dst_limb_15"
                                                                       ]
                                                                     }
                                                                   ]
@@ -956,7 +956,7 @@
                                                                 {
                                                                   "Var": [
                                                                     "M31",
-                                                                    "update_registers_input_limb_39"
+                                                                    "update_registers_input_dst_limb_16"
                                                                   ]
                                                                 }
                                                               ]
@@ -965,7 +965,7 @@
                                                             {
                                                               "Var": [
                                                                 "M31",
-                                                                "update_registers_input_limb_40"
+                                                                "update_registers_input_dst_limb_17"
                                                               ]
                                                             }
                                                           ]
@@ -974,7 +974,7 @@
                                                         {
                                                           "Var": [
                                                             "M31",
-                                                            "update_registers_input_limb_41"
+                                                            "update_registers_input_dst_limb_18"
                                                           ]
                                                         }
                                                       ]
@@ -983,7 +983,7 @@
                                                     {
                                                       "Var": [
                                                         "M31",
-                                                        "update_registers_input_limb_42"
+                                                        "update_registers_input_dst_limb_19"
                                                       ]
                                                     }
                                                   ]
@@ -992,7 +992,7 @@
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "update_registers_input_limb_43"
+                                                    "update_registers_input_dst_limb_20"
                                                   ]
                                                 }
                                               ]
@@ -1021,7 +1021,7 @@
                                         {
                                           "Var": [
                                             "M31",
-                                            "update_registers_input_limb_45"
+                                            "update_registers_input_dst_limb_22"
                                           ]
                                         }
                                       ]
@@ -1030,7 +1030,7 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "update_registers_input_limb_46"
+                                        "update_registers_input_dst_limb_23"
                                       ]
                                     }
                                   ]
@@ -1039,7 +1039,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "update_registers_input_limb_47"
+                                    "update_registers_input_dst_limb_24"
                                   ]
                                 }
                               ]
@@ -1048,7 +1048,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "update_registers_input_limb_48"
+                                "update_registers_input_dst_limb_25"
                               ]
                             }
                           ]
@@ -1057,7 +1057,7 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_49"
+                            "update_registers_input_dst_limb_26"
                           ]
                         }
                       ]
@@ -1161,14 +1161,14 @@
                                                                                                                     {
                                                                                                                       "Var": [
                                                                                                                         "M31",
-                                                                                                                        "update_registers_input_limb_23"
+                                                                                                                        "update_registers_input_dst_limb_0"
                                                                                                                       ]
                                                                                                                     },
                                                                                                                     "+",
                                                                                                                     {
                                                                                                                       "Var": [
                                                                                                                         "M31",
-                                                                                                                        "update_registers_input_limb_24"
+                                                                                                                        "update_registers_input_dst_limb_1"
                                                                                                                       ]
                                                                                                                     }
                                                                                                                   ]
@@ -1177,7 +1177,7 @@
                                                                                                                 {
                                                                                                                   "Var": [
                                                                                                                     "M31",
-                                                                                                                    "update_registers_input_limb_25"
+                                                                                                                    "update_registers_input_dst_limb_2"
                                                                                                                   ]
                                                                                                                 }
                                                                                                               ]
@@ -1186,7 +1186,7 @@
                                                                                                             {
                                                                                                               "Var": [
                                                                                                                 "M31",
-                                                                                                                "update_registers_input_limb_26"
+                                                                                                                "update_registers_input_dst_limb_3"
                                                                                                               ]
                                                                                                             }
                                                                                                           ]
@@ -1195,7 +1195,7 @@
                                                                                                         {
                                                                                                           "Var": [
                                                                                                             "M31",
-                                                                                                            "update_registers_input_limb_27"
+                                                                                                            "update_registers_input_dst_limb_4"
                                                                                                           ]
                                                                                                         }
                                                                                                       ]
@@ -1204,7 +1204,7 @@
                                                                                                     {
                                                                                                       "Var": [
                                                                                                         "M31",
-                                                                                                        "update_registers_input_limb_28"
+                                                                                                        "update_registers_input_dst_limb_5"
                                                                                                       ]
                                                                                                     }
                                                                                                   ]
@@ -1213,7 +1213,7 @@
                                                                                                 {
                                                                                                   "Var": [
                                                                                                     "M31",
-                                                                                                    "update_registers_input_limb_29"
+                                                                                                    "update_registers_input_dst_limb_6"
                                                                                                   ]
                                                                                                 }
                                                                                               ]
@@ -1222,7 +1222,7 @@
                                                                                             {
                                                                                               "Var": [
                                                                                                 "M31",
-                                                                                                "update_registers_input_limb_30"
+                                                                                                "update_registers_input_dst_limb_7"
                                                                                               ]
                                                                                             }
                                                                                           ]
@@ -1231,7 +1231,7 @@
                                                                                         {
                                                                                           "Var": [
                                                                                             "M31",
-                                                                                            "update_registers_input_limb_31"
+                                                                                            "update_registers_input_dst_limb_8"
                                                                                           ]
                                                                                         }
                                                                                       ]
@@ -1240,7 +1240,7 @@
                                                                                     {
                                                                                       "Var": [
                                                                                         "M31",
-                                                                                        "update_registers_input_limb_32"
+                                                                                        "update_registers_input_dst_limb_9"
                                                                                       ]
                                                                                     }
                                                                                   ]
@@ -1249,7 +1249,7 @@
                                                                                 {
                                                                                   "Var": [
                                                                                     "M31",
-                                                                                    "update_registers_input_limb_33"
+                                                                                    "update_registers_input_dst_limb_10"
                                                                                   ]
                                                                                 }
                                                                               ]
@@ -1258,7 +1258,7 @@
                                                                             {
                                                                               "Var": [
                                                                                 "M31",
-                                                                                "update_registers_input_limb_34"
+                                                                                "update_registers_input_dst_limb_11"
                                                                               ]
                                                                             }
                                                                           ]
@@ -1267,7 +1267,7 @@
                                                                         {
                                                                           "Var": [
                                                                             "M31",
-                                                                            "update_registers_input_limb_35"
+                                                                            "update_registers_input_dst_limb_12"
                                                                           ]
                                                                         }
                                                                       ]
@@ -1276,7 +1276,7 @@
                                                                     {
                                                                       "Var": [
                                                                         "M31",
-                                                                        "update_registers_input_limb_36"
+                                                                        "update_registers_input_dst_limb_13"
                                                                       ]
                                                                     }
                                                                   ]
@@ -1285,7 +1285,7 @@
                                                                 {
                                                                   "Var": [
                                                                     "M31",
-                                                                    "update_registers_input_limb_37"
+                                                                    "update_registers_input_dst_limb_14"
                                                                   ]
                                                                 }
                                                               ]
@@ -1294,7 +1294,7 @@
                                                             {
                                                               "Var": [
                                                                 "M31",
-                                                                "update_registers_input_limb_38"
+                                                                "update_registers_input_dst_limb_15"
                                                               ]
                                                             }
                                                           ]
@@ -1303,7 +1303,7 @@
                                                         {
                                                           "Var": [
                                                             "M31",
-                                                            "update_registers_input_limb_39"
+                                                            "update_registers_input_dst_limb_16"
                                                           ]
                                                         }
                                                       ]
@@ -1312,7 +1312,7 @@
                                                     {
                                                       "Var": [
                                                         "M31",
-                                                        "update_registers_input_limb_40"
+                                                        "update_registers_input_dst_limb_17"
                                                       ]
                                                     }
                                                   ]
@@ -1321,7 +1321,7 @@
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "update_registers_input_limb_41"
+                                                    "update_registers_input_dst_limb_18"
                                                   ]
                                                 }
                                               ]
@@ -1330,7 +1330,7 @@
                                             {
                                               "Var": [
                                                 "M31",
-                                                "update_registers_input_limb_42"
+                                                "update_registers_input_dst_limb_19"
                                               ]
                                             }
                                           ]
@@ -1339,7 +1339,7 @@
                                         {
                                           "Var": [
                                             "M31",
-                                            "update_registers_input_limb_43"
+                                            "update_registers_input_dst_limb_20"
                                           ]
                                         }
                                       ]
@@ -1348,7 +1348,7 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "update_registers_input_limb_44"
+                                        "update_registers_input_dst_limb_21"
                                       ]
                                     }
                                   ]
@@ -1357,7 +1357,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "update_registers_input_limb_45"
+                                    "update_registers_input_dst_limb_22"
                                   ]
                                 }
                               ]
@@ -1366,7 +1366,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "update_registers_input_limb_46"
+                                "update_registers_input_dst_limb_23"
                               ]
                             }
                           ]
@@ -1375,7 +1375,7 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_47"
+                            "update_registers_input_dst_limb_24"
                           ]
                         }
                       ]
@@ -1384,7 +1384,7 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_48"
+                        "update_registers_input_dst_limb_25"
                       ]
                     }
                   ]
@@ -1393,7 +1393,7 @@
                 {
                   "Var": [
                     "M31",
-                    "update_registers_input_limb_49"
+                    "update_registers_input_dst_limb_26"
                   ]
                 }
               ]
@@ -1402,7 +1402,7 @@
             {
               "Var": [
                 "M31",
-                "update_registers_input_limb_50"
+                "update_registers_input_dst_limb_27"
               ]
             }
           ]
@@ -1422,7 +1422,7 @@
                 {
                   "Var": [
                     "M31",
-                    "update_registers_input_limb_12"
+                    "update_registers_input_pc_update_jnz"
                   ]
                 },
                 "*",
@@ -1452,169 +1452,169 @@
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_51"
+                      "update_registers_input_op1_limb_0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_52"
+                      "update_registers_input_op1_limb_1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_53"
+                      "update_registers_input_op1_limb_2"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_54"
+                      "update_registers_input_op1_limb_3"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_55"
+                      "update_registers_input_op1_limb_4"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_56"
+                      "update_registers_input_op1_limb_5"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_57"
+                      "update_registers_input_op1_limb_6"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_58"
+                      "update_registers_input_op1_limb_7"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_59"
+                      "update_registers_input_op1_limb_8"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_60"
+                      "update_registers_input_op1_limb_9"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_61"
+                      "update_registers_input_op1_limb_10"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_62"
+                      "update_registers_input_op1_limb_11"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_63"
+                      "update_registers_input_op1_limb_12"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_64"
+                      "update_registers_input_op1_limb_13"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_65"
+                      "update_registers_input_op1_limb_14"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_66"
+                      "update_registers_input_op1_limb_15"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_67"
+                      "update_registers_input_op1_limb_16"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_68"
+                      "update_registers_input_op1_limb_17"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_69"
+                      "update_registers_input_op1_limb_18"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_70"
+                      "update_registers_input_op1_limb_19"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_71"
+                      "update_registers_input_op1_limb_20"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_72"
+                      "update_registers_input_op1_limb_21"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_73"
+                      "update_registers_input_op1_limb_22"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_74"
+                      "update_registers_input_op1_limb_23"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_75"
+                      "update_registers_input_op1_limb_24"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_76"
+                      "update_registers_input_op1_limb_25"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_77"
+                      "update_registers_input_op1_limb_26"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "update_registers_input_limb_78"
+                      "update_registers_input_op1_limb_27"
                     ]
                   },
                   {
@@ -1648,7 +1648,7 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_0"
+                        "update_registers_input_pc"
                       ]
                     },
                     "+",
@@ -1689,14 +1689,14 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_0"
+                        "update_registers_input_pc"
                       ]
                     },
                     "+",
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_22"
+                        "update_registers_input_instruction_size"
                       ]
                     }
                   ]
@@ -1753,7 +1753,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "update_registers_input_limb_20"
+                                "update_registers_input_pc_update_regular"
                               ]
                             },
                             "*",
@@ -1762,14 +1762,14 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "update_registers_input_limb_0"
+                                    "update_registers_input_pc"
                                   ]
                                 },
                                 "+",
                                 {
                                   "Var": [
                                     "M31",
-                                    "update_registers_input_limb_22"
+                                    "update_registers_input_instruction_size"
                                   ]
                                 }
                               ]
@@ -1782,7 +1782,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "update_registers_input_limb_10"
+                                "update_registers_input_pc_update_jump"
                               ]
                             },
                             "*",
@@ -1802,7 +1802,7 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_11"
+                            "update_registers_input_pc_update_jump_rel"
                           ]
                         },
                         "*",
@@ -1811,7 +1811,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "update_registers_input_limb_0"
+                                "update_registers_input_pc"
                               ]
                             },
                             "+",
@@ -1833,7 +1833,7 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_12"
+                        "update_registers_input_pc_update_jnz"
                       ]
                     },
                     "*",
@@ -1866,7 +1866,7 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_1"
+                            "update_registers_input_ap"
                           ]
                         },
                         "+",
@@ -1875,7 +1875,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "update_registers_input_limb_13"
+                                "update_registers_input_ap_update_add"
                               ]
                             },
                             "*",
@@ -1893,7 +1893,7 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_14"
+                        "update_registers_input_ap_update_add_1"
                       ]
                     }
                   ]
@@ -1904,7 +1904,7 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_15"
+                        "update_registers_input_opcode_call"
                       ]
                     },
                     "*",
@@ -1940,14 +1940,14 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_21"
+                            "update_registers_input_fp_update_regular"
                           ]
                         },
                         "*",
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_2"
+                            "update_registers_input_fp"
                           ]
                         }
                       ]
@@ -1958,7 +1958,7 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_16"
+                            "update_registers_input_opcode_ret"
                           ]
                         },
                         "*",
@@ -1978,7 +1978,7 @@
                     {
                       "Var": [
                         "M31",
-                        "update_registers_input_limb_15"
+                        "update_registers_input_opcode_call"
                       ]
                     },
                     "*",
@@ -1987,7 +1987,7 @@
                         {
                           "Var": [
                             "M31",
-                            "update_registers_input_limb_1"
+                            "update_registers_input_ap"
                           ]
                         },
                         "+",

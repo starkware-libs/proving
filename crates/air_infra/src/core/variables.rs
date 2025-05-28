@@ -371,6 +371,13 @@ impl AirVarImpl {
         index: usize,
         expr_descriptions: &Option<Vec<Option<String>>>,
     ) -> String {
+        if let Some(ref descriptions) = expr_descriptions {
+            assert_eq!(
+                self.as_exprs().len(),
+                descriptions.len(),
+                "Incorrect descriptions length"
+            );
+        }
         let (expr_i, expr_size, felt_in_expr_i) = self.expr_felt_index(index);
         let expr_desc = expr_descriptions
             .as_ref()

@@ -813,7 +813,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_generic_instruction_output_tmp_57455_26_limb_15, decode_generic_instruction_output_tmp_57455_26_limb_16, decode_generic_instruction_output_tmp_57455_26_limb_17, decode_generic_instruction_output_tmp_57455_26_limb_18, decode_generic_instruction_output_tmp_57455_26_limb_19, decode_generic_instruction_output_tmp_57455_26_limb_20, decode_generic_instruction_output_tmp_57455_26_limb_21, decode_generic_instruction_output_tmp_57455_26_limb_22]",
+        "name": "[decode_generic_instruction_output_tmp_57455_26_op1_base_op0, decode_generic_instruction_output_tmp_57455_26_res_op1, decode_generic_instruction_output_tmp_57455_26_pc_update_regular, decode_generic_instruction_output_tmp_57455_26_fp_update_regular, decode_generic_instruction_output_tmp_57455_26_instruction_size, decode_generic_instruction_output_tmp_57455_26_offset0, decode_generic_instruction_output_tmp_57455_26_offset1, decode_generic_instruction_output_tmp_57455_26_offset2]",
         "type": "[M31; 8]",
         "var": {
           "StaticCall": [
@@ -931,31 +931,31 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_15"
+                      "decode_generic_instruction_output_tmp_57455_26_op1_base_op0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_16"
+                      "decode_generic_instruction_output_tmp_57455_26_res_op1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_20"
+                      "decode_generic_instruction_output_tmp_57455_26_offset0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_21"
+                      "decode_generic_instruction_output_tmp_57455_26_offset1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_22"
+                      "decode_generic_instruction_output_tmp_57455_26_offset2"
                     ]
                   }
                 ]
@@ -1614,31 +1614,31 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_16"
+                      "decode_generic_instruction_output_tmp_57455_26_res_op1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_19"
+                      "decode_generic_instruction_output_tmp_57455_26_instruction_size"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_20"
+                      "decode_generic_instruction_output_tmp_57455_26_offset0"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_21"
+                      "decode_generic_instruction_output_tmp_57455_26_offset1"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_22"
+                      "decode_generic_instruction_output_tmp_57455_26_offset2"
                     ]
                   },
                   {
@@ -1943,19 +1943,19 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_17"
+                      "decode_generic_instruction_output_tmp_57455_26_pc_update_regular"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_18"
+                      "decode_generic_instruction_output_tmp_57455_26_fp_update_regular"
                     ]
                   },
                   {
                     "Var": [
                       "M31",
-                      "decode_generic_instruction_output_tmp_57455_26_limb_19"
+                      "decode_generic_instruction_output_tmp_57455_26_instruction_size"
                     ]
                   },
                   {

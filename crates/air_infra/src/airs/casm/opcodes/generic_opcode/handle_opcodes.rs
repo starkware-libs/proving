@@ -30,6 +30,24 @@ impl AirFn for HandleOpcodes {
     );
     type Out = ();
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        let mut result = vec![
+            Some("pc".to_string()),
+            Some("ap".to_string()),
+            Some("fp".to_string()),
+        ];
+        for name in GENERIC_FLAG_NAMES.iter() {
+            result.push(Some(name.to_string()))
+        }
+        result.push(Some("offset0".to_string()));
+        result.push(Some("offset1".to_string()));
+        result.push(Some("offset2".to_string()));
+        result.push(Some("dst".to_string()));
+        result.push(Some("op0".to_string()));
+        result.push(Some("res".to_string()));
+        Some(result)
+    }
+
     fn call(
         &self,
         air_builder: &mut AirBuilder,

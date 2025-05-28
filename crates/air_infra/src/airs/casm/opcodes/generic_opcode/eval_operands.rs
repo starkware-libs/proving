@@ -27,6 +27,21 @@ impl AirFn for EvalOperands {
     type In = (CasmStateVar, [FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3]);
     type Out = [Felt252Expr; 4];
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        let mut result = vec![
+            Some("pc".to_string()),
+            Some("ap".to_string()),
+            Some("fp".to_string()),
+        ];
+        for name in GENERIC_FLAG_NAMES.iter() {
+            result.push(Some(name.to_string()))
+        }
+        result.push(Some("offset0".to_string()));
+        result.push(Some("offset1".to_string()));
+        result.push(Some("offset2".to_string()));
+        Some(result)
+    }
+
     fn call(
         &self,
         air_builder: &mut AirBuilder,
