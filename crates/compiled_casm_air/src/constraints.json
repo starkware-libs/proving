@@ -41994,16 +41994,19 @@
       ]
     ]
   },
-  "decode_instruction_fdb6e": {
+  "decode_instruction_f1edd": {
     "state_names": [
-      "offset2_col0"
+      "offset2_col0",
+      "op1_base_fp_col1"
     ],
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(op1_base_fp_col1 * (1 - op1_base_fp_col1))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_fdb6e_input_pc, 32768, 32769, offset2_col0, 128, 66, 0"
+        "decode_instruction_f1edd_input_pc, 32768, 32769, offset2_col0, ((op1_base_fp_col1 * 64) + ((1 - op1_base_fp_col1) * 128)), 66, 0"
       ]
     ]
   },
@@ -42013,57 +42016,65 @@
       "input_ap_col1",
       "input_fp_col2",
       "offset2_col3",
-      "stored_fp_id_col4",
-      "stored_fp_limb_0_col5",
-      "stored_fp_limb_1_col6",
-      "stored_fp_limb_2_col7",
-      "stored_ret_pc_id_col8",
-      "stored_ret_pc_limb_0_col9",
-      "stored_ret_pc_limb_1_col10",
-      "stored_ret_pc_limb_2_col11",
-      "next_pc_id_col12",
-      "next_pc_limb_0_col13",
-      "next_pc_limb_1_col14",
-      "next_pc_limb_2_col15"
+      "op1_base_fp_col4",
+      "stored_fp_id_col5",
+      "stored_fp_limb_0_col6",
+      "stored_fp_limb_1_col7",
+      "stored_fp_limb_2_col8",
+      "stored_ret_pc_id_col9",
+      "stored_ret_pc_limb_0_col10",
+      "stored_ret_pc_limb_1_col11",
+      "stored_ret_pc_limb_2_col12",
+      "mem1_base_col13",
+      "next_pc_id_col14",
+      "next_pc_limb_0_col15",
+      "next_pc_limb_1_col16",
+      "next_pc_limb_2_col17"
     ],
     "intermediates": [
       [
-        "decode_instruction_fdb6e_output_tmp_32b66_3_offset2",
+        "decode_instruction_f1edd_output_tmp_32b66_4_offset2",
         "(offset2_col3 - 32768)"
+      ],
+      [
+        "decode_instruction_f1edd_output_tmp_32b66_4_op1_base_ap",
+        "(1 - op1_base_fp_col4)"
       ]
     ],
     "constraints": [
-      "(((stored_fp_limb_0_col5 + (stored_fp_limb_1_col6 * 512)) + (stored_fp_limb_2_col7 * 262144)) - input_fp_col2)",
-      "(((stored_ret_pc_limb_0_col9 + (stored_ret_pc_limb_1_col10 * 512)) + (stored_ret_pc_limb_2_col11 * 262144)) - (input_pc_col0 + 1))"
+      "(op1_base_fp_col4 * (1 - op1_base_fp_col4))",
+      "(((stored_fp_limb_0_col6 + (stored_fp_limb_1_col7 * 512)) + (stored_fp_limb_2_col8 * 262144)) - input_fp_col2)",
+      "(((stored_ret_pc_limb_0_col10 + (stored_ret_pc_limb_1_col11 * 512)) + (stored_ret_pc_limb_2_col12 * 262144)) - (input_pc_col0 + 1))",
+      "(mem1_base_col13 - ((op1_base_fp_col4 * input_fp_col2) + (decode_instruction_f1edd_output_tmp_32b66_4_op1_base_ap * input_ap_col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, 32768, 32769, offset2_col3, 128, 66, 0"
+        "input_pc_col0, 32768, 32769, offset2_col3, ((op1_base_fp_col4 * 64) + ((1 - op1_base_fp_col4) * 128)), 66, 0"
       ],
       [
         "MemoryAddressToId",
-        "input_ap_col1, stored_fp_id_col4"
+        "input_ap_col1, stored_fp_id_col5"
       ],
       [
         "MemoryIdToBig",
-        "stored_fp_id_col4, stored_fp_limb_0_col5, stored_fp_limb_1_col6, stored_fp_limb_2_col7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "stored_fp_id_col5, stored_fp_limb_0_col6, stored_fp_limb_1_col7, stored_fp_limb_2_col8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "MemoryAddressToId",
-        "(input_ap_col1 + 1), stored_ret_pc_id_col8"
+        "(input_ap_col1 + 1), stored_ret_pc_id_col9"
       ],
       [
         "MemoryIdToBig",
-        "stored_ret_pc_id_col8, stored_ret_pc_limb_0_col9, stored_ret_pc_limb_1_col10, stored_ret_pc_limb_2_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "stored_ret_pc_id_col9, stored_ret_pc_limb_0_col10, stored_ret_pc_limb_1_col11, stored_ret_pc_limb_2_col12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "MemoryAddressToId",
-        "(input_ap_col1 + decode_instruction_fdb6e_output_tmp_32b66_3_offset2), next_pc_id_col12"
+        "(mem1_base_col13 + decode_instruction_f1edd_output_tmp_32b66_4_offset2), next_pc_id_col14"
       ],
       [
         "MemoryIdToBig",
-        "next_pc_id_col12, next_pc_limb_0_col13, next_pc_limb_1_col14, next_pc_limb_2_col15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "next_pc_id_col14, next_pc_limb_0_col15, next_pc_limb_1_col16, next_pc_limb_2_col17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -42078,7 +42089,7 @@
       ]
     ]
   },
-  "call_opcode_rel": {
+  "call_opcode_rel_imm": {
     "state_names": [
       "input_pc_col0",
       "input_ap_col1",
@@ -42100,7 +42111,7 @@
     ],
     "intermediates": [
       [
-        "read_small_output_tmp_7ab23_14_limb_0",
+        "read_small_output_tmp_9db06_14_limb_0",
         "((((distance_to_next_pc_limb_0_col14 + (distance_to_next_pc_limb_1_col15 * 512)) + (distance_to_next_pc_limb_2_col16 * 262144)) - msb_col12) - (134217728 * mid_limbs_set_col13))"
       ]
     ],
@@ -42139,79 +42150,6 @@
       [
         "MemoryIdToBig",
         "distance_to_next_pc_id_col11, distance_to_next_pc_limb_0_col14, distance_to_next_pc_limb_1_col15, distance_to_next_pc_limb_2_col16, (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), (mid_limbs_set_col13 * 511), ((136 * msb_col12) - mid_limbs_set_col13), 0, 0, 0, 0, 0, (msb_col12 * 256)"
-      ]
-    ]
-  },
-  "decode_instruction_ea769": {
-    "state_names": [
-      "offset2_col0"
-    ],
-    "intermediates": [],
-    "constraints": [],
-    "lookups": [
-      [
-        "VerifyInstruction",
-        "decode_instruction_ea769_input_pc, 32768, 32769, offset2_col0, 64, 66, 0"
-      ]
-    ]
-  },
-  "call_opcode_op_1_base_fp": {
-    "state_names": [
-      "input_pc_col0",
-      "input_ap_col1",
-      "input_fp_col2",
-      "offset2_col3",
-      "stored_fp_id_col4",
-      "stored_fp_limb_0_col5",
-      "stored_fp_limb_1_col6",
-      "stored_fp_limb_2_col7",
-      "stored_ret_pc_id_col8",
-      "stored_ret_pc_limb_0_col9",
-      "stored_ret_pc_limb_1_col10",
-      "stored_ret_pc_limb_2_col11",
-      "next_pc_id_col12",
-      "next_pc_limb_0_col13",
-      "next_pc_limb_1_col14",
-      "next_pc_limb_2_col15"
-    ],
-    "intermediates": [
-      [
-        "decode_instruction_ea769_output_tmp_6d870_3_offset2",
-        "(offset2_col3 - 32768)"
-      ]
-    ],
-    "constraints": [
-      "(((stored_fp_limb_0_col5 + (stored_fp_limb_1_col6 * 512)) + (stored_fp_limb_2_col7 * 262144)) - input_fp_col2)",
-      "(((stored_ret_pc_limb_0_col9 + (stored_ret_pc_limb_1_col10 * 512)) + (stored_ret_pc_limb_2_col11 * 262144)) - (input_pc_col0 + 1))"
-    ],
-    "lookups": [
-      [
-        "VerifyInstruction",
-        "input_pc_col0, 32768, 32769, offset2_col3, 64, 66, 0"
-      ],
-      [
-        "MemoryAddressToId",
-        "input_ap_col1, stored_fp_id_col4"
-      ],
-      [
-        "MemoryIdToBig",
-        "stored_fp_id_col4, stored_fp_limb_0_col5, stored_fp_limb_1_col6, stored_fp_limb_2_col7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
-      ],
-      [
-        "MemoryAddressToId",
-        "(input_ap_col1 + 1), stored_ret_pc_id_col8"
-      ],
-      [
-        "MemoryIdToBig",
-        "stored_ret_pc_id_col8, stored_ret_pc_limb_0_col9, stored_ret_pc_limb_1_col10, stored_ret_pc_limb_2_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
-      ],
-      [
-        "MemoryAddressToId",
-        "(input_fp_col2 + decode_instruction_ea769_output_tmp_6d870_3_offset2), next_pc_id_col12"
-      ],
-      [
-        "MemoryIdToBig",
-        "next_pc_id_col12, next_pc_limb_0_col13, next_pc_limb_1_col14, next_pc_limb_2_col15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },

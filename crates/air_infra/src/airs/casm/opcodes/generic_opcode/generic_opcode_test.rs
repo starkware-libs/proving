@@ -23,8 +23,7 @@ use crate::utils::test_utils::*;
 fn test_generic_consistency_rel_call() {
     let mut generic_opcode = GenericOpcode::default();
     let mut call_opcode = CallOpcode {
-        rel: true,
-        op1_base_fp: false,
+        rel_imm: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -318,8 +317,7 @@ fn test_generic_consistency_rel_call() {
 fn test_generic_call_abs_imm() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        rel: false,
-        op1_base_fp: false,
+        rel_imm: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -368,8 +366,7 @@ fn test_generic_call_abs_imm() {
 fn test_generic_call_rel_deref() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        rel: true,
-        op1_base_fp: false,
+        rel_imm: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -2326,8 +2323,7 @@ fn test_generic_add_ap_res_add() {
 fn test_generic_soundness_call_wrong_offset() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        rel: true,
-        op1_base_fp: false,
+        rel_imm: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -2373,8 +2369,7 @@ fn test_generic_soundness_call_wrong_offset() {
 fn test_generic_soundness_call_fp_not_pushed() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        rel: true,
-        op1_base_fp: false,
+        rel_imm: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -2420,8 +2415,7 @@ fn test_generic_soundness_call_fp_not_pushed() {
 fn test_generic_soundness_call_wrong_next_pc() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        rel: false,
-        op1_base_fp: true,
+        rel_imm: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -2439,7 +2433,7 @@ fn test_generic_soundness_call_wrong_next_pc() {
                     0,
                     1,
                     offset2,
-                    call_opcode.get_flags().into(),
+                    call_opcode.get_flags().non_constants_to_arr(&[true, false]),
                     OpcodeExtension::Stone
                 ),
                 0

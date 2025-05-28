@@ -97,18 +97,11 @@ fn test_casm_registry() {
     });
     //  Call opcode
     reg.add_entry(&CallOpcode {
-        rel: false,
-        op1_base_fp: false,
+        rel_imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&CallOpcode {
-        rel: true,
-        op1_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&CallOpcode {
-        rel: false,
-        op1_base_fp: true,
+        rel_imm: true,
         memory: Felt252IdMemory::default(),
     });
     // Jnz opcode
@@ -340,16 +333,15 @@ fn add_keccak_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("jump_opcode".to_string(), 0),
         ("jnz_opcode".to_string(), 2029),
         ("ret_opcode".to_string(), 63158),
-        ("call_opcode".to_string(), 0),
+        ("call_opcode".to_string(), 1),
         ("generic_opcode".to_string(), 0),
         ("assert_eq_opcode_double_deref".to_string(), 12676053),
-        ("call_opcode_op_1_base_fp".to_string(), 1),
         ("add_opcode_small".to_string(), 311243),
         ("jump_opcode_rel".to_string(), 0),
         ("assert_eq_opcode_imm".to_string(), 2767034),
         ("jump_opcode_double_deref".to_string(), 0),
         ("add_ap_opcode".to_string(), 50101),
-        ("call_opcode_rel".to_string(), 63157),
+        ("call_opcode_rel_imm".to_string(), 63157),
         ("mul_opcode_small".to_string(), 27099),
         ("add_opcode".to_string(), 1864576),
         ("jnz_opcode_taken".to_string(), 55592),
@@ -408,10 +400,9 @@ fn add_ec_op_3001_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("pedersen_builtin".to_string(), 512),
         ("add_mod_builtin".to_string(), 0),
         ("bitwise_builtin".to_string(), 0),
-        ("call_opcode_op_1_base_fp".to_string(), 1),
         ("jump_opcode".to_string(), 0),
         ("jump_opcode_double_deref".to_string(), 0),
-        ("call_opcode".to_string(), 0),
+        ("call_opcode".to_string(), 1),
         ("ret_opcode".to_string(), 402288),
         ("qm_31_add_mul_opcode".to_string(), 0),
         ("add_ap_opcode".to_string(), 387230),
@@ -420,7 +411,7 @@ fn add_ec_op_3001_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("assert_eq_opcode_imm".to_string(), 780293),
         ("jnz_opcode_taken".to_string(), 1146967),
         ("assert_eq_opcode_double_deref".to_string(), 1934667),
-        ("call_opcode_rel".to_string(), 402287),
+        ("call_opcode_rel_imm".to_string(), 402287),
         ("jump_opcode_rel_imm".to_string(), 753258),
         ("add_opcode".to_string(), 11983562),
         ("jnz_opcode".to_string(), 759282),
@@ -487,7 +478,7 @@ fn add_ecdsa_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("mul_opcode_small".to_string(), 98),
         ("qm_31_add_mul_opcode".to_string(), 0),
         ("jnz_opcode".to_string(), 768029),
-        ("call_opcode".to_string(), 0),
+        ("call_opcode".to_string(), 1),
         ("mul_opcode".to_string(), 10737001),
         ("jnz_opcode_taken".to_string(), 3147591),
         ("blake_compress_opcode".to_string(), 0),
@@ -498,8 +489,7 @@ fn add_ecdsa_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("assert_eq_opcode".to_string(), 5808292),
         ("jump_opcode_double_deref".to_string(), 0),
         ("assert_eq_opcode_double_deref".to_string(), 4985047),
-        ("call_opcode_rel".to_string(), 933153),
-        ("call_opcode_op_1_base_fp".to_string(), 1),
+        ("call_opcode_rel_imm".to_string(), 933153),
         ("add_opcode".to_string(), 19599575),
         ("assert_eq_opcode_imm".to_string(), 2415033),
     ]);
