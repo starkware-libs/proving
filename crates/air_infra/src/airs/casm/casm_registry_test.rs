@@ -8,6 +8,7 @@ use compiled_casm_air::utils::{
     JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
 };
 use indexmap::IndexMap;
+use stwo_cairo_common::prover_types::cpu::PRIME;
 
 // Builtins
 use super::builtins::bitwise::*;
@@ -272,6 +273,7 @@ fn add_entry_statistics(
     // reusing the same row). This statistic pessimistically assumes that calls to
     // such components always add new rows.
     let mut trace_cells_upper_bound = total_num_trace_cols;
+    let mut uses_upper_bound = IndexMap::new();
 
     let entry = reg.get(&compiled_entry.name).unwrap();
     let lookup_rows = entry.air_body.get_lookup_n_rows();
@@ -287,7 +289,21 @@ fn add_entry_statistics(
         if called_entry.ext_input.is_none() && name != "verify_instruction" {
             trace_cells_upper_bound += cnt * entry_stats.trace_cells_upper_bound;
         }
+
+        // Collecting the uses upper bound for the lowest level lookup components.
+        if entry_stats.uses_upper_bound.is_empty() {
+            *uses_upper_bound.entry(name.clone()).or_default() += cnt;
+        } else {
+            entry_stats
+                .uses_upper_bound
+                .iter()
+                .for_each(|(use_name, use_bound)| {
+                    *uses_upper_bound.entry(use_name.clone()).or_default() += cnt * *use_bound;
+                });
+        }
     }
+
+    let max_num_instances = PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
 
     stat.insert(
         compiled_entry.name.clone(),
@@ -300,6 +316,8 @@ fn add_entry_statistics(
             padding_type: compiled_entry.padding_type,
             total_num_trace_cols,
             trace_cells_upper_bound,
+            uses_upper_bound,
+            max_num_instances,
         },
     );
 }

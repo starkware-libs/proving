@@ -228,6 +228,8 @@ pub struct CompiledAirFnStat {
     // - The table of verify instruction (with number of rows equals the number of different pc
     //   values)
     pub trace_cells_upper_bound: usize,
+    pub uses_upper_bound: IndexMap<String, usize>,
+    pub max_num_instances: usize,
 }
 
 /// See `constraints.json`.
