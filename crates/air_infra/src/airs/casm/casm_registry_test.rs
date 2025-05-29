@@ -216,12 +216,16 @@ fn test_casm_registry() {
     }
 
     compare_json(
-        &stat,
-        &"../compiled_casm_air/src/casm_registry.json".to_string(),
-    );
-    compare_json(
         &const_tables,
         &"../compiled_casm_air/src/const_tables.json".to_string(),
+    );
+
+    add_keccak_3000_entry(&mut stat);
+    add_ec_op_3001_entry(&mut stat);
+    add_ecdsa_3000_entry(&mut stat);
+    compare_json(
+        &stat,
+        &"../compiled_casm_air/src/casm_registry.json".to_string(),
     );
 }
 
@@ -317,6 +321,225 @@ fn add_entry_statistics(
             total_num_trace_cols,
             trace_cells_upper_bound,
             uses_upper_bound,
+            max_num_instances,
+        },
+    );
+}
+
+fn add_keccak_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
+    let keccak_3000 = IndexMap::from([
+        ("bitwise_builtin".to_string(), 4194304),
+        ("mul_mod_builtin".to_string(), 0),
+        ("pedersen_builtin".to_string(), 512),
+        ("poseidon_builtin".to_string(), 0),
+        ("range_check_builtin_bits_128".to_string(), 1048576),
+        ("range_check_builtin_bits_96".to_string(), 0),
+        ("add_mod_builtin".to_string(), 0),
+        ("mul_opcode".to_string(), 1651001),
+        ("assert_eq_opcode".to_string(), 70300),
+        ("jump_opcode".to_string(), 0),
+        ("jnz_opcode".to_string(), 2029),
+        ("ret_opcode".to_string(), 63158),
+        ("call_opcode".to_string(), 0),
+        ("generic_opcode".to_string(), 0),
+        ("assert_eq_opcode_double_deref".to_string(), 12676053),
+        ("call_opcode_op_1_base_fp".to_string(), 1),
+        ("add_opcode_small".to_string(), 311243),
+        ("jump_opcode_rel".to_string(), 0),
+        ("assert_eq_opcode_imm".to_string(), 2767034),
+        ("jump_opcode_double_deref".to_string(), 0),
+        ("add_ap_opcode".to_string(), 50101),
+        ("call_opcode_rel".to_string(), 63157),
+        ("mul_opcode_small".to_string(), 27099),
+        ("add_opcode".to_string(), 1864576),
+        ("jnz_opcode_taken".to_string(), 55592),
+        ("jump_opcode_rel_imm".to_string(), 7),
+        ("qm_31_add_mul_opcode".to_string(), 0),
+        ("blake_compress_opcode".to_string(), 0),
+    ]);
+    let mut keccak_3000_uses_upper_bound = IndexMap::new();
+    for (name, cnt) in keccak_3000.iter() {
+        let mut uses = stat.get(name).unwrap().uses_upper_bound.clone();
+        for (use_name, use_bound) in uses.iter_mut() {
+            *use_bound *= cnt;
+            *keccak_3000_uses_upper_bound
+                .entry(use_name.clone())
+                .or_default() += *use_bound;
+        }
+    }
+    let max_num_instances_uses =
+        PRIME as usize * 3000 / *keccak_3000_uses_upper_bound.values().max().unwrap_or(&1);
+    let max_num_instances_steps = 2_usize.pow(26) * 3000
+        / keccak_3000
+            .iter()
+            .filter_map(|(k, v)| {
+                if !k.contains("builtin") {
+                    Some(v)
+                } else {
+                    None
+                }
+            })
+            .sum::<usize>();
+    let max_num_instances = max_num_instances_uses.min(max_num_instances_steps);
+
+    stat.insert(
+        "keccak_3000".to_string(),
+        CompiledAirFnStat {
+            trace_type: TraceType::Component,
+            num_state_cols: 0,
+            use_lookup_cols: IndexMap::new(),
+            yield_lookup_cols: IndexMap::new(),
+            lookup_rows: IndexMap::new(),
+            padding_type: PaddingType::None,
+            total_num_trace_cols: 0,
+            trace_cells_upper_bound: 0,
+            uses_upper_bound: keccak_3000_uses_upper_bound,
+            max_num_instances,
+        },
+    );
+}
+
+fn add_ec_op_3001_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
+    let ec_op_3001 = IndexMap::from([
+        ("range_check_builtin_bits_128".to_string(), 16),
+        ("mul_mod_builtin".to_string(), 0),
+        ("poseidon_builtin".to_string(), 0),
+        ("range_check_builtin_bits_96".to_string(), 0),
+        ("pedersen_builtin".to_string(), 512),
+        ("add_mod_builtin".to_string(), 0),
+        ("bitwise_builtin".to_string(), 0),
+        ("call_opcode_op_1_base_fp".to_string(), 1),
+        ("jump_opcode".to_string(), 0),
+        ("jump_opcode_double_deref".to_string(), 0),
+        ("call_opcode".to_string(), 0),
+        ("ret_opcode".to_string(), 402288),
+        ("qm_31_add_mul_opcode".to_string(), 0),
+        ("add_ap_opcode".to_string(), 387230),
+        ("blake_compress_opcode".to_string(), 0),
+        ("add_opcode_small".to_string(), 889522),
+        ("assert_eq_opcode_imm".to_string(), 780293),
+        ("jnz_opcode_taken".to_string(), 1146967),
+        ("assert_eq_opcode_double_deref".to_string(), 1934667),
+        ("call_opcode_rel".to_string(), 402287),
+        ("jump_opcode_rel_imm".to_string(), 753258),
+        ("add_opcode".to_string(), 11983562),
+        ("jnz_opcode".to_string(), 759282),
+        ("generic_opcode".to_string(), 0),
+        ("jump_opcode_rel".to_string(), 0),
+        ("mul_opcode_small".to_string(), 98),
+        ("mul_opcode".to_string(), 6446149),
+        ("assert_eq_opcode".to_string(), 2347074),
+    ]);
+    let mut ec_op_3001_uses_upper_bound = IndexMap::new();
+    for (name, cnt) in ec_op_3001.iter() {
+        let mut uses = stat.get(name).unwrap().uses_upper_bound.clone();
+        for (use_name, use_bound) in uses.iter_mut() {
+            *use_bound *= cnt;
+            *ec_op_3001_uses_upper_bound
+                .entry(use_name.clone())
+                .or_default() += *use_bound;
+        }
+    }
+    let max_num_instances_uses =
+        PRIME as usize * 3001 / *ec_op_3001_uses_upper_bound.values().max().unwrap_or(&1);
+    let max_num_instances_steps = 2_usize.pow(26) * 3001
+        / ec_op_3001
+            .iter()
+            .filter_map(|(k, v)| {
+                if !k.contains("builtin") {
+                    Some(v)
+                } else {
+                    None
+                }
+            })
+            .sum::<usize>();
+    let max_num_instances = max_num_instances_uses.min(max_num_instances_steps);
+
+    stat.insert(
+        "ec_op_3000".to_string(),
+        CompiledAirFnStat {
+            trace_type: TraceType::Component,
+            num_state_cols: 0,
+            use_lookup_cols: IndexMap::new(),
+            yield_lookup_cols: IndexMap::new(),
+            lookup_rows: IndexMap::new(),
+            padding_type: PaddingType::None,
+            total_num_trace_cols: 0,
+            trace_cells_upper_bound: 0,
+            uses_upper_bound: ec_op_3001_uses_upper_bound,
+            max_num_instances,
+        },
+    );
+}
+
+fn add_ecdsa_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
+    let ecdsa_3000 = IndexMap::from([
+        ("range_check_builtin_bits_128".to_string(), 16),
+        ("range_check_builtin_bits_96".to_string(), 262144),
+        ("poseidon_builtin".to_string(), 0),
+        ("mul_mod_builtin".to_string(), 16384),
+        ("bitwise_builtin".to_string(), 0),
+        ("pedersen_builtin".to_string(), 512),
+        ("add_mod_builtin".to_string(), 0),
+        ("generic_opcode".to_string(), 0),
+        ("jump_opcode_rel".to_string(), 0),
+        ("jump_opcode".to_string(), 0),
+        ("mul_opcode_small".to_string(), 98),
+        ("qm_31_add_mul_opcode".to_string(), 0),
+        ("jnz_opcode".to_string(), 768029),
+        ("call_opcode".to_string(), 0),
+        ("mul_opcode".to_string(), 10737001),
+        ("jnz_opcode_taken".to_string(), 3147591),
+        ("blake_compress_opcode".to_string(), 0),
+        ("jump_opcode_rel_imm".to_string(), 741007),
+        ("ret_opcode".to_string(), 933154),
+        ("add_ap_opcode".to_string(), 867101),
+        ("add_opcode_small".to_string(), 1837238),
+        ("assert_eq_opcode".to_string(), 5808292),
+        ("jump_opcode_double_deref".to_string(), 0),
+        ("assert_eq_opcode_double_deref".to_string(), 4985047),
+        ("call_opcode_rel".to_string(), 933153),
+        ("call_opcode_op_1_base_fp".to_string(), 1),
+        ("add_opcode".to_string(), 19599575),
+        ("assert_eq_opcode_imm".to_string(), 2415033),
+    ]);
+    let mut ecdsa_3000_uses_upper_bound = IndexMap::new();
+    for (name, cnt) in ecdsa_3000.iter() {
+        let mut uses = stat.get(name).unwrap().uses_upper_bound.clone();
+        for (use_name, use_bound) in uses.iter_mut() {
+            *use_bound *= cnt;
+            *ecdsa_3000_uses_upper_bound
+                .entry(use_name.clone())
+                .or_default() += *use_bound;
+        }
+    }
+    let max_num_instances_uses =
+        PRIME as usize * 3000 / *ecdsa_3000_uses_upper_bound.values().max().unwrap_or(&1);
+    let max_num_instances_steps = 2_usize.pow(26) * 3000
+        / ecdsa_3000
+            .iter()
+            .filter_map(|(k, v)| {
+                if !k.contains("builtin") {
+                    Some(v)
+                } else {
+                    None
+                }
+            })
+            .sum::<usize>();
+    let max_num_instances = max_num_instances_uses.min(max_num_instances_steps);
+
+    stat.insert(
+        "ecdsa_3000".to_string(),
+        CompiledAirFnStat {
+            trace_type: TraceType::Component,
+            num_state_cols: 0,
+            use_lookup_cols: IndexMap::new(),
+            yield_lookup_cols: IndexMap::new(),
+            lookup_rows: IndexMap::new(),
+            padding_type: PaddingType::None,
+            total_num_trace_cols: 0,
+            trace_cells_upper_bound: 0,
+            uses_upper_bound: ecdsa_3000_uses_upper_bound,
             max_num_instances,
         },
     );
