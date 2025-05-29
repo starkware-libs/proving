@@ -276,6 +276,11 @@ fn add_entry_statistics(
     let lookup_rows = entry.air_body.get_lookup_n_rows();
 
     for (name, cnt) in lookup_rows.iter() {
+        let cnt = if *cnt == 0 {
+            0
+        } else {
+            cnt.next_power_of_two()
+        };
         let called_entry = reg.get(name).unwrap();
         let entry_stats = stat.get(name).unwrap();
 
