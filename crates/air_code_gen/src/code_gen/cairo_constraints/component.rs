@@ -5,6 +5,7 @@ use genco::quote;
 use indexmap::IndexSet;
 
 use super::super::utils::{get_variable_name, project_root};
+use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, n_logup_columns,
 };
@@ -16,7 +17,8 @@ pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
         $("//") Constraints version: $(version_hash)$("\n")
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))$("\n")
-        // TODO(AnatG): Generate claims."
+        $(gen_claim_struct(air_fn))$("\n")
+        $(gen_interaction_claim_struct())$("\n")
 
         #[derive(Drop)]
         pub struct Component {
@@ -38,7 +40,7 @@ pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
                 point: CirclePoint<QM31>,
             ) {
                 let log_size = $(get_log_size(air_fn, false));
-                let trace_gen = CanonicCosetImpl::new(log_size).coset.step_size;
+                let trace_gen = CanonicCosetImpl::new(log_size).coset.step;
                 let point_offset_neg_1 = point.add_circle_point_m31(-trace_gen.mul(1).to_point());
                 $(gen_mask_points(air_fn))
             }
