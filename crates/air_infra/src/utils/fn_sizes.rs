@@ -46,16 +46,14 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 pub fn print_fn_sizes() {
     let mut registry = AirFnRegistry::new_empty();
     let func = CallOpcode {
-        rel: false,
-        op1_base_fp: false,
+        rel_imm: false,
         memory: Default::default(),
     };
     let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());
     print_statistics("call abs [ap]", compiled);
 
     let func = CallOpcode {
-        rel: true,
-        op1_base_fp: false,
+        rel_imm: true,
         memory: Default::default(),
     };
     let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());

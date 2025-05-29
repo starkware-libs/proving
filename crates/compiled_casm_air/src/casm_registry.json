@@ -1030,7 +1030,7 @@
   },
   "call_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 16,
+    "num_state_cols": 18,
     "use_lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1046,8 +1046,8 @@
       "memory_id_to_big": 3
     },
     "padding_type": "Enabler",
-    "total_num_trace_cols": 37,
-    "trace_cells_upper_bound": 37,
+    "total_num_trace_cols": 39,
+    "trace_cells_upper_bound": 39,
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
@@ -1059,7 +1059,7 @@
     },
     "max_num_instances": 134217727
   },
-  "call_opcode_rel": {
+  "call_opcode_rel_imm": {
     "trace_type": "Opcode",
     "num_state_cols": 17,
     "use_lookup_cols": {
@@ -1079,37 +1079,6 @@
     "padding_type": "Enabler",
     "total_num_trace_cols": 38,
     "trace_cells_upper_bound": 38,
-    "uses_upper_bound": {
-      "range_check_7_2_5": 1,
-      "range_check_4_3": 1,
-      "memory_address_to_id": 4,
-      "range_check_9_9": 16,
-      "range_check_9_9_b": 16,
-      "range_check_9_9_c": 12,
-      "range_check_9_9_d": 12
-    },
-    "max_num_instances": 134217727
-  },
-  "call_opcode_op_1_base_fp": {
-    "trace_type": "Opcode",
-    "num_state_cols": 16,
-    "use_lookup_cols": {
-      "VerifyInstruction": 1,
-      "MemoryAddressToId": 3,
-      "MemoryIdToBig": 3,
-      "Opcodes": 1
-    },
-    "yield_lookup_cols": {
-      "Opcodes": 1
-    },
-    "lookup_rows": {
-      "verify_instruction": 1,
-      "memory_address_to_id": 3,
-      "memory_id_to_big": 3
-    },
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 37,
-    "trace_cells_upper_bound": 37,
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,

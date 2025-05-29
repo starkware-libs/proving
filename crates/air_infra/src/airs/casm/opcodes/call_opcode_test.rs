@@ -23,12 +23,16 @@ fn build_and_test(
         const_expr!(fp_value),
     ];
 
-    let rel = offset2_option.is_none();
+    let rel_imm = offset2_option.is_none();
     let offset2 = offset2_option.unwrap_or(1);
 
+    assert!(
+        (!rel_imm) || (!op1_base_fp),
+        "Flag op1_base_fp cannot be set for relative calls."
+    );
+
     let mut call_opcode = CallOpcode {
-        rel,
-        op1_base_fp,
+        rel_imm,
         memory: Felt252IdMemory::default(),
     };
 
@@ -36,7 +40,10 @@ fn build_and_test(
     let mut memory_values = vec![
         (
             pc.clone(),
-            const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()), 0),
+            const_felt252_expr!(
+                assemble_call(offset2, &call_opcode.get_flags(), op1_base_fp),
+                0
+            ),
         ),
         (
             const_expr!(ap_value),
@@ -44,12 +51,12 @@ fn build_and_test(
         ),
         (
             const_expr!(ap_value + 1),
-            const_felt252_expr!((pc_value + (if rel { 2 } else { 1 })) as u128, 0),
+            const_felt252_expr!((pc_value + (if rel_imm { 2 } else { 1 })) as u128, 0),
         ),
     ];
 
     let op1_value_252 = const_felt252_expr!(op1_value);
-    if rel {
+    if rel_imm {
         memory_values.push((const_expr!(pc_value + 1), op1_value_252));
     } else if op1_base_fp {
         memory_values.push((
@@ -74,7 +81,7 @@ fn build_and_test(
     );
 
     // Check output
-    if rel {
+    if rel_imm {
         assert_eq!(
             next_state.pc().calc(),
             (pc_value as i128 + op1_value as i128).to_string()
@@ -161,6 +168,7 @@ fn test_call_base_fp_positive_offset2() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32773, "offset2"),
+            (1, "op1_base_fp"),
             (1, "stored_fp_id"),
             (150, "stored_fp_limb_0"),
             (0, "stored_fp_limb_1"),
@@ -169,6 +177,7 @@ fn test_call_base_fp_positive_offset2() {
             (51, "stored_ret_pc_limb_0"),
             (0, "stored_ret_pc_limb_1"),
             (0, "stored_ret_pc_limb_2"),
+            (150, "mem1_base"),
             (3, "next_pc_id"),
             (88, "next_pc_limb_0"),
             (1, "next_pc_limb_1"),
@@ -190,6 +199,7 @@ fn test_call_base_fp_negative_offset2() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32763, "offset2"),
+            (1, "op1_base_fp"),
             (1, "stored_fp_id"),
             (150, "stored_fp_limb_0"),
             (0, "stored_fp_limb_1"),
@@ -198,6 +208,7 @@ fn test_call_base_fp_negative_offset2() {
             (51, "stored_ret_pc_limb_0"),
             (0, "stored_ret_pc_limb_1"),
             (0, "stored_ret_pc_limb_2"),
+            (150, "mem1_base"),
             (3, "next_pc_id"),
             (400, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
@@ -219,6 +230,7 @@ fn test_call_base_ap_positive_offset2() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32778, "offset2"),
+            (0, "op1_base_fp"),
             (1, "stored_fp_id"),
             (150, "stored_fp_limb_0"),
             (0, "stored_fp_limb_1"),
@@ -227,6 +239,7 @@ fn test_call_base_ap_positive_offset2() {
             (51, "stored_ret_pc_limb_0"),
             (0, "stored_ret_pc_limb_1"),
             (0, "stored_ret_pc_limb_2"),
+            (200, "mem1_base"),
             (3, "next_pc_id"),
             (210, "next_pc_limb_0"),
             (2, "next_pc_limb_1"),
@@ -248,6 +261,7 @@ fn test_call_base_ap_negative_offset2() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32758, "offset2"),
+            (0, "op1_base_fp"),
             (1, "stored_fp_id"),
             (150, "stored_fp_limb_0"),
             (0, "stored_fp_limb_1"),
@@ -256,6 +270,7 @@ fn test_call_base_ap_negative_offset2() {
             (51, "stored_ret_pc_limb_0"),
             (0, "stored_ret_pc_limb_1"),
             (0, "stored_ret_pc_limb_2"),
+            (200, "mem1_base"),
             (3, "next_pc_id"),
             (55, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
@@ -265,7 +280,7 @@ fn test_call_base_ap_negative_offset2() {
     );
 }
 
-pub fn assemble_call(offset2: i16, flags: &Flags) -> u128 {
+pub fn assemble_call(offset2: i16, flags: &Flags, op1_base_fp: bool) -> u128 {
     let call_op1_off = flags
         .pc_update_jump_rel
         .map(|b| if b { 1 } else { offset2 })
@@ -274,7 +289,9 @@ pub fn assemble_call(offset2: i16, flags: &Flags) -> u128 {
         0,
         1,
         call_op1_off,
-        flags.clone().into(),
+        flags
+            .clone()
+            .non_constants_to_arr(&[op1_base_fp, !op1_base_fp]),
         OpcodeExtension::Stone,
     )
 }

@@ -66,8 +66,7 @@ pub fn create_air_fn_registry(arguments: AirFnArgs) -> AirFnRegistry {
             memory: Felt252IdMemory::default(),
         }),
         AirFnArgs::Call(arguments) => registry.add_entry(&CallOpcode {
-            rel: arguments.rel,
-            op1_base_fp: arguments.flag_op1_base_fp,
+            rel_imm: arguments.rel,
             memory: Felt252IdMemory::default(),
         }),
         AirFnArgs::Jump(arguments) => registry.add_entry(&JumpOpcode {

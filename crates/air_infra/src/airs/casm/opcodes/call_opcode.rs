@@ -21,34 +21,23 @@ use crate::core::felt252_id_memory::memory::*;
 #[derive(Clone, Debug, Serialize)]
 pub struct CallOpcode {
     #[serde(skip_serializing_if = "crate::utils::is_false")]
-    pub rel: bool,
-    #[serde(skip_serializing_if = "crate::utils::is_false")]
-    pub op1_base_fp: bool,
+    pub rel_imm: bool,
     #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
 impl CallOpcode {
     pub fn get_flags(&self) -> Flags {
-        let flag_op1_base_ap = if self.rel {
-            assert!(
-                !self.op1_base_fp,
-                "Flag op1_base_fp cannot be set for relative calls."
-            );
-            false
-        } else {
-            !self.op1_base_fp
-        };
         Flags {
             dst_base_fp: Some(false),
             op0_base_fp: Some(false),
-            op1_imm: Some(self.rel),
-            op1_base_fp: Some(self.op1_base_fp),
-            op1_base_ap: Some(flag_op1_base_ap),
+            op1_imm: Some(self.rel_imm),
+            op1_base_fp: (self.rel_imm).then_some(false),
+            op1_base_ap: (self.rel_imm).then_some(false),
             res_add: Some(false),
             res_mul: Some(false),
-            pc_update_jump: Some(!self.rel),
-            pc_update_jump_rel: Some(self.rel),
+            pc_update_jump: Some(!self.rel_imm),
+            pc_update_jump_rel: Some(self.rel_imm),
             pc_update_jnz: Some(false),
             ap_update_add: Some(false),
             ap_update_add_1: Some(false),
@@ -66,19 +55,30 @@ impl AirFn for CallOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
-        let offset2 = if self.rel { Some(1) } else { None };
+        let offset2 = if self.rel_imm { Some(1) } else { None };
+
+        let flag_sets_of_sum_1 = if self.rel_imm {
+            BTreeSet::new()
+        } else {
+            BTreeSet::from([BTreeSet::from([
+                FLAG_OP1_BASE_FP_INDEX,
+                FLAG_OP1_BASE_AP_INDEX,
+            ])])
+        };
 
         // Check the instruction.
-        let ([_, _, offset2], ..) = ab.call(
+        let ([_, _, offset2], flags, _) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(0), Some(1), offset2],
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
-                flag_sets_of_sum_1: BTreeSet::new(),
+                flag_sets_of_sum_1,
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),
         );
+        let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].clone();
+        let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
 
         // Push fp.
         let stored_fp_address = CasmAddress::new(casm_state.ap().var, "stored_fp");
@@ -89,22 +89,22 @@ impl AirFn for CallOpcode {
         let stored_ret_pc_address =
             CasmAddress::new(casm_state.ap().var + const_expr!(1), "stored_ret_pc");
         let stored_ret_pc = self.memory.read_address(ab, stored_ret_pc_address);
-        let return_pc = casm_state.pc().var + const_expr!(1 + (self.rel as u32));
+        let return_pc = casm_state.pc().var + const_expr!(1 + (self.rel_imm as u32));
         ab.constrain(stored_ret_pc.var - return_pc, "[ap+1] = return_pc");
 
         // Update pc.
-        let next_pc = if self.rel {
+        let next_pc = if self.rel_imm {
             casm_state.pc().var
                 + self.memory.read_rel_imm(
                     ab,
                     CasmAddress::new(casm_state.pc().var + const_expr!(1), "distance_to_next_pc"),
                 )
         } else {
-            let mem1_base = if self.op1_base_fp {
-                casm_state.fp().var
-            } else {
-                casm_state.ap().var
-            };
+            let mem1_base = ab.assign(
+                &mut (flag_op1_base_fp * casm_state.fp().var
+                    + flag_op1_base_ap * casm_state.ap().var),
+                "mem1_base",
+            );
             self.memory
                 .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
                 .var
