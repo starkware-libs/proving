@@ -232,6 +232,16 @@ pub struct CompiledAirFnStat {
     pub max_num_instances: usize,
 }
 
+/// See `none_components.json`.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NoneComponentStat {
+    pub trace_cells_upper_bound: usize,
+    pub uses_upper_bound: IndexMap<String, usize>,
+    pub steps: usize,
+    pub max_num_instances_uses: usize,
+    pub max_num_instances_steps: usize,
+}
+
 /// See `constraints.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
 pub struct LeanCompare {
