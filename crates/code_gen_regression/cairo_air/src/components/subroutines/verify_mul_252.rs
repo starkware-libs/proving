@@ -41,10 +41,14 @@ impl VerifyMul252 {
         carry_24_col25: E::F,
         carry_25_col26: E::F,
         carry_26_col27: E::F,
+        range_check_19_h_lookup_elements: &relations::RangeCheck_19_H,
         range_check_19_lookup_elements: &relations::RangeCheck_19,
         range_check_19_b_lookup_elements: &relations::RangeCheck_19_B,
         range_check_19_c_lookup_elements: &relations::RangeCheck_19_C,
         range_check_19_d_lookup_elements: &relations::RangeCheck_19_D,
+        range_check_19_e_lookup_elements: &relations::RangeCheck_19_E,
+        range_check_19_f_lookup_elements: &relations::RangeCheck_19_F,
+        range_check_19_g_lookup_elements: &relations::RangeCheck_19_G,
         eval: &mut E,
     ) -> [E::F; 0] {
         let M31_131072 = E::F::from(M31::from(131072));
@@ -479,7 +483,7 @@ impl VerifyMul252 {
                 + (M31_2.clone() * conv_tmp_9a554_18_limb_54.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_lookup_elements,
+            range_check_19_h_lookup_elements,
             E::EF::one(),
             &[(k_col0.clone() + M31_262144.clone())],
         ));
@@ -529,7 +533,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_4.clone() + carry_3_col4.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_lookup_elements,
+            range_check_19_e_lookup_elements,
             E::EF::one(),
             &[(carry_4_col5.clone() + M31_131072.clone())],
         ));
@@ -539,7 +543,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_5.clone() + carry_4_col5.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_b_lookup_elements,
+            range_check_19_f_lookup_elements,
             E::EF::one(),
             &[(carry_5_col6.clone() + M31_131072.clone())],
         ));
@@ -549,7 +553,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_6.clone() + carry_5_col6.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_c_lookup_elements,
+            range_check_19_g_lookup_elements,
             E::EF::one(),
             &[(carry_6_col7.clone() + M31_131072.clone())],
         ));
@@ -559,7 +563,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_7.clone() + carry_6_col7.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_d_lookup_elements,
+            range_check_19_h_lookup_elements,
             E::EF::one(),
             &[(carry_7_col8.clone() + M31_131072.clone())],
         ));
@@ -609,7 +613,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_12.clone() + carry_11_col12.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_lookup_elements,
+            range_check_19_e_lookup_elements,
             E::EF::one(),
             &[(carry_12_col13.clone() + M31_131072.clone())],
         ));
@@ -619,7 +623,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_13.clone() + carry_12_col13.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_b_lookup_elements,
+            range_check_19_f_lookup_elements,
             E::EF::one(),
             &[(carry_13_col14.clone() + M31_131072.clone())],
         ));
@@ -629,7 +633,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_14.clone() + carry_13_col14.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_c_lookup_elements,
+            range_check_19_g_lookup_elements,
             E::EF::one(),
             &[(carry_14_col15.clone() + M31_131072.clone())],
         ));
@@ -639,7 +643,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_15.clone() + carry_14_col15.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_d_lookup_elements,
+            range_check_19_h_lookup_elements,
             E::EF::one(),
             &[(carry_15_col16.clone() + M31_131072.clone())],
         ));
@@ -689,7 +693,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_20.clone() + carry_19_col20.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_lookup_elements,
+            range_check_19_e_lookup_elements,
             E::EF::one(),
             &[(carry_20_col21.clone() + M31_131072.clone())],
         ));
@@ -700,7 +704,7 @@ impl VerifyMul252 {
                     + carry_20_col21.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_b_lookup_elements,
+            range_check_19_f_lookup_elements,
             E::EF::one(),
             &[(carry_21_col22.clone() + M31_131072.clone())],
         ));
@@ -710,7 +714,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_22.clone() + carry_21_col22.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_c_lookup_elements,
+            range_check_19_g_lookup_elements,
             E::EF::one(),
             &[(carry_22_col23.clone() + M31_131072.clone())],
         ));
@@ -720,7 +724,7 @@ impl VerifyMul252 {
                 - (conv_mod_tmp_9a554_19_limb_23.clone() + carry_22_col23.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
-            range_check_19_d_lookup_elements,
+            range_check_19_h_lookup_elements,
             E::EF::one(),
             &[(carry_23_col24.clone() + M31_131072.clone())],
         ));

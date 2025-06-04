@@ -23,6 +23,10 @@ pub enum RCVariant {
     B,
     C,
     D,
+    E,
+    F,
+    G,
+    H,
 }
 
 pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
@@ -53,10 +57,15 @@ pub fn range_check_variant(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]
         1 => RCVariant::B,
         2 => RCVariant::C,
         3 => RCVariant::D,
+        4 => RCVariant::E,
+        5 => RCVariant::F,
+        6 => RCVariant::G,
+        7 => RCVariant::H,
         _ => unreachable!(),
     };
 
     match bits {
+        [18] => call_rc::<SeqConstLen<18>>(ab, input, variant),
         [19] => call_rc::<SeqConstLen<19>>(ab, input, variant),
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input, variant),
         _ => panic!("Unsupported range check bits: {:?}", bits),
@@ -120,6 +129,10 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
             RCVariant::B => format!("range_check_{}_b", bits),
             RCVariant::C => format!("range_check_{}_c", bits),
             RCVariant::D => format!("range_check_{}_d", bits),
+            RCVariant::E => format!("range_check_{}_e", bits),
+            RCVariant::F => format!("range_check_{}_f", bits),
+            RCVariant::G => format!("range_check_{}_g", bits),
+            RCVariant::H => format!("range_check_{}_h", bits),
         }
     }
 
@@ -134,6 +147,10 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
             RCVariant::B => Some(format!("RangeCheck_{}_B", bits)),
             RCVariant::C => Some(format!("RangeCheck_{}_C", bits)),
             RCVariant::D => Some(format!("RangeCheck_{}_D", bits)),
+            RCVariant::E => Some(format!("RangeCheck_{}_E", bits)),
+            RCVariant::F => Some(format!("RangeCheck_{}_F", bits)),
+            RCVariant::G => Some(format!("RangeCheck_{}_G", bits)),
+            RCVariant::H => Some(format!("RangeCheck_{}_H", bits)),
         }
     }
 

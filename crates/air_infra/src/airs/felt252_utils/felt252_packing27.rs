@@ -113,7 +113,7 @@ impl AirFn for RangeCheckFelt252Width27 {
     fn call(&self, air_builder: &mut AirBuilder, _: (), packed: Self::In) -> Self::Out {
         let mut a: Felt252Expr = packed.clone().into();
         a = air_builder.let_for_deduction(a, "input_as_felt252");
-        for i in (0..(FELT252WIDTH27_N_WORDS)).step_by(2) {
+        for (j, i) in (0..(FELT252WIDTH27_N_WORDS)).step_by(2).enumerate() {
             let low_high =
                 air_builder.deduce(a.get_felt_mut(3 * i + 2), &format!("limb_{}_high_part", i));
             let high_low = if i < FELT252WIDTH27_N_WORDS - 2 {
@@ -124,11 +124,17 @@ impl AirFn for RangeCheckFelt252Width27 {
             } else {
                 packed.get_felt(i + 1)
             };
-            range_check(air_builder, &[9, 9], &[low_high.clone(), high_low.clone()]);
-            range_check(
+            range_check_variant(
+                air_builder,
+                &[9, 9],
+                &[low_high.clone(), high_low.clone()],
+                j % 8,
+            );
+            range_check_variant(
                 air_builder,
                 &[18],
                 &[packed.get_felt(i) - low_high * const_expr!(1 << (2 * FELT252_BITS_PER_WORD))],
+                j % 2,
             );
             if i < FELT252WIDTH27_N_WORDS - 2 {
                 range_check(

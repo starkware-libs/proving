@@ -127,10 +127,11 @@ impl AirFn for VerifyMul252 {
         );
         // The range of k fits inside a range check of 2**17, but the smallest commonly used size
         // is 19, the size of the largest range checks needed for the the carries.
-        range_check(
+        range_check_variant(
             air_builder,
             &[MUL_RANGE_CHECKS],
             &[k_expr.clone() + const_expr!(1u32 << 18)],
+            7,
         );
 
         // Bounds on k based on the range check constraint.
@@ -169,7 +170,7 @@ impl AirFn for VerifyMul252 {
                 air_builder,
                 &[MUL_RANGE_CHECKS],
                 &[carry.var.clone() + const_expr!(1u32 << 17)],
-                i % 4,
+                i % 8,
             );
 
             // Bounds on the carry based on the range-check constraint.

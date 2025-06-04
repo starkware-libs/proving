@@ -82,6 +82,22 @@
       "Use"
     ],
     [
+      "RangeCheck_9_9_E",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_F",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_G",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_H",
+      "Use"
+    ],
+    [
       "RangeCheck_9_9",
       "Use"
     ],
@@ -98,27 +114,11 @@
       "Use"
     ],
     [
-      "RangeCheck_9_9",
+      "RangeCheck_9_9_E",
       "Use"
     ],
     [
-      "RangeCheck_9_9_B",
-      "Use"
-    ],
-    [
-      "RangeCheck_9_9_C",
-      "Use"
-    ],
-    [
-      "RangeCheck_9_9_D",
-      "Use"
-    ],
-    [
-      "RangeCheck_9_9",
-      "Use"
-    ],
-    [
-      "RangeCheck_9_9_B",
+      "RangeCheck_9_9_F",
       "Use"
     ]
   ],
@@ -142,6 +142,22 @@
           "Use"
         ],
         [
+          "RangeCheck_9_9_E",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9_F",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9_G",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9_H",
+          "Use"
+        ],
+        [
           "RangeCheck_9_9",
           "Use"
         ],
@@ -158,27 +174,11 @@
           "Use"
         ],
         [
-          "RangeCheck_9_9",
+          "RangeCheck_9_9_E",
           "Use"
         ],
         [
-          "RangeCheck_9_9_B",
-          "Use"
-        ],
-        [
-          "RangeCheck_9_9_C",
-          "Use"
-        ],
-        [
-          "RangeCheck_9_9_D",
-          "Use"
-        ],
-        [
-          "RangeCheck_9_9",
-          "Use"
-        ],
-        [
-          "RangeCheck_9_9_B",
+          "RangeCheck_9_9_F",
           "Use"
         ]
       ],
@@ -1469,7 +1469,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9",
+        "fn_name": "range_check_9_9_e",
         "input": {
           "Array": [
             {
@@ -1484,7 +1484,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
+        "relation_name": "RangeCheck_9_9_E",
         "felts": [
           {
             "State": "add_res_limb_8_col8"
@@ -1498,7 +1498,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_b",
+        "fn_name": "range_check_9_9_f",
         "input": {
           "Array": [
             {
@@ -1513,7 +1513,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_9_9_B",
+        "relation_name": "RangeCheck_9_9_F",
         "felts": [
           {
             "State": "add_res_limb_10_col10"
@@ -1527,7 +1527,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_c",
+        "fn_name": "range_check_9_9_g",
         "input": {
           "Array": [
             {
@@ -1542,7 +1542,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_9_9_C",
+        "relation_name": "RangeCheck_9_9_G",
         "felts": [
           {
             "State": "add_res_limb_12_col12"
@@ -1556,7 +1556,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_d",
+        "fn_name": "range_check_9_9_h",
         "input": {
           "Array": [
             {
@@ -1571,7 +1571,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_9_9_D",
+        "relation_name": "RangeCheck_9_9_H",
         "felts": [
           {
             "State": "add_res_limb_14_col14"
@@ -1701,7 +1701,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9",
+        "fn_name": "range_check_9_9_e",
         "input": {
           "Array": [
             {
@@ -1716,7 +1716,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
+        "relation_name": "RangeCheck_9_9_E",
         "felts": [
           {
             "State": "add_res_limb_24_col24"
@@ -1730,7 +1730,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_b",
+        "fn_name": "range_check_9_9_f",
         "input": {
           "Array": [
             {
@@ -1745,7 +1745,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_9_9_B",
+        "relation_name": "RangeCheck_9_9_F",
         "felts": [
           {
             "State": "add_res_limb_26_col26"

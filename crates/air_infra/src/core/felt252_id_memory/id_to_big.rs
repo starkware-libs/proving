@@ -98,7 +98,7 @@ impl<const N: usize> AirFn for RangeCheckMemValue<N> {
                 air_builder,
                 &[FELT252_BITS_PER_WORD as u16, FELT252_BITS_PER_WORD as u16],
                 pair,
-                i % 4,
+                i % 8,
             );
         }
     }
