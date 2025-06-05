@@ -48,6 +48,39 @@ export class Template {
         return true
     }
 
+    get_html(air_view, var_ids) {
+        let result = document.createElement("span")
+        for (const part of this.parts) {
+            switch (part.type) {
+                case "literal":
+                    result.append(part.value)
+                    break
+                case "range":
+                    result.append(html`<span class="template-range">${part.min}…${part.max}</span>`)
+                    break
+            }
+        }
+        return result
+    }
+
+    /**
+     * @returns {string}
+     */
+    get_text() {
+        let result = ""
+        for (const part of this.parts) {
+            switch (part.type) {
+                case "literal":
+                    result += part.value
+                    break
+                case "range":
+                    result += `${part.min}-${part.max}`
+                    break
+            }
+        }
+        return result
+    }
+
     clone() {
         return new Template(this.count, structuredClone(this.parts))
     }

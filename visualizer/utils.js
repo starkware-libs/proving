@@ -32,6 +32,16 @@ function create_element(tag, props, ...children) {
     flat_append(result, children)
     return result
 }
+
+/**
+ * @param {any[]} array
+ * @param {any} separator
+ * @returns {any[]}
+ */
+export function intersperse(array, separator) {
+    return array.flatMap((x, i) => i == 0 ? [x]: [separator, x])
+}
+
 export const html = htm.bind(create_element)
 
 export function is_number(str) {
