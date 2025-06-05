@@ -8,6 +8,8 @@ use genco::quote;
 use crate::code_gen::cairo_constraints::component::generate_cairo_constraints_code;
 use crate::code_gen::utils::{get_constraints_folder_path_suffix, project_root};
 
+pub const QM31_N_TRACE_CELLTS: usize = 4;
+
 pub fn dump_component_cairo_constraints_code(air_fn: &CompiledAirFn) {
     const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
     let cairo_code = generate_cairo_constraints_code(air_fn);
@@ -102,6 +104,11 @@ pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {
 pub fn has_enabler_or_mult_column(air_fn: &CompiledAirFn) -> bool {
     // TODO(AnatG): Support both enabler and multiplicity columns in the same component.
     air_fn.padding_type == PaddingType::Enabler || air_fn.padding_type == PaddingType::Multiplicity
+}
+
+pub fn is_chain(air_fn: &CompiledAirFn) -> bool {
+    // All components that are part of a chain.
+    air_fn.r#type == TraceType::ChainRound || air_fn.r#type == TraceType::Opcode
 }
 
 pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {
