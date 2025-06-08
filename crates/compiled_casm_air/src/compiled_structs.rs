@@ -232,9 +232,9 @@ pub struct CompiledAirFnStat {
     pub max_num_instances: usize,
 }
 
-/// See `none_components.json`.
+/// See `non_components.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct NoneComponentStat {
+pub struct NonComponentStat {
     pub trace_cells_upper_bound: usize,
     pub uses_upper_bound: IndexMap<String, usize>,
     pub steps: usize,

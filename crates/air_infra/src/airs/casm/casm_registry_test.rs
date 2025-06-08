@@ -1,7 +1,7 @@
 use std::cell::Ref;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, LeanCompare, NoneComponentStat, PaddingType, TraceType,
+    CompiledAirFn, CompiledAirFnStat, LeanCompare, NonComponentStat, PaddingType, TraceType,
     UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
@@ -225,7 +225,7 @@ fn test_casm_registry() {
             ("ec_op".to_string(), get_ec_op_stat(&stat)),
             ("ecdsa".to_string(), get_ecdsa_stat(&stat)),
         ]),
-        &"../compiled_casm_air/src/none_components.json".to_string(),
+        &"../compiled_casm_air/src/non_components.json".to_string(),
     );
 }
 
@@ -333,12 +333,12 @@ fn add_entry_statistics(
 
 // Given a map of values with top level component names and their counts, for 3000 instances of a
 // non-component, like keccak, and the statistics computed on all components, returns a
-// `NoneComponentStat` that contains the upper bounds on trace cells, uses, steps, and max number of
+// `NonComponentStat` that contains the upper bounds on trace cells, uses, steps, and max number of
 // instances for the given values.
 fn get_non_component_stat(
     stat: &IndexMap<String, CompiledAirFnStat>,
     values: &IndexMap<String, usize>,
-) -> NoneComponentStat {
+) -> NonComponentStat {
     let mut uses_upper_bound = IndexMap::new();
     let mut trace_cells_upper_bound = 0;
     for (name, cnt) in values.iter() {
@@ -368,7 +368,7 @@ fn get_non_component_stat(
         / 3000;
     let max_num_instances_steps = 2_usize.pow(26) / steps;
 
-    NoneComponentStat {
+    NonComponentStat {
         trace_cells_upper_bound,
         uses_upper_bound,
         steps,
@@ -377,7 +377,7 @@ fn get_non_component_stat(
     }
 }
 
-fn get_keccak_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentStat {
+fn get_keccak_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentStat {
     let keccak_3000 = IndexMap::from([
         ("bitwise_builtin".to_string(), 4194304),
         ("mul_mod_builtin".to_string(), 0),
@@ -410,7 +410,7 @@ fn get_keccak_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentS
     get_non_component_stat(stat, &keccak_3000)
 }
 
-fn get_ec_op_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentStat {
+fn get_ec_op_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentStat {
     let ec_op_3001 = IndexMap::from([
         ("range_check_builtin_bits_128".to_string(), 16),
         ("mul_mod_builtin".to_string(), 0),
@@ -444,7 +444,7 @@ fn get_ec_op_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentSt
     get_non_component_stat(stat, &ec_op_3001)
 }
 
-fn get_ecdsa_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentStat {
+fn get_ecdsa_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentStat {
     let ecdsa_3000 = IndexMap::from([
         ("range_check_builtin_bits_128".to_string(), 16),
         ("range_check_builtin_bits_96".to_string(), 262144),
