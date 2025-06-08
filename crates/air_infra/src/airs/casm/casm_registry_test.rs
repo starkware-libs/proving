@@ -1,7 +1,8 @@
 use std::cell::Ref;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, LeanCompare, PaddingType, TraceType, UseOrYield,
+    CompiledAirFn, CompiledAirFnStat, LeanCompare, NoneComponentStat, PaddingType, TraceType,
+    UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
@@ -213,12 +214,18 @@ fn test_casm_registry() {
         &"../compiled_casm_air/src/const_tables.json".to_string(),
     );
 
-    add_keccak_3000_entry(&mut stat);
-    add_ec_op_3001_entry(&mut stat);
-    add_ecdsa_3000_entry(&mut stat);
     compare_json(
         &stat,
         &"../compiled_casm_air/src/casm_registry.json".to_string(),
+    );
+
+    compare_json(
+        &IndexMap::from([
+            ("keccak".to_string(), get_keccak_stat(&stat)),
+            ("ec_op".to_string(), get_ec_op_stat(&stat)),
+            ("ecdsa".to_string(), get_ecdsa_stat(&stat)),
+        ]),
+        &"../compiled_casm_air/src/none_components.json".to_string(),
     );
 }
 
@@ -324,7 +331,53 @@ fn add_entry_statistics(
     );
 }
 
-fn add_keccak_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
+// Given a map of values with top level component names and their counts, for 3000 instances of a
+// non-component, like keccak, and the statistics computed on all components, returns a
+// `NoneComponentStat` that contains the upper bounds on trace cells, uses, steps, and max number of
+// instances for the given values.
+fn get_non_component_stat(
+    stat: &IndexMap<String, CompiledAirFnStat>,
+    values: &IndexMap<String, usize>,
+) -> NoneComponentStat {
+    let mut uses_upper_bound = IndexMap::new();
+    let mut trace_cells_upper_bound = 0;
+    for (name, cnt) in values.iter() {
+        let cells = stat.get(name).unwrap().trace_cells_upper_bound;
+        trace_cells_upper_bound += cells * cnt;
+
+        let uses = stat.get(name).unwrap().uses_upper_bound.clone();
+        for (use_name, use_bound) in uses.iter() {
+            *uses_upper_bound.entry(use_name.clone()).or_default() += *use_bound * cnt;
+        }
+    }
+    for (_, cnt) in uses_upper_bound.iter_mut() {
+        *cnt /= 3000;
+    }
+    trace_cells_upper_bound /= 3000;
+    let max_num_instances_uses = PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
+    let steps = values
+        .iter()
+        .filter_map(|(k, v)| {
+            if !k.contains("builtin") {
+                Some(v)
+            } else {
+                None
+            }
+        })
+        .sum::<usize>()
+        / 3000;
+    let max_num_instances_steps = 2_usize.pow(26) / steps;
+
+    NoneComponentStat {
+        trace_cells_upper_bound,
+        uses_upper_bound,
+        steps,
+        max_num_instances_uses,
+        max_num_instances_steps,
+    }
+}
+
+fn get_keccak_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentStat {
     let keccak_3000 = IndexMap::from([
         ("bitwise_builtin".to_string(), 4194304),
         ("mul_mod_builtin".to_string(), 0),
@@ -354,49 +407,10 @@ fn add_keccak_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("qm_31_add_mul_opcode".to_string(), 0),
         ("blake_compress_opcode".to_string(), 0),
     ]);
-    let mut keccak_3000_uses_upper_bound = IndexMap::new();
-    for (name, cnt) in keccak_3000.iter() {
-        let mut uses = stat.get(name).unwrap().uses_upper_bound.clone();
-        for (use_name, use_bound) in uses.iter_mut() {
-            *use_bound *= cnt;
-            *keccak_3000_uses_upper_bound
-                .entry(use_name.clone())
-                .or_default() += *use_bound;
-        }
-    }
-    let max_num_instances_uses =
-        PRIME as usize * 3000 / *keccak_3000_uses_upper_bound.values().max().unwrap_or(&1);
-    let max_num_instances_steps = 2_usize.pow(26) * 3000
-        / keccak_3000
-            .iter()
-            .filter_map(|(k, v)| {
-                if !k.contains("builtin") {
-                    Some(v)
-                } else {
-                    None
-                }
-            })
-            .sum::<usize>();
-    let max_num_instances = max_num_instances_uses.min(max_num_instances_steps);
-
-    stat.insert(
-        "keccak_3000".to_string(),
-        CompiledAirFnStat {
-            trace_type: TraceType::Component,
-            num_state_cols: 0,
-            use_lookup_cols: IndexMap::new(),
-            yield_lookup_cols: IndexMap::new(),
-            lookup_rows: IndexMap::new(),
-            padding_type: PaddingType::None,
-            total_num_trace_cols: 0,
-            trace_cells_upper_bound: 0,
-            uses_upper_bound: keccak_3000_uses_upper_bound,
-            max_num_instances,
-        },
-    );
+    get_non_component_stat(stat, &keccak_3000)
 }
 
-fn add_ec_op_3001_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
+fn get_ec_op_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentStat {
     let ec_op_3001 = IndexMap::from([
         ("range_check_builtin_bits_128".to_string(), 16),
         ("mul_mod_builtin".to_string(), 0),
@@ -426,49 +440,11 @@ fn add_ec_op_3001_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("mul_opcode".to_string(), 6446149),
         ("assert_eq_opcode".to_string(), 2347074),
     ]);
-    let mut ec_op_3001_uses_upper_bound = IndexMap::new();
-    for (name, cnt) in ec_op_3001.iter() {
-        let mut uses = stat.get(name).unwrap().uses_upper_bound.clone();
-        for (use_name, use_bound) in uses.iter_mut() {
-            *use_bound *= cnt;
-            *ec_op_3001_uses_upper_bound
-                .entry(use_name.clone())
-                .or_default() += *use_bound;
-        }
-    }
-    let max_num_instances_uses =
-        PRIME as usize * 3001 / *ec_op_3001_uses_upper_bound.values().max().unwrap_or(&1);
-    let max_num_instances_steps = 2_usize.pow(26) * 3001
-        / ec_op_3001
-            .iter()
-            .filter_map(|(k, v)| {
-                if !k.contains("builtin") {
-                    Some(v)
-                } else {
-                    None
-                }
-            })
-            .sum::<usize>();
-    let max_num_instances = max_num_instances_uses.min(max_num_instances_steps);
 
-    stat.insert(
-        "ec_op_3000".to_string(),
-        CompiledAirFnStat {
-            trace_type: TraceType::Component,
-            num_state_cols: 0,
-            use_lookup_cols: IndexMap::new(),
-            yield_lookup_cols: IndexMap::new(),
-            lookup_rows: IndexMap::new(),
-            padding_type: PaddingType::None,
-            total_num_trace_cols: 0,
-            trace_cells_upper_bound: 0,
-            uses_upper_bound: ec_op_3001_uses_upper_bound,
-            max_num_instances,
-        },
-    );
+    get_non_component_stat(stat, &ec_op_3001)
 }
 
-fn add_ecdsa_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
+fn get_ecdsa_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NoneComponentStat {
     let ecdsa_3000 = IndexMap::from([
         ("range_check_builtin_bits_128".to_string(), 16),
         ("range_check_builtin_bits_96".to_string(), 262144),
@@ -498,44 +474,6 @@ fn add_ecdsa_3000_entry(stat: &mut IndexMap<String, CompiledAirFnStat>) {
         ("add_opcode".to_string(), 19599575),
         ("assert_eq_opcode_imm".to_string(), 2415033),
     ]);
-    let mut ecdsa_3000_uses_upper_bound = IndexMap::new();
-    for (name, cnt) in ecdsa_3000.iter() {
-        let mut uses = stat.get(name).unwrap().uses_upper_bound.clone();
-        for (use_name, use_bound) in uses.iter_mut() {
-            *use_bound *= cnt;
-            *ecdsa_3000_uses_upper_bound
-                .entry(use_name.clone())
-                .or_default() += *use_bound;
-        }
-    }
-    let max_num_instances_uses =
-        PRIME as usize * 3000 / *ecdsa_3000_uses_upper_bound.values().max().unwrap_or(&1);
-    let max_num_instances_steps = 2_usize.pow(26) * 3000
-        / ecdsa_3000
-            .iter()
-            .filter_map(|(k, v)| {
-                if !k.contains("builtin") {
-                    Some(v)
-                } else {
-                    None
-                }
-            })
-            .sum::<usize>();
-    let max_num_instances = max_num_instances_uses.min(max_num_instances_steps);
 
-    stat.insert(
-        "ecdsa_3000".to_string(),
-        CompiledAirFnStat {
-            trace_type: TraceType::Component,
-            num_state_cols: 0,
-            use_lookup_cols: IndexMap::new(),
-            yield_lookup_cols: IndexMap::new(),
-            lookup_rows: IndexMap::new(),
-            padding_type: PaddingType::None,
-            total_num_trace_cols: 0,
-            trace_cells_upper_bound: 0,
-            uses_upper_bound: ecdsa_3000_uses_upper_bound,
-            max_num_instances,
-        },
-    );
+    get_non_component_stat(stat, &ecdsa_3000)
 }
