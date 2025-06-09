@@ -10,10 +10,10 @@ use serde_json::{to_writer_pretty, Value};
 
 use super::compiled_structs::*;
 
-pub const JSONS_OPCODES_DIR: &str = "../compiled_casm_air/src/opcodes/";
-pub const JSONS_BUILTINS_DIR: &str = "../compiled_casm_air/src/builtins/";
-pub const JSONS_LOOKUPS_DIR: &str = "../compiled_casm_air/src/lookups/";
-pub const JSONS_INLINE_DIR: &str = "../compiled_casm_air/src/subroutines/";
+pub const JSONS_OPCODES_DIR: &str = "../compiled_casm_air/src/compiled_jsons/opcodes/";
+pub const JSONS_BUILTINS_DIR: &str = "../compiled_casm_air/src/compiled_jsons/builtins/";
+pub const JSONS_LOOKUPS_DIR: &str = "../compiled_casm_air/src/compiled_jsons/lookups/";
+pub const JSONS_INLINE_DIR: &str = "../compiled_casm_air/src/compiled_jsons/subroutines/";
 
 pub const INTERMEDIATE_VAR_SUFFIX: &str = "tmp";
 pub const STATE_VAR_SUFFIX: &str = "col";
