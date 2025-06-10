@@ -11,7 +11,7 @@ mod tests {
     use compiled_casm_air::utils::read_json;
     use serde_json::from_value;
 
-    use crate::code_gen::cairo_constraints::utils::dump_component_cairo_constraints_code;
+    use crate::code_gen::cairo_constraints::utils::dump_cairo_constraints_code;
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     fn generate_component_code(air_fn: CompiledAirFn) {
@@ -34,10 +34,23 @@ mod tests {
     #[ignore = "Cannot run scarb fmt nor build"]
     #[test]
     fn add_ap_cairo_code_gen() {
-        let serialized_air_fn =
-            read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
+        const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+        let path = project_root().join(CONSTRAINTS_DIR);
+
+        let serialized_air_fn = read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        dump_component_cairo_constraints_code(&air_fn);
+        dump_cairo_constraints_code(&air_fn, &path);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/subroutines/read_small.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        dump_cairo_constraints_code(&air_fn, &path);
+
+        let serialized_air_fn = read_json(
+            "../compiled_casm_air/src/compiled_jsons/subroutines/decode_instruction_d2a10.json",
+        );
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        dump_cairo_constraints_code(&air_fn, &path);
     }
 
     #[test]

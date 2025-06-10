@@ -54,39 +54,6 @@ pub impl InteractionClaimImpl of InteractionClaimTrait {
     }
 }
 
-#[derive(Drop, Serde, Copy)]
-pub struct Claim {
-    pub log_size: u32,
-}
-
-#[generate_trait]
-pub impl ClaimImpl of ClaimTrait {
-    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
-        let log_size = *(self.log_size);
-        let preprocessed_log_sizes = array![log_size].span();
-        let trace_log_sizes = ArrayImpl::new_repeated(N_TRACE_COLUMNS, log_size).span();
-        let interaction_log_sizes = ArrayImpl::new_repeated(16, log_size).span();
-        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
-    }
-
-    fn mix_into(self: @Claim, ref channel: Channel) {
-        channel.mix_u64((*(self.log_size)).into());
-    }
-}
-
-#[derive(Drop, Serde, Copy)]
-pub struct InteractionClaim {
-    pub claimed_sum: QM31,
-}
-
-#[generate_trait]
-pub impl InteractionClaimImpl of InteractionClaimTrait {
-    fn mix_into(self: @InteractionClaim, ref channel: Channel) {
-        channel.mix_felts([*self.claimed_sum].span());
-    }
-}
-
-
 #[derive(Drop)]
 pub struct Component {
     pub claim: Claim,

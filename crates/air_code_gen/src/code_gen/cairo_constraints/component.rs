@@ -13,7 +13,7 @@ use super::utils::{
 };
 use crate::code_gen::utils::get_git_rev;
 
-pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     let version_hash = get_git_rev(&project_root());
     let lookups = air_fn
         .lookup_names

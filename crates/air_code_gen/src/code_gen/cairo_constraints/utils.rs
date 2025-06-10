@@ -1,22 +1,31 @@
 use std::fs;
+use std::path::Path;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 
-use crate::code_gen::cairo_constraints::component::generate_cairo_constraints_code;
-use crate::code_gen::utils::{get_constraints_folder_path_suffix, project_root};
+use super::component::generate_component_cairo_constraints_code;
+use super::iniline_evaluate::generate_inline_cairo_constraints_code;
+use crate::code_gen::utils::get_constraints_folder_path_suffix;
 
 pub const QM31_N_TRACE_CELLTS: usize = 4;
 
-pub fn dump_component_cairo_constraints_code(air_fn: &CompiledAirFn) {
-    const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+pub fn dump_cairo_constraints_code(air_fn: &CompiledAirFn, path: &Path) {
     let cairo_code = generate_cairo_constraints_code(air_fn);
     let file_name = &format!("{}.cairo", air_fn.name);
     let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
-    let path = project_root().join(CONSTRAINTS_DIR).join(suffix);
+    let path = path.join(suffix);
     fs::write(path.clone(), cairo_code.to_string().unwrap()).unwrap();
+}
+
+pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+    if air_fn.r#type == TraceType::Inline {
+        generate_inline_cairo_constraints_code(air_fn)
+    } else {
+        generate_component_cairo_constraints_code(air_fn)
+    }
 }
 
 pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
