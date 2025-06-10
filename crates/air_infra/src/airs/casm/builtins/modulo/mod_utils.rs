@@ -96,7 +96,7 @@ impl AirFn for ModUtils {
                 )
             });
 
-        let (p_val, p_ids): (Vec<Felt252Expr>, Vec<FeltExpr>) = p_addr
+        let (p_val, p_ids): (Vec<Felt252Expr>, Vec<CasmId>) = p_addr
             .into_iter()
             .map(|addr| ab.call(&read_word, addr))
             .unzip();

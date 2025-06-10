@@ -29,6 +29,7 @@ use crate::airs::casm::opcodes::blake::decode_blake_opcode::*;
 use crate::airs::casm::opcodes::blake::round::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 use crate::airs::convolution_utils::bounded_felt::*;
+use crate::core::felt252_id_memory::memory::*;
 #[cfg(test)]
 use crate::core::Felt;
 // Macros
@@ -583,7 +584,9 @@ impl_air_var!([[FeltExpr]]);
 impl_air_var!([BoundedFeltExpr]);
 // MemVerify
 impl_air_var!((CasmAddress, Felt252Expr));
-// ReadPositive + CondDecodeSmallSign + CondFelt252AsAddr + CondFelt252AsRelImm
+// ReadPositive
+impl_air_var!((Felt252Expr, CasmId));
+// CondDecodeSmallSign + CondFelt252AsAddr + CondFelt252AsRelImm
 impl_air_var!((Felt252Expr, FeltExpr));
 // Add252 + Div252 + Mul252 + Sub252 + VerifyAdd252 + VerifyMul252
 impl_air_var!([Felt252Expr]);
@@ -596,10 +599,9 @@ type Offsets = [FeltExpr; 3];
 impl_air_var!((Offsets, Flags, FeltExpr));
 type Cond = FeltExpr;
 // MemCondVerifyEqualKnownId
-impl_air_var!((CasmAddress, FeltExpr, Cond));
-type Id = FeltExpr;
+impl_air_var!((CasmAddress, CasmId, Cond));
 // ReadSmall
-impl_air_var!((FeltExpr, Id));
+impl_air_var!((FeltExpr, CasmId));
 type GenericFlags = [FeltExpr; GENERIC_FLAGS_SIZE];
 type Operands = [Felt252Expr; 3];
 // DecodeGenericInstruction
@@ -634,7 +636,7 @@ impl_air_var!((FeltExpr, PackedECMultiplier, ECPoint));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState));
 // QM31ReadReduced
 type QM31Coordinates = [FeltExpr; 4];
-impl_air_var!((QM31Coordinates, FeltExpr));
+impl_air_var!((QM31Coordinates, CasmId));
 
 // Components
 

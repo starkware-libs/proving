@@ -24,7 +24,7 @@ pub struct QM31ReadReduced {
 impl AirFn for QM31ReadReduced {
     type ExtIn = ();
     type In = CasmAddress;
-    type Out = ([FeltExpr; 4], FeltExpr);
+    type Out = ([FeltExpr; 4], CasmId);
 
     fn call(&self, ab: &mut AirBuilder, _: (), addr: Self::In) -> Self::Out {
         // Read the 144-bit value from the memory.

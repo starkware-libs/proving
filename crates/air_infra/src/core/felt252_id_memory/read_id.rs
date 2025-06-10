@@ -4,7 +4,6 @@ use super::memory::*;
 use crate::airs::casm::casm_state::*;
 //  Macros
 use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
 
 #[derive(Debug, Serialize)]
 pub struct ReadId {
@@ -16,17 +15,17 @@ pub struct ReadId {
 impl AirFn for ReadId {
     type ExtIn = ();
     type In = CasmAddress;
-    type Out = FeltExpr;
+    type Out = CasmId;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
+        id.extra_info = address.extra_info.clone();
 
         // Deduce the ID as-is
         air_builder.deduce(
-            &mut id,
-            &address
-                .extra_info
-                .clone()
+            &mut id.var,
+            &id.extra_info
+                .as_ref()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
