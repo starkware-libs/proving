@@ -17,7 +17,7 @@ mod tests {
     fn generate_component_code(air_fn: CompiledAirFn) {
         for inline_fn in air_fn.inline_calls.keys() {
             let serialized_inline_air_fn = read_json(&format!(
-                "../compiled_casm_air/src/subroutines/{}.json",
+                "../compiled_casm_air/src/compiled_jsons/subroutines/{}.json",
                 inline_fn
             ));
             let inline_air_fn: CompiledAirFn = from_value(serialized_inline_air_fn).unwrap();
@@ -34,35 +34,40 @@ mod tests {
     #[ignore = "Cannot run scarb fmt nor build"]
     #[test]
     fn add_ap_cairo_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/add_ap_opcode.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         dump_component_cairo_constraints_code(&air_fn);
     }
 
     #[test]
     fn add_ap_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/add_ap_opcode.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn jnz_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/jnz_opcode_taken.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/opcodes/jnz_opcode_taken.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn mul_mod_builtin_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/builtins/mul_mod_builtin.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/builtins/mul_mod_builtin.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn partial_ec_mul_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/partial_ec_mul.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/partial_ec_mul.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
@@ -70,130 +75,147 @@ mod tests {
     #[test]
     fn pedersen_points_table_code_gen() {
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/pedersen_points_table.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn rc128_builtin_code_gen() {
-        let serialized_air_fn =
-            read_json("../compiled_casm_air/src/builtins/range_check_builtin_bits_128.json");
+        let serialized_air_fn = read_json(
+            "../compiled_casm_air/src/compiled_jsons/builtins/range_check_builtin_bits_128.json",
+        );
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn range_check_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_6.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_8.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_12.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_18.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_18_b.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_b.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_c.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_d.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_e.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_f.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_g.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_19_h.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_9_9.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_6.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_b.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_8.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_c.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_12.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_d.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_18.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_e.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_18_b.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_f.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_g.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_b.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_9_9_h.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-        generate_component_code(air_fn);
-
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_4_3.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_c.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_7_2_5.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_d.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
 
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/range_check_3_6_6_3.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_e.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_f.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_g.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19_h.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_b.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_c.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_d.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_e.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_f.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_g.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_h.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_4_3.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_7_2_5.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_3_6_6_3.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn triple_xor_32_code_gen() {
-        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/triple_xor_32.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/triple_xor_32.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
@@ -201,7 +223,7 @@ mod tests {
     #[test]
     fn verify_bitwise_xor_7_code_gen() {
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/verify_bitwise_xor_8.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/verify_bitwise_xor_8.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
@@ -210,7 +232,7 @@ mod tests {
     #[test]
     fn verify_instruction_code_gen() {
         let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/verify_instruction.json");
+            read_json("../compiled_casm_air/src/compiled_jsons/lookups/verify_instruction.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
