@@ -115,29 +115,31 @@ impl RustProverGen {
             );
             let is_masked = is_masked_relation(&self.lists, relation0)
                 || is_masked_relation(&self.lists, relation1);
-            let (captured_vars, enumerate, mults) = match self.lists.padding_type {
+            let (for_each, enumerate, mults) = match self.lists.padding_type {
                 PaddingType::Multiplicity if is_masked => (
-                    quote! { (values0, values1, mults) },
+                    quote! { (writer, values0, values1, mults) },
                     quote! {},
                     quote! {, self.lookup_data.mults},
                 ),
                 PaddingType::Enabler if is_masked => (
-                    quote! { (i, (values0, values1)) },
+                    quote! { (i, (writer, values0, values1)) },
                     quote! {.enumerate()},
                     quote! {},
                 ),
-                _ => (quote! { (values0, values1)}, quote! {}, quote! {}),
+                _ => (quote! { (writer, values0, values1)}, quote! {}, quote! {}),
             };
             code.extend(quote! {
-                logup_gen.col_from_par_iter((
+                let mut col_gen = logup_gen.new_col();
+                (col_gen.par_iter_mut(),
                 &self.lookup_data.$(relation_0_snake_case)_$(term0_offset),
                 &self.lookup_data.$(relation_1_snake_case)_$(term1_offset)
                 $mults)
-                .into_par_iter()$enumerate.map(|$captured_vars| {
+                .into_par_iter()$enumerate.for_each(|$for_each| {
                 let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
                 let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
-                ($(numerator), $(denom))
-                }));
+                writer.write_frac($(numerator), $(denom));
+                });
+                col_gen.finalize_col();
                 $['\n']
             });
         }
@@ -155,30 +157,35 @@ impl RustProverGen {
                 UseOrYield::Yield => "-",
             };
             let is_masked = is_masked_relation(&self.lists, &relation_name);
-            let (captured_vars, enumerate, mults) = match self.lists.padding_type {
+            let (for_each, enumerate, mults) = match self.lists.padding_type {
                 PaddingType::Multiplicity if is_masked => (
-                    quote! { (values, mults) },
+                    quote! { (writer, values, mults) },
                     quote! {},
                     quote! {, self.lookup_data.mults},
                 ),
-                PaddingType::Enabler if is_masked => {
-                    (quote! { (i, (values)) }, quote! {.enumerate()}, quote! {})
-                }
-                _ => (quote! { (values)}, quote! {}, quote! {}),
+                PaddingType::Enabler if is_masked => (
+                    quote! { (i, (writer, values)) },
+                    quote! {.enumerate()},
+                    quote! {},
+                ),
+                _ => (quote! { (writer, values)}, quote! {}, quote! {}),
             };
             code.extend(quote! {
                     $['\n']$("//")$(format!("Sum last logup term."))
-                    logup_gen.col_from_par_iter((
+                    let mut col_gen = logup_gen.new_col();
+                    (col_gen.par_iter_mut(),
                         &self.lookup_data
                         .$(relation_name.to_case(Case::Snake))_$(*term_offset)
                         $mults)
-                        .into_par_iter()$enumerate.map(|$captured_vars| {
+                        .into_par_iter()$enumerate.for_each(|$for_each| {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
-                            ($(sign)PackedQM31::one()$(mask_relation(&self.lists, &relation_name)),
-                            denom)
-
-                    }));
+                        writer.write_frac(
+                            $(sign)PackedQM31::one()$(mask_relation(&self.lists, &relation_name)),
+                            denom
+                        );
+                    });
+                    col_gen.finalize_col();
                     $['\n']
             });
             *term_offset += 1;
