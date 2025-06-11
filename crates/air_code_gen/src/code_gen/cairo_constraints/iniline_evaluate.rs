@@ -5,7 +5,7 @@ use genco::quote;
 use indexmap::IndexSet;
 
 use super::super::utils::get_variable_name;
-use super::parse::parse_var;
+use super::parse::{parse_constraints, parse_var};
 use super::utils::{gen_consts, gen_imports};
 
 pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -29,7 +29,7 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
             random_coeff: QM31,
         ) -> $(output_type) {
             let $(input_name) = input;
-            // TODO(AnatG): Generate evaluate constraints.
+            $(parse_constraints(air_fn))$("\n")
             $(parse_var(air_fn, &air_fn.verifier_output.0, &mut 0))
         }
     });

@@ -1,11 +1,90 @@
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ExternalState, TraceType,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
+    LookupTerm, PaddingType, TraceType,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
+use genco::lang::rust;
+use genco::quote;
 use indexmap::IndexSet;
 
 use super::super::utils::get_variable_name;
+
+pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+
+    if air_fn.padding_type == PaddingType::Enabler {
+        code.append(quote! {
+            // Constraint - enabler is a bit.
+            let constraint_quotient = (enabler * enabler - enabler) * domain_vanishing_eval_inv;
+            sum = sum * random_coeff + constraint_quotient;
+        });
+    }
+
+    let mut relation_offset = 0;
+    for constraint in air_fn.constraints.iter() {
+        match constraint {
+            ConstraintEvalStep::Constraint(c, desc) => {
+                code.append(quote! {
+                    $("\n")
+                    $("//") Constraint - $(desc.clone().unwrap_or("".to_string()))
+                    let constraint_quotient = ($(parse_var(air_fn, c, &mut relation_offset))) * domain_vanishing_eval_inv;
+                    sum = sum * random_coeff + constraint_quotient;
+                });
+            }
+            ConstraintEvalStep::Intermediate(CompiledIntermediate { name, r#type, var }) => {
+                match r#type.as_str() {
+                    "[M31; 0]" => {
+                        code.append(quote! {
+                            $("\n")
+                            $(parse_var(air_fn, var, &mut relation_offset));
+                        });
+                    }
+                    "M31" => {
+                        code.append(quote! {
+                            let $(name): QM31 = $(parse_var(air_fn, var, &mut relation_offset));
+                        });
+                    }
+                    _ => {
+                        let ty = r#type.replace("M31", "QM31");
+                        code.append(quote! {
+                            $("\n")
+                            let output: $(ty) = $(parse_var(air_fn, var, &mut relation_offset));
+                            let $(name) = output;
+                        });
+                    }
+                }
+            }
+            ConstraintEvalStep::LookupTerm(LookupTerm {
+                relation_name,
+                felts,
+                use_or_yield: _,
+            }) => {
+                let felts = felts
+                    .iter()
+                    .map(|f| parse_var(air_fn, f, &mut relation_offset))
+                    .collect::<Vec<_>>();
+                let relation_name = relation_name.to_case(Case::Snake);
+                let lookup_elements = if air_fn.r#type == TraceType::Inline {
+                    format!("{relation_name}_lookup_elements")
+                } else {
+                    format!("self.{relation_name}_lookup_elements")
+                };
+                code.append(quote! {
+                    $("\n")
+                    $(relation_name.clone())_sum_$(relation_offset) = $(lookup_elements).combine_qm31(
+                        [
+                            $(felts.join(",\n"))
+                        ],
+                    );
+                });
+                relation_offset += 1;
+            }
+        }
+    }
+
+    code
+}
 
 pub fn parse_var(
     air_fn: &CompiledAirFn,

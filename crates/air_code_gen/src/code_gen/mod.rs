@@ -37,7 +37,8 @@ mod tests {
         const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
         let path = project_root().join(CONSTRAINTS_DIR);
 
-        let serialized_air_fn = read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         dump_cairo_constraints_code(&air_fn, &path);
 

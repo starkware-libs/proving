@@ -176,6 +176,85 @@ pub impl ComponentImpl of CairoComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
+        let constraint_quotient = (enabler * enabler - enabler) * domain_vanishing_eval_inv;
+        sum = sum * random_coeff + constraint_quotient;
+
+        let output: [QM31; 2] = decode_instruction_d2a10_evaluate(
+            [input_pc_col0],
+            offset2_col3,
+            op1_imm_col4,
+            op1_base_fp_col5,
+            self.verify_instruction_lookup_elements,
+            ref verify_instruction_sum_0,
+            ref sum,
+            domain_vanishing_eval_inv,
+            random_coeff
+        );
+        let [
+            decode_instruction_d2a10_output_tmp_c921e_5_offset2,
+            decode_instruction_d2a10_output_tmp_c921e_5_op1_base_ap
+        ] =
+            output;
+
+        // Constraint - if imm then offset2 is 1
+        let constraint_quotient = ((op1_imm_col4
+            * (qm31_const::<1, 0, 0, 0>() - decode_instruction_d2a10_output_tmp_c921e_5_offset2)))
+            * domain_vanishing_eval_inv;
+        sum = sum * random_coeff + constraint_quotient;
+
+        // Constraint - mem1_base
+        let constraint_quotient = ((mem1_base_col6
+            - (((op1_imm_col4 * input_pc_col0) + (op1_base_fp_col5 * input_fp_col2))
+                + (decode_instruction_d2a10_output_tmp_c921e_5_op1_base_ap * input_ap_col1))))
+            * domain_vanishing_eval_inv;
+        sum = sum * random_coeff + constraint_quotient;
+
+        let output: [QM31; 1] = read_small_evaluate(
+            [(mem1_base_col6 + decode_instruction_d2a10_output_tmp_c921e_5_offset2)],
+            op1_id_col7,
+            msb_col8,
+            mid_limbs_set_col9,
+            op1_limb_0_col10,
+            op1_limb_1_col11,
+            op1_limb_2_col12,
+            self.memory_address_to_id_lookup_elements,
+            self.memory_id_to_big_lookup_elements,
+            ref memory_address_to_id_sum_1,
+            ref memory_id_to_big_sum_2,
+            ref sum,
+            domain_vanishing_eval_inv,
+            random_coeff
+        );
+        let [read_small_output_tmp_c921e_11_limb_0] = output;
+        let next_ap_tmp_c921e_12: QM31 = (input_ap_col1 + read_small_output_tmp_c921e_11_limb_0);
+
+        range_check_19_sum_3 = self
+            .range_check_19_lookup_elements
+            .combine_qm31(
+                [
+                    ((next_ap_tmp_c921e_12 - next_ap_bot8bits_col13)
+                        * qm31_const::<8388608, 0, 0, 0>())
+                ],
+            );
+
+        range_check_8_sum_4 = self
+            .range_check_8_lookup_elements
+            .combine_qm31([next_ap_bot8bits_col13],);
+
+        opcodes_sum_5 = self
+            .opcodes_lookup_elements
+            .combine_qm31([input_pc_col0, input_ap_col1, input_fp_col2],);
+
+        opcodes_sum_6 = self
+            .opcodes_lookup_elements
+            .combine_qm31(
+                [
+                    (input_pc_col0 + (qm31_const::<1, 0, 0, 0>() + op1_imm_col4)),
+                    next_ap_tmp_c921e_12,
+                    input_fp_col2
+                ],
+            );
+
         lookup_constraints(
             ref sum,
             domain_vanishing_eval_inv,

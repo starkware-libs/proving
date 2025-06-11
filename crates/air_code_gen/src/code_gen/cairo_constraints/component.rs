@@ -7,6 +7,7 @@ use indexmap::IndexSet;
 use super::super::utils::{get_variable_name, project_root};
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
+use super::parse::parse_constraints;
 use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, n_logup_columns,
     QM31_N_TRACE_CELLTS,
@@ -76,7 +77,7 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
                 $(get_trace_vars(air_fn))$("\n")
                 // Revoke the AP tracking to avoid offset overflow.
                 core::internal::revoke_ap_tracking();$("\n")
-                // TODO(AnatG): Generate evaluate constraints.
+                $(parse_constraints(air_fn))
 
                 lookup_constraints(
                     ref sum,
