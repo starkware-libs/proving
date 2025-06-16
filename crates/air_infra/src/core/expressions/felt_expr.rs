@@ -107,7 +107,9 @@ impl FeltExpr {
         }
     }
 
-    pub fn get_constraint_intermediates(&self) -> IndexSet<String> {
+    /// Return the set of intermediate values that the constraint evaluation
+    /// code for this expression will access.
+    pub fn get_used_constraint_intermediates(&self) -> IndexSet<String> {
         match self {
             FeltExpr::Var(v) => {
                 if let Some(name) = v
@@ -116,14 +118,23 @@ impl FeltExpr {
                     .constraint_intermediate
                     .as_ref()
                 {
-                    return IndexSet::from([name.clone()]);
+                    // This var has its value stored in as an intermediate value. However,
+                    // if it is also stored as a trace cell or public parameter it will be
+                    // accessed as such cell and not through the intermediate value. Here
+                    // we verify that this is not the case.
+                    if matches!(
+                        v.complex_or_felt.as_felt_info().state_info,
+                        StateInfo::DegPolyOfState(_)
+                    ) {
+                        return IndexSet::from([name.clone()]);
+                    }
                 }
                 IndexSet::new()
             }
             FeltExpr::Op(op) => op
                 .children
                 .iter()
-                .flat_map(|c| c.as_felt().get_constraint_intermediates())
+                .flat_map(|c| c.as_felt().get_used_constraint_intermediates())
                 .collect(),
         }
     }

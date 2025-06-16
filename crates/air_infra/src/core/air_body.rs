@@ -510,10 +510,10 @@ impl AirBody {
         lookup_rows
     }
 
-    pub fn get_constraint_intermediates(&self) -> IndexSet<String> {
+    pub fn get_used_constraint_intermediates(&self) -> IndexSet<String> {
         self.get_constraint_exprs()
             .into_iter()
-            .flat_map(|e| e.get_constraint_intermediates())
+            .flat_map(|e| e.get_used_constraint_intermediates())
             .collect()
     }
 

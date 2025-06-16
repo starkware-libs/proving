@@ -51,12 +51,12 @@ impl AirFnEntry {
         let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
         let input_option = (!I::is_empty()).then(|| input.clone().into());
         let joined_input = AirFnEntry::join_inputs(ext_input_option.clone(), input_option.clone());
-        let mut constraint_intermediates = air_body.get_constraint_intermediates();
+        let mut constraint_intermediates = air_body.get_used_constraint_intermediates();
         constraint_intermediates.extend(
             output
                 .as_felts()
                 .into_iter()
-                .flat_map(|f| f.get_constraint_intermediates()),
+                .flat_map(|f| f.get_used_constraint_intermediates()),
         );
         let input_name = AirFnEntry::input_name(&air_fn.name());
         let input_limbs_mask = (0..joined_input.as_felts().len())
