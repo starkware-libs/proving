@@ -1494,6 +1494,167 @@
             {
               "State": "carry_0_col237"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a0_limb_0_col93"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b0_limb_0_col141"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c0_limb_0_col189"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p0_limb_0_col2"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_1_col94"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_1_col142"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_1_col190"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_1_col3"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a0_limb_2_col95"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b0_limb_2_col143"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c0_limb_2_col191"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p0_limb_2_col4"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_0_col237"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1520,6 +1681,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_1_col238"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_0_col237"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_3_col96"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_3_col144"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_3_col192"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_3_col5"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_4_col97"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_4_col145"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_4_col193"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_4_col6"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a0_limb_5_col98"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b0_limb_5_col146"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c0_limb_5_col194"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p0_limb_5_col7"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_1"
       ]
     },
     {
@@ -1564,6 +1894,175 @@
             {
               "State": "carry_2_col239"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_1_col238"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_6_col99"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_6_col147"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_6_col195"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_6_col8"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_7_col100"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_7_col148"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_7_col196"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_7_col9"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a0_limb_8_col101"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b0_limb_8_col149"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c0_limb_8_col197"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p0_limb_8_col10"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_2"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_2_col239"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1590,6 +2089,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_3_col240"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_2_col239"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_9_col102"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_9_col150"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_9_col198"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_9_col11"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a0_limb_10_col103"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b0_limb_10_col151"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c0_limb_10_col199"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p0_limb_10_col12"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "32768"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a1_limb_0_col105"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b1_limb_0_col153"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c1_limb_0_col201"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p1_limb_0_col14"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "128"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_3"
       ]
     },
     {
@@ -1634,6 +2302,175 @@
             {
               "State": "carry_4_col241"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_3_col240"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_1_col106"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_1_col154"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_1_col202"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_1_col15"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_2_col107"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_2_col155"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_2_col203"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_2_col16"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a1_limb_3_col108"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b1_limb_3_col156"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c1_limb_3_col204"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p1_limb_3_col17"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_4"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_4_col241"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1660,6 +2497,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_5_col242"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_4_col241"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_4_col109"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_4_col157"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_4_col205"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_4_col18"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_5_col110"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_5_col158"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_5_col206"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_5_col19"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a1_limb_6_col111"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b1_limb_6_col159"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c1_limb_6_col207"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p1_limb_6_col20"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_5"
       ]
     },
     {
@@ -1704,6 +2710,175 @@
             {
               "State": "carry_6_col243"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_5_col242"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_7_col112"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_7_col160"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_7_col208"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_7_col21"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_8_col113"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_8_col161"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_8_col209"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_8_col22"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a1_limb_9_col114"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b1_limb_9_col162"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c1_limb_9_col210"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p1_limb_9_col23"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_6"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_6_col243"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1730,6 +2905,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_7_col244"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_6_col243"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a1_limb_10_col115"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b1_limb_10_col163"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c1_limb_10_col211"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p1_limb_10_col24"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "64"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_0_col117"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_0_col165"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_0_col213"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_0_col26"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "32768"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a2_limb_1_col118"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b2_limb_1_col166"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c2_limb_1_col214"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p2_limb_1_col27"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "128"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_7"
       ]
     },
     {
@@ -1774,6 +3118,175 @@
             {
               "State": "carry_8_col245"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_7_col244"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_2_col119"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_2_col167"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_2_col215"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_2_col28"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_3_col120"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_3_col168"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_3_col216"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_3_col29"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a2_limb_4_col121"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b2_limb_4_col169"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c2_limb_4_col217"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p2_limb_4_col30"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_8"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_8_col245"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1800,6 +3313,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_9_col246"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_8_col245"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_5_col122"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_5_col170"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_5_col218"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_5_col31"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_6_col123"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_6_col171"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_6_col219"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_6_col32"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a2_limb_7_col124"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b2_limb_7_col172"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c2_limb_7_col220"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p2_limb_7_col33"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_9"
       ]
     },
     {
@@ -1844,6 +3526,175 @@
             {
               "State": "carry_10_col247"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_9_col246"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_8_col125"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_8_col173"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_8_col221"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_8_col34"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a2_limb_9_col126"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b2_limb_9_col174"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c2_limb_9_col222"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p2_limb_9_col35"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a2_limb_10_col127"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b2_limb_10_col175"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c2_limb_10_col223"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p2_limb_10_col36"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "128"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_10"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_10_col247"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1870,6 +3721,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_11_col248"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_10_col247"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a3_limb_0_col129"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b3_limb_0_col177"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c3_limb_0_col225"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p3_limb_0_col38"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a3_limb_1_col130"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b3_limb_1_col178"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c3_limb_1_col226"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p3_limb_1_col39"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a3_limb_2_col131"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b3_limb_2_col179"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c3_limb_2_col227"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p3_limb_2_col40"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_11"
       ]
     },
     {
@@ -1914,6 +3934,175 @@
             {
               "State": "carry_12_col249"
             },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_11_col248"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a3_limb_3_col132"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b3_limb_3_col180"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c3_limb_3_col228"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p3_limb_3_col41"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a3_limb_4_col133"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b3_limb_4_col181"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c3_limb_4_col229"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p3_limb_4_col42"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a3_limb_5_col134"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b3_limb_5_col182"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c3_limb_5_col230"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p3_limb_5_col43"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_12"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_12_col249"
+            },
             "*",
             {
               "BinaryOp": [
@@ -1940,6 +4129,175 @@
           ]
         },
         "carry is 0 or 1 or -1."
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "carry_13_col250"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "carry_12_col249"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a3_limb_6_col135"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b3_limb_6_col183"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c3_limb_6_col231"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p3_limb_6_col44"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "a3_limb_7_col136"
+                                        },
+                                        "+",
+                                        {
+                                          "State": "b3_limb_7_col184"
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "c3_limb_7_col232"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "p3_limb_7_col45"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "sub_p_bit_col236"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "a3_limb_8_col137"
+                                    },
+                                    "+",
+                                    {
+                                      "State": "b3_limb_8_col185"
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "c3_limb_8_col233"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "p3_limb_8_col46"
+                                },
+                                "*",
+                                {
+                                  "State": "sub_p_bit_col236"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry_13"
       ]
     },
     {

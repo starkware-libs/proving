@@ -126,7 +126,7 @@ impl AirFn for AddModBuiltin {
             if i == (TOTAL_SUBWORD_BUNDLES - 1) {
                 ab.constrain(carry.clone(), "last carry needs to be 0.");
             } else {
-                carry = ab.deduce(
+                carry = ab.assign(
                     // 1 << (31 - curr_bits) is 1 / (1 << curr_bits) in m31
                     &mut (carry * const_expr!(1 << (31 - curr_bits))),
                     &format!("carry_{}", i),
