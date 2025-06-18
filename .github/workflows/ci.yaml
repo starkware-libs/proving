@@ -42,6 +42,17 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: scripts/clippy.sh
 
+  test-generated-code-in-stwo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          components: rustfmt
+          toolchain: nightly-2025-04-06
+      - uses: Swatinem/rust-cache@v2
+      - run: scripts/test_generated_code.py
+
   run-tests:
     runs-on: ubuntu-latest
     steps:
@@ -70,6 +81,7 @@ jobs:
     - format
     - run-tests
     - machete-check
+    - test-generated-code-in-stwo
     steps:
     - name: Decide whether all the needed jobs succeeded or failed
       uses: re-actors/alls-green@v1.2.2
