@@ -11,7 +11,9 @@
     "total_num_trace_cols": 6,
     "trace_cells_upper_bound": 6,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9": {
     "trace_type": "Component",
@@ -25,7 +27,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_b": {
     "trace_type": "Component",
@@ -39,7 +43,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_c": {
     "trace_type": "Component",
@@ -53,7 +59,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_d": {
     "trace_type": "Component",
@@ -67,7 +75,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_e": {
     "trace_type": "Component",
@@ -81,7 +91,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_f": {
     "trace_type": "Component",
@@ -95,7 +107,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_g": {
     "trace_type": "Component",
@@ -109,7 +123,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_9_9_h": {
     "trace_type": "Component",
@@ -123,7 +139,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "memory_id_to_big": {
     "trace_type": "Memory",
@@ -164,7 +182,9 @@
       "range_check_9_9_g": 1,
       "range_check_9_9_h": 1
     },
-    "max_num_instances": 1073741823
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 1073741823,
+    "max_instances_rows_limit": 134217728
   },
   "verify_bitwise_xor_9": {
     "trace_type": "Component",
@@ -178,7 +198,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "bitwise_builtin": {
     "trace_type": "Builtin",
@@ -198,7 +220,7 @@
     "total_num_trace_cols": 165,
     "trace_cells_upper_bound": 165,
     "uses_upper_bound": {
-      "memory_address_to_id": 8,
+      "memory_address_to_id": 5,
       "range_check_9_9": 16,
       "range_check_9_9_b": 16,
       "range_check_9_9_c": 16,
@@ -207,9 +229,11 @@
       "range_check_9_9_f": 16,
       "range_check_9_9_g": 8,
       "range_check_9_9_h": 8,
-      "verify_bitwise_xor_9": 32
+      "verify_bitwise_xor_9": 28
     },
-    "max_num_instances": 67108863
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 76695844,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_builtin_bits_128": {
     "trace_type": "Builtin",
@@ -237,7 +261,9 @@
       "range_check_9_9_g": 1,
       "range_check_9_9_h": 1
     },
-    "max_num_instances": 1073741823
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 1073741823,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_6": {
     "trace_type": "Component",
@@ -251,7 +277,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_builtin_bits_96": {
     "trace_type": "Builtin",
@@ -282,7 +310,9 @@
       "range_check_9_9_g": 1,
       "range_check_9_9_h": 1
     },
-    "max_num_instances": 1073741823
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 1073741823,
+    "max_instances_rows_limit": 134217728
   },
   "add_mod_builtin": {
     "trace_type": "Builtin",
@@ -300,7 +330,7 @@
     "total_num_trace_cols": 359,
     "trace_cells_upper_bound": 359,
     "uses_upper_bound": {
-      "memory_address_to_id": 32,
+      "memory_address_to_id": 29,
       "range_check_9_9": 64,
       "range_check_9_9_b": 64,
       "range_check_9_9_c": 64,
@@ -310,7 +340,9 @@
       "range_check_9_9_g": 32,
       "range_check_9_9_h": 32
     },
-    "max_num_instances": 33554431
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 33554431,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_12": {
     "trace_type": "Component",
@@ -324,7 +356,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_3_6_6_3": {
     "trace_type": "Component",
@@ -338,7 +372,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_18": {
     "trace_type": "Component",
@@ -352,7 +388,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "mul_mod_builtin": {
     "trace_type": "Builtin",
@@ -376,7 +414,7 @@
     "total_num_trace_cols": 786,
     "trace_cells_upper_bound": 786,
     "uses_upper_bound": {
-      "memory_address_to_id": 32,
+      "memory_address_to_id": 29,
       "range_check_9_9": 64,
       "range_check_9_9_b": 64,
       "range_check_9_9_c": 64,
@@ -386,10 +424,12 @@
       "range_check_9_9_g": 32,
       "range_check_9_9_h": 32,
       "range_check_12": 32,
-      "range_check_3_6_6_3": 64,
-      "range_check_18": 64
+      "range_check_3_6_6_3": 40,
+      "range_check_18": 62
     },
-    "max_num_instances": 33554431
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 33554431,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_h": {
     "trace_type": "Component",
@@ -403,7 +443,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19": {
     "trace_type": "Component",
@@ -417,7 +459,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_b": {
     "trace_type": "Component",
@@ -431,7 +475,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_c": {
     "trace_type": "Component",
@@ -445,7 +491,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_d": {
     "trace_type": "Component",
@@ -459,7 +507,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_e": {
     "trace_type": "Component",
@@ -473,7 +523,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_f": {
     "trace_type": "Component",
@@ -487,7 +539,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_19_g": {
     "trace_type": "Component",
@@ -501,7 +555,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "cube_252": {
     "trace_type": "Component",
@@ -549,24 +605,26 @@
     "total_num_trace_cols": 341,
     "trace_cells_upper_bound": 341,
     "uses_upper_bound": {
-      "range_check_9_9": 8,
-      "range_check_9_9_b": 8,
-      "range_check_9_9_c": 8,
-      "range_check_9_9_d": 8,
-      "range_check_9_9_e": 8,
-      "range_check_9_9_f": 8,
-      "range_check_9_9_g": 4,
-      "range_check_9_9_h": 4,
+      "range_check_9_9": 6,
+      "range_check_9_9_b": 6,
+      "range_check_9_9_c": 6,
+      "range_check_9_9_d": 6,
+      "range_check_9_9_e": 6,
+      "range_check_9_9_f": 6,
+      "range_check_9_9_g": 3,
+      "range_check_9_9_h": 3,
       "range_check_19_h": 8,
       "range_check_19": 8,
       "range_check_19_b": 8,
       "range_check_19_c": 8,
-      "range_check_19_d": 8,
-      "range_check_19_e": 8,
-      "range_check_19_f": 8,
-      "range_check_19_g": 8
+      "range_check_19_d": 6,
+      "range_check_19_e": 6,
+      "range_check_19_f": 6,
+      "range_check_19_g": 6
     },
-    "max_num_instances": 268435455
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 268435455,
+    "max_instances_rows_limit": 134217728
   },
   "poseidon_round_keys": {
     "trace_type": "Component",
@@ -580,7 +638,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_3_3_3_3_3": {
     "trace_type": "Component",
@@ -594,7 +654,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "poseidon_full_round_chain": {
     "trace_type": "ChainRound",
@@ -617,26 +679,30 @@
     "total_num_trace_cols": 150,
     "trace_cells_upper_bound": 1514,
     "uses_upper_bound": {
-      "range_check_9_9": 32,
-      "range_check_9_9_b": 32,
-      "range_check_9_9_c": 32,
-      "range_check_9_9_d": 32,
-      "range_check_9_9_e": 32,
-      "range_check_9_9_f": 32,
-      "range_check_9_9_g": 16,
-      "range_check_9_9_h": 16,
+      "range_check_9_9": 24,
+      "range_check_9_9_b": 24,
+      "range_check_9_9_c": 24,
+      "range_check_9_9_d": 24,
+      "range_check_9_9_e": 24,
+      "range_check_9_9_f": 24,
+      "range_check_9_9_g": 12,
+      "range_check_9_9_h": 12,
       "range_check_19_h": 32,
       "range_check_19": 32,
       "range_check_19_b": 32,
       "range_check_19_c": 32,
-      "range_check_19_d": 32,
-      "range_check_19_e": 32,
-      "range_check_19_f": 32,
-      "range_check_19_g": 32,
+      "range_check_19_d": 24,
+      "range_check_19_e": 24,
+      "range_check_19_f": 24,
+      "range_check_19_g": 24,
       "poseidon_round_keys": 1,
-      "range_check_3_3_3_3_3": 8
+      "range_check_3_3_3_3_3": 6
     },
-    "max_num_instances": 67108863
+    "rows_upper_bound": {
+      "cube_252": 3
+    },
+    "max_instances_uses_limit": 67108863,
+    "max_instances_rows_limit": 33554432
   },
   "range_check_18_b": {
     "trace_type": "Component",
@@ -650,7 +716,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_felt_252_width_27": {
     "trace_type": "Component",
@@ -681,14 +749,16 @@
     "trace_cells_upper_bound": 52,
     "uses_upper_bound": {
       "range_check_9_9": 1,
-      "range_check_18": 8,
+      "range_check_18": 7,
       "range_check_9_9_b": 1,
       "range_check_18_b": 2,
       "range_check_9_9_c": 1,
       "range_check_9_9_d": 1,
       "range_check_9_9_e": 1
     },
-    "max_num_instances": 268435455
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 306783378,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_4_4_4_4": {
     "trace_type": "Component",
@@ -702,7 +772,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_4_4": {
     "trace_type": "Component",
@@ -716,7 +788,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "poseidon_3_partial_rounds_chain": {
     "trace_type": "ChainRound",
@@ -744,28 +818,33 @@
     "trace_cells_upper_bound": 1777,
     "uses_upper_bound": {
       "poseidon_round_keys": 1,
-      "range_check_9_9": 36,
-      "range_check_9_9_b": 36,
-      "range_check_9_9_c": 36,
-      "range_check_9_9_d": 36,
-      "range_check_9_9_e": 36,
-      "range_check_9_9_f": 32,
-      "range_check_9_9_g": 16,
-      "range_check_9_9_h": 16,
+      "range_check_9_9": 28,
+      "range_check_9_9_b": 28,
+      "range_check_9_9_c": 28,
+      "range_check_9_9_d": 28,
+      "range_check_9_9_e": 28,
+      "range_check_9_9_f": 24,
+      "range_check_9_9_g": 12,
+      "range_check_9_9_h": 12,
       "range_check_19_h": 32,
       "range_check_19": 32,
       "range_check_19_b": 32,
       "range_check_19_c": 32,
-      "range_check_19_d": 32,
-      "range_check_19_e": 32,
-      "range_check_19_f": 32,
-      "range_check_19_g": 32,
-      "range_check_4_4_4_4": 8,
-      "range_check_4_4": 4,
-      "range_check_18": 32,
+      "range_check_19_d": 24,
+      "range_check_19_e": 24,
+      "range_check_19_f": 24,
+      "range_check_19_g": 24,
+      "range_check_4_4_4_4": 6,
+      "range_check_4_4": 3,
+      "range_check_18": 28,
       "range_check_18_b": 8
     },
-    "max_num_instances": 59652323
+    "rows_upper_bound": {
+      "cube_252": 3,
+      "range_check_felt_252_width_27": 3
+    },
+    "max_instances_uses_limit": 67108863,
+    "max_instances_rows_limit": 33554432
   },
   "poseidon_builtin": {
     "trace_type": "Builtin",
@@ -800,31 +879,38 @@
     "total_num_trace_cols": 409,
     "trace_cells_upper_bound": 70171,
     "uses_upper_bound": {
-      "memory_address_to_id": 8,
-      "range_check_9_9": 1442,
-      "range_check_9_9_b": 1442,
-      "range_check_9_9_c": 1442,
-      "range_check_9_9_d": 1442,
-      "range_check_9_9_e": 1442,
-      "range_check_9_9_f": 1312,
-      "range_check_9_9_g": 656,
-      "range_check_9_9_h": 656,
+      "memory_address_to_id": 6,
+      "range_check_9_9": 1118,
+      "range_check_9_9_b": 1118,
+      "range_check_9_9_c": 1118,
+      "range_check_9_9_d": 1118,
+      "range_check_9_9_e": 1118,
+      "range_check_9_9_f": 988,
+      "range_check_9_9_g": 494,
+      "range_check_9_9_h": 494,
       "range_check_19_h": 1296,
       "range_check_19": 1296,
       "range_check_19_b": 1296,
       "range_check_19_c": 1296,
-      "range_check_19_d": 1296,
-      "range_check_19_e": 1296,
-      "range_check_19_f": 1296,
-      "range_check_19_g": 1296,
+      "range_check_19_d": 972,
+      "range_check_19_e": 972,
+      "range_check_19_f": 972,
+      "range_check_19_g": 972,
       "poseidon_round_keys": 40,
-      "range_check_3_3_3_3_3": 66,
-      "range_check_18": 1040,
+      "range_check_3_3_3_3_3": 50,
+      "range_check_18": 910,
       "range_check_18_b": 260,
-      "range_check_4_4_4_4": 264,
-      "range_check_4_4": 132
+      "range_check_4_4_4_4": 198,
+      "range_check_4_4": 99
     },
-    "max_num_instances": 1489239
+    "rows_upper_bound": {
+      "poseidon_full_round_chain": 8,
+      "cube_252": 122,
+      "range_check_felt_252_width_27": 98,
+      "poseidon_3_partial_rounds_chain": 27
+    },
+    "max_instances_uses_limit": 1657008,
+    "max_instances_rows_limit": 1048576
   },
   "range_check_5_4": {
     "trace_type": "Component",
@@ -838,7 +924,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_8": {
     "trace_type": "Component",
@@ -852,7 +940,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "pedersen_points_table": {
     "trace_type": "Component",
@@ -866,7 +956,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "partial_ec_mul": {
     "trace_type": "ChainRound",
@@ -918,24 +1010,26 @@
     "trace_cells_upper_bound": 900,
     "uses_upper_bound": {
       "pedersen_points_table": 1,
-      "range_check_9_9": 32,
-      "range_check_9_9_b": 32,
-      "range_check_9_9_c": 32,
-      "range_check_9_9_d": 32,
-      "range_check_9_9_e": 32,
-      "range_check_9_9_f": 32,
-      "range_check_9_9_g": 16,
-      "range_check_9_9_h": 16,
-      "range_check_19_h": 16,
-      "range_check_19": 16,
-      "range_check_19_b": 16,
-      "range_check_19_c": 16,
-      "range_check_19_d": 16,
-      "range_check_19_e": 16,
-      "range_check_19_f": 16,
-      "range_check_19_g": 16
+      "range_check_9_9": 18,
+      "range_check_9_9_b": 18,
+      "range_check_9_9_c": 18,
+      "range_check_9_9_d": 18,
+      "range_check_9_9_e": 18,
+      "range_check_9_9_f": 18,
+      "range_check_9_9_g": 9,
+      "range_check_9_9_h": 9,
+      "range_check_19_h": 12,
+      "range_check_19": 12,
+      "range_check_19_b": 12,
+      "range_check_19_c": 12,
+      "range_check_19_d": 9,
+      "range_check_19_e": 9,
+      "range_check_19_f": 9,
+      "range_check_19_g": 9
     },
-    "max_num_instances": 67108863
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 119304647,
+    "max_instances_rows_limit": 134217728
   },
   "pedersen_builtin": {
     "trace_type": "Builtin",
@@ -962,27 +1056,31 @@
     "trace_cells_upper_bound": 29191,
     "uses_upper_bound": {
       "range_check_5_4": 2,
-      "memory_address_to_id": 4,
-      "range_check_9_9": 1032,
-      "range_check_9_9_b": 1032,
-      "range_check_9_9_c": 1032,
-      "range_check_9_9_d": 1032,
-      "range_check_9_9_e": 1032,
-      "range_check_9_9_f": 1032,
-      "range_check_9_9_g": 516,
-      "range_check_9_9_h": 516,
+      "memory_address_to_id": 3,
+      "range_check_9_9": 584,
+      "range_check_9_9_b": 584,
+      "range_check_9_9_c": 584,
+      "range_check_9_9_d": 584,
+      "range_check_9_9_e": 584,
+      "range_check_9_9_f": 584,
+      "range_check_9_9_g": 292,
+      "range_check_9_9_h": 292,
       "range_check_8": 4,
       "pedersen_points_table": 32,
-      "range_check_19_h": 512,
-      "range_check_19": 512,
-      "range_check_19_b": 512,
-      "range_check_19_c": 512,
-      "range_check_19_d": 512,
-      "range_check_19_e": 512,
-      "range_check_19_f": 512,
-      "range_check_19_g": 512
+      "range_check_19_h": 384,
+      "range_check_19": 384,
+      "range_check_19_b": 384,
+      "range_check_19_c": 384,
+      "range_check_19_d": 288,
+      "range_check_19_e": 288,
+      "range_check_19_f": 288,
+      "range_check_19_g": 288
     },
-    "max_num_instances": 2080895
+    "rows_upper_bound": {
+      "partial_ec_mul": 30
+    },
+    "max_instances_uses_limit": 3677198,
+    "max_instances_rows_limit": 4194304
   },
   "range_check_7_2_5": {
     "trace_type": "Component",
@@ -996,7 +1094,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_4_3": {
     "trace_type": "Component",
@@ -1010,7 +1110,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "verify_instruction": {
     "trace_type": "Component",
@@ -1046,7 +1148,9 @@
       "range_check_9_9_g": 1,
       "range_check_9_9_h": 1
     },
-    "max_num_instances": 1073741823
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 1073741823,
+    "max_instances_rows_limit": 134217728
   },
   "generic_opcode": {
     "trace_type": "Opcode",
@@ -1103,7 +1207,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 14,
       "range_check_9_9_b": 14,
       "range_check_9_9_c": 14,
@@ -1116,12 +1220,14 @@
       "range_check_19": 4,
       "range_check_19_b": 4,
       "range_check_19_c": 4,
-      "range_check_19_d": 4,
-      "range_check_19_e": 4,
-      "range_check_19_f": 4,
-      "range_check_19_g": 4
+      "range_check_19_d": 3,
+      "range_check_19_e": 3,
+      "range_check_19_f": 3,
+      "range_check_19_g": 3
     },
-    "max_num_instances": 153391689
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 153391689,
+    "max_instances_rows_limit": 134217728
   },
   "add_ap_opcode": {
     "trace_type": "Opcode",
@@ -1162,7 +1268,9 @@
       "range_check_19": 1,
       "range_check_8": 1
     },
-    "max_num_instances": 536870911
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 536870911,
+    "max_instances_rows_limit": 134217728
   },
   "add_opcode_small": {
     "trace_type": "Opcode",
@@ -1187,7 +1295,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1197,7 +1305,9 @@
       "range_check_9_9_g": 5,
       "range_check_9_9_h": 5
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "add_opcode": {
     "trace_type": "Opcode",
@@ -1222,7 +1332,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1232,7 +1342,9 @@
       "range_check_9_9_g": 5,
       "range_check_9_9_h": 5
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "assert_eq_opcode": {
     "trace_type": "Opcode",
@@ -1265,7 +1377,9 @@
       "range_check_9_9_g": 1,
       "range_check_9_9_h": 1
     },
-    "max_num_instances": 715827882
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 715827882,
+    "max_instances_rows_limit": 134217728
   },
   "assert_eq_opcode_double_deref": {
     "trace_type": "Opcode",
@@ -1290,7 +1404,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 4,
       "range_check_9_9_b": 4,
       "range_check_9_9_c": 4,
@@ -1300,7 +1414,9 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2
     },
-    "max_num_instances": 429496729
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 536870911,
+    "max_instances_rows_limit": 134217728
   },
   "assert_eq_opcode_imm": {
     "trace_type": "Opcode",
@@ -1333,7 +1449,9 @@
       "range_check_9_9_g": 1,
       "range_check_9_9_h": 1
     },
-    "max_num_instances": 715827882
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 715827882,
+    "max_instances_rows_limit": 134217728
   },
   "call_opcode": {
     "trace_type": "Opcode",
@@ -1358,7 +1476,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1368,7 +1486,9 @@
       "range_check_9_9_g": 5,
       "range_check_9_9_h": 5
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "call_opcode_rel_imm": {
     "trace_type": "Opcode",
@@ -1393,7 +1513,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1403,7 +1523,9 @@
       "range_check_9_9_g": 5,
       "range_check_9_9_h": 5
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "jnz_opcode_taken": {
     "trace_type": "Opcode",
@@ -1438,7 +1560,9 @@
       "range_check_9_9_g": 3,
       "range_check_9_9_h": 3
     },
-    "max_num_instances": 357913941
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 357913941,
+    "max_instances_rows_limit": 134217728
   },
   "jnz_opcode": {
     "trace_type": "Opcode",
@@ -1473,7 +1597,9 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2
     },
-    "max_num_instances": 536870911
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 536870911,
+    "max_instances_rows_limit": 134217728
   },
   "jump_opcode_rel_imm": {
     "trace_type": "Opcode",
@@ -1508,7 +1634,9 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2
     },
-    "max_num_instances": 536870911
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 536870911,
+    "max_instances_rows_limit": 134217728
   },
   "jump_opcode_rel": {
     "trace_type": "Opcode",
@@ -1543,7 +1671,9 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2
     },
-    "max_num_instances": 536870911
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 536870911,
+    "max_instances_rows_limit": 134217728
   },
   "jump_opcode_double_deref": {
     "trace_type": "Opcode",
@@ -1578,7 +1708,9 @@
       "range_check_9_9_g": 3,
       "range_check_9_9_h": 3
     },
-    "max_num_instances": 357913941
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 357913941,
+    "max_instances_rows_limit": 134217728
   },
   "jump_opcode": {
     "trace_type": "Opcode",
@@ -1613,7 +1745,9 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2
     },
-    "max_num_instances": 536870911
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 536870911,
+    "max_instances_rows_limit": 134217728
   },
   "range_check_11": {
     "trace_type": "Component",
@@ -1627,7 +1761,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "mul_opcode_small": {
     "trace_type": "Opcode",
@@ -1654,7 +1790,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1663,9 +1799,11 @@
       "range_check_9_9_f": 10,
       "range_check_9_9_g": 5,
       "range_check_9_9_h": 5,
-      "range_check_11": 4
+      "range_check_11": 3
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "mul_opcode": {
     "trace_type": "Opcode",
@@ -1706,7 +1844,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1719,12 +1857,14 @@
       "range_check_19": 4,
       "range_check_19_b": 4,
       "range_check_19_c": 4,
-      "range_check_19_d": 4,
-      "range_check_19_e": 4,
-      "range_check_19_f": 4,
-      "range_check_19_g": 4
+      "range_check_19_d": 3,
+      "range_check_19_e": 3,
+      "range_check_19_f": 3,
+      "range_check_19_g": 3
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "ret_opcode": {
     "trace_type": "Opcode",
@@ -1759,7 +1899,9 @@
       "range_check_9_9_g": 3,
       "range_check_9_9_h": 3
     },
-    "max_num_instances": 357913941
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 357913941,
+    "max_instances_rows_limit": 134217728
   },
   "qm_31_add_mul_opcode": {
     "trace_type": "Opcode",
@@ -1786,7 +1928,7 @@
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
-      "memory_address_to_id": 5,
+      "memory_address_to_id": 4,
       "range_check_9_9": 10,
       "range_check_9_9_b": 10,
       "range_check_9_9_c": 10,
@@ -1795,9 +1937,11 @@
       "range_check_9_9_f": 10,
       "range_check_9_9_g": 5,
       "range_check_9_9_h": 5,
-      "range_check_4_4_4_4": 4
+      "range_check_4_4_4_4": 3
     },
-    "max_num_instances": 214748364
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 214748364,
+    "max_instances_rows_limit": 134217728
   },
   "verify_bitwise_xor_8": {
     "trace_type": "Component",
@@ -1811,7 +1955,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "blake_round_sigma": {
     "trace_type": "Component",
@@ -1825,7 +1971,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "verify_bitwise_xor_12": {
     "trace_type": "Component",
@@ -1839,7 +1987,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "verify_bitwise_xor_4": {
     "trace_type": "Component",
@@ -1853,7 +2003,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "verify_bitwise_xor_7": {
     "trace_type": "Component",
@@ -1867,7 +2019,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
-    "max_num_instances": 2147483647
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
   },
   "blake_g": {
     "trace_type": "Component",
@@ -1899,7 +2053,9 @@
       "verify_bitwise_xor_7": 2,
       "verify_bitwise_xor_9": 2
     },
-    "max_num_instances": 268435455
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 268435455,
+    "max_instances_rows_limit": 134217728
   },
   "blake_round": {
     "trace_type": "ChainRound",
@@ -1943,7 +2099,11 @@
       "verify_bitwise_xor_7": 16,
       "verify_bitwise_xor_9": 16
     },
-    "max_num_instances": 33554431
+    "rows_upper_bound": {
+      "blake_g": 8
+    },
+    "max_instances_uses_limit": 33554431,
+    "max_instances_rows_limit": 16777216
   },
   "triple_xor_32": {
     "trace_type": "Component",
@@ -1963,7 +2123,9 @@
     "uses_upper_bound": {
       "verify_bitwise_xor_8": 8
     },
-    "max_num_instances": 268435455
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 268435455,
+    "max_instances_rows_limit": 134217728
   },
   "blake_compress_opcode": {
     "trace_type": "Opcode",
@@ -1995,9 +2157,9 @@
     "total_num_trace_cols": 317,
     "trace_cells_upper_bound": 17349,
     "uses_upper_bound": {
-      "range_check_7_2_5": 289,
+      "range_check_7_2_5": 274,
       "range_check_4_3": 1,
-      "memory_address_to_id": 289,
+      "memory_address_to_id": 277,
       "range_check_9_9": 578,
       "range_check_9_9_b": 578,
       "range_check_9_9_c": 578,
@@ -2013,6 +2175,12 @@
       "verify_bitwise_xor_7": 256,
       "verify_bitwise_xor_9": 256
     },
-    "max_num_instances": 1966560
+    "rows_upper_bound": {
+      "blake_round": 10,
+      "blake_g": 128,
+      "triple_xor_32": 8
+    },
+    "max_instances_uses_limit": 1966560,
+    "max_instances_rows_limit": 1048576
   }
 }
