@@ -4,7 +4,7 @@ use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexSet;
 
-use super::super::utils::{get_variable_name, project_root};
+use super::super::utils::get_variable_name;
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
@@ -12,10 +12,8 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, n_logup_columns,
     QM31_N_TRACE_CELLTS,
 };
-use crate::code_gen::utils::get_git_rev;
 
 pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let version_hash = get_git_rev(&project_root());
     let lookups = air_fn
         .lookup_names
         .iter()
@@ -24,7 +22,6 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
         .collect::<Vec<_>>();
 
     quote! {
-        $("//") Constraints version: $(version_hash)$("\n")
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))$("\n")
         $(gen_claim_struct(air_fn))$("\n")

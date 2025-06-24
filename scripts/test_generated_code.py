@@ -41,7 +41,8 @@ run_cmd(['git', '-C', clone_dir, 'checkout', stwo_cairo_commit])
 # Generate code
 run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--',
          '--source', os.path.join(repository_root, 'crates/compiled_casm_air/src/compiled_jsons'),
-         '--constraints-dest', os.path.join(clone_dir, 'stwo_cairo_prover/crates/cairo-air/src/components'),
+         '--rust-constraints-dest', os.path.join(clone_dir, 'stwo_cairo_prover/crates/cairo-air/src/components'),
+         '--cairo-constraints-dest', os.path.join(clone_dir, 'stwo_cairo_verifier/crates/cairo-air/src/components'),
          '--witness-dest', os.path.join(clone_dir, 'stwo_cairo_prover/crates/prover/src/witness/components')])
 
 # Test

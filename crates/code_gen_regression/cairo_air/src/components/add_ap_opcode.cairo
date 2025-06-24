@@ -1,5 +1,3 @@
-// Constraints version: 82f79039
-
 use core::num::traits::Zero;
 use crate::components::CairoComponent;
 use crate::components::subroutines::decode_instruction_d2a10::decode_instruction_d2a10_evaluate;
