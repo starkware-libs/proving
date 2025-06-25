@@ -130,7 +130,7 @@
           [
             "fp",
             {
-              "State": "next_fp_col10"
+              "State": "next_fp_col11"
             }
           ]
         ]
@@ -158,9 +158,19 @@
     "next_pc_jnz_col7",
     "next_pc_col8",
     "next_ap_col9",
-    "next_fp_col10"
+    "range_check_ap_bot8bits_col10",
+    "next_fp_col11"
   ],
-  "lookup_names": [],
+  "lookup_names": [
+    [
+      "RangeCheck_19",
+      "Use"
+    ],
+    [
+      "RangeCheck_8",
+      "Use"
+    ]
+  ],
   "inline_calls": {
     "cond_felt_252_as_addr": [
       [],
@@ -169,6 +179,20 @@
     ],
     "cond_felt_252_as_rel_imm": [
       [],
+      [],
+      []
+    ],
+    "range_check_ap": [
+      [
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_8",
+          "Use"
+        ]
+      ],
       [],
       []
     ]
@@ -2019,11 +2043,34 @@
       ]
     },
     {
+      "Intermediate": {
+        "name": "[]",
+        "type": "[M31; 0]",
+        "var": {
+          "StaticCall": [
+            "range_check_ap::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "next_ap_col9"
+                  }
+                ]
+              },
+              {
+                "State": "range_check_ap_bot8bits_col10"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
       "Constraint": [
         {
           "BinaryOp": [
             {
-              "State": "next_fp_col10"
+              "State": "next_fp_col11"
             },
             "-",
             {
@@ -4581,6 +4628,141 @@
         ]
       }
     },
+    {
+      "StartBlock": "Range Check Ap"
+    },
+    {
+      "Intermediate": {
+        "name": "range_check_ap_bot8bits_u32_tmp_783d5_15",
+        "type": "UInt32",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt32::from_m31",
+                [
+                  {
+                    "State": "next_ap_col9"
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt32",
+                "255"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "range_check_ap_bot8bits_u32_tmp_783d5_15"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "next_ap_col9"
+                    },
+                    "-",
+                    {
+                      "State": "range_check_ap_bot8bits_col10"
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8388608"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_19",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "next_ap_col9"
+                  },
+                  "-",
+                  {
+                    "State": "range_check_ap_bot8bits_col10"
+                  }
+                ]
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "8388608"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_8",
+        "input": {
+          "Array": [
+            {
+              "State": "range_check_ap_bot8bits_col10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "State": "range_check_ap_bot8bits_col10"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
     {
       "Deduction": {
         "BinaryOp": [

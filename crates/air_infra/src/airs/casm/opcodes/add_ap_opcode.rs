@@ -92,18 +92,7 @@ impl AirFn for AddApOpcode {
 
         let next_ap = ab.let_(casm_state.ap().var + op1, "next_ap");
 
-        let next_ap_u32 = UInt32Expr::from(next_ap.clone());
-        let next_ap_bot8bits_u32 =
-            ab.let_for_deduction(next_ap_u32 & const_u32_expr!(0xFF), "next_ap_bot8bits_u32");
-
-        let next_ap_bot8bits = ab.deduce(
-            &mut next_ap_bot8bits_u32.low().as_felt(),
-            "next_ap_bot8bits",
-        );
-        let next_ap_top19bits = (next_ap.clone() - next_ap_bot8bits.clone()) / const_expr!(1 << 8);
-
-        range_check(ab, &[19], &[next_ap_top19bits]);
-        range_check(ab, &[8], &[next_ap_bot8bits]);
+        ab.call(&RangeCheckAP {}, next_ap.clone());
 
         CasmStateVar::new(
             casm_state.pc().var + (const_expr!(1) + flag_op1_imm),
@@ -114,5 +103,32 @@ impl AirFn for AddApOpcode {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Opcode
+    }
+}
+
+/// Inlined AirFn which verifies that ap (FeltExpr) is in the range [0, 2^27).
+/// ap must be a linear expression with respect to the component's columns.
+/// Note: this range corresponds to the address space.
+#[derive(Clone, Debug, Serialize)]
+pub struct RangeCheckAP {}
+
+impl AirFn for RangeCheckAP {
+    type ExtIn = ();
+    type In = FeltExpr;
+    type Out = ();
+
+    fn call(&self, ab: &mut AirBuilder, _: (), x: Self::In) -> Self::Out {
+        let x_u32 = UInt32Expr::from(x.clone());
+        let x_bot8bits_u32 =
+            ab.let_for_deduction(x_u32 & const_u32_expr!(0xFF), "range_check_ap_bot8bits_u32");
+
+        let x_bot8bits = ab.deduce(
+            &mut x_bot8bits_u32.low().as_felt(),
+            "range_check_ap_bot8bits",
+        );
+        let x_top19bits = (x.clone() - x_bot8bits.clone()) / const_expr!(1 << 8);
+
+        range_check(ab, &[19], &[x_top19bits]);
+        range_check(ab, &[8], &[x_bot8bits]);
     }
 }

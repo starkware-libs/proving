@@ -75,7 +75,7 @@ fn test_add_ap_negative_imm() {
         (0, "op1_limb_0"),
         (0, "op1_limb_1"),
         (0, "op1_limb_2"),
-        (10, "next_ap_bot8bits"),
+        (10, "range_check_ap_bot8bits"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -150,7 +150,7 @@ fn test_add_ap_deref_base_fp() {
         (299, "op1_limb_0"),
         (0, "op1_limb_1"),
         (0, "op1_limb_2"),
-        (54, "next_ap_bot8bits"),
+        (54, "range_check_ap_bot8bits"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);

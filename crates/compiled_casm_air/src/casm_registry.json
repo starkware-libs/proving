@@ -1154,7 +1154,7 @@
   },
   "generic_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 235,
+    "num_state_cols": 236,
     "use_lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1168,13 +1168,14 @@
       "RangeCheck_9_9_G": 2,
       "RangeCheck_9_9_H": 2,
       "RangeCheck_19_H": 4,
-      "RangeCheck_19": 4,
+      "RangeCheck_19": 5,
       "RangeCheck_19_B": 4,
       "RangeCheck_19_C": 4,
       "RangeCheck_19_D": 3,
       "RangeCheck_19_E": 3,
       "RangeCheck_19_F": 3,
       "RangeCheck_19_G": 3,
+      "RangeCheck_8": 1,
       "Opcodes": 1
     },
     "yield_lookup_cols": {
@@ -1193,17 +1194,18 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2,
       "range_check_19_h": 4,
-      "range_check_19": 4,
+      "range_check_19": 5,
       "range_check_19_b": 4,
       "range_check_19_c": 4,
       "range_check_19_d": 3,
       "range_check_19_e": 3,
       "range_check_19_f": 3,
-      "range_check_19_g": 3
+      "range_check_19_g": 3,
+      "range_check_8": 1
     },
     "padding_type": "Enabler",
-    "total_num_trace_cols": 368,
-    "trace_cells_upper_bound": 368,
+    "total_num_trace_cols": 373,
+    "trace_cells_upper_bound": 373,
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
@@ -1217,13 +1219,14 @@
       "range_check_9_9_g": 7,
       "range_check_9_9_h": 7,
       "range_check_19_h": 4,
-      "range_check_19": 4,
+      "range_check_19": 5,
       "range_check_19_b": 4,
       "range_check_19_c": 4,
       "range_check_19_d": 3,
       "range_check_19_e": 3,
       "range_check_19_f": 3,
-      "range_check_19_g": 3
+      "range_check_19_g": 3,
+      "range_check_8": 1
     },
     "rows_upper_bound": {},
     "max_instances_uses_limit": 153391689,

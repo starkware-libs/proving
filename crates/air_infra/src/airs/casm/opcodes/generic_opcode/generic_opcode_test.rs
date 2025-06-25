@@ -307,6 +307,7 @@ fn test_generic_consistency_rel_call() {
         (349, "next_pc_jnz"),
         (349, "next_pc"),
         (202, "next_ap"),
+        (202, "range_check_ap_bot8bits"),
         (202, "next_fp"),
     ]
     .into();
@@ -689,6 +690,7 @@ fn test_generic_consistency_ret() {
         (4, "next_pc_jnz"),
         (1, "next_pc"),
         (11, "next_ap"),
+        (11, "range_check_ap_bot8bits"),
         (4, "next_fp"),
     ]
     .into();
@@ -998,6 +1000,7 @@ fn test_generic_consistency_assert_equal() {
         (6, "next_pc_jnz"),
         (4, "next_pc"),
         (11, "next_ap"),
+        (11, "range_check_ap_bot8bits"),
         (6, "next_fp"),
     ]
     .into();
@@ -1301,6 +1304,7 @@ fn test_generic_consistency_jump() {
         (4, "next_pc_jnz"),
         (5, "next_pc"),
         (11, "next_ap"),
+        (11, "range_check_ap_bot8bits"),
         (6, "next_fp"),
     ]
     .into();
@@ -1714,6 +1718,7 @@ fn test_generic_consistency_jnz_taken() {
         (65, "next_pc_jnz"),
         (65, "next_pc"),
         (200, "next_ap"),
+        (200, "range_check_ap_bot8bits"),
         (150, "next_fp"),
     ]
     .into();
@@ -2013,6 +2018,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (52, "next_pc_jnz"),
         (52, "next_pc"),
         (200, "next_ap"),
+        (200, "range_check_ap_bot8bits"),
         (150, "next_fp"),
     ]
     .into();
@@ -2259,6 +2265,110 @@ fn test_generic_add_ap_res_mul() {
     assert_eq!(next_state.pc().calc(), (pc + 1).to_string());
     assert_eq!(next_state.fp().calc(), fp.to_string());
     assert_eq!(next_state.ap().calc(), (ap + op1 * op0).to_string());
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 524288")]
+fn test_generic_add_ap_res_mul_too_big() {
+    let mut generic_opcode = GenericOpcode::default();
+    let add_ap = AddApOpcode {
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let non_consts_flags = vec![false, false, true];
+    let mut flags = add_ap.get_flags().non_constants_to_arr(&non_consts_flags);
+    flags[FLAG_RES_MUL_INDEX] = true;
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 1 << 26, 150];
+    let offset1 = -123;
+    let offset2 = 3244;
+    let op0 = 1_u32 << 13;
+    let op1 = 1_u32 << 13;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, offset1, offset2, flags, OpcodeExtension::Stone),
+                0
+            ),
+        ),
+        (
+            const_expr!(ap + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_felt252_expr!(op0 as i128),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.run_air(
+        &generic_opcode,
+        (),
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 8388607")]
+fn test_generic_add_ap_res_mul_negative() {
+    let mut generic_opcode = GenericOpcode::default();
+    let add_ap = AddApOpcode {
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let non_consts_flags = vec![false, false, true];
+    let mut flags = add_ap.get_flags().non_constants_to_arr(&non_consts_flags);
+    flags[FLAG_RES_MUL_INDEX] = true;
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 1234, 150];
+    let offset1 = -123;
+    let offset2 = 3244;
+    let op0 = ap + 1;
+    let op1 = -1;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, offset1, offset2, flags, OpcodeExtension::Stone),
+                0
+            ),
+        ),
+        (
+            const_expr!(ap + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_felt252_expr!(op0 as i128),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.run_air(
+        &generic_opcode,
+        (),
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
 }
 
 #[test]

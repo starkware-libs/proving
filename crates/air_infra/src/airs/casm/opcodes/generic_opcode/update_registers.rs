@@ -4,6 +4,7 @@ use stwo_cairo_common::prover_types::cpu::P_FELTS;
 use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
+use crate::airs::casm::opcodes::add_ap_opcode::*;
 use crate::airs::felt252_utils::cond_as_small::*;
 // Macros
 use crate::const_expr;
@@ -154,6 +155,8 @@ impl AirFn for UpdateRegisters {
             + flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone() * const_expr!(1)
             + flags[FLAG_OPCODE_CALL_INDEX].clone() * const_expr!(2);
         air_builder.assign(&mut next_ap, "next_ap");
+
+        air_builder.call(&RangeCheckAP {}, next_ap.clone());
 
         // Update fp
         let mut next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp().var
