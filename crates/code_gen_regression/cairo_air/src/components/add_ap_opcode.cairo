@@ -2,7 +2,6 @@ use core::num::traits::Zero;
 use crate::components::CairoComponent;
 use crate::components::subroutines::decode_instruction_d2a10::decode_instruction_d2a10_evaluate;
 use crate::components::subroutines::read_small::read_small_evaluate;
-use crate::utils::U32Impl;
 use stwo_constraint_framework::{
     PreprocessedColumn, PreprocessedColumnSet, PreprocessedMaskValues, PreprocessedMaskValuesImpl,
     PreprocessedColumnSetImpl, LookupElementsImpl,
@@ -19,6 +18,10 @@ use stwo_verifier_core::utils::{ArrayImpl, pow2};
 use stwo_verifier_core::{ColumnArray, ColumnSpan, TreeArray};
 
 pub const N_TRACE_COLUMNS: usize = 15;
+pub const RELATION_USES_PER_ROW: [(felt252, u32); 6] = [
+    ('VerifyInstruction', 1), ('MemoryAddressToId', 1), ('MemoryIdToBig', 1), ('RangeCheck_19', 1),
+    ('RangeCheck_8', 1), ('Opcodes', 1),
+];
 
 #[derive(Drop, Serde, Copy)]
 pub struct Claim {

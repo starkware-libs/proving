@@ -1,10 +1,11 @@
 use std::fs;
 use std::path::Path;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType, UseOrYield};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
+use indexmap::IndexMap;
 
 use super::component::generate_component_cairo_constraints_code;
 use super::iniline_evaluate::generate_inline_cairo_constraints_code;
@@ -41,6 +42,25 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
                 pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
             });
         }
+
+        if !is_const_size_component(air_fn) {
+            let uses = air_fn
+                .lookup_names
+                .iter()
+                .filter(|(_, use_or_yield)| matches!(use_or_yield, UseOrYield::Use))
+                .collect::<Vec<_>>();
+            let mut uses_count = IndexMap::new();
+            for (relation, _) in &uses {
+                *(uses_count.entry(relation.clone()).or_insert(0)) += 1;
+            }
+            consts.extend(quote! {
+                pub const RELATION_USES_PER_ROW: [(felt252, u32); $(uses_count.keys().len())] = [
+                    $(uses_count.iter().map(|(relation, count)| {
+                        format!(r#"('{}', {})"#, relation, count)
+                    }).collect::<Vec<_>>().join(", "))
+                ];
+            });
+        }
     }
 
     if is_const_size_component(air_fn) {
@@ -72,7 +92,6 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
         use stwo_verifier_core::utils::{ArrayImpl, pow2};
         use stwo_verifier_core::{ColumnArray, ColumnSpan, TreeArray};
         use crate::components::CairoComponent;
-        use crate::utils::U32Impl;
     });
 
     if is_const_size_component(air_fn) {
