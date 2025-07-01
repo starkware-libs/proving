@@ -1,7 +1,9 @@
 use std::fs;
 use std::path::Path;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType, UseOrYield};
+use compiled_casm_air::compiled_structs::{
+    CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
+};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -64,8 +66,15 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     if is_const_size_component(air_fn) {
+        let ExternalState {
+            name,
+            generic_param,
+            args,
+        } = air_fn.external_states.get_index(0).expect(
+            "We assume that const-size components include at least one preprocessed column",
+        );
         consts.extend(quote! {
-            pub const LOG_SIZE: u32 = $(air_fn.name.to_case(Case::Constant))_LOG_SIZE;
+            const SOME_COLUMN: PreprocessedColumn = PreprocessedColumn::$(name)$(*generic_param)(($(args.join(", "))));
         });
     }
 
@@ -92,6 +101,7 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
         use stwo_verifier_core::utils::{ArrayImpl, pow2};
         use stwo_verifier_core::{ColumnArray, ColumnSpan, TreeArray};
         use crate::components::CairoComponent;
+        use crate::PreprocessedColumnTrait;
     });
 
     if is_const_size_component(air_fn) {
@@ -116,7 +126,18 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
 /// (where the type of `self` is `Eval`).
 pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
     if is_const_size_component(air_fn) {
-        quote! { LOG_SIZE }
+        // For constant-size components, we don't have an easy way to know the
+        // number of rows (it doesn't appear in the CompiledAirFn).
+        // Therefore we rely on the `log_size` function that the verifier
+        // implements for constant columns, and take the size of one of our
+        // const columns (doesn't matter which, as component columns all
+        // have the same size).
+        //
+        // We cannot have the size itself as a constant because Cairo doesn't
+        // allow `PreprocessedColumn::SomeColumn(...).log_size()` as a constant
+        // expression, so we store just the column as a constant and call
+        // `.log_size()` every time.
+        quote! { SOME_COLUMN.log_size() }
     } else if in_claim {
         quote! { *(self.log_size) }
     } else {
