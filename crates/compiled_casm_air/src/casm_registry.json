@@ -202,19 +202,37 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 134217728
   },
+  "verify_bitwise_xor_8": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "use_lookup_cols": {},
+    "yield_lookup_cols": {
+      "VerifyBitwiseXor_8": 1
+    },
+    "lookup_rows": {},
+    "padding_type": "Multiplicity",
+    "total_num_trace_cols": 5,
+    "trace_cells_upper_bound": 5,
+    "uses_upper_bound": {},
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
+  },
   "bitwise_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 89,
     "use_lookup_cols": {
       "MemoryAddressToId": 5,
       "MemoryIdToBig": 5,
-      "VerifyBitwiseXor_9": 28
+      "VerifyBitwiseXor_9": 27,
+      "VerifyBitwiseXor_8": 1
     },
     "yield_lookup_cols": {},
     "lookup_rows": {
       "memory_address_to_id": 5,
       "memory_id_to_big": 5,
-      "verify_bitwise_xor_9": 28
+      "verify_bitwise_xor_9": 27,
+      "verify_bitwise_xor_8": 1
     },
     "padding_type": "None",
     "total_num_trace_cols": 165,
@@ -229,10 +247,11 @@
       "range_check_9_9_f": 16,
       "range_check_9_9_g": 8,
       "range_check_9_9_h": 8,
-      "verify_bitwise_xor_9": 28
+      "verify_bitwise_xor_9": 27,
+      "verify_bitwise_xor_8": 1
     },
     "rows_upper_bound": {},
-    "max_instances_uses_limit": 76695844,
+    "max_instances_uses_limit": 79536431,
     "max_instances_rows_limit": 134217728
   },
   "range_check_builtin_bits_128": {
@@ -1944,22 +1963,6 @@
     },
     "rows_upper_bound": {},
     "max_instances_uses_limit": 214748364,
-    "max_instances_rows_limit": 134217728
-  },
-  "verify_bitwise_xor_8": {
-    "trace_type": "Component",
-    "num_state_cols": 0,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "VerifyBitwiseXor_8": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 134217728
   },
   "blake_round_sigma": {

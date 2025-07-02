@@ -280,6 +280,25 @@
       ]
     ]
   },
+  "verify_bitwise_xor_8": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
+  "bitwise_xor_num_bits_8": {
+    "state_names": [
+      "xor_col0"
+    ],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": [
+      [
+        "VerifyBitwiseXor_8",
+        "bitwise_xor_num_bits_8_input_limb_0, bitwise_xor_num_bits_8_input_limb_1, xor_col0"
+      ]
+    ]
+  },
   "mem_verify": {
     "state_names": [
       "id_col0"
@@ -630,7 +649,7 @@
         "op0_limb_26_col27, op1_limb_26_col56, xor_col84"
       ],
       [
-        "VerifyBitwiseXor_9",
+        "VerifyBitwiseXor_8",
         "op0_limb_27_col28, op1_limb_27_col57, xor_col85"
       ],
       [
@@ -45284,25 +45303,6 @@
     "intermediates": [],
     "constraints": [],
     "lookups": []
-  },
-  "verify_bitwise_xor_8": {
-    "state_names": [],
-    "intermediates": [],
-    "constraints": [],
-    "lookups": []
-  },
-  "bitwise_xor_num_bits_8": {
-    "state_names": [
-      "xor_col0"
-    ],
-    "intermediates": [],
-    "constraints": [],
-    "lookups": [
-      [
-        "VerifyBitwiseXor_8",
-        "bitwise_xor_num_bits_8_input_limb_0, bitwise_xor_num_bits_8_input_limb_1, xor_col0"
-      ]
-    ]
   },
   "create_blake_round_input": {
     "state_names": [

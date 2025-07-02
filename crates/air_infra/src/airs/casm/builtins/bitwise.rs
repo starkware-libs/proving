@@ -1,7 +1,7 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
 use serde::Serialize;
-use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::casm_state::*;
@@ -59,13 +59,19 @@ impl AirFn for BitwiseBuiltin {
         let mut expected_xor = vec![];
         let mut expected_and = vec![];
         let mut expected_or = vec![];
-        for (a, b) in a.as_felts().into_iter().zip(b.as_felts().into_iter()) {
-            let a_xor_b = air_builder.call(
-                &BitwiseXor {
-                    num_bits: FELT252_BITS_PER_WORD,
-                },
-                [a.clone(), b.clone()],
-            );
+        for (i, (a, b)) in a
+            .as_felts()
+            .into_iter()
+            .zip(b.as_felts().into_iter())
+            .enumerate()
+        {
+            let num_bits = if i == (FELT252_N_WORDS - 1) {
+                // The entries should each be 251 bits.
+                FELT252_BITS_PER_WORD - 1
+            } else {
+                FELT252_BITS_PER_WORD
+            };
+            let a_xor_b = air_builder.call(&BitwiseXor { num_bits }, [a.clone(), b.clone()]);
             let a_and_b = air_builder.let_(
                 (const_expr!(2).inverse()) * (a + b - a_xor_b.clone()),
                 "and",
