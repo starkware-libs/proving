@@ -110,8 +110,8 @@ fn get_dummy_public_params(lists: &CompiledAirFn) -> rust::Tokens {
 /// other AirFns)
 pub fn generate_inline_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
     let name = lists.name.to_case(Case::Pascal);
-    let input_name = lists.verifier_input.0.clone();
-    let input_type = lists.verifier_input.1.clone();
+    let input_name = format!("[{}]", lists.verifier_input_limbs.join(", "));
+    let input_type = format!("[E::F; {}]", lists.verifier_input_limbs.len());
     let output_type = lists.verifier_output.2.clone().replace("M31", "E::F");
 
     // TODO(AnatG): Find a way to remove <#[allow(unused_variables)]> below.
@@ -129,7 +129,7 @@ pub fn generate_inline_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(unused_variables)]
             #[allow(clippy::too_many_arguments)]
                 pub fn evaluate<E: EvalAtRow>(
-                    $(input_name.clone()): $(input_type.clone().replace("M31", "E::F")),
+                    $(input_name.clone()): $(input_type.clone()),
                     $(get_inline_args(lists))
                     eval: &mut E,
             ) -> $(output_type)

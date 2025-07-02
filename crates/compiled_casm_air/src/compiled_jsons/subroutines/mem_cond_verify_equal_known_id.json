@@ -11,9 +11,10 @@
     "(M31, M31, M31)",
     "(PackedM31, PackedM31, PackedM31)"
   ],
-  "verifier_input": [
-    "[mem_cond_verify_equal_known_id_input_limb_0, mem_cond_verify_equal_known_id_input_limb_1, mem_cond_verify_equal_known_id_input_limb_2]",
-    "[M31; 3]"
+  "verifier_input_limbs": [
+    "mem_cond_verify_equal_known_id_input_limb_0",
+    "mem_cond_verify_equal_known_id_input_limb_1",
+    "mem_cond_verify_equal_known_id_input_limb_2"
   ],
   "prover_output": [
     {

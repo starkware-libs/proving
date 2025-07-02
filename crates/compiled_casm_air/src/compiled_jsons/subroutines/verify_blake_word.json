@@ -11,9 +11,10 @@
     "(M31, UInt32)",
     "(PackedM31, PackedUInt32)"
   ],
-  "verifier_input": [
-    "[verify_blake_word_input_limb_0, verify_blake_word_input_limb_1, verify_blake_word_input_limb_2]",
-    "[M31; 3]"
+  "verifier_input_limbs": [
+    "verify_blake_word_input_limb_0",
+    "verify_blake_word_input_limb_1",
+    "verify_blake_word_input_limb_2"
   ],
   "prover_output": [
     {

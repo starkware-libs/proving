@@ -143,7 +143,7 @@ impl AirFnEntry {
                 self.joined_input.prover_type(),
                 self.joined_input.packed_prover_type(),
             ),
-            verifier_input: (self.input_limbs_name(), self.input_limbs_type()),
+            verifier_input_limbs: self.input_limb_names(),
             prover_output: (
                 self.output.clone().compile(CompileFor::Deductions),
                 Self::output_name(&self.name),
@@ -236,22 +236,17 @@ impl AirFnEntry {
     // Uses the name of the input intermediate variable (see <input_name>) and the
     // <input_expr_descriptions>, and returns the names of the limbs of the input (the felts that
     // are in the mask).
-    pub fn input_limbs_name(&self) -> String {
+    pub fn input_limb_names(&self) -> Vec<String> {
         let name = Self::input_name(&self.name);
-        format!(
-            "[{}]",
-            self.input_limbs_mask
-                .iter()
-                .enumerate()
-                .filter(|(_, &b)| b)
-                .map(|(i, _)| self.joined_input.get_limb_name(
-                    &name,
-                    i,
-                    &self.input_expr_descriptions
-                ))
-                .collect::<Vec<_>>()
-                .join(", ")
-        )
+        self.input_limbs_mask
+            .iter()
+            .enumerate()
+            .filter(|(_, &b)| b)
+            .map(|(i, _)| {
+                self.joined_input
+                    .get_limb_name(&name, i, &self.input_expr_descriptions)
+            })
+            .collect::<Vec<_>>()
     }
 }
 
