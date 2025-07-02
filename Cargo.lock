@@ -634,6 +634,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "eval_airfn_constraints"
+version = "0.1.0"
+dependencies = [
+ "compiled_casm_air",
+ "indexmap",
+ "num-traits",
+ "stwo-cairo-common",
+]
+
+[[package]]
 name = "fastrand"
 version = "2.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
