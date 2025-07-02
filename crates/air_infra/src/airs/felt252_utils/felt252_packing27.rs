@@ -8,6 +8,7 @@ use crate::airs::casm::const_tables::range_check::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
+use crate::core::constraint_connectedness_test;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -111,6 +112,13 @@ impl AirFn for RangeCheckFelt252Width27 {
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), packed: Self::In) -> Self::Out {
+        // The constraint graph here is not connected: each pair of 27-bit words is range-checked
+        // independently and, indeed, we could perform the same operations by 5 calls to a thinner
+        // component that checks a single pair.
+        // This is not done because such component would have too many rows, thus limiting the
+        // number of Poseidon hashes we can perform in a single proof.
+        constraint_connectedness_test::exclude(self);
+
         let mut a: Felt252Expr = packed.clone().into();
         a = air_builder.let_for_deduction(a, "input_as_felt252");
         for (j, i) in (0..(FELT252WIDTH27_N_WORDS)).step_by(2).enumerate() {

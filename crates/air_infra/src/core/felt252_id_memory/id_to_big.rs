@@ -5,9 +5,10 @@ use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORD
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
+use crate::core::constraint_connectedness_test;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::felt252_id_memory::memory::CasmId;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
@@ -46,6 +47,9 @@ impl AirFn for MemoryIdToBig {
     type Out = Felt252Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, _id: CasmId, _: ()) -> Self::Out {
+        // This component is manually implemented in the prover. The code here is just for tests.
+        constraint_connectedness_test::exclude(self);
+
         #[allow(unused_mut)]
         let mut value_in_state: Felt252Expr =
             air_builder.component_context.state().get_felts().into();

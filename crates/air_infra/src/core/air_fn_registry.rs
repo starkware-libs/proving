@@ -12,6 +12,7 @@ use super::air_fn::*;
 use super::public_params::*;
 use super::state::*;
 use super::variables::*;
+use crate::core::constraint_connectedness_test::assert_constraint_graph_connected;
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone)]
@@ -309,6 +310,13 @@ impl AirFnRegistry {
 
         let (air_body, state, ext_input, input, output) = self.build_air(air_fn, air_fn_id);
         let entry = AirFnEntry::new(air_fn, air_body, state, ext_input, input, output);
+
+        // Don't test inline AirFns. It is OK to have an inline AirFn with a disconnected
+        // constraint graph. For example, an AirFn that receives a Felt252 as 28 M31s and checks
+        // that each of the M31s contains 9 bits.
+        if entry.trace_type != TraceType::Inline {
+            assert_constraint_graph_connected(&entry);
+        }
 
         self.air_fns
             .borrow_mut()

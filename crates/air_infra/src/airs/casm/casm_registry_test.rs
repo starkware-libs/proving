@@ -45,8 +45,8 @@ const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(28);
 // Note that other components used by an opcode or a builtin will be added to the registry
 // automatically.
 
-#[test]
-fn test_casm_registry() {
+#[cfg(test)]
+pub fn create_casm_registry() -> AirFnRegistry {
     let mut reg = AirFnRegistry::new_empty();
 
     // Add builtins
@@ -160,6 +160,13 @@ fn test_casm_registry() {
     });
     // Blake opcode
     reg.add_entry(&BlakeCompressOpcode::default());
+
+    reg
+}
+
+#[test]
+fn test_casm_registry() {
+    let reg = create_casm_registry();
 
     let mut constraints = IndexMap::new();
     for (name, entry) in reg.air_fns.borrow().iter() {

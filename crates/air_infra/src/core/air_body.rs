@@ -89,9 +89,22 @@ pub enum AirBodyComponent {
     },
 }
 
+pub enum ConstraintComponent {
+    Constraint(FeltExpr),
+    Intermediate {
+        name: String,
+        value: FeltExpr,
+    },
+    LookupTerm {
+        relation_name: String,
+        felts: Vec<FeltExpr>,
+        use_or_yield: UseOrYield,
+    },
+}
+
 // A structure for the air_body of an air_fn.
 #[derive(Debug, Clone, Default)]
-pub struct AirBody(Vec<AirBodyComponent>);
+pub struct AirBody(pub Vec<AirBodyComponent>);
 
 impl AirBody {
     // Checks visibility and in_state status of the variables in the new component and adds it.
@@ -536,45 +549,61 @@ impl AirBody {
     }
 
     pub fn get_used_constraint_intermediates(&self) -> IndexSet<String> {
-        self.get_constraint_exprs()
-            .into_iter()
-            .flat_map(|e| e.get_used_constraint_intermediates())
-            .collect()
-    }
-
-    // Returns all expressions that appear in the constraints of this air_body, including
-    // constraints in called air fns.
-    fn get_constraint_exprs(&self) -> Vec<FeltExpr> {
-        let mut constraints = vec![];
-        for comp in self.0.clone().into_iter() {
-            match comp {
-                AirBodyComponent::Constraint(expr, _) => constraints.push(expr),
-                AirBodyComponent::Assignment { constraint, .. } => constraints.push(constraint),
-                AirBodyComponent::Intermediate(Intermediate {
-                    name: _,
-                    var,
-                    visibility,
-                }) if visibility.in_constraints => {
-                    constraints.push(var.as_felt());
+        let mut result = IndexSet::new();
+        for eval_component in self.get_flattened_constraint_components() {
+            match eval_component {
+                ConstraintComponent::Constraint(expr) => {
+                    result.extend(expr.get_used_constraint_intermediates())
                 }
-                AirBodyComponent::Call(Call {
-                    entry,
-                    input,
-                    output,
-                    air_body,
-                    ..
-                }) => {
-                    constraints.extend(entry.filter_input_limbs(input).as_felts());
-                    constraints.extend(entry.filter_output_limbs(output).as_felts());
-                    constraints.extend(air_body.get_constraint_exprs());
+                ConstraintComponent::Intermediate { value, .. } => {
+                    result.extend(value.get_used_constraint_intermediates());
                 }
-                AirBodyComponent::LookupTerm { felts, .. } => {
-                    constraints.extend(felts.into_iter());
+                ConstraintComponent::LookupTerm { felts, .. } => {
+                    for f in felts {
+                        result.extend(f.get_used_constraint_intermediates());
+                    }
                 }
-                _ => {}
             }
         }
-        constraints
+        result
+    }
+
+    // Return a list of all constraint-evaluation-related operations performed by this AirFn,
+    // including all operations performed by inline AirFns that it calls.
+    pub fn get_flattened_constraint_components(&self) -> Vec<ConstraintComponent> {
+        let mut result = vec![];
+        for component in self.0.iter() {
+            match component {
+                AirBodyComponent::Constraint(expr, _)
+                | AirBodyComponent::Assignment {
+                    constraint: expr, ..
+                } => result.push(ConstraintComponent::Constraint(expr.clone())),
+                AirBodyComponent::Intermediate(intermediate) => {
+                    if intermediate.visibility.in_constraints {
+                        result.push(ConstraintComponent::Intermediate {
+                            name: intermediate.name.clone(),
+                            value: intermediate.var.as_felt(),
+                        })
+                    }
+                }
+                AirBodyComponent::Call(call) => {
+                    result.extend(call.air_body.get_flattened_constraint_components());
+                }
+                AirBodyComponent::Deduction(..)
+                | AirBodyComponent::LookupCall(..)
+                | AirBodyComponent::LookupAddInput { .. } => (),
+                AirBodyComponent::LookupTerm {
+                    felts,
+                    relation_name,
+                    use_or_yield,
+                } => result.push(ConstraintComponent::LookupTerm {
+                    relation_name: relation_name.to_string(),
+                    felts: felts.clone(),
+                    use_or_yield: *use_or_yield,
+                }),
+            }
+        }
+        result
     }
 
     pub fn get_constraints(&self) -> Constraints {
@@ -582,32 +611,22 @@ impl AirBody {
         let mut constraints = vec![];
         let mut lookups = vec![];
 
-        for comp in self.0.clone().into_iter() {
-            match comp {
-                AirBodyComponent::Constraint(expr, _) => {
+        for component in self.get_flattened_constraint_components() {
+            match component {
+                ConstraintComponent::Constraint(expr) => {
                     constraints.push(expr.compile(CompileFor::Constraints).to_string())
                 }
-                AirBodyComponent::Assignment { constraint, .. } => {
-                    constraints.push(constraint.compile(CompileFor::Constraints).to_string())
+                ConstraintComponent::Intermediate { name, value } => {
+                    intermediates.push((name, value.compile(CompileFor::Constraints).to_string()))
                 }
-                AirBodyComponent::Intermediate(Intermediate {
-                    name,
-                    var,
-                    visibility,
-                }) if visibility.in_constraints => {
-                    intermediates.push((name, var.compile(CompileFor::Constraints).to_string()))
-                }
-                AirBodyComponent::Call(Call { air_body, .. }) => {
-                    let call = air_body.get_constraints();
-                    constraints.extend(call.constraints);
-                    intermediates.extend(call.intermediates);
-                    lookups.extend(call.lookups);
-                }
-                AirBodyComponent::LookupTerm {
+                ConstraintComponent::LookupTerm {
                     relation_name,
                     felts,
-                    use_or_yield: UseOrYield::Use,
+                    use_or_yield,
                 } => {
+                    if use_or_yield != UseOrYield::Use {
+                        continue;
+                    }
                     if relation_name == OPCODES_RELATION_NAME {
                         continue;
                     }
@@ -618,7 +637,6 @@ impl AirBody {
                         .join(", ");
                     lookups.push((relation_name, felts));
                 }
-                _ => {}
             }
         }
 
