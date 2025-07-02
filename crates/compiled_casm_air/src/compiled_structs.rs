@@ -224,12 +224,18 @@ pub struct CompiledAirFnStat {
     pub total_num_trace_cols: usize,
     // To this we should add the number of trace cells in:
     // - Const tables and their corresponding lookup components (multiplicity and logup columns)
-    // - The two memory tables (and their corresponding multiplicity and logup columns)
+    // - The memory tables (and their corresponding multiplicity and logup columns)
     // - The table of verify instruction (with number of rows equals the number of different pc
     //   values)
     pub trace_cells_upper_bound: usize,
+    // An upper bound on the multiplicity values for lookups to const tables and memory tables.
     pub uses_upper_bound: IndexMap<String, usize>,
-    pub max_num_instances: usize,
+    // An upper bound on the number of rows in the trace for each called lookup relation.
+    pub rows_upper_bound: IndexMap<String, usize>,
+    // The uses upper bound is limited by the size of the field.
+    pub max_instances_uses_limit: usize,
+    // The rows upper bound is currently limited to 2**27.
+    pub max_instances_rows_limit: usize,
 }
 
 /// See `non_components.json`.

@@ -92,7 +92,7 @@ impl AirFnEntry {
     }
 
     // Compiles the air function entry into a compiled air function.
-    pub fn compile(self, called_fns: Ref<'_, IndexMap<String, AirFnEntry>>) -> CompiledAirFn {
+    pub fn compile(self, called_fns: &Ref<'_, IndexMap<String, AirFnEntry>>) -> CompiledAirFn {
         let padding_type = match self.trace_type {
             TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
             TraceType::Opcode | TraceType::ChainRound => PaddingType::Enabler,
@@ -453,7 +453,7 @@ impl AirFnRegistry {
         self.air_fns
             .borrow()
             .iter()
-            .map(|(name, entry)| (name.clone(), entry.clone().compile(self.air_fns.borrow())))
+            .map(|(name, entry)| (name.clone(), entry.clone().compile(&self.air_fns.borrow())))
             .collect()
     }
 }

@@ -35,6 +35,7 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
 
 const TRACE_COLUMNS_PER_LOGUP: usize = 2;
+const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(27);
 
 // The casm registry should contain all the builtins and opcodes
 // used by Stwo for the casm vm.
@@ -269,50 +270,79 @@ fn add_entry_statistics(
     // An upper bound on the number of cells added to the trace for each `AddInput`
     // to this component. Includes rows added to other lookup components called by
     // this component. Doesn't include cells from components that are always filled
-    // by the prover, regardless of whether they're called or not (e.g. const tables,
-    // the memory).
-    // This is still an upper bound and not an exact number because some components
-    // may or may not have rows added to them when called (for example VerifyInstruction,
-    // where the same instruction might be verified multiple times in a single proof,
-    // reusing the same row). This statistic pessimistically assumes that calls to
-    // such components always add new rows.
+    // by the prover, regardless of whether they're called or not (e.g. const tables, the memory,
+    // verify instruction).
     let mut trace_cells_upper_bound = total_num_trace_cols;
+    // We compute rows and uses upper bounds for a (possibly indirect) callee C by assuming that all
+    // intermediate components are padded to a power of two, but ignoring the padding of C itself.
+    // For example, if each row in component A calls component B 3 times, and each row in B calls C
+    // 5 times, A.rows_upper_bound.get("C") will be 20, because we'll pad 3 to 4, but won't pad 5.
+    // For uses_upper_bound, no need to pad the last component. For rows_upper_bound, the padding of
+    // the last component is accounted for later, when computing `max_instances_rows_limit`.
+    // We do that instead of using the padded count for all calls from the start because it gives
+    // tighter upper bounds.
     let mut uses_upper_bound = IndexMap::new();
+    let mut rows_upper_bound = IndexMap::new();
 
     let entry = reg.get(&compiled_entry.name).unwrap();
     let lookup_rows = entry.air_body.get_lookup_n_rows();
 
+    // The registry is ordered such that each component appears after its callees, so all callees
+    // already have their statistics computed.
     for (name, cnt) in lookup_rows.iter() {
-        let cnt = if *cnt == 0 {
+        // We round the number of times a lookup is called up to the next power of two, since the
+        // statistics apply also to the padded rows.
+        let rounded_cnt = if *cnt == 0 {
             0
         } else {
             cnt.next_power_of_two()
         };
-        let called_entry = reg.get(name).unwrap();
-        let entry_stats = stat.get(name).unwrap();
+        let called_entry = reg.get(name).expect("Called entry not found in registry");
+        let compiled_called_entry = called_entry.clone().compile(reg);
+        let entry_stats = stat.get(name).expect("Called entry not found in registry");
 
-        // For now, the only components with external inputs are lookups into const tables (like
-        // range check) and memory tables. If we had a component with Seq of unfixed length
-        // in its external input that we would like to include in the tighter upper bound, we would
-        // need to update this condition.
-        if called_entry.ext_input.is_none() && name != "verify_instruction" {
-            trace_cells_upper_bound += cnt * entry_stats.trace_cells_upper_bound;
+        if compiled_called_entry.padding_type != PaddingType::Multiplicity {
+            // Update trace cells upper bound for the current component.
+            trace_cells_upper_bound += rounded_cnt * entry_stats.trace_cells_upper_bound;
+
+            // Update rows upper bound for all lookup components.
+            // The number of rows of each component is padded at the end, after adding all inputs
+            // from all calls to it.
+            *rows_upper_bound.entry(name.clone()).or_default() += cnt;
+            entry_stats
+                .rows_upper_bound
+                .iter()
+                .for_each(|(row_name, row_bound)| {
+                    *rows_upper_bound.entry(row_name.clone()).or_default() +=
+                        rounded_cnt * row_bound;
+                });
         }
 
-        // Collecting the uses upper bound for the lowest level lookup components.
+        // Update uses upper bound for the lowest level lookup components (that have no callees).
         if entry_stats.uses_upper_bound.is_empty() {
+            assert!(
+                compiled_called_entry.padding_type == PaddingType::Multiplicity,
+                "If the entry doesn't use any other components, it must be padded with multiplicity."
+            );
             *uses_upper_bound.entry(name.clone()).or_default() += cnt;
         } else {
             entry_stats
                 .uses_upper_bound
                 .iter()
                 .for_each(|(use_name, use_bound)| {
-                    *uses_upper_bound.entry(use_name.clone()).or_default() += cnt * *use_bound;
+                    *uses_upper_bound.entry(use_name.clone()).or_default() +=
+                        rounded_cnt * *use_bound;
                 });
         }
     }
 
-    let max_num_instances = PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
+    let max_instances_uses_limit = PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
+    let max_instances_rows_limit = MAX_ROWS_PER_COMPONENT
+        / rows_upper_bound
+            .values()
+            .max()
+            .unwrap_or(&1)
+            .next_power_of_two();
 
     stat.insert(
         compiled_entry.name.clone(),
@@ -326,7 +356,9 @@ fn add_entry_statistics(
             total_num_trace_cols,
             trace_cells_upper_bound,
             uses_upper_bound,
-            max_num_instances,
+            rows_upper_bound,
+            max_instances_uses_limit,
+            max_instances_rows_limit,
         },
     );
 }
