@@ -4,7 +4,6 @@ use std::path::Path;
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
 };
-use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;
@@ -103,12 +102,6 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
         use crate::components::CairoComponent;
         use crate::PreprocessedColumnTrait;
     });
-
-    if is_const_size_component(air_fn) {
-        code.append(quote! {
-            use crate::components::$(air_fn.name.to_case(Case::Constant))_LOG_SIZE;
-        });
-    }
 
     for (inline_fn, _) in &air_fn.inline_calls {
         code.append(quote! {
