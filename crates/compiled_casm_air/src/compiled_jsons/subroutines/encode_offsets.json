@@ -11,9 +11,10 @@
     "[M31; 3]",
     "[PackedM31; 3]"
   ],
-  "verifier_input": [
-    "[encode_offsets_input_offset0, encode_offsets_input_offset1, encode_offsets_input_offset2]",
-    "[M31; 3]"
+  "verifier_input_limbs": [
+    "encode_offsets_input_offset0",
+    "encode_offsets_input_offset1",
+    "encode_offsets_input_offset2"
   ],
   "prover_output": [
     {

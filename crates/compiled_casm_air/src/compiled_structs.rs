@@ -17,8 +17,8 @@ pub struct CompiledAirFn {
     // Contains the name of the input, its prover type, and its packed prover type.
     pub prover_input: (String, String, String),
     // The input to the air function for the constraints evaluation.
-    // Contains the name of the input, and its type (M31 or an array of M31s).
-    pub verifier_input: (String, String),
+    // Contains the name of each limb in the input.
+    pub verifier_input_limbs: Vec<String>,
 
     // The output of the air function for write trace.
     // Contains the output, its name, its prover type, and its packed prover type.

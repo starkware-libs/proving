@@ -11,9 +11,10 @@
     "CasmState",
     "PackedCasmState"
   ],
-  "verifier_input": [
-    "[decode_blake_opcode_input_pc, decode_blake_opcode_input_ap, decode_blake_opcode_input_fp]",
-    "[M31; 3]"
+  "verifier_input_limbs": [
+    "decode_blake_opcode_input_pc",
+    "decode_blake_opcode_input_ap",
+    "decode_blake_opcode_input_fp"
   ],
   "prover_output": [
     {

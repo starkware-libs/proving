@@ -11,9 +11,11 @@
     "[UInt32; 2]",
     "[PackedUInt32; 2]"
   ],
-  "verifier_input": [
-    "[xor_rot_32_r_12_input_limb_0, xor_rot_32_r_12_input_limb_1, xor_rot_32_r_12_input_limb_2, xor_rot_32_r_12_input_limb_3]",
-    "[M31; 4]"
+  "verifier_input_limbs": [
+    "xor_rot_32_r_12_input_limb_0",
+    "xor_rot_32_r_12_input_limb_1",
+    "xor_rot_32_r_12_input_limb_2",
+    "xor_rot_32_r_12_input_limb_3"
   ],
   "prover_output": [
     {

@@ -11,9 +11,13 @@
     "[UInt32; 3]",
     "[PackedUInt32; 3]"
   ],
-  "verifier_input": [
-    "[triple_sum_32_input_a_limb_0, triple_sum_32_input_a_limb_1, triple_sum_32_input_b_limb_0, triple_sum_32_input_b_limb_1, triple_sum_32_input_c_limb_0, triple_sum_32_input_c_limb_1]",
-    "[M31; 6]"
+  "verifier_input_limbs": [
+    "triple_sum_32_input_a_limb_0",
+    "triple_sum_32_input_a_limb_1",
+    "triple_sum_32_input_b_limb_0",
+    "triple_sum_32_input_b_limb_1",
+    "triple_sum_32_input_c_limb_0",
+    "triple_sum_32_input_c_limb_1"
   ],
   "prover_output": [
     {
