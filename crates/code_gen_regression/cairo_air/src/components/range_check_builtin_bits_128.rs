@@ -19,7 +19,7 @@ pub struct Eval {
     pub memory_id_to_big_lookup_elements: relations::MemoryIdToBig,
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
 pub struct Claim {
     pub log_size: u32,
     pub range_check_builtin_segment_start: u32,
@@ -37,7 +37,7 @@ impl Claim {
     }
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
 pub struct InteractionClaim {
     pub claimed_sum: SecureField,
 }
@@ -114,7 +114,7 @@ mod tests {
     use num_traits::Zero;
     use rand::rngs::SmallRng;
     use rand::{Rng, SeedableRng};
-    use stwo_prover::constraint_framework::expr::ExprEvaluator;
+    use stwo_constraint_framework::expr::ExprEvaluator;
     use stwo_prover::core::fields::qm31::QM31;
 
     use super::*;

@@ -51,7 +51,7 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
             use num_traits::Zero;
             use rand::rngs::SmallRng;
             use rand::{Rng, SeedableRng};
-            use stwo_prover::constraint_framework::expr::ExprEvaluator;
+            use stwo_constraint_framework::expr::ExprEvaluator;
             use stwo_prover::core::fields::qm31::QM31;
 
             use super::*;
@@ -299,7 +299,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     }
 
     let struct_code = quote! {
-        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
         pub struct Claim {
             $(get_claim_members(lists))
         }
@@ -354,7 +354,7 @@ pub fn get_claim_members(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn generate_interaction_claim_struct() -> rust::Tokens {
     let struct_code = quote! {
-        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
         pub struct InteractionClaim {
             pub claimed_sum: SecureField,
         }
