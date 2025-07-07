@@ -17,7 +17,7 @@ import json
 import argparse
 
 VISUALIZER_DIR = os.path.abspath(os.path.dirname(__file__))
-AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_casm_air/src")
+AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_casm_air/src/compiled_jsons")
 
 class MyTCPServer(socketserver.TCPServer):
     def server_bind(self):

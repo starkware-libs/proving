@@ -15,8 +15,7 @@ class VarGroupView {
 
         this.var_list = document.createElement("div")
         const group = air_view.air.var_groups.get(this.group_id)
-        for (const var_id of group.var_ids) {
-            const var_obj = air_view.air.vars.get(var_id)
+        for (const var_obj of group.var_objs) {
             const var_div = document.createElement("div")
             var_div.append(create_var_span(var_obj, air_view))
             var_div.style.marginLeft = "20px"
@@ -28,14 +27,14 @@ class VarGroupView {
         this.element = document.createElement("div")
 
         let title_elem
-        if (group.var_ids.length > 1) {
+        if (group.var_objs.length > 1) {
             this.element = html`
                 <div>
                     ${this.button}<span> ${group.get_title_html(air_view)}</span>
                     ${this.var_list}
                 </div>`
         } else {
-            title_elem = create_var_span(air_view.air.vars.get(group.var_ids[0]), air_view)
+            title_elem = create_var_span(group.var_objs[0], air_view)
             this.element.append(title_elem)
         }
     }

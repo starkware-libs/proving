@@ -78,30 +78,6 @@ export function remove_prefix(str, expected_prefix) {
 }
 
 /**
- * Parse the textual representation of an array of names
- *
- * E.g. "[a,b, c]" -> ["a","b","c"]
- *
- * @param {string} str The array string
- * @returns {string[]}
- */
-export function ids_from_id_array_string(str) {
-    let without_brackets = remove_prefix(str, '[')
-    without_brackets = remove_suffix(without_brackets, ']')
-
-    const result = []
-    for (let id of without_brackets.split(",")) {
-        id = id.trim()
-        if (!id.match(/^[a-zA-Z0-9_]+$/)) {
-            throw new Error(`Invalid id '${id}' in array`)
-        }
-        result.push(id)
-    }
-
-    return result
-}
-
-/**
  * Convert an ID from the JSON to a shorter, more user friendly string.
  *
  * E.g. "read_small_output_tmp_f51a9_17_limb_0" -> "ReadSmallOut17.0"
