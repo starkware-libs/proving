@@ -153,8 +153,7 @@ impl AirFnEntry {
             verifier_output: (
                 self.filter_output_limbs(self.output.clone())
                     .compile(CompileFor::Constraints),
-                self.output_limbs_name(Self::output_name(&self.name)),
-                self.output_limbs_type(),
+                self.output_limb_names(Self::output_name(&self.name)),
             ),
             state_names: self.state.get_state_names(),
             lookup_names: self.air_body.get_lookup_names(),
@@ -207,10 +206,6 @@ impl AirFnEntry {
         )
     }
 
-    pub fn output_limbs_type(&self) -> String {
-        self.filter_output_limbs(self.output.clone()).prover_type()
-    }
-
     pub fn input_limbs_type(&self) -> String {
         self.filter_input_limbs(self.joined_input.clone())
             .prover_type()
@@ -218,19 +213,16 @@ impl AirFnEntry {
 
     // Given the name of the output intermediate variable, uses the <output_expr_descriptions> and
     // returns the names of the limbs of the output (the felts that are in the mask).
-    pub fn output_limbs_name(&self, name: String) -> String {
-        format!(
-            "[{}]",
-            self.output_limbs_mask
-                .iter()
-                .enumerate()
-                .filter(|(_, &b)| b)
-                .map(|(i, _)| self
-                    .output
-                    .get_limb_name(&name, i, &self.output_expr_descriptions))
-                .collect::<Vec<_>>()
-                .join(", ")
-        )
+    pub fn output_limb_names(&self, name: String) -> Vec<String> {
+        self.output_limbs_mask
+            .iter()
+            .enumerate()
+            .filter(|(_, &b)| b)
+            .map(|(i, _)| {
+                self.output
+                    .get_limb_name(&name, i, &self.output_expr_descriptions)
+            })
+            .collect::<Vec<_>>()
     }
 
     // Uses the name of the input intermediate variable (see <input_name>) and the

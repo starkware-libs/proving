@@ -91,8 +91,10 @@
         }
       ]
     },
-    "[assert_eq_opcode_imm_output_pc, assert_eq_opcode_imm_output_ap]",
-    "[M31; 2]"
+    [
+      "assert_eq_opcode_imm_output_pc",
+      "assert_eq_opcode_imm_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -157,8 +159,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_161c9_output_tmp_bb09e_5_offset0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "decode_instruction_161c9_output_tmp_bb09e_5_offset0"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_161c9::evaluate",
@@ -237,8 +240,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_verify_equal::evaluate",

@@ -1041,8 +1041,24 @@
         }
       ]
     },
-    "[mod_words_to_12_bit_array_output_limb_0, mod_words_to_12_bit_array_output_limb_1, mod_words_to_12_bit_array_output_limb_2, mod_words_to_12_bit_array_output_limb_3, mod_words_to_12_bit_array_output_limb_4, mod_words_to_12_bit_array_output_limb_5, mod_words_to_12_bit_array_output_limb_6, mod_words_to_12_bit_array_output_limb_7, mod_words_to_12_bit_array_output_limb_8, mod_words_to_12_bit_array_output_limb_9, mod_words_to_12_bit_array_output_limb_10, mod_words_to_12_bit_array_output_limb_11, mod_words_to_12_bit_array_output_limb_12, mod_words_to_12_bit_array_output_limb_13, mod_words_to_12_bit_array_output_limb_14, mod_words_to_12_bit_array_output_limb_15]",
-    "[M31; 16]"
+    [
+      "mod_words_to_12_bit_array_output_limb_0",
+      "mod_words_to_12_bit_array_output_limb_1",
+      "mod_words_to_12_bit_array_output_limb_2",
+      "mod_words_to_12_bit_array_output_limb_3",
+      "mod_words_to_12_bit_array_output_limb_4",
+      "mod_words_to_12_bit_array_output_limb_5",
+      "mod_words_to_12_bit_array_output_limb_6",
+      "mod_words_to_12_bit_array_output_limb_7",
+      "mod_words_to_12_bit_array_output_limb_8",
+      "mod_words_to_12_bit_array_output_limb_9",
+      "mod_words_to_12_bit_array_output_limb_10",
+      "mod_words_to_12_bit_array_output_limb_11",
+      "mod_words_to_12_bit_array_output_limb_12",
+      "mod_words_to_12_bit_array_output_limb_13",
+      "mod_words_to_12_bit_array_output_limb_14",
+      "mod_words_to_12_bit_array_output_limb_15"
+    ]
   ],
   "state_names": [
     "limb1b_0_col0",
@@ -1084,8 +1100,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "limb1a_0_tmp_f4497_1",
-        "type": "M31",
+        "felt_names": [
+          "limb1a_0_tmp_f4497_1"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1115,8 +1132,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb2a_0_tmp_f4497_3",
-        "type": "M31",
+        "felt_names": [
+          "limb2a_0_tmp_f4497_3"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1172,8 +1190,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb5a_0_tmp_f4497_5",
-        "type": "M31",
+        "felt_names": [
+          "limb5a_0_tmp_f4497_5"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1203,8 +1222,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb6a_0_tmp_f4497_7",
-        "type": "M31",
+        "felt_names": [
+          "limb6a_0_tmp_f4497_7"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1260,8 +1280,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb9a_0_tmp_f4497_9",
-        "type": "M31",
+        "felt_names": [
+          "limb9a_0_tmp_f4497_9"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1291,8 +1312,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb1a_1_tmp_f4497_11",
-        "type": "M31",
+        "felt_names": [
+          "limb1a_1_tmp_f4497_11"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1322,8 +1344,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb2a_1_tmp_f4497_13",
-        "type": "M31",
+        "felt_names": [
+          "limb2a_1_tmp_f4497_13"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1379,8 +1402,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb5a_1_tmp_f4497_15",
-        "type": "M31",
+        "felt_names": [
+          "limb5a_1_tmp_f4497_15"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1410,8 +1434,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb6a_1_tmp_f4497_17",
-        "type": "M31",
+        "felt_names": [
+          "limb6a_1_tmp_f4497_17"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1467,8 +1492,9 @@
     },
     {
       "Intermediate": {
-        "name": "limb9a_1_tmp_f4497_19",
-        "type": "M31",
+        "felt_names": [
+          "limb9a_1_tmp_f4497_19"
+        ],
         "var": {
           "BinaryOp": [
             {

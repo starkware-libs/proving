@@ -91,8 +91,10 @@
         }
       ]
     },
-    "[jnz_opcode_output_pc, jnz_opcode_output_ap]",
-    "[M31; 2]"
+    [
+      "jnz_opcode_output_pc",
+      "jnz_opcode_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -185,8 +187,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_de75a_output_tmp_e1597_5_offset0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "decode_instruction_de75a_output_tmp_e1597_5_offset0"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_de75a::evaluate",
@@ -265,8 +268,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",

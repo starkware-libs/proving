@@ -24,8 +24,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "value_limb_0_col0",
@@ -523,8 +522,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "instance_addr_tmp_d00c6_0",
-        "type": "M31",
+        "felt_names": [
+          "instance_addr_tmp_d00c6_0"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -555,8 +555,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_split_output_tmp_d00c6_6_original_limb_27]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_split_output_tmp_d00c6_6_original_limb_27"
+        ],
         "var": {
           "StaticCall": [
             "read_split::evaluate",
@@ -668,8 +669,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_split_output_tmp_d00c6_12_original_limb_27]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_split_output_tmp_d00c6_12_original_limb_27"
+        ],
         "var": {
           "StaticCall": [
             "read_split::evaluate",
@@ -792,8 +794,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "verify_reduced_252::evaluate",
@@ -905,8 +906,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "verify_reduced_252::evaluate",
@@ -1018,8 +1018,9 @@
     },
     {
       "Intermediate": {
-        "name": "partial_ec_mul_chain_tmp_tmp_d00c6_17",
-        "type": "M31",
+        "felt_names": [
+          "partial_ec_mul_chain_tmp_tmp_d00c6_17"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1945,8 +1946,9 @@
     },
     {
       "Intermediate": {
-        "name": "partial_ec_mul_chain_id_tmp_d00c6_32",
-        "type": "M31",
+        "felt_names": [
+          "partial_ec_mul_chain_id_tmp_d00c6_32"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -2476,8 +2478,9 @@
     },
     {
       "Intermediate": {
-        "name": "partial_ec_mul_chain_id_tmp_d00c6_34",
-        "type": "M31",
+        "felt_names": [
+          "partial_ec_mul_chain_id_tmp_d00c6_34"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -3234,8 +3237,9 @@
     },
     {
       "Intermediate": {
-        "name": "partial_ec_mul_chain_id_tmp_d00c6_49",
-        "type": "M31",
+        "felt_names": [
+          "partial_ec_mul_chain_id_tmp_d00c6_49"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -3765,8 +3769,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",

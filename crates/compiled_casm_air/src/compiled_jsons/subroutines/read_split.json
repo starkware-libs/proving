@@ -435,8 +435,9 @@
         }
       ]
     },
-    "[read_split_output_original_limb_27]",
-    "[M31; 1]"
+    [
+      "read_split_output_original_limb_27"
+    ]
   ],
   "state_names": [
     "value_limb_0_col0",
@@ -519,8 +520,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_verify::evaluate",

@@ -3,8 +3,8 @@ mod interaction_claim_generator;
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, LookupTerm, PaddingType, TraceGenStep,
-    TraceType,
+    CompiledAirFn, CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, PaddingType,
+    TraceGenStep, TraceType,
 };
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
@@ -238,7 +238,7 @@ fn context(deductions: &[TraceGenStep]) -> Vec<String> {
         .iter()
         .filter_map(|d| match d {
             TraceGenStep::Deduction(CompiledAirVar::StaticCall(fn_name, ..))
-            | TraceGenStep::Intermediate(CompiledIntermediate {
+            | TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
                 var: CompiledAirVar::StaticCall(fn_name, ..),
                 ..
             }) => {
@@ -279,7 +279,7 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                 TraceGenStep::Deduction(expr, ..) => {
                     const_defs.extend(seek_consts(expr));
                 }
-                TraceGenStep::Intermediate(CompiledIntermediate {
+                TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
                     name: _,
                     r#type: _,
                     var,

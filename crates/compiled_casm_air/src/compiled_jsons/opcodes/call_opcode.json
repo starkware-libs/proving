@@ -176,8 +176,11 @@
         }
       ]
     },
-    "[call_opcode_output_pc, call_opcode_output_ap, call_opcode_output_fp]",
-    "[M31; 3]"
+    [
+      "call_opcode_output_pc",
+      "call_opcode_output_ap",
+      "call_opcode_output_fp"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -268,8 +271,10 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_f1edd_output_tmp_32b66_4_offset2, decode_instruction_f1edd_output_tmp_32b66_4_op1_base_ap]",
-        "type": "[M31; 2]",
+        "felt_names": [
+          "decode_instruction_f1edd_output_tmp_32b66_4_offset2",
+          "decode_instruction_f1edd_output_tmp_32b66_4_op1_base_ap"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_f1edd::evaluate",
@@ -294,8 +299,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -380,8 +384,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -531,8 +534,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",

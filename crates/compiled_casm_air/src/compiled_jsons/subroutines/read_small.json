@@ -167,8 +167,9 @@
         }
       ]
     },
-    "[read_small_output_limb_0]",
-    "[M31; 1]"
+    [
+      "read_small_output_limb_0"
+    ]
   ],
   "state_names": [
     "id_col0",
@@ -217,8 +218,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "cond_decode_small_sign::evaluate",

@@ -34,8 +34,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "triple_sum32_res_limb_0_col0",
@@ -48,8 +47,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "carry_low_tmp_541fa_1",
-        "type": "M31",
+        "felt_names": [
+          "carry_low_tmp_541fa_1"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -156,8 +156,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_high_tmp_541fa_2",
-        "type": "M31",
+        "felt_names": [
+          "carry_high_tmp_541fa_2"
+        ],
         "var": {
           "BinaryOp": [
             {

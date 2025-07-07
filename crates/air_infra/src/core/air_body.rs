@@ -2,8 +2,8 @@ use std::collections::BTreeSet;
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState, LookupTerm,
-    TraceGenStep, UseOrYield,
+    CompiledAirVar, CompiledConstraintIntermediate, CompiledTraceGenIntermediate,
+    ConstraintEvalStep, ExternalState, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
@@ -322,7 +322,7 @@ impl AirBody {
                     visibility,
                 }) => {
                     if visibility.in_deductions {
-                        deductions.push(TraceGenStep::Intermediate(CompiledIntermediate {
+                        deductions.push(TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
                             name,
                             r#type: var.prover_type(),
                             var: var.compile(CompileFor::Deductions),
@@ -338,7 +338,7 @@ impl AirBody {
                     }
                 }
                 AirBodyComponent::LookupCall(call) => {
-                    deductions.push(TraceGenStep::Intermediate(CompiledIntermediate {
+                    deductions.push(TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
                         name: call.output_name,
                         r#type: call.output.prover_type(),
                         var: CompiledAirVar::StaticCall(
@@ -407,11 +407,12 @@ impl AirBody {
                 }) => {
                     if visibility.in_constraints {
                         // These are only felt expressions (see assert in <push>).
-                        constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                            name,
-                            r#type: var.prover_type(),
-                            var: var.compile(CompileFor::Constraints),
-                        }));
+                        constraints.push(ConstraintEvalStep::Intermediate(
+                            CompiledConstraintIntermediate {
+                                felt_names: vec![name],
+                                var: var.compile(CompileFor::Constraints),
+                            },
+                        ));
                     }
                 }
                 AirBodyComponent::Call(call) => {
@@ -427,17 +428,21 @@ impl AirBody {
                             .filter_input_limbs(call.input)
                             .compile(CompileFor::Constraints);
 
-                        constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                            name: call.entry.output_limbs_name(call.output_name),
-                            r#type: call.entry.output_limbs_type(),
-                            var: CompiledAirVar::StaticCall(
-                                format!("{}::{}", call.entry.name, CONSTRAINT_EVAL_FUNCTION_NAME),
-                                vec![input]
-                                    .into_iter()
-                                    .chain(state_vars.into_iter())
-                                    .collect(),
-                            ),
-                        }));
+                        constraints.push(ConstraintEvalStep::Intermediate(
+                            CompiledConstraintIntermediate {
+                                felt_names: call.entry.output_limb_names(call.output_name),
+                                var: CompiledAirVar::StaticCall(
+                                    format!(
+                                        "{}::{}",
+                                        call.entry.name, CONSTRAINT_EVAL_FUNCTION_NAME
+                                    ),
+                                    vec![input]
+                                        .into_iter()
+                                        .chain(state_vars.into_iter())
+                                        .collect(),
+                                ),
+                            },
+                        ));
                     }
                 }
                 AirBodyComponent::LookupCall(..) => {}

@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
-    LookupTerm, PaddingType, TraceType,
+    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep,
+    ExternalState, LookupTerm, PaddingType, TraceType,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -32,27 +32,19 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                     sum = sum * random_coeff + constraint_quotient;
                 });
             }
-            ConstraintEvalStep::Intermediate(CompiledIntermediate { name, r#type, var }) => {
-                match r#type.as_str() {
-                    "[M31; 0]" => {
-                        code.append(quote! {
-                            $("\n")
-                            $(parse_var(air_fn, var, &mut relation_offset));
-                        });
-                    }
-                    "M31" => {
-                        code.append(quote! {
-                            let $(name): QM31 = $(parse_var(air_fn, var, &mut relation_offset));
-                        });
-                    }
-                    _ => {
-                        let ty = r#type.replace("M31", "QM31");
-                        code.append(quote! {
-                            $("\n")
-                            let output: $(ty) = $(parse_var(air_fn, var, &mut relation_offset));
-                            let $(name) = output;
-                        });
-                    }
+            ConstraintEvalStep::Intermediate(CompiledConstraintIntermediate {
+                felt_names,
+                var,
+            }) => {
+                match felt_names.len() {
+                    0 =>
+                    code.append(quote! { $(parse_var(air_fn, var, &mut relation_offset)); }),
+                    1 => code.append(quote! {
+                        let $(felt_names[0].clone()): QM31 = $(parse_var(air_fn, var, &mut relation_offset));
+                    }),
+                    _ => code.append(quote! {
+                        let [$(felt_names.join(", "))] = $(parse_var(air_fn, var, &mut relation_offset));
+                    })
                 }
             }
             ConstraintEvalStep::LookupTerm(LookupTerm {
@@ -112,11 +104,15 @@ pub fn parse_var(
             format!("({op}{var})")
         }
         CompiledAirVar::Array(vars) => {
-            let vars = vars
-                .iter()
-                .map(|v| parse_var(air_fn, v, relation_offset))
-                .collect::<Vec<_>>();
-            format!("[{}]", vars.join(", "))
+            if vars.len() == 1 {
+                parse_var(air_fn, &vars[0], relation_offset)
+            } else {
+                let vars = vars
+                    .iter()
+                    .map(|v| parse_var(air_fn, v, relation_offset))
+                    .collect::<Vec<_>>();
+                format!("[{}]", vars.join(", "))
+            }
         }
         CompiledAirVar::ExternalState(ExternalState {
             name,

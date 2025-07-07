@@ -3,8 +3,8 @@
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
-    LookupTerm, PaddingType, TraceType, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep,
+    ExternalState, LookupTerm, PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -33,10 +33,8 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String
                     let felts = remove_trailing_zeroes(felts);
                     const_defs.extend(felts.iter().flat_map(seek_consts))
                 }
-                ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                    name: _,
-                    r#type: _,
-                    var,
+                ConstraintEvalStep::Intermediate(CompiledConstraintIntermediate {
+                    var, ..
                 }) => const_defs.extend(seek_consts(var)),
             };
             const_defs

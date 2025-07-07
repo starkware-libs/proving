@@ -221,8 +221,28 @@
         }
       ]
     },
-    "[poseidon_partial_round_output_limb_0, poseidon_partial_round_output_limb_1, poseidon_partial_round_output_limb_2, poseidon_partial_round_output_limb_3, poseidon_partial_round_output_limb_4, poseidon_partial_round_output_limb_5, poseidon_partial_round_output_limb_6, poseidon_partial_round_output_limb_7, poseidon_partial_round_output_limb_8, poseidon_partial_round_output_limb_9, poseidon_partial_round_output_limb_10, poseidon_partial_round_output_limb_11, poseidon_partial_round_output_limb_12, poseidon_partial_round_output_limb_13, poseidon_partial_round_output_limb_14, poseidon_partial_round_output_limb_15, poseidon_partial_round_output_limb_16, poseidon_partial_round_output_limb_17, poseidon_partial_round_output_limb_18, poseidon_partial_round_output_limb_19]",
-    "[M31; 20]"
+    [
+      "poseidon_partial_round_output_limb_0",
+      "poseidon_partial_round_output_limb_1",
+      "poseidon_partial_round_output_limb_2",
+      "poseidon_partial_round_output_limb_3",
+      "poseidon_partial_round_output_limb_4",
+      "poseidon_partial_round_output_limb_5",
+      "poseidon_partial_round_output_limb_6",
+      "poseidon_partial_round_output_limb_7",
+      "poseidon_partial_round_output_limb_8",
+      "poseidon_partial_round_output_limb_9",
+      "poseidon_partial_round_output_limb_10",
+      "poseidon_partial_round_output_limb_11",
+      "poseidon_partial_round_output_limb_12",
+      "poseidon_partial_round_output_limb_13",
+      "poseidon_partial_round_output_limb_14",
+      "poseidon_partial_round_output_limb_15",
+      "poseidon_partial_round_output_limb_16",
+      "poseidon_partial_round_output_limb_17",
+      "poseidon_partial_round_output_limb_18",
+      "poseidon_partial_round_output_limb_19"
+    ]
   ],
   "state_names": [
     "cube_252_output_limb_0_col0",
@@ -408,8 +428,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_6_coefs_4_2_3_1_m1_1::evaluate",
@@ -826,8 +845,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_1_coefs_2::evaluate",

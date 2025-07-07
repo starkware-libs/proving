@@ -99,8 +99,18 @@
         }
       ]
     },
-    "[felt_252_unpack_from_27_range_check_output_output_limb_2, felt_252_unpack_from_27_range_check_output_output_limb_5, felt_252_unpack_from_27_range_check_output_output_limb_8, felt_252_unpack_from_27_range_check_output_output_limb_11, felt_252_unpack_from_27_range_check_output_output_limb_14, felt_252_unpack_from_27_range_check_output_output_limb_17, felt_252_unpack_from_27_range_check_output_output_limb_20, felt_252_unpack_from_27_range_check_output_output_limb_23, felt_252_unpack_from_27_range_check_output_output_limb_26, felt_252_unpack_from_27_range_check_output_output_limb_27]",
-    "[M31; 10]"
+    [
+      "felt_252_unpack_from_27_range_check_output_output_limb_2",
+      "felt_252_unpack_from_27_range_check_output_output_limb_5",
+      "felt_252_unpack_from_27_range_check_output_output_limb_8",
+      "felt_252_unpack_from_27_range_check_output_output_limb_11",
+      "felt_252_unpack_from_27_range_check_output_output_limb_14",
+      "felt_252_unpack_from_27_range_check_output_output_limb_17",
+      "felt_252_unpack_from_27_range_check_output_output_limb_20",
+      "felt_252_unpack_from_27_range_check_output_output_limb_23",
+      "felt_252_unpack_from_27_range_check_output_output_limb_26",
+      "felt_252_unpack_from_27_range_check_output_output_limb_27"
+    ]
   ],
   "state_names": [
     "unpacked_limb_0_col0",
@@ -249,8 +259,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_2",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_2"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -299,8 +310,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_5",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_5"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -349,8 +361,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_8",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_8"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -399,8 +412,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_11",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_11"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -449,8 +463,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_14",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_14"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -499,8 +514,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_17",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_17"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -549,8 +565,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_20",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_20"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -599,8 +616,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_23",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_23"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -649,8 +667,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_26",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_26"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -699,8 +718,9 @@
     },
     {
       "Intermediate": {
-        "name": "unpacked_tmp_4f7f8_1_limb_27",
-        "type": "M31",
+        "felt_names": [
+          "unpacked_tmp_4f7f8_1_limb_27"
+        ],
         "var": {
           "Var": [
             "M31",
@@ -711,8 +731,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "range_check_mem_value_n_28::evaluate",

@@ -205,8 +205,10 @@
         }
       ]
     },
-    "[ret_opcode_output_pc, ret_opcode_output_fp]",
-    "[M31; 2]"
+    [
+      "ret_opcode_output_pc",
+      "ret_opcode_output_fp"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -282,8 +284,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "decode_instruction_15a61::evaluate",
@@ -302,8 +303,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -345,8 +345,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",

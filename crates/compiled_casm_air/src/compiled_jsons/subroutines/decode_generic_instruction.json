@@ -193,8 +193,16 @@
         }
       ]
     },
-    "[decode_generic_instruction_output_op1_base_op0, decode_generic_instruction_output_res_op1, decode_generic_instruction_output_pc_update_regular, decode_generic_instruction_output_fp_update_regular, decode_generic_instruction_output_instruction_size, decode_generic_instruction_output_offset0, decode_generic_instruction_output_offset1, decode_generic_instruction_output_offset2]",
-    "[M31; 8]"
+    [
+      "decode_generic_instruction_output_op1_base_op0",
+      "decode_generic_instruction_output_res_op1",
+      "decode_generic_instruction_output_pc_update_regular",
+      "decode_generic_instruction_output_fp_update_regular",
+      "decode_generic_instruction_output_instruction_size",
+      "decode_generic_instruction_output_offset0",
+      "decode_generic_instruction_output_offset1",
+      "decode_generic_instruction_output_offset2"
+    ]
   ],
   "state_names": [
     "offset0_col0",
@@ -239,8 +247,11 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_df7a6_output_tmp_62f3c_20_offset0, decode_instruction_df7a6_output_tmp_62f3c_20_offset1, decode_instruction_df7a6_output_tmp_62f3c_20_offset2]",
-        "type": "[M31; 3]",
+        "felt_names": [
+          "decode_instruction_df7a6_output_tmp_62f3c_20_offset0",
+          "decode_instruction_df7a6_output_tmp_62f3c_20_offset1",
+          "decode_instruction_df7a6_output_tmp_62f3c_20_offset2"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_df7a6::evaluate",
@@ -316,8 +327,9 @@
     },
     {
       "Intermediate": {
-        "name": "op1_base_op0_tmp_62f3c_21",
-        "type": "M31",
+        "felt_names": [
+          "op1_base_op0_tmp_62f3c_21"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -385,8 +397,9 @@
     },
     {
       "Intermediate": {
-        "name": "res_op1_tmp_62f3c_22",
-        "type": "M31",
+        "felt_names": [
+          "res_op1_tmp_62f3c_22"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -454,8 +467,9 @@
     },
     {
       "Intermediate": {
-        "name": "pc_update_regular_tmp_62f3c_23",
-        "type": "M31",
+        "felt_names": [
+          "pc_update_regular_tmp_62f3c_23"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -523,8 +537,9 @@
     },
     {
       "Intermediate": {
-        "name": "ap_update_regular_tmp_62f3c_24",
-        "type": "M31",
+        "felt_names": [
+          "ap_update_regular_tmp_62f3c_24"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -592,8 +607,9 @@
     },
     {
       "Intermediate": {
-        "name": "fp_update_regular_tmp_62f3c_25",
-        "type": "M31",
+        "felt_names": [
+          "fp_update_regular_tmp_62f3c_25"
+        ],
         "var": {
           "BinaryOp": [
             {

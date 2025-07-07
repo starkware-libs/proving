@@ -515,8 +515,12 @@
         }
       ]
     },
-    "[qm_31_read_reduced_output_limb_0, qm_31_read_reduced_output_limb_1, qm_31_read_reduced_output_limb_2, qm_31_read_reduced_output_limb_3]",
-    "[M31; 4]"
+    [
+      "qm_31_read_reduced_output_limb_0",
+      "qm_31_read_reduced_output_limb_1",
+      "qm_31_read_reduced_output_limb_2",
+      "qm_31_read_reduced_output_limb_3"
+    ]
   ],
   "state_names": [
     "id_col0",
@@ -574,8 +578,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_144::evaluate",
