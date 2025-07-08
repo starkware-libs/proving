@@ -1,0 +1,236 @@
+{
+  "name": "range_check_ap",
+  "relation_name": null,
+  "relation_size": null,
+  "description": "Range Check Ap",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "range_check_ap_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "range_check_ap_input"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_ap_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    "[]",
+    "[M31; 0]"
+  ],
+  "state_names": [
+    "range_check_ap_bot8bits_col0"
+  ],
+  "lookup_names": [
+    [
+      "RangeCheck_19",
+      "Use"
+    ],
+    [
+      "RangeCheck_8",
+      "Use"
+    ]
+  ],
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_19",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_ap_input"
+                    ]
+                  },
+                  "-",
+                  {
+                    "State": "range_check_ap_bot8bits_col0"
+                  }
+                ]
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "8388608"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "State": "range_check_ap_bot8bits_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "range_check_ap_bot8bits_u32_tmp_f774f_0",
+        "type": "UInt32",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt32::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_ap_input"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt32",
+                "255"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "range_check_ap_bot8bits_u32_tmp_f774f_0"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "range_check_ap_input"
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "range_check_ap_bot8bits_col0"
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8388608"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_19",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_ap_input"
+                    ]
+                  },
+                  "-",
+                  {
+                    "State": "range_check_ap_bot8bits_col0"
+                  }
+                ]
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "8388608"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_8",
+        "input": {
+          "Array": [
+            {
+              "State": "range_check_ap_bot8bits_col0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "State": "range_check_ap_bot8bits_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

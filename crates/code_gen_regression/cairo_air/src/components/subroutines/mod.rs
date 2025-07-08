@@ -13,6 +13,7 @@ pub mod mem_verify;
 pub mod mod_utils;
 pub mod mod_words_to_12_bit_array;
 pub mod mul_252;
+pub mod range_check_ap;
 pub mod range_check_last_limb_bits_in_ms_limb_2;
 pub mod range_check_mem_value_n_28;
 pub mod read_positive_num_bits_128;

@@ -4,17 +4,24 @@ use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexSet;
 
-use super::super::utils::{get_variable_name, project_root};
+use super::super::utils::get_variable_name;
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
+use super::lookups::gen_lookup_constraints_fn;
+use super::parse::parse_constraints;
 use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, n_logup_columns,
+    QM31_N_TRACE_CELLTS,
 };
-use crate::code_gen::utils::get_git_rev;
 
-pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let version_hash = get_git_rev(&project_root());
+pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let lookups = air_fn
+        .lookup_names
+        .iter()
+        .enumerate()
+        .map(|(i, (relation, _))| format!("{}_sum_{i}", relation.to_case(Case::Snake)))
+        .collect::<Vec<_>>();
+
     quote! {
-        $("//") Constraints version: $(version_hash)$("\n")
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))$("\n")
         $(gen_claim_struct(air_fn))$("\n")
@@ -65,11 +72,26 @@ pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let column_size = m31(pow2(log_size));
                 $(get_evaluate_locals(air_fn))$("\n")
                 $(get_trace_vars(air_fn))$("\n")
-                // We need to revoke the AP tracking to avoid offset overflow.
+                // Revoke the AP tracking to avoid offset overflow.
                 core::internal::revoke_ap_tracking();$("\n")
-                // TODO(AnatG): Generate evaluate constraints.
+                $(parse_constraints(air_fn))
+
+                lookup_constraints(
+                    ref sum,
+                    domain_vanishing_eval_inv,
+                    random_coeff,
+                    claimed_sum,
+                    $(has_enabler_or_mult_column(air_fn).then(||
+                        "enabler,".to_string()
+                    ).unwrap_or_default())
+                    column_size,
+                    ref interaction_trace_mask_values,
+                    $(lookups.join(",\n"))
+                );
             }
         }
+
+        $(gen_lookup_constraints_fn(air_fn))
     }
 }
 
@@ -156,7 +178,7 @@ fn gen_mask_points(air_fn: &CompiledAirFn) -> rust::Tokens {
 
     // In a component with lookups, the last constraint is a prefix sum in QM31. Hence, the last 4
     // columns are sampled at a -1 offset.
-    for _i in 0..(n_logup_columns(air_fn) - 4) {
+    for _i in 0..(n_logup_columns(air_fn) - QM31_N_TRACE_CELLTS) {
         code.append(quote! {
             interaction_trace_mask_points.append(array![point]);
         });

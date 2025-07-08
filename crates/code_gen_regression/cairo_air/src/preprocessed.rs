@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use stwo_prover::constraint_framework::preprocessed_columns::PreProcessedColumnId;
+use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::simd::SimdBackend;
 use stwo_prover::core::fields::m31::BaseField;

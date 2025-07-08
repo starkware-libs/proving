@@ -202,19 +202,37 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 134217728
   },
+  "verify_bitwise_xor_8": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "use_lookup_cols": {},
+    "yield_lookup_cols": {
+      "VerifyBitwiseXor_8": 1
+    },
+    "lookup_rows": {},
+    "padding_type": "Multiplicity",
+    "total_num_trace_cols": 5,
+    "trace_cells_upper_bound": 5,
+    "uses_upper_bound": {},
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
+    "max_instances_rows_limit": 134217728
+  },
   "bitwise_builtin": {
     "trace_type": "Builtin",
     "num_state_cols": 89,
     "use_lookup_cols": {
       "MemoryAddressToId": 5,
       "MemoryIdToBig": 5,
-      "VerifyBitwiseXor_9": 28
+      "VerifyBitwiseXor_9": 27,
+      "VerifyBitwiseXor_8": 1
     },
     "yield_lookup_cols": {},
     "lookup_rows": {
       "memory_address_to_id": 5,
       "memory_id_to_big": 5,
-      "verify_bitwise_xor_9": 28
+      "verify_bitwise_xor_9": 27,
+      "verify_bitwise_xor_8": 1
     },
     "padding_type": "None",
     "total_num_trace_cols": 165,
@@ -229,10 +247,11 @@
       "range_check_9_9_f": 16,
       "range_check_9_9_g": 8,
       "range_check_9_9_h": 8,
-      "verify_bitwise_xor_9": 28
+      "verify_bitwise_xor_9": 27,
+      "verify_bitwise_xor_8": 1
     },
     "rows_upper_bound": {},
-    "max_instances_uses_limit": 76695844,
+    "max_instances_uses_limit": 79536431,
     "max_instances_rows_limit": 134217728
   },
   "range_check_builtin_bits_128": {
@@ -1154,7 +1173,7 @@
   },
   "generic_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 235,
+    "num_state_cols": 236,
     "use_lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1168,13 +1187,14 @@
       "RangeCheck_9_9_G": 2,
       "RangeCheck_9_9_H": 2,
       "RangeCheck_19_H": 4,
-      "RangeCheck_19": 4,
+      "RangeCheck_19": 5,
       "RangeCheck_19_B": 4,
       "RangeCheck_19_C": 4,
       "RangeCheck_19_D": 3,
       "RangeCheck_19_E": 3,
       "RangeCheck_19_F": 3,
       "RangeCheck_19_G": 3,
+      "RangeCheck_8": 1,
       "Opcodes": 1
     },
     "yield_lookup_cols": {
@@ -1193,17 +1213,18 @@
       "range_check_9_9_g": 2,
       "range_check_9_9_h": 2,
       "range_check_19_h": 4,
-      "range_check_19": 4,
+      "range_check_19": 5,
       "range_check_19_b": 4,
       "range_check_19_c": 4,
       "range_check_19_d": 3,
       "range_check_19_e": 3,
       "range_check_19_f": 3,
-      "range_check_19_g": 3
+      "range_check_19_g": 3,
+      "range_check_8": 1
     },
     "padding_type": "Enabler",
-    "total_num_trace_cols": 368,
-    "trace_cells_upper_bound": 368,
+    "total_num_trace_cols": 373,
+    "trace_cells_upper_bound": 373,
     "uses_upper_bound": {
       "range_check_7_2_5": 1,
       "range_check_4_3": 1,
@@ -1217,13 +1238,14 @@
       "range_check_9_9_g": 7,
       "range_check_9_9_h": 7,
       "range_check_19_h": 4,
-      "range_check_19": 4,
+      "range_check_19": 5,
       "range_check_19_b": 4,
       "range_check_19_c": 4,
       "range_check_19_d": 3,
       "range_check_19_e": 3,
       "range_check_19_f": 3,
-      "range_check_19_g": 3
+      "range_check_19_g": 3,
+      "range_check_8": 1
     },
     "rows_upper_bound": {},
     "max_instances_uses_limit": 153391689,
@@ -1941,22 +1963,6 @@
     },
     "rows_upper_bound": {},
     "max_instances_uses_limit": 214748364,
-    "max_instances_rows_limit": 134217728
-  },
-  "verify_bitwise_xor_8": {
-    "trace_type": "Component",
-    "num_state_cols": 0,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "VerifyBitwiseXor_8": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 134217728
   },
   "blake_round_sigma": {

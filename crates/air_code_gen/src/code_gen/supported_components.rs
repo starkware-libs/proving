@@ -4,6 +4,7 @@ use compiled_casm_air::compiled_structs::CompiledAirFn;
 pub enum AutogenCodeType {
     WITNESS,
     AIR,
+    CAIRO,
 }
 
 #[derive(Debug)]
@@ -69,5 +70,7 @@ pub fn is_supported(job: &AutogenCodeFile, air_fn: &CompiledAirFn) -> bool {
         AutogenCodeType::WITNESS => false,
 
         AutogenCodeType::AIR => !get_manual_constraints_components().contains(&air_fn.name),
+
+        AutogenCodeType::CAIRO => false,
     }
 }

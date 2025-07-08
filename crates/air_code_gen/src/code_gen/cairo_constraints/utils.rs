@@ -1,20 +1,33 @@
 use std::fs;
+use std::path::Path;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
-use convert_case::{Case, Casing};
+use compiled_casm_air::compiled_structs::{
+    CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
+};
 use genco::lang::rust;
 use genco::quote;
+use indexmap::IndexMap;
 
-use crate::code_gen::cairo_constraints::component::generate_cairo_constraints_code;
-use crate::code_gen::utils::{get_constraints_folder_path_suffix, project_root};
+use super::component::generate_component_cairo_constraints_code;
+use super::iniline_evaluate::generate_inline_cairo_constraints_code;
+use crate::code_gen::utils::get_constraints_folder_path_suffix;
 
-pub fn dump_component_cairo_constraints_code(air_fn: &CompiledAirFn) {
-    const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+pub const QM31_N_TRACE_CELLTS: usize = 4;
+
+pub fn dump_cairo_constraints_code(air_fn: &CompiledAirFn, path: &Path) {
     let cairo_code = generate_cairo_constraints_code(air_fn);
     let file_name = &format!("{}.cairo", air_fn.name);
     let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
-    let path = project_root().join(CONSTRAINTS_DIR).join(suffix);
+    let path = path.join(suffix);
     fs::write(path.clone(), cairo_code.to_string().unwrap()).unwrap();
+}
+
+pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+    if air_fn.r#type == TraceType::Inline {
+        generate_inline_cairo_constraints_code(air_fn)
+    } else {
+        generate_component_cairo_constraints_code(air_fn)
+    }
 }
 
 pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -30,11 +43,37 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
                 pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
             });
         }
+
+        if !is_const_size_component(air_fn) {
+            let uses = air_fn
+                .lookup_names
+                .iter()
+                .filter(|(_, use_or_yield)| matches!(use_or_yield, UseOrYield::Use))
+                .collect::<Vec<_>>();
+            let mut uses_count = IndexMap::new();
+            for (relation, _) in &uses {
+                *(uses_count.entry(relation.clone()).or_insert(0)) += 1;
+            }
+            consts.extend(quote! {
+                pub const RELATION_USES_PER_ROW: [(felt252, u32); $(uses_count.keys().len())] = [
+                    $(uses_count.iter().map(|(relation, count)| {
+                        format!(r#"('{}', {})"#, relation, count)
+                    }).collect::<Vec<_>>().join(", "))
+                ];
+            });
+        }
     }
 
     if is_const_size_component(air_fn) {
+        let ExternalState {
+            name,
+            generic_param,
+            args,
+        } = air_fn.external_states.get_index(0).expect(
+            "We assume that const-size components include at least one preprocessed column",
+        );
         consts.extend(quote! {
-            pub const LOG_SIZE: u32 = $(air_fn.name.to_case(Case::Constant))_LOG_SIZE;
+            const SOME_COLUMN: PreprocessedColumn = PreprocessedColumn::$(name)$(*generic_param)(($(args.join(", "))));
         });
     }
 
@@ -61,14 +100,8 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
         use stwo_verifier_core::utils::{ArrayImpl, pow2};
         use stwo_verifier_core::{ColumnArray, ColumnSpan, TreeArray};
         use crate::components::CairoComponent;
-        use crate::utils::U32Impl;
+        use crate::PreprocessedColumnTrait;
     });
-
-    if is_const_size_component(air_fn) {
-        code.append(quote! {
-            use crate::components::$(air_fn.name.to_case(Case::Constant))_LOG_SIZE;
-        });
-    }
 
     for (inline_fn, _) in &air_fn.inline_calls {
         code.append(quote! {
@@ -86,7 +119,18 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
 /// (where the type of `self` is `Eval`).
 pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
     if is_const_size_component(air_fn) {
-        quote! { LOG_SIZE }
+        // For constant-size components, we don't have an easy way to know the
+        // number of rows (it doesn't appear in the CompiledAirFn).
+        // Therefore we rely on the `log_size` function that the verifier
+        // implements for constant columns, and take the size of one of our
+        // const columns (doesn't matter which, as component columns all
+        // have the same size).
+        //
+        // We cannot have the size itself as a constant because Cairo doesn't
+        // allow `PreprocessedColumn::SomeColumn(...).log_size()` as a constant
+        // expression, so we store just the column as a constant and call
+        // `.log_size()` every time.
+        quote! { SOME_COLUMN.log_size() }
     } else if in_claim {
         quote! { *(self.log_size) }
     } else {
@@ -102,6 +146,11 @@ pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {
 pub fn has_enabler_or_mult_column(air_fn: &CompiledAirFn) -> bool {
     // TODO(AnatG): Support both enabler and multiplicity columns in the same component.
     air_fn.padding_type == PaddingType::Enabler || air_fn.padding_type == PaddingType::Multiplicity
+}
+
+pub fn is_chain(air_fn: &CompiledAirFn) -> bool {
+    // All components that are part of a chain.
+    air_fn.r#type == TraceType::ChainRound || air_fn.r#type == TraceType::Opcode
 }
 
 pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {

@@ -11,6 +11,7 @@ use genco::quote;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
+use super::cairo_constraints::utils::generate_cairo_constraints_code;
 use super::constraints::generate_constraints_code;
 use super::supported_components::AutogenCodeType;
 use super::trace_gen::RustProverGen;
@@ -66,25 +67,53 @@ pub fn dump_component_code(
     // TODO(Gali): handle witness sub-routines.
     if air_fn.r#type != TraceType::Inline {
         let witness_code = generate_air_fn_code(air_fn, AutogenCodeType::WITNESS);
-        write_air_fn_code(air_fn, witness_code, witness_folder_path);
+        write_air_fn_code(
+            air_fn,
+            witness_code,
+            witness_folder_path,
+            AutogenCodeType::WITNESS,
+        );
     }
     let constraints_code = generate_air_fn_code(air_fn, AutogenCodeType::AIR);
-    write_air_fn_code(air_fn, constraints_code, constraints_folder_path);
+    write_air_fn_code(
+        air_fn,
+        constraints_code,
+        constraints_folder_path,
+        AutogenCodeType::AIR,
+    );
 }
 
 /// Create the file `file_path` with the given content, and update the `mod.rs`
 /// file in the same directory to include the new file.
-pub fn add_rust_file_to_module(file_path: &Path, file_content: String) {
+pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: AutogenCodeType) {
+    let parent_dir = file_path
+        .parent()
+        .expect("path should include directory name");
+    let (mod_file_path, mod_file_name) = match code_type {
+        AutogenCodeType::WITNESS | AutogenCodeType::AIR => (parent_dir, "mod.rs".to_string()),
+        AutogenCodeType::CAIRO => {
+            let file_name = parent_dir
+                .file_name()
+                .expect("path should include directory name")
+                .to_str()
+                .expect("Invalid directory name");
+            (
+                parent_dir
+                    .parent()
+                    .expect("path should include parent directory name"),
+                file_name.to_string() + ".cairo",
+            )
+        }
+    };
+
     assert!(
-        file_path.file_name().unwrap() != "mod.rs",
-        "This function is not for adding the mod.rs file itself"
+        *file_path.file_name().unwrap() != *mod_file_name,
+        "This function is not for adding the file {mod_file_name}"
     );
 
     // Read mod file contents
-    let mod_file_path = file_path
-        .parent()
-        .expect("path should include directory name")
-        .join("mod.rs");
+    let mod_file_path = mod_file_path.join(mod_file_name);
+
     let mut mod_file_content = match mod_file_path.exists() {
         true => fs::read_to_string(&mod_file_path)
             .unwrap_or_else(|_| panic!("Cannot read mod file {}", mod_file_path.to_string_lossy())),
@@ -111,24 +140,38 @@ pub fn add_rust_file_to_module(file_path: &Path, file_content: String) {
 }
 
 pub fn generate_air_fn_code(air_fn: &CompiledAirFn, code_type: AutogenCodeType) -> String {
-    let code = match code_type {
-        AutogenCodeType::WITNESS => RustProverGen::new(air_fn.clone()).generate_witness_code(),
-        AutogenCodeType::AIR => generate_constraints_code(air_fn),
-    };
-    reformat_rust_code(code.to_string().unwrap())
+    match code_type {
+        AutogenCodeType::WITNESS => {
+            let code = RustProverGen::new(air_fn.clone()).generate_witness_code();
+            reformat_rust_code(code.to_string().unwrap())
+        }
+        AutogenCodeType::AIR => {
+            let code = generate_constraints_code(air_fn);
+            reformat_rust_code(code.to_string().unwrap())
+        }
+        AutogenCodeType::CAIRO => generate_cairo_constraints_code(air_fn).to_string().unwrap(),
+    }
 }
 
-pub fn write_air_fn_code(air_fn: &CompiledAirFn, code: String, dest_dir: &Path) {
+pub fn write_air_fn_code(
+    air_fn: &CompiledAirFn,
+    code: String,
+    dest_dir: &Path,
+    code_type: AutogenCodeType,
+) {
     let dest_dir = match air_fn.r#type {
         TraceType::Inline => dest_dir.join("subroutines/"),
         _ => dest_dir.to_path_buf(),
     };
 
-    let filename = &format!("{}.rs", air_fn.name);
+    let file_name = match code_type {
+        AutogenCodeType::WITNESS | AutogenCodeType::AIR => format!("{}.rs", air_fn.name),
+        AutogenCodeType::CAIRO => format!("{}.cairo", air_fn.name),
+    };
 
-    let dest_path = dest_dir.join(filename);
+    let dest_path = dest_dir.join(&file_name);
 
-    add_rust_file_to_module(dest_path.as_path(), code);
+    add_file_to_module(dest_path.as_path(), code, code_type);
 }
 
 pub fn assert_generated_code_unchanged(

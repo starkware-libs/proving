@@ -183,6 +183,32 @@
       ]
     }
   ],
+  "verify_bitwise_xor_8": [
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
+        "8",
+        "0"
+      ]
+    },
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
+        "8",
+        "1"
+      ]
+    },
+    {
+      "name": "BitwiseXor",
+      "generic_param": null,
+      "args": [
+        "8",
+        "2"
+      ]
+    }
+  ],
   "bitwise_builtin": [
     {
       "name": "Seq",
@@ -1172,32 +1198,6 @@
       "generic_param": null,
       "args": [
         "11"
-      ]
-    }
-  ],
-  "verify_bitwise_xor_8": [
-    {
-      "name": "BitwiseXor",
-      "generic_param": null,
-      "args": [
-        "8",
-        "0"
-      ]
-    },
-    {
-      "name": "BitwiseXor",
-      "generic_param": null,
-      "args": [
-        "8",
-        "1"
-      ]
-    },
-    {
-      "name": "BitwiseXor",
-      "generic_param": null,
-      "args": [
-        "8",
-        "2"
       ]
     }
   ],

@@ -43,8 +43,12 @@ fn codegen_jobs_from_dir(dir: &Path) -> Vec<AutogenCodeFile> {
             code_type: AutogenCodeType::AIR,
         });
         result.push(AutogenCodeFile {
-            source_rel_path: rel_path,
+            source_rel_path: rel_path.clone(),
             code_type: AutogenCodeType::WITNESS,
+        });
+        result.push(AutogenCodeFile {
+            source_rel_path: rel_path,
+            code_type: AutogenCodeType::CAIRO,
         });
     }
     result
@@ -53,17 +57,14 @@ fn codegen_jobs_from_dir(dir: &Path) -> Vec<AutogenCodeFile> {
 /// Generates component code from JSON files in the source directory.
 fn process_json_files(args: &Args) -> io::Result<()> {
     let src_dir = Path::new(&args.source);
-    let constraints_dir = Path::new(&args.constraints_dest);
+    let rust_constraints_dir = Path::new(&args.rust_constraints_dest);
     let witness_dir = Path::new(&args.witness_dest);
+    let cairo_constraints_dir = Path::new(&args.cairo_constraints_dest);
 
-    if !constraints_dir.exists() {
-        panic!(
-            "Destination directory does not exist: {:?}",
-            constraints_dir
-        );
-    }
-    if !witness_dir.exists() {
-        panic!("Witness directory does not exist: {:?}", witness_dir);
+    for dir in [rust_constraints_dir, witness_dir, cairo_constraints_dir] {
+        if !dir.exists() {
+            panic!("Destination directory does not exist: {:?}", dir);
+        }
     }
 
     let files_to_generate = codegen_jobs_from_dir(src_dir);
@@ -90,12 +91,13 @@ fn process_json_files(args: &Args) -> io::Result<()> {
 
         let dest_dir = match job.code_type {
             AutogenCodeType::WITNESS => witness_dir,
-            AutogenCodeType::AIR => constraints_dir,
+            AutogenCodeType::AIR => rust_constraints_dir,
+            AutogenCodeType::CAIRO => cairo_constraints_dir,
         };
         let code = generate_air_fn_code(&air_fn, job.code_type);
         let code = source_rev_comment.clone() + &code;
 
-        write_air_fn_code(&air_fn, code, dest_dir);
+        write_air_fn_code(&air_fn, code, dest_dir, job.code_type);
     }
 
     let generated_files = files_to_generate.len() - skipped_files;
@@ -117,18 +119,22 @@ struct Args {
     source: String,
 
     #[clap(short, long)]
-    constraints_dest: String,
+    rust_constraints_dest: String,
 
     #[clap(short, long)]
     witness_dest: String,
+
+    #[clap(short, long)]
+    cairo_constraints_dest: String,
 }
 
 /// Main CLI entry point
 ///
 /// Example usage: `$ cargo run --bin cairo_code_gen -- --source
-/// ./crates/compiled_casm_air/src/opcodes --constraints-dest
+/// ./crates/compiled_casm_air/src/opcodes --rust-constraints-dest
 /// ~/stwo-cairo/stwo_cairo_prover/crates/cairo_air/src/components --witness-dest
-/// ~/stwo-cairo/stwo_cairo_prover/crates/prover/src/witness/components`
+/// ~/stwo-cairo/stwo_cairo_prover/crates/prover/src/witness/components --cairo-constraints-dest
+/// ~/stwo-cairo/stwo_cairo_verifier/crates/cairo_air/src/components`
 fn main() {
     let args = Args::try_parse_from(std::env::args()).unwrap_or_else(|e| e.exit());
 
@@ -136,8 +142,11 @@ fn main() {
     match process_json_files(&args) {
         Ok(_) => {
             println!(
-                "Successfully processed JSON files from {} to {} and {}",
-                args.source, args.constraints_dest, args.witness_dest
+                "Successfully processed JSON files from {} to {}, {} and {}",
+                args.source,
+                args.rust_constraints_dest,
+                args.witness_dest,
+                args.cairo_constraints_dest
             );
             process::exit(0);
         }

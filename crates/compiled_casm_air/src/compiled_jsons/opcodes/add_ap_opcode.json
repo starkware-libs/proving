@@ -114,7 +114,7 @@
     "op1_limb_0_col10",
     "op1_limb_1_col11",
     "op1_limb_2_col12",
-    "next_ap_bot8bits_col13"
+    "range_check_ap_bot8bits_col13"
   ],
   "lookup_names": [
     [
@@ -151,6 +151,20 @@
       [
         [
           "VerifyInstruction",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ],
+    "range_check_ap": [
+      [
+        [
+          "RangeCheck_19",
+          "Use"
+        ],
+        [
+          "RangeCheck_8",
           "Use"
         ]
       ],
@@ -363,47 +377,29 @@
       }
     },
     {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_19",
-        "felts": [
-          {
-            "BinaryOp": [
+      "Intermediate": {
+        "name": "[]",
+        "type": "[M31; 0]",
+        "var": {
+          "StaticCall": [
+            "range_check_ap::evaluate",
+            [
               {
-                "BinaryOp": [
+                "Array": [
                   {
                     "Var": [
                       "M31",
                       "next_ap_tmp_c921e_12"
                     ]
-                  },
-                  "-",
-                  {
-                    "State": "next_ap_bot8bits_col13"
                   }
                 ]
               },
-              "*",
               {
-                "Const": [
-                  "M31",
-                  "8388608"
-                ]
+                "State": "range_check_ap_bot8bits_col13"
               }
             ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_8",
-        "felts": [
-          {
-            "State": "next_ap_bot8bits_col13"
-          }
-        ],
-        "use_or_yield": "Use"
+          ]
+        }
       }
     },
     {
@@ -2105,8 +2101,11 @@
       }
     },
     {
+      "StartBlock": "Range Check Ap"
+    },
+    {
       "Intermediate": {
-        "name": "next_ap_bot8bits_u32_tmp_c921e_13",
+        "name": "range_check_ap_bot8bits_u32_tmp_c921e_13",
         "type": "UInt32",
         "var": {
           "BinaryOp": [
@@ -2142,7 +2141,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "next_ap_bot8bits_u32_tmp_c921e_13"
+                  "range_check_ap_bot8bits_u32_tmp_c921e_13"
                 ]
               },
               "low",
@@ -2171,7 +2170,7 @@
                     },
                     "-",
                     {
-                      "State": "next_ap_bot8bits_col13"
+                      "State": "range_check_ap_bot8bits_col13"
                     }
                   ]
                 },
@@ -2204,7 +2203,7 @@
                   },
                   "-",
                   {
-                    "State": "next_ap_bot8bits_col13"
+                    "State": "range_check_ap_bot8bits_col13"
                   }
                 ]
               },
@@ -2227,7 +2226,7 @@
         "input": {
           "Array": [
             {
-              "State": "next_ap_bot8bits_col13"
+              "State": "range_check_ap_bot8bits_col13"
             }
           ]
         }
@@ -2238,12 +2237,13 @@
         "relation_name": "RangeCheck_8",
         "felts": [
           {
-            "State": "next_ap_bot8bits_col13"
+            "State": "range_check_ap_bot8bits_col13"
           }
         ],
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "Opcodes",
