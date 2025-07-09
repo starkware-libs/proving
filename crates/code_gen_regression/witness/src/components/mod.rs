@@ -1,11 +1,11 @@
+use stwo::core::fields::m31::M31;
+use stwo::core::pcs::TreeSubspan;
+use stwo::prover::backend::simd::conversion::Pack;
+use stwo::prover::backend::simd::m31::PackedM31;
+use stwo::prover::backend::Backend;
+use stwo::prover::poly::circle::CircleEvaluation;
+use stwo::prover::poly::BitReversedOrder;
 use stwo_cairo_common::prover_types::simd::PackedFelt252;
-use stwo_prover::core::backend::simd::conversion::Pack;
-use stwo_prover::core::backend::simd::m31::PackedM31;
-use stwo_prover::core::backend::Backend;
-use stwo_prover::core::fields::m31::M31;
-use stwo_prover::core::pcs::TreeSubspan;
-use stwo_prover::core::poly::circle::CircleEvaluation;
-use stwo_prover::core::poly::BitReversedOrder;
 
 pub mod add_ap_opcode;
 pub mod jnz_opcode_taken;

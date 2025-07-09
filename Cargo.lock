@@ -372,9 +372,9 @@ dependencies = [
  "rand 0.8.5",
  "serde",
  "starknet-ff",
+ "stwo",
  "stwo-cairo-serialize",
  "stwo-constraint-framework",
- "stwo-prover",
 ]
 
 [[package]]
@@ -1539,80 +1539,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
-name = "stwo-air-utils"
+name = "stwo"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=21e1d83#21e1d839c2480316174a7afbf347fb0ed2e82d79"
-dependencies = [
- "bytemuck",
- "itertools 0.12.1",
- "rayon",
- "stwo-air-utils-derive",
- "stwo-prover",
-]
-
-[[package]]
-name = "stwo-air-utils-derive"
-version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo?rev=21e1d83#21e1d839c2480316174a7afbf347fb0ed2e82d79"
-dependencies = [
- "itertools 0.13.0",
- "proc-macro2",
- "quote",
- "syn 2.0.104",
-]
-
-[[package]]
-name = "stwo-cairo-common"
-version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=03bdf65#03bdf6519f3b454801aaef95cd25c1b09bb57410"
-dependencies = [
- "bytemuck",
- "itertools 0.12.1",
- "ruint",
- "serde",
- "serde_arrays",
- "starknet-ff",
- "starknet-types-core",
- "stwo-cairo-serialize",
- "stwo-prover",
-]
-
-[[package]]
-name = "stwo-cairo-serialize"
-version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=03bdf65#03bdf6519f3b454801aaef95cd25c1b09bb57410"
-dependencies = [
- "starknet-ff",
- "stwo-cairo-serialize-derive",
- "stwo-prover",
-]
-
-[[package]]
-name = "stwo-cairo-serialize-derive"
-version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=03bdf65#03bdf6519f3b454801aaef95cd25c1b09bb57410"
-dependencies = [
- "quote",
- "syn 2.0.104",
-]
-
-[[package]]
-name = "stwo-constraint-framework"
-version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=21e1d83#21e1d839c2480316174a7afbf347fb0ed2e82d79"
-dependencies = [
- "itertools 0.12.1",
- "num-traits",
- "rand 0.8.5",
- "rayon",
- "stwo-prover",
- "tracing",
-]
-
-[[package]]
-name = "stwo-prover"
-version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=21e1d83#21e1d839c2480316174a7afbf347fb0ed2e82d79"
+source = "git+https://github.com/starkware-libs/stwo?rev=dd5d5c3#dd5d5c3c73c5e00dbc1a275f25f33a0263ea13ac"
 dependencies = [
  "blake2",
  "blake3",
@@ -1631,6 +1560,77 @@ dependencies = [
  "thiserror 1.0.69",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "stwo-air-utils"
+version = "0.1.1"
+source = "git+https://github.com/starkware-libs/stwo?rev=dd5d5c3#dd5d5c3c73c5e00dbc1a275f25f33a0263ea13ac"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "rayon",
+ "stwo",
+ "stwo-air-utils-derive",
+]
+
+[[package]]
+name = "stwo-air-utils-derive"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo?rev=dd5d5c3#dd5d5c3c73c5e00dbc1a275f25f33a0263ea13ac"
+dependencies = [
+ "itertools 0.13.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.104",
+]
+
+[[package]]
+name = "stwo-cairo-common"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e89a64d#e89a64dea20887b84548dcc6c8842846b0fc249d"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "ruint",
+ "serde",
+ "serde_arrays",
+ "starknet-ff",
+ "starknet-types-core",
+ "stwo",
+ "stwo-cairo-serialize",
+]
+
+[[package]]
+name = "stwo-cairo-serialize"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e89a64d#e89a64dea20887b84548dcc6c8842846b0fc249d"
+dependencies = [
+ "starknet-ff",
+ "stwo",
+ "stwo-cairo-serialize-derive",
+]
+
+[[package]]
+name = "stwo-cairo-serialize-derive"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e89a64d#e89a64dea20887b84548dcc6c8842846b0fc249d"
+dependencies = [
+ "quote",
+ "syn 2.0.104",
+]
+
+[[package]]
+name = "stwo-constraint-framework"
+version = "0.1.1"
+source = "git+https://github.com/starkware-libs/stwo?rev=dd5d5c3#dd5d5c3c73c5e00dbc1a275f25f33a0263ea13ac"
+dependencies = [
+ "itertools 0.12.1",
+ "num-traits",
+ "rand 0.8.5",
+ "rayon",
+ "stwo",
+ "tracing",
 ]
 
 [[package]]
@@ -2134,11 +2134,11 @@ dependencies = [
  "cairo_air",
  "num-traits",
  "rayon",
+ "stwo",
  "stwo-air-utils",
  "stwo-air-utils-derive",
  "stwo-cairo-common",
  "stwo-constraint-framework",
- "stwo-prover",
 ]
 
 [[package]]

@@ -52,7 +52,7 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
             use rand::rngs::SmallRng;
             use rand::{Rng, SeedableRng};
             use stwo_constraint_framework::expr::ExprEvaluator;
-            use stwo_prover::core::fields::qm31::QM31;
+            use stwo::core::fields::qm31::QM31;
 
             use super::*;
             use crate::components::constraints_regression_test_values::$(lists.name.to_case(Case::UpperSnake));
