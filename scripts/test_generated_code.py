@@ -47,11 +47,15 @@ run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--',
 
 # Test
 os.chdir(os.path.join(clone_dir, 'stwo_cairo_prover'))
-cargo_test_return_code = run_cmd(['cargo', 'test'], check_success=False)
-
+cargo_test_return_code = run_cmd(['cargo', 'test', '--package', 'stwo_cairo_prover'], check_success=False)
 if cargo_test_return_code != 0:
-    print(f"Failure. cargo exited with {cargo_test_return_code}")
+    print(f"Failure cargo test in stwo_cairo_prover exited with {cargo_test_return_code}")
     exit(1)
-else:
-    print("Success!")
-    exit(0)
+
+cargo_test_return_code = run_cmd(['cargo', 'test', '--package', 'cairo-air'], check_success=False)
+if cargo_test_return_code != 0:
+    print(f"Failure cargo test in cairo-air exited with {cargo_test_return_code}")
+    exit(1)
+
+print("Success!")
+exit(0)
