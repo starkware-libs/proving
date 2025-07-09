@@ -1,11 +1,11 @@
 #![allow(unused_variables)]
 
 use cairo_air::components::memory_address_to_id::{Claim, InteractionClaim, RelationElements};
-use stwo_prover::core::backend::simd::m31::PackedM31;
-use stwo_prover::core::backend::simd::SimdBackend;
-use stwo_prover::core::fields::m31::M31;
-use stwo_prover::core::pcs::TreeBuilder;
-use stwo_prover::core::vcs::blake2_merkle::Blake2sMerkleChannel;
+use stwo::core::fields::m31::M31;
+use stwo::core::vcs::blake2_merkle::Blake2sMerkleChannel;
+use stwo::prover::backend::simd::m31::PackedM31;
+use stwo::prover::backend::simd::SimdBackend;
+use stwo::prover::TreeBuilder;
 
 pub type InputType = M31;
 pub type PackedInputType = PackedM31;

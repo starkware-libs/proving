@@ -1,7 +1,7 @@
 #![allow(unused_variables)]
+use stwo::core::channel::Channel;
+use stwo::core::pcs::TreeVec;
 use stwo_constraint_framework::{relation, EvalAtRow, FrameworkEval};
-use stwo_prover::core::channel::Channel;
-use stwo_prover::core::pcs::TreeVec;
 
 pub const N_M31_IN_FELT252: usize = 28;
 pub const MULTIPLICITY_COLUMN_OFFSET: usize = N_M31_IN_FELT252 + 1;

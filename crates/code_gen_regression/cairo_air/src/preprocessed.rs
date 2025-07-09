@@ -1,10 +1,10 @@
 use itertools::Itertools;
+use stwo::core::fields::m31::BaseField;
+use stwo::prover::backend::simd::m31::PackedM31;
+use stwo::prover::backend::simd::SimdBackend;
+use stwo::prover::poly::circle::CircleEvaluation;
+use stwo::prover::poly::BitReversedOrder;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
-use stwo_prover::core::backend::simd::m31::PackedM31;
-use stwo_prover::core::backend::simd::SimdBackend;
-use stwo_prover::core::fields::m31::BaseField;
-use stwo_prover::core::poly::circle::CircleEvaluation;
-use stwo_prover::core::poly::BitReversedOrder;
 
 pub trait PreProcessedColumn {
     fn log_size(&self) -> u32;
