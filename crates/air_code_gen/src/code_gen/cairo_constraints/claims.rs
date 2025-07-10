@@ -17,8 +17,8 @@ pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
             fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
                 let log_size = $(get_log_size(air_fn, true));
                 let preprocessed_log_sizes = array![log_size].span();
-                let trace_log_sizes = ArrayImpl::new_repeated(N_TRACE_COLUMNS, log_size).span();
-                let interaction_log_sizes = ArrayImpl::new_repeated($(n_logup_columns(air_fn)), log_size).span();
+                let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
+                let interaction_log_sizes = [log_size; $(n_logup_columns(air_fn))].span();
                 array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
             }
 
