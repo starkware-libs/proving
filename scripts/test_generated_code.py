@@ -45,16 +45,25 @@ run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--',
          '--cairo-constraints-dest', os.path.join(clone_dir, 'stwo_cairo_verifier/crates/cairo_air/src/components'),
          '--witness-dest', os.path.join(clone_dir, 'stwo_cairo_prover/crates/prover/src/witness/components')])
 
-# Test
+# Test Rust generated code
+# We only run the tests for the stwo_cairo_prover and cairo-air packages as these are the only ones
+# that depend on the generated code.
 os.chdir(os.path.join(clone_dir, 'stwo_cairo_prover'))
 cargo_test_return_code = run_cmd(['cargo', 'test', '--package', 'stwo_cairo_prover'], check_success=False)
 if cargo_test_return_code != 0:
-    print(f"Failure cargo test in stwo_cairo_prover exited with {cargo_test_return_code}")
+    print(f"Failure: cargo test in stwo_cairo_prover exited with {cargo_test_return_code}")
     exit(1)
 
 cargo_test_return_code = run_cmd(['cargo', 'test', '--package', 'cairo-air'], check_success=False)
 if cargo_test_return_code != 0:
-    print(f"Failure cargo test in cairo-air exited with {cargo_test_return_code}")
+    print(f"Failure: cargo test in cairo-air exited with {cargo_test_return_code}")
+    exit(1)
+
+# Test Cairo generated code
+os.chdir(os.path.join(clone_dir, 'stwo_cairo_verifier'))
+scarb_test_return_code = run_cmd(['scarb', 'test', '--package', 'stwo_cairo_air', '--features', 'qm31_opcode'], check_success=False)
+if scarb_test_return_code != 0:
+    print(f"Failure: scarb test exited with {scarb_test_return_code}")
     exit(1)
 
 print("Success!")

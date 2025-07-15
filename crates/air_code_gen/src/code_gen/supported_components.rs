@@ -15,10 +15,10 @@ pub struct AutogenCodeFile {
     pub code_type: AutogenCodeType,
 }
 
-/// Returns the list of components whose constraint evaluation code is manually written.
+/// Returns the list of components whose Rust constraint evaluation code is manually written.
 /// The CI ensures that constraint evaluation code generation works for all components not
 /// listed here.
-pub fn get_manual_constraints_components() -> Vec<String> {
+pub fn get_manual_rust_constraints_components() -> Vec<String> {
     vec![
         "blake_round_sigma".into(),
         "memory_address_to_id".into(),
@@ -63,14 +63,25 @@ pub fn get_manual_constraints_components() -> Vec<String> {
     ]
 }
 
+/// Returns the list of components whose Cairo constraint evaluation code is manually written.
+/// The CI ensures that constraint evaluation code generation works for all components not
+/// listed here.
+fn get_manual_cairo_constraints_components() -> Vec<String> {
+    vec![
+        "memory_address_to_id".into(),
+        "memory_id_to_big".into(),
+        "verify_bitwise_xor_12".into(),
+    ]
+}
+
 /// Is code autogeneration supposed to work for the given file?
 pub fn is_supported(job: &AutogenCodeFile, air_fn: &CompiledAirFn) -> bool {
     match job.code_type {
         // We don't support autogeneration of witness-genenration code yet
         AutogenCodeType::WITNESS => false,
 
-        AutogenCodeType::AIR => !get_manual_constraints_components().contains(&air_fn.name),
+        AutogenCodeType::AIR => !get_manual_rust_constraints_components().contains(&air_fn.name),
 
-        AutogenCodeType::CAIRO => false,
+        AutogenCodeType::CAIRO => !get_manual_cairo_constraints_components().contains(&air_fn.name),
     }
 }
