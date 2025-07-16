@@ -25,6 +25,8 @@ pub const STATE_OUTPUT_VAR_SUFFIX: &str = "output";
 pub const WRITE_TRACE_FUNCTION_NAME: &str = "write_trace";
 pub const CONSTRAINT_EVAL_FUNCTION_NAME: &str = "evaluate";
 
+pub const REGISTRY_PROPERTIES_FILE_NAME: &str = "casm_registry.json";
+
 impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -135,7 +137,7 @@ where
 }
 
 pub fn read_json(file_path: &str) -> Value {
-    let json_file =
-        fs::read_to_string(file_path).unwrap_or_else(|e| panic!("Failed to read {file_path}: {e}"));
+    let json_file = fs::read_to_string(file_path)
+        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", file_path));
     serde_json::from_str(&json_file).expect("Invalid JSON file")
 }
