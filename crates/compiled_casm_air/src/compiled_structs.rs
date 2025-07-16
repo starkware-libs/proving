@@ -24,8 +24,8 @@ pub struct CompiledAirFn {
     // Contains the output, its name, its prover type, and its packed prover type.
     pub prover_output: (CompiledAirVar, String, String, String),
     // The output of the air function for the constraints evaluation.
-    // Contains the output, its name, and its type.
-    pub verifier_output: (CompiledAirVar, String, String),
+    // Contains the output, and names for each of its felts (used for debugging).
+    pub verifier_output: (CompiledAirVar, Vec<String>),
 
     pub state_names: Vec<String>,
 
@@ -125,7 +125,7 @@ pub enum TraceGenStep {
     // The argument is a polynomial in in-state values.
     Deduction(CompiledAirVar),
 
-    Intermediate(CompiledIntermediate),
+    Intermediate(CompiledTraceGenIntermediate),
 
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
@@ -148,7 +148,7 @@ pub enum ConstraintEvalStep {
     // constraints on the accumulated sum (the logup).
     LookupTerm(LookupTerm),
 
-    Intermediate(CompiledIntermediate),
+    Intermediate(CompiledConstraintIntermediate),
 }
 
 // Air variables as represented in the deductions and constrains lists.
@@ -193,9 +193,15 @@ pub struct ExternalState {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
-pub struct CompiledIntermediate {
+pub struct CompiledTraceGenIntermediate {
     pub name: String,
     pub r#type: String,
+    pub var: CompiledAirVar,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub struct CompiledConstraintIntermediate {
+    pub felt_names: Vec<String>,
     pub var: CompiledAirVar,
 }
 

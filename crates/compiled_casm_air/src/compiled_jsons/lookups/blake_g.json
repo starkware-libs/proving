@@ -74,8 +74,12 @@
         }
       ]
     },
-    "[blake_g_output_limb_2, blake_g_output_limb_3, blake_g_output_limb_6, blake_g_output_limb_7]",
-    "[M31; 4]"
+    [
+      "blake_g_output_limb_2",
+      "blake_g_output_limb_3",
+      "blake_g_output_limb_6",
+      "blake_g_output_limb_7"
+    ]
   ],
   "state_names": [
     "input_limb_0_col0",
@@ -301,8 +305,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -342,8 +345,10 @@
     },
     {
       "Intermediate": {
-        "name": "[xor_rot_32_r_16_output_tmp_f72c8_21_limb_0, xor_rot_32_r_16_output_tmp_f72c8_21_limb_1]",
-        "type": "[M31; 2]",
+        "felt_names": [
+          "xor_rot_32_r_16_output_tmp_f72c8_21_limb_0",
+          "xor_rot_32_r_16_output_tmp_f72c8_21_limb_1"
+        ],
         "var": {
           "StaticCall": [
             "xor_rot_32_r_16::evaluate",
@@ -395,8 +400,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -448,8 +452,10 @@
     },
     {
       "Intermediate": {
-        "name": "[xor_rot_32_r_12_output_tmp_f72c8_43_limb_0, xor_rot_32_r_12_output_tmp_f72c8_43_limb_1]",
-        "type": "[M31; 2]",
+        "felt_names": [
+          "xor_rot_32_r_12_output_tmp_f72c8_43_limb_0",
+          "xor_rot_32_r_12_output_tmp_f72c8_43_limb_1"
+        ],
         "var": {
           "StaticCall": [
             "xor_rot_32_r_12::evaluate",
@@ -501,8 +507,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -548,8 +553,10 @@
     },
     {
       "Intermediate": {
-        "name": "[xor_rot_32_r_8_output_tmp_f72c8_65_limb_0, xor_rot_32_r_8_output_tmp_f72c8_65_limb_1]",
-        "type": "[M31; 2]",
+        "felt_names": [
+          "xor_rot_32_r_8_output_tmp_f72c8_65_limb_0",
+          "xor_rot_32_r_8_output_tmp_f72c8_65_limb_1"
+        ],
         "var": {
           "StaticCall": [
             "xor_rot_32_r_8::evaluate",
@@ -607,8 +614,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "triple_sum_32::evaluate",
@@ -660,8 +666,10 @@
     },
     {
       "Intermediate": {
-        "name": "[xor_rot_32_r_7_output_tmp_f72c8_87_limb_0, xor_rot_32_r_7_output_tmp_f72c8_87_limb_1]",
-        "type": "[M31; 2]",
+        "felt_names": [
+          "xor_rot_32_r_7_output_tmp_f72c8_87_limb_0",
+          "xor_rot_32_r_7_output_tmp_f72c8_87_limb_1"
+        ],
         "var": {
           "StaticCall": [
             "xor_rot_32_r_7::evaluate",

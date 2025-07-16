@@ -84,8 +84,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "sub_res_limb_0_col0",
@@ -250,8 +249,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "range_check_mem_value_n_28::evaluate",
@@ -351,8 +349,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "verify_add_252::evaluate",

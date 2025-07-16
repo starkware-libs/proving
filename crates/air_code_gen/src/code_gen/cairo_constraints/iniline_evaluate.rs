@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, ExternalState};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, ExternalState};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -19,9 +19,25 @@ const LARGE_SUBROUTINES: [&str; 5] = [
 ];
 
 pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let input_name = format!("[{}]", air_fn.verifier_input_limbs.join(", "));
-    let input_type = format!("[QM31; {}]", air_fn.verifier_input_limbs.len());
-    let output_type = air_fn.verifier_output.2.clone().replace("M31", "QM31");
+    let fn_name = air_fn.name.clone();
+    let CompiledAirVar::Array(ref output_array) = air_fn.verifier_output.0 else {
+        panic!("Verifier output is not array in {fn_name}")
+    };
+
+    let (input_name, input_type) = if air_fn.verifier_input_limbs.len() == 1 {
+        (air_fn.verifier_input_limbs[0].clone(), "QM31".to_string())
+    } else {
+        (
+            format!("[{}]", air_fn.verifier_input_limbs.join(", ")),
+            format!("[QM31; {}]", air_fn.verifier_input_limbs.len()),
+        )
+    };
+
+    let output_type = if output_array.len() == 1 {
+        "QM31".to_string()
+    } else {
+        format!("[QM31; {}]", output_array.len())
+    };
     let revoke_ap_tracking = LARGE_SUBROUTINES
         .contains(&air_fn.name.as_str())
         .then(|| "\ncore::internal::revoke_ap_tracking();\n".to_string())
@@ -35,7 +51,7 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
 
     code.append(quote! {
         $("\n")
-        pub fn $(air_fn.name.clone())_evaluate(
+        pub fn $(fn_name)_evaluate(
             input: $(input_type),
             $(get_inline_args(air_fn))
             ref sum: QM31,

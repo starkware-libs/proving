@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledIntermediate, ExternalState, LookupTerm, PaddingType, TraceGenStep,
+    CompiledAirVar, CompiledTraceGenIntermediate, ExternalState, LookupTerm, PaddingType,
+    TraceGenStep,
 };
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
@@ -394,7 +395,7 @@ impl RustProverGen {
                     });
                     offset += 1;
                 }
-                TraceGenStep::Intermediate(CompiledIntermediate {
+                TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
                     name,
                     r#type: _,
                     var,

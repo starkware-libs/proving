@@ -335,8 +335,12 @@
         }
       ]
     },
-    "[decode_blake_opcode_output_limb_0, decode_blake_opcode_output_limb_1, decode_blake_opcode_output_limb_2, decode_blake_opcode_output_limb_6]",
-    "[M31; 4]"
+    [
+      "decode_blake_opcode_output_limb_0",
+      "decode_blake_opcode_output_limb_1",
+      "decode_blake_opcode_output_limb_2",
+      "decode_blake_opcode_output_limb_6"
+    ]
   ],
   "state_names": [
     "offset0_col0",
@@ -461,8 +465,11 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_64420_output_tmp_47e62_10_offset0, decode_instruction_64420_output_tmp_47e62_10_offset1, decode_instruction_64420_output_tmp_47e62_10_offset2]",
-        "type": "[M31; 3]",
+        "felt_names": [
+          "decode_instruction_64420_output_tmp_47e62_10_offset0",
+          "decode_instruction_64420_output_tmp_47e62_10_offset1",
+          "decode_instruction_64420_output_tmp_47e62_10_offset2"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_64420::evaluate",
@@ -633,8 +640,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -722,8 +728,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -765,8 +770,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -857,8 +861,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_blake_word::evaluate",

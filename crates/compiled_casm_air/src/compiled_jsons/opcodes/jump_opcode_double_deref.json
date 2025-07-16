@@ -145,8 +145,10 @@
         }
       ]
     },
-    "[jump_opcode_double_deref_output_pc, jump_opcode_double_deref_output_ap]",
-    "[M31; 2]"
+    [
+      "jump_opcode_double_deref_output_pc",
+      "jump_opcode_double_deref_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -227,8 +229,10 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_9bd86_output_tmp_22134_6_offset1, decode_instruction_9bd86_output_tmp_22134_6_offset2]",
-        "type": "[M31; 2]",
+        "felt_names": [
+          "decode_instruction_9bd86_output_tmp_22134_6_offset1",
+          "decode_instruction_9bd86_output_tmp_22134_6_offset2"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_9bd86::evaluate",
@@ -310,8 +314,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -353,8 +356,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",

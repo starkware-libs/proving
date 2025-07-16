@@ -140,8 +140,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "is_instance_0_col0",
@@ -700,8 +699,9 @@
     },
     {
       "Intermediate": {
-        "name": "prev_instance_addr_tmp_7b599_1",
-        "type": "M31",
+        "felt_names": [
+          "prev_instance_addr_tmp_7b599_1"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -753,8 +753,9 @@
     },
     {
       "Intermediate": {
-        "name": "instance_addr_tmp_7b599_2",
-        "type": "M31",
+        "felt_names": [
+          "instance_addr_tmp_7b599_2"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -787,8 +788,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -846,8 +846,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -916,8 +915,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -986,8 +984,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -1056,8 +1053,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -1102,8 +1098,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -1148,8 +1143,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -1194,8 +1188,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -1240,8 +1233,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -1286,8 +1278,9 @@
     },
     {
       "Intermediate": {
-        "name": "block_reset_condition_tmp_7b599_30",
-        "type": "M31",
+        "felt_names": [
+          "block_reset_condition_tmp_7b599_30"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1591,8 +1584,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_cond_verify_equal_known_id::evaluate",
@@ -1637,8 +1629,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_cond_verify_equal_known_id::evaluate",
@@ -1672,8 +1663,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_cond_verify_equal_known_id::evaluate",
@@ -1718,8 +1708,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_cond_verify_equal_known_id::evaluate",
@@ -1764,8 +1753,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_cond_verify_equal_known_id::evaluate",
@@ -1810,8 +1798,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_small_output_tmp_7b599_41_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_small_output_tmp_7b599_41_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "read_small::evaluate",
@@ -1886,8 +1875,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_small_output_tmp_7b599_47_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_small_output_tmp_7b599_47_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "read_small::evaluate",
@@ -1973,8 +1963,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_small_output_tmp_7b599_53_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_small_output_tmp_7b599_53_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "read_small::evaluate",
@@ -2060,8 +2051,9 @@
     },
     {
       "Intermediate": {
-        "name": "values_ptr_tmp_7b599_54",
-        "type": "M31",
+        "felt_names": [
+          "values_ptr_tmp_7b599_54"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -2107,8 +2099,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2177,8 +2168,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2258,8 +2248,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2339,8 +2328,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2420,8 +2408,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2490,8 +2477,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2571,8 +2557,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2652,8 +2637,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2733,8 +2717,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2803,8 +2786,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2884,8 +2866,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",
@@ -2965,8 +2946,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_99::evaluate",

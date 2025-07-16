@@ -74,8 +74,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "combination_limb_0_col0",
@@ -430,8 +429,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_2_coefs_1_1::evaluate",
@@ -600,8 +598,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_2_coefs_1_1::evaluate",
@@ -770,8 +767,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_2_coefs_1_1::evaluate",
@@ -940,8 +936,9 @@
     },
     {
       "Intermediate": {
-        "name": "poseidon_full_round_chain_chain_tmp_tmp_7d028_66",
-        "type": "M31",
+        "felt_names": [
+          "poseidon_full_round_chain_chain_tmp_tmp_7d028_66"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1328,8 +1325,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_4_coefs_1_1_m2_1::evaluate",
@@ -1596,8 +1592,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_4_coefs_4_2_m2_1::evaluate",
@@ -2078,8 +2073,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_4_coefs_4_2_1_1::evaluate",
@@ -2278,8 +2272,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "linear_combination_n_4_coefs_4_2_1_1::evaluate",
@@ -2478,8 +2471,9 @@
     },
     {
       "Intermediate": {
-        "name": "poseidon_full_round_chain_chain_id_tmp_7d028_149",
-        "type": "M31",
+        "felt_names": [
+          "poseidon_full_round_chain_chain_id_tmp_7d028_149"
+        ],
         "var": {
           "BinaryOp": [
             {

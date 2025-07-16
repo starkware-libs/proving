@@ -239,8 +239,12 @@
         }
       ]
     },
-    "[decode_instruction_bc3cd_output_offset0, decode_instruction_bc3cd_output_offset1, decode_instruction_bc3cd_output_offset2, decode_instruction_bc3cd_output_op1_base_ap]",
-    "[M31; 4]"
+    [
+      "decode_instruction_bc3cd_output_offset0",
+      "decode_instruction_bc3cd_output_offset1",
+      "decode_instruction_bc3cd_output_offset2",
+      "decode_instruction_bc3cd_output_op1_base_ap"
+    ]
   ],
   "state_names": [
     "offset0_col0",

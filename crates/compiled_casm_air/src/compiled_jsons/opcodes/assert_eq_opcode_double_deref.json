@@ -91,8 +91,10 @@
         }
       ]
     },
-    "[assert_eq_opcode_double_deref_output_pc, assert_eq_opcode_double_deref_output_ap]",
-    "[M31; 2]"
+    [
+      "assert_eq_opcode_double_deref_output_pc",
+      "assert_eq_opcode_double_deref_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -187,8 +189,11 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_cb32b_output_tmp_b1151_8_offset0, decode_instruction_cb32b_output_tmp_b1151_8_offset1, decode_instruction_cb32b_output_tmp_b1151_8_offset2]",
-        "type": "[M31; 3]",
+        "felt_names": [
+          "decode_instruction_cb32b_output_tmp_b1151_8_offset0",
+          "decode_instruction_cb32b_output_tmp_b1151_8_offset1",
+          "decode_instruction_cb32b_output_tmp_b1151_8_offset2"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_cb32b::evaluate",
@@ -327,8 +332,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -370,8 +374,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_verify_equal::evaluate",

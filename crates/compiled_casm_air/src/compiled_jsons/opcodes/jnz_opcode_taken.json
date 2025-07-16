@@ -91,8 +91,10 @@
         }
       ]
     },
-    "[jnz_opcode_taken_output_pc, jnz_opcode_taken_output_ap]",
-    "[M31; 2]"
+    [
+      "jnz_opcode_taken_output_pc",
+      "jnz_opcode_taken_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -215,8 +217,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_de75a_output_tmp_f51a9_5_offset0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "decode_instruction_de75a_output_tmp_f51a9_5_offset0"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_de75a::evaluate",
@@ -295,8 +298,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
@@ -656,8 +658,9 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_f51a9_9",
-        "type": "M31",
+        "felt_names": [
+          "diff_from_p_tmp_f51a9_9"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -676,8 +679,9 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_f51a9_10",
-        "type": "M31",
+        "felt_names": [
+          "diff_from_p_tmp_f51a9_10"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -696,8 +700,9 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_f51a9_11",
-        "type": "M31",
+        "felt_names": [
+          "diff_from_p_tmp_f51a9_11"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1001,8 +1006,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_small_output_tmp_f51a9_17_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_small_output_tmp_f51a9_17_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "read_small::evaluate",

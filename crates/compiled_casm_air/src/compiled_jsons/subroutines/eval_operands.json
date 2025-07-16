@@ -66,8 +66,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "dst_src_col0",
@@ -849,8 +848,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
@@ -1030,8 +1028,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
@@ -1148,8 +1145,9 @@
     },
     {
       "Intermediate": {
-        "name": "[cond_felt_252_as_addr_output_tmp_3172c_6]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "cond_felt_252_as_addr_output_tmp_3172c_6"
+        ],
         "var": {
           "StaticCall": [
             "cond_felt_252_as_addr::evaluate",
@@ -1351,8 +1349,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_252::evaluate",
@@ -1469,8 +1466,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "add_252::evaluate",
@@ -1741,8 +1737,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mul_252::evaluate",
@@ -2094,8 +2089,9 @@
     },
     {
       "Intermediate": {
-        "name": "res_constrained_tmp_3172c_64",
-        "type": "M31",
+        "felt_names": [
+          "res_constrained_tmp_3172c_64"
+        ],
         "var": {
           "BinaryOp": [
             {

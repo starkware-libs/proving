@@ -74,8 +74,12 @@
         }
       ]
     },
-    "[bit_unpack_n_4_output_limb_0, bit_unpack_n_4_output_limb_1, bit_unpack_n_4_output_limb_2, bit_unpack_n_4_output_limb_3]",
-    "[M31; 4]"
+    [
+      "bit_unpack_n_4_output_limb_0",
+      "bit_unpack_n_4_output_limb_1",
+      "bit_unpack_n_4_output_limb_2",
+      "bit_unpack_n_4_output_limb_3"
+    ]
   ],
   "state_names": [
     "col0",
@@ -97,8 +101,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[div_2_output_tmp_9eca5_2_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "div_2_output_tmp_9eca5_2_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "div_2::evaluate",
@@ -120,8 +125,9 @@
     },
     {
       "Intermediate": {
-        "name": "[div_2_output_tmp_9eca5_5_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "div_2_output_tmp_9eca5_5_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "div_2::evaluate",
@@ -143,8 +149,9 @@
     },
     {
       "Intermediate": {
-        "name": "[div_2_output_tmp_9eca5_8_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "div_2_output_tmp_9eca5_8_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "div_2::evaluate",
@@ -166,8 +173,9 @@
     },
     {
       "Intermediate": {
-        "name": "[div_2_output_tmp_9eca5_11_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "div_2_output_tmp_9eca5_11_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "div_2::evaluate",

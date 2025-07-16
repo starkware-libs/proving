@@ -107,8 +107,10 @@
         }
       ]
     },
-    "[qm_31_add_mul_opcode_output_pc, qm_31_add_mul_opcode_output_ap]",
-    "[M31; 2]"
+    [
+      "qm_31_add_mul_opcode_output_pc",
+      "qm_31_add_mul_opcode_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -269,8 +271,13 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_3802d_output_tmp_fa85a_11_offset0, decode_instruction_3802d_output_tmp_fa85a_11_offset1, decode_instruction_3802d_output_tmp_fa85a_11_offset2, decode_instruction_3802d_output_tmp_fa85a_11_op1_base_ap, decode_instruction_3802d_output_tmp_fa85a_11_res_mul]",
-        "type": "[M31; 5]",
+        "felt_names": [
+          "decode_instruction_3802d_output_tmp_fa85a_11_offset0",
+          "decode_instruction_3802d_output_tmp_fa85a_11_offset1",
+          "decode_instruction_3802d_output_tmp_fa85a_11_offset2",
+          "decode_instruction_3802d_output_tmp_fa85a_11_op1_base_ap",
+          "decode_instruction_3802d_output_tmp_fa85a_11_res_mul"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_3802d::evaluate",
@@ -507,8 +514,12 @@
     },
     {
       "Intermediate": {
-        "name": "[qm_31_read_reduced_output_tmp_fa85a_15_limb_0, qm_31_read_reduced_output_tmp_fa85a_15_limb_1, qm_31_read_reduced_output_tmp_fa85a_15_limb_2, qm_31_read_reduced_output_tmp_fa85a_15_limb_3]",
-        "type": "[M31; 4]",
+        "felt_names": [
+          "qm_31_read_reduced_output_tmp_fa85a_15_limb_0",
+          "qm_31_read_reduced_output_tmp_fa85a_15_limb_1",
+          "qm_31_read_reduced_output_tmp_fa85a_15_limb_2",
+          "qm_31_read_reduced_output_tmp_fa85a_15_limb_3"
+        ],
         "var": {
           "StaticCall": [
             "qm_31_read_reduced::evaluate",
@@ -595,8 +606,12 @@
     },
     {
       "Intermediate": {
-        "name": "[qm_31_read_reduced_output_tmp_fa85a_19_limb_0, qm_31_read_reduced_output_tmp_fa85a_19_limb_1, qm_31_read_reduced_output_tmp_fa85a_19_limb_2, qm_31_read_reduced_output_tmp_fa85a_19_limb_3]",
-        "type": "[M31; 4]",
+        "felt_names": [
+          "qm_31_read_reduced_output_tmp_fa85a_19_limb_0",
+          "qm_31_read_reduced_output_tmp_fa85a_19_limb_1",
+          "qm_31_read_reduced_output_tmp_fa85a_19_limb_2",
+          "qm_31_read_reduced_output_tmp_fa85a_19_limb_3"
+        ],
         "var": {
           "StaticCall": [
             "qm_31_read_reduced::evaluate",
@@ -683,8 +698,12 @@
     },
     {
       "Intermediate": {
-        "name": "[qm_31_read_reduced_output_tmp_fa85a_23_limb_0, qm_31_read_reduced_output_tmp_fa85a_23_limb_1, qm_31_read_reduced_output_tmp_fa85a_23_limb_2, qm_31_read_reduced_output_tmp_fa85a_23_limb_3]",
-        "type": "[M31; 4]",
+        "felt_names": [
+          "qm_31_read_reduced_output_tmp_fa85a_23_limb_0",
+          "qm_31_read_reduced_output_tmp_fa85a_23_limb_1",
+          "qm_31_read_reduced_output_tmp_fa85a_23_limb_2",
+          "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+        ],
         "var": {
           "StaticCall": [
             "qm_31_read_reduced::evaluate",

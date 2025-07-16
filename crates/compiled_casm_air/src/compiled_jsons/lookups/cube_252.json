@@ -774,8 +774,17 @@
         }
       ]
     },
-    "[cube_252_output_limb_0, cube_252_output_limb_1, cube_252_output_limb_2, cube_252_output_limb_3, cube_252_output_limb_4, cube_252_output_limb_5, cube_252_output_limb_6, cube_252_output_limb_7, cube_252_output_limb_8]",
-    "[M31; 9]"
+    [
+      "cube_252_output_limb_0",
+      "cube_252_output_limb_1",
+      "cube_252_output_limb_2",
+      "cube_252_output_limb_3",
+      "cube_252_output_limb_4",
+      "cube_252_output_limb_5",
+      "cube_252_output_limb_6",
+      "cube_252_output_limb_7",
+      "cube_252_output_limb_8"
+    ]
   ],
   "state_names": [
     "input_limb_0_col0",
@@ -1560,8 +1569,18 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_2, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_5, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_8, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_11, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_14, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_17, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_20, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_23, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_26, felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_27]",
-        "type": "[M31; 10]",
+        "felt_names": [
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_2",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_5",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_8",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_11",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_14",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_17",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_20",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_23",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_26",
+          "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_27"
+        ],
         "var": {
           "StaticCall": [
             "felt_252_unpack_from_27_range_check_output::evaluate",
@@ -1661,8 +1680,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mul_252::evaluate",
@@ -2068,8 +2086,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mul_252::evaluate",

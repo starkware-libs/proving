@@ -34,8 +34,9 @@
         }
       ]
     },
-    "[air_fn_bit_mux_output]",
-    "[M31; 1]"
+    [
+      "air_fn_bit_mux_output"
+    ]
   ],
   "state_names": [
     "col0",
@@ -54,8 +55,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[div_2_output_tmp_6ffde_2_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "div_2_output_tmp_6ffde_2_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "div_2::evaluate",

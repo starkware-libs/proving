@@ -48,8 +48,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "combination_limb_0_col0",
@@ -71,8 +70,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "carry_0_tmp_2db6d_2",
-        "type": "M31",
+        "felt_names": [
+          "carry_0_tmp_2db6d_2"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -121,8 +121,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_1_tmp_2db6d_3",
-        "type": "M31",
+        "felt_names": [
+          "carry_1_tmp_2db6d_3"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -174,8 +175,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_2_tmp_2db6d_4",
-        "type": "M31",
+        "felt_names": [
+          "carry_2_tmp_2db6d_4"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -227,8 +229,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_3_tmp_2db6d_5",
-        "type": "M31",
+        "felt_names": [
+          "carry_3_tmp_2db6d_5"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -280,8 +283,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_4_tmp_2db6d_6",
-        "type": "M31",
+        "felt_names": [
+          "carry_4_tmp_2db6d_6"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -333,8 +337,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_5_tmp_2db6d_7",
-        "type": "M31",
+        "felt_names": [
+          "carry_5_tmp_2db6d_7"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -386,8 +391,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_6_tmp_2db6d_8",
-        "type": "M31",
+        "felt_names": [
+          "carry_6_tmp_2db6d_8"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -439,8 +445,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_7_tmp_2db6d_9",
-        "type": "M31",
+        "felt_names": [
+          "carry_7_tmp_2db6d_9"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -511,8 +518,9 @@
     },
     {
       "Intermediate": {
-        "name": "carry_8_tmp_2db6d_10",
-        "type": "M31",
+        "felt_names": [
+          "carry_8_tmp_2db6d_10"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -624,8 +632,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_0_tmp_2db6d_11",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_0_tmp_2db6d_11"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -699,8 +708,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_1_tmp_2db6d_12",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_1_tmp_2db6d_12"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -777,8 +787,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_2_tmp_2db6d_13",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_2_tmp_2db6d_13"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -855,8 +866,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_3_tmp_2db6d_14",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_3_tmp_2db6d_14"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -933,8 +945,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_4_tmp_2db6d_15",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_4_tmp_2db6d_15"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1011,8 +1024,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_5_tmp_2db6d_16",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_5_tmp_2db6d_16"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1089,8 +1103,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_6_tmp_2db6d_17",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_6_tmp_2db6d_17"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1167,8 +1182,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_7_tmp_2db6d_18",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_7_tmp_2db6d_18"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1245,8 +1261,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_8_tmp_2db6d_19",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_8_tmp_2db6d_19"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1323,8 +1340,9 @@
     },
     {
       "Intermediate": {
-        "name": "biased_carry_9_tmp_2db6d_20",
-        "type": "M31",
+        "felt_names": [
+          "biased_carry_9_tmp_2db6d_20"
+        ],
         "var": {
           "BinaryOp": [
             {

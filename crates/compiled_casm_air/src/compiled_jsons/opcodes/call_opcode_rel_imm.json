@@ -122,8 +122,11 @@
         }
       ]
     },
-    "[call_opcode_rel_imm_output_pc, call_opcode_rel_imm_output_ap, call_opcode_rel_imm_output_fp]",
-    "[M31; 3]"
+    [
+      "call_opcode_rel_imm_output_pc",
+      "call_opcode_rel_imm_output_ap",
+      "call_opcode_rel_imm_output_fp"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -227,8 +230,7 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "decode_instruction_2a7a2::evaluate",
@@ -247,8 +249,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -333,8 +334,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "read_positive_num_bits_27::evaluate",
@@ -441,8 +441,9 @@
     },
     {
       "Intermediate": {
-        "name": "[read_small_output_tmp_9db06_14_limb_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "read_small_output_tmp_9db06_14_limb_0"
+        ],
         "var": {
           "StaticCall": [
             "read_small::evaluate",

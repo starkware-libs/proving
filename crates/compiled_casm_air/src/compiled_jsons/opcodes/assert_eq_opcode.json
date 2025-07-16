@@ -91,8 +91,10 @@
         }
       ]
     },
-    "[assert_eq_opcode_output_pc, assert_eq_opcode_output_ap]",
-    "[M31; 2]"
+    [
+      "assert_eq_opcode_output_pc",
+      "assert_eq_opcode_output_ap"
+    ]
   ],
   "state_names": [
     "input_pc_col0",
@@ -160,8 +162,11 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[decode_instruction_fe864_output_tmp_d6f03_7_offset0, decode_instruction_fe864_output_tmp_d6f03_7_offset2, decode_instruction_fe864_output_tmp_d6f03_7_op1_base_ap]",
-        "type": "[M31; 3]",
+        "felt_names": [
+          "decode_instruction_fe864_output_tmp_d6f03_7_offset0",
+          "decode_instruction_fe864_output_tmp_d6f03_7_offset2",
+          "decode_instruction_fe864_output_tmp_d6f03_7_op1_base_ap"
+        ],
         "var": {
           "StaticCall": [
             "decode_instruction_fe864::evaluate",
@@ -289,8 +294,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "mem_verify_equal::evaluate",

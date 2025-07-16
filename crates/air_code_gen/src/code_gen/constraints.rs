@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, ExternalState,
-    LookupTerm, PaddingType, TraceType, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep,
+    ExternalState, LookupTerm, PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -109,10 +109,13 @@ fn get_dummy_public_params(lists: &CompiledAirFn) -> rust::Tokens {
 /// Generate constraints evaluation code for an inline AirFn (AirFn that is only called from
 /// other AirFns)
 pub fn generate_inline_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
+    let CompiledAirVar::Array(ref output_array) = lists.verifier_output.0 else {
+        panic!("Verifier output is not array in {}", &lists.name)
+    };
     let name = lists.name.to_case(Case::Pascal);
     let input_name = format!("[{}]", lists.verifier_input_limbs.join(", "));
     let input_type = format!("[E::F; {}]", lists.verifier_input_limbs.len());
-    let output_type = lists.verifier_output.2.clone().replace("M31", "E::F");
+    let output_type = format!("[E::F; {}]", output_array.len());
 
     // TODO(AnatG): Find a way to remove <#[allow(unused_variables)]> below.
     quote! {
@@ -489,8 +492,11 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                     );
                 });
             }
-            ConstraintEvalStep::Intermediate(CompiledIntermediate { name, r#type, var }) => {
-                if r#type == "[M31; 0]" {
+            ConstraintEvalStep::Intermediate(CompiledConstraintIntermediate {
+                felt_names,
+                var,
+            }) => {
+                if felt_names.is_empty() {
                     code.extend(quote! {
                         $(parse_eval_constraint(lists, var, &const_names));
                     });
@@ -505,17 +511,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                         }
                     }
                     code.extend(quote! {
-                        let $(name) = $(parse_eval_constraint(lists, var, &const_names));
-                    });
-                } else if r#type == "M31" {
-                    code.extend(quote! {
-                        let $(name) = eval.add_intermediate($(parse_eval_constraint(lists, var, &const_names)));
+                        let [$(felt_names.join(", "))] = $(parse_eval_constraint(lists, var, &const_names));
                     });
                 } else {
-                    // TODO(alont) consdier producing a warning to indicate that the intermediate
-                    // does not translate into expression efficiency.
+                    assert_eq!(felt_names.len(), 1, "In constraints, only StaticCalls are allowed to produce multiple-felt outputs");
                     code.extend(quote! {
-                        let $(name) = $(parse_eval_constraint(lists, var, &const_names));
+                        let $(&felt_names[0]) = eval.add_intermediate($(parse_eval_constraint(lists, var, &const_names)));
                     });
                 }
             }

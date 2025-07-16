@@ -144,8 +144,7 @@
     {
       "Array": []
     },
-    "[]",
-    "[M31; 0]"
+    []
   ],
   "state_names": [
     "msb_col0",
@@ -202,8 +201,9 @@
   "constraints": [
     {
       "Intermediate": {
-        "name": "[cond_felt_252_as_addr_output_tmp_783d5_0]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "cond_felt_252_as_addr_output_tmp_783d5_0"
+        ],
         "var": {
           "StaticCall": [
             "cond_felt_252_as_addr::evaluate",
@@ -393,8 +393,9 @@
     },
     {
       "Intermediate": {
-        "name": "[cond_felt_252_as_addr_output_tmp_783d5_1]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "cond_felt_252_as_addr_output_tmp_783d5_1"
+        ],
         "var": {
           "StaticCall": [
             "cond_felt_252_as_addr::evaluate",
@@ -584,8 +585,9 @@
     },
     {
       "Intermediate": {
-        "name": "[cond_felt_252_as_rel_imm_output_tmp_783d5_5]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "cond_felt_252_as_rel_imm_output_tmp_783d5_5"
+        ],
         "var": {
           "StaticCall": [
             "cond_felt_252_as_rel_imm::evaluate",
@@ -792,8 +794,9 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_783d5_6",
-        "type": "M31",
+        "felt_names": [
+          "diff_from_p_tmp_783d5_6"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -815,8 +818,9 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_783d5_7",
-        "type": "M31",
+        "felt_names": [
+          "diff_from_p_tmp_783d5_7"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -838,8 +842,9 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_783d5_8",
-        "type": "M31",
+        "felt_names": [
+          "diff_from_p_tmp_783d5_8"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1221,8 +1226,9 @@
     },
     {
       "Intermediate": {
-        "name": "dst_sum_tmp_783d5_9",
-        "type": "M31",
+        "felt_names": [
+          "dst_sum_tmp_783d5_9"
+        ],
         "var": {
           "BinaryOp": [
             {
@@ -1560,8 +1566,9 @@
     },
     {
       "Intermediate": {
-        "name": "[cond_felt_252_as_rel_imm_output_tmp_783d5_14]",
-        "type": "[M31; 1]",
+        "felt_names": [
+          "cond_felt_252_as_rel_imm_output_tmp_783d5_14"
+        ],
         "var": {
           "StaticCall": [
             "cond_felt_252_as_rel_imm::evaluate",
@@ -2044,8 +2051,7 @@
     },
     {
       "Intermediate": {
-        "name": "[]",
-        "type": "[M31; 0]",
+        "felt_names": [],
         "var": {
           "StaticCall": [
             "range_check_ap::evaluate",
