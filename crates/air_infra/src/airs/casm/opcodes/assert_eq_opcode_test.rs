@@ -74,6 +74,8 @@ fn test_assert_eq_double_deref_big_op0() {
             (247, "mem1_base_limb_0"),
             (460, "mem1_base_limb_1"),
             (5, "mem1_base_limb_2"),
+            (0, "mem1_base_limb_3"),
+            (0, "partial_limb_msb"),
             (1, "dst_id"),
         ]
         .into(),
@@ -163,6 +165,8 @@ fn test_assert_eq_double_deref() {
             (4, "mem1_base_limb_0"),
             (0, "mem1_base_limb_1"),
             (0, "mem1_base_limb_2"),
+            (0, "mem1_base_limb_3"),
+            (0, "partial_limb_msb"),
             (1, "dst_id"),
         ]
         .into(),

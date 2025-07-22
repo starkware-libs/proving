@@ -154,6 +154,7 @@ fn test_generic_consistency_rel_call() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (0, "partial_limb_msb"),
         (50, "op1_src"),
         (1, "op1_id"),
         (299, "op1_limb_0"),
@@ -297,17 +298,23 @@ fn test_generic_consistency_rel_call() {
         (0, "res_limb_25"),
         (0, "res_limb_26"),
         (0, "res_limb_27"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (1285643938, "dst_sum_squares_inv"),
         (243381480, "dst_sum_inv"),
         (0, "op1_as_rel_imm_cond"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (349, "next_pc_jnz"),
         (349, "next_pc"),
         (202, "next_ap"),
-        (202, "range_check_ap_bot8bits"),
+        (202, "range_check_ap_bot11bits"),
         (202, "next_fp"),
     ]
     .into();
@@ -537,6 +544,7 @@ fn test_generic_consistency_ret() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (0, "partial_limb_msb"),
         (6, "op1_src"),
         (1, "op1_id"),
         (1, "op1_limb_0"),
@@ -680,17 +688,23 @@ fn test_generic_consistency_ret() {
         (0, "res_limb_25"),
         (0, "res_limb_26"),
         (0, "res_limb_27"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (2029429668, "dst_sum_squares_inv"),
         (536870912, "dst_sum_inv"),
         (0, "op1_as_rel_imm_cond"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (4, "next_pc_jnz"),
         (1, "next_pc"),
         (11, "next_ap"),
-        (11, "range_check_ap_bot8bits"),
+        (11, "range_check_ap_bot11bits"),
         (4, "next_fp"),
     ]
     .into();
@@ -847,6 +861,7 @@ fn test_generic_consistency_assert_equal() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (0, "partial_limb_msb"),
         (6, "op1_src"),
         (1, "op1_id"),
         (3, "op1_limb_0"),
@@ -990,17 +1005,23 @@ fn test_generic_consistency_assert_equal() {
         (0, "res_limb_25"),
         (0, "res_limb_26"),
         (0, "res_limb_27"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (60231555, "dst_sum_squares_inv"),
         (1431655765, "dst_sum_inv"),
         (0, "op1_as_rel_imm_cond"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (6, "next_pc_jnz"),
         (4, "next_pc"),
         (11, "next_ap"),
-        (11, "range_check_ap_bot8bits"),
+        (11, "range_check_ap_bot11bits"),
         (6, "next_fp"),
     ]
     .into();
@@ -1151,6 +1172,7 @@ fn test_generic_consistency_jump() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (0, "partial_limb_msb"),
         (6, "op1_src"),
         (1, "op1_id"),
         (5, "op1_limb_0"),
@@ -1294,17 +1316,23 @@ fn test_generic_consistency_jump() {
         (0, "res_limb_25"),
         (0, "res_limb_26"),
         (0, "res_limb_27"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (1351207863, "dst_sum_squares_inv"),
         (1, "dst_sum_inv"),
         (0, "op1_as_rel_imm_cond"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (4, "next_pc_jnz"),
         (5, "next_pc"),
         (11, "next_ap"),
-        (11, "range_check_ap_bot8bits"),
+        (11, "range_check_ap_bot11bits"),
         (6, "next_fp"),
     ]
     .into();
@@ -1565,6 +1593,7 @@ fn test_generic_consistency_jnz_taken() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (0, "partial_limb_msb"),
         (50, "op1_src"),
         (1, "op1_id"),
         (15, "op1_limb_0"),
@@ -1708,17 +1737,23 @@ fn test_generic_consistency_jnz_taken() {
         (0, "res_limb_25"),
         (0, "res_limb_26"),
         (0, "res_limb_27"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (500077285, "dst_sum_squares_inv"),
         (1955558780, "dst_sum_inv"),
         (414, "op1_as_rel_imm_cond"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (65, "next_pc_jnz"),
         (65, "next_pc"),
         (200, "next_ap"),
-        (200, "range_check_ap_bot8bits"),
+        (200, "range_check_ap_bot11bits"),
         (150, "next_fp"),
     ]
     .into();
@@ -1865,6 +1900,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (0, "partial_limb_msb"),
         (50, "op1_src"),
         (1, "op1_id"),
         (15, "op1_limb_0"),
@@ -2008,17 +2044,23 @@ fn test_generic_consistency_jnz_not_taken() {
         (0, "res_limb_25"),
         (0, "res_limb_26"),
         (0, "res_limb_27"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
+        (0, "partial_limb_msb"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (1351207863, "dst_sum_squares_inv"),
         (1, "dst_sum_inv"),
         (0, "op1_as_rel_imm_cond"),
         (0, "msb"),
         (0, "mid_limbs_set"),
+        (0, "partial_limb_msb"),
         (52, "next_pc_jnz"),
         (52, "next_pc"),
         (200, "next_ap"),
-        (200, "range_check_ap_bot8bits"),
+        (200, "range_check_ap_bot11bits"),
         (150, "next_fp"),
     ]
     .into();
@@ -2268,7 +2310,7 @@ fn test_generic_add_ap_res_mul() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 524288")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 262144")]
 fn test_generic_add_ap_res_mul_too_big() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
@@ -2281,11 +2323,11 @@ fn test_generic_add_ap_res_mul_too_big() {
     flags[FLAG_RES_MUL_INDEX] = true;
 
     // Register values at opcode start
-    let [pc, ap, fp] = [50, 1 << 26, 150];
+    let [pc, ap, fp] = [50, 1 << 28, 150];
     let offset1 = -123;
     let offset2 = 3244;
-    let op0 = 1_u32 << 13;
-    let op1 = 1_u32 << 13;
+    let op0 = 1_u32 << 14;
+    let op1 = 1_u32 << 14;
 
     // Fill memory
     let memory_values = vec![
@@ -2320,7 +2362,7 @@ fn test_generic_add_ap_res_mul_too_big() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 8388607")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 1048575")]
 fn test_generic_add_ap_res_mul_negative() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {

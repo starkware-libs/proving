@@ -46,7 +46,8 @@ impl Default for Felt252Expr {
 
 #[macro_export]
 macro_rules! const_felt252_expr {
-    ($low:expr) => {
+    ($low:expr) => {{
+        #[allow(clippy::int_plus_one)]
         if ($low as i128) == -1 {
             const_felt252_expr!(0, 0x8000000000000110000000000000000)
         } else if $low >= 0 {
@@ -57,7 +58,7 @@ macro_rules! const_felt252_expr {
                 0x08000000_00000010_ffffffff_ffffffff
             )
         }
-    };
+    }};
     ($low:expr, $high:expr) => {
         Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
             [

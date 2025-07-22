@@ -76,6 +76,7 @@ impl PackedPedersenPointsTable {
         unimplemented!()
     }
 }
+pub mod range_check_11;
 pub mod range_check_18_b;
 pub mod range_check_19_e;
 pub mod range_check_19_f;

@@ -43,7 +43,7 @@
     "value_limb_12_col13",
     "value_limb_13_col14",
     "value_limb_14_col15",
-    "msb_col16"
+    "partial_limb_msb_col16"
   ],
   "lookup_names": [
     [
@@ -157,7 +157,7 @@
                 "State": "value_limb_14_col15"
               },
               {
-                "State": "msb_col16"
+                "State": "partial_limb_msb_col16"
               }
             ]
           ]
@@ -589,8 +589,11 @@
       "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
     },
     {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
       "Intermediate": {
-        "name": "msb_tmp_66b3a_2",
+        "name": "partial_limb_msb_tmp_66b3a_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -632,7 +635,7 @@
           {
             "Var": [
               "UInt16",
-              "msb_tmp_66b3a_2"
+              "partial_limb_msb_tmp_66b3a_2"
             ]
           },
           "as_m31",
@@ -640,6 +643,7 @@
         ]
       }
     },
+    "EndBlock",
     "EndBlock",
     {
       "LookupAddInput": {

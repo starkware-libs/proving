@@ -6,13 +6,18 @@ use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 // Macros
 use crate::const_expr;
+use crate::const_u16_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint16_expr::*;
+use crate::core::felt252_id_memory::read_positive::*;
 
-// The number of limbs that fit in an M31. When reading a "small" value into an M31
+// The number of bits in a "small" value.
+pub const SMALL_BITS: usize = ADDRESS_BITS;
+// The number of whole limbs that fit in a "small" value. When reading a "small" value into an M31
 // we'll deduce that many limbs.
-pub const LIMBS_IN_M31: usize = 3;
+pub const LIMBS_IN_SMALL: usize = SMALL_BITS / FELT252_BITS_PER_WORD;
 
 // 9-bit limbs
 //  limb ->   27  26  25  24  23  22  21  20  19 ...   5   4   3   2   1   0
@@ -63,23 +68,27 @@ impl AirFn for CondDecodeSmallSign {
     }
 }
 
-// Receives a Felt252 and its sign bits, and returns it as a relative immediate felt.
+// Receives sign bits, the low limbs, and the remainder bits in the next limb.
+// Returns a FeltExpr that represents this relative immediate.
 pub fn small_to_rel_imm(
-    low_limbs: [FeltExpr; LIMBS_IN_M31],
+    low_limbs: [FeltExpr; LIMBS_IN_SMALL],
+    remainder_bits: FeltExpr,
     msb: FeltExpr,
     mid_limbs_set: FeltExpr,
 ) -> FeltExpr {
-    let low_limbs_value = felt252_to_m31(
-        low_limbs.to_vec().into(),
-        LIMBS_IN_M31 * FELT252_BITS_PER_WORD,
-    );
-    low_limbs_value - msb - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set
+    let limbs = low_limbs
+        .into_iter()
+        .chain([remainder_bits])
+        .collect::<Vec<_>>();
+    let low_limbs_value = felt252_to_m31(limbs.into(), SMALL_BITS);
+    low_limbs_value - msb - const_expr!(1 << SMALL_BITS) * mid_limbs_set
 }
 
-// Receives sign bits and 3 low limbs, and returns a `felt252` that represents this relative
-// immediate.
+// Receives sign bits, the low limbs and the remainder bits in the next limb.
+// Returns a `felt252` that represents this relative immediate.
 pub fn small_to_felt252(
-    low_limbs: [FeltExpr; LIMBS_IN_M31],
+    low_limbs: [FeltExpr; LIMBS_IN_SMALL],
+    remainder_bits: FeltExpr,
     msb: FeltExpr,
     mid_limbs_set: FeltExpr,
 ) -> Felt252Expr {
@@ -92,15 +101,18 @@ pub fn small_to_felt252(
     // Least significant three stay as-is
     full_value_limbs.append(low_limbs.to_vec().as_mut());
 
-    // Limbs 3-20 are all 0x0 or all 0x1ff
-    for _ in LIMBS_IN_M31..21 {
+    // Bits 28 and 29 stay as-is and bits 30-36 are 1 if mid_limbs_set and 0 otherwise.
+    full_value_limbs.push(remainder_bits + (mid_limbs_set.clone() * const_expr!(0x1FC)));
+
+    // Limbs 4-20 are all 0x0 or all 0x1ff
+    for _ in (LIMBS_IN_SMALL + 1)..21 {
         full_value_limbs.push(mid_limb_value.clone());
     }
 
     // Limb 21 is:
-    // 0x0 if the MSB is not set (this also implies that limbs 3-20 are zero)
-    // 0x88 if the MSB is set and limbs 3-20 are zero
-    // 0x87 if the MSB is set and limbs 3-20 are 0x1ff
+    // 0x0 if the MSB is not set (this also implies that limbs 4-20 are zero)
+    // 0x88 if the MSB is set and limbs 4-20 are zero
+    // 0x87 if the MSB is set and limbs 4-20 are 0x1ff
     full_value_limbs.push(const_expr!(0x88) * msb - mid_limbs_set);
 
     // Limbs 22-26 are always zero
@@ -121,7 +133,7 @@ pub struct ReadSmall {
 }
 
 /// Read a Felt252 that has a small magnitude into a Felt. The allowed range
-/// for the Felt252 is [-2**27, 2**27 - 1] (for 9-bit limbs).
+/// for the Felt252 is [-2**29 - 1, 2**29 - 1] (for 9-bit limbs).
 /// Returns also the ID of the value in the memory.
 impl AirFn for ReadSmall {
     type ExtIn = ();
@@ -147,7 +159,7 @@ impl AirFn for ReadSmall {
 
         // Least significant three are deduced as-is
         let mut low_value_limbs = vec![];
-        for i in 0..LIMBS_IN_M31 {
+        for i in 0..LIMBS_IN_SMALL {
             low_value_limbs.push(
                 air_builder.deduce(
                     value.get_felt_mut(i),
@@ -159,7 +171,18 @@ impl AirFn for ReadSmall {
                 ),
             );
         }
-        let low_limbs_arr: [FeltExpr; LIMBS_IN_M31] = low_value_limbs
+
+        let remainder_bits = air_builder.deduce_air_var(
+            UInt16Expr::from(value.get_felt(3)) & const_u16_expr!(0b11),
+            "remainder_bits",
+        );
+
+        air_builder.call(
+            &CondRangeCheck2 {},
+            [remainder_bits.as_felt(), const_expr!(1)],
+        );
+
+        let low_limbs_arr: [FeltExpr; LIMBS_IN_SMALL] = low_value_limbs
             .try_into()
             .expect("Incorrect size for the low value");
 
@@ -167,9 +190,17 @@ impl AirFn for ReadSmall {
         air_builder.mem_verify(
             &self.memory.id_to_big,
             &id,
-            small_to_felt252(low_limbs_arr.clone(), msb.clone(), mid_limbs_set.clone()),
+            small_to_felt252(
+                low_limbs_arr.clone(),
+                remainder_bits.as_felt(),
+                msb.clone(),
+                mid_limbs_set.clone(),
+            ),
         );
 
-        (small_to_rel_imm(low_limbs_arr, msb, mid_limbs_set), id)
+        (
+            small_to_rel_imm(low_limbs_arr, remainder_bits.as_felt(), msb, mid_limbs_set),
+            id,
+        )
     }
 }
