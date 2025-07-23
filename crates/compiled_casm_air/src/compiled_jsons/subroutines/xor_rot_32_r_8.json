@@ -71,22 +71,33 @@
       "Use"
     ],
     [
-      "VerifyBitwiseXor_8",
+      "VerifyBitwiseXor_8_B",
       "Use"
     ],
     [
-      "VerifyBitwiseXor_8",
+      "VerifyBitwiseXor_8_B",
       "Use"
     ]
   ],
   "deduction_lookups": {
-    "VerifyBitwiseXor_8": "Multiplicity"
+    "VerifyBitwiseXor_8": "Multiplicity",
+    "VerifyBitwiseXor_8_B": "Multiplicity"
   },
   "inline_calls": {
     "bitwise_xor_num_bits_8": [
       [
         [
           "VerifyBitwiseXor_8",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ],
+    "bitwise_xor_num_bits_8_b": [
+      [
+        [
+          "VerifyBitwiseXor_8_B",
           "Use"
         ]
       ],
@@ -271,7 +282,7 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
+            "bitwise_xor_num_bits_8_b::evaluate",
             [
               {
                 "Array": [
@@ -302,7 +313,7 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
+            "bitwise_xor_num_bits_8_b::evaluate",
             [
               {
                 "Array": [
@@ -957,7 +968,7 @@
     },
     "EndBlock",
     {
-      "StartBlock": "Bitwise Xor Num Bits 8"
+      "StartBlock": "Bitwise Xor Num Bits 8 B"
     },
     {
       "Intermediate": {
@@ -1012,7 +1023,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "VerifyBitwiseXor_8",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "input": {
           "Array": [
             {
@@ -1036,7 +1047,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "Var": [
@@ -1059,7 +1070,7 @@
     },
     "EndBlock",
     {
-      "StartBlock": "Bitwise Xor Num Bits 8"
+      "StartBlock": "Bitwise Xor Num Bits 8 B"
     },
     {
       "Intermediate": {
@@ -1108,7 +1119,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "VerifyBitwiseXor_8",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "input": {
           "Array": [
             {
@@ -1126,7 +1137,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "State": "ms_8_bits_col1"

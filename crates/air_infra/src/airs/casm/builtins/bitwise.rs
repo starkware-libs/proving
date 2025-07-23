@@ -71,7 +71,7 @@ impl AirFn for BitwiseBuiltin {
             } else {
                 FELT252_BITS_PER_WORD
             };
-            let a_xor_b = air_builder.call(&BitwiseXor { num_bits }, [a.clone(), b.clone()]);
+            let a_xor_b = air_builder.call(&BitwiseXor::new(num_bits), [a.clone(), b.clone()]);
             let a_and_b = air_builder.let_(
                 (const_expr!(2).inverse()) * (a + b - a_xor_b.clone()),
                 "and",

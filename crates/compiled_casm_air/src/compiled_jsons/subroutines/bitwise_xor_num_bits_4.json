@@ -4,7 +4,7 @@
   "relation_size": null,
   "log_height": null,
   "description": "Bitwise Xor Num Bits 4",
-  "instance_definition": "{\"num_bits\":4}",
+  "instance_definition": "{\"num_bits\":4,\"variant\":0}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
@@ -73,7 +73,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "xor_tmp_bf28a_0",
+        "name": "xor_tmp_7eb76_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -114,7 +114,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_bf28a_0"
+              "xor_tmp_7eb76_0"
             ]
           },
           "as_m31",

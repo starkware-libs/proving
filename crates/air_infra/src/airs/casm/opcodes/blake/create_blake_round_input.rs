@@ -70,7 +70,10 @@ impl AirFn for CreateBlakeRoundInput {
                     let [thl, thh] = air_builder.call(&split, t.high());
 
                     // Calculate and deduce the bitwise xor of the parts.
-                    let bitwise_xor = BitwiseXor { num_bits: 8 };
+                    let bitwise_xor = BitwiseXor {
+                        num_bits: 8,
+                        variant: i % 2,
+                    };
                     let cll = air_builder.call(&bitwise_xor, [tll, const_expr!(IV4[0] as u32)]);
                     let clh = air_builder.call(&bitwise_xor, [tlh, const_expr!(IV4[1] as u32)]);
                     let chl = air_builder.call(&bitwise_xor, [thl, const_expr!(IV4[2] as u32)]);

@@ -35,17 +35,65 @@ impl AirFn for TripleXor32 {
         let [cll, clh] = air_builder.call(&split, c.low());
         let [chl, chh] = air_builder.call(&split, c.high());
 
-        let tmp_rll = air_builder.call(&BitwiseXor { num_bits: 8 }, [all, bll]);
-        let rll = air_builder.call(&BitwiseXor { num_bits: 8 }, [tmp_rll, cll]);
+        let tmp_rll = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 0,
+            },
+            [all, bll],
+        );
+        let rll = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 0,
+            },
+            [tmp_rll, cll],
+        );
 
-        let tmp_rlh = air_builder.call(&BitwiseXor { num_bits: 8 }, [alh, blh]);
-        let rlh = air_builder.call(&BitwiseXor { num_bits: 8 }, [tmp_rlh, clh]);
+        let tmp_rlh = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 0,
+            },
+            [alh, blh],
+        );
+        let rlh = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 0,
+            },
+            [tmp_rlh, clh],
+        );
 
-        let tmp_rhl = air_builder.call(&BitwiseXor { num_bits: 8 }, [ahl, bhl]);
-        let rhl = air_builder.call(&BitwiseXor { num_bits: 8 }, [tmp_rhl, chl]);
+        let tmp_rhl = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 1,
+            },
+            [ahl, bhl],
+        );
+        let rhl = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 1,
+            },
+            [tmp_rhl, chl],
+        );
 
-        let tmp_rhh = air_builder.call(&BitwiseXor { num_bits: 8 }, [ahh, bhh]);
-        let rhh = air_builder.call(&BitwiseXor { num_bits: 8 }, [tmp_rhh, chh]);
+        let tmp_rhh = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 1,
+            },
+            [ahh, bhh],
+        );
+        let rhh = air_builder.call(
+            &BitwiseXor {
+                num_bits: 8,
+                variant: 1,
+            },
+            [tmp_rhh, chh],
+        );
 
         air_builder.let_(
             vec![
