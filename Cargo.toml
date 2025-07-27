@@ -6,9 +6,7 @@ resolver = "2"
 members = [
     "crates/air_code_gen",
     "crates/air_infra",
-    "crates/code_gen_regression/cairo_air",
     "crates/compiled_casm_air",
-    "crates/code_gen_regression/witness",
 ]
 
 [workspace.package]
