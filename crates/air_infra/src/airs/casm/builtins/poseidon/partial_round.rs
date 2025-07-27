@@ -24,7 +24,7 @@ pub struct PoseidonPartialRound {}
 impl AirFn for PoseidonPartialRound {
     type ExtIn = ();
     type In = ([Felt252Width27Expr; 4], Felt252Width27Expr);
-    type Out = [Felt252Width27Expr; 4];
+    type Out = [Felt252Width27Expr; 2];
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
         Some(vec![
@@ -52,14 +52,14 @@ impl AirFn for PoseidonPartialRound {
         // doubling is a particularly cheap (i.e. lookup-free) type of linear combination.
         let half_z3 = air_builder.call(
             &LinearCombination::new([4, 2, 3, 1, -1, 1]),
-            [z0_3, z1, z1_3.clone(), z2.clone(), z2_3.clone(), half_key],
+            [z0_3, z1, z1_3, z2, z2_3.clone(), half_key],
         );
         // The intermediary value half_z3, unlike the partial round state elements, is not the input
         // or output of any Cube252, and thus needs to be directly range checked.
         air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), half_z3.clone());
         let z3 = air_builder.call(&LinearCombination::new([2]), [half_z3]);
 
-        [z1_3, z2, z2_3, z3]
+        [z2_3, z3]
     }
 }
 
@@ -84,7 +84,8 @@ impl AirFn for Poseidon3PartialRoundsChain {
     ) -> Self::Out {
         let keys = air_builder.lookup_call(&PoseidonRoundKeys {}, [round.clone()], ());
         for k in keys {
-            state = air_builder.call(&PoseidonPartialRound {}, (state, k));
+            let [s2, s3] = air_builder.call(&PoseidonPartialRound {}, (state.clone(), k));
+            state = [state[2].clone(), state[3].clone(), s2, s3];
         }
 
         (chain, round + const_expr!(1), state)
