@@ -1,7 +1,8 @@
-import { Air } from "./air.js"
-import { create_var_span, html, intersperse, zip } from "./utils.js"
+import { Air, CallStep, LookupTermStep } from "./air.js"
+import { DefaultMap, create_var_span, html, intersperse, zip } from "./utils.js"
 
 let AIRS = new Map()
+let RELATIONS = new DefaultMap(() => { return { used_by: new Set() } })
 let selected_air = null
 
 class VarGroupView {
@@ -112,17 +113,38 @@ function populate_component_selector() {
     }
 }
 
+async function build_xref_graph() {
+    let done = 0
+    for (const air_name of AIRS.keys()) {
+        const json = await get_air_json(air_name)
+        for (const lookup of json.lookup_names) {
+            const [relation_name, use_or_yield] = lookup
+            if (use_or_yield == "Use") {
+                RELATIONS.get(relation_name).used_by.add(air_name)
+            }
+        }
+
+        for (const callee in json.inline_calls) {
+            AIRS.get(callee).called_from.add(air_name)
+        }
+        set_error(`Building xref graph: ${done} / ${AIRS.size}`)
+        done++
+    }
+}
+
 async function init() {
     const response = await fetch("/component_list")
     const json = await response.json()
     for (const air of json) {
-        AIRS.set(air.name, {...air, comment: ""})
+        AIRS.set(air.name, {...air, comment: "", called_from: new Set()})
     }
+    await build_xref_graph()
     await update_comments()
     setInterval(update_comments, 1000)
     populate_component_selector()
     addEventListener('popstate', (e) => show_air(e.state.air_name))
     document.getElementById("component_select").addEventListener('change', component_select_change)
+    document.getElementById("xrefs_panel_toggle").addEventListener('click', toggle_xrefs_panel)
     await goto_air('add_252')
 }
 
@@ -249,6 +271,8 @@ async function show_air(air_name) {
         </div>`)
     show_comment()
 
+    fill_xrefs_panel(air)
+
     let outputs_html = []
     let output_idx = 0
     for (const [output_expr, output_expr_name] of zip(air.output_exprs, air.output_names)) {
@@ -261,6 +285,54 @@ async function show_air(air_name) {
 async function component_select_change() {
     const selected = (/** @type {HTMLSelectElement} */ (document.getElementById("component_select"))).value
     await goto_air(selected)
+}
+
+function air_fn_list_html(air_fn_names) {
+    let result = []
+    for (const fn_name of Array.from(air_fn_names).sort()) {
+        const line_elem = html`<div class="air-link" style="margin-top: 2px; margin-bottom: 2px">${fn_name}</div>`
+        line_elem.addEventListener('click', (e) => goto_air(fn_name))
+        result.push(line_elem)
+    }
+    return result
+}
+
+/**
+ * @param {Air} air
+ */
+function fill_xrefs_panel(air) {
+    let xrefs_panel_content = document.getElementById("xrefs_panel_content")
+    xrefs_panel_content.replaceChildren(html`<div style="font-family: sans-serif; font-weight: bold;">Called by</div>`)
+    xrefs_panel_content.appendChild(html`<div>${air_fn_list_html(AIRS.get(air.id).called_from)}</div>`)
+
+    if (air.relation_name !== null) {
+        xrefs_panel_content.appendChild(
+            html`<div style="font-family: sans-serif; font-weight: bold; margin-top: 15px">Relation <span class="code-font">${air.relation_name}</span> used by</div>`
+        )
+        xrefs_panel_content.appendChild(html`<div>${air_fn_list_html(RELATIONS.get(air.relation_name).used_by)}</div>`)
+    }
+}
+
+async function toggle_xrefs_panel() {
+    const button = document.getElementById("xrefs_panel_toggle")
+    const panel = document.getElementById("xrefs_panel")
+    const panel_content = document.getElementById("xrefs_panel_content")
+    const panel_teaser = document.getElementById("xrefs_panel_teaser")
+    if (panel.classList.contains("panel-open")) {
+        // The panel is open, close it
+        button.innerText = "<"
+        panel.classList.remove("panel-open")
+        panel.classList.add("panel-closed")
+        panel_content.style.display = "none"
+        panel_teaser.style.display = "block"
+    } else {
+        // The panel is closed, open it
+        button.innerText = ">"
+        panel.classList.remove("panel-closed")
+        panel.classList.add("panel-open")
+        panel_content.style.display = "block"
+        panel_teaser.style.display = "none"
+    }
 }
 
 init()
