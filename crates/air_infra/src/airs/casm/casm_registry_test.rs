@@ -35,7 +35,9 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
 
 const TRACE_COLUMNS_PER_LOGUP: usize = 2;
-const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(27);
+// Assumes blowup factor at most 4 and that tables are not splitted (as in the memory address to
+// id).
+const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(28);
 
 // The casm registry should contain all the builtins and opcodes
 // used by Stwo for the casm vm.
