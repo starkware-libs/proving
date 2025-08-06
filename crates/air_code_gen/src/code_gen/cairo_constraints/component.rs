@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, ExternalState};
+use compiled_casm_air::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -9,8 +9,8 @@ use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use super::utils::{
-    gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, n_logup_columns,
-    QM31_N_TRACE_CELLTS,
+    gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, make_preprocessed_column,
+    n_logup_columns, QM31_N_TRACE_CELLTS,
 };
 
 pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -113,23 +113,19 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     // External states
-    for ExternalState {
-        name,
-        generic_param,
-        args,
-    } in &air_fn.external_states
-    {
-        if name == "Seq" {
-            code.append(quote! {
-                let seq = preprocessed_mask_values.get(PreprocessedColumn::Seq($(get_log_size(air_fn, false))));
-            });
-            continue;
-        }
+    for external_state in &air_fn.external_states {
+        let variable_name = if external_state.name == "Seq" {
+            "seq"
+        } else {
+            &get_variable_name(
+                external_state.name.to_lowercase().as_str(),
+                external_state.args.join("_").as_str(),
+            )
+        };
 
-        let generic_param = (*generic_param).map(|c| c.to_string()).unwrap_or_default();
         code.append(quote! {
-            let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) 
-                = preprocessed_mask_values.get(PreprocessedColumn::$(name)$(generic_param)(($(args.join(", ")))));
+            let $(variable_name)
+                = preprocessed_mask_values.get($(make_preprocessed_column(air_fn, external_state)));
         });
     }
 
@@ -140,22 +136,9 @@ fn gen_mask_points(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
     // Generate preprocessed column set
-    for ExternalState {
-        name,
-        generic_param,
-        args,
-    } in &air_fn.external_states
-    {
-        if name == "Seq" {
-            code.append(quote! {
-                preprocessed_column_set.insert(PreprocessedColumn::Seq($(get_log_size(air_fn, false))));
-            });
-            continue;
-        }
-
-        let generic_param = (*generic_param).map(|c| c.to_string()).unwrap_or_default();
+    for external_state in &air_fn.external_states {
         code.append(quote! {
-            preprocessed_column_set.insert(PreprocessedColumn::$(name)$(generic_param)(($(args.join(", ")))));
+            preprocessed_column_set.insert($(make_preprocessed_column(air_fn, external_state)));
         });
     }
 
