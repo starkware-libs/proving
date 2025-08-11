@@ -81,27 +81,9 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
 }
 
 pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
-
-    code.append(quote! {
-        use core::num::traits::Zero;
-        use stwo_constraint_framework::{
-            PreprocessedColumn, PreprocessedColumnSet, PreprocessedMaskValues, PreprocessedMaskValuesImpl,
-            PreprocessedColumnSetImpl, LookupElementsImpl,
-        };
-        use stwo_verifier_core::circle::CirclePointQM31AddCirclePointM31Trait;
-        use stwo_verifier_core::circle::CirclePointIndexTrait;
-        use stwo_verifier_core::channel::{Channel, ChannelTrait};
-        use stwo_verifier_core::circle::CirclePoint;
-        use stwo_verifier_core::fields::Invertible;
-        use stwo_verifier_core::fields::m31::{m31, M31};
-        use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Serde, QM31Zero};
-        use stwo_verifier_core::poly::circle::CanonicCosetImpl;
-        use stwo_verifier_core::utils::{ArrayImpl, pow2};
-        use stwo_verifier_core::{ColumnArray, ColumnSpan, TreeArray};
-        use crate::cairo_component::CairoComponent;
-        use crate::PreprocessedColumnTrait;
-    });
+    let mut code = quote! {
+        use crate::prelude::*;
+    };
 
     for (inline_fn, _) in &air_fn.inline_calls {
         code.append(quote! {
