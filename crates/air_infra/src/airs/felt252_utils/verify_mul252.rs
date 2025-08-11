@@ -15,10 +15,15 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
 
-/// Verifying that two 252-bit felts multiply to a third.
-/// The function assumes all inputs have range-checked limbs.
-/// None of the inputs are constrained to be fully reduced,
-/// but (a * b - c)/P must be in [0, 2**252).
+/// Verifies that two 252-bit felts multiply to a third.
+/// The function assumes the following bounds on the limbs of the inputs:
+///  - Multiplicands a, b both have limbs in the range (-2**9, 2**9), i.e. they are either
+///    range-checked to 9 bits or the difference between two range-checked limbs of other felt252s
+///  - The product c has limbs in the range (-2**9, 3*2**9). This range could be greatly extended if
+///    necessary. The bounds are chosen to support possibilities of limbs which are a difference of
+///    two range-checked limbs or the sum of up to three, which occur in the EcAdd air.
+///
+/// None of the inputs are constrained to be fully reduced.
 #[derive(Clone, Debug, Serialize)]
 pub struct VerifyMul252 {}
 
@@ -47,7 +52,10 @@ impl AirFn for VerifyMul252 {
         // convolution of a and b, minus the i-th coefficient of c (where i < FELT252_N_WORDS).
 
         // Compute the convolution a * b using Karatsuba.
-        let karatsuba = DoubleKaratsuba::<{ FELT252_N_WORDS / 4 }>::new(MAX_WORD);
+        let karatsuba = DoubleKaratsuba::<{ FELT252_N_WORDS / 4 }>::new(
+            MAX_WORD * MAX_WORD,
+            -MAX_WORD * MAX_WORD,
+        );
         let error_message = &format!("felt252 should have {} limbs", FELT252_N_WORDS);
         let mut conv_tmps = air_builder.call(
             &karatsuba,
@@ -59,7 +67,7 @@ impl AirFn for VerifyMul252 {
 
         #[allow(clippy::needless_range_loop)]
         for i in 0..FELT252_N_WORDS {
-            conv_tmps[i] -= (c.get_felt(i), MAX_WORD, 0).into();
+            conv_tmps[i] -= (c.get_felt(i), 3 * MAX_WORD, -MAX_WORD).into();
         }
         conv_tmps = air_builder.let_(conv_tmps, "conv");
 
@@ -101,31 +109,31 @@ impl AirFn for VerifyMul252 {
         // Compute and deduce k: the coefficient of P in the equation
         //   PR := PartialReduction(-4 * 2**(-21 * 9) * (a * b - c)) = k * P.
         // The possible values of k (determined by the bounds on the highest limbs of the partial
-        // reduction) lie in the range (-29*2**10, 45*2**10), or more loosely (-2**16, 2**16).
+        // reduction) lie in the range (-74*2**10, 74*2**10), or more loosely (-2**17, 2**17).
         // Since P % (2**18) == 1, it follows that we can extract k by reducing PR modulo 2**18,
         // for which it suffices to consider its lowest two limbs in the radix 2**9.
         //
         // To work modulo 2**18, we convert the limbs to Uint32s; the limbs may both be negative,
-        // but bounded in (-2**25, 2**25), so we add 2**27 to make them non-negative before
+        // but bounded in (-2**26, 2**26), so we add 2**27 to make them non-negative before
         // converting to a Uint, without changing their residues modulo 2**18.
         // Similarly, to convert k from Uint modulo 2**18 to a signed felt in the range
-        // (-2**16, 2**16), we add 2**16 to the Uint before the modulo, and subtract it again after
+        // (-2**17, 2**17), we add 2**17 to the Uint before the modulo, and subtract it again after
         // the conversion to felt.
         let k_high_mod_2_9 =
             UInt32Expr::from(conv_mod_tmps[1].var.clone() + const_expr!(1u32 << 27))
                 & const_u32_expr!((1u32 << 9) - 1);
         let k_low = UInt32Expr::from(conv_mod_tmps[0].var.clone() + const_expr!(1u32 << 27));
         let mut k_mod_2_18_biased =
-            (k_low + (k_high_mod_2_9 << const_u32_expr!(9u32)) + const_u32_expr!(1u32 << 16))
+            (k_low + (k_high_mod_2_9 << const_u32_expr!(9u32)) + const_u32_expr!(1u32 << 17))
                 & const_u32_expr!((1u32 << 18) - 1);
         k_mod_2_18_biased = air_builder.let_for_deduction(k_mod_2_18_biased, "k_mod_2_18_biased");
 
         let k_expr = air_builder.deduce(
             &mut (k_mod_2_18_biased.low().as_felt()
-                + (k_mod_2_18_biased.high().as_felt() - const_expr!(1)) * const_expr!(1u32 << 16)),
+                + (k_mod_2_18_biased.high().as_felt() - const_expr!(2)) * const_expr!(1u32 << 16)),
             "k",
         );
-        // The range of k fits inside a range check of 2**17, but the smallest commonly used size
+        // The range of k fits inside a range check of 2**18, but the smallest commonly used size
         // is 20, the size of the largest range checks needed for the the carries.
         range_check_variant(
             air_builder,
@@ -162,7 +170,7 @@ impl AirFn for VerifyMul252 {
 
             // All carries fit inside the range (-2**19, 2**19), and are range-checked
             // accordingly. This range is nearly sharp for the largest carries, and in particular
-            // a range of size 2**19 will be insufficient.
+            // a range of size 2**19 is insufficient.
             assert!(carry.max_bound() < (1i32 << 19));
             assert!(carry.min_bound() >= -(1i32 << 19));
 
