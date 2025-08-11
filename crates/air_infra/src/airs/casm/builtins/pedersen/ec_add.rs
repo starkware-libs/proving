@@ -1,11 +1,11 @@
 use serde::Serialize;
+use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
 
-use crate::airs::felt252_utils::add252::*;
-use crate::airs::felt252_utils::div252::*;
-use crate::airs::felt252_utils::mul252::*;
-use crate::airs::felt252_utils::sub252::*;
+use crate::airs::felt252_utils::verify_mul252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
+use crate::core::felt252_id_memory::id_to_big::*;
+use crate::core::variables::*;
 
 #[derive(Debug, Serialize)]
 pub struct ECAdd {}
@@ -28,17 +28,68 @@ impl AirFn for ECAdd {
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [x1, y1, x2, y2]: Self::In) -> Self::Out {
-        let x_diff = air_builder.call(&Sub252 {}, [x2.clone(), x1.clone()]);
-        let x_sum = air_builder.call(&Add252 {}, [x2, x1.clone()]);
-        let y_diff = air_builder.call(&Sub252 {}, [y2, y1.clone()]);
-        let slope = air_builder.call(&Div252 {}, [y_diff, x_diff]);
-        let slope_squared = air_builder.call(&Mul252 {}, [slope.clone(), slope.clone()]);
-        let result_x = air_builder.call(&Sub252 {}, [slope_squared, x_sum]);
+        // Deduce, range-check and constrain slope = (y2 - y1) / (x2 - x1).
+        let slope = air_builder.deduce_air_var(
+            (y2.clone() - y1.clone()) / (x2.clone() - x1.clone()),
+            "slope",
+        );
+        air_builder.call(
+            &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
+            slope
+                .as_felts()
+                .try_into()
+                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+        );
+        let x_diff: Felt252Expr = (0..FELT252_N_WORDS)
+            .map(|i| x2.get_felt(i) - x1.get_felt(i))
+            .collect::<Vec<_>>()
+            .into();
+        let y_diff: Felt252Expr = (0..FELT252_N_WORDS)
+            .map(|i| y2.get_felt(i) - y1.get_felt(i))
+            .collect::<Vec<_>>()
+            .into();
+        air_builder.call(&VerifyMul252 {}, [slope.clone(), x_diff, y_diff]);
 
-        // result_y = slope * (x1 - result_x) - y1.
-        let tmp1 = air_builder.call(&Sub252 {}, [x1, result_x.clone()]);
-        let tmp2 = air_builder.call(&Mul252 {}, [slope, tmp1]);
-        let result_y = air_builder.call(&Sub252 {}, [tmp2, y1]);
+        // Deduce, range-check and constrain result_x = slope * slope - x1 - x2.
+        let result_x = air_builder.deduce_air_var(
+            (slope.clone() * slope.clone()) - x1.clone() - x2.clone(),
+            "result_x",
+        );
+        air_builder.call(
+            &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
+            result_x
+                .as_felts()
+                .try_into()
+                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+        );
+        let x_sum: Felt252Expr = (0..FELT252_N_WORDS)
+            .map(|i| x1.get_felt(i) + x2.get_felt(i) + result_x.get_felt(i))
+            .collect::<Vec<_>>()
+            .into();
+        air_builder.call(&VerifyMul252 {}, [slope.clone(), slope.clone(), x_sum]);
+
+        // Deduce, range-check and constrain result_y = slope * (x1 - result_x) - y1.
+        let result_y = air_builder.deduce_air_var(
+            slope.clone() * (x1.clone() - result_x.clone()) - y1.clone(),
+            "result_y",
+        );
+        air_builder.call(
+            &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
+            result_y
+                .as_felts()
+                .try_into()
+                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+        );
+        let x_diff_2: Felt252Expr = (0..FELT252_N_WORDS)
+            .map(|i| x1.get_felt(i) - result_x.get_felt(i))
+            .collect::<Vec<_>>()
+            .into();
+        let y_sum: Felt252Expr = (0..FELT252_N_WORDS)
+            .map(|i| y1.get_felt(i) + result_y.get_felt(i))
+            .collect::<Vec<_>>()
+            .into();
+        air_builder.call(&VerifyMul252 {}, [slope, x_diff_2, y_sum]);
+
         [result_x, result_y]
     }
 }

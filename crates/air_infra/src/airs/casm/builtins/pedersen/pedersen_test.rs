@@ -46,7 +46,7 @@ fn test_ec_add() {
         output[1].calc(),
         "[71185753667440069, 12894077368487963351, 14618120260975419084, 281472859247110997]"
     );
-    assert_eq!(state.get_felts().len(), 342);
+    assert_eq!(state.get_felts().len(), 168);
 }
 
 fn pack_to_double_limbs(mut value: u64) -> PackedECMultiplier {
@@ -107,7 +107,7 @@ fn test_partial_mul() {
     }
     assert_eq!(output.2 .1[0].calc(), result_x.calc());
     assert_eq!(output.2 .1[1].calc(), result_y.calc());
-    assert_eq!(state.get_felts().len(), 470);
+    assert_eq!(state.get_felts().len(), 296);
 }
 
 #[test]
