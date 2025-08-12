@@ -7,6 +7,7 @@ use compiled_casm_air::compiled_structs::{
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
     JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
+    REGISTRY_PROPERTIES_FILE_NAME,
 };
 use indexmap::IndexMap;
 use stwo_cairo_common::prover_types::cpu::PRIME;
@@ -219,7 +220,7 @@ fn test_casm_registry() {
 
     compare_json(
         &stat,
-        &"../compiled_casm_air/src/casm_registry.json".to_string(),
+        &format!("../compiled_casm_air/src/{REGISTRY_PROPERTIES_FILE_NAME}"),
     );
 
     compare_json(

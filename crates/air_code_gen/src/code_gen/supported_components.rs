@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::CompiledAirFn;
+use std::path::PathBuf;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum AutogenCodeType {
@@ -9,9 +9,9 @@ pub enum AutogenCodeType {
 
 #[derive(Debug)]
 pub struct AutogenCodeFile {
-    /// Path of the source JSON relative to the compiled JSONs root directory
-    /// (e.g. "opcodes/ret_opcode.json")
-    pub source_rel_path: String,
+    pub air_fn_name: String,
+    /// Path of the source JSON
+    pub source_path: PathBuf,
     pub code_type: AutogenCodeType,
 }
 
@@ -75,13 +75,17 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
 }
 
 /// Is code autogeneration supposed to work for the given file?
-pub fn is_supported(job: &AutogenCodeFile, air_fn: &CompiledAirFn) -> bool {
+pub fn is_supported(job: &AutogenCodeFile) -> bool {
     match job.code_type {
         // We don't support autogeneration of witness-genenration code yet
         AutogenCodeType::WITNESS => false,
 
-        AutogenCodeType::AIR => !get_manual_rust_constraints_components().contains(&air_fn.name),
+        AutogenCodeType::AIR => {
+            !get_manual_rust_constraints_components().contains(&job.air_fn_name)
+        }
 
-        AutogenCodeType::CAIRO => !get_manual_cairo_constraints_components().contains(&air_fn.name),
+        AutogenCodeType::CAIRO => {
+            !get_manual_cairo_constraints_components().contains(&job.air_fn_name)
+        }
     }
 }
