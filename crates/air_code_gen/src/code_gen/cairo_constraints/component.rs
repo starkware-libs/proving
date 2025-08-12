@@ -38,7 +38,28 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
             }).collect::<Vec<_>>().join("\n"))
         }
 
-        pub impl ComponentImpl of CairoComponent<Component> {
+        pub impl NewComponentImpl of NewComponent<Component> {
+            type Claim = Claim;
+            type InteractionClaim = InteractionClaim;
+
+            fn new(
+                claim: @Claim,
+                interaction_claim: @InteractionClaim,
+                interaction_elements: @CairoInteractionElements,
+            ) -> Component {
+                Component {
+                    claim: *claim,
+                    interaction_claim: *interaction_claim,
+                    $(air_fn.lookup_names.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
+                        format!(
+                            "{}_lookup_elements: interaction_elements.{}.clone(),", relation.to_case(Case::Snake), get_interaction_name(relation.to_case(Case::Snake))
+                        )
+                    }).collect::<Vec<_>>().join("\n"))
+                }
+            }
+        }
+
+        pub impl CairoComponentImpl of CairoComponent<Component> {
             fn mask_points(
                 self: @Component,
                 ref preprocessed_column_set: PreprocessedColumnSet,
@@ -92,6 +113,17 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
         }
 
         $(gen_lookup_constraints_fn(air_fn))
+    }
+}
+
+fn get_interaction_name(relation: String) -> String {
+    match relation.as_str() {
+        "range_check_felt_252_width_27" => relation,
+        range_check if range_check.starts_with("range_check") => {
+            relation.replace("range_check_", "range_checks.rc_")
+        }
+        "memory_id_to_big" => "memory_id_to_value".to_string(),
+        _ => relation,
     }
 }
 
