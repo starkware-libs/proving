@@ -1,5 +1,7 @@
 /** @typedef {{type: "literal", value: string} | {type: "range", min: number, max: number}} TemplatePart */
 
+import { html } from "./utils.js"
+
 // Represents a sequence of strings, each built from letters and numbers. The letters
 // are the same in all strings. Each number is either the same in all strings or advances
 // by 1 in each string.

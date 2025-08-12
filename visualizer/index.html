@@ -2,6 +2,7 @@
 <html>
     <head>
         <script lang="javascript" src="main.js" type="module"></script>
+        <title>Stwo AIR viewer</title>
     </head>
     <style>
 .template-range {
@@ -47,11 +48,16 @@
 .highlighted-none {
     background: transparent;
 }
+
+.expanded-template {
+    background: rgb(230, 249, 255)
+}
     </style>
     <body>
         <select id="component_select">
             <option value="">Choose a component</option>
         </select>
+        <span style="color: red" id="error"></span>
         <br/><br/>
         <div class="panel-title">Instance definition (decode_instruction only)</div>
         <div class="code-font" id="inst_def_panel"></div>
@@ -66,6 +72,7 @@
         <div class="code-font" id="vars_panel" style="display: flex;"></div>
         <br/>
         <div class="panel-title">Constraints</div>
+        <div class="code-font constraint-comment" id="air_comment"></div>
         <div class="code-font" id="constraints_panel"></div>
         <br/>
         <div class="panel-title">Output</div>
