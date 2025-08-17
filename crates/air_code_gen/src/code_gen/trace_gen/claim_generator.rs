@@ -29,10 +29,11 @@ impl RustProverGen {
         for public_param in &self.public_params {
             claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
         }
-        let derive_default = match self.mode {
-            Mode::NoInputs | Mode::Mults => quote! {},
-            _ => quote! { #[derive(Default)] },
-        };
+        let derive_default = (self.can_use_derive_default())
+            .then(|| {
+                quote! { #[derive(Default)] }
+            })
+            .unwrap_or_default();
         quote! {
             $derive_default
             pub struct ClaimGenerator {
@@ -69,7 +70,8 @@ impl RustProverGen {
                 quote! {self, },
             ),
         };
-        let default_mult_code = if self.lists.padding_type == PaddingType::Multiplicity {
+
+        let default_mult_code = if !self.can_use_derive_default() {
             quote! {
                 impl Default for ClaimGenerator {
                 fn default() -> Self {
@@ -81,9 +83,40 @@ impl RustProverGen {
         } else {
             quote! {}
         };
+
+        let new_code = match self.mode {
+            Mode::PackedInputs => quote! {
+                pub fn new() -> Self {
+                    Self {
+                        packed_inputs: vec![],
+                    }
+                }
+            },
+            Mode::Inputs => quote! {
+                pub fn new(inputs: Vec<InputType>) -> Self {
+                    Self { inputs }
+                }
+            },
+            Mode::NoInputs => {
+                let builtin_segment_start = self.public_params[0].name();
+                quote! {
+                    pub fn new(log_size: u32, $(builtin_segment_start.clone()): u32) -> Self {
+                        assert!(log_size >= LOG_N_LANES);
+                        Self {
+                            log_size,
+                            $(builtin_segment_start),
+                        }
+                    }
+                }
+            }
+            _ => quote! {},
+        };
+
         quote! {
             $(default_mult_code)
             impl ClaimGenerator {
+                $(new_code)
+
                 pub fn write_trace(
                     $(self_param)
                     tree_builder: &mut impl TreeBuilder<SimdBackend>,
@@ -460,6 +493,10 @@ impl RustProverGen {
 
         write_trace_body
     }
+
+    fn can_use_derive_default(&self) -> bool {
+        self.lists.padding_type != PaddingType::Multiplicity
+    }
 }
 
 const STATE_SUFFIX: &str = "_state";
@@ -467,7 +504,7 @@ fn write_trace_params(context: &[String]) -> rust::Tokens {
     let mut params = rust::Tokens::new();
     for fn_name in context {
         params.extend(quote! {
-            $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
+            $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,$("\n")
         });
     }
     params

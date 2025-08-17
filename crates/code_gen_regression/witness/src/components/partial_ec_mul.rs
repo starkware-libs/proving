@@ -20,6 +20,12 @@ pub struct ClaimGenerator {
     pub packed_inputs: Vec<PackedInputType>,
 }
 impl ClaimGenerator {
+    pub fn new() -> Self {
+        Self {
+            packed_inputs: vec![],
+        }
+    }
+
     pub fn write_trace(
         mut self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,

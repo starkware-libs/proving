@@ -135,8 +135,10 @@ pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: Aut
     }
 
     // Write new file and updated mod file
-    fs::write(file_path, file_content).unwrap();
-    fs::write(mod_file_path, mod_file_content).unwrap();
+    fs::write(file_path, file_content)
+        .unwrap_or_else(|_| panic!("Failed to write file to path {}", file_path.display()));
+    fs::write(&mod_file_path, mod_file_content)
+        .unwrap_or_else(|_| panic!("Failed to write file to path {}", mod_file_path.display()));
 }
 
 pub fn generate_air_fn_code(air_fn: &CompiledAirFn, code_type: AutogenCodeType) -> String {
