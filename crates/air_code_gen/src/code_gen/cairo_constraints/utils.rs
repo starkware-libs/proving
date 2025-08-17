@@ -19,7 +19,13 @@ pub fn dump_cairo_constraints_code(air_fn: &CompiledAirFn, path: &Path) {
     let file_name = &format!("{}.cairo", air_fn.name);
     let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
     let path = path.join(suffix);
-    fs::write(path.clone(), cairo_code.to_string().unwrap()).unwrap();
+    fs::write(
+        path.clone(),
+        cairo_code
+            .to_string()
+            .expect("Unable to covert cairo code to string"),
+    )
+    .expect("Unable to write cairo code to file");
 }
 
 pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {

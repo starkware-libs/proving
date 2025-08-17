@@ -1,5 +1,6 @@
 use crate::components::prelude::*;
 use crate::components::subroutines::range_check_last_limb_bits_in_ms_limb_2::RangeCheckLastLimbBitsInMsLimb2;
+use crate::components::subroutines::read_id::ReadId;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
 pub struct ReadPositiveNumBits29 {}
@@ -23,12 +24,12 @@ impl ReadPositiveNumBits29 {
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
         eval: &mut E,
     ) -> [E::F; 0] {
-        eval.add_to_relation(RelationEntry::new(
+        ReadId::evaluate(
+            [read_positive_num_bits_29_input.clone()],
+            id_col0.clone(),
             memory_address_to_id_lookup_elements,
-            E::EF::one(),
-            &[read_positive_num_bits_29_input.clone(), id_col0.clone()],
-        ));
-
+            eval,
+        );
         RangeCheckLastLimbBitsInMsLimb2::evaluate(
             [value_limb_3_col4.clone()],
             partial_limb_msb_col5.clone(),

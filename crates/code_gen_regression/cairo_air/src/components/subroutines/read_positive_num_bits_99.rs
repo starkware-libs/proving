@@ -1,4 +1,5 @@
 use crate::components::prelude::*;
+use crate::components::subroutines::read_id::ReadId;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
 pub struct ReadPositiveNumBits99 {}
@@ -28,12 +29,12 @@ impl ReadPositiveNumBits99 {
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
         eval: &mut E,
     ) -> [E::F; 0] {
-        eval.add_to_relation(RelationEntry::new(
+        ReadId::evaluate(
+            [read_positive_num_bits_99_input.clone()],
+            id_col0.clone(),
             memory_address_to_id_lookup_elements,
-            E::EF::one(),
-            &[read_positive_num_bits_99_input.clone(), id_col0.clone()],
-        ));
-
+            eval,
+        );
         eval.add_to_relation(RelationEntry::new(
             memory_id_to_big_lookup_elements,
             E::EF::one(),

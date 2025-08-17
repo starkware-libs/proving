@@ -28,7 +28,7 @@
                 {
                   "Var": [
                     "M31",
-                    "read_small_output_tmp_62dfc_15.0"
+                    "read_small_output_tmp_62dfc_16.0"
                   ]
                 }
               ]
@@ -73,7 +73,7 @@
             {
               "Var": [
                 "M31",
-                "read_small_output_tmp_62dfc_15_limb_0"
+                "read_small_output_tmp_62dfc_16_limb_0"
               ]
             }
           ]
@@ -268,7 +268,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "read_small_output_tmp_62dfc_15_limb_0"
+          "read_small_output_tmp_62dfc_16_limb_0"
         ],
         "var": {
           "StaticCall": [
@@ -351,7 +351,7 @@
               {
                 "Var": [
                   "M31",
-                  "read_small_output_tmp_62dfc_15_limb_0"
+                  "read_small_output_tmp_62dfc_16_limb_0"
                 ]
               }
             ]
@@ -1329,6 +1329,9 @@
       "StartBlock": "Read Small"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_62dfc_7",
         "type": "M31",
@@ -1348,25 +1351,6 @@
                       "decode_instruction_3b105_output_tmp_62dfc_6.0[2]"
                     ]
                   }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_62dfc_8",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_62dfc_7"
                 ]
               }
             ]
@@ -1426,12 +1410,29 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_62dfc_9",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "State": "next_pc_id_col8"
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Cond Decode Small Sign"
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_62dfc_9",
+        "name": "msb_tmp_62dfc_10",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -1440,7 +1441,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_62dfc_8"
+                    "memory_id_to_big_value_tmp_62dfc_9"
                   ]
                 },
                 "get_m31",
@@ -1473,7 +1474,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_62dfc_9"
+              "msb_tmp_62dfc_10"
             ]
           },
           "as_m31",
@@ -1483,7 +1484,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_62dfc_10",
+        "name": "mid_limbs_set_tmp_62dfc_11",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -1492,7 +1493,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_62dfc_8"
+                    "memory_id_to_big_value_tmp_62dfc_9"
                   ]
                 },
                 "get_m31",
@@ -1525,7 +1526,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_62dfc_10"
+              "mid_limbs_set_tmp_62dfc_11"
             ]
           },
           "as_m31",
@@ -1535,7 +1536,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_62dfc_11",
+        "name": "cond_decode_small_sign_output_tmp_62dfc_12",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -1556,7 +1557,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_62dfc_8"
+              "memory_id_to_big_value_tmp_62dfc_9"
             ]
           },
           "get_m31",
@@ -1577,7 +1578,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_62dfc_8"
+              "memory_id_to_big_value_tmp_62dfc_9"
             ]
           },
           "get_m31",
@@ -1598,7 +1599,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_62dfc_8"
+              "memory_id_to_big_value_tmp_62dfc_9"
             ]
           },
           "get_m31",
@@ -1615,7 +1616,7 @@
     },
     {
       "Intermediate": {
-        "name": "remainder_bits_tmp_62dfc_12",
+        "name": "remainder_bits_tmp_62dfc_13",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1628,7 +1629,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_62dfc_8"
+                          "memory_id_to_big_value_tmp_62dfc_9"
                         ]
                       },
                       "get_m31",
@@ -1662,7 +1663,7 @@
           {
             "Var": [
               "UInt16",
-              "remainder_bits_tmp_62dfc_12"
+              "remainder_bits_tmp_62dfc_13"
             ]
           },
           "as_m31",
@@ -1675,7 +1676,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_62dfc_13",
+        "name": "partial_limb_msb_tmp_62dfc_14",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1717,7 +1718,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_62dfc_13"
+              "partial_limb_msb_tmp_62dfc_14"
             ]
           },
           "as_m31",
@@ -2082,7 +2083,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_small_output_tmp_62dfc_15",
+        "name": "read_small_output_tmp_62dfc_16",
         "type": "(M31, M31)",
         "var": {
           "Tuple": [
@@ -2211,7 +2212,7 @@
               {
                 "Var": [
                   "M31",
-                  "read_small_output_tmp_62dfc_15.0"
+                  "read_small_output_tmp_62dfc_16.0"
                 ]
               }
             ]

@@ -20,7 +20,8 @@ mod tests {
                 "../compiled_casm_air/src/compiled_jsons/subroutines/{}.json",
                 inline_fn
             ));
-            let inline_air_fn: CompiledAirFn = from_value(serialized_inline_air_fn).unwrap();
+            let inline_air_fn: CompiledAirFn = from_value(serialized_inline_air_fn)
+                .expect("Unable to convert file to compiled air fn");
             generate_component_code(inline_air_fn);
         }
 
@@ -39,18 +40,21 @@ mod tests {
 
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         dump_cairo_constraints_code(&air_fn, &path);
 
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/subroutines/read_small.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         dump_cairo_constraints_code(&air_fn, &path);
 
         let serialized_air_fn = read_json(
             "../compiled_casm_air/src/compiled_jsons/subroutines/decode_instruction_d2a10.json",
         );
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         dump_cairo_constraints_code(&air_fn, &path);
     }
 
@@ -58,7 +62,8 @@ mod tests {
     fn add_ap_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -66,7 +71,8 @@ mod tests {
     fn jnz_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/opcodes/jnz_opcode_taken.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -74,7 +80,8 @@ mod tests {
     fn mul_mod_builtin_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/builtins/mul_mod_builtin.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -82,7 +89,8 @@ mod tests {
     fn partial_ec_mul_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/partial_ec_mul.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -90,7 +98,8 @@ mod tests {
     fn pedersen_points_table_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -99,7 +108,8 @@ mod tests {
         let serialized_air_fn = read_json(
             "../compiled_casm_air/src/compiled_jsons/builtins/range_check_builtin_bits_128.json",
         );
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -107,22 +117,26 @@ mod tests {
     fn range_check_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_19.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
 
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
 
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_b.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
 
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/range_check_7_2_5.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -130,7 +144,8 @@ mod tests {
     fn triple_xor_32_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/triple_xor_32.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -138,7 +153,8 @@ mod tests {
     fn verify_bitwise_xor_7_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/verify_bitwise_xor_8.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 
@@ -147,7 +163,8 @@ mod tests {
     fn verify_instruction_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/compiled_jsons/lookups/verify_instruction.json");
-        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        let air_fn: CompiledAirFn =
+            from_value(serialized_air_fn).expect("Unable to convert file to compiled air fn");
         generate_component_code(air_fn);
     }
 }

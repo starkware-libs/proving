@@ -11,6 +11,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
+use crate::core::felt252_id_memory::read_id::*;
 use crate::core::variables::*;
 
 #[derive(Debug, Serialize)]
@@ -28,18 +29,13 @@ impl AirFn for ReadPositive {
     type Out = (Felt252Expr, FeltExpr);
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
-        let (mut value, mut id) = self.memory.read_unverified(air_builder, &address);
-
-        // Deduce the ID as-is
-        air_builder.deduce(
-            &mut id,
-            &address
-                .extra_info
-                .clone()
-                .map(|s| format!("{}_id", s))
-                .unwrap_or("id".to_string()),
+        let id = air_builder.call(
+            &ReadId {
+                memory: self.memory.clone(),
+            },
+            address.clone(),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
+        let mut value = air_builder.mem_read_unverified(&self.memory.id_to_big, &id);
 
         // Prepare for value deduction
         let num_nonzero_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);

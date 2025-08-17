@@ -1,4 +1,5 @@
-use stwo::core::fields::m31::M31;
+pub mod pedersen_points_table;
+1;
 use stwo::core::pcs::TreeSubspan;
 use stwo::prover::backend::simd::conversion::Pack;
 use stwo::prover::backend::simd::m31::PackedM31;

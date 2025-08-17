@@ -47,7 +47,7 @@
             {
               "Var": [
                 "M31",
-                "next_ap_tmp_c921e_15"
+                "next_ap_tmp_c921e_16"
               ]
             }
           ],
@@ -92,7 +92,7 @@
         {
           "Var": [
             "M31",
-            "next_ap_tmp_c921e_15"
+            "next_ap_tmp_c921e_16"
           ]
         }
       ]
@@ -316,7 +316,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "read_small_output_tmp_c921e_14_limb_0"
+          "read_small_output_tmp_c921e_15_limb_0"
         ],
         "var": {
           "StaticCall": [
@@ -372,7 +372,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "next_ap_tmp_c921e_15"
+          "next_ap_tmp_c921e_16"
         ],
         "var": {
           "BinaryOp": [
@@ -383,7 +383,7 @@
             {
               "Var": [
                 "M31",
-                "read_small_output_tmp_c921e_14_limb_0"
+                "read_small_output_tmp_c921e_15_limb_0"
               ]
             }
           ]
@@ -402,7 +402,7 @@
                   {
                     "Var": [
                       "M31",
-                      "next_ap_tmp_c921e_15"
+                      "next_ap_tmp_c921e_16"
                     ]
                   }
                 ]
@@ -461,7 +461,7 @@
           {
             "Var": [
               "M31",
-              "next_ap_tmp_c921e_15"
+              "next_ap_tmp_c921e_16"
             ]
           },
           {
@@ -1381,6 +1381,9 @@
       "StartBlock": "Read Small"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_c921e_6",
         "type": "M31",
@@ -1400,25 +1403,6 @@
                       "decode_instruction_d2a10_output_tmp_c921e_5.0[2]"
                     ]
                   }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_c921e_7",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_c921e_6"
                 ]
               }
             ]
@@ -1478,12 +1462,29 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_c921e_8",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "State": "op1_id_col7"
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Cond Decode Small Sign"
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_c921e_8",
+        "name": "msb_tmp_c921e_9",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -1492,7 +1493,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_c921e_7"
+                    "memory_id_to_big_value_tmp_c921e_8"
                   ]
                 },
                 "get_m31",
@@ -1525,7 +1526,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_c921e_8"
+              "msb_tmp_c921e_9"
             ]
           },
           "as_m31",
@@ -1535,7 +1536,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_c921e_9",
+        "name": "mid_limbs_set_tmp_c921e_10",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -1544,7 +1545,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_c921e_7"
+                    "memory_id_to_big_value_tmp_c921e_8"
                   ]
                 },
                 "get_m31",
@@ -1577,7 +1578,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_c921e_9"
+              "mid_limbs_set_tmp_c921e_10"
             ]
           },
           "as_m31",
@@ -1587,7 +1588,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_c921e_10",
+        "name": "cond_decode_small_sign_output_tmp_c921e_11",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -1608,7 +1609,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_c921e_7"
+              "memory_id_to_big_value_tmp_c921e_8"
             ]
           },
           "get_m31",
@@ -1629,7 +1630,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_c921e_7"
+              "memory_id_to_big_value_tmp_c921e_8"
             ]
           },
           "get_m31",
@@ -1650,7 +1651,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_c921e_7"
+              "memory_id_to_big_value_tmp_c921e_8"
             ]
           },
           "get_m31",
@@ -1667,7 +1668,7 @@
     },
     {
       "Intermediate": {
-        "name": "remainder_bits_tmp_c921e_11",
+        "name": "remainder_bits_tmp_c921e_12",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1680,7 +1681,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_c921e_7"
+                          "memory_id_to_big_value_tmp_c921e_8"
                         ]
                       },
                       "get_m31",
@@ -1714,7 +1715,7 @@
           {
             "Var": [
               "UInt16",
-              "remainder_bits_tmp_c921e_11"
+              "remainder_bits_tmp_c921e_12"
             ]
           },
           "as_m31",
@@ -1727,7 +1728,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_c921e_12",
+        "name": "partial_limb_msb_tmp_c921e_13",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1769,7 +1770,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_c921e_12"
+              "partial_limb_msb_tmp_c921e_13"
             ]
           },
           "as_m31",
@@ -2134,7 +2135,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_small_output_tmp_c921e_14",
+        "name": "read_small_output_tmp_c921e_15",
         "type": "(M31, M31)",
         "var": {
           "Tuple": [
@@ -2235,7 +2236,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "next_ap_tmp_c921e_15",
+        "name": "next_ap_tmp_c921e_16",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2246,7 +2247,7 @@
             {
               "Var": [
                 "M31",
-                "read_small_output_tmp_c921e_14.0"
+                "read_small_output_tmp_c921e_15.0"
               ]
             }
           ]
@@ -2258,7 +2259,7 @@
     },
     {
       "Intermediate": {
-        "name": "range_check_ap_bot11bits_u32_tmp_c921e_16",
+        "name": "range_check_ap_bot11bits_u32_tmp_c921e_17",
         "type": "UInt32",
         "var": {
           "BinaryOp": [
@@ -2269,7 +2270,7 @@
                   {
                     "Var": [
                       "M31",
-                      "next_ap_tmp_c921e_15"
+                      "next_ap_tmp_c921e_16"
                     ]
                   }
                 ]
@@ -2294,7 +2295,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "range_check_ap_bot11bits_u32_tmp_c921e_16"
+                  "range_check_ap_bot11bits_u32_tmp_c921e_17"
                 ]
               },
               "low",
@@ -2318,7 +2319,7 @@
                     {
                       "Var": [
                         "M31",
-                        "next_ap_tmp_c921e_15"
+                        "next_ap_tmp_c921e_16"
                       ]
                     },
                     "-",
@@ -2351,7 +2352,7 @@
                   {
                     "Var": [
                       "M31",
-                      "next_ap_tmp_c921e_15"
+                      "next_ap_tmp_c921e_16"
                     ]
                   },
                   "-",
@@ -2443,7 +2444,7 @@
           {
             "Var": [
               "M31",
-              "next_ap_tmp_c921e_15"
+              "next_ap_tmp_c921e_16"
             ]
           },
           {
