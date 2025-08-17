@@ -143,3 +143,18 @@ pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {
 
     QM31_EXTENSION_DEGREE * n_batches
 }
+
+pub fn make_preprocessed_column(
+    air_fn: &CompiledAirFn,
+    external_state: &ExternalState,
+) -> rust::Tokens {
+    if external_state.name == "Seq" {
+        quote! { PreprocessedColumn::Seq($(get_log_size(air_fn, false))) }
+    } else {
+        let generic_param = external_state
+            .generic_param
+            .map(|c| c.to_string())
+            .unwrap_or_default();
+        quote! { PreprocessedColumn::$(&external_state.name)$(generic_param)(($(external_state.args.join(", ")))) }
+    }
+}
