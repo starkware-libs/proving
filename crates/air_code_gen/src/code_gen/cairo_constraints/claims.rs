@@ -64,7 +64,7 @@ fn gen_mix_into(air_fn: &CompiledAirFn) -> rust::Tokens {
 pub fn get_accumulate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     if !is_const_size_component(air_fn) {
-        // If it's not a constant size component, it is guaranteed that `Claim` constains field
+        // If it's not a constant size component, it is guaranteed that `Claim` contains field
         // `log_size` and that `RELATION_USES_PER_ROW` is defined and in scope.
         code.append(quote! {
             accumulate_relation_uses(ref relation_uses, RELATION_USES_PER_ROW.span(), *self.log_size);
