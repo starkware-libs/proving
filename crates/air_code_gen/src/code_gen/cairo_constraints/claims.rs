@@ -69,9 +69,7 @@ pub fn get_accumulate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
         code.append(quote! {
             accumulate_relation_uses(ref relation_uses, RELATION_USES_PER_ROW.span(), *self.log_size);
         });
-    } else {
-        code.append(quote! {()});
-    }
+    } 
     code
 }
 
