@@ -12,8 +12,7 @@ pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
             $(get_claim_members(air_fn))
         }
 
-        #[generate_trait]
-        pub impl ClaimImpl of ClaimTrait {
+        pub impl ClaimImpl of ClaimTrait<Claim> {
             fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
                 let log_size = $(get_log_size(air_fn, true));
                 let preprocessed_log_sizes = array![log_size].span();
@@ -24,6 +23,10 @@ pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
 
             fn mix_into(self: @Claim, ref channel: Channel) {
                 $(gen_mix_into(air_fn))
+            }
+
+            fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {
+                $(get_accumulate_relation_uses(air_fn))
             }
         }
     });
@@ -54,6 +57,20 @@ fn gen_mix_into(air_fn: &CompiledAirFn) -> rust::Tokens {
         code.append(quote! {
             channel.mix_u64((*self.$(param.name())).into());
         });
+    }
+    code
+}
+
+pub fn get_accumulate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    if !is_const_size_component(air_fn) {
+        // If it's not a constant size component, it is guaranteed that `Claim` constains field
+        // `log_size` and that `RELATION_USES_PER_ROW` is defined and in scope.
+        code.append(quote! {
+            accumulate_relation_uses(ref relation_uses, RELATION_USES_PER_ROW.span(), *self.log_size);
+        });
+    } else {
+        code.append(quote! {()});
     }
     code
 }
