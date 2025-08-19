@@ -19,10 +19,10 @@ pub struct VerifyBlakeWord {
     pub memory: Felt252IdMemory,
 }
 
-/// Receives an address and a Blake word, converts the word to the memory representation
-/// i.e., from a pair of 16-bit felts, through chunks of [9, 7, 2, 9, 5] bits, to a `felt252`
-/// containing 32 bits stored in chunks of sizes [9, 9, 9, 5], and verifies that this value is
-/// stored at the given address.
+/// Receives an address and a Blake word, range checks it and converts the word to the memory
+/// representation i.e., from a pair of 16-bit felts, through chunks of [9, 7, 2, 9, 5] bits, to a
+/// `felt252` containing 32 bits stored in chunks of sizes [9, 9, 9, 5], and verifies that this
+/// value is stored at the given address.
 impl AirFn for VerifyBlakeWord {
     type ExtIn = ();
     type In = (CasmAddress, UInt32Expr);
