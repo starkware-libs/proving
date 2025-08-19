@@ -62,6 +62,25 @@ export class Template {
                     break
             }
         }
+        // Highlight the collapsed representation when it contains selected variables
+        air_view.var_select_listeners.push((selected_ids) => {
+            let selected_from_self = 0
+            for (const id of var_ids) {
+                if (selected_ids.includes(id)) {
+                    selected_from_self++
+                }
+            }
+            result.classList.remove('highlighted-full')
+            result.classList.remove('highlighted-half')
+            result.classList.remove('highlighted-none')
+            if (selected_from_self == var_ids.length) {
+                result.classList.add('highlighted-full')
+            } else if (selected_from_self > 0) {
+                result.classList.add('highlighted-half')
+            } else {
+                result.classList.add('highlighted-none')
+            }
+        })
         return result
     }
 

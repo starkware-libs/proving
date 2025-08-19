@@ -163,10 +163,30 @@ export class DefaultMap {
 }
 
 export function create_var_span(var_obj, air_view) {
+    const id = var_obj.id
     const result = html`
         <span title=${var_obj.id}>
             ${var_obj.display_name}
         </span>`
+    result.addEventListener('click', (e) => air_view.select_vars([id]))
+    air_view.var_select_listeners.push((selected_ids) => {
+        result.classList.remove('highlighted-full')
+        result.classList.remove('highlighted-half')
+        result.classList.remove('highlighted-none')
+        if (selected_ids.includes(id)) {
+            result.classList.add('highlighted-full')
+        } else {
+            result.classList.add('highlighted-none')
+        }
+    })
+
+    // Don't allow the var to be selected with a double-click. We use double-click for
+    // template expand / collapse
+    result.addEventListener('mousedown', (e) => {
+        if (e.detail > 1) {
+            e.preventDefault()
+        }
+    })
     return result
 }
 
