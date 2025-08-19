@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -102,8 +101,8 @@ fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
     result
 }
 
-fn load_air_fns(jobs: &[AutogenCodeFile]) -> HashMap<String, CompiledAirFn> {
-    let mut result = HashMap::new();
+fn load_air_fns(jobs: &[AutogenCodeFile]) -> IndexMap<String, CompiledAirFn> {
+    let mut result = IndexMap::new();
 
     for job in jobs {
         if result.contains_key(&job.air_fn_name) {
@@ -123,7 +122,7 @@ fn load_air_fns(jobs: &[AutogenCodeFile]) -> HashMap<String, CompiledAirFn> {
 /// Generates component code from JSON files in the source directory.
 fn generate_files(
     args: &Args,
-    compiled_air_fns: &HashMap<String, CompiledAirFn>,
+    compiled_air_fns: &IndexMap<String, CompiledAirFn>,
     jobs: &[AutogenCodeFile],
 ) {
     let source_repo_rev = get_git_rev(&args.source);
@@ -143,7 +142,7 @@ fn generate_files(
 
 fn generate_registry_properties_file(
     args: &Args,
-    compiled_air_fns: &HashMap<String, CompiledAirFn>,
+    compiled_air_fns: &IndexMap<String, CompiledAirFn>,
     jobs: &[AutogenCodeFile],
 ) {
     let source_repo_rev = get_git_rev(&args.source);
