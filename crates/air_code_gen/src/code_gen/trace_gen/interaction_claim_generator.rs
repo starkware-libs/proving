@@ -17,7 +17,7 @@ impl RustProverGen {
             .iter()
             .map(|relation_name| {
                 quote! {
-                    $(relation_name.to_case(Case::Snake)): &relations::$(relation_name),
+                    $(relation_name.to_case(Case::Snake)): &relations::$(relation_name),$("\n")
                 }
             })
             .fold(rust::Tokens::new(), |mut tokens, next| {

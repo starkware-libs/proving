@@ -68,11 +68,21 @@ fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
             .to_str()
             .expect("Invalid filename")
             .to_string();
+        let is_subroutine = json_path
+            .parent()
+            .expect("Invalid path")
+            .ends_with("subroutines");
         for code_type in [
             AutogenCodeType::AIR,
             AutogenCodeType::WITNESS,
             AutogenCodeType::CAIRO,
         ] {
+            if code_type == AutogenCodeType::WITNESS && is_subroutine {
+                // Skip witness generation for subroutines (in witness code, the subroutines are
+                // inlined into their caller files).
+                continue;
+            }
+
             let job = AutogenCodeFile {
                 air_fn_name: air_fn_name.clone(),
                 source_path: json_path.clone(),
