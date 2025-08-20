@@ -13,12 +13,18 @@ pub mod memory_id_to_big;
 pub mod mul_mod_builtin;
 pub mod partial_ec_mul;
 pub mod pedersen_points_table;
+pub mod range_check_11;
 pub mod range_check_12;
 pub mod range_check_18;
-pub mod range_check_19;
-pub mod range_check_19_b;
-pub mod range_check_19_c;
-pub mod range_check_19_d;
+pub mod range_check_18_b;
+pub mod range_check_20;
+pub mod range_check_20_b;
+pub mod range_check_20_c;
+pub mod range_check_20_d;
+pub mod range_check_20_e;
+pub mod range_check_20_f;
+pub mod range_check_20_g;
+pub mod range_check_20_h;
 pub mod range_check_3_6_6_3;
 pub mod range_check_4_3;
 pub mod range_check_6;
@@ -28,6 +34,10 @@ pub mod range_check_9_9;
 pub mod range_check_9_9_b;
 pub mod range_check_9_9_c;
 pub mod range_check_9_9_d;
+pub mod range_check_9_9_e;
+pub mod range_check_9_9_f;
+pub mod range_check_9_9_g;
+pub mod range_check_9_9_h;
 pub mod range_check_builtin_bits_128;
 pub mod triple_xor_32;
 pub mod verify_bitwise_xor_8;
@@ -75,13 +85,3 @@ impl PackedPedersenPointsTable {
         unimplemented!()
     }
 }
-pub mod range_check_11;
-pub mod range_check_18_b;
-pub mod range_check_19_e;
-pub mod range_check_19_f;
-pub mod range_check_19_g;
-pub mod range_check_19_h;
-pub mod range_check_9_9_e;
-pub mod range_check_9_9_f;
-pub mod range_check_9_9_g;
-pub mod range_check_9_9_h;

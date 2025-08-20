@@ -1,7 +1,7 @@
 pub mod jnz_opcode_taken;
 pub mod mul_mod_builtin;
 pub mod partial_ec_mul;
-pub mod range_check_19;
+pub mod range_check_20;
 pub mod verify_bitwise_xor_8;
 pub mod pedersen_points_table;
 pub mod triple_xor_32;
