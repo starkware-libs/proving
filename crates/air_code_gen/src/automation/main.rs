@@ -152,13 +152,18 @@ fn generate_registry_properties_file(
         air_fns: Default::default(),
     };
 
-    for job in jobs.iter() {
-        let compiled_air_fn = compiled_air_fns
-            .get(&job.air_fn_name)
-            .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
+    let cairo_jobs = jobs
+        .iter()
+        .filter(|job| job.code_type == AutogenCodeType::CAIRO)
+        .map(|job| job.air_fn_name.clone())
+        .collect::<Vec<_>>();
 
+    for air_fn_name in casm_registry_src.keys() {
         // Only include in `casm_registry.json` the components that are supported by the verifier
-        if job.code_type == AutogenCodeType::CAIRO {
+        if cairo_jobs.contains(air_fn_name) {
+            let compiled_air_fn = compiled_air_fns
+                .get(air_fn_name)
+                .unwrap_or_else(|| panic!("Missing AirFn {}", air_fn_name));
             casm_registry_out.add_stats_from(&casm_registry_src, compiled_air_fn);
         }
     }
