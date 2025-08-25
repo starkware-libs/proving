@@ -25,9 +25,13 @@ xshell = "0.2.5"
 indexmap = "2.2.6"
 convert_case = "0.8.0"
 
-stwo = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = ["prover"] }
+stwo = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = [
+    "prover",
+] }
 stwo-air-utils = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d" }
 stwo-air-utils-derive = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d" }
-stwo-constraint-framework = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = ["prover"] }
-stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "81c1dd7" }
-stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "81c1dd7" }
+stwo-constraint-framework = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = [
+    "prover",
+] }
+stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "1ca5419" }
+stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "1ca5419" }

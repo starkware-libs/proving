@@ -119,16 +119,18 @@ impl AirFn for RangeCheckAP {
 
     fn call(&self, ab: &mut AirBuilder, _: (), x: Self::In) -> Self::Out {
         let x_u32 = UInt32Expr::from(x.clone());
-        let x_bot8bits_u32 =
-            ab.let_for_deduction(x_u32 & const_u32_expr!(0xFF), "range_check_ap_bot8bits_u32");
-
-        let x_bot8bits = ab.deduce(
-            &mut x_bot8bits_u32.low().as_felt(),
-            "range_check_ap_bot8bits",
+        let x_bot11bits_u32 = ab.let_for_deduction(
+            x_u32 & const_u32_expr!(0x7FF),
+            "range_check_ap_bot11bits_u32",
         );
-        let x_top19bits = (x.clone() - x_bot8bits.clone()) / const_expr!(1 << 8);
 
-        range_check(ab, &[19], &[x_top19bits]);
-        range_check(ab, &[8], &[x_bot8bits]);
+        let x_bot11bits = ab.deduce(
+            &mut x_bot11bits_u32.low().as_felt(),
+            "range_check_ap_bot11bits",
+        );
+        let x_top18bits = (x.clone() - x_bot11bits.clone()) / const_expr!(1 << 11);
+
+        range_check(ab, &[18], &[x_top18bits]);
+        range_check(ab, &[11], &[x_bot11bits]);
     }
 }

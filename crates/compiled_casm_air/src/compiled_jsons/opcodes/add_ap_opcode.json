@@ -47,7 +47,7 @@
             {
               "Var": [
                 "M31",
-                "next_ap_tmp_c921e_12"
+                "next_ap_tmp_c921e_15"
               ]
             }
           ],
@@ -92,7 +92,7 @@
         {
           "Var": [
             "M31",
-            "next_ap_tmp_c921e_12"
+            "next_ap_tmp_c921e_15"
           ]
         }
       ]
@@ -116,7 +116,9 @@
     "op1_limb_0_col10",
     "op1_limb_1_col11",
     "op1_limb_2_col12",
-    "range_check_ap_bot8bits_col13"
+    "remainder_bits_col13",
+    "partial_limb_msb_col14",
+    "range_check_ap_bot11bits_col15"
   ],
   "lookup_names": [
     [
@@ -132,11 +134,11 @@
       "Use"
     ],
     [
-      "RangeCheck_19",
+      "RangeCheck_18",
       "Use"
     ],
     [
-      "RangeCheck_8",
+      "RangeCheck_11",
       "Use"
     ],
     [
@@ -162,11 +164,11 @@
     "range_check_ap": [
       [
         [
-          "RangeCheck_19",
+          "RangeCheck_18",
           "Use"
         ],
         [
-          "RangeCheck_8",
+          "RangeCheck_11",
           "Use"
         ]
       ],
@@ -314,7 +316,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "read_small_output_tmp_c921e_11_limb_0"
+          "read_small_output_tmp_c921e_14_limb_0"
         ],
         "var": {
           "StaticCall": [
@@ -355,6 +357,12 @@
               },
               {
                 "State": "op1_limb_2_col12"
+              },
+              {
+                "State": "remainder_bits_col13"
+              },
+              {
+                "State": "partial_limb_msb_col14"
               }
             ]
           ]
@@ -364,7 +372,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "next_ap_tmp_c921e_12"
+          "next_ap_tmp_c921e_15"
         ],
         "var": {
           "BinaryOp": [
@@ -375,7 +383,7 @@
             {
               "Var": [
                 "M31",
-                "read_small_output_tmp_c921e_11_limb_0"
+                "read_small_output_tmp_c921e_14_limb_0"
               ]
             }
           ]
@@ -394,13 +402,13 @@
                   {
                     "Var": [
                       "M31",
-                      "next_ap_tmp_c921e_12"
+                      "next_ap_tmp_c921e_15"
                     ]
                   }
                 ]
               },
               {
-                "State": "range_check_ap_bot8bits_col13"
+                "State": "range_check_ap_bot11bits_col15"
               }
             ]
           ]
@@ -453,7 +461,7 @@
           {
             "Var": [
               "M31",
-              "next_ap_tmp_c921e_12"
+              "next_ap_tmp_c921e_15"
             ]
           },
           {
@@ -1658,6 +1666,119 @@
       }
     },
     {
+      "Intermediate": {
+        "name": "remainder_bits_tmp_c921e_11",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "memory_id_to_big_value_tmp_c921e_7"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "3"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "remainder_bits_tmp_c921e_11"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_c921e_12",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "remainder_bits_col13"
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_c921e_12"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
@@ -1684,13 +1805,21 @@
           {
             "BinaryOp": [
               {
-                "State": "mid_limbs_set_col9"
+                "State": "remainder_bits_col13"
               },
-              "*",
+              "+",
               {
-                "Const": [
-                  "M31",
-                  "511"
+                "BinaryOp": [
+                  {
+                    "State": "mid_limbs_set_col9"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "508"
+                    ]
+                  }
                 ]
               }
             ]
@@ -2005,7 +2134,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_small_output_tmp_c921e_11",
+        "name": "read_small_output_tmp_c921e_14",
         "type": "(M31, M31)",
         "var": {
           "Tuple": [
@@ -2018,19 +2147,38 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "op1_limb_0_col10"
+                              "BinaryOp": [
+                                {
+                                  "State": "op1_limb_0_col10"
+                                },
+                                "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "op1_limb_1_col11"
+                                    },
+                                    "*",
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "512"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             },
                             "+",
                             {
                               "BinaryOp": [
                                 {
-                                  "State": "op1_limb_1_col11"
+                                  "State": "op1_limb_2_col12"
                                 },
                                 "*",
                                 {
                                   "Const": [
                                     "M31",
-                                    "512"
+                                    "262144"
                                   ]
                                 }
                               ]
@@ -2041,13 +2189,13 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "op1_limb_2_col12"
+                              "State": "remainder_bits_col13"
                             },
                             "*",
                             {
                               "Const": [
                                 "M31",
-                                "262144"
+                                "134217728"
                               ]
                             }
                           ]
@@ -2066,7 +2214,7 @@
                     {
                       "Const": [
                         "M31",
-                        "134217728"
+                        "536870912"
                       ]
                     },
                     "*",
@@ -2087,7 +2235,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "next_ap_tmp_c921e_12",
+        "name": "next_ap_tmp_c921e_15",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2098,7 +2246,7 @@
             {
               "Var": [
                 "M31",
-                "read_small_output_tmp_c921e_11.0"
+                "read_small_output_tmp_c921e_14.0"
               ]
             }
           ]
@@ -2110,7 +2258,7 @@
     },
     {
       "Intermediate": {
-        "name": "range_check_ap_bot8bits_u32_tmp_c921e_13",
+        "name": "range_check_ap_bot11bits_u32_tmp_c921e_16",
         "type": "UInt32",
         "var": {
           "BinaryOp": [
@@ -2121,7 +2269,7 @@
                   {
                     "Var": [
                       "M31",
-                      "next_ap_tmp_c921e_12"
+                      "next_ap_tmp_c921e_15"
                     ]
                   }
                 ]
@@ -2131,7 +2279,7 @@
             {
               "Const": [
                 "UInt32",
-                "255"
+                "2047"
               ]
             }
           ]
@@ -2146,7 +2294,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "range_check_ap_bot8bits_u32_tmp_c921e_13"
+                  "range_check_ap_bot11bits_u32_tmp_c921e_16"
                 ]
               },
               "low",
@@ -2160,7 +2308,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19",
+        "fn_name": "range_check_18",
         "input": {
           "Array": [
             {
@@ -2170,12 +2318,12 @@
                     {
                       "Var": [
                         "M31",
-                        "next_ap_tmp_c921e_12"
+                        "next_ap_tmp_c921e_15"
                       ]
                     },
                     "-",
                     {
-                      "State": "range_check_ap_bot8bits_col13"
+                      "State": "range_check_ap_bot11bits_col15"
                     }
                   ]
                 },
@@ -2183,7 +2331,7 @@
                 {
                   "Const": [
                     "M31",
-                    "8388608"
+                    "1048576"
                   ]
                 }
               ]
@@ -2194,7 +2342,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_19",
+        "relation_name": "RangeCheck_18",
         "felts": [
           {
             "BinaryOp": [
@@ -2203,12 +2351,12 @@
                   {
                     "Var": [
                       "M31",
-                      "next_ap_tmp_c921e_12"
+                      "next_ap_tmp_c921e_15"
                     ]
                   },
                   "-",
                   {
-                    "State": "range_check_ap_bot8bits_col13"
+                    "State": "range_check_ap_bot11bits_col15"
                   }
                 ]
               },
@@ -2216,7 +2364,7 @@
               {
                 "Const": [
                   "M31",
-                  "8388608"
+                  "1048576"
                 ]
               }
             ]
@@ -2227,11 +2375,11 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "fn_name": "range_check_11",
         "input": {
           "Array": [
             {
-              "State": "range_check_ap_bot8bits_col13"
+              "State": "range_check_ap_bot11bits_col15"
             }
           ]
         }
@@ -2239,10 +2387,10 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_8",
+        "relation_name": "RangeCheck_11",
         "felts": [
           {
-            "State": "range_check_ap_bot8bits_col13"
+            "State": "range_check_ap_bot11bits_col15"
           }
         ],
         "use_or_yield": "Use"
@@ -2295,7 +2443,7 @@
           {
             "Var": [
               "M31",
-              "next_ap_tmp_c921e_12"
+              "next_ap_tmp_c921e_15"
             ]
           },
           {

@@ -24,19 +24,38 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_pc_limb_0_col13"
+                      "BinaryOp": [
+                        {
+                          "State": "next_pc_limb_0_col15"
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "next_pc_limb_1_col16"
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     "+",
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_pc_limb_1_col14"
+                          "State": "next_pc_limb_2_col17"
                         },
                         "*",
                         {
                           "Const": [
                             "M31",
-                            "512"
+                            "262144"
                           ]
                         }
                       ]
@@ -47,13 +66,13 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_pc_limb_2_col15"
+                      "State": "next_pc_limb_3_col18"
                     },
                     "*",
                     {
                       "Const": [
                         "M31",
-                        "262144"
+                        "134217728"
                       ]
                     }
                   ]
@@ -96,19 +115,38 @@
             {
               "BinaryOp": [
                 {
-                  "State": "next_pc_limb_0_col13"
+                  "BinaryOp": [
+                    {
+                      "State": "next_pc_limb_0_col15"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "next_pc_limb_1_col16"
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 },
                 "+",
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_pc_limb_1_col14"
+                      "State": "next_pc_limb_2_col17"
                     },
                     "*",
                     {
                       "Const": [
                         "M31",
-                        "512"
+                        "262144"
                       ]
                     }
                   ]
@@ -119,13 +157,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "next_pc_limb_2_col15"
+                  "State": "next_pc_limb_3_col18"
                 },
                 "*",
                 {
                   "Const": [
                     "M31",
-                    "262144"
+                    "134217728"
                   ]
                 }
               ]
@@ -163,10 +201,14 @@
     "mem1_base_limb_0_col9",
     "mem1_base_limb_1_col10",
     "mem1_base_limb_2_col11",
-    "next_pc_id_col12",
-    "next_pc_limb_0_col13",
-    "next_pc_limb_1_col14",
-    "next_pc_limb_2_col15"
+    "mem1_base_limb_3_col12",
+    "partial_limb_msb_col13",
+    "next_pc_id_col14",
+    "next_pc_limb_0_col15",
+    "next_pc_limb_1_col16",
+    "next_pc_limb_2_col17",
+    "next_pc_limb_3_col18",
+    "partial_limb_msb_col19"
   ],
   "lookup_names": [
     [
@@ -209,7 +251,7 @@
       [],
       []
     ],
-    "read_positive_num_bits_27": [
+    "read_positive_num_bits_29": [
       [
         [
           "MemoryAddressToId",
@@ -317,7 +359,7 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
+            "read_positive_num_bits_29::evaluate",
             [
               {
                 "Array": [
@@ -348,6 +390,12 @@
               },
               {
                 "State": "mem1_base_limb_2_col11"
+              },
+              {
+                "State": "mem1_base_limb_3_col12"
+              },
+              {
+                "State": "partial_limb_msb_col13"
               }
             ]
           ]
@@ -359,7 +407,7 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
+            "read_positive_num_bits_29::evaluate",
             [
               {
                 "Array": [
@@ -370,19 +418,38 @@
                           {
                             "BinaryOp": [
                               {
-                                "State": "mem1_base_limb_0_col9"
+                                "BinaryOp": [
+                                  {
+                                    "State": "mem1_base_limb_0_col9"
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": "mem1_base_limb_1_col10"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "512"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
                               },
                               "+",
                               {
                                 "BinaryOp": [
                                   {
-                                    "State": "mem1_base_limb_1_col10"
+                                    "State": "mem1_base_limb_2_col11"
                                   },
                                   "*",
                                   {
                                     "Const": [
                                       "M31",
-                                      "512"
+                                      "262144"
                                     ]
                                   }
                                 ]
@@ -393,13 +460,13 @@
                           {
                             "BinaryOp": [
                               {
-                                "State": "mem1_base_limb_2_col11"
+                                "State": "mem1_base_limb_3_col12"
                               },
                               "*",
                               {
                                 "Const": [
                                   "M31",
-                                  "262144"
+                                  "134217728"
                                 ]
                               }
                             ]
@@ -418,16 +485,22 @@
                 ]
               },
               {
-                "State": "next_pc_id_col12"
+                "State": "next_pc_id_col14"
               },
               {
-                "State": "next_pc_limb_0_col13"
+                "State": "next_pc_limb_0_col15"
               },
               {
-                "State": "next_pc_limb_1_col14"
+                "State": "next_pc_limb_1_col16"
               },
               {
-                "State": "next_pc_limb_2_col15"
+                "State": "next_pc_limb_2_col17"
+              },
+              {
+                "State": "next_pc_limb_3_col18"
+              },
+              {
+                "State": "partial_limb_msb_col19"
               }
             ]
           ]
@@ -460,19 +533,38 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_pc_limb_0_col13"
+                    "BinaryOp": [
+                      {
+                        "State": "next_pc_limb_0_col15"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "next_pc_limb_1_col16"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "+",
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_pc_limb_1_col14"
+                        "State": "next_pc_limb_2_col17"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "512"
+                          "262144"
                         ]
                       }
                     ]
@@ -483,13 +575,13 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_pc_limb_2_col15"
+                    "State": "next_pc_limb_3_col18"
                   },
                   "*",
                   {
                     "Const": [
                       "M31",
-                      "262144"
+                      "134217728"
                     ]
                   }
                 ]
@@ -1475,7 +1567,7 @@
       }
     },
     {
-      "StartBlock": "Read Positive Num Bits 27"
+      "StartBlock": "Read Positive Num Bits 29"
     },
     {
       "Intermediate": {
@@ -1639,6 +1731,87 @@
       }
     },
     {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_22134_8"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_22134_9",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "mem1_base_limb_3_col12"
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_22134_9"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
@@ -1663,10 +1836,7 @@
             "State": "mem1_base_limb_2_col11"
           },
           {
-            "Const": [
-              "M31",
-              "0"
-            ]
+            "State": "mem1_base_limb_3_col12"
           },
           {
             "Const": [
@@ -1818,7 +1988,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_27_output_tmp_22134_9",
+        "name": "read_positive_num_bits_29_output_tmp_22134_11",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -1838,10 +2008,7 @@
                         "State": "mem1_base_limb_2_col11"
                       },
                       {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
+                        "State": "mem1_base_limb_3_col12"
                       },
                       {
                         "Const": [
@@ -2001,16 +2168,201 @@
     },
     "EndBlock",
     {
-      "StartBlock": "Read Positive Num Bits 27"
+      "StartBlock": "Read Positive Num Bits 29"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_22134_10",
+        "name": "memory_address_to_id_value_tmp_22134_12",
         "type": "M31",
         "var": {
           "StaticCall": [
             "MemoryAddressToId::deduce_output",
             [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "mem1_base_limb_0_col9"
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "mem1_base_limb_1_col10"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "512"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "mem1_base_limb_2_col11"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "262144"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mem1_base_limb_3_col12"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "134217728"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "Var": [
+                      "M31",
+                      "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_22134_13",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_22134_12"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_22134_12"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "memory_address_to_id",
+        "input": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "mem1_base_limb_0_col9"
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "mem1_base_limb_1_col10"
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "mem1_base_limb_2_col11"
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mem1_base_limb_3_col12"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "M31",
+                "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
@@ -2056,143 +2408,15 @@
                   },
                   "+",
                   {
-                    "Var": [
-                      "M31",
-                      "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_22134_11",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_22134_10"
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Deduction": {
-        "Var": [
-          "M31",
-          "memory_address_to_id_value_tmp_22134_10"
-        ]
-      }
-    },
-    {
-      "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "mem1_base_limb_0_col9"
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "mem1_base_limb_1_col10"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "mem1_base_limb_2_col11"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "262144"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "+",
-            {
-              "Var": [
-                "M31",
-                "decode_instruction_9bd86_output_tmp_22134_6.0[2]"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
                     "BinaryOp": [
                       {
-                        "State": "mem1_base_limb_0_col9"
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "mem1_base_limb_1_col10"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "mem1_base_limb_2_col11"
+                        "State": "mem1_base_limb_3_col12"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "262144"
+                          "134217728"
                         ]
                       }
                     ]
@@ -2209,7 +2433,7 @@
             ]
           },
           {
-            "State": "next_pc_id_col12"
+            "State": "next_pc_id_col14"
           }
         ],
         "use_or_yield": "Use"
@@ -2221,7 +2445,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_22134_11"
+              "memory_id_to_big_value_tmp_22134_13"
             ]
           },
           "get_m31",
@@ -2242,7 +2466,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_22134_11"
+              "memory_id_to_big_value_tmp_22134_13"
             ]
           },
           "get_m31",
@@ -2263,7 +2487,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_22134_11"
+              "memory_id_to_big_value_tmp_22134_13"
             ]
           },
           "get_m31",
@@ -2279,10 +2503,91 @@
       }
     },
     {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_22134_13"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_22134_14",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "next_pc_limb_3_col18"
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_22134_14"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
-          "State": "next_pc_id_col12"
+          "State": "next_pc_id_col14"
         }
       }
     },
@@ -2291,22 +2596,19 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "next_pc_id_col12"
+            "State": "next_pc_id_col14"
           },
           {
-            "State": "next_pc_limb_0_col13"
+            "State": "next_pc_limb_0_col15"
           },
           {
-            "State": "next_pc_limb_1_col14"
+            "State": "next_pc_limb_1_col16"
           },
           {
-            "State": "next_pc_limb_2_col15"
+            "State": "next_pc_limb_2_col17"
           },
           {
-            "Const": [
-              "M31",
-              "0"
-            ]
+            "State": "next_pc_limb_3_col18"
           },
           {
             "Const": [
@@ -2458,7 +2760,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_27_output_tmp_22134_12",
+        "name": "read_positive_num_bits_29_output_tmp_22134_16",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -2469,19 +2771,16 @@
                   {
                     "Array": [
                       {
-                        "State": "next_pc_limb_0_col13"
+                        "State": "next_pc_limb_0_col15"
                       },
                       {
-                        "State": "next_pc_limb_1_col14"
+                        "State": "next_pc_limb_1_col16"
                       },
                       {
-                        "State": "next_pc_limb_2_col15"
+                        "State": "next_pc_limb_2_col17"
                       },
                       {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
+                        "State": "next_pc_limb_3_col18"
                       },
                       {
                         "Const": [
@@ -2633,7 +2932,7 @@
               ]
             },
             {
-              "State": "next_pc_id_col12"
+              "State": "next_pc_id_col14"
             }
           ]
         }
@@ -2666,19 +2965,38 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_pc_limb_0_col13"
+                    "BinaryOp": [
+                      {
+                        "State": "next_pc_limb_0_col15"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "next_pc_limb_1_col16"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "+",
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_pc_limb_1_col14"
+                        "State": "next_pc_limb_2_col17"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "512"
+                          "262144"
                         ]
                       }
                     ]
@@ -2689,13 +3007,13 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_pc_limb_2_col15"
+                    "State": "next_pc_limb_3_col18"
                   },
                   "*",
                   {
                     "Const": [
                       "M31",
-                      "262144"
+                      "134217728"
                     ]
                   }
                 ]

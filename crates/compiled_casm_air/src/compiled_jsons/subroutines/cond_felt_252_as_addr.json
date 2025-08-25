@@ -48,22 +48,57 @@
         {
           "BinaryOp": [
             {
-              "MethodCall": [
+              "BinaryOp": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "cond_felt_252_as_addr_input.0"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "cond_felt_252_as_addr_input.0"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "0"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
-                [
-                  {
-                    "Const": [
-                      "usize",
-                      "0"
-                    ]
-                  }
-                ]
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "cond_felt_252_as_addr_input.0"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "1"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
               ]
             },
             "+",
@@ -82,7 +117,7 @@
                       {
                         "Const": [
                           "usize",
-                          "1"
+                          "2"
                         ]
                       }
                     ]
@@ -92,7 +127,7 @@
                 {
                   "Const": [
                     "M31",
-                    "512"
+                    "262144"
                   ]
                 }
               ]
@@ -115,7 +150,7 @@
                   {
                     "Const": [
                       "usize",
-                      "2"
+                      "3"
                     ]
                   }
                 ]
@@ -125,7 +160,7 @@
             {
               "Const": [
                 "M31",
-                "262144"
+                "134217728"
               ]
             }
           ]
@@ -144,9 +179,31 @@
             {
               "BinaryOp": [
                 {
-                  "Var": [
-                    "M31",
-                    "cond_felt_252_as_addr_input_limb_0"
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_addr_input_limb_0"
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "cond_felt_252_as_addr_input_limb_1"
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 },
                 "+",
@@ -155,14 +212,14 @@
                     {
                       "Var": [
                         "M31",
-                        "cond_felt_252_as_addr_input_limb_1"
+                        "cond_felt_252_as_addr_input_limb_2"
                       ]
                     },
                     "*",
                     {
                       "Const": [
                         "M31",
-                        "512"
+                        "262144"
                       ]
                     }
                   ]
@@ -175,14 +232,14 @@
                 {
                   "Var": [
                     "M31",
-                    "cond_felt_252_as_addr_input_limb_2"
+                    "cond_felt_252_as_addr_input_limb_3"
                   ]
                 },
                 "*",
                 {
                   "Const": [
                     "M31",
-                    "262144"
+                    "134217728"
                   ]
                 }
               ]
@@ -195,34 +252,20 @@
       "cond_felt_252_as_addr_output"
     ]
   ],
-  "state_names": [],
+  "state_names": [
+    "partial_limb_msb_col0"
+  ],
   "lookup_names": [],
-  "inline_calls": {},
+  "inline_calls": {
+    "cond_range_check_2": [
+      [],
+      [],
+      []
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "Var": [
-                "M31",
-                "cond_felt_252_as_addr_input_limb_28"
-              ]
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "cond_felt_252_as_addr_input_limb_3"
-              ]
-            }
-          ]
-        },
-        "Address limb 3 equals 0"
-      ]
-    },
     {
       "Constraint": [
         {
@@ -750,7 +793,111 @@
         },
         "Address limb 27 equals 0"
       ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "cond_range_check_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_addr_input_limb_3"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_addr_input_limb_28"
+                    ]
+                  }
+                ]
+              },
+              {
+                "State": "partial_limb_msb_col0"
+              }
+            ]
+          ]
+        }
+      }
     }
   ],
-  "deductions": []
+  "deductions": [
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_49077_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "cond_felt_252_as_addr_input.0"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_49077_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock"
+  ]
 }

@@ -112,7 +112,9 @@
     "mem1_base_limb_0_col12",
     "mem1_base_limb_1_col13",
     "mem1_base_limb_2_col14",
-    "dst_id_col15"
+    "mem1_base_limb_3_col15",
+    "partial_limb_msb_col16",
+    "dst_id_col17"
   ],
   "lookup_names": [
     [
@@ -169,7 +171,7 @@
       [],
       []
     ],
-    "read_positive_num_bits_27": [
+    "read_positive_num_bits_29": [
       [
         [
           "MemoryAddressToId",
@@ -335,7 +337,7 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
+            "read_positive_num_bits_29::evaluate",
             [
               {
                 "Array": [
@@ -366,6 +368,12 @@
               },
               {
                 "State": "mem1_base_limb_2_col14"
+              },
+              {
+                "State": "mem1_base_limb_3_col15"
+              },
+              {
+                "State": "partial_limb_msb_col16"
               }
             ]
           ]
@@ -402,19 +410,38 @@
                           {
                             "BinaryOp": [
                               {
-                                "State": "mem1_base_limb_0_col12"
+                                "BinaryOp": [
+                                  {
+                                    "State": "mem1_base_limb_0_col12"
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": "mem1_base_limb_1_col13"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "512"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
                               },
                               "+",
                               {
                                 "BinaryOp": [
                                   {
-                                    "State": "mem1_base_limb_1_col13"
+                                    "State": "mem1_base_limb_2_col14"
                                   },
                                   "*",
                                   {
                                     "Const": [
                                       "M31",
-                                      "512"
+                                      "262144"
                                     ]
                                   }
                                 ]
@@ -425,13 +452,13 @@
                           {
                             "BinaryOp": [
                               {
-                                "State": "mem1_base_limb_2_col14"
+                                "State": "mem1_base_limb_3_col15"
                               },
                               "*",
                               {
                                 "Const": [
                                   "M31",
-                                  "262144"
+                                  "134217728"
                                 ]
                               }
                             ]
@@ -450,7 +477,7 @@
                 ]
               },
               {
-                "State": "dst_id_col15"
+                "State": "dst_id_col17"
               }
             ]
           ]
@@ -1746,7 +1773,7 @@
       }
     },
     {
-      "StartBlock": "Read Positive Num Bits 27"
+      "StartBlock": "Read Positive Num Bits 29"
     },
     {
       "Intermediate": {
@@ -1910,6 +1937,87 @@
       }
     },
     {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_b1151_10"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_b1151_11",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "mem1_base_limb_3_col15"
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_b1151_11"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
@@ -1934,10 +2042,7 @@
             "State": "mem1_base_limb_2_col14"
           },
           {
-            "Const": [
-              "M31",
-              "0"
-            ]
+            "State": "mem1_base_limb_3_col15"
           },
           {
             "Const": [
@@ -2089,7 +2194,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_27_output_tmp_b1151_11",
+        "name": "read_positive_num_bits_29_output_tmp_b1151_13",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -2109,10 +2214,7 @@
                         "State": "mem1_base_limb_2_col14"
                       },
                       {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
+                        "State": "mem1_base_limb_3_col15"
                       },
                       {
                         "Const": [
@@ -2276,7 +2378,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_b1151_12",
+        "name": "memory_address_to_id_value_tmp_b1151_14",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -2305,7 +2407,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_b1151_12"
+          "memory_address_to_id_value_tmp_b1151_14"
         ]
       }
     },
@@ -2347,7 +2449,7 @@
             ]
           },
           {
-            "State": "dst_id_col15"
+            "State": "dst_id_col17"
           }
         ],
         "use_or_yield": "Use"
@@ -2363,19 +2465,38 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "mem1_base_limb_0_col12"
+                      "BinaryOp": [
+                        {
+                          "State": "mem1_base_limb_0_col12"
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "mem1_base_limb_1_col13"
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     "+",
                     {
                       "BinaryOp": [
                         {
-                          "State": "mem1_base_limb_1_col13"
+                          "State": "mem1_base_limb_2_col14"
                         },
                         "*",
                         {
                           "Const": [
                             "M31",
-                            "512"
+                            "262144"
                           ]
                         }
                       ]
@@ -2386,13 +2507,13 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "mem1_base_limb_2_col14"
+                      "State": "mem1_base_limb_3_col15"
                     },
                     "*",
                     {
                       "Const": [
                         "M31",
-                        "262144"
+                        "134217728"
                       ]
                     }
                   ]
@@ -2421,19 +2542,38 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "mem1_base_limb_0_col12"
+                        "BinaryOp": [
+                          {
+                            "State": "mem1_base_limb_0_col12"
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "mem1_base_limb_1_col13"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "mem1_base_limb_1_col13"
+                            "State": "mem1_base_limb_2_col14"
                           },
                           "*",
                           {
                             "Const": [
                               "M31",
-                              "512"
+                              "262144"
                             ]
                           }
                         ]
@@ -2444,13 +2584,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "mem1_base_limb_2_col14"
+                        "State": "mem1_base_limb_3_col15"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "262144"
+                          "134217728"
                         ]
                       }
                     ]
@@ -2467,7 +2607,7 @@
             ]
           },
           {
-            "State": "dst_id_col15"
+            "State": "dst_id_col17"
           }
         ],
         "use_or_yield": "Use"

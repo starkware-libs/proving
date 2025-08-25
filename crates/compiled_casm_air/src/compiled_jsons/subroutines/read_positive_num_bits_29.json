@@ -1,18 +1,18 @@
 {
-  "name": "read_positive_num_bits_27",
+  "name": "read_positive_num_bits_29",
   "relation_name": null,
   "relation_size": null,
-  "description": "Read Positive Num Bits 27",
-  "instance_definition": "{\"num_bits\":27}",
+  "description": "Read Positive Num Bits 29",
+  "instance_definition": "{\"num_bits\":29}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-    "read_positive_num_bits_27_input",
+    "read_positive_num_bits_29_input",
     "M31",
     "PackedM31"
   ],
   "verifier_input_limbs": [
-    "read_positive_num_bits_27_input"
+    "read_positive_num_bits_29_input"
   ],
   "prover_output": [
     {
@@ -33,10 +33,7 @@
                     "State": "value_limb_2_col3"
                   },
                   {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
+                    "State": "value_limb_3_col4"
                   },
                   {
                     "Const": [
@@ -192,7 +189,7 @@
         }
       ]
     },
-    "read_positive_num_bits_27_output",
+    "read_positive_num_bits_29_output",
     "(Felt252, M31)",
     "(PackedFelt252, PackedM31)"
   ],
@@ -206,7 +203,9 @@
     "id_col0",
     "value_limb_0_col1",
     "value_limb_1_col2",
-    "value_limb_2_col3"
+    "value_limb_2_col3",
+    "value_limb_3_col4",
+    "partial_limb_msb_col5"
   ],
   "lookup_names": [
     [
@@ -218,7 +217,13 @@
       "Use"
     ]
   ],
-  "inline_calls": {},
+  "inline_calls": {
+    "range_check_last_limb_bits_in_ms_limb_2": [
+      [],
+      [],
+      []
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [
@@ -229,7 +234,7 @@
           {
             "Var": [
               "M31",
-              "read_positive_num_bits_27_input"
+              "read_positive_num_bits_29_input"
             ]
           },
           {
@@ -237,6 +242,28 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "range_check_last_limb_bits_in_ms_limb_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "value_limb_3_col4"
+                  }
+                ]
+              },
+              {
+                "State": "partial_limb_msb_col5"
+              }
+            ]
+          ]
+        }
       }
     },
     {
@@ -256,10 +283,7 @@
             "State": "value_limb_2_col3"
           },
           {
-            "Const": [
-              "M31",
-              "0"
-            ]
+            "State": "value_limb_3_col4"
           },
           {
             "Const": [
@@ -413,7 +437,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_9f9a2_0",
+        "name": "memory_address_to_id_value_tmp_bf3c1_0",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -422,7 +446,7 @@
               {
                 "Var": [
                   "M31",
-                  "read_positive_num_bits_27_input"
+                  "read_positive_num_bits_29_input"
                 ]
               }
             ]
@@ -432,7 +456,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_9f9a2_1",
+        "name": "memory_id_to_big_value_tmp_bf3c1_1",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -441,7 +465,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_9f9a2_0"
+                  "memory_address_to_id_value_tmp_bf3c1_0"
                 ]
               }
             ]
@@ -453,7 +477,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_9f9a2_0"
+          "memory_address_to_id_value_tmp_bf3c1_0"
         ]
       }
     },
@@ -463,7 +487,7 @@
         "input": {
           "Var": [
             "M31",
-            "read_positive_num_bits_27_input"
+            "read_positive_num_bits_29_input"
           ]
         }
       }
@@ -475,7 +499,7 @@
           {
             "Var": [
               "M31",
-              "read_positive_num_bits_27_input"
+              "read_positive_num_bits_29_input"
             ]
           },
           {
@@ -491,7 +515,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_9f9a2_1"
+              "memory_id_to_big_value_tmp_bf3c1_1"
             ]
           },
           "get_m31",
@@ -512,7 +536,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_9f9a2_1"
+              "memory_id_to_big_value_tmp_bf3c1_1"
             ]
           },
           "get_m31",
@@ -533,7 +557,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_9f9a2_1"
+              "memory_id_to_big_value_tmp_bf3c1_1"
             ]
           },
           "get_m31",
@@ -548,6 +572,87 @@
         ]
       }
     },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_bf3c1_1"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_bf3c1_2",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "value_limb_3_col4"
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_bf3c1_2"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    "EndBlock",
     {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
@@ -573,10 +678,7 @@
             "State": "value_limb_2_col3"
           },
           {
-            "Const": [
-              "M31",
-              "0"
-            ]
+            "State": "value_limb_3_col4"
           },
           {
             "Const": [

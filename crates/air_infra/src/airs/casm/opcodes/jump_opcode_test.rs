@@ -132,6 +132,8 @@ fn test_abs_jump_base_ap() {
             (8, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -157,6 +159,8 @@ fn test_abs_jump_base_fp() {
             (5, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -182,6 +186,8 @@ fn test_abs_jump_base_ap_inc_ap() {
             (8, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -207,6 +213,8 @@ fn test_abs_jump_base_fp_inc_ap() {
             (5, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -232,6 +240,8 @@ fn test_abs_big_op1() {
             (205, "next_pc_limb_0"),
             (218, "next_pc_limb_1"),
             (6, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -257,6 +267,8 @@ fn test_abs_jump_negativ_offset() {
             (9, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -280,6 +292,8 @@ fn test_rel_jump() {
             (100, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "remainder_bits"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -303,6 +317,8 @@ fn test_rel_jump_inc_ap() {
             (3, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "remainder_bits"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -326,6 +342,8 @@ fn test_rel_big_op1() {
             (455, "next_pc_limb_0"),
             (315, "next_pc_limb_1"),
             (208, "next_pc_limb_2"),
+            (0, "remainder_bits"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -349,6 +367,8 @@ fn test_rel_negative_imm() {
             (511, "next_pc_limb_0"),
             (511, "next_pc_limb_1"),
             (511, "next_pc_limb_2"),
+            (3, "remainder_bits"),
+            (1, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -376,6 +396,8 @@ fn test_rel_negative_op1() {
             (511, "next_pc_limb_0"),
             (511, "next_pc_limb_1"),
             (511, "next_pc_limb_2"),
+            (3, "remainder_bits"),
+            (1, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -403,6 +425,8 @@ fn test_rel_deref_base_fp() {
             (200, "next_pc_limb_0"),
             (32, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "remainder_bits"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -428,10 +452,14 @@ fn test_abs_double_deref() {
             (125, "mem1_base_limb_0"),
             (0, "mem1_base_limb_1"),
             (0, "mem1_base_limb_2"),
+            (0, "mem1_base_limb_3"),
+            (0, "partial_limb_msb"),
             (1, "next_pc_id"),
             (200, "next_pc_limb_0"),
             (32, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "next_pc_limb_3"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );

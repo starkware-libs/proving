@@ -19,7 +19,7 @@ use crate::core::felt252_id_memory::read_small::*;
 /// - [ap/fp + offset0] = [ap/fp + offset1] + [ap/fp + offset2]
 /// - [ap/fp + offset0] = [ap/fp + offset1] + Imm
 ///
-/// small = true : all three values are in the range [-2**27, 2**27 - 1].
+/// small = true : all three values are in the range [-2**29 - 1, 2**29 - 1].
 /// small = false : all three values are in the range [0, 2**252 - 1].
 #[derive(Clone, Debug, Serialize)]
 pub struct AddOpcode {

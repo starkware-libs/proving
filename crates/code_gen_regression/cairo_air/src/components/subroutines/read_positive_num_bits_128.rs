@@ -29,7 +29,7 @@ impl ReadPositiveNumBits128 {
         value_limb_12_col13: E::F,
         value_limb_13_col14: E::F,
         value_limb_14_col15: E::F,
-        msb_col16: E::F,
+        partial_limb_msb_col16: E::F,
         memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
         eval: &mut E,
@@ -42,7 +42,7 @@ impl ReadPositiveNumBits128 {
 
         RangeCheckLastLimbBitsInMsLimb2::evaluate(
             [value_limb_14_col15.clone()],
-            msb_col16.clone(),
+            partial_limb_msb_col16.clone(),
             eval,
         );
         eval.add_to_relation(RelationEntry::new(

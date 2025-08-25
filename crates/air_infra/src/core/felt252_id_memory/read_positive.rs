@@ -105,23 +105,37 @@ impl AirFn for RangeCheckLastLimb {
                 msl.clone() * (const_expr!(1) - msl.clone()),
                 "most significant limb is a bit",
             ),
-            2 => {
-                let mslh = air_builder.deduce_air_var(
-                    (UInt16Expr::from(msl.clone()) & const_u16_expr!(0b10)) >> const_u16_expr!(1),
-                    "msb",
-                );
-                air_builder.constrain(
-                    mslh.as_felt() * (const_expr!(1) - mslh.as_felt()),
-                    "msb is a bit",
-                );
-                let msll = air_builder
-                    .let_for_constraint(msl - (mslh.as_felt() * const_expr!(2)), "bit_before_msb");
-                air_builder.constrain(
-                    msll.clone() * (const_expr!(1) - msll.clone()),
-                    "bit before msb is a bit",
-                );
-            }
+            2 => air_builder.call(&CondRangeCheck2 {}, [msl, const_expr!(1)]),
             _ => range_check(air_builder, &[self.bits_in_ms_limb as u16], &[msl]),
         }
+    }
+}
+
+/// Receives a FeltExpr, and conditionally constrains it to be at most 3.
+#[derive(Debug, Serialize)]
+pub struct CondRangeCheck2 {}
+
+impl AirFn for CondRangeCheck2 {
+    type ExtIn = ();
+    type In = [FeltExpr; 2];
+    type Out = ();
+
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [msl, condition]: Self::In) -> Self::Out {
+        let mslh = air_builder.deduce_air_var(
+            (UInt16Expr::from(msl.clone()) & const_u16_expr!(0b10)) >> const_u16_expr!(1),
+            "partial_limb_msb",
+        );
+        air_builder.constrain(
+            mslh.as_felt() * (const_expr!(1) - mslh.as_felt()) * condition.clone(),
+            "msb is a bit or condition is 0",
+        );
+        let msll = air_builder.let_for_constraint(
+            msl - (mslh.as_felt() * const_expr!(2)),
+            "partial_limb_bit_before_msb",
+        );
+        air_builder.constrain(
+            msll.clone() * (const_expr!(1) - msll.clone()) * condition,
+            "bit before msb is a bit or condition is 0",
+        );
     }
 }

@@ -29,110 +29,58 @@
     []
   ],
   "state_names": [
-    "msb_col0"
+    "partial_limb_msb_col0"
   ],
   "lookup_names": [],
-  "inline_calls": {},
+  "inline_calls": {
+    "cond_range_check_2": [
+      [],
+      [],
+      []
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "msb_col0"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "State": "msb_col0"
-                }
-              ]
-            }
-          ]
-        },
-        "msb is a bit"
-      ]
-    },
-    {
       "Intermediate": {
-        "felt_names": [
-          "bit_before_msb_tmp_f851f_1"
-        ],
+        "felt_names": [],
         "var": {
-          "BinaryOp": [
-            {
-              "Var": [
-                "M31",
-                "range_check_last_limb_bits_in_ms_limb_2_input"
-              ]
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "State": "msb_col0"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
+          "StaticCall": [
+            "cond_range_check_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_last_limb_bits_in_ms_limb_2_input"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  }
+                ]
+              },
+              {
+                "State": "partial_limb_msb_col0"
+              }
+            ]
           ]
         }
       }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "Var": [
-                "M31",
-                "bit_before_msb_tmp_f851f_1"
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "Var": [
-                    "M31",
-                    "bit_before_msb_tmp_f851f_1"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "bit before msb is a bit"
-      ]
     }
   ],
   "deductions": [
     {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
       "Intermediate": {
-        "name": "msb_tmp_f851f_0",
+        "name": "partial_limb_msb_tmp_f851f_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -177,13 +125,14 @@
           {
             "Var": [
               "UInt16",
-              "msb_tmp_f851f_0"
+              "partial_limb_msb_tmp_f851f_0"
             ]
           },
           "as_m31",
           []
         ]
       }
-    }
+    },
+    "EndBlock"
   ]
 }

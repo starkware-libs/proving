@@ -75,7 +75,9 @@ fn test_add_ap_negative_imm() {
         (0, "op1_limb_0"),
         (0, "op1_limb_1"),
         (0, "op1_limb_2"),
-        (10, "range_check_ap_bot8bits"),
+        (0, "remainder_bits"),
+        (0, "partial_limb_msb"),
+        (10, "range_check_ap_bot11bits"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -150,7 +152,9 @@ fn test_add_ap_deref_base_fp() {
         (299, "op1_limb_0"),
         (0, "op1_limb_1"),
         (0, "op1_limb_2"),
-        (54, "range_check_ap_bot8bits"),
+        (0, "remainder_bits"),
+        (0, "partial_limb_msb"),
+        (310, "range_check_ap_bot11bits"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -208,7 +212,7 @@ fn test_failed_op1_src() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 524288")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 262144")]
 fn test_add_ap_too_big() {
     // Build the air function
     let mut add_ap_opcode = AddApOpcode {
@@ -217,7 +221,7 @@ fn test_add_ap_too_big() {
 
     // Register values at opcode start
     let pc = 30;
-    let ap = (1 << 27) - 5;
+    let ap = (1 << 29) - 5;
     let fp = 6;
 
     // Create the non-constant flags

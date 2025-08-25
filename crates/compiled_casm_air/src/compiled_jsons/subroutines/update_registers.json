@@ -118,19 +118,19 @@
           [
             "pc",
             {
-              "State": "next_pc_col8"
+              "State": "next_pc_col12"
             }
           ],
           [
             "ap",
             {
-              "State": "next_ap_col9"
+              "State": "next_ap_col13"
             }
           ],
           [
             "fp",
             {
-              "State": "next_fp_col11"
+              "State": "next_fp_col15"
             }
           ]
         ]
@@ -147,26 +147,30 @@
     []
   ],
   "state_names": [
-    "msb_col0",
-    "mid_limbs_set_col1",
-    "dst_sum_squares_inv_col2",
-    "dst_sum_inv_col3",
-    "op1_as_rel_imm_cond_col4",
-    "msb_col5",
-    "mid_limbs_set_col6",
-    "next_pc_jnz_col7",
-    "next_pc_col8",
-    "next_ap_col9",
-    "range_check_ap_bot8bits_col10",
-    "next_fp_col11"
+    "partial_limb_msb_col0",
+    "partial_limb_msb_col1",
+    "msb_col2",
+    "mid_limbs_set_col3",
+    "partial_limb_msb_col4",
+    "dst_sum_squares_inv_col5",
+    "dst_sum_inv_col6",
+    "op1_as_rel_imm_cond_col7",
+    "msb_col8",
+    "mid_limbs_set_col9",
+    "partial_limb_msb_col10",
+    "next_pc_jnz_col11",
+    "next_pc_col12",
+    "next_ap_col13",
+    "range_check_ap_bot11bits_col14",
+    "next_fp_col15"
   ],
   "lookup_names": [
     [
-      "RangeCheck_19",
+      "RangeCheck_18",
       "Use"
     ],
     [
-      "RangeCheck_8",
+      "RangeCheck_11",
       "Use"
     ]
   ],
@@ -184,11 +188,11 @@
     "range_check_ap": [
       [
         [
-          "RangeCheck_19",
+          "RangeCheck_18",
           "Use"
         ],
         [
-          "RangeCheck_8",
+          "RangeCheck_11",
           "Use"
         ]
       ],
@@ -202,7 +206,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "cond_felt_252_as_addr_output_tmp_783d5_0"
+          "cond_felt_252_as_addr_output_tmp_783d5_2"
         ],
         "var": {
           "StaticCall": [
@@ -385,6 +389,9 @@
                     ]
                   }
                 ]
+              },
+              {
+                "State": "partial_limb_msb_col0"
               }
             ]
           ]
@@ -394,7 +401,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "cond_felt_252_as_addr_output_tmp_783d5_1"
+          "cond_felt_252_as_addr_output_tmp_783d5_5"
         ],
         "var": {
           "StaticCall": [
@@ -577,6 +584,9 @@
                     ]
                   }
                 ]
+              },
+              {
+                "State": "partial_limb_msb_col1"
               }
             ]
           ]
@@ -586,7 +596,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "cond_felt_252_as_rel_imm_output_tmp_783d5_5"
+          "cond_felt_252_as_rel_imm_output_tmp_783d5_12"
         ],
         "var": {
           "StaticCall": [
@@ -782,10 +792,13 @@
                 ]
               },
               {
-                "State": "msb_col0"
+                "State": "msb_col2"
               },
               {
-                "State": "mid_limbs_set_col1"
+                "State": "mid_limbs_set_col3"
+              },
+              {
+                "State": "partial_limb_msb_col4"
               }
             ]
           ]
@@ -795,7 +808,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "diff_from_p_tmp_783d5_6"
+          "diff_from_p_tmp_783d5_13"
         ],
         "var": {
           "BinaryOp": [
@@ -819,7 +832,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "diff_from_p_tmp_783d5_7"
+          "diff_from_p_tmp_783d5_14"
         ],
         "var": {
           "BinaryOp": [
@@ -843,7 +856,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "diff_from_p_tmp_783d5_8"
+          "diff_from_p_tmp_783d5_15"
         ],
         "var": {
           "BinaryOp": [
@@ -929,14 +942,14 @@
                                                                                                                                 {
                                                                                                                                   "Var": [
                                                                                                                                     "M31",
-                                                                                                                                    "diff_from_p_tmp_783d5_6"
+                                                                                                                                    "diff_from_p_tmp_783d5_13"
                                                                                                                                   ]
                                                                                                                                 },
                                                                                                                                 "*",
                                                                                                                                 {
                                                                                                                                   "Var": [
                                                                                                                                     "M31",
-                                                                                                                                    "diff_from_p_tmp_783d5_6"
+                                                                                                                                    "diff_from_p_tmp_783d5_13"
                                                                                                                                   ]
                                                                                                                                 }
                                                                                                                               ]
@@ -1127,14 +1140,14 @@
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "diff_from_p_tmp_783d5_7"
+                                                    "diff_from_p_tmp_783d5_14"
                                                   ]
                                                 },
                                                 "*",
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "diff_from_p_tmp_783d5_7"
+                                                    "diff_from_p_tmp_783d5_14"
                                                   ]
                                                 }
                                               ]
@@ -1192,14 +1205,14 @@
                         {
                           "Var": [
                             "M31",
-                            "diff_from_p_tmp_783d5_8"
+                            "diff_from_p_tmp_783d5_15"
                           ]
                         },
                         "*",
                         {
                           "Var": [
                             "M31",
-                            "diff_from_p_tmp_783d5_8"
+                            "diff_from_p_tmp_783d5_15"
                           ]
                         }
                       ]
@@ -1208,7 +1221,7 @@
                 },
                 "*",
                 {
-                  "State": "dst_sum_squares_inv_col2"
+                  "State": "dst_sum_squares_inv_col5"
                 }
               ]
             },
@@ -1227,7 +1240,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "dst_sum_tmp_783d5_9"
+          "dst_sum_tmp_783d5_16"
         ],
         "var": {
           "BinaryOp": [
@@ -1539,7 +1552,7 @@
         {
           "BinaryOp": [
             {
-              "State": "op1_as_rel_imm_cond_col4"
+              "State": "op1_as_rel_imm_cond_col7"
             },
             "-",
             {
@@ -1554,7 +1567,7 @@
                 {
                   "Var": [
                     "M31",
-                    "dst_sum_tmp_783d5_9"
+                    "dst_sum_tmp_783d5_16"
                   ]
                 }
               ]
@@ -1567,7 +1580,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "cond_felt_252_as_rel_imm_output_tmp_783d5_14"
+          "cond_felt_252_as_rel_imm_output_tmp_783d5_24"
         ],
         "var": {
           "StaticCall": [
@@ -1744,15 +1757,18 @@
                     ]
                   },
                   {
-                    "State": "op1_as_rel_imm_cond_col4"
+                    "State": "op1_as_rel_imm_cond_col7"
                   }
                 ]
               },
               {
-                "State": "msb_col5"
+                "State": "msb_col8"
               },
               {
-                "State": "mid_limbs_set_col6"
+                "State": "mid_limbs_set_col9"
+              },
+              {
+                "State": "partial_limb_msb_col10"
               }
             ]
           ]
@@ -1766,7 +1782,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "next_pc_jnz_col7"
+                  "State": "next_pc_jnz_col11"
                 },
                 "-",
                 {
@@ -1781,7 +1797,7 @@
                     {
                       "Var": [
                         "M31",
-                        "cond_felt_252_as_rel_imm_output_tmp_783d5_14"
+                        "cond_felt_252_as_rel_imm_output_tmp_783d5_24"
                       ]
                     }
                   ]
@@ -1792,7 +1808,7 @@
             {
               "Var": [
                 "M31",
-                "dst_sum_tmp_783d5_9"
+                "dst_sum_tmp_783d5_16"
               ]
             }
           ]
@@ -1807,7 +1823,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "next_pc_jnz_col7"
+                  "State": "next_pc_jnz_col11"
                 },
                 "-",
                 {
@@ -1837,12 +1853,12 @@
                     {
                       "Var": [
                         "M31",
-                        "dst_sum_tmp_783d5_9"
+                        "dst_sum_tmp_783d5_16"
                       ]
                     },
                     "*",
                     {
-                      "State": "dst_sum_inv_col3"
+                      "State": "dst_sum_inv_col6"
                     }
                   ]
                 },
@@ -1865,7 +1881,7 @@
         {
           "BinaryOp": [
             {
-              "State": "next_pc_col8"
+              "State": "next_pc_col12"
             },
             "-",
             {
@@ -1915,7 +1931,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "cond_felt_252_as_addr_output_tmp_783d5_0"
+                                "cond_felt_252_as_addr_output_tmp_783d5_2"
                               ]
                             }
                           ]
@@ -1944,7 +1960,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "cond_felt_252_as_rel_imm_output_tmp_783d5_5"
+                                "cond_felt_252_as_rel_imm_output_tmp_783d5_12"
                               ]
                             }
                           ]
@@ -1964,7 +1980,7 @@
                     },
                     "*",
                     {
-                      "State": "next_pc_jnz_col7"
+                      "State": "next_pc_jnz_col11"
                     }
                   ]
                 }
@@ -1980,7 +1996,7 @@
         {
           "BinaryOp": [
             {
-              "State": "next_ap_col9"
+              "State": "next_ap_col13"
             },
             "-",
             {
@@ -2008,7 +2024,7 @@
                             {
                               "Var": [
                                 "M31",
-                                "cond_felt_252_as_rel_imm_output_tmp_783d5_5"
+                                "cond_felt_252_as_rel_imm_output_tmp_783d5_12"
                               ]
                             }
                           ]
@@ -2059,12 +2075,12 @@
               {
                 "Array": [
                   {
-                    "State": "next_ap_col9"
+                    "State": "next_ap_col13"
                   }
                 ]
               },
               {
-                "State": "range_check_ap_bot8bits_col10"
+                "State": "range_check_ap_bot11bits_col14"
               }
             ]
           ]
@@ -2076,7 +2092,7 @@
         {
           "BinaryOp": [
             {
-              "State": "next_fp_col11"
+              "State": "next_fp_col15"
             },
             "-",
             {
@@ -2113,7 +2129,7 @@
                         {
                           "Var": [
                             "M31",
-                            "cond_felt_252_as_addr_output_tmp_783d5_1"
+                            "cond_felt_252_as_addr_output_tmp_783d5_5"
                           ]
                         }
                       ]
@@ -2162,30 +2178,137 @@
       "StartBlock": "Cond Felt 252 As Addr"
     },
     {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
       "Intermediate": {
-        "name": "cond_felt_252_as_addr_output_tmp_783d5_0",
+        "name": "partial_limb_msb_tmp_783d5_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "update_registers_input.2[2]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_783d5_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_783d5_2",
         "type": "M31",
         "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
+                  "BinaryOp": [
                     {
-                      "Var": [
-                        "Felt252",
-                        "update_registers_input.2[2]"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "update_registers_input.2[2]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "0"
+                            ]
+                          }
+                        ]
                       ]
                     },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "0"
-                        ]
-                      }
-                    ]
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252",
+                                "update_registers_input.2[2]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "1"
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 },
                 "+",
@@ -2204,7 +2327,7 @@
                           {
                             "Const": [
                               "usize",
-                              "1"
+                              "2"
                             ]
                           }
                         ]
@@ -2214,7 +2337,7 @@
                     {
                       "Const": [
                         "M31",
-                        "512"
+                        "262144"
                       ]
                     }
                   ]
@@ -2237,7 +2360,7 @@
                       {
                         "Const": [
                           "usize",
-                          "2"
+                          "3"
                         ]
                       }
                     ]
@@ -2247,7 +2370,7 @@
                 {
                   "Const": [
                     "M31",
-                    "262144"
+                    "134217728"
                   ]
                 }
               ]
@@ -2261,30 +2384,137 @@
       "StartBlock": "Cond Felt 252 As Addr"
     },
     {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
       "Intermediate": {
-        "name": "cond_felt_252_as_addr_output_tmp_783d5_1",
+        "name": "partial_limb_msb_tmp_783d5_3",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "update_registers_input.2[0]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_783d5_3"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_783d5_5",
         "type": "M31",
         "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
+                  "BinaryOp": [
                     {
-                      "Var": [
-                        "Felt252",
-                        "update_registers_input.2[0]"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "update_registers_input.2[0]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "0"
+                            ]
+                          }
+                        ]
                       ]
                     },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "0"
-                        ]
-                      }
-                    ]
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252",
+                                "update_registers_input.2[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "1"
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 },
                 "+",
@@ -2303,7 +2533,7 @@
                           {
                             "Const": [
                               "usize",
-                              "1"
+                              "2"
                             ]
                           }
                         ]
@@ -2313,7 +2543,7 @@
                     {
                       "Const": [
                         "M31",
-                        "512"
+                        "262144"
                       ]
                     }
                   ]
@@ -2336,7 +2566,7 @@
                       {
                         "Const": [
                           "usize",
-                          "2"
+                          "3"
                         ]
                       }
                     ]
@@ -2346,7 +2576,7 @@
                 {
                   "Const": [
                     "M31",
-                    "262144"
+                    "134217728"
                   ]
                 }
               ]
@@ -2364,7 +2594,7 @@
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_783d5_2",
+        "name": "msb_tmp_783d5_6",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -2406,7 +2636,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_783d5_2"
+              "msb_tmp_783d5_6"
             ]
           },
           "as_m31",
@@ -2416,7 +2646,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_783d5_3",
+        "name": "mid_limbs_set_tmp_783d5_7",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -2458,7 +2688,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_783d5_3"
+              "mid_limbs_set_tmp_783d5_7"
             ]
           },
           "as_m31",
@@ -2468,15 +2698,15 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_783d5_4",
+        "name": "cond_decode_small_sign_output_tmp_783d5_8",
         "type": "[M31; 2]",
         "var": {
           "Array": [
             {
-              "State": "msb_col0"
+              "State": "msb_col2"
             },
             {
-              "State": "mid_limbs_set_col1"
+              "State": "mid_limbs_set_col3"
             }
           ]
         }
@@ -2485,7 +2715,110 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "cond_felt_252_as_rel_imm_output_tmp_783d5_5",
+        "name": "remainder_bits_tmp_783d5_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "update_registers_input.2[2]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "3"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_783d5_10",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "Var": [
+                          "M31",
+                          "remainder_bits_tmp_783d5_9"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_783d5_10"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_rel_imm_output_tmp_783d5_12",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2496,22 +2829,57 @@
                     {
                       "BinaryOp": [
                         {
-                          "MethodCall": [
+                          "BinaryOp": [
                             {
-                              "Var": [
-                                "Felt252",
-                                "update_registers_input.2[2]"
+                              "MethodCall": [
+                                {
+                                  "Var": [
+                                    "Felt252",
+                                    "update_registers_input.2[2]"
+                                  ]
+                                },
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "0"
+                                    ]
+                                  }
+                                ]
                               ]
                             },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "0"
-                                ]
-                              }
-                            ]
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "MethodCall": [
+                                    {
+                                      "Var": [
+                                        "Felt252",
+                                        "update_registers_input.2[2]"
+                                      ]
+                                    },
+                                    "get_m31",
+                                    [
+                                      {
+                                        "Const": [
+                                          "usize",
+                                          "1"
+                                        ]
+                                      }
+                                    ]
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         "+",
@@ -2530,7 +2898,7 @@
                                   {
                                     "Const": [
                                       "usize",
-                                      "1"
+                                      "2"
                                     ]
                                   }
                                 ]
@@ -2540,7 +2908,7 @@
                             {
                               "Const": [
                                 "M31",
-                                "512"
+                                "262144"
                               ]
                             }
                           ]
@@ -2551,29 +2919,16 @@
                     {
                       "BinaryOp": [
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252",
-                                "update_registers_input.2[2]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "2"
-                                ]
-                              }
-                            ]
+                          "Var": [
+                            "M31",
+                            "remainder_bits_tmp_783d5_9"
                           ]
                         },
                         "*",
                         {
                           "Const": [
                             "M31",
-                            "262144"
+                            "134217728"
                           ]
                         }
                       ]
@@ -2582,7 +2937,7 @@
                 },
                 "-",
                 {
-                  "State": "msb_col0"
+                  "State": "msb_col2"
                 }
               ]
             },
@@ -2592,12 +2947,12 @@
                 {
                   "Const": [
                     "M31",
-                    "134217728"
+                    "536870912"
                   ]
                 },
                 "*",
                 {
-                  "State": "mid_limbs_set_col1"
+                  "State": "mid_limbs_set_col3"
                 }
               ]
             }
@@ -2608,7 +2963,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_783d5_6",
+        "name": "diff_from_p_tmp_783d5_13",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2644,7 +2999,7 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_783d5_7",
+        "name": "diff_from_p_tmp_783d5_14",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2680,7 +3035,7 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_783d5_8",
+        "name": "diff_from_p_tmp_783d5_15",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2776,14 +3131,14 @@
                                                                                                                           {
                                                                                                                             "Var": [
                                                                                                                               "M31",
-                                                                                                                              "diff_from_p_tmp_783d5_6"
+                                                                                                                              "diff_from_p_tmp_783d5_13"
                                                                                                                             ]
                                                                                                                           },
                                                                                                                           "*",
                                                                                                                           {
                                                                                                                             "Var": [
                                                                                                                               "M31",
-                                                                                                                              "diff_from_p_tmp_783d5_6"
+                                                                                                                              "diff_from_p_tmp_783d5_13"
                                                                                                                             ]
                                                                                                                           }
                                                                                                                         ]
@@ -3234,14 +3589,14 @@
                                           {
                                             "Var": [
                                               "M31",
-                                              "diff_from_p_tmp_783d5_7"
+                                              "diff_from_p_tmp_783d5_14"
                                             ]
                                           },
                                           "*",
                                           {
                                             "Var": [
                                               "M31",
-                                              "diff_from_p_tmp_783d5_7"
+                                              "diff_from_p_tmp_783d5_14"
                                             ]
                                           }
                                         ]
@@ -3364,14 +3719,14 @@
                   {
                     "Var": [
                       "M31",
-                      "diff_from_p_tmp_783d5_8"
+                      "diff_from_p_tmp_783d5_15"
                     ]
                   },
                   "*",
                   {
                     "Var": [
                       "M31",
-                      "diff_from_p_tmp_783d5_8"
+                      "diff_from_p_tmp_783d5_15"
                     ]
                   }
                 ]
@@ -3385,7 +3740,7 @@
     },
     {
       "Intermediate": {
-        "name": "dst_sum_tmp_783d5_9",
+        "name": "dst_sum_tmp_783d5_16",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -4058,14 +4413,14 @@
     },
     {
       "Intermediate": {
-        "name": "dst_is_zero_tmp_783d5_10",
+        "name": "dst_is_zero_tmp_783d5_17",
         "type": "Bool",
         "var": {
           "MethodCall": [
             {
               "Var": [
                 "M31",
-                "dst_sum_tmp_783d5_9"
+                "dst_sum_tmp_783d5_16"
               ]
             },
             "eq",
@@ -4089,7 +4444,7 @@
               {
                 "Var": [
                   "M31",
-                  "dst_sum_tmp_783d5_9"
+                  "dst_sum_tmp_783d5_16"
                 ]
               },
               "+",
@@ -4098,7 +4453,7 @@
                   {
                     "Var": [
                       "Bool",
-                      "dst_is_zero_tmp_783d5_10"
+                      "dst_is_zero_tmp_783d5_17"
                     ]
                   },
                   "as_m31",
@@ -4125,7 +4480,7 @@
           {
             "Var": [
               "M31",
-              "dst_sum_tmp_783d5_9"
+              "dst_sum_tmp_783d5_16"
             ]
           }
         ]
@@ -4139,7 +4494,7 @@
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_783d5_11",
+        "name": "msb_tmp_783d5_18",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -4181,7 +4536,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_783d5_11"
+              "msb_tmp_783d5_18"
             ]
           },
           "as_m31",
@@ -4191,7 +4546,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_783d5_12",
+        "name": "mid_limbs_set_tmp_783d5_19",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -4233,7 +4588,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_783d5_12"
+              "mid_limbs_set_tmp_783d5_19"
             ]
           },
           "as_m31",
@@ -4243,15 +4598,15 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_783d5_13",
+        "name": "cond_decode_small_sign_output_tmp_783d5_20",
         "type": "[M31; 2]",
         "var": {
           "Array": [
             {
-              "State": "msb_col5"
+              "State": "msb_col8"
             },
             {
-              "State": "mid_limbs_set_col6"
+              "State": "mid_limbs_set_col9"
             }
           ]
         }
@@ -4260,7 +4615,110 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "cond_felt_252_as_rel_imm_output_tmp_783d5_14",
+        "name": "remainder_bits_tmp_783d5_21",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "update_registers_input.2[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "3"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col9"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_783d5_22",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "Var": [
+                          "M31",
+                          "remainder_bits_tmp_783d5_21"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_783d5_22"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_rel_imm_output_tmp_783d5_24",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -4271,22 +4729,57 @@
                     {
                       "BinaryOp": [
                         {
-                          "MethodCall": [
+                          "BinaryOp": [
                             {
-                              "Var": [
-                                "Felt252",
-                                "update_registers_input.2[1]"
+                              "MethodCall": [
+                                {
+                                  "Var": [
+                                    "Felt252",
+                                    "update_registers_input.2[1]"
+                                  ]
+                                },
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "0"
+                                    ]
+                                  }
+                                ]
                               ]
                             },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "0"
-                                ]
-                              }
-                            ]
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "MethodCall": [
+                                    {
+                                      "Var": [
+                                        "Felt252",
+                                        "update_registers_input.2[1]"
+                                      ]
+                                    },
+                                    "get_m31",
+                                    [
+                                      {
+                                        "Const": [
+                                          "usize",
+                                          "1"
+                                        ]
+                                      }
+                                    ]
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         "+",
@@ -4305,7 +4798,7 @@
                                   {
                                     "Const": [
                                       "usize",
-                                      "1"
+                                      "2"
                                     ]
                                   }
                                 ]
@@ -4315,7 +4808,7 @@
                             {
                               "Const": [
                                 "M31",
-                                "512"
+                                "262144"
                               ]
                             }
                           ]
@@ -4326,29 +4819,16 @@
                     {
                       "BinaryOp": [
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252",
-                                "update_registers_input.2[1]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "2"
-                                ]
-                              }
-                            ]
+                          "Var": [
+                            "M31",
+                            "remainder_bits_tmp_783d5_21"
                           ]
                         },
                         "*",
                         {
                           "Const": [
                             "M31",
-                            "262144"
+                            "134217728"
                           ]
                         }
                       ]
@@ -4357,7 +4837,7 @@
                 },
                 "-",
                 {
-                  "State": "msb_col5"
+                  "State": "msb_col8"
                 }
               ]
             },
@@ -4367,12 +4847,12 @@
                 {
                   "Const": [
                     "M31",
-                    "134217728"
+                    "536870912"
                   ]
                 },
                 "*",
                 {
-                  "State": "mid_limbs_set_col6"
+                  "State": "mid_limbs_set_col9"
                 }
               ]
             }
@@ -4391,7 +4871,7 @@
                   {
                     "Var": [
                       "Bool",
-                      "dst_is_zero_tmp_783d5_10"
+                      "dst_is_zero_tmp_783d5_17"
                     ]
                   },
                   "as_m31",
@@ -4435,7 +4915,7 @@
                       {
                         "Var": [
                           "Bool",
-                          "dst_is_zero_tmp_783d5_10"
+                          "dst_is_zero_tmp_783d5_17"
                         ]
                       },
                       "as_m31",
@@ -4457,7 +4937,7 @@
                   {
                     "Var": [
                       "M31",
-                      "cond_felt_252_as_rel_imm_output_tmp_783d5_14"
+                      "cond_felt_252_as_rel_imm_output_tmp_783d5_24"
                     ]
                   }
                 ]
@@ -4515,7 +4995,7 @@
                       {
                         "Var": [
                           "M31",
-                          "cond_felt_252_as_addr_output_tmp_783d5_0"
+                          "cond_felt_252_as_addr_output_tmp_783d5_2"
                         ]
                       }
                     ]
@@ -4544,7 +5024,7 @@
                       {
                         "Var": [
                           "M31",
-                          "cond_felt_252_as_rel_imm_output_tmp_783d5_5"
+                          "cond_felt_252_as_rel_imm_output_tmp_783d5_12"
                         ]
                       }
                     ]
@@ -4564,7 +5044,7 @@
               },
               "*",
               {
-                "State": "next_pc_jnz_col7"
+                "State": "next_pc_jnz_col11"
               }
             ]
           }
@@ -4597,7 +5077,7 @@
                       {
                         "Var": [
                           "M31",
-                          "cond_felt_252_as_rel_imm_output_tmp_783d5_5"
+                          "cond_felt_252_as_rel_imm_output_tmp_783d5_12"
                         ]
                       }
                     ]
@@ -4639,7 +5119,7 @@
     },
     {
       "Intermediate": {
-        "name": "range_check_ap_bot8bits_u32_tmp_783d5_15",
+        "name": "range_check_ap_bot11bits_u32_tmp_783d5_25",
         "type": "UInt32",
         "var": {
           "BinaryOp": [
@@ -4648,7 +5128,7 @@
                 "UInt32::from_m31",
                 [
                   {
-                    "State": "next_ap_col9"
+                    "State": "next_ap_col13"
                   }
                 ]
               ]
@@ -4657,7 +5137,7 @@
             {
               "Const": [
                 "UInt32",
-                "255"
+                "2047"
               ]
             }
           ]
@@ -4672,7 +5152,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "range_check_ap_bot8bits_u32_tmp_783d5_15"
+                  "range_check_ap_bot11bits_u32_tmp_783d5_25"
                 ]
               },
               "low",
@@ -4686,7 +5166,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19",
+        "fn_name": "range_check_18",
         "input": {
           "Array": [
             {
@@ -4694,11 +5174,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_ap_col9"
+                      "State": "next_ap_col13"
                     },
                     "-",
                     {
-                      "State": "range_check_ap_bot8bits_col10"
+                      "State": "range_check_ap_bot11bits_col14"
                     }
                   ]
                 },
@@ -4706,7 +5186,7 @@
                 {
                   "Const": [
                     "M31",
-                    "8388608"
+                    "1048576"
                   ]
                 }
               ]
@@ -4717,18 +5197,18 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_19",
+        "relation_name": "RangeCheck_18",
         "felts": [
           {
             "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "State": "next_ap_col9"
+                    "State": "next_ap_col13"
                   },
                   "-",
                   {
-                    "State": "range_check_ap_bot8bits_col10"
+                    "State": "range_check_ap_bot11bits_col14"
                   }
                 ]
               },
@@ -4736,7 +5216,7 @@
               {
                 "Const": [
                   "M31",
-                  "8388608"
+                  "1048576"
                 ]
               }
             ]
@@ -4747,11 +5227,11 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "fn_name": "range_check_11",
         "input": {
           "Array": [
             {
-              "State": "range_check_ap_bot8bits_col10"
+              "State": "range_check_ap_bot11bits_col14"
             }
           ]
         }
@@ -4759,10 +5239,10 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_8",
+        "relation_name": "RangeCheck_11",
         "felts": [
           {
-            "State": "range_check_ap_bot8bits_col10"
+            "State": "range_check_ap_bot11bits_col14"
           }
         ],
         "use_or_yield": "Use"
@@ -4804,7 +5284,7 @@
                   {
                     "Var": [
                       "M31",
-                      "cond_felt_252_as_addr_output_tmp_783d5_1"
+                      "cond_felt_252_as_addr_output_tmp_783d5_5"
                     ]
                   }
                 ]

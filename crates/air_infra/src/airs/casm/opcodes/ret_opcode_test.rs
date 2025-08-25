@@ -61,10 +61,14 @@ fn test_ret_opcode() {
         (1, "next_pc_limb_0"),
         (0, "next_pc_limb_1"),
         (0, "next_pc_limb_2"),
+        (0, "next_pc_limb_3"),
+        (0, "partial_limb_msb"),
         (2, "next_fp_id"),
         (4, "next_fp_limb_0"),
         (0, "next_fp_limb_1"),
         (0, "next_fp_limb_2"),
+        (0, "next_fp_limb_3"),
+        (0, "partial_limb_msb"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);

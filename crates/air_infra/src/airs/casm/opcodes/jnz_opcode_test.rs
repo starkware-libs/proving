@@ -193,6 +193,8 @@ fn test_jnz_taken_base_ap() {
             (15, "next_pc_limb_0"),
             (0, "next_pc_limb_1"),
             (0, "next_pc_limb_2"),
+            (0, "remainder_bits"),
+            (0, "partial_limb_msb"),
         ]
         .into(),
     );
@@ -286,6 +288,8 @@ fn test_jnz_taken_negative_op1() {
             (491, "next_pc_limb_0"),
             (511, "next_pc_limb_1"),
             (511, "next_pc_limb_2"),
+            (3, "remainder_bits"),
+            (1, "partial_limb_msb"),
         ]
         .into(),
     );
