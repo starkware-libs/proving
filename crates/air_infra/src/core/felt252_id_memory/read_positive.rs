@@ -35,6 +35,33 @@ impl AirFn for ReadPositive {
             },
             address.clone(),
         );
+
+        let expected_value_in_memory = air_builder.call(
+            &ReadPositiveKnownId {
+                num_bits: self.num_bits,
+                memory: self.memory.clone(),
+            },
+            id.clone(),
+        );
+
+        (expected_value_in_memory, id)
+    }
+}
+
+#[derive(Debug, Serialize)]
+pub struct ReadPositiveKnownId {
+    pub num_bits: usize,
+    #[serde(skip)]
+    pub memory: Felt252IdMemory,
+}
+
+/// Read a Felt252 in the range [0,2**num_bits - 1] from the memory given its ID and verify it.
+impl AirFn for ReadPositiveKnownId {
+    type ExtIn = ();
+    type In = CasmId;
+    type Out = Felt252Expr;
+
+    fn call(&self, air_builder: &mut AirBuilder, _: (), id: Self::In) -> Self::Out {
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_big, &id);
 
         // Prepare for value deduction
@@ -50,8 +77,7 @@ impl AirFn for ReadPositive {
         {
             air_builder.deduce(
                 limb,
-                &address
-                    .extra_info
+                &id.extra_info
                     .clone()
                     .map(|s| format!("{}_limb_{}", s, i))
                     .unwrap_or(format!("value_limb_{}", i)),
@@ -80,7 +106,7 @@ impl AirFn for ReadPositive {
             expected_value_in_memory.clone(),
         );
 
-        (expected_value_in_memory, id)
+        expected_value_in_memory
     }
 }
 

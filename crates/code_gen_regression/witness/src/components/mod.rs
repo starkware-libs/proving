@@ -1,4 +1,5 @@
-pub mod pedersen_points_table;
+pub mod verify_bitwise_xor_8;
+
 1;
 use stwo::core::pcs::TreeSubspan;
 use stwo::prover::backend::simd::conversion::Pack;

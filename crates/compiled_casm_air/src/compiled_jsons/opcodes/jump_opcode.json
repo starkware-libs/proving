@@ -1540,6 +1540,9 @@
     },
     "EndBlock",
     {
+      "StartBlock": "Read Positive Known Id Num Bits 29"
+    },
+    {
       "Intermediate": {
         "name": "memory_id_to_big_value_tmp_39ce3_9",
         "type": "Felt252",
@@ -1876,175 +1879,188 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_29_output_tmp_39ce3_12",
+        "name": "read_positive_known_id_num_bits_29_output_tmp_39ce3_12",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "Felt252::from_limbs",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "next_pc_limb_0_col9"
+                  },
+                  {
+                    "State": "next_pc_limb_1_col10"
+                  },
+                  {
+                    "State": "next_pc_limb_2_col11"
+                  },
+                  {
+                    "State": "next_pc_limb_3_col12"
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_positive_num_bits_29_output_tmp_39ce3_13",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
             {
-              "StaticCall": [
-                "Felt252::from_limbs",
-                [
-                  {
-                    "Array": [
-                      {
-                        "State": "next_pc_limb_0_col9"
-                      },
-                      {
-                        "State": "next_pc_limb_1_col10"
-                      },
-                      {
-                        "State": "next_pc_limb_2_col11"
-                      },
-                      {
-                        "State": "next_pc_limb_3_col12"
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      },
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
-                    ]
-                  }
-                ]
+              "Var": [
+                "Felt252",
+                "read_positive_known_id_num_bits_29_output_tmp_39ce3_12"
               ]
             },
             {

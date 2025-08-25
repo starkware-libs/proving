@@ -1,6 +1,6 @@
 use crate::components::prelude::*;
-use crate::components::subroutines::range_check_last_limb_bits_in_ms_limb_2::RangeCheckLastLimbBitsInMsLimb2;
 use crate::components::subroutines::read_id::ReadId;
+use crate::components::subroutines::read_positive_known_id_num_bits_29::ReadPositiveKnownIdNumBits29;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
 pub struct ReadPositiveNumBits29 {}
@@ -30,23 +30,16 @@ impl ReadPositiveNumBits29 {
             memory_address_to_id_lookup_elements,
             eval,
         );
-        RangeCheckLastLimbBitsInMsLimb2::evaluate(
-            [value_limb_3_col4.clone()],
+        ReadPositiveKnownIdNumBits29::evaluate(
+            [id_col0.clone()],
+            value_limb_0_col1.clone(),
+            value_limb_1_col2.clone(),
+            value_limb_2_col3.clone(),
+            value_limb_3_col4.clone(),
             partial_limb_msb_col5.clone(),
+            memory_id_to_big_lookup_elements,
             eval,
         );
-        eval.add_to_relation(RelationEntry::new(
-            memory_id_to_big_lookup_elements,
-            E::EF::one(),
-            &[
-                id_col0.clone(),
-                value_limb_0_col1.clone(),
-                value_limb_1_col2.clone(),
-                value_limb_2_col3.clone(),
-                value_limb_3_col4.clone(),
-            ],
-        ));
-
         []
     }
 }
