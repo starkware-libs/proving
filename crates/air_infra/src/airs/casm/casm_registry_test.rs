@@ -7,8 +7,9 @@ use compiled_casm_air::compiled_structs::{
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
     JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
-    REGISTRY_PROPERTIES_FILE_NAME,
+    REGISTRY_PROPERTIES_FILE_NAME, SAMPLE_EVALUATIONS_FILE_NAME,
 };
+use eval_air_fn_constraints::create_sample_evaluation;
 use indexmap::IndexMap;
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
@@ -181,8 +182,9 @@ fn test_casm_registry() {
 
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();
-    let mut stat = IndexMap::<String, CompiledAirFnStat>::new();
+    let mut stat = IndexMap::new();
     let mut const_tables = IndexMap::new();
+    let mut sample_evaluations = IndexMap::new();
 
     for (name, compiled_entry) in compiled_reg.iter() {
         let fns = reg.air_fns.borrow();
@@ -207,8 +209,16 @@ fn test_casm_registry() {
 
         // Check the compiled entry json.
         compare_json(compiled_entry, &format!("{}{}.json", dir, name));
-        // Collect statistics.
+
         if entry.trace_type != TraceType::Inline {
+            // We don't support sampling inline AirFns because they don't have a trace
+            // of their own. This is OK because they are called by AirFns that we do support,
+            // so their polynomial is tested as part of their caller.
+            sample_evaluations.insert(
+                name.to_string(),
+                create_sample_evaluation(&compiled_reg, name),
+            );
+
             add_entry_statistics(&fns, compiled_entry, &mut stat);
         }
     }
@@ -230,6 +240,11 @@ fn test_casm_registry() {
             ("ecdsa".to_string(), get_ecdsa_stat(&stat)),
         ]),
         &"../compiled_casm_air/src/non_components.json".to_string(),
+    );
+
+    compare_json(
+        &sample_evaluations,
+        &format!("../compiled_casm_air/src/{SAMPLE_EVALUATIONS_FILE_NAME}"),
     );
 }
 

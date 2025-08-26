@@ -26,6 +26,7 @@ pub const WRITE_TRACE_FUNCTION_NAME: &str = "write_trace";
 pub const CONSTRAINT_EVAL_FUNCTION_NAME: &str = "evaluate";
 
 pub const REGISTRY_PROPERTIES_FILE_NAME: &str = "casm_registry.json";
+pub const SAMPLE_EVALUATIONS_FILE_NAME: &str = "sample_evaluations.json";
 
 impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

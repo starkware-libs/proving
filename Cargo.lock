@@ -38,6 +38,7 @@ dependencies = [
  "compiled_casm_air",
  "convert_case",
  "enum_dispatch",
+ "eval_air_fn_constraints",
  "indexmap",
  "regex",
  "serde",
@@ -641,12 +642,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "eval_airfn_constraints"
+name = "eval_air_fn_constraints"
 version = "0.1.0"
 dependencies = [
  "compiled_casm_air",
  "indexmap",
  "num-traits",
+ "serde",
  "stwo-cairo-common",
 ]
 

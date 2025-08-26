@@ -69,9 +69,9 @@ fn build_logup_terms(
                     // These multiply the last lookup term (the yield to the component relation),
                     // and, in chain components, also the second-to-last term (the use of the chain
                     // relation).
-                    if (component.r#type == TraceType::ChainRound && i == lookup_terms.len() - 2)
-                        || (i == lookup_terms.len() - 1)
-                    {
+                    let is_chain = component.r#type == TraceType::ChainRound
+                        || component.r#type == TraceType::Opcode;
+                    if (is_chain && i == lookup_terms.len() - 2) || (i == lookup_terms.len() - 1) {
                         assignment.lookup_control_value.expect(
                             "Components with padding should have enabler / multiplicity value",
                         )

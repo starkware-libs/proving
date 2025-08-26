@@ -7,7 +7,7 @@ use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::felt252_id_memory::memory::CasmId;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
