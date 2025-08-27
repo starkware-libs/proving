@@ -7,6 +7,7 @@ use super::ec_add::*;
 use super::pedersen_builtin::*;
 use super::utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
+use crate::airs::casm::builtins::pedersen::points_table::NUM_WINDOWS;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -64,10 +65,8 @@ fn test_partial_mul() {
     let (registry, _) = AirFnRegistry::new(air_fn);
 
     let call_id = const_expr!(0);
-    let round_num = const_expr!(0);
-
-    // The offset of P_2 data in the PedersenPoints table
-    let table_offset = const_expr!(14 * (1 << 18) + 16);
+    // Round number that indicates the start of the P_2 block
+    let round_num = const_expr!(NUM_WINDOWS);
 
     // The coordinates of the P_1 Pedersen point
     let p1_x = const_felt252_expr!(
@@ -96,24 +95,19 @@ fn test_partial_mul() {
         (
             call_id.clone(),
             round_num,
-            (
-                table_offset.clone(),
-                pack_to_double_limbs(multiplier),
-                [p1_x, p1_y],
-            ),
+            (pack_to_double_limbs(multiplier), [p1_x, p1_y]),
         ),
     );
     assert_eq!(output.0.calc(), call_id.calc());
-    assert_eq!(output.1.calc(), const_expr!(1).calc());
-    assert_eq!(output.2 .0.calc(), table_offset.calc());
+    assert_eq!(output.1.calc(), const_expr!(15).calc());
 
     let expected_new_multiplier = pack_to_double_limbs(multiplier >> 18);
-    for (output_elem, expected_elem) in output.2 .1.iter().zip(expected_new_multiplier.iter()) {
+    for (output_elem, expected_elem) in output.2 .0.iter().zip(expected_new_multiplier.iter()) {
         assert_eq!(output_elem.calc(), expected_elem.calc());
     }
-    assert_eq!(output.2 .2[0].calc(), result_x.calc());
-    assert_eq!(output.2 .2[1].calc(), result_y.calc());
-    assert_eq!(state.get_felts().len(), 471);
+    assert_eq!(output.2 .1[0].calc(), result_x.calc());
+    assert_eq!(output.2 .1[1].calc(), result_y.calc());
+    assert_eq!(state.get_felts().len(), 470);
 }
 
 #[test]
@@ -138,7 +132,7 @@ fn test_pedersen_0() {
     registry.add_entry(&pedersen);
 
     let (state, _) = registry.run_air_with_row_number(&pedersen, (), (), 0);
-    assert_eq!(state.get_felts().len(), 351);
+    assert_eq!(state.get_felts().len(), 263);
 }
 
 #[test]

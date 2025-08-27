@@ -23,7 +23,7 @@ const _: () = {
 };
 pub type ECPoint = [Felt252Expr; 2];
 pub type PackedECMultiplier = [FeltExpr; FELT252_N_WORDS / 2];
-pub type PartialECMulState = (FeltExpr, PackedECMultiplier, ECPoint);
+pub type PartialECMulState = (PackedECMultiplier, ECPoint);
 
 /// Convert a felt252 to double-limbs format. This is the format used for the PartialECMul
 /// multiplier.
@@ -73,7 +73,7 @@ impl AirFn for PartialECMul {
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
         _: (),
-        (chain_index, round_index, (table_offset, m_shifted, accumulator)): Self::In,
+        (chain_index, round_index, (m_shifted, accumulator)): Self::In,
     ) -> Self::Out {
         // Shift `m` 18 bits to the right. We use the fact that Felt252 limbs are 9 bits each,
         // so 18 bits are a single double-limb.
@@ -83,11 +83,7 @@ impl AirFn for PartialECMul {
 
         // Read partial product from the PedersenPoints table
         let window = m_shifted[0].clone();
-        let partial_product_location = table_offset.clone()
-            + const_expr!(
-                <usize as std::convert::TryInto<u32>>::try_into(ROWS_PER_WINDOW).unwrap()
-            ) * round_index.clone()
-            + window;
+        let partial_product_location = const_expr!(ROWS_PER_WINDOW) * round_index.clone() + window;
         let partial_product =
             air_builder.lookup_call(&PedersenPointsTable {}, [partial_product_location], ());
 
@@ -107,7 +103,7 @@ impl AirFn for PartialECMul {
         (
             chain_index,
             round_index + const_expr!(1),
-            (table_offset, new_m_shifted, new_accumulator),
+            (new_m_shifted, new_accumulator),
         )
     }
 
@@ -122,6 +118,6 @@ impl AirFn for PartialECMul {
 
 impl ChainRoundAirFn<PartialECMulState> for PartialECMul {
     fn number_of_chains(&self) -> usize {
-        4
+        2
     }
 }
