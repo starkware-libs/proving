@@ -30,7 +30,11 @@ pub struct CompiledAirFn {
     pub state_names: Vec<String>,
 
     // The names of the lookup relations used/yielded.
-    pub lookup_names: Vec<(String, UseOrYield)>,
+    pub constraint_lookups: Vec<(String, UseOrYield)>,
+
+    // The names of the lookup relations called.
+    // Some of these may not be used/yielded, see for example `mem_read_unverified`.
+    pub deduction_lookups: IndexMap<String, PaddingType>,
 
     // The names of the air functions that are inlined into this one, with their lookup names,
     // public params, and external states.
@@ -129,7 +133,7 @@ pub enum TraceGenStep {
 
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
-        fn_name: String,
+        relation_name: String,
         input: CompiledAirVar,
     },
 

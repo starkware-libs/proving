@@ -145,7 +145,7 @@
     "offset2_mid_col6",
     "offset2_high_col7"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_7_2_5",
       "Use"
@@ -155,6 +155,10 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_7_2_5": "Multiplicity",
+    "RangeCheck_4_3": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -720,7 +724,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -755,7 +759,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_3",
+        "relation_name": "RangeCheck_4_3",
         "input": {
           "Array": [
             {

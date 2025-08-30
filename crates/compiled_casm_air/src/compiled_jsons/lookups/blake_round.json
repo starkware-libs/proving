@@ -381,7 +381,7 @@
     "blake_g_output_limb_6_col209",
     "blake_g_output_limb_7_col210"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "BlakeRoundSigma",
       "Use"
@@ -619,6 +619,13 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "BlakeRoundSigma": "Multiplicity",
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "RangeCheck_7_2_5": "Multiplicity",
+    "BlakeG": "Enabler"
+  },
   "inline_calls": {
     "read_blake_word": [
       [
@@ -2870,7 +2877,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round_sigma",
+        "relation_name": "BlakeRoundSigma",
         "input": {
           "Array": [
             {
@@ -3495,7 +3502,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -3606,7 +3613,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -3645,7 +3652,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_0_id_col56"
         }
@@ -4317,7 +4324,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -4428,7 +4435,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -4467,7 +4474,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_1_id_col62"
         }
@@ -5139,7 +5146,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -5250,7 +5257,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -5289,7 +5296,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_2_id_col68"
         }
@@ -5961,7 +5968,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -6072,7 +6079,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6111,7 +6118,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_3_id_col74"
         }
@@ -6783,7 +6790,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -6894,7 +6901,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6933,7 +6940,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_4_id_col80"
         }
@@ -7605,7 +7612,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -7716,7 +7723,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -7755,7 +7762,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_5_id_col86"
         }
@@ -8427,7 +8434,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -8538,7 +8545,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -8577,7 +8584,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_6_id_col92"
         }
@@ -9249,7 +9256,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -9360,7 +9367,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -9399,7 +9406,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_7_id_col98"
         }
@@ -10071,7 +10078,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -10182,7 +10189,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -10221,7 +10228,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_8_id_col104"
         }
@@ -10893,7 +10900,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -11004,7 +11011,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -11043,7 +11050,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_9_id_col110"
         }
@@ -11715,7 +11722,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -11826,7 +11833,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -11865,7 +11872,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_10_id_col116"
         }
@@ -12537,7 +12544,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -12648,7 +12655,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -12687,7 +12694,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_11_id_col122"
         }
@@ -13359,7 +13366,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -13470,7 +13477,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -13509,7 +13516,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_12_id_col128"
         }
@@ -14181,7 +14188,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -14292,7 +14299,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -14331,7 +14338,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_13_id_col134"
         }
@@ -15003,7 +15010,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -15114,7 +15121,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -15153,7 +15160,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_14_id_col140"
         }
@@ -15825,7 +15832,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -15936,7 +15943,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -15975,7 +15982,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "message_word_15_id_col146"
         }
@@ -16241,7 +16248,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -16567,7 +16574,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -16893,7 +16900,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -17219,7 +17226,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -17545,7 +17552,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -17871,7 +17878,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -18197,7 +18204,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {
@@ -18523,7 +18530,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_g",
+        "relation_name": "BlakeG",
         "input": {
           "Array": [
             {

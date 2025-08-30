@@ -120,7 +120,7 @@
     "partial_limb_msb_col14",
     "range_check_ap_bot11bits_col15"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyInstruction",
       "Use"
@@ -150,6 +150,13 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "VerifyInstruction": "Multiplicity",
+    "RangeCheck_18": "Multiplicity",
+    "RangeCheck_11": "Multiplicity"
+  },
   "inline_calls": {
     "decode_instruction_d2a10": [
       [
@@ -931,7 +938,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_instruction",
+        "relation_name": "VerifyInstruction",
         "input": {
           "Tuple": [
             {
@@ -1420,7 +1427,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -1781,7 +1788,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op1_id_col7"
         }
@@ -2309,7 +2316,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -2376,7 +2383,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {

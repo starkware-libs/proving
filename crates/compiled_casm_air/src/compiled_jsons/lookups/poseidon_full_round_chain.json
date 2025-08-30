@@ -210,7 +210,7 @@
     "combination_limb_9_col123",
     "p_coef_col124"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "Cube252",
       "Use"
@@ -260,6 +260,11 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "Cube252": "Enabler",
+    "PoseidonRoundKeys": "Multiplicity",
+    "RangeCheck_3_3_3_3_3": "Multiplicity"
+  },
   "inline_calls": {
     "linear_combination_n_4_coefs_1_1_m2_1": [
       [
@@ -1988,7 +1993,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "cube_252",
+        "relation_name": "Cube252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -2296,7 +2301,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "cube_252",
+        "relation_name": "Cube252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -2604,7 +2609,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "cube_252",
+        "relation_name": "Cube252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -2912,7 +2917,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_round_keys",
+        "relation_name": "PoseidonRoundKeys",
         "input": {
           "Array": [
             {
@@ -4806,7 +4811,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -4987,7 +4992,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -6208,7 +6213,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -6389,7 +6394,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -7720,7 +7725,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -7901,7 +7906,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {

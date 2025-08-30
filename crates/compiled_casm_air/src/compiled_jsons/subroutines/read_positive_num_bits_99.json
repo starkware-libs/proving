@@ -52,7 +52,7 @@
     "value_limb_9_col10",
     "value_limb_10_col11"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "MemoryAddressToId",
       "Use"
@@ -62,6 +62,10 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity"
+  },
   "inline_calls": {
     "read_id": [
       [
@@ -198,7 +202,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -477,7 +481,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "id_col0"
         }

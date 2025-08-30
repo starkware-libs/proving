@@ -11,7 +11,7 @@ pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;
 
 pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
     let lookups = air_fn
-        .lookup_names
+        .constraint_lookups
         .iter()
         .enumerate()
         .map(|(i, (relation, _))| format!("{}_sum_{i}: QM31", relation.to_case(Case::Snake)))
@@ -42,13 +42,14 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
 fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     let relations = &air_fn
-        .lookup_names
+        .constraint_lookups
         .iter()
         .map(|(name, use_or_yield)| (name.to_case(Case::Snake), *use_or_yield))
         .collect::<Vec<_>>();
     let mut prev_trace = vec![];
     let n_chunks = n_logup_columns(air_fn) / QM31_N_TRACE_CELLTS;
-    let last_sum_chunk_has_2_elements = air_fn.lookup_names.len() % LOOKUP_RELATION_BATCH_SIZE == 0;
+    let last_sum_chunk_has_2_elements =
+        air_fn.constraint_lookups.len() % LOOKUP_RELATION_BATCH_SIZE == 0;
 
     for (i, (trace_chunk, sum_chunk)) in (0..n_logup_columns(air_fn))
         .chunks(QM31_N_TRACE_CELLTS)

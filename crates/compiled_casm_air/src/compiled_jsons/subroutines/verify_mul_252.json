@@ -141,7 +141,7 @@
     "carry_25_col26",
     "carry_26_col27"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_19_H",
       "Use"
@@ -255,6 +255,16 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_19_H": "Multiplicity",
+    "RangeCheck_19": "Multiplicity",
+    "RangeCheck_19_B": "Multiplicity",
+    "RangeCheck_19_C": "Multiplicity",
+    "RangeCheck_19_D": "Multiplicity",
+    "RangeCheck_19_E": "Multiplicity",
+    "RangeCheck_19_F": "Multiplicity",
+    "RangeCheck_19_G": "Multiplicity"
+  },
   "inline_calls": {
     "double_karatsuba_n_7_limb_max_bound_511": [
       [],
@@ -28610,7 +28620,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_h",
+        "relation_name": "RangeCheck_19_H",
         "input": {
           "Array": [
             {
@@ -28682,7 +28692,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19",
+        "relation_name": "RangeCheck_19",
         "input": {
           "Array": [
             {
@@ -28754,7 +28764,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_b",
+        "relation_name": "RangeCheck_19_B",
         "input": {
           "Array": [
             {
@@ -28826,7 +28836,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_c",
+        "relation_name": "RangeCheck_19_C",
         "input": {
           "Array": [
             {
@@ -28898,7 +28908,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_d",
+        "relation_name": "RangeCheck_19_D",
         "input": {
           "Array": [
             {
@@ -28970,7 +28980,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_e",
+        "relation_name": "RangeCheck_19_E",
         "input": {
           "Array": [
             {
@@ -29042,7 +29052,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_f",
+        "relation_name": "RangeCheck_19_F",
         "input": {
           "Array": [
             {
@@ -29114,7 +29124,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_g",
+        "relation_name": "RangeCheck_19_G",
         "input": {
           "Array": [
             {
@@ -29186,7 +29196,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_h",
+        "relation_name": "RangeCheck_19_H",
         "input": {
           "Array": [
             {
@@ -29258,7 +29268,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19",
+        "relation_name": "RangeCheck_19",
         "input": {
           "Array": [
             {
@@ -29330,7 +29340,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_b",
+        "relation_name": "RangeCheck_19_B",
         "input": {
           "Array": [
             {
@@ -29402,7 +29412,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_c",
+        "relation_name": "RangeCheck_19_C",
         "input": {
           "Array": [
             {
@@ -29474,7 +29484,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_d",
+        "relation_name": "RangeCheck_19_D",
         "input": {
           "Array": [
             {
@@ -29546,7 +29556,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_e",
+        "relation_name": "RangeCheck_19_E",
         "input": {
           "Array": [
             {
@@ -29618,7 +29628,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_f",
+        "relation_name": "RangeCheck_19_F",
         "input": {
           "Array": [
             {
@@ -29690,7 +29700,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_g",
+        "relation_name": "RangeCheck_19_G",
         "input": {
           "Array": [
             {
@@ -29762,7 +29772,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_h",
+        "relation_name": "RangeCheck_19_H",
         "input": {
           "Array": [
             {
@@ -29834,7 +29844,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19",
+        "relation_name": "RangeCheck_19",
         "input": {
           "Array": [
             {
@@ -29906,7 +29916,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_b",
+        "relation_name": "RangeCheck_19_B",
         "input": {
           "Array": [
             {
@@ -29978,7 +29988,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_c",
+        "relation_name": "RangeCheck_19_C",
         "input": {
           "Array": [
             {
@@ -30050,7 +30060,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_d",
+        "relation_name": "RangeCheck_19_D",
         "input": {
           "Array": [
             {
@@ -30122,7 +30132,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_e",
+        "relation_name": "RangeCheck_19_E",
         "input": {
           "Array": [
             {
@@ -30213,7 +30223,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_f",
+        "relation_name": "RangeCheck_19_F",
         "input": {
           "Array": [
             {
@@ -30285,7 +30295,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_g",
+        "relation_name": "RangeCheck_19_G",
         "input": {
           "Array": [
             {
@@ -30357,7 +30367,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_h",
+        "relation_name": "RangeCheck_19_H",
         "input": {
           "Array": [
             {
@@ -30429,7 +30439,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19",
+        "relation_name": "RangeCheck_19",
         "input": {
           "Array": [
             {
@@ -30501,7 +30511,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_b",
+        "relation_name": "RangeCheck_19_B",
         "input": {
           "Array": [
             {
@@ -30573,7 +30583,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_19_c",
+        "relation_name": "RangeCheck_19_C",
         "input": {
           "Array": [
             {

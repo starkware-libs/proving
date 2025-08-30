@@ -27,10 +27,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
             TraceGenStep::Deduction(_) => trace_cells_used += 1,
             TraceGenStep::Intermediate(..) => {}
             TraceGenStep::LookupTerm(_) => {}
-            TraceGenStep::LookupAddInput {
-                fn_name: _,
-                input: _,
-            } => {}
+            TraceGenStep::LookupAddInput { .. } => {}
         }
     }
 

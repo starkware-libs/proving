@@ -83,7 +83,7 @@
     "combination_limb_9_col9",
     "p_coef_col10"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_4_4_4_4",
       "Use"
@@ -97,6 +97,10 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_4_4_4_4": "Multiplicity",
+    "RangeCheck_4_4": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -3176,7 +3180,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -3323,7 +3327,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -3476,7 +3480,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4",
+        "relation_name": "RangeCheck_4_4",
         "input": {
           "Array": [
             {

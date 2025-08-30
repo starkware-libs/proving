@@ -84,7 +84,7 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
 fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     for relation in lists
-        .lookup_names
+        .constraint_lookups
         .iter()
         .map(|(r, _)| r)
         .collect::<IndexSet<_>>()
@@ -158,7 +158,7 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
         });
     }
     for relation in lists
-        .lookup_names
+        .constraint_lookups
         .iter()
         .map(|(r, _)| r)
         .collect::<IndexSet<_>>()
@@ -270,7 +270,7 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
 
     // Sub-components Lookup elements.
     for relation in lists
-        .lookup_names
+        .constraint_lookups
         .iter()
         .map(|(r, _)| r)
         .collect::<IndexSet<_>>()
@@ -330,7 +330,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 pub fn get_n_logup_columns(lists: &CompiledAirFn) -> rust::Tokens {
-    let n_lookup_terms: usize = lists.lookup_names.len();
+    let n_lookup_terms: usize = lists.constraint_lookups.len();
     match n_lookup_terms {
         0 => unimplemented!(),
         1..=2 => quote!(SECURE_EXTENSION_DEGREE),

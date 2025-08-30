@@ -77,7 +77,7 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
         });
     }
     for relation in air_fn
-        .lookup_names
+        .constraint_lookups
         .iter()
         .map(|(r, _)| r)
         .collect::<IndexSet<_>>()
@@ -102,7 +102,7 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
             });
         }
     }
-    for (i, (relation, _)) in air_fn.lookup_names.iter().enumerate() {
+    for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
         code.append(quote! {
             ref $(relation.to_case(Case::Snake))_sum_$(i): QM31,
         });

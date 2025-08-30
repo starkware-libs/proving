@@ -48,7 +48,7 @@
     "carry_3_col1",
     "carry_5_col2"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_11",
       "Use"
@@ -62,6 +62,9 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_11": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -989,7 +992,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {
@@ -1467,7 +1470,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {
@@ -1827,7 +1830,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {

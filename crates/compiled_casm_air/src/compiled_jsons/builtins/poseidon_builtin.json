@@ -369,7 +369,7 @@
     "unpacked_limb_25_col339",
     "output_state_2_id_col340"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "MemoryAddressToId",
       "Use"
@@ -503,6 +503,17 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "PoseidonFullRoundChain": "Enabler",
+    "RangeCheckFelt252Width27": "Enabler",
+    "Cube252": "Enabler",
+    "RangeCheck_3_3_3_3_3": "Multiplicity",
+    "RangeCheck_4_4_4_4": "Multiplicity",
+    "RangeCheck_4_4": "Multiplicity",
+    "Poseidon3PartialRoundsChain": "Enabler"
+  },
   "inline_calls": {
     "felt_252_unpack_from_27": [
       [],
@@ -4019,7 +4030,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -4695,7 +4706,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "input_state_0_id_col0"
         }
@@ -5373,7 +5384,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6071,7 +6082,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "input_state_1_id_col29"
         }
@@ -6749,7 +6760,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -7447,7 +7458,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "input_state_2_id_col58"
         }
@@ -11162,7 +11173,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -11256,7 +11267,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -11350,7 +11361,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -11444,7 +11455,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -12278,7 +12289,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_width_27",
+        "relation_name": "RangeCheckFelt252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -12327,7 +12338,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_width_27",
+        "relation_name": "RangeCheckFelt252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -12376,7 +12387,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "cube_252",
+        "relation_name": "Cube252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -13827,7 +13838,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -14008,7 +14019,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_3_3_3_3",
+        "relation_name": "RangeCheck_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -14208,7 +14219,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "cube_252",
+        "relation_name": "Cube252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -15879,7 +15890,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -16026,7 +16037,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -16179,7 +16190,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4",
+        "relation_name": "RangeCheck_4_4",
         "input": {
           "Array": [
             {
@@ -16418,7 +16429,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -16526,7 +16537,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -16634,7 +16645,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -16742,7 +16753,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -16850,7 +16861,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -16958,7 +16969,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17066,7 +17077,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17174,7 +17185,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17282,7 +17293,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17390,7 +17401,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17498,7 +17509,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17606,7 +17617,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17714,7 +17725,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17822,7 +17833,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -17930,7 +17941,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18038,7 +18049,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18146,7 +18157,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18254,7 +18265,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18362,7 +18373,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18470,7 +18481,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18578,7 +18589,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18686,7 +18697,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18794,7 +18805,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -18902,7 +18913,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -19010,7 +19021,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -19118,7 +19129,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -19226,7 +19237,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_3_partial_rounds_chain",
+        "relation_name": "Poseidon3PartialRoundsChain",
         "input": {
           "Tuple": [
             {
@@ -21568,7 +21579,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -21715,7 +21726,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -21868,7 +21879,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4",
+        "relation_name": "RangeCheck_4_4",
         "input": {
           "Array": [
             {
@@ -23219,7 +23230,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -23366,7 +23377,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -23519,7 +23530,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4",
+        "relation_name": "RangeCheck_4_4",
         "input": {
           "Array": [
             {
@@ -23750,7 +23761,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -23844,7 +23855,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -23938,7 +23949,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -24032,7 +24043,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "poseidon_full_round_chain",
+        "relation_name": "PoseidonFullRoundChain",
         "input": {
           "Tuple": [
             {
@@ -25803,7 +25814,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -25894,7 +25905,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "output_state_0_id_col302"
         }
@@ -27050,7 +27061,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -27141,7 +27152,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "output_state_1_id_col321"
         }
@@ -28297,7 +28308,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -28388,7 +28399,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "output_state_2_id_col340"
         }

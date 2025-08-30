@@ -38,10 +38,10 @@ impl Assignment {
         let (point_x, _) = circle_point_from_t(random_qm31(&"point_t".to_string()));
 
         let base_trace_len = component.state_names.len();
-        let interaction_trace_len = component.lookup_names.len().div_ceil(2);
+        let interaction_trace_len = component.constraint_lookups.len().div_ceil(2);
 
         let mut lookup_elements = HashMap::default();
-        for (relation_name, _direction) in component.lookup_names.iter() {
+        for (relation_name, ..) in component.constraint_lookups.iter() {
             if !lookup_elements.contains_key(relation_name) {
                 let z = random_qm31(&format!("{relation_name}_z"));
                 let alpha = random_qm31(&format!("{relation_name}_alpha"));

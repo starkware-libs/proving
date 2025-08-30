@@ -29,12 +29,15 @@
     []
   ],
   "state_names": [],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_6",
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_6": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -57,7 +60,7 @@
   "deductions": [
     {
       "LookupAddInput": {
-        "fn_name": "range_check_6",
+        "relation_name": "RangeCheck_6",
         "input": {
           "Array": [
             {

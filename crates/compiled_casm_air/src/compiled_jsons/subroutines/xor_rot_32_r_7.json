@@ -60,7 +60,7 @@
     "xor_col6",
     "xor_col7"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyBitwiseXor_7",
       "Use"
@@ -78,6 +78,10 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "VerifyBitwiseXor_7": "Multiplicity",
+    "VerifyBitwiseXor_9": "Multiplicity"
+  },
   "inline_calls": {
     "bitwise_xor_num_bits_7": [
       [
@@ -832,7 +836,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_7",
+        "relation_name": "VerifyBitwiseXor_7",
         "input": {
           "Array": [
             {
@@ -928,7 +932,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_9",
+        "relation_name": "VerifyBitwiseXor_9",
         "input": {
           "Array": [
             {
@@ -1018,7 +1022,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_7",
+        "relation_name": "VerifyBitwiseXor_7",
         "input": {
           "Array": [
             {
@@ -1114,7 +1118,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_9",
+        "relation_name": "VerifyBitwiseXor_9",
         "input": {
           "Array": [
             {

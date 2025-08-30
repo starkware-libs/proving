@@ -246,7 +246,7 @@ fn add_entry_statistics(
     let padding = compiled_entry.padding_type == PaddingType::Multiplicity
         || compiled_entry.padding_type == PaddingType::Enabler;
     let num_state_cols = compiled_entry.state_names.len();
-    let num_lookup_cols: usize = compiled_entry.lookup_names.len();
+    let num_lookup_cols: usize = compiled_entry.constraint_lookups.len();
 
     let total_num_trace_cols = num_state_cols
         + (TRACE_COLUMNS_PER_LOGUP * num_lookup_cols)
@@ -255,7 +255,7 @@ fn add_entry_statistics(
 
     let mut use_lookup_cols: IndexMap<String, usize> = IndexMap::new();
     for (name, _) in compiled_entry
-        .lookup_names
+        .constraint_lookups
         .iter()
         .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Use)
     {
@@ -263,7 +263,7 @@ fn add_entry_statistics(
     }
     let mut yield_lookup_cols: IndexMap<String, usize> = IndexMap::new();
     for (name, _) in compiled_entry
-        .lookup_names
+        .constraint_lookups
         .iter()
         .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Yield)
     {

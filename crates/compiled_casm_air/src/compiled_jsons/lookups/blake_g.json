@@ -135,7 +135,7 @@
     "xor_col50",
     "xor_col51"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyBitwiseXor_8",
       "Use"
@@ -205,6 +205,13 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "VerifyBitwiseXor_8": "Multiplicity",
+    "VerifyBitwiseXor_12": "Multiplicity",
+    "VerifyBitwiseXor_4": "Multiplicity",
+    "VerifyBitwiseXor_7": "Multiplicity",
+    "VerifyBitwiseXor_9": "Multiplicity"
+  },
   "inline_calls": {
     "triple_sum_32": [
       [],
@@ -1524,7 +1531,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -1620,7 +1627,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -1710,7 +1717,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -1806,7 +1813,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -2391,7 +2398,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_12",
+        "relation_name": "VerifyBitwiseXor_12",
         "input": {
           "Array": [
             {
@@ -2487,7 +2494,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_4",
+        "relation_name": "VerifyBitwiseXor_4",
         "input": {
           "Array": [
             {
@@ -2577,7 +2584,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_12",
+        "relation_name": "VerifyBitwiseXor_12",
         "input": {
           "Array": [
             {
@@ -2673,7 +2680,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_4",
+        "relation_name": "VerifyBitwiseXor_4",
         "input": {
           "Array": [
             {
@@ -3288,7 +3295,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -3384,7 +3391,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -3474,7 +3481,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -3570,7 +3577,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -4185,7 +4192,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_7",
+        "relation_name": "VerifyBitwiseXor_7",
         "input": {
           "Array": [
             {
@@ -4281,7 +4288,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_9",
+        "relation_name": "VerifyBitwiseXor_9",
         "input": {
           "Array": [
             {
@@ -4371,7 +4378,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_7",
+        "relation_name": "VerifyBitwiseXor_7",
         "input": {
           "Array": [
             {
@@ -4467,7 +4474,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_9",
+        "relation_name": "VerifyBitwiseXor_9",
         "input": {
           "Array": [
             {

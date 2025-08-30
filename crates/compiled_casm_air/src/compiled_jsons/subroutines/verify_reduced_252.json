@@ -60,7 +60,7 @@
     "ms_and_mid_limbs_are_max_col1",
     "rc_input_col2"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_8",
       "Use"
@@ -70,6 +70,9 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_8": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -846,7 +849,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "relation_name": "RangeCheck_8",
         "input": {
           "Array": [
             {
@@ -965,7 +968,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "relation_name": "RangeCheck_8",
         "input": {
           "Array": [
             {

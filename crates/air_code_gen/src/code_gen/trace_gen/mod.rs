@@ -3,8 +3,7 @@ mod interaction_claim_generator;
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, PaddingType,
-    TraceGenStep, TraceType,
+    CompiledAirFn, CompiledTraceGenIntermediate, LookupTerm, PaddingType, TraceGenStep, TraceType,
 };
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
@@ -28,7 +27,7 @@ pub enum Mode {
 pub struct RustProverGen {
     pub lists: CompiledAirFn,
     pub public_params: Vec<PublicParam>,
-    pub write_trace_context: Vec<String>,
+    pub write_trace_context: IndexMap<String, PaddingType>,
     pub constants: Vec<(String, String)>,
     pub relation_calls: Vec<String>,
     pub add_input_mults: IndexMap<String, usize>,
@@ -61,14 +60,19 @@ impl RustProverGen {
         };
 
         let public_params = lists.public_params.iter().cloned().collect_vec();
-        let write_trace_context = context(&lists.deductions);
+        let mut write_trace_context = lists
+            .deduction_lookups
+            .iter()
+            .map(|(name, padding_type)| (name.to_case(Case::Snake), *padding_type))
+            .collect::<IndexMap<_, _>>();
+        write_trace_context.sort_keys();
         let constants = deduction_consts(&lists.deductions);
+        // TODO(AnatG): Put air_body.get_lookup_n_rows in compiled air.
         let add_input_mults = add_inputs_mults(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
-        let relation_calls = lists
-            .lookup_names
+        let relation_calls = lookup_terms
             .iter()
-            .map(|(relation, _)| relation.clone())
+            .map(|term| term.relation_name.clone())
             .collect::<IndexSet<_>>()
             .into_iter()
             .collect_vec();
@@ -155,9 +159,8 @@ impl RustProverGen {
             .add_input_mults
             .iter()
             .map(|(component_name, &mult)| {
-                let component_name = component_name.to_lowercase();
                 quote! {
-                    $(&component_name): [Vec<$component_name::PackedInputType>; $mult],
+                    $(component_name): [Vec<$component_name::PackedInputType>; $mult],
                 }
             })
             .collect_vec();
@@ -210,7 +213,7 @@ impl RustProverGen {
 
     fn generate_imports_code(&self) -> rust::Tokens {
         let mut sub_component_imports = rust::Tokens::new();
-        self.write_trace_context.iter().for_each(|fn_name| {
+        self.write_trace_context.iter().for_each(|(fn_name, _)| {
             sub_component_imports.extend(quote! {
                 use crate::witness::components::$(fn_name);
             })
@@ -231,39 +234,14 @@ impl RustProverGen {
     }
 }
 
-// Returns the context of the write_trace function.
-// e.g. opcodes needs `memory_address_to_id`.
-fn context(deductions: &[TraceGenStep]) -> Vec<String> {
-    deductions
-        .iter()
-        .filter_map(|d| match d {
-            TraceGenStep::Deduction(CompiledAirVar::StaticCall(fn_name, ..))
-            | TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
-                var: CompiledAirVar::StaticCall(fn_name, ..),
-                ..
-            }) => {
-                if fn_name.starts_with("Memory") {
-                    Some(fn_name.split("::").next().unwrap().to_case(Case::Snake))
-                } else {
-                    None
-                }
-            }
-            TraceGenStep::LookupAddInput { fn_name, .. } => Some(fn_name.to_string()),
-            _ => None,
-        })
-        .sorted()
-        .dedup()
-        .collect()
-}
-
 /// Builds the IndexMap of the number of inputs for each sub-component, meaning how many inputs
 /// should be added to each sub-component per row in the trace.
 fn add_inputs_mults(deductions: &[TraceGenStep]) -> IndexMap<String, usize> {
     let mut add_input_mults = IndexMap::new();
     for deduction in deductions {
-        if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
+        if let TraceGenStep::LookupAddInput { relation_name, .. } = deduction {
             add_input_mults
-                .entry(fn_name.clone())
+                .entry(relation_name.to_case(Case::Snake))
                 .and_modify(|e| *e += 1)
                 .or_insert(1);
         }

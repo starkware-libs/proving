@@ -124,7 +124,7 @@
     "combination_limb_9_col30",
     "p_coef_col31"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "Cube252",
       "Use"
@@ -146,6 +146,12 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "Cube252": "Enabler",
+    "RangeCheck_4_4_4_4": "Multiplicity",
+    "RangeCheck_4_4": "Multiplicity",
+    "RangeCheckFelt252Width27": "Enabler"
+  },
   "inline_calls": {
     "linear_combination_n_1_coefs_2": [
       [],
@@ -772,7 +778,7 @@
   "deductions": [
     {
       "LookupAddInput": {
-        "fn_name": "cube_252",
+        "relation_name": "Cube252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -3609,7 +3615,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -3756,7 +3762,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -3909,7 +3915,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4",
+        "relation_name": "RangeCheck_4_4",
         "input": {
           "Array": [
             {
@@ -4007,7 +4013,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_width_27",
+        "relation_name": "RangeCheckFelt252Width27",
         "input": {
           "Var": [
             "Felt252Width27",

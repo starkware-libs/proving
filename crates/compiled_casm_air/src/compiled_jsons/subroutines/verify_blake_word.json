@@ -36,7 +36,7 @@
     "high_5_ms_bits_col2",
     "id_col3"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_7_2_5",
       "Use"
@@ -50,6 +50,11 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_7_2_5": "Multiplicity",
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity"
+  },
   "inline_calls": {
     "mem_verify": [
       [
@@ -498,7 +503,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -634,7 +639,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -663,7 +668,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "id_col3"
         }

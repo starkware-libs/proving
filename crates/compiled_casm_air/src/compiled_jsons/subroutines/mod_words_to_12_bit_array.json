@@ -1072,7 +1072,7 @@
     "limb6b_1_col8",
     "limb9b_1_col9"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_3_6_6_3",
       "Use"
@@ -1094,6 +1094,9 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_3_6_6_3": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -1754,7 +1757,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_6_6_3",
+        "relation_name": "RangeCheck_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2009,7 +2012,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_6_6_3",
+        "relation_name": "RangeCheck_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2365,7 +2368,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_6_6_3",
+        "relation_name": "RangeCheck_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2620,7 +2623,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_6_6_3",
+        "relation_name": "RangeCheck_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2774,7 +2777,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_3_6_6_3",
+        "relation_name": "RangeCheck_3_6_6_3",
         "input": {
           "Array": [
             {

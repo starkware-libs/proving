@@ -4,6 +4,7 @@ use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
+use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 
 use super::air_body::*;
@@ -30,6 +31,7 @@ pub struct AirFnEntry {
     // <false> for felts in <output> that are directly in state, <true> otherwise.
     pub output_limbs_mask: Vec<bool>,
     pub trace_type: TraceType,
+    pub padding_type: PaddingType,
     pub air_body: AirBody,
     pub state: State,
 }
@@ -86,6 +88,7 @@ impl AirFnEntry {
             output_expr_descriptions: air_fn.output_expr_descriptions(),
             output_limbs_mask,
             trace_type: air_fn.trace_type(),
+            padding_type: air_fn.padding_type(),
             air_body,
             state,
         }
@@ -93,33 +96,39 @@ impl AirFnEntry {
 
     // Compiles the air function entry into a compiled air function.
     pub fn compile(self, called_fns: &Ref<'_, IndexMap<String, AirFnEntry>>) -> CompiledAirFn {
-        let padding_type = match self.trace_type {
-            TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
-            TraceType::Opcode | TraceType::ChainRound => PaddingType::Enabler,
-            TraceType::Memory => PaddingType::Multiplicity,
-            TraceType::Component if self.name == "verify_instruction" => PaddingType::Multiplicity,
-            TraceType::Component if self.ext_input.is_some() => PaddingType::Multiplicity,
-            _ => PaddingType::Enabler,
-        };
         let inline_calls = self
             .air_body
             .get_inline_calls()
-            .into_iter()
+            .iter()
             .map(|n| {
                 let ab = &called_fns
-                    .get(&n)
-                    .expect("Cannot find called air function")
+                    .get(n)
+                    .unwrap_or_else(|| panic!("Cannot find called air function {n}"))
                     .air_body;
                 (
                     n.clone(),
                     (
-                        ab.get_lookup_names().clone(),
+                        ab.get_constraint_lookups().clone(),
                         ab.get_public_params().clone(),
                         ab.get_external_states().clone(),
                     ),
                 )
             })
             .collect();
+        let deduction_lookups = self
+            .air_body
+            .get_deduction_lookups()
+            .iter()
+            .map(|n| {
+                // The called relations correspond to air functions.
+                let padding_type = &called_fns
+                    .get(n.to_case(Case::Snake).as_str())
+                    .unwrap_or_else(|| panic!("Cannot find called air function {n}"))
+                    .padding_type;
+
+                (n.clone(), *padding_type)
+            })
+            .collect::<IndexMap<_, _>>();
         let relation_size =
             if self.trace_type == TraceType::Opcode || self.trace_type == TraceType::ChainRound {
                 Some(self.joined_input.as_felts().len())
@@ -137,7 +146,7 @@ impl AirFnEntry {
             instance_definition: serde_json::to_string(&self.inst_def)
                 .expect("Failed to serialize"),
             r#type: self.trace_type,
-            padding_type,
+            padding_type: self.padding_type,
             prover_input: (
                 Self::input_name(&self.name),
                 self.joined_input.prover_type(),
@@ -156,7 +165,8 @@ impl AirFnEntry {
                 self.output_limb_names(Self::output_name(&self.name)),
             ),
             state_names: self.state.get_state_names(),
-            lookup_names: self.air_body.get_lookup_names(),
+            constraint_lookups: self.air_body.get_constraint_lookups(),
+            deduction_lookups,
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),

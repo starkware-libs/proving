@@ -174,12 +174,15 @@
     "value_limb_14_col14",
     "value_limb_15_col15"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "MemoryIdToBig",
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryIdToBig": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -677,7 +680,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "Var": [
             "M31",

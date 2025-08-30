@@ -117,7 +117,7 @@
     "add_res_limb_27_col27",
     "sub_p_bit_col28"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_9_9",
       "Use"
@@ -175,6 +175,16 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_9_9": "Multiplicity",
+    "RangeCheck_9_9_B": "Multiplicity",
+    "RangeCheck_9_9_C": "Multiplicity",
+    "RangeCheck_9_9_D": "Multiplicity",
+    "RangeCheck_9_9_E": "Multiplicity",
+    "RangeCheck_9_9_F": "Multiplicity",
+    "RangeCheck_9_9_G": "Multiplicity",
+    "RangeCheck_9_9_H": "Multiplicity"
+  },
   "inline_calls": {
     "range_check_mem_value_n_28": [
       [
@@ -1404,7 +1414,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9",
+        "relation_name": "RangeCheck_9_9",
         "input": {
           "Array": [
             {
@@ -1433,7 +1443,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_b",
+        "relation_name": "RangeCheck_9_9_B",
         "input": {
           "Array": [
             {
@@ -1462,7 +1472,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_c",
+        "relation_name": "RangeCheck_9_9_C",
         "input": {
           "Array": [
             {
@@ -1491,7 +1501,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_d",
+        "relation_name": "RangeCheck_9_9_D",
         "input": {
           "Array": [
             {
@@ -1520,7 +1530,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_e",
+        "relation_name": "RangeCheck_9_9_E",
         "input": {
           "Array": [
             {
@@ -1549,7 +1559,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_f",
+        "relation_name": "RangeCheck_9_9_F",
         "input": {
           "Array": [
             {
@@ -1578,7 +1588,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_g",
+        "relation_name": "RangeCheck_9_9_G",
         "input": {
           "Array": [
             {
@@ -1607,7 +1617,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_h",
+        "relation_name": "RangeCheck_9_9_H",
         "input": {
           "Array": [
             {
@@ -1636,7 +1646,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9",
+        "relation_name": "RangeCheck_9_9",
         "input": {
           "Array": [
             {
@@ -1665,7 +1675,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_b",
+        "relation_name": "RangeCheck_9_9_B",
         "input": {
           "Array": [
             {
@@ -1694,7 +1704,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_c",
+        "relation_name": "RangeCheck_9_9_C",
         "input": {
           "Array": [
             {
@@ -1723,7 +1733,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_d",
+        "relation_name": "RangeCheck_9_9_D",
         "input": {
           "Array": [
             {
@@ -1752,7 +1762,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_e",
+        "relation_name": "RangeCheck_9_9_E",
         "input": {
           "Array": [
             {
@@ -1781,7 +1791,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_f",
+        "relation_name": "RangeCheck_9_9_F",
         "input": {
           "Array": [
             {
