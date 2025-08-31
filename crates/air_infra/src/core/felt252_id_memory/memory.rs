@@ -15,10 +15,13 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
 use crate::core::memory::*;
+use crate::core::struct_var::*;
 #[cfg(test)]
 use crate::core::variables::*;
 #[cfg(test)]
 use crate::core::Felt;
+
+pub type CasmId = VarWrapper<FeltExpr, String>;
 
 /// Stores an address -> Felt252 mapping using three components: address -> ID,
 /// ID -> small memory value and ID -> big memory value (felt252). The ID is a single M31 felt and
@@ -48,16 +51,19 @@ impl Felt252IdMemory {
             // If it is a new value, create a new ID
             if !value_to_id.contains_key(&limbs) {
                 value_to_id.insert(limbs.clone(), id);
-                result.id_to_big.mem_mut().set(const_expr!(id), felt252);
+                result
+                    .id_to_big
+                    .mem_mut()
+                    .set(CasmId::new(const_expr!(id), ""), felt252);
                 id += 1;
             }
 
             // Set ID in address_to_id memory
             let felt252_id = value_to_id.get(&limbs).unwrap();
-            result
-                .address_to_id
-                .mem_mut()
-                .set(CasmAddress::new(addr.clone(), ""), const_expr!(*felt252_id));
+            result.address_to_id.mem_mut().set(
+                CasmAddress::new(addr.clone(), ""),
+                CasmId::new(const_expr!(*felt252_id), ""),
+            );
         }
 
         result
@@ -67,7 +73,7 @@ impl Felt252IdMemory {
         &self,
         air_builder: &mut AirBuilder,
         address: &CasmAddress,
-    ) -> (Felt252Expr, FeltExpr) {
+    ) -> (Felt252Expr, CasmId) {
         let id = air_builder.mem_read_unverified(&self.address_to_id, address);
         let value = air_builder.mem_read_unverified(&self.id_to_big, &id);
         (value, id)

@@ -139,7 +139,7 @@ pub struct ReadSmall {
 impl AirFn for ReadSmall {
     type ExtIn = ();
     type In = CasmAddress;
-    type Out = (FeltExpr, FeltExpr);
+    type Out = (FeltExpr, CasmId);
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
         let id = air_builder.call(

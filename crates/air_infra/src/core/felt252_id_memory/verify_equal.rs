@@ -47,7 +47,7 @@ pub struct MemCondVerifyEqualKnownId {
 /// with ReadSmall for example, so there is no need to read, deduce or verifiy its ID.
 impl AirFn for MemCondVerifyEqualKnownId {
     type ExtIn = ();
-    type In = (CasmAddress, FeltExpr, FeltExpr);
+    type In = (CasmAddress, CasmId, FeltExpr);
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (addr1, id2, cond): Self::In) -> Self::Out {
@@ -59,7 +59,7 @@ impl AirFn for MemCondVerifyEqualKnownId {
         );
 
         air_builder.constrain(
-            (id1 - id2) * cond,
+            (id1.var - id2.var) * cond,
             "The two ids are equal if the condition is met",
         );
     }

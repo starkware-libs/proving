@@ -7,6 +7,7 @@ use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::CasmId;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
@@ -18,21 +19,21 @@ pub struct MemIdForBig {}
 
 impl ExtTable for MemIdForBig {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
-    type T = FeltExpr;
+    type T = CasmId;
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct MemoryIdToBig {
     #[serde(skip)]
-    memory: Memory<FeltExpr, Felt252Expr>,
+    memory: Memory<CasmId, Felt252Expr>,
 }
 
 impl IsMemory<MemIdForBig, Felt252Expr> for MemoryIdToBig {
-    fn mem(&self) -> &Memory<FeltExpr, Felt252Expr> {
+    fn mem(&self) -> &Memory<CasmId, Felt252Expr> {
         &self.memory
     }
 
-    fn mem_mut(&mut self) -> &mut Memory<FeltExpr, Felt252Expr> {
+    fn mem_mut(&mut self) -> &mut Memory<CasmId, Felt252Expr> {
         &mut self.memory
     }
 }
@@ -44,7 +45,7 @@ impl AirFn for MemoryIdToBig {
     type In = ();
     type Out = Felt252Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, _id: FeltExpr, _: ()) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _id: CasmId, _: ()) -> Self::Out {
         #[allow(unused_mut)]
         let mut value_in_state: Felt252Expr =
             air_builder.component_context.state().get_felts().into();
