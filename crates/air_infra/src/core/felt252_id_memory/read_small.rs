@@ -11,6 +11,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
+use crate::core::felt252_id_memory::read_id::*;
 use crate::core::felt252_id_memory::read_positive::*;
 
 // The number of bits in a "small" value.
@@ -141,17 +142,13 @@ impl AirFn for ReadSmall {
     type Out = (FeltExpr, FeltExpr);
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
-        let (mut value, mut id) = self.memory.read_unverified(air_builder, &address);
-
-        air_builder.deduce(
-            &mut id,
-            &address
-                .extra_info
-                .clone()
-                .map(|s| format!("{}_id", s))
-                .unwrap_or("id".to_string()),
+        let id = air_builder.call(
+            &ReadId {
+                memory: self.memory.clone(),
+            },
+            address.clone(),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
+        let mut value = air_builder.mem_read_unverified(&self.memory.id_to_big, &id);
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
         let [msb, mid_limbs_set] =

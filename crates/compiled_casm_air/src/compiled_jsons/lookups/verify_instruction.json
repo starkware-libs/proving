@@ -906,6 +906,9 @@
       "StartBlock": "Mem Verify"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_16a4f_9",
         "type": "M31",
@@ -951,6 +954,7 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",

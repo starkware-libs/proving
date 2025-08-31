@@ -1,0 +1,119 @@
+{
+  "name": "read_id",
+  "relation_name": null,
+  "relation_size": null,
+  "description": "Read Id",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "read_id_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "read_id_input"
+  ],
+  "prover_output": [
+    {
+      "State": "id_col0"
+    },
+    "read_id_output",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "id_col0"
+  ],
+  "lookup_names": [
+    [
+      "MemoryAddressToId",
+      "Use"
+    ]
+  ],
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "read_id_input"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_373bd_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "read_id_input"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_373bd_0"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "memory_address_to_id",
+        "input": {
+          "Var": [
+            "M31",
+            "read_id_input"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "read_id_input"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

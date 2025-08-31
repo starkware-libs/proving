@@ -206,7 +206,7 @@
         {
           "Var": [
             "UInt32",
-            "read_blake_word_output_tmp_47e62_34"
+            "read_blake_word_output_tmp_47e62_38"
           ]
         },
         {
@@ -2537,6 +2537,9 @@
       "StartBlock": "Read Positive Num Bits 29"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_47e62_11",
         "type": "M31",
@@ -2556,25 +2559,6 @@
                       "decode_instruction_64420_output_tmp_47e62_10.0[1]"
                     ]
                   }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_47e62_12",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_47e62_11"
                 ]
               }
             ]
@@ -2634,13 +2618,30 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_47e62_13",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "State": "op0_id_col10"
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "Deduction": {
         "MethodCall": [
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_12"
+              "memory_id_to_big_value_tmp_47e62_13"
             ]
           },
           "get_m31",
@@ -2661,7 +2662,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_12"
+              "memory_id_to_big_value_tmp_47e62_13"
             ]
           },
           "get_m31",
@@ -2682,7 +2683,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_12"
+              "memory_id_to_big_value_tmp_47e62_13"
             ]
           },
           "get_m31",
@@ -2703,7 +2704,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_12"
+              "memory_id_to_big_value_tmp_47e62_13"
             ]
           },
           "get_m31",
@@ -2726,7 +2727,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_47e62_13",
+        "name": "partial_limb_msb_tmp_47e62_14",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -2768,7 +2769,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_47e62_13"
+              "partial_limb_msb_tmp_47e62_14"
             ]
           },
           "as_m31",
@@ -2955,7 +2956,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_29_output_tmp_47e62_15",
+        "name": "read_positive_num_bits_29_output_tmp_47e62_16",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -3173,8 +3174,11 @@
       "StartBlock": "Read Positive Num Bits 29"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_47e62_16",
+        "name": "memory_address_to_id_value_tmp_47e62_17",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -3200,29 +3204,10 @@
       }
     },
     {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_47e62_17",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_47e62_16"
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_47e62_16"
+          "memory_address_to_id_value_tmp_47e62_17"
         ]
       }
     },
@@ -3270,13 +3255,30 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_47e62_19",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "State": "op1_id_col17"
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "Deduction": {
         "MethodCall": [
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_17"
+              "memory_id_to_big_value_tmp_47e62_19"
             ]
           },
           "get_m31",
@@ -3297,7 +3299,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_17"
+              "memory_id_to_big_value_tmp_47e62_19"
             ]
           },
           "get_m31",
@@ -3318,7 +3320,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_17"
+              "memory_id_to_big_value_tmp_47e62_19"
             ]
           },
           "get_m31",
@@ -3339,7 +3341,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_17"
+              "memory_id_to_big_value_tmp_47e62_19"
             ]
           },
           "get_m31",
@@ -3362,7 +3364,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_47e62_18",
+        "name": "partial_limb_msb_tmp_47e62_20",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -3404,7 +3406,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_47e62_18"
+              "partial_limb_msb_tmp_47e62_20"
             ]
           },
           "as_m31",
@@ -3591,7 +3593,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_29_output_tmp_47e62_20",
+        "name": "read_positive_num_bits_29_output_tmp_47e62_22",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -3774,8 +3776,11 @@
       "StartBlock": "Read Positive Num Bits 29"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_47e62_21",
+        "name": "memory_address_to_id_value_tmp_47e62_23",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -3793,29 +3798,10 @@
       }
     },
     {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_47e62_22",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_47e62_21"
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_47e62_21"
+          "memory_address_to_id_value_tmp_47e62_23"
         ]
       }
     },
@@ -3847,13 +3833,30 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_47e62_25",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "State": "ap_id_col23"
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "Deduction": {
         "MethodCall": [
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_22"
+              "memory_id_to_big_value_tmp_47e62_25"
             ]
           },
           "get_m31",
@@ -3874,7 +3877,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_22"
+              "memory_id_to_big_value_tmp_47e62_25"
             ]
           },
           "get_m31",
@@ -3895,7 +3898,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_22"
+              "memory_id_to_big_value_tmp_47e62_25"
             ]
           },
           "get_m31",
@@ -3916,7 +3919,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_47e62_22"
+              "memory_id_to_big_value_tmp_47e62_25"
             ]
           },
           "get_m31",
@@ -3939,7 +3942,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_47e62_23",
+        "name": "partial_limb_msb_tmp_47e62_26",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -3981,7 +3984,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_47e62_23"
+              "partial_limb_msb_tmp_47e62_26"
             ]
           },
           "as_m31",
@@ -4168,7 +4171,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_29_output_tmp_47e62_25",
+        "name": "read_positive_num_bits_29_output_tmp_47e62_28",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -4398,7 +4401,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_47e62_26",
+        "name": "memory_address_to_id_value_tmp_47e62_29",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4425,7 +4428,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_47e62_27",
+        "name": "memory_id_to_big_value_tmp_47e62_30",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -4434,7 +4437,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_47e62_26"
+                  "memory_address_to_id_value_tmp_47e62_29"
                 ]
               }
             ]
@@ -4444,7 +4447,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_47e62_28",
+        "name": "tmp_47e62_31",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4457,7 +4460,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_47e62_27"
+                          "memory_id_to_big_value_tmp_47e62_30"
                         ]
                       },
                       "get_m31",
@@ -4497,7 +4500,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_47e62_27"
+                          "memory_id_to_big_value_tmp_47e62_30"
                         ]
                       },
                       "get_m31",
@@ -4519,7 +4522,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_47e62_28"
+                              "tmp_47e62_31"
                             ]
                           },
                           "as_m31",
@@ -4552,7 +4555,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_47e62_27"
+                  "memory_id_to_big_value_tmp_47e62_30"
                 ]
               },
               "get_m31",
@@ -4581,7 +4584,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_47e62_27"
+                          "memory_id_to_big_value_tmp_47e62_30"
                         ]
                       },
                       "get_m31",
@@ -4612,7 +4615,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_47e62_27"
+                          "memory_id_to_big_value_tmp_47e62_30"
                         ]
                       },
                       "get_m31",
@@ -4643,7 +4646,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_47e62_28"
+                  "tmp_47e62_31"
                 ]
               },
               "as_m31",
@@ -4655,7 +4658,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_47e62_29",
+        "name": "expected_word_tmp_47e62_32",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -4681,7 +4684,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_47e62_30",
+        "name": "low_7_ms_bits_tmp_47e62_33",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4690,7 +4693,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_47e62_29"
+                    "expected_word_tmp_47e62_32"
                   ]
                 },
                 "low",
@@ -4714,7 +4717,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_47e62_30"
+              "low_7_ms_bits_tmp_47e62_33"
             ]
           },
           "as_m31",
@@ -4724,7 +4727,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_47e62_31",
+        "name": "high_14_ms_bits_tmp_47e62_34",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4733,7 +4736,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_47e62_29"
+                    "expected_word_tmp_47e62_32"
                   ]
                 },
                 "high",
@@ -4757,7 +4760,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_47e62_31"
+              "high_14_ms_bits_tmp_47e62_34"
             ]
           },
           "as_m31",
@@ -4767,14 +4770,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_47e62_32",
+        "name": "high_5_ms_bits_tmp_47e62_35",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_47e62_31"
+                "high_14_ms_bits_tmp_47e62_34"
               ]
             },
             ">>",
@@ -4794,7 +4797,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_47e62_32"
+              "high_5_ms_bits_tmp_47e62_35"
             ]
           },
           "as_m31",
@@ -4879,8 +4882,11 @@
       "StartBlock": "Mem Verify"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_47e62_33",
+        "name": "memory_address_to_id_value_tmp_47e62_36",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4909,7 +4915,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_47e62_33"
+          "memory_address_to_id_value_tmp_47e62_36"
         ]
       }
     },
@@ -4957,6 +4963,7 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
@@ -5212,12 +5219,12 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "read_blake_word_output_tmp_47e62_34",
+        "name": "read_blake_word_output_tmp_47e62_38",
         "type": "UInt32",
         "var": {
           "Var": [
             "UInt32",
-            "expected_word_tmp_47e62_29"
+            "expected_word_tmp_47e62_32"
           ]
         }
       }

@@ -39,25 +39,44 @@
       "Use"
     ]
   ],
-  "inline_calls": {},
+  "inline_calls": {
+    "read_id": [
+      [
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [
     {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "Var": [
-              "M31",
-              "mem_cond_verify_equal_known_id_input_limb_0"
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "mem_cond_verify_equal_known_id_input_limb_0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "State": "id_col0"
+              }
             ]
-          },
-          {
-            "State": "id_col0"
-          }
-        ],
-        "use_or_yield": "Use"
+          ]
+        }
       }
     },
     {
@@ -92,6 +111,9 @@
     }
   ],
   "deductions": [
+    {
+      "StartBlock": "Read Id"
+    },
     {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_b27bf_0",
@@ -146,6 +168,7 @@
         ],
         "use_or_yield": "Use"
       }
-    }
+    },
+    "EndBlock"
   ]
 }

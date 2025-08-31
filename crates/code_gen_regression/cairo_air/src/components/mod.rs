@@ -1,4 +1,5 @@
-use std::sync::atomic::AtomicU32;
+pub mod pedersen_points_table;
+2;
 
 use stwo::core::fields::m31::M31;
 use stwo::core::pcs::TreeSubspan;

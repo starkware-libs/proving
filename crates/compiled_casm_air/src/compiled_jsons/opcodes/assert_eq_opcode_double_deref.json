@@ -1776,6 +1776,9 @@
       "StartBlock": "Read Positive Num Bits 29"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_b1151_9",
         "type": "M31",
@@ -1795,25 +1798,6 @@
                       "decode_instruction_cb32b_output_tmp_b1151_8.0[1]"
                     ]
                   }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_b1151_10",
-        "type": "Felt252",
-        "var": {
-          "StaticCall": [
-            "MemoryIdToBig::deduce_output",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "memory_address_to_id_value_tmp_b1151_9"
                 ]
               }
             ]
@@ -1873,13 +1857,30 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_b1151_11",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "State": "mem1_base_id_col11"
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "Deduction": {
         "MethodCall": [
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_b1151_10"
+              "memory_id_to_big_value_tmp_b1151_11"
             ]
           },
           "get_m31",
@@ -1900,7 +1901,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_b1151_10"
+              "memory_id_to_big_value_tmp_b1151_11"
             ]
           },
           "get_m31",
@@ -1921,7 +1922,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_b1151_10"
+              "memory_id_to_big_value_tmp_b1151_11"
             ]
           },
           "get_m31",
@@ -1942,7 +1943,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_b1151_10"
+              "memory_id_to_big_value_tmp_b1151_11"
             ]
           },
           "get_m31",
@@ -1965,7 +1966,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_b1151_11",
+        "name": "partial_limb_msb_tmp_b1151_12",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -2007,7 +2008,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_b1151_11"
+              "partial_limb_msb_tmp_b1151_12"
             ]
           },
           "as_m31",
@@ -2194,7 +2195,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_29_output_tmp_b1151_13",
+        "name": "read_positive_num_bits_29_output_tmp_b1151_14",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
@@ -2377,8 +2378,11 @@
       "StartBlock": "Mem Verify Equal"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_b1151_14",
+        "name": "memory_address_to_id_value_tmp_b1151_15",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -2407,7 +2411,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_b1151_14"
+          "memory_address_to_id_value_tmp_b1151_15"
         ]
       }
     },
@@ -2455,6 +2459,7 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupAddInput": {
         "fn_name": "memory_address_to_id",

@@ -1117,6 +1117,9 @@
       "StartBlock": "Mem Verify Equal"
     },
     {
+      "StartBlock": "Read Id"
+    },
+    {
       "Intermediate": {
         "name": "memory_address_to_id_value_tmp_bb09e_6",
         "type": "M31",
@@ -1195,6 +1198,7 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupAddInput": {
         "fn_name": "memory_address_to_id",
