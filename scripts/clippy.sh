@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit on error
+set -eou pipefail
+
 cargo clippy --workspace "$@" --all-targets --all-features -- -D warnings -D future-incompatible \
     -D nonstandard-style -D rust-2018-idioms -D unused
 
