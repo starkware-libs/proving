@@ -124,6 +124,8 @@ fn write_trace_simd(
                     value_id_col0,
                 ];
 
+                // Read Positive Known Id Num Bits 128.
+
                 let memory_id_to_big_value_tmp_66b3a_2 =
                     memory_id_to_big_state.deduce_output(value_id_col0);
                 let value_limb_0_col1 = memory_id_to_big_value_tmp_66b3a_2.get_m31(0);
@@ -198,7 +200,7 @@ fn write_trace_simd(
                     M31_0,
                     M31_0,
                 ];
-                let read_positive_num_bits_128_output_tmp_66b3a_5 = (
+                let read_positive_known_id_num_bits_128_output_tmp_66b3a_5 =
                     PackedFelt252::from_limbs([
                         value_limb_0_col1,
                         value_limb_1_col2,
@@ -228,7 +230,10 @@ fn write_trace_simd(
                         M31_0,
                         M31_0,
                         M31_0,
-                    ]),
+                    ]);
+
+                let read_positive_num_bits_128_output_tmp_66b3a_6 = (
+                    read_positive_known_id_num_bits_128_output_tmp_66b3a_5,
                     value_id_col0,
                 );
             },

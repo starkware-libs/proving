@@ -1522,6 +1522,9 @@
     },
     "EndBlock",
     {
+      "StartBlock": "Read Positive Known Id Num Bits 252"
+    },
+    {
       "Intermediate": {
         "name": "memory_id_to_big_value_tmp_e1597_8",
         "type": "Felt252",
@@ -2230,103 +2233,116 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_252_output_tmp_e1597_9",
+        "name": "read_positive_known_id_num_bits_252_output_tmp_e1597_9",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "Felt252::from_limbs",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "dst_limb_0_col8"
+                  },
+                  {
+                    "State": "dst_limb_1_col9"
+                  },
+                  {
+                    "State": "dst_limb_2_col10"
+                  },
+                  {
+                    "State": "dst_limb_3_col11"
+                  },
+                  {
+                    "State": "dst_limb_4_col12"
+                  },
+                  {
+                    "State": "dst_limb_5_col13"
+                  },
+                  {
+                    "State": "dst_limb_6_col14"
+                  },
+                  {
+                    "State": "dst_limb_7_col15"
+                  },
+                  {
+                    "State": "dst_limb_8_col16"
+                  },
+                  {
+                    "State": "dst_limb_9_col17"
+                  },
+                  {
+                    "State": "dst_limb_10_col18"
+                  },
+                  {
+                    "State": "dst_limb_11_col19"
+                  },
+                  {
+                    "State": "dst_limb_12_col20"
+                  },
+                  {
+                    "State": "dst_limb_13_col21"
+                  },
+                  {
+                    "State": "dst_limb_14_col22"
+                  },
+                  {
+                    "State": "dst_limb_15_col23"
+                  },
+                  {
+                    "State": "dst_limb_16_col24"
+                  },
+                  {
+                    "State": "dst_limb_17_col25"
+                  },
+                  {
+                    "State": "dst_limb_18_col26"
+                  },
+                  {
+                    "State": "dst_limb_19_col27"
+                  },
+                  {
+                    "State": "dst_limb_20_col28"
+                  },
+                  {
+                    "State": "dst_limb_21_col29"
+                  },
+                  {
+                    "State": "dst_limb_22_col30"
+                  },
+                  {
+                    "State": "dst_limb_23_col31"
+                  },
+                  {
+                    "State": "dst_limb_24_col32"
+                  },
+                  {
+                    "State": "dst_limb_25_col33"
+                  },
+                  {
+                    "State": "dst_limb_26_col34"
+                  },
+                  {
+                    "State": "dst_limb_27_col35"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_positive_num_bits_252_output_tmp_e1597_10",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
             {
-              "StaticCall": [
-                "Felt252::from_limbs",
-                [
-                  {
-                    "Array": [
-                      {
-                        "State": "dst_limb_0_col8"
-                      },
-                      {
-                        "State": "dst_limb_1_col9"
-                      },
-                      {
-                        "State": "dst_limb_2_col10"
-                      },
-                      {
-                        "State": "dst_limb_3_col11"
-                      },
-                      {
-                        "State": "dst_limb_4_col12"
-                      },
-                      {
-                        "State": "dst_limb_5_col13"
-                      },
-                      {
-                        "State": "dst_limb_6_col14"
-                      },
-                      {
-                        "State": "dst_limb_7_col15"
-                      },
-                      {
-                        "State": "dst_limb_8_col16"
-                      },
-                      {
-                        "State": "dst_limb_9_col17"
-                      },
-                      {
-                        "State": "dst_limb_10_col18"
-                      },
-                      {
-                        "State": "dst_limb_11_col19"
-                      },
-                      {
-                        "State": "dst_limb_12_col20"
-                      },
-                      {
-                        "State": "dst_limb_13_col21"
-                      },
-                      {
-                        "State": "dst_limb_14_col22"
-                      },
-                      {
-                        "State": "dst_limb_15_col23"
-                      },
-                      {
-                        "State": "dst_limb_16_col24"
-                      },
-                      {
-                        "State": "dst_limb_17_col25"
-                      },
-                      {
-                        "State": "dst_limb_18_col26"
-                      },
-                      {
-                        "State": "dst_limb_19_col27"
-                      },
-                      {
-                        "State": "dst_limb_20_col28"
-                      },
-                      {
-                        "State": "dst_limb_21_col29"
-                      },
-                      {
-                        "State": "dst_limb_22_col30"
-                      },
-                      {
-                        "State": "dst_limb_23_col31"
-                      },
-                      {
-                        "State": "dst_limb_24_col32"
-                      },
-                      {
-                        "State": "dst_limb_25_col33"
-                      },
-                      {
-                        "State": "dst_limb_26_col34"
-                      },
-                      {
-                        "State": "dst_limb_27_col35"
-                      }
-                    ]
-                  }
-                ]
+              "Var": [
+                "Felt252",
+                "read_positive_known_id_num_bits_252_output_tmp_e1597_9"
               ]
             },
             {
