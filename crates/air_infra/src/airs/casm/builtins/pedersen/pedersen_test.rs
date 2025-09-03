@@ -99,7 +99,7 @@ fn test_partial_mul() {
         ),
     );
     assert_eq!(output.0.calc(), call_id.calc());
-    assert_eq!(output.1.calc(), const_expr!(15).calc());
+    assert_eq!(output.1.calc(), const_expr!(NUM_WINDOWS + 1).calc());
 
     let expected_new_multiplier = pack_to_double_limbs(multiplier >> 18);
     for (output_elem, expected_elem) in output.2 .0.iter().zip(expected_new_multiplier.iter()) {

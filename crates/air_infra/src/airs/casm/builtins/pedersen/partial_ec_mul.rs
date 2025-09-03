@@ -35,30 +35,34 @@ pub fn felt252_to_double_limbs(value: Felt252Expr) -> PackedECMultiplier {
 
 // Implements the EC partial-mul round relation.
 //
-// This relation is used to compute values of the form m*P + Q where P,Q are points
-// on the STARK curve, and P is one of the constant points used in the Pedersen hash.
+// This relation is used to compute values of the form m*P + Q where P,Q are points on the
+// STARK curve, and P is one of the high-entropy constant points used in the Pedersen hash.
 //
-// The computation is done by splitting `m` into 18-bit windows, multiplying P by each
-// part and adding the result to an accumulator that was initialized with Q. The
-// multiples of P are taken from a precomputed table (PedersenPointsTable).
+// The computation is done by splitting `m` into 18-bit windows, multiplying P by each part
+// and adding the result to an accumulator that was initialized with Q. The multiples of P
+// are taken from a precomputed table (PedersenPointsTable).
 //
 // To avoid having the zero point in the table, each value in the table has P_shift
 // subtracted from it. Therefore the result after `w` rounds is shifted by w * P_shift.
-// The caller is responsible for choosing Q appropriately to cancel this difference.
+// The initial value of Q, drawn from the third section of the PedersenPointsTable, cancels
+// out this difference and handles the low-entropy P_1 and P_3 contributions.
 //
-// The relation is (c, w, i, m_c >> (w * 18), (m_c)_(w * 18) * P_c + Q_c - w * P_shift), where:
+// The relation is
+//    (c, 14 * i + w, m_c >> (w * 18), (m_c)_(w * 18) * P_{2i} + Q_c - w * P_shift),
+// where:
 // - `c` is the "chain index", used to separate different chains in the component.
-// - P_c, Q_c are the points used in the computatin in the chain with index `c`.
-// - `w` is the round number.
-// - `i` is the offset from the table start to the part that contains the data for P_c.
+// - Q_c is the initial point used in the computation of the chain with index `c`.
+// - `14 * i + w` is the round number, ranging from 0 to 27, with i in [0, 2) and w in [0, 14). The
+//   high-bit i of the round number indicates the value of P, with i=0 corresponding to P=P_0 and
+//   i=1 to P=P_2. The low part w indicates the relative shift of P being added.
 // - m_c is the coefficient of P in the chain with index `c`.
 // - (m_c)_(w * 18) are the w*18 least-significant bits of m_c.
-// The fourth element (m_c >> (w * 18)) is represented as an array of 18-bit limbs to
+// The third element (m_c >> (w * 18)) is represented as an array of 18-bit limbs to
 // save trace cells.
 //
 // To use this relation for a multiplication with `k` windows, the caller should
-// 1. Yield (c, 0, i, m_c, Q_c)
-// 2. Use   (c, k, i, 0,   m_c * P_c + Q_c)
+// 1. Yield (c, 14 * i,     m_c, Q_c)
+// 2. Use   (c, 14 * i + k, 0,   m_c * P_{2i} + Q_c)
 // 3. Add the `k` round rows to this component
 impl AirFn for PartialECMul {
     type ExtIn = ();

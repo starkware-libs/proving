@@ -14,14 +14,14 @@ use crate::core::variables::*;
 const STWO_COMPONENT_TYPE_PEDERSEN_POINTS: &str = "PedersenPoints";
 
 // A table with 2**23 rows, each containing a point on the Pedersen elliptic curve.
-// The table is divided into 4 sections:
+// The table is divided into 3 sections:
 // 1. First 14 blocks of 2 ** 18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_0
-// 2. Next 16 rows: Row k contains -P_shift + k * P_1
-// 3. Next 14 blocks of 2 ** 18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_2
-// 4. Next 16 rows: Row k contains -P_shift + k * P_3
+// 2. Next 14 blocks of 2 ** 18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_2
+// 3. Next 256 rows: Row k + (16 * l) contains 29 * P_shift + k * P_1 + l * P_3
 #[derive(Clone, Debug, Default)]
 pub struct PedersenPoints {}
 
+// TODO: Take from stwo-cairo-common.
 pub const BITS_PER_WINDOW: usize = 18;
 pub const NUM_WINDOWS: usize = 252usize.div_ceil(BITS_PER_WINDOW);
 pub const ROWS_PER_WINDOW: usize = 1 << BITS_PER_WINDOW;
