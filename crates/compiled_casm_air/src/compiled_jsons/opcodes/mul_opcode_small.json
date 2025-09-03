@@ -150,7 +150,7 @@
     "carry_3_col34",
     "carry_5_col35"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyInstruction",
       "Use"
@@ -200,6 +200,12 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "VerifyInstruction": "Multiplicity",
+    "RangeCheck_11": "Multiplicity"
+  },
   "inline_calls": {
     "decode_instruction_4b8cf": [
       [
@@ -1855,7 +1861,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_instruction",
+        "relation_name": "VerifyInstruction",
         "input": {
           "Tuple": [
             {
@@ -2533,7 +2539,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -2765,7 +2771,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "dst_id_col14"
         }
@@ -3151,7 +3157,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -3299,7 +3305,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op0_id_col23"
         }
@@ -3709,7 +3715,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -3857,7 +3863,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op1_id_col28"
         }
@@ -4334,7 +4340,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {
@@ -4556,7 +4562,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {
@@ -4724,7 +4730,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {

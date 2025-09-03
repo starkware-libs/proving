@@ -7,6 +7,7 @@ use compiled_casm_air::compiled_structs::{
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
 use genco::quote;
+use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
@@ -84,12 +85,16 @@ impl RustProverGen {
             quote! {}
         };
 
-        let new_code = match self.mode {
+        let new_and_is_empty_code = match self.mode {
             Mode::PackedInputs => quote! {
                 pub fn new() -> Self {
                     Self {
                         packed_inputs: vec![],
                     }
+                }
+
+                pub fn is_empty(&self) -> bool {
+                    self.packed_inputs.is_empty()
                 }
             },
             Mode::Inputs => quote! {
@@ -115,7 +120,7 @@ impl RustProverGen {
         quote! {
             $(default_mult_code)
             impl ClaimGenerator {
-                $(new_code)
+                $(new_and_is_empty_code)
 
                 pub fn write_trace(
                     $(self_param)
@@ -184,8 +189,7 @@ impl RustProverGen {
             .add_input_mults
             .iter()
             .map(|(component_name, ..)| {
-                let component_name = component_name.to_lowercase();
-                quote! { sub_component_inputs.$(&component_name).iter().for_each(|inputs| {
+                quote! { sub_component_inputs.$(component_name).iter().for_each(|inputs| {
                     $component_name$STATE_SUFFIX.add_packed_inputs(inputs);
                 });}
             })
@@ -393,8 +397,8 @@ impl RustProverGen {
         let mut offset = 0;
         let mut add_inputs_offsets = HashMap::new();
         for deduction in &self.lists.deductions {
-            if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
-                add_inputs_offsets.insert(fn_name, 0);
+            if let TraceGenStep::LookupAddInput { relation_name, .. } = deduction {
+                add_inputs_offsets.insert(relation_name, 0);
             }
         }
         for ExternalState {
@@ -463,11 +467,14 @@ impl RustProverGen {
                     write_trace_body.extend(collect_felts);
                     *offset += 1;
                 }
-                TraceGenStep::LookupAddInput { fn_name, input } => {
-                    let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
+                TraceGenStep::LookupAddInput {
+                    relation_name,
+                    input,
+                } => {
+                    let offset = add_inputs_offsets.get_mut(relation_name).unwrap();
                     if input != &CompiledAirVar::Tuple(vec![]) {
                         write_trace_body.extend(quote! {
-                            *sub_component_inputs.$(fn_name)[$(offset.to_string())] =
+                            *sub_component_inputs.$(relation_name.to_case(Case::Snake))[$(offset.to_string())] =
                                 $(simd_parse_air_var(input, const_names));
 
                         });
@@ -500,19 +507,25 @@ impl RustProverGen {
 }
 
 const STATE_SUFFIX: &str = "_state";
-fn write_trace_params(context: &[String]) -> rust::Tokens {
+fn write_trace_params(context: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut params = rust::Tokens::new();
-    for fn_name in context {
-        params.extend(quote! {
-            $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,$("\n")
-        });
+    for (fn_name, padding_type) in context {
+        if padding_type == &PaddingType::Multiplicity {
+            params.extend(quote! {
+                $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,$("\n")
+            });
+        } else {
+            params.extend(quote! {
+                $(fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,$("\n")
+            });
+        }
     }
     params
 }
 
-fn write_trace_args(context: &[String]) -> rust::Tokens {
+fn write_trace_args(context: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut args = rust::Tokens::new();
-    for fn_name in context {
+    for (fn_name, _) in context {
         args.extend(quote! {
             $(fn_name)$STATE_SUFFIX,
         });
@@ -542,8 +555,13 @@ fn simd_parse_air_var(
         CompiledAirVar::Var(_, id) => id.clone(),
         CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(id, args) => {
-            // TODO(Ohad): get that information from the air infra.
-            if id.starts_with("Memory") {
+            // TODO(AnatG): get that information from the air infra.
+            let functions_requiring_state_object = [
+                "BlakeRound::deduce_output",
+                "MemoryAddressToId::deduce_output",
+                "MemoryIdToBig::deduce_output",
+            ];
+            if functions_requiring_state_object.contains(&id.as_str()) {
                 let mut id = id.to_case(Case::Snake);
                 id = id.replace("::", &format!("{STATE_SUFFIX}."));
                 let input = simd_parse_air_var(&args[0], constant_names);

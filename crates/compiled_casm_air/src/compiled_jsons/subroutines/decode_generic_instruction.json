@@ -224,12 +224,17 @@
     "opcode_ret_col16",
     "opcode_assert_eq_col17"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyInstruction",
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "VerifyInstruction": "Multiplicity"
+  },
   "inline_calls": {
     "decode_instruction_df7a6": [
       [
@@ -2930,7 +2935,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_instruction",
+        "relation_name": "VerifyInstruction",
         "input": {
           "Tuple": [
             {

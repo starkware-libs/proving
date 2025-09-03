@@ -40,7 +40,7 @@
     "value_limb_9_col10",
     "value_limb_10_col11"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "MemoryAddressToId",
       "Use"
@@ -54,6 +54,11 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "RangeCheck_6": "Multiplicity"
+  },
   "inline_calls": {
     "read_positive_num_bits_96": [
       [
@@ -198,7 +203,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -498,7 +503,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_6",
+        "relation_name": "RangeCheck_6",
         "input": {
           "Array": [
             {
@@ -522,7 +527,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "value_id_col0"
         }

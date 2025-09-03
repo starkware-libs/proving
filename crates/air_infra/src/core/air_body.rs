@@ -8,6 +8,7 @@ use compiled_casm_air::compiled_structs::{
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
+use convert_case::{Case, Casing};
 use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
@@ -33,7 +34,7 @@ pub struct Call {
 // Computes the output of the component into an intermediate variable named <output_name>.
 #[derive(Clone, Debug)]
 pub struct LookupCall {
-    pub air_fn_name: String,
+    pub relation_name: String,
     pub method_name: String,
     pub ext_input: Option<AirVarImpl>,
     pub input: Option<AirVarImpl>,
@@ -73,7 +74,7 @@ pub enum AirBodyComponent {
 
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
-        air_fn_name: String,
+        relation_name: String,
         ext_input: Option<AirVarImpl>,
         input: Option<AirVarImpl>,
     },
@@ -349,12 +350,12 @@ impl AirBody {
                     }));
                 }
                 AirBodyComponent::LookupAddInput {
-                    air_fn_name,
+                    relation_name,
                     ext_input,
                     input,
                 } => {
                     deductions.push(TraceGenStep::LookupAddInput {
-                        fn_name: air_fn_name,
+                        relation_name,
                         input: AirFnEntry::join_inputs(ext_input, input)
                             .compile(CompileFor::Deductions),
                     });
@@ -467,14 +468,13 @@ impl AirBody {
         constraints
     }
 
-    // Returns the names of the lookup relations used or yielded by the air function, and the number
-    // of terms per relation.
-    pub fn get_lookup_names(&self) -> Vec<(String, UseOrYield)> {
+    // Returns the names of the lookup relations used or yielded by the air function.
+    pub fn get_constraint_lookups(&self) -> Vec<(String, UseOrYield)> {
         let mut lookup_calls = vec![];
         for component in &self.0 {
             match component {
                 AirBodyComponent::Call(f) => {
-                    lookup_calls.extend(f.air_body.get_lookup_names());
+                    lookup_calls.extend(f.air_body.get_constraint_lookups());
                 }
                 AirBodyComponent::LookupTerm {
                     relation_name,
@@ -482,6 +482,24 @@ impl AirBody {
                     ..
                 } => {
                     lookup_calls.push((relation_name.clone(), *use_or_yield));
+                }
+                _ => (),
+            }
+        }
+        lookup_calls
+    }
+
+    // Returns the names of the lookup relations called by the air function.
+    pub fn get_deduction_lookups(&self) -> IndexSet<String> {
+        let mut lookup_calls = IndexSet::new();
+        for component in &self.0 {
+            match component {
+                AirBodyComponent::Call(f) => {
+                    lookup_calls.extend(f.air_body.get_deduction_lookups());
+                }
+                AirBodyComponent::LookupCall(LookupCall { relation_name, .. })
+                | AirBodyComponent::LookupAddInput { relation_name, .. } => {
+                    lookup_calls.insert(relation_name.clone());
                 }
                 _ => (),
             }
@@ -503,8 +521,10 @@ impl AirBody {
     pub fn get_lookup_n_rows(&self) -> IndexMap<String, usize> {
         let mut lookup_rows = IndexMap::new();
         self.0.iter().for_each(|comp| {
-            if let AirBodyComponent::LookupAddInput { air_fn_name, .. } = comp {
-                *lookup_rows.entry(air_fn_name.clone()).or_insert(0) += 1;
+            if let AirBodyComponent::LookupAddInput { relation_name, .. } = comp {
+                *lookup_rows
+                    .entry(relation_name.to_case(Case::Snake))
+                    .or_insert(0) += 1;
             }
             if let AirBodyComponent::Call(call) = comp {
                 for (name, cnt) in call.air_body.get_lookup_n_rows() {

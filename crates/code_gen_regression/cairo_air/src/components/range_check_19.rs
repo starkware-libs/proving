@@ -54,7 +54,7 @@ impl FrameworkEval for Eval {
         eval.add_to_relation(RelationEntry::new(
             &self.range_check_19_lookup_elements,
             -E::EF::from(multiplicity),
-            &[seq.clone()],
+            std::slice::from_ref(&seq),
         ));
 
         eval.finalize_logup_in_pairs();

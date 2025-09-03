@@ -17,6 +17,10 @@ impl ClaimGenerator {
         }
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.packed_inputs.is_empty()
+    }
+
     pub fn write_trace(
         mut self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,

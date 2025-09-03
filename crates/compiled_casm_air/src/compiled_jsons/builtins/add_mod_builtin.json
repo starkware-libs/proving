@@ -295,7 +295,7 @@
     "carry_12_col265",
     "carry_13_col266"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "MemoryAddressToId",
       "Use"
@@ -509,6 +509,10 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity"
+  },
   "inline_calls": {
     "mod_utils": [
       [
@@ -4659,7 +4663,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -4938,7 +4942,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "p0_id_col1"
         }
@@ -5309,7 +5313,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -5610,7 +5614,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "p1_id_col13"
         }
@@ -5981,7 +5985,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6282,7 +6286,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "p2_id_col25"
         }
@@ -6653,7 +6657,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6954,7 +6958,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "p3_id_col37"
         }
@@ -7325,7 +7329,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -7539,7 +7543,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "values_ptr_id_col49"
         }
@@ -7952,7 +7956,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -8166,7 +8170,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "offsets_ptr_id_col55"
         }
@@ -8579,7 +8583,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -8793,7 +8797,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "offsets_ptr_prev_id_col61"
         }
@@ -9206,7 +9210,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -9420,7 +9424,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "n_id_col67"
         }
@@ -9833,7 +9837,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -10047,7 +10051,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "n_prev_id_col73"
         }
@@ -10556,7 +10560,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -10641,7 +10645,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -10715,7 +10719,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -10811,7 +10815,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -10907,7 +10911,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -11046,7 +11050,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -11499,7 +11503,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "offsets_a_id_col84"
         }
@@ -12052,7 +12056,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -12527,7 +12531,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "offsets_b_id_col92"
         }
@@ -13080,7 +13084,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -13555,7 +13559,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "offsets_c_id_col100"
         }
@@ -14120,7 +14124,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -14421,7 +14425,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "a0_id_col108"
         }
@@ -14803,7 +14807,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -15126,7 +15130,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "a1_id_col120"
         }
@@ -15508,7 +15512,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -15831,7 +15835,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "a2_id_col132"
         }
@@ -16213,7 +16217,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -16536,7 +16540,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "a3_id_col144"
         }
@@ -16907,7 +16911,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -17208,7 +17212,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "b0_id_col156"
         }
@@ -17590,7 +17594,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -17913,7 +17917,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "b1_id_col168"
         }
@@ -18295,7 +18299,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -18618,7 +18622,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "b2_id_col180"
         }
@@ -19000,7 +19004,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -19323,7 +19327,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "b3_id_col192"
         }
@@ -19694,7 +19698,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -19995,7 +19999,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "c0_id_col204"
         }
@@ -20377,7 +20381,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -20700,7 +20704,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "c1_id_col216"
         }
@@ -21082,7 +21086,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -21405,7 +21409,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "c2_id_col228"
         }
@@ -21787,7 +21791,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -22110,7 +22114,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "c3_id_col240"
         }

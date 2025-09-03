@@ -471,7 +471,7 @@
     "ms_limb_high_col28",
     "id_col29"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_5_4",
       "Use"
@@ -485,6 +485,11 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "RangeCheck_5_4": "Multiplicity"
+  },
   "inline_calls": {
     "mem_verify": [
       [
@@ -1369,7 +1374,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_5_4",
+        "relation_name": "RangeCheck_5_4",
         "input": {
           "Array": [
             {
@@ -1431,7 +1436,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -1460,7 +1465,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "id_col29"
         }

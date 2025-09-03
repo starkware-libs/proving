@@ -52,7 +52,7 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         if !is_const_size_component(air_fn) {
             let uses = air_fn
-                .lookup_names
+                .constraint_lookups
                 .iter()
                 .filter(|(_, use_or_yield)| matches!(use_or_yield, UseOrYield::Use))
                 .collect::<Vec<_>>();
@@ -144,7 +144,7 @@ pub fn is_chain(air_fn: &CompiledAirFn) -> bool {
 pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {
     const QM31_EXTENSION_DEGREE: usize = 4;
 
-    let n_lookup_terms = air_fn.lookup_names.len();
+    let n_lookup_terms = air_fn.constraint_lookups.len();
     let n_batches = n_lookup_terms.div_ceil(2);
 
     QM31_EXTENSION_DEGREE * n_batches

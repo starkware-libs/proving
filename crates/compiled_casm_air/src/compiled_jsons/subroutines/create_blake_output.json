@@ -142,7 +142,7 @@
     "triple_xor_32_output_limb_0_col14",
     "triple_xor_32_output_limb_1_col15"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "TripleXor32",
       "Use"
@@ -176,6 +176,9 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "TripleXor32": "Enabler"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -584,7 +587,7 @@
   "deductions": [
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -808,7 +811,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -1032,7 +1035,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -1256,7 +1259,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -1480,7 +1483,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -1704,7 +1707,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -1928,7 +1931,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -2152,7 +2155,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {

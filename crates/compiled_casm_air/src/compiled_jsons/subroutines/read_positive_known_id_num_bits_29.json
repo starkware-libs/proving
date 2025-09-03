@@ -199,12 +199,15 @@
     "value_limb_3_col3",
     "partial_limb_msb_col4"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "MemoryIdToBig",
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryIdToBig": "Multiplicity"
+  },
   "inline_calls": {
     "range_check_last_limb_bits_in_ms_limb_2": [
       [],
@@ -574,7 +577,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "Var": [
             "M31",

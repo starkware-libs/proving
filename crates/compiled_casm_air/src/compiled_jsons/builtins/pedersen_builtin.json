@@ -379,7 +379,7 @@
     "partial_ec_mul_output_limb_70_col349",
     "pedersen_result_id_col350"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_5_4",
       "Use"
@@ -461,6 +461,13 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "RangeCheck_5_4": "Multiplicity",
+    "RangeCheck_8": "Multiplicity",
+    "PartialEcMul": "Enabler"
+  },
   "inline_calls": {
     "mem_verify": [
       [
@@ -4645,7 +4652,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_5_4",
+        "relation_name": "RangeCheck_5_4",
         "input": {
           "Array": [
             {
@@ -4707,7 +4714,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -4736,7 +4743,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "pedersen_a_id_col29"
         }
@@ -5988,7 +5995,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_5_4",
+        "relation_name": "RangeCheck_5_4",
         "input": {
           "Array": [
             {
@@ -6061,7 +6068,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6112,7 +6119,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "pedersen_b_id_col59"
         }
@@ -6759,7 +6766,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "relation_name": "RangeCheck_8",
         "input": {
           "Array": [
             {
@@ -6862,7 +6869,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "relation_name": "RangeCheck_8",
         "input": {
           "Array": [
             {
@@ -7014,7 +7021,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "relation_name": "RangeCheck_8",
         "input": {
           "Array": [
             {
@@ -7117,7 +7124,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_8",
+        "relation_name": "RangeCheck_8",
         "input": {
           "Array": [
             {
@@ -7835,7 +7842,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -8561,7 +8568,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -8839,7 +8846,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -9117,7 +9124,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -9395,7 +9402,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -9673,7 +9680,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -9951,7 +9958,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -10229,7 +10236,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -10507,7 +10514,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -10785,7 +10792,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -11063,7 +11070,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -11341,7 +11348,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -11619,7 +11626,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -11897,7 +11904,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -14002,7 +14009,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -16328,7 +16335,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -17054,7 +17061,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -17332,7 +17339,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -17610,7 +17617,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -17888,7 +17895,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -18166,7 +18173,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -18444,7 +18451,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -18722,7 +18729,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -19000,7 +19007,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -19278,7 +19285,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -19556,7 +19563,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -19834,7 +19841,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -20112,7 +20119,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -20390,7 +20397,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -22495,7 +22502,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "partial_ec_mul",
+        "relation_name": "PartialEcMul",
         "input": {
           "Tuple": [
             {
@@ -24340,7 +24347,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -24391,7 +24398,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "pedersen_result_id_col350"
         }

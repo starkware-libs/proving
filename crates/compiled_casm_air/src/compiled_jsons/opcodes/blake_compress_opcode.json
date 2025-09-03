@@ -272,7 +272,7 @@
     "high_5_ms_bits_col172",
     "new_state_7_id_col173"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyInstruction",
       "Use"
@@ -570,6 +570,15 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "VerifyInstruction": "Multiplicity",
+    "RangeCheck_7_2_5": "Multiplicity",
+    "VerifyBitwiseXor_8": "Multiplicity",
+    "BlakeRound": "Enabler",
+    "TripleXor32": "Enabler"
+  },
   "inline_calls": {
     "create_blake_output": [
       [
@@ -3187,7 +3196,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_instruction",
+        "relation_name": "VerifyInstruction",
         "input": {
           "Tuple": [
             {
@@ -3632,7 +3641,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -3840,7 +3849,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op0_id_col13"
         }
@@ -4279,7 +4288,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -4487,7 +4496,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op1_id_col20"
         }
@@ -4886,7 +4895,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "State": "input_ap_col1"
         }
@@ -5072,7 +5081,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "ap_id_col26"
         }
@@ -5890,7 +5899,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -6004,7 +6013,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6049,7 +6058,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "dst_id_col38"
         }
@@ -6955,7 +6964,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -7061,7 +7070,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -7090,7 +7099,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_0_id_col44"
         }
@@ -7768,7 +7777,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -7885,7 +7894,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -7936,7 +7945,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_1_id_col50"
         }
@@ -8614,7 +8623,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -8731,7 +8740,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -8782,7 +8791,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_2_id_col56"
         }
@@ -9460,7 +9469,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -9577,7 +9586,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -9628,7 +9637,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_3_id_col62"
         }
@@ -10306,7 +10315,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -10423,7 +10432,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -10474,7 +10483,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_4_id_col68"
         }
@@ -11152,7 +11161,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -11269,7 +11278,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -11320,7 +11329,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_5_id_col74"
         }
@@ -11998,7 +12007,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -12115,7 +12124,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -12166,7 +12175,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_6_id_col80"
         }
@@ -12844,7 +12853,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -12961,7 +12970,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -13012,7 +13021,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "state_7_id_col86"
         }
@@ -13489,7 +13498,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -13581,7 +13590,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -13670,7 +13679,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -13762,7 +13771,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
+        "relation_name": "VerifyBitwiseXor_8",
         "input": {
           "Array": [
             {
@@ -14308,7 +14317,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -14580,7 +14589,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -14852,7 +14861,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -15124,7 +15133,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -15396,7 +15405,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -15668,7 +15677,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -15940,7 +15949,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -16212,7 +16221,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -16484,7 +16493,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -16756,7 +16765,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "blake_round",
+        "relation_name": "BlakeRound",
         "input": {
           "Tuple": [
             {
@@ -17799,7 +17808,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -17933,7 +17942,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -18067,7 +18076,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -18201,7 +18210,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -18335,7 +18344,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -18469,7 +18478,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -18603,7 +18612,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -18737,7 +18746,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "triple_xor_32",
+        "relation_name": "TripleXor32",
         "input": {
           "Array": [
             {
@@ -19056,7 +19065,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -19162,7 +19171,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "Var": [
             "M31",
@@ -19191,7 +19200,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_0_id_col145"
         }
@@ -19570,7 +19579,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -19687,7 +19696,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -19738,7 +19747,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_1_id_col149"
         }
@@ -20117,7 +20126,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -20234,7 +20243,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -20285,7 +20294,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_2_id_col153"
         }
@@ -20664,7 +20673,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -20781,7 +20790,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -20832,7 +20841,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_3_id_col157"
         }
@@ -21211,7 +21220,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -21328,7 +21337,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -21379,7 +21388,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_4_id_col161"
         }
@@ -21758,7 +21767,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -21875,7 +21884,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -21926,7 +21935,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_5_id_col165"
         }
@@ -22305,7 +22314,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -22422,7 +22431,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -22473,7 +22482,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_6_id_col169"
         }
@@ -22852,7 +22861,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -22969,7 +22978,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -23020,7 +23029,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "new_state_7_id_col173"
         }

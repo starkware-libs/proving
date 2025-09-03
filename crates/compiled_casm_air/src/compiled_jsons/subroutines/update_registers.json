@@ -164,7 +164,7 @@
     "range_check_ap_bot11bits_col14",
     "next_fp_col15"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_18",
       "Use"
@@ -174,6 +174,10 @@
       "Use"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_18": "Multiplicity",
+    "RangeCheck_11": "Multiplicity"
+  },
   "inline_calls": {
     "cond_felt_252_as_addr": [
       [],
@@ -5166,7 +5170,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -5227,7 +5231,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_11",
+        "relation_name": "RangeCheck_11",
         "input": {
           "Array": [
             {

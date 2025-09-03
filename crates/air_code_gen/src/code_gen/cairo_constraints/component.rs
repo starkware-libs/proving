@@ -15,7 +15,7 @@ use super::utils::{
 
 pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     let lookups = air_fn
-        .lookup_names
+        .constraint_lookups
         .iter()
         .enumerate()
         .map(|(i, (relation, _))| format!("{}_sum_{i}", relation.to_case(Case::Snake)))
@@ -31,7 +31,7 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
         pub struct Component {
             pub claim: Claim,
             pub interaction_claim: InteractionClaim,
-            $(air_fn.lookup_names.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
+            $(air_fn.constraint_lookups.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
                 format!(
                     "pub {}_lookup_elements: crate::{relation}Elements,", relation.to_case(Case::Snake)
                 )
@@ -50,7 +50,7 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
                 Component {
                     claim: *claim,
                     interaction_claim: *interaction_claim,
-                    $(air_fn.lookup_names.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
+                    $(air_fn.constraint_lookups.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
                         format!(
                             "{}_lookup_elements: interaction_elements.{}.clone(),", relation.to_case(Case::Snake), get_interaction_name(relation.to_case(Case::Snake))
                         )
@@ -138,7 +138,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     // Relation sums
-    for (i, (relation, _)) in air_fn.lookup_names.iter().enumerate() {
+    for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
         code.append(quote! {
             let mut $(relation.to_case(Case::Snake))_sum_$(i): QM31 = Zero::zero();
         });

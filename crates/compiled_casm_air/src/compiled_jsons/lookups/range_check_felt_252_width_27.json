@@ -47,7 +47,7 @@
     "limb_7_low_part_col17",
     "limb_8_high_part_col18"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "RangeCheck_9_9",
       "Use"
@@ -109,6 +109,15 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "RangeCheck_9_9": "Multiplicity",
+    "RangeCheck_18": "Multiplicity",
+    "RangeCheck_9_9_B": "Multiplicity",
+    "RangeCheck_18_B": "Multiplicity",
+    "RangeCheck_9_9_C": "Multiplicity",
+    "RangeCheck_9_9_D": "Multiplicity",
+    "RangeCheck_9_9_E": "Multiplicity"
+  },
   "inline_calls": {},
   "public_params": [],
   "external_states": [],
@@ -766,7 +775,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9",
+        "relation_name": "RangeCheck_9_9",
         "input": {
           "Array": [
             {
@@ -795,7 +804,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -856,7 +865,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -959,7 +968,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_b",
+        "relation_name": "RangeCheck_9_9_B",
         "input": {
           "Array": [
             {
@@ -988,7 +997,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18_b",
+        "relation_name": "RangeCheck_18_B",
         "input": {
           "Array": [
             {
@@ -1049,7 +1058,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -1152,7 +1161,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_c",
+        "relation_name": "RangeCheck_9_9_C",
         "input": {
           "Array": [
             {
@@ -1181,7 +1190,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -1242,7 +1251,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -1345,7 +1354,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_d",
+        "relation_name": "RangeCheck_9_9_D",
         "input": {
           "Array": [
             {
@@ -1374,7 +1383,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18_b",
+        "relation_name": "RangeCheck_18_B",
         "input": {
           "Array": [
             {
@@ -1435,7 +1444,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {
@@ -1517,7 +1526,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_9_9_e",
+        "relation_name": "RangeCheck_9_9_E",
         "input": {
           "Array": [
             {
@@ -1546,7 +1555,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_18",
+        "relation_name": "RangeCheck_18",
         "input": {
           "Array": [
             {

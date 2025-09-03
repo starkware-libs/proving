@@ -204,7 +204,7 @@
     "next_pc_limb_3_col12",
     "partial_limb_msb_col13"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyInstruction",
       "Use"
@@ -226,6 +226,11 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "VerifyInstruction": "Multiplicity"
+  },
   "inline_calls": {
     "decode_instruction_43e1c": [
       [
@@ -1083,7 +1088,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_instruction",
+        "relation_name": "VerifyInstruction",
         "input": {
           "Tuple": [
             {
@@ -1496,7 +1501,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -1704,7 +1709,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "next_pc_id_col8"
         }

@@ -4,7 +4,7 @@ use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::{TraceType, UseOrYield};
+use compiled_casm_air::compiled_structs::{PaddingType, TraceType, UseOrYield};
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, STATE_INPUT_VAR, STATE_OUTPUT_VAR_SUFFIX};
@@ -101,6 +101,20 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Inline
+    }
+
+    fn padding_type(&self) -> PaddingType {
+        match self.trace_type() {
+            TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
+            TraceType::Memory => PaddingType::Multiplicity,
+            TraceType::Component if self.name() == "verify_instruction" => {
+                PaddingType::Multiplicity
+            }
+            TraceType::Component if !<<Self as AirFn>::ExtIn as ExtTable>::T::is_empty() => {
+                PaddingType::Multiplicity
+            }
+            _ => PaddingType::Enabler,
+        }
     }
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
@@ -691,7 +705,7 @@ impl AirBuilder {
         let input_option = (!I::is_empty()).then(|| input.clone().into());
 
         self.air_body.push(AirBodyComponent::LookupAddInput {
-            air_fn_name: air_fn.name(),
+            relation_name: air_fn.relation_name().expect("Relation name not set"),
             ext_input: ext_input_option.clone(),
             input: input_option.clone(),
         });
@@ -715,7 +729,7 @@ impl AirBuilder {
 
         if !O::is_empty() {
             self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-                air_fn_name: air_fn.name(),
+                relation_name: air_fn.relation_name().expect("Relation name not set"),
                 method_name: air_fn
                     .deduce_output()
                     .expect("No deduce_output method name"),
@@ -744,7 +758,7 @@ impl AirBuilder {
         let mut value = V::new(value_name.clone(), None);
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-            air_fn_name: memory.name(),
+            relation_name: memory.relation_name().expect("Relation name not found"),
             method_name: format!(
                 "{}::deduce_output",
                 memory.relation_name().expect("Relation name not found")
@@ -797,7 +811,7 @@ impl AirBuilder {
         }
 
         self.air_body.push(AirBodyComponent::LookupAddInput {
-            air_fn_name: memory.name(),
+            relation_name: memory.relation_name().expect("Relation name not found"),
             ext_input: Some(key.clone().into()),
             input: None,
         });

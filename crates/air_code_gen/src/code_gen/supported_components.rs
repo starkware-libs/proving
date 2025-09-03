@@ -80,15 +80,10 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
 fn get_manual_witness_components() -> Vec<String> {
     vec![
         "blake_round".into(),
-        "blake_compress_opcode".into(),
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         "cube_252".into(),
-        "poseidon_3_partial_rounds_chain".into(),
-        "poseidon_full_round_chain".into(),
-        "poseidon_builtin".into(),
         "partial_ec_mul".into(),
-        "pedersen_builtin".into(),
         "verify_instruction".into(),
         // Lookups to pre-processed tables
         "blake_round_sigma".into(),

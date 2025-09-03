@@ -257,6 +257,19 @@ pub fn parse_lookup_constraint(
         .iter()
         .map(|felt| parse_eval_constraint(lists, felt, constant_defs))
         .collect_vec();
+    // TODO(AnatG): Assumes how parse_eval_constraint formats the output. Find a better way.
+    let lookup_values_str = if lookup_values.len() == 1 {
+        if lookup_values[0].ends_with(".clone()") {
+            format!(
+                "std::slice::from_ref(&{})",
+                lookup_values[0].replace(".clone()", "")
+            )
+        } else {
+            format!("std::slice::from_ref(&{})", lookup_values[0])
+        }
+    } else {
+        format!("&[{}]", lookup_values.join(", "))
+    };
     let sign = match use_or_yield {
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
@@ -271,13 +284,13 @@ pub fn parse_lookup_constraint(
         quote! {
             eval.add_to_relation(RelationEntry::new(
                 $(relation_name.to_case(Case::Snake))_lookup_elements,
-                $(sign)$numerator, &[$(lookup_values.join(","))]));
+                $(sign)$numerator, $(lookup_values_str)));
         }
     } else {
         quote! {
             eval.add_to_relation(RelationEntry::new(&self.
                 $(relation_name.to_case(Case::Snake))_lookup_elements,
-                $(sign)$numerator, &[$(lookup_values.join(","))]));
+                $(sign)$numerator, $(lookup_values_str)));
         }
     }
 }

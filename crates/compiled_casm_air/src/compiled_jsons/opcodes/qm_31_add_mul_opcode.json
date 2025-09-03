@@ -186,7 +186,7 @@
     "op1_delta_ab_inv_col70",
     "op1_delta_cd_inv_col71"
   ],
-  "lookup_names": [
+  "constraint_lookups": [
     [
       "VerifyInstruction",
       "Use"
@@ -236,6 +236,12 @@
       "Yield"
     ]
   ],
+  "deduction_lookups": {
+    "MemoryAddressToId": "Multiplicity",
+    "MemoryIdToBig": "Multiplicity",
+    "VerifyInstruction": "Multiplicity",
+    "RangeCheck_4_4_4_4": "Multiplicity"
+  },
   "inline_calls": {
     "decode_instruction_3802d": [
       [
@@ -2714,7 +2720,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "verify_instruction",
+        "relation_name": "VerifyInstruction",
         "input": {
           "Tuple": [
             {
@@ -3454,7 +3460,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -3854,7 +3860,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "dst_id_col15"
         }
@@ -4151,7 +4157,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -4672,7 +4678,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -5072,7 +5078,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op0_id_col34"
         }
@@ -5369,7 +5375,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -5890,7 +5896,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_address_to_id",
+        "relation_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -6290,7 +6296,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "memory_id_to_big",
+        "relation_name": "MemoryIdToBig",
         "input": {
           "State": "op1_id_col53"
         }
@@ -6587,7 +6593,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_4_4_4_4",
+        "relation_name": "RangeCheck_4_4_4_4",
         "input": {
           "Array": [
             {
