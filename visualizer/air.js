@@ -56,7 +56,7 @@ class IntermediateStep {
     }
 }
 
-class CallStep {
+export class CallStep {
     constructor(json, air) {
         this.air = air
         this.air_name = remove_suffix(json.var.StaticCall[0], "::evaluate")
@@ -113,7 +113,13 @@ class CallStep {
     }
 }
 
-class LookupTermStep {
+export class LookupTermStep {
+    /** @type {string} */
+    relation_name
+    /** @type {"Use" | "Yield"} */
+    direction
+    /** @type {import("./expr.js").Expr[]} */
+    felts
     constructor(json, air) {
         this.relation_name = json.relation_name
         this.direction = json.use_or_yield
@@ -192,6 +198,9 @@ export class Air {
     // ordering.
     var_order
 
+    // The name of the output relation for this AIR, if any
+    relation_name
+
     var_groups
     group_order_by_type
     constraints
@@ -205,6 +214,7 @@ export class Air {
         this.group_order_by_type = new Map()
         this.var_order = []
         this.id = json.name
+        this.relation_name = json.relation_name
 
         this.parse_state_and_input(json)
         this.collect_intermediate_vars(json)

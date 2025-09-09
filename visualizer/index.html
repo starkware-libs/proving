@@ -52,8 +52,49 @@
 .expanded-template {
     background: rgb(230, 249, 255)
 }
+
+.side-panel {
+    position: fixed;
+    padding: 5px;
+    width: 25vw;
+    height: 50vh;
+    top: 50px;
+    border: 1px solid black;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-content {
+    overflow: auto;
+}
+
+.panel-teaser {
+    writing-mode: vertical-lr;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.panel-closed {
+    left: calc( 100vw - 30px );
+}
+
+.panel-open {
+    right: 0px;
+}
+
+.panel-toggle-button {
+    color: darkgray;
+    font-weight: bold;
+    font-size: large;
+    cursor: pointer;
+}
+
+.body-class {
+    margin-right: 30px; /* Leave space for the closed panel */
+}
     </style>
-    <body>
+    <body class="body-class">
         <select id="component_select">
             <option value="">Choose a component</option>
         </select>
@@ -77,5 +118,11 @@
         <br/>
         <div class="panel-title">Output</div>
         <div class="code-font" id="output_panel"></div>
+
+        <div class="side-panel panel-closed" id="xrefs_panel">
+            <div id="xrefs_panel_toggle" class="panel-toggle-button">&lt;</div>
+            <div id="xrefs_panel_content" style="display: none;" class="panel-content"></div>
+            <div id="xrefs_panel_teaser" class="panel-teaser">References</div>
+        </div>
     </body>
 </html>
