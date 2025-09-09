@@ -2,7 +2,6 @@ use compiled_casm_air::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexSet;
 
 use super::super::utils::get_variable_name;
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
@@ -12,6 +11,7 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, make_preprocessed_column,
     n_logup_columns, QM31_N_TRACE_CELLTS,
 };
+use crate::code_gen::utils::constraint_relations;
 
 pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     let lookups = air_fn
@@ -31,7 +31,7 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
         pub struct Component {
             pub claim: Claim,
             pub interaction_claim: InteractionClaim,
-            $(air_fn.constraint_lookups.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
+            $(constraint_relations(air_fn).iter().map(|relation| {
                 format!(
                     "pub {}_lookup_elements: crate::{relation}Elements,", relation.to_case(Case::Snake)
                 )
@@ -50,7 +50,7 @@ pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust
                 Component {
                     claim: *claim,
                     interaction_claim: *interaction_claim,
-                    $(air_fn.constraint_lookups.iter().map(|(r, _)| r).collect::<IndexSet<_>>().iter().map(|relation| {
+                    $(constraint_relations(air_fn).iter().map(|relation| {
                         format!(
                             "{}_lookup_elements: interaction_elements.{}.clone(),", relation.to_case(Case::Snake), get_interaction_name(relation.to_case(Case::Snake))
                         )

@@ -8,14 +8,15 @@ use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexSet;
 use itertools::{chain, Itertools};
 
 use super::parse::{
     constraint_consts, is_const_size_component, parse_eval_constraint, parse_lookup_constraint,
     seek_consts,
 };
-use super::utils::{filter_lookup_terms, get_variable_name, replace_generics_with_turbofish};
+use super::utils::{
+    constraint_relations, filter_lookup_terms, get_variable_name, replace_generics_with_turbofish,
+};
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
 pub fn generate_toplevel_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
@@ -83,12 +84,7 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for relation in lists
-        .constraint_lookups
-        .iter()
-        .map(|(r, _)| r)
-        .collect::<IndexSet<_>>()
-    {
+    for relation in constraint_relations(lists) {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
         });
@@ -157,12 +153,7 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
             $(state_name): E::F,
         });
     }
-    for relation in lists
-        .constraint_lookups
-        .iter()
-        .map(|(r, _)| r)
-        .collect::<IndexSet<_>>()
-    {
+    for relation in constraint_relations(lists) {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
         });
@@ -218,7 +209,7 @@ fn generate_consts(lists: &CompiledAirFn) -> rust::Tokens {
     };
     if is_const_size_component(lists) {
         consts.extend(quote! {
-            pub const LOG_SIZE: u32 = 4; // Implement manually, set to 4 initially so LOG_SIZE - LOG_N_LANES >= 0.
+            pub const LOG_SIZE: u32 = $(lists.log_height.unwrap());
         });
     }
 
@@ -269,14 +260,9 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     });
 
     // Sub-components Lookup elements.
-    for relation in lists
-        .constraint_lookups
-        .iter()
-        .map(|(r, _)| r)
-        .collect::<IndexSet<_>>()
-    {
+    for relation in constraint_relations(lists) {
         members.append(quote! {
-            pub $(&relation.to_case(Case::Snake))_lookup_elements: relations::$(relation),
+            pub $(lookup_elements_field_name(&relation)): relations::$(relation),
         });
     }
 
@@ -287,6 +273,10 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
+fn lookup_elements_field_name(relation_name: &str) -> String {
+    format!("{}_lookup_elements", relation_name.to_case(Case::Snake))
+}
+
 fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let log_size = if is_const_size_component(lists) {
         quote! { LOG_SIZE }
@@ -294,7 +284,10 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         quote! { self.log_size }
     };
 
-    let mut channel_mix_code = quote! { channel.mix_u64($(&log_size) as u64); };
+    let mut channel_mix_code = quote! {};
+    if !is_const_size_component(lists) {
+        channel_mix_code.append(quote! { channel.mix_u64($(&log_size) as u64); });
+    }
     for public_param in &lists.public_params {
         channel_mix_code.append(quote! {
             channel.mix_u64(self.$(public_param.name()) as u64);
@@ -306,6 +299,13 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         pub struct Claim {
             $(get_claim_members(lists))
         }
+    };
+
+    // Clippy wants us to prefix the parameter name with a '_' iff it is unused
+    let channel_param = if is_const_size_component(lists) {
+        quote! { _channel }
+    } else {
+        quote! { channel }
     };
 
     let impl_code = quote! {
@@ -320,7 +320,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
                 ])
             }
              // TODO(Ohad): better mix_into.
-            pub fn mix_into(&self, channel: &mut impl Channel) {
+            pub fn mix_into(&self, $(channel_param): &mut impl Channel) {
                 $(channel_mix_code)
             }
         }
@@ -381,13 +381,13 @@ fn generate_component_type_def() -> rust::Tokens {
 }
 
 fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
     let log_size = if is_const_size_component(lists) {
         quote! { LOG_SIZE }
     } else {
         quote! { self.claim.log_size }
     };
-    code.append(quote! {
+
+    quote! {
         impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
                 $log_size
@@ -405,8 +405,7 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
                 $(generate_evaluate(lists))
             }
         }
-    });
-    code
+    }
 }
 
 fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {

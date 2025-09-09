@@ -234,9 +234,7 @@ fn gen_evaluate_call(
 
 /// Returns true if the component is of const size.
 pub fn is_const_size_component(lists: &CompiledAirFn) -> bool {
-    // Assuming the components that have multiplicity column are always of const size.
-    // TODO(Gali): Support non const size components with multiplicity column.
-    lists.padding_type == PaddingType::Multiplicity
+    lists.log_height.is_some()
 }
 
 /// Checks if the relation should be masked, meaning it's numerator should be altered.
