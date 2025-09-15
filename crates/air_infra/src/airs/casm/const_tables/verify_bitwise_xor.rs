@@ -3,6 +3,7 @@ use std::marker::PhantomData;
 
 use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -138,6 +139,12 @@ macro_rules! new_verify_bitwise_xor {
 
             fn args() -> Vec<String> {
                 vec![$b.to_string()]
+            }
+
+            fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+                Some(Box::new(
+                    stwo_cairo_common::preprocessed_columns::bitwise_xor::BitwiseXor::new($b, 0),
+                ))
             }
         }
     };

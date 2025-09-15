@@ -6,6 +6,7 @@ use compiled_casm_air::compiled_structs::{CompiledAirVar, ExternalState, TraceTy
 use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::air_body::*;
@@ -271,6 +272,14 @@ pub trait ExtTable: Default + Debug + Clone {
     // method. See for example Seq.
     fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
         Self::new()
+    }
+
+    /// For const-size tables, return a column of the table
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>>;
+
+    /// For const-size tables, return the log number of rows
+    fn log_size() -> Option<u32> {
+        Self::preprocessed_column().map(|ppc| ppc.log_size())
     }
 }
 
@@ -565,6 +574,10 @@ impl AirVar for () {
 impl ExtTable for () {
     const CONST_TRACE_ID: &'static str = "";
     type T = ();
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        None
+    }
 }
 
 // Examples + tests

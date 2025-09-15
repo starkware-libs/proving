@@ -1,8 +1,10 @@
 #[cfg(test)]
 use std::array::from_fn;
 
+use stwo_cairo_common::preprocessed_columns::poseidon::PoseidonRoundKeys;
 #[cfg(test)]
-use stwo_cairo_common::preprocessed_consts::poseidon::round_keys;
+use stwo_cairo_common::preprocessed_columns::poseidon_round_keys::round_keys;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 #[cfg(test)]
 use crate::const_felt252_width27;
@@ -33,5 +35,9 @@ impl ExtTable for Keys {
         }
 
         Self::T::default()
+    }
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        Some(Box::new(PoseidonRoundKeys::new(0)))
     }
 }

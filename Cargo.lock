@@ -1460,7 +1460,7 @@ dependencies = [
  "rfc6979",
  "sha2",
  "starknet-crypto-codegen",
- "starknet-curve",
+ "starknet-curve 0.4.2",
  "starknet-ff",
  "zeroize",
 ]
@@ -1471,7 +1471,7 @@ version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bbc159a1934c7be9761c237333a57febe060ace2bc9e3b337a59a37af206d19f"
 dependencies = [
- "starknet-curve",
+ "starknet-curve 0.4.2",
  "starknet-ff",
  "syn 2.0.104",
 ]
@@ -1483,6 +1483,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d1c383518bb312751e4be80f53e8644034aa99a0afb29d7ac41b89a997db875b"
 dependencies = [
  "starknet-ff",
+]
+
+[[package]]
+name = "starknet-curve"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bcde6bd74269b8161948190ace6cf069ef20ac6e79cd2ba09b320efa7500b6de"
+dependencies = [
+ "starknet-types-core",
 ]
 
 [[package]]
@@ -1562,23 +1571,26 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-common"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=a4d4d8e#a4d4d8e91fbcf309f281c7adb0ad076edce233f9"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=793b02d#793b02d71c58aa4b55c9b02e3eab366f632fd268"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
+ "rayon",
  "ruint",
  "serde",
  "serde_arrays",
+ "starknet-curve 0.5.1",
  "starknet-ff",
  "starknet-types-core",
  "stwo",
  "stwo-cairo-serialize",
+ "stwo-constraint-framework",
 ]
 
 [[package]]
 name = "stwo-cairo-serialize"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=a4d4d8e#a4d4d8e91fbcf309f281c7adb0ad076edce233f9"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=793b02d#793b02d71c58aa4b55c9b02e3eab366f632fd268"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1588,10 +1600,25 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize-derive"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=a4d4d8e#a4d4d8e91fbcf309f281c7adb0ad076edce233f9"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=793b02d#793b02d71c58aa4b55c9b02e3eab366f632fd268"
 dependencies = [
  "quote",
  "syn 2.0.104",
+]
+
+[[package]]
+name = "stwo-constraint-framework"
+version = "0.1.1"
+source = "git+https://github.com/starkware-libs/stwo?rev=d9176e6e22319370a8501f799829b920c0db2eac#d9176e6e22319370a8501f799829b920c0db2eac"
+dependencies = [
+ "hashbrown",
+ "itertools 0.12.1",
+ "num-traits",
+ "rand 0.8.5",
+ "rayon",
+ "std-shims",
+ "stwo",
+ "tracing",
 ]
 
 [[package]]

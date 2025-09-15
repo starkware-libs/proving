@@ -8,6 +8,8 @@ pub struct CompiledAirFn {
     pub name: String,
     pub relation_name: Option<String>,
     pub relation_size: Option<usize>,
+    // For constant-size component, the log_2 of the number of rows.
+    pub log_height: Option<u32>,
     pub description: String,
     pub instance_definition: String,
     pub r#type: TraceType,
