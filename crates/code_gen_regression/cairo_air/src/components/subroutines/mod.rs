@@ -31,3 +31,4 @@ pub mod read_positive_known_id_num_bits_99;
 pub mod read_positive_num_bits_99;
 pub mod mod_utils;
 pub mod mod_words_to_12_bit_array;
+pub mod mem_verify;

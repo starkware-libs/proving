@@ -11,7 +11,7 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
-use crate::code_gen::parse::is_const_size_component;
+use crate::code_gen::cairo_constraints::utils::is_const_size_component;
 use crate::code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
 use crate::code_gen::utils::{block_doc, get_variable_name, replace_generics_with_turbofish};
 

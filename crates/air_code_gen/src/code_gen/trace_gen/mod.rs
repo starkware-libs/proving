@@ -14,7 +14,7 @@ use interaction_claim_generator::interaction_prover_struct;
 use itertools::Itertools;
 
 use super::parse::seek_consts;
-use crate::code_gen::parse::is_const_size_component;
+use crate::code_gen::cairo_constraints::utils::is_const_size_component;
 use crate::code_gen::utils::filter_lookup_terms;
 
 pub enum Mode {

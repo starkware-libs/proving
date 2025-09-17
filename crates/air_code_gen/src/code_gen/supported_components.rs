@@ -7,7 +7,7 @@ pub enum AutogenCodeType {
     CAIRO,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct AutogenCodeFile {
     pub air_fn_name: String,
     /// Path of the source JSON

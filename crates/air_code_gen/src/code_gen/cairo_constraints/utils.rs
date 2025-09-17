@@ -1,38 +1,29 @@
-use std::fs;
-use std::path::Path;
-
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
 };
+use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;
 
 use super::component::generate_component_cairo_constraints_code;
 use super::iniline_evaluate::generate_inline_cairo_constraints_code;
-use crate::code_gen::utils::get_constraints_folder_path_suffix;
 
 pub const QM31_N_TRACE_CELLTS: usize = 4;
 
-pub fn dump_cairo_constraints_code(air_fn: &CompiledAirFn, path: &Path) {
-    let cairo_code = generate_cairo_constraints_code(air_fn);
-    let file_name = &format!("{}.cairo", air_fn.name);
-    let suffix = get_constraints_folder_path_suffix(&air_fn.r#type, file_name);
-    let path = path.join(suffix);
-    fs::write(
-        path.clone(),
-        cairo_code
-            .to_string()
-            .expect("Unable to covert cairo code to string"),
-    )
-    .expect("Unable to write cairo code to file");
-}
-
-pub fn generate_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_cairo_constraints_code(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+) -> rust::Tokens {
     if air_fn.r#type == TraceType::Inline {
         generate_inline_cairo_constraints_code(air_fn)
     } else {
-        generate_component_cairo_constraints_code(air_fn)
+        generate_component_cairo_constraints_code(
+            air_fn,
+            &sample_evaluation
+                .unwrap_or_else(|| panic!("Missing sample evaluation {}", air_fn.name))
+                .assignment,
+        )
     }
 }
 
@@ -151,11 +142,11 @@ pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {
 }
 
 pub fn make_preprocessed_column(
-    air_fn: &CompiledAirFn,
     external_state: &ExternalState,
+    log_size_expr: &rust::Tokens,
 ) -> rust::Tokens {
     if external_state.name == "Seq" {
-        quote! { PreprocessedColumn::Seq($(get_log_size(air_fn, false))) }
+        quote! { PreprocessedColumn::Seq($(log_size_expr)) }
     } else {
         let generic_param = external_state
             .generic_param

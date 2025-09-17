@@ -232,11 +232,6 @@ fn gen_evaluate_call(
     )
 }
 
-/// Returns true if the component is of const size.
-pub fn is_const_size_component(lists: &CompiledAirFn) -> bool {
-    lists.log_height.is_some()
-}
-
 /// Checks if the relation should be masked, meaning it's numerator should be altered.
 /// A relation is masked when and the relation name matches it's component's relation name (it's
 /// component must contain an enabler/multiplicity columns).
