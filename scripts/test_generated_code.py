@@ -12,6 +12,12 @@ import subprocess
 import re
 import os
 
+try:
+    import tomllib
+except ModuleNotFoundError:
+    # tomllib only exists in Python >= 3.11. If not found - use the bundled copy
+    import tomllib_py3_11 as tomllib
+
 def run_cmd(args, check_success=True):
     print(f"Running {args}")
     return_code = subprocess.call(args)
@@ -19,12 +25,27 @@ def run_cmd(args, check_success=True):
         assert return_code == 0, f"Command exited with {return_code}"
     return return_code
 
+def get_stwo_cairo_commit():
+    result = None
+    cargo_lock = tomllib.load(open(os.path.join(repository_root, "Cargo.lock"), "rb"))
+    for pkg in cargo_lock['package']:
+        if pkg['name'] != 'stwo-cairo-common':
+            continue
+        assert result is None, "Cannot get stwo-cairo revision: Multiple stwo-cairo entries in Cargo.lock"
+
+        match = re.match('git\\+https://github\\.com/starkware-libs/stwo-cairo\\.git\\?rev=[0-9a-f]+#([0-9a-f]{40})$', pkg['source'])
+        assert match is not None, f"Cannot get stwo-cairo revision: unsupported source '{pkg['source']}'"
+
+        result = match.group(1)
+    return result
+
+
 script_dir = os.path.abspath(os.path.dirname(__file__))
 repository_root = os.path.join(script_dir, "..")
 clone_dir = os.path.join(repository_root, "build", "stwo-cairo")
 
-stwo_cairo_commit = open(os.path.join(repository_root, "supported-stwo-cairo-rev")).read().strip()
-assert re.match("[0-9a-f]{40}", stwo_cairo_commit), "supported-stwo-cairo-rev doesn't contain a valid commit hash"
+
+stwo_cairo_commit = get_stwo_cairo_commit()
 print(f"Testing against stwo commit {stwo_cairo_commit}")
 
 if not os.path.exists(clone_dir):
