@@ -106,7 +106,7 @@ impl State {
         self.row.iter().map(|cell| cell.0.clone()).collect()
     }
 
-    pub(super) fn get_cell_name(index: usize, desc: &Option<String>) -> String {
+    pub fn get_cell_name(index: usize, desc: &Option<String>) -> String {
         match desc {
             Some(desc) => format!("{}_{}{}", desc, STATE_VAR_SUFFIX, index),
             None => format!("{}{}", STATE_VAR_SUFFIX, index),

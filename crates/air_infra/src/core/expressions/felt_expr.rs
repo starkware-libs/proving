@@ -23,6 +23,31 @@ pub struct FeltInfo {
     pub is_const: bool,
 }
 
+impl FeltInfo {
+    // Checks if this felt will be compiled into a constraint intermediate. This requires
+    // 1. That the felt is stored in a constraint intermediate, and
+    // 2. That the felt is not stored in a trace cell / public parameter, because in these cases the
+    //    compilation will prefer to compile it directly as CompiledAirVar::State or ::PublicParam.
+    pub fn get_used_constraint_intermediate_name(&self) -> Option<String> {
+        if let Some(ref name) = self.constraint_intermediate {
+            if matches!(self.state_info, StateInfo::DegPolyOfState(_)) {
+                return Some(name.clone());
+            }
+        }
+        None
+    }
+
+    // If this felt is stored in a state cell, return the name of that cell in the
+    // compiled AirFn.
+    pub fn get_state_cell_name(&self) -> Option<String> {
+        if let StateInfo::StateIndex(index, ref desc) = self.state_info {
+            Some(State::get_cell_name(index, desc))
+        } else {
+            None
+        }
+    }
+}
+
 // Describes where in the state this FeltExpr resides
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum StateInfo {
@@ -107,36 +132,30 @@ impl FeltExpr {
         }
     }
 
+    /// Return the `FeltInfo` from the leaves of this `FeltExpr`
+    pub fn var_infos(&self) -> Vec<&FeltInfo> {
+        let mut result: Vec<&FeltInfo> = vec![];
+        match self {
+            Expr::Var(var_expr) => result.push(var_expr.complex_or_felt.as_felt_info()),
+            Expr::Op(op_expr) => {
+                for child in op_expr.children.iter() {
+                    let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) = child else {
+                        panic!("Unexpected child {child:?} in FeltExpr::Op")
+                    };
+                    result.extend(felt_expr.var_infos());
+                }
+            }
+        }
+        result
+    }
+
     /// Return the set of intermediate values that the constraint evaluation
     /// code for this expression will access.
     pub fn get_used_constraint_intermediates(&self) -> IndexSet<String> {
-        match self {
-            FeltExpr::Var(v) => {
-                if let Some(name) = v
-                    .complex_or_felt
-                    .as_felt_info()
-                    .constraint_intermediate
-                    .as_ref()
-                {
-                    // This var has its value stored in as an intermediate value. However,
-                    // if it is also stored as a trace cell or public parameter it will be
-                    // accessed as such cell and not through the intermediate value. Here
-                    // we verify that this is not the case.
-                    if matches!(
-                        v.complex_or_felt.as_felt_info().state_info,
-                        StateInfo::DegPolyOfState(_)
-                    ) {
-                        return IndexSet::from([name.clone()]);
-                    }
-                }
-                IndexSet::new()
-            }
-            FeltExpr::Op(op) => op
-                .children
-                .iter()
-                .flat_map(|c| c.as_felt().get_used_constraint_intermediates())
-                .collect(),
-        }
+        self.var_infos()
+            .iter()
+            .filter_map(|vi| vi.get_used_constraint_intermediate_name())
+            .collect()
     }
 
     pub fn let_for_constraint(&mut self, name: String) {

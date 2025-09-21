@@ -6,6 +6,7 @@ use crate::airs::casm::opcodes::blake::split16::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
+use crate::core::constraint_connectedness_test;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 
@@ -20,6 +21,12 @@ impl AirFn for TripleXor32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
+        // The constraint graph here is not connected: the high halves of a,b,c are XORed
+        // independently from the low halves.
+        // The alternative is to have TripleXor16 and call it twice. This would save columns,
+        // but add trace cells, and currently (Aug 2025) the tradeoff doesn't seem beneficial.
+        constraint_connectedness_test::exclude(self);
+
         let split = Split16 { low_part_size: 8 };
         let [all, alh] = air_builder.call(&split, a.low());
         let [ahl, ahh] = air_builder.call(&split, a.high());
