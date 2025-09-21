@@ -1,4 +1,4 @@
-mod assignment;
+pub mod assignment;
 mod logup;
 mod scope;
 mod util;
@@ -7,14 +7,24 @@ use std::rc::Rc;
 
 use assignment::Assignment;
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, PaddingType, UseOrYield,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, PaddingType, TraceType,
+    UseOrYield,
 };
 use indexmap::IndexMap;
 use logup::evaluate_logup_constraints;
 use num_traits::{One, Zero};
 use scope::Scope;
+use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::QM31;
-use util::{random_qm31, Environment};
+use util::Environment;
+
+/// A random assignment for the variables that appear in a composition polynomial,
+/// and the evaluation of the polynomial on these values.
+#[derive(Serialize, Deserialize)]
+pub struct SampleEvaluation {
+    pub assignment: Assignment,
+    pub result: QM31,
+}
 
 #[derive(Clone)]
 struct EvaluatedLookupTerm {
@@ -28,14 +38,17 @@ enum EvaluatedStep {
     LookupTerm(EvaluatedLookupTerm),
 }
 
-pub fn eval_component_constraints_on_random_trace(
+pub fn create_sample_evaluation(
     compiled_registry: &IndexMap<String, CompiledAirFn>,
     component_name: &String,
-) -> QM31 {
-    let random_coeff = random_qm31(&"random_coeff".to_string());
+) -> SampleEvaluation {
     let component = compiled_registry
         .get(component_name)
         .unwrap_or_else(|| panic!("Component {component_name} missing"));
+
+    // Inline AirFns don't have a well defined constraint polynomial so we don't support them.
+    assert!(component.r#type != TraceType::Inline);
+
     let assignment = Assignment::new_random_for(component);
     let (_, steps) = run_component_and_collect_steps(
         compiled_registry,
@@ -44,7 +57,10 @@ pub fn eval_component_constraints_on_random_trace(
         &assignment.base_trace,
         assignment.environment.clone(),
     );
-    evaluate_composition_polynomial(component, steps, &assignment, random_coeff)
+    SampleEvaluation {
+        result: evaluate_composition_polynomial(component, steps, &assignment),
+        assignment,
+    }
 }
 
 /// Run an AirFn with the given input, trace and environment. Return its output and
@@ -169,7 +185,6 @@ fn evaluate_composition_polynomial(
     component: &CompiledAirFn,
     steps: Vec<EvaluatedStep>,
     assignment: &Assignment,
-    random_coeff: QM31,
 ) -> QM31 {
     let mut constraint_evals = vec![];
     let mut lookup_terms: Vec<EvaluatedLookupTerm> = vec![];
@@ -178,7 +193,7 @@ fn evaluate_composition_polynomial(
     if component.padding_type == PaddingType::Enabler {
         let enabler_value = assignment
             .lookup_control_value
-            .expect("Components with Enabler padding should have enbaler value");
+            .expect("Components with Enabler padding should have enabler value");
         constraint_evals.push(enabler_value * enabler_value - enabler_value)
     }
 
@@ -202,7 +217,7 @@ fn evaluate_composition_polynomial(
     // Combine all constraint evaluations to get the composition poynomial.
     let mut result = QM31::zero();
     for eval in constraint_evals {
-        result = result * random_coeff + eval;
+        result = result * assignment.random_coeff + eval;
     }
 
     let composition_denominator = eval_vanishing_polynomial(assignment);
@@ -213,7 +228,7 @@ fn evaluate_composition_polynomial(
 }
 
 fn eval_vanishing_polynomial(assignment: &Assignment) -> QM31 {
-    let mut result = assignment.point_x;
+    let mut result = assignment.point.0;
 
     for _ in 1..assignment.log_height {
         let result2 = result * result;

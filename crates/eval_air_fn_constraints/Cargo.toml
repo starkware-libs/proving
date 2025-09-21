@@ -1,5 +1,5 @@
 [package]
-name = "eval_airfn_constraints"
+name = "eval_air_fn_constraints"
 version.workspace = true
 edition.workspace = true
 
@@ -7,4 +7,5 @@ edition.workspace = true
 compiled_casm_air = { path = "../compiled_casm_air" }
 indexmap.workspace = true
 num-traits.workspace = true
+serde = { workspace = true, features = ["derive", "rc"] }
 stwo-cairo-common.workspace = true

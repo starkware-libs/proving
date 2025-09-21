@@ -16,3 +16,5 @@ regex = "1.11.1"
 blake2 = "0.10.6"
 serde_arrays = "0.1.0"
 
+[dev-dependencies]
+eval_air_fn_constraints = { path = "../eval_air_fn_constraints" }
