@@ -138,7 +138,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
             if i == 0 {
                 // The first limb allows us to extract p_coef, using the fact that p = 1 (mod
                 // 2**27). The value that limb accumulator currently holds therefore equals
-                // 2**27 * carry_0 + p_coef * 1. Thus we would liked to reduce limb accumulator
+                // 2**27 * carry_0 + p_coef * 1. Thus we would liked to reduce limb accumulator mod
                 // 2**27 to obtain p_coef. Because both p_coef and carry_0 might be negative, we
                 // first bias the limb accumlator by adding (2**27 + 1) * minus_lower_bound (as
                 // -minus_lower_bound is a lower bound for both p_coef and carry_0). Then we convert
@@ -201,7 +201,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                 for (i, carry) in carry_vec.into_iter().enumerate() {
                     // Bias and constrain the carries in the range [-1, 1].
                     let biased_carry = air_builder.let_for_constraint(
-                        carry + const_expr!(minus_lower_bound) - const_expr!(1),
+                        carry + (const_expr!(minus_lower_bound) - const_expr!(1)),
                         &format!("biased_carry_{}", i),
                     );
                     air_builder.constrain(
