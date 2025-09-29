@@ -166,4 +166,11 @@ impl AirFn for JnzOpcode {
     fn trace_type(&self) -> TraceType {
         TraceType::Opcode
     }
+
+    fn name(&self) -> String {
+        format!(
+            "jnz_opcode_{}",
+            if self.taken { "taken" } else { "non_taken" }
+        )
+    }
 }

@@ -100,9 +100,9 @@ pub fn felt252_pack_into27(unpacked: Felt252Expr) -> Felt252Width27Expr {
 
 /// Rangechecks a Felt252Width27Expr by partial unpacking.
 #[derive(Clone, Debug, Serialize)]
-pub struct RangeCheckFelt252Width27 {}
+pub struct RangeCheck252Width27 {}
 
-impl AirFn for RangeCheckFelt252Width27 {
+impl AirFn for RangeCheck252Width27 {
     type ExtIn = ();
     type In = Felt252Width27Expr;
     type Out = ();

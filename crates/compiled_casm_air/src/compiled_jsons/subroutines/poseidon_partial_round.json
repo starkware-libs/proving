@@ -143,7 +143,7 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ]
   ],
@@ -151,7 +151,7 @@
     "Cube252": "Enabler",
     "RangeCheck_4_4_4_4": "Multiplicity",
     "RangeCheck_4_4": "Multiplicity",
-    "RangeCheckFelt252Width27": "Enabler"
+    "RangeCheck252Width27": "Enabler"
   },
   "inline_calls": {
     "linear_combination_n_1_coefs_2": [
@@ -660,7 +660,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col10"
@@ -4014,7 +4014,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -4025,7 +4025,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col10"

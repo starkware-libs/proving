@@ -1,14 +1,14 @@
 {
-  "name": "jnz_opcode",
+  "name": "jnz_opcode_non_taken",
   "relation_name": "Opcodes",
   "relation_size": 3,
   "log_height": null,
-  "description": "Jnz Opcode",
+  "description": "Jnz Opcode Non Taken",
   "instance_definition": "{}",
   "type": "Opcode",
   "padding_type": "Enabler",
   "prover_input": [
-    "jnz_opcode_input",
+    "jnz_opcode_non_taken_input",
     "CasmState",
     "PackedCasmState"
   ],
@@ -58,7 +58,7 @@
         ]
       }
     },
-    "jnz_opcode_output",
+    "jnz_opcode_non_taken_output",
     "CasmState",
     "PackedCasmState"
   ],
@@ -93,8 +93,8 @@
       ]
     },
     [
-      "jnz_opcode_output_pc",
-      "jnz_opcode_output_ap"
+      "jnz_opcode_non_taken_output_pc",
+      "jnz_opcode_non_taken_output_ap"
     ]
   ],
   "state_names": [
@@ -504,7 +504,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "jnz_opcode_input.pc"
+          "jnz_opcode_non_taken_input.pc"
         ]
       }
     },
@@ -512,7 +512,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "jnz_opcode_input.ap"
+          "jnz_opcode_non_taken_input.ap"
         ]
       }
     },
@@ -520,7 +520,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "jnz_opcode_input.fp"
+          "jnz_opcode_non_taken_input.fp"
         ]
       }
     },

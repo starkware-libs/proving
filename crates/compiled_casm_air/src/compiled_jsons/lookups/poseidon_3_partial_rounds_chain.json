@@ -282,7 +282,7 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
@@ -302,7 +302,7 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
@@ -322,7 +322,7 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
@@ -339,7 +339,7 @@
     "Cube252": "Enabler",
     "RangeCheck_4_4_4_4": "Multiplicity",
     "RangeCheck_4_4": "Multiplicity",
-    "RangeCheckFelt252Width27": "Enabler"
+    "RangeCheck252Width27": "Enabler"
   },
   "inline_calls": {
     "poseidon_partial_round": [
@@ -361,7 +361,7 @@
           "Use"
         ],
         [
-          "RangeCheckFelt252Width27",
+          "RangeCheck252Width27",
           "Use"
         ]
       ],
@@ -5439,7 +5439,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -5450,7 +5450,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col82"
@@ -8606,7 +8606,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -8617,7 +8617,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col114"
@@ -11773,7 +11773,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -11784,7 +11784,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col146"

@@ -120,4 +120,11 @@ impl AirFn for CallOpcode {
     fn trace_type(&self) -> TraceType {
         TraceType::Opcode
     }
+
+    fn name(&self) -> String {
+        format!(
+            "call_opcode_{}",
+            if self.rel_imm { "rel_imm" } else { "abs" }
+        )
+    }
 }

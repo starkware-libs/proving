@@ -1,14 +1,14 @@
 {
-  "name": "call_opcode",
+  "name": "call_opcode_abs",
   "relation_name": "Opcodes",
   "relation_size": 3,
   "log_height": null,
-  "description": "Call Opcode",
+  "description": "Call Opcode Abs",
   "instance_definition": "{}",
   "type": "Opcode",
   "padding_type": "Enabler",
   "prover_input": [
-    "call_opcode_input",
+    "call_opcode_abs_input",
     "CasmState",
     "PackedCasmState"
   ],
@@ -118,7 +118,7 @@
         ]
       }
     },
-    "call_opcode_output",
+    "call_opcode_abs_output",
     "CasmState",
     "PackedCasmState"
   ],
@@ -216,9 +216,9 @@
       ]
     },
     [
-      "call_opcode_output_pc",
-      "call_opcode_output_ap",
-      "call_opcode_output_fp"
+      "call_opcode_abs_output_pc",
+      "call_opcode_abs_output_ap",
+      "call_opcode_abs_output_fp"
     ]
   ],
   "state_names": [
@@ -799,7 +799,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "call_opcode_input.pc"
+          "call_opcode_abs_input.pc"
         ]
       }
     },
@@ -807,7 +807,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "call_opcode_input.ap"
+          "call_opcode_abs_input.ap"
         ]
       }
     },
@@ -815,7 +815,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "call_opcode_input.fp"
+          "call_opcode_abs_input.fp"
         ]
       }
     },

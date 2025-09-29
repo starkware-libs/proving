@@ -69,8 +69,8 @@ impl AirFn for PoseidonHadesPermutation {
         // First four full rounds.
         let [x4, y4, z4] = air_builder.chain_lookup_call(&PoseidonFullRoundChain {}, state, 0, 4);
         // x4 and y4 are not cubed but do enter linear combinations, so must be range checked.
-        air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), x4.clone());
-        air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), y4.clone());
+        air_builder.lookup_call(&RangeCheck252Width27 {}, (), x4.clone());
+        air_builder.lookup_call(&RangeCheck252Width27 {}, (), y4.clone());
         // Transition from full round state to partial round state (manually computing the first two
         // partial rounds' z-s).
         let [key_z5, key_z6] = FULL_TO_PARTIAL_KEYS.map(|[x, y]| const_felt252_expr!(x, y).into());
