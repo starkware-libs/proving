@@ -1,3 +1,5 @@
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
+
 use super::range_check::*;
 use crate::airs::casm::casm_state::*;
 #[cfg(test)]
@@ -25,6 +27,10 @@ impl ExtTable for Seq {
 
         Self::T::default()
     }
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        None
+    }
 }
 
 #[derive(Debug, Default, Clone)]
@@ -36,6 +42,14 @@ impl<const L: usize> ExtTable for SeqConstLen<L> {
 
     fn args() -> Vec<String> {
         vec![L.to_string()]
+    }
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        Some(Box::new(
+            stwo_cairo_common::preprocessed_columns::preprocessed_trace::Seq::new(
+                L.try_into().unwrap(),
+            ),
+        ))
     }
 }
 
@@ -51,4 +65,8 @@ pub struct SeqAddr {}
 impl ExtTable for SeqAddr {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_SEQ;
     type T = CasmAddress;
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        None
+    }
 }

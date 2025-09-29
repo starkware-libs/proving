@@ -3,6 +3,7 @@ use std::marker::PhantomData;
 
 use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 use super::seq::*;
 use crate::core::air_fn::*;
@@ -204,6 +205,10 @@ macro_rules! new_range_check {
 
             fn generic_param() -> Option<u32> {
                 Some([$b0,$($b),+].len() as u32)
+            }
+
+            fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+                Some(Box::new(stwo_cairo_common::preprocessed_columns::preprocessed_trace::RangeCheck::new([$b0,$($b),+], 0)))
             }
         }
     };

@@ -2,7 +2,8 @@
 use std::array::from_fn;
 
 #[cfg(test)]
-use stwo_cairo_common::preprocessed_consts::blake::BLAKE_SIGMA;
+use stwo_cairo_common::preprocessed_columns::blake::BLAKE_SIGMA;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 // Macros
 #[cfg(test)]
@@ -30,5 +31,11 @@ impl ExtTable for BlakeSigma {
         }
 
         Self::T::default()
+    }
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        Some(Box::new(
+            stwo_cairo_common::preprocessed_columns::blake::BlakeSigma::new(0),
+        ))
     }
 }

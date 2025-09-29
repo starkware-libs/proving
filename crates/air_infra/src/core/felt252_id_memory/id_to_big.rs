@@ -1,6 +1,7 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
@@ -21,6 +22,10 @@ pub struct MemIdForBig {}
 impl ExtTable for MemIdForBig {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
     type T = CasmId;
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        None
+    }
 }
 
 #[derive(Debug, Clone, Default, Serialize)]

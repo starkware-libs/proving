@@ -1,6 +1,7 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -19,6 +20,10 @@ pub struct MemIdForSmall {}
 impl ExtTable for MemIdForSmall {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_MEM_ID_FOR_72BITS;
     type T = FeltExpr;
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        None
+    }
 }
 
 #[derive(Debug, Clone, Default, Serialize)]

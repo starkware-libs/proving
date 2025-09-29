@@ -1,5 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 #[cfg(test)]
 use super::utils::*;
@@ -85,6 +86,12 @@ impl ExtTable for PedersenPoints {
         }
 
         Self::T::default()
+    }
+
+    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
+        Some(Box::new(
+            stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::new(0),
+        ))
     }
 }
 

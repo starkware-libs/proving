@@ -19,6 +19,8 @@ use crate::core::constraint_connectedness_test::assert_constraint_graph_connecte
 pub struct AirFnEntry {
     pub name: String,
     pub relation_name: Option<String>,
+    // For constant-size component, the log_2 of the number of rows.
+    pub log_height: Option<u32>,
     pub description: String,
     pub inst_def: serde_json::Value,
     pub ext_input: Option<AirVarImpl>,
@@ -79,6 +81,7 @@ impl AirFnEntry {
             name: air_fn.name(),
             relation_name: air_fn.relation_name(),
             description: air_fn.description(),
+            log_height: E::log_size(),
             inst_def: air_fn.inst_def(),
             ext_input: ext_input_option,
             input: input_option,
@@ -143,6 +146,7 @@ impl AirFnEntry {
             name: self.name.clone(),
             relation_name: self.relation_name.clone(),
             relation_size,
+            log_height: self.log_height,
             description: self.description.clone(),
             instance_definition: serde_json::to_string(&self.inst_def)
                 .expect("Failed to serialize"),
