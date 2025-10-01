@@ -70,12 +70,16 @@ impl AirFn for DecodeBlakeOpcode {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Decode the instruction.
+        let flag_sets_of_sum_1 = BTreeSet::from([BTreeSet::from([
+            FLAG_OP1_BASE_FP_INDEX,
+            FLAG_OP1_BASE_AP_INDEX,
+        ])]);
         let ([offset0, offset1, offset2], flags, opcode_extension) = air_builder.call(
             &DecodeInstruction {
                 const_offsets: [None, None, None],
                 const_flags: self.get_flags(),
                 const_opcode_extension: None,
-                flag_sets_of_sum_1: BTreeSet::new(),
+                flag_sets_of_sum_1,
                 memory: self.memory.clone(),
             },
             casm_state.pc(),
@@ -88,10 +92,6 @@ impl AirFn for DecodeBlakeOpcode {
         let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
-        air_builder.constrain(
-            flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
-            "Exactly one of op1_base_fp and op1_base_ap is 1",
-        );
         air_builder.constrain(
             (opcode_extension.clone() - OpcodeExtension::Blake.into())
                 * (opcode_extension.clone() - OpcodeExtension::BlakeFinalize.into()),
