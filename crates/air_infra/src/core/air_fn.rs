@@ -21,6 +21,7 @@ use super::state::*;
 use super::variables::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::const_expr;
+use crate::utils::fix_str;
 
 pub const MAX_NAME_LEN: usize = 50;
 
@@ -35,6 +36,21 @@ pub trait AirFn: Debug + InstDefTrait {
     type Out: AirVar;
 
     fn name(&self) -> String {
+        let name = self.get_type_name();
+        let inst_def = self.get_inst_def();
+
+        if inst_def.is_empty() {
+            return name;
+        }
+
+        if name.len() + inst_def.len() < MAX_NAME_LEN {
+            return format!("{name}_{inst_def}");
+        }
+
+        format!("{name}_{}", self.hash())
+    }
+
+    fn get_type_name(&self) -> String {
         let mut name = type_name::<Self>().to_string();
         name = name
             .find('<')
@@ -44,36 +60,25 @@ pub trait AirFn: Debug + InstDefTrait {
             .rfind("::")
             .map(|i| name[i + 2..].to_string())
             .unwrap_or(name);
+        fix_str(name)
+    }
 
-        let mut res = format!(
-            "{}_{}",
-            name,
-            serde_json::to_string_pretty(&self.inst_def()).expect("Failed to serialize inst def")
-        );
-        res = res
+    fn get_inst_def(&self) -> String {
+        let mut inst =
+            serde_json::to_string_pretty(&self.inst_def()).expect("Failed to serialize inst def");
+        inst = inst
             .chars()
             .map(|x| match x {
                 ' ' | ':' | '{' | '}' | '\n' | ',' | '[' | ']' | '<' | '>' => '_',
                 _ => x,
             })
             .collect();
-        res = res.replace('\"', "");
-        res = res.replace("_true", "");
-        while res.contains("__") {
-            res = res.replace("__", "_");
-        }
-        if res.ends_with('_') {
-            res.pop();
-        }
+        inst = inst.replace('\"', "");
+        inst = inst.replace("_true", "");
         let pattern = Regex::new(r"_-([0-9]+)").unwrap();
-        res = pattern.replace_all(&res, "_tmpminus_$1").to_string();
-        res = res.to_case(Case::Snake);
-        res = res.replace("_tmpminus_", "_m");
-        if res.len() < MAX_NAME_LEN {
-            res
-        } else {
-            format!("{}_{}", name.to_case(Case::Snake), self.hash())
-        }
+        inst = pattern.replace_all(&inst, "_tmpminus_$1").to_string();
+        inst = fix_str(inst);
+        inst.replace("_tmpminus_", "_m")
     }
 
     fn relation_name(&self) -> Option<String> {
