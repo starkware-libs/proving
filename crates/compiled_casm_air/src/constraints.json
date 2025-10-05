@@ -41492,23 +41492,21 @@
       ]
     ]
   },
-  "decode_instruction_3b105": {
+  "decode_instruction_ba944": {
     "state_names": [
       "offset2_col0",
       "op1_base_fp_col1",
-      "op1_base_ap_col2",
-      "ap_update_add_1_col3"
+      "ap_update_add_1_col2"
     ],
     "intermediates": [],
     "constraints": [
       "(op1_base_fp_col1 * (1 - op1_base_fp_col1))",
-      "(op1_base_ap_col2 * (1 - op1_base_ap_col2))",
-      "(ap_update_add_1_col3 * (1 - ap_update_add_1_col3))"
+      "(ap_update_add_1_col2 * (1 - ap_update_add_1_col2))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_3b105_input_pc, 32767, 32767, offset2_col0, ((24 + (op1_base_fp_col1 * 64)) + (op1_base_ap_col2 * 128)), (4 + (ap_update_add_1_col3 * 32)), 0"
+        "decode_instruction_ba944_input_pc, 32767, 32767, offset2_col0, ((24 + (op1_base_fp_col1 * 64)) + ((1 - op1_base_fp_col1) * 128)), (4 + (ap_update_add_1_col2 * 32)), 0"
       ]
     ]
   },
@@ -41519,56 +41517,57 @@
       "input_fp_col2",
       "offset2_col3",
       "op1_base_fp_col4",
-      "op1_base_ap_col5",
-      "ap_update_add_1_col6",
-      "mem1_base_col7",
-      "next_pc_id_col8",
-      "msb_col9",
-      "mid_limbs_set_col10",
-      "next_pc_limb_0_col11",
-      "next_pc_limb_1_col12",
-      "next_pc_limb_2_col13",
-      "remainder_bits_col14",
-      "partial_limb_msb_col15"
+      "ap_update_add_1_col5",
+      "mem1_base_col6",
+      "next_pc_id_col7",
+      "msb_col8",
+      "mid_limbs_set_col9",
+      "next_pc_limb_0_col10",
+      "next_pc_limb_1_col11",
+      "next_pc_limb_2_col12",
+      "remainder_bits_col13",
+      "partial_limb_msb_col14"
     ],
     "intermediates": [
       [
-        "decode_instruction_3b105_output_tmp_62dfc_6_offset2",
+        "decode_instruction_ba944_output_tmp_62dfc_5_offset2",
         "(offset2_col3 - 32768)"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_62dfc_15",
-        "(remainder_bits_col14 - (partial_limb_msb_col15 * 2))"
+        "decode_instruction_ba944_output_tmp_62dfc_5_op1_base_ap",
+        "(1 - op1_base_fp_col4)"
       ],
       [
-        "read_small_output_tmp_62dfc_16_limb_0",
-        "(((((next_pc_limb_0_col11 + (next_pc_limb_1_col12 * 512)) + (next_pc_limb_2_col13 * 262144)) + (remainder_bits_col14 * 134217728)) - msb_col9) - (536870912 * mid_limbs_set_col10))"
+        "partial_limb_bit_before_msb_tmp_62dfc_14",
+        "(remainder_bits_col13 - (partial_limb_msb_col14 * 2))"
+      ],
+      [
+        "read_small_output_tmp_62dfc_15_limb_0",
+        "(((((next_pc_limb_0_col10 + (next_pc_limb_1_col11 * 512)) + (next_pc_limb_2_col12 * 262144)) + (remainder_bits_col13 * 134217728)) - msb_col8) - (536870912 * mid_limbs_set_col9))"
       ]
     ],
     "constraints": [
       "(op1_base_fp_col4 * (1 - op1_base_fp_col4))",
-      "(op1_base_ap_col5 * (1 - op1_base_ap_col5))",
-      "(ap_update_add_1_col6 * (1 - ap_update_add_1_col6))",
-      "((op1_base_fp_col4 + op1_base_ap_col5) - 1)",
-      "(mem1_base_col7 - ((op1_base_fp_col4 * input_fp_col2) + (op1_base_ap_col5 * input_ap_col1)))",
-      "(msb_col9 * (msb_col9 - 1))",
-      "(mid_limbs_set_col10 * (mid_limbs_set_col10 - 1))",
-      "(mid_limbs_set_col10 * (msb_col9 - 1))",
-      "(partial_limb_msb_col15 * (1 - partial_limb_msb_col15))",
-      "(partial_limb_bit_before_msb_tmp_62dfc_15 * (1 - partial_limb_bit_before_msb_tmp_62dfc_15))"
+      "(ap_update_add_1_col5 * (1 - ap_update_add_1_col5))",
+      "(mem1_base_col6 - ((op1_base_fp_col4 * input_fp_col2) + (decode_instruction_ba944_output_tmp_62dfc_5_op1_base_ap * input_ap_col1)))",
+      "(msb_col8 * (msb_col8 - 1))",
+      "(mid_limbs_set_col9 * (mid_limbs_set_col9 - 1))",
+      "(mid_limbs_set_col9 * (msb_col8 - 1))",
+      "(partial_limb_msb_col14 * (1 - partial_limb_msb_col14))",
+      "(partial_limb_bit_before_msb_tmp_62dfc_14 * (1 - partial_limb_bit_before_msb_tmp_62dfc_14))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, 32767, 32767, offset2_col3, ((24 + (op1_base_fp_col4 * 64)) + (op1_base_ap_col5 * 128)), (4 + (ap_update_add_1_col6 * 32)), 0"
+        "input_pc_col0, 32767, 32767, offset2_col3, ((24 + (op1_base_fp_col4 * 64)) + ((1 - op1_base_fp_col4) * 128)), (4 + (ap_update_add_1_col5 * 32)), 0"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col7 + decode_instruction_3b105_output_tmp_62dfc_6_offset2), next_pc_id_col8"
+        "(mem1_base_col6 + decode_instruction_ba944_output_tmp_62dfc_5_offset2), next_pc_id_col7"
       ],
       [
         "MemoryIdToBig",
-        "next_pc_id_col8, next_pc_limb_0_col11, next_pc_limb_1_col12, next_pc_limb_2_col13, (remainder_bits_col14 + (mid_limbs_set_col10 * 508)), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), (mid_limbs_set_col10 * 511), ((136 * msb_col9) - mid_limbs_set_col10), 0, 0, 0, 0, 0, (msb_col9 * 256)"
+        "next_pc_id_col7, next_pc_limb_0_col10, next_pc_limb_1_col11, next_pc_limb_2_col12, (remainder_bits_col13 + (mid_limbs_set_col9 * 508)), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), (mid_limbs_set_col9 * 511), ((136 * msb_col8) - mid_limbs_set_col9), 0, 0, 0, 0, 0, (msb_col8 * 256)"
       ]
     ]
   },
@@ -41664,23 +41663,21 @@
       ]
     ]
   },
-  "decode_instruction_43e1c": {
+  "decode_instruction_b1597": {
     "state_names": [
       "offset2_col0",
       "op1_base_fp_col1",
-      "op1_base_ap_col2",
-      "ap_update_add_1_col3"
+      "ap_update_add_1_col2"
     ],
     "intermediates": [],
     "constraints": [
       "(op1_base_fp_col1 * (1 - op1_base_fp_col1))",
-      "(op1_base_ap_col2 * (1 - op1_base_ap_col2))",
-      "(ap_update_add_1_col3 * (1 - ap_update_add_1_col3))"
+      "(ap_update_add_1_col2 * (1 - ap_update_add_1_col2))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_43e1c_input_pc, 32767, 32767, offset2_col0, ((24 + (op1_base_fp_col1 * 64)) + (op1_base_ap_col2 * 128)), (2 + (ap_update_add_1_col3 * 32)), 0"
+        "decode_instruction_b1597_input_pc, 32767, 32767, offset2_col0, ((24 + (op1_base_fp_col1 * 64)) + ((1 - op1_base_fp_col1) * 128)), (2 + (ap_update_add_1_col2 * 32)), 0"
       ]
     ]
   },
@@ -41691,47 +41688,48 @@
       "input_fp_col2",
       "offset2_col3",
       "op1_base_fp_col4",
-      "op1_base_ap_col5",
-      "ap_update_add_1_col6",
-      "mem1_base_col7",
-      "next_pc_id_col8",
-      "next_pc_limb_0_col9",
-      "next_pc_limb_1_col10",
-      "next_pc_limb_2_col11",
-      "next_pc_limb_3_col12",
-      "partial_limb_msb_col13"
+      "ap_update_add_1_col5",
+      "mem1_base_col6",
+      "next_pc_id_col7",
+      "next_pc_limb_0_col8",
+      "next_pc_limb_1_col9",
+      "next_pc_limb_2_col10",
+      "next_pc_limb_3_col11",
+      "partial_limb_msb_col12"
     ],
     "intermediates": [
       [
-        "decode_instruction_43e1c_output_tmp_39ce3_6_offset2",
+        "decode_instruction_b1597_output_tmp_39ce3_5_offset2",
         "(offset2_col3 - 32768)"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_39ce3_11",
-        "(next_pc_limb_3_col12 - (partial_limb_msb_col13 * 2))"
+        "decode_instruction_b1597_output_tmp_39ce3_5_op1_base_ap",
+        "(1 - op1_base_fp_col4)"
+      ],
+      [
+        "partial_limb_bit_before_msb_tmp_39ce3_10",
+        "(next_pc_limb_3_col11 - (partial_limb_msb_col12 * 2))"
       ]
     ],
     "constraints": [
       "(op1_base_fp_col4 * (1 - op1_base_fp_col4))",
-      "(op1_base_ap_col5 * (1 - op1_base_ap_col5))",
-      "(ap_update_add_1_col6 * (1 - ap_update_add_1_col6))",
-      "((op1_base_fp_col4 + op1_base_ap_col5) - 1)",
-      "(mem1_base_col7 - ((op1_base_fp_col4 * input_fp_col2) + (op1_base_ap_col5 * input_ap_col1)))",
-      "(partial_limb_msb_col13 * (1 - partial_limb_msb_col13))",
-      "(partial_limb_bit_before_msb_tmp_39ce3_11 * (1 - partial_limb_bit_before_msb_tmp_39ce3_11))"
+      "(ap_update_add_1_col5 * (1 - ap_update_add_1_col5))",
+      "(mem1_base_col6 - ((op1_base_fp_col4 * input_fp_col2) + (decode_instruction_b1597_output_tmp_39ce3_5_op1_base_ap * input_ap_col1)))",
+      "(partial_limb_msb_col12 * (1 - partial_limb_msb_col12))",
+      "(partial_limb_bit_before_msb_tmp_39ce3_10 * (1 - partial_limb_bit_before_msb_tmp_39ce3_10))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, 32767, 32767, offset2_col3, ((24 + (op1_base_fp_col4 * 64)) + (op1_base_ap_col5 * 128)), (2 + (ap_update_add_1_col6 * 32)), 0"
+        "input_pc_col0, 32767, 32767, offset2_col3, ((24 + (op1_base_fp_col4 * 64)) + ((1 - op1_base_fp_col4) * 128)), (2 + (ap_update_add_1_col5 * 32)), 0"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col7 + decode_instruction_43e1c_output_tmp_39ce3_6_offset2), next_pc_id_col8"
+        "(mem1_base_col6 + decode_instruction_b1597_output_tmp_39ce3_5_offset2), next_pc_id_col7"
       ],
       [
         "MemoryIdToBig",
-        "next_pc_id_col8, next_pc_limb_0_col9, next_pc_limb_1_col10, next_pc_limb_2_col11, next_pc_limb_3_col12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "next_pc_id_col7, next_pc_limb_0_col8, next_pc_limb_1_col9, next_pc_limb_2_col10, next_pc_limb_3_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },

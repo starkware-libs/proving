@@ -72,13 +72,20 @@ impl AirFn for JumpOpcode {
         let offset1 = if self.double_deref { None } else { Some(-1) };
         let offset2 = if self.imm { Some(1) } else { None };
 
+        let flag_sets_of_sum_1 = (!self.imm && !self.double_deref)
+            .then_some(BTreeSet::from([BTreeSet::from([
+                FLAG_OP1_BASE_FP_INDEX,
+                FLAG_OP1_BASE_AP_INDEX,
+            ])]))
+            .unwrap_or_default();
+
         // Check the instruction.
         let ([_, offset1, offset2], flags, _) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(-1), offset1, offset2],
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
-                flag_sets_of_sum_1: BTreeSet::new(),
+                flag_sets_of_sum_1,
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),
@@ -103,10 +110,6 @@ impl AirFn for JumpOpcode {
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
                 .var
         } else {
-            ab.constrain(
-                op1_base_fp.clone() + op1_base_ap.clone() - const_expr!(1),
-                "Either flag op1_base_fp is on or flag op1_base_ap is on",
-            );
             ab.assign(
                 &mut (op1_base_fp * casm_state.fp().var + op1_base_ap * casm_state.ap().var),
                 "mem1_base",
