@@ -1653,7 +1653,7 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 [[package]]
 name = "std-shims"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo?rev=411d8c6#411d8c6a0142912d75fb38a5f28a767ef9dfb350"
+source = "git+https://github.com/starkware-libs/stwo?rev=ee33b014#ee33b01487192417a7ab04402b5cb98d86b3d22d"
 
 [[package]]
 name = "strsim"
@@ -1664,7 +1664,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 [[package]]
 name = "stwo"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=411d8c6#411d8c6a0142912d75fb38a5f28a767ef9dfb350"
+source = "git+https://github.com/starkware-libs/stwo?rev=ee33b014#ee33b01487192417a7ab04402b5cb98d86b3d22d"
 dependencies = [
  "blake2",
  "blake3",
@@ -1691,7 +1691,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-common"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=9fcb0e4#9fcb0e44b5f1dfd2f9236d8ee6a764aaa69b75e2"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=5ab5f79#5ab5f79b35e0f3a8e38fb7316c7da7625425aea1"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1710,7 +1710,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=9fcb0e4#9fcb0e44b5f1dfd2f9236d8ee6a764aaa69b75e2"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=5ab5f79#5ab5f79b35e0f3a8e38fb7316c7da7625425aea1"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1720,7 +1720,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize-derive"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=9fcb0e4#9fcb0e44b5f1dfd2f9236d8ee6a764aaa69b75e2"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=5ab5f79#5ab5f79b35e0f3a8e38fb7316c7da7625425aea1"
 dependencies = [
  "quote",
  "syn 2.0.106",
@@ -1729,7 +1729,7 @@ dependencies = [
 [[package]]
 name = "stwo-constraint-framework"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=411d8c6#411d8c6a0142912d75fb38a5f28a767ef9dfb350"
+source = "git+https://github.com/starkware-libs/stwo?rev=ee33b014#ee33b01487192417a7ab04402b5cb98d86b3d22d"
 dependencies = [
  "hashbrown",
  "itertools 0.12.1",

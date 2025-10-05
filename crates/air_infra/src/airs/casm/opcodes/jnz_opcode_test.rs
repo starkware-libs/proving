@@ -104,34 +104,6 @@ fn test_jnz_not_taken_base_ap() {
         (0, "ap_update_add_1"),
         (200, "mem_dst_base"),
         (2, "dst_id"),
-        (0, "dst_limb_0"),
-        (0, "dst_limb_1"),
-        (0, "dst_limb_2"),
-        (0, "dst_limb_3"),
-        (0, "dst_limb_4"),
-        (0, "dst_limb_5"),
-        (0, "dst_limb_6"),
-        (0, "dst_limb_7"),
-        (0, "dst_limb_8"),
-        (0, "dst_limb_9"),
-        (0, "dst_limb_10"),
-        (0, "dst_limb_11"),
-        (0, "dst_limb_12"),
-        (0, "dst_limb_13"),
-        (0, "dst_limb_14"),
-        (0, "dst_limb_15"),
-        (0, "dst_limb_16"),
-        (0, "dst_limb_17"),
-        (0, "dst_limb_18"),
-        (0, "dst_limb_19"),
-        (0, "dst_limb_20"),
-        (0, "dst_limb_21"),
-        (0, "dst_limb_22"),
-        (0, "dst_limb_23"),
-        (0, "dst_limb_24"),
-        (0, "dst_limb_25"),
-        (0, "dst_limb_26"),
-        (0, "dst_limb_27"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -177,8 +149,8 @@ fn test_jnz_taken_base_ap() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
-        (1955558780, "res"),
-        (500077285, "res_squares"),
+        (1955558780, "dst_sum_inv"),
+        (500077285, "dst_sum_squares_inv"),
         (1, "next_pc_id"),
         (0, "msb"),
         (0, "mid_limbs_set"),
@@ -198,7 +170,7 @@ fn test_taken_zero_mismatch_base_ap() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "assertion `left == right` failed: given value != value in memory")]
 fn test_not_taken_mismatch_base_ap() {
     build_and_test(
         [false, false, false],
@@ -260,8 +232,8 @@ fn test_jnz_taken_negative_op1() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
-        (1955558780, "res"),
-        (500077285, "res_squares"),
+        (1955558780, "dst_sum_inv"),
+        (500077285, "dst_sum_squares_inv"),
         (1, "next_pc_id"),
         (1, "msb"),
         (1, "mid_limbs_set"),
