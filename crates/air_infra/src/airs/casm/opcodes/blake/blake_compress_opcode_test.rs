@@ -156,7 +156,6 @@ fn test_blake_opcode() {
         (0, "dst_base_fp"),
         (1, "op0_base_fp"),
         (1, "op1_base_fp"),
-        (0, "op1_base_ap"),
         (1, "ap_update_add_1"),
         (1, "opcode_extension"),
         (6, "mem0_base"),

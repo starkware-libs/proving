@@ -45846,7 +45846,7 @@
       ]
     ]
   },
-  "decode_instruction_64420": {
+  "decode_instruction_472fe": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -45854,22 +45854,20 @@
       "dst_base_fp_col3",
       "op0_base_fp_col4",
       "op1_base_fp_col5",
-      "op1_base_ap_col6",
-      "ap_update_add_1_col7",
-      "opcode_extension_col8"
+      "ap_update_add_1_col6",
+      "opcode_extension_col7"
     ],
     "intermediates": [],
     "constraints": [
       "(dst_base_fp_col3 * (1 - dst_base_fp_col3))",
       "(op0_base_fp_col4 * (1 - op0_base_fp_col4))",
       "(op1_base_fp_col5 * (1 - op1_base_fp_col5))",
-      "(op1_base_ap_col6 * (1 - op1_base_ap_col6))",
-      "(ap_update_add_1_col7 * (1 - ap_update_add_1_col7))"
+      "(ap_update_add_1_col6 * (1 - ap_update_add_1_col6))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_64420_input_pc, offset0_col0, offset1_col1, offset2_col2, ((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)), (ap_update_add_1_col7 * 32), opcode_extension_col8"
+        "decode_instruction_472fe_input_pc, offset0_col0, offset1_col1, offset2_col2, ((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_base_fp_col5 * 64)) + ((1 - op1_base_fp_col5) * 128)), (ap_update_add_1_col6 * 32), opcode_extension_col7"
       ]
     ]
   },
@@ -45931,121 +45929,122 @@
       "dst_base_fp_col3",
       "op0_base_fp_col4",
       "op1_base_fp_col5",
-      "op1_base_ap_col6",
-      "ap_update_add_1_col7",
-      "opcode_extension_col8",
-      "mem0_base_col9",
-      "op0_id_col10",
-      "op0_limb_0_col11",
-      "op0_limb_1_col12",
-      "op0_limb_2_col13",
-      "op0_limb_3_col14",
-      "partial_limb_msb_col15",
-      "mem1_base_col16",
-      "op1_id_col17",
-      "op1_limb_0_col18",
-      "op1_limb_1_col19",
-      "op1_limb_2_col20",
-      "op1_limb_3_col21",
-      "partial_limb_msb_col22",
-      "ap_id_col23",
-      "ap_limb_0_col24",
-      "ap_limb_1_col25",
-      "ap_limb_2_col26",
-      "ap_limb_3_col27",
-      "partial_limb_msb_col28",
-      "mem_dst_base_col29",
-      "low_16_bits_col30",
-      "high_16_bits_col31",
-      "low_7_ms_bits_col32",
-      "high_14_ms_bits_col33",
-      "high_5_ms_bits_col34",
-      "dst_id_col35"
+      "ap_update_add_1_col6",
+      "opcode_extension_col7",
+      "mem0_base_col8",
+      "op0_id_col9",
+      "op0_limb_0_col10",
+      "op0_limb_1_col11",
+      "op0_limb_2_col12",
+      "op0_limb_3_col13",
+      "partial_limb_msb_col14",
+      "mem1_base_col15",
+      "op1_id_col16",
+      "op1_limb_0_col17",
+      "op1_limb_1_col18",
+      "op1_limb_2_col19",
+      "op1_limb_3_col20",
+      "partial_limb_msb_col21",
+      "ap_id_col22",
+      "ap_limb_0_col23",
+      "ap_limb_1_col24",
+      "ap_limb_2_col25",
+      "ap_limb_3_col26",
+      "partial_limb_msb_col27",
+      "mem_dst_base_col28",
+      "low_16_bits_col29",
+      "high_16_bits_col30",
+      "low_7_ms_bits_col31",
+      "high_14_ms_bits_col32",
+      "high_5_ms_bits_col33",
+      "dst_id_col34"
     ],
     "intermediates": [
       [
-        "decode_instruction_64420_output_tmp_47e62_10_offset0",
+        "decode_instruction_472fe_output_tmp_47e62_9_offset0",
         "(offset0_col0 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_47e62_10_offset1",
+        "decode_instruction_472fe_output_tmp_47e62_9_offset1",
         "(offset1_col1 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_47e62_10_offset2",
+        "decode_instruction_472fe_output_tmp_47e62_9_offset2",
         "(offset2_col2 - 32768)"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_47e62_15",
-        "(op0_limb_3_col14 - (partial_limb_msb_col15 * 2))"
+        "decode_instruction_472fe_output_tmp_47e62_9_op1_base_ap",
+        "(1 - op1_base_fp_col5)"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_47e62_22",
-        "(op1_limb_3_col21 - (partial_limb_msb_col22 * 2))"
+        "partial_limb_bit_before_msb_tmp_47e62_14",
+        "(op0_limb_3_col13 - (partial_limb_msb_col14 * 2))"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_47e62_29",
-        "(ap_limb_3_col27 - (partial_limb_msb_col28 * 2))"
+        "partial_limb_bit_before_msb_tmp_47e62_21",
+        "(op1_limb_3_col20 - (partial_limb_msb_col21 * 2))"
+      ],
+      [
+        "partial_limb_bit_before_msb_tmp_47e62_28",
+        "(ap_limb_3_col26 - (partial_limb_msb_col27 * 2))"
       ]
     ],
     "constraints": [
       "(dst_base_fp_col3 * (1 - dst_base_fp_col3))",
       "(op0_base_fp_col4 * (1 - op0_base_fp_col4))",
       "(op1_base_fp_col5 * (1 - op1_base_fp_col5))",
-      "(op1_base_ap_col6 * (1 - op1_base_ap_col6))",
-      "(ap_update_add_1_col7 * (1 - ap_update_add_1_col7))",
-      "((op1_base_fp_col5 + op1_base_ap_col6) - 1)",
-      "((opcode_extension_col8 - 1) * (opcode_extension_col8 - 2))",
-      "(mem0_base_col9 - ((op0_base_fp_col4 * decode_blake_opcode_input_fp) + ((1 - op0_base_fp_col4) * decode_blake_opcode_input_ap)))",
-      "(partial_limb_msb_col15 * (1 - partial_limb_msb_col15))",
-      "(partial_limb_bit_before_msb_tmp_47e62_15 * (1 - partial_limb_bit_before_msb_tmp_47e62_15))",
-      "(mem1_base_col16 - ((op1_base_fp_col5 * decode_blake_opcode_input_fp) + (op1_base_ap_col6 * decode_blake_opcode_input_ap)))",
-      "(partial_limb_msb_col22 * (1 - partial_limb_msb_col22))",
-      "(partial_limb_bit_before_msb_tmp_47e62_22 * (1 - partial_limb_bit_before_msb_tmp_47e62_22))",
-      "(partial_limb_msb_col28 * (1 - partial_limb_msb_col28))",
-      "(partial_limb_bit_before_msb_tmp_47e62_29 * (1 - partial_limb_bit_before_msb_tmp_47e62_29))",
-      "(mem_dst_base_col29 - ((dst_base_fp_col3 * decode_blake_opcode_input_fp) + ((1 - dst_base_fp_col3) * decode_blake_opcode_input_ap)))"
+      "(ap_update_add_1_col6 * (1 - ap_update_add_1_col6))",
+      "((opcode_extension_col7 - 1) * (opcode_extension_col7 - 2))",
+      "(mem0_base_col8 - ((op0_base_fp_col4 * decode_blake_opcode_input_fp) + ((1 - op0_base_fp_col4) * decode_blake_opcode_input_ap)))",
+      "(partial_limb_msb_col14 * (1 - partial_limb_msb_col14))",
+      "(partial_limb_bit_before_msb_tmp_47e62_14 * (1 - partial_limb_bit_before_msb_tmp_47e62_14))",
+      "(mem1_base_col15 - ((op1_base_fp_col5 * decode_blake_opcode_input_fp) + (decode_instruction_472fe_output_tmp_47e62_9_op1_base_ap * decode_blake_opcode_input_ap)))",
+      "(partial_limb_msb_col21 * (1 - partial_limb_msb_col21))",
+      "(partial_limb_bit_before_msb_tmp_47e62_21 * (1 - partial_limb_bit_before_msb_tmp_47e62_21))",
+      "(partial_limb_msb_col27 * (1 - partial_limb_msb_col27))",
+      "(partial_limb_bit_before_msb_tmp_47e62_28 * (1 - partial_limb_bit_before_msb_tmp_47e62_28))",
+      "(mem_dst_base_col28 - ((dst_base_fp_col3 * decode_blake_opcode_input_fp) + ((1 - dst_base_fp_col3) * decode_blake_opcode_input_ap)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_blake_opcode_input_pc, offset0_col0, offset1_col1, offset2_col2, ((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)), (ap_update_add_1_col7 * 32), opcode_extension_col8"
+        "decode_blake_opcode_input_pc, offset0_col0, offset1_col1, offset2_col2, ((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_base_fp_col5 * 64)) + ((1 - op1_base_fp_col5) * 128)), (ap_update_add_1_col6 * 32), opcode_extension_col7"
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col9 + decode_instruction_64420_output_tmp_47e62_10_offset1), op0_id_col10"
+        "(mem0_base_col8 + decode_instruction_472fe_output_tmp_47e62_9_offset1), op0_id_col9"
       ],
       [
         "MemoryIdToBig",
-        "op0_id_col10, op0_limb_0_col11, op0_limb_1_col12, op0_limb_2_col13, op0_limb_3_col14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "op0_id_col9, op0_limb_0_col10, op0_limb_1_col11, op0_limb_2_col12, op0_limb_3_col13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col16 + decode_instruction_64420_output_tmp_47e62_10_offset2), op1_id_col17"
+        "(mem1_base_col15 + decode_instruction_472fe_output_tmp_47e62_9_offset2), op1_id_col16"
       ],
       [
         "MemoryIdToBig",
-        "op1_id_col17, op1_limb_0_col18, op1_limb_1_col19, op1_limb_2_col20, op1_limb_3_col21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "op1_id_col16, op1_limb_0_col17, op1_limb_1_col18, op1_limb_2_col19, op1_limb_3_col20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "MemoryAddressToId",
-        "decode_blake_opcode_input_ap, ap_id_col23"
+        "decode_blake_opcode_input_ap, ap_id_col22"
       ],
       [
         "MemoryIdToBig",
-        "ap_id_col23, ap_limb_0_col24, ap_limb_1_col25, ap_limb_2_col26, ap_limb_3_col27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "ap_id_col22, ap_limb_0_col23, ap_limb_1_col24, ap_limb_2_col25, ap_limb_3_col26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col32, (high_16_bits_col31 - (high_14_ms_bits_col33 * 4)), high_5_ms_bits_col34"
+        "low_7_ms_bits_col31, (high_16_bits_col30 - (high_14_ms_bits_col32 * 4)), high_5_ms_bits_col33"
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col29 + decode_instruction_64420_output_tmp_47e62_10_offset0), dst_id_col35"
+        "(mem_dst_base_col28 + decode_instruction_472fe_output_tmp_47e62_9_offset0), dst_id_col34"
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col35, (low_16_bits_col30 - (low_7_ms_bits_col32 * 512)), (low_7_ms_bits_col32 + ((high_16_bits_col31 - (high_14_ms_bits_col33 * 4)) * 128)), (high_14_ms_bits_col33 - (high_5_ms_bits_col34 * 512)), high_5_ms_bits_col34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "dst_id_col34, (low_16_bits_col29 - (low_7_ms_bits_col31 * 512)), (low_7_ms_bits_col31 + ((high_16_bits_col30 - (high_14_ms_bits_col32 * 4)) * 128)), (high_14_ms_bits_col32 - (high_5_ms_bits_col33 * 512)), high_5_ms_bits_col33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -47473,540 +47472,541 @@
       "dst_base_fp_col6",
       "op0_base_fp_col7",
       "op1_base_fp_col8",
-      "op1_base_ap_col9",
-      "ap_update_add_1_col10",
-      "opcode_extension_col11",
-      "mem0_base_col12",
-      "op0_id_col13",
-      "op0_limb_0_col14",
-      "op0_limb_1_col15",
-      "op0_limb_2_col16",
-      "op0_limb_3_col17",
-      "partial_limb_msb_col18",
-      "mem1_base_col19",
-      "op1_id_col20",
-      "op1_limb_0_col21",
-      "op1_limb_1_col22",
-      "op1_limb_2_col23",
-      "op1_limb_3_col24",
-      "partial_limb_msb_col25",
-      "ap_id_col26",
-      "ap_limb_0_col27",
-      "ap_limb_1_col28",
-      "ap_limb_2_col29",
-      "ap_limb_3_col30",
-      "partial_limb_msb_col31",
-      "mem_dst_base_col32",
-      "low_16_bits_col33",
-      "high_16_bits_col34",
-      "low_7_ms_bits_col35",
-      "high_14_ms_bits_col36",
-      "high_5_ms_bits_col37",
-      "dst_id_col38",
-      "low_16_bits_col39",
-      "high_16_bits_col40",
-      "low_7_ms_bits_col41",
-      "high_14_ms_bits_col42",
-      "high_5_ms_bits_col43",
-      "state_0_id_col44",
-      "low_16_bits_col45",
-      "high_16_bits_col46",
-      "low_7_ms_bits_col47",
-      "high_14_ms_bits_col48",
-      "high_5_ms_bits_col49",
-      "state_1_id_col50",
-      "low_16_bits_col51",
-      "high_16_bits_col52",
-      "low_7_ms_bits_col53",
-      "high_14_ms_bits_col54",
-      "high_5_ms_bits_col55",
-      "state_2_id_col56",
-      "low_16_bits_col57",
-      "high_16_bits_col58",
-      "low_7_ms_bits_col59",
-      "high_14_ms_bits_col60",
-      "high_5_ms_bits_col61",
-      "state_3_id_col62",
-      "low_16_bits_col63",
-      "high_16_bits_col64",
-      "low_7_ms_bits_col65",
-      "high_14_ms_bits_col66",
-      "high_5_ms_bits_col67",
-      "state_4_id_col68",
-      "low_16_bits_col69",
-      "high_16_bits_col70",
-      "low_7_ms_bits_col71",
-      "high_14_ms_bits_col72",
-      "high_5_ms_bits_col73",
-      "state_5_id_col74",
-      "low_16_bits_col75",
-      "high_16_bits_col76",
-      "low_7_ms_bits_col77",
-      "high_14_ms_bits_col78",
-      "high_5_ms_bits_col79",
-      "state_6_id_col80",
-      "low_16_bits_col81",
-      "high_16_bits_col82",
-      "low_7_ms_bits_col83",
-      "high_14_ms_bits_col84",
-      "high_5_ms_bits_col85",
-      "state_7_id_col86",
+      "ap_update_add_1_col9",
+      "opcode_extension_col10",
+      "mem0_base_col11",
+      "op0_id_col12",
+      "op0_limb_0_col13",
+      "op0_limb_1_col14",
+      "op0_limb_2_col15",
+      "op0_limb_3_col16",
+      "partial_limb_msb_col17",
+      "mem1_base_col18",
+      "op1_id_col19",
+      "op1_limb_0_col20",
+      "op1_limb_1_col21",
+      "op1_limb_2_col22",
+      "op1_limb_3_col23",
+      "partial_limb_msb_col24",
+      "ap_id_col25",
+      "ap_limb_0_col26",
+      "ap_limb_1_col27",
+      "ap_limb_2_col28",
+      "ap_limb_3_col29",
+      "partial_limb_msb_col30",
+      "mem_dst_base_col31",
+      "low_16_bits_col32",
+      "high_16_bits_col33",
+      "low_7_ms_bits_col34",
+      "high_14_ms_bits_col35",
+      "high_5_ms_bits_col36",
+      "dst_id_col37",
+      "low_16_bits_col38",
+      "high_16_bits_col39",
+      "low_7_ms_bits_col40",
+      "high_14_ms_bits_col41",
+      "high_5_ms_bits_col42",
+      "state_0_id_col43",
+      "low_16_bits_col44",
+      "high_16_bits_col45",
+      "low_7_ms_bits_col46",
+      "high_14_ms_bits_col47",
+      "high_5_ms_bits_col48",
+      "state_1_id_col49",
+      "low_16_bits_col50",
+      "high_16_bits_col51",
+      "low_7_ms_bits_col52",
+      "high_14_ms_bits_col53",
+      "high_5_ms_bits_col54",
+      "state_2_id_col55",
+      "low_16_bits_col56",
+      "high_16_bits_col57",
+      "low_7_ms_bits_col58",
+      "high_14_ms_bits_col59",
+      "high_5_ms_bits_col60",
+      "state_3_id_col61",
+      "low_16_bits_col62",
+      "high_16_bits_col63",
+      "low_7_ms_bits_col64",
+      "high_14_ms_bits_col65",
+      "high_5_ms_bits_col66",
+      "state_4_id_col67",
+      "low_16_bits_col68",
+      "high_16_bits_col69",
+      "low_7_ms_bits_col70",
+      "high_14_ms_bits_col71",
+      "high_5_ms_bits_col72",
+      "state_5_id_col73",
+      "low_16_bits_col74",
+      "high_16_bits_col75",
+      "low_7_ms_bits_col76",
+      "high_14_ms_bits_col77",
+      "high_5_ms_bits_col78",
+      "state_6_id_col79",
+      "low_16_bits_col80",
+      "high_16_bits_col81",
+      "low_7_ms_bits_col82",
+      "high_14_ms_bits_col83",
+      "high_5_ms_bits_col84",
+      "state_7_id_col85",
+      "ms_8_bits_col86",
       "ms_8_bits_col87",
-      "ms_8_bits_col88",
+      "xor_col88",
       "xor_col89",
       "xor_col90",
       "xor_col91",
-      "xor_col92",
-      "blake_round_output_limb_0_col93",
-      "blake_round_output_limb_1_col94",
-      "blake_round_output_limb_2_col95",
-      "blake_round_output_limb_3_col96",
-      "blake_round_output_limb_4_col97",
-      "blake_round_output_limb_5_col98",
-      "blake_round_output_limb_6_col99",
-      "blake_round_output_limb_7_col100",
-      "blake_round_output_limb_8_col101",
-      "blake_round_output_limb_9_col102",
-      "blake_round_output_limb_10_col103",
-      "blake_round_output_limb_11_col104",
-      "blake_round_output_limb_12_col105",
-      "blake_round_output_limb_13_col106",
-      "blake_round_output_limb_14_col107",
-      "blake_round_output_limb_15_col108",
-      "blake_round_output_limb_16_col109",
-      "blake_round_output_limb_17_col110",
-      "blake_round_output_limb_18_col111",
-      "blake_round_output_limb_19_col112",
-      "blake_round_output_limb_20_col113",
-      "blake_round_output_limb_21_col114",
-      "blake_round_output_limb_22_col115",
-      "blake_round_output_limb_23_col116",
-      "blake_round_output_limb_24_col117",
-      "blake_round_output_limb_25_col118",
-      "blake_round_output_limb_26_col119",
-      "blake_round_output_limb_27_col120",
-      "blake_round_output_limb_28_col121",
-      "blake_round_output_limb_29_col122",
-      "blake_round_output_limb_30_col123",
-      "blake_round_output_limb_31_col124",
-      "blake_round_output_limb_32_col125",
-      "triple_xor_32_output_limb_0_col126",
-      "triple_xor_32_output_limb_1_col127",
-      "triple_xor_32_output_limb_0_col128",
-      "triple_xor_32_output_limb_1_col129",
-      "triple_xor_32_output_limb_0_col130",
-      "triple_xor_32_output_limb_1_col131",
-      "triple_xor_32_output_limb_0_col132",
-      "triple_xor_32_output_limb_1_col133",
-      "triple_xor_32_output_limb_0_col134",
-      "triple_xor_32_output_limb_1_col135",
-      "triple_xor_32_output_limb_0_col136",
-      "triple_xor_32_output_limb_1_col137",
-      "triple_xor_32_output_limb_0_col138",
-      "triple_xor_32_output_limb_1_col139",
-      "triple_xor_32_output_limb_0_col140",
-      "triple_xor_32_output_limb_1_col141",
-      "low_7_ms_bits_col142",
-      "high_14_ms_bits_col143",
-      "high_5_ms_bits_col144",
-      "new_state_0_id_col145",
-      "low_7_ms_bits_col146",
-      "high_14_ms_bits_col147",
-      "high_5_ms_bits_col148",
-      "new_state_1_id_col149",
-      "low_7_ms_bits_col150",
-      "high_14_ms_bits_col151",
-      "high_5_ms_bits_col152",
-      "new_state_2_id_col153",
-      "low_7_ms_bits_col154",
-      "high_14_ms_bits_col155",
-      "high_5_ms_bits_col156",
-      "new_state_3_id_col157",
-      "low_7_ms_bits_col158",
-      "high_14_ms_bits_col159",
-      "high_5_ms_bits_col160",
-      "new_state_4_id_col161",
-      "low_7_ms_bits_col162",
-      "high_14_ms_bits_col163",
-      "high_5_ms_bits_col164",
-      "new_state_5_id_col165",
-      "low_7_ms_bits_col166",
-      "high_14_ms_bits_col167",
-      "high_5_ms_bits_col168",
-      "new_state_6_id_col169",
-      "low_7_ms_bits_col170",
-      "high_14_ms_bits_col171",
-      "high_5_ms_bits_col172",
-      "new_state_7_id_col173"
+      "blake_round_output_limb_0_col92",
+      "blake_round_output_limb_1_col93",
+      "blake_round_output_limb_2_col94",
+      "blake_round_output_limb_3_col95",
+      "blake_round_output_limb_4_col96",
+      "blake_round_output_limb_5_col97",
+      "blake_round_output_limb_6_col98",
+      "blake_round_output_limb_7_col99",
+      "blake_round_output_limb_8_col100",
+      "blake_round_output_limb_9_col101",
+      "blake_round_output_limb_10_col102",
+      "blake_round_output_limb_11_col103",
+      "blake_round_output_limb_12_col104",
+      "blake_round_output_limb_13_col105",
+      "blake_round_output_limb_14_col106",
+      "blake_round_output_limb_15_col107",
+      "blake_round_output_limb_16_col108",
+      "blake_round_output_limb_17_col109",
+      "blake_round_output_limb_18_col110",
+      "blake_round_output_limb_19_col111",
+      "blake_round_output_limb_20_col112",
+      "blake_round_output_limb_21_col113",
+      "blake_round_output_limb_22_col114",
+      "blake_round_output_limb_23_col115",
+      "blake_round_output_limb_24_col116",
+      "blake_round_output_limb_25_col117",
+      "blake_round_output_limb_26_col118",
+      "blake_round_output_limb_27_col119",
+      "blake_round_output_limb_28_col120",
+      "blake_round_output_limb_29_col121",
+      "blake_round_output_limb_30_col122",
+      "blake_round_output_limb_31_col123",
+      "blake_round_output_limb_32_col124",
+      "triple_xor_32_output_limb_0_col125",
+      "triple_xor_32_output_limb_1_col126",
+      "triple_xor_32_output_limb_0_col127",
+      "triple_xor_32_output_limb_1_col128",
+      "triple_xor_32_output_limb_0_col129",
+      "triple_xor_32_output_limb_1_col130",
+      "triple_xor_32_output_limb_0_col131",
+      "triple_xor_32_output_limb_1_col132",
+      "triple_xor_32_output_limb_0_col133",
+      "triple_xor_32_output_limb_1_col134",
+      "triple_xor_32_output_limb_0_col135",
+      "triple_xor_32_output_limb_1_col136",
+      "triple_xor_32_output_limb_0_col137",
+      "triple_xor_32_output_limb_1_col138",
+      "triple_xor_32_output_limb_0_col139",
+      "triple_xor_32_output_limb_1_col140",
+      "low_7_ms_bits_col141",
+      "high_14_ms_bits_col142",
+      "high_5_ms_bits_col143",
+      "new_state_0_id_col144",
+      "low_7_ms_bits_col145",
+      "high_14_ms_bits_col146",
+      "high_5_ms_bits_col147",
+      "new_state_1_id_col148",
+      "low_7_ms_bits_col149",
+      "high_14_ms_bits_col150",
+      "high_5_ms_bits_col151",
+      "new_state_2_id_col152",
+      "low_7_ms_bits_col153",
+      "high_14_ms_bits_col154",
+      "high_5_ms_bits_col155",
+      "new_state_3_id_col156",
+      "low_7_ms_bits_col157",
+      "high_14_ms_bits_col158",
+      "high_5_ms_bits_col159",
+      "new_state_4_id_col160",
+      "low_7_ms_bits_col161",
+      "high_14_ms_bits_col162",
+      "high_5_ms_bits_col163",
+      "new_state_5_id_col164",
+      "low_7_ms_bits_col165",
+      "high_14_ms_bits_col166",
+      "high_5_ms_bits_col167",
+      "new_state_6_id_col168",
+      "low_7_ms_bits_col169",
+      "high_14_ms_bits_col170",
+      "high_5_ms_bits_col171",
+      "new_state_7_id_col172"
     ],
     "intermediates": [
       [
-        "decode_instruction_64420_output_tmp_53f39_10_offset0",
+        "decode_instruction_472fe_output_tmp_53f39_9_offset0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_53f39_10_offset1",
+        "decode_instruction_472fe_output_tmp_53f39_9_offset1",
         "(offset1_col4 - 32768)"
       ],
       [
-        "decode_instruction_64420_output_tmp_53f39_10_offset2",
+        "decode_instruction_472fe_output_tmp_53f39_9_offset2",
         "(offset2_col5 - 32768)"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_53f39_15",
-        "(op0_limb_3_col17 - (partial_limb_msb_col18 * 2))"
+        "decode_instruction_472fe_output_tmp_53f39_9_op1_base_ap",
+        "(1 - op1_base_fp_col8)"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_53f39_22",
-        "(op1_limb_3_col24 - (partial_limb_msb_col25 * 2))"
+        "partial_limb_bit_before_msb_tmp_53f39_14",
+        "(op0_limb_3_col16 - (partial_limb_msb_col17 * 2))"
       ],
       [
-        "partial_limb_bit_before_msb_tmp_53f39_29",
-        "(ap_limb_3_col30 - (partial_limb_msb_col31 * 2))"
+        "partial_limb_bit_before_msb_tmp_53f39_21",
+        "(op1_limb_3_col23 - (partial_limb_msb_col24 * 2))"
       ],
       [
-        "decode_blake_opcode_output_tmp_53f39_42_limb_0",
-        "(((op0_limb_0_col14 + (op0_limb_1_col15 * 512)) + (op0_limb_2_col16 * 262144)) + (op0_limb_3_col17 * 134217728))"
+        "partial_limb_bit_before_msb_tmp_53f39_28",
+        "(ap_limb_3_col29 - (partial_limb_msb_col30 * 2))"
       ],
       [
-        "decode_blake_opcode_output_tmp_53f39_42_limb_1",
-        "(((op1_limb_0_col21 + (op1_limb_1_col22 * 512)) + (op1_limb_2_col23 * 262144)) + (op1_limb_3_col24 * 134217728))"
+        "decode_blake_opcode_output_tmp_53f39_41_limb_0",
+        "(((op0_limb_0_col13 + (op0_limb_1_col14 * 512)) + (op0_limb_2_col15 * 262144)) + (op0_limb_3_col16 * 134217728))"
       ],
       [
-        "decode_blake_opcode_output_tmp_53f39_42_limb_2",
-        "(((ap_limb_0_col27 + (ap_limb_1_col28 * 512)) + (ap_limb_2_col29 * 262144)) + (ap_limb_3_col30 * 134217728))"
+        "decode_blake_opcode_output_tmp_53f39_41_limb_1",
+        "(((op1_limb_0_col20 + (op1_limb_1_col21 * 512)) + (op1_limb_2_col22 * 262144)) + (op1_limb_3_col23 * 134217728))"
       ],
       [
-        "decode_blake_opcode_output_tmp_53f39_42_limb_6",
-        "(opcode_extension_col11 - 1)"
+        "decode_blake_opcode_output_tmp_53f39_41_limb_2",
+        "(((ap_limb_0_col26 + (ap_limb_1_col27 * 512)) + (ap_limb_2_col28 * 262144)) + (ap_limb_3_col29 * 134217728))"
       ],
       [
-        "split_16_low_part_size_8_output_tmp_53f39_124_limb_0",
-        "(low_16_bits_col33 - (ms_8_bits_col87 * 256))"
+        "decode_blake_opcode_output_tmp_53f39_41_limb_6",
+        "(opcode_extension_col10 - 1)"
       ],
       [
-        "split_16_low_part_size_8_output_tmp_53f39_126_limb_0",
-        "(high_16_bits_col34 - (ms_8_bits_col88 * 256))"
+        "split_16_low_part_size_8_output_tmp_53f39_123_limb_0",
+        "(low_16_bits_col32 - (ms_8_bits_col86 * 256))"
       ],
       [
-        "create_blake_round_input_output_tmp_53f39_135_limb_24",
-        "(xor_col89 + (xor_col90 * 256))"
+        "split_16_low_part_size_8_output_tmp_53f39_125_limb_0",
+        "(high_16_bits_col33 - (ms_8_bits_col87 * 256))"
       ],
       [
-        "create_blake_round_input_output_tmp_53f39_135_limb_25",
-        "(xor_col91 + (xor_col92 * 256))"
+        "create_blake_round_input_output_tmp_53f39_134_limb_24",
+        "(xor_col88 + (xor_col89 * 256))"
       ],
       [
-        "create_blake_round_input_output_tmp_53f39_135_limb_28",
-        "((decode_blake_opcode_output_tmp_53f39_42_limb_6 * 9812) + ((1 - decode_blake_opcode_output_tmp_53f39_42_limb_6) * 55723))"
+        "create_blake_round_input_output_tmp_53f39_134_limb_25",
+        "(xor_col90 + (xor_col91 * 256))"
       ],
       [
-        "create_blake_round_input_output_tmp_53f39_135_limb_29",
-        "((decode_blake_opcode_output_tmp_53f39_42_limb_6 * 57468) + ((1 - decode_blake_opcode_output_tmp_53f39_42_limb_6) * 8067))"
+        "create_blake_round_input_output_tmp_53f39_134_limb_28",
+        "((decode_blake_opcode_output_tmp_53f39_41_limb_6 * 9812) + ((1 - decode_blake_opcode_output_tmp_53f39_41_limb_6) * 55723))"
+      ],
+      [
+        "create_blake_round_input_output_tmp_53f39_134_limb_29",
+        "((decode_blake_opcode_output_tmp_53f39_41_limb_6 * 57468) + ((1 - decode_blake_opcode_output_tmp_53f39_41_limb_6) * 8067))"
       ]
     ],
     "constraints": [
       "(dst_base_fp_col6 * (1 - dst_base_fp_col6))",
       "(op0_base_fp_col7 * (1 - op0_base_fp_col7))",
       "(op1_base_fp_col8 * (1 - op1_base_fp_col8))",
-      "(op1_base_ap_col9 * (1 - op1_base_ap_col9))",
-      "(ap_update_add_1_col10 * (1 - ap_update_add_1_col10))",
-      "((op1_base_fp_col8 + op1_base_ap_col9) - 1)",
-      "((opcode_extension_col11 - 1) * (opcode_extension_col11 - 2))",
-      "(mem0_base_col12 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(partial_limb_msb_col18 * (1 - partial_limb_msb_col18))",
-      "(partial_limb_bit_before_msb_tmp_53f39_15 * (1 - partial_limb_bit_before_msb_tmp_53f39_15))",
-      "(mem1_base_col19 - ((op1_base_fp_col8 * input_fp_col2) + (op1_base_ap_col9 * input_ap_col1)))",
-      "(partial_limb_msb_col25 * (1 - partial_limb_msb_col25))",
-      "(partial_limb_bit_before_msb_tmp_53f39_22 * (1 - partial_limb_bit_before_msb_tmp_53f39_22))",
-      "(partial_limb_msb_col31 * (1 - partial_limb_msb_col31))",
-      "(partial_limb_bit_before_msb_tmp_53f39_29 * (1 - partial_limb_bit_before_msb_tmp_53f39_29))",
-      "(mem_dst_base_col32 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))"
+      "(ap_update_add_1_col9 * (1 - ap_update_add_1_col9))",
+      "((opcode_extension_col10 - 1) * (opcode_extension_col10 - 2))",
+      "(mem0_base_col11 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
+      "(partial_limb_msb_col17 * (1 - partial_limb_msb_col17))",
+      "(partial_limb_bit_before_msb_tmp_53f39_14 * (1 - partial_limb_bit_before_msb_tmp_53f39_14))",
+      "(mem1_base_col18 - ((op1_base_fp_col8 * input_fp_col2) + (decode_instruction_472fe_output_tmp_53f39_9_op1_base_ap * input_ap_col1)))",
+      "(partial_limb_msb_col24 * (1 - partial_limb_msb_col24))",
+      "(partial_limb_bit_before_msb_tmp_53f39_21 * (1 - partial_limb_bit_before_msb_tmp_53f39_21))",
+      "(partial_limb_msb_col30 * (1 - partial_limb_msb_col30))",
+      "(partial_limb_bit_before_msb_tmp_53f39_28 * (1 - partial_limb_bit_before_msb_tmp_53f39_28))",
+      "(mem_dst_base_col31 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, offset0_col3, offset1_col4, offset2_col5, ((((dst_base_fp_col6 * 8) + (op0_base_fp_col7 * 16)) + (op1_base_fp_col8 * 64)) + (op1_base_ap_col9 * 128)), (ap_update_add_1_col10 * 32), opcode_extension_col11"
+        "input_pc_col0, offset0_col3, offset1_col4, offset2_col5, ((((dst_base_fp_col6 * 8) + (op0_base_fp_col7 * 16)) + (op1_base_fp_col8 * 64)) + ((1 - op1_base_fp_col8) * 128)), (ap_update_add_1_col9 * 32), opcode_extension_col10"
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col12 + decode_instruction_64420_output_tmp_53f39_10_offset1), op0_id_col13"
+        "(mem0_base_col11 + decode_instruction_472fe_output_tmp_53f39_9_offset1), op0_id_col12"
       ],
       [
         "MemoryIdToBig",
-        "op0_id_col13, op0_limb_0_col14, op0_limb_1_col15, op0_limb_2_col16, op0_limb_3_col17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "op0_id_col12, op0_limb_0_col13, op0_limb_1_col14, op0_limb_2_col15, op0_limb_3_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col19 + decode_instruction_64420_output_tmp_53f39_10_offset2), op1_id_col20"
+        "(mem1_base_col18 + decode_instruction_472fe_output_tmp_53f39_9_offset2), op1_id_col19"
       ],
       [
         "MemoryIdToBig",
-        "op1_id_col20, op1_limb_0_col21, op1_limb_1_col22, op1_limb_2_col23, op1_limb_3_col24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "op1_id_col19, op1_limb_0_col20, op1_limb_1_col21, op1_limb_2_col22, op1_limb_3_col23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "MemoryAddressToId",
-        "input_ap_col1, ap_id_col26"
+        "input_ap_col1, ap_id_col25"
       ],
       [
         "MemoryIdToBig",
-        "ap_id_col26, ap_limb_0_col27, ap_limb_1_col28, ap_limb_2_col29, ap_limb_3_col30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "ap_id_col25, ap_limb_0_col26, ap_limb_1_col27, ap_limb_2_col28, ap_limb_3_col29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col35, (high_16_bits_col34 - (high_14_ms_bits_col36 * 4)), high_5_ms_bits_col37"
+        "low_7_ms_bits_col34, (high_16_bits_col33 - (high_14_ms_bits_col35 * 4)), high_5_ms_bits_col36"
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col32 + decode_instruction_64420_output_tmp_53f39_10_offset0), dst_id_col38"
+        "(mem_dst_base_col31 + decode_instruction_472fe_output_tmp_53f39_9_offset0), dst_id_col37"
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col38, (low_16_bits_col33 - (low_7_ms_bits_col35 * 512)), (low_7_ms_bits_col35 + ((high_16_bits_col34 - (high_14_ms_bits_col36 * 4)) * 128)), (high_14_ms_bits_col36 - (high_5_ms_bits_col37 * 512)), high_5_ms_bits_col37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "dst_id_col37, (low_16_bits_col32 - (low_7_ms_bits_col34 * 512)), (low_7_ms_bits_col34 + ((high_16_bits_col33 - (high_14_ms_bits_col35 * 4)) * 128)), (high_14_ms_bits_col35 - (high_5_ms_bits_col36 * 512)), high_5_ms_bits_col36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col41, (high_16_bits_col40 - (high_14_ms_bits_col42 * 4)), high_5_ms_bits_col43"
+        "low_7_ms_bits_col40, (high_16_bits_col39 - (high_14_ms_bits_col41 * 4)), high_5_ms_bits_col42"
       ],
       [
         "MemoryAddressToId",
-        "decode_blake_opcode_output_tmp_53f39_42_limb_0, state_0_id_col44"
+        "decode_blake_opcode_output_tmp_53f39_41_limb_0, state_0_id_col43"
       ],
       [
         "MemoryIdToBig",
-        "state_0_id_col44, (low_16_bits_col39 - (low_7_ms_bits_col41 * 512)), (low_7_ms_bits_col41 + ((high_16_bits_col40 - (high_14_ms_bits_col42 * 4)) * 128)), (high_14_ms_bits_col42 - (high_5_ms_bits_col43 * 512)), high_5_ms_bits_col43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_0_id_col43, (low_16_bits_col38 - (low_7_ms_bits_col40 * 512)), (low_7_ms_bits_col40 + ((high_16_bits_col39 - (high_14_ms_bits_col41 * 4)) * 128)), (high_14_ms_bits_col41 - (high_5_ms_bits_col42 * 512)), high_5_ms_bits_col42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col47, (high_16_bits_col46 - (high_14_ms_bits_col48 * 4)), high_5_ms_bits_col49"
+        "low_7_ms_bits_col46, (high_16_bits_col45 - (high_14_ms_bits_col47 * 4)), high_5_ms_bits_col48"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 1), state_1_id_col50"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 1), state_1_id_col49"
       ],
       [
         "MemoryIdToBig",
-        "state_1_id_col50, (low_16_bits_col45 - (low_7_ms_bits_col47 * 512)), (low_7_ms_bits_col47 + ((high_16_bits_col46 - (high_14_ms_bits_col48 * 4)) * 128)), (high_14_ms_bits_col48 - (high_5_ms_bits_col49 * 512)), high_5_ms_bits_col49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_1_id_col49, (low_16_bits_col44 - (low_7_ms_bits_col46 * 512)), (low_7_ms_bits_col46 + ((high_16_bits_col45 - (high_14_ms_bits_col47 * 4)) * 128)), (high_14_ms_bits_col47 - (high_5_ms_bits_col48 * 512)), high_5_ms_bits_col48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col53, (high_16_bits_col52 - (high_14_ms_bits_col54 * 4)), high_5_ms_bits_col55"
+        "low_7_ms_bits_col52, (high_16_bits_col51 - (high_14_ms_bits_col53 * 4)), high_5_ms_bits_col54"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 2), state_2_id_col56"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 2), state_2_id_col55"
       ],
       [
         "MemoryIdToBig",
-        "state_2_id_col56, (low_16_bits_col51 - (low_7_ms_bits_col53 * 512)), (low_7_ms_bits_col53 + ((high_16_bits_col52 - (high_14_ms_bits_col54 * 4)) * 128)), (high_14_ms_bits_col54 - (high_5_ms_bits_col55 * 512)), high_5_ms_bits_col55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_2_id_col55, (low_16_bits_col50 - (low_7_ms_bits_col52 * 512)), (low_7_ms_bits_col52 + ((high_16_bits_col51 - (high_14_ms_bits_col53 * 4)) * 128)), (high_14_ms_bits_col53 - (high_5_ms_bits_col54 * 512)), high_5_ms_bits_col54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col59, (high_16_bits_col58 - (high_14_ms_bits_col60 * 4)), high_5_ms_bits_col61"
+        "low_7_ms_bits_col58, (high_16_bits_col57 - (high_14_ms_bits_col59 * 4)), high_5_ms_bits_col60"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 3), state_3_id_col62"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 3), state_3_id_col61"
       ],
       [
         "MemoryIdToBig",
-        "state_3_id_col62, (low_16_bits_col57 - (low_7_ms_bits_col59 * 512)), (low_7_ms_bits_col59 + ((high_16_bits_col58 - (high_14_ms_bits_col60 * 4)) * 128)), (high_14_ms_bits_col60 - (high_5_ms_bits_col61 * 512)), high_5_ms_bits_col61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_3_id_col61, (low_16_bits_col56 - (low_7_ms_bits_col58 * 512)), (low_7_ms_bits_col58 + ((high_16_bits_col57 - (high_14_ms_bits_col59 * 4)) * 128)), (high_14_ms_bits_col59 - (high_5_ms_bits_col60 * 512)), high_5_ms_bits_col60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col65, (high_16_bits_col64 - (high_14_ms_bits_col66 * 4)), high_5_ms_bits_col67"
+        "low_7_ms_bits_col64, (high_16_bits_col63 - (high_14_ms_bits_col65 * 4)), high_5_ms_bits_col66"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 4), state_4_id_col68"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 4), state_4_id_col67"
       ],
       [
         "MemoryIdToBig",
-        "state_4_id_col68, (low_16_bits_col63 - (low_7_ms_bits_col65 * 512)), (low_7_ms_bits_col65 + ((high_16_bits_col64 - (high_14_ms_bits_col66 * 4)) * 128)), (high_14_ms_bits_col66 - (high_5_ms_bits_col67 * 512)), high_5_ms_bits_col67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_4_id_col67, (low_16_bits_col62 - (low_7_ms_bits_col64 * 512)), (low_7_ms_bits_col64 + ((high_16_bits_col63 - (high_14_ms_bits_col65 * 4)) * 128)), (high_14_ms_bits_col65 - (high_5_ms_bits_col66 * 512)), high_5_ms_bits_col66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col71, (high_16_bits_col70 - (high_14_ms_bits_col72 * 4)), high_5_ms_bits_col73"
+        "low_7_ms_bits_col70, (high_16_bits_col69 - (high_14_ms_bits_col71 * 4)), high_5_ms_bits_col72"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 5), state_5_id_col74"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 5), state_5_id_col73"
       ],
       [
         "MemoryIdToBig",
-        "state_5_id_col74, (low_16_bits_col69 - (low_7_ms_bits_col71 * 512)), (low_7_ms_bits_col71 + ((high_16_bits_col70 - (high_14_ms_bits_col72 * 4)) * 128)), (high_14_ms_bits_col72 - (high_5_ms_bits_col73 * 512)), high_5_ms_bits_col73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_5_id_col73, (low_16_bits_col68 - (low_7_ms_bits_col70 * 512)), (low_7_ms_bits_col70 + ((high_16_bits_col69 - (high_14_ms_bits_col71 * 4)) * 128)), (high_14_ms_bits_col71 - (high_5_ms_bits_col72 * 512)), high_5_ms_bits_col72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col77, (high_16_bits_col76 - (high_14_ms_bits_col78 * 4)), high_5_ms_bits_col79"
+        "low_7_ms_bits_col76, (high_16_bits_col75 - (high_14_ms_bits_col77 * 4)), high_5_ms_bits_col78"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 6), state_6_id_col80"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 6), state_6_id_col79"
       ],
       [
         "MemoryIdToBig",
-        "state_6_id_col80, (low_16_bits_col75 - (low_7_ms_bits_col77 * 512)), (low_7_ms_bits_col77 + ((high_16_bits_col76 - (high_14_ms_bits_col78 * 4)) * 128)), (high_14_ms_bits_col78 - (high_5_ms_bits_col79 * 512)), high_5_ms_bits_col79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_6_id_col79, (low_16_bits_col74 - (low_7_ms_bits_col76 * 512)), (low_7_ms_bits_col76 + ((high_16_bits_col75 - (high_14_ms_bits_col77 * 4)) * 128)), (high_14_ms_bits_col77 - (high_5_ms_bits_col78 * 512)), high_5_ms_bits_col78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col83, (high_16_bits_col82 - (high_14_ms_bits_col84 * 4)), high_5_ms_bits_col85"
+        "low_7_ms_bits_col82, (high_16_bits_col81 - (high_14_ms_bits_col83 * 4)), high_5_ms_bits_col84"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_0 + 7), state_7_id_col86"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_0 + 7), state_7_id_col85"
       ],
       [
         "MemoryIdToBig",
-        "state_7_id_col86, (low_16_bits_col81 - (low_7_ms_bits_col83 * 512)), (low_7_ms_bits_col83 + ((high_16_bits_col82 - (high_14_ms_bits_col84 * 4)) * 128)), (high_14_ms_bits_col84 - (high_5_ms_bits_col85 * 512)), high_5_ms_bits_col85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_7_id_col85, (low_16_bits_col80 - (low_7_ms_bits_col82 * 512)), (low_7_ms_bits_col82 + ((high_16_bits_col81 - (high_14_ms_bits_col83 * 4)) * 128)), (high_14_ms_bits_col83 - (high_5_ms_bits_col84 * 512)), high_5_ms_bits_col84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "VerifyBitwiseXor_8",
-        "split_16_low_part_size_8_output_tmp_53f39_124_limb_0, 127, xor_col89"
+        "split_16_low_part_size_8_output_tmp_53f39_123_limb_0, 127, xor_col88"
       ],
       [
         "VerifyBitwiseXor_8",
-        "ms_8_bits_col87, 82, xor_col90"
+        "ms_8_bits_col86, 82, xor_col89"
       ],
       [
         "VerifyBitwiseXor_8",
-        "split_16_low_part_size_8_output_tmp_53f39_126_limb_0, 14, xor_col91"
+        "split_16_low_part_size_8_output_tmp_53f39_125_limb_0, 14, xor_col90"
       ],
       [
         "VerifyBitwiseXor_8",
-        "ms_8_bits_col88, 81, xor_col92"
+        "ms_8_bits_col87, 81, xor_col91"
       ],
       [
         "BlakeRound",
-        "seq(), 10, blake_round_output_limb_0_col93, blake_round_output_limb_1_col94, blake_round_output_limb_2_col95, blake_round_output_limb_3_col96, blake_round_output_limb_4_col97, blake_round_output_limb_5_col98, blake_round_output_limb_6_col99, blake_round_output_limb_7_col100, blake_round_output_limb_8_col101, blake_round_output_limb_9_col102, blake_round_output_limb_10_col103, blake_round_output_limb_11_col104, blake_round_output_limb_12_col105, blake_round_output_limb_13_col106, blake_round_output_limb_14_col107, blake_round_output_limb_15_col108, blake_round_output_limb_16_col109, blake_round_output_limb_17_col110, blake_round_output_limb_18_col111, blake_round_output_limb_19_col112, blake_round_output_limb_20_col113, blake_round_output_limb_21_col114, blake_round_output_limb_22_col115, blake_round_output_limb_23_col116, blake_round_output_limb_24_col117, blake_round_output_limb_25_col118, blake_round_output_limb_26_col119, blake_round_output_limb_27_col120, blake_round_output_limb_28_col121, blake_round_output_limb_29_col122, blake_round_output_limb_30_col123, blake_round_output_limb_31_col124, blake_round_output_limb_32_col125"
+        "seq(), 10, blake_round_output_limb_0_col92, blake_round_output_limb_1_col93, blake_round_output_limb_2_col94, blake_round_output_limb_3_col95, blake_round_output_limb_4_col96, blake_round_output_limb_5_col97, blake_round_output_limb_6_col98, blake_round_output_limb_7_col99, blake_round_output_limb_8_col100, blake_round_output_limb_9_col101, blake_round_output_limb_10_col102, blake_round_output_limb_11_col103, blake_round_output_limb_12_col104, blake_round_output_limb_13_col105, blake_round_output_limb_14_col106, blake_round_output_limb_15_col107, blake_round_output_limb_16_col108, blake_round_output_limb_17_col109, blake_round_output_limb_18_col110, blake_round_output_limb_19_col111, blake_round_output_limb_20_col112, blake_round_output_limb_21_col113, blake_round_output_limb_22_col114, blake_round_output_limb_23_col115, blake_round_output_limb_24_col116, blake_round_output_limb_25_col117, blake_round_output_limb_26_col118, blake_round_output_limb_27_col119, blake_round_output_limb_28_col120, blake_round_output_limb_29_col121, blake_round_output_limb_30_col122, blake_round_output_limb_31_col123, blake_round_output_limb_32_col124"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_0_col93, blake_round_output_limb_1_col94, blake_round_output_limb_16_col109, blake_round_output_limb_17_col110, low_16_bits_col39, high_16_bits_col40, triple_xor_32_output_limb_0_col126, triple_xor_32_output_limb_1_col127"
+        "blake_round_output_limb_0_col92, blake_round_output_limb_1_col93, blake_round_output_limb_16_col108, blake_round_output_limb_17_col109, low_16_bits_col38, high_16_bits_col39, triple_xor_32_output_limb_0_col125, triple_xor_32_output_limb_1_col126"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_2_col95, blake_round_output_limb_3_col96, blake_round_output_limb_18_col111, blake_round_output_limb_19_col112, low_16_bits_col45, high_16_bits_col46, triple_xor_32_output_limb_0_col128, triple_xor_32_output_limb_1_col129"
+        "blake_round_output_limb_2_col94, blake_round_output_limb_3_col95, blake_round_output_limb_18_col110, blake_round_output_limb_19_col111, low_16_bits_col44, high_16_bits_col45, triple_xor_32_output_limb_0_col127, triple_xor_32_output_limb_1_col128"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_4_col97, blake_round_output_limb_5_col98, blake_round_output_limb_20_col113, blake_round_output_limb_21_col114, low_16_bits_col51, high_16_bits_col52, triple_xor_32_output_limb_0_col130, triple_xor_32_output_limb_1_col131"
+        "blake_round_output_limb_4_col96, blake_round_output_limb_5_col97, blake_round_output_limb_20_col112, blake_round_output_limb_21_col113, low_16_bits_col50, high_16_bits_col51, triple_xor_32_output_limb_0_col129, triple_xor_32_output_limb_1_col130"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_6_col99, blake_round_output_limb_7_col100, blake_round_output_limb_22_col115, blake_round_output_limb_23_col116, low_16_bits_col57, high_16_bits_col58, triple_xor_32_output_limb_0_col132, triple_xor_32_output_limb_1_col133"
+        "blake_round_output_limb_6_col98, blake_round_output_limb_7_col99, blake_round_output_limb_22_col114, blake_round_output_limb_23_col115, low_16_bits_col56, high_16_bits_col57, triple_xor_32_output_limb_0_col131, triple_xor_32_output_limb_1_col132"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_8_col101, blake_round_output_limb_9_col102, blake_round_output_limb_24_col117, blake_round_output_limb_25_col118, low_16_bits_col63, high_16_bits_col64, triple_xor_32_output_limb_0_col134, triple_xor_32_output_limb_1_col135"
+        "blake_round_output_limb_8_col100, blake_round_output_limb_9_col101, blake_round_output_limb_24_col116, blake_round_output_limb_25_col117, low_16_bits_col62, high_16_bits_col63, triple_xor_32_output_limb_0_col133, triple_xor_32_output_limb_1_col134"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_10_col103, blake_round_output_limb_11_col104, blake_round_output_limb_26_col119, blake_round_output_limb_27_col120, low_16_bits_col69, high_16_bits_col70, triple_xor_32_output_limb_0_col136, triple_xor_32_output_limb_1_col137"
+        "blake_round_output_limb_10_col102, blake_round_output_limb_11_col103, blake_round_output_limb_26_col118, blake_round_output_limb_27_col119, low_16_bits_col68, high_16_bits_col69, triple_xor_32_output_limb_0_col135, triple_xor_32_output_limb_1_col136"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_12_col105, blake_round_output_limb_13_col106, blake_round_output_limb_28_col121, blake_round_output_limb_29_col122, low_16_bits_col75, high_16_bits_col76, triple_xor_32_output_limb_0_col138, triple_xor_32_output_limb_1_col139"
+        "blake_round_output_limb_12_col104, blake_round_output_limb_13_col105, blake_round_output_limb_28_col120, blake_round_output_limb_29_col121, low_16_bits_col74, high_16_bits_col75, triple_xor_32_output_limb_0_col137, triple_xor_32_output_limb_1_col138"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_14_col107, blake_round_output_limb_15_col108, blake_round_output_limb_30_col123, blake_round_output_limb_31_col124, low_16_bits_col81, high_16_bits_col82, triple_xor_32_output_limb_0_col140, triple_xor_32_output_limb_1_col141"
+        "blake_round_output_limb_14_col106, blake_round_output_limb_15_col107, blake_round_output_limb_30_col122, blake_round_output_limb_31_col123, low_16_bits_col80, high_16_bits_col81, triple_xor_32_output_limb_0_col139, triple_xor_32_output_limb_1_col140"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col142, (triple_xor_32_output_limb_1_col127 - (high_14_ms_bits_col143 * 4)), high_5_ms_bits_col144"
+        "low_7_ms_bits_col141, (triple_xor_32_output_limb_1_col126 - (high_14_ms_bits_col142 * 4)), high_5_ms_bits_col143"
       ],
       [
         "MemoryAddressToId",
-        "decode_blake_opcode_output_tmp_53f39_42_limb_2, new_state_0_id_col145"
+        "decode_blake_opcode_output_tmp_53f39_41_limb_2, new_state_0_id_col144"
       ],
       [
         "MemoryIdToBig",
-        "new_state_0_id_col145, (triple_xor_32_output_limb_0_col126 - (low_7_ms_bits_col142 * 512)), (low_7_ms_bits_col142 + ((triple_xor_32_output_limb_1_col127 - (high_14_ms_bits_col143 * 4)) * 128)), (high_14_ms_bits_col143 - (high_5_ms_bits_col144 * 512)), high_5_ms_bits_col144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_0_id_col144, (triple_xor_32_output_limb_0_col125 - (low_7_ms_bits_col141 * 512)), (low_7_ms_bits_col141 + ((triple_xor_32_output_limb_1_col126 - (high_14_ms_bits_col142 * 4)) * 128)), (high_14_ms_bits_col142 - (high_5_ms_bits_col143 * 512)), high_5_ms_bits_col143, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col146, (triple_xor_32_output_limb_1_col129 - (high_14_ms_bits_col147 * 4)), high_5_ms_bits_col148"
+        "low_7_ms_bits_col145, (triple_xor_32_output_limb_1_col128 - (high_14_ms_bits_col146 * 4)), high_5_ms_bits_col147"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 1), new_state_1_id_col149"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 1), new_state_1_id_col148"
       ],
       [
         "MemoryIdToBig",
-        "new_state_1_id_col149, (triple_xor_32_output_limb_0_col128 - (low_7_ms_bits_col146 * 512)), (low_7_ms_bits_col146 + ((triple_xor_32_output_limb_1_col129 - (high_14_ms_bits_col147 * 4)) * 128)), (high_14_ms_bits_col147 - (high_5_ms_bits_col148 * 512)), high_5_ms_bits_col148, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_1_id_col148, (triple_xor_32_output_limb_0_col127 - (low_7_ms_bits_col145 * 512)), (low_7_ms_bits_col145 + ((triple_xor_32_output_limb_1_col128 - (high_14_ms_bits_col146 * 4)) * 128)), (high_14_ms_bits_col146 - (high_5_ms_bits_col147 * 512)), high_5_ms_bits_col147, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col150, (triple_xor_32_output_limb_1_col131 - (high_14_ms_bits_col151 * 4)), high_5_ms_bits_col152"
+        "low_7_ms_bits_col149, (triple_xor_32_output_limb_1_col130 - (high_14_ms_bits_col150 * 4)), high_5_ms_bits_col151"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 2), new_state_2_id_col153"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 2), new_state_2_id_col152"
       ],
       [
         "MemoryIdToBig",
-        "new_state_2_id_col153, (triple_xor_32_output_limb_0_col130 - (low_7_ms_bits_col150 * 512)), (low_7_ms_bits_col150 + ((triple_xor_32_output_limb_1_col131 - (high_14_ms_bits_col151 * 4)) * 128)), (high_14_ms_bits_col151 - (high_5_ms_bits_col152 * 512)), high_5_ms_bits_col152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_2_id_col152, (triple_xor_32_output_limb_0_col129 - (low_7_ms_bits_col149 * 512)), (low_7_ms_bits_col149 + ((triple_xor_32_output_limb_1_col130 - (high_14_ms_bits_col150 * 4)) * 128)), (high_14_ms_bits_col150 - (high_5_ms_bits_col151 * 512)), high_5_ms_bits_col151, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col154, (triple_xor_32_output_limb_1_col133 - (high_14_ms_bits_col155 * 4)), high_5_ms_bits_col156"
+        "low_7_ms_bits_col153, (triple_xor_32_output_limb_1_col132 - (high_14_ms_bits_col154 * 4)), high_5_ms_bits_col155"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 3), new_state_3_id_col157"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 3), new_state_3_id_col156"
       ],
       [
         "MemoryIdToBig",
-        "new_state_3_id_col157, (triple_xor_32_output_limb_0_col132 - (low_7_ms_bits_col154 * 512)), (low_7_ms_bits_col154 + ((triple_xor_32_output_limb_1_col133 - (high_14_ms_bits_col155 * 4)) * 128)), (high_14_ms_bits_col155 - (high_5_ms_bits_col156 * 512)), high_5_ms_bits_col156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_3_id_col156, (triple_xor_32_output_limb_0_col131 - (low_7_ms_bits_col153 * 512)), (low_7_ms_bits_col153 + ((triple_xor_32_output_limb_1_col132 - (high_14_ms_bits_col154 * 4)) * 128)), (high_14_ms_bits_col154 - (high_5_ms_bits_col155 * 512)), high_5_ms_bits_col155, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col158, (triple_xor_32_output_limb_1_col135 - (high_14_ms_bits_col159 * 4)), high_5_ms_bits_col160"
+        "low_7_ms_bits_col157, (triple_xor_32_output_limb_1_col134 - (high_14_ms_bits_col158 * 4)), high_5_ms_bits_col159"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 4), new_state_4_id_col161"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 4), new_state_4_id_col160"
       ],
       [
         "MemoryIdToBig",
-        "new_state_4_id_col161, (triple_xor_32_output_limb_0_col134 - (low_7_ms_bits_col158 * 512)), (low_7_ms_bits_col158 + ((triple_xor_32_output_limb_1_col135 - (high_14_ms_bits_col159 * 4)) * 128)), (high_14_ms_bits_col159 - (high_5_ms_bits_col160 * 512)), high_5_ms_bits_col160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_4_id_col160, (triple_xor_32_output_limb_0_col133 - (low_7_ms_bits_col157 * 512)), (low_7_ms_bits_col157 + ((triple_xor_32_output_limb_1_col134 - (high_14_ms_bits_col158 * 4)) * 128)), (high_14_ms_bits_col158 - (high_5_ms_bits_col159 * 512)), high_5_ms_bits_col159, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col162, (triple_xor_32_output_limb_1_col137 - (high_14_ms_bits_col163 * 4)), high_5_ms_bits_col164"
+        "low_7_ms_bits_col161, (triple_xor_32_output_limb_1_col136 - (high_14_ms_bits_col162 * 4)), high_5_ms_bits_col163"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 5), new_state_5_id_col165"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 5), new_state_5_id_col164"
       ],
       [
         "MemoryIdToBig",
-        "new_state_5_id_col165, (triple_xor_32_output_limb_0_col136 - (low_7_ms_bits_col162 * 512)), (low_7_ms_bits_col162 + ((triple_xor_32_output_limb_1_col137 - (high_14_ms_bits_col163 * 4)) * 128)), (high_14_ms_bits_col163 - (high_5_ms_bits_col164 * 512)), high_5_ms_bits_col164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_5_id_col164, (triple_xor_32_output_limb_0_col135 - (low_7_ms_bits_col161 * 512)), (low_7_ms_bits_col161 + ((triple_xor_32_output_limb_1_col136 - (high_14_ms_bits_col162 * 4)) * 128)), (high_14_ms_bits_col162 - (high_5_ms_bits_col163 * 512)), high_5_ms_bits_col163, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col166, (triple_xor_32_output_limb_1_col139 - (high_14_ms_bits_col167 * 4)), high_5_ms_bits_col168"
+        "low_7_ms_bits_col165, (triple_xor_32_output_limb_1_col138 - (high_14_ms_bits_col166 * 4)), high_5_ms_bits_col167"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 6), new_state_6_id_col169"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 6), new_state_6_id_col168"
       ],
       [
         "MemoryIdToBig",
-        "new_state_6_id_col169, (triple_xor_32_output_limb_0_col138 - (low_7_ms_bits_col166 * 512)), (low_7_ms_bits_col166 + ((triple_xor_32_output_limb_1_col139 - (high_14_ms_bits_col167 * 4)) * 128)), (high_14_ms_bits_col167 - (high_5_ms_bits_col168 * 512)), high_5_ms_bits_col168, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_6_id_col168, (triple_xor_32_output_limb_0_col137 - (low_7_ms_bits_col165 * 512)), (low_7_ms_bits_col165 + ((triple_xor_32_output_limb_1_col138 - (high_14_ms_bits_col166 * 4)) * 128)), (high_14_ms_bits_col166 - (high_5_ms_bits_col167 * 512)), high_5_ms_bits_col167, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col170, (triple_xor_32_output_limb_1_col141 - (high_14_ms_bits_col171 * 4)), high_5_ms_bits_col172"
+        "low_7_ms_bits_col169, (triple_xor_32_output_limb_1_col140 - (high_14_ms_bits_col170 * 4)), high_5_ms_bits_col171"
       ],
       [
         "MemoryAddressToId",
-        "(decode_blake_opcode_output_tmp_53f39_42_limb_2 + 7), new_state_7_id_col173"
+        "(decode_blake_opcode_output_tmp_53f39_41_limb_2 + 7), new_state_7_id_col172"
       ],
       [
         "MemoryIdToBig",
-        "new_state_7_id_col173, (triple_xor_32_output_limb_0_col140 - (low_7_ms_bits_col170 * 512)), (low_7_ms_bits_col170 + ((triple_xor_32_output_limb_1_col141 - (high_14_ms_bits_col171 * 4)) * 128)), (high_14_ms_bits_col171 - (high_5_ms_bits_col172 * 512)), high_5_ms_bits_col172, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_7_id_col172, (triple_xor_32_output_limb_0_col139 - (low_7_ms_bits_col169 * 512)), (low_7_ms_bits_col169 + ((triple_xor_32_output_limb_1_col140 - (high_14_ms_bits_col170 * 4)) * 128)), (high_14_ms_bits_col170 - (high_5_ms_bits_col171 * 512)), high_5_ms_bits_col171, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   }

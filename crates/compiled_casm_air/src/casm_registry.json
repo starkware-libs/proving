@@ -2138,7 +2138,7 @@
   },
   "blake_compress_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 174,
+    "num_state_cols": 173,
     "use_lookup_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 20,
@@ -2163,8 +2163,8 @@
       "triple_xor_32": 8
     },
     "padding_type": "Enabler",
-    "total_num_trace_cols": 323,
-    "trace_cells_upper_bound": 17355,
+    "total_num_trace_cols": 322,
+    "trace_cells_upper_bound": 17354,
     "uses_upper_bound": {
       "range_check_7_2_5": 274,
       "range_check_4_3": 1,
