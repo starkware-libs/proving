@@ -1,6 +1,3 @@
-pub mod verify_bitwise_xor_8;
-
-1;
 use stwo::core::pcs::TreeSubspan;
 use stwo::prover::backend::simd::conversion::Pack;
 use stwo::prover::backend::simd::m31::PackedM31;

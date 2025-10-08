@@ -8,6 +8,7 @@ use compiled_casm_air::compiled_structs::{
 };
 use genco::lang::rust;
 use genco::quote;
+use indexmap::IndexSet;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
@@ -277,6 +278,14 @@ pub fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
             }
         })
         .collect()
+}
+
+pub fn constraint_relations(air_fn: &CompiledAirFn) -> IndexSet<String> {
+    air_fn
+        .constraint_lookups
+        .iter()
+        .map(|(r, _)| r.clone())
+        .collect::<IndexSet<_>>()
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
