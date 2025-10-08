@@ -117,7 +117,7 @@ async function build_xref_graph() {
     let done = 0
     for (const air_name of AIRS.keys()) {
         const json = await get_air_json(air_name)
-        for (const lookup of json.lookup_names) {
+        for (const lookup of json.constraint_lookups) {
             const [relation_name, use_or_yield] = lookup
             if (use_or_yield == "Use") {
                 RELATIONS.get(relation_name).used_by.add(air_name)
