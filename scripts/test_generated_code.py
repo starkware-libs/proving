@@ -60,11 +60,9 @@ run_cmd(['git', '-C', clone_dir, 'fetch', '--depth=1', 'origin', stwo_cairo_comm
 run_cmd(['git', '-C', clone_dir, 'checkout', stwo_cairo_commit])
 
 # Generate code
-run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--',
+run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--', 'generate-stwo-cairo',
          '--source', os.path.join(repository_root, 'crates/compiled_casm_air/src/'),
-         '--rust-constraints-dest', os.path.join(clone_dir, 'stwo_cairo_prover/crates/cairo-air/src/components'),
-         '--cairo-constraints-dest', os.path.join(clone_dir, 'stwo_cairo_verifier/crates/cairo_air/src/components'),
-         '--witness-dest', os.path.join(clone_dir, 'stwo_cairo_prover/crates/prover/src/witness/components')])
+         '--stwo-cairo-path', clone_dir])
 
 # Test Rust generated code
 # We only run the tests for the stwo_cairo_prover and cairo-air packages as these are the only ones

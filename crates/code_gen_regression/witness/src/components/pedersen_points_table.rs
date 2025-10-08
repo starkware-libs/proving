@@ -1,3 +1,5 @@
+// This file was created by the AIR team.
+
 #![allow(unused_parens)]
 use cairo_air::components::pedersen_points_table::{
     Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS,

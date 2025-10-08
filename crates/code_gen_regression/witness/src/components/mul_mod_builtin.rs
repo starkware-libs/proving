@@ -1,3 +1,5 @@
+// This file was created by the AIR team.
+
 #![allow(unused_parens)]
 use cairo_air::components::mul_mod_builtin::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
