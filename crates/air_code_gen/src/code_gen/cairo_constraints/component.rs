@@ -1,5 +1,6 @@
 use compiled_casm_air::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
+use eval_air_fn_constraints::assignment::Assignment;
 use genco::lang::rust;
 use genco::quote;
 
@@ -13,7 +14,12 @@ use super::utils::{
 };
 use crate::code_gen::utils::constraint_relations;
 
-pub fn generate_component_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
+
+pub fn generate_component_cairo_constraints_code(
+    air_fn: &CompiledAirFn,
+    _sample_assignment: &Assignment,
+) -> rust::Tokens {
     let lookups = air_fn
         .constraint_lookups
         .iter()
@@ -157,7 +163,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get($(make_preprocessed_column(air_fn, external_state)));
+                = preprocessed_mask_values.get($(make_preprocessed_column(external_state, &get_log_size(air_fn, false))));
         });
     }
 
@@ -170,7 +176,7 @@ fn gen_mask_points(air_fn: &CompiledAirFn) -> rust::Tokens {
     // Generate preprocessed column set
     for external_state in &air_fn.external_states {
         code.append(quote! {
-            preprocessed_column_set.insert($(make_preprocessed_column(air_fn, external_state)));
+            preprocessed_column_set.insert($(make_preprocessed_column(external_state, &get_log_size(air_fn, false))));
         });
     }
 
@@ -219,13 +225,13 @@ fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     match (has_state_vars, has_enabler) {
         (true, true) => {
             code.append(quote! {
-                let $(format!("[{}, enabler]: [Span<QM31>; {}]", air_fn.state_names.join(", "), air_fn.state_names.len() + 1)) 
+                let $(format!("[{}, enabler]: [Span<QM31>; {}]", air_fn.state_names.join(", "), air_fn.state_names.len() + 1))
                     = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
             });
         }
         (true, false) => {
             code.append(quote! {
-                let $(format!("[{}]: [Span<QM31>; {}]", air_fn.state_names.join(", "), air_fn.state_names.len())) 
+                let $(format!("[{}]: [Span<QM31>; {}]", air_fn.state_names.join(", "), air_fn.state_names.len()))
                     = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
             });
         }

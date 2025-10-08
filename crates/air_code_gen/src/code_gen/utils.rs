@@ -6,16 +6,53 @@ use std::str::from_utf8;
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, TraceType,
 };
+use compiled_casm_air::utils::{read_json, SAMPLE_EVALUATIONS_FILE_NAME};
+use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexSet;
+use indexmap::{IndexMap, IndexSet};
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
 use super::cairo_constraints::utils::generate_cairo_constraints_code;
 use super::constraints::generate_constraints_code;
-use super::supported_components::AutogenCodeType;
+use super::supported_components::{AutogenCodeFile, AutogenCodeType};
 use super::trace_gen::RustProverGen;
+
+/// Load compiled AirFns and the associated sample evaluations.
+///
+/// `root_dir` is the directory that contains the sample evaluations file. All
+/// AirFns are supposed to be under `<root_dir>/components`, but this is not checked.
+pub fn load_air_fns(
+    root_dir: &Path,
+    jobs: &[AutogenCodeFile],
+) -> (
+    IndexMap<String, CompiledAirFn>,
+    IndexMap<String, SampleEvaluation>,
+) {
+    let mut air_fns = IndexMap::new();
+    for job in jobs {
+        if air_fns.contains_key(&job.air_fn_name) {
+            continue;
+        }
+        let compiled_air_fn: CompiledAirFn =
+            serde_json::from_value(read_json(job.source_path.to_str().expect("Invalid path")))
+                .unwrap_or_else(|err| {
+                    panic!("Invalid AirFn in {}: {err}", job.source_path.display())
+                });
+        air_fns.insert(job.air_fn_name.clone(), compiled_air_fn);
+    }
+
+    let sample_evaluations = serde_json::from_value(read_json(
+        root_dir
+            .join(SAMPLE_EVALUATIONS_FILE_NAME)
+            .to_str()
+            .expect("Invalid directory name"),
+    ))
+    .unwrap_or_else(|e| panic!("Invalid sample evaluations file: {e}"));
+
+    (air_fns, sample_evaluations)
+}
 
 pub fn project_root() -> PathBuf {
     std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
@@ -62,26 +99,17 @@ pub fn get_git_rev(directory: &Path) -> String {
 // Generates the prover & verifier code.
 pub fn dump_component_code(
     air_fn: &CompiledAirFn,
-    constraints_folder_path: &Path,
-    witness_folder_path: &Path,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+    dest_path: &Path,
 ) {
     // TODO(Gali): handle witness sub-routines.
-    if air_fn.r#type != TraceType::Inline {
-        let witness_code = generate_air_fn_code(air_fn, AutogenCodeType::WITNESS);
-        write_air_fn_code(
-            air_fn,
-            witness_code,
-            witness_folder_path,
-            AutogenCodeType::WITNESS,
-        );
+    if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
+        return;
     }
-    let constraints_code = generate_air_fn_code(air_fn, AutogenCodeType::AIR);
-    write_air_fn_code(
-        air_fn,
-        constraints_code,
-        constraints_folder_path,
-        AutogenCodeType::AIR,
-    );
+
+    let code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
+    write_air_fn_code(air_fn, code, dest_path, job.code_type);
 }
 
 /// Create the file `file_path` with the given content, and update the `mod.rs`
@@ -142,9 +170,15 @@ pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: Aut
         .unwrap_or_else(|_| panic!("Failed to write file to path {}", mod_file_path.display()));
 }
 
-pub fn generate_air_fn_code(air_fn: &CompiledAirFn, code_type: AutogenCodeType) -> String {
+pub fn generate_air_fn_code(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    code_type: AutogenCodeType,
+) -> String {
     match code_type {
         AutogenCodeType::WITNESS => {
+            // Witness code generation does not support inline functions
+            assert!(air_fn.r#type != TraceType::Inline);
             let code = RustProverGen::new(air_fn.clone()).generate_witness_code();
             reformat_rust_code(code.to_string().unwrap())
         }
@@ -152,7 +186,9 @@ pub fn generate_air_fn_code(air_fn: &CompiledAirFn, code_type: AutogenCodeType) 
             let code = generate_constraints_code(air_fn);
             reformat_rust_code(code.to_string().unwrap())
         }
-        AutogenCodeType::CAIRO => generate_cairo_constraints_code(air_fn).to_string().unwrap(),
+        AutogenCodeType::CAIRO => generate_cairo_constraints_code(air_fn, sample_evaluation)
+            .to_string()
+            .unwrap(),
     }
 }
 
@@ -162,6 +198,16 @@ pub fn write_air_fn_code(
     dest_dir: &Path,
     code_type: AutogenCodeType,
 ) {
+    let dest_path = generated_code_path(air_fn, dest_dir, code_type);
+
+    add_file_to_module(dest_path.as_path(), code, code_type);
+}
+
+fn generated_code_path(
+    air_fn: &CompiledAirFn,
+    dest_dir: &Path,
+    code_type: AutogenCodeType,
+) -> PathBuf {
     let dest_dir = match air_fn.r#type {
         TraceType::Inline => dest_dir.join("subroutines/"),
         _ => dest_dir.to_path_buf(),
@@ -172,57 +218,35 @@ pub fn write_air_fn_code(
         AutogenCodeType::CAIRO => format!("{}.cairo", air_fn.name),
     };
 
-    let dest_path = dest_dir.join(&file_name);
-
-    add_file_to_module(dest_path.as_path(), code, code_type);
+    dest_dir.join(&file_name)
 }
 
 pub fn assert_generated_code_unchanged(
-    air_fn: CompiledAirFn,
-    constraints_folder_path: &Path,
-    witness_folder_path: &Path,
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+    dest_dir: &Path,
 ) {
-    let air_fn_name = air_fn.name.clone();
     let temp_dir = tempdir().expect("Could not open temporary folder!");
     let temp_dir = temp_dir.path();
-    let temp_witness_folder_path = temp_dir.join("witness");
-    let temp_constraints_folder_path = temp_dir.join("constraints");
-    fs::create_dir_all(&temp_constraints_folder_path).ok();
-    fs::create_dir_all(temp_constraints_folder_path.join("subroutines")).ok();
-    fs::create_dir_all(&temp_witness_folder_path).ok();
-    dump_component_code(
-        &air_fn,
-        &temp_constraints_folder_path,
-        &temp_witness_folder_path,
-    );
+    let new_code_path = temp_dir.join(&air_fn.name);
 
-    let rust_file_name = &format!("{}.rs", air_fn_name);
-    let suffix = &get_constraints_folder_path_suffix(&air_fn.r#type, rust_file_name);
-    let mut files_to_compare = vec![(
-        constraints_folder_path.join(suffix),
-        temp_constraints_folder_path.join(suffix),
-    )];
-    if air_fn.r#type != TraceType::Inline {
-        files_to_compare.push((
-            witness_folder_path.join(rust_file_name),
-            temp_witness_folder_path.join(rust_file_name),
-        ));
-    }
-    for (existing_code_path, generated_code_path) in files_to_compare {
-        let existing_code = fs::read_to_string(&existing_code_path).unwrap();
-        let generated_code = fs::read_to_string(&generated_code_path).unwrap();
-        pretty_assertions::assert_eq!(
-            existing_code,
-            generated_code,
-            r#"
-            Generated code in {}.
-            is different from the code in {}.
-            Run the following  to update the code:
-            '$ FIX_CODE=1 cargo test'"#,
-            generated_code_path.display(),
-            existing_code_path.display(),
-        );
-    }
+    let generated_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
+    fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
+
+    let existing_code_path = generated_code_path(air_fn, dest_dir, job.code_type);
+    let existing_code = fs::read_to_string(&existing_code_path).unwrap();
+    pretty_assertions::assert_eq!(
+        existing_code,
+        generated_code,
+        r#"
+        Generated code in {}.
+        is different from the code in {}.
+        Run the following  to update the code:
+        '$ FIX_CODE=1 cargo test'"#,
+        new_code_path.display(),
+        existing_code_path.display(),
+    );
 }
 
 pub fn get_constraints_folder_path_suffix(r#type: &TraceType, file_name: &String) -> String {
@@ -291,17 +315,17 @@ pub fn constraint_relations(air_fn: &CompiledAirFn) -> IndexSet<String> {
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
 pub fn compare_contents_or_fix_with_path(
-    air_fn: CompiledAirFn,
-    constraints_folder_path: &Path,
-    witness_folder_path: &Path,
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+    path: &Path,
 ) {
-    fs::create_dir_all(witness_folder_path).ok();
-    fs::create_dir_all(constraints_folder_path).ok();
+    fs::create_dir_all(path).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
     if is_fix_mode {
-        dump_component_code(&air_fn, constraints_folder_path, witness_folder_path);
+        dump_component_code(air_fn, sample_evaluation, job, path);
     } else {
-        assert_generated_code_unchanged(air_fn, constraints_folder_path, witness_folder_path);
+        assert_generated_code_unchanged(air_fn, sample_evaluation, job, path);
     }
 }
 

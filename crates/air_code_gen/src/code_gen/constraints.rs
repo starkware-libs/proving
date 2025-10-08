@@ -11,12 +11,12 @@ use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::parse::{
-    constraint_consts, is_const_size_component, parse_eval_constraint, parse_lookup_constraint,
-    seek_consts,
+    constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
 use super::utils::{
     constraint_relations, filter_lookup_terms, get_variable_name, replace_generics_with_turbofish,
 };
+use crate::code_gen::cairo_constraints::utils::is_const_size_component;
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
 pub fn generate_toplevel_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {

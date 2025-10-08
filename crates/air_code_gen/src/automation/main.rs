@@ -1,13 +1,17 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use air_code_gen::code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
 use air_code_gen::code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
 };
-use air_code_gen::code_gen::utils::{generate_air_fn_code, get_git_rev, write_air_fn_code};
+use air_code_gen::code_gen::utils::{
+    generate_air_fn_code, get_git_rev, load_air_fns, write_air_fn_code,
+};
 use clap::Parser;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat, TraceType};
-use compiled_casm_air::utils::{read_json, REGISTRY_PROPERTIES_FILE_NAME};
+use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
+use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use serde::Serialize;
 
@@ -40,7 +44,9 @@ impl VersionedCasmRegistry {
 
 fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
     let mut result = vec![];
-    for entry in fs::read_dir(dir).unwrap() {
+    let directory_entries =
+        fs::read_dir(dir).unwrap_or_else(|err| panic!("Cannot read {}: {err}", dir.display()));
+    for entry in directory_entries {
         let path = entry.unwrap().path();
         if path.is_file() {
             let filename = path.file_name().unwrap().to_str().unwrap();
@@ -60,7 +66,7 @@ fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
     let mut result = vec![];
 
     let mut skipped_files = 0;
-    for json_path in jsons_in_dir(&args.source) {
+    for json_path in jsons_in_dir(&args.source.join("compiled_jsons")) {
         let air_fn_name = json_path
             .file_stem()
             .expect("Invalid path")
@@ -101,28 +107,11 @@ fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
     result
 }
 
-fn load_air_fns(jobs: &[AutogenCodeFile]) -> IndexMap<String, CompiledAirFn> {
-    let mut result = IndexMap::new();
-
-    for job in jobs {
-        if result.contains_key(&job.air_fn_name) {
-            continue;
-        }
-        let compiled_air_fn: CompiledAirFn =
-            serde_json::from_value(read_json(job.source_path.to_str().expect("Invalid path")))
-                .unwrap_or_else(|err| {
-                    panic!("Invalid AirFn in {}: {err}", job.source_path.display())
-                });
-        result.insert(job.air_fn_name.clone(), compiled_air_fn);
-    }
-
-    result
-}
-
 /// Generates component code from JSON files in the source directory.
 fn generate_files(
     args: &Args,
     compiled_air_fns: &IndexMap<String, CompiledAirFn>,
+    sample_evaluations: &IndexMap<String, SampleEvaluation>,
     jobs: &[AutogenCodeFile],
 ) {
     let source_repo_rev = get_git_rev(&args.source);
@@ -133,7 +122,8 @@ fn generate_files(
         let compiled_air_fn = compiled_air_fns
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
-        let code = generate_air_fn_code(compiled_air_fn, job.code_type);
+        let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
+        let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
         let code = source_rev_comment.clone() + &code;
 
         write_air_fn_code(compiled_air_fn, code, dest_dir, job.code_type);
@@ -152,18 +142,18 @@ fn generate_registry_properties_file(
         air_fns: Default::default(),
     };
 
-    let cairo_jobs = jobs
+    // Only include in `casm_registry.json` the components that are supported by the verifier
+    let air_fns_to_copy = jobs
         .iter()
         .filter(|job| job.code_type == AutogenCodeType::CAIRO)
         .map(|job| job.air_fn_name.clone())
         .collect::<Vec<_>>();
 
     for air_fn_name in casm_registry_src.keys() {
-        // Only include in `casm_registry.json` the components that are supported by the verifier
-        if cairo_jobs.contains(air_fn_name) {
+        if air_fns_to_copy.contains(air_fn_name) {
             let compiled_air_fn = compiled_air_fns
                 .get(air_fn_name)
-                .unwrap_or_else(|| panic!("Missing AirFn {}", air_fn_name));
+                .unwrap_or_else(|| panic!("Missing AirFn {air_fn_name}"));
             casm_registry_out.add_stats_from(&casm_registry_src, compiled_air_fn);
         }
     }
@@ -240,8 +230,14 @@ fn main() {
     check_args(&args);
 
     let jobs = get_jobs(&args);
-    let compiled_air_fns = load_air_fns(&jobs);
-    generate_files(&args, &compiled_air_fns, &jobs);
+    let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
+
+    generate_files(&args, &compiled_air_fns, &sample_evaluations, &jobs);
+    generate_sample_evaluations_file(
+        &args.cairo_constraints_dest,
+        &get_git_rev(&args.source),
+        &sample_evaluations,
+    );
 
     if args.casm_registry_dest.is_some() {
         generate_registry_properties_file(&args, &compiled_air_fns, &jobs);

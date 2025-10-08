@@ -1,4 +1,5 @@
 use crate::components::prelude::*;
+use crate::components::subroutines::read_id::ReadId;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
 pub struct MemVerify {}
@@ -16,13 +17,13 @@ impl MemVerify {
         memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
         eval: &mut E,
-    ) -> () {
-        eval.add_to_relation(RelationEntry::new(
+    ) -> [E::F; 0] {
+        ReadId::evaluate(
+            [mem_verify_input_address.clone()],
+            id_col0.clone(),
             memory_address_to_id_lookup_elements,
-            E::EF::one(),
-            &[mem_verify_input_address.clone(), id_col0.clone()],
-        ));
-
+            eval,
+        );
         eval.add_to_relation(RelationEntry::new(
             memory_id_to_big_lookup_elements,
             E::EF::one(),
@@ -59,6 +60,6 @@ impl MemVerify {
             ],
         ));
 
-        ()
+        []
     }
 }

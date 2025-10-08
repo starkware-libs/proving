@@ -7,7 +7,8 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::RustProverGen;
-use crate::code_gen::parse::{is_const_size_component, is_masked_relation};
+use crate::code_gen::cairo_constraints::utils::is_const_size_component;
+use crate::code_gen::parse::is_masked_relation;
 
 impl RustProverGen {
     // TODO(Gali): Consider uniting def and impl functions.

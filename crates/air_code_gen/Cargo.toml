@@ -5,6 +5,7 @@ edition.workspace = true
 
 [dependencies]
 compiled_casm_air = { path = "../compiled_casm_air" }
+eval_air_fn_constraints.workspace = true
 genco.workspace = true
 itertools.workspace = true
 xshell.workspace = true
