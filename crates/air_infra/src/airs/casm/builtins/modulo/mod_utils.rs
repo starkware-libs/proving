@@ -42,6 +42,13 @@ impl AirFn for ModUtils {
     type In = (CasmAddress, FeltExpr);
     type Out = [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 4];
 
+    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("first_addr".to_string()),
+            Some("instance_num".to_string()),
+        ])
+    }
+
     fn call(&self, ab: &mut AirBuilder, _: (), (first_addr, instance_num): Self::In) -> Self::Out {
         // Read a 96 bit word from the memory which is already range checked to be 96 bits.
         let read_word = ReadPositive {
@@ -60,16 +67,20 @@ impl AirFn for ModUtils {
             is_instance_0.as_felt() * instance_num.clone(),
             "is_instance_0 is 0 when instance_num is not 0.",
         );
-        // Calculate the starting address of the previous instance and the current one.
-        let input_var_addr_start_prev = ab.let_(
-            first_addr.var.clone()
-                + const_expr!(N_VAR_INPUTS as u32)
-                    * (instance_num.clone() - const_expr!(1) + is_instance_0.as_felt()),
-            "prev_instance_addr",
+        let is_instance_0_minus_1 = ab.let_(
+            is_instance_0.as_felt() - const_expr!(1),
+            "is_instance_0_minus_1",
         );
+
+        // Calculate the starting address of the current instance and the previous one.
         let input_var_addr_start = ab.let_(
             first_addr.var + const_expr!(N_VAR_INPUTS as u32) * instance_num.clone(),
             "instance_addr",
+        );
+        let input_var_addr_start_prev = ab.let_(
+            input_var_addr_start.clone()
+                + const_expr!(N_VAR_INPUTS as u32) * is_instance_0_minus_1.clone(),
+            "prev_instance_addr",
         );
 
         let (p_addr_prev, p_addr): (Vec<CasmAddress>, Vec<CasmAddress>) = (0..MOD_BUILTIN_N_WORDS)
@@ -109,7 +120,7 @@ impl AirFn for ModUtils {
             },
             CasmAddress::new(values_ptr_addr, "values_ptr"),
         );
-        let [offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev] = [
+        let [mut offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev] = [
             (offsets_ptr_addr, "offsets_ptr"),
             (offsets_ptr_addr_prev, "offsets_ptr_prev"),
             // n is not an address, but it should be no greater than the maximal address.
@@ -126,15 +137,19 @@ impl AirFn for ModUtils {
         .try_into()
         .expect("Conversion to array failed.");
 
+        let n_val_prev_minus_1 =
+            ab.let_for_constraint(n_val_prev.clone() - const_expr!(1), "n_prev_minus_1");
+        offsets_ptr_val = ab.let_(offsets_ptr_val, "offsets_ptr");
+
         // Condition for block reset, i.e. when the input variables can progress arbitrarily.
-        let block_reset_condition = ab.let_(
-            (n_val_prev.clone() - const_expr!(1)) * (is_instance_0.as_felt() - const_expr!(1)),
+        let block_reset_condition = ab.let_for_constraint(
+            n_val_prev_minus_1.clone() * is_instance_0_minus_1.clone(),
             "block_reset_condition",
         );
         // Constrain the values of n, offsets_ptr, values_ptr to be consistent with the previous
         // instance.
         ab.constrain(
-            block_reset_condition.clone() * (n_val_prev.clone() - const_expr!(1) - n_val.clone()),
+            block_reset_condition.clone() * (n_val_prev_minus_1.clone() - n_val.clone()),
             "Progression of n between instances.",
         );
 
