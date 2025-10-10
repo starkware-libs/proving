@@ -1,14 +1,14 @@
 {
-  "name": "verify_bitwise_xor_8",
-  "relation_name": "VerifyBitwiseXor_8",
+  "name": "verify_bitwise_xor_8_b",
+  "relation_name": "VerifyBitwiseXor_8_B",
   "relation_size": 3,
   "log_height": 16,
-  "description": "Verify Bitwise Xor 8",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "description": "Verify Bitwise Xor 8 B",
+  "instance_definition": "{\"variant\":\"B\"}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
-    "verify_bitwise_xor_8_input",
+    "verify_bitwise_xor_8_b_input",
     "[M31; 3]",
     "[PackedM31; 3]"
   ],
@@ -17,7 +17,7 @@
     {
       "Tuple": []
     },
-    "verify_bitwise_xor_8_output",
+    "verify_bitwise_xor_8_b_output",
     "()",
     "()"
   ],
@@ -30,7 +30,7 @@
   "state_names": [],
   "constraint_lookups": [
     [
-      "VerifyBitwiseXor_8",
+      "VerifyBitwiseXor_8_B",
       "Yield"
     ]
   ],
@@ -66,7 +66,7 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "ExternalState": {
@@ -106,7 +106,7 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "ExternalState": {

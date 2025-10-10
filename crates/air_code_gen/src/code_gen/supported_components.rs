@@ -85,6 +85,7 @@ fn get_manual_witness_components() -> Vec<String> {
         "verify_bitwise_xor_4".into(),
         "verify_bitwise_xor_7".into(),
         "verify_bitwise_xor_8".into(),
+        "verify_bitwise_xor_8_b".into(),
         "verify_bitwise_xor_9".into(),
         "verify_bitwise_xor_12".into(),
     ]

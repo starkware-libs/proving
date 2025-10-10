@@ -38,6 +38,8 @@ impl AirFn for XorRot32 {
         } else {
             self.r
         };
+        let variant = (r == 8 && BLAKE_NUM_BITS_PER_FELT == 16) as usize;
+
         // Split into 4 parts of sizes [r, 16-r, r, 16-r].
         let split = Split16 { low_part_size: r };
         let [all, alh] = air_builder.call(&split, a.low());
@@ -46,17 +48,31 @@ impl AirFn for XorRot32 {
         let [bhl, bhh] = air_builder.call(&split, b.high());
 
         // Calculate and deduce the bitwise xor of the parts.
-        let cll = air_builder.call(&BitwiseXor { num_bits: r }, [all, bll]);
+        let cll = air_builder.call(
+            &BitwiseXor {
+                num_bits: r,
+                variant: 0,
+            },
+            [all, bll],
+        );
         let clh = air_builder.call(
             &BitwiseXor {
                 num_bits: BLAKE_NUM_BITS_PER_FELT - r,
+                variant: 0,
             },
             [alh, blh],
         );
-        let chl = air_builder.call(&BitwiseXor { num_bits: r }, [ahl, bhl]);
+        let chl = air_builder.call(
+            &BitwiseXor {
+                num_bits: r,
+                variant,
+            },
+            [ahl, bhl],
+        );
         let chh = air_builder.call(
             &BitwiseXor {
                 num_bits: BLAKE_NUM_BITS_PER_FELT - r,
+                variant,
             },
             [ahh, bhh],
         );

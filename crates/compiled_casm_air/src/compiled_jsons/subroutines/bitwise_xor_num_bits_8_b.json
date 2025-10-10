@@ -1,26 +1,26 @@
 {
-  "name": "bitwise_xor_num_bits_12",
+  "name": "bitwise_xor_num_bits_8_b",
   "relation_name": null,
   "relation_size": null,
   "log_height": null,
-  "description": "Bitwise Xor Num Bits 12",
-  "instance_definition": "{\"num_bits\":12,\"variant\":0}",
+  "description": "Bitwise Xor Num Bits 8 B",
+  "instance_definition": "{\"num_bits\":8,\"variant\":1}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-    "bitwise_xor_num_bits_12_input",
+    "bitwise_xor_num_bits_8_b_input",
     "[M31; 2]",
     "[PackedM31; 2]"
   ],
   "verifier_input_limbs": [
-    "bitwise_xor_num_bits_12_input_limb_0",
-    "bitwise_xor_num_bits_12_input_limb_1"
+    "bitwise_xor_num_bits_8_b_input_limb_0",
+    "bitwise_xor_num_bits_8_b_input_limb_1"
   ],
   "prover_output": [
     {
       "State": "xor_col0"
     },
-    "bitwise_xor_num_bits_12_output",
+    "bitwise_xor_num_bits_8_b_output",
     "M31",
     "PackedM31"
   ],
@@ -35,12 +35,12 @@
   ],
   "constraint_lookups": [
     [
-      "VerifyBitwiseXor_12",
+      "VerifyBitwiseXor_8_B",
       "Use"
     ]
   ],
   "deduction_lookups": {
-    "VerifyBitwiseXor_12": "Multiplicity"
+    "VerifyBitwiseXor_8_B": "Multiplicity"
   },
   "inline_calls": {},
   "public_params": [],
@@ -48,18 +48,18 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_12",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "Var": [
               "M31",
-              "bitwise_xor_num_bits_12_input_limb_0"
+              "bitwise_xor_num_bits_8_b_input_limb_0"
             ]
           },
           {
             "Var": [
               "M31",
-              "bitwise_xor_num_bits_12_input_limb_1"
+              "bitwise_xor_num_bits_8_b_input_limb_1"
             ]
           },
           {
@@ -73,7 +73,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "xor_tmp_5b2aa_0",
+        "name": "xor_tmp_f34e3_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -84,7 +84,7 @@
                   {
                     "Var": [
                       "M31",
-                      "bitwise_xor_num_bits_12_input[0]"
+                      "bitwise_xor_num_bits_8_b_input[0]"
                     ]
                   }
                 ]
@@ -98,7 +98,7 @@
                   {
                     "Var": [
                       "M31",
-                      "bitwise_xor_num_bits_12_input[1]"
+                      "bitwise_xor_num_bits_8_b_input[1]"
                     ]
                   }
                 ]
@@ -114,7 +114,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_5b2aa_0"
+              "xor_tmp_f34e3_0"
             ]
           },
           "as_m31",
@@ -124,19 +124,19 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "VerifyBitwiseXor_12",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "input": {
           "Array": [
             {
               "Var": [
                 "M31",
-                "bitwise_xor_num_bits_12_input[0]"
+                "bitwise_xor_num_bits_8_b_input[0]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "bitwise_xor_num_bits_12_input[1]"
+                "bitwise_xor_num_bits_8_b_input[1]"
               ]
             },
             {
@@ -148,18 +148,18 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_12",
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "Var": [
               "M31",
-              "bitwise_xor_num_bits_12_input[0]"
+              "bitwise_xor_num_bits_8_b_input[0]"
             ]
           },
           {
             "Var": [
               "M31",
-              "bitwise_xor_num_bits_12_input[1]"
+              "bitwise_xor_num_bits_8_b_input[1]"
             ]
           },
           {

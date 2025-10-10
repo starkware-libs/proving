@@ -46266,6 +46266,25 @@
     ],
     "lookups": []
   },
+  "verify_bitwise_xor_8_b": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
+  "bitwise_xor_num_bits_8_b": {
+    "state_names": [
+      "xor_col0"
+    ],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": [
+      [
+        "VerifyBitwiseXor_8_B",
+        "bitwise_xor_num_bits_8_b_input_limb_0, bitwise_xor_num_bits_8_b_input_limb_1, xor_col0"
+      ]
+    ]
+  },
   "xor_rot_32_r_16": {
     "state_names": [
       "ms_8_bits_col0",
@@ -46314,11 +46333,11 @@
         "ms_8_bits_col0, ms_8_bits_col2, xor_col5"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "split_16_low_part_size_8_output_tmp_813a9_3_limb_0, split_16_low_part_size_8_output_tmp_813a9_7_limb_0, xor_col6"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "ms_8_bits_col1, ms_8_bits_col3, xor_col7"
       ]
     ]
@@ -46474,11 +46493,11 @@
         "ms_8_bits_col0, ms_8_bits_col2, xor_col5"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "split_16_low_part_size_8_output_tmp_aa6bd_3_limb_0, split_16_low_part_size_8_output_tmp_aa6bd_7_limb_0, xor_col6"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "ms_8_bits_col1, ms_8_bits_col3, xor_col7"
       ]
     ]
@@ -46804,11 +46823,11 @@
         "ms_8_bits_col14, ms_8_bits_col16, xor_col19"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "split_16_low_part_size_8_output_tmp_f72c8_7_limb_0, split_16_low_part_size_8_output_tmp_f72c8_11_limb_0, xor_col20"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "ms_8_bits_col15, ms_8_bits_col17, xor_col21"
       ],
       [
@@ -46836,11 +46855,11 @@
         "ms_8_bits_col34, ms_8_bits_col36, xor_col39"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "split_16_low_part_size_8_output_tmp_f72c8_51_limb_0, split_16_low_part_size_8_output_tmp_f72c8_55_limb_0, xor_col40"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "ms_8_bits_col35, ms_8_bits_col37, xor_col41"
       ],
       [
@@ -47388,19 +47407,19 @@
         "xor_col14, ms_8_bits_col10, xor_col15"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "split_16_low_part_size_8_output_tmp_298db_3_limb_0, split_16_low_part_size_8_output_tmp_298db_7_limb_0, xor_col16"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "xor_col16, split_16_low_part_size_8_output_tmp_298db_11_limb_0, xor_col17"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "ms_8_bits_col7, ms_8_bits_col9, xor_col18"
       ],
       [
-        "VerifyBitwiseXor_8",
+        "VerifyBitwiseXor_8_B",
         "xor_col18, ms_8_bits_col11, xor_col19"
       ]
     ]
