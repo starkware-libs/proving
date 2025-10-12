@@ -8,6 +8,7 @@ use indexmap::IndexMap;
 
 use super::component::generate_component_cairo_constraints_code;
 use super::iniline_evaluate::generate_inline_cairo_constraints_code;
+use crate::code_gen::utils::is_const_size_component;
 
 pub const QM31_N_TRACE_CELLTS: usize = 4;
 
@@ -115,11 +116,6 @@ pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
     } else {
         quote! { *(self.claim.log_size) }
     }
-}
-
-// Currently, all components that have multiplicity other than verify instruction are of const size.
-pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {
-    air_fn.padding_type == PaddingType::Multiplicity && air_fn.name != "verify_instruction"
 }
 
 pub fn has_enabler_or_mult_column(air_fn: &CompiledAirFn) -> bool {
