@@ -11,9 +11,10 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
-use crate::code_gen::cairo_constraints::utils::is_const_size_component;
 use crate::code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
-use crate::code_gen::utils::{block_doc, get_variable_name, replace_generics_with_turbofish};
+use crate::code_gen::utils::{
+    block_doc, get_variable_name, is_const_size_component, replace_generics_with_turbofish,
+};
 
 impl RustProverGen {
     // TODO(Gali): Consider uniting def and impl functions.

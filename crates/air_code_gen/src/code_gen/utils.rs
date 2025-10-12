@@ -329,6 +329,10 @@ pub fn compare_contents_or_fix_with_path(
     }
 }
 
+pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {
+    air_fn.log_height.is_some()
+}
+
 #[cfg(test)]
 mod tests {
     use genco::lang::rust;
