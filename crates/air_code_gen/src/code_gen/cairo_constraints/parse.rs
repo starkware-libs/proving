@@ -9,6 +9,7 @@ use genco::quote;
 use indexmap::IndexSet;
 
 use super::super::utils::get_variable_name;
+use crate::code_gen::cairo_constraints::utils::lookup_elements_field;
 
 pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
@@ -60,7 +61,7 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let lookup_elements = if air_fn.r#type == TraceType::Inline {
                     format!("{relation_name}_lookup_elements")
                 } else {
-                    format!("self.{relation_name}_lookup_elements")
+                    format!("self.{}", lookup_elements_field(&relation_name))
                 };
                 code.append(quote! {
                     $("\n")
@@ -151,7 +152,7 @@ fn gen_evaluate_call(
         if air_fn.r#type == TraceType::Inline {
             arg_str.push(format!("{relation}_lookup_elements"));
         } else {
-            arg_str.push(format!("self.{relation}_lookup_elements"));
+            arg_str.push(format!("self.{}", lookup_elements_field(relation)));
         }
     }
     for param in params {

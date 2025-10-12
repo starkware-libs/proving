@@ -3,6 +3,7 @@ use std::fs;
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
 };
+use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
@@ -192,4 +193,8 @@ pub fn format_cairo_code(code_text: String) -> String {
     }
 
     stdout
+}
+
+pub(super) fn lookup_elements_field(relation_name: &str) -> String {
+    format!("{}_lookup_elements", relation_name.to_case(Case::Snake))
 }
