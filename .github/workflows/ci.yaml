@@ -87,6 +87,7 @@ jobs:
         uses: bnjbvr/cargo-machete@main
 
   all-tests:
+    if: always()
     runs-on: ubuntu-latest
     needs:
     - clippy
