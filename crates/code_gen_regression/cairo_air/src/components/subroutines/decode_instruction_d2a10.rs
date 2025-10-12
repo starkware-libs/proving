@@ -33,11 +33,11 @@ impl DecodeInstructionD2A10 {
         eval.add_constraint(
             (op1_base_fp_col2.clone() * (M31_1.clone() - op1_base_fp_col2.clone())),
         );
+        let op1_base_ap_tmp_d2a10_5 = eval
+            .add_intermediate(((M31_1.clone() - op1_imm_col1.clone()) - op1_base_fp_col2.clone()));
         // Flag op1_base_ap is a bit.
         eval.add_constraint(
-            (((M31_1.clone() - op1_imm_col1.clone()) - op1_base_fp_col2.clone())
-                * (M31_1.clone()
-                    - ((M31_1.clone() - op1_imm_col1.clone()) - op1_base_fp_col2.clone()))),
+            (op1_base_ap_tmp_d2a10_5.clone() * (M31_1.clone() - op1_base_ap_tmp_d2a10_5.clone())),
         );
         eval.add_to_relation(RelationEntry::new(
             verify_instruction_lookup_elements,
@@ -49,15 +49,14 @@ impl DecodeInstructionD2A10 {
                 offset2_col0.clone(),
                 (((M31_24.clone() + (op1_imm_col1.clone() * M31_32.clone()))
                     + (op1_base_fp_col2.clone() * M31_64.clone()))
-                    + (((M31_1.clone() - op1_imm_col1.clone()) - op1_base_fp_col2.clone())
-                        * M31_128.clone())),
+                    + (op1_base_ap_tmp_d2a10_5.clone() * M31_128.clone())),
                 M31_16.clone(),
             ],
         ));
 
         [
             (offset2_col0.clone() - M31_32768.clone()),
-            ((M31_1.clone() - op1_imm_col1.clone()) - op1_base_fp_col2.clone()),
+            op1_base_ap_tmp_d2a10_5.clone(),
         ]
     }
 }

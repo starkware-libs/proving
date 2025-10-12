@@ -279,11 +279,11 @@
     {
       "Intermediate": {
         "felt_names": [
-          "decode_instruction_3802d_output_tmp_fa85a_11_offset0",
-          "decode_instruction_3802d_output_tmp_fa85a_11_offset1",
-          "decode_instruction_3802d_output_tmp_fa85a_11_offset2",
-          "decode_instruction_3802d_output_tmp_fa85a_11_op1_base_ap",
-          "decode_instruction_3802d_output_tmp_fa85a_11_res_mul"
+          "decode_instruction_3802d_output_tmp_fa85a_12_offset0",
+          "decode_instruction_3802d_output_tmp_fa85a_12_offset1",
+          "decode_instruction_3802d_output_tmp_fa85a_12_offset2",
+          "decode_instruction_3802d_output_tmp_fa85a_12_op1_base_ap",
+          "decode_instruction_3802d_output_tmp_fa85a_12_res_mul"
         ],
         "var": {
           "StaticCall": [
@@ -341,7 +341,7 @@
                 {
                   "Var": [
                     "M31",
-                    "decode_instruction_3802d_output_tmp_fa85a_11_offset2"
+                    "decode_instruction_3802d_output_tmp_fa85a_12_offset2"
                   ]
                 },
                 "-",
@@ -489,7 +489,7 @@
                         {
                           "Var": [
                             "M31",
-                            "decode_instruction_3802d_output_tmp_fa85a_11_op1_base_ap"
+                            "decode_instruction_3802d_output_tmp_fa85a_12_op1_base_ap"
                           ]
                         },
                         "*",
@@ -522,10 +522,10 @@
     {
       "Intermediate": {
         "felt_names": [
-          "qm_31_read_reduced_output_tmp_fa85a_17_limb_0",
-          "qm_31_read_reduced_output_tmp_fa85a_17_limb_1",
-          "qm_31_read_reduced_output_tmp_fa85a_17_limb_2",
-          "qm_31_read_reduced_output_tmp_fa85a_17_limb_3"
+          "qm_31_read_reduced_output_tmp_fa85a_18_limb_0",
+          "qm_31_read_reduced_output_tmp_fa85a_18_limb_1",
+          "qm_31_read_reduced_output_tmp_fa85a_18_limb_2",
+          "qm_31_read_reduced_output_tmp_fa85a_18_limb_3"
         ],
         "var": {
           "StaticCall": [
@@ -542,7 +542,7 @@
                       {
                         "Var": [
                           "M31",
-                          "decode_instruction_3802d_output_tmp_fa85a_11_offset0"
+                          "decode_instruction_3802d_output_tmp_fa85a_12_offset0"
                         ]
                       }
                     ]
@@ -614,10 +614,10 @@
     {
       "Intermediate": {
         "felt_names": [
-          "qm_31_read_reduced_output_tmp_fa85a_23_limb_0",
-          "qm_31_read_reduced_output_tmp_fa85a_23_limb_1",
-          "qm_31_read_reduced_output_tmp_fa85a_23_limb_2",
-          "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+          "qm_31_read_reduced_output_tmp_fa85a_24_limb_0",
+          "qm_31_read_reduced_output_tmp_fa85a_24_limb_1",
+          "qm_31_read_reduced_output_tmp_fa85a_24_limb_2",
+          "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
         ],
         "var": {
           "StaticCall": [
@@ -634,7 +634,7 @@
                       {
                         "Var": [
                           "M31",
-                          "decode_instruction_3802d_output_tmp_fa85a_11_offset1"
+                          "decode_instruction_3802d_output_tmp_fa85a_12_offset1"
                         ]
                       }
                     ]
@@ -706,10 +706,10 @@
     {
       "Intermediate": {
         "felt_names": [
-          "qm_31_read_reduced_output_tmp_fa85a_29_limb_0",
-          "qm_31_read_reduced_output_tmp_fa85a_29_limb_1",
-          "qm_31_read_reduced_output_tmp_fa85a_29_limb_2",
-          "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+          "qm_31_read_reduced_output_tmp_fa85a_30_limb_0",
+          "qm_31_read_reduced_output_tmp_fa85a_30_limb_1",
+          "qm_31_read_reduced_output_tmp_fa85a_30_limb_2",
+          "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
         ],
         "var": {
           "StaticCall": [
@@ -726,7 +726,7 @@
                       {
                         "Var": [
                           "M31",
-                          "decode_instruction_3802d_output_tmp_fa85a_11_offset2"
+                          "decode_instruction_3802d_output_tmp_fa85a_12_offset2"
                         ]
                       }
                     ]
@@ -804,7 +804,7 @@
                 {
                   "Var": [
                     "M31",
-                    "qm_31_read_reduced_output_tmp_fa85a_17_limb_0"
+                    "qm_31_read_reduced_output_tmp_fa85a_18_limb_0"
                   ]
                 },
                 "-",
@@ -823,14 +823,14 @@
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_23_limb_0"
+                                            "qm_31_read_reduced_output_tmp_fa85a_24_limb_0"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_29_limb_0"
+                                            "qm_31_read_reduced_output_tmp_fa85a_30_limb_0"
                                           ]
                                         }
                                       ]
@@ -841,14 +841,14 @@
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_23_limb_1"
+                                            "qm_31_read_reduced_output_tmp_fa85a_24_limb_1"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_29_limb_1"
+                                            "qm_31_read_reduced_output_tmp_fa85a_30_limb_1"
                                           ]
                                         }
                                       ]
@@ -872,14 +872,14 @@
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                                               ]
                                             },
                                             "*",
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                                               ]
                                             }
                                           ]
@@ -890,14 +890,14 @@
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                                               ]
                                             },
                                             "*",
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                                               ]
                                             }
                                           ]
@@ -914,14 +914,14 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                                    "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                                   ]
                                 },
                                 "*",
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                                    "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                                   ]
                                 }
                               ]
@@ -934,14 +934,14 @@
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                               ]
                             },
                             "*",
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                               ]
                             }
                           ]
@@ -952,7 +952,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d_output_tmp_fa85a_11_res_mul"
+                        "decode_instruction_3802d_output_tmp_fa85a_12_res_mul"
                       ]
                     }
                   ]
@@ -967,14 +967,14 @@
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_0"
+                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_0"
                       ]
                     },
                     "+",
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_0"
+                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_0"
                       ]
                     }
                   ]
@@ -999,7 +999,7 @@
                 {
                   "Var": [
                     "M31",
-                    "qm_31_read_reduced_output_tmp_fa85a_17_limb_1"
+                    "qm_31_read_reduced_output_tmp_fa85a_18_limb_1"
                   ]
                 },
                 "-",
@@ -1018,14 +1018,14 @@
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_23_limb_0"
+                                            "qm_31_read_reduced_output_tmp_fa85a_24_limb_0"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_29_limb_1"
+                                            "qm_31_read_reduced_output_tmp_fa85a_30_limb_1"
                                           ]
                                         }
                                       ]
@@ -1036,14 +1036,14 @@
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_23_limb_1"
+                                            "qm_31_read_reduced_output_tmp_fa85a_24_limb_1"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "qm_31_read_reduced_output_tmp_fa85a_29_limb_0"
+                                            "qm_31_read_reduced_output_tmp_fa85a_30_limb_0"
                                           ]
                                         }
                                       ]
@@ -1067,14 +1067,14 @@
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                                               ]
                                             },
                                             "*",
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                                               ]
                                             }
                                           ]
@@ -1085,14 +1085,14 @@
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                                               ]
                                             },
                                             "*",
                                             {
                                               "Var": [
                                                 "M31",
-                                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                                               ]
                                             }
                                           ]
@@ -1109,14 +1109,14 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                                    "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                                   ]
                                 },
                                 "*",
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                                    "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                                   ]
                                 }
                               ]
@@ -1129,14 +1129,14 @@
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                               ]
                             },
                             "*",
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                               ]
                             }
                           ]
@@ -1147,7 +1147,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d_output_tmp_fa85a_11_res_mul"
+                        "decode_instruction_3802d_output_tmp_fa85a_12_res_mul"
                       ]
                     }
                   ]
@@ -1162,14 +1162,14 @@
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_1"
+                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_1"
                       ]
                     },
                     "+",
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_1"
+                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_1"
                       ]
                     }
                   ]
@@ -1194,7 +1194,7 @@
                 {
                   "Var": [
                     "M31",
-                    "qm_31_read_reduced_output_tmp_fa85a_17_limb_2"
+                    "qm_31_read_reduced_output_tmp_fa85a_18_limb_2"
                   ]
                 },
                 "-",
@@ -1211,14 +1211,14 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_0"
+                                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_0"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                                       ]
                                     }
                                   ]
@@ -1229,14 +1229,14 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_1"
+                                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_1"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                                       ]
                                     }
                                   ]
@@ -1249,14 +1249,14 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                                    "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                                   ]
                                 },
                                 "*",
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_29_limb_0"
+                                    "qm_31_read_reduced_output_tmp_fa85a_30_limb_0"
                                   ]
                                 }
                               ]
@@ -1269,14 +1269,14 @@
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                               ]
                             },
                             "*",
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_1"
+                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_1"
                               ]
                             }
                           ]
@@ -1287,7 +1287,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d_output_tmp_fa85a_11_res_mul"
+                        "decode_instruction_3802d_output_tmp_fa85a_12_res_mul"
                       ]
                     }
                   ]
@@ -1302,14 +1302,14 @@
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                       ]
                     },
                     "+",
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                       ]
                     }
                   ]
@@ -1334,7 +1334,7 @@
                 {
                   "Var": [
                     "M31",
-                    "qm_31_read_reduced_output_tmp_fa85a_17_limb_3"
+                    "qm_31_read_reduced_output_tmp_fa85a_18_limb_3"
                   ]
                 },
                 "-",
@@ -1351,14 +1351,14 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_0"
+                                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_0"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                                       ]
                                     }
                                   ]
@@ -1369,14 +1369,14 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_1"
+                                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_1"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_2"
+                                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_2"
                                       ]
                                     }
                                   ]
@@ -1389,14 +1389,14 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_23_limb_2"
+                                    "qm_31_read_reduced_output_tmp_fa85a_24_limb_2"
                                   ]
                                 },
                                 "*",
                                 {
                                   "Var": [
                                     "M31",
-                                    "qm_31_read_reduced_output_tmp_fa85a_29_limb_1"
+                                    "qm_31_read_reduced_output_tmp_fa85a_30_limb_1"
                                   ]
                                 }
                               ]
@@ -1409,14 +1409,14 @@
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                                "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                               ]
                             },
                             "*",
                             {
                               "Var": [
                                 "M31",
-                                "qm_31_read_reduced_output_tmp_fa85a_29_limb_0"
+                                "qm_31_read_reduced_output_tmp_fa85a_30_limb_0"
                               ]
                             }
                           ]
@@ -1427,7 +1427,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_instruction_3802d_output_tmp_fa85a_11_res_mul"
+                        "decode_instruction_3802d_output_tmp_fa85a_12_res_mul"
                       ]
                     }
                   ]
@@ -1442,14 +1442,14 @@
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_23_limb_3"
+                        "qm_31_read_reduced_output_tmp_fa85a_24_limb_3"
                       ]
                     },
                     "+",
                     {
                       "Var": [
                         "M31",
-                        "qm_31_read_reduced_output_tmp_fa85a_29_limb_3"
+                        "qm_31_read_reduced_output_tmp_fa85a_30_limb_3"
                       ]
                     }
                   ]
@@ -2479,7 +2479,35 @@
     },
     {
       "Intermediate": {
-        "name": "res_add_tmp_fa85a_9",
+        "name": "op1_base_ap_tmp_fa85a_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_imm_col8"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "op1_base_fp_col9"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "res_add_tmp_fa85a_10",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -2590,7 +2618,7 @@
           {
             "Var": [
               "UInt16",
-              "res_add_tmp_fa85a_9"
+              "res_add_tmp_fa85a_10"
             ]
           },
           "as_m31",
@@ -2600,7 +2628,7 @@
     },
     {
       "Intermediate": {
-        "name": "ap_update_add_1_tmp_fa85a_10",
+        "name": "ap_update_add_1_tmp_fa85a_11",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -2711,7 +2739,7 @@
           {
             "Var": [
               "UInt16",
-              "ap_update_add_1_tmp_fa85a_10"
+              "ap_update_add_1_tmp_fa85a_11"
             ]
           },
           "as_m31",
@@ -2821,25 +2849,9 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "1"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "op1_imm_col8"
-                                    }
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "op1_base_fp_col9"
-                                }
+                              "Var": [
+                                "M31",
+                                "op1_base_ap_tmp_fa85a_9"
                               ]
                             },
                             "*",
@@ -3021,25 +3033,9 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "Const": [
-                                  "M31",
-                                  "1"
-                                ]
-                              },
-                              "-",
-                              {
-                                "State": "op1_imm_col8"
-                              }
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "op1_base_fp_col9"
-                          }
+                        "Var": [
+                          "M31",
+                          "op1_base_ap_tmp_fa85a_9"
                         ]
                       },
                       "*",
@@ -3126,7 +3122,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_instruction_3802d_output_tmp_fa85a_11",
+        "name": "decode_instruction_3802d_output_tmp_fa85a_12",
         "type": "([M31; 3], [M31; 15], M31)",
         "var": {
           "Tuple": [
@@ -3191,25 +3187,9 @@
                   "State": "op1_base_fp_col9"
                 },
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "1"
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "op1_imm_col8"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "State": "op1_base_fp_col9"
-                    }
+                  "Var": [
+                    "M31",
+                    "op1_base_ap_tmp_fa85a_9"
                   ]
                 },
                 {
@@ -3389,7 +3369,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d_output_tmp_fa85a_11.1[4]"
+                      "decode_instruction_3802d_output_tmp_fa85a_12.1[4]"
                     ]
                   },
                   "*",
@@ -3426,7 +3406,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_fa85a_12",
+        "name": "memory_address_to_id_value_tmp_fa85a_13",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -3441,7 +3421,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d_output_tmp_fa85a_11.0[0]"
+                      "decode_instruction_3802d_output_tmp_fa85a_12.0[0]"
                     ]
                   }
                 ]
@@ -3455,7 +3435,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_fa85a_12"
+          "memory_address_to_id_value_tmp_fa85a_13"
         ]
       }
     },
@@ -3471,7 +3451,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_3802d_output_tmp_fa85a_11.0[0]"
+                "decode_instruction_3802d_output_tmp_fa85a_12.0[0]"
               ]
             }
           ]
@@ -3491,7 +3471,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d_output_tmp_fa85a_11.0[0]"
+                  "decode_instruction_3802d_output_tmp_fa85a_12.0[0]"
                 ]
               }
             ]
@@ -3509,7 +3489,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_fa85a_14",
+        "name": "memory_id_to_big_value_tmp_fa85a_15",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -3529,7 +3509,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3550,7 +3530,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3571,7 +3551,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3592,7 +3572,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3613,7 +3593,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3634,7 +3614,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3655,7 +3635,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3676,7 +3656,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3697,7 +3677,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3718,7 +3698,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3739,7 +3719,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3760,7 +3740,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3781,7 +3761,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3802,7 +3782,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3823,7 +3803,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -3844,7 +3824,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_14"
+              "memory_id_to_big_value_tmp_fa85a_15"
             ]
           },
           "get_m31",
@@ -4000,7 +3980,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_known_id_num_bits_144_output_tmp_fa85a_15",
+        "name": "read_positive_known_id_num_bits_144_output_tmp_fa85a_16",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -4138,14 +4118,14 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_144_output_tmp_fa85a_16",
+        "name": "read_positive_num_bits_144_output_tmp_fa85a_17",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
             {
               "Var": [
                 "Felt252",
-                "read_positive_known_id_num_bits_144_output_tmp_fa85a_15"
+                "read_positive_known_id_num_bits_144_output_tmp_fa85a_16"
               ]
             },
             {
@@ -4377,7 +4357,7 @@
     },
     {
       "Intermediate": {
-        "name": "qm_31_read_reduced_output_tmp_fa85a_17",
+        "name": "qm_31_read_reduced_output_tmp_fa85a_18",
         "type": "([M31; 4], M31)",
         "var": {
           "Tuple": [
@@ -4644,7 +4624,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_fa85a_18",
+        "name": "memory_address_to_id_value_tmp_fa85a_19",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4659,7 +4639,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d_output_tmp_fa85a_11.0[1]"
+                      "decode_instruction_3802d_output_tmp_fa85a_12.0[1]"
                     ]
                   }
                 ]
@@ -4673,7 +4653,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_fa85a_18"
+          "memory_address_to_id_value_tmp_fa85a_19"
         ]
       }
     },
@@ -4689,7 +4669,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_3802d_output_tmp_fa85a_11.0[1]"
+                "decode_instruction_3802d_output_tmp_fa85a_12.0[1]"
               ]
             }
           ]
@@ -4709,7 +4689,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d_output_tmp_fa85a_11.0[1]"
+                  "decode_instruction_3802d_output_tmp_fa85a_12.0[1]"
                 ]
               }
             ]
@@ -4727,7 +4707,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_fa85a_20",
+        "name": "memory_id_to_big_value_tmp_fa85a_21",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -4747,7 +4727,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4768,7 +4748,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4789,7 +4769,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4810,7 +4790,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4831,7 +4811,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4852,7 +4832,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4873,7 +4853,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4894,7 +4874,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4915,7 +4895,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4936,7 +4916,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4957,7 +4937,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4978,7 +4958,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -4999,7 +4979,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -5020,7 +5000,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -5041,7 +5021,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -5062,7 +5042,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_20"
+              "memory_id_to_big_value_tmp_fa85a_21"
             ]
           },
           "get_m31",
@@ -5218,7 +5198,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_known_id_num_bits_144_output_tmp_fa85a_21",
+        "name": "read_positive_known_id_num_bits_144_output_tmp_fa85a_22",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -5356,14 +5336,14 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_144_output_tmp_fa85a_22",
+        "name": "read_positive_num_bits_144_output_tmp_fa85a_23",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
             {
               "Var": [
                 "Felt252",
-                "read_positive_known_id_num_bits_144_output_tmp_fa85a_21"
+                "read_positive_known_id_num_bits_144_output_tmp_fa85a_22"
               ]
             },
             {
@@ -5595,7 +5575,7 @@
     },
     {
       "Intermediate": {
-        "name": "qm_31_read_reduced_output_tmp_fa85a_23",
+        "name": "qm_31_read_reduced_output_tmp_fa85a_24",
         "type": "([M31; 4], M31)",
         "var": {
           "Tuple": [
@@ -5862,7 +5842,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_fa85a_24",
+        "name": "memory_address_to_id_value_tmp_fa85a_25",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -5877,7 +5857,7 @@
                   {
                     "Var": [
                       "M31",
-                      "decode_instruction_3802d_output_tmp_fa85a_11.0[2]"
+                      "decode_instruction_3802d_output_tmp_fa85a_12.0[2]"
                     ]
                   }
                 ]
@@ -5891,7 +5871,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_fa85a_24"
+          "memory_address_to_id_value_tmp_fa85a_25"
         ]
       }
     },
@@ -5907,7 +5887,7 @@
             {
               "Var": [
                 "M31",
-                "decode_instruction_3802d_output_tmp_fa85a_11.0[2]"
+                "decode_instruction_3802d_output_tmp_fa85a_12.0[2]"
               ]
             }
           ]
@@ -5927,7 +5907,7 @@
               {
                 "Var": [
                   "M31",
-                  "decode_instruction_3802d_output_tmp_fa85a_11.0[2]"
+                  "decode_instruction_3802d_output_tmp_fa85a_12.0[2]"
                 ]
               }
             ]
@@ -5945,7 +5925,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_fa85a_26",
+        "name": "memory_id_to_big_value_tmp_fa85a_27",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -5965,7 +5945,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -5986,7 +5966,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6007,7 +5987,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6028,7 +6008,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6049,7 +6029,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6070,7 +6050,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6091,7 +6071,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6112,7 +6092,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6133,7 +6113,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6154,7 +6134,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6175,7 +6155,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6196,7 +6176,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6217,7 +6197,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6238,7 +6218,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6259,7 +6239,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6280,7 +6260,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_fa85a_26"
+              "memory_id_to_big_value_tmp_fa85a_27"
             ]
           },
           "get_m31",
@@ -6436,7 +6416,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_positive_known_id_num_bits_144_output_tmp_fa85a_27",
+        "name": "read_positive_known_id_num_bits_144_output_tmp_fa85a_28",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -6574,14 +6554,14 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "read_positive_num_bits_144_output_tmp_fa85a_28",
+        "name": "read_positive_num_bits_144_output_tmp_fa85a_29",
         "type": "(Felt252, M31)",
         "var": {
           "Tuple": [
             {
               "Var": [
                 "Felt252",
-                "read_positive_known_id_num_bits_144_output_tmp_fa85a_27"
+                "read_positive_known_id_num_bits_144_output_tmp_fa85a_28"
               ]
             },
             {
@@ -6813,7 +6793,7 @@
     },
     {
       "Intermediate": {
-        "name": "qm_31_read_reduced_output_tmp_fa85a_29",
+        "name": "qm_31_read_reduced_output_tmp_fa85a_30",
         "type": "([M31; 4], M31)",
         "var": {
           "Tuple": [
