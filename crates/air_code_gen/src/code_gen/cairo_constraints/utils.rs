@@ -1,3 +1,5 @@
+use std::fs;
+
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
 };
@@ -5,12 +7,20 @@ use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;
+use tempfile::tempdir;
+use xshell::{cmd, Shell};
 
 use super::component::generate_component_cairo_constraints_code;
 use super::iniline_evaluate::generate_inline_cairo_constraints_code;
 use crate::code_gen::utils::is_const_size_component;
 
 pub const QM31_N_TRACE_CELLTS: usize = 4;
+
+const MINIMAL_SCARB_TOML: &str = "[package]
+name = \"scarb_fmt_testing\"
+version = \"1.2.3\"
+edition = \"2024_07\"
+";
 
 pub fn generate_cairo_constraints_code(
     air_fn: &CompiledAirFn,
@@ -150,4 +160,36 @@ pub fn make_preprocessed_column(
             .unwrap_or_default();
         quote! { PreprocessedColumn::$(&external_state.name)$(generic_param)(($(external_state.args.join(", ")))) }
     }
+}
+
+pub fn format_cairo_code(code_text: String) -> String {
+    // Currently, `scarb fmt` requires the input to be from file, so we create a temporary
+    // workspace with Scarb.toml and the code to format.
+    let scarb_workspace = tempdir().unwrap();
+    let scarb_workspace = scarb_workspace.path();
+
+    let manifest_path = scarb_workspace.join("Scarb.toml");
+    let manifest_path = manifest_path
+        .to_str()
+        .expect("Invalid temporary manifest path");
+    fs::write(manifest_path, MINIMAL_SCARB_TOML).unwrap();
+
+    let code_path = scarb_workspace.join("code.cairo");
+    let code_path = code_path.to_str().expect("Invalid temporary manifest path");
+    fs::write(code_path, code_text).unwrap();
+
+    let shell = Shell::new().unwrap();
+    let mut stdout = cmd!(
+        shell,
+        "scarb --manifest-path {manifest_path} fmt -e stdout {code_path}"
+    )
+    .ignore_status() // "scarb fmt" returns error code if the input file wasn't already formatted
+    .read()
+    .unwrap();
+
+    if !stdout.ends_with('\n') {
+        stdout.push('\n');
+    }
+
+    stdout
 }

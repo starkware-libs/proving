@@ -22,18 +22,19 @@ mod tests {
         job: &AutogenCodeFile,
     ) {
         const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+        const CAIRO_CONSTRAINTS_DIR: &str = "../code_gen_regression/verifier/src/components";
         const WITNESS_DIR: &str = "../code_gen_regression/witness/src/components";
-        let [constraints_folder_path, witness_folder_path] =
-            [CONSTRAINTS_DIR, WITNESS_DIR].map(|dir| project_root().join(dir));
+        let [constraints_folder_path, cairo_constraints_dir, witness_folder_path] =
+            [CONSTRAINTS_DIR, CAIRO_CONSTRAINTS_DIR, WITNESS_DIR]
+                .map(|dir| project_root().join(dir));
         let path = match job.code_type {
             AutogenCodeType::WITNESS => witness_folder_path,
             AutogenCodeType::AIR => constraints_folder_path,
-            AutogenCodeType::CAIRO => constraints_folder_path,
+            AutogenCodeType::CAIRO => cairo_constraints_dir,
         };
         compare_contents_or_fix_with_path(air_fn, sample_evaluation, job, &path);
     }
 
-    #[ignore = "Cannot run scarb fmt nor build"]
     #[test]
     fn add_ap_cairo_code_gen() {
         let codegen_jobs = [
