@@ -76,7 +76,7 @@ impl AirFn for UpdateRegisters {
 
         // Handle jnz
         //  Assert dst!=p
-        let dst_sum_squares = dst
+        let dst_sum_squares: FeltExpr = dst
             .as_felts()
             .into_iter()
             .enumerate()
@@ -88,7 +88,7 @@ impl AirFn for UpdateRegisters {
                     x.clone() * x
                 }
             })
-            .fold(const_expr!(0), |acc, z| acc + z);
+            .sum();
         let sum_squares_inv = air_builder.deduce(
             &mut (dst_sum_squares.clone().inverse()),
             "dst_sum_squares_inv",
@@ -99,11 +99,7 @@ impl AirFn for UpdateRegisters {
         );
 
         // Calcualte npc for jnz
-        let mut dst_sum = dst
-            .as_felts()
-            .clone()
-            .into_iter()
-            .fold(const_expr!(0), |acc, x| acc + x);
+        let mut dst_sum: FeltExpr = dst.as_felts().clone().into_iter().sum();
         dst_sum = air_builder.let_(dst_sum, "dst_sum");
 
         let dst_is_zero =

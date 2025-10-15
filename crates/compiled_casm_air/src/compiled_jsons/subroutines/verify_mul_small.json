@@ -107,34 +107,34 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "verify_mul_small_input_a_limb_0"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "verify_mul_small_input_b_limb_0"
-                                  ]
-                                }
-                              ]
-                            },
-                            "-",
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_c_limb_0"
-                              ]
-                            }
+                          "Var": [
+                            "M31",
+                            "verify_mul_small_input_a_limb_0"
                           ]
                         },
-                        "+",
+                        "*",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_mul_small_input_b_limb_0"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "verify_mul_small_input_c_limb_0"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
                         {
                           "BinaryOp": [
                             {
@@ -154,55 +154,33 @@
                                 }
                               ]
                             },
-                            "*",
+                            "+",
                             {
-                              "Const": [
-                                "M31",
-                                "512"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_a_limb_1"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_b_limb_0"
+                              "BinaryOp": [
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_a_limb_1"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_b_limb_0"
+                                  ]
+                                }
                               ]
                             }
                           ]
                         },
-                        "*",
+                        "-",
                         {
-                          "Const": [
+                          "Var": [
                             "M31",
-                            "512"
+                            "verify_mul_small_input_c_limb_1"
                           ]
                         }
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "verify_mul_small_input_c_limb_1"
                       ]
                     },
                     "*",
@@ -256,6 +234,10 @@
                 {
                   "BinaryOp": [
                     {
+                      "State": "carry_1_col0"
+                    },
+                    "+",
+                    {
                       "BinaryOp": [
                         {
                           "BinaryOp": [
@@ -264,84 +246,80 @@
                                 {
                                   "BinaryOp": [
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "BinaryOp": [
-                                                {
-                                                  "State": "carry_1_col0"
-                                                },
-                                                "+",
-                                                {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "Var": [
-                                                        "M31",
-                                                        "verify_mul_small_input_a_limb_0"
-                                                      ]
-                                                    },
-                                                    "*",
-                                                    {
-                                                      "Var": [
-                                                        "M31",
-                                                        "verify_mul_small_input_b_limb_2"
-                                                      ]
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            },
-                                            "+",
-                                            {
-                                              "BinaryOp": [
-                                                {
-                                                  "Var": [
-                                                    "M31",
-                                                    "verify_mul_small_input_a_limb_1"
-                                                  ]
-                                                },
-                                                "*",
-                                                {
-                                                  "Var": [
-                                                    "M31",
-                                                    "verify_mul_small_input_b_limb_1"
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        "+",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "verify_mul_small_input_a_limb_2"
-                                              ]
-                                            },
-                                            "*",
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "verify_mul_small_input_b_limb_0"
-                                              ]
-                                            }
-                                          ]
-                                        }
+                                      "Var": [
+                                        "M31",
+                                        "verify_mul_small_input_a_limb_0"
                                       ]
                                     },
-                                    "-",
+                                    "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "verify_mul_small_input_c_limb_2"
+                                        "verify_mul_small_input_b_limb_2"
                                       ]
                                     }
                                   ]
                                 },
                                 "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "Var": [
+                                        "M31",
+                                        "verify_mul_small_input_a_limb_1"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "Var": [
+                                        "M31",
+                                        "verify_mul_small_input_b_limb_1"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_a_limb_2"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_b_limb_0"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "-",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_mul_small_input_c_limb_2"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
                                 {
                                   "BinaryOp": [
                                     {
@@ -361,11 +339,40 @@
                                         }
                                       ]
                                     },
+                                    "+",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "Var": [
+                                            "M31",
+                                            "verify_mul_small_input_a_limb_1"
+                                          ]
+                                        },
+                                        "*",
+                                        {
+                                          "Var": [
+                                            "M31",
+                                            "verify_mul_small_input_b_limb_2"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "Var": [
+                                        "M31",
+                                        "verify_mul_small_input_a_limb_2"
+                                      ]
+                                    },
                                     "*",
                                     {
-                                      "Const": [
+                                      "Var": [
                                         "M31",
-                                        "512"
+                                        "verify_mul_small_input_b_limb_1"
                                       ]
                                     }
                                   ]
@@ -376,102 +383,29 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "verify_mul_small_input_a_limb_1"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "verify_mul_small_input_b_limb_2"
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "512"
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
                                   "Var": [
                                     "M31",
-                                    "verify_mul_small_input_a_limb_2"
+                                    "verify_mul_small_input_a_limb_3"
                                   ]
                                 },
                                 "*",
                                 {
                                   "Var": [
                                     "M31",
-                                    "verify_mul_small_input_b_limb_1"
+                                    "verify_mul_small_input_b_limb_0"
                                   ]
                                 }
-                              ]
-                            },
-                            "*",
-                            {
-                              "Const": [
-                                "M31",
-                                "512"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_a_limb_3"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_b_limb_0"
                               ]
                             }
                           ]
                         },
-                        "*",
+                        "-",
                         {
-                          "Const": [
+                          "Var": [
                             "M31",
-                            "512"
+                            "verify_mul_small_input_c_limb_3"
                           ]
                         }
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "verify_mul_small_input_c_limb_3"
                       ]
                     },
                     "*",
@@ -525,6 +459,10 @@
                 {
                   "BinaryOp": [
                     {
+                      "State": "carry_3_col1"
+                    },
+                    "+",
+                    {
                       "BinaryOp": [
                         {
                           "BinaryOp": [
@@ -533,46 +471,16 @@
                                 {
                                   "BinaryOp": [
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "carry_3_col1"
-                                        },
-                                        "+",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "verify_mul_small_input_a_limb_1"
-                                              ]
-                                            },
-                                            "*",
-                                            {
-                                              "Var": [
-                                                "M31",
-                                                "verify_mul_small_input_b_limb_3"
-                                              ]
-                                            }
-                                          ]
-                                        }
+                                      "Var": [
+                                        "M31",
+                                        "verify_mul_small_input_a_limb_1"
                                       ]
                                     },
-                                    "+",
+                                    "*",
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "verify_mul_small_input_a_limb_2"
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Var": [
-                                            "M31",
-                                            "verify_mul_small_input_b_limb_2"
-                                          ]
-                                        }
+                                      "Var": [
+                                        "M31",
+                                        "verify_mul_small_input_b_limb_3"
                                       ]
                                     }
                                   ]
@@ -583,30 +491,56 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "verify_mul_small_input_a_limb_3"
+                                        "verify_mul_small_input_a_limb_2"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "verify_mul_small_input_b_limb_1"
+                                        "verify_mul_small_input_b_limb_2"
                                       ]
                                     }
                                   ]
                                 }
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_c_limb_4"
+                              "BinaryOp": [
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_a_limb_3"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_b_limb_1"
+                                  ]
+                                }
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_mul_small_input_c_limb_4"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
                         {
                           "BinaryOp": [
                             {
@@ -626,55 +560,33 @@
                                 }
                               ]
                             },
-                            "*",
+                            "+",
                             {
-                              "Const": [
-                                "M31",
-                                "512"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_a_limb_3"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Var": [
-                                "M31",
-                                "verify_mul_small_input_b_limb_2"
+                              "BinaryOp": [
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_a_limb_3"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_mul_small_input_b_limb_2"
+                                  ]
+                                }
                               ]
                             }
                           ]
                         },
-                        "*",
+                        "-",
                         {
-                          "Const": [
+                          "Var": [
                             "M31",
-                            "512"
+                            "verify_mul_small_input_c_limb_5"
                           ]
                         }
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "verify_mul_small_input_c_limb_5"
                       ]
                     },
                     "*",
@@ -768,73 +680,73 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
+                        "MethodCall": [
                           {
-                            "BinaryOp": [
-                              {
-                                "MethodCall": [
-                                  {
-                                    "Var": [
-                                      "Felt252",
-                                      "verify_mul_small_input[0]"
-                                    ]
-                                  },
-                                  "get_m31",
-                                  [
-                                    {
-                                      "Const": [
-                                        "usize",
-                                        "0"
-                                      ]
-                                    }
-                                  ]
-                                ]
-                              },
-                              "*",
-                              {
-                                "MethodCall": [
-                                  {
-                                    "Var": [
-                                      "Felt252",
-                                      "verify_mul_small_input[1]"
-                                    ]
-                                  },
-                                  "get_m31",
-                                  [
-                                    {
-                                      "Const": [
-                                        "usize",
-                                        "0"
-                                      ]
-                                    }
-                                  ]
-                                ]
-                              }
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[0]"
                             ]
                           },
-                          "-",
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[2]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "0"
-                                  ]
-                                }
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "0"
                               ]
-                            ]
-                          }
+                            }
+                          ]
                         ]
                       },
-                      "+",
+                      "*",
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[1]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "0"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "-",
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "verify_mul_small_input[2]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "0"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
                       {
                         "BinaryOp": [
                           {
@@ -880,94 +792,72 @@
                               }
                             ]
                           },
-                          "*",
+                          "+",
                           {
-                            "Const": [
-                              "M31",
-                              "512"
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[0]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "1"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "*",
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[1]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
                             ]
                           }
                         ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
+                      },
+                      "-",
                       {
-                        "BinaryOp": [
+                        "MethodCall": [
                           {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[0]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "1"
-                                  ]
-                                }
-                              ]
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[2]"
                             ]
                           },
-                          "*",
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[1]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "0"
-                                  ]
-                                }
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "1"
                               ]
-                            ]
-                          }
-                        ]
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
+                            }
+                          ]
                         ]
                       }
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "Felt252",
-                          "verify_mul_small_input[2]"
-                        ]
-                      },
-                      "get_m31",
-                      [
-                        {
-                          "Const": [
-                            "usize",
-                            "1"
-                          ]
-                        }
-                      ]
                     ]
                   },
                   "*",
@@ -1022,6 +912,10 @@
               {
                 "BinaryOp": [
                   {
+                    "State": "carry_1_col0"
+                  },
+                  "+",
+                  {
                     "BinaryOp": [
                       {
                         "BinaryOp": [
@@ -1030,159 +924,31 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "BinaryOp": [
+                                    "MethodCall": [
                                       {
-                                        "BinaryOp": [
-                                          {
-                                            "BinaryOp": [
-                                              {
-                                                "State": "carry_1_col0"
-                                              },
-                                              "+",
-                                              {
-                                                "BinaryOp": [
-                                                  {
-                                                    "MethodCall": [
-                                                      {
-                                                        "Var": [
-                                                          "Felt252",
-                                                          "verify_mul_small_input[0]"
-                                                        ]
-                                                      },
-                                                      "get_m31",
-                                                      [
-                                                        {
-                                                          "Const": [
-                                                            "usize",
-                                                            "0"
-                                                          ]
-                                                        }
-                                                      ]
-                                                    ]
-                                                  },
-                                                  "*",
-                                                  {
-                                                    "MethodCall": [
-                                                      {
-                                                        "Var": [
-                                                          "Felt252",
-                                                          "verify_mul_small_input[1]"
-                                                        ]
-                                                      },
-                                                      "get_m31",
-                                                      [
-                                                        {
-                                                          "Const": [
-                                                            "usize",
-                                                            "2"
-                                                          ]
-                                                        }
-                                                      ]
-                                                    ]
-                                                  }
-                                                ]
-                                              }
-                                            ]
-                                          },
-                                          "+",
-                                          {
-                                            "BinaryOp": [
-                                              {
-                                                "MethodCall": [
-                                                  {
-                                                    "Var": [
-                                                      "Felt252",
-                                                      "verify_mul_small_input[0]"
-                                                    ]
-                                                  },
-                                                  "get_m31",
-                                                  [
-                                                    {
-                                                      "Const": [
-                                                        "usize",
-                                                        "1"
-                                                      ]
-                                                    }
-                                                  ]
-                                                ]
-                                              },
-                                              "*",
-                                              {
-                                                "MethodCall": [
-                                                  {
-                                                    "Var": [
-                                                      "Felt252",
-                                                      "verify_mul_small_input[1]"
-                                                    ]
-                                                  },
-                                                  "get_m31",
-                                                  [
-                                                    {
-                                                      "Const": [
-                                                        "usize",
-                                                        "1"
-                                                      ]
-                                                    }
-                                                  ]
-                                                ]
-                                              }
-                                            ]
-                                          }
+                                        "Var": [
+                                          "Felt252",
+                                          "verify_mul_small_input[0]"
                                         ]
                                       },
-                                      "+",
-                                      {
-                                        "BinaryOp": [
-                                          {
-                                            "MethodCall": [
-                                              {
-                                                "Var": [
-                                                  "Felt252",
-                                                  "verify_mul_small_input[0]"
-                                                ]
-                                              },
-                                              "get_m31",
-                                              [
-                                                {
-                                                  "Const": [
-                                                    "usize",
-                                                    "2"
-                                                  ]
-                                                }
-                                              ]
-                                            ]
-                                          },
-                                          "*",
-                                          {
-                                            "MethodCall": [
-                                              {
-                                                "Var": [
-                                                  "Felt252",
-                                                  "verify_mul_small_input[1]"
-                                                ]
-                                              },
-                                              "get_m31",
-                                              [
-                                                {
-                                                  "Const": [
-                                                    "usize",
-                                                    "0"
-                                                  ]
-                                                }
-                                              ]
-                                            ]
-                                          }
-                                        ]
-                                      }
+                                      "get_m31",
+                                      [
+                                        {
+                                          "Const": [
+                                            "usize",
+                                            "0"
+                                          ]
+                                        }
+                                      ]
                                     ]
                                   },
-                                  "-",
+                                  "*",
                                   {
                                     "MethodCall": [
                                       {
                                         "Var": [
                                           "Felt252",
-                                          "verify_mul_small_input[2]"
+                                          "verify_mul_small_input[1]"
                                         ]
                                       },
                                       "get_m31",
@@ -1199,6 +965,130 @@
                                 ]
                               },
                               "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "MethodCall": [
+                                      {
+                                        "Var": [
+                                          "Felt252",
+                                          "verify_mul_small_input[0]"
+                                        ]
+                                      },
+                                      "get_m31",
+                                      [
+                                        {
+                                          "Const": [
+                                            "usize",
+                                            "1"
+                                          ]
+                                        }
+                                      ]
+                                    ]
+                                  },
+                                  "*",
+                                  {
+                                    "MethodCall": [
+                                      {
+                                        "Var": [
+                                          "Felt252",
+                                          "verify_mul_small_input[1]"
+                                        ]
+                                      },
+                                      "get_m31",
+                                      [
+                                        {
+                                          "Const": [
+                                            "usize",
+                                            "1"
+                                          ]
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[0]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "2"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "*",
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[1]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "-",
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[2]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "2"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
                               {
                                 "BinaryOp": [
                                   {
@@ -1244,20 +1134,53 @@
                                       }
                                     ]
                                   },
-                                  "*",
+                                  "+",
                                   {
-                                    "Const": [
-                                      "M31",
-                                      "512"
+                                    "BinaryOp": [
+                                      {
+                                        "MethodCall": [
+                                          {
+                                            "Var": [
+                                              "Felt252",
+                                              "verify_mul_small_input[0]"
+                                            ]
+                                          },
+                                          "get_m31",
+                                          [
+                                            {
+                                              "Const": [
+                                                "usize",
+                                                "1"
+                                              ]
+                                            }
+                                          ]
+                                        ]
+                                      },
+                                      "*",
+                                      {
+                                        "MethodCall": [
+                                          {
+                                            "Var": [
+                                              "Felt252",
+                                              "verify_mul_small_input[1]"
+                                            ]
+                                          },
+                                          "get_m31",
+                                          [
+                                            {
+                                              "Const": [
+                                                "usize",
+                                                "2"
+                                              ]
+                                            }
+                                          ]
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
+                              },
+                              "+",
                               {
                                 "BinaryOp": [
                                   {
@@ -1273,7 +1196,7 @@
                                         {
                                           "Const": [
                                             "usize",
-                                            "1"
+                                            "2"
                                           ]
                                         }
                                       ]
@@ -1293,28 +1216,17 @@
                                         {
                                           "Const": [
                                             "usize",
-                                            "2"
+                                            "1"
                                           ]
                                         }
                                       ]
                                     ]
                                   }
                                 ]
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "512"
-                                ]
                               }
                             ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
+                          },
+                          "+",
                           {
                             "BinaryOp": [
                               {
@@ -1330,7 +1242,7 @@
                                     {
                                       "Const": [
                                         "usize",
-                                        "2"
+                                        "3"
                                       ]
                                     }
                                   ]
@@ -1350,102 +1262,36 @@
                                     {
                                       "Const": [
                                         "usize",
-                                        "1"
+                                        "0"
                                       ]
                                     }
                                   ]
                                 ]
                               }
                             ]
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[0]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "3"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "*",
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[1]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "0"
-                                  ]
-                                }
-                              ]
-                            ]
                           }
                         ]
                       },
-                      "*",
+                      "-",
                       {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "Felt252",
-                          "verify_mul_small_input[2]"
-                        ]
-                      },
-                      "get_m31",
-                      [
-                        {
-                          "Const": [
-                            "usize",
-                            "3"
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[2]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
                           ]
-                        }
-                      ]
+                        ]
+                      }
                     ]
                   },
                   "*",
@@ -1500,6 +1346,10 @@
               {
                 "BinaryOp": [
                   {
+                    "State": "carry_3_col1"
+                  },
+                  "+",
+                  {
                     "BinaryOp": [
                       {
                         "BinaryOp": [
@@ -1508,98 +1358,42 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "BinaryOp": [
+                                    "MethodCall": [
                                       {
-                                        "State": "carry_3_col1"
-                                      },
-                                      "+",
-                                      {
-                                        "BinaryOp": [
-                                          {
-                                            "MethodCall": [
-                                              {
-                                                "Var": [
-                                                  "Felt252",
-                                                  "verify_mul_small_input[0]"
-                                                ]
-                                              },
-                                              "get_m31",
-                                              [
-                                                {
-                                                  "Const": [
-                                                    "usize",
-                                                    "1"
-                                                  ]
-                                                }
-                                              ]
-                                            ]
-                                          },
-                                          "*",
-                                          {
-                                            "MethodCall": [
-                                              {
-                                                "Var": [
-                                                  "Felt252",
-                                                  "verify_mul_small_input[1]"
-                                                ]
-                                              },
-                                              "get_m31",
-                                              [
-                                                {
-                                                  "Const": [
-                                                    "usize",
-                                                    "3"
-                                                  ]
-                                                }
-                                              ]
-                                            ]
-                                          }
+                                        "Var": [
+                                          "Felt252",
+                                          "verify_mul_small_input[0]"
                                         ]
-                                      }
+                                      },
+                                      "get_m31",
+                                      [
+                                        {
+                                          "Const": [
+                                            "usize",
+                                            "1"
+                                          ]
+                                        }
+                                      ]
                                     ]
                                   },
-                                  "+",
+                                  "*",
                                   {
-                                    "BinaryOp": [
+                                    "MethodCall": [
                                       {
-                                        "MethodCall": [
-                                          {
-                                            "Var": [
-                                              "Felt252",
-                                              "verify_mul_small_input[0]"
-                                            ]
-                                          },
-                                          "get_m31",
-                                          [
-                                            {
-                                              "Const": [
-                                                "usize",
-                                                "2"
-                                              ]
-                                            }
-                                          ]
+                                        "Var": [
+                                          "Felt252",
+                                          "verify_mul_small_input[1]"
                                         ]
                                       },
-                                      "*",
-                                      {
-                                        "MethodCall": [
-                                          {
-                                            "Var": [
-                                              "Felt252",
-                                              "verify_mul_small_input[1]"
-                                            ]
-                                          },
-                                          "get_m31",
-                                          [
-                                            {
-                                              "Const": [
-                                                "usize",
-                                                "2"
-                                              ]
-                                            }
+                                      "get_m31",
+                                      [
+                                        {
+                                          "Const": [
+                                            "usize",
+                                            "3"
                                           ]
-                                        ]
-                                      }
+                                        }
+                                      ]
                                     ]
                                   }
                                 ]
@@ -1620,7 +1414,7 @@
                                         {
                                           "Const": [
                                             "usize",
-                                            "3"
+                                            "2"
                                           ]
                                         }
                                       ]
@@ -1640,7 +1434,7 @@
                                         {
                                           "Const": [
                                             "usize",
-                                            "1"
+                                            "2"
                                           ]
                                         }
                                       ]
@@ -1650,29 +1444,81 @@
                               }
                             ]
                           },
-                          "-",
+                          "+",
                           {
-                            "MethodCall": [
+                            "BinaryOp": [
                               {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[2]"
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[0]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "3"
+                                      ]
+                                    }
+                                  ]
                                 ]
                               },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "4"
+                              "*",
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[1]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "1"
+                                      ]
+                                    }
                                   ]
-                                }
-                              ]
+                                ]
+                              }
                             ]
                           }
                         ]
                       },
-                      "+",
+                      "-",
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[2]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "4"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
                       {
                         "BinaryOp": [
                           {
@@ -1718,94 +1564,72 @@
                               }
                             ]
                           },
-                          "*",
+                          "+",
                           {
-                            "Const": [
-                              "M31",
-                              "512"
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[0]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "3"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "*",
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "verify_mul_small_input[1]"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "2"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
                             ]
                           }
                         ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
+                      },
+                      "-",
                       {
-                        "BinaryOp": [
+                        "MethodCall": [
                           {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[0]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "3"
-                                  ]
-                                }
-                              ]
+                            "Var": [
+                              "Felt252",
+                              "verify_mul_small_input[2]"
                             ]
                           },
-                          "*",
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252",
-                                  "verify_mul_small_input[1]"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "2"
-                                  ]
-                                }
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "5"
                               ]
-                            ]
-                          }
-                        ]
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
+                            }
+                          ]
                         ]
                       }
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "Felt252",
-                          "verify_mul_small_input[2]"
-                        ]
-                      },
-                      "get_m31",
-                      [
-                        {
-                          "Const": [
-                            "usize",
-                            "5"
-                          ]
-                        }
-                      ]
                     ]
                   },
                   "*",
