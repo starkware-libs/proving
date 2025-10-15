@@ -8519,58 +8519,54 @@
         "((((carry_7_tmp_2db6d_9 + linear_combination_n_2_coefs_1_1_input_limb_8) + linear_combination_n_2_coefs_1_1_input_limb_18) - combination_limb_8_col8) * 16)"
       ],
       [
-        "biased_carry_0_tmp_2db6d_11",
-        "((p_coef_col10 + 1) - 1)"
+        "biased_carry_1_tmp_2db6d_11",
+        "carry_0_tmp_2db6d_2"
       ],
       [
-        "biased_carry_1_tmp_2db6d_12",
-        "((carry_0_tmp_2db6d_2 + 1) - 1)"
+        "biased_carry_2_tmp_2db6d_12",
+        "carry_1_tmp_2db6d_3"
       ],
       [
-        "biased_carry_2_tmp_2db6d_13",
-        "((carry_1_tmp_2db6d_3 + 1) - 1)"
+        "biased_carry_3_tmp_2db6d_13",
+        "carry_2_tmp_2db6d_4"
       ],
       [
-        "biased_carry_3_tmp_2db6d_14",
-        "((carry_2_tmp_2db6d_4 + 1) - 1)"
+        "biased_carry_4_tmp_2db6d_14",
+        "carry_3_tmp_2db6d_5"
       ],
       [
-        "biased_carry_4_tmp_2db6d_15",
-        "((carry_3_tmp_2db6d_5 + 1) - 1)"
+        "biased_carry_5_tmp_2db6d_15",
+        "carry_4_tmp_2db6d_6"
       ],
       [
-        "biased_carry_5_tmp_2db6d_16",
-        "((carry_4_tmp_2db6d_6 + 1) - 1)"
+        "biased_carry_6_tmp_2db6d_16",
+        "carry_5_tmp_2db6d_7"
       ],
       [
-        "biased_carry_6_tmp_2db6d_17",
-        "((carry_5_tmp_2db6d_7 + 1) - 1)"
+        "biased_carry_7_tmp_2db6d_17",
+        "carry_6_tmp_2db6d_8"
       ],
       [
-        "biased_carry_7_tmp_2db6d_18",
-        "((carry_6_tmp_2db6d_8 + 1) - 1)"
+        "biased_carry_8_tmp_2db6d_18",
+        "carry_7_tmp_2db6d_9"
       ],
       [
-        "biased_carry_8_tmp_2db6d_19",
-        "((carry_7_tmp_2db6d_9 + 1) - 1)"
-      ],
-      [
-        "biased_carry_9_tmp_2db6d_20",
-        "((carry_8_tmp_2db6d_10 + 1) - 1)"
+        "biased_carry_9_tmp_2db6d_19",
+        "carry_8_tmp_2db6d_10"
       ]
     ],
     "constraints": [
       "((((carry_8_tmp_2db6d_10 + linear_combination_n_2_coefs_1_1_input_limb_9) + linear_combination_n_2_coefs_1_1_input_limb_19) - combination_limb_9_col9) - (p_coef_col10 * 256))",
-      "(((biased_carry_0_tmp_2db6d_11 * biased_carry_0_tmp_2db6d_11) * biased_carry_0_tmp_2db6d_11) - biased_carry_0_tmp_2db6d_11)",
-      "(((biased_carry_1_tmp_2db6d_12 * biased_carry_1_tmp_2db6d_12) * biased_carry_1_tmp_2db6d_12) - biased_carry_1_tmp_2db6d_12)",
-      "(((biased_carry_2_tmp_2db6d_13 * biased_carry_2_tmp_2db6d_13) * biased_carry_2_tmp_2db6d_13) - biased_carry_2_tmp_2db6d_13)",
-      "(((biased_carry_3_tmp_2db6d_14 * biased_carry_3_tmp_2db6d_14) * biased_carry_3_tmp_2db6d_14) - biased_carry_3_tmp_2db6d_14)",
-      "(((biased_carry_4_tmp_2db6d_15 * biased_carry_4_tmp_2db6d_15) * biased_carry_4_tmp_2db6d_15) - biased_carry_4_tmp_2db6d_15)",
-      "(((biased_carry_5_tmp_2db6d_16 * biased_carry_5_tmp_2db6d_16) * biased_carry_5_tmp_2db6d_16) - biased_carry_5_tmp_2db6d_16)",
-      "(((biased_carry_6_tmp_2db6d_17 * biased_carry_6_tmp_2db6d_17) * biased_carry_6_tmp_2db6d_17) - biased_carry_6_tmp_2db6d_17)",
-      "(((biased_carry_7_tmp_2db6d_18 * biased_carry_7_tmp_2db6d_18) * biased_carry_7_tmp_2db6d_18) - biased_carry_7_tmp_2db6d_18)",
-      "(((biased_carry_8_tmp_2db6d_19 * biased_carry_8_tmp_2db6d_19) * biased_carry_8_tmp_2db6d_19) - biased_carry_8_tmp_2db6d_19)",
-      "(((biased_carry_9_tmp_2db6d_20 * biased_carry_9_tmp_2db6d_20) * biased_carry_9_tmp_2db6d_20) - biased_carry_9_tmp_2db6d_20)"
+      "(((p_coef_col10 * p_coef_col10) * p_coef_col10) - p_coef_col10)",
+      "(((biased_carry_1_tmp_2db6d_11 * biased_carry_1_tmp_2db6d_11) * biased_carry_1_tmp_2db6d_11) - biased_carry_1_tmp_2db6d_11)",
+      "(((biased_carry_2_tmp_2db6d_12 * biased_carry_2_tmp_2db6d_12) * biased_carry_2_tmp_2db6d_12) - biased_carry_2_tmp_2db6d_12)",
+      "(((biased_carry_3_tmp_2db6d_13 * biased_carry_3_tmp_2db6d_13) * biased_carry_3_tmp_2db6d_13) - biased_carry_3_tmp_2db6d_13)",
+      "(((biased_carry_4_tmp_2db6d_14 * biased_carry_4_tmp_2db6d_14) * biased_carry_4_tmp_2db6d_14) - biased_carry_4_tmp_2db6d_14)",
+      "(((biased_carry_5_tmp_2db6d_15 * biased_carry_5_tmp_2db6d_15) * biased_carry_5_tmp_2db6d_15) - biased_carry_5_tmp_2db6d_15)",
+      "(((biased_carry_6_tmp_2db6d_16 * biased_carry_6_tmp_2db6d_16) * biased_carry_6_tmp_2db6d_16) - biased_carry_6_tmp_2db6d_16)",
+      "(((biased_carry_7_tmp_2db6d_17 * biased_carry_7_tmp_2db6d_17) * biased_carry_7_tmp_2db6d_17) - biased_carry_7_tmp_2db6d_17)",
+      "(((biased_carry_8_tmp_2db6d_18 * biased_carry_8_tmp_2db6d_18) * biased_carry_8_tmp_2db6d_18) - biased_carry_8_tmp_2db6d_18)",
+      "(((biased_carry_9_tmp_2db6d_19 * biased_carry_9_tmp_2db6d_19) * biased_carry_9_tmp_2db6d_19) - biased_carry_9_tmp_2db6d_19)"
     ],
     "lookups": []
   },
@@ -17610,58 +17606,54 @@
         "(((carry_7_tmp_13179_9 + (2 * linear_combination_n_1_coefs_2_input_limb_8)) - combination_limb_8_col8) * 16)"
       ],
       [
-        "biased_carry_0_tmp_13179_11",
-        "((p_coef_col10 + 1) - 1)"
+        "biased_carry_1_tmp_13179_11",
+        "carry_0_tmp_13179_2"
       ],
       [
-        "biased_carry_1_tmp_13179_12",
-        "((carry_0_tmp_13179_2 + 1) - 1)"
+        "biased_carry_2_tmp_13179_12",
+        "carry_1_tmp_13179_3"
       ],
       [
-        "biased_carry_2_tmp_13179_13",
-        "((carry_1_tmp_13179_3 + 1) - 1)"
+        "biased_carry_3_tmp_13179_13",
+        "carry_2_tmp_13179_4"
       ],
       [
-        "biased_carry_3_tmp_13179_14",
-        "((carry_2_tmp_13179_4 + 1) - 1)"
+        "biased_carry_4_tmp_13179_14",
+        "carry_3_tmp_13179_5"
       ],
       [
-        "biased_carry_4_tmp_13179_15",
-        "((carry_3_tmp_13179_5 + 1) - 1)"
+        "biased_carry_5_tmp_13179_15",
+        "carry_4_tmp_13179_6"
       ],
       [
-        "biased_carry_5_tmp_13179_16",
-        "((carry_4_tmp_13179_6 + 1) - 1)"
+        "biased_carry_6_tmp_13179_16",
+        "carry_5_tmp_13179_7"
       ],
       [
-        "biased_carry_6_tmp_13179_17",
-        "((carry_5_tmp_13179_7 + 1) - 1)"
+        "biased_carry_7_tmp_13179_17",
+        "carry_6_tmp_13179_8"
       ],
       [
-        "biased_carry_7_tmp_13179_18",
-        "((carry_6_tmp_13179_8 + 1) - 1)"
+        "biased_carry_8_tmp_13179_18",
+        "carry_7_tmp_13179_9"
       ],
       [
-        "biased_carry_8_tmp_13179_19",
-        "((carry_7_tmp_13179_9 + 1) - 1)"
-      ],
-      [
-        "biased_carry_9_tmp_13179_20",
-        "((carry_8_tmp_13179_10 + 1) - 1)"
+        "biased_carry_9_tmp_13179_19",
+        "carry_8_tmp_13179_10"
       ]
     ],
     "constraints": [
       "(((carry_8_tmp_13179_10 + (2 * linear_combination_n_1_coefs_2_input_limb_9)) - combination_limb_9_col9) - (p_coef_col10 * 256))",
-      "(((biased_carry_0_tmp_13179_11 * biased_carry_0_tmp_13179_11) * biased_carry_0_tmp_13179_11) - biased_carry_0_tmp_13179_11)",
-      "(((biased_carry_1_tmp_13179_12 * biased_carry_1_tmp_13179_12) * biased_carry_1_tmp_13179_12) - biased_carry_1_tmp_13179_12)",
-      "(((biased_carry_2_tmp_13179_13 * biased_carry_2_tmp_13179_13) * biased_carry_2_tmp_13179_13) - biased_carry_2_tmp_13179_13)",
-      "(((biased_carry_3_tmp_13179_14 * biased_carry_3_tmp_13179_14) * biased_carry_3_tmp_13179_14) - biased_carry_3_tmp_13179_14)",
-      "(((biased_carry_4_tmp_13179_15 * biased_carry_4_tmp_13179_15) * biased_carry_4_tmp_13179_15) - biased_carry_4_tmp_13179_15)",
-      "(((biased_carry_5_tmp_13179_16 * biased_carry_5_tmp_13179_16) * biased_carry_5_tmp_13179_16) - biased_carry_5_tmp_13179_16)",
-      "(((biased_carry_6_tmp_13179_17 * biased_carry_6_tmp_13179_17) * biased_carry_6_tmp_13179_17) - biased_carry_6_tmp_13179_17)",
-      "(((biased_carry_7_tmp_13179_18 * biased_carry_7_tmp_13179_18) * biased_carry_7_tmp_13179_18) - biased_carry_7_tmp_13179_18)",
-      "(((biased_carry_8_tmp_13179_19 * biased_carry_8_tmp_13179_19) * biased_carry_8_tmp_13179_19) - biased_carry_8_tmp_13179_19)",
-      "(((biased_carry_9_tmp_13179_20 * biased_carry_9_tmp_13179_20) * biased_carry_9_tmp_13179_20) - biased_carry_9_tmp_13179_20)"
+      "(((p_coef_col10 * p_coef_col10) * p_coef_col10) - p_coef_col10)",
+      "(((biased_carry_1_tmp_13179_11 * biased_carry_1_tmp_13179_11) * biased_carry_1_tmp_13179_11) - biased_carry_1_tmp_13179_11)",
+      "(((biased_carry_2_tmp_13179_12 * biased_carry_2_tmp_13179_12) * biased_carry_2_tmp_13179_12) - biased_carry_2_tmp_13179_12)",
+      "(((biased_carry_3_tmp_13179_13 * biased_carry_3_tmp_13179_13) * biased_carry_3_tmp_13179_13) - biased_carry_3_tmp_13179_13)",
+      "(((biased_carry_4_tmp_13179_14 * biased_carry_4_tmp_13179_14) * biased_carry_4_tmp_13179_14) - biased_carry_4_tmp_13179_14)",
+      "(((biased_carry_5_tmp_13179_15 * biased_carry_5_tmp_13179_15) * biased_carry_5_tmp_13179_15) - biased_carry_5_tmp_13179_15)",
+      "(((biased_carry_6_tmp_13179_16 * biased_carry_6_tmp_13179_16) * biased_carry_6_tmp_13179_16) - biased_carry_6_tmp_13179_16)",
+      "(((biased_carry_7_tmp_13179_17 * biased_carry_7_tmp_13179_17) * biased_carry_7_tmp_13179_17) - biased_carry_7_tmp_13179_17)",
+      "(((biased_carry_8_tmp_13179_18 * biased_carry_8_tmp_13179_18) * biased_carry_8_tmp_13179_18) - biased_carry_8_tmp_13179_18)",
+      "(((biased_carry_9_tmp_13179_19 * biased_carry_9_tmp_13179_19) * biased_carry_9_tmp_13179_19) - biased_carry_9_tmp_13179_19)"
     ],
     "lookups": []
   },
@@ -17774,59 +17766,55 @@
         "(((carry_7_tmp_1c8d0_22 + (2 * combination_limb_8_col18)) - combination_limb_8_col29) * 16)"
       ],
       [
-        "biased_carry_0_tmp_1c8d0_24",
-        "((p_coef_col31 + 1) - 1)"
+        "biased_carry_1_tmp_1c8d0_24",
+        "carry_0_tmp_1c8d0_15"
       ],
       [
-        "biased_carry_1_tmp_1c8d0_25",
-        "((carry_0_tmp_1c8d0_15 + 1) - 1)"
+        "biased_carry_2_tmp_1c8d0_25",
+        "carry_1_tmp_1c8d0_16"
       ],
       [
-        "biased_carry_2_tmp_1c8d0_26",
-        "((carry_1_tmp_1c8d0_16 + 1) - 1)"
+        "biased_carry_3_tmp_1c8d0_26",
+        "carry_2_tmp_1c8d0_17"
       ],
       [
-        "biased_carry_3_tmp_1c8d0_27",
-        "((carry_2_tmp_1c8d0_17 + 1) - 1)"
+        "biased_carry_4_tmp_1c8d0_27",
+        "carry_3_tmp_1c8d0_18"
       ],
       [
-        "biased_carry_4_tmp_1c8d0_28",
-        "((carry_3_tmp_1c8d0_18 + 1) - 1)"
+        "biased_carry_5_tmp_1c8d0_28",
+        "carry_4_tmp_1c8d0_19"
       ],
       [
-        "biased_carry_5_tmp_1c8d0_29",
-        "((carry_4_tmp_1c8d0_19 + 1) - 1)"
+        "biased_carry_6_tmp_1c8d0_29",
+        "carry_5_tmp_1c8d0_20"
       ],
       [
-        "biased_carry_6_tmp_1c8d0_30",
-        "((carry_5_tmp_1c8d0_20 + 1) - 1)"
+        "biased_carry_7_tmp_1c8d0_30",
+        "carry_6_tmp_1c8d0_21"
       ],
       [
-        "biased_carry_7_tmp_1c8d0_31",
-        "((carry_6_tmp_1c8d0_21 + 1) - 1)"
+        "biased_carry_8_tmp_1c8d0_31",
+        "carry_7_tmp_1c8d0_22"
       ],
       [
-        "biased_carry_8_tmp_1c8d0_32",
-        "((carry_7_tmp_1c8d0_22 + 1) - 1)"
-      ],
-      [
-        "biased_carry_9_tmp_1c8d0_33",
-        "((carry_8_tmp_1c8d0_23 + 1) - 1)"
+        "biased_carry_9_tmp_1c8d0_32",
+        "carry_8_tmp_1c8d0_23"
       ]
     ],
     "constraints": [
       "((((((((carry_8_tmp_1c8d0_11 + (4 * poseidon_partial_round_input_z0_3_limb_9)) + (2 * poseidon_partial_round_input_z1_limb_9)) + (3 * poseidon_partial_round_input_z1_3_limb_9)) + poseidon_partial_round_input_z2_limb_9) - cube_252_output_limb_9_col9) + poseidon_partial_round_input_half_key_limb_9) - combination_limb_9_col19) - (p_coef_col20 * 256))",
       "(((carry_8_tmp_1c8d0_23 + (2 * combination_limb_9_col19)) - combination_limb_9_col30) - (p_coef_col31 * 256))",
-      "(((biased_carry_0_tmp_1c8d0_24 * biased_carry_0_tmp_1c8d0_24) * biased_carry_0_tmp_1c8d0_24) - biased_carry_0_tmp_1c8d0_24)",
-      "(((biased_carry_1_tmp_1c8d0_25 * biased_carry_1_tmp_1c8d0_25) * biased_carry_1_tmp_1c8d0_25) - biased_carry_1_tmp_1c8d0_25)",
-      "(((biased_carry_2_tmp_1c8d0_26 * biased_carry_2_tmp_1c8d0_26) * biased_carry_2_tmp_1c8d0_26) - biased_carry_2_tmp_1c8d0_26)",
-      "(((biased_carry_3_tmp_1c8d0_27 * biased_carry_3_tmp_1c8d0_27) * biased_carry_3_tmp_1c8d0_27) - biased_carry_3_tmp_1c8d0_27)",
-      "(((biased_carry_4_tmp_1c8d0_28 * biased_carry_4_tmp_1c8d0_28) * biased_carry_4_tmp_1c8d0_28) - biased_carry_4_tmp_1c8d0_28)",
-      "(((biased_carry_5_tmp_1c8d0_29 * biased_carry_5_tmp_1c8d0_29) * biased_carry_5_tmp_1c8d0_29) - biased_carry_5_tmp_1c8d0_29)",
-      "(((biased_carry_6_tmp_1c8d0_30 * biased_carry_6_tmp_1c8d0_30) * biased_carry_6_tmp_1c8d0_30) - biased_carry_6_tmp_1c8d0_30)",
-      "(((biased_carry_7_tmp_1c8d0_31 * biased_carry_7_tmp_1c8d0_31) * biased_carry_7_tmp_1c8d0_31) - biased_carry_7_tmp_1c8d0_31)",
-      "(((biased_carry_8_tmp_1c8d0_32 * biased_carry_8_tmp_1c8d0_32) * biased_carry_8_tmp_1c8d0_32) - biased_carry_8_tmp_1c8d0_32)",
-      "(((biased_carry_9_tmp_1c8d0_33 * biased_carry_9_tmp_1c8d0_33) * biased_carry_9_tmp_1c8d0_33) - biased_carry_9_tmp_1c8d0_33)"
+      "(((p_coef_col31 * p_coef_col31) * p_coef_col31) - p_coef_col31)",
+      "(((biased_carry_1_tmp_1c8d0_24 * biased_carry_1_tmp_1c8d0_24) * biased_carry_1_tmp_1c8d0_24) - biased_carry_1_tmp_1c8d0_24)",
+      "(((biased_carry_2_tmp_1c8d0_25 * biased_carry_2_tmp_1c8d0_25) * biased_carry_2_tmp_1c8d0_25) - biased_carry_2_tmp_1c8d0_25)",
+      "(((biased_carry_3_tmp_1c8d0_26 * biased_carry_3_tmp_1c8d0_26) * biased_carry_3_tmp_1c8d0_26) - biased_carry_3_tmp_1c8d0_26)",
+      "(((biased_carry_4_tmp_1c8d0_27 * biased_carry_4_tmp_1c8d0_27) * biased_carry_4_tmp_1c8d0_27) - biased_carry_4_tmp_1c8d0_27)",
+      "(((biased_carry_5_tmp_1c8d0_28 * biased_carry_5_tmp_1c8d0_28) * biased_carry_5_tmp_1c8d0_28) - biased_carry_5_tmp_1c8d0_28)",
+      "(((biased_carry_6_tmp_1c8d0_29 * biased_carry_6_tmp_1c8d0_29) * biased_carry_6_tmp_1c8d0_29) - biased_carry_6_tmp_1c8d0_29)",
+      "(((biased_carry_7_tmp_1c8d0_30 * biased_carry_7_tmp_1c8d0_30) * biased_carry_7_tmp_1c8d0_30) - biased_carry_7_tmp_1c8d0_30)",
+      "(((biased_carry_8_tmp_1c8d0_31 * biased_carry_8_tmp_1c8d0_31) * biased_carry_8_tmp_1c8d0_31) - biased_carry_8_tmp_1c8d0_31)",
+      "(((biased_carry_9_tmp_1c8d0_32 * biased_carry_9_tmp_1c8d0_32) * biased_carry_9_tmp_1c8d0_32) - biased_carry_9_tmp_1c8d0_32)"
     ],
     "lookups": [
       [
@@ -18096,307 +18084,295 @@
         "(((carry_7_tmp_44f04_23 + (2 * combination_limb_8_col90)) - combination_limb_8_col101) * 16)"
       ],
       [
-        "biased_carry_0_tmp_44f04_25",
-        "((p_coef_col103 + 1) - 1)"
+        "biased_carry_1_tmp_44f04_25",
+        "carry_0_tmp_44f04_16"
       ],
       [
-        "biased_carry_1_tmp_44f04_26",
-        "((carry_0_tmp_44f04_16 + 1) - 1)"
+        "biased_carry_2_tmp_44f04_26",
+        "carry_1_tmp_44f04_17"
       ],
       [
-        "biased_carry_2_tmp_44f04_27",
-        "((carry_1_tmp_44f04_17 + 1) - 1)"
+        "biased_carry_3_tmp_44f04_27",
+        "carry_2_tmp_44f04_18"
       ],
       [
-        "biased_carry_3_tmp_44f04_28",
-        "((carry_2_tmp_44f04_18 + 1) - 1)"
+        "biased_carry_4_tmp_44f04_28",
+        "carry_3_tmp_44f04_19"
       ],
       [
-        "biased_carry_4_tmp_44f04_29",
-        "((carry_3_tmp_44f04_19 + 1) - 1)"
+        "biased_carry_5_tmp_44f04_29",
+        "carry_4_tmp_44f04_20"
       ],
       [
-        "biased_carry_5_tmp_44f04_30",
-        "((carry_4_tmp_44f04_20 + 1) - 1)"
+        "biased_carry_6_tmp_44f04_30",
+        "carry_5_tmp_44f04_21"
       ],
       [
-        "biased_carry_6_tmp_44f04_31",
-        "((carry_5_tmp_44f04_21 + 1) - 1)"
+        "biased_carry_7_tmp_44f04_31",
+        "carry_6_tmp_44f04_22"
       ],
       [
-        "biased_carry_7_tmp_44f04_32",
-        "((carry_6_tmp_44f04_22 + 1) - 1)"
+        "biased_carry_8_tmp_44f04_32",
+        "carry_7_tmp_44f04_23"
       ],
       [
-        "biased_carry_8_tmp_44f04_33",
-        "((carry_7_tmp_44f04_23 + 1) - 1)"
+        "biased_carry_9_tmp_44f04_33",
+        "carry_8_tmp_44f04_24"
       ],
       [
-        "biased_carry_9_tmp_44f04_34",
-        "((carry_8_tmp_44f04_24 + 1) - 1)"
-      ],
-      [
-        "carry_0_tmp_44f04_40",
+        "carry_0_tmp_44f04_39",
         "(((((((((4 * input_limb_22_col22) + (2 * input_limb_32_col32)) + (3 * cube_252_output_limb_0_col72)) + combination_limb_0_col93) - cube_252_output_limb_0_col104) + poseidon_round_keys_output_limb_10_col52) - combination_limb_0_col114) - p_coef_col124) * 16)"
       ],
       [
-        "carry_1_tmp_44f04_41",
-        "((((((((carry_0_tmp_44f04_40 + (4 * input_limb_23_col23)) + (2 * input_limb_33_col33)) + (3 * cube_252_output_limb_1_col73)) + combination_limb_1_col94) - cube_252_output_limb_1_col105) + poseidon_round_keys_output_limb_11_col53) - combination_limb_1_col115) * 16)"
+        "carry_1_tmp_44f04_40",
+        "((((((((carry_0_tmp_44f04_39 + (4 * input_limb_23_col23)) + (2 * input_limb_33_col33)) + (3 * cube_252_output_limb_1_col73)) + combination_limb_1_col94) - cube_252_output_limb_1_col105) + poseidon_round_keys_output_limb_11_col53) - combination_limb_1_col115) * 16)"
       ],
       [
-        "carry_2_tmp_44f04_42",
-        "((((((((carry_1_tmp_44f04_41 + (4 * input_limb_24_col24)) + (2 * input_limb_34_col34)) + (3 * cube_252_output_limb_2_col74)) + combination_limb_2_col95) - cube_252_output_limb_2_col106) + poseidon_round_keys_output_limb_12_col54) - combination_limb_2_col116) * 16)"
+        "carry_2_tmp_44f04_41",
+        "((((((((carry_1_tmp_44f04_40 + (4 * input_limb_24_col24)) + (2 * input_limb_34_col34)) + (3 * cube_252_output_limb_2_col74)) + combination_limb_2_col95) - cube_252_output_limb_2_col106) + poseidon_round_keys_output_limb_12_col54) - combination_limb_2_col116) * 16)"
       ],
       [
-        "carry_3_tmp_44f04_43",
-        "((((((((carry_2_tmp_44f04_42 + (4 * input_limb_25_col25)) + (2 * input_limb_35_col35)) + (3 * cube_252_output_limb_3_col75)) + combination_limb_3_col96) - cube_252_output_limb_3_col107) + poseidon_round_keys_output_limb_13_col55) - combination_limb_3_col117) * 16)"
+        "carry_3_tmp_44f04_42",
+        "((((((((carry_2_tmp_44f04_41 + (4 * input_limb_25_col25)) + (2 * input_limb_35_col35)) + (3 * cube_252_output_limb_3_col75)) + combination_limb_3_col96) - cube_252_output_limb_3_col107) + poseidon_round_keys_output_limb_13_col55) - combination_limb_3_col117) * 16)"
       ],
       [
-        "carry_4_tmp_44f04_44",
-        "((((((((carry_3_tmp_44f04_43 + (4 * input_limb_26_col26)) + (2 * input_limb_36_col36)) + (3 * cube_252_output_limb_4_col76)) + combination_limb_4_col97) - cube_252_output_limb_4_col108) + poseidon_round_keys_output_limb_14_col56) - combination_limb_4_col118) * 16)"
+        "carry_4_tmp_44f04_43",
+        "((((((((carry_3_tmp_44f04_42 + (4 * input_limb_26_col26)) + (2 * input_limb_36_col36)) + (3 * cube_252_output_limb_4_col76)) + combination_limb_4_col97) - cube_252_output_limb_4_col108) + poseidon_round_keys_output_limb_14_col56) - combination_limb_4_col118) * 16)"
       ],
       [
-        "carry_5_tmp_44f04_45",
-        "((((((((carry_4_tmp_44f04_44 + (4 * input_limb_27_col27)) + (2 * input_limb_37_col37)) + (3 * cube_252_output_limb_5_col77)) + combination_limb_5_col98) - cube_252_output_limb_5_col109) + poseidon_round_keys_output_limb_15_col57) - combination_limb_5_col119) * 16)"
+        "carry_5_tmp_44f04_44",
+        "((((((((carry_4_tmp_44f04_43 + (4 * input_limb_27_col27)) + (2 * input_limb_37_col37)) + (3 * cube_252_output_limb_5_col77)) + combination_limb_5_col98) - cube_252_output_limb_5_col109) + poseidon_round_keys_output_limb_15_col57) - combination_limb_5_col119) * 16)"
       ],
       [
-        "carry_6_tmp_44f04_46",
-        "((((((((carry_5_tmp_44f04_45 + (4 * input_limb_28_col28)) + (2 * input_limb_38_col38)) + (3 * cube_252_output_limb_6_col78)) + combination_limb_6_col99) - cube_252_output_limb_6_col110) + poseidon_round_keys_output_limb_16_col58) - combination_limb_6_col120) * 16)"
+        "carry_6_tmp_44f04_45",
+        "((((((((carry_5_tmp_44f04_44 + (4 * input_limb_28_col28)) + (2 * input_limb_38_col38)) + (3 * cube_252_output_limb_6_col78)) + combination_limb_6_col99) - cube_252_output_limb_6_col110) + poseidon_round_keys_output_limb_16_col58) - combination_limb_6_col120) * 16)"
       ],
       [
-        "carry_7_tmp_44f04_47",
-        "(((((((((carry_6_tmp_44f04_46 + (4 * input_limb_29_col29)) + (2 * input_limb_39_col39)) + (3 * cube_252_output_limb_7_col79)) + combination_limb_7_col100) - cube_252_output_limb_7_col111) + poseidon_round_keys_output_limb_17_col59) - combination_limb_7_col121) - (p_coef_col124 * 136)) * 16)"
+        "carry_7_tmp_44f04_46",
+        "(((((((((carry_6_tmp_44f04_45 + (4 * input_limb_29_col29)) + (2 * input_limb_39_col39)) + (3 * cube_252_output_limb_7_col79)) + combination_limb_7_col100) - cube_252_output_limb_7_col111) + poseidon_round_keys_output_limb_17_col59) - combination_limb_7_col121) - (p_coef_col124 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_44f04_48",
-        "((((((((carry_7_tmp_44f04_47 + (4 * input_limb_30_col30)) + (2 * input_limb_40_col40)) + (3 * cube_252_output_limb_8_col80)) + combination_limb_8_col101) - cube_252_output_limb_8_col112) + poseidon_round_keys_output_limb_18_col60) - combination_limb_8_col122) * 16)"
+        "carry_8_tmp_44f04_47",
+        "((((((((carry_7_tmp_44f04_46 + (4 * input_limb_30_col30)) + (2 * input_limb_40_col40)) + (3 * cube_252_output_limb_8_col80)) + combination_limb_8_col101) - cube_252_output_limb_8_col112) + poseidon_round_keys_output_limb_18_col60) - combination_limb_8_col122) * 16)"
       ],
       [
-        "carry_0_tmp_44f04_52",
+        "carry_0_tmp_44f04_51",
         "((((2 * combination_limb_0_col114) - combination_limb_0_col125) - p_coef_col135) * 16)"
       ],
       [
-        "carry_1_tmp_44f04_53",
-        "(((carry_0_tmp_44f04_52 + (2 * combination_limb_1_col115)) - combination_limb_1_col126) * 16)"
+        "carry_1_tmp_44f04_52",
+        "(((carry_0_tmp_44f04_51 + (2 * combination_limb_1_col115)) - combination_limb_1_col126) * 16)"
       ],
       [
-        "carry_2_tmp_44f04_54",
-        "(((carry_1_tmp_44f04_53 + (2 * combination_limb_2_col116)) - combination_limb_2_col127) * 16)"
+        "carry_2_tmp_44f04_53",
+        "(((carry_1_tmp_44f04_52 + (2 * combination_limb_2_col116)) - combination_limb_2_col127) * 16)"
       ],
       [
-        "carry_3_tmp_44f04_55",
-        "(((carry_2_tmp_44f04_54 + (2 * combination_limb_3_col117)) - combination_limb_3_col128) * 16)"
+        "carry_3_tmp_44f04_54",
+        "(((carry_2_tmp_44f04_53 + (2 * combination_limb_3_col117)) - combination_limb_3_col128) * 16)"
       ],
       [
-        "carry_4_tmp_44f04_56",
-        "(((carry_3_tmp_44f04_55 + (2 * combination_limb_4_col118)) - combination_limb_4_col129) * 16)"
+        "carry_4_tmp_44f04_55",
+        "(((carry_3_tmp_44f04_54 + (2 * combination_limb_4_col118)) - combination_limb_4_col129) * 16)"
       ],
       [
-        "carry_5_tmp_44f04_57",
-        "(((carry_4_tmp_44f04_56 + (2 * combination_limb_5_col119)) - combination_limb_5_col130) * 16)"
+        "carry_5_tmp_44f04_56",
+        "(((carry_4_tmp_44f04_55 + (2 * combination_limb_5_col119)) - combination_limb_5_col130) * 16)"
       ],
       [
-        "carry_6_tmp_44f04_58",
-        "(((carry_5_tmp_44f04_57 + (2 * combination_limb_6_col120)) - combination_limb_6_col131) * 16)"
+        "carry_6_tmp_44f04_57",
+        "(((carry_5_tmp_44f04_56 + (2 * combination_limb_6_col120)) - combination_limb_6_col131) * 16)"
       ],
       [
-        "carry_7_tmp_44f04_59",
-        "((((carry_6_tmp_44f04_58 + (2 * combination_limb_7_col121)) - combination_limb_7_col132) - (p_coef_col135 * 136)) * 16)"
+        "carry_7_tmp_44f04_58",
+        "((((carry_6_tmp_44f04_57 + (2 * combination_limb_7_col121)) - combination_limb_7_col132) - (p_coef_col135 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_44f04_60",
-        "(((carry_7_tmp_44f04_59 + (2 * combination_limb_8_col122)) - combination_limb_8_col133) * 16)"
+        "carry_8_tmp_44f04_59",
+        "(((carry_7_tmp_44f04_58 + (2 * combination_limb_8_col122)) - combination_limb_8_col133) * 16)"
       ],
       [
-        "biased_carry_0_tmp_44f04_61",
-        "((p_coef_col135 + 1) - 1)"
+        "biased_carry_1_tmp_44f04_60",
+        "carry_0_tmp_44f04_51"
       ],
       [
-        "biased_carry_1_tmp_44f04_62",
-        "((carry_0_tmp_44f04_52 + 1) - 1)"
+        "biased_carry_2_tmp_44f04_61",
+        "carry_1_tmp_44f04_52"
       ],
       [
-        "biased_carry_2_tmp_44f04_63",
-        "((carry_1_tmp_44f04_53 + 1) - 1)"
+        "biased_carry_3_tmp_44f04_62",
+        "carry_2_tmp_44f04_53"
       ],
       [
-        "biased_carry_3_tmp_44f04_64",
-        "((carry_2_tmp_44f04_54 + 1) - 1)"
+        "biased_carry_4_tmp_44f04_63",
+        "carry_3_tmp_44f04_54"
       ],
       [
-        "biased_carry_4_tmp_44f04_65",
-        "((carry_3_tmp_44f04_55 + 1) - 1)"
+        "biased_carry_5_tmp_44f04_64",
+        "carry_4_tmp_44f04_55"
       ],
       [
-        "biased_carry_5_tmp_44f04_66",
-        "((carry_4_tmp_44f04_56 + 1) - 1)"
+        "biased_carry_6_tmp_44f04_65",
+        "carry_5_tmp_44f04_56"
       ],
       [
-        "biased_carry_6_tmp_44f04_67",
-        "((carry_5_tmp_44f04_57 + 1) - 1)"
+        "biased_carry_7_tmp_44f04_66",
+        "carry_6_tmp_44f04_57"
       ],
       [
-        "biased_carry_7_tmp_44f04_68",
-        "((carry_6_tmp_44f04_58 + 1) - 1)"
+        "biased_carry_8_tmp_44f04_67",
+        "carry_7_tmp_44f04_58"
       ],
       [
-        "biased_carry_8_tmp_44f04_69",
-        "((carry_7_tmp_44f04_59 + 1) - 1)"
+        "biased_carry_9_tmp_44f04_68",
+        "carry_8_tmp_44f04_59"
       ],
       [
-        "biased_carry_9_tmp_44f04_70",
-        "((carry_8_tmp_44f04_60 + 1) - 1)"
-      ],
-      [
-        "carry_0_tmp_44f04_76",
+        "carry_0_tmp_44f04_74",
         "(((((((((4 * cube_252_output_limb_0_col72) + (2 * combination_limb_0_col93)) + (3 * cube_252_output_limb_0_col104)) + combination_limb_0_col125) - cube_252_output_limb_0_col136) + poseidon_round_keys_output_limb_20_col62) - combination_limb_0_col146) - p_coef_col156) * 16)"
       ],
       [
-        "carry_1_tmp_44f04_77",
-        "((((((((carry_0_tmp_44f04_76 + (4 * cube_252_output_limb_1_col73)) + (2 * combination_limb_1_col94)) + (3 * cube_252_output_limb_1_col105)) + combination_limb_1_col126) - cube_252_output_limb_1_col137) + poseidon_round_keys_output_limb_21_col63) - combination_limb_1_col147) * 16)"
+        "carry_1_tmp_44f04_75",
+        "((((((((carry_0_tmp_44f04_74 + (4 * cube_252_output_limb_1_col73)) + (2 * combination_limb_1_col94)) + (3 * cube_252_output_limb_1_col105)) + combination_limb_1_col126) - cube_252_output_limb_1_col137) + poseidon_round_keys_output_limb_21_col63) - combination_limb_1_col147) * 16)"
       ],
       [
-        "carry_2_tmp_44f04_78",
-        "((((((((carry_1_tmp_44f04_77 + (4 * cube_252_output_limb_2_col74)) + (2 * combination_limb_2_col95)) + (3 * cube_252_output_limb_2_col106)) + combination_limb_2_col127) - cube_252_output_limb_2_col138) + poseidon_round_keys_output_limb_22_col64) - combination_limb_2_col148) * 16)"
+        "carry_2_tmp_44f04_76",
+        "((((((((carry_1_tmp_44f04_75 + (4 * cube_252_output_limb_2_col74)) + (2 * combination_limb_2_col95)) + (3 * cube_252_output_limb_2_col106)) + combination_limb_2_col127) - cube_252_output_limb_2_col138) + poseidon_round_keys_output_limb_22_col64) - combination_limb_2_col148) * 16)"
       ],
       [
-        "carry_3_tmp_44f04_79",
-        "((((((((carry_2_tmp_44f04_78 + (4 * cube_252_output_limb_3_col75)) + (2 * combination_limb_3_col96)) + (3 * cube_252_output_limb_3_col107)) + combination_limb_3_col128) - cube_252_output_limb_3_col139) + poseidon_round_keys_output_limb_23_col65) - combination_limb_3_col149) * 16)"
+        "carry_3_tmp_44f04_77",
+        "((((((((carry_2_tmp_44f04_76 + (4 * cube_252_output_limb_3_col75)) + (2 * combination_limb_3_col96)) + (3 * cube_252_output_limb_3_col107)) + combination_limb_3_col128) - cube_252_output_limb_3_col139) + poseidon_round_keys_output_limb_23_col65) - combination_limb_3_col149) * 16)"
       ],
       [
-        "carry_4_tmp_44f04_80",
-        "((((((((carry_3_tmp_44f04_79 + (4 * cube_252_output_limb_4_col76)) + (2 * combination_limb_4_col97)) + (3 * cube_252_output_limb_4_col108)) + combination_limb_4_col129) - cube_252_output_limb_4_col140) + poseidon_round_keys_output_limb_24_col66) - combination_limb_4_col150) * 16)"
+        "carry_4_tmp_44f04_78",
+        "((((((((carry_3_tmp_44f04_77 + (4 * cube_252_output_limb_4_col76)) + (2 * combination_limb_4_col97)) + (3 * cube_252_output_limb_4_col108)) + combination_limb_4_col129) - cube_252_output_limb_4_col140) + poseidon_round_keys_output_limb_24_col66) - combination_limb_4_col150) * 16)"
       ],
       [
-        "carry_5_tmp_44f04_81",
-        "((((((((carry_4_tmp_44f04_80 + (4 * cube_252_output_limb_5_col77)) + (2 * combination_limb_5_col98)) + (3 * cube_252_output_limb_5_col109)) + combination_limb_5_col130) - cube_252_output_limb_5_col141) + poseidon_round_keys_output_limb_25_col67) - combination_limb_5_col151) * 16)"
+        "carry_5_tmp_44f04_79",
+        "((((((((carry_4_tmp_44f04_78 + (4 * cube_252_output_limb_5_col77)) + (2 * combination_limb_5_col98)) + (3 * cube_252_output_limb_5_col109)) + combination_limb_5_col130) - cube_252_output_limb_5_col141) + poseidon_round_keys_output_limb_25_col67) - combination_limb_5_col151) * 16)"
       ],
       [
-        "carry_6_tmp_44f04_82",
-        "((((((((carry_5_tmp_44f04_81 + (4 * cube_252_output_limb_6_col78)) + (2 * combination_limb_6_col99)) + (3 * cube_252_output_limb_6_col110)) + combination_limb_6_col131) - cube_252_output_limb_6_col142) + poseidon_round_keys_output_limb_26_col68) - combination_limb_6_col152) * 16)"
+        "carry_6_tmp_44f04_80",
+        "((((((((carry_5_tmp_44f04_79 + (4 * cube_252_output_limb_6_col78)) + (2 * combination_limb_6_col99)) + (3 * cube_252_output_limb_6_col110)) + combination_limb_6_col131) - cube_252_output_limb_6_col142) + poseidon_round_keys_output_limb_26_col68) - combination_limb_6_col152) * 16)"
       ],
       [
-        "carry_7_tmp_44f04_83",
-        "(((((((((carry_6_tmp_44f04_82 + (4 * cube_252_output_limb_7_col79)) + (2 * combination_limb_7_col100)) + (3 * cube_252_output_limb_7_col111)) + combination_limb_7_col132) - cube_252_output_limb_7_col143) + poseidon_round_keys_output_limb_27_col69) - combination_limb_7_col153) - (p_coef_col156 * 136)) * 16)"
+        "carry_7_tmp_44f04_81",
+        "(((((((((carry_6_tmp_44f04_80 + (4 * cube_252_output_limb_7_col79)) + (2 * combination_limb_7_col100)) + (3 * cube_252_output_limb_7_col111)) + combination_limb_7_col132) - cube_252_output_limb_7_col143) + poseidon_round_keys_output_limb_27_col69) - combination_limb_7_col153) - (p_coef_col156 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_44f04_84",
-        "((((((((carry_7_tmp_44f04_83 + (4 * cube_252_output_limb_8_col80)) + (2 * combination_limb_8_col101)) + (3 * cube_252_output_limb_8_col112)) + combination_limb_8_col133) - cube_252_output_limb_8_col144) + poseidon_round_keys_output_limb_28_col70) - combination_limb_8_col154) * 16)"
+        "carry_8_tmp_44f04_82",
+        "((((((((carry_7_tmp_44f04_81 + (4 * cube_252_output_limb_8_col80)) + (2 * combination_limb_8_col101)) + (3 * cube_252_output_limb_8_col112)) + combination_limb_8_col133) - cube_252_output_limb_8_col144) + poseidon_round_keys_output_limb_28_col70) - combination_limb_8_col154) * 16)"
       ],
       [
-        "carry_0_tmp_44f04_88",
+        "carry_0_tmp_44f04_86",
         "((((2 * combination_limb_0_col146) - combination_limb_0_col157) - p_coef_col167) * 16)"
       ],
       [
-        "carry_1_tmp_44f04_89",
-        "(((carry_0_tmp_44f04_88 + (2 * combination_limb_1_col147)) - combination_limb_1_col158) * 16)"
+        "carry_1_tmp_44f04_87",
+        "(((carry_0_tmp_44f04_86 + (2 * combination_limb_1_col147)) - combination_limb_1_col158) * 16)"
       ],
       [
-        "carry_2_tmp_44f04_90",
-        "(((carry_1_tmp_44f04_89 + (2 * combination_limb_2_col148)) - combination_limb_2_col159) * 16)"
+        "carry_2_tmp_44f04_88",
+        "(((carry_1_tmp_44f04_87 + (2 * combination_limb_2_col148)) - combination_limb_2_col159) * 16)"
       ],
       [
-        "carry_3_tmp_44f04_91",
-        "(((carry_2_tmp_44f04_90 + (2 * combination_limb_3_col149)) - combination_limb_3_col160) * 16)"
+        "carry_3_tmp_44f04_89",
+        "(((carry_2_tmp_44f04_88 + (2 * combination_limb_3_col149)) - combination_limb_3_col160) * 16)"
       ],
       [
-        "carry_4_tmp_44f04_92",
-        "(((carry_3_tmp_44f04_91 + (2 * combination_limb_4_col150)) - combination_limb_4_col161) * 16)"
+        "carry_4_tmp_44f04_90",
+        "(((carry_3_tmp_44f04_89 + (2 * combination_limb_4_col150)) - combination_limb_4_col161) * 16)"
       ],
       [
-        "carry_5_tmp_44f04_93",
-        "(((carry_4_tmp_44f04_92 + (2 * combination_limb_5_col151)) - combination_limb_5_col162) * 16)"
+        "carry_5_tmp_44f04_91",
+        "(((carry_4_tmp_44f04_90 + (2 * combination_limb_5_col151)) - combination_limb_5_col162) * 16)"
       ],
       [
-        "carry_6_tmp_44f04_94",
-        "(((carry_5_tmp_44f04_93 + (2 * combination_limb_6_col152)) - combination_limb_6_col163) * 16)"
+        "carry_6_tmp_44f04_92",
+        "(((carry_5_tmp_44f04_91 + (2 * combination_limb_6_col152)) - combination_limb_6_col163) * 16)"
       ],
       [
-        "carry_7_tmp_44f04_95",
-        "((((carry_6_tmp_44f04_94 + (2 * combination_limb_7_col153)) - combination_limb_7_col164) - (p_coef_col167 * 136)) * 16)"
+        "carry_7_tmp_44f04_93",
+        "((((carry_6_tmp_44f04_92 + (2 * combination_limb_7_col153)) - combination_limb_7_col164) - (p_coef_col167 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_44f04_96",
-        "(((carry_7_tmp_44f04_95 + (2 * combination_limb_8_col154)) - combination_limb_8_col165) * 16)"
+        "carry_8_tmp_44f04_94",
+        "(((carry_7_tmp_44f04_93 + (2 * combination_limb_8_col154)) - combination_limb_8_col165) * 16)"
       ],
       [
-        "biased_carry_0_tmp_44f04_97",
-        "((p_coef_col167 + 1) - 1)"
+        "biased_carry_1_tmp_44f04_95",
+        "carry_0_tmp_44f04_86"
       ],
       [
-        "biased_carry_1_tmp_44f04_98",
-        "((carry_0_tmp_44f04_88 + 1) - 1)"
+        "biased_carry_2_tmp_44f04_96",
+        "carry_1_tmp_44f04_87"
       ],
       [
-        "biased_carry_2_tmp_44f04_99",
-        "((carry_1_tmp_44f04_89 + 1) - 1)"
+        "biased_carry_3_tmp_44f04_97",
+        "carry_2_tmp_44f04_88"
       ],
       [
-        "biased_carry_3_tmp_44f04_100",
-        "((carry_2_tmp_44f04_90 + 1) - 1)"
+        "biased_carry_4_tmp_44f04_98",
+        "carry_3_tmp_44f04_89"
       ],
       [
-        "biased_carry_4_tmp_44f04_101",
-        "((carry_3_tmp_44f04_91 + 1) - 1)"
+        "biased_carry_5_tmp_44f04_99",
+        "carry_4_tmp_44f04_90"
       ],
       [
-        "biased_carry_5_tmp_44f04_102",
-        "((carry_4_tmp_44f04_92 + 1) - 1)"
+        "biased_carry_6_tmp_44f04_100",
+        "carry_5_tmp_44f04_91"
       ],
       [
-        "biased_carry_6_tmp_44f04_103",
-        "((carry_5_tmp_44f04_93 + 1) - 1)"
+        "biased_carry_7_tmp_44f04_101",
+        "carry_6_tmp_44f04_92"
       ],
       [
-        "biased_carry_7_tmp_44f04_104",
-        "((carry_6_tmp_44f04_94 + 1) - 1)"
+        "biased_carry_8_tmp_44f04_102",
+        "carry_7_tmp_44f04_93"
       ],
       [
-        "biased_carry_8_tmp_44f04_105",
-        "((carry_7_tmp_44f04_95 + 1) - 1)"
-      ],
-      [
-        "biased_carry_9_tmp_44f04_106",
-        "((carry_8_tmp_44f04_96 + 1) - 1)"
+        "biased_carry_9_tmp_44f04_103",
+        "carry_8_tmp_44f04_94"
       ]
     ],
     "constraints": [
       "((((((((carry_8_tmp_44f04_12 + (4 * input_limb_11_col11)) + (2 * input_limb_21_col21)) + (3 * input_limb_31_col31)) + input_limb_41_col41) - cube_252_output_limb_9_col81) + poseidon_round_keys_output_limb_9_col51) - combination_limb_9_col91) - (p_coef_col92 * 256))",
       "(((carry_8_tmp_44f04_24 + (2 * combination_limb_9_col91)) - combination_limb_9_col102) - (p_coef_col103 * 256))",
-      "(((biased_carry_0_tmp_44f04_25 * biased_carry_0_tmp_44f04_25) * biased_carry_0_tmp_44f04_25) - biased_carry_0_tmp_44f04_25)",
-      "(((biased_carry_1_tmp_44f04_26 * biased_carry_1_tmp_44f04_26) * biased_carry_1_tmp_44f04_26) - biased_carry_1_tmp_44f04_26)",
-      "(((biased_carry_2_tmp_44f04_27 * biased_carry_2_tmp_44f04_27) * biased_carry_2_tmp_44f04_27) - biased_carry_2_tmp_44f04_27)",
-      "(((biased_carry_3_tmp_44f04_28 * biased_carry_3_tmp_44f04_28) * biased_carry_3_tmp_44f04_28) - biased_carry_3_tmp_44f04_28)",
-      "(((biased_carry_4_tmp_44f04_29 * biased_carry_4_tmp_44f04_29) * biased_carry_4_tmp_44f04_29) - biased_carry_4_tmp_44f04_29)",
-      "(((biased_carry_5_tmp_44f04_30 * biased_carry_5_tmp_44f04_30) * biased_carry_5_tmp_44f04_30) - biased_carry_5_tmp_44f04_30)",
-      "(((biased_carry_6_tmp_44f04_31 * biased_carry_6_tmp_44f04_31) * biased_carry_6_tmp_44f04_31) - biased_carry_6_tmp_44f04_31)",
-      "(((biased_carry_7_tmp_44f04_32 * biased_carry_7_tmp_44f04_32) * biased_carry_7_tmp_44f04_32) - biased_carry_7_tmp_44f04_32)",
-      "(((biased_carry_8_tmp_44f04_33 * biased_carry_8_tmp_44f04_33) * biased_carry_8_tmp_44f04_33) - biased_carry_8_tmp_44f04_33)",
-      "(((biased_carry_9_tmp_44f04_34 * biased_carry_9_tmp_44f04_34) * biased_carry_9_tmp_44f04_34) - biased_carry_9_tmp_44f04_34)",
-      "((((((((carry_8_tmp_44f04_48 + (4 * input_limb_31_col31)) + (2 * input_limb_41_col41)) + (3 * cube_252_output_limb_9_col81)) + combination_limb_9_col102) - cube_252_output_limb_9_col113) + poseidon_round_keys_output_limb_19_col61) - combination_limb_9_col123) - (p_coef_col124 * 256))",
-      "(((carry_8_tmp_44f04_60 + (2 * combination_limb_9_col123)) - combination_limb_9_col134) - (p_coef_col135 * 256))",
-      "(((biased_carry_0_tmp_44f04_61 * biased_carry_0_tmp_44f04_61) * biased_carry_0_tmp_44f04_61) - biased_carry_0_tmp_44f04_61)",
-      "(((biased_carry_1_tmp_44f04_62 * biased_carry_1_tmp_44f04_62) * biased_carry_1_tmp_44f04_62) - biased_carry_1_tmp_44f04_62)",
-      "(((biased_carry_2_tmp_44f04_63 * biased_carry_2_tmp_44f04_63) * biased_carry_2_tmp_44f04_63) - biased_carry_2_tmp_44f04_63)",
-      "(((biased_carry_3_tmp_44f04_64 * biased_carry_3_tmp_44f04_64) * biased_carry_3_tmp_44f04_64) - biased_carry_3_tmp_44f04_64)",
-      "(((biased_carry_4_tmp_44f04_65 * biased_carry_4_tmp_44f04_65) * biased_carry_4_tmp_44f04_65) - biased_carry_4_tmp_44f04_65)",
-      "(((biased_carry_5_tmp_44f04_66 * biased_carry_5_tmp_44f04_66) * biased_carry_5_tmp_44f04_66) - biased_carry_5_tmp_44f04_66)",
-      "(((biased_carry_6_tmp_44f04_67 * biased_carry_6_tmp_44f04_67) * biased_carry_6_tmp_44f04_67) - biased_carry_6_tmp_44f04_67)",
-      "(((biased_carry_7_tmp_44f04_68 * biased_carry_7_tmp_44f04_68) * biased_carry_7_tmp_44f04_68) - biased_carry_7_tmp_44f04_68)",
-      "(((biased_carry_8_tmp_44f04_69 * biased_carry_8_tmp_44f04_69) * biased_carry_8_tmp_44f04_69) - biased_carry_8_tmp_44f04_69)",
-      "(((biased_carry_9_tmp_44f04_70 * biased_carry_9_tmp_44f04_70) * biased_carry_9_tmp_44f04_70) - biased_carry_9_tmp_44f04_70)",
-      "((((((((carry_8_tmp_44f04_84 + (4 * cube_252_output_limb_9_col81)) + (2 * combination_limb_9_col102)) + (3 * cube_252_output_limb_9_col113)) + combination_limb_9_col134) - cube_252_output_limb_9_col145) + poseidon_round_keys_output_limb_29_col71) - combination_limb_9_col155) - (p_coef_col156 * 256))",
-      "(((carry_8_tmp_44f04_96 + (2 * combination_limb_9_col155)) - combination_limb_9_col166) - (p_coef_col167 * 256))",
-      "(((biased_carry_0_tmp_44f04_97 * biased_carry_0_tmp_44f04_97) * biased_carry_0_tmp_44f04_97) - biased_carry_0_tmp_44f04_97)",
-      "(((biased_carry_1_tmp_44f04_98 * biased_carry_1_tmp_44f04_98) * biased_carry_1_tmp_44f04_98) - biased_carry_1_tmp_44f04_98)",
-      "(((biased_carry_2_tmp_44f04_99 * biased_carry_2_tmp_44f04_99) * biased_carry_2_tmp_44f04_99) - biased_carry_2_tmp_44f04_99)",
-      "(((biased_carry_3_tmp_44f04_100 * biased_carry_3_tmp_44f04_100) * biased_carry_3_tmp_44f04_100) - biased_carry_3_tmp_44f04_100)",
-      "(((biased_carry_4_tmp_44f04_101 * biased_carry_4_tmp_44f04_101) * biased_carry_4_tmp_44f04_101) - biased_carry_4_tmp_44f04_101)",
-      "(((biased_carry_5_tmp_44f04_102 * biased_carry_5_tmp_44f04_102) * biased_carry_5_tmp_44f04_102) - biased_carry_5_tmp_44f04_102)",
-      "(((biased_carry_6_tmp_44f04_103 * biased_carry_6_tmp_44f04_103) * biased_carry_6_tmp_44f04_103) - biased_carry_6_tmp_44f04_103)",
-      "(((biased_carry_7_tmp_44f04_104 * biased_carry_7_tmp_44f04_104) * biased_carry_7_tmp_44f04_104) - biased_carry_7_tmp_44f04_104)",
-      "(((biased_carry_8_tmp_44f04_105 * biased_carry_8_tmp_44f04_105) * biased_carry_8_tmp_44f04_105) - biased_carry_8_tmp_44f04_105)",
-      "(((biased_carry_9_tmp_44f04_106 * biased_carry_9_tmp_44f04_106) * biased_carry_9_tmp_44f04_106) - biased_carry_9_tmp_44f04_106)"
+      "(((p_coef_col103 * p_coef_col103) * p_coef_col103) - p_coef_col103)",
+      "(((biased_carry_1_tmp_44f04_25 * biased_carry_1_tmp_44f04_25) * biased_carry_1_tmp_44f04_25) - biased_carry_1_tmp_44f04_25)",
+      "(((biased_carry_2_tmp_44f04_26 * biased_carry_2_tmp_44f04_26) * biased_carry_2_tmp_44f04_26) - biased_carry_2_tmp_44f04_26)",
+      "(((biased_carry_3_tmp_44f04_27 * biased_carry_3_tmp_44f04_27) * biased_carry_3_tmp_44f04_27) - biased_carry_3_tmp_44f04_27)",
+      "(((biased_carry_4_tmp_44f04_28 * biased_carry_4_tmp_44f04_28) * biased_carry_4_tmp_44f04_28) - biased_carry_4_tmp_44f04_28)",
+      "(((biased_carry_5_tmp_44f04_29 * biased_carry_5_tmp_44f04_29) * biased_carry_5_tmp_44f04_29) - biased_carry_5_tmp_44f04_29)",
+      "(((biased_carry_6_tmp_44f04_30 * biased_carry_6_tmp_44f04_30) * biased_carry_6_tmp_44f04_30) - biased_carry_6_tmp_44f04_30)",
+      "(((biased_carry_7_tmp_44f04_31 * biased_carry_7_tmp_44f04_31) * biased_carry_7_tmp_44f04_31) - biased_carry_7_tmp_44f04_31)",
+      "(((biased_carry_8_tmp_44f04_32 * biased_carry_8_tmp_44f04_32) * biased_carry_8_tmp_44f04_32) - biased_carry_8_tmp_44f04_32)",
+      "(((biased_carry_9_tmp_44f04_33 * biased_carry_9_tmp_44f04_33) * biased_carry_9_tmp_44f04_33) - biased_carry_9_tmp_44f04_33)",
+      "((((((((carry_8_tmp_44f04_47 + (4 * input_limb_31_col31)) + (2 * input_limb_41_col41)) + (3 * cube_252_output_limb_9_col81)) + combination_limb_9_col102) - cube_252_output_limb_9_col113) + poseidon_round_keys_output_limb_19_col61) - combination_limb_9_col123) - (p_coef_col124 * 256))",
+      "(((carry_8_tmp_44f04_59 + (2 * combination_limb_9_col123)) - combination_limb_9_col134) - (p_coef_col135 * 256))",
+      "(((p_coef_col135 * p_coef_col135) * p_coef_col135) - p_coef_col135)",
+      "(((biased_carry_1_tmp_44f04_60 * biased_carry_1_tmp_44f04_60) * biased_carry_1_tmp_44f04_60) - biased_carry_1_tmp_44f04_60)",
+      "(((biased_carry_2_tmp_44f04_61 * biased_carry_2_tmp_44f04_61) * biased_carry_2_tmp_44f04_61) - biased_carry_2_tmp_44f04_61)",
+      "(((biased_carry_3_tmp_44f04_62 * biased_carry_3_tmp_44f04_62) * biased_carry_3_tmp_44f04_62) - biased_carry_3_tmp_44f04_62)",
+      "(((biased_carry_4_tmp_44f04_63 * biased_carry_4_tmp_44f04_63) * biased_carry_4_tmp_44f04_63) - biased_carry_4_tmp_44f04_63)",
+      "(((biased_carry_5_tmp_44f04_64 * biased_carry_5_tmp_44f04_64) * biased_carry_5_tmp_44f04_64) - biased_carry_5_tmp_44f04_64)",
+      "(((biased_carry_6_tmp_44f04_65 * biased_carry_6_tmp_44f04_65) * biased_carry_6_tmp_44f04_65) - biased_carry_6_tmp_44f04_65)",
+      "(((biased_carry_7_tmp_44f04_66 * biased_carry_7_tmp_44f04_66) * biased_carry_7_tmp_44f04_66) - biased_carry_7_tmp_44f04_66)",
+      "(((biased_carry_8_tmp_44f04_67 * biased_carry_8_tmp_44f04_67) * biased_carry_8_tmp_44f04_67) - biased_carry_8_tmp_44f04_67)",
+      "(((biased_carry_9_tmp_44f04_68 * biased_carry_9_tmp_44f04_68) * biased_carry_9_tmp_44f04_68) - biased_carry_9_tmp_44f04_68)",
+      "((((((((carry_8_tmp_44f04_82 + (4 * cube_252_output_limb_9_col81)) + (2 * combination_limb_9_col102)) + (3 * cube_252_output_limb_9_col113)) + combination_limb_9_col134) - cube_252_output_limb_9_col145) + poseidon_round_keys_output_limb_29_col71) - combination_limb_9_col155) - (p_coef_col156 * 256))",
+      "(((carry_8_tmp_44f04_94 + (2 * combination_limb_9_col155)) - combination_limb_9_col166) - (p_coef_col167 * 256))",
+      "(((p_coef_col167 * p_coef_col167) * p_coef_col167) - p_coef_col167)",
+      "(((biased_carry_1_tmp_44f04_95 * biased_carry_1_tmp_44f04_95) * biased_carry_1_tmp_44f04_95) - biased_carry_1_tmp_44f04_95)",
+      "(((biased_carry_2_tmp_44f04_96 * biased_carry_2_tmp_44f04_96) * biased_carry_2_tmp_44f04_96) - biased_carry_2_tmp_44f04_96)",
+      "(((biased_carry_3_tmp_44f04_97 * biased_carry_3_tmp_44f04_97) * biased_carry_3_tmp_44f04_97) - biased_carry_3_tmp_44f04_97)",
+      "(((biased_carry_4_tmp_44f04_98 * biased_carry_4_tmp_44f04_98) * biased_carry_4_tmp_44f04_98) - biased_carry_4_tmp_44f04_98)",
+      "(((biased_carry_5_tmp_44f04_99 * biased_carry_5_tmp_44f04_99) * biased_carry_5_tmp_44f04_99) - biased_carry_5_tmp_44f04_99)",
+      "(((biased_carry_6_tmp_44f04_100 * biased_carry_6_tmp_44f04_100) * biased_carry_6_tmp_44f04_100) - biased_carry_6_tmp_44f04_100)",
+      "(((biased_carry_7_tmp_44f04_101 * biased_carry_7_tmp_44f04_101) * biased_carry_7_tmp_44f04_101) - biased_carry_7_tmp_44f04_101)",
+      "(((biased_carry_8_tmp_44f04_102 * biased_carry_8_tmp_44f04_102) * biased_carry_8_tmp_44f04_102) - biased_carry_8_tmp_44f04_102)",
+      "(((biased_carry_9_tmp_44f04_103 * biased_carry_9_tmp_44f04_103) * biased_carry_9_tmp_44f04_103) - biased_carry_9_tmp_44f04_103)"
     ],
     "lookups": [
       [
@@ -18429,15 +18405,15 @@
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col124 + 2), (carry_0_tmp_44f04_40 + 2), (carry_1_tmp_44f04_41 + 2), (carry_2_tmp_44f04_42 + 2)"
+        "(p_coef_col124 + 2), (carry_0_tmp_44f04_39 + 2), (carry_1_tmp_44f04_40 + 2), (carry_2_tmp_44f04_41 + 2)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_44f04_43 + 2), (carry_4_tmp_44f04_44 + 2), (carry_5_tmp_44f04_45 + 2), (carry_6_tmp_44f04_46 + 2)"
+        "(carry_3_tmp_44f04_42 + 2), (carry_4_tmp_44f04_43 + 2), (carry_5_tmp_44f04_44 + 2), (carry_6_tmp_44f04_45 + 2)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_44f04_47 + 2), (carry_8_tmp_44f04_48 + 2)"
+        "(carry_7_tmp_44f04_46 + 2), (carry_8_tmp_44f04_47 + 2)"
       ],
       [
         "RangeCheckFelt252Width27",
@@ -18449,15 +18425,15 @@
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col156 + 2), (carry_0_tmp_44f04_76 + 2), (carry_1_tmp_44f04_77 + 2), (carry_2_tmp_44f04_78 + 2)"
+        "(p_coef_col156 + 2), (carry_0_tmp_44f04_74 + 2), (carry_1_tmp_44f04_75 + 2), (carry_2_tmp_44f04_76 + 2)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_44f04_79 + 2), (carry_4_tmp_44f04_80 + 2), (carry_5_tmp_44f04_81 + 2), (carry_6_tmp_44f04_82 + 2)"
+        "(carry_3_tmp_44f04_77 + 2), (carry_4_tmp_44f04_78 + 2), (carry_5_tmp_44f04_79 + 2), (carry_6_tmp_44f04_80 + 2)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_44f04_83 + 2), (carry_8_tmp_44f04_84 + 2)"
+        "(carry_7_tmp_44f04_81 + 2), (carry_8_tmp_44f04_82 + 2)"
       ],
       [
         "RangeCheckFelt252Width27",
@@ -18777,393 +18753,381 @@
         "((((carry_7_tmp_7d028_9 + poseidon_hades_permutation_input_limb_8) + 102193642) - combination_limb_8_col8) * 16)"
       ],
       [
-        "biased_carry_0_tmp_7d028_11",
-        "((p_coef_col10 + 1) - 1)"
+        "biased_carry_1_tmp_7d028_11",
+        "carry_0_tmp_7d028_2"
       ],
       [
-        "biased_carry_1_tmp_7d028_12",
-        "((carry_0_tmp_7d028_2 + 1) - 1)"
+        "biased_carry_2_tmp_7d028_12",
+        "carry_1_tmp_7d028_3"
       ],
       [
-        "biased_carry_2_tmp_7d028_13",
-        "((carry_1_tmp_7d028_3 + 1) - 1)"
+        "biased_carry_3_tmp_7d028_13",
+        "carry_2_tmp_7d028_4"
       ],
       [
-        "biased_carry_3_tmp_7d028_14",
-        "((carry_2_tmp_7d028_4 + 1) - 1)"
+        "biased_carry_4_tmp_7d028_14",
+        "carry_3_tmp_7d028_5"
       ],
       [
-        "biased_carry_4_tmp_7d028_15",
-        "((carry_3_tmp_7d028_5 + 1) - 1)"
+        "biased_carry_5_tmp_7d028_15",
+        "carry_4_tmp_7d028_6"
       ],
       [
-        "biased_carry_5_tmp_7d028_16",
-        "((carry_4_tmp_7d028_6 + 1) - 1)"
+        "biased_carry_6_tmp_7d028_16",
+        "carry_5_tmp_7d028_7"
       ],
       [
-        "biased_carry_6_tmp_7d028_17",
-        "((carry_5_tmp_7d028_7 + 1) - 1)"
+        "biased_carry_7_tmp_7d028_17",
+        "carry_6_tmp_7d028_8"
       ],
       [
-        "biased_carry_7_tmp_7d028_18",
-        "((carry_6_tmp_7d028_8 + 1) - 1)"
+        "biased_carry_8_tmp_7d028_18",
+        "carry_7_tmp_7d028_9"
       ],
       [
-        "biased_carry_8_tmp_7d028_19",
-        "((carry_7_tmp_7d028_9 + 1) - 1)"
+        "biased_carry_9_tmp_7d028_19",
+        "carry_8_tmp_7d028_10"
       ],
       [
-        "biased_carry_9_tmp_7d028_20",
-        "((carry_8_tmp_7d028_10 + 1) - 1)"
-      ],
-      [
-        "carry_0_tmp_7d028_24",
+        "carry_0_tmp_7d028_23",
         "((((poseidon_hades_permutation_input_limb_10 + 41224388) - combination_limb_0_col11) - p_coef_col21) * 16)"
       ],
       [
-        "carry_1_tmp_7d028_25",
-        "((((carry_0_tmp_7d028_24 + poseidon_hades_permutation_input_limb_11) + 90391646) - combination_limb_1_col12) * 16)"
+        "carry_1_tmp_7d028_24",
+        "((((carry_0_tmp_7d028_23 + poseidon_hades_permutation_input_limb_11) + 90391646) - combination_limb_1_col12) * 16)"
       ],
       [
-        "carry_2_tmp_7d028_26",
-        "((((carry_1_tmp_7d028_25 + poseidon_hades_permutation_input_limb_12) + 36279186) - combination_limb_2_col13) * 16)"
+        "carry_2_tmp_7d028_25",
+        "((((carry_1_tmp_7d028_24 + poseidon_hades_permutation_input_limb_12) + 36279186) - combination_limb_2_col13) * 16)"
       ],
       [
-        "carry_3_tmp_7d028_27",
-        "((((carry_2_tmp_7d028_26 + poseidon_hades_permutation_input_limb_13) + 129717753) - combination_limb_3_col14) * 16)"
+        "carry_3_tmp_7d028_26",
+        "((((carry_2_tmp_7d028_25 + poseidon_hades_permutation_input_limb_13) + 129717753) - combination_limb_3_col14) * 16)"
       ],
       [
-        "carry_4_tmp_7d028_28",
-        "((((carry_3_tmp_7d028_27 + poseidon_hades_permutation_input_limb_14) + 94624323) - combination_limb_4_col15) * 16)"
+        "carry_4_tmp_7d028_27",
+        "((((carry_3_tmp_7d028_26 + poseidon_hades_permutation_input_limb_14) + 94624323) - combination_limb_4_col15) * 16)"
       ],
       [
-        "carry_5_tmp_7d028_29",
-        "((((carry_4_tmp_7d028_28 + poseidon_hades_permutation_input_limb_15) + 75104388) - combination_limb_5_col16) * 16)"
+        "carry_5_tmp_7d028_28",
+        "((((carry_4_tmp_7d028_27 + poseidon_hades_permutation_input_limb_15) + 75104388) - combination_limb_5_col16) * 16)"
       ],
       [
-        "carry_6_tmp_7d028_30",
-        "((((carry_5_tmp_7d028_29 + poseidon_hades_permutation_input_limb_16) + 133303902) - combination_limb_6_col17) * 16)"
+        "carry_6_tmp_7d028_29",
+        "((((carry_5_tmp_7d028_28 + poseidon_hades_permutation_input_limb_16) + 133303902) - combination_limb_6_col17) * 16)"
       ],
       [
-        "carry_7_tmp_7d028_31",
-        "(((((carry_6_tmp_7d028_30 + poseidon_hades_permutation_input_limb_17) + 48945103) - combination_limb_7_col18) - (p_coef_col21 * 136)) * 16)"
+        "carry_7_tmp_7d028_30",
+        "(((((carry_6_tmp_7d028_29 + poseidon_hades_permutation_input_limb_17) + 48945103) - combination_limb_7_col18) - (p_coef_col21 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_7d028_32",
-        "((((carry_7_tmp_7d028_31 + poseidon_hades_permutation_input_limb_18) + 41320857) - combination_limb_8_col19) * 16)"
+        "carry_8_tmp_7d028_31",
+        "((((carry_7_tmp_7d028_30 + poseidon_hades_permutation_input_limb_18) + 41320857) - combination_limb_8_col19) * 16)"
       ],
       [
-        "biased_carry_0_tmp_7d028_33",
-        "((p_coef_col21 + 1) - 1)"
+        "biased_carry_1_tmp_7d028_32",
+        "carry_0_tmp_7d028_23"
       ],
       [
-        "biased_carry_1_tmp_7d028_34",
-        "((carry_0_tmp_7d028_24 + 1) - 1)"
+        "biased_carry_2_tmp_7d028_33",
+        "carry_1_tmp_7d028_24"
       ],
       [
-        "biased_carry_2_tmp_7d028_35",
-        "((carry_1_tmp_7d028_25 + 1) - 1)"
+        "biased_carry_3_tmp_7d028_34",
+        "carry_2_tmp_7d028_25"
       ],
       [
-        "biased_carry_3_tmp_7d028_36",
-        "((carry_2_tmp_7d028_26 + 1) - 1)"
+        "biased_carry_4_tmp_7d028_35",
+        "carry_3_tmp_7d028_26"
       ],
       [
-        "biased_carry_4_tmp_7d028_37",
-        "((carry_3_tmp_7d028_27 + 1) - 1)"
+        "biased_carry_5_tmp_7d028_36",
+        "carry_4_tmp_7d028_27"
       ],
       [
-        "biased_carry_5_tmp_7d028_38",
-        "((carry_4_tmp_7d028_28 + 1) - 1)"
+        "biased_carry_6_tmp_7d028_37",
+        "carry_5_tmp_7d028_28"
       ],
       [
-        "biased_carry_6_tmp_7d028_39",
-        "((carry_5_tmp_7d028_29 + 1) - 1)"
+        "biased_carry_7_tmp_7d028_38",
+        "carry_6_tmp_7d028_29"
       ],
       [
-        "biased_carry_7_tmp_7d028_40",
-        "((carry_6_tmp_7d028_30 + 1) - 1)"
+        "biased_carry_8_tmp_7d028_39",
+        "carry_7_tmp_7d028_30"
       ],
       [
-        "biased_carry_8_tmp_7d028_41",
-        "((carry_7_tmp_7d028_31 + 1) - 1)"
+        "biased_carry_9_tmp_7d028_40",
+        "carry_8_tmp_7d028_31"
       ],
       [
-        "biased_carry_9_tmp_7d028_42",
-        "((carry_8_tmp_7d028_32 + 1) - 1)"
-      ],
-      [
-        "carry_0_tmp_7d028_46",
+        "carry_0_tmp_7d028_44",
         "((((poseidon_hades_permutation_input_limb_20 + 4883209) - combination_limb_0_col22) - p_coef_col32) * 16)"
       ],
       [
-        "carry_1_tmp_7d028_47",
-        "((((carry_0_tmp_7d028_46 + poseidon_hades_permutation_input_limb_21) + 28820206) - combination_limb_1_col23) * 16)"
+        "carry_1_tmp_7d028_45",
+        "((((carry_0_tmp_7d028_44 + poseidon_hades_permutation_input_limb_21) + 28820206) - combination_limb_1_col23) * 16)"
       ],
       [
-        "carry_2_tmp_7d028_48",
-        "((((carry_1_tmp_7d028_47 + poseidon_hades_permutation_input_limb_22) + 79012328) - combination_limb_2_col24) * 16)"
+        "carry_2_tmp_7d028_46",
+        "((((carry_1_tmp_7d028_45 + poseidon_hades_permutation_input_limb_22) + 79012328) - combination_limb_2_col24) * 16)"
       ],
       [
-        "carry_3_tmp_7d028_49",
-        "((((carry_2_tmp_7d028_48 + poseidon_hades_permutation_input_limb_23) + 49157069) - combination_limb_3_col25) * 16)"
+        "carry_3_tmp_7d028_47",
+        "((((carry_2_tmp_7d028_46 + poseidon_hades_permutation_input_limb_23) + 49157069) - combination_limb_3_col25) * 16)"
       ],
       [
-        "carry_4_tmp_7d028_50",
-        "((((carry_3_tmp_7d028_49 + poseidon_hades_permutation_input_limb_24) + 78826183) - combination_limb_4_col26) * 16)"
+        "carry_4_tmp_7d028_48",
+        "((((carry_3_tmp_7d028_47 + poseidon_hades_permutation_input_limb_24) + 78826183) - combination_limb_4_col26) * 16)"
       ],
       [
-        "carry_5_tmp_7d028_51",
-        "((((carry_4_tmp_7d028_50 + poseidon_hades_permutation_input_limb_25) + 72285071) - combination_limb_5_col27) * 16)"
+        "carry_5_tmp_7d028_49",
+        "((((carry_4_tmp_7d028_48 + poseidon_hades_permutation_input_limb_25) + 72285071) - combination_limb_5_col27) * 16)"
       ],
       [
-        "carry_6_tmp_7d028_52",
-        "((((carry_5_tmp_7d028_51 + poseidon_hades_permutation_input_limb_26) + 33413160) - combination_limb_6_col28) * 16)"
+        "carry_6_tmp_7d028_50",
+        "((((carry_5_tmp_7d028_49 + poseidon_hades_permutation_input_limb_26) + 33413160) - combination_limb_6_col28) * 16)"
       ],
       [
-        "carry_7_tmp_7d028_53",
-        "(((((carry_6_tmp_7d028_52 + poseidon_hades_permutation_input_limb_27) + 90842759) - combination_limb_7_col29) - (p_coef_col32 * 136)) * 16)"
+        "carry_7_tmp_7d028_51",
+        "(((((carry_6_tmp_7d028_50 + poseidon_hades_permutation_input_limb_27) + 90842759) - combination_limb_7_col29) - (p_coef_col32 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_7d028_54",
-        "((((carry_7_tmp_7d028_53 + poseidon_hades_permutation_input_limb_28) + 60124463) - combination_limb_8_col30) * 16)"
+        "carry_8_tmp_7d028_52",
+        "((((carry_7_tmp_7d028_51 + poseidon_hades_permutation_input_limb_28) + 60124463) - combination_limb_8_col30) * 16)"
       ],
       [
-        "biased_carry_0_tmp_7d028_55",
-        "((p_coef_col32 + 1) - 1)"
+        "biased_carry_1_tmp_7d028_53",
+        "carry_0_tmp_7d028_44"
       ],
       [
-        "biased_carry_1_tmp_7d028_56",
-        "((carry_0_tmp_7d028_46 + 1) - 1)"
+        "biased_carry_2_tmp_7d028_54",
+        "carry_1_tmp_7d028_45"
       ],
       [
-        "biased_carry_2_tmp_7d028_57",
-        "((carry_1_tmp_7d028_47 + 1) - 1)"
+        "biased_carry_3_tmp_7d028_55",
+        "carry_2_tmp_7d028_46"
       ],
       [
-        "biased_carry_3_tmp_7d028_58",
-        "((carry_2_tmp_7d028_48 + 1) - 1)"
+        "biased_carry_4_tmp_7d028_56",
+        "carry_3_tmp_7d028_47"
       ],
       [
-        "biased_carry_4_tmp_7d028_59",
-        "((carry_3_tmp_7d028_49 + 1) - 1)"
+        "biased_carry_5_tmp_7d028_57",
+        "carry_4_tmp_7d028_48"
       ],
       [
-        "biased_carry_5_tmp_7d028_60",
-        "((carry_4_tmp_7d028_50 + 1) - 1)"
+        "biased_carry_6_tmp_7d028_58",
+        "carry_5_tmp_7d028_49"
       ],
       [
-        "biased_carry_6_tmp_7d028_61",
-        "((carry_5_tmp_7d028_51 + 1) - 1)"
+        "biased_carry_7_tmp_7d028_59",
+        "carry_6_tmp_7d028_50"
       ],
       [
-        "biased_carry_7_tmp_7d028_62",
-        "((carry_6_tmp_7d028_52 + 1) - 1)"
+        "biased_carry_8_tmp_7d028_60",
+        "carry_7_tmp_7d028_51"
       ],
       [
-        "biased_carry_8_tmp_7d028_63",
-        "((carry_7_tmp_7d028_53 + 1) - 1)"
+        "biased_carry_9_tmp_7d028_61",
+        "carry_8_tmp_7d028_52"
       ],
       [
-        "biased_carry_9_tmp_7d028_64",
-        "((carry_8_tmp_7d028_54 + 1) - 1)"
-      ],
-      [
-        "poseidon_full_round_chain_chain_tmp_tmp_7d028_66",
+        "poseidon_full_round_chain_chain_tmp_tmp_7d028_63",
         "(seq() * 2)"
       ],
       [
-        "carry_0_tmp_7d028_74",
+        "carry_0_tmp_7d028_71",
         "((((((poseidon_full_round_chain_output_limb_0_col33 + poseidon_full_round_chain_output_limb_10_col43) - (2 * cube_252_output_limb_0_col63)) + 103094260) - combination_limb_0_col73) - p_coef_col83) * 16)"
       ],
       [
-        "carry_1_tmp_7d028_75",
-        "((((((carry_0_tmp_7d028_74 + poseidon_full_round_chain_output_limb_1_col34) + poseidon_full_round_chain_output_limb_11_col44) - (2 * cube_252_output_limb_1_col64)) + 121146754) - combination_limb_1_col74) * 16)"
+        "carry_1_tmp_7d028_72",
+        "((((((carry_0_tmp_7d028_71 + poseidon_full_round_chain_output_limb_1_col34) + poseidon_full_round_chain_output_limb_11_col44) - (2 * cube_252_output_limb_1_col64)) + 121146754) - combination_limb_1_col74) * 16)"
       ],
       [
-        "carry_2_tmp_7d028_76",
-        "((((((carry_1_tmp_7d028_75 + poseidon_full_round_chain_output_limb_2_col35) + poseidon_full_round_chain_output_limb_12_col45) - (2 * cube_252_output_limb_2_col65)) + 95050340) - combination_limb_2_col75) * 16)"
+        "carry_2_tmp_7d028_73",
+        "((((((carry_1_tmp_7d028_72 + poseidon_full_round_chain_output_limb_2_col35) + poseidon_full_round_chain_output_limb_12_col45) - (2 * cube_252_output_limb_2_col65)) + 95050340) - combination_limb_2_col75) * 16)"
       ],
       [
-        "carry_3_tmp_7d028_77",
-        "((((((carry_2_tmp_7d028_76 + poseidon_full_round_chain_output_limb_3_col36) + poseidon_full_round_chain_output_limb_13_col46) - (2 * cube_252_output_limb_3_col66)) + 16173996) - combination_limb_3_col76) * 16)"
+        "carry_3_tmp_7d028_74",
+        "((((((carry_2_tmp_7d028_73 + poseidon_full_round_chain_output_limb_3_col36) + poseidon_full_round_chain_output_limb_13_col46) - (2 * cube_252_output_limb_3_col66)) + 16173996) - combination_limb_3_col76) * 16)"
       ],
       [
-        "carry_4_tmp_7d028_78",
-        "((((((carry_3_tmp_7d028_77 + poseidon_full_round_chain_output_limb_4_col37) + poseidon_full_round_chain_output_limb_14_col47) - (2 * cube_252_output_limb_4_col67)) + 50758155) - combination_limb_4_col77) * 16)"
+        "carry_4_tmp_7d028_75",
+        "((((((carry_3_tmp_7d028_74 + poseidon_full_round_chain_output_limb_4_col37) + poseidon_full_round_chain_output_limb_14_col47) - (2 * cube_252_output_limb_4_col67)) + 50758155) - combination_limb_4_col77) * 16)"
       ],
       [
-        "carry_5_tmp_7d028_79",
-        "((((((carry_4_tmp_7d028_78 + poseidon_full_round_chain_output_limb_5_col38) + poseidon_full_round_chain_output_limb_15_col48) - (2 * cube_252_output_limb_5_col68)) + 54415179) - combination_limb_5_col78) * 16)"
+        "carry_5_tmp_7d028_76",
+        "((((((carry_4_tmp_7d028_75 + poseidon_full_round_chain_output_limb_5_col38) + poseidon_full_round_chain_output_limb_15_col48) - (2 * cube_252_output_limb_5_col68)) + 54415179) - combination_limb_5_col78) * 16)"
       ],
       [
-        "carry_6_tmp_7d028_80",
-        "((((((carry_5_tmp_7d028_79 + poseidon_full_round_chain_output_limb_6_col39) + poseidon_full_round_chain_output_limb_16_col49) - (2 * cube_252_output_limb_6_col69)) + 19292069) - combination_limb_6_col79) * 16)"
+        "carry_6_tmp_7d028_77",
+        "((((((carry_5_tmp_7d028_76 + poseidon_full_round_chain_output_limb_6_col39) + poseidon_full_round_chain_output_limb_16_col49) - (2 * cube_252_output_limb_6_col69)) + 19292069) - combination_limb_6_col79) * 16)"
       ],
       [
-        "carry_7_tmp_7d028_81",
-        "(((((((carry_6_tmp_7d028_80 + poseidon_full_round_chain_output_limb_7_col40) + poseidon_full_round_chain_output_limb_17_col50) - (2 * cube_252_output_limb_7_col70)) + 45351266) - combination_limb_7_col80) - (p_coef_col83 * 136)) * 16)"
+        "carry_7_tmp_7d028_78",
+        "(((((((carry_6_tmp_7d028_77 + poseidon_full_round_chain_output_limb_7_col40) + poseidon_full_round_chain_output_limb_17_col50) - (2 * cube_252_output_limb_7_col70)) + 45351266) - combination_limb_7_col80) - (p_coef_col83 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_7d028_82",
-        "((((((carry_7_tmp_7d028_81 + poseidon_full_round_chain_output_limb_8_col41) + poseidon_full_round_chain_output_limb_18_col51) - (2 * cube_252_output_limb_8_col71)) + 122233508) - combination_limb_8_col81) * 16)"
+        "carry_8_tmp_7d028_79",
+        "((((((carry_7_tmp_7d028_78 + poseidon_full_round_chain_output_limb_8_col41) + poseidon_full_round_chain_output_limb_18_col51) - (2 * cube_252_output_limb_8_col71)) + 122233508) - combination_limb_8_col81) * 16)"
       ],
       [
-        "carry_0_tmp_7d028_87",
+        "carry_0_tmp_7d028_84",
         "(((((((4 * poseidon_full_round_chain_output_limb_0_col33) + (2 * cube_252_output_limb_0_col63)) - (2 * cube_252_output_limb_0_col84)) + 121657377) - combination_limb_0_col94) - p_coef_col104) * 16)"
       ],
       [
-        "carry_1_tmp_7d028_88",
-        "((((((carry_0_tmp_7d028_87 + (4 * poseidon_full_round_chain_output_limb_1_col34)) + (2 * cube_252_output_limb_1_col64)) - (2 * cube_252_output_limb_1_col85)) + 112479959) - combination_limb_1_col95) * 16)"
+        "carry_1_tmp_7d028_85",
+        "((((((carry_0_tmp_7d028_84 + (4 * poseidon_full_round_chain_output_limb_1_col34)) + (2 * cube_252_output_limb_1_col64)) - (2 * cube_252_output_limb_1_col85)) + 112479959) - combination_limb_1_col95) * 16)"
       ],
       [
-        "carry_2_tmp_7d028_89",
-        "((((((carry_1_tmp_7d028_88 + (4 * poseidon_full_round_chain_output_limb_2_col35)) + (2 * cube_252_output_limb_2_col65)) - (2 * cube_252_output_limb_2_col86)) + 130418270) - combination_limb_2_col96) * 16)"
+        "carry_2_tmp_7d028_86",
+        "((((((carry_1_tmp_7d028_85 + (4 * poseidon_full_round_chain_output_limb_2_col35)) + (2 * cube_252_output_limb_2_col65)) - (2 * cube_252_output_limb_2_col86)) + 130418270) - combination_limb_2_col96) * 16)"
       ],
       [
-        "carry_3_tmp_7d028_90",
-        "((((((carry_2_tmp_7d028_89 + (4 * poseidon_full_round_chain_output_limb_3_col36)) + (2 * cube_252_output_limb_3_col66)) - (2 * cube_252_output_limb_3_col87)) + 4974792) - combination_limb_3_col97) * 16)"
+        "carry_3_tmp_7d028_87",
+        "((((((carry_2_tmp_7d028_86 + (4 * poseidon_full_round_chain_output_limb_3_col36)) + (2 * cube_252_output_limb_3_col66)) - (2 * cube_252_output_limb_3_col87)) + 4974792) - combination_limb_3_col97) * 16)"
       ],
       [
-        "carry_4_tmp_7d028_91",
-        "((((((carry_3_tmp_7d028_90 + (4 * poseidon_full_round_chain_output_limb_4_col37)) + (2 * cube_252_output_limb_4_col67)) - (2 * cube_252_output_limb_4_col88)) + 59852719) - combination_limb_4_col98) * 16)"
+        "carry_4_tmp_7d028_88",
+        "((((((carry_3_tmp_7d028_87 + (4 * poseidon_full_round_chain_output_limb_4_col37)) + (2 * cube_252_output_limb_4_col67)) - (2 * cube_252_output_limb_4_col88)) + 59852719) - combination_limb_4_col98) * 16)"
       ],
       [
-        "carry_5_tmp_7d028_92",
-        "((((((carry_4_tmp_7d028_91 + (4 * poseidon_full_round_chain_output_limb_5_col38)) + (2 * cube_252_output_limb_5_col68)) - (2 * cube_252_output_limb_5_col89)) + 120369218) - combination_limb_5_col99) * 16)"
+        "carry_5_tmp_7d028_89",
+        "((((((carry_4_tmp_7d028_88 + (4 * poseidon_full_round_chain_output_limb_5_col38)) + (2 * cube_252_output_limb_5_col68)) - (2 * cube_252_output_limb_5_col89)) + 120369218) - combination_limb_5_col99) * 16)"
       ],
       [
-        "carry_6_tmp_7d028_93",
-        "((((((carry_5_tmp_7d028_92 + (4 * poseidon_full_round_chain_output_limb_6_col39)) + (2 * cube_252_output_limb_6_col69)) - (2 * cube_252_output_limb_6_col90)) + 62439890) - combination_limb_6_col100) * 16)"
+        "carry_6_tmp_7d028_90",
+        "((((((carry_5_tmp_7d028_89 + (4 * poseidon_full_round_chain_output_limb_6_col39)) + (2 * cube_252_output_limb_6_col69)) - (2 * cube_252_output_limb_6_col90)) + 62439890) - combination_limb_6_col100) * 16)"
       ],
       [
-        "carry_7_tmp_7d028_94",
-        "(((((((carry_6_tmp_7d028_93 + (4 * poseidon_full_round_chain_output_limb_7_col40)) + (2 * cube_252_output_limb_7_col70)) - (2 * cube_252_output_limb_7_col91)) + 50468641) - combination_limb_7_col101) - (p_coef_col104 * 136)) * 16)"
+        "carry_7_tmp_7d028_91",
+        "(((((((carry_6_tmp_7d028_90 + (4 * poseidon_full_round_chain_output_limb_7_col40)) + (2 * cube_252_output_limb_7_col70)) - (2 * cube_252_output_limb_7_col91)) + 50468641) - combination_limb_7_col101) - (p_coef_col104 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_7d028_95",
-        "((((((carry_7_tmp_7d028_94 + (4 * poseidon_full_round_chain_output_limb_8_col41)) + (2 * cube_252_output_limb_8_col71)) - (2 * cube_252_output_limb_8_col92)) + 86573645) - combination_limb_8_col102) * 16)"
+        "carry_8_tmp_7d028_92",
+        "((((((carry_7_tmp_7d028_91 + (4 * poseidon_full_round_chain_output_limb_8_col41)) + (2 * cube_252_output_limb_8_col71)) - (2 * cube_252_output_limb_8_col92)) + 86573645) - combination_limb_8_col102) * 16)"
       ],
       [
-        "carry_0_tmp_7d028_127",
+        "carry_0_tmp_7d028_124",
         "(((((((4 * poseidon_3_partial_rounds_chain_output_limb_0_col105) + (2 * poseidon_3_partial_rounds_chain_output_limb_10_col115)) + poseidon_3_partial_rounds_chain_output_limb_20_col125) + 40454143) - combination_limb_0_col145) - p_coef_col155) * 16)"
       ],
       [
-        "carry_1_tmp_7d028_128",
-        "((((((carry_0_tmp_7d028_127 + (4 * poseidon_3_partial_rounds_chain_output_limb_1_col106)) + (2 * poseidon_3_partial_rounds_chain_output_limb_11_col116)) + poseidon_3_partial_rounds_chain_output_limb_21_col126) + 49554771) - combination_limb_1_col146) * 16)"
+        "carry_1_tmp_7d028_125",
+        "((((((carry_0_tmp_7d028_124 + (4 * poseidon_3_partial_rounds_chain_output_limb_1_col106)) + (2 * poseidon_3_partial_rounds_chain_output_limb_11_col116)) + poseidon_3_partial_rounds_chain_output_limb_21_col126) + 49554771) - combination_limb_1_col146) * 16)"
       ],
       [
-        "carry_2_tmp_7d028_129",
-        "((((((carry_1_tmp_7d028_128 + (4 * poseidon_3_partial_rounds_chain_output_limb_2_col107)) + (2 * poseidon_3_partial_rounds_chain_output_limb_12_col117)) + poseidon_3_partial_rounds_chain_output_limb_22_col127) + 55508188) - combination_limb_2_col147) * 16)"
+        "carry_2_tmp_7d028_126",
+        "((((((carry_1_tmp_7d028_125 + (4 * poseidon_3_partial_rounds_chain_output_limb_2_col107)) + (2 * poseidon_3_partial_rounds_chain_output_limb_12_col117)) + poseidon_3_partial_rounds_chain_output_limb_22_col127) + 55508188) - combination_limb_2_col147) * 16)"
       ],
       [
-        "carry_3_tmp_7d028_130",
-        "((((((carry_2_tmp_7d028_129 + (4 * poseidon_3_partial_rounds_chain_output_limb_3_col108)) + (2 * poseidon_3_partial_rounds_chain_output_limb_13_col118)) + poseidon_3_partial_rounds_chain_output_limb_23_col128) + 116986206) - combination_limb_3_col148) * 16)"
+        "carry_3_tmp_7d028_127",
+        "((((((carry_2_tmp_7d028_126 + (4 * poseidon_3_partial_rounds_chain_output_limb_3_col108)) + (2 * poseidon_3_partial_rounds_chain_output_limb_13_col118)) + poseidon_3_partial_rounds_chain_output_limb_23_col128) + 116986206) - combination_limb_3_col148) * 16)"
       ],
       [
-        "carry_4_tmp_7d028_131",
-        "((((((carry_3_tmp_7d028_130 + (4 * poseidon_3_partial_rounds_chain_output_limb_4_col109)) + (2 * poseidon_3_partial_rounds_chain_output_limb_14_col119)) + poseidon_3_partial_rounds_chain_output_limb_24_col129) + 88680813) - combination_limb_4_col149) * 16)"
+        "carry_4_tmp_7d028_128",
+        "((((((carry_3_tmp_7d028_127 + (4 * poseidon_3_partial_rounds_chain_output_limb_4_col109)) + (2 * poseidon_3_partial_rounds_chain_output_limb_14_col119)) + poseidon_3_partial_rounds_chain_output_limb_24_col129) + 88680813) - combination_limb_4_col149) * 16)"
       ],
       [
-        "carry_5_tmp_7d028_132",
-        "((((((carry_4_tmp_7d028_131 + (4 * poseidon_3_partial_rounds_chain_output_limb_5_col110)) + (2 * poseidon_3_partial_rounds_chain_output_limb_15_col120)) + poseidon_3_partial_rounds_chain_output_limb_25_col130) + 45553283) - combination_limb_5_col150) * 16)"
+        "carry_5_tmp_7d028_129",
+        "((((((carry_4_tmp_7d028_128 + (4 * poseidon_3_partial_rounds_chain_output_limb_5_col110)) + (2 * poseidon_3_partial_rounds_chain_output_limb_15_col120)) + poseidon_3_partial_rounds_chain_output_limb_25_col130) + 45553283) - combination_limb_5_col150) * 16)"
       ],
       [
-        "carry_6_tmp_7d028_133",
-        "((((((carry_5_tmp_7d028_132 + (4 * poseidon_3_partial_rounds_chain_output_limb_6_col111)) + (2 * poseidon_3_partial_rounds_chain_output_limb_16_col121)) + poseidon_3_partial_rounds_chain_output_limb_26_col131) + 62360091) - combination_limb_6_col151) * 16)"
+        "carry_6_tmp_7d028_130",
+        "((((((carry_5_tmp_7d028_129 + (4 * poseidon_3_partial_rounds_chain_output_limb_6_col111)) + (2 * poseidon_3_partial_rounds_chain_output_limb_16_col121)) + poseidon_3_partial_rounds_chain_output_limb_26_col131) + 62360091) - combination_limb_6_col151) * 16)"
       ],
       [
-        "carry_7_tmp_7d028_134",
-        "(((((((carry_6_tmp_7d028_133 + (4 * poseidon_3_partial_rounds_chain_output_limb_7_col112)) + (2 * poseidon_3_partial_rounds_chain_output_limb_17_col122)) + poseidon_3_partial_rounds_chain_output_limb_27_col132) + 77099918) - combination_limb_7_col152) - (p_coef_col155 * 136)) * 16)"
+        "carry_7_tmp_7d028_131",
+        "(((((((carry_6_tmp_7d028_130 + (4 * poseidon_3_partial_rounds_chain_output_limb_7_col112)) + (2 * poseidon_3_partial_rounds_chain_output_limb_17_col122)) + poseidon_3_partial_rounds_chain_output_limb_27_col132) + 77099918) - combination_limb_7_col152) - (p_coef_col155 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_7d028_135",
-        "((((((carry_7_tmp_7d028_134 + (4 * poseidon_3_partial_rounds_chain_output_limb_8_col113)) + (2 * poseidon_3_partial_rounds_chain_output_limb_18_col123)) + poseidon_3_partial_rounds_chain_output_limb_28_col133) + 22899501) - combination_limb_8_col153) * 16)"
+        "carry_8_tmp_7d028_132",
+        "((((((carry_7_tmp_7d028_131 + (4 * poseidon_3_partial_rounds_chain_output_limb_8_col113)) + (2 * poseidon_3_partial_rounds_chain_output_limb_18_col123)) + poseidon_3_partial_rounds_chain_output_limb_28_col133) + 22899501) - combination_limb_8_col153) * 16)"
       ],
       [
-        "carry_0_tmp_7d028_139",
+        "carry_0_tmp_7d028_136",
         "(((((((4 * poseidon_3_partial_rounds_chain_output_limb_20_col125) + (2 * poseidon_3_partial_rounds_chain_output_limb_30_col135)) + combination_limb_0_col145) + 48383197) - combination_limb_0_col156) - p_coef_col166) * 16)"
       ],
       [
-        "carry_1_tmp_7d028_140",
-        "((((((carry_0_tmp_7d028_139 + (4 * poseidon_3_partial_rounds_chain_output_limb_21_col126)) + (2 * poseidon_3_partial_rounds_chain_output_limb_31_col136)) + combination_limb_1_col146) + 48193339) - combination_limb_1_col157) * 16)"
+        "carry_1_tmp_7d028_137",
+        "((((((carry_0_tmp_7d028_136 + (4 * poseidon_3_partial_rounds_chain_output_limb_21_col126)) + (2 * poseidon_3_partial_rounds_chain_output_limb_31_col136)) + combination_limb_1_col146) + 48193339) - combination_limb_1_col157) * 16)"
       ],
       [
-        "carry_2_tmp_7d028_141",
-        "((((((carry_1_tmp_7d028_140 + (4 * poseidon_3_partial_rounds_chain_output_limb_22_col127)) + (2 * poseidon_3_partial_rounds_chain_output_limb_32_col137)) + combination_limb_2_col147) + 55955004) - combination_limb_2_col158) * 16)"
+        "carry_2_tmp_7d028_138",
+        "((((((carry_1_tmp_7d028_137 + (4 * poseidon_3_partial_rounds_chain_output_limb_22_col127)) + (2 * poseidon_3_partial_rounds_chain_output_limb_32_col137)) + combination_limb_2_col147) + 55955004) - combination_limb_2_col158) * 16)"
       ],
       [
-        "carry_3_tmp_7d028_142",
-        "((((((carry_2_tmp_7d028_141 + (4 * poseidon_3_partial_rounds_chain_output_limb_23_col128)) + (2 * poseidon_3_partial_rounds_chain_output_limb_33_col138)) + combination_limb_3_col148) + 65659846) - combination_limb_3_col159) * 16)"
+        "carry_3_tmp_7d028_139",
+        "((((((carry_2_tmp_7d028_138 + (4 * poseidon_3_partial_rounds_chain_output_limb_23_col128)) + (2 * poseidon_3_partial_rounds_chain_output_limb_33_col138)) + combination_limb_3_col148) + 65659846) - combination_limb_3_col159) * 16)"
       ],
       [
-        "carry_4_tmp_7d028_143",
-        "((((((carry_3_tmp_7d028_142 + (4 * poseidon_3_partial_rounds_chain_output_limb_24_col129)) + (2 * poseidon_3_partial_rounds_chain_output_limb_34_col139)) + combination_limb_4_col149) + 68491350) - combination_limb_4_col160) * 16)"
+        "carry_4_tmp_7d028_140",
+        "((((((carry_3_tmp_7d028_139 + (4 * poseidon_3_partial_rounds_chain_output_limb_24_col129)) + (2 * poseidon_3_partial_rounds_chain_output_limb_34_col139)) + combination_limb_4_col149) + 68491350) - combination_limb_4_col160) * 16)"
       ],
       [
-        "carry_5_tmp_7d028_144",
-        "((((((carry_4_tmp_7d028_143 + (4 * poseidon_3_partial_rounds_chain_output_limb_25_col130)) + (2 * poseidon_3_partial_rounds_chain_output_limb_35_col140)) + combination_limb_5_col150) + 119023582) - combination_limb_5_col161) * 16)"
+        "carry_5_tmp_7d028_141",
+        "((((((carry_4_tmp_7d028_140 + (4 * poseidon_3_partial_rounds_chain_output_limb_25_col130)) + (2 * poseidon_3_partial_rounds_chain_output_limb_35_col140)) + combination_limb_5_col150) + 119023582) - combination_limb_5_col161) * 16)"
       ],
       [
-        "carry_6_tmp_7d028_145",
-        "((((((carry_5_tmp_7d028_144 + (4 * poseidon_3_partial_rounds_chain_output_limb_26_col131)) + (2 * poseidon_3_partial_rounds_chain_output_limb_36_col141)) + combination_limb_6_col151) + 33439011) - combination_limb_6_col162) * 16)"
+        "carry_6_tmp_7d028_142",
+        "((((((carry_5_tmp_7d028_141 + (4 * poseidon_3_partial_rounds_chain_output_limb_26_col131)) + (2 * poseidon_3_partial_rounds_chain_output_limb_36_col141)) + combination_limb_6_col151) + 33439011) - combination_limb_6_col162) * 16)"
       ],
       [
-        "carry_7_tmp_7d028_146",
-        "(((((((carry_6_tmp_7d028_145 + (4 * poseidon_3_partial_rounds_chain_output_limb_27_col132)) + (2 * poseidon_3_partial_rounds_chain_output_limb_37_col142)) + combination_limb_7_col152) + 58475513) - combination_limb_7_col163) - (p_coef_col166 * 136)) * 16)"
+        "carry_7_tmp_7d028_143",
+        "(((((((carry_6_tmp_7d028_142 + (4 * poseidon_3_partial_rounds_chain_output_limb_27_col132)) + (2 * poseidon_3_partial_rounds_chain_output_limb_37_col142)) + combination_limb_7_col152) + 58475513) - combination_limb_7_col163) - (p_coef_col166 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_7d028_147",
-        "((((((carry_7_tmp_7d028_146 + (4 * poseidon_3_partial_rounds_chain_output_limb_28_col133)) + (2 * poseidon_3_partial_rounds_chain_output_limb_38_col143)) + combination_limb_8_col153) + 18765944) - combination_limb_8_col164) * 16)"
+        "carry_8_tmp_7d028_144",
+        "((((((carry_7_tmp_7d028_143 + (4 * poseidon_3_partial_rounds_chain_output_limb_28_col133)) + (2 * poseidon_3_partial_rounds_chain_output_limb_38_col143)) + combination_limb_8_col153) + 18765944) - combination_limb_8_col164) * 16)"
       ],
       [
-        "poseidon_full_round_chain_chain_id_tmp_7d028_149",
-        "(poseidon_full_round_chain_chain_tmp_tmp_7d028_66 + 1)"
+        "poseidon_full_round_chain_chain_id_tmp_7d028_146",
+        "(poseidon_full_round_chain_chain_tmp_tmp_7d028_63 + 1)"
       ]
     ],
     "constraints": [
       "((((carry_8_tmp_7d028_10 + poseidon_hades_permutation_input_limb_9) + 208) - combination_limb_9_col9) - (p_coef_col10 * 256))",
-      "(((biased_carry_0_tmp_7d028_11 * biased_carry_0_tmp_7d028_11) * biased_carry_0_tmp_7d028_11) - biased_carry_0_tmp_7d028_11)",
-      "(((biased_carry_1_tmp_7d028_12 * biased_carry_1_tmp_7d028_12) * biased_carry_1_tmp_7d028_12) - biased_carry_1_tmp_7d028_12)",
-      "(((biased_carry_2_tmp_7d028_13 * biased_carry_2_tmp_7d028_13) * biased_carry_2_tmp_7d028_13) - biased_carry_2_tmp_7d028_13)",
-      "(((biased_carry_3_tmp_7d028_14 * biased_carry_3_tmp_7d028_14) * biased_carry_3_tmp_7d028_14) - biased_carry_3_tmp_7d028_14)",
-      "(((biased_carry_4_tmp_7d028_15 * biased_carry_4_tmp_7d028_15) * biased_carry_4_tmp_7d028_15) - biased_carry_4_tmp_7d028_15)",
-      "(((biased_carry_5_tmp_7d028_16 * biased_carry_5_tmp_7d028_16) * biased_carry_5_tmp_7d028_16) - biased_carry_5_tmp_7d028_16)",
-      "(((biased_carry_6_tmp_7d028_17 * biased_carry_6_tmp_7d028_17) * biased_carry_6_tmp_7d028_17) - biased_carry_6_tmp_7d028_17)",
-      "(((biased_carry_7_tmp_7d028_18 * biased_carry_7_tmp_7d028_18) * biased_carry_7_tmp_7d028_18) - biased_carry_7_tmp_7d028_18)",
-      "(((biased_carry_8_tmp_7d028_19 * biased_carry_8_tmp_7d028_19) * biased_carry_8_tmp_7d028_19) - biased_carry_8_tmp_7d028_19)",
-      "(((biased_carry_9_tmp_7d028_20 * biased_carry_9_tmp_7d028_20) * biased_carry_9_tmp_7d028_20) - biased_carry_9_tmp_7d028_20)",
-      "((((carry_8_tmp_7d028_32 + poseidon_hades_permutation_input_limb_19) + 112) - combination_limb_9_col20) - (p_coef_col21 * 256))",
-      "(((biased_carry_0_tmp_7d028_33 * biased_carry_0_tmp_7d028_33) * biased_carry_0_tmp_7d028_33) - biased_carry_0_tmp_7d028_33)",
-      "(((biased_carry_1_tmp_7d028_34 * biased_carry_1_tmp_7d028_34) * biased_carry_1_tmp_7d028_34) - biased_carry_1_tmp_7d028_34)",
-      "(((biased_carry_2_tmp_7d028_35 * biased_carry_2_tmp_7d028_35) * biased_carry_2_tmp_7d028_35) - biased_carry_2_tmp_7d028_35)",
-      "(((biased_carry_3_tmp_7d028_36 * biased_carry_3_tmp_7d028_36) * biased_carry_3_tmp_7d028_36) - biased_carry_3_tmp_7d028_36)",
-      "(((biased_carry_4_tmp_7d028_37 * biased_carry_4_tmp_7d028_37) * biased_carry_4_tmp_7d028_37) - biased_carry_4_tmp_7d028_37)",
-      "(((biased_carry_5_tmp_7d028_38 * biased_carry_5_tmp_7d028_38) * biased_carry_5_tmp_7d028_38) - biased_carry_5_tmp_7d028_38)",
-      "(((biased_carry_6_tmp_7d028_39 * biased_carry_6_tmp_7d028_39) * biased_carry_6_tmp_7d028_39) - biased_carry_6_tmp_7d028_39)",
-      "(((biased_carry_7_tmp_7d028_40 * biased_carry_7_tmp_7d028_40) * biased_carry_7_tmp_7d028_40) - biased_carry_7_tmp_7d028_40)",
-      "(((biased_carry_8_tmp_7d028_41 * biased_carry_8_tmp_7d028_41) * biased_carry_8_tmp_7d028_41) - biased_carry_8_tmp_7d028_41)",
-      "(((biased_carry_9_tmp_7d028_42 * biased_carry_9_tmp_7d028_42) * biased_carry_9_tmp_7d028_42) - biased_carry_9_tmp_7d028_42)",
-      "((((carry_8_tmp_7d028_54 + poseidon_hades_permutation_input_limb_29) + 116) - combination_limb_9_col31) - (p_coef_col32 * 256))",
-      "(((biased_carry_0_tmp_7d028_55 * biased_carry_0_tmp_7d028_55) * biased_carry_0_tmp_7d028_55) - biased_carry_0_tmp_7d028_55)",
-      "(((biased_carry_1_tmp_7d028_56 * biased_carry_1_tmp_7d028_56) * biased_carry_1_tmp_7d028_56) - biased_carry_1_tmp_7d028_56)",
-      "(((biased_carry_2_tmp_7d028_57 * biased_carry_2_tmp_7d028_57) * biased_carry_2_tmp_7d028_57) - biased_carry_2_tmp_7d028_57)",
-      "(((biased_carry_3_tmp_7d028_58 * biased_carry_3_tmp_7d028_58) * biased_carry_3_tmp_7d028_58) - biased_carry_3_tmp_7d028_58)",
-      "(((biased_carry_4_tmp_7d028_59 * biased_carry_4_tmp_7d028_59) * biased_carry_4_tmp_7d028_59) - biased_carry_4_tmp_7d028_59)",
-      "(((biased_carry_5_tmp_7d028_60 * biased_carry_5_tmp_7d028_60) * biased_carry_5_tmp_7d028_60) - biased_carry_5_tmp_7d028_60)",
-      "(((biased_carry_6_tmp_7d028_61 * biased_carry_6_tmp_7d028_61) * biased_carry_6_tmp_7d028_61) - biased_carry_6_tmp_7d028_61)",
-      "(((biased_carry_7_tmp_7d028_62 * biased_carry_7_tmp_7d028_62) * biased_carry_7_tmp_7d028_62) - biased_carry_7_tmp_7d028_62)",
-      "(((biased_carry_8_tmp_7d028_63 * biased_carry_8_tmp_7d028_63) * biased_carry_8_tmp_7d028_63) - biased_carry_8_tmp_7d028_63)",
-      "(((biased_carry_9_tmp_7d028_64 * biased_carry_9_tmp_7d028_64) * biased_carry_9_tmp_7d028_64) - biased_carry_9_tmp_7d028_64)",
-      "((((((carry_8_tmp_7d028_82 + poseidon_full_round_chain_output_limb_9_col42) + poseidon_full_round_chain_output_limb_19_col52) - (2 * cube_252_output_limb_9_col72)) + 248) - combination_limb_9_col82) - (p_coef_col83 * 256))",
-      "((((((carry_8_tmp_7d028_95 + (4 * poseidon_full_round_chain_output_limb_9_col42)) + (2 * cube_252_output_limb_9_col72)) - (2 * cube_252_output_limb_9_col93)) + 154) - combination_limb_9_col103) - (p_coef_col104 * 256))",
-      "((((((carry_8_tmp_7d028_135 + (4 * poseidon_3_partial_rounds_chain_output_limb_9_col114)) + (2 * poseidon_3_partial_rounds_chain_output_limb_19_col124)) + poseidon_3_partial_rounds_chain_output_limb_29_col134) + 99) - combination_limb_9_col154) - (p_coef_col155 * 256))",
-      "((((((carry_8_tmp_7d028_147 + (4 * poseidon_3_partial_rounds_chain_output_limb_29_col134)) + (2 * poseidon_3_partial_rounds_chain_output_limb_39_col144)) + combination_limb_9_col154) + 20) - combination_limb_9_col165) - (p_coef_col166 * 256))"
+      "(((p_coef_col10 * p_coef_col10) * p_coef_col10) - p_coef_col10)",
+      "(((biased_carry_1_tmp_7d028_11 * biased_carry_1_tmp_7d028_11) * biased_carry_1_tmp_7d028_11) - biased_carry_1_tmp_7d028_11)",
+      "(((biased_carry_2_tmp_7d028_12 * biased_carry_2_tmp_7d028_12) * biased_carry_2_tmp_7d028_12) - biased_carry_2_tmp_7d028_12)",
+      "(((biased_carry_3_tmp_7d028_13 * biased_carry_3_tmp_7d028_13) * biased_carry_3_tmp_7d028_13) - biased_carry_3_tmp_7d028_13)",
+      "(((biased_carry_4_tmp_7d028_14 * biased_carry_4_tmp_7d028_14) * biased_carry_4_tmp_7d028_14) - biased_carry_4_tmp_7d028_14)",
+      "(((biased_carry_5_tmp_7d028_15 * biased_carry_5_tmp_7d028_15) * biased_carry_5_tmp_7d028_15) - biased_carry_5_tmp_7d028_15)",
+      "(((biased_carry_6_tmp_7d028_16 * biased_carry_6_tmp_7d028_16) * biased_carry_6_tmp_7d028_16) - biased_carry_6_tmp_7d028_16)",
+      "(((biased_carry_7_tmp_7d028_17 * biased_carry_7_tmp_7d028_17) * biased_carry_7_tmp_7d028_17) - biased_carry_7_tmp_7d028_17)",
+      "(((biased_carry_8_tmp_7d028_18 * biased_carry_8_tmp_7d028_18) * biased_carry_8_tmp_7d028_18) - biased_carry_8_tmp_7d028_18)",
+      "(((biased_carry_9_tmp_7d028_19 * biased_carry_9_tmp_7d028_19) * biased_carry_9_tmp_7d028_19) - biased_carry_9_tmp_7d028_19)",
+      "((((carry_8_tmp_7d028_31 + poseidon_hades_permutation_input_limb_19) + 112) - combination_limb_9_col20) - (p_coef_col21 * 256))",
+      "(((p_coef_col21 * p_coef_col21) * p_coef_col21) - p_coef_col21)",
+      "(((biased_carry_1_tmp_7d028_32 * biased_carry_1_tmp_7d028_32) * biased_carry_1_tmp_7d028_32) - biased_carry_1_tmp_7d028_32)",
+      "(((biased_carry_2_tmp_7d028_33 * biased_carry_2_tmp_7d028_33) * biased_carry_2_tmp_7d028_33) - biased_carry_2_tmp_7d028_33)",
+      "(((biased_carry_3_tmp_7d028_34 * biased_carry_3_tmp_7d028_34) * biased_carry_3_tmp_7d028_34) - biased_carry_3_tmp_7d028_34)",
+      "(((biased_carry_4_tmp_7d028_35 * biased_carry_4_tmp_7d028_35) * biased_carry_4_tmp_7d028_35) - biased_carry_4_tmp_7d028_35)",
+      "(((biased_carry_5_tmp_7d028_36 * biased_carry_5_tmp_7d028_36) * biased_carry_5_tmp_7d028_36) - biased_carry_5_tmp_7d028_36)",
+      "(((biased_carry_6_tmp_7d028_37 * biased_carry_6_tmp_7d028_37) * biased_carry_6_tmp_7d028_37) - biased_carry_6_tmp_7d028_37)",
+      "(((biased_carry_7_tmp_7d028_38 * biased_carry_7_tmp_7d028_38) * biased_carry_7_tmp_7d028_38) - biased_carry_7_tmp_7d028_38)",
+      "(((biased_carry_8_tmp_7d028_39 * biased_carry_8_tmp_7d028_39) * biased_carry_8_tmp_7d028_39) - biased_carry_8_tmp_7d028_39)",
+      "(((biased_carry_9_tmp_7d028_40 * biased_carry_9_tmp_7d028_40) * biased_carry_9_tmp_7d028_40) - biased_carry_9_tmp_7d028_40)",
+      "((((carry_8_tmp_7d028_52 + poseidon_hades_permutation_input_limb_29) + 116) - combination_limb_9_col31) - (p_coef_col32 * 256))",
+      "(((p_coef_col32 * p_coef_col32) * p_coef_col32) - p_coef_col32)",
+      "(((biased_carry_1_tmp_7d028_53 * biased_carry_1_tmp_7d028_53) * biased_carry_1_tmp_7d028_53) - biased_carry_1_tmp_7d028_53)",
+      "(((biased_carry_2_tmp_7d028_54 * biased_carry_2_tmp_7d028_54) * biased_carry_2_tmp_7d028_54) - biased_carry_2_tmp_7d028_54)",
+      "(((biased_carry_3_tmp_7d028_55 * biased_carry_3_tmp_7d028_55) * biased_carry_3_tmp_7d028_55) - biased_carry_3_tmp_7d028_55)",
+      "(((biased_carry_4_tmp_7d028_56 * biased_carry_4_tmp_7d028_56) * biased_carry_4_tmp_7d028_56) - biased_carry_4_tmp_7d028_56)",
+      "(((biased_carry_5_tmp_7d028_57 * biased_carry_5_tmp_7d028_57) * biased_carry_5_tmp_7d028_57) - biased_carry_5_tmp_7d028_57)",
+      "(((biased_carry_6_tmp_7d028_58 * biased_carry_6_tmp_7d028_58) * biased_carry_6_tmp_7d028_58) - biased_carry_6_tmp_7d028_58)",
+      "(((biased_carry_7_tmp_7d028_59 * biased_carry_7_tmp_7d028_59) * biased_carry_7_tmp_7d028_59) - biased_carry_7_tmp_7d028_59)",
+      "(((biased_carry_8_tmp_7d028_60 * biased_carry_8_tmp_7d028_60) * biased_carry_8_tmp_7d028_60) - biased_carry_8_tmp_7d028_60)",
+      "(((biased_carry_9_tmp_7d028_61 * biased_carry_9_tmp_7d028_61) * biased_carry_9_tmp_7d028_61) - biased_carry_9_tmp_7d028_61)",
+      "((((((carry_8_tmp_7d028_79 + poseidon_full_round_chain_output_limb_9_col42) + poseidon_full_round_chain_output_limb_19_col52) - (2 * cube_252_output_limb_9_col72)) + 248) - combination_limb_9_col82) - (p_coef_col83 * 256))",
+      "((((((carry_8_tmp_7d028_92 + (4 * poseidon_full_round_chain_output_limb_9_col42)) + (2 * cube_252_output_limb_9_col72)) - (2 * cube_252_output_limb_9_col93)) + 154) - combination_limb_9_col103) - (p_coef_col104 * 256))",
+      "((((((carry_8_tmp_7d028_132 + (4 * poseidon_3_partial_rounds_chain_output_limb_9_col114)) + (2 * poseidon_3_partial_rounds_chain_output_limb_19_col124)) + poseidon_3_partial_rounds_chain_output_limb_29_col134) + 99) - combination_limb_9_col154) - (p_coef_col155 * 256))",
+      "((((((carry_8_tmp_7d028_144 + (4 * poseidon_3_partial_rounds_chain_output_limb_29_col134)) + (2 * poseidon_3_partial_rounds_chain_output_limb_39_col144)) + combination_limb_9_col154) + 20) - combination_limb_9_col165) - (p_coef_col166 * 256))"
     ],
     "lookups": [
       [
         "PoseidonFullRoundChain",
-        "poseidon_full_round_chain_chain_tmp_tmp_7d028_66, 4, poseidon_full_round_chain_output_limb_0_col33, poseidon_full_round_chain_output_limb_1_col34, poseidon_full_round_chain_output_limb_2_col35, poseidon_full_round_chain_output_limb_3_col36, poseidon_full_round_chain_output_limb_4_col37, poseidon_full_round_chain_output_limb_5_col38, poseidon_full_round_chain_output_limb_6_col39, poseidon_full_round_chain_output_limb_7_col40, poseidon_full_round_chain_output_limb_8_col41, poseidon_full_round_chain_output_limb_9_col42, poseidon_full_round_chain_output_limb_10_col43, poseidon_full_round_chain_output_limb_11_col44, poseidon_full_round_chain_output_limb_12_col45, poseidon_full_round_chain_output_limb_13_col46, poseidon_full_round_chain_output_limb_14_col47, poseidon_full_round_chain_output_limb_15_col48, poseidon_full_round_chain_output_limb_16_col49, poseidon_full_round_chain_output_limb_17_col50, poseidon_full_round_chain_output_limb_18_col51, poseidon_full_round_chain_output_limb_19_col52, poseidon_full_round_chain_output_limb_20_col53, poseidon_full_round_chain_output_limb_21_col54, poseidon_full_round_chain_output_limb_22_col55, poseidon_full_round_chain_output_limb_23_col56, poseidon_full_round_chain_output_limb_24_col57, poseidon_full_round_chain_output_limb_25_col58, poseidon_full_round_chain_output_limb_26_col59, poseidon_full_round_chain_output_limb_27_col60, poseidon_full_round_chain_output_limb_28_col61, poseidon_full_round_chain_output_limb_29_col62"
+        "poseidon_full_round_chain_chain_tmp_tmp_7d028_63, 4, poseidon_full_round_chain_output_limb_0_col33, poseidon_full_round_chain_output_limb_1_col34, poseidon_full_round_chain_output_limb_2_col35, poseidon_full_round_chain_output_limb_3_col36, poseidon_full_round_chain_output_limb_4_col37, poseidon_full_round_chain_output_limb_5_col38, poseidon_full_round_chain_output_limb_6_col39, poseidon_full_round_chain_output_limb_7_col40, poseidon_full_round_chain_output_limb_8_col41, poseidon_full_round_chain_output_limb_9_col42, poseidon_full_round_chain_output_limb_10_col43, poseidon_full_round_chain_output_limb_11_col44, poseidon_full_round_chain_output_limb_12_col45, poseidon_full_round_chain_output_limb_13_col46, poseidon_full_round_chain_output_limb_14_col47, poseidon_full_round_chain_output_limb_15_col48, poseidon_full_round_chain_output_limb_16_col49, poseidon_full_round_chain_output_limb_17_col50, poseidon_full_round_chain_output_limb_18_col51, poseidon_full_round_chain_output_limb_19_col52, poseidon_full_round_chain_output_limb_20_col53, poseidon_full_round_chain_output_limb_21_col54, poseidon_full_round_chain_output_limb_22_col55, poseidon_full_round_chain_output_limb_23_col56, poseidon_full_round_chain_output_limb_24_col57, poseidon_full_round_chain_output_limb_25_col58, poseidon_full_round_chain_output_limb_26_col59, poseidon_full_round_chain_output_limb_27_col60, poseidon_full_round_chain_output_limb_28_col61, poseidon_full_round_chain_output_limb_29_col62"
       ],
       [
         "RangeCheckFelt252Width27",
@@ -19179,11 +19143,11 @@
       ],
       [
         "RangeCheck_3_3_3_3_3",
-        "(p_coef_col83 + 3), (carry_0_tmp_7d028_74 + 3), (carry_1_tmp_7d028_75 + 3), (carry_2_tmp_7d028_76 + 3), (carry_3_tmp_7d028_77 + 3)"
+        "(p_coef_col83 + 3), (carry_0_tmp_7d028_71 + 3), (carry_1_tmp_7d028_72 + 3), (carry_2_tmp_7d028_73 + 3), (carry_3_tmp_7d028_74 + 3)"
       ],
       [
         "RangeCheck_3_3_3_3_3",
-        "(carry_4_tmp_7d028_78 + 3), (carry_5_tmp_7d028_79 + 3), (carry_6_tmp_7d028_80 + 3), (carry_7_tmp_7d028_81 + 3), (carry_8_tmp_7d028_82 + 3)"
+        "(carry_4_tmp_7d028_75 + 3), (carry_5_tmp_7d028_76 + 3), (carry_6_tmp_7d028_77 + 3), (carry_7_tmp_7d028_78 + 3), (carry_8_tmp_7d028_79 + 3)"
       ],
       [
         "Cube252",
@@ -19191,15 +19155,15 @@
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col104 + 3), (carry_0_tmp_7d028_87 + 3), (carry_1_tmp_7d028_88 + 3), (carry_2_tmp_7d028_89 + 3)"
+        "(p_coef_col104 + 3), (carry_0_tmp_7d028_84 + 3), (carry_1_tmp_7d028_85 + 3), (carry_2_tmp_7d028_86 + 3)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_7d028_90 + 3), (carry_4_tmp_7d028_91 + 3), (carry_5_tmp_7d028_92 + 3), (carry_6_tmp_7d028_93 + 3)"
+        "(carry_3_tmp_7d028_87 + 3), (carry_4_tmp_7d028_88 + 3), (carry_5_tmp_7d028_89 + 3), (carry_6_tmp_7d028_90 + 3)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_7d028_94 + 3), (carry_8_tmp_7d028_95 + 3)"
+        "(carry_7_tmp_7d028_91 + 3), (carry_8_tmp_7d028_92 + 3)"
       ],
       [
         "Poseidon3PartialRoundsChain",
@@ -19207,31 +19171,31 @@
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col155 + 1), (carry_0_tmp_7d028_127 + 1), (carry_1_tmp_7d028_128 + 1), (carry_2_tmp_7d028_129 + 1)"
+        "(p_coef_col155 + 1), (carry_0_tmp_7d028_124 + 1), (carry_1_tmp_7d028_125 + 1), (carry_2_tmp_7d028_126 + 1)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_7d028_130 + 1), (carry_4_tmp_7d028_131 + 1), (carry_5_tmp_7d028_132 + 1), (carry_6_tmp_7d028_133 + 1)"
+        "(carry_3_tmp_7d028_127 + 1), (carry_4_tmp_7d028_128 + 1), (carry_5_tmp_7d028_129 + 1), (carry_6_tmp_7d028_130 + 1)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_7d028_134 + 1), (carry_8_tmp_7d028_135 + 1)"
+        "(carry_7_tmp_7d028_131 + 1), (carry_8_tmp_7d028_132 + 1)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col166 + 1), (carry_0_tmp_7d028_139 + 1), (carry_1_tmp_7d028_140 + 1), (carry_2_tmp_7d028_141 + 1)"
+        "(p_coef_col166 + 1), (carry_0_tmp_7d028_136 + 1), (carry_1_tmp_7d028_137 + 1), (carry_2_tmp_7d028_138 + 1)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_7d028_142 + 1), (carry_4_tmp_7d028_143 + 1), (carry_5_tmp_7d028_144 + 1), (carry_6_tmp_7d028_145 + 1)"
+        "(carry_3_tmp_7d028_139 + 1), (carry_4_tmp_7d028_140 + 1), (carry_5_tmp_7d028_141 + 1), (carry_6_tmp_7d028_142 + 1)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_7d028_146 + 1), (carry_8_tmp_7d028_147 + 1)"
+        "(carry_7_tmp_7d028_143 + 1), (carry_8_tmp_7d028_144 + 1)"
       ],
       [
         "PoseidonFullRoundChain",
-        "poseidon_full_round_chain_chain_id_tmp_7d028_149, 35, poseidon_full_round_chain_output_limb_0_col167, poseidon_full_round_chain_output_limb_1_col168, poseidon_full_round_chain_output_limb_2_col169, poseidon_full_round_chain_output_limb_3_col170, poseidon_full_round_chain_output_limb_4_col171, poseidon_full_round_chain_output_limb_5_col172, poseidon_full_round_chain_output_limb_6_col173, poseidon_full_round_chain_output_limb_7_col174, poseidon_full_round_chain_output_limb_8_col175, poseidon_full_round_chain_output_limb_9_col176, poseidon_full_round_chain_output_limb_10_col177, poseidon_full_round_chain_output_limb_11_col178, poseidon_full_round_chain_output_limb_12_col179, poseidon_full_round_chain_output_limb_13_col180, poseidon_full_round_chain_output_limb_14_col181, poseidon_full_round_chain_output_limb_15_col182, poseidon_full_round_chain_output_limb_16_col183, poseidon_full_round_chain_output_limb_17_col184, poseidon_full_round_chain_output_limb_18_col185, poseidon_full_round_chain_output_limb_19_col186, poseidon_full_round_chain_output_limb_20_col187, poseidon_full_round_chain_output_limb_21_col188, poseidon_full_round_chain_output_limb_22_col189, poseidon_full_round_chain_output_limb_23_col190, poseidon_full_round_chain_output_limb_24_col191, poseidon_full_round_chain_output_limb_25_col192, poseidon_full_round_chain_output_limb_26_col193, poseidon_full_round_chain_output_limb_27_col194, poseidon_full_round_chain_output_limb_28_col195, poseidon_full_round_chain_output_limb_29_col196"
+        "poseidon_full_round_chain_chain_id_tmp_7d028_146, 35, poseidon_full_round_chain_output_limb_0_col167, poseidon_full_round_chain_output_limb_1_col168, poseidon_full_round_chain_output_limb_2_col169, poseidon_full_round_chain_output_limb_3_col170, poseidon_full_round_chain_output_limb_4_col171, poseidon_full_round_chain_output_limb_5_col172, poseidon_full_round_chain_output_limb_6_col173, poseidon_full_round_chain_output_limb_7_col174, poseidon_full_round_chain_output_limb_8_col175, poseidon_full_round_chain_output_limb_9_col176, poseidon_full_round_chain_output_limb_10_col177, poseidon_full_round_chain_output_limb_11_col178, poseidon_full_round_chain_output_limb_12_col179, poseidon_full_round_chain_output_limb_13_col180, poseidon_full_round_chain_output_limb_14_col181, poseidon_full_round_chain_output_limb_15_col182, poseidon_full_round_chain_output_limb_16_col183, poseidon_full_round_chain_output_limb_17_col184, poseidon_full_round_chain_output_limb_18_col185, poseidon_full_round_chain_output_limb_19_col186, poseidon_full_round_chain_output_limb_20_col187, poseidon_full_round_chain_output_limb_21_col188, poseidon_full_round_chain_output_limb_22_col189, poseidon_full_round_chain_output_limb_23_col190, poseidon_full_round_chain_output_limb_24_col191, poseidon_full_round_chain_output_limb_25_col192, poseidon_full_round_chain_output_limb_26_col193, poseidon_full_round_chain_output_limb_27_col194, poseidon_full_round_chain_output_limb_28_col195, poseidon_full_round_chain_output_limb_29_col196"
       ]
     ]
   },
@@ -19750,496 +19714,484 @@
         "((((carry_7_tmp_51986_27 + packed_input_state_0_tmp_51986_5_limb_8) + 102193642) - combination_limb_8_col95) * 16)"
       ],
       [
-        "biased_carry_0_tmp_51986_29",
-        "((p_coef_col97 + 1) - 1)"
+        "biased_carry_1_tmp_51986_29",
+        "carry_0_tmp_51986_20"
       ],
       [
-        "biased_carry_1_tmp_51986_30",
-        "((carry_0_tmp_51986_20 + 1) - 1)"
+        "biased_carry_2_tmp_51986_30",
+        "carry_1_tmp_51986_21"
       ],
       [
-        "biased_carry_2_tmp_51986_31",
-        "((carry_1_tmp_51986_21 + 1) - 1)"
+        "biased_carry_3_tmp_51986_31",
+        "carry_2_tmp_51986_22"
       ],
       [
-        "biased_carry_3_tmp_51986_32",
-        "((carry_2_tmp_51986_22 + 1) - 1)"
+        "biased_carry_4_tmp_51986_32",
+        "carry_3_tmp_51986_23"
       ],
       [
-        "biased_carry_4_tmp_51986_33",
-        "((carry_3_tmp_51986_23 + 1) - 1)"
+        "biased_carry_5_tmp_51986_33",
+        "carry_4_tmp_51986_24"
       ],
       [
-        "biased_carry_5_tmp_51986_34",
-        "((carry_4_tmp_51986_24 + 1) - 1)"
+        "biased_carry_6_tmp_51986_34",
+        "carry_5_tmp_51986_25"
       ],
       [
-        "biased_carry_6_tmp_51986_35",
-        "((carry_5_tmp_51986_25 + 1) - 1)"
+        "biased_carry_7_tmp_51986_35",
+        "carry_6_tmp_51986_26"
       ],
       [
-        "biased_carry_7_tmp_51986_36",
-        "((carry_6_tmp_51986_26 + 1) - 1)"
+        "biased_carry_8_tmp_51986_36",
+        "carry_7_tmp_51986_27"
       ],
       [
-        "biased_carry_8_tmp_51986_37",
-        "((carry_7_tmp_51986_27 + 1) - 1)"
+        "biased_carry_9_tmp_51986_37",
+        "carry_8_tmp_51986_28"
       ],
       [
-        "biased_carry_9_tmp_51986_38",
-        "((carry_8_tmp_51986_28 + 1) - 1)"
-      ],
-      [
-        "carry_0_tmp_51986_42",
+        "carry_0_tmp_51986_41",
         "((((packed_input_state_1_tmp_51986_11_limb_0 + 41224388) - combination_limb_0_col98) - p_coef_col108) * 16)"
       ],
       [
-        "carry_1_tmp_51986_43",
-        "((((carry_0_tmp_51986_42 + packed_input_state_1_tmp_51986_11_limb_1) + 90391646) - combination_limb_1_col99) * 16)"
+        "carry_1_tmp_51986_42",
+        "((((carry_0_tmp_51986_41 + packed_input_state_1_tmp_51986_11_limb_1) + 90391646) - combination_limb_1_col99) * 16)"
       ],
       [
-        "carry_2_tmp_51986_44",
-        "((((carry_1_tmp_51986_43 + packed_input_state_1_tmp_51986_11_limb_2) + 36279186) - combination_limb_2_col100) * 16)"
+        "carry_2_tmp_51986_43",
+        "((((carry_1_tmp_51986_42 + packed_input_state_1_tmp_51986_11_limb_2) + 36279186) - combination_limb_2_col100) * 16)"
       ],
       [
-        "carry_3_tmp_51986_45",
-        "((((carry_2_tmp_51986_44 + packed_input_state_1_tmp_51986_11_limb_3) + 129717753) - combination_limb_3_col101) * 16)"
+        "carry_3_tmp_51986_44",
+        "((((carry_2_tmp_51986_43 + packed_input_state_1_tmp_51986_11_limb_3) + 129717753) - combination_limb_3_col101) * 16)"
       ],
       [
-        "carry_4_tmp_51986_46",
-        "((((carry_3_tmp_51986_45 + packed_input_state_1_tmp_51986_11_limb_4) + 94624323) - combination_limb_4_col102) * 16)"
+        "carry_4_tmp_51986_45",
+        "((((carry_3_tmp_51986_44 + packed_input_state_1_tmp_51986_11_limb_4) + 94624323) - combination_limb_4_col102) * 16)"
       ],
       [
-        "carry_5_tmp_51986_47",
-        "((((carry_4_tmp_51986_46 + packed_input_state_1_tmp_51986_11_limb_5) + 75104388) - combination_limb_5_col103) * 16)"
+        "carry_5_tmp_51986_46",
+        "((((carry_4_tmp_51986_45 + packed_input_state_1_tmp_51986_11_limb_5) + 75104388) - combination_limb_5_col103) * 16)"
       ],
       [
-        "carry_6_tmp_51986_48",
-        "((((carry_5_tmp_51986_47 + packed_input_state_1_tmp_51986_11_limb_6) + 133303902) - combination_limb_6_col104) * 16)"
+        "carry_6_tmp_51986_47",
+        "((((carry_5_tmp_51986_46 + packed_input_state_1_tmp_51986_11_limb_6) + 133303902) - combination_limb_6_col104) * 16)"
       ],
       [
-        "carry_7_tmp_51986_49",
-        "(((((carry_6_tmp_51986_48 + packed_input_state_1_tmp_51986_11_limb_7) + 48945103) - combination_limb_7_col105) - (p_coef_col108 * 136)) * 16)"
+        "carry_7_tmp_51986_48",
+        "(((((carry_6_tmp_51986_47 + packed_input_state_1_tmp_51986_11_limb_7) + 48945103) - combination_limb_7_col105) - (p_coef_col108 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_51986_50",
-        "((((carry_7_tmp_51986_49 + packed_input_state_1_tmp_51986_11_limb_8) + 41320857) - combination_limb_8_col106) * 16)"
+        "carry_8_tmp_51986_49",
+        "((((carry_7_tmp_51986_48 + packed_input_state_1_tmp_51986_11_limb_8) + 41320857) - combination_limb_8_col106) * 16)"
       ],
       [
-        "biased_carry_0_tmp_51986_51",
-        "((p_coef_col108 + 1) - 1)"
+        "biased_carry_1_tmp_51986_50",
+        "carry_0_tmp_51986_41"
       ],
       [
-        "biased_carry_1_tmp_51986_52",
-        "((carry_0_tmp_51986_42 + 1) - 1)"
+        "biased_carry_2_tmp_51986_51",
+        "carry_1_tmp_51986_42"
       ],
       [
-        "biased_carry_2_tmp_51986_53",
-        "((carry_1_tmp_51986_43 + 1) - 1)"
+        "biased_carry_3_tmp_51986_52",
+        "carry_2_tmp_51986_43"
       ],
       [
-        "biased_carry_3_tmp_51986_54",
-        "((carry_2_tmp_51986_44 + 1) - 1)"
+        "biased_carry_4_tmp_51986_53",
+        "carry_3_tmp_51986_44"
       ],
       [
-        "biased_carry_4_tmp_51986_55",
-        "((carry_3_tmp_51986_45 + 1) - 1)"
+        "biased_carry_5_tmp_51986_54",
+        "carry_4_tmp_51986_45"
       ],
       [
-        "biased_carry_5_tmp_51986_56",
-        "((carry_4_tmp_51986_46 + 1) - 1)"
+        "biased_carry_6_tmp_51986_55",
+        "carry_5_tmp_51986_46"
       ],
       [
-        "biased_carry_6_tmp_51986_57",
-        "((carry_5_tmp_51986_47 + 1) - 1)"
+        "biased_carry_7_tmp_51986_56",
+        "carry_6_tmp_51986_47"
       ],
       [
-        "biased_carry_7_tmp_51986_58",
-        "((carry_6_tmp_51986_48 + 1) - 1)"
+        "biased_carry_8_tmp_51986_57",
+        "carry_7_tmp_51986_48"
       ],
       [
-        "biased_carry_8_tmp_51986_59",
-        "((carry_7_tmp_51986_49 + 1) - 1)"
+        "biased_carry_9_tmp_51986_58",
+        "carry_8_tmp_51986_49"
       ],
       [
-        "biased_carry_9_tmp_51986_60",
-        "((carry_8_tmp_51986_50 + 1) - 1)"
-      ],
-      [
-        "carry_0_tmp_51986_64",
+        "carry_0_tmp_51986_62",
         "((((packed_input_state_2_tmp_51986_17_limb_0 + 4883209) - combination_limb_0_col109) - p_coef_col119) * 16)"
       ],
       [
-        "carry_1_tmp_51986_65",
-        "((((carry_0_tmp_51986_64 + packed_input_state_2_tmp_51986_17_limb_1) + 28820206) - combination_limb_1_col110) * 16)"
+        "carry_1_tmp_51986_63",
+        "((((carry_0_tmp_51986_62 + packed_input_state_2_tmp_51986_17_limb_1) + 28820206) - combination_limb_1_col110) * 16)"
       ],
       [
-        "carry_2_tmp_51986_66",
-        "((((carry_1_tmp_51986_65 + packed_input_state_2_tmp_51986_17_limb_2) + 79012328) - combination_limb_2_col111) * 16)"
+        "carry_2_tmp_51986_64",
+        "((((carry_1_tmp_51986_63 + packed_input_state_2_tmp_51986_17_limb_2) + 79012328) - combination_limb_2_col111) * 16)"
       ],
       [
-        "carry_3_tmp_51986_67",
-        "((((carry_2_tmp_51986_66 + packed_input_state_2_tmp_51986_17_limb_3) + 49157069) - combination_limb_3_col112) * 16)"
+        "carry_3_tmp_51986_65",
+        "((((carry_2_tmp_51986_64 + packed_input_state_2_tmp_51986_17_limb_3) + 49157069) - combination_limb_3_col112) * 16)"
       ],
       [
-        "carry_4_tmp_51986_68",
-        "((((carry_3_tmp_51986_67 + packed_input_state_2_tmp_51986_17_limb_4) + 78826183) - combination_limb_4_col113) * 16)"
+        "carry_4_tmp_51986_66",
+        "((((carry_3_tmp_51986_65 + packed_input_state_2_tmp_51986_17_limb_4) + 78826183) - combination_limb_4_col113) * 16)"
       ],
       [
-        "carry_5_tmp_51986_69",
-        "((((carry_4_tmp_51986_68 + packed_input_state_2_tmp_51986_17_limb_5) + 72285071) - combination_limb_5_col114) * 16)"
+        "carry_5_tmp_51986_67",
+        "((((carry_4_tmp_51986_66 + packed_input_state_2_tmp_51986_17_limb_5) + 72285071) - combination_limb_5_col114) * 16)"
       ],
       [
-        "carry_6_tmp_51986_70",
-        "((((carry_5_tmp_51986_69 + packed_input_state_2_tmp_51986_17_limb_6) + 33413160) - combination_limb_6_col115) * 16)"
+        "carry_6_tmp_51986_68",
+        "((((carry_5_tmp_51986_67 + packed_input_state_2_tmp_51986_17_limb_6) + 33413160) - combination_limb_6_col115) * 16)"
       ],
       [
-        "carry_7_tmp_51986_71",
-        "(((((carry_6_tmp_51986_70 + packed_input_state_2_tmp_51986_17_limb_7) + 90842759) - combination_limb_7_col116) - (p_coef_col119 * 136)) * 16)"
+        "carry_7_tmp_51986_69",
+        "(((((carry_6_tmp_51986_68 + packed_input_state_2_tmp_51986_17_limb_7) + 90842759) - combination_limb_7_col116) - (p_coef_col119 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_51986_72",
-        "((((carry_7_tmp_51986_71 + packed_input_state_2_tmp_51986_17_limb_8) + 60124463) - combination_limb_8_col117) * 16)"
+        "carry_8_tmp_51986_70",
+        "((((carry_7_tmp_51986_69 + packed_input_state_2_tmp_51986_17_limb_8) + 60124463) - combination_limb_8_col117) * 16)"
       ],
       [
-        "biased_carry_0_tmp_51986_73",
-        "((p_coef_col119 + 1) - 1)"
+        "biased_carry_1_tmp_51986_71",
+        "carry_0_tmp_51986_62"
       ],
       [
-        "biased_carry_1_tmp_51986_74",
-        "((carry_0_tmp_51986_64 + 1) - 1)"
+        "biased_carry_2_tmp_51986_72",
+        "carry_1_tmp_51986_63"
       ],
       [
-        "biased_carry_2_tmp_51986_75",
-        "((carry_1_tmp_51986_65 + 1) - 1)"
+        "biased_carry_3_tmp_51986_73",
+        "carry_2_tmp_51986_64"
       ],
       [
-        "biased_carry_3_tmp_51986_76",
-        "((carry_2_tmp_51986_66 + 1) - 1)"
+        "biased_carry_4_tmp_51986_74",
+        "carry_3_tmp_51986_65"
       ],
       [
-        "biased_carry_4_tmp_51986_77",
-        "((carry_3_tmp_51986_67 + 1) - 1)"
+        "biased_carry_5_tmp_51986_75",
+        "carry_4_tmp_51986_66"
       ],
       [
-        "biased_carry_5_tmp_51986_78",
-        "((carry_4_tmp_51986_68 + 1) - 1)"
+        "biased_carry_6_tmp_51986_76",
+        "carry_5_tmp_51986_67"
       ],
       [
-        "biased_carry_6_tmp_51986_79",
-        "((carry_5_tmp_51986_69 + 1) - 1)"
+        "biased_carry_7_tmp_51986_77",
+        "carry_6_tmp_51986_68"
       ],
       [
-        "biased_carry_7_tmp_51986_80",
-        "((carry_6_tmp_51986_70 + 1) - 1)"
+        "biased_carry_8_tmp_51986_78",
+        "carry_7_tmp_51986_69"
       ],
       [
-        "biased_carry_8_tmp_51986_81",
-        "((carry_7_tmp_51986_71 + 1) - 1)"
+        "biased_carry_9_tmp_51986_79",
+        "carry_8_tmp_51986_70"
       ],
       [
-        "biased_carry_9_tmp_51986_82",
-        "((carry_8_tmp_51986_72 + 1) - 1)"
-      ],
-      [
-        "poseidon_full_round_chain_chain_tmp_tmp_51986_84",
+        "poseidon_full_round_chain_chain_tmp_tmp_51986_81",
         "(seq() * 2)"
       ],
       [
-        "carry_0_tmp_51986_92",
+        "carry_0_tmp_51986_89",
         "((((((poseidon_full_round_chain_output_limb_0_col120 + poseidon_full_round_chain_output_limb_10_col130) - (2 * cube_252_output_limb_0_col150)) + 103094260) - combination_limb_0_col160) - p_coef_col170) * 16)"
       ],
       [
-        "carry_1_tmp_51986_93",
-        "((((((carry_0_tmp_51986_92 + poseidon_full_round_chain_output_limb_1_col121) + poseidon_full_round_chain_output_limb_11_col131) - (2 * cube_252_output_limb_1_col151)) + 121146754) - combination_limb_1_col161) * 16)"
+        "carry_1_tmp_51986_90",
+        "((((((carry_0_tmp_51986_89 + poseidon_full_round_chain_output_limb_1_col121) + poseidon_full_round_chain_output_limb_11_col131) - (2 * cube_252_output_limb_1_col151)) + 121146754) - combination_limb_1_col161) * 16)"
       ],
       [
-        "carry_2_tmp_51986_94",
-        "((((((carry_1_tmp_51986_93 + poseidon_full_round_chain_output_limb_2_col122) + poseidon_full_round_chain_output_limb_12_col132) - (2 * cube_252_output_limb_2_col152)) + 95050340) - combination_limb_2_col162) * 16)"
+        "carry_2_tmp_51986_91",
+        "((((((carry_1_tmp_51986_90 + poseidon_full_round_chain_output_limb_2_col122) + poseidon_full_round_chain_output_limb_12_col132) - (2 * cube_252_output_limb_2_col152)) + 95050340) - combination_limb_2_col162) * 16)"
       ],
       [
-        "carry_3_tmp_51986_95",
-        "((((((carry_2_tmp_51986_94 + poseidon_full_round_chain_output_limb_3_col123) + poseidon_full_round_chain_output_limb_13_col133) - (2 * cube_252_output_limb_3_col153)) + 16173996) - combination_limb_3_col163) * 16)"
+        "carry_3_tmp_51986_92",
+        "((((((carry_2_tmp_51986_91 + poseidon_full_round_chain_output_limb_3_col123) + poseidon_full_round_chain_output_limb_13_col133) - (2 * cube_252_output_limb_3_col153)) + 16173996) - combination_limb_3_col163) * 16)"
       ],
       [
-        "carry_4_tmp_51986_96",
-        "((((((carry_3_tmp_51986_95 + poseidon_full_round_chain_output_limb_4_col124) + poseidon_full_round_chain_output_limb_14_col134) - (2 * cube_252_output_limb_4_col154)) + 50758155) - combination_limb_4_col164) * 16)"
+        "carry_4_tmp_51986_93",
+        "((((((carry_3_tmp_51986_92 + poseidon_full_round_chain_output_limb_4_col124) + poseidon_full_round_chain_output_limb_14_col134) - (2 * cube_252_output_limb_4_col154)) + 50758155) - combination_limb_4_col164) * 16)"
       ],
       [
-        "carry_5_tmp_51986_97",
-        "((((((carry_4_tmp_51986_96 + poseidon_full_round_chain_output_limb_5_col125) + poseidon_full_round_chain_output_limb_15_col135) - (2 * cube_252_output_limb_5_col155)) + 54415179) - combination_limb_5_col165) * 16)"
+        "carry_5_tmp_51986_94",
+        "((((((carry_4_tmp_51986_93 + poseidon_full_round_chain_output_limb_5_col125) + poseidon_full_round_chain_output_limb_15_col135) - (2 * cube_252_output_limb_5_col155)) + 54415179) - combination_limb_5_col165) * 16)"
       ],
       [
-        "carry_6_tmp_51986_98",
-        "((((((carry_5_tmp_51986_97 + poseidon_full_round_chain_output_limb_6_col126) + poseidon_full_round_chain_output_limb_16_col136) - (2 * cube_252_output_limb_6_col156)) + 19292069) - combination_limb_6_col166) * 16)"
+        "carry_6_tmp_51986_95",
+        "((((((carry_5_tmp_51986_94 + poseidon_full_round_chain_output_limb_6_col126) + poseidon_full_round_chain_output_limb_16_col136) - (2 * cube_252_output_limb_6_col156)) + 19292069) - combination_limb_6_col166) * 16)"
       ],
       [
-        "carry_7_tmp_51986_99",
-        "(((((((carry_6_tmp_51986_98 + poseidon_full_round_chain_output_limb_7_col127) + poseidon_full_round_chain_output_limb_17_col137) - (2 * cube_252_output_limb_7_col157)) + 45351266) - combination_limb_7_col167) - (p_coef_col170 * 136)) * 16)"
+        "carry_7_tmp_51986_96",
+        "(((((((carry_6_tmp_51986_95 + poseidon_full_round_chain_output_limb_7_col127) + poseidon_full_round_chain_output_limb_17_col137) - (2 * cube_252_output_limb_7_col157)) + 45351266) - combination_limb_7_col167) - (p_coef_col170 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_51986_100",
-        "((((((carry_7_tmp_51986_99 + poseidon_full_round_chain_output_limb_8_col128) + poseidon_full_round_chain_output_limb_18_col138) - (2 * cube_252_output_limb_8_col158)) + 122233508) - combination_limb_8_col168) * 16)"
+        "carry_8_tmp_51986_97",
+        "((((((carry_7_tmp_51986_96 + poseidon_full_round_chain_output_limb_8_col128) + poseidon_full_round_chain_output_limb_18_col138) - (2 * cube_252_output_limb_8_col158)) + 122233508) - combination_limb_8_col168) * 16)"
       ],
       [
-        "carry_0_tmp_51986_105",
+        "carry_0_tmp_51986_102",
         "(((((((4 * poseidon_full_round_chain_output_limb_0_col120) + (2 * cube_252_output_limb_0_col150)) - (2 * cube_252_output_limb_0_col171)) + 121657377) - combination_limb_0_col181) - p_coef_col191) * 16)"
       ],
       [
-        "carry_1_tmp_51986_106",
-        "((((((carry_0_tmp_51986_105 + (4 * poseidon_full_round_chain_output_limb_1_col121)) + (2 * cube_252_output_limb_1_col151)) - (2 * cube_252_output_limb_1_col172)) + 112479959) - combination_limb_1_col182) * 16)"
+        "carry_1_tmp_51986_103",
+        "((((((carry_0_tmp_51986_102 + (4 * poseidon_full_round_chain_output_limb_1_col121)) + (2 * cube_252_output_limb_1_col151)) - (2 * cube_252_output_limb_1_col172)) + 112479959) - combination_limb_1_col182) * 16)"
       ],
       [
-        "carry_2_tmp_51986_107",
-        "((((((carry_1_tmp_51986_106 + (4 * poseidon_full_round_chain_output_limb_2_col122)) + (2 * cube_252_output_limb_2_col152)) - (2 * cube_252_output_limb_2_col173)) + 130418270) - combination_limb_2_col183) * 16)"
+        "carry_2_tmp_51986_104",
+        "((((((carry_1_tmp_51986_103 + (4 * poseidon_full_round_chain_output_limb_2_col122)) + (2 * cube_252_output_limb_2_col152)) - (2 * cube_252_output_limb_2_col173)) + 130418270) - combination_limb_2_col183) * 16)"
       ],
       [
-        "carry_3_tmp_51986_108",
-        "((((((carry_2_tmp_51986_107 + (4 * poseidon_full_round_chain_output_limb_3_col123)) + (2 * cube_252_output_limb_3_col153)) - (2 * cube_252_output_limb_3_col174)) + 4974792) - combination_limb_3_col184) * 16)"
+        "carry_3_tmp_51986_105",
+        "((((((carry_2_tmp_51986_104 + (4 * poseidon_full_round_chain_output_limb_3_col123)) + (2 * cube_252_output_limb_3_col153)) - (2 * cube_252_output_limb_3_col174)) + 4974792) - combination_limb_3_col184) * 16)"
       ],
       [
-        "carry_4_tmp_51986_109",
-        "((((((carry_3_tmp_51986_108 + (4 * poseidon_full_round_chain_output_limb_4_col124)) + (2 * cube_252_output_limb_4_col154)) - (2 * cube_252_output_limb_4_col175)) + 59852719) - combination_limb_4_col185) * 16)"
+        "carry_4_tmp_51986_106",
+        "((((((carry_3_tmp_51986_105 + (4 * poseidon_full_round_chain_output_limb_4_col124)) + (2 * cube_252_output_limb_4_col154)) - (2 * cube_252_output_limb_4_col175)) + 59852719) - combination_limb_4_col185) * 16)"
       ],
       [
-        "carry_5_tmp_51986_110",
-        "((((((carry_4_tmp_51986_109 + (4 * poseidon_full_round_chain_output_limb_5_col125)) + (2 * cube_252_output_limb_5_col155)) - (2 * cube_252_output_limb_5_col176)) + 120369218) - combination_limb_5_col186) * 16)"
+        "carry_5_tmp_51986_107",
+        "((((((carry_4_tmp_51986_106 + (4 * poseidon_full_round_chain_output_limb_5_col125)) + (2 * cube_252_output_limb_5_col155)) - (2 * cube_252_output_limb_5_col176)) + 120369218) - combination_limb_5_col186) * 16)"
       ],
       [
-        "carry_6_tmp_51986_111",
-        "((((((carry_5_tmp_51986_110 + (4 * poseidon_full_round_chain_output_limb_6_col126)) + (2 * cube_252_output_limb_6_col156)) - (2 * cube_252_output_limb_6_col177)) + 62439890) - combination_limb_6_col187) * 16)"
+        "carry_6_tmp_51986_108",
+        "((((((carry_5_tmp_51986_107 + (4 * poseidon_full_round_chain_output_limb_6_col126)) + (2 * cube_252_output_limb_6_col156)) - (2 * cube_252_output_limb_6_col177)) + 62439890) - combination_limb_6_col187) * 16)"
       ],
       [
-        "carry_7_tmp_51986_112",
-        "(((((((carry_6_tmp_51986_111 + (4 * poseidon_full_round_chain_output_limb_7_col127)) + (2 * cube_252_output_limb_7_col157)) - (2 * cube_252_output_limb_7_col178)) + 50468641) - combination_limb_7_col188) - (p_coef_col191 * 136)) * 16)"
+        "carry_7_tmp_51986_109",
+        "(((((((carry_6_tmp_51986_108 + (4 * poseidon_full_round_chain_output_limb_7_col127)) + (2 * cube_252_output_limb_7_col157)) - (2 * cube_252_output_limb_7_col178)) + 50468641) - combination_limb_7_col188) - (p_coef_col191 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_51986_113",
-        "((((((carry_7_tmp_51986_112 + (4 * poseidon_full_round_chain_output_limb_8_col128)) + (2 * cube_252_output_limb_8_col158)) - (2 * cube_252_output_limb_8_col179)) + 86573645) - combination_limb_8_col189) * 16)"
+        "carry_8_tmp_51986_110",
+        "((((((carry_7_tmp_51986_109 + (4 * poseidon_full_round_chain_output_limb_8_col128)) + (2 * cube_252_output_limb_8_col158)) - (2 * cube_252_output_limb_8_col179)) + 86573645) - combination_limb_8_col189) * 16)"
       ],
       [
-        "carry_0_tmp_51986_145",
+        "carry_0_tmp_51986_142",
         "(((((((4 * poseidon_3_partial_rounds_chain_output_limb_0_col192) + (2 * poseidon_3_partial_rounds_chain_output_limb_10_col202)) + poseidon_3_partial_rounds_chain_output_limb_20_col212) + 40454143) - combination_limb_0_col232) - p_coef_col242) * 16)"
       ],
       [
-        "carry_1_tmp_51986_146",
-        "((((((carry_0_tmp_51986_145 + (4 * poseidon_3_partial_rounds_chain_output_limb_1_col193)) + (2 * poseidon_3_partial_rounds_chain_output_limb_11_col203)) + poseidon_3_partial_rounds_chain_output_limb_21_col213) + 49554771) - combination_limb_1_col233) * 16)"
+        "carry_1_tmp_51986_143",
+        "((((((carry_0_tmp_51986_142 + (4 * poseidon_3_partial_rounds_chain_output_limb_1_col193)) + (2 * poseidon_3_partial_rounds_chain_output_limb_11_col203)) + poseidon_3_partial_rounds_chain_output_limb_21_col213) + 49554771) - combination_limb_1_col233) * 16)"
       ],
       [
-        "carry_2_tmp_51986_147",
-        "((((((carry_1_tmp_51986_146 + (4 * poseidon_3_partial_rounds_chain_output_limb_2_col194)) + (2 * poseidon_3_partial_rounds_chain_output_limb_12_col204)) + poseidon_3_partial_rounds_chain_output_limb_22_col214) + 55508188) - combination_limb_2_col234) * 16)"
+        "carry_2_tmp_51986_144",
+        "((((((carry_1_tmp_51986_143 + (4 * poseidon_3_partial_rounds_chain_output_limb_2_col194)) + (2 * poseidon_3_partial_rounds_chain_output_limb_12_col204)) + poseidon_3_partial_rounds_chain_output_limb_22_col214) + 55508188) - combination_limb_2_col234) * 16)"
       ],
       [
-        "carry_3_tmp_51986_148",
-        "((((((carry_2_tmp_51986_147 + (4 * poseidon_3_partial_rounds_chain_output_limb_3_col195)) + (2 * poseidon_3_partial_rounds_chain_output_limb_13_col205)) + poseidon_3_partial_rounds_chain_output_limb_23_col215) + 116986206) - combination_limb_3_col235) * 16)"
+        "carry_3_tmp_51986_145",
+        "((((((carry_2_tmp_51986_144 + (4 * poseidon_3_partial_rounds_chain_output_limb_3_col195)) + (2 * poseidon_3_partial_rounds_chain_output_limb_13_col205)) + poseidon_3_partial_rounds_chain_output_limb_23_col215) + 116986206) - combination_limb_3_col235) * 16)"
       ],
       [
-        "carry_4_tmp_51986_149",
-        "((((((carry_3_tmp_51986_148 + (4 * poseidon_3_partial_rounds_chain_output_limb_4_col196)) + (2 * poseidon_3_partial_rounds_chain_output_limb_14_col206)) + poseidon_3_partial_rounds_chain_output_limb_24_col216) + 88680813) - combination_limb_4_col236) * 16)"
+        "carry_4_tmp_51986_146",
+        "((((((carry_3_tmp_51986_145 + (4 * poseidon_3_partial_rounds_chain_output_limb_4_col196)) + (2 * poseidon_3_partial_rounds_chain_output_limb_14_col206)) + poseidon_3_partial_rounds_chain_output_limb_24_col216) + 88680813) - combination_limb_4_col236) * 16)"
       ],
       [
-        "carry_5_tmp_51986_150",
-        "((((((carry_4_tmp_51986_149 + (4 * poseidon_3_partial_rounds_chain_output_limb_5_col197)) + (2 * poseidon_3_partial_rounds_chain_output_limb_15_col207)) + poseidon_3_partial_rounds_chain_output_limb_25_col217) + 45553283) - combination_limb_5_col237) * 16)"
+        "carry_5_tmp_51986_147",
+        "((((((carry_4_tmp_51986_146 + (4 * poseidon_3_partial_rounds_chain_output_limb_5_col197)) + (2 * poseidon_3_partial_rounds_chain_output_limb_15_col207)) + poseidon_3_partial_rounds_chain_output_limb_25_col217) + 45553283) - combination_limb_5_col237) * 16)"
       ],
       [
-        "carry_6_tmp_51986_151",
-        "((((((carry_5_tmp_51986_150 + (4 * poseidon_3_partial_rounds_chain_output_limb_6_col198)) + (2 * poseidon_3_partial_rounds_chain_output_limb_16_col208)) + poseidon_3_partial_rounds_chain_output_limb_26_col218) + 62360091) - combination_limb_6_col238) * 16)"
+        "carry_6_tmp_51986_148",
+        "((((((carry_5_tmp_51986_147 + (4 * poseidon_3_partial_rounds_chain_output_limb_6_col198)) + (2 * poseidon_3_partial_rounds_chain_output_limb_16_col208)) + poseidon_3_partial_rounds_chain_output_limb_26_col218) + 62360091) - combination_limb_6_col238) * 16)"
       ],
       [
-        "carry_7_tmp_51986_152",
-        "(((((((carry_6_tmp_51986_151 + (4 * poseidon_3_partial_rounds_chain_output_limb_7_col199)) + (2 * poseidon_3_partial_rounds_chain_output_limb_17_col209)) + poseidon_3_partial_rounds_chain_output_limb_27_col219) + 77099918) - combination_limb_7_col239) - (p_coef_col242 * 136)) * 16)"
+        "carry_7_tmp_51986_149",
+        "(((((((carry_6_tmp_51986_148 + (4 * poseidon_3_partial_rounds_chain_output_limb_7_col199)) + (2 * poseidon_3_partial_rounds_chain_output_limb_17_col209)) + poseidon_3_partial_rounds_chain_output_limb_27_col219) + 77099918) - combination_limb_7_col239) - (p_coef_col242 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_51986_153",
-        "((((((carry_7_tmp_51986_152 + (4 * poseidon_3_partial_rounds_chain_output_limb_8_col200)) + (2 * poseidon_3_partial_rounds_chain_output_limb_18_col210)) + poseidon_3_partial_rounds_chain_output_limb_28_col220) + 22899501) - combination_limb_8_col240) * 16)"
+        "carry_8_tmp_51986_150",
+        "((((((carry_7_tmp_51986_149 + (4 * poseidon_3_partial_rounds_chain_output_limb_8_col200)) + (2 * poseidon_3_partial_rounds_chain_output_limb_18_col210)) + poseidon_3_partial_rounds_chain_output_limb_28_col220) + 22899501) - combination_limb_8_col240) * 16)"
       ],
       [
-        "carry_0_tmp_51986_157",
+        "carry_0_tmp_51986_154",
         "(((((((4 * poseidon_3_partial_rounds_chain_output_limb_20_col212) + (2 * poseidon_3_partial_rounds_chain_output_limb_30_col222)) + combination_limb_0_col232) + 48383197) - combination_limb_0_col243) - p_coef_col253) * 16)"
       ],
       [
-        "carry_1_tmp_51986_158",
-        "((((((carry_0_tmp_51986_157 + (4 * poseidon_3_partial_rounds_chain_output_limb_21_col213)) + (2 * poseidon_3_partial_rounds_chain_output_limb_31_col223)) + combination_limb_1_col233) + 48193339) - combination_limb_1_col244) * 16)"
+        "carry_1_tmp_51986_155",
+        "((((((carry_0_tmp_51986_154 + (4 * poseidon_3_partial_rounds_chain_output_limb_21_col213)) + (2 * poseidon_3_partial_rounds_chain_output_limb_31_col223)) + combination_limb_1_col233) + 48193339) - combination_limb_1_col244) * 16)"
       ],
       [
-        "carry_2_tmp_51986_159",
-        "((((((carry_1_tmp_51986_158 + (4 * poseidon_3_partial_rounds_chain_output_limb_22_col214)) + (2 * poseidon_3_partial_rounds_chain_output_limb_32_col224)) + combination_limb_2_col234) + 55955004) - combination_limb_2_col245) * 16)"
+        "carry_2_tmp_51986_156",
+        "((((((carry_1_tmp_51986_155 + (4 * poseidon_3_partial_rounds_chain_output_limb_22_col214)) + (2 * poseidon_3_partial_rounds_chain_output_limb_32_col224)) + combination_limb_2_col234) + 55955004) - combination_limb_2_col245) * 16)"
       ],
       [
-        "carry_3_tmp_51986_160",
-        "((((((carry_2_tmp_51986_159 + (4 * poseidon_3_partial_rounds_chain_output_limb_23_col215)) + (2 * poseidon_3_partial_rounds_chain_output_limb_33_col225)) + combination_limb_3_col235) + 65659846) - combination_limb_3_col246) * 16)"
+        "carry_3_tmp_51986_157",
+        "((((((carry_2_tmp_51986_156 + (4 * poseidon_3_partial_rounds_chain_output_limb_23_col215)) + (2 * poseidon_3_partial_rounds_chain_output_limb_33_col225)) + combination_limb_3_col235) + 65659846) - combination_limb_3_col246) * 16)"
       ],
       [
-        "carry_4_tmp_51986_161",
-        "((((((carry_3_tmp_51986_160 + (4 * poseidon_3_partial_rounds_chain_output_limb_24_col216)) + (2 * poseidon_3_partial_rounds_chain_output_limb_34_col226)) + combination_limb_4_col236) + 68491350) - combination_limb_4_col247) * 16)"
+        "carry_4_tmp_51986_158",
+        "((((((carry_3_tmp_51986_157 + (4 * poseidon_3_partial_rounds_chain_output_limb_24_col216)) + (2 * poseidon_3_partial_rounds_chain_output_limb_34_col226)) + combination_limb_4_col236) + 68491350) - combination_limb_4_col247) * 16)"
       ],
       [
-        "carry_5_tmp_51986_162",
-        "((((((carry_4_tmp_51986_161 + (4 * poseidon_3_partial_rounds_chain_output_limb_25_col217)) + (2 * poseidon_3_partial_rounds_chain_output_limb_35_col227)) + combination_limb_5_col237) + 119023582) - combination_limb_5_col248) * 16)"
+        "carry_5_tmp_51986_159",
+        "((((((carry_4_tmp_51986_158 + (4 * poseidon_3_partial_rounds_chain_output_limb_25_col217)) + (2 * poseidon_3_partial_rounds_chain_output_limb_35_col227)) + combination_limb_5_col237) + 119023582) - combination_limb_5_col248) * 16)"
       ],
       [
-        "carry_6_tmp_51986_163",
-        "((((((carry_5_tmp_51986_162 + (4 * poseidon_3_partial_rounds_chain_output_limb_26_col218)) + (2 * poseidon_3_partial_rounds_chain_output_limb_36_col228)) + combination_limb_6_col238) + 33439011) - combination_limb_6_col249) * 16)"
+        "carry_6_tmp_51986_160",
+        "((((((carry_5_tmp_51986_159 + (4 * poseidon_3_partial_rounds_chain_output_limb_26_col218)) + (2 * poseidon_3_partial_rounds_chain_output_limb_36_col228)) + combination_limb_6_col238) + 33439011) - combination_limb_6_col249) * 16)"
       ],
       [
-        "carry_7_tmp_51986_164",
-        "(((((((carry_6_tmp_51986_163 + (4 * poseidon_3_partial_rounds_chain_output_limb_27_col219)) + (2 * poseidon_3_partial_rounds_chain_output_limb_37_col229)) + combination_limb_7_col239) + 58475513) - combination_limb_7_col250) - (p_coef_col253 * 136)) * 16)"
+        "carry_7_tmp_51986_161",
+        "(((((((carry_6_tmp_51986_160 + (4 * poseidon_3_partial_rounds_chain_output_limb_27_col219)) + (2 * poseidon_3_partial_rounds_chain_output_limb_37_col229)) + combination_limb_7_col239) + 58475513) - combination_limb_7_col250) - (p_coef_col253 * 136)) * 16)"
       ],
       [
-        "carry_8_tmp_51986_165",
-        "((((((carry_7_tmp_51986_164 + (4 * poseidon_3_partial_rounds_chain_output_limb_28_col220)) + (2 * poseidon_3_partial_rounds_chain_output_limb_38_col230)) + combination_limb_8_col240) + 18765944) - combination_limb_8_col251) * 16)"
+        "carry_8_tmp_51986_162",
+        "((((((carry_7_tmp_51986_161 + (4 * poseidon_3_partial_rounds_chain_output_limb_28_col220)) + (2 * poseidon_3_partial_rounds_chain_output_limb_38_col230)) + combination_limb_8_col240) + 18765944) - combination_limb_8_col251) * 16)"
       ],
       [
-        "poseidon_full_round_chain_chain_id_tmp_51986_167",
-        "(poseidon_full_round_chain_chain_tmp_tmp_51986_84 + 1)"
+        "poseidon_full_round_chain_chain_id_tmp_51986_164",
+        "(poseidon_full_round_chain_chain_tmp_tmp_51986_81 + 1)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_2",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_2",
         "(((poseidon_full_round_chain_output_limb_0_col254 - unpacked_limb_0_col284) - (unpacked_limb_1_col285 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_5",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_5",
         "(((poseidon_full_round_chain_output_limb_1_col255 - unpacked_limb_3_col286) - (unpacked_limb_4_col287 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_8",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_8",
         "(((poseidon_full_round_chain_output_limb_2_col256 - unpacked_limb_6_col288) - (unpacked_limb_7_col289 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_11",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_11",
         "(((poseidon_full_round_chain_output_limb_3_col257 - unpacked_limb_9_col290) - (unpacked_limb_10_col291 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_14",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_14",
         "(((poseidon_full_round_chain_output_limb_4_col258 - unpacked_limb_12_col292) - (unpacked_limb_13_col293 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_17",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_17",
         "(((poseidon_full_round_chain_output_limb_5_col259 - unpacked_limb_15_col294) - (unpacked_limb_16_col295 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_20",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_20",
         "(((poseidon_full_round_chain_output_limb_6_col260 - unpacked_limb_18_col296) - (unpacked_limb_19_col297 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_23",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_23",
         "(((poseidon_full_round_chain_output_limb_7_col261 - unpacked_limb_21_col298) - (unpacked_limb_22_col299 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_174_limb_26",
+        "felt_252_unpack_from_27_output_tmp_51986_171_limb_26",
         "(((poseidon_full_round_chain_output_limb_8_col262 - unpacked_limb_24_col300) - (unpacked_limb_25_col301 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_2",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_2",
         "(((poseidon_full_round_chain_output_limb_10_col264 - unpacked_limb_0_col303) - (unpacked_limb_1_col304 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_5",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_5",
         "(((poseidon_full_round_chain_output_limb_11_col265 - unpacked_limb_3_col305) - (unpacked_limb_4_col306 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_8",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_8",
         "(((poseidon_full_round_chain_output_limb_12_col266 - unpacked_limb_6_col307) - (unpacked_limb_7_col308 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_11",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_11",
         "(((poseidon_full_round_chain_output_limb_13_col267 - unpacked_limb_9_col309) - (unpacked_limb_10_col310 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_14",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_14",
         "(((poseidon_full_round_chain_output_limb_14_col268 - unpacked_limb_12_col311) - (unpacked_limb_13_col312 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_17",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_17",
         "(((poseidon_full_round_chain_output_limb_15_col269 - unpacked_limb_15_col313) - (unpacked_limb_16_col314 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_20",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_20",
         "(((poseidon_full_round_chain_output_limb_16_col270 - unpacked_limb_18_col315) - (unpacked_limb_19_col316 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_23",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_23",
         "(((poseidon_full_round_chain_output_limb_17_col271 - unpacked_limb_21_col317) - (unpacked_limb_22_col318 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_178_limb_26",
+        "felt_252_unpack_from_27_output_tmp_51986_175_limb_26",
         "(((poseidon_full_round_chain_output_limb_18_col272 - unpacked_limb_24_col319) - (unpacked_limb_25_col320 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_2",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_2",
         "(((poseidon_full_round_chain_output_limb_20_col274 - unpacked_limb_0_col322) - (unpacked_limb_1_col323 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_5",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_5",
         "(((poseidon_full_round_chain_output_limb_21_col275 - unpacked_limb_3_col324) - (unpacked_limb_4_col325 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_8",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_8",
         "(((poseidon_full_round_chain_output_limb_22_col276 - unpacked_limb_6_col326) - (unpacked_limb_7_col327 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_11",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_11",
         "(((poseidon_full_round_chain_output_limb_23_col277 - unpacked_limb_9_col328) - (unpacked_limb_10_col329 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_14",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_14",
         "(((poseidon_full_round_chain_output_limb_24_col278 - unpacked_limb_12_col330) - (unpacked_limb_13_col331 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_17",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_17",
         "(((poseidon_full_round_chain_output_limb_25_col279 - unpacked_limb_15_col332) - (unpacked_limb_16_col333 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_20",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_20",
         "(((poseidon_full_round_chain_output_limb_26_col280 - unpacked_limb_18_col334) - (unpacked_limb_19_col335 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_23",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_23",
         "(((poseidon_full_round_chain_output_limb_27_col281 - unpacked_limb_21_col336) - (unpacked_limb_22_col337 * 512)) * 8192)"
       ],
       [
-        "felt_252_unpack_from_27_output_tmp_51986_182_limb_26",
+        "felt_252_unpack_from_27_output_tmp_51986_179_limb_26",
         "(((poseidon_full_round_chain_output_limb_28_col282 - unpacked_limb_24_col338) - (unpacked_limb_25_col339 * 512)) * 8192)"
       ]
     ],
     "constraints": [
       "((((carry_8_tmp_51986_28 + input_state_0_limb_27_col28) + 208) - combination_limb_9_col96) - (p_coef_col97 * 256))",
-      "(((biased_carry_0_tmp_51986_29 * biased_carry_0_tmp_51986_29) * biased_carry_0_tmp_51986_29) - biased_carry_0_tmp_51986_29)",
-      "(((biased_carry_1_tmp_51986_30 * biased_carry_1_tmp_51986_30) * biased_carry_1_tmp_51986_30) - biased_carry_1_tmp_51986_30)",
-      "(((biased_carry_2_tmp_51986_31 * biased_carry_2_tmp_51986_31) * biased_carry_2_tmp_51986_31) - biased_carry_2_tmp_51986_31)",
-      "(((biased_carry_3_tmp_51986_32 * biased_carry_3_tmp_51986_32) * biased_carry_3_tmp_51986_32) - biased_carry_3_tmp_51986_32)",
-      "(((biased_carry_4_tmp_51986_33 * biased_carry_4_tmp_51986_33) * biased_carry_4_tmp_51986_33) - biased_carry_4_tmp_51986_33)",
-      "(((biased_carry_5_tmp_51986_34 * biased_carry_5_tmp_51986_34) * biased_carry_5_tmp_51986_34) - biased_carry_5_tmp_51986_34)",
-      "(((biased_carry_6_tmp_51986_35 * biased_carry_6_tmp_51986_35) * biased_carry_6_tmp_51986_35) - biased_carry_6_tmp_51986_35)",
-      "(((biased_carry_7_tmp_51986_36 * biased_carry_7_tmp_51986_36) * biased_carry_7_tmp_51986_36) - biased_carry_7_tmp_51986_36)",
-      "(((biased_carry_8_tmp_51986_37 * biased_carry_8_tmp_51986_37) * biased_carry_8_tmp_51986_37) - biased_carry_8_tmp_51986_37)",
-      "(((biased_carry_9_tmp_51986_38 * biased_carry_9_tmp_51986_38) * biased_carry_9_tmp_51986_38) - biased_carry_9_tmp_51986_38)",
-      "((((carry_8_tmp_51986_50 + input_state_1_limb_27_col57) + 112) - combination_limb_9_col107) - (p_coef_col108 * 256))",
-      "(((biased_carry_0_tmp_51986_51 * biased_carry_0_tmp_51986_51) * biased_carry_0_tmp_51986_51) - biased_carry_0_tmp_51986_51)",
-      "(((biased_carry_1_tmp_51986_52 * biased_carry_1_tmp_51986_52) * biased_carry_1_tmp_51986_52) - biased_carry_1_tmp_51986_52)",
-      "(((biased_carry_2_tmp_51986_53 * biased_carry_2_tmp_51986_53) * biased_carry_2_tmp_51986_53) - biased_carry_2_tmp_51986_53)",
-      "(((biased_carry_3_tmp_51986_54 * biased_carry_3_tmp_51986_54) * biased_carry_3_tmp_51986_54) - biased_carry_3_tmp_51986_54)",
-      "(((biased_carry_4_tmp_51986_55 * biased_carry_4_tmp_51986_55) * biased_carry_4_tmp_51986_55) - biased_carry_4_tmp_51986_55)",
-      "(((biased_carry_5_tmp_51986_56 * biased_carry_5_tmp_51986_56) * biased_carry_5_tmp_51986_56) - biased_carry_5_tmp_51986_56)",
-      "(((biased_carry_6_tmp_51986_57 * biased_carry_6_tmp_51986_57) * biased_carry_6_tmp_51986_57) - biased_carry_6_tmp_51986_57)",
-      "(((biased_carry_7_tmp_51986_58 * biased_carry_7_tmp_51986_58) * biased_carry_7_tmp_51986_58) - biased_carry_7_tmp_51986_58)",
-      "(((biased_carry_8_tmp_51986_59 * biased_carry_8_tmp_51986_59) * biased_carry_8_tmp_51986_59) - biased_carry_8_tmp_51986_59)",
-      "(((biased_carry_9_tmp_51986_60 * biased_carry_9_tmp_51986_60) * biased_carry_9_tmp_51986_60) - biased_carry_9_tmp_51986_60)",
-      "((((carry_8_tmp_51986_72 + input_state_2_limb_27_col86) + 116) - combination_limb_9_col118) - (p_coef_col119 * 256))",
-      "(((biased_carry_0_tmp_51986_73 * biased_carry_0_tmp_51986_73) * biased_carry_0_tmp_51986_73) - biased_carry_0_tmp_51986_73)",
-      "(((biased_carry_1_tmp_51986_74 * biased_carry_1_tmp_51986_74) * biased_carry_1_tmp_51986_74) - biased_carry_1_tmp_51986_74)",
-      "(((biased_carry_2_tmp_51986_75 * biased_carry_2_tmp_51986_75) * biased_carry_2_tmp_51986_75) - biased_carry_2_tmp_51986_75)",
-      "(((biased_carry_3_tmp_51986_76 * biased_carry_3_tmp_51986_76) * biased_carry_3_tmp_51986_76) - biased_carry_3_tmp_51986_76)",
-      "(((biased_carry_4_tmp_51986_77 * biased_carry_4_tmp_51986_77) * biased_carry_4_tmp_51986_77) - biased_carry_4_tmp_51986_77)",
-      "(((biased_carry_5_tmp_51986_78 * biased_carry_5_tmp_51986_78) * biased_carry_5_tmp_51986_78) - biased_carry_5_tmp_51986_78)",
-      "(((biased_carry_6_tmp_51986_79 * biased_carry_6_tmp_51986_79) * biased_carry_6_tmp_51986_79) - biased_carry_6_tmp_51986_79)",
-      "(((biased_carry_7_tmp_51986_80 * biased_carry_7_tmp_51986_80) * biased_carry_7_tmp_51986_80) - biased_carry_7_tmp_51986_80)",
-      "(((biased_carry_8_tmp_51986_81 * biased_carry_8_tmp_51986_81) * biased_carry_8_tmp_51986_81) - biased_carry_8_tmp_51986_81)",
-      "(((biased_carry_9_tmp_51986_82 * biased_carry_9_tmp_51986_82) * biased_carry_9_tmp_51986_82) - biased_carry_9_tmp_51986_82)",
-      "((((((carry_8_tmp_51986_100 + poseidon_full_round_chain_output_limb_9_col129) + poseidon_full_round_chain_output_limb_19_col139) - (2 * cube_252_output_limb_9_col159)) + 248) - combination_limb_9_col169) - (p_coef_col170 * 256))",
-      "((((((carry_8_tmp_51986_113 + (4 * poseidon_full_round_chain_output_limb_9_col129)) + (2 * cube_252_output_limb_9_col159)) - (2 * cube_252_output_limb_9_col180)) + 154) - combination_limb_9_col190) - (p_coef_col191 * 256))",
-      "((((((carry_8_tmp_51986_153 + (4 * poseidon_3_partial_rounds_chain_output_limb_9_col201)) + (2 * poseidon_3_partial_rounds_chain_output_limb_19_col211)) + poseidon_3_partial_rounds_chain_output_limb_29_col221) + 99) - combination_limb_9_col241) - (p_coef_col242 * 256))",
-      "((((((carry_8_tmp_51986_165 + (4 * poseidon_3_partial_rounds_chain_output_limb_29_col221)) + (2 * poseidon_3_partial_rounds_chain_output_limb_39_col231)) + combination_limb_9_col241) + 20) - combination_limb_9_col252) - (p_coef_col253 * 256))"
+      "(((p_coef_col97 * p_coef_col97) * p_coef_col97) - p_coef_col97)",
+      "(((biased_carry_1_tmp_51986_29 * biased_carry_1_tmp_51986_29) * biased_carry_1_tmp_51986_29) - biased_carry_1_tmp_51986_29)",
+      "(((biased_carry_2_tmp_51986_30 * biased_carry_2_tmp_51986_30) * biased_carry_2_tmp_51986_30) - biased_carry_2_tmp_51986_30)",
+      "(((biased_carry_3_tmp_51986_31 * biased_carry_3_tmp_51986_31) * biased_carry_3_tmp_51986_31) - biased_carry_3_tmp_51986_31)",
+      "(((biased_carry_4_tmp_51986_32 * biased_carry_4_tmp_51986_32) * biased_carry_4_tmp_51986_32) - biased_carry_4_tmp_51986_32)",
+      "(((biased_carry_5_tmp_51986_33 * biased_carry_5_tmp_51986_33) * biased_carry_5_tmp_51986_33) - biased_carry_5_tmp_51986_33)",
+      "(((biased_carry_6_tmp_51986_34 * biased_carry_6_tmp_51986_34) * biased_carry_6_tmp_51986_34) - biased_carry_6_tmp_51986_34)",
+      "(((biased_carry_7_tmp_51986_35 * biased_carry_7_tmp_51986_35) * biased_carry_7_tmp_51986_35) - biased_carry_7_tmp_51986_35)",
+      "(((biased_carry_8_tmp_51986_36 * biased_carry_8_tmp_51986_36) * biased_carry_8_tmp_51986_36) - biased_carry_8_tmp_51986_36)",
+      "(((biased_carry_9_tmp_51986_37 * biased_carry_9_tmp_51986_37) * biased_carry_9_tmp_51986_37) - biased_carry_9_tmp_51986_37)",
+      "((((carry_8_tmp_51986_49 + input_state_1_limb_27_col57) + 112) - combination_limb_9_col107) - (p_coef_col108 * 256))",
+      "(((p_coef_col108 * p_coef_col108) * p_coef_col108) - p_coef_col108)",
+      "(((biased_carry_1_tmp_51986_50 * biased_carry_1_tmp_51986_50) * biased_carry_1_tmp_51986_50) - biased_carry_1_tmp_51986_50)",
+      "(((biased_carry_2_tmp_51986_51 * biased_carry_2_tmp_51986_51) * biased_carry_2_tmp_51986_51) - biased_carry_2_tmp_51986_51)",
+      "(((biased_carry_3_tmp_51986_52 * biased_carry_3_tmp_51986_52) * biased_carry_3_tmp_51986_52) - biased_carry_3_tmp_51986_52)",
+      "(((biased_carry_4_tmp_51986_53 * biased_carry_4_tmp_51986_53) * biased_carry_4_tmp_51986_53) - biased_carry_4_tmp_51986_53)",
+      "(((biased_carry_5_tmp_51986_54 * biased_carry_5_tmp_51986_54) * biased_carry_5_tmp_51986_54) - biased_carry_5_tmp_51986_54)",
+      "(((biased_carry_6_tmp_51986_55 * biased_carry_6_tmp_51986_55) * biased_carry_6_tmp_51986_55) - biased_carry_6_tmp_51986_55)",
+      "(((biased_carry_7_tmp_51986_56 * biased_carry_7_tmp_51986_56) * biased_carry_7_tmp_51986_56) - biased_carry_7_tmp_51986_56)",
+      "(((biased_carry_8_tmp_51986_57 * biased_carry_8_tmp_51986_57) * biased_carry_8_tmp_51986_57) - biased_carry_8_tmp_51986_57)",
+      "(((biased_carry_9_tmp_51986_58 * biased_carry_9_tmp_51986_58) * biased_carry_9_tmp_51986_58) - biased_carry_9_tmp_51986_58)",
+      "((((carry_8_tmp_51986_70 + input_state_2_limb_27_col86) + 116) - combination_limb_9_col118) - (p_coef_col119 * 256))",
+      "(((p_coef_col119 * p_coef_col119) * p_coef_col119) - p_coef_col119)",
+      "(((biased_carry_1_tmp_51986_71 * biased_carry_1_tmp_51986_71) * biased_carry_1_tmp_51986_71) - biased_carry_1_tmp_51986_71)",
+      "(((biased_carry_2_tmp_51986_72 * biased_carry_2_tmp_51986_72) * biased_carry_2_tmp_51986_72) - biased_carry_2_tmp_51986_72)",
+      "(((biased_carry_3_tmp_51986_73 * biased_carry_3_tmp_51986_73) * biased_carry_3_tmp_51986_73) - biased_carry_3_tmp_51986_73)",
+      "(((biased_carry_4_tmp_51986_74 * biased_carry_4_tmp_51986_74) * biased_carry_4_tmp_51986_74) - biased_carry_4_tmp_51986_74)",
+      "(((biased_carry_5_tmp_51986_75 * biased_carry_5_tmp_51986_75) * biased_carry_5_tmp_51986_75) - biased_carry_5_tmp_51986_75)",
+      "(((biased_carry_6_tmp_51986_76 * biased_carry_6_tmp_51986_76) * biased_carry_6_tmp_51986_76) - biased_carry_6_tmp_51986_76)",
+      "(((biased_carry_7_tmp_51986_77 * biased_carry_7_tmp_51986_77) * biased_carry_7_tmp_51986_77) - biased_carry_7_tmp_51986_77)",
+      "(((biased_carry_8_tmp_51986_78 * biased_carry_8_tmp_51986_78) * biased_carry_8_tmp_51986_78) - biased_carry_8_tmp_51986_78)",
+      "(((biased_carry_9_tmp_51986_79 * biased_carry_9_tmp_51986_79) * biased_carry_9_tmp_51986_79) - biased_carry_9_tmp_51986_79)",
+      "((((((carry_8_tmp_51986_97 + poseidon_full_round_chain_output_limb_9_col129) + poseidon_full_round_chain_output_limb_19_col139) - (2 * cube_252_output_limb_9_col159)) + 248) - combination_limb_9_col169) - (p_coef_col170 * 256))",
+      "((((((carry_8_tmp_51986_110 + (4 * poseidon_full_round_chain_output_limb_9_col129)) + (2 * cube_252_output_limb_9_col159)) - (2 * cube_252_output_limb_9_col180)) + 154) - combination_limb_9_col190) - (p_coef_col191 * 256))",
+      "((((((carry_8_tmp_51986_150 + (4 * poseidon_3_partial_rounds_chain_output_limb_9_col201)) + (2 * poseidon_3_partial_rounds_chain_output_limb_19_col211)) + poseidon_3_partial_rounds_chain_output_limb_29_col221) + 99) - combination_limb_9_col241) - (p_coef_col242 * 256))",
+      "((((((carry_8_tmp_51986_162 + (4 * poseidon_3_partial_rounds_chain_output_limb_29_col221)) + (2 * poseidon_3_partial_rounds_chain_output_limb_39_col231)) + combination_limb_9_col241) + 20) - combination_limb_9_col252) - (p_coef_col253 * 256))"
     ],
     "lookups": [
       [
@@ -20268,7 +20220,7 @@
       ],
       [
         "PoseidonFullRoundChain",
-        "poseidon_full_round_chain_chain_tmp_tmp_51986_84, 4, poseidon_full_round_chain_output_limb_0_col120, poseidon_full_round_chain_output_limb_1_col121, poseidon_full_round_chain_output_limb_2_col122, poseidon_full_round_chain_output_limb_3_col123, poseidon_full_round_chain_output_limb_4_col124, poseidon_full_round_chain_output_limb_5_col125, poseidon_full_round_chain_output_limb_6_col126, poseidon_full_round_chain_output_limb_7_col127, poseidon_full_round_chain_output_limb_8_col128, poseidon_full_round_chain_output_limb_9_col129, poseidon_full_round_chain_output_limb_10_col130, poseidon_full_round_chain_output_limb_11_col131, poseidon_full_round_chain_output_limb_12_col132, poseidon_full_round_chain_output_limb_13_col133, poseidon_full_round_chain_output_limb_14_col134, poseidon_full_round_chain_output_limb_15_col135, poseidon_full_round_chain_output_limb_16_col136, poseidon_full_round_chain_output_limb_17_col137, poseidon_full_round_chain_output_limb_18_col138, poseidon_full_round_chain_output_limb_19_col139, poseidon_full_round_chain_output_limb_20_col140, poseidon_full_round_chain_output_limb_21_col141, poseidon_full_round_chain_output_limb_22_col142, poseidon_full_round_chain_output_limb_23_col143, poseidon_full_round_chain_output_limb_24_col144, poseidon_full_round_chain_output_limb_25_col145, poseidon_full_round_chain_output_limb_26_col146, poseidon_full_round_chain_output_limb_27_col147, poseidon_full_round_chain_output_limb_28_col148, poseidon_full_round_chain_output_limb_29_col149"
+        "poseidon_full_round_chain_chain_tmp_tmp_51986_81, 4, poseidon_full_round_chain_output_limb_0_col120, poseidon_full_round_chain_output_limb_1_col121, poseidon_full_round_chain_output_limb_2_col122, poseidon_full_round_chain_output_limb_3_col123, poseidon_full_round_chain_output_limb_4_col124, poseidon_full_round_chain_output_limb_5_col125, poseidon_full_round_chain_output_limb_6_col126, poseidon_full_round_chain_output_limb_7_col127, poseidon_full_round_chain_output_limb_8_col128, poseidon_full_round_chain_output_limb_9_col129, poseidon_full_round_chain_output_limb_10_col130, poseidon_full_round_chain_output_limb_11_col131, poseidon_full_round_chain_output_limb_12_col132, poseidon_full_round_chain_output_limb_13_col133, poseidon_full_round_chain_output_limb_14_col134, poseidon_full_round_chain_output_limb_15_col135, poseidon_full_round_chain_output_limb_16_col136, poseidon_full_round_chain_output_limb_17_col137, poseidon_full_round_chain_output_limb_18_col138, poseidon_full_round_chain_output_limb_19_col139, poseidon_full_round_chain_output_limb_20_col140, poseidon_full_round_chain_output_limb_21_col141, poseidon_full_round_chain_output_limb_22_col142, poseidon_full_round_chain_output_limb_23_col143, poseidon_full_round_chain_output_limb_24_col144, poseidon_full_round_chain_output_limb_25_col145, poseidon_full_round_chain_output_limb_26_col146, poseidon_full_round_chain_output_limb_27_col147, poseidon_full_round_chain_output_limb_28_col148, poseidon_full_round_chain_output_limb_29_col149"
       ],
       [
         "RangeCheckFelt252Width27",
@@ -20284,11 +20236,11 @@
       ],
       [
         "RangeCheck_3_3_3_3_3",
-        "(p_coef_col170 + 3), (carry_0_tmp_51986_92 + 3), (carry_1_tmp_51986_93 + 3), (carry_2_tmp_51986_94 + 3), (carry_3_tmp_51986_95 + 3)"
+        "(p_coef_col170 + 3), (carry_0_tmp_51986_89 + 3), (carry_1_tmp_51986_90 + 3), (carry_2_tmp_51986_91 + 3), (carry_3_tmp_51986_92 + 3)"
       ],
       [
         "RangeCheck_3_3_3_3_3",
-        "(carry_4_tmp_51986_96 + 3), (carry_5_tmp_51986_97 + 3), (carry_6_tmp_51986_98 + 3), (carry_7_tmp_51986_99 + 3), (carry_8_tmp_51986_100 + 3)"
+        "(carry_4_tmp_51986_93 + 3), (carry_5_tmp_51986_94 + 3), (carry_6_tmp_51986_95 + 3), (carry_7_tmp_51986_96 + 3), (carry_8_tmp_51986_97 + 3)"
       ],
       [
         "Cube252",
@@ -20296,15 +20248,15 @@
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col191 + 3), (carry_0_tmp_51986_105 + 3), (carry_1_tmp_51986_106 + 3), (carry_2_tmp_51986_107 + 3)"
+        "(p_coef_col191 + 3), (carry_0_tmp_51986_102 + 3), (carry_1_tmp_51986_103 + 3), (carry_2_tmp_51986_104 + 3)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_51986_108 + 3), (carry_4_tmp_51986_109 + 3), (carry_5_tmp_51986_110 + 3), (carry_6_tmp_51986_111 + 3)"
+        "(carry_3_tmp_51986_105 + 3), (carry_4_tmp_51986_106 + 3), (carry_5_tmp_51986_107 + 3), (carry_6_tmp_51986_108 + 3)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_51986_112 + 3), (carry_8_tmp_51986_113 + 3)"
+        "(carry_7_tmp_51986_109 + 3), (carry_8_tmp_51986_110 + 3)"
       ],
       [
         "Poseidon3PartialRoundsChain",
@@ -20312,31 +20264,31 @@
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col242 + 1), (carry_0_tmp_51986_145 + 1), (carry_1_tmp_51986_146 + 1), (carry_2_tmp_51986_147 + 1)"
+        "(p_coef_col242 + 1), (carry_0_tmp_51986_142 + 1), (carry_1_tmp_51986_143 + 1), (carry_2_tmp_51986_144 + 1)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_51986_148 + 1), (carry_4_tmp_51986_149 + 1), (carry_5_tmp_51986_150 + 1), (carry_6_tmp_51986_151 + 1)"
+        "(carry_3_tmp_51986_145 + 1), (carry_4_tmp_51986_146 + 1), (carry_5_tmp_51986_147 + 1), (carry_6_tmp_51986_148 + 1)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_51986_152 + 1), (carry_8_tmp_51986_153 + 1)"
+        "(carry_7_tmp_51986_149 + 1), (carry_8_tmp_51986_150 + 1)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(p_coef_col253 + 1), (carry_0_tmp_51986_157 + 1), (carry_1_tmp_51986_158 + 1), (carry_2_tmp_51986_159 + 1)"
+        "(p_coef_col253 + 1), (carry_0_tmp_51986_154 + 1), (carry_1_tmp_51986_155 + 1), (carry_2_tmp_51986_156 + 1)"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "(carry_3_tmp_51986_160 + 1), (carry_4_tmp_51986_161 + 1), (carry_5_tmp_51986_162 + 1), (carry_6_tmp_51986_163 + 1)"
+        "(carry_3_tmp_51986_157 + 1), (carry_4_tmp_51986_158 + 1), (carry_5_tmp_51986_159 + 1), (carry_6_tmp_51986_160 + 1)"
       ],
       [
         "RangeCheck_4_4",
-        "(carry_7_tmp_51986_164 + 1), (carry_8_tmp_51986_165 + 1)"
+        "(carry_7_tmp_51986_161 + 1), (carry_8_tmp_51986_162 + 1)"
       ],
       [
         "PoseidonFullRoundChain",
-        "poseidon_full_round_chain_chain_id_tmp_51986_167, 35, poseidon_full_round_chain_output_limb_0_col254, poseidon_full_round_chain_output_limb_1_col255, poseidon_full_round_chain_output_limb_2_col256, poseidon_full_round_chain_output_limb_3_col257, poseidon_full_round_chain_output_limb_4_col258, poseidon_full_round_chain_output_limb_5_col259, poseidon_full_round_chain_output_limb_6_col260, poseidon_full_round_chain_output_limb_7_col261, poseidon_full_round_chain_output_limb_8_col262, poseidon_full_round_chain_output_limb_9_col263, poseidon_full_round_chain_output_limb_10_col264, poseidon_full_round_chain_output_limb_11_col265, poseidon_full_round_chain_output_limb_12_col266, poseidon_full_round_chain_output_limb_13_col267, poseidon_full_round_chain_output_limb_14_col268, poseidon_full_round_chain_output_limb_15_col269, poseidon_full_round_chain_output_limb_16_col270, poseidon_full_round_chain_output_limb_17_col271, poseidon_full_round_chain_output_limb_18_col272, poseidon_full_round_chain_output_limb_19_col273, poseidon_full_round_chain_output_limb_20_col274, poseidon_full_round_chain_output_limb_21_col275, poseidon_full_round_chain_output_limb_22_col276, poseidon_full_round_chain_output_limb_23_col277, poseidon_full_round_chain_output_limb_24_col278, poseidon_full_round_chain_output_limb_25_col279, poseidon_full_round_chain_output_limb_26_col280, poseidon_full_round_chain_output_limb_27_col281, poseidon_full_round_chain_output_limb_28_col282, poseidon_full_round_chain_output_limb_29_col283"
+        "poseidon_full_round_chain_chain_id_tmp_51986_164, 35, poseidon_full_round_chain_output_limb_0_col254, poseidon_full_round_chain_output_limb_1_col255, poseidon_full_round_chain_output_limb_2_col256, poseidon_full_round_chain_output_limb_3_col257, poseidon_full_round_chain_output_limb_4_col258, poseidon_full_round_chain_output_limb_5_col259, poseidon_full_round_chain_output_limb_6_col260, poseidon_full_round_chain_output_limb_7_col261, poseidon_full_round_chain_output_limb_8_col262, poseidon_full_round_chain_output_limb_9_col263, poseidon_full_round_chain_output_limb_10_col264, poseidon_full_round_chain_output_limb_11_col265, poseidon_full_round_chain_output_limb_12_col266, poseidon_full_round_chain_output_limb_13_col267, poseidon_full_round_chain_output_limb_14_col268, poseidon_full_round_chain_output_limb_15_col269, poseidon_full_round_chain_output_limb_16_col270, poseidon_full_round_chain_output_limb_17_col271, poseidon_full_round_chain_output_limb_18_col272, poseidon_full_round_chain_output_limb_19_col273, poseidon_full_round_chain_output_limb_20_col274, poseidon_full_round_chain_output_limb_21_col275, poseidon_full_round_chain_output_limb_22_col276, poseidon_full_round_chain_output_limb_23_col277, poseidon_full_round_chain_output_limb_24_col278, poseidon_full_round_chain_output_limb_25_col279, poseidon_full_round_chain_output_limb_26_col280, poseidon_full_round_chain_output_limb_27_col281, poseidon_full_round_chain_output_limb_28_col282, poseidon_full_round_chain_output_limb_29_col283"
       ],
       [
         "MemoryAddressToId",
@@ -20344,7 +20296,7 @@
       ],
       [
         "MemoryIdToBig",
-        "output_state_0_id_col302, unpacked_limb_0_col284, unpacked_limb_1_col285, felt_252_unpack_from_27_output_tmp_51986_174_limb_2, unpacked_limb_3_col286, unpacked_limb_4_col287, felt_252_unpack_from_27_output_tmp_51986_174_limb_5, unpacked_limb_6_col288, unpacked_limb_7_col289, felt_252_unpack_from_27_output_tmp_51986_174_limb_8, unpacked_limb_9_col290, unpacked_limb_10_col291, felt_252_unpack_from_27_output_tmp_51986_174_limb_11, unpacked_limb_12_col292, unpacked_limb_13_col293, felt_252_unpack_from_27_output_tmp_51986_174_limb_14, unpacked_limb_15_col294, unpacked_limb_16_col295, felt_252_unpack_from_27_output_tmp_51986_174_limb_17, unpacked_limb_18_col296, unpacked_limb_19_col297, felt_252_unpack_from_27_output_tmp_51986_174_limb_20, unpacked_limb_21_col298, unpacked_limb_22_col299, felt_252_unpack_from_27_output_tmp_51986_174_limb_23, unpacked_limb_24_col300, unpacked_limb_25_col301, felt_252_unpack_from_27_output_tmp_51986_174_limb_26, poseidon_full_round_chain_output_limb_9_col263"
+        "output_state_0_id_col302, unpacked_limb_0_col284, unpacked_limb_1_col285, felt_252_unpack_from_27_output_tmp_51986_171_limb_2, unpacked_limb_3_col286, unpacked_limb_4_col287, felt_252_unpack_from_27_output_tmp_51986_171_limb_5, unpacked_limb_6_col288, unpacked_limb_7_col289, felt_252_unpack_from_27_output_tmp_51986_171_limb_8, unpacked_limb_9_col290, unpacked_limb_10_col291, felt_252_unpack_from_27_output_tmp_51986_171_limb_11, unpacked_limb_12_col292, unpacked_limb_13_col293, felt_252_unpack_from_27_output_tmp_51986_171_limb_14, unpacked_limb_15_col294, unpacked_limb_16_col295, felt_252_unpack_from_27_output_tmp_51986_171_limb_17, unpacked_limb_18_col296, unpacked_limb_19_col297, felt_252_unpack_from_27_output_tmp_51986_171_limb_20, unpacked_limb_21_col298, unpacked_limb_22_col299, felt_252_unpack_from_27_output_tmp_51986_171_limb_23, unpacked_limb_24_col300, unpacked_limb_25_col301, felt_252_unpack_from_27_output_tmp_51986_171_limb_26, poseidon_full_round_chain_output_limb_9_col263"
       ],
       [
         "MemoryAddressToId",
@@ -20352,7 +20304,7 @@
       ],
       [
         "MemoryIdToBig",
-        "output_state_1_id_col321, unpacked_limb_0_col303, unpacked_limb_1_col304, felt_252_unpack_from_27_output_tmp_51986_178_limb_2, unpacked_limb_3_col305, unpacked_limb_4_col306, felt_252_unpack_from_27_output_tmp_51986_178_limb_5, unpacked_limb_6_col307, unpacked_limb_7_col308, felt_252_unpack_from_27_output_tmp_51986_178_limb_8, unpacked_limb_9_col309, unpacked_limb_10_col310, felt_252_unpack_from_27_output_tmp_51986_178_limb_11, unpacked_limb_12_col311, unpacked_limb_13_col312, felt_252_unpack_from_27_output_tmp_51986_178_limb_14, unpacked_limb_15_col313, unpacked_limb_16_col314, felt_252_unpack_from_27_output_tmp_51986_178_limb_17, unpacked_limb_18_col315, unpacked_limb_19_col316, felt_252_unpack_from_27_output_tmp_51986_178_limb_20, unpacked_limb_21_col317, unpacked_limb_22_col318, felt_252_unpack_from_27_output_tmp_51986_178_limb_23, unpacked_limb_24_col319, unpacked_limb_25_col320, felt_252_unpack_from_27_output_tmp_51986_178_limb_26, poseidon_full_round_chain_output_limb_19_col273"
+        "output_state_1_id_col321, unpacked_limb_0_col303, unpacked_limb_1_col304, felt_252_unpack_from_27_output_tmp_51986_175_limb_2, unpacked_limb_3_col305, unpacked_limb_4_col306, felt_252_unpack_from_27_output_tmp_51986_175_limb_5, unpacked_limb_6_col307, unpacked_limb_7_col308, felt_252_unpack_from_27_output_tmp_51986_175_limb_8, unpacked_limb_9_col309, unpacked_limb_10_col310, felt_252_unpack_from_27_output_tmp_51986_175_limb_11, unpacked_limb_12_col311, unpacked_limb_13_col312, felt_252_unpack_from_27_output_tmp_51986_175_limb_14, unpacked_limb_15_col313, unpacked_limb_16_col314, felt_252_unpack_from_27_output_tmp_51986_175_limb_17, unpacked_limb_18_col315, unpacked_limb_19_col316, felt_252_unpack_from_27_output_tmp_51986_175_limb_20, unpacked_limb_21_col317, unpacked_limb_22_col318, felt_252_unpack_from_27_output_tmp_51986_175_limb_23, unpacked_limb_24_col319, unpacked_limb_25_col320, felt_252_unpack_from_27_output_tmp_51986_175_limb_26, poseidon_full_round_chain_output_limb_19_col273"
       ],
       [
         "MemoryAddressToId",
@@ -20360,7 +20312,7 @@
       ],
       [
         "MemoryIdToBig",
-        "output_state_2_id_col340, unpacked_limb_0_col322, unpacked_limb_1_col323, felt_252_unpack_from_27_output_tmp_51986_182_limb_2, unpacked_limb_3_col324, unpacked_limb_4_col325, felt_252_unpack_from_27_output_tmp_51986_182_limb_5, unpacked_limb_6_col326, unpacked_limb_7_col327, felt_252_unpack_from_27_output_tmp_51986_182_limb_8, unpacked_limb_9_col328, unpacked_limb_10_col329, felt_252_unpack_from_27_output_tmp_51986_182_limb_11, unpacked_limb_12_col330, unpacked_limb_13_col331, felt_252_unpack_from_27_output_tmp_51986_182_limb_14, unpacked_limb_15_col332, unpacked_limb_16_col333, felt_252_unpack_from_27_output_tmp_51986_182_limb_17, unpacked_limb_18_col334, unpacked_limb_19_col335, felt_252_unpack_from_27_output_tmp_51986_182_limb_20, unpacked_limb_21_col336, unpacked_limb_22_col337, felt_252_unpack_from_27_output_tmp_51986_182_limb_23, unpacked_limb_24_col338, unpacked_limb_25_col339, felt_252_unpack_from_27_output_tmp_51986_182_limb_26, poseidon_full_round_chain_output_limb_29_col283"
+        "output_state_2_id_col340, unpacked_limb_0_col322, unpacked_limb_1_col323, felt_252_unpack_from_27_output_tmp_51986_179_limb_2, unpacked_limb_3_col324, unpacked_limb_4_col325, felt_252_unpack_from_27_output_tmp_51986_179_limb_5, unpacked_limb_6_col326, unpacked_limb_7_col327, felt_252_unpack_from_27_output_tmp_51986_179_limb_8, unpacked_limb_9_col328, unpacked_limb_10_col329, felt_252_unpack_from_27_output_tmp_51986_179_limb_11, unpacked_limb_12_col330, unpacked_limb_13_col331, felt_252_unpack_from_27_output_tmp_51986_179_limb_14, unpacked_limb_15_col332, unpacked_limb_16_col333, felt_252_unpack_from_27_output_tmp_51986_179_limb_17, unpacked_limb_18_col334, unpacked_limb_19_col335, felt_252_unpack_from_27_output_tmp_51986_179_limb_20, unpacked_limb_21_col336, unpacked_limb_22_col337, felt_252_unpack_from_27_output_tmp_51986_179_limb_23, unpacked_limb_24_col338, unpacked_limb_25_col339, felt_252_unpack_from_27_output_tmp_51986_179_limb_26, poseidon_full_round_chain_output_limb_29_col283"
       ]
     ]
   },
