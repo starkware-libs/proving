@@ -1,5 +1,7 @@
 use serde::Serialize;
-use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_FELTS};
+use stwo_cairo_common::prover_types::cpu::{
+    FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_PACKED27_FELTS,
+};
 
 // Macros
 use crate::const_expr;
@@ -50,23 +52,30 @@ impl AirFn for VerifyAdd252 {
             "sub_p_bit is a bit",
         );
 
-        let mut prev_carry = const_expr!(0);
-        for (i, &p_felt) in P_FELTS.iter().enumerate().take(FELT252_N_WORDS - 1) {
-            let mut carry = a.get_felt(i) + b.get_felt(i) + prev_carry
-                - c.get_felt(i)
-                - const_expr!(p_felt) * sub_p_bit.as_felt();
-            carry = air_builder.let_for_constraint(carry * shift_inverse.clone(), "carry");
-            air_builder.constrain(
-                carry.clone() * (carry.clone() * carry.clone() - const_expr!(1)),
-                "",
-            );
-            prev_carry = carry;
+        let mut carry = const_expr!(0);
+        for i in 0..(FELT252_N_WORDS - 1) {
+            // It suffices to verify the carry only every third limb. This is equivalent to carrying
+            // out the computation with limbs of size 27 instead of 9 bits, which is still sound.
+            // Similarly p * sub_p_bit can be directly subtracted as 27-bit limbs every third step.
+            carry = a.get_felt(i) + b.get_felt(i) + carry - c.get_felt(i);
+            if i % 3 == 0 {
+                carry = carry - const_expr!(P_PACKED27_FELTS[i / 3]) * sub_p_bit.as_felt();
+            }
+            carry = carry * shift_inverse.clone();
+            if i % 3 == 2 {
+                carry = air_builder.let_for_constraint(carry, "carry");
+                air_builder.constrain(
+                    carry.clone() * (carry.clone() * carry.clone() - const_expr!(1)),
+                    "",
+                );
+            }
         }
         let i = FELT252_N_WORDS - 1;
+        assert!(i % 3 == 0);
         air_builder.constrain(
-            a.get_felt(i) + b.get_felt(i) + prev_carry
+            a.get_felt(i) + b.get_felt(i) + carry
                 - c.get_felt(i)
-                - const_expr!(P_FELTS[i]) * sub_p_bit.as_felt(),
+                - const_expr!(P_PACKED27_FELTS[i / 3]) * sub_p_bit.as_felt(),
             "",
         );
     }
