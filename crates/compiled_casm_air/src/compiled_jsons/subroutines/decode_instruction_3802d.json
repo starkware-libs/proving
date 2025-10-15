@@ -79,25 +79,9 @@
               "State": "op1_base_fp_col6"
             },
             {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    },
-                    "-",
-                    {
-                      "State": "op1_imm_col5"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "op1_base_fp_col6"
-                }
+              "Var": [
+                "M31",
+                "op1_base_ap_tmp_3802d_9"
               ]
             },
             {
@@ -222,25 +206,9 @@
           ]
         },
         {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "State": "op1_imm_col5"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "op1_base_fp_col6"
-            }
+          "Var": [
+            "M31",
+            "op1_base_ap_tmp_3802d_9"
           ]
         },
         {
@@ -402,29 +370,42 @@
       ]
     },
     {
-      "Constraint": [
-        {
+      "Intermediate": {
+        "felt_names": [
+          "op1_base_ap_tmp_3802d_9"
+        ],
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    },
-                    "-",
-                    {
-                      "State": "op1_imm_col5"
-                    }
+                  "Const": [
+                    "M31",
+                    "1"
                   ]
                 },
                 "-",
                 {
-                  "State": "op1_base_fp_col6"
+                  "State": "op1_imm_col5"
                 }
+              ]
+            },
+            "-",
+            {
+              "State": "op1_base_fp_col6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "op1_base_ap_tmp_3802d_9"
               ]
             },
             "*",
@@ -438,25 +419,9 @@
                 },
                 "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "1"
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "op1_imm_col5"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "State": "op1_base_fp_col6"
-                    }
+                  "Var": [
+                    "M31",
+                    "op1_base_ap_tmp_3802d_9"
                   ]
                 }
               ]
@@ -618,25 +583,9 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "Const": [
-                                  "M31",
-                                  "1"
-                                ]
-                              },
-                              "-",
-                              {
-                                "State": "op1_imm_col5"
-                              }
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "op1_base_fp_col6"
-                          }
+                        "Var": [
+                          "M31",
+                          "op1_base_ap_tmp_3802d_9"
                         ]
                       },
                       "*",
@@ -1650,7 +1599,35 @@
     },
     {
       "Intermediate": {
-        "name": "res_add_tmp_3802d_9",
+        "name": "op1_base_ap_tmp_3802d_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_imm_col5"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "op1_base_fp_col6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "res_add_tmp_3802d_10",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1761,7 +1738,7 @@
           {
             "Var": [
               "UInt16",
-              "res_add_tmp_3802d_9"
+              "res_add_tmp_3802d_10"
             ]
           },
           "as_m31",
@@ -1771,7 +1748,7 @@
     },
     {
       "Intermediate": {
-        "name": "ap_update_add_1_tmp_3802d_10",
+        "name": "ap_update_add_1_tmp_3802d_11",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1882,7 +1859,7 @@
           {
             "Var": [
               "UInt16",
-              "ap_update_add_1_tmp_3802d_10"
+              "ap_update_add_1_tmp_3802d_11"
             ]
           },
           "as_m31",
@@ -1995,25 +1972,9 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "1"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "op1_imm_col5"
-                                    }
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "op1_base_fp_col6"
-                                }
+                              "Var": [
+                                "M31",
+                                "op1_base_ap_tmp_3802d_9"
                               ]
                             },
                             "*",
@@ -2198,25 +2159,9 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "Const": [
-                                  "M31",
-                                  "1"
-                                ]
-                              },
-                              "-",
-                              {
-                                "State": "op1_imm_col5"
-                              }
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "op1_base_fp_col6"
-                          }
+                        "Var": [
+                          "M31",
+                          "op1_base_ap_tmp_3802d_9"
                         ]
                       },
                       "*",

@@ -147,11 +147,16 @@ impl AirFn for DecodeInstruction {
                 // Infered flag - the last flag of each set is given the value of 1 minus the sum of
                 // the other flags. If there are more than 2 flags in the set, it needs to be
                 // constrained to be a bit.
-                let infered_flag = last_to_rest[&i]
+                let mut infered_flag = last_to_rest[&i]
                     .iter()
                     .map(|&j| flags_vec[j].clone())
                     .fold(const_expr!(1), |acc, flag| acc - flag);
+
                 if last_to_rest[&i].len() > 1 {
+                    // The expression for the inferred variable contains multiple operations.
+                    // Put it in an intermediate to simplify the "is a bit" constraint below.
+                    infered_flag = ab.let_(infered_flag, FLAG_NAMES[i]);
+
                     ab.constrain(
                         infered_flag.clone() * (const_expr!(1) - infered_flag.clone()),
                         &format!("Flag {} is a bit", FLAG_NAMES[i]),
