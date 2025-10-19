@@ -18,6 +18,7 @@ use super::cairo_constraints::utils::generate_cairo_constraints_code;
 use super::constraints::generate_constraints_code;
 use super::supported_components::{AutogenCodeFile, AutogenCodeType};
 use super::trace_gen::RustProverGen;
+use crate::code_gen::cairo_constraints::utils::format_cairo_code;
 
 /// Load compiled AirFns and the associated sample evaluations.
 ///
@@ -186,9 +187,12 @@ pub fn generate_air_fn_code(
             let code = generate_constraints_code(air_fn);
             reformat_rust_code(code.to_string().unwrap())
         }
-        AutogenCodeType::CAIRO => generate_cairo_constraints_code(air_fn, sample_evaluation)
-            .to_string()
-            .unwrap(),
+        AutogenCodeType::CAIRO => {
+            let code = generate_cairo_constraints_code(air_fn, sample_evaluation)
+                .to_string()
+                .unwrap();
+            format_cairo_code(code)
+        }
     }
 }
 
