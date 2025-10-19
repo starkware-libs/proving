@@ -9,37 +9,19 @@ use air_code_gen::code_gen::utils::{
     generate_air_fn_code, get_git_rev, load_air_fns, write_air_fn_code,
 };
 use clap::Parser;
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat, TraceType};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
 use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use serde::Serialize;
+
+const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
 
 #[derive(Serialize)]
 struct VersionedCasmRegistry {
     /// The Git commit hash of the repository we took the statistics from
     pub air_version: String,
     pub air_fns: IndexMap<String, CompiledAirFnStat>,
-}
-
-impl VersionedCasmRegistry {
-    pub fn add_stats_from(
-        &mut self,
-        source_registry: &IndexMap<String, CompiledAirFnStat>,
-        air_fn: &CompiledAirFn,
-    ) {
-        if air_fn.r#type == TraceType::Inline {
-            // We don't export statistics for inline AirFns
-            return;
-        }
-        self.air_fns.insert(
-            air_fn.name.clone(),
-            source_registry
-                .get(&air_fn.name)
-                .unwrap_or_else(|| panic!("Missing casm_registry entry for {}", &air_fn.name))
-                .clone(),
-        );
-    }
 }
 
 fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
@@ -62,7 +44,7 @@ fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
 
 /// For each JSON in the given directory, create AutogenCodeFile jobs
 /// for each code type.
-fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
+fn get_stwo_cairo_jobs(args: &GenerateStwoCairoArgs) -> Vec<AutogenCodeFile> {
     let mut result = vec![];
 
     let mut skipped_files = 0;
@@ -93,7 +75,7 @@ fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
                 source_path: json_path.clone(),
                 code_type,
             };
-            if is_supported(&job) || args.all {
+            if is_supported(&job) {
                 result.push(job);
             } else {
                 skipped_files += 1;
@@ -109,60 +91,34 @@ fn get_jobs(args: &Args) -> Vec<AutogenCodeFile> {
 
 /// Generates component code from JSON files in the source directory.
 fn generate_files(
-    args: &Args,
+    stwo_cairo_path: &Path,
     compiled_air_fns: &IndexMap<String, CompiledAirFn>,
     sample_evaluations: &IndexMap<String, SampleEvaluation>,
     jobs: &[AutogenCodeFile],
 ) {
-    let source_repo_rev = get_git_rev(&args.source);
-    let source_rev_comment = format!("// AIR version {}\n", source_repo_rev);
-
     for job in jobs.iter() {
-        let dest_dir = dest_dir_for_job(job, args);
+        let dest_dir = dest_dir_for_job(job, stwo_cairo_path);
         let compiled_air_fn = compiled_air_fns
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
         let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
         let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
-        let code = source_rev_comment.clone() + &code;
 
-        write_air_fn_code(compiled_air_fn, code, dest_dir, job.code_type);
+        write_air_fn_code(compiled_air_fn, code, &dest_dir, job.code_type);
     }
 }
 
-fn generate_registry_properties_file(
-    args: &Args,
-    compiled_air_fns: &IndexMap<String, CompiledAirFn>,
-    jobs: &[AutogenCodeFile],
-) {
+fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
     let source_repo_rev = get_git_rev(&args.source);
     let casm_registry_src = read_casm_registry(&args.source);
-    let mut casm_registry_out = VersionedCasmRegistry {
+    let casm_registry_out = VersionedCasmRegistry {
         air_version: source_repo_rev,
-        air_fns: Default::default(),
+        air_fns: casm_registry_src,
     };
 
-    // Only include in `casm_registry.json` the components that are supported by the verifier
-    let air_fns_to_copy = jobs
-        .iter()
-        .filter(|job| job.code_type == AutogenCodeType::CAIRO)
-        .map(|job| job.air_fn_name.clone())
-        .collect::<Vec<_>>();
-
-    for air_fn_name in casm_registry_src.keys() {
-        if air_fns_to_copy.contains(air_fn_name) {
-            let compiled_air_fn = compiled_air_fns
-                .get(air_fn_name)
-                .unwrap_or_else(|| panic!("Missing AirFn {air_fn_name}"));
-            casm_registry_out.add_stats_from(&casm_registry_src, compiled_air_fn);
-        }
-    }
-
     let dest_path = args
-        .casm_registry_dest
-        .as_deref()
-        .expect("Need path to store casm_registry.json")
-        .join(REGISTRY_PROPERTIES_FILE_NAME);
+        .stwo_cairo_path
+        .join("stwo_cairo_prover/crates/common/casm_registry.json");
     fs::write(
         &dest_path,
         serde_json::to_string_pretty(&casm_registry_out).expect("Cannot serialize casm_registry"),
@@ -170,96 +126,148 @@ fn generate_registry_properties_file(
     .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dest_path.display()))
 }
 
-fn dest_dir_for_job<'a>(job: &AutogenCodeFile, args: &'a Args) -> &'a PathBuf {
-    match job.code_type {
-        AutogenCodeType::WITNESS => &args.witness_dest,
-        AutogenCodeType::AIR => &args.rust_constraints_dest,
-        AutogenCodeType::CAIRO => &args.cairo_constraints_dest,
-    }
+fn dest_dir_for_job(job: &AutogenCodeFile, stwo_cairo_path: &Path) -> PathBuf {
+    let path_in_stwo_cairo = match job.code_type {
+        AutogenCodeType::WITNESS => "stwo_cairo_prover/crates/prover/src/witness/components",
+        AutogenCodeType::AIR => "stwo_cairo_prover/crates/cairo-air/src/components",
+        AutogenCodeType::CAIRO => "stwo_cairo_verifier/crates/cairo_air/src/components",
+    };
+
+    stwo_cairo_path.join(path_in_stwo_cairo)
 }
 
-fn read_casm_registry(compiled_jsons_dir: &Path) -> IndexMap<String, CompiledAirFnStat> {
-    let casm_registry_path = compiled_jsons_dir
-        .parent()
-        .unwrap_or_else(|| {
-            panic!(
-                "Cannot find casm_registry - no parent for {}",
-                compiled_jsons_dir.display()
-            )
-        })
-        .join(REGISTRY_PROPERTIES_FILE_NAME);
+fn read_casm_registry(compiled_crate_src: &Path) -> IndexMap<String, CompiledAirFnStat> {
+    let casm_registry_path = compiled_crate_src.join(REGISTRY_PROPERTIES_FILE_NAME);
     let casm_registry_file = fs::read_to_string(&casm_registry_path)
         .unwrap_or_else(|e| panic!("Failed to read {}: {e}", casm_registry_path.display()));
     serde_json::from_str(&casm_registry_file).expect("Invalid casm_registry.json file")
 }
 
 #[derive(Debug, Parser)]
-struct Args {
-    /// Generate code from all JSONs in the source directory (default: only generate
-    /// components known to be supported by stwo-cairo)
-    #[clap(short, long)]
-    all: bool,
-
-    #[clap(long)]
+struct GenerateStwoCairoArgs {
+    /// Source directory of the compiled_casm_air crate
+    #[clap(long, default_value = DEFAULT_SOURCE_DIR)]
     source: PathBuf,
 
-    // TODO: Make the `*_dest` arguments optional
     #[clap(long)]
-    rust_constraints_dest: PathBuf,
+    stwo_cairo_path: PathBuf,
+}
 
-    #[clap(long)]
-    witness_dest: PathBuf,
+#[derive(Debug, Parser)]
+struct SingleArgs {
+    #[clap(long, conflicts_with = "cairo_constraints")]
+    rust_constraints: bool,
+    #[clap(long, conflicts_with = "witness")]
+    cairo_constraints: bool,
+    #[clap(long, conflicts_with = "rust_constraints")]
+    witness: bool,
 
-    #[clap(long)]
-    cairo_constraints_dest: PathBuf,
+    /// Source directory of the compiled_casm_air crate
+    #[clap(long, default_value = DEFAULT_SOURCE_DIR)]
+    source: PathBuf,
 
-    #[clap(long)]
-    casm_registry_dest: Option<PathBuf>,
+    /// JSON file to generate code for
+    file: PathBuf,
+}
+
+#[derive(Debug, Parser)]
+enum Subcommand {
+    GenerateStwoCairo(GenerateStwoCairoArgs),
+    Single(SingleArgs),
+}
+
+#[derive(Debug, Parser)]
+struct Args {
+    #[clap(subcommand)]
+    subcommand: Subcommand,
 }
 
 /// Main CLI entry point
 ///
-/// Example usage: `$ cargo run --bin cairo_code_gen -- --source
-/// ./crates/compiled_casm_air/src/opcodes --rust-constraints-dest
-/// ~/stwo-cairo/stwo_cairo_prover/crates/cairo_air/src/components --witness-dest
-/// ~/stwo-cairo/stwo_cairo_prover/crates/prover/src/witness/components --cairo-constraints-dest
-/// ~/stwo-cairo/stwo_cairo_verifier/crates/cairo_air/src/components`
+/// # Example usage:
+///
+/// Generate code to stwo-cairo:
+/// `$ cargo run --bin cairo_code_gen -- generate-stwo-cairo --source
+///     ./crates/compiled_casm_air/src/ --stwo-cairo-path ~/stwo-cairo/`
+///
+/// Generate a single file (output to stdout):
+/// `$ cargo run --bin cairo_code_gen -- single --source
+///      ./crates/compiled_casm_air/src/ --rust-constraints /path/to/biwise_builtin.json`
 fn main() {
     let args = Args::try_parse_from(std::env::args()).unwrap_or_else(|e| e.exit());
 
-    check_args(&args);
+    match args.subcommand {
+        Subcommand::GenerateStwoCairo(cmd_args) => generate_stwo_cairo(cmd_args),
+        Subcommand::Single(cmd_args) => generate_single(cmd_args),
+    }
+}
 
-    let jobs = get_jobs(&args);
+fn generate_single(args: SingleArgs) {
+    if !args.source.exists() {
+        panic!("Source directory does not exist: {}", args.source.display());
+    }
+
+    let air_fn_name = args
+        .file
+        .file_stem()
+        .expect("Invalid path")
+        .to_str()
+        .expect("Invalid filename")
+        .to_string();
+
+    let code_type = if args.cairo_constraints {
+        AutogenCodeType::CAIRO
+    } else if args.rust_constraints {
+        AutogenCodeType::AIR
+    } else if args.witness {
+        AutogenCodeType::WITNESS
+    } else {
+        panic!("Code type not specified. Use --cairo-constraints, --rust-constraints or --witness")
+    };
+
+    let job = AutogenCodeFile {
+        air_fn_name: air_fn_name.clone(),
+        source_path: args.file,
+        code_type,
+    };
+    let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &[job]);
+
+    let code = generate_air_fn_code(
+        compiled_air_fns.get(&air_fn_name).expect("AirFn missing"),
+        sample_evaluations.get(&air_fn_name),
+        code_type,
+    );
+
+    print!("{}", code);
+}
+
+fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
+    if !args.source.exists() {
+        panic!("Source directory does not exist: {}", args.source.display());
+    }
+
+    let jobs = get_stwo_cairo_jobs(&args);
     let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
 
-    generate_files(&args, &compiled_air_fns, &sample_evaluations, &jobs);
+    generate_files(
+        &args.stwo_cairo_path,
+        &compiled_air_fns,
+        &sample_evaluations,
+        &jobs,
+    );
     generate_sample_evaluations_file(
-        &args.cairo_constraints_dest,
+        &args
+            .stwo_cairo_path
+            .join("stwo_cairo_verifier/crates/cairo_air/src/components"),
         &get_git_rev(&args.source),
         &sample_evaluations,
     );
 
-    if args.casm_registry_dest.is_some() {
-        generate_registry_properties_file(&args, &compiled_air_fns, &jobs);
-    }
+    generate_registry_properties_file(&args);
 
     println!(
-        "Successfully processed JSON files from {} to {}, {} and {}",
+        "Successfully processed JSON files from {} to {}",
         args.source.display(),
-        args.rust_constraints_dest.display(),
-        args.witness_dest.display(),
-        args.cairo_constraints_dest.display()
+        args.stwo_cairo_path.display(),
     );
-}
-
-fn check_args(args: &Args) {
-    for dir in [
-        &args.rust_constraints_dest,
-        &args.witness_dest,
-        &args.cairo_constraints_dest,
-    ] {
-        if !dir.exists() {
-            panic!("Destination directory does not exist: {:?}", dir);
-        }
-    }
 }

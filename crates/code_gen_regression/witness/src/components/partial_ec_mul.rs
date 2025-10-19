@@ -1,3 +1,5 @@
+// This file was created by the AIR team.
+
 #![allow(unused_parens)]
 use cairo_air::components::partial_ec_mul::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
