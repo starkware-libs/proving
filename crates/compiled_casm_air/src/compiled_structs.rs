@@ -22,6 +22,9 @@ pub struct CompiledAirFn {
     // Contains the name of each limb in the input.
     pub verifier_input_limbs: Vec<String>,
 
+    // For const-size components, the IDs of the preprocessed input columns
+    pub input_const_columns: Vec<String>,
+
     // The output of the air function for write trace.
     // Contains the output, its name, its prover type, and its packed prover type.
     pub prover_output: (CompiledAirVar, String, String, String),

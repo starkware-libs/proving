@@ -12,8 +12,8 @@ use itertools::Itertools;
 use super::{deduction_consts, packed_name};
 use crate::code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
 use crate::code_gen::utils::{
-    block_doc, get_variable_name, is_const_size_component, relations_used_or_yielded,
-    replace_generics_with_turbofish,
+    block_doc, get_variable_name, is_const_size_component, make_preprocessed_column_id,
+    relations_used_or_yielded, replace_generics_with_turbofish,
 };
 
 impl RustProverGen {
@@ -27,7 +27,12 @@ impl RustProverGen {
             Mode::Inputs => quote! { pub inputs: $(vec_of_type("InputType")), },
             Mode::Mults => {
                 if is_const_size_component(&self.air_fn) {
-                    quote! { pub mults: AtomicMultiplicityColumn, }
+                    let n_input_columns = self.air_fn.input_const_columns.len();
+                    quote! {
+                        pub mults: AtomicMultiplicityColumn,
+                        input_to_row: HashMap<[M31; $(n_input_columns)], usize>,
+                        preprocessed_trace: Arc<PreProcessedTrace>
+                    }
                 } else {
                     quote! { pub mults: DashMap<InputType, AtomicU32>, }
                 }
@@ -65,8 +70,9 @@ impl RustProverGen {
             Mode::Mults => {
                 let mut add_inputs_code = if is_const_size_component(&self.air_fn) {
                     quote! {
-                        pub fn add_input(&self, _input: &InputType) {
-                            todo!() // Implement manually
+                        pub fn add_input(&self, input: &InputType) {
+                            self.mults
+                                .increase_at((*self.input_to_row.get(input).unwrap()).try_into().unwrap());
                         }
                     }
                 } else {
@@ -93,20 +99,29 @@ impl RustProverGen {
             }
         };
 
-        let default_mult_code = if is_const_size_component(&self.air_fn) {
-            quote! {
-                impl Default for ClaimGenerator {
-                fn default() -> Self {
-                    Self {
-                        mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+        let new_code = match self.mode {
+            Mode::Mults if is_const_size_component(&self.air_fn) => {
+                let column_ids_code = rust::Tokens::from_iter(
+                    Itertools::intersperse(
+                        self.air_fn
+                            .input_const_columns
+                            .iter()
+                            .map(make_preprocessed_column_id),
+                        quote! { , },
+                    )
+                    .flatten(),
+                );
+                quote! {
+                    pub fn new(preprocessed_trace: Arc<PreProcessedTrace>) -> Self {
+                        let column_ids = [$(column_ids_code)];
+                        Self {
+                            mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+                            input_to_row: make_input_to_row(&preprocessed_trace, column_ids),
+                            preprocessed_trace
+                        }
                     }
                 }
-            }}
-        } else {
-            quote! {}
-        };
-
-        let new_code = match self.mode {
+            }
             Mode::PackedInputs | Mode::Mults => quote! {
                 pub fn new() -> Self {
                     Self::default()
@@ -146,7 +161,7 @@ impl RustProverGen {
         };
 
         quote! {
-            $(default_mult_code)
+            $("\n")
 
             impl ClaimGenerator {
                 $(new_code)
@@ -285,6 +300,10 @@ impl RustProverGen {
                     tokens.extend(quote! {
                         inputs: $(vec_of_type("PackedInputType")),
                     });
+                } else {
+                    tokens.extend(quote! {
+                        preprocessed_trace: &PreProcessedTrace,
+                    });
                 }
                 tokens.extend(quote! {
                     mults: $(vec_of_type("PackedM31")),
@@ -310,7 +329,7 @@ impl RustProverGen {
             Mode::Inputs => quote! { packed_inputs, },
             Mode::Mults => {
                 if is_const_size_component(&self.air_fn) {
-                    quote! { mults, }
+                    quote! { &self.preprocessed_trace, mults, }
                 } else {
                     quote! { packed_inputs, packed_mults, }
                 }
@@ -354,7 +373,7 @@ impl RustProverGen {
                 });
             } else {
                 preprocessed_def_code.extend(quote! {
-                    todo!();
+                    let $(external_col_id) = preprocessed_trace.get_column(&$(make_preprocessed_column_id(external_col_id)));
                 });
             }
         }
@@ -476,15 +495,9 @@ impl RustProverGen {
             }
         }
         for external_col_id in &self.air_fn.external_states {
-            if external_col_id == "Seq" {
-                write_trace_body.append(quote! {
-                    let seq = seq.packed_at(row_index);
-                });
-            } else {
-                write_trace_body.append(quote! {
-                    todo!();
-                });
-            }
+            write_trace_body.append(quote! {
+                let $(external_col_id.to_lowercase()) = $(external_col_id.to_lowercase()).packed_at(row_index);
+            });
         }
 
         let mut relation_data_offsets = HashMap::new();
