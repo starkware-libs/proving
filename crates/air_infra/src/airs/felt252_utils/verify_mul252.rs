@@ -41,7 +41,7 @@ impl AirFn for VerifyMul252 {
 
         const CONV_LEN: usize = 2 * FELT252_N_WORDS - 1;
         const MAX_WORD: i32 = (1 << FELT252_BITS_PER_WORD) - 1;
-        const MUL_RANGE_CHECKS: u16 = 19;
+        const MUL_RANGE_CHECKS: u16 = 20;
 
         // Compute the limbs of a * b - c in long-form: limb i holds the i-th coefficient of the
         // convolution of a and b, minus the i-th coefficient of c (where i < FELT252_N_WORDS).
@@ -126,19 +126,19 @@ impl AirFn for VerifyMul252 {
             "k",
         );
         // The range of k fits inside a range check of 2**17, but the smallest commonly used size
-        // is 19, the size of the largest range checks needed for the the carries.
+        // is 20, the size of the largest range checks needed for the the carries.
         range_check_variant(
             air_builder,
             &[MUL_RANGE_CHECKS],
-            &[k_expr.clone() + const_expr!(1u32 << 18)],
-            7,
+            &[k_expr.clone() + const_expr!(1u32 << 19)],
+            0,
         );
 
         // Bounds on k based on the range check constraint.
         let k = BoundedFeltExpr::new(
             k_expr,
-            (1i32 << MUL_RANGE_CHECKS) - (1i32 << 18) - 1,
-            -(1i32 << 18),
+            (1i32 << MUL_RANGE_CHECKS) - (1i32 << 19) - 1,
+            -(1i32 << 19),
         );
 
         // Subtract k*P from the reduced convolution. P has only three non-zero limbs.
@@ -160,23 +160,24 @@ impl AirFn for VerifyMul252 {
             );
             air_builder.constrain(carry.var.clone() * shift.clone() - shifted_carry.var, "");
 
-            // All carries fit inside the range (-2**17, 2**19 - 2**17), and are range-checked
-            // correspondigly. This range is nearly sharp for the largest carries, and in particular
-            // a range of size 2**18 is insufficient.
-            assert!(carry.max_bound() < (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17));
-            assert!(carry.min_bound() >= -(1i32 << 17));
+            // All carries fit inside the range (-2**19, 2**19), and are range-checked
+            // accordingly. This range is nearly sharp for the largest carries, and in particular
+            // a range of size 2**19 will be insufficient.
+            assert!(carry.max_bound() < (1i32 << 19));
+            assert!(carry.min_bound() >= -(1i32 << 19));
 
             range_check_variant(
                 air_builder,
                 &[MUL_RANGE_CHECKS],
-                &[carry.var.clone() + const_expr!(1u32 << 17)],
-                i % 8,
+                &[carry.var.clone() + const_expr!(1u32 << 19)],
+                (i + 1) % 8,
             );
 
             // Bounds on the carry based on the range-check constraint.
-            carry.set_max_bound((1i32 << MUL_RANGE_CHECKS) - (1i32 << 17) - 1);
-            carry.set_min_bound(-(1i32 << 17));
+            carry.set_max_bound((1i32 << MUL_RANGE_CHECKS) - (1i32 << 19) - 1);
+            carry.set_min_bound(-(1i32 << 19));
         }
+
         // For the final limb, the computation must yield zero with no further carry.
         air_builder.constrain(
             conv_mod_tmps[FELT252_N_WORDS - 1].var.clone() + carry.var,

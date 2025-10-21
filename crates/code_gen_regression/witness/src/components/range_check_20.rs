@@ -1,5 +1,7 @@
+// This file was created by the AIR team.
+
 #![allow(unused_parens)]
-use cairo_air::components::range_check_19_h::{Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS};
+use cairo_air::components::range_check_20::{Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS};
 
 use crate::witness::prelude::*;
 
@@ -62,7 +64,7 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
         .enumerate()
         .for_each(|(row_index, (mut row, lookup_data))| {
             let seq = seq.packed_at(row_index);
-            *lookup_data.range_check_19_h_0 = [seq];
+            *lookup_data.range_check_20_0 = [seq];
             let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = mult_at_row;
             *lookup_data.mults = mult_at_row;
@@ -73,7 +75,7 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
 
 #[derive(Uninitialized, IterMut, ParIterMut)]
 struct LookupData {
-    range_check_19_h_0: Vec<[PackedM31; 1]>,
+    range_check_20_0: Vec<[PackedM31; 1]>,
     mults: Vec<PackedM31>,
 }
 
@@ -84,7 +86,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
-        range_check_19_h: &relations::RangeCheck_19_H,
+        range_check_20: &relations::RangeCheck_20,
     ) -> InteractionClaim {
         let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
 
@@ -92,12 +94,12 @@ impl InteractionClaimGenerator {
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),
-            &self.lookup_data.range_check_19_h_0,
+            &self.lookup_data.range_check_20_0,
             self.lookup_data.mults,
         )
             .into_par_iter()
             .for_each(|(writer, values, mults)| {
-                let denom = range_check_19_h.combine(values);
+                let denom = range_check_20.combine(values);
                 writer.write_frac(-PackedQM31::one() * mults, denom);
             });
         col_gen.finalize_col();

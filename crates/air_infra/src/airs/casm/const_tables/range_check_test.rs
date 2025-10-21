@@ -11,7 +11,7 @@ use crate::core::expressions::felt_expr::*;
 struct SmallAdd {}
 
 // A simple AirFn, just for tests: add two felts, asserting that both the
-// inputs and the output are < 2**19
+// inputs and the output are < 2**20
 impl AirFn for SmallAdd {
     type ExtIn = ();
     type In = [FeltExpr; 2];
@@ -21,24 +21,24 @@ impl AirFn for SmallAdd {
         air_builder.deduce(&mut a, "");
         air_builder.deduce(&mut b, "");
 
-        range_check(air_builder, &[19], &[a.clone()]);
-        range_check(air_builder, &[19], &[b.clone()]);
+        range_check(air_builder, &[20], &[a.clone()]);
+        range_check(air_builder, &[20], &[b.clone()]);
 
         let result = a + b;
 
-        range_check(air_builder, &[19], &[result.clone()]);
+        range_check(air_builder, &[20], &[result.clone()]);
 
         result
     }
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 1000000")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck20 on input 2000000")]
 fn test_range_check_runtime_failure() {
     let air_fn = SmallAdd {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let a = const_expr!(500000);
-    let b = const_expr!(500000);
+    let a = const_expr!(1000000);
+    let b = const_expr!(1000000);
     registry.run_air(&air_fn, (), [a, b]);
 }
 

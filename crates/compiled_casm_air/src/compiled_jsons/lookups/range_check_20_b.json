@@ -1,14 +1,14 @@
 {
-  "name": "range_check_19_h",
-  "relation_name": "RangeCheck_19_H",
+  "name": "range_check_20_b",
+  "relation_name": "RangeCheck_20_B",
   "relation_size": 1,
-  "log_height": 19,
-  "description": "Range Check 19 H",
-  "instance_definition": "{\"variant\":\"H\"}",
+  "log_height": 20,
+  "description": "Range Check 20 B",
+  "instance_definition": "{\"variant\":\"B\"}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
-    "range_check_19_h_input",
+    "range_check_20_b_input",
     "[M31; 1]",
     "[PackedM31; 1]"
   ],
@@ -17,7 +17,7 @@
     {
       "Tuple": []
     },
-    "range_check_19_h_output",
+    "range_check_20_b_output",
     "()",
     "()"
   ],
@@ -30,7 +30,7 @@
   "state_names": [],
   "constraint_lookups": [
     [
-      "RangeCheck_19_H",
+      "RangeCheck_20_B",
       "Yield"
     ]
   ],
@@ -42,21 +42,21 @@
       "name": "Seq",
       "generic_param": null,
       "args": [
-        "19"
+        "20"
       ]
     }
   ],
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_19_H",
+        "relation_name": "RangeCheck_20_B",
         "felts": [
           {
             "ExternalState": {
               "name": "Seq",
               "generic_param": null,
               "args": [
-                "19"
+                "20"
               ]
             }
           }
@@ -68,14 +68,14 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_19_H",
+        "relation_name": "RangeCheck_20_B",
         "felts": [
           {
             "ExternalState": {
               "name": "Seq",
               "generic_param": null,
               "args": [
-                "19"
+                "20"
               ]
             }
           }

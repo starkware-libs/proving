@@ -530,7 +530,7 @@ fn test_mul_big_with_overflow() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck19 on input 738328558")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck20 on input 738721774")]
 fn test_mul_big_not_equal() {
     test_mul(
         [false, false, true, false, false, true, true],

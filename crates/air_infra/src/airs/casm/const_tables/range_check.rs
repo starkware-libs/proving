@@ -38,7 +38,7 @@ pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
         [11] => call_rc::<SeqConstLen<11>>(ab, input, RCVariant::default()),
         [12] => call_rc::<SeqConstLen<12>>(ab, input, RCVariant::default()),
         [18] => call_rc::<SeqConstLen<18>>(ab, input, RCVariant::default()),
-        [19] => call_rc::<SeqConstLen<19>>(ab, input, RCVariant::default()),
+        [20] => call_rc::<SeqConstLen<20>>(ab, input, RCVariant::default()),
         [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input, RCVariant::default()),
         [5, 4] => call_rc::<RangeCheck_5_4_Const>(ab, input, RCVariant::default()),
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input, RCVariant::default()),
@@ -67,7 +67,7 @@ pub fn range_check_variant(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]
 
     match bits {
         [18] => call_rc::<SeqConstLen<18>>(ab, input, variant),
-        [19] => call_rc::<SeqConstLen<19>>(ab, input, variant),
+        [20] => call_rc::<SeqConstLen<20>>(ab, input, variant),
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input, variant),
         _ => panic!("Unsupported range check bits: {:?}", bits),
     }
