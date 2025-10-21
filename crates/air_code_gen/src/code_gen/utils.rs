@@ -243,7 +243,8 @@ pub fn assert_generated_code_unchanged(
     fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
 
     let existing_code_path = generated_code_path(air_fn, dest_dir, job.code_type);
-    let existing_code = fs::read_to_string(&existing_code_path).unwrap();
+    let existing_code = fs::read_to_string(&existing_code_path)
+        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", existing_code_path.display()));
     pretty_assertions::assert_eq!(
         existing_code,
         generated_code,
