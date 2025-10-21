@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::cube252::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_cube252_no_overflow() {
@@ -20,7 +21,7 @@ fn test_cube252_no_overflow() {
         output.calc(),
         const_felt252_expr!(0x1018120805436188603c18060001u128, 0u128).calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (131073, "input_limb_0"),
         (513, "input_limb_1"),
         (0, "input_limb_2"),
@@ -161,9 +162,8 @@ fn test_cube252_no_overflow() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

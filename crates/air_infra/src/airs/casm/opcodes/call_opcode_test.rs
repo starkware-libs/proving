@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::call_opcode::*;
@@ -7,7 +9,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
 fn build_and_test(
@@ -15,8 +16,7 @@ fn build_and_test(
     offset2_option: Option<i16>,
     op1_value: i64,
     [pc_value, ap_value, fp_value]: [u32; 3],
-    expected_state: State,
-) {
+) -> State {
     let [pc, ap, fp] = [
         const_expr!(pc_value),
         const_expr!(ap_value),
@@ -92,228 +92,203 @@ fn build_and_test(
     assert_eq!(next_state.ap().calc(), (ap_value + 2).to_string());
     assert_eq!(next_state.fp().calc(), (ap_value + 2).to_string());
 
-    // Check state
-    assert_expected_state(&state, &expected_state);
+    state
 }
 
 #[test]
 fn test_relative_call_large_state() {
-    build_and_test(
-        false,
-        None,
-        500,
-        [1000000, 2000000, 4000000],
-        vec![
-            (1000000, "input_pc"),
-            (2000000, "input_ap"),
-            (4000000, "input_fp"),
-            (1, "stored_fp_id"),
-            (256, "stored_fp_limb_0"),
-            (132, "stored_fp_limb_1"),
-            (15, "stored_fp_limb_2"),
-            (0, "stored_fp_limb_3"),
-            (0, "partial_limb_msb"),
-            (2, "stored_ret_pc_id"),
-            (66, "stored_ret_pc_limb_0"),
-            (417, "stored_ret_pc_limb_1"),
-            (3, "stored_ret_pc_limb_2"),
-            (0, "stored_ret_pc_limb_3"),
-            (0, "partial_limb_msb"),
-            (3, "distance_to_next_pc_id"),
-            (0, "msb"),
-            (0, "mid_limbs_set"),
-            (500, "distance_to_next_pc_limb_0"),
-            (0, "distance_to_next_pc_limb_1"),
-            (0, "distance_to_next_pc_limb_2"),
-            (0, "remainder_bits"),
-            (0, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test(false, None, 500, [1000000, 2000000, 4000000]);
+
+    expect![[r#"
+        (1000000, "input_pc"),
+        (2000000, "input_ap"),
+        (4000000, "input_fp"),
+        (1, "stored_fp_id"),
+        (256, "stored_fp_limb_0"),
+        (132, "stored_fp_limb_1"),
+        (15, "stored_fp_limb_2"),
+        (0, "stored_fp_limb_3"),
+        (0, "partial_limb_msb"),
+        (2, "stored_ret_pc_id"),
+        (66, "stored_ret_pc_limb_0"),
+        (417, "stored_ret_pc_limb_1"),
+        (3, "stored_ret_pc_limb_2"),
+        (0, "stored_ret_pc_limb_3"),
+        (0, "partial_limb_msb"),
+        (3, "distance_to_next_pc_id"),
+        (0, "msb"),
+        (0, "mid_limbs_set"),
+        (500, "distance_to_next_pc_limb_0"),
+        (0, "distance_to_next_pc_limb_1"),
+        (0, "distance_to_next_pc_limb_2"),
+        (0, "remainder_bits"),
+        (0, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 fn test_relative_call_negative() {
-    build_and_test(
-        false,
-        None,
-        -17,
-        [50, 200, 150],
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (1, "stored_fp_id"),
-            (150, "stored_fp_limb_0"),
-            (0, "stored_fp_limb_1"),
-            (0, "stored_fp_limb_2"),
-            (0, "stored_fp_limb_3"),
-            (0, "partial_limb_msb"),
-            (2, "stored_ret_pc_id"),
-            (52, "stored_ret_pc_limb_0"),
-            (0, "stored_ret_pc_limb_1"),
-            (0, "stored_ret_pc_limb_2"),
-            (0, "stored_ret_pc_limb_3"),
-            (0, "partial_limb_msb"),
-            (3, "distance_to_next_pc_id"),
-            (1, "msb"),
-            (1, "mid_limbs_set"),
-            (496, "distance_to_next_pc_limb_0"),
-            (511, "distance_to_next_pc_limb_1"),
-            (511, "distance_to_next_pc_limb_2"),
-            (3, "remainder_bits"),
-            (1, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test(false, None, -17, [50, 200, 150]);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (1, "stored_fp_id"),
+        (150, "stored_fp_limb_0"),
+        (0, "stored_fp_limb_1"),
+        (0, "stored_fp_limb_2"),
+        (0, "stored_fp_limb_3"),
+        (0, "partial_limb_msb"),
+        (2, "stored_ret_pc_id"),
+        (52, "stored_ret_pc_limb_0"),
+        (0, "stored_ret_pc_limb_1"),
+        (0, "stored_ret_pc_limb_2"),
+        (0, "stored_ret_pc_limb_3"),
+        (0, "partial_limb_msb"),
+        (3, "distance_to_next_pc_id"),
+        (1, "msb"),
+        (1, "mid_limbs_set"),
+        (496, "distance_to_next_pc_limb_0"),
+        (511, "distance_to_next_pc_limb_1"),
+        (511, "distance_to_next_pc_limb_2"),
+        (3, "remainder_bits"),
+        (1, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 fn test_call_base_fp_positive_offset2() {
-    build_and_test(
-        true,
-        Some(5),
-        600,
-        [50, 200, 150],
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32773, "offset2"),
-            (1, "op1_base_fp"),
-            (1, "stored_fp_id"),
-            (150, "stored_fp_limb_0"),
-            (0, "stored_fp_limb_1"),
-            (0, "stored_fp_limb_2"),
-            (0, "stored_fp_limb_3"),
-            (0, "partial_limb_msb"),
-            (2, "stored_ret_pc_id"),
-            (51, "stored_ret_pc_limb_0"),
-            (0, "stored_ret_pc_limb_1"),
-            (0, "stored_ret_pc_limb_2"),
-            (0, "stored_ret_pc_limb_3"),
-            (0, "partial_limb_msb"),
-            (150, "mem1_base"),
-            (3, "next_pc_id"),
-            (88, "next_pc_limb_0"),
-            (1, "next_pc_limb_1"),
-            (0, "next_pc_limb_2"),
-            (0, "next_pc_limb_3"),
-            (0, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test(true, Some(5), 600, [50, 200, 150]);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32773, "offset2"),
+        (1, "op1_base_fp"),
+        (1, "stored_fp_id"),
+        (150, "stored_fp_limb_0"),
+        (0, "stored_fp_limb_1"),
+        (0, "stored_fp_limb_2"),
+        (0, "stored_fp_limb_3"),
+        (0, "partial_limb_msb"),
+        (2, "stored_ret_pc_id"),
+        (51, "stored_ret_pc_limb_0"),
+        (0, "stored_ret_pc_limb_1"),
+        (0, "stored_ret_pc_limb_2"),
+        (0, "stored_ret_pc_limb_3"),
+        (0, "partial_limb_msb"),
+        (150, "mem1_base"),
+        (3, "next_pc_id"),
+        (88, "next_pc_limb_0"),
+        (1, "next_pc_limb_1"),
+        (0, "next_pc_limb_2"),
+        (0, "next_pc_limb_3"),
+        (0, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 fn test_call_base_fp_negative_offset2() {
-    build_and_test(
-        true,
-        Some(-5),
-        400,
-        [50, 200, 150],
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32763, "offset2"),
-            (1, "op1_base_fp"),
-            (1, "stored_fp_id"),
-            (150, "stored_fp_limb_0"),
-            (0, "stored_fp_limb_1"),
-            (0, "stored_fp_limb_2"),
-            (0, "stored_fp_limb_3"),
-            (0, "partial_limb_msb"),
-            (2, "stored_ret_pc_id"),
-            (51, "stored_ret_pc_limb_0"),
-            (0, "stored_ret_pc_limb_1"),
-            (0, "stored_ret_pc_limb_2"),
-            (0, "stored_ret_pc_limb_3"),
-            (0, "partial_limb_msb"),
-            (150, "mem1_base"),
-            (3, "next_pc_id"),
-            (400, "next_pc_limb_0"),
-            (0, "next_pc_limb_1"),
-            (0, "next_pc_limb_2"),
-            (0, "next_pc_limb_3"),
-            (0, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test(true, Some(-5), 400, [50, 200, 150]);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32763, "offset2"),
+        (1, "op1_base_fp"),
+        (1, "stored_fp_id"),
+        (150, "stored_fp_limb_0"),
+        (0, "stored_fp_limb_1"),
+        (0, "stored_fp_limb_2"),
+        (0, "stored_fp_limb_3"),
+        (0, "partial_limb_msb"),
+        (2, "stored_ret_pc_id"),
+        (51, "stored_ret_pc_limb_0"),
+        (0, "stored_ret_pc_limb_1"),
+        (0, "stored_ret_pc_limb_2"),
+        (0, "stored_ret_pc_limb_3"),
+        (0, "partial_limb_msb"),
+        (150, "mem1_base"),
+        (3, "next_pc_id"),
+        (400, "next_pc_limb_0"),
+        (0, "next_pc_limb_1"),
+        (0, "next_pc_limb_2"),
+        (0, "next_pc_limb_3"),
+        (0, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 fn test_call_base_ap_positive_offset2() {
-    build_and_test(
-        false,
-        Some(10),
-        1234,
-        [50, 200, 150],
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32778, "offset2"),
-            (0, "op1_base_fp"),
-            (1, "stored_fp_id"),
-            (150, "stored_fp_limb_0"),
-            (0, "stored_fp_limb_1"),
-            (0, "stored_fp_limb_2"),
-            (0, "stored_fp_limb_3"),
-            (0, "partial_limb_msb"),
-            (2, "stored_ret_pc_id"),
-            (51, "stored_ret_pc_limb_0"),
-            (0, "stored_ret_pc_limb_1"),
-            (0, "stored_ret_pc_limb_2"),
-            (0, "stored_ret_pc_limb_3"),
-            (0, "partial_limb_msb"),
-            (200, "mem1_base"),
-            (3, "next_pc_id"),
-            (210, "next_pc_limb_0"),
-            (2, "next_pc_limb_1"),
-            (0, "next_pc_limb_2"),
-            (0, "next_pc_limb_3"),
-            (0, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test(false, Some(10), 1234, [50, 200, 150]);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32778, "offset2"),
+        (0, "op1_base_fp"),
+        (1, "stored_fp_id"),
+        (150, "stored_fp_limb_0"),
+        (0, "stored_fp_limb_1"),
+        (0, "stored_fp_limb_2"),
+        (0, "stored_fp_limb_3"),
+        (0, "partial_limb_msb"),
+        (2, "stored_ret_pc_id"),
+        (51, "stored_ret_pc_limb_0"),
+        (0, "stored_ret_pc_limb_1"),
+        (0, "stored_ret_pc_limb_2"),
+        (0, "stored_ret_pc_limb_3"),
+        (0, "partial_limb_msb"),
+        (200, "mem1_base"),
+        (3, "next_pc_id"),
+        (210, "next_pc_limb_0"),
+        (2, "next_pc_limb_1"),
+        (0, "next_pc_limb_2"),
+        (0, "next_pc_limb_3"),
+        (0, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 fn test_call_base_ap_negative_offset2() {
-    build_and_test(
-        false,
-        Some(-10),
-        55,
-        [50, 200, 150],
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32758, "offset2"),
-            (0, "op1_base_fp"),
-            (1, "stored_fp_id"),
-            (150, "stored_fp_limb_0"),
-            (0, "stored_fp_limb_1"),
-            (0, "stored_fp_limb_2"),
-            (0, "stored_fp_limb_3"),
-            (0, "partial_limb_msb"),
-            (2, "stored_ret_pc_id"),
-            (51, "stored_ret_pc_limb_0"),
-            (0, "stored_ret_pc_limb_1"),
-            (0, "stored_ret_pc_limb_2"),
-            (0, "stored_ret_pc_limb_3"),
-            (0, "partial_limb_msb"),
-            (200, "mem1_base"),
-            (3, "next_pc_id"),
-            (55, "next_pc_limb_0"),
-            (0, "next_pc_limb_1"),
-            (0, "next_pc_limb_2"),
-            (0, "next_pc_limb_3"),
-            (0, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test(false, Some(-10), 55, [50, 200, 150]);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32758, "offset2"),
+        (0, "op1_base_fp"),
+        (1, "stored_fp_id"),
+        (150, "stored_fp_limb_0"),
+        (0, "stored_fp_limb_1"),
+        (0, "stored_fp_limb_2"),
+        (0, "stored_fp_limb_3"),
+        (0, "partial_limb_msb"),
+        (2, "stored_ret_pc_id"),
+        (51, "stored_ret_pc_limb_0"),
+        (0, "stored_ret_pc_limb_1"),
+        (0, "stored_ret_pc_limb_2"),
+        (0, "stored_ret_pc_limb_3"),
+        (0, "partial_limb_msb"),
+        (200, "mem1_base"),
+        (3, "next_pc_id"),
+        (55, "next_pc_limb_0"),
+        (0, "next_pc_limb_1"),
+        (0, "next_pc_limb_2"),
+        (0, "next_pc_limb_3"),
+        (0, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 pub fn assemble_call(offset2: i16, flags: &Flags, op1_base_fp: bool) -> u128 {

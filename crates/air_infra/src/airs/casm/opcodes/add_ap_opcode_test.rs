@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::add_ap_opcode::*;
@@ -9,7 +11,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_add_ap_negative_imm() {
@@ -61,7 +62,7 @@ fn test_add_ap_negative_imm() {
     assert_eq!(next_state.ap().calc(), (ap - 1).to_string());
 
     // Check the state
-    let expected_state = vec![
+    expect![[r#"
         (30, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -78,9 +79,8 @@ fn test_add_ap_negative_imm() {
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
         (10, "range_check_ap_bot11bits"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -138,7 +138,7 @@ fn test_add_ap_deref_base_fp() {
     assert_eq!(next_state.ap().calc(), (ap + op1 as u32).to_string());
 
     // Check the state
-    let expected_state = vec![
+    expect![[r#"
         (30, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -155,9 +155,8 @@ fn test_add_ap_deref_base_fp() {
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
         (310, "range_check_ap_bot11bits"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

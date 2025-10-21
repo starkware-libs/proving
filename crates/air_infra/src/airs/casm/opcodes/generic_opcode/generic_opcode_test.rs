@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
@@ -17,7 +19,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_generic_consistency_rel_call() {
@@ -72,7 +73,7 @@ fn test_generic_consistency_rel_call() {
     assert_eq!(expected_output.calc(), output.calc());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -316,9 +317,8 @@ fn test_generic_consistency_rel_call() {
         (202, "next_ap"),
         (202, "range_check_ap_bot11bits"),
         (202, "next_fp"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -462,7 +462,7 @@ fn test_generic_consistency_ret() {
     assert_eq!(expected_output.calc(), output.calc());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -706,9 +706,8 @@ fn test_generic_consistency_ret() {
         (11, "next_ap"),
         (11, "range_check_ap_bot11bits"),
         (4, "next_fp"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -779,7 +778,7 @@ fn test_generic_consistency_assert_equal() {
     assert_eq!(expected_output.calc(), output.calc());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -1023,9 +1022,8 @@ fn test_generic_consistency_assert_equal() {
         (11, "next_ap"),
         (11, "range_check_ap_bot11bits"),
         (6, "next_fp"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -1090,7 +1088,7 @@ fn test_generic_consistency_jump() {
     assert_eq!(expected_output.calc(), output.calc());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -1334,9 +1332,8 @@ fn test_generic_consistency_jump() {
         (11, "next_ap"),
         (11, "range_check_ap_bot11bits"),
         (6, "next_fp"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -1511,7 +1508,7 @@ fn test_generic_consistency_jnz_taken() {
     assert_eq!(expected_output.calc(), output.calc());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -1755,9 +1752,8 @@ fn test_generic_consistency_jnz_taken() {
         (200, "next_ap"),
         (200, "range_check_ap_bot11bits"),
         (150, "next_fp"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -1818,7 +1814,7 @@ fn test_generic_consistency_jnz_not_taken() {
     assert_eq!(expected_output.calc(), output.calc());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -2062,9 +2058,8 @@ fn test_generic_consistency_jnz_not_taken() {
         (200, "next_ap"),
         (200, "range_check_ap_bot11bits"),
         (150, "next_fp"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

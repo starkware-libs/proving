@@ -8,7 +8,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_round_keys() {
@@ -34,8 +33,7 @@ fn test_round_keys() {
         assert_eq!(out.calc(), exp_out.calc());
     }
 
-    let expected_state = vec![].into();
-    assert_expected_state(&state, &expected_state);
+    assert!(state.is_empty());
 }
 
 #[test]

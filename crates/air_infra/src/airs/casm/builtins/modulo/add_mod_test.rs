@@ -1,6 +1,7 @@
 use std::array::from_fn;
 
 use compiled_casm_air::public_params::PublicParam;
+use expect_test::expect;
 
 use super::add_mod::*;
 use super::mod_utils::*;
@@ -13,7 +14,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::*;
-use crate::utils::test_utils::*;
 
 type BigInt = [u128; MOD_BUILTIN_N_WORDS];
 
@@ -248,7 +248,7 @@ fn data_unravel_2d_252(data: [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 3]) -> Vec<Fel
     data.iter().flatten().cloned().collect::<Vec<_>>()
 }
 
-fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<Vec<State>>) {
+fn run_add_mod_builtin(instances: Vec<AddModInstance>) -> Vec<State> {
     let segment_start = 200;
     let mut memory_addr_to_vals = vec![];
     for (ind, instance) in instances.iter().enumerate() {
@@ -317,12 +317,7 @@ fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<V
         state_per_instance.push(curr_state);
     }
 
-    // check states
-    if let Some(expected_states) = expected_states {
-        for (i, state) in state_per_instance.iter().enumerate() {
-            assert_expected_state(state, &expected_states[i]);
-        }
-    }
+    state_per_instance
 }
 
 fn sequence_from_bank(
@@ -378,7 +373,7 @@ impl AddModInstance {
 fn test_add_mod_builtin_on_abcp_bank() {
     let mut instances = sequence_from_bank(0, 1, VALID_ABCP_BANK[0].1.len(), 600, 1000);
     instances.extend(sequence_from_bank(1, 0, 4, 1400, 1900));
-    run_add_mod_builtin(instances, None);
+    run_add_mod_builtin(instances);
 }
 
 #[test]
@@ -389,7 +384,7 @@ fn test_add_mod_builtin_on_distorted_n() {
         instance.distort("n", 1, 0);
     }
     instances.extend(sequence_from_bank(1, 0, 4, 1400, 1900));
-    run_add_mod_builtin(instances, None);
+    run_add_mod_builtin(instances);
 }
 
 #[test]
@@ -397,12 +392,15 @@ fn test_add_mod_builtin_on_distorted_n() {
 fn test_add_mod_builtin_on_distorted_abcp() {
     let mut instances = sequence_from_bank(0, 1, 2, 600, 1000);
     instances[0].distort("b", 1, 2);
-    run_add_mod_builtin(instances, None);
+    run_add_mod_builtin(instances);
 }
 
 #[test]
 fn test_add_mod_builtin_state() {
-    let expected_states = vec![vec![
+    let instances = sequence_from_bank(0, 2, 3, 550, 1050);
+    let state = run_add_mod_builtin(instances);
+
+    expect![[r#"
         (1, "is_instance_0"),
         (3, "p0_id"),
         (355, "p0_limb_0"),
@@ -670,8 +668,6 @@ fn test_add_mod_builtin_state() {
         (0, "carry_11"),
         (0, "carry_12"),
         (2147483646, "carry_13"),
-    ]
-    .into()];
-    let instances = sequence_from_bank(0, 2, 3, 550, 1050);
-    run_add_mod_builtin(instances, Some(expected_states));
+    "#]]
+    .assert_eq(&state[0].to_string());
 }

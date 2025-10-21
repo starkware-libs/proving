@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::add252::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_add252_no_overflow() {
@@ -23,7 +24,8 @@ fn test_add252_no_overflow() {
         output.calc(),
         const_felt252_expr!(0x3000040002u128, 0u128).calc()
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (2, "add_res_limb_0"),
         (0, "add_res_limb_1"),
         (1, "add_res_limb_2"),
@@ -53,9 +55,8 @@ fn test_add252_no_overflow() {
         (0, "add_res_limb_26"),
         (0, "add_res_limb_27"),
         (0, "sub_p_bit"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -78,7 +79,8 @@ fn test_add252_with_overflow() {
         )
         .calc()
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (511, "add_res_limb_0"),
         (511, "add_res_limb_1"),
         (511, "add_res_limb_2"),
@@ -108,7 +110,6 @@ fn test_add252_with_overflow() {
         (511, "add_res_limb_26"),
         (255, "add_res_limb_27"),
         (1, "sub_p_bit"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

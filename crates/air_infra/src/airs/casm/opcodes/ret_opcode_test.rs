@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::ret_opcode::*;
@@ -6,7 +8,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
 pub fn assemble_ret() -> u128 {
@@ -53,7 +54,7 @@ fn test_ret_opcode() {
     assert_eq!(output.pc().calc(), saved_pc.to_string());
     assert_eq!(output.fp().calc(), saved_fp.to_string());
     assert_eq!(output.ap().calc(), ap_value.to_string());
-    let expected_state = vec![
+    expect![[r#"
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -69,7 +70,6 @@ fn test_ret_opcode() {
         (0, "next_fp_limb_2"),
         (0, "next_fp_limb_3"),
         (0, "partial_limb_msb"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_inst::*;
@@ -9,7 +11,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_inst() {
@@ -42,26 +43,26 @@ fn test_verify_inst() {
             OpcodeExtension::Stone.into(),
         ),
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (0, "input_pc"),
-        (0x8001, "input_offset0"),
-        (0x7fff, "input_offset1"),
-        (0x8002, "input_offset2"),
-        (0x50, "input_inst_felt5_high"),
-        (0x11a, "input_inst_felt6"),
+        (32769, "input_offset0"),
+        (32767, "input_offset1"),
+        (32770, "input_offset2"),
+        (80, "input_inst_felt5_high"),
+        (282, "input_inst_felt6"),
         (0, "input_opcode_extension"),
         (1, "offset0_low"),
-        (0x40, "offset0_mid"),
+        (64, "offset0_mid"),
         (3, "offset1_low"),
-        (0x1ff, "offset1_mid"),
-        (0xf, "offset1_high"),
+        (511, "offset1_mid"),
+        (15, "offset1_high"),
         (2, "offset2_low"),
         (0, "offset2_mid"),
         (4, "offset2_high"),
         (0, "instruction_id"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 2], [i16; 3], [FeltExpr; 3]) {

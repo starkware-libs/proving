@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::linear_combination::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_linear_combination_for_x() {
@@ -29,7 +30,7 @@ fn test_linear_combination_for_x() {
         output.calc(),
         const_felt252_expr!(0xcu128, 0x3000000000000330000000000000000u128).calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (12, "combination_limb_0"),
         (0, "combination_limb_1"),
         (0, "combination_limb_2"),
@@ -41,9 +42,8 @@ fn test_linear_combination_for_x() {
         (0, "combination_limb_8"),
         (96, "combination_limb_9"),
         (2147483644, "p_coef"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (state, output) = registry.run_air(
         &air_fn,
@@ -75,7 +75,7 @@ fn test_linear_combination_for_x() {
         )
         .calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (134217720, "combination_limb_0"),
         (134217727, "combination_limb_1"),
         (134217727, "combination_limb_2"),
@@ -87,9 +87,8 @@ fn test_linear_combination_for_x() {
         (134217727, "combination_limb_8"),
         (159, "combination_limb_9"),
         (2, "p_coef"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -116,7 +115,7 @@ fn test_linear_combination_for_part_round() {
         output.calc(),
         const_felt252_expr!(0x20u128, 0x1000000000000110000000000000000u128).calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (32, "combination_limb_0"),
         (0, "combination_limb_1"),
         (0, "combination_limb_2"),
@@ -128,9 +127,9 @@ fn test_linear_combination_for_part_round() {
         (0, "combination_limb_8"),
         (32, "combination_limb_9"),
         (2147483646, "p_coef"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
+
     let (state, output) = registry.run_air(
         &air_fn,
         (),
@@ -166,7 +165,7 @@ fn test_linear_combination_for_part_round() {
         )
         .calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (134217709, "combination_limb_0"),
         (134217727, "combination_limb_1"),
         (134217727, "combination_limb_2"),
@@ -178,7 +177,6 @@ fn test_linear_combination_for_part_round() {
         (134217727, "combination_limb_8"),
         (191, "combination_limb_9"),
         (8, "p_coef"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

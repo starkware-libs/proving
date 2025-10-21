@@ -1,9 +1,10 @@
+use expect_test::expect;
+
 use super::verify_mul252::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_mul252_no_overflow() {
@@ -18,7 +19,7 @@ fn test_verify_mul252_no_overflow() {
             const_felt252_expr!(0x2008020003400040001u128, 0u128),
         ],
     );
-    let expected_state = vec![
+    expect![[r#"
         (0, "k"),
         (0, "carry_0"),
         (32, "carry_1"),
@@ -47,9 +48,8 @@ fn test_verify_mul252_no_overflow() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -68,7 +68,8 @@ fn test_verify_mul252_with_overflow() {
             ),
         ],
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (540, "k"),
         (2, "carry_0"),
         (2147483619, "carry_1"),
@@ -97,9 +98,8 @@ fn test_verify_mul252_with_overflow() {
         (2147483645, "carry_24"),
         (2147483645, "carry_25"),
         (8190, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -119,7 +119,8 @@ fn test_verify_mul252_with_overflow() {
             ),
         ],
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (18932, "k"),
         (2147475443, "carry_0"),
         (2498, "carry_1"),
@@ -148,9 +149,8 @@ fn test_verify_mul252_with_overflow() {
         (68470, "carry_24"),
         (37810, "carry_25"),
         (15342, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -170,7 +170,8 @@ fn test_verify_mul252_with_overflow() {
             ),
         ],
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (7240, "k"),
         (2147472679, "carry_0"),
         (2147469618, "carry_1"),
@@ -199,9 +200,8 @@ fn test_verify_mul252_with_overflow() {
         (19428, "carry_24"),
         (7904, "carry_25"),
         (2290, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -220,8 +220,9 @@ fn test_verify_mul252_with_overflow_negative_k() {
             ),
         ],
     );
-    let expected_state = vec![
-        (2147483643, "k"), // -4
+
+    expect![[r#"
+        (2147483643, "k"),
         (2147483631, "carry_0"),
         (2147483640, "carry_1"),
         (0, "carry_2"),
@@ -249,9 +250,8 @@ fn test_verify_mul252_with_overflow_negative_k() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -265,8 +265,9 @@ fn test_verify_mul252_with_overflow_negative_k() {
             ),
         ],
     );
-    let expected_state = vec![
-        (2147479563, "k"), // -4084
+
+    expect![[r#"
+        (2147479563, "k"),
         (2147483639, "carry_0"),
         (2147483640, "carry_1"),
         (2147483620, "carry_2"),
@@ -294,9 +295,8 @@ fn test_verify_mul252_with_overflow_negative_k() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -310,8 +310,9 @@ fn test_verify_mul252_with_overflow_negative_k() {
             ),
         ],
     );
-    let expected_state = vec![
-        (2147457211, "k"), // -26624
+
+    expect![[r#"
+        (2147457211, "k"),
         (24533, "carry_0"),
         (20423, "carry_1"),
         (16335, "carry_2"),
@@ -339,7 +340,6 @@ fn test_verify_mul252_with_overflow_negative_k() {
         (94092, "carry_24"),
         (58322, "carry_25"),
         (22552, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

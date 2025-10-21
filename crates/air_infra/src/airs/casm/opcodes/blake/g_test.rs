@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::g::*;
 // Macros
 use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_g1() {
@@ -29,7 +30,7 @@ fn test_g1() {
     assert_eq!(output[3].calc(), "3638212488");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (22136, "input_limb_0"),
         (4660, "input_limb_1"),
         (65535, "input_limb_2"),
@@ -82,9 +83,8 @@ fn test_g1() {
         (443, "xor"),
         (104, "xor"),
         (288, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -110,7 +110,7 @@ fn test_g2() {
     assert_eq!(output[3].calc(), "1063654435");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (9365, "input_limb_0"),
         (56368, "input_limb_1"),
         (12847, "input_limb_2"),
@@ -163,7 +163,6 @@ fn test_g2() {
         (463, "xor"),
         (16, "xor"),
         (334, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

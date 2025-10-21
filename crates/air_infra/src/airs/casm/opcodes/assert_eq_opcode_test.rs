@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::assert_eq_opcode::*;
@@ -10,176 +12,129 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 // [fp + offset] == [ap + offset]
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_assert_not_eq_deref() {
-    test_assert_equal(
-        [true, false, false, false, true, false],
-        1,
-        4,
-        2,
-        vec![].into(),
-    );
+    test_assert_equal([true, false, false, false, true, false], 1, 4, 2);
 }
 
 // [ap + offset] == imm
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_assert_not_eq_imm() {
-    test_assert_equal(
-        [false, false, true, false, false, false],
-        3,
-        4,
-        5,
-        vec![].into(),
-    );
+    test_assert_equal([false, false, true, false, false, false], 3, 4, 5);
 }
 
 // [ap + offset] == [[fp + offset] + offset]
 #[test]
 #[should_panic]
 fn test_assert_not_eq_double_deref() {
-    test_assert_equal(
-        [false, true, false, false, false, false],
-        15,
-        6,
-        16,
-        vec![].into(),
-    );
+    test_assert_equal([false, true, false, false, false, false], 15, 6, 16);
 }
 
 #[test]
 fn test_assert_eq_double_deref_big_op0() {
-    test_assert_equal(
-        [true, false, false, false, false, false],
-        15,
-        1546487,
-        15,
-        vec![
-            (3, "input_pc"),
-            (11, "input_ap"),
-            (6, "input_fp"),
-            (32771, "offset0"),
-            (32775, "offset1"),
-            (32770, "offset2"),
-            (1, "dst_base_fp"),
-            (0, "op0_base_fp"),
-            (0, "ap_update_add_1"),
-            (6, "mem_dst_base"),
-            (11, "mem0_base"),
-            (2, "mem1_base_id"),
-            (247, "mem1_base_limb_0"),
-            (460, "mem1_base_limb_1"),
-            (5, "mem1_base_limb_2"),
-            (0, "mem1_base_limb_3"),
-            (0, "partial_limb_msb"),
-            (1, "dst_id"),
-        ]
-        .into(),
-    );
+    let state = test_assert_equal([true, false, false, false, false, false], 15, 1546487, 15);
+
+    expect![[r#"
+        (3, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
+        (32771, "offset0"),
+        (32775, "offset1"),
+        (32770, "offset2"),
+        (1, "dst_base_fp"),
+        (0, "op0_base_fp"),
+        (0, "ap_update_add_1"),
+        (6, "mem_dst_base"),
+        (11, "mem0_base"),
+        (2, "mem1_base_id"),
+        (247, "mem1_base_limb_0"),
+        (460, "mem1_base_limb_1"),
+        (5, "mem1_base_limb_2"),
+        (0, "mem1_base_limb_3"),
+        (0, "partial_limb_msb"),
+        (1, "dst_id"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_assert_not_eq_double_deref_big_op0() {
-    test_assert_equal(
-        [true, false, false, false, false, false],
-        15,
-        454687,
-        78,
-        vec![].into(),
-    );
+    test_assert_equal([true, false, false, false, false, false], 15, 454687, 78);
 }
 
 // [ap + offset] == [fp + offset]
 #[test]
 fn test_assert_eq_deref() {
-    test_assert_equal(
-        [false, false, false, true, false, false],
-        15,
-        4,
-        15,
-        vec![
-            (3, "input_pc"),
-            (11, "input_ap"),
-            (6, "input_fp"),
-            (32771, "offset0"),
-            (32770, "offset2"),
-            (0, "dst_base_fp"),
-            (1, "op1_base_fp"),
-            (0, "ap_update_add_1"),
-            (11, "mem_dst_base"),
-            (6, "mem1_base"),
-            (1, "dst_id"),
-        ]
-        .into(),
-    );
+    let state = test_assert_equal([false, false, false, true, false, false], 15, 4, 15);
+
+    expect![[r#"
+        (3, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
+        (32771, "offset0"),
+        (32770, "offset2"),
+        (0, "dst_base_fp"),
+        (1, "op1_base_fp"),
+        (0, "ap_update_add_1"),
+        (11, "mem_dst_base"),
+        (6, "mem1_base"),
+        (1, "dst_id"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 // [fp + offset] == imm
 #[test]
 fn test_assert_eq_imm() {
-    test_assert_equal(
-        [true, false, true, false, false, false],
-        15,
-        4,
-        15,
-        vec![
-            (3, "input_pc"),
-            (11, "input_ap"),
-            (6, "input_fp"),
-            (32771, "offset0"),
-            (1, "dst_base_fp"),
-            (0, "ap_update_add_1"),
-            (6, "mem_dst_base"),
-            (1, "dst_id"),
-        ]
-        .into(),
-    );
+    let state = test_assert_equal([true, false, true, false, false, false], 15, 4, 15);
+
+    expect![[r#"
+        (3, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
+        (32771, "offset0"),
+        (1, "dst_base_fp"),
+        (0, "ap_update_add_1"),
+        (6, "mem_dst_base"),
+        (1, "dst_id"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 // [fp + offset] == [[ap + offset] + offset]
 #[test]
 fn test_assert_eq_double_deref() {
-    test_assert_equal(
-        [true, false, false, false, false, false],
-        15,
-        4,
-        15,
-        vec![
-            (3, "input_pc"),
-            (11, "input_ap"),
-            (6, "input_fp"),
-            (32771, "offset0"),
-            (32775, "offset1"),
-            (32770, "offset2"),
-            (1, "dst_base_fp"),
-            (0, "op0_base_fp"),
-            (0, "ap_update_add_1"),
-            (6, "mem_dst_base"),
-            (11, "mem0_base"),
-            (2, "mem1_base_id"),
-            (4, "mem1_base_limb_0"),
-            (0, "mem1_base_limb_1"),
-            (0, "mem1_base_limb_2"),
-            (0, "mem1_base_limb_3"),
-            (0, "partial_limb_msb"),
-            (1, "dst_id"),
-        ]
-        .into(),
-    );
+    let state = test_assert_equal([true, false, false, false, false, false], 15, 4, 15);
+
+    expect![[r#"
+        (3, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
+        (32771, "offset0"),
+        (32775, "offset1"),
+        (32770, "offset2"),
+        (1, "dst_base_fp"),
+        (0, "op0_base_fp"),
+        (0, "ap_update_add_1"),
+        (6, "mem_dst_base"),
+        (11, "mem0_base"),
+        (2, "mem1_base_id"),
+        (4, "mem1_base_limb_0"),
+        (0, "mem1_base_limb_1"),
+        (0, "mem1_base_limb_2"),
+        (0, "mem1_base_limb_3"),
+        (0, "partial_limb_msb"),
+        (1, "dst_id"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
-fn test_assert_equal(
-    non_consts_flags: [bool; 6],
-    dst: u128,
-    op0: u128,
-    op1: u128,
-    expected_state: State,
-) {
+fn test_assert_equal(non_consts_flags: [bool; 6], dst: u128, op0: u128, op1: u128) -> State {
     // Read the non-constant flags
     let [flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
         non_consts_flags;
@@ -298,6 +253,5 @@ fn test_assert_equal(
         assert_eq!(next_state.pc().var.calc(), (pc_value + 1).to_string());
     };
 
-    // Check state
-    assert_expected_state(&state, &expected_state);
+    state
 }

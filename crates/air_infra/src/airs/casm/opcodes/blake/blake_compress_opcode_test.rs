@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::decode_blake_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
@@ -11,7 +13,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[allow(clippy::too_many_arguments)]
 fn test_blake(
@@ -146,7 +147,7 @@ fn test_blake_opcode() {
     assert_eq!(output.ap().calc(), (ap + 1).to_string());
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -320,9 +321,8 @@ fn test_blake_opcode() {
         (3529, "high_14_ms_bits"),
         (6, "high_5_ms_bits"),
         (18, "new_state_7_id"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
