@@ -1,7 +1,7 @@
 use expect_test::expect;
 
 use crate::airs::casm::casm_state::*;
-use crate::airs::casm::opcodes::blake::read_blake_word::*;
+use crate::airs::casm::opcodes::blake::read_u32::*;
 use crate::const_expr;
 // Macros
 use crate::const_felt252_expr;
@@ -12,8 +12,8 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
 
 #[test]
-fn test_read_blake_word() {
-    let mut air_fn = ReadBlakeWord::default();
+fn test_read_u32() {
+    let mut air_fn = ReadU32::default();
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     // Fill memory
@@ -24,11 +24,11 @@ fn test_read_blake_word() {
 
     air_fn.memory = Felt252IdMemory::new_with_data(memory_values);
 
-    let (_, output) = registry.run_air(&air_fn, (), CasmAddress::new(const_expr!(13), "word0"));
+    let (_, output) = registry.run_air(&air_fn, (), CasmAddress::new(const_expr!(13), "u32_0"));
     // Check output.
     assert_eq!(output.calc(), "2896667555");
 
-    let (state, output) = registry.run_air(&air_fn, (), CasmAddress::new(const_expr!(14), "word1"));
+    let (state, output) = registry.run_air(&air_fn, (), CasmAddress::new(const_expr!(14), "u32_1"));
     // Check output.
     assert_eq!(output.calc(), "1899217055");
 
@@ -39,15 +39,15 @@ fn test_read_blake_word() {
         (96, "low_7_ms_bits"),
         (7244, "high_14_ms_bits"),
         (14, "high_5_ms_bits"),
-        (1, "word1_id"),
+        (1, "u32_1_id"),
     "#]]
     .assert_eq(&state.to_string());
 }
 
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 1: RangeCheck2 on input 65538")]
-fn test_fail_read_blake_word() {
-    let mut air_fn = ReadBlakeWord::default();
+fn test_fail_read_u32() {
+    let mut air_fn = ReadU32::default();
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     // Fill memory
@@ -58,5 +58,5 @@ fn test_fail_read_blake_word() {
 
     air_fn.memory = Felt252IdMemory::new_with_data(memory_values);
 
-    registry.run_air(&air_fn, (), CasmAddress::new(const_expr!(678), "word0"));
+    registry.run_air(&air_fn, (), CasmAddress::new(const_expr!(678), "u32"));
 }

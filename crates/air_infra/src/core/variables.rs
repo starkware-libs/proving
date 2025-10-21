@@ -636,7 +636,7 @@ impl_air_var!((Addresses<const N: usize>, Felt252Expr));
 // Felt252UnpackFrom27 + RangeCheckFelt252Width27 + Cube252 + LinearCombination +
 // PoseidonHadesPermutation
 impl_air_var!([Felt252Width27Expr]);
-// VerifyBlakeWord
+// VerifyU32
 impl_air_var!((CasmAddress, UInt32Expr));
 // CreateBlakeRoundInput
 impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));

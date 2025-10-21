@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use super::read_blake_word::*;
+use super::read_u32::*;
 use super::round::*;
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::casm_state::*;
@@ -48,7 +48,7 @@ impl AirFn for CreateBlakeRoundInput {
         (h_pointer, t, is_last_block): Self::In,
     ) -> Self::Out {
         let mut state = vec![];
-        let read_blake_word = &ReadBlakeWord {
+        let read_u32 = &ReadU32 {
             memory: self.memory.clone(),
         };
 
@@ -58,7 +58,7 @@ impl AirFn for CreateBlakeRoundInput {
                 h_pointer.var.clone() + const_expr!(i),
                 &format!("state_{}", i),
             );
-            state.push(air_builder.call(read_blake_word, current_addr));
+            state.push(air_builder.call(read_u32, current_addr));
         }
 
         for (i, iv) in IV.iter().enumerate() {

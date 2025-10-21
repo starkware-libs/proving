@@ -14,16 +14,16 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::verify::*;
 
 #[derive(Debug, Serialize, Default)]
-pub struct VerifyBlakeWord {
+pub struct VerifyU32 {
     #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
-/// Receives an address and a Blake word, range checks it and converts the word to the memory
+/// Receives an address and a UInt32Expr, range checks it and converts the word to the memory
 /// representation i.e., from a pair of 16-bit felts, through chunks of [9, 7, 2, 9, 5] bits, to a
 /// `felt252` containing 32 bits stored in chunks of sizes [9, 9, 9, 5], and verifies that this
 /// value is stored at the given address.
-impl AirFn for VerifyBlakeWord {
+impl AirFn for VerifyU32 {
     type ExtIn = ();
     type In = (CasmAddress, UInt32Expr);
     type Out = ();
@@ -37,8 +37,10 @@ impl AirFn for VerifyBlakeWord {
         // Split felt high into chunks of (2, 9, 5) from low to high.
         let high_14_ms_bits =
             air_builder.deduce_air_var(word.high() >> const_u16_expr!(2), "high_14_ms_bits");
-        let high_2_ls_bits =
-            word.high().as_felt() - high_14_ms_bits.as_felt() * const_expr!(1 << 2);
+        let high_2_ls_bits = air_builder.let_(
+            word.high().as_felt() - high_14_ms_bits.as_felt() * const_expr!(1 << 2),
+            "high_2_ls_bits",
+        );
         let high_5_ms_bits = air_builder.deduce_air_var(
             high_14_ms_bits.clone() >> const_u16_expr!(9),
             "high_5_ms_bits",

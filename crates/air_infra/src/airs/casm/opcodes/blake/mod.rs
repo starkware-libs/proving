@@ -7,9 +7,10 @@ pub mod decode_blake_opcode;
 pub mod g;
 #[cfg(test)]
 mod g_test;
-pub mod read_blake_word;
+// TODO(Stav): move to u32 utils.
+pub mod read_u32;
 #[cfg(test)]
-mod read_blake_word_test;
+mod read_u32_test;
 pub mod round;
 pub mod round_sigma;
 #[cfg(test)]
@@ -24,9 +25,10 @@ pub mod triple_sum32_test;
 pub mod triple_xor32;
 #[cfg(test)]
 mod triple_xor_test;
-mod verify_blake_word;
+// TODO(Stav): move to u32 utils.
+mod verify_u32;
 #[cfg(test)]
-mod verify_blake_word_test;
+mod verify_u32_test;
 pub mod xor_rot32;
 #[cfg(test)]
 mod xor_rot32_test;

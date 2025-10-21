@@ -4,7 +4,7 @@ use serde::Serialize;
 use super::create_blake_output::*;
 use super::decode_blake_opcode::*;
 use super::round::*;
-use super::verify_blake_word::*;
+use super::verify_u32::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::create_blake_round_input::*;
 // Macros
@@ -62,7 +62,7 @@ impl AirFn for BlakeCompressOpcode {
         let expected_output = ab.call(&CreateBlakeOutput {}, (h, new_state.clone()));
 
         // Verify blake output.
-        let verify_blake_word = &VerifyBlakeWord {
+        let verify_u32 = &VerifyU32 {
             memory: self.memory.clone(),
         };
         for i in 0..8 {
@@ -71,7 +71,7 @@ impl AirFn for BlakeCompressOpcode {
                 &format!("new_state_{}", i),
             );
             ab.call(
-                verify_blake_word,
+                verify_u32,
                 (current_addr, expected_output[i as usize].clone()),
             );
         }
