@@ -3,8 +3,6 @@ use std::fs;
 use compiled_casm_air::utils::dump_to_file;
 use serde::Serialize;
 
-use crate::core::state::*;
-
 pub const TEST_JSONS_EXAMPLES_DIR: &str = "src/airs/examples/test_jsons/";
 
 pub fn compare_json<T>(value: &T, file_path: &String)
@@ -31,13 +29,4 @@ where
             file_path
         );
     };
-}
-
-pub fn assert_expected_state(state: &State, expected_state: &State) {
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
 }

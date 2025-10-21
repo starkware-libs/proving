@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::partial_round::*;
 // Macros
 use crate::const_expr;
@@ -6,7 +8,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_poseidon_partial_round() {
@@ -64,7 +65,7 @@ fn test_poseidon_partial_round() {
     for (out, exp_out) in output.2.into_iter().zip(expected_output) {
         assert_eq!(out.calc(), exp_out.calc());
     }
-    let expected_state = vec![
+    expect![[r#"
         (0, "input_limb_0"),
         (4, "input_limb_1"),
         (75590768, "input_limb_2"),
@@ -233,9 +234,8 @@ fn test_poseidon_partial_round() {
         (74735611, "combination_limb_8"),
         (199, "combination_limb_9"),
         (1, "p_coef"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (_, output) = registry.run_air(
         &air_fn,

@@ -7,8 +7,6 @@ use crate::const_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
-
 pub const FELT252_MAX_LIMB: i32 = (1 << FELT252_BITS_PER_WORD) - 1;
 // We assume FELT252_N_WORDS is divisible by 4.
 pub const MUL252_KARATSUBA_N: usize = FELT252_N_WORDS / 4;
@@ -69,7 +67,7 @@ fn test_single_karatsuba_input_len_16() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
     }
 
-    assert_expected_state(&state, &vec![].into());
+    assert!(state.is_empty());
 }
 
 #[test]
@@ -160,7 +158,7 @@ fn test_double_karatsuba_input_len_32() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
     }
 
-    assert_expected_state(&state, &vec![].into());
+    assert!(state.is_empty());
 }
 
 #[test]
@@ -215,7 +213,7 @@ fn test_single_karatsuba_input_len_14() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
     }
 
-    assert_expected_state(&state, &vec![].into());
+    assert!(state.is_empty());
 }
 
 #[test]
@@ -298,5 +296,5 @@ fn test_double_karatsuba_input_len_28() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
     }
 
-    assert_expected_state(&state, &vec![].into());
+    assert!(state.is_empty());
 }

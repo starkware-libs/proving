@@ -1,9 +1,10 @@
+use expect_test::expect;
+
 use super::verify_add252::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_add252_no_overflow() {
@@ -18,8 +19,10 @@ fn test_verify_add252_no_overflow() {
             const_felt252_expr!(0x3000040002u128, 0u128),
         ],
     );
-    let expected_state = vec![(0, "sub_p_bit")].into();
-    assert_expected_state(&state, &expected_state);
+    expect![[r#"
+        (0, "sub_p_bit"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -38,6 +41,8 @@ fn test_verify_add252_with_overflow() {
             ),
         ],
     );
-    let expected_state = vec![(1, "sub_p_bit")].into();
-    assert_expected_state(&state, &expected_state);
+    expect![[r#"
+        (1, "sub_p_bit"),
+    "#]]
+    .assert_eq(&state.to_string());
 }

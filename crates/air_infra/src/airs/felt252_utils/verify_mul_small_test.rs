@@ -1,9 +1,10 @@
+use expect_test::expect;
+
 use super::verify_mul_small::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_mul_small_simple() {
@@ -18,8 +19,12 @@ fn test_verify_mul_small_simple() {
             const_felt252_expr!(0x20080200304004001u128, 0u128),
         ],
     );
-    let expected_state = vec![(0, "carry_1"), (16, "carry_3"), (34, "carry_5")].into();
-    assert_expected_state(&state, &expected_state);
+    expect![[r#"
+        (0, "carry_1"),
+        (16, "carry_3"),
+        (34, "carry_5"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -35,8 +40,12 @@ fn test_verify_mul_small_edge() {
             const_felt252_expr!(0xffffffffe000000001u128, 0u128),
         ],
     );
-    let expected_state = vec![(1021, "carry_1"), (2043, "carry_3"), (1022, "carry_5")].into();
-    assert_expected_state(&state, &expected_state);
+    expect![[r#"
+        (1021, "carry_1"),
+        (2043, "carry_3"),
+        (1022, "carry_5"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::triple_sum32::*;
 // Macros
 use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_triple_sum1() {
@@ -22,12 +23,11 @@ fn test_triple_sum1() {
     assert_eq!(output.calc(), "4267722649");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (18329, "triple_sum32_res_limb_0"),
         (65120, "triple_sum32_res_limb_1"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -46,12 +46,11 @@ fn test_triple_sum2() {
     assert_eq!(output.calc(), "2147581952");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (32768, "triple_sum32_res_limb_0"),
         (32769, "triple_sum32_res_limb_1"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -70,12 +69,11 @@ fn test_triple_sum3() {
     assert_eq!(output.calc(), "4294967293");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (65533, "triple_sum32_res_limb_0"),
         (65535, "triple_sum32_res_limb_1"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -94,10 +92,9 @@ fn test_pair_sum() {
     assert_eq!(output.calc(), "159741780");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (30548, "triple_sum32_res_limb_0"),
         (2437, "triple_sum32_res_limb_1"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

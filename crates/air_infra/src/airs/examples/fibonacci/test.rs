@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::fib::*;
 use crate::airs::examples::fibonacci::wide_fib::*;
 use crate::const_expr;
@@ -29,10 +31,15 @@ fn test_fibonacci() {
 
     let (state, output) = registry.run_air(&air_fn, (), const_expr!(1));
     assert_eq!(output.calc(), "866");
-    assert_eq!(
-        state,
-        vec![(1, ""), (2, ""), (5, ""), (29, ""), (866, "")].into()
-    );
+
+    expect![[r#"
+        (1, ""),
+        (2, ""),
+        (5, ""),
+        (29, ""),
+        (866, ""),
+    "#]]
+    .assert_eq(&state.to_string());
 
     // Check entry
     compare_json(

@@ -1,6 +1,4 @@
 use std::cell::{Ref, RefCell, RefMut};
-#[cfg(test)]
-use std::cmp::{Eq, PartialEq};
 use std::collections::HashMap;
 use std::fmt::Debug;
 #[cfg(test)]
@@ -12,9 +10,6 @@ use compiled_casm_air::utils::STATE_VAR_SUFFIX;
 use super::air_fn::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
-// Macros
-#[cfg(test)]
-use crate::const_expr;
 
 /// The "context" that we carry while running / building a component
 /// This is passed to, and updated by, all inline AirFns called by the component
@@ -120,42 +115,17 @@ impl State {
             .map(|(i, cell)| Self::get_cell_name(i, &cell.1))
             .collect()
     }
-}
 
-#[cfg(test)]
-impl From<Vec<(u32, &str)>> for State {
-    fn from(row: Vec<(u32, &str)>) -> Self {
-        Self {
-            row: row
-                .iter()
-                .map(|(x, desc)| {
-                    StateCell(
-                        const_expr!(*x),
-                        (!desc.is_empty()).then(|| desc.to_string()),
-                    )
-                })
-                .collect(),
-        }
-    }
-}
-
-#[cfg(test)]
-impl PartialEq for State {
-    fn eq(&self, other: &Self) -> bool {
-        if self.row.len() != other.row.len() {
-            return false;
-        }
-        self.row
-            .iter()
-            .zip(other.row.iter())
-            .all(|(a, b)| a.0.calc() == b.0.calc() && a.1 == b.1)
+    #[cfg(test)]
+    pub fn is_empty(&self) -> bool {
+        self.row.is_empty()
     }
 }
 
 #[cfg(test)]
 impl Display for State {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let mut s = "\n".to_string();
+        let mut s = String::new();
         for cell in self.row.iter() {
             s.push_str(&format!(
                 "({}, \"{}\"),\n",
@@ -166,6 +136,3 @@ impl Display for State {
         write!(f, "{}", s)
     }
 }
-
-#[cfg(test)]
-impl Eq for State {}

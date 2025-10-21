@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::read_blake_word::*;
 use crate::const_expr;
@@ -8,7 +10,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_read_blake_word() {
@@ -32,16 +33,15 @@ fn test_read_blake_word() {
     assert_eq!(output.calc(), "1899217055");
 
     // Check state.
-    let expected_state = vec![
+    expect![[r#"
         (49311, "low_16_bits"),
         (28979, "high_16_bits"),
         (96, "low_7_ms_bits"),
         (7244, "high_14_ms_bits"),
         (14, "high_5_ms_bits"),
         (1, "word1_id"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

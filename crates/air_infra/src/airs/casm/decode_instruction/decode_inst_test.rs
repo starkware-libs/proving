@@ -1,5 +1,6 @@
 use std::collections::BTreeSet;
 
+use expect_test::expect;
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
 use super::super::common::*;
@@ -14,7 +15,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 fn test_with_matching_memory(
     flags: [bool; 15],
@@ -22,8 +22,7 @@ fn test_with_matching_memory(
     offsets: [i16; 3],
     offset_const: [bool; 3],
     flag_sets_of_sum_1: BTreeSet<BTreeSet<usize>>,
-    expected_state: State,
-) {
+) -> State {
     let const_offsets = offsets
         .iter()
         .enumerate()
@@ -70,8 +69,6 @@ fn test_with_matching_memory(
     let (state, (offsets_output, flags_output, _)) =
         registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
 
-    assert_expected_state(&state, &expected_state);
-
     for (i, &offset) in offsets.iter().enumerate() {
         assert_eq!(
             offsets_output[i].calc(),
@@ -81,6 +78,8 @@ fn test_with_matching_memory(
     for (i, flag) in flags.iter().enumerate() {
         assert_eq!(flags_output[i].calc(), (*flag as u32).to_string());
     }
+
+    state
 }
 
 fn init_flags_and_offsets() -> ([bool; 15], [i16; 3]) {
@@ -111,34 +110,29 @@ fn test_no_consts() {
     let offset_const = [false; 3];
     let flag_const = [false; 15];
 
-    test_with_matching_memory(
-        flags,
-        flag_const,
-        offsets,
-        offset_const,
-        BTreeSet::new(),
-        vec![
-            (49953, "offset0"),
-            (30875, "offset1"),
-            (36026, "offset2"),
-            (0, "dst_base_fp"),
-            (1, "op0_base_fp"),
-            (0, "op1_imm"),
-            (1, "op1_base_fp"),
-            (0, "op1_base_ap"),
-            (0, "res_add"),
-            (0, "res_mul"),
-            (1, "pc_update_jump"),
-            (0, "pc_update_jump_rel"),
-            (1, "pc_update_jnz"),
-            (1, "ap_update_add"),
-            (0, "ap_update_add_1"),
-            (0, "opcode_call"),
-            (0, "opcode_ret"),
-            (1, "opcode_assert_eq"),
-        ]
-        .into(),
-    );
+    let state =
+        test_with_matching_memory(flags, flag_const, offsets, offset_const, BTreeSet::new());
+    expect![[r#"
+        (49953, "offset0"),
+        (30875, "offset1"),
+        (36026, "offset2"),
+        (0, "dst_base_fp"),
+        (1, "op0_base_fp"),
+        (0, "op1_imm"),
+        (1, "op1_base_fp"),
+        (0, "op1_base_ap"),
+        (0, "res_add"),
+        (0, "res_mul"),
+        (1, "pc_update_jump"),
+        (0, "pc_update_jump_rel"),
+        (1, "pc_update_jnz"),
+        (1, "ap_update_add"),
+        (0, "ap_update_add_1"),
+        (0, "opcode_call"),
+        (0, "opcode_ret"),
+        (1, "opcode_assert_eq"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -147,14 +141,10 @@ fn test_all_consts() {
     let offset_const = [true; 3];
     let flag_const = [true; 15];
 
-    test_with_matching_memory(
-        flags,
-        flag_const,
-        offsets,
-        offset_const,
-        BTreeSet::new(),
-        vec![].into(),
-    );
+    let state =
+        test_with_matching_memory(flags, flag_const, offsets, offset_const, BTreeSet::new());
+
+    assert!(state.is_empty());
 }
 
 #[test]
@@ -165,14 +155,15 @@ fn test_some_consts() {
     flag_const[0] = false;
     flag_const[2] = false;
 
-    test_with_matching_memory(
-        flags,
-        flag_const,
-        offsets,
-        offset_const,
-        BTreeSet::new(),
-        vec![(30875, "offset1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
-    );
+    let state =
+        test_with_matching_memory(flags, flag_const, offsets, offset_const, BTreeSet::new());
+
+    expect![[r#"
+        (30875, "offset1"),
+        (0, "dst_base_fp"),
+        (0, "op1_imm"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -189,7 +180,7 @@ fn test_flag_sets_of_sum_1() {
     flag_const[FLAG_OPCODE_RET_INDEX] = false;
     flag_const[FLAG_OPCODE_ASSERT_EQ_INDEX] = false;
 
-    test_with_matching_memory(
+    let state = test_with_matching_memory(
         flags,
         flag_const,
         offsets,
@@ -206,17 +197,18 @@ fn test_flag_sets_of_sum_1() {
                 FLAG_OPCODE_ASSERT_EQ_INDEX,
             ]),
         ]),
-        vec![
-            (30875, "offset1"),
-            (0, "dst_base_fp"),
-            (0, "op1_imm"),
-            (1, "op1_base_fp"),
-            (1, "pc_update_jump"),
-            (0, "opcode_call"),
-            (0, "opcode_ret"),
-        ]
-        .into(),
     );
+
+    expect![[r#"
+        (30875, "offset1"),
+        (0, "dst_base_fp"),
+        (0, "op1_imm"),
+        (1, "op1_base_fp"),
+        (1, "pc_update_jump"),
+        (0, "opcode_call"),
+        (0, "opcode_ret"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

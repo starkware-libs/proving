@@ -11,9 +11,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::state::*;
 use crate::core::*;
-use crate::utils::test_utils::*;
 
 type BigInt = [u128; MOD_BUILTIN_N_WORDS];
 
@@ -448,7 +446,7 @@ fn data_unravel_2d_252(data: [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 3]) -> Vec<Fel
     data.iter().flatten().cloned().collect::<Vec<_>>()
 }
 
-fn run_mul_mod_builtin(instances: Vec<ModInstance>, expected_states: Option<Vec<State>>) {
+fn run_mul_mod_builtin(instances: Vec<ModInstance>) {
     let segment_start = 400;
     let mut memory_addr_to_vals = vec![];
     for (ind, instance) in instances.iter().enumerate() {
@@ -512,17 +510,8 @@ fn run_mul_mod_builtin(instances: Vec<ModInstance>, expected_states: Option<Vec<
     );
     registry.add_entry(&mul_mod);
 
-    let mut state_per_instance = vec![];
     for row in 0..instances.len() {
-        let (curr_state, ..) = registry.run_air_with_row_number(&mul_mod, (), (), row);
-        state_per_instance.push(curr_state);
-    }
-
-    // check states
-    if let Some(expected_states) = expected_states {
-        for (i, state) in state_per_instance.iter().enumerate() {
-            assert_expected_state(state, &expected_states[i]);
-        }
+        registry.run_air_with_row_number(&mul_mod, (), (), row);
     }
 }
 
@@ -579,7 +568,7 @@ impl ModInstance {
 fn test_mul_mod_builtin_on_abcp_bank() {
     let mut instances = sequence_from_bank(0, 4, VALID_ABCP_BANK[0].1.len(), 600, 1000);
     instances.extend(sequence_from_bank(1, 0, 4, 3400, 3900));
-    run_mul_mod_builtin(instances, None);
+    run_mul_mod_builtin(instances);
 }
 
 #[test]
@@ -587,5 +576,5 @@ fn test_mul_mod_builtin_on_abcp_bank() {
 fn test_mul_mod_builtin_on_distorted_abcp() {
     let mut instances = sequence_from_bank(0, 5, 6, 600, 1000);
     instances[0].distort("a", 1, 2);
-    run_mul_mod_builtin(instances, None);
+    run_mul_mod_builtin(instances);
 }

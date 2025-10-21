@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::mul252::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_mul252_no_overflow() {
@@ -23,7 +24,7 @@ fn test_mul252_no_overflow() {
         output.calc(),
         const_felt252_expr!(0x2008020003400040001u128, 0u128).calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (1, "mul_res_limb_0"),
         (0, "mul_res_limb_1"),
         (1, "mul_res_limb_2"),
@@ -80,9 +81,8 @@ fn test_mul252_no_overflow() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]

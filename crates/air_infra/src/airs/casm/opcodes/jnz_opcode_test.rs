@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::jnz_opcode::*;
@@ -7,7 +9,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
 fn build_and_test(
@@ -15,8 +16,7 @@ fn build_and_test(
     offset_dst: i16,
     dst_value: Felt252Expr,
     op1_value: i64,
-    expected_state: State,
-) {
+) -> State {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
     let [pc, ap, fp] = [
         const_expr!(pc_value),
@@ -88,128 +88,113 @@ fn build_and_test(
 
     assert_eq!(next_state.fp().calc(), fp_value.to_string());
 
-    // Check state
-    assert_expected_state(&state, &expected_state);
+    state
 }
 
 #[test]
 fn test_jnz_not_taken_base_ap() {
-    build_and_test(
-        [false, false, false],
-        -13,
-        const_felt252_expr!(0, 0),
-        15,
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32755, "offset0"),
-            (0, "dst_base_fp"),
-            (0, "ap_update_add_1"),
-            (200, "mem_dst_base"),
-            (2, "dst_id"),
-            (0, "dst_limb_0"),
-            (0, "dst_limb_1"),
-            (0, "dst_limb_2"),
-            (0, "dst_limb_3"),
-            (0, "dst_limb_4"),
-            (0, "dst_limb_5"),
-            (0, "dst_limb_6"),
-            (0, "dst_limb_7"),
-            (0, "dst_limb_8"),
-            (0, "dst_limb_9"),
-            (0, "dst_limb_10"),
-            (0, "dst_limb_11"),
-            (0, "dst_limb_12"),
-            (0, "dst_limb_13"),
-            (0, "dst_limb_14"),
-            (0, "dst_limb_15"),
-            (0, "dst_limb_16"),
-            (0, "dst_limb_17"),
-            (0, "dst_limb_18"),
-            (0, "dst_limb_19"),
-            (0, "dst_limb_20"),
-            (0, "dst_limb_21"),
-            (0, "dst_limb_22"),
-            (0, "dst_limb_23"),
-            (0, "dst_limb_24"),
-            (0, "dst_limb_25"),
-            (0, "dst_limb_26"),
-            (0, "dst_limb_27"),
-        ]
-        .into(),
-    );
+    let state = build_and_test([false, false, false], -13, const_felt252_expr!(0, 0), 15);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32755, "offset0"),
+        (0, "dst_base_fp"),
+        (0, "ap_update_add_1"),
+        (200, "mem_dst_base"),
+        (2, "dst_id"),
+        (0, "dst_limb_0"),
+        (0, "dst_limb_1"),
+        (0, "dst_limb_2"),
+        (0, "dst_limb_3"),
+        (0, "dst_limb_4"),
+        (0, "dst_limb_5"),
+        (0, "dst_limb_6"),
+        (0, "dst_limb_7"),
+        (0, "dst_limb_8"),
+        (0, "dst_limb_9"),
+        (0, "dst_limb_10"),
+        (0, "dst_limb_11"),
+        (0, "dst_limb_12"),
+        (0, "dst_limb_13"),
+        (0, "dst_limb_14"),
+        (0, "dst_limb_15"),
+        (0, "dst_limb_16"),
+        (0, "dst_limb_17"),
+        (0, "dst_limb_18"),
+        (0, "dst_limb_19"),
+        (0, "dst_limb_20"),
+        (0, "dst_limb_21"),
+        (0, "dst_limb_22"),
+        (0, "dst_limb_23"),
+        (0, "dst_limb_24"),
+        (0, "dst_limb_25"),
+        (0, "dst_limb_26"),
+        (0, "dst_limb_27"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 fn test_jnz_taken_base_ap() {
-    build_and_test(
-        [true, false, false],
-        -13,
-        const_felt252_expr!(123, 456),
-        15,
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32755, "offset0"),
-            (0, "dst_base_fp"),
-            (0, "ap_update_add_1"),
-            (200, "mem_dst_base"),
-            (2, "dst_id"),
-            (123, "dst_limb_0"),
-            (0, "dst_limb_1"),
-            (0, "dst_limb_2"),
-            (0, "dst_limb_3"),
-            (0, "dst_limb_4"),
-            (0, "dst_limb_5"),
-            (0, "dst_limb_6"),
-            (0, "dst_limb_7"),
-            (0, "dst_limb_8"),
-            (0, "dst_limb_9"),
-            (0, "dst_limb_10"),
-            (0, "dst_limb_11"),
-            (0, "dst_limb_12"),
-            (0, "dst_limb_13"),
-            (288, "dst_limb_14"),
-            (3, "dst_limb_15"),
-            (0, "dst_limb_16"),
-            (0, "dst_limb_17"),
-            (0, "dst_limb_18"),
-            (0, "dst_limb_19"),
-            (0, "dst_limb_20"),
-            (0, "dst_limb_21"),
-            (0, "dst_limb_22"),
-            (0, "dst_limb_23"),
-            (0, "dst_limb_24"),
-            (0, "dst_limb_25"),
-            (0, "dst_limb_26"),
-            (0, "dst_limb_27"),
-            (1955558780, "res"),
-            (500077285, "res_squares"),
-            (1, "next_pc_id"),
-            (0, "msb"),
-            (0, "mid_limbs_set"),
-            (15, "next_pc_limb_0"),
-            (0, "next_pc_limb_1"),
-            (0, "next_pc_limb_2"),
-            (0, "remainder_bits"),
-            (0, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test([true, false, false], -13, const_felt252_expr!(123, 456), 15);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32755, "offset0"),
+        (0, "dst_base_fp"),
+        (0, "ap_update_add_1"),
+        (200, "mem_dst_base"),
+        (2, "dst_id"),
+        (123, "dst_limb_0"),
+        (0, "dst_limb_1"),
+        (0, "dst_limb_2"),
+        (0, "dst_limb_3"),
+        (0, "dst_limb_4"),
+        (0, "dst_limb_5"),
+        (0, "dst_limb_6"),
+        (0, "dst_limb_7"),
+        (0, "dst_limb_8"),
+        (0, "dst_limb_9"),
+        (0, "dst_limb_10"),
+        (0, "dst_limb_11"),
+        (0, "dst_limb_12"),
+        (0, "dst_limb_13"),
+        (288, "dst_limb_14"),
+        (3, "dst_limb_15"),
+        (0, "dst_limb_16"),
+        (0, "dst_limb_17"),
+        (0, "dst_limb_18"),
+        (0, "dst_limb_19"),
+        (0, "dst_limb_20"),
+        (0, "dst_limb_21"),
+        (0, "dst_limb_22"),
+        (0, "dst_limb_23"),
+        (0, "dst_limb_24"),
+        (0, "dst_limb_25"),
+        (0, "dst_limb_26"),
+        (0, "dst_limb_27"),
+        (1955558780, "res"),
+        (500077285, "res_squares"),
+        (1, "next_pc_id"),
+        (0, "msb"),
+        (0, "mid_limbs_set"),
+        (15, "next_pc_limb_0"),
+        (0, "next_pc_limb_1"),
+        (0, "next_pc_limb_2"),
+        (0, "remainder_bits"),
+        (0, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
 #[should_panic(expected = "0 has no inverse")]
 fn test_taken_zero_mismatch_base_ap() {
-    build_and_test(
-        [true, false, false],
-        -13,
-        const_felt252_expr!(0, 0),
-        15,
-        vec![].into(),
-    );
+    build_and_test([true, false, false], -13, const_felt252_expr!(0, 0), 15);
 }
 
 #[test]
@@ -220,7 +205,6 @@ fn test_not_taken_mismatch_base_ap() {
         -13,
         const_felt252_expr!(123, 4567),
         15,
-        vec![].into(),
     );
 }
 
@@ -232,65 +216,60 @@ fn test_taken_p_mismatch_base_ap() {
         -13,
         const_felt252_expr!(1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
         15,
-        vec![].into(),
     );
 }
 
 #[test]
 fn test_jnz_taken_negative_op1() {
-    build_and_test(
-        [true, true, false],
-        -13,
-        const_felt252_expr!(123, 456),
-        -22,
-        vec![
-            (50, "input_pc"),
-            (200, "input_ap"),
-            (150, "input_fp"),
-            (32755, "offset0"),
-            (1, "dst_base_fp"),
-            (0, "ap_update_add_1"),
-            (150, "mem_dst_base"),
-            (2, "dst_id"),
-            (123, "dst_limb_0"),
-            (0, "dst_limb_1"),
-            (0, "dst_limb_2"),
-            (0, "dst_limb_3"),
-            (0, "dst_limb_4"),
-            (0, "dst_limb_5"),
-            (0, "dst_limb_6"),
-            (0, "dst_limb_7"),
-            (0, "dst_limb_8"),
-            (0, "dst_limb_9"),
-            (0, "dst_limb_10"),
-            (0, "dst_limb_11"),
-            (0, "dst_limb_12"),
-            (0, "dst_limb_13"),
-            (288, "dst_limb_14"),
-            (3, "dst_limb_15"),
-            (0, "dst_limb_16"),
-            (0, "dst_limb_17"),
-            (0, "dst_limb_18"),
-            (0, "dst_limb_19"),
-            (0, "dst_limb_20"),
-            (0, "dst_limb_21"),
-            (0, "dst_limb_22"),
-            (0, "dst_limb_23"),
-            (0, "dst_limb_24"),
-            (0, "dst_limb_25"),
-            (0, "dst_limb_26"),
-            (0, "dst_limb_27"),
-            (1955558780, "res"),
-            (500077285, "res_squares"),
-            (1, "next_pc_id"),
-            (1, "msb"),
-            (1, "mid_limbs_set"),
-            (491, "next_pc_limb_0"),
-            (511, "next_pc_limb_1"),
-            (511, "next_pc_limb_2"),
-            (3, "remainder_bits"),
-            (1, "partial_limb_msb"),
-        ]
-        .into(),
-    );
+    let state = build_and_test([true, true, false], -13, const_felt252_expr!(123, 456), -22);
+
+    expect![[r#"
+        (50, "input_pc"),
+        (200, "input_ap"),
+        (150, "input_fp"),
+        (32755, "offset0"),
+        (1, "dst_base_fp"),
+        (0, "ap_update_add_1"),
+        (150, "mem_dst_base"),
+        (2, "dst_id"),
+        (123, "dst_limb_0"),
+        (0, "dst_limb_1"),
+        (0, "dst_limb_2"),
+        (0, "dst_limb_3"),
+        (0, "dst_limb_4"),
+        (0, "dst_limb_5"),
+        (0, "dst_limb_6"),
+        (0, "dst_limb_7"),
+        (0, "dst_limb_8"),
+        (0, "dst_limb_9"),
+        (0, "dst_limb_10"),
+        (0, "dst_limb_11"),
+        (0, "dst_limb_12"),
+        (0, "dst_limb_13"),
+        (288, "dst_limb_14"),
+        (3, "dst_limb_15"),
+        (0, "dst_limb_16"),
+        (0, "dst_limb_17"),
+        (0, "dst_limb_18"),
+        (0, "dst_limb_19"),
+        (0, "dst_limb_20"),
+        (0, "dst_limb_21"),
+        (0, "dst_limb_22"),
+        (0, "dst_limb_23"),
+        (0, "dst_limb_24"),
+        (0, "dst_limb_25"),
+        (0, "dst_limb_26"),
+        (0, "dst_limb_27"),
+        (1955558780, "res"),
+        (500077285, "res_squares"),
+        (1, "next_pc_id"),
+        (1, "msb"),
+        (1, "mid_limbs_set"),
+        (491, "next_pc_limb_0"),
+        (511, "next_pc_limb_1"),
+        (511, "next_pc_limb_2"),
+        (3, "remainder_bits"),
+        (1, "partial_limb_msb"),
+    "#]]
+    .assert_eq(&state.to_string());
 }

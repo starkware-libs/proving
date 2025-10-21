@@ -1,9 +1,10 @@
+use expect_test::expect;
+
 use crate::airs::casm::opcodes::blake::triple_xor32::*;
 use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_xor() {
@@ -21,7 +22,7 @@ fn test_xor() {
     assert_eq!(new_state.calc(), "951916867");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (25957, "input_limb_0"),
         (2222, "input_limb_1"),
         (53282, "input_limb_2"),
@@ -42,7 +43,6 @@ fn test_xor() {
         (189, "xor"),
         (11, "xor"),
         (56, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

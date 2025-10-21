@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::xor_rot32::*;
 // Macros
 use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 #[test]
 fn test_xor_rot7() {
     let xor_rot = XorRot32 { r: 7 };
@@ -17,7 +18,7 @@ fn test_xor_rot7() {
     assert_eq!(new_state.calc(), "1556412725");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (324, "ms_9_bits"),
         (11, "ms_9_bits"),
         (113, "ms_9_bits"),
@@ -26,9 +27,8 @@ fn test_xor_rot7() {
         (309, "xor"),
         (124, "xor"),
         (196, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -43,7 +43,7 @@ fn test_xor_rot12() {
     assert_eq!(new_state.calc(), "1798311585");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (1, "ms_4_bits"),
         (0, "ms_4_bits"),
         (0, "ms_4_bits"),
@@ -52,9 +52,8 @@ fn test_xor_rot12() {
         (1, "xor"),
         (234, "xor"),
         (0, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -69,7 +68,7 @@ fn test_xor_rot8() {
     assert_eq!(new_state.calc(), "8519824");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (128, "ms_8_bits"),
         (128, "ms_8_bits"),
         (16, "ms_8_bits"),
@@ -78,9 +77,8 @@ fn test_xor_rot8() {
         (144, "xor"),
         (0, "xor"),
         (130, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -95,7 +93,7 @@ fn test_xor_rot16() {
     assert_eq!(new_state.calc(), "1022142427");
 
     // Check state
-    let expected_state = vec![
+    expect![[r#"
         (60, "ms_8_bits"),
         (190, "ms_8_bits"),
         (0, "ms_8_bits"),
@@ -104,7 +102,6 @@ fn test_xor_rot16() {
         (60, "xor"),
         (219, "xor"),
         (167, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::felt252_packing27::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_felt252pack_into27() {
@@ -46,7 +47,7 @@ fn test_verify_felt252unpack_from27() {
         )
         .calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (16, "unpacked_limb_0"),
         (25, "unpacked_limb_1"),
         (270, "unpacked_limb_3"),
@@ -65,9 +66,8 @@ fn test_verify_felt252unpack_from27() {
         (311, "unpacked_limb_22"),
         (393, "unpacked_limb_24"),
         (179, "unpacked_limb_25"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -83,7 +83,8 @@ fn test_verify_felt252width27_rangecheck() {
         )
         .into(),
     );
-    let expected_state = vec![
+
+    expect![[r#"
         (106181136, "input_limb_0"),
         (60248846, "input_limb_1"),
         (121094139, "input_limb_2"),
@@ -103,7 +104,6 @@ fn test_verify_felt252width27_rangecheck() {
         (493, "limb_6_high_part"),
         (383, "limb_7_low_part"),
         (209, "limb_8_high_part"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

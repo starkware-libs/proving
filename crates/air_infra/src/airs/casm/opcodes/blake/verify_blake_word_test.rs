@@ -1,3 +1,5 @@
+use expect_test::expect;
+
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::verify_blake_word::*;
 // Macros
@@ -7,7 +9,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::utils::test_utils::*;
 use crate::{const_expr, const_u32_expr};
 
 #[test]
@@ -33,15 +34,13 @@ fn test_verify_blake_word() {
     );
 
     // Check state.
-    let expected_state = vec![
+    expect![[r#"
         (76, "low_7_ms_bits"),
         (7182, "high_14_ms_bits"),
         (14, "high_5_ms_bits"),
         (0, "blake_word1_addr_id"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
-
+    "#]]
+    .assert_eq(&state.to_string());
     registry.run_air(
         &air_fn,
         (),

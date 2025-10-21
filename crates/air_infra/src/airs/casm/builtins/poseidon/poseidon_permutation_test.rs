@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::poseidon_permutation::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_poseidon() {
@@ -38,7 +39,7 @@ fn test_poseidon() {
         assert_eq!(out.calc(), exp_out.calc());
     }
 
-    let expected_state = vec![
+    expect![[r#"
         (74972783, "combination_limb_0"),
         (117420501, "combination_limb_1"),
         (112795138, "combination_limb_2"),
@@ -236,9 +237,8 @@ fn test_poseidon() {
         (65656864, "poseidon_full_round_chain_output_limb_27"),
         (54123071, "poseidon_full_round_chain_output_limb_28"),
         (61, "poseidon_full_round_chain_output_limb_29"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 
     let (_, output) = registry.run_air(
         &air_fn,

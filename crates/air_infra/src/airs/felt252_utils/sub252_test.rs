@@ -1,10 +1,11 @@
+use expect_test::expect;
+
 use super::sub252::*;
 // Macros
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_sub252_no_underflow() {
@@ -22,7 +23,7 @@ fn test_sub252_no_underflow() {
         output.calc(),
         const_felt252_expr!(0x1ff8020001u128, 0u128).calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (1, "sub_res_limb_0"),
         (256, "sub_res_limb_1"),
         (0, "sub_res_limb_2"),
@@ -52,9 +53,8 @@ fn test_sub252_no_underflow() {
         (0, "sub_res_limb_26"),
         (0, "sub_res_limb_27"),
         (0, "sub_p_bit"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }
 
 #[test]
@@ -76,7 +76,7 @@ fn test_sub252_with_underflow() {
         output.calc(),
         const_felt252_expr!(0, 1u128 << (251 - 128)).calc()
     );
-    let expected_state = vec![
+    expect![[r#"
         (0, "sub_res_limb_0"),
         (0, "sub_res_limb_1"),
         (0, "sub_res_limb_2"),
@@ -106,7 +106,6 @@ fn test_sub252_with_underflow() {
         (0, "sub_res_limb_26"),
         (256, "sub_res_limb_27"),
         (1, "sub_p_bit"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
+    "#]]
+    .assert_eq(&state.to_string());
 }

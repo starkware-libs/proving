@@ -1,9 +1,10 @@
+use expect_test::expect;
+
 use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
 // Macros
 use crate::const_expr;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_state_elements() {
@@ -14,6 +15,10 @@ fn test_state_elements() {
 
         assert!(e.in_state());
     }
-    let expected_state = vec![(1, ""), (2, ""), (3, "")].into();
-    assert_expected_state(&state, &expected_state);
+    expect![[r#"
+        (1, ""),
+        (2, ""),
+        (3, ""),
+    "#]]
+    .assert_eq(&state.to_string());
 }

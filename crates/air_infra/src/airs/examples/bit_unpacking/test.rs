@@ -1,3 +1,4 @@
+use expect_test::expect;
 use serde::Serialize;
 
 use super::bit_unpack::*;
@@ -19,10 +20,16 @@ fn test_bit_unpacking() {
     let (registry, entry) = AirFnRegistry::new(&func);
 
     let (state, output) = registry.run_air(&func, (), const_u16_expr!(10));
-    assert_eq!(
-        state,
-        vec![(10, ""), (5, ""), (2, ""), (1, ""), (0, "")].into()
-    );
+
+    expect![[r#"
+        (10, ""),
+        (5, ""),
+        (2, ""),
+        (1, ""),
+        (0, ""),
+    "#]]
+    .assert_eq(&state.to_string());
+
     assert!(
         output.iter().map(|x| x.calc()).collect::<Vec<String>>()
             == ["false", "true", "false", "true"]
