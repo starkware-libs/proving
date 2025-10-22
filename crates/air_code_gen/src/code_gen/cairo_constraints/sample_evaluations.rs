@@ -8,6 +8,7 @@ use genco::quote;
 use indexmap::IndexMap;
 
 use super::component::SAMPLE_EVALUATION_RESULT_SUFFIX;
+use crate::code_gen::cairo_constraints::utils::format_cairo_code;
 use crate::code_gen::supported_components::AutogenCodeType;
 use crate::code_gen::utils::add_file_to_module;
 
@@ -42,7 +43,7 @@ pub fn generate_sample_evaluations_file(
 
     add_file_to_module(
         &dest_dir.join("sample_evaluations.cairo"),
-        source_rev_comment + &tokens.to_string().unwrap(),
+        format_cairo_code(source_rev_comment + &tokens.to_string().unwrap()),
         AutogenCodeType::CAIRO,
     );
 }
