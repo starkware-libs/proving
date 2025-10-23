@@ -2,7 +2,7 @@ use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 
 use super::g::*;
-use super::read_blake_word::*;
+use super::read_u32::*;
 use super::round_sigma::*;
 use crate::airs::casm::casm_state::*;
 // Macros
@@ -50,7 +50,7 @@ impl AirFn for BlakeRound {
         let curr_sigma = air_builder.lookup_call(&BlakeRoundSigma {}, [rnd.clone()], ());
 
         // Read the current messgae according to the permutation.
-        let read_blake_word = ReadBlakeWord {
+        let read_u32 = ReadU32 {
             memory: self.memory.clone(),
         };
         let mut current_message = vec![];
@@ -59,7 +59,7 @@ impl AirFn for BlakeRound {
                 massage_pointer.clone().var + index.clone(),
                 &format!("message_word_{}", i),
             );
-            let curr_word = air_builder.call(&read_blake_word, addr);
+            let curr_word = air_builder.call(&read_u32, addr);
             current_message.push(curr_word);
         }
 

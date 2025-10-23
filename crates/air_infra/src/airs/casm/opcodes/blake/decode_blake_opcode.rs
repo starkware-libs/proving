@@ -2,7 +2,7 @@ use std::collections::BTreeSet;
 
 use serde::Serialize;
 
-use super::read_blake_word::*;
+use super::read_u32::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::decode_instruction::decode_inst::*;
@@ -121,7 +121,7 @@ impl AirFn for DecodeBlakeOpcode {
         let new_state_pointer = self.memory.read_address(air_builder, casm_state.ap());
 
         // Read t.
-        let read_blake_word = &ReadBlakeWord {
+        let read_u32 = &ReadU32 {
             memory: self.memory.clone(),
         };
         let mem_dst_base = air_builder.assign(
@@ -129,10 +129,7 @@ impl AirFn for DecodeBlakeOpcode {
                 + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap().var),
             "mem_dst_base",
         );
-        let t = air_builder.call(
-            read_blake_word,
-            CasmAddress::new(mem_dst_base + offset0, "dst"),
-        );
+        let t = air_builder.call(read_u32, CasmAddress::new(mem_dst_base + offset0, "dst"));
 
         (
             [h_pointer, message_pointer, new_state_pointer],

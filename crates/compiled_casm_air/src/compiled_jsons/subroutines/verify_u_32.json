@@ -1,27 +1,27 @@
 {
-  "name": "verify_blake_word",
+  "name": "verify_u_32",
   "relation_name": null,
   "relation_size": null,
   "log_height": null,
-  "description": "Verify Blake Word",
+  "description": "Verify U 32",
   "instance_definition": "{}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-    "verify_blake_word_input",
+    "verify_u_32_input",
     "(M31, UInt32)",
     "(PackedM31, PackedUInt32)"
   ],
   "verifier_input_limbs": [
-    "verify_blake_word_input_limb_0",
-    "verify_blake_word_input_limb_1",
-    "verify_blake_word_input_limb_2"
+    "verify_u_32_input_limb_0",
+    "verify_u_32_input_limb_1",
+    "verify_u_32_input_limb_2"
   ],
   "prover_output": [
     {
       "Tuple": []
     },
-    "verify_blake_word_output",
+    "verify_u_32_output",
     "()",
     "()"
   ],
@@ -76,6 +76,38 @@
   "external_states": [],
   "constraints": [
     {
+      "Intermediate": {
+        "felt_names": [
+          "high_2_ls_bits_tmp_c4bc0_2"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "verify_u_32_input_limb_2"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "high_14_ms_bits_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "4"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
@@ -83,28 +115,9 @@
             "State": "low_7_ms_bits_col0"
           },
           {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "verify_blake_word_input_limb_2"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "high_14_ms_bits_col1"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "4"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "high_2_ls_bits_tmp_c4bc0_2"
             ]
           },
           {
@@ -126,7 +139,7 @@
                   {
                     "Var": [
                       "M31",
-                      "verify_blake_word_input_limb_0"
+                      "verify_u_32_input_limb_0"
                     ]
                   },
                   {
@@ -134,7 +147,7 @@
                       {
                         "Var": [
                           "M31",
-                          "verify_blake_word_input_limb_1"
+                          "verify_u_32_input_limb_1"
                         ]
                       },
                       "-",
@@ -163,28 +176,9 @@
                       {
                         "BinaryOp": [
                           {
-                            "BinaryOp": [
-                              {
-                                "Var": [
-                                  "M31",
-                                  "verify_blake_word_input_limb_2"
-                                ]
-                              },
-                              "-",
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": "high_14_ms_bits_col1"
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "4"
-                                    ]
-                                  }
-                                ]
-                              }
+                            "Var": [
+                              "M31",
+                              "high_2_ls_bits_tmp_c4bc0_2"
                             ]
                           },
                           "*",
@@ -381,7 +375,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_d476b_0",
+        "name": "low_7_ms_bits_tmp_c4bc0_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -390,7 +384,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "verify_blake_word_input.1"
+                    "verify_u_32_input.1"
                   ]
                 },
                 "low",
@@ -414,7 +408,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_d476b_0"
+              "low_7_ms_bits_tmp_c4bc0_0"
             ]
           },
           "as_m31",
@@ -424,7 +418,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_d476b_1",
+        "name": "high_14_ms_bits_tmp_c4bc0_1",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -433,7 +427,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "verify_blake_word_input.1"
+                    "verify_u_32_input.1"
                   ]
                 },
                 "high",
@@ -457,7 +451,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_d476b_1"
+              "high_14_ms_bits_tmp_c4bc0_1"
             ]
           },
           "as_m31",
@@ -467,14 +461,57 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_d476b_2",
+        "name": "high_2_ls_bits_tmp_c4bc0_2",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "UInt32",
+                        "verify_u_32_input.1"
+                      ]
+                    },
+                    "high",
+                    []
+                  ]
+                },
+                "as_m31",
+                []
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "high_14_ms_bits_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "4"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "high_5_ms_bits_tmp_c4bc0_3",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_d476b_1"
+                "high_14_ms_bits_tmp_c4bc0_1"
               ]
             },
             ">>",
@@ -494,7 +531,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_d476b_2"
+              "high_5_ms_bits_tmp_c4bc0_3"
             ]
           },
           "as_m31",
@@ -511,40 +548,9 @@
               "State": "low_7_ms_bits_col0"
             },
             {
-              "BinaryOp": [
-                {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "verify_blake_word_input.1"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "high_14_ms_bits_col1"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "4"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "high_2_ls_bits_tmp_c4bc0_2"
               ]
             },
             {
@@ -562,40 +568,9 @@
             "State": "low_7_ms_bits_col0"
           },
           {
-            "BinaryOp": [
-              {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "verify_blake_word_input.1"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "high_14_ms_bits_col1"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "4"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "high_2_ls_bits_tmp_c4bc0_2"
             ]
           },
           {
@@ -613,7 +588,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_d476b_3",
+        "name": "memory_address_to_id_value_tmp_c4bc0_4",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -622,7 +597,7 @@
               {
                 "Var": [
                   "M31",
-                  "verify_blake_word_input.0"
+                  "verify_u_32_input.0"
                 ]
               }
             ]
@@ -634,7 +609,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_d476b_3"
+          "memory_address_to_id_value_tmp_c4bc0_4"
         ]
       }
     },
@@ -644,7 +619,7 @@
         "input": {
           "Var": [
             "M31",
-            "verify_blake_word_input.0"
+            "verify_u_32_input.0"
           ]
         }
       }
@@ -656,7 +631,7 @@
           {
             "Var": [
               "M31",
-              "verify_blake_word_input.0"
+              "verify_u_32_input.0"
             ]
           },
           {
@@ -691,7 +666,7 @@
                       {
                         "Var": [
                           "UInt32",
-                          "verify_blake_word_input.1"
+                          "verify_u_32_input.1"
                         ]
                       },
                       "low",
@@ -728,40 +703,9 @@
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "verify_blake_word_input.1"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "high_14_ms_bits_col1"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "4"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "high_2_ls_bits_tmp_c4bc0_2"
                     ]
                   },
                   "*",

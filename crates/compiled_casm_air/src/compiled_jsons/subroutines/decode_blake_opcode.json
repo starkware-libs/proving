@@ -207,7 +207,7 @@
         {
           "Var": [
             "UInt32",
-            "read_blake_word_output_tmp_47e62_40"
+            "read_u_32_output_tmp_47e62_41"
           ]
         },
         {
@@ -553,12 +553,8 @@
       [],
       []
     ],
-    "read_blake_word": [
+    "read_positive_num_bits_29": [
       [
-        [
-          "RangeCheck_7_2_5",
-          "Use"
-        ],
         [
           "MemoryAddressToId",
           "Use"
@@ -571,8 +567,12 @@
       [],
       []
     ],
-    "read_positive_num_bits_29": [
+    "read_u_32": [
       [
+        [
+          "RangeCheck_7_2_5",
+          "Use"
+        ],
         [
           "MemoryAddressToId",
           "Use"
@@ -982,7 +982,7 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "read_blake_word::evaluate",
+            "read_u_32::evaluate",
             [
               {
                 "Array": [
@@ -4340,7 +4340,7 @@
       }
     },
     {
-      "StartBlock": "Read Blake Word"
+      "StartBlock": "Read U 32"
     },
     {
       "Intermediate": {
@@ -4623,7 +4623,7 @@
       }
     },
     {
-      "StartBlock": "Verify Blake Word"
+      "StartBlock": "Verify U 32"
     },
     {
       "Intermediate": {
@@ -4713,7 +4713,35 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_47e62_37",
+        "name": "high_2_ls_bits_tmp_47e62_37",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "high_16_bits_col30"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "high_14_ms_bits_col32"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "4"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "high_5_ms_bits_tmp_47e62_38",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4740,7 +4768,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_47e62_37"
+              "high_5_ms_bits_tmp_47e62_38"
             ]
           },
           "as_m31",
@@ -4757,25 +4785,9 @@
               "State": "low_7_ms_bits_col31"
             },
             {
-              "BinaryOp": [
-                {
-                  "State": "high_16_bits_col30"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "high_14_ms_bits_col32"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "4"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "high_2_ls_bits_tmp_47e62_37"
               ]
             },
             {
@@ -4793,25 +4805,9 @@
             "State": "low_7_ms_bits_col31"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "high_16_bits_col30"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "high_14_ms_bits_col32"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "4"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "high_2_ls_bits_tmp_47e62_37"
             ]
           },
           {
@@ -4829,7 +4825,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_47e62_38",
+        "name": "memory_address_to_id_value_tmp_47e62_39",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4858,7 +4854,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_47e62_38"
+          "memory_address_to_id_value_tmp_47e62_39"
         ]
       }
     },
@@ -4953,25 +4949,9 @@
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "high_16_bits_col30"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "high_14_ms_bits_col32"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "4"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "high_2_ls_bits_tmp_47e62_37"
                     ]
                   },
                   "*",
@@ -5162,7 +5142,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "read_blake_word_output_tmp_47e62_40",
+        "name": "read_u_32_output_tmp_47e62_41",
         "type": "UInt32",
         "var": {
           "Var": [
