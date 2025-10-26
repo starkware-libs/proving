@@ -235,12 +235,12 @@
     "MemoryIdToBig": "Multiplicity"
   },
   "inline_calls": {
-    "cond_decode_small_sign": [
+    "cond_range_check_2": [
       [],
       [],
       []
     ],
-    "cond_range_check_2": [
+    "decode_small_sign": [
       [],
       [],
       []
@@ -289,17 +289,10 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "cond_decode_small_sign::evaluate",
+            "decode_small_sign::evaluate",
             [
               {
-                "Array": [
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
-                    ]
-                  }
-                ]
+                "Array": []
               },
               {
                 "State": "msb_col1"
@@ -764,7 +757,7 @@
       }
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -823,35 +816,46 @@
         "name": "mid_limbs_set_tmp_ceaaf_4",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "memory_id_to_big_value_tmp_ceaaf_2"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "memory_id_to_big_value_tmp_ceaaf_2"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_ceaaf_3"
+              ]
+            }
           ]
         }
       }
@@ -872,7 +876,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_ceaaf_5",
+        "name": "decode_small_sign_output_tmp_ceaaf_5",
         "type": "[M31; 2]",
         "var": {
           "Array": [

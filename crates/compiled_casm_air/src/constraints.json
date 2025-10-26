@@ -1110,7 +1110,7 @@
       ]
     ]
   },
-  "cond_decode_small_sign": {
+  "decode_small_sign": {
     "state_names": [
       "msb_col0",
       "mid_limbs_set_col1"
@@ -1119,7 +1119,7 @@
     "constraints": [
       "(msb_col0 * (msb_col0 - 1))",
       "(mid_limbs_set_col1 * (mid_limbs_set_col1 - 1))",
-      "((cond_decode_small_sign_input_limb_28 * mid_limbs_set_col1) * (msb_col0 - 1))"
+      "(mid_limbs_set_col1 * (msb_col0 - 1))"
     ],
     "lookups": []
   },
@@ -37507,7 +37507,7 @@
     "constraints": [
       "(msb_col0 * (msb_col0 - 1))",
       "(mid_limbs_set_col1 * (mid_limbs_set_col1 - 1))",
-      "((cond_felt_252_as_rel_imm_input_limb_28 * mid_limbs_set_col1) * (msb_col0 - 1))",
+      "(mid_limbs_set_col1 * (msb_col0 - 1))",
       "((partial_limb_msb_col2 * (1 - partial_limb_msb_col2)) * cond_felt_252_as_rel_imm_input_limb_28)",
       "((partial_limb_bit_before_msb_tmp_1e9bf_5 * (1 - partial_limb_bit_before_msb_tmp_1e9bf_5)) * cond_felt_252_as_rel_imm_input_limb_28)",
       "(cond_felt_252_as_rel_imm_input_limb_28 * (cond_felt_252_as_rel_imm_input_limb_4 - (mid_limbs_set_col1 * 511)))",
@@ -37692,7 +37692,7 @@
       "((partial_limb_bit_before_msb_tmp_783d5_4 * (1 - partial_limb_bit_before_msb_tmp_783d5_4)) * update_registers_input_opcode_ret)",
       "(msb_col2 * (msb_col2 - 1))",
       "(mid_limbs_set_col3 * (mid_limbs_set_col3 - 1))",
-      "(((update_registers_input_pc_update_jump_rel + update_registers_input_ap_update_add) * mid_limbs_set_col3) * (msb_col2 - 1))",
+      "(mid_limbs_set_col3 * (msb_col2 - 1))",
       "((partial_limb_msb_col4 * (1 - partial_limb_msb_col4)) * (update_registers_input_pc_update_jump_rel + update_registers_input_ap_update_add))",
       "((partial_limb_bit_before_msb_tmp_783d5_11 * (1 - partial_limb_bit_before_msb_tmp_783d5_11)) * (update_registers_input_pc_update_jump_rel + update_registers_input_ap_update_add))",
       "((update_registers_input_pc_update_jump_rel + update_registers_input_ap_update_add) * (update_registers_input_res_limb_4 - (mid_limbs_set_col3 * 511)))",
@@ -37723,7 +37723,7 @@
       "(op1_as_rel_imm_cond_col7 - (update_registers_input_pc_update_jnz * dst_sum_tmp_783d5_16))",
       "(msb_col8 * (msb_col8 - 1))",
       "(mid_limbs_set_col9 * (mid_limbs_set_col9 - 1))",
-      "((op1_as_rel_imm_cond_col7 * mid_limbs_set_col9) * (msb_col8 - 1))",
+      "(mid_limbs_set_col9 * (msb_col8 - 1))",
       "((partial_limb_msb_col10 * (1 - partial_limb_msb_col10)) * op1_as_rel_imm_cond_col7)",
       "((partial_limb_bit_before_msb_tmp_783d5_23 * (1 - partial_limb_bit_before_msb_tmp_783d5_23)) * op1_as_rel_imm_cond_col7)",
       "(op1_as_rel_imm_cond_col7 * (update_registers_input_op1_limb_4 - (mid_limbs_set_col9 * 511)))",
@@ -39922,7 +39922,7 @@
       "((partial_limb_bit_before_msb_tmp_57455_92 * (1 - partial_limb_bit_before_msb_tmp_57455_92)) * opcode_ret_col19)",
       "(msb_col229 * (msb_col229 - 1))",
       "(mid_limbs_set_col230 * (mid_limbs_set_col230 - 1))",
-      "(((pc_update_jump_rel_col14 + ap_update_add_col16) * mid_limbs_set_col230) * (msb_col229 - 1))",
+      "(mid_limbs_set_col230 * (msb_col229 - 1))",
       "((partial_limb_msb_col231 * (1 - partial_limb_msb_col231)) * (pc_update_jump_rel_col14 + ap_update_add_col16))",
       "((partial_limb_bit_before_msb_tmp_57455_99 * (1 - partial_limb_bit_before_msb_tmp_57455_99)) * (pc_update_jump_rel_col14 + ap_update_add_col16))",
       "((pc_update_jump_rel_col14 + ap_update_add_col16) * (res_limb_4_col201 - (mid_limbs_set_col230 * 511)))",
@@ -39953,7 +39953,7 @@
       "(op1_as_rel_imm_cond_col234 - (pc_update_jnz_col15 * dst_sum_tmp_57455_104))",
       "(msb_col235 * (msb_col235 - 1))",
       "(mid_limbs_set_col236 * (mid_limbs_set_col236 - 1))",
-      "((op1_as_rel_imm_cond_col234 * mid_limbs_set_col236) * (msb_col235 - 1))",
+      "(mid_limbs_set_col236 * (msb_col235 - 1))",
       "((partial_limb_msb_col237 * (1 - partial_limb_msb_col237)) * op1_as_rel_imm_cond_col234)",
       "((partial_limb_bit_before_msb_tmp_57455_111 * (1 - partial_limb_bit_before_msb_tmp_57455_111)) * op1_as_rel_imm_cond_col234)",
       "(op1_as_rel_imm_cond_col234 * (op1_limb_4_col88 - (mid_limbs_set_col236 * 511)))",

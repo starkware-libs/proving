@@ -15772,7 +15772,7 @@
       }
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -15831,35 +15831,46 @@
         "name": "mid_limbs_set_tmp_cf8b4_76",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "memory_id_to_big_value_tmp_cf8b4_74"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "memory_id_to_big_value_tmp_cf8b4_74"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_cf8b4_75"
+              ]
+            }
           ]
         }
       }
@@ -15880,7 +15891,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_cf8b4_77",
+        "name": "decode_small_sign_output_tmp_cf8b4_77",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -16638,7 +16649,7 @@
       }
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -16697,35 +16708,46 @@
         "name": "mid_limbs_set_tmp_cf8b4_86",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "memory_id_to_big_value_tmp_cf8b4_84"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "memory_id_to_big_value_tmp_cf8b4_84"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_cf8b4_85"
+              ]
+            }
           ]
         }
       }
@@ -16746,7 +16768,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_cf8b4_87",
+        "name": "decode_small_sign_output_tmp_cf8b4_87",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -17504,7 +17526,7 @@
       }
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -17563,35 +17585,46 @@
         "name": "mid_limbs_set_tmp_cf8b4_96",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "memory_id_to_big_value_tmp_cf8b4_94"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "memory_id_to_big_value_tmp_cf8b4_94"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_cf8b4_95"
+              ]
+            }
           ]
         }
       }
@@ -17612,7 +17645,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_cf8b4_97",
+        "name": "decode_small_sign_output_tmp_cf8b4_97",
         "type": "[M31; 2]",
         "var": {
           "Array": [

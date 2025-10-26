@@ -53,7 +53,7 @@ impl AirFn for CondFelt252AsRelImm {
 
     fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
         // Compute and deduce "case" bits: msb and mid_limbs_set
-        let [msb, mid_limbs] = ab.call(&CondDecodeSmallSign {}, (value.clone(), condition.clone()));
+        let [msb, mid_limbs] = ab.call(&DecodeSmallSign {}, value.clone());
 
         // Build the expected value limbs
         let low_limbs_value: [FeltExpr; LIMBS_IN_SMALL] = from_fn(|i| value.get_felt(i));
