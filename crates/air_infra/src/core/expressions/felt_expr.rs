@@ -1,3 +1,5 @@
+use std::iter::Sum;
+
 use compiled_casm_air::compiled_structs::ExternalState;
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
@@ -182,6 +184,12 @@ impl TryIntoFeltExpr for FeltExpr {
 impl Default for FeltExpr {
     fn default() -> Self {
         const_expr!(0)
+    }
+}
+
+impl Sum for FeltExpr {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(const_expr!(0), |sum, f| sum + f)
     }
 }
 

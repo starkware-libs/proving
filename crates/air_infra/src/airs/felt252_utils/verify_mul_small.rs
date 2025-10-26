@@ -48,12 +48,13 @@ impl AirFn for VerifyMulSmall {
             };
             let convolution_start = max(i, NUM_LIMBS - 1) - (NUM_LIMBS - 1);
             let convolution_end = min(i, NUM_LIMBS - 1);
+            let mut convolution = const_expr!(0u32);
             for j in convolution_start..=convolution_end {
-                limb_accumulator = limb_accumulator
-                    + a.get_felt(j) * b.get_felt(i - j) * conditional_shift.clone();
+                convolution = convolution + a.get_felt(j) * b.get_felt(i - j);
             }
 
-            limb_accumulator = limb_accumulator - c.get_felt(i) * conditional_shift.clone();
+            limb_accumulator =
+                limb_accumulator + (convolution - c.get_felt(i)) * conditional_shift.clone();
             if i % 2 == 1 {
                 let carry = air_builder.deduce(
                     &mut (limb_accumulator.clone() * double_shift_inverse.clone()),

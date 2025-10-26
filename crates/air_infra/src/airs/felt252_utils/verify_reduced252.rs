@@ -52,12 +52,12 @@ impl AirFn for VerifyReduced252 {
         range_check(air_builder, &[8], &[ms_limb - ms_max.clone()]);
 
         // If ms_max == 1, check that the high limbs are zero
-        for limb_idx in 22..27 {
-            air_builder.constrain(
-                ms_max.clone() * input.get_felt(limb_idx),
-                "If the MS limb is max, high limbs should be 0",
-            );
-        }
+        let high_limbs_sum = (22..27).map(|i| input.get_felt(i)).sum();
+
+        air_builder.constrain(
+            ms_max.clone() * high_limbs_sum,
+            "If the MS limb is max, high limbs should be 0",
+        );
 
         // Range check ms_max * (120 + mid_limb - both_max) < 256. This verifies that either
         // 1. ms_max == 0, or
@@ -69,11 +69,10 @@ impl AirFn for VerifyReduced252 {
         range_check(air_builder, &[8], &[rc_input]);
 
         // If both_max == 1, check that the low limbs are zero
-        for limb_idx in 0..21 {
-            air_builder.constrain(
-                both_max.clone() * input.get_felt(limb_idx),
-                "If the MS and mid limbs are max, low limbs should be 0",
-            );
-        }
+        let low_limbs_sum = (0..21).map(|i| input.get_felt(i)).sum();
+        air_builder.constrain(
+            both_max.clone() * low_limbs_sum,
+            "If the MS and mid limbs are max, low limbs should be 0",
+        );
     }
 }

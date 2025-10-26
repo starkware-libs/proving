@@ -163,85 +163,53 @@
             },
             "*",
             {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_22"
-              ]
-            }
-          ]
-        },
-        "If the MS limb is max, high limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_limb_is_max_col0"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_23"
-              ]
-            }
-          ]
-        },
-        "If the MS limb is max, high limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_limb_is_max_col0"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_24"
-              ]
-            }
-          ]
-        },
-        "If the MS limb is max, high limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_limb_is_max_col0"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_25"
-              ]
-            }
-          ]
-        },
-        "If the MS limb is max, high limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_limb_is_max_col0"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_26"
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "verify_reduced_252_input_limb_22"
+                              ]
+                            },
+                            "+",
+                            {
+                              "Var": [
+                                "M31",
+                                "verify_reduced_252_input_limb_23"
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_reduced_252_input_limb_24"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "verify_reduced_252_input_limb_25"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "verify_reduced_252_input_limb_26"
+                  ]
+                }
               ]
             }
           ]
@@ -315,389 +283,229 @@
             },
             "*",
             {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_0"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_1"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_2"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_3"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_4"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_5"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_6"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_7"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_8"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_9"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_10"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_11"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_12"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_13"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_14"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_15"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_16"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_17"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_18"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_19"
-              ]
-            }
-          ]
-        },
-        "If the MS and mid limbs are max, low limbs should be 0"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ms_and_mid_limbs_are_max_col1"
-            },
-            "*",
-            {
-              "Var": [
-                "M31",
-                "verify_reduced_252_input_limb_20"
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "BinaryOp": [
+                                                                {
+                                                                  "BinaryOp": [
+                                                                    {
+                                                                      "BinaryOp": [
+                                                                        {
+                                                                          "BinaryOp": [
+                                                                            {
+                                                                              "BinaryOp": [
+                                                                                {
+                                                                                  "BinaryOp": [
+                                                                                    {
+                                                                                      "BinaryOp": [
+                                                                                        {
+                                                                                          "BinaryOp": [
+                                                                                            {
+                                                                                              "Var": [
+                                                                                                "M31",
+                                                                                                "verify_reduced_252_input_limb_0"
+                                                                                              ]
+                                                                                            },
+                                                                                            "+",
+                                                                                            {
+                                                                                              "Var": [
+                                                                                                "M31",
+                                                                                                "verify_reduced_252_input_limb_1"
+                                                                                              ]
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        "+",
+                                                                                        {
+                                                                                          "Var": [
+                                                                                            "M31",
+                                                                                            "verify_reduced_252_input_limb_2"
+                                                                                          ]
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    "+",
+                                                                                    {
+                                                                                      "Var": [
+                                                                                        "M31",
+                                                                                        "verify_reduced_252_input_limb_3"
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                "+",
+                                                                                {
+                                                                                  "Var": [
+                                                                                    "M31",
+                                                                                    "verify_reduced_252_input_limb_4"
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            "+",
+                                                                            {
+                                                                              "Var": [
+                                                                                "M31",
+                                                                                "verify_reduced_252_input_limb_5"
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        "+",
+                                                                        {
+                                                                          "Var": [
+                                                                            "M31",
+                                                                            "verify_reduced_252_input_limb_6"
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    "+",
+                                                                    {
+                                                                      "Var": [
+                                                                        "M31",
+                                                                        "verify_reduced_252_input_limb_7"
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                "+",
+                                                                {
+                                                                  "Var": [
+                                                                    "M31",
+                                                                    "verify_reduced_252_input_limb_8"
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            "+",
+                                                            {
+                                                              "Var": [
+                                                                "M31",
+                                                                "verify_reduced_252_input_limb_9"
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "verify_reduced_252_input_limb_10"
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    "+",
+                                                    {
+                                                      "Var": [
+                                                        "M31",
+                                                        "verify_reduced_252_input_limb_11"
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "Var": [
+                                                    "M31",
+                                                    "verify_reduced_252_input_limb_12"
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "verify_reduced_252_input_limb_13"
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "Var": [
+                                            "M31",
+                                            "verify_reduced_252_input_limb_14"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "Var": [
+                                        "M31",
+                                        "verify_reduced_252_input_limb_15"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "verify_reduced_252_input_limb_16"
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "Var": [
+                                "M31",
+                                "verify_reduced_252_input_limb_17"
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_reduced_252_input_limb_18"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "verify_reduced_252_input_limb_19"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "verify_reduced_252_input_limb_20"
+                  ]
+                }
               ]
             }
           ]

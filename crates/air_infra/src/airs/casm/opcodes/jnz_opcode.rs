@@ -83,10 +83,7 @@ impl AirFn for JnzOpcode {
             .as_felts();
 
         // Calculate the next pc
-        let dst_sum = dst
-            .clone()
-            .into_iter()
-            .fold(const_expr!(0), |acc, x| acc + x);
+        let dst_sum: FeltExpr = dst.clone().into_iter().sum();
 
         let next_pc = if self.taken {
             // constrain dst != 0
@@ -100,7 +97,7 @@ impl AirFn for JnzOpcode {
             let res = ab.deduce(&mut dst_sum.clone().inverse(), "res");
             ab.constrain(dst_sum * res - const_expr!(1), "dst doesn't equal 0");
 
-            let dst_sum_squares = dst
+            let dst_sum_squares: FeltExpr = dst
                 .into_iter()
                 .enumerate()
                 .map(|(i, x)| {
@@ -111,7 +108,7 @@ impl AirFn for JnzOpcode {
                         x.clone() * x
                     }
                 })
-                .fold(const_expr!(0), |acc, z| acc + z);
+                .sum();
 
             let res_squares = ab.deduce(&mut dst_sum_squares.clone().inverse(), "res_squares");
             ab.constrain(
