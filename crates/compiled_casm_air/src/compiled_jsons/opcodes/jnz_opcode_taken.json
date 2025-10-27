@@ -29,7 +29,7 @@
                 {
                   "Var": [
                     "M31",
-                    "read_small_output_tmp_f51a9_23.0"
+                    "read_small_output_tmp_f51a9_24.0"
                   ]
                 }
               ]
@@ -74,7 +74,7 @@
             {
               "Var": [
                 "M31",
-                "read_small_output_tmp_f51a9_23_limb_0"
+                "read_small_output_tmp_f51a9_24_limb_0"
               ]
             }
           ]
@@ -134,8 +134,8 @@
     "dst_limb_25_col33",
     "dst_limb_26_col34",
     "dst_limb_27_col35",
-    "res_col36",
-    "res_squares_col37",
+    "dst_sum_inv_col36",
+    "dst_sum_squares_inv_col37",
     "next_pc_id_col38",
     "msb_col39",
     "mid_limbs_set_col40",
@@ -422,8 +422,11 @@
       }
     },
     {
-      "Constraint": [
-        {
+      "Intermediate": {
+        "felt_names": [
+          "dst_sum_p_zero_tmp_f51a9_11"
+        ],
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -472,183 +475,193 @@
                                                                                                     {
                                                                                                       "BinaryOp": [
                                                                                                         {
-                                                                                                          "BinaryOp": [
-                                                                                                            {
-                                                                                                              "BinaryOp": [
-                                                                                                                {
-                                                                                                                  "BinaryOp": [
-                                                                                                                    {
-                                                                                                                      "BinaryOp": [
-                                                                                                                        {
-                                                                                                                          "BinaryOp": [
-                                                                                                                            {
-                                                                                                                              "State": "dst_limb_0_col8"
-                                                                                                                            },
-                                                                                                                            "+",
-                                                                                                                            {
-                                                                                                                              "State": "dst_limb_1_col9"
-                                                                                                                            }
-                                                                                                                          ]
-                                                                                                                        },
-                                                                                                                        "+",
-                                                                                                                        {
-                                                                                                                          "State": "dst_limb_2_col10"
-                                                                                                                        }
-                                                                                                                      ]
-                                                                                                                    },
-                                                                                                                    "+",
-                                                                                                                    {
-                                                                                                                      "State": "dst_limb_3_col11"
-                                                                                                                    }
-                                                                                                                  ]
-                                                                                                                },
-                                                                                                                "+",
-                                                                                                                {
-                                                                                                                  "State": "dst_limb_4_col12"
-                                                                                                                }
-                                                                                                              ]
-                                                                                                            },
-                                                                                                            "+",
-                                                                                                            {
-                                                                                                              "State": "dst_limb_5_col13"
-                                                                                                            }
-                                                                                                          ]
+                                                                                                          "State": "dst_limb_1_col9"
                                                                                                         },
                                                                                                         "+",
                                                                                                         {
-                                                                                                          "State": "dst_limb_6_col14"
+                                                                                                          "State": "dst_limb_2_col10"
                                                                                                         }
                                                                                                       ]
                                                                                                     },
                                                                                                     "+",
                                                                                                     {
-                                                                                                      "State": "dst_limb_7_col15"
+                                                                                                      "State": "dst_limb_3_col11"
                                                                                                     }
                                                                                                   ]
                                                                                                 },
                                                                                                 "+",
                                                                                                 {
-                                                                                                  "State": "dst_limb_8_col16"
+                                                                                                  "State": "dst_limb_4_col12"
                                                                                                 }
                                                                                               ]
                                                                                             },
                                                                                             "+",
                                                                                             {
-                                                                                              "State": "dst_limb_9_col17"
+                                                                                              "State": "dst_limb_5_col13"
                                                                                             }
                                                                                           ]
                                                                                         },
                                                                                         "+",
                                                                                         {
-                                                                                          "State": "dst_limb_10_col18"
+                                                                                          "State": "dst_limb_6_col14"
                                                                                         }
                                                                                       ]
                                                                                     },
                                                                                     "+",
                                                                                     {
-                                                                                      "State": "dst_limb_11_col19"
+                                                                                      "State": "dst_limb_7_col15"
                                                                                     }
                                                                                   ]
                                                                                 },
                                                                                 "+",
                                                                                 {
-                                                                                  "State": "dst_limb_12_col20"
+                                                                                  "State": "dst_limb_8_col16"
                                                                                 }
                                                                               ]
                                                                             },
                                                                             "+",
                                                                             {
-                                                                              "State": "dst_limb_13_col21"
+                                                                              "State": "dst_limb_9_col17"
                                                                             }
                                                                           ]
                                                                         },
                                                                         "+",
                                                                         {
-                                                                          "State": "dst_limb_14_col22"
+                                                                          "State": "dst_limb_10_col18"
                                                                         }
                                                                       ]
                                                                     },
                                                                     "+",
                                                                     {
-                                                                      "State": "dst_limb_15_col23"
+                                                                      "State": "dst_limb_11_col19"
                                                                     }
                                                                   ]
                                                                 },
                                                                 "+",
                                                                 {
-                                                                  "State": "dst_limb_16_col24"
+                                                                  "State": "dst_limb_12_col20"
                                                                 }
                                                               ]
                                                             },
                                                             "+",
                                                             {
-                                                              "State": "dst_limb_17_col25"
+                                                              "State": "dst_limb_13_col21"
                                                             }
                                                           ]
                                                         },
                                                         "+",
                                                         {
-                                                          "State": "dst_limb_18_col26"
+                                                          "State": "dst_limb_14_col22"
                                                         }
                                                       ]
                                                     },
                                                     "+",
                                                     {
-                                                      "State": "dst_limb_19_col27"
+                                                      "State": "dst_limb_15_col23"
                                                     }
                                                   ]
                                                 },
                                                 "+",
                                                 {
-                                                  "State": "dst_limb_20_col28"
+                                                  "State": "dst_limb_16_col24"
                                                 }
                                               ]
                                             },
                                             "+",
                                             {
-                                              "State": "dst_limb_21_col29"
+                                              "State": "dst_limb_17_col25"
                                             }
                                           ]
                                         },
                                         "+",
                                         {
-                                          "State": "dst_limb_22_col30"
+                                          "State": "dst_limb_18_col26"
                                         }
                                       ]
                                     },
                                     "+",
                                     {
-                                      "State": "dst_limb_23_col31"
+                                      "State": "dst_limb_19_col27"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "dst_limb_24_col32"
+                                  "State": "dst_limb_20_col28"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "dst_limb_25_col33"
+                              "State": "dst_limb_22_col30"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "dst_limb_26_col34"
+                          "State": "dst_limb_23_col31"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "dst_limb_27_col35"
+                      "State": "dst_limb_24_col32"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "State": "dst_limb_25_col33"
+                }
+              ]
+            },
+            "+",
+            {
+              "State": "dst_limb_26_col34"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "dst_sum_p_zero_tmp_f51a9_11"
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "dst_limb_0_col8"
+                            },
+                            "+",
+                            {
+                              "State": "dst_limb_21_col29"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "dst_limb_27_col35"
+                        }
+                      ]
                     }
                   ]
                 },
                 "*",
                 {
-                  "State": "res_col36"
+                  "State": "dst_sum_inv_col36"
                 }
               ]
             },
@@ -667,7 +680,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "diff_from_p_tmp_f51a9_11"
+          "diff_from_p_tmp_f51a9_12"
         ],
         "var": {
           "BinaryOp": [
@@ -688,7 +701,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "diff_from_p_tmp_f51a9_12"
+          "diff_from_p_tmp_f51a9_13"
         ],
         "var": {
           "BinaryOp": [
@@ -709,7 +722,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "diff_from_p_tmp_f51a9_13"
+          "diff_from_p_tmp_f51a9_14"
         ],
         "var": {
           "BinaryOp": [
@@ -736,258 +749,69 @@
                 {
                   "BinaryOp": [
                     {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "BinaryOp": [
-                                                {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "BinaryOp": [
-                                                        {
-                                                          "BinaryOp": [
-                                                            {
-                                                              "BinaryOp": [
-                                                                {
-                                                                  "BinaryOp": [
-                                                                    {
-                                                                      "BinaryOp": [
-                                                                        {
-                                                                          "BinaryOp": [
-                                                                            {
-                                                                              "BinaryOp": [
-                                                                                {
-                                                                                  "BinaryOp": [
-                                                                                    {
-                                                                                      "BinaryOp": [
-                                                                                        {
-                                                                                          "BinaryOp": [
-                                                                                            {
-                                                                                              "BinaryOp": [
-                                                                                                {
-                                                                                                  "BinaryOp": [
-                                                                                                    {
-                                                                                                      "BinaryOp": [
-                                                                                                        {
-                                                                                                          "BinaryOp": [
-                                                                                                            {
-                                                                                                              "BinaryOp": [
-                                                                                                                {
-                                                                                                                  "BinaryOp": [
-                                                                                                                    {
-                                                                                                                      "BinaryOp": [
-                                                                                                                        {
-                                                                                                                          "BinaryOp": [
-                                                                                                                            {
-                                                                                                                              "BinaryOp": [
-                                                                                                                                {
-                                                                                                                                  "Var": [
-                                                                                                                                    "M31",
-                                                                                                                                    "diff_from_p_tmp_f51a9_11"
-                                                                                                                                  ]
-                                                                                                                                },
-                                                                                                                                "*",
-                                                                                                                                {
-                                                                                                                                  "Var": [
-                                                                                                                                    "M31",
-                                                                                                                                    "diff_from_p_tmp_f51a9_11"
-                                                                                                                                  ]
-                                                                                                                                }
-                                                                                                                              ]
-                                                                                                                            },
-                                                                                                                            "+",
-                                                                                                                            {
-                                                                                                                              "State": "dst_limb_1_col9"
-                                                                                                                            }
-                                                                                                                          ]
-                                                                                                                        },
-                                                                                                                        "+",
-                                                                                                                        {
-                                                                                                                          "State": "dst_limb_2_col10"
-                                                                                                                        }
-                                                                                                                      ]
-                                                                                                                    },
-                                                                                                                    "+",
-                                                                                                                    {
-                                                                                                                      "State": "dst_limb_3_col11"
-                                                                                                                    }
-                                                                                                                  ]
-                                                                                                                },
-                                                                                                                "+",
-                                                                                                                {
-                                                                                                                  "State": "dst_limb_4_col12"
-                                                                                                                }
-                                                                                                              ]
-                                                                                                            },
-                                                                                                            "+",
-                                                                                                            {
-                                                                                                              "State": "dst_limb_5_col13"
-                                                                                                            }
-                                                                                                          ]
-                                                                                                        },
-                                                                                                        "+",
-                                                                                                        {
-                                                                                                          "State": "dst_limb_6_col14"
-                                                                                                        }
-                                                                                                      ]
-                                                                                                    },
-                                                                                                    "+",
-                                                                                                    {
-                                                                                                      "State": "dst_limb_7_col15"
-                                                                                                    }
-                                                                                                  ]
-                                                                                                },
-                                                                                                "+",
-                                                                                                {
-                                                                                                  "State": "dst_limb_8_col16"
-                                                                                                }
-                                                                                              ]
-                                                                                            },
-                                                                                            "+",
-                                                                                            {
-                                                                                              "State": "dst_limb_9_col17"
-                                                                                            }
-                                                                                          ]
-                                                                                        },
-                                                                                        "+",
-                                                                                        {
-                                                                                          "State": "dst_limb_10_col18"
-                                                                                        }
-                                                                                      ]
-                                                                                    },
-                                                                                    "+",
-                                                                                    {
-                                                                                      "State": "dst_limb_11_col19"
-                                                                                    }
-                                                                                  ]
-                                                                                },
-                                                                                "+",
-                                                                                {
-                                                                                  "State": "dst_limb_12_col20"
-                                                                                }
-                                                                              ]
-                                                                            },
-                                                                            "+",
-                                                                            {
-                                                                              "State": "dst_limb_13_col21"
-                                                                            }
-                                                                          ]
-                                                                        },
-                                                                        "+",
-                                                                        {
-                                                                          "State": "dst_limb_14_col22"
-                                                                        }
-                                                                      ]
-                                                                    },
-                                                                    "+",
-                                                                    {
-                                                                      "State": "dst_limb_15_col23"
-                                                                    }
-                                                                  ]
-                                                                },
-                                                                "+",
-                                                                {
-                                                                  "State": "dst_limb_16_col24"
-                                                                }
-                                                              ]
-                                                            },
-                                                            "+",
-                                                            {
-                                                              "State": "dst_limb_17_col25"
-                                                            }
-                                                          ]
-                                                        },
-                                                        "+",
-                                                        {
-                                                          "State": "dst_limb_18_col26"
-                                                        }
-                                                      ]
-                                                    },
-                                                    "+",
-                                                    {
-                                                      "State": "dst_limb_19_col27"
-                                                    }
-                                                  ]
-                                                },
-                                                "+",
-                                                {
-                                                  "State": "dst_limb_20_col28"
-                                                }
-                                              ]
-                                            },
-                                            "+",
-                                            {
-                                              "BinaryOp": [
-                                                {
-                                                  "Var": [
-                                                    "M31",
-                                                    "diff_from_p_tmp_f51a9_12"
-                                                  ]
-                                                },
-                                                "*",
-                                                {
-                                                  "Var": [
-                                                    "M31",
-                                                    "diff_from_p_tmp_f51a9_12"
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        "+",
-                                        {
-                                          "State": "dst_limb_22_col30"
-                                        }
-                                      ]
-                                    },
-                                    "+",
-                                    {
-                                      "State": "dst_limb_23_col31"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "State": "dst_limb_24_col32"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "dst_limb_25_col33"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "dst_limb_26_col34"
-                        }
+                      "Var": [
+                        "M31",
+                        "dst_sum_p_zero_tmp_f51a9_11"
                       ]
                     },
                     "+",
                     {
                       "BinaryOp": [
                         {
-                          "Var": [
-                            "M31",
-                            "diff_from_p_tmp_f51a9_13"
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "diff_from_p_tmp_f51a9_12"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "diff_from_p_tmp_f51a9_12"
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "diff_from_p_tmp_f51a9_13"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "diff_from_p_tmp_f51a9_13"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
-                        "*",
+                        "+",
                         {
-                          "Var": [
-                            "M31",
-                            "diff_from_p_tmp_f51a9_13"
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "diff_from_p_tmp_f51a9_14"
+                              ]
+                            },
+                            "*",
+                            {
+                              "Var": [
+                                "M31",
+                                "diff_from_p_tmp_f51a9_14"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -996,7 +820,7 @@
                 },
                 "*",
                 {
-                  "State": "res_squares_col37"
+                  "State": "dst_sum_squares_inv_col37"
                 }
               ]
             },
@@ -1015,7 +839,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "read_small_output_tmp_f51a9_23_limb_0"
+          "read_small_output_tmp_f51a9_24_limb_0"
         ],
         "var": {
           "StaticCall": [
@@ -1098,7 +922,7 @@
               {
                 "Var": [
                   "M31",
-                  "read_small_output_tmp_f51a9_23_limb_0"
+                  "read_small_output_tmp_f51a9_24_limb_0"
                 ]
               }
             ]
@@ -2815,224 +2639,236 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "dst_sum_p_zero_tmp_f51a9_11",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "BinaryOp": [
+                                                                {
+                                                                  "BinaryOp": [
+                                                                    {
+                                                                      "BinaryOp": [
+                                                                        {
+                                                                          "BinaryOp": [
+                                                                            {
+                                                                              "BinaryOp": [
+                                                                                {
+                                                                                  "BinaryOp": [
+                                                                                    {
+                                                                                      "BinaryOp": [
+                                                                                        {
+                                                                                          "BinaryOp": [
+                                                                                            {
+                                                                                              "BinaryOp": [
+                                                                                                {
+                                                                                                  "BinaryOp": [
+                                                                                                    {
+                                                                                                      "BinaryOp": [
+                                                                                                        {
+                                                                                                          "State": "dst_limb_1_col9"
+                                                                                                        },
+                                                                                                        "+",
+                                                                                                        {
+                                                                                                          "State": "dst_limb_2_col10"
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    },
+                                                                                                    "+",
+                                                                                                    {
+                                                                                                      "State": "dst_limb_3_col11"
+                                                                                                    }
+                                                                                                  ]
+                                                                                                },
+                                                                                                "+",
+                                                                                                {
+                                                                                                  "State": "dst_limb_4_col12"
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            "+",
+                                                                                            {
+                                                                                              "State": "dst_limb_5_col13"
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        "+",
+                                                                                        {
+                                                                                          "State": "dst_limb_6_col14"
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    "+",
+                                                                                    {
+                                                                                      "State": "dst_limb_7_col15"
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                "+",
+                                                                                {
+                                                                                  "State": "dst_limb_8_col16"
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            "+",
+                                                                            {
+                                                                              "State": "dst_limb_9_col17"
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        "+",
+                                                                        {
+                                                                          "State": "dst_limb_10_col18"
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    "+",
+                                                                    {
+                                                                      "State": "dst_limb_11_col19"
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                "+",
+                                                                {
+                                                                  "State": "dst_limb_12_col20"
+                                                                }
+                                                              ]
+                                                            },
+                                                            "+",
+                                                            {
+                                                              "State": "dst_limb_13_col21"
+                                                            }
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "State": "dst_limb_14_col22"
+                                                        }
+                                                      ]
+                                                    },
+                                                    "+",
+                                                    {
+                                                      "State": "dst_limb_15_col23"
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "State": "dst_limb_16_col24"
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "State": "dst_limb_17_col25"
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "State": "dst_limb_18_col26"
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "State": "dst_limb_19_col27"
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "State": "dst_limb_20_col28"
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "State": "dst_limb_22_col30"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "dst_limb_23_col31"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "State": "dst_limb_24_col32"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "State": "dst_limb_25_col33"
+                }
+              ]
+            },
+            "+",
+            {
+              "State": "dst_limb_26_col34"
+            }
+          ]
+        }
+      }
+    },
+    {
       "Deduction": {
         "MethodCall": [
           {
             "BinaryOp": [
               {
+                "Var": [
+                  "M31",
+                  "dst_sum_p_zero_tmp_f51a9_11"
+                ]
+              },
+              "+",
+              {
                 "BinaryOp": [
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "BinaryOp": [
-                                          {
-                                            "BinaryOp": [
-                                              {
-                                                "BinaryOp": [
-                                                  {
-                                                    "BinaryOp": [
-                                                      {
-                                                        "BinaryOp": [
-                                                          {
-                                                            "BinaryOp": [
-                                                              {
-                                                                "BinaryOp": [
-                                                                  {
-                                                                    "BinaryOp": [
-                                                                      {
-                                                                        "BinaryOp": [
-                                                                          {
-                                                                            "BinaryOp": [
-                                                                              {
-                                                                                "BinaryOp": [
-                                                                                  {
-                                                                                    "BinaryOp": [
-                                                                                      {
-                                                                                        "BinaryOp": [
-                                                                                          {
-                                                                                            "BinaryOp": [
-                                                                                              {
-                                                                                                "BinaryOp": [
-                                                                                                  {
-                                                                                                    "BinaryOp": [
-                                                                                                      {
-                                                                                                        "BinaryOp": [
-                                                                                                          {
-                                                                                                            "BinaryOp": [
-                                                                                                              {
-                                                                                                                "BinaryOp": [
-                                                                                                                  {
-                                                                                                                    "BinaryOp": [
-                                                                                                                      {
-                                                                                                                        "State": "dst_limb_0_col8"
-                                                                                                                      },
-                                                                                                                      "+",
-                                                                                                                      {
-                                                                                                                        "State": "dst_limb_1_col9"
-                                                                                                                      }
-                                                                                                                    ]
-                                                                                                                  },
-                                                                                                                  "+",
-                                                                                                                  {
-                                                                                                                    "State": "dst_limb_2_col10"
-                                                                                                                  }
-                                                                                                                ]
-                                                                                                              },
-                                                                                                              "+",
-                                                                                                              {
-                                                                                                                "State": "dst_limb_3_col11"
-                                                                                                              }
-                                                                                                            ]
-                                                                                                          },
-                                                                                                          "+",
-                                                                                                          {
-                                                                                                            "State": "dst_limb_4_col12"
-                                                                                                          }
-                                                                                                        ]
-                                                                                                      },
-                                                                                                      "+",
-                                                                                                      {
-                                                                                                        "State": "dst_limb_5_col13"
-                                                                                                      }
-                                                                                                    ]
-                                                                                                  },
-                                                                                                  "+",
-                                                                                                  {
-                                                                                                    "State": "dst_limb_6_col14"
-                                                                                                  }
-                                                                                                ]
-                                                                                              },
-                                                                                              "+",
-                                                                                              {
-                                                                                                "State": "dst_limb_7_col15"
-                                                                                              }
-                                                                                            ]
-                                                                                          },
-                                                                                          "+",
-                                                                                          {
-                                                                                            "State": "dst_limb_8_col16"
-                                                                                          }
-                                                                                        ]
-                                                                                      },
-                                                                                      "+",
-                                                                                      {
-                                                                                        "State": "dst_limb_9_col17"
-                                                                                      }
-                                                                                    ]
-                                                                                  },
-                                                                                  "+",
-                                                                                  {
-                                                                                    "State": "dst_limb_10_col18"
-                                                                                  }
-                                                                                ]
-                                                                              },
-                                                                              "+",
-                                                                              {
-                                                                                "State": "dst_limb_11_col19"
-                                                                              }
-                                                                            ]
-                                                                          },
-                                                                          "+",
-                                                                          {
-                                                                            "State": "dst_limb_12_col20"
-                                                                          }
-                                                                        ]
-                                                                      },
-                                                                      "+",
-                                                                      {
-                                                                        "State": "dst_limb_13_col21"
-                                                                      }
-                                                                    ]
-                                                                  },
-                                                                  "+",
-                                                                  {
-                                                                    "State": "dst_limb_14_col22"
-                                                                  }
-                                                                ]
-                                                              },
-                                                              "+",
-                                                              {
-                                                                "State": "dst_limb_15_col23"
-                                                              }
-                                                            ]
-                                                          },
-                                                          "+",
-                                                          {
-                                                            "State": "dst_limb_16_col24"
-                                                          }
-                                                        ]
-                                                      },
-                                                      "+",
-                                                      {
-                                                        "State": "dst_limb_17_col25"
-                                                      }
-                                                    ]
-                                                  },
-                                                  "+",
-                                                  {
-                                                    "State": "dst_limb_18_col26"
-                                                  }
-                                                ]
-                                              },
-                                              "+",
-                                              {
-                                                "State": "dst_limb_19_col27"
-                                              }
-                                            ]
-                                          },
-                                          "+",
-                                          {
-                                            "State": "dst_limb_20_col28"
-                                          }
-                                        ]
-                                      },
-                                      "+",
-                                      {
-                                        "State": "dst_limb_21_col29"
-                                      }
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "State": "dst_limb_22_col30"
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "State": "dst_limb_23_col31"
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "State": "dst_limb_24_col32"
-                          }
-                        ]
+                        "State": "dst_limb_0_col8"
                       },
                       "+",
                       {
-                        "State": "dst_limb_25_col33"
+                        "State": "dst_limb_21_col29"
                       }
                     ]
                   },
                   "+",
                   {
-                    "State": "dst_limb_26_col34"
+                    "State": "dst_limb_27_col35"
                   }
                 ]
-              },
-              "+",
-              {
-                "State": "dst_limb_27_col35"
               }
             ]
           },
@@ -3043,7 +2879,7 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_f51a9_11",
+        "name": "diff_from_p_tmp_f51a9_12",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -3063,7 +2899,7 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_f51a9_12",
+        "name": "diff_from_p_tmp_f51a9_13",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -3083,7 +2919,7 @@
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_f51a9_13",
+        "name": "diff_from_p_tmp_f51a9_14",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -3107,258 +2943,69 @@
           {
             "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "BinaryOp": [
-                                          {
-                                            "BinaryOp": [
-                                              {
-                                                "BinaryOp": [
-                                                  {
-                                                    "BinaryOp": [
-                                                      {
-                                                        "BinaryOp": [
-                                                          {
-                                                            "BinaryOp": [
-                                                              {
-                                                                "BinaryOp": [
-                                                                  {
-                                                                    "BinaryOp": [
-                                                                      {
-                                                                        "BinaryOp": [
-                                                                          {
-                                                                            "BinaryOp": [
-                                                                              {
-                                                                                "BinaryOp": [
-                                                                                  {
-                                                                                    "BinaryOp": [
-                                                                                      {
-                                                                                        "BinaryOp": [
-                                                                                          {
-                                                                                            "BinaryOp": [
-                                                                                              {
-                                                                                                "BinaryOp": [
-                                                                                                  {
-                                                                                                    "BinaryOp": [
-                                                                                                      {
-                                                                                                        "BinaryOp": [
-                                                                                                          {
-                                                                                                            "BinaryOp": [
-                                                                                                              {
-                                                                                                                "BinaryOp": [
-                                                                                                                  {
-                                                                                                                    "BinaryOp": [
-                                                                                                                      {
-                                                                                                                        "BinaryOp": [
-                                                                                                                          {
-                                                                                                                            "Var": [
-                                                                                                                              "M31",
-                                                                                                                              "diff_from_p_tmp_f51a9_11"
-                                                                                                                            ]
-                                                                                                                          },
-                                                                                                                          "*",
-                                                                                                                          {
-                                                                                                                            "Var": [
-                                                                                                                              "M31",
-                                                                                                                              "diff_from_p_tmp_f51a9_11"
-                                                                                                                            ]
-                                                                                                                          }
-                                                                                                                        ]
-                                                                                                                      },
-                                                                                                                      "+",
-                                                                                                                      {
-                                                                                                                        "State": "dst_limb_1_col9"
-                                                                                                                      }
-                                                                                                                    ]
-                                                                                                                  },
-                                                                                                                  "+",
-                                                                                                                  {
-                                                                                                                    "State": "dst_limb_2_col10"
-                                                                                                                  }
-                                                                                                                ]
-                                                                                                              },
-                                                                                                              "+",
-                                                                                                              {
-                                                                                                                "State": "dst_limb_3_col11"
-                                                                                                              }
-                                                                                                            ]
-                                                                                                          },
-                                                                                                          "+",
-                                                                                                          {
-                                                                                                            "State": "dst_limb_4_col12"
-                                                                                                          }
-                                                                                                        ]
-                                                                                                      },
-                                                                                                      "+",
-                                                                                                      {
-                                                                                                        "State": "dst_limb_5_col13"
-                                                                                                      }
-                                                                                                    ]
-                                                                                                  },
-                                                                                                  "+",
-                                                                                                  {
-                                                                                                    "State": "dst_limb_6_col14"
-                                                                                                  }
-                                                                                                ]
-                                                                                              },
-                                                                                              "+",
-                                                                                              {
-                                                                                                "State": "dst_limb_7_col15"
-                                                                                              }
-                                                                                            ]
-                                                                                          },
-                                                                                          "+",
-                                                                                          {
-                                                                                            "State": "dst_limb_8_col16"
-                                                                                          }
-                                                                                        ]
-                                                                                      },
-                                                                                      "+",
-                                                                                      {
-                                                                                        "State": "dst_limb_9_col17"
-                                                                                      }
-                                                                                    ]
-                                                                                  },
-                                                                                  "+",
-                                                                                  {
-                                                                                    "State": "dst_limb_10_col18"
-                                                                                  }
-                                                                                ]
-                                                                              },
-                                                                              "+",
-                                                                              {
-                                                                                "State": "dst_limb_11_col19"
-                                                                              }
-                                                                            ]
-                                                                          },
-                                                                          "+",
-                                                                          {
-                                                                            "State": "dst_limb_12_col20"
-                                                                          }
-                                                                        ]
-                                                                      },
-                                                                      "+",
-                                                                      {
-                                                                        "State": "dst_limb_13_col21"
-                                                                      }
-                                                                    ]
-                                                                  },
-                                                                  "+",
-                                                                  {
-                                                                    "State": "dst_limb_14_col22"
-                                                                  }
-                                                                ]
-                                                              },
-                                                              "+",
-                                                              {
-                                                                "State": "dst_limb_15_col23"
-                                                              }
-                                                            ]
-                                                          },
-                                                          "+",
-                                                          {
-                                                            "State": "dst_limb_16_col24"
-                                                          }
-                                                        ]
-                                                      },
-                                                      "+",
-                                                      {
-                                                        "State": "dst_limb_17_col25"
-                                                      }
-                                                    ]
-                                                  },
-                                                  "+",
-                                                  {
-                                                    "State": "dst_limb_18_col26"
-                                                  }
-                                                ]
-                                              },
-                                              "+",
-                                              {
-                                                "State": "dst_limb_19_col27"
-                                              }
-                                            ]
-                                          },
-                                          "+",
-                                          {
-                                            "State": "dst_limb_20_col28"
-                                          }
-                                        ]
-                                      },
-                                      "+",
-                                      {
-                                        "BinaryOp": [
-                                          {
-                                            "Var": [
-                                              "M31",
-                                              "diff_from_p_tmp_f51a9_12"
-                                            ]
-                                          },
-                                          "*",
-                                          {
-                                            "Var": [
-                                              "M31",
-                                              "diff_from_p_tmp_f51a9_12"
-                                            ]
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "State": "dst_limb_22_col30"
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "State": "dst_limb_23_col31"
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "State": "dst_limb_24_col32"
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "State": "dst_limb_25_col33"
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "State": "dst_limb_26_col34"
-                  }
+                "Var": [
+                  "M31",
+                  "dst_sum_p_zero_tmp_f51a9_11"
                 ]
               },
               "+",
               {
                 "BinaryOp": [
                   {
-                    "Var": [
-                      "M31",
-                      "diff_from_p_tmp_f51a9_13"
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "Var": [
+                              "M31",
+                              "diff_from_p_tmp_f51a9_12"
+                            ]
+                          },
+                          "*",
+                          {
+                            "Var": [
+                              "M31",
+                              "diff_from_p_tmp_f51a9_12"
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "Var": [
+                              "M31",
+                              "diff_from_p_tmp_f51a9_13"
+                            ]
+                          },
+                          "*",
+                          {
+                            "Var": [
+                              "M31",
+                              "diff_from_p_tmp_f51a9_13"
+                            ]
+                          }
+                        ]
+                      }
                     ]
                   },
-                  "*",
+                  "+",
                   {
-                    "Var": [
-                      "M31",
-                      "diff_from_p_tmp_f51a9_13"
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "diff_from_p_tmp_f51a9_14"
+                        ]
+                      },
+                      "*",
+                      {
+                        "Var": [
+                          "M31",
+                          "diff_from_p_tmp_f51a9_14"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -3378,7 +3025,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f51a9_14",
+        "name": "memory_address_to_id_value_tmp_f51a9_15",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -3407,7 +3054,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f51a9_14"
+          "memory_address_to_id_value_tmp_f51a9_15"
         ]
       }
     },
@@ -3458,7 +3105,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f51a9_16",
+        "name": "memory_id_to_big_value_tmp_f51a9_17",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -3477,7 +3124,7 @@
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_f51a9_17",
+        "name": "msb_tmp_f51a9_18",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -3486,7 +3133,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_f51a9_16"
+                    "memory_id_to_big_value_tmp_f51a9_17"
                   ]
                 },
                 "get_m31",
@@ -3519,7 +3166,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_f51a9_17"
+              "msb_tmp_f51a9_18"
             ]
           },
           "as_m31",
@@ -3529,7 +3176,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_f51a9_18",
+        "name": "mid_limbs_set_tmp_f51a9_19",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -3538,7 +3185,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_f51a9_16"
+                    "memory_id_to_big_value_tmp_f51a9_17"
                   ]
                 },
                 "get_m31",
@@ -3571,7 +3218,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_f51a9_18"
+              "mid_limbs_set_tmp_f51a9_19"
             ]
           },
           "as_m31",
@@ -3581,7 +3228,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_f51a9_19",
+        "name": "cond_decode_small_sign_output_tmp_f51a9_20",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -3602,7 +3249,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_f51a9_16"
+              "memory_id_to_big_value_tmp_f51a9_17"
             ]
           },
           "get_m31",
@@ -3623,7 +3270,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_f51a9_16"
+              "memory_id_to_big_value_tmp_f51a9_17"
             ]
           },
           "get_m31",
@@ -3644,7 +3291,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_f51a9_16"
+              "memory_id_to_big_value_tmp_f51a9_17"
             ]
           },
           "get_m31",
@@ -3661,7 +3308,7 @@
     },
     {
       "Intermediate": {
-        "name": "remainder_bits_tmp_f51a9_20",
+        "name": "remainder_bits_tmp_f51a9_21",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -3674,7 +3321,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f51a9_16"
+                          "memory_id_to_big_value_tmp_f51a9_17"
                         ]
                       },
                       "get_m31",
@@ -3708,7 +3355,7 @@
           {
             "Var": [
               "UInt16",
-              "remainder_bits_tmp_f51a9_20"
+              "remainder_bits_tmp_f51a9_21"
             ]
           },
           "as_m31",
@@ -3721,7 +3368,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_f51a9_21",
+        "name": "partial_limb_msb_tmp_f51a9_22",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -3763,7 +3410,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_f51a9_21"
+              "partial_limb_msb_tmp_f51a9_22"
             ]
           },
           "as_m31",
@@ -4128,7 +3775,7 @@
     },
     {
       "Intermediate": {
-        "name": "read_small_output_tmp_f51a9_23",
+        "name": "read_small_output_tmp_f51a9_24",
         "type": "(M31, M31)",
         "var": {
           "Tuple": [
@@ -4257,7 +3904,7 @@
               {
                 "Var": [
                   "M31",
-                  "read_small_output_tmp_f51a9_23.0"
+                  "read_small_output_tmp_f51a9_24.0"
                 ]
               }
             ]
