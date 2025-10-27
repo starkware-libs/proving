@@ -89,17 +89,13 @@ impl AirFn for EvalOperands {
             "res",
         );
 
-        let res_constrained = air_builder.let_for_constraint(
-            const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone(),
-            "res_constrained",
-        );
         for i in 0..FELT252_N_WORDS {
             air_builder.constrain(
-                (res_constrained.clone())
-                    * (flags[FLAG_RES_OP1_INDEX].clone() * (res.get_felt(i) - op1.get_felt(i))
-                        + flags[FLAG_RES_ADD_INDEX].clone() * (res.get_felt(i) - sum.get_felt(i))
-                        + flags[FLAG_RES_MUL_INDEX].clone() * (res.get_felt(i) - prod.get_felt(i))),
-                "",
+                flags[FLAG_RES_ADD_INDEX].clone() * sum.get_felt(i)
+                    + flags[FLAG_RES_MUL_INDEX].clone() * prod.get_felt(i)
+                    + flags[FLAG_RES_OP1_INDEX].clone() * op1.get_felt(i)
+                    - (const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone()) * res.get_felt(i),
+                &format!("constrain limb {i} of res"),
             );
         }
 
