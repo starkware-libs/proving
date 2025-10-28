@@ -136,4 +136,15 @@ impl AirFn for JumpOpcode {
     fn trace_type(&self) -> TraceType {
         TraceType::Opcode
     }
+
+    fn name(&self) -> String {
+        let name = self.get_type_name();
+        let inst_def = self.get_inst_def();
+
+        if inst_def.is_empty() {
+            return format!("{name}_abs");
+        }
+
+        format!("{name}_{inst_def}")
+    }
 }

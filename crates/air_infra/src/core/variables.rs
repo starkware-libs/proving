@@ -633,7 +633,7 @@ impl_air_var!((CasmAddress, FeltExpr));
 type Addresses<const N: usize> = [CasmAddress; N];
 // MemVerifyAll
 impl_air_var!((Addresses<const N: usize>, Felt252Expr));
-// Felt252UnpackFrom27 + RangeCheckFelt252Width27 + Cube252 + LinearCombination +
+// Felt252UnpackFrom27 + RangeCheck252Width27 + Cube252 + LinearCombination +
 // PoseidonHadesPermutation
 impl_air_var!([Felt252Width27Expr]);
 // VerifyU32

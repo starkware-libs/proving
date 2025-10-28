@@ -1,14 +1,14 @@
 {
-  "name": "range_check_felt_252_width_27",
-  "relation_name": "RangeCheckFelt252Width27",
+  "name": "range_check_252_width_27",
+  "relation_name": "RangeCheck252Width27",
   "relation_size": 10,
   "log_height": null,
-  "description": "Range Check Felt 252 Width 27",
+  "description": "Range Check 252 Width 27",
   "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Enabler",
   "prover_input": [
-    "range_check_felt_252_width_27_input",
+    "range_check_252_width_27_input",
     "Felt252Width27",
     "PackedFelt252Width27"
   ],
@@ -17,7 +17,7 @@
     {
       "Tuple": []
     },
-    "range_check_felt_252_width_27_output",
+    "range_check_252_width_27_output",
     "()",
     "()"
   ],
@@ -106,7 +106,7 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Yield"
     ]
   ],
@@ -465,7 +465,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "input_limb_0_col0"
@@ -509,7 +509,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -530,7 +530,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -551,7 +551,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -572,7 +572,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -593,7 +593,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -614,7 +614,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -635,7 +635,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -656,7 +656,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -677,7 +677,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -698,7 +698,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "range_check_felt_252_width_27_input"
+              "range_check_252_width_27_input"
             ]
           },
           "get_m31",
@@ -715,7 +715,7 @@
     },
     {
       "Intermediate": {
-        "name": "input_as_felt252_tmp_2405e_0",
+        "name": "input_as_felt252_tmp_a0466_0",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -724,7 +724,7 @@
               {
                 "Var": [
                   "Felt252Width27",
-                  "range_check_felt_252_width_27_input"
+                  "range_check_252_width_27_input"
                 ]
               }
             ]
@@ -738,7 +738,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -759,7 +759,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -931,7 +931,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -952,7 +952,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -1124,7 +1124,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -1145,7 +1145,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -1317,7 +1317,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -1338,7 +1338,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -1510,7 +1510,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_0"
+              "input_as_felt252_tmp_a0466_0"
             ]
           },
           "get_m31",
@@ -1617,7 +1617,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "input_limb_0_col0"

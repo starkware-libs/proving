@@ -404,11 +404,11 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
@@ -508,7 +508,7 @@
     "MemoryAddressToId": "Multiplicity",
     "MemoryIdToBig": "Multiplicity",
     "PoseidonFullRoundChain": "Enabler",
-    "RangeCheckFelt252Width27": "Enabler",
+    "RangeCheck252Width27": "Enabler",
     "Cube252": "Enabler",
     "RangeCheck_3_3_3_3_3": "Multiplicity",
     "RangeCheck_4_4_4_4": "Multiplicity",
@@ -546,11 +546,11 @@
           "Use"
         ],
         [
-          "RangeCheckFelt252Width27",
+          "RangeCheck252Width27",
           "Use"
         ],
         [
-          "RangeCheckFelt252Width27",
+          "RangeCheck252Width27",
           "Use"
         ],
         [
@@ -12290,7 +12290,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -12301,7 +12301,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_0_col120"
@@ -12339,7 +12339,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -12350,7 +12350,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_10_col130"

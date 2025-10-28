@@ -286,11 +286,11 @@
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
-      "RangeCheckFelt252Width27",
+      "RangeCheck252Width27",
       "Use"
     ],
     [
@@ -364,7 +364,7 @@
   ],
   "deduction_lookups": {
     "PoseidonFullRoundChain": "Enabler",
-    "RangeCheckFelt252Width27": "Enabler",
+    "RangeCheck252Width27": "Enabler",
     "Cube252": "Enabler",
     "RangeCheck_3_3_3_3_3": "Multiplicity",
     "RangeCheck_4_4_4_4": "Multiplicity",
@@ -1191,7 +1191,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_0_col33"
@@ -1229,7 +1229,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_10_col43"
@@ -6941,7 +6941,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -6952,7 +6952,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_0_col33"
@@ -6990,7 +6990,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -7001,7 +7001,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Width27",
+        "relation_name": "RangeCheck252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_10_col43"

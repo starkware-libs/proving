@@ -56,7 +56,7 @@ impl AirFn for PoseidonPartialRound {
         );
         // The intermediary value half_z3, unlike the partial round state elements, is not the input
         // or output of any Cube252, and thus needs to be directly range checked.
-        air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), half_z3.clone());
+        air_builder.lookup_call(&RangeCheck252Width27 {}, (), half_z3.clone());
         let z3 = air_builder.call(&LinearCombination::new([2]), [half_z3]);
 
         [z2_3, z3]

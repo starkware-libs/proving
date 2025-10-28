@@ -124,7 +124,7 @@ pub fn generate_component_cairo_constraints_code(
 
 fn get_interaction_name(relation: String) -> String {
     match relation.as_str() {
-        "range_check_felt_252_width_27" => relation,
+        "range_check_252_width_27" => relation,
         range_check if range_check.starts_with("range_check") => {
             relation.replace("range_check_", "range_checks.rc_")
         }
