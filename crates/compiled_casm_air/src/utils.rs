@@ -140,5 +140,6 @@ where
 pub fn read_json(file_path: &str) -> Value {
     let json_file = fs::read_to_string(file_path)
         .unwrap_or_else(|e| panic!("Failed to read {}: {e}", file_path));
-    serde_json::from_str(&json_file).expect("Invalid JSON file")
+    serde_json::from_str(&json_file)
+        .unwrap_or_else(|e| panic!("Invalid JSON file {}: {e}", file_path))
 }
