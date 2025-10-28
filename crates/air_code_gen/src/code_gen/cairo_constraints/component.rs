@@ -78,8 +78,7 @@ pub fn generate_component_cairo_constraints_code(
                 ref interaction_trace_mask_points: ColumnArray<Array<CirclePoint<QM31>>>,
                 point: CirclePoint<QM31>,
             ) {
-                let log_size = $(get_log_size(air_fn, false));
-                let trace_gen = CanonicCosetImpl::new(log_size).coset.step;
+                let trace_gen = CanonicCosetImpl::new($(get_log_size(air_fn, false))).coset.step;
                 let point_offset_neg_1 = point.add_circle_point_m31(-trace_gen.mul(1).to_point());
                 $(gen_mask_points(air_fn))
             }
@@ -188,7 +187,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         let preprocessed_column =
             make_preprocessed_column(external_state, &quote! { component.claim.log_size });
         preprocessed_values.append(quote! {
-                    preprocessed_trace.values.insert(PreprocessedColumnKey::encode(@$(preprocessed_column)), NullableTrait::new($(make_qm31(external_column_value)))); $("\n")
+                    let mut preprocessed_trace = preprocessed_mask_add(preprocessed_trace, $(preprocessed_column), $(make_qm31(external_column_value))); $("\n")
                 });
     }
 
@@ -223,9 +222,12 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             use crate::cairo_component::*;
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
-            use crate::test_utils::{make_lookup_elements, make_interaction_trace};
             #[allow(unused_imports)]
-            use stwo_constraint_framework::{LookupElements, PreprocessedColumn, PreprocessedColumnKey, PreprocessedColumnTrait, PreprocessedMaskValues};
+            use stwo_cairo_air::preprocessed_columns::{seq_column_idx, NUM_PREPROCESSED_COLUMNS};
+            #[allow(unused_imports)]
+            use crate::test_utils::{make_lookup_elements, make_interaction_trace, preprocessed_mask_add};
+            #[allow(unused_imports)]
+            use stwo_constraint_framework::{LookupElements, PreprocessedMaskValues};
             use stwo_verifier_core::circle::CirclePoint;
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
@@ -238,7 +240,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                     y: $(make_qm31(&assignment.point.1))
                 };
 
-                let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
+                let mut preprocessed_trace = PreprocessedMaskValues { values: [Default::default(); NUM_PREPROCESSED_COLUMNS].span().into() };
                 $(preprocessed_values)
 
                 let mut trace_columns = [ $(trace_values) ].span();
