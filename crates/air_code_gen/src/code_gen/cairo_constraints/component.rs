@@ -79,10 +79,6 @@ pub fn generate_component_cairo_constraints_code(
                 $(gen_mask_points(air_fn))
             }
 
-            fn max_constraint_log_degree_bound(self: @Component) -> u32 {
-                $(get_log_size(air_fn, false)) + 1
-            }
-
             fn evaluate_constraints_at_point(
                 self: @Component,
                 ref sum: QM31,
