@@ -26,13 +26,19 @@ impl RustProverGen {
                 quote! { pub packed_inputs: $(vec_of_type("PackedInputType")), }
             }
             Mode::Inputs => quote! { pub inputs: $(vec_of_type("InputType")), },
-            Mode::Mults => quote! { pub mults: AtomicMultiplicityColumn, },
+            Mode::Mults => {
+                if is_const_size_component(&self.air_fn) {
+                    quote! { pub mults: AtomicMultiplicityColumn, }
+                } else {
+                    quote! { pub mults: DashMap<InputType, AtomicU32>, }
+                }
+            }
         };
         // TODO(Gali): Get the types of the public params from air_infra.
         for public_param in &self.air_fn.public_params {
             claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
         }
-        let derive_default = (self.can_use_derive_default())
+        let derive_default = (!is_const_size_component(&self.air_fn))
             .then(|| {
                 quote! { #[derive(Default)] }
             })
@@ -57,24 +63,38 @@ impl RustProverGen {
                 },
                 quote! {mut self, },
             ),
-            Mode::Mults => (
-                quote! {
-                pub fn add_input(&self, _input: &InputType) {
-                    todo!() // Implement manually
-                }
-
-                pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
-                    packed_inputs.into_par_iter().for_each(|packed_input| {
-                        packed_input.unpack().into_iter().for_each(|input| {
-                            self.add_input(&input);
+            Mode::Mults => {
+                let mut add_inputs_code = if is_const_size_component(&self.air_fn) {
+                    quote! {
+                        pub fn add_input(&self, _input: &InputType) {
+                            todo!() // Implement manually
+                        }
+                    }
+                } else {
+                    quote! {
+                        pub fn add_input(&self, input: &InputType) {
+                            self.mults
+                                .entry(*input)
+                                .or_insert_with(|| AtomicU32::new(0))
+                                .fetch_add(1, Ordering::Relaxed);
+                        }
+                    }
+                };
+                add_inputs_code.extend(quote! {
+                    $['\n']
+                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
+                        packed_inputs.into_par_iter().for_each(|packed_input| {
+                            packed_input.unpack().into_par_iter().for_each(|input| {
+                                self.add_input(&input);
+                            });
                         });
-                    });
-                }},
-                quote! {self, },
-            ),
+                    }
+                });
+                (add_inputs_code, quote! {self, })
+            }
         };
 
-        let default_mult_code = if !self.can_use_derive_default() {
+        let default_mult_code = if is_const_size_component(&self.air_fn) {
             quote! {
                 impl Default for ClaimGenerator {
                 fn default() -> Self {
@@ -87,16 +107,10 @@ impl RustProverGen {
             quote! {}
         };
 
-        let new_and_is_empty_code = match self.mode {
-            Mode::PackedInputs => quote! {
+        let new_code = match self.mode {
+            Mode::PackedInputs | Mode::Mults => quote! {
                 pub fn new() -> Self {
-                    Self {
-                        packed_inputs: vec![],
-                    }
-                }
-
-                pub fn is_empty(&self) -> bool {
-                    self.packed_inputs.is_empty()
+                    Self::default()
                 }
             },
             Mode::Inputs => quote! {
@@ -116,13 +130,29 @@ impl RustProverGen {
                     }
                 }
             }
+        };
+
+        let is_empty_code = match self.mode {
+            Mode::PackedInputs => quote! {
+                pub fn is_empty(&self) -> bool {
+                    self.packed_inputs.is_empty()
+                }
+            },
+            Mode::Mults if !is_const_size_component(&self.air_fn) => quote! {
+                pub fn is_empty(&self) -> bool {
+                    self.mults.is_empty()
+                }
+            },
             _ => quote! {},
         };
 
         quote! {
             $(default_mult_code)
+
             impl ClaimGenerator {
-                $(new_and_is_empty_code)
+                $(new_code)
+
+                $(is_empty_code)
 
                 pub fn write_trace(
                     $(self_param)
@@ -170,9 +200,36 @@ impl RustProverGen {
                 self.inputs.resize(size, *self.inputs.first().unwrap());
                 let packed_inputs = pack_values(&self.inputs);
             },
-            Mode::Mults => quote! {
-                let mults = self.mults.into_simd_vec();
-            },
+            Mode::Mults => {
+                if is_const_size_component(&self.air_fn) {
+                    quote! { let mults = self.mults.into_simd_vec(); }
+                } else {
+                    quote! {
+                        let mut inputs_mults = self
+                            .mults
+                            .iter()
+                            .map(|entry| (*entry.key(), M31(entry.value().load(Ordering::Relaxed))))
+                            .collect::<Vec<_>>();
+
+                        inputs_mults.sort_by_key(|(input, _)| input.0);
+
+                        let (mut inputs, mut mults) = inputs_mults.into_iter().unzip::<_, _, Vec<_>, Vec<_>>();
+
+                        // Calculate component size.
+                        let n_rows = inputs.len();
+                        assert_ne!(n_rows, 0);
+                        let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+                        let log_size = size.ilog2();
+
+                        // Pad component.
+                        inputs.resize(size, *inputs.first().unwrap());
+                        mults.resize(size, M31::zero());
+
+                        let packed_inputs = pack_values(&inputs);
+                        let packed_mults = pack_values(&mults);
+                    }
+                }
+            }
         };
         let mut interaction_claim_fields = match self.air_fn.padding_type {
             PaddingType::Enabler => quote! { n_rows, },
@@ -223,7 +280,18 @@ impl RustProverGen {
             Mode::PackedInputs | Mode::Inputs => {
                 quote! { inputs: $(vec_of_type("PackedInputType")), }
             }
-            Mode::Mults => quote! { mults: $(vec_of_type("PackedM31")), },
+            Mode::Mults => {
+                let mut tokens = rust::Tokens::new();
+                if !is_const_size_component(&self.air_fn) {
+                    tokens.extend(quote! {
+                        inputs: $(vec_of_type("PackedInputType")),
+                    });
+                }
+                tokens.extend(quote! {
+                    mults: $(vec_of_type("PackedM31")),
+                });
+                tokens
+            }
         };
         if self.air_fn.padding_type == PaddingType::Enabler {
             params.extend(quote! { n_rows: usize, })
@@ -241,7 +309,13 @@ impl RustProverGen {
             Mode::NoInputs => quote! { log_size, },
             Mode::PackedInputs => quote! { self.packed_inputs, },
             Mode::Inputs => quote! { packed_inputs, },
-            Mode::Mults => quote! { mults, },
+            Mode::Mults => {
+                if is_const_size_component(&self.air_fn) {
+                    quote! { mults, }
+                } else {
+                    quote! { packed_inputs, packed_mults, }
+                }
+            }
         };
         if self.air_fn.padding_type == PaddingType::Enabler {
             args.extend(quote! { n_rows, })
@@ -292,7 +366,10 @@ impl RustProverGen {
         }
 
         let prelude_code = match self.mode {
-            Mode::NoInputs | Mode::Mults => quote! {
+            Mode::NoInputs => quote! {
+            let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
+            },
+            Mode::Mults if is_const_size_component(&self.air_fn) => quote! {
             let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
             _ => quote! {
@@ -338,7 +415,8 @@ impl RustProverGen {
         };
 
         match self.mode {
-            Mode::NoInputs | Mode::Mults => {}
+            Mode::NoInputs => {}
+            Mode::Mults if is_const_size_component(&self.air_fn) => {}
             _ => {
                 lambda_producer.0.extend(quote! {
                    inputs.into_par_iter(),
@@ -501,10 +579,6 @@ impl RustProverGen {
         });
 
         write_trace_body
-    }
-
-    fn can_use_derive_default(&self) -> bool {
-        self.air_fn.padding_type != PaddingType::Multiplicity
     }
 }
 

@@ -1,9 +1,28 @@
+// This file was created by the AIR team.
+
 use crate::components::prelude::*;
 use crate::components::subroutines::encode_offsets::EncodeOffsets;
 use crate::components::subroutines::mem_verify::MemVerify;
 
-pub const N_TRACE_COLUMNS: usize = 16;
-pub const LOG_SIZE: u32 = 4;
+pub const N_TRACE_COLUMNS: usize = 17;
+pub const RELATION_USES_PER_ROW: [RelationUse; 4] = [
+    RelationUse {
+        relation_id: "MemoryAddressToId",
+        uses: 1,
+    },
+    RelationUse {
+        relation_id: "MemoryIdToBig",
+        uses: 1,
+    },
+    RelationUse {
+        relation_id: "RangeCheck_4_3",
+        uses: 1,
+    },
+    RelationUse {
+        relation_id: "RangeCheck_7_2_5",
+        uses: 1,
+    },
+];
 
 pub struct Eval {
     pub claim: Claim,
@@ -14,21 +33,23 @@ pub struct Eval {
     pub verify_instruction_lookup_elements: relations::VerifyInstruction,
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
-pub struct Claim {}
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct Claim {
+    pub log_size: u32,
+}
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-        let trace_log_sizes = vec![LOG_SIZE; N_TRACE_COLUMNS];
-        let interaction_log_sizes = vec![LOG_SIZE; SECURE_EXTENSION_DEGREE * 3];
+        let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 3];
         TreeVec::new(vec![vec![], trace_log_sizes, interaction_log_sizes])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_u64(LOG_SIZE as u64);
+        channel.mix_u64(self.log_size as u64);
     }
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
 pub struct InteractionClaim {
     pub claimed_sum: SecureField,
 }
@@ -42,7 +63,7 @@ pub type Component = FrameworkComponent<Eval>;
 
 impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
-        LOG_SIZE
+        self.claim.log_size
     }
 
     fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -70,10 +91,11 @@ impl FrameworkEval for Eval {
         let offset2_mid_col13 = eval.next_trace_mask();
         let offset2_high_col14 = eval.next_trace_mask();
         let instruction_id_col15 = eval.next_trace_mask();
+        let multiplicity = eval.next_trace_mask();
 
         #[allow(clippy::unused_unit)]
         #[allow(unused_variables)]
-        let [encode_offsets_output_tmp_16a4f_8_limb_0, encode_offsets_output_tmp_16a4f_8_limb_1, encode_offsets_output_tmp_16a4f_8_limb_2, encode_offsets_output_tmp_16a4f_8_limb_3, encode_offsets_output_tmp_16a4f_8_limb_4, encode_offsets_output_tmp_16a4f_8_limb_5] =
+        let [encode_offsets_output_tmp_16a4f_8_limb_1, encode_offsets_output_tmp_16a4f_8_limb_3] =
             EncodeOffsets::evaluate(
                 [
                     input_offset0_col1.clone(),
@@ -131,7 +153,7 @@ impl FrameworkEval for Eval {
         );
         eval.add_to_relation(RelationEntry::new(
             &self.verify_instruction_lookup_elements,
-            -E::EF::one(),
+            -E::EF::from(multiplicity),
             &[
                 input_pc_col0.clone(),
                 input_offset0_col1.clone(),
@@ -163,7 +185,7 @@ mod tests {
     fn verify_instruction_constraints_regression() {
         let mut rng = SmallRng::seed_from_u64(0);
         let eval = Eval {
-            claim: Claim {},
+            claim: Claim { log_size: 4 },
             range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5::dummy(),
             range_check_4_3_lookup_elements: relations::RangeCheck_4_3::dummy(),
             memory_address_to_id_lookup_elements: relations::MemoryAddressToId::dummy(),

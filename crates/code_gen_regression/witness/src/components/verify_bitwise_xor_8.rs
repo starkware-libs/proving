@@ -20,7 +20,12 @@ impl Default for ClaimGenerator {
         }
     }
 }
+
 impl ClaimGenerator {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
     pub fn write_trace(
         self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
@@ -39,7 +44,7 @@ impl ClaimGenerator {
 
     pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
         packed_inputs.into_par_iter().for_each(|packed_input| {
-            packed_input.unpack().into_iter().for_each(|input| {
+            packed_input.unpack().into_par_iter().for_each(|input| {
                 self.add_input(&input);
             });
         });
