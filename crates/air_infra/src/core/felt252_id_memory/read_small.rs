@@ -33,21 +33,28 @@ pub const LIMBS_IN_SMALL: usize = SMALL_BITS / FELT252_BITS_PER_WORD;
 // -2      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1ff
 // -3      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1fe
 
-/// Receives a felt252, and conditionally constrains its sign bits as a relative-immediate
+/// Receives a felt252, and constrains its sign bits as a relative-immediate
 /// (the "case" bits: msb and mid_limbs_set).
 /// Returns the deduced sign bits.
+/// If the given felt252 is not a small value, the mid_limbs_set will be set to zero, (i.e a grabage
+/// small value will be calculated out of this case bits).
 #[derive(Clone, Debug, Serialize)]
-pub struct CondDecodeSmallSign {}
+pub struct DecodeSmallSign {}
 
-impl AirFn for CondDecodeSmallSign {
+impl AirFn for DecodeSmallSign {
     type ExtIn = ();
-    type In = (Felt252Expr, FeltExpr);
+    type In = Felt252Expr;
     type Out = [FeltExpr; 2];
 
-    fn call(&self, air_builder: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), value: Self::In) -> Self::Out {
         let msb = air_builder.deduce_air_var(value.get_felt(27).eq(const_expr!(0x100)), "msb");
-        let mid_limbs_set =
-            air_builder.deduce_air_var(value.get_felt(20).eq(const_expr!(0x1ff)), "mid_limbs_set");
+
+        // We apply a bitwise AND with msb_bool to ensure that when msb_bool is 0, mid_limbs_set is
+        // also 0.
+        let mid_limbs_set = air_builder.deduce_air_var(
+            value.get_felt(20).eq(const_expr!(0x1ff)) & msb.clone(),
+            "mid_limbs_set",
+        );
 
         // Require case bits to be bits
         air_builder.constrain(
@@ -61,7 +68,7 @@ impl AirFn for CondDecodeSmallSign {
 
         // Forbid the case msb = 0, mid_limbs_set = 1
         air_builder.constrain(
-            condition * mid_limbs_set.as_felt() * (msb.as_felt() - const_expr!(1)),
+            mid_limbs_set.as_felt() * (msb.as_felt() - const_expr!(1)),
             "Cannot have msb equals 0 and mid_limbs_set equals 1",
         );
 
@@ -151,8 +158,7 @@ impl AirFn for ReadSmall {
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_big, &id);
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
-        let [msb, mid_limbs_set] =
-            air_builder.call(&CondDecodeSmallSign {}, (value.clone(), const_expr!(1)));
+        let [msb, mid_limbs_set] = air_builder.call(&DecodeSmallSign {}, value.clone());
 
         // Least significant three are deduced as-is
         let mut low_value_limbs = vec![];

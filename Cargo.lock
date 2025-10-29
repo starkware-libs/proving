@@ -1691,7 +1691,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-common"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=997a7e9#997a7e9497cd405b8eb2fd63e11d9a86ba7caa5c"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=149d722#149d72283af61491894b25bf83b7910b9ef8de28"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1710,7 +1710,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=997a7e9#997a7e9497cd405b8eb2fd63e11d9a86ba7caa5c"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=149d722#149d72283af61491894b25bf83b7910b9ef8de28"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1720,7 +1720,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize-derive"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=997a7e9#997a7e9497cd405b8eb2fd63e11d9a86ba7caa5c"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=149d722#149d72283af61491894b25bf83b7910b9ef8de28"
 dependencies = [
  "quote",
  "syn 2.0.106",

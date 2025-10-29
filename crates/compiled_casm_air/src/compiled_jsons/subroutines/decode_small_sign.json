@@ -1,20 +1,18 @@
 {
-  "name": "cond_decode_small_sign",
+  "name": "decode_small_sign",
   "relation_name": null,
   "relation_size": null,
   "log_height": null,
-  "description": "Cond Decode Small Sign",
+  "description": "Decode Small Sign",
   "instance_definition": "{}",
   "type": "Inline",
   "padding_type": "None",
   "prover_input": [
-    "cond_decode_small_sign_input",
-    "(Felt252, M31)",
-    "(PackedFelt252, PackedM31)"
+    "decode_small_sign_input",
+    "Felt252",
+    "PackedFelt252"
   ],
-  "verifier_input_limbs": [
-    "cond_decode_small_sign_input_limb_28"
-  ],
+  "verifier_input_limbs": [],
   "prover_output": [
     {
       "Array": [
@@ -26,7 +24,7 @@
         }
       ]
     },
-    "cond_decode_small_sign_output",
+    "decode_small_sign_output",
     "[M31; 2]",
     "[PackedM31; 2]"
   ],
@@ -105,18 +103,7 @@
         {
           "BinaryOp": [
             {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "cond_decode_small_sign_input_limb_28"
-                  ]
-                },
-                "*",
-                {
-                  "State": "mid_limbs_set_col1"
-                }
-              ]
+              "State": "mid_limbs_set_col1"
             },
             "*",
             {
@@ -142,7 +129,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "msb_tmp_b841e_0",
+        "name": "msb_tmp_466b2_0",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -151,7 +138,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "cond_decode_small_sign_input.0"
+                    "decode_small_sign_input"
                   ]
                 },
                 "get_m31",
@@ -184,7 +171,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_b841e_0"
+              "msb_tmp_466b2_0"
             ]
           },
           "as_m31",
@@ -194,38 +181,49 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_b841e_1",
+        "name": "mid_limbs_set_tmp_466b2_1",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "cond_decode_small_sign_input.0"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "decode_small_sign_input"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_466b2_0"
+              ]
+            }
           ]
         }
       }
@@ -236,7 +234,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_b841e_1"
+              "mid_limbs_set_tmp_466b2_1"
             ]
           },
           "as_m31",

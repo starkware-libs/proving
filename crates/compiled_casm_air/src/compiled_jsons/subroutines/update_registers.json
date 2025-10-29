@@ -2595,7 +2595,7 @@
       "StartBlock": "Cond Felt 252 As Rel Imm"
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -2654,35 +2654,46 @@
         "name": "mid_limbs_set_tmp_783d5_7",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "update_registers_input.2[2]"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "update_registers_input.2[2]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_783d5_6"
+              ]
+            }
           ]
         }
       }
@@ -2703,7 +2714,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_783d5_8",
+        "name": "decode_small_sign_output_tmp_783d5_8",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -4495,7 +4506,7 @@
       "StartBlock": "Cond Felt 252 As Rel Imm"
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -4554,35 +4565,46 @@
         "name": "mid_limbs_set_tmp_783d5_19",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "update_registers_input.2[1]"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "update_registers_input.2[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_783d5_18"
+              ]
+            }
           ]
         }
       }
@@ -4603,7 +4625,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_783d5_20",
+        "name": "decode_small_sign_output_tmp_783d5_20",
         "type": "[M31; 2]",
         "var": {
           "Array": [

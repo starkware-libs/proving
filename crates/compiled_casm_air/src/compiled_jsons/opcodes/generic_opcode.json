@@ -28523,7 +28523,7 @@
       "StartBlock": "Cond Felt 252 As Rel Imm"
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -28566,19 +28566,30 @@
         "name": "mid_limbs_set_tmp_57455_95",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
-              "State": "res_limb_20_col217"
-            },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
+              "MethodCall": [
+                {
+                  "State": "res_limb_20_col217"
+                },
+                "eq",
+                [
+                  {
+                    "Const": [
+                      "M31",
+                      "511"
+                    ]
+                  }
                 ]
-              }
-            ]
+              ]
+            },
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_57455_94"
+              ]
+            }
           ]
         }
       }
@@ -28599,7 +28610,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_57455_96",
+        "name": "decode_small_sign_output_tmp_57455_96",
         "type": "[M31; 2]",
         "var": {
           "Array": [
@@ -29428,7 +29439,7 @@
       "StartBlock": "Cond Felt 252 As Rel Imm"
     },
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -29471,19 +29482,30 @@
         "name": "mid_limbs_set_tmp_57455_107",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
-              "State": "op1_limb_20_col104"
-            },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
+              "MethodCall": [
+                {
+                  "State": "op1_limb_20_col104"
+                },
+                "eq",
+                [
+                  {
+                    "Const": [
+                      "M31",
+                      "511"
+                    ]
+                  }
                 ]
-              }
-            ]
+              ]
+            },
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_57455_106"
+              ]
+            }
           ]
         }
       }
@@ -29504,7 +29526,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_57455_108",
+        "name": "decode_small_sign_output_tmp_57455_108",
         "type": "[M31; 2]",
         "var": {
           "Array": [

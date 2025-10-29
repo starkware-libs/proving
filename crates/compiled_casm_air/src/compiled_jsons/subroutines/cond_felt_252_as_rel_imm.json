@@ -302,12 +302,12 @@
   "constraint_lookups": [],
   "deduction_lookups": {},
   "inline_calls": {
-    "cond_decode_small_sign": [
+    "cond_range_check_2": [
       [],
       [],
       []
     ],
-    "cond_range_check_2": [
+    "decode_small_sign": [
       [],
       [],
       []
@@ -321,17 +321,10 @@
         "felt_names": [],
         "var": {
           "StaticCall": [
-            "cond_decode_small_sign::evaluate",
+            "decode_small_sign::evaluate",
             [
               {
-                "Array": [
-                  {
-                    "Var": [
-                      "M31",
-                      "cond_felt_252_as_rel_imm_input_limb_28"
-                    ]
-                  }
-                ]
+                "Array": []
               },
               {
                 "State": "msb_col0"
@@ -1307,7 +1300,7 @@
   ],
   "deductions": [
     {
-      "StartBlock": "Cond Decode Small Sign"
+      "StartBlock": "Decode Small Sign"
     },
     {
       "Intermediate": {
@@ -1366,35 +1359,46 @@
         "name": "mid_limbs_set_tmp_1e9bf_1",
         "type": "Bool",
         "var": {
-          "MethodCall": [
+          "BinaryOp": [
             {
               "MethodCall": [
                 {
-                  "Var": [
-                    "Felt252",
-                    "cond_felt_252_as_rel_imm_input.0"
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "cond_felt_252_as_rel_imm_input.0"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
                   ]
                 },
-                "get_m31",
+                "eq",
                 [
                   {
                     "Const": [
-                      "usize",
-                      "20"
+                      "M31",
+                      "511"
                     ]
                   }
                 ]
               ]
             },
-            "eq",
-            [
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
-            ]
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_1e9bf_0"
+              ]
+            }
           ]
         }
       }
@@ -1415,7 +1419,7 @@
     },
     {
       "Intermediate": {
-        "name": "cond_decode_small_sign_output_tmp_1e9bf_2",
+        "name": "decode_small_sign_output_tmp_1e9bf_2",
         "type": "[M31; 2]",
         "var": {
           "Array": [

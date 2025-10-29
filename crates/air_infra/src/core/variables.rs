@@ -599,7 +599,7 @@ impl_air_var!([BoundedFeltExpr]);
 impl_air_var!((CasmAddress, Felt252Expr));
 // ReadPositive
 impl_air_var!((Felt252Expr, CasmId));
-// CondDecodeSmallSign + CondFelt252AsAddr + CondFelt252AsRelImm
+// CondFelt252AsAddr + CondFelt252AsRelImm
 impl_air_var!((Felt252Expr, FeltExpr));
 // Add252 + Div252 + Mul252 + Sub252 + VerifyAdd252 + VerifyMul252
 impl_air_var!([Felt252Expr]);
