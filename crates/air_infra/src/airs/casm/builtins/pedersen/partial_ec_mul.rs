@@ -23,7 +23,7 @@ const _: () = {
 };
 pub type ECPoint = [Felt252Expr; 2];
 pub type PackedECMultiplier = [FeltExpr; FELT252_N_WORDS / 2];
-pub type PartialECMulState = (FeltExpr, PackedECMultiplier, ECPoint);
+pub type PartialECMulState = (PackedECMultiplier, ECPoint);
 
 /// Convert a felt252 to double-limbs format. This is the format used for the PartialECMul
 /// multiplier.
@@ -35,30 +35,34 @@ pub fn felt252_to_double_limbs(value: Felt252Expr) -> PackedECMultiplier {
 
 // Implements the EC partial-mul round relation.
 //
-// This relation is used to compute values of the form m*P + Q where P,Q are points
-// on the STARK curve, and P is one of the constant points used in the Pedersen hash.
+// This relation is used to compute values of the form m*P + Q where P,Q are points on the
+// STARK curve, and P is one of the high-entropy constant points used in the Pedersen hash.
 //
-// The computation is done by splitting `m` into 18-bit windows, multiplying P by each
-// part and adding the result to an accumulator that was initialized with Q. The
-// multiples of P are taken from a precomputed table (PedersenPointsTable).
+// The computation is done by splitting `m` into 18-bit windows, multiplying P by each part
+// and adding the result to an accumulator that was initialized with Q. The multiples of P
+// are taken from a precomputed table (PedersenPointsTable).
 //
 // To avoid having the zero point in the table, each value in the table has P_shift
 // subtracted from it. Therefore the result after `w` rounds is shifted by w * P_shift.
-// The caller is responsible for choosing Q appropriately to cancel this difference.
+// The initial value of Q, drawn from the third section of the PedersenPointsTable, cancels
+// out this difference and handles the low-entropy P_1 and P_3 contributions.
 //
-// The relation is (c, w, i, m_c >> (w * 18), (m_c)_(w * 18) * P_c + Q_c - w * P_shift), where:
+// The relation is
+//    (c, 14 * i + w, m_c >> (w * 18), (m_c)_(w * 18) * P_{2i} + Q_c - w * P_shift),
+// where:
 // - `c` is the "chain index", used to separate different chains in the component.
-// - P_c, Q_c are the points used in the computatin in the chain with index `c`.
-// - `w` is the round number.
-// - `i` is the offset from the table start to the part that contains the data for P_c.
+// - Q_c is the initial point used in the computation of the chain with index `c`.
+// - `14 * i + w` is the round number, ranging from 0 to 27, with i in [0, 2) and w in [0, 14). The
+//   high-bit i of the round number indicates the value of P, with i=0 corresponding to P=P_0 and
+//   i=1 to P=P_2. The low part w indicates the relative shift of P being added.
 // - m_c is the coefficient of P in the chain with index `c`.
 // - (m_c)_(w * 18) are the w*18 least-significant bits of m_c.
-// The fourth element (m_c >> (w * 18)) is represented as an array of 18-bit limbs to
+// The third element (m_c >> (w * 18)) is represented as an array of 18-bit limbs to
 // save trace cells.
 //
 // To use this relation for a multiplication with `k` windows, the caller should
-// 1. Yield (c, 0, i, m_c, Q_c)
-// 2. Use   (c, k, i, 0,   m_c * P_c + Q_c)
+// 1. Yield (c, 14 * i,     m_c, Q_c)
+// 2. Use   (c, 14 * i + k, 0,   m_c * P_{2i} + Q_c)
 // 3. Add the `k` round rows to this component
 impl AirFn for PartialECMul {
     type ExtIn = ();
@@ -73,7 +77,7 @@ impl AirFn for PartialECMul {
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
         _: (),
-        (chain_index, round_index, (table_offset, m_shifted, accumulator)): Self::In,
+        (chain_index, round_index, (m_shifted, accumulator)): Self::In,
     ) -> Self::Out {
         // Shift `m` 18 bits to the right. We use the fact that Felt252 limbs are 9 bits each,
         // so 18 bits are a single double-limb.
@@ -83,11 +87,7 @@ impl AirFn for PartialECMul {
 
         // Read partial product from the PedersenPoints table
         let window = m_shifted[0].clone();
-        let partial_product_location = table_offset.clone()
-            + const_expr!(
-                <usize as std::convert::TryInto<u32>>::try_into(ROWS_PER_WINDOW).unwrap()
-            ) * round_index.clone()
-            + window;
+        let partial_product_location = const_expr!(ROWS_PER_WINDOW) * round_index.clone() + window;
         let partial_product =
             air_builder.lookup_call(&PedersenPointsTable {}, [partial_product_location], ());
 
@@ -107,7 +107,7 @@ impl AirFn for PartialECMul {
         (
             chain_index,
             round_index + const_expr!(1),
-            (table_offset, new_m_shifted, new_accumulator),
+            (new_m_shifted, new_accumulator),
         )
     }
 
@@ -122,6 +122,6 @@ impl AirFn for PartialECMul {
 
 impl ChainRoundAirFn<PartialECMulState> for PartialECMul {
     fn number_of_chains(&self) -> usize {
-        4
+        2
     }
 }

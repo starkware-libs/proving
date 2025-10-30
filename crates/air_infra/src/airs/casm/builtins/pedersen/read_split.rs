@@ -18,13 +18,13 @@ pub struct ReadSplit {
     pub memory: Felt252IdMemory,
 }
 
-// Read the felt252 at the given address and return it splitted into two parts: the least
+// Read the felt252 at the given address and return it split into two parts: the least
 // significant 248 bits (low) and the most significant 4 bits (high). Also returns the
-// original (non-splitted) value.
+// original (non-split) value.
 impl AirFn for ReadSplit {
     type ExtIn = ();
     type In = CasmAddress;
-    type Out = [Felt252Expr; 3]; // [low, high, original (high << 248 + low)]
+    type Out = (FeltExpr, [Felt252Expr; 2]); // [high, low, original (high << 248 + low)]
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
         Some(vec![Some("address".to_string())])
@@ -87,12 +87,8 @@ impl AirFn for ReadSplit {
         let mut low_felts: Vec<_> = value.as_felts()[0..FELT252_N_WORDS - 1].into();
         low_felts.push(ms_limb_low.as_felt());
 
-        let high_felts = vec![ms_limb_high.as_felt()];
+        let high_felt = ms_limb_high.as_felt();
 
-        [
-            low_felts.into(),
-            high_felts.into(),
-            memory_value_felts.into(),
-        ]
+        (high_felt, [low_felts.into(), memory_value_felts.into()])
     }
 }
