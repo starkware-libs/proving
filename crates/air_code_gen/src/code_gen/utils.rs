@@ -3,9 +3,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::str::from_utf8;
 
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, TraceType,
-};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceType};
 use compiled_casm_air::utils::{read_json, SAMPLE_EVALUATIONS_FILE_NAME};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
@@ -300,20 +298,9 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
     }
 }
 
-pub fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
-    deductions
-        .iter()
-        .filter_map(|d| {
-            if let TraceGenStep::LookupTerm(lookup_data) = d {
-                Some(lookup_data.clone())
-            } else {
-                None
-            }
-        })
-        .collect()
-}
-
-pub fn constraint_relations(air_fn: &CompiledAirFn) -> IndexSet<String> {
+pub fn relations_used_or_yielded(air_fn: &CompiledAirFn) -> IndexSet<String> {
+    // TODO(AnatG): Change the names of deduction_lookups and constraint_lookups in compiled
+    // air. This is used also in trace_gen
     air_fn
         .constraint_lookups
         .iter()

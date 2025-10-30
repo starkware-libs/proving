@@ -70,8 +70,6 @@ pub enum PaddingType {
     Enabler,
     // For air functions that are not a component in the trace, as inline air functions.
     None,
-    // For builtins (not implemented yet)
-    Both,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]

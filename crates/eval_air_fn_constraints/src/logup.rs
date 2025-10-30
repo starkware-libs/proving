@@ -80,7 +80,6 @@ fn build_logup_terms(
                     }
                 }
                 PaddingType::None => QM31::one(),
-                PaddingType::Both => unimplemented!(),
             };
             let numerator = abs_numerator * lookup_term.use_or_yield_sign;
             let denominator = assignment

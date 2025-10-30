@@ -12,7 +12,7 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, make_preprocessed_column,
     n_logup_columns, QM31_N_TRACE_CELLTS,
 };
-use crate::code_gen::utils::constraint_relations;
+use crate::code_gen::utils::relations_used_or_yielded;
 
 pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
 
@@ -37,7 +37,7 @@ pub fn generate_component_cairo_constraints_code(
         pub struct Component {
             pub claim: Claim,
             pub interaction_claim: InteractionClaim,
-            $(constraint_relations(air_fn).iter().map(|relation| {
+            $(relations_used_or_yielded(air_fn).iter().map(|relation| {
                 format!(
                     "pub {}_lookup_elements: crate::{relation}Elements,", relation.to_case(Case::Snake)
                 )
@@ -56,7 +56,7 @@ pub fn generate_component_cairo_constraints_code(
                 Component {
                     claim: *claim,
                     interaction_claim: *interaction_claim,
-                    $(constraint_relations(air_fn).iter().map(|relation| {
+                    $(relations_used_or_yielded(air_fn).iter().map(|relation| {
                         format!(
                             "{}_lookup_elements: interaction_elements.{}.clone(),", relation.to_case(Case::Snake), get_interaction_name(relation.to_case(Case::Snake))
                         )

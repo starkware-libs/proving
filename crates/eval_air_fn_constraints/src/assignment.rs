@@ -90,7 +90,6 @@ impl Assignment {
                 Some(random_qm31(&"enabler_or_multiplicity".to_string()))
             }
             PaddingType::None => None,
-            _ => unimplemented!(),
         };
 
         Assignment {

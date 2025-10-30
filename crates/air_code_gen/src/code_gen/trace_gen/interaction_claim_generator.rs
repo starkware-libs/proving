@@ -8,13 +8,12 @@ use itertools::Itertools;
 
 use super::RustProverGen;
 use crate::code_gen::parse::is_masked_relation;
-use crate::code_gen::utils::is_const_size_component;
+use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
 
 impl RustProverGen {
     // TODO(Gali): Consider uniting def and impl functions.
     pub fn generate_interaction_impl(&self) -> rust::Tokens {
-        let lookup_elements = self
-            .relation_calls
+        let lookup_elements = relations_used_or_yielded(&self.air_fn)
             .iter()
             .map(|relation_name| {
                 quote! {
@@ -26,11 +25,11 @@ impl RustProverGen {
                 tokens
             });
 
-        let padding = match self.lists.padding_type {
+        let padding = match self.air_fn.padding_type {
             PaddingType::Enabler => quote! {let enabler_col = Enabler::new(self.n_rows);},
             _ => quote! {},
         };
-        let log_size = if is_const_size_component(&self.lists) {
+        let log_size = if is_const_size_component(&self.air_fn) {
             quote! {LOG_SIZE}
         } else {
             quote! {self.log_size}
@@ -61,7 +60,7 @@ impl RustProverGen {
 
     fn generate_write_interaction_trace_body(&self) -> rust::Tokens {
         let mut relation_data_offsets = HashMap::new();
-        for relation in &self.relation_calls {
+        for relation in relations_used_or_yielded(&self.air_fn) {
             relation_data_offsets.insert(relation.clone(), 0);
         }
         let mut code = rust::Tokens::new();
@@ -85,8 +84,8 @@ impl RustProverGen {
             let relation1 = &term1.relation_name;
             let relation_0_snake_case = &relation0.to_case(Case::Snake);
             let relation_1_snake_case = &relation1.to_case(Case::Snake);
-            let masked_denom_0 = quote! {denom0 $(mask_relation(&self.lists, relation1))};
-            let masked_denom_1 = quote! {denom1 $(mask_relation(&self.lists, relation0))};
+            let masked_denom_0 = quote! {denom0 $(mask_relation(&self.air_fn, relation1))};
+            let masked_denom_1 = quote! {denom1 $(mask_relation(&self.air_fn, relation0))};
 
             let relation0_offset = relation_data_offsets.get_mut(relation0).unwrap();
             let term0_offset = *relation0_offset;
@@ -114,9 +113,9 @@ impl RustProverGen {
                 },
                 "denom0 * denom1",
             );
-            let is_masked = is_masked_relation(&self.lists, relation0)
-                || is_masked_relation(&self.lists, relation1);
-            let (for_each, enumerate, mults) = match self.lists.padding_type {
+            let is_masked = is_masked_relation(&self.air_fn, relation0)
+                || is_masked_relation(&self.air_fn, relation1);
+            let (for_each, enumerate, mults) = match self.air_fn.padding_type {
                 PaddingType::Multiplicity if is_masked => (
                     quote! { (writer, values0, values1, mults) },
                     quote! {},
@@ -157,8 +156,8 @@ impl RustProverGen {
                 UseOrYield::Use => "",
                 UseOrYield::Yield => "-",
             };
-            let is_masked = is_masked_relation(&self.lists, &relation_name);
-            let (for_each, enumerate, mults) = match self.lists.padding_type {
+            let is_masked = is_masked_relation(&self.air_fn, &relation_name);
+            let (for_each, enumerate, mults) = match self.air_fn.padding_type {
                 PaddingType::Multiplicity if is_masked => (
                     quote! { (writer, values, mults) },
                     quote! {},
@@ -182,7 +181,7 @@ impl RustProverGen {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
                         writer.write_frac(
-                            $(sign)PackedQM31::one()$(mask_relation(&self.lists, &relation_name)),
+                            $(sign)PackedQM31::one()$(mask_relation(&self.air_fn, &relation_name)),
                             denom
                         );
                     });
@@ -195,14 +194,14 @@ impl RustProverGen {
     }
 }
 
-pub fn interaction_prover_struct(lists: &CompiledAirFn) -> rust::Tokens {
+pub fn interaction_prover_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
     // Opcodes mask is determined by the number of "real" instances.
     // Both log_size and n_rows is needed because padding might not be to the next power of 2.
-    let mut interaction_claim_fields = match lists.padding_type {
+    let mut interaction_claim_fields = match air_fn.padding_type {
         PaddingType::Enabler => quote! { n_rows: usize, },
         _ => quote! {},
     };
-    if !is_const_size_component(lists) {
+    if !is_const_size_component(air_fn) {
         interaction_claim_fields.extend(quote! { log_size: u32, });
     }
 
@@ -215,9 +214,9 @@ pub fn interaction_prover_struct(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 /// Determines if a relation is masked in the interaction trace and returns the proper mask.
-pub fn mask_relation(lists: &CompiledAirFn, relation_name: &str) -> rust::Tokens {
-    let is_masked = is_masked_relation(lists, relation_name);
-    match lists.padding_type {
+pub fn mask_relation(air_fn: &CompiledAirFn, relation_name: &str) -> rust::Tokens {
+    let is_masked = is_masked_relation(air_fn, relation_name);
+    match air_fn.padding_type {
         PaddingType::Enabler if is_masked => quote! { * enabler_col.packed_at(i)},
         PaddingType::Multiplicity if is_masked => quote! { * mults },
         _ => quote! {},

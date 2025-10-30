@@ -5,16 +5,15 @@ use std::collections::{HashMap, HashSet};
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledTraceGenIntermediate, LookupTerm, PaddingType, TraceGenStep, TraceType,
 };
-use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 use interaction_claim_generator::interaction_prover_struct;
 use itertools::Itertools;
 
 use super::parse::seek_consts;
-use crate::code_gen::utils::{filter_lookup_terms, is_const_size_component};
+use crate::code_gen::utils::is_const_size_component;
 
 pub enum Mode {
     NoInputs,
@@ -24,66 +23,40 @@ pub enum Mode {
 }
 
 pub struct RustProverGen {
-    pub lists: CompiledAirFn,
-    pub public_params: Vec<PublicParam>,
-    pub write_trace_context: IndexMap<String, PaddingType>,
+    pub air_fn: CompiledAirFn,
     pub constants: Vec<(String, String)>,
-    pub relation_calls: Vec<String>,
     pub add_input_mults: IndexMap<String, usize>,
     pub lookup_terms: Vec<LookupTerm>,
     pub mode: Mode,
 }
 impl RustProverGen {
-    pub fn new(lists: CompiledAirFn) -> Self {
-        let supported_paddings = [
-            PaddingType::None,
-            PaddingType::Enabler,
-            PaddingType::Multiplicity,
-        ];
-        assert!(
-            supported_paddings.contains(&lists.padding_type),
-            "unsupported padding type"
-        );
-
-        let mode = match lists.r#type {
-            TraceType::Builtin | TraceType::Const => Mode::NoInputs,
+    pub fn new(air_fn: CompiledAirFn) -> Self {
+        let mode = match air_fn.r#type {
+            TraceType::Builtin => Mode::NoInputs,
             TraceType::ChainRound => Mode::PackedInputs,
             TraceType::Component => {
-                if lists.padding_type == PaddingType::Multiplicity {
+                if air_fn.padding_type == PaddingType::Multiplicity {
                     Mode::Mults
                 } else {
                     Mode::PackedInputs
                 }
             }
-            TraceType::Opcode | TraceType::Memory | TraceType::Inline => Mode::Inputs,
+            TraceType::Opcode | TraceType::Memory => Mode::Inputs,
+            TraceType::Const | TraceType::Inline => {
+                panic!("Not generating code for Const/Inline components.")
+            }
         };
 
-        let public_params = lists.public_params.iter().cloned().collect_vec();
-        let mut write_trace_context = lists
-            .deduction_lookups
-            .iter()
-            .map(|(name, padding_type)| (name.to_case(Case::Snake), *padding_type))
-            .collect::<IndexMap<_, _>>();
-        write_trace_context.sort_keys();
-        let constants = deduction_consts(&lists.deductions);
+        let constants = deduction_consts(&air_fn.deductions);
         // TODO(AnatG): Put air_body.get_lookup_n_rows in compiled air.
-        let add_input_mults = add_inputs_mults(&lists.deductions);
-        let lookup_terms = filter_lookup_terms(&lists.deductions);
-        let relation_calls = lookup_terms
-            .iter()
-            .map(|term| term.relation_name.clone())
-            .collect::<IndexSet<_>>()
-            .into_iter()
-            .collect_vec();
+        let add_input_mults = add_inputs_mults(&air_fn.deductions);
+        let lookup_terms = filter_lookup_terms(&air_fn.deductions);
 
         Self {
-            lists,
+            air_fn,
             mode,
-            public_params,
-            write_trace_context,
             add_input_mults,
             constants,
-            relation_calls,
             lookup_terms,
         }
     }
@@ -96,7 +69,7 @@ impl RustProverGen {
         let sub_component_inputs_struct = self.generate_sub_component_inputs_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
-        let interaction_struct = interaction_prover_struct(&self.lists);
+        let interaction_struct = interaction_prover_struct(&self.air_fn);
         let interaction_impl = self.generate_interaction_impl();
         let write_trace_code = self.generate_simd_write_trace_code();
         quote! {
@@ -121,7 +94,7 @@ impl RustProverGen {
     }
 
     fn generate_input_output_typedefs(&self) -> rust::Tokens {
-        let (_name, ty, packed_ty) = &self.lists.prover_input;
+        let (_name, ty, packed_ty) = &self.air_fn.prover_input;
         match self.mode {
             Mode::NoInputs => quote!(),
             Mode::PackedInputs => {
@@ -141,7 +114,7 @@ impl RustProverGen {
     fn attributes(&self) -> rust::Tokens {
         let mut attributes = quote! {};
         attributes.append(quote!(#![allow(unused_parens)]));
-        if self.lists.name.contains("generic_opcode") {
+        if self.air_fn.name.contains("generic_opcode") {
             attributes.extend(quote! {
                 #![cfg_attr(rustfmt, rustfmt_skip)]
             });
@@ -199,7 +172,7 @@ impl RustProverGen {
                 });
             }
         }
-        if self.lists.padding_type == PaddingType::Multiplicity {
+        if self.air_fn.padding_type == PaddingType::Multiplicity {
             members_code.extend(quote! { mults: $(vec_of_type("PackedM31")), })
         };
 
@@ -212,18 +185,21 @@ impl RustProverGen {
 
     fn generate_imports_code(&self) -> rust::Tokens {
         let mut sub_component_imports = rust::Tokens::new();
-        self.write_trace_context.iter().for_each(|(fn_name, _)| {
-            sub_component_imports.extend(quote! {
-                use crate::witness::components::$(fn_name);
-            })
-        });
-        if is_const_size_component(&self.lists) {
+        self.air_fn
+            .deduction_lookups
+            .iter()
+            .for_each(|(fn_name, _)| {
+                sub_component_imports.extend(quote! {
+                    use crate::witness::components::$(fn_name.to_case(Case::Snake));
+                })
+            });
+        if is_const_size_component(&self.air_fn) {
             sub_component_imports
-                .extend(quote! {use cairo_air::components::$(&self.lists.name)::LOG_SIZE;});
+                .extend(quote! {use cairo_air::components::$(&self.air_fn.name)::LOG_SIZE;});
         }
         quote! {
             use crate::witness::prelude::*;
-            use cairo_air::components::$(&self.lists.name)::{Claim, InteractionClaim, N_TRACE_COLUMNS};
+            use cairo_air::components::$(&self.air_fn.name)::{Claim, InteractionClaim, N_TRACE_COLUMNS};
             $(sub_component_imports)
         }
     }
@@ -277,6 +253,19 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
         })
         .into_iter()
         .sorted()
+        .collect()
+}
+
+fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
+    deductions
+        .iter()
+        .filter_map(|d| {
+            if let TraceGenStep::LookupTerm(lookup_data) = d {
+                Some(lookup_data.clone())
+            } else {
+                None
+            }
+        })
         .collect()
 }
 
