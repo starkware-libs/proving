@@ -660,6 +660,10 @@ impl_air_var!((QM31Coordinates, CasmId));
 impl_air_var!([FeltExpr]);
 // VerifyInstruction
 impl_air_var!((CasmAddress, Offsets, FlagsFelts, FeltExpr));
+// PoseidonAggregator
+type PoseidonInputIds = [CasmId; 3];
+type PoseidonOutputIds = [CasmId; 3];
+impl_air_var!((PoseidonInputIds, PoseidonOutputIds));
 
 // ChainRound
 

@@ -36,7 +36,7 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
         "verify_bitwise_xor_12".into(),
         // TODO(AnatG): Make those changes in codegen or air compilation.
         "cube_252".into(),
-        "poseidon_builtin".into(),
+        "poseidon_aggregator".into(),
     ]
 }
 

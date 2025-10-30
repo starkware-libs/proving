@@ -113,4 +113,13 @@ impl Felt252IdMemory {
             )
             .0
     }
+
+    pub fn mem_verify_known_id(
+        &self,
+        air_builder: &mut AirBuilder,
+        id: &CasmId,
+        value: Felt252Expr,
+    ) {
+        air_builder.mem_verify(&self.id_to_big, id, value);
+    }
 }
