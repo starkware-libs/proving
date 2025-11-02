@@ -16,13 +16,15 @@ use crate::core::expressions::felt_expr::*;
 pub struct DoubleKaratsuba<const N: usize> {
     n: usize,
     limb_max_bound: i32,
+    limb_min_bound: i32,
 }
 
 impl<const N: usize> DoubleKaratsuba<N> {
-    pub fn new(limb_max_bound: i32) -> Self {
+    pub fn new(limb_max_bound: i32, limb_min_bound: i32) -> Self {
         Self {
             n: N,
             limb_max_bound,
+            limb_min_bound,
         }
     }
 }
@@ -63,10 +65,10 @@ where
         from_fn(|i| {
             let convolution_start = max(i, 4 * N - 1) - (4 * N - 1);
             let convolution_end = min(i, 4 * N - 1);
-            let curr_max_bound = (convolution_end - convolution_start + 1) as i32
-                * self.limb_max_bound
-                * self.limb_max_bound;
-            BoundedFeltExpr::new(result_exprs[i].clone(), curr_max_bound, 0)
+            let convolution_length = (convolution_end - convolution_start + 1) as i32;
+            let curr_max_bound = convolution_length * self.limb_max_bound;
+            let curr_min_bound = convolution_length * self.limb_min_bound;
+            BoundedFeltExpr::new(result_exprs[i].clone(), curr_max_bound, curr_min_bound)
         })
     }
 }

@@ -87,9 +87,10 @@ mod tests {
 
         let inline_air_fns_to_check = [
             "../compiled_casm_air/src/compiled_jsons/subroutines/decode_instruction_d2a10.json",
-            "../compiled_casm_air/src/compiled_jsons/subroutines/double_karatsuba_n_7_limb_max_bound_511.json",
+            "../compiled_casm_air/src/compiled_jsons/subroutines/double_karatsuba_1454b.json",
             "../compiled_casm_air/src/compiled_jsons/subroutines/mem_verify.json",
             "../compiled_casm_air/src/compiled_jsons/subroutines/verify_add_252.json",
+            "../compiled_casm_air/src/compiled_jsons/subroutines/verify_mul_252.json",
         ];
 
         // Generate witness code only for component AirFns

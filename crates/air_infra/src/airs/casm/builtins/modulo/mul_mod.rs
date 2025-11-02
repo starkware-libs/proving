@@ -100,7 +100,10 @@ impl AirFn for MulModBuiltin {
         let mut limb_accumulator = BoundedFeltExpr::default();
 
         // Compute the convolutions a * b and k * p using Karatsuba.
-        let karatsuba = DoubleKaratsuba::<{ MUL_MOD_NUM_LIMBS / 4 }>::new(MUL_MOD_MAX_LIMB);
+        let karatsuba = DoubleKaratsuba::<{ MUL_MOD_NUM_LIMBS / 4 }>::new(
+            MUL_MOD_MAX_LIMB * MUL_MOD_MAX_LIMB,
+            0,
+        );
 
         let a_mul_b_array = ab.call(&karatsuba, [a_12bits, b_12bits]);
         let k_mul_p_array = ab.call(

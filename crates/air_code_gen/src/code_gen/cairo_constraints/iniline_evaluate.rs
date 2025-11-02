@@ -11,8 +11,8 @@ use super::utils::{gen_consts, gen_imports};
 // Subroutines that need extra calls to revoke_ap_tracking when compiled without qm31_opcode,
 // otherwise you get an offset overflow error.
 const LARGE_SUBROUTINES: [&str; 5] = [
-    "double_karatsuba_n_7_limb_max_bound_511",
-    "double_karatsuba_n_8_limb_max_bound_4095",
+    "double_karatsuba_1454b",
+    "double_karatsuba_b1daa",
     "single_karatsuba_n_7",
     "single_karatsuba_n_8",
     "verify_add_252",

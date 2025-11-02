@@ -267,7 +267,7 @@
     "RangeCheck_20_H": "Multiplicity"
   },
   "inline_calls": {
-    "double_karatsuba_n_7_limb_max_bound_511": [
+    "double_karatsuba_1454b": [
       [],
       [],
       []
@@ -279,65 +279,65 @@
     {
       "Intermediate": {
         "felt_names": [
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_0",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_1",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_2",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_3",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_4",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_5",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_6",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_7",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_8",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_9",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_10",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_11",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_12",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_13",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_14",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_15",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_16",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_17",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_18",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_19",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_20",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_21",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_22",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_23",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_24",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_25",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_26",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_27",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_28",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_29",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_30",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_31",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_32",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_33",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_34",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_35",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_36",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_37",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_38",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_39",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_40",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_41",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_42",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_43",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_44",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_45",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_46",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_47",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_48",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_49",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_50",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_51",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_52",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_53",
-          "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_54"
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_0",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_1",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_2",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_3",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_4",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_5",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_6",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_7",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_8",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_9",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_10",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_11",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_12",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_13",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_14",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_15",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_16",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_17",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_18",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_19",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_20",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_21",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_22",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_23",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_24",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_25",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_26",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_27",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_28",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_29",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_30",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_31",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_32",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_33",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_34",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_35",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_36",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_37",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_38",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_39",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_40",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_41",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_42",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_43",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_44",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_45",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_46",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_47",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_48",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_49",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_50",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_51",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_52",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_53",
+          "double_karatsuba_1454b_output_tmp_9a554_17_limb_54"
         ],
         "var": {
           "StaticCall": [
-            "double_karatsuba_n_7_limb_max_bound_511::evaluate",
+            "double_karatsuba_1454b::evaluate",
             [
               {
                 "Array": [
@@ -694,7 +694,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_0"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_0"
               ]
             },
             "-",
@@ -718,7 +718,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_1"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_1"
               ]
             },
             "-",
@@ -742,7 +742,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_2"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_2"
               ]
             },
             "-",
@@ -766,7 +766,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_3"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_3"
               ]
             },
             "-",
@@ -790,7 +790,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_4"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_4"
               ]
             },
             "-",
@@ -814,7 +814,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_5"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_5"
               ]
             },
             "-",
@@ -838,7 +838,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_6"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_6"
               ]
             },
             "-",
@@ -862,7 +862,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_7"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_7"
               ]
             },
             "-",
@@ -886,7 +886,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_8"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_8"
               ]
             },
             "-",
@@ -910,7 +910,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_9"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_9"
               ]
             },
             "-",
@@ -934,7 +934,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_10"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_10"
               ]
             },
             "-",
@@ -958,7 +958,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_11"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_11"
               ]
             },
             "-",
@@ -982,7 +982,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_12"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_12"
               ]
             },
             "-",
@@ -1006,7 +1006,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_13"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_13"
               ]
             },
             "-",
@@ -1030,7 +1030,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_14"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_14"
               ]
             },
             "-",
@@ -1054,7 +1054,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_15"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_15"
               ]
             },
             "-",
@@ -1078,7 +1078,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_16"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_16"
               ]
             },
             "-",
@@ -1102,7 +1102,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_17"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_17"
               ]
             },
             "-",
@@ -1126,7 +1126,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_18"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_18"
               ]
             },
             "-",
@@ -1150,7 +1150,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_19"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_19"
               ]
             },
             "-",
@@ -1174,7 +1174,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_20"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_20"
               ]
             },
             "-",
@@ -1198,7 +1198,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_21"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_21"
               ]
             },
             "-",
@@ -1222,7 +1222,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_22"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_22"
               ]
             },
             "-",
@@ -1246,7 +1246,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_23"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_23"
               ]
             },
             "-",
@@ -1270,7 +1270,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_24"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_24"
               ]
             },
             "-",
@@ -1294,7 +1294,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_25"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_25"
               ]
             },
             "-",
@@ -1318,7 +1318,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_26"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_26"
               ]
             },
             "-",
@@ -1342,7 +1342,7 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_27"
+                "double_karatsuba_1454b_output_tmp_9a554_17_limb_27"
               ]
             },
             "-",
@@ -1364,7 +1364,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_28"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_28"
           ]
         }
       }
@@ -1377,7 +1377,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_29"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_29"
           ]
         }
       }
@@ -1390,7 +1390,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_30"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_30"
           ]
         }
       }
@@ -1403,7 +1403,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_31"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_31"
           ]
         }
       }
@@ -1416,7 +1416,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_32"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_32"
           ]
         }
       }
@@ -1429,7 +1429,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_33"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_33"
           ]
         }
       }
@@ -1442,7 +1442,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_34"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_34"
           ]
         }
       }
@@ -1455,7 +1455,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_35"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_35"
           ]
         }
       }
@@ -1468,7 +1468,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_36"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_36"
           ]
         }
       }
@@ -1481,7 +1481,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_37"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_37"
           ]
         }
       }
@@ -1494,7 +1494,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_38"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_38"
           ]
         }
       }
@@ -1507,7 +1507,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_39"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_39"
           ]
         }
       }
@@ -1520,7 +1520,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_40"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_40"
           ]
         }
       }
@@ -1533,7 +1533,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_41"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_41"
           ]
         }
       }
@@ -1546,7 +1546,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_42"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_42"
           ]
         }
       }
@@ -1559,7 +1559,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_43"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_43"
           ]
         }
       }
@@ -1572,7 +1572,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_44"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_44"
           ]
         }
       }
@@ -1585,7 +1585,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_45"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_45"
           ]
         }
       }
@@ -1598,7 +1598,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_46"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_46"
           ]
         }
       }
@@ -1611,7 +1611,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_47"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_47"
           ]
         }
       }
@@ -1624,7 +1624,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_48"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_48"
           ]
         }
       }
@@ -1637,7 +1637,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_49"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_49"
           ]
         }
       }
@@ -1650,7 +1650,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_50"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_50"
           ]
         }
       }
@@ -1663,7 +1663,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_51"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_51"
           ]
         }
       }
@@ -1676,7 +1676,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_52"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_52"
           ]
         }
       }
@@ -1689,7 +1689,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_53"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_53"
           ]
         }
       }
@@ -1702,7 +1702,7 @@
         "var": {
           "Var": [
             "M31",
-            "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17_limb_54"
+            "double_karatsuba_1454b_output_tmp_9a554_17_limb_54"
           ]
         }
       }
@@ -5632,7 +5632,7 @@
   ],
   "deductions": [
     {
-      "StartBlock": "Double Karatsuba N 7 Limb Max Bound 511"
+      "StartBlock": "Double Karatsuba 1454 B"
     },
     {
       "StartBlock": "Single Karatsuba N 7"
@@ -24183,7 +24183,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17",
+        "name": "double_karatsuba_1454b_output_tmp_9a554_17",
         "type": "[M31; 55]",
         "var": {
           "Array": [
@@ -25413,7 +25413,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[0]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[0]"
                   ]
                 },
                 "-",
@@ -25443,7 +25443,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[1]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[1]"
                   ]
                 },
                 "-",
@@ -25473,7 +25473,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[2]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[2]"
                   ]
                 },
                 "-",
@@ -25503,7 +25503,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[3]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[3]"
                   ]
                 },
                 "-",
@@ -25533,7 +25533,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[4]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[4]"
                   ]
                 },
                 "-",
@@ -25563,7 +25563,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[5]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[5]"
                   ]
                 },
                 "-",
@@ -25593,7 +25593,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[6]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[6]"
                   ]
                 },
                 "-",
@@ -25623,7 +25623,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[7]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[7]"
                   ]
                 },
                 "-",
@@ -25653,7 +25653,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[8]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[8]"
                   ]
                 },
                 "-",
@@ -25683,7 +25683,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[9]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[9]"
                   ]
                 },
                 "-",
@@ -25713,7 +25713,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[10]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[10]"
                   ]
                 },
                 "-",
@@ -25743,7 +25743,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[11]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[11]"
                   ]
                 },
                 "-",
@@ -25773,7 +25773,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[12]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[12]"
                   ]
                 },
                 "-",
@@ -25803,7 +25803,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[13]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[13]"
                   ]
                 },
                 "-",
@@ -25833,7 +25833,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[14]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[14]"
                   ]
                 },
                 "-",
@@ -25863,7 +25863,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[15]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[15]"
                   ]
                 },
                 "-",
@@ -25893,7 +25893,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[16]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[16]"
                   ]
                 },
                 "-",
@@ -25923,7 +25923,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[17]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[17]"
                   ]
                 },
                 "-",
@@ -25953,7 +25953,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[18]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[18]"
                   ]
                 },
                 "-",
@@ -25983,7 +25983,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[19]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[19]"
                   ]
                 },
                 "-",
@@ -26013,7 +26013,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[20]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[20]"
                   ]
                 },
                 "-",
@@ -26043,7 +26043,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[21]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[21]"
                   ]
                 },
                 "-",
@@ -26073,7 +26073,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[22]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[22]"
                   ]
                 },
                 "-",
@@ -26103,7 +26103,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[23]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[23]"
                   ]
                 },
                 "-",
@@ -26133,7 +26133,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[24]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[24]"
                   ]
                 },
                 "-",
@@ -26163,7 +26163,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[25]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[25]"
                   ]
                 },
                 "-",
@@ -26193,7 +26193,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[26]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[26]"
                   ]
                 },
                 "-",
@@ -26223,7 +26223,7 @@
                 {
                   "Var": [
                     "M31",
-                    "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[27]"
+                    "double_karatsuba_1454b_output_tmp_9a554_17[27]"
                   ]
                 },
                 "-",
@@ -26251,163 +26251,163 @@
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[28]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[28]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[29]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[29]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[30]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[30]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[31]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[31]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[32]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[32]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[33]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[33]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[34]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[34]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[35]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[35]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[36]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[36]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[37]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[37]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[38]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[38]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[39]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[39]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[40]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[40]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[41]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[41]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[42]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[42]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[43]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[43]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[44]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[44]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[45]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[45]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[46]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[46]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[47]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[47]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[48]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[48]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[49]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[49]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[50]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[50]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[51]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[51]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[52]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[52]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[53]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[53]"
               ]
             },
             {
               "Var": [
                 "M31",
-                "double_karatsuba_n_7_limb_max_bound_511_output_tmp_9a554_17[54]"
+                "double_karatsuba_1454b_output_tmp_9a554_17[54]"
               ]
             }
           ]
@@ -28538,7 +28538,7 @@
                 {
                   "Const": [
                     "UInt32",
-                    "65536"
+                    "131072"
                   ]
                 }
               ]
@@ -28602,7 +28602,7 @@
                   {
                     "Const": [
                       "M31",
-                      "1"
+                      "2"
                     ]
                   }
                 ]
