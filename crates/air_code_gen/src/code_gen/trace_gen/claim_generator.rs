@@ -13,7 +13,8 @@ use itertools::Itertools;
 use super::{deduction_consts, packed_name};
 use crate::code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
 use crate::code_gen::utils::{
-    block_doc, get_variable_name, is_const_size_component, replace_generics_with_turbofish,
+    block_doc, get_variable_name, is_const_size_component, relations_used_or_yielded,
+    replace_generics_with_turbofish,
 };
 
 impl RustProverGen {
@@ -28,7 +29,7 @@ impl RustProverGen {
             Mode::Mults => quote! { pub mults: AtomicMultiplicityColumn, },
         };
         // TODO(Gali): Get the types of the public params from air_infra.
-        for public_param in &self.public_params {
+        for public_param in &self.air_fn.public_params {
             claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
         }
         let derive_default = (self.can_use_derive_default())
@@ -104,7 +105,7 @@ impl RustProverGen {
                 }
             },
             Mode::NoInputs => {
-                let builtin_segment_start = self.public_params[0].name();
+                let builtin_segment_start = self.air_fn.public_params[0].name();
                 quote! {
                     pub fn new(log_size: u32, $(builtin_segment_start.clone()): u32) -> Self {
                         assert!(log_size >= LOG_N_LANES);
@@ -126,7 +127,7 @@ impl RustProverGen {
                 pub fn write_trace(
                     $(self_param)
                     tree_builder: &mut impl TreeBuilder<SimdBackend>,
-                    $(write_trace_params(&self.write_trace_context))
+                    $(write_trace_params(&self.air_fn.deduction_lookups))
                 ) -> (Claim, InteractionClaimGenerator)
                 {
                     $(self.write_trace_body_simd())
@@ -138,12 +139,12 @@ impl RustProverGen {
     }
 
     fn write_trace_body_simd(&self) -> rust::Tokens {
-        let mut claim_fields = if is_const_size_component(&self.lists) {
+        let mut claim_fields = if is_const_size_component(&self.air_fn) {
             quote! {}
         } else {
             quote! {log_size,}
         };
-        for public_param in &self.public_params {
+        for public_param in &self.air_fn.public_params {
             claim_fields.extend(quote! {
                 $(public_param.name()): self.$(public_param.name()),
             });
@@ -173,11 +174,11 @@ impl RustProverGen {
                 let mults = self.mults.into_simd_vec();
             },
         };
-        let mut interaction_claim_fields = match self.lists.padding_type {
+        let mut interaction_claim_fields = match self.air_fn.padding_type {
             PaddingType::Enabler => quote! { n_rows, },
             _ => quote! {},
         };
-        if !is_const_size_component(&self.lists) {
+        if !is_const_size_component(&self.air_fn) {
             interaction_claim_fields.extend(quote! { log_size, });
         }
 
@@ -224,13 +225,13 @@ impl RustProverGen {
             }
             Mode::Mults => quote! { mults: $(vec_of_type("PackedM31")), },
         };
-        if self.lists.padding_type == PaddingType::Enabler {
+        if self.air_fn.padding_type == PaddingType::Enabler {
             params.extend(quote! { n_rows: usize, })
         }
-        for public_param in &self.public_params {
+        for public_param in &self.air_fn.public_params {
             params.extend(quote! { $(public_param.name()): u32, });
         }
-        params.extend(write_trace_params(&self.write_trace_context));
+        params.extend(write_trace_params(&self.air_fn.deduction_lookups));
         params
     }
 
@@ -242,20 +243,20 @@ impl RustProverGen {
             Mode::Inputs => quote! { packed_inputs, },
             Mode::Mults => quote! { mults, },
         };
-        if self.lists.padding_type == PaddingType::Enabler {
+        if self.air_fn.padding_type == PaddingType::Enabler {
             args.extend(quote! { n_rows, })
         }
-        for public_param in &self.public_params {
+        for public_param in &self.air_fn.public_params {
             args.extend(quote! { self.$(public_param.name()), });
         }
-        args.extend(write_trace_args(&self.write_trace_context));
+        args.extend(write_trace_args(&self.air_fn.deduction_lookups));
         args
     }
 
     pub fn generate_simd_write_trace_code(&self) -> rust::Tokens {
         // declare constants.
         let mut constants_def_code = quote! {};
-        let constants = deduction_consts(&self.lists.deductions);
+        let constants = deduction_consts(&self.air_fn.deductions);
         for (ty, val) in constants.into_iter() {
             let name = get_variable_name(&ty, &val);
             constants_def_code.extend(quote! {
@@ -265,7 +266,7 @@ impl RustProverGen {
             });
         }
 
-        let log_size = if is_const_size_component(&self.lists) {
+        let log_size = if is_const_size_component(&self.air_fn) {
             quote! { LOG_SIZE }
         } else {
             quote! {log_size}
@@ -276,7 +277,7 @@ impl RustProverGen {
             name,
             generic_param: _,
             args,
-        } in &self.lists.external_states
+        } in &self.air_fn.external_states
         {
             // Seq is the only preprocessed column that is of unfixed size.
             if name == "Seq" {
@@ -344,11 +345,11 @@ impl RustProverGen {
                 });
                 lambda_producer
                     .1
-                    .extend(quote! { $(&self.lists.name)_input, });
+                    .extend(quote! { $(&self.air_fn.name)_input, });
             }
         }
 
-        let padding = match self.lists.padding_type {
+        let padding = match self.air_fn.padding_type {
             PaddingType::Enabler => quote!(let enabler_col = Enabler::new(n_rows);),
             _ => quote!(),
         };
@@ -397,7 +398,7 @@ impl RustProverGen {
         let mut write_trace_body = rust::Tokens::new();
         let mut offset = 0;
         let mut add_inputs_offsets = HashMap::new();
-        for deduction in &self.lists.deductions {
+        for deduction in &self.air_fn.deductions {
             if let TraceGenStep::LookupAddInput { relation_name, .. } = deduction {
                 add_inputs_offsets.insert(relation_name, 0);
             }
@@ -406,7 +407,7 @@ impl RustProverGen {
             name,
             generic_param: _,
             args,
-        } in &self.lists.external_states
+        } in &self.air_fn.external_states
         {
             if name == "Seq" {
                 write_trace_body.append(quote! {
@@ -420,13 +421,13 @@ impl RustProverGen {
         }
 
         let mut relation_data_offsets = HashMap::new();
-        for relation in &self.relation_calls {
+        for relation in relations_used_or_yielded(&self.air_fn) {
             relation_data_offsets.insert(relation, 0);
         }
-        for deduction in &self.lists.deductions {
+        for deduction in &self.air_fn.deductions {
             match deduction {
                 TraceGenStep::Deduction(expr) => {
-                    let name = self.lists.state_names[offset].clone();
+                    let name = self.air_fn.state_names[offset].clone();
                     write_trace_body.append(quote! {
                         let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
                         *row[$(offset)] = $(name);
@@ -486,7 +487,7 @@ impl RustProverGen {
         }
 
         // Padding code.
-        write_trace_body.extend(match self.lists.padding_type {
+        write_trace_body.extend(match self.air_fn.padding_type {
             PaddingType::Enabler => quote! {
                 *row[$(offset)] = enabler_col.packed_at(row_index);
             },
@@ -503,32 +504,33 @@ impl RustProverGen {
     }
 
     fn can_use_derive_default(&self) -> bool {
-        self.lists.padding_type != PaddingType::Multiplicity
+        self.air_fn.padding_type != PaddingType::Multiplicity
     }
 }
 
 const STATE_SUFFIX: &str = "_state";
-fn write_trace_params(context: &IndexMap<String, PaddingType>) -> rust::Tokens {
+fn write_trace_params(lookups: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut params = rust::Tokens::new();
-    for (fn_name, padding_type) in context {
+    for (relation, padding_type) in lookups {
+        let fn_name = relation.to_case(Case::Snake);
         if padding_type == &PaddingType::Multiplicity {
             params.extend(quote! {
-                $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,$("\n")
+                $(&fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,$("\n")
             });
         } else {
             params.extend(quote! {
-                $(fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,$("\n")
+                $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,$("\n")
             });
         }
     }
     params
 }
 
-fn write_trace_args(context: &IndexMap<String, PaddingType>) -> rust::Tokens {
+fn write_trace_args(lookups: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut args = rust::Tokens::new();
-    for (fn_name, _) in context {
+    for (relation, _) in lookups {
         args.extend(quote! {
-            $(fn_name)$STATE_SUFFIX,
+            $(relation.to_case(Case::Snake))$STATE_SUFFIX,
         });
     }
     args

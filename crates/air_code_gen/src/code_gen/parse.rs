@@ -235,12 +235,12 @@ fn gen_evaluate_call(
 /// Checks if the relation should be masked, meaning it's numerator should be altered.
 /// A relation is masked when and the relation name matches it's component's relation name (it's
 /// component must contain an enabler/multiplicity columns).
-pub fn is_masked_relation(lists: &CompiledAirFn, relation_name: &str) -> bool {
-    lists.relation_name.is_some() && relation_name.eq(&lists.relation_name.clone().unwrap())
+pub fn is_masked_relation(air_fn: &CompiledAirFn, relation_name: &str) -> bool {
+    air_fn.relation_name.is_some() && relation_name.eq(&air_fn.relation_name.clone().unwrap())
 }
 
 pub fn parse_lookup_constraint(
-    lists: &CompiledAirFn,
+    air_fn: &CompiledAirFn,
     relation_name: &str,
     felts: &[CompiledAirVar],
     use_or_yield: &UseOrYield,
@@ -248,7 +248,7 @@ pub fn parse_lookup_constraint(
 ) -> rust::Tokens {
     let lookup_values = remove_trailing_zeroes(felts)
         .iter()
-        .map(|felt| parse_eval_constraint(lists, felt, constant_defs))
+        .map(|felt| parse_eval_constraint(air_fn, felt, constant_defs))
         .collect_vec();
     // TODO(AnatG): Assumes how parse_eval_constraint formats the output. Find a better way.
     let lookup_values_str = if lookup_values.len() == 1 {
@@ -267,13 +267,13 @@ pub fn parse_lookup_constraint(
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
     };
-    let is_masked = is_masked_relation(lists, relation_name);
-    let numerator = match lists.padding_type {
+    let is_masked = is_masked_relation(air_fn, relation_name);
+    let numerator = match air_fn.padding_type {
         PaddingType::Enabler if is_masked => quote! {E::EF::from(enabler.clone())},
         PaddingType::Multiplicity if is_masked => quote! {E::EF::from(multiplicity)},
         _ => quote! {E::EF::one()},
     };
-    if lists.r#type == TraceType::Inline {
+    if air_fn.r#type == TraceType::Inline {
         quote! {
             eval.add_to_relation(RelationEntry::new(
                 $(relation_name.to_case(Case::Snake))_lookup_elements,

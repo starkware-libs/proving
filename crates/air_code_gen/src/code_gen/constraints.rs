@@ -13,34 +13,32 @@ use itertools::{chain, Itertools};
 use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
-use super::utils::{
-    constraint_relations, filter_lookup_terms, get_variable_name, replace_generics_with_turbofish,
-};
+use super::utils::{get_variable_name, relations_used_or_yielded, replace_generics_with_turbofish};
 use crate::code_gen::utils::is_const_size_component;
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
-pub fn generate_toplevel_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_toplevel_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     quote! {
-        $(imports(lists))
+        $(imports(air_fn))
         $['\n']
-        $(generate_consts(lists))
+        $(generate_consts(air_fn))
         $['\n']
-        $(generate_component_structs(lists))
+        $(generate_component_structs(air_fn))
         $['\n']
-        $(generate_claim_struct(lists))
+        $(generate_claim_struct(air_fn))
         $['\n']
         $(generate_interaction_claim_struct())
         $['\n']
         $(generate_component_type_def())
         $['\n']
-        $(generate_framework_impl(lists))
+        $(generate_framework_impl(air_fn))
         $['\n']
-        $(generate_tests(lists))
+        $(generate_tests(air_fn))
     }
 }
 
-pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
-    let log_size = if is_const_size_component(lists) {
+pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let log_size = if is_const_size_component(air_fn) {
         quote! {}
     } else {
         quote! {log_size: 4,}
@@ -56,17 +54,17 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
             use stwo::core::fields::qm31::QM31;
 
             use super::*;
-            use crate::components::constraints_regression_test_values::$(lists.name.to_case(Case::UpperSnake));
+            use crate::components::constraints_regression_test_values::$(air_fn.name.to_case(Case::UpperSnake));
 
             #[test]
-            fn $(lists.name.clone())_constraints_regression() {
+            fn $(air_fn.name.clone())_constraints_regression() {
                 let mut rng = SmallRng::seed_from_u64(0);
                 let eval = Eval {
                     claim: Claim {
                         $log_size
-                        $(get_dummy_public_params(lists))
+                        $(get_dummy_public_params(air_fn))
                     },
-                    $(get_dummy_lookup_elements(lists))
+                    $(get_dummy_lookup_elements(air_fn))
                 };
                 let expr_eval = eval.evaluate(ExprEvaluator::new());
                 let assignment = expr_eval.random_assignment();
@@ -76,15 +74,15 @@ pub fn generate_tests(lists: &CompiledAirFn) -> rust::Tokens {
                     sum += c.assign(&assignment) * rng.gen::<QM31>();
                 }
 
-                assert_eq!(sum, $(lists.name.to_case(Case::UpperSnake)));
+                assert_eq!(sum, $(air_fn.name.to_case(Case::UpperSnake)));
             }
         }
     }
 }
 
-fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
+fn get_dummy_lookup_elements(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for relation in constraint_relations(lists) {
+    for relation in relations_used_or_yielded(air_fn) {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
         });
@@ -92,9 +90,9 @@ fn get_dummy_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-fn get_dummy_public_params(lists: &CompiledAirFn) -> rust::Tokens {
+fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for param in &lists.public_params {
+    for param in &air_fn.public_params {
         code.append(quote! {
          $(param.name()): rng.gen::<u32>(),
         });
@@ -104,18 +102,18 @@ fn get_dummy_public_params(lists: &CompiledAirFn) -> rust::Tokens {
 
 /// Generate constraints evaluation code for an inline AirFn (AirFn that is only called from
 /// other AirFns)
-pub fn generate_inline_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
-    let CompiledAirVar::Array(ref output_array) = lists.verifier_output.0 else {
-        panic!("Verifier output is not array in {}", &lists.name)
+pub fn generate_inline_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let CompiledAirVar::Array(ref output_array) = air_fn.verifier_output.0 else {
+        panic!("Verifier output is not array in {}", &air_fn.name)
     };
-    let name = lists.name.to_case(Case::Pascal);
-    let input_name = format!("[{}]", lists.verifier_input_limbs.join(", "));
-    let input_type = format!("[E::F; {}]", lists.verifier_input_limbs.len());
+    let name = air_fn.name.to_case(Case::Pascal);
+    let input_name = format!("[{}]", air_fn.verifier_input_limbs.join(", "));
+    let input_type = format!("[E::F; {}]", air_fn.verifier_input_limbs.len());
     let output_type = format!("[E::F; {}]", output_array.len());
 
     // TODO(AnatG): Find a way to remove <#[allow(unused_variables)]> below.
     quote! {
-        $(imports(lists))
+        $(imports(air_fn))
         $['\n']
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct $(name.clone()) {}
@@ -129,11 +127,11 @@ pub fn generate_inline_constraints_code(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(clippy::too_many_arguments)]
                 pub fn evaluate<E: EvalAtRow>(
                     $(input_name.clone()): $(input_type.clone()),
-                    $(get_inline_args(lists))
+                    $(get_inline_args(air_fn))
                     eval: &mut E,
             ) -> $(output_type)
             {
-                $(generate_evaluate(lists))
+                $(generate_evaluate(air_fn))
             }
         }
     }
@@ -146,19 +144,19 @@ pub fn generate_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
+fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    for state_name in &lists.state_names {
+    for state_name in &air_fn.state_names {
         code.append(quote! {
             $(state_name): E::F,
         });
     }
-    for relation in constraint_relations(lists) {
+    for relation in relations_used_or_yielded(air_fn) {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
         });
     }
-    for param in &lists.public_params {
+    for param in &air_fn.public_params {
         code.append(quote! {
             $(param.name()): E::F,
         });
@@ -167,7 +165,7 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
         name,
         generic_param: _,
         args,
-    } in &lists.external_states
+    } in &air_fn.external_states
     {
         if name == "Seq" {
             code.append(quote! {
@@ -182,12 +180,12 @@ fn get_inline_args(lists: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-fn imports(lists: &CompiledAirFn) -> rust::Tokens {
+fn imports(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut res = rust::Tokens::new();
     res.append(quote! {
         use crate::components::prelude::*;
     });
-    for (inline_fn, _) in &lists.inline_calls {
+    for (inline_fn, _) in &air_fn.inline_calls {
         res.append(quote! {
             use crate::components::subroutines::$(inline_fn)::$(inline_fn.to_case(Case::Pascal));
         });
@@ -195,41 +193,36 @@ fn imports(lists: &CompiledAirFn) -> rust::Tokens {
     res
 }
 
-fn generate_consts(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut consts = match lists.padding_type {
+fn generate_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut consts = match air_fn.padding_type {
         PaddingType::Enabler | PaddingType::Multiplicity => {
             // Add a padding column to the trace
             quote! {
-                pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
+                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + 1);
             }
         }
         _ => quote! {
-            pub const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
+            pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
         },
     };
-    if is_const_size_component(lists) {
+    if is_const_size_component(air_fn) {
         consts.extend(quote! {
-            pub const LOG_SIZE: u32 = $(lists.log_height.unwrap());
+            pub const LOG_SIZE: u32 = $(air_fn.log_height.unwrap());
         });
     }
 
-    consts.extend(generate_relation_uses(lists));
+    consts.extend(generate_relation_uses(air_fn));
 
     consts
 }
 
 /// Counts the number of times each relation is used (not including yield) in the component, for
 /// each row.
-fn generate_relation_uses(lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut relation_use_count = HashMap::new();
-    for LookupTerm {
-        relation_name,
-        use_or_yield,
-        ..
-    } in filter_lookup_terms(&lists.deductions)
-    {
-        if use_or_yield == UseOrYield::Use {
-            let offset = relation_use_count.entry(relation_name).or_insert(0);
+    for (relation_name, use_or_yield) in &air_fn.constraint_lookups {
+        if *use_or_yield == UseOrYield::Use {
+            let offset = relation_use_count.entry(relation_name.clone()).or_insert(0);
             *offset += 1;
         }
     }
@@ -241,7 +234,7 @@ fn generate_relation_uses(lists: &CompiledAirFn) -> rust::Tokens {
     {
         code.append(quote! {
             RelationUse {
-                relation_id: $("\"")$(relation.clone())$("\""),
+                relation_id: $("\"")$(relation)$("\""),
                 uses: $(*uses),
             },
         });
@@ -251,7 +244,7 @@ fn generate_relation_uses(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_component_structs(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut members = rust::Tokens::new();
 
     // Claims.
@@ -260,7 +253,7 @@ fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     });
 
     // Sub-components Lookup elements.
-    for relation in constraint_relations(lists) {
+    for relation in relations_used_or_yielded(air_fn) {
         members.append(quote! {
             pub $(lookup_elements_field_name(&relation)): relations::$(relation),
         });
@@ -277,18 +270,18 @@ fn lookup_elements_field_name(relation_name: &str) -> String {
     format!("{}_lookup_elements", relation_name.to_case(Case::Snake))
 }
 
-fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
-    let log_size = if is_const_size_component(lists) {
+fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let log_size = if is_const_size_component(air_fn) {
         quote! { LOG_SIZE }
     } else {
         quote! { self.log_size }
     };
 
     let mut channel_mix_code = quote! {};
-    if !is_const_size_component(lists) {
+    if !is_const_size_component(air_fn) {
         channel_mix_code.append(quote! { channel.mix_u64($(&log_size) as u64); });
     }
-    for public_param in &lists.public_params {
+    for public_param in &air_fn.public_params {
         channel_mix_code.append(quote! {
             channel.mix_u64(self.$(public_param.name()) as u64);
         });
@@ -297,12 +290,12 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let struct_code = quote! {
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
         pub struct Claim {
-            $(get_claim_members(lists))
+            $(get_claim_members(air_fn))
         }
     };
 
     // Clippy wants us to prefix the parameter name with a '_' iff it is unused
-    let channel_param = if is_const_size_component(lists) {
+    let channel_param = if is_const_size_component(air_fn) {
         quote! { _channel }
     } else {
         quote! { channel }
@@ -312,7 +305,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
                 let trace_log_sizes = vec![$(&log_size); N_TRACE_COLUMNS];
-                let interaction_log_sizes = vec![$(&log_size); $(get_n_logup_columns(lists))];
+                let interaction_log_sizes = vec![$(&log_size); $(get_n_logup_columns(air_fn))];
                 TreeVec::new(vec![
                     vec![],
                     trace_log_sizes,
@@ -329,8 +322,8 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     chain!(struct_code, impl_code).collect()
 }
 
-pub fn get_n_logup_columns(lists: &CompiledAirFn) -> rust::Tokens {
-    let n_lookup_terms: usize = lists.constraint_lookups.len();
+pub fn get_n_logup_columns(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let n_lookup_terms: usize = air_fn.constraint_lookups.len();
     match n_lookup_terms {
         0 => unimplemented!(),
         1..=2 => quote!(SECURE_EXTENSION_DEGREE),
@@ -341,13 +334,13 @@ pub fn get_n_logup_columns(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-pub fn get_claim_members(lists: &CompiledAirFn) -> rust::Tokens {
+pub fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut members = quote! {};
-    if !is_const_size_component(lists) {
+    if !is_const_size_component(air_fn) {
         members.append(quote! { pub log_size: u32, });
     };
 
-    for public_param in &lists.public_params {
+    for public_param in &air_fn.public_params {
         members.append(quote! {
             pub $(public_param.name()): u32,
         });
@@ -380,8 +373,8 @@ fn generate_component_type_def() -> rust::Tokens {
     }
 }
 
-fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
-    let log_size = if is_const_size_component(lists) {
+fn generate_framework_impl(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let log_size = if is_const_size_component(air_fn) {
         quote! { LOG_SIZE }
     } else {
         quote! { self.claim.log_size }
@@ -402,19 +395,19 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(clippy::double_parens)]
             #[allow(non_snake_case)]
             fn evaluate<E: EvalAtRow>(&self, mut eval:E) -> E{
-                $(generate_evaluate(lists))
+                $(generate_evaluate(air_fn))
             }
         }
     }
 }
 
-fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
     // Constants.
-    let mut constants = constraint_consts(&lists.constraints);
-    if lists.r#type == TraceType::Inline {
-        constants.extend(seek_consts(&lists.verifier_output.0));
+    let mut constants = constraint_consts(&air_fn.constraints);
+    if air_fn.r#type == TraceType::Inline {
+        constants.extend(seek_consts(&air_fn.verifier_output.0));
     }
     let mut const_names = HashMap::new();
     for (ty, val) in constants.into_iter() {
@@ -431,12 +424,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    if lists.r#type != TraceType::Inline {
+    if air_fn.r#type != TraceType::Inline {
         for ExternalState {
             name,
             generic_param: _,
             args,
-        } in &lists.external_states
+        } in &air_fn.external_states
         {
             // Seq is the only preprocessed column that is of unfixed size.
             if name == "Seq" {
@@ -451,15 +444,15 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    if lists.r#type != TraceType::Inline && !lists.state_names.is_empty() {
-        for name in &lists.state_names {
+    if air_fn.r#type != TraceType::Inline && !air_fn.state_names.is_empty() {
+        for name in &air_fn.state_names {
             code.append(quote! {
                 let $name = eval.next_trace_mask();
             });
         }
     }
 
-    match lists.padding_type {
+    match air_fn.padding_type {
         PaddingType::Enabler => {
             // Add enabler column to the trace
             code.append(quote! {
@@ -477,7 +470,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
 
     code.extend(quote! { $("\n\n") });
 
-    for constraint in lists.constraints.iter() {
+    for constraint in air_fn.constraints.iter() {
         match constraint {
             ConstraintEvalStep::Constraint(expr, desc) => {
                 if let Some(desc) = desc {
@@ -487,7 +480,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 }
                 code.extend(quote! {
                     eval.add_constraint(
-                        $(parse_eval_constraint(lists, expr,&const_names))
+                        $(parse_eval_constraint(air_fn, expr,&const_names))
                     );
                 });
             }
@@ -497,10 +490,10 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             }) => {
                 if felt_names.is_empty() {
                     code.extend(quote! {
-                        $(parse_eval_constraint(lists, var, &const_names));
+                        $(parse_eval_constraint(air_fn, var, &const_names));
                     });
                 } else if let CompiledAirVar::StaticCall(fn_name, _) = var {
-                    if lists.r#type != TraceType::Inline {
+                    if air_fn.r#type != TraceType::Inline {
                         // TODO(AnatG): Consider adding to StaticCall a predicate.
                         if fn_name.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME) {
                             code.extend(quote! {
@@ -510,12 +503,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                         }
                     }
                     code.extend(quote! {
-                        let [$(felt_names.join(", "))] = $(parse_eval_constraint(lists, var, &const_names));
+                        let [$(felt_names.join(", "))] = $(parse_eval_constraint(air_fn, var, &const_names));
                     });
                 } else {
                     assert_eq!(felt_names.len(), 1, "In constraints, only StaticCalls are allowed to produce multiple-felt outputs");
                     code.extend(quote! {
-                        let $(&felt_names[0]) = eval.add_intermediate($(parse_eval_constraint(lists, var, &const_names)));
+                        let $(&felt_names[0]) = eval.add_intermediate($(parse_eval_constraint(air_fn, var, &const_names)));
                     });
                 }
             }
@@ -526,7 +519,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 use_or_yield,
             }) => {
                 code.extend(parse_lookup_constraint(
-                    lists,
+                    air_fn,
                     relation_name,
                     felts,
                     use_or_yield,
@@ -538,10 +531,10 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             $("\n")
         });
     }
-    if lists.r#type == TraceType::Inline {
+    if air_fn.r#type == TraceType::Inline {
         code.extend(quote! {
 
-            $(parse_eval_constraint(lists, &lists.verifier_output.0, &const_names))
+            $(parse_eval_constraint(air_fn, &air_fn.verifier_output.0, &const_names))
         });
     } else {
         code.extend(quote! {

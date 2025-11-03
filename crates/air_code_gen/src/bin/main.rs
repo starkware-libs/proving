@@ -16,6 +16,7 @@ use indexmap::IndexMap;
 use serde::Serialize;
 
 const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
+const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
 
 #[derive(Serialize)]
 struct VersionedCasmRegistry {
@@ -149,7 +150,7 @@ struct GenerateStwoCairoArgs {
     #[clap(long, default_value = DEFAULT_SOURCE_DIR)]
     source: PathBuf,
 
-    #[clap(long)]
+    #[clap(long, default_value = DEFAULT_STWO_CAIRO_PATH)]
     stwo_cairo_path: PathBuf,
 }
 
