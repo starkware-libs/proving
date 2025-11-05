@@ -38,13 +38,7 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    {
-      "name": "Seq",
-      "generic_param": null,
-      "args": [
-        "20"
-      ]
-    }
+    "seq_20"
   ],
   "constraints": [
     {
@@ -52,13 +46,7 @@
         "relation_name": "RangeCheck_20",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "generic_param": null,
-              "args": [
-                "20"
-              ]
-            }
+            "ExternalState": "seq_20"
           }
         ],
         "use_or_yield": "Yield"
@@ -71,13 +59,7 @@
         "relation_name": "RangeCheck_20",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "generic_param": null,
-              "args": [
-                "20"
-              ]
-            }
+            "ExternalState": "seq_20"
           }
         ],
         "use_or_yield": "Yield"

@@ -8,7 +8,7 @@ use crate::airs::felt252_utils::felt252_packing27::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252width27_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::read_positive::ReadPositiveKnownId;
+use crate::core::felt252_id_memory::read_positive::*;
 
 #[derive(Debug, Serialize, Default)]
 pub struct PoseidonAggregator {

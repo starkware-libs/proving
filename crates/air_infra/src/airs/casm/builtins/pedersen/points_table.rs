@@ -1,5 +1,6 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::pedersen::PEDERSEN_TABLE_N_COLUMNS;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 #[cfg(test)]
@@ -10,8 +11,6 @@ use crate::const_felt252_expr_from_felt252;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
-
-const STWO_COMPONENT_TYPE_PEDERSEN_POINTS: &str = "PedersenPoints";
 
 // A table with 2**23 rows, each containing a point on the Pedersen elliptic curve.
 // The table is divided into 3 sections:
@@ -45,8 +44,6 @@ fn compute_section_row(row_in_section: usize, base_point: &CurvePoint) -> CurveP
 }
 
 impl ExtTable for PedersenPoints {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_PEDERSEN_POINTS;
-
     type T = [Felt252Expr; 2];
 
     fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
@@ -82,10 +79,13 @@ impl ExtTable for PedersenPoints {
         Self::T::default()
     }
 
-    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
-        Some(Box::new(
-            stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::new(0),
-        ))
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        (0..PEDERSEN_TABLE_N_COLUMNS)
+            .map(|i| {
+                Box::new(stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::new(i))
+                    as Box<dyn PreProcessedColumn>
+            })
+            .collect()
     }
 }
 

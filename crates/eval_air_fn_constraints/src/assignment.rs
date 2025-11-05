@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, ExternalState, PaddingType};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType};
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
@@ -68,21 +68,7 @@ impl Assignment {
         let external_states = component
             .external_states
             .iter()
-            .map(|ext_state| {
-                let state = if ext_state.name == "Seq" && ext_state.args.is_empty() {
-                    &ExternalState {
-                        name: "Seq".to_string(),
-                        generic_param: None,
-                        args: vec![log_height.to_string()],
-                    }
-                } else {
-                    ext_state
-                };
-                (
-                    ext_state.clone(),
-                    random_qm31(&Assignment::external_state_id(state)),
-                )
-            })
+            .map(|ext_state| (ext_state.clone(), random_qm31(&ext_state.to_owned())))
             .collect();
 
         let lookup_control_value = match component.padding_type {
@@ -111,16 +97,6 @@ impl Assignment {
             log_height,
             point,
         }
-    }
-
-    fn external_state_id(ext_state: &ExternalState) -> String {
-        let name = &ext_state.name;
-        let generic_argument = match ext_state.generic_param {
-            Some(value) => format!("{value}"),
-            None => "none".to_string(),
-        };
-        let args = ext_state.args.join(",");
-        format!("{name}_{generic_argument}_{args}")
     }
 
     pub fn lookup_elements(&self, relation_name: &String) -> &LookupElements {

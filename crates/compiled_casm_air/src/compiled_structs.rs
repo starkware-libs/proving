@@ -186,15 +186,10 @@ pub enum CompiledAirVar {
     PublicParam(String),
 }
 
-// A preprocessed column represented by its name, it's generic argument if there's one, and the
-// arguments to its constructor. If it's a Seq column of unknown length, we don't pass its
-// arguments.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
-pub struct ExternalState {
-    pub name: String,
-    pub generic_param: Option<u32>,
-    pub args: Vec<String>,
-}
+// A preprocessed column represented by its id in stwo-cairo. The special
+// value "Seq" is used to represent the Seq column whose size equals the size
+// of the current component.
+pub type ExternalState = String;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct CompiledTraceGenIntermediate {

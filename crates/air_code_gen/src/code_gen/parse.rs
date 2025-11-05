@@ -3,8 +3,8 @@
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep,
-    ExternalState, LookupTerm, PaddingType, TraceType, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
+    PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -13,7 +13,6 @@ use genco::quote;
 use indexmap::IndexSet;
 use itertools::Itertools;
 
-use super::utils::get_variable_name;
 use crate::code_gen::utils::remove_trailing_zeroes;
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
@@ -159,18 +158,7 @@ pub fn parse_eval_constraint(
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
-        CompiledAirVar::ExternalState(ExternalState {
-            name,
-            generic_param: _,
-            args,
-        }) => {
-            if name == "Seq" {
-                name.to_lowercase() + ".clone()"
-            } else {
-                let args = args.join("_").to_string() + ".clone()";
-                get_variable_name(name.to_lowercase().as_str(), args.as_str())
-            }
-        }
+        CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase() + ".clone()",
         CompiledAirVar::PublicParam(public_param) => {
             if air_fn.r#type == TraceType::Inline {
                 public_param.clone() + ".clone()"

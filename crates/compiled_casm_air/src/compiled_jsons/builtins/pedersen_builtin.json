@@ -422,11 +422,7 @@
     "PedersenBuiltinSegmentStart"
   ],
   "external_states": [
-    {
-      "name": "Seq",
-      "generic_param": null,
-      "args": []
-    }
+    "Seq"
   ],
   "constraints": [
     {
@@ -439,11 +435,7 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": {
-                    "name": "Seq",
-                    "generic_param": null,
-                    "args": []
-                  }
+                  "ExternalState": "Seq"
                 },
                 "*",
                 {
@@ -1142,11 +1134,7 @@
         "var": {
           "BinaryOp": [
             {
-              "ExternalState": {
-                "name": "Seq",
-                "generic_param": null,
-                "args": []
-              }
+              "ExternalState": "Seq"
             },
             "*",
             {
@@ -2766,11 +2754,7 @@
             {
               "BinaryOp": [
                 {
-                  "ExternalState": {
-                    "name": "Seq",
-                    "generic_param": null,
-                    "args": []
-                  }
+                  "ExternalState": "Seq"
                 },
                 "*",
                 {
@@ -7153,11 +7137,7 @@
         "var": {
           "BinaryOp": [
             {
-              "ExternalState": {
-                "name": "Seq",
-                "generic_param": null,
-                "args": []
-              }
+              "ExternalState": "Seq"
             },
             "*",
             {

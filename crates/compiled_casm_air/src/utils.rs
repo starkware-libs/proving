@@ -4,7 +4,6 @@ use std::io::{BufWriter, Write};
 use std::path::PathBuf;
 use std::{fs, io};
 
-use convert_case::{Case, Casing};
 use serde::Serialize;
 use serde_json::{to_writer_pretty, Value};
 
@@ -79,12 +78,8 @@ impl Display for CompiledAirVar {
                     .join(", ");
                 write!(f, "{{{}}}", strs)
             }
-            CompiledAirVar::ExternalState(ExternalState {
-                name,
-                generic_param: _,
-                args,
-            }) => {
-                write!(f, "{}({})", name.to_case(Case::Snake), args.join(", "))
+            CompiledAirVar::ExternalState(col_id) => {
+                write!(f, "ExternalState({})", col_id)
             }
             CompiledAirVar::PublicParam(name) => {
                 write!(f, "public_params.{}", name)

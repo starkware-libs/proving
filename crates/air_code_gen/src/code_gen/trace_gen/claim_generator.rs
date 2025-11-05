@@ -1,8 +1,7 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledTraceGenIntermediate, ExternalState, LookupTerm, PaddingType,
-    TraceGenStep,
+    CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, PaddingType, TraceGenStep,
 };
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
@@ -347,20 +346,15 @@ impl RustProverGen {
         };
 
         let mut preprocessed_def_code = quote! {};
-        for ExternalState {
-            name,
-            generic_param: _,
-            args,
-        } in &self.air_fn.external_states
-        {
+        for external_col_id in &self.air_fn.external_states {
             // Seq is the only preprocessed column that is of unfixed size.
-            if name == "Seq" {
+            if external_col_id == "Seq" {
                 preprocessed_def_code.extend(quote! {
                     let seq = Seq::new($(&log_size));
                 });
             } else {
                 preprocessed_def_code.extend(quote! {
-                    let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) = $name::new($(args.join(", ")));
+                    todo!();
                 });
             }
         }
@@ -481,19 +475,14 @@ impl RustProverGen {
                 add_inputs_offsets.insert(relation_name, 0);
             }
         }
-        for ExternalState {
-            name,
-            generic_param: _,
-            args,
-        } in &self.air_fn.external_states
-        {
-            if name == "Seq" {
+        for external_col_id in &self.air_fn.external_states {
+            if external_col_id == "Seq" {
                 write_trace_body.append(quote! {
-                    let $(&name.to_lowercase()) = $(&name.to_lowercase()).packed_at(row_index);
+                    let seq = seq.packed_at(row_index);
                 });
             } else {
                 write_trace_body.append(quote! {
-                let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) = $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())).packed_at(row_index);
+                    todo!();
                 });
             }
         }
@@ -724,18 +713,7 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState(ExternalState {
-            name,
-            generic_param: _,
-            args,
-        }) => {
-            if name == "Seq" {
-                name.to_lowercase()
-            } else {
-                let args = &args.join("_");
-                get_variable_name(name.to_lowercase().as_str(), args.as_str())
-            }
-        }
+        CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase(),
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
         }

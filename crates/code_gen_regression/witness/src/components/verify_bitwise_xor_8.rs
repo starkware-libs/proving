@@ -64,18 +64,19 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
         )
     };
 
-    let bitwisexor_8_0 = BitwiseXor::new(8, 0);
-    let bitwisexor_8_1 = BitwiseXor::new(8, 1);
-    let bitwisexor_8_2 = BitwiseXor::new(8, 2);
+    todo!();
+    todo!();
+    todo!();
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut())
         .into_par_iter()
         .enumerate()
         .for_each(|(row_index, (mut row, lookup_data))| {
-            let bitwisexor_8_0 = bitwisexor_8_0.packed_at(row_index);
-            let bitwisexor_8_1 = bitwisexor_8_1.packed_at(row_index);
-            let bitwisexor_8_2 = bitwisexor_8_2.packed_at(row_index);
-            *lookup_data.verify_bitwise_xor_8_0 = [bitwisexor_8_0, bitwisexor_8_1, bitwisexor_8_2];
+            todo!();
+            todo!();
+            todo!();
+            *lookup_data.verify_bitwise_xor_8_0 =
+                [bitwise_xor_8_0, bitwise_xor_8_1, bitwise_xor_8_2];
             let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = mult_at_row;
             *lookup_data.mults = mult_at_row;

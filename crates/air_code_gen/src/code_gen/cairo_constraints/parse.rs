@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep,
-    ExternalState, LookupTerm, PaddingType, TraceType,
+    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
+    PaddingType, TraceType,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -8,7 +8,6 @@ use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexSet;
 
-use super::super::utils::get_variable_name;
 use crate::code_gen::cairo_constraints::utils::lookup_elements_field;
 
 pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -115,17 +114,7 @@ pub fn parse_var(
                 format!("[{}]", vars.join(", "))
             }
         }
-        CompiledAirVar::ExternalState(ExternalState {
-            name,
-            generic_param: _,
-            args,
-        }) => {
-            if name == "Seq" {
-                "seq".to_string()
-            } else {
-                get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())
-            }
-        }
+        CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase(),
         CompiledAirVar::PublicParam(name) => name.clone(),
         v => unimplemented!("Unsupported variable type: {v:?}"),
     }

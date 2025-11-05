@@ -40,11 +40,7 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    {
-      "name": "Seq",
-      "generic_param": null,
-      "args": []
-    }
+    "Seq"
   ],
   "constraints": [
     {
@@ -52,11 +48,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "generic_param": null,
-              "args": []
-            }
+            "ExternalState": "Seq"
           },
           {
             "State": "memory_address_to_id_output_col0"
@@ -72,11 +64,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "generic_param": null,
-              "args": []
-            }
+            "ExternalState": "Seq"
           },
           {
             "State": "memory_address_to_id_output_col0"

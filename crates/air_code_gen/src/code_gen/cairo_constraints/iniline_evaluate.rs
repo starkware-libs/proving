@@ -1,10 +1,9 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, ExternalState};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexSet;
 
-use super::super::utils::get_variable_name;
 use super::parse::{parse_constraints, parse_var};
 use super::utils::{gen_consts, gen_imports};
 
@@ -91,16 +90,10 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
             $(param.name()): QM31,
         });
     }
-    for ExternalState { name, args, .. } in &air_fn.external_states {
-        if name == "Seq" {
-            code.append(quote! {
-                seq: QM31,
-            });
-        } else {
-            code.append(quote! {
-                $(get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())): QM31,
-            });
-        }
+    for external_col_id in &air_fn.external_states {
+        code.append(quote! {
+            $(external_col_id.to_lowercase()): QM31,
+        });
     }
     for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
         code.append(quote! {

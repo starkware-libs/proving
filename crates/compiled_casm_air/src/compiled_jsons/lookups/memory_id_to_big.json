@@ -287,11 +287,7 @@
   },
   "public_params": [],
   "external_states": [
-    {
-      "name": "MemoryIdForBig",
-      "generic_param": null,
-      "args": []
-    }
+    "MemoryIdForBig"
   ],
   "constraints": [
     {
@@ -399,11 +395,7 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": {
-              "name": "MemoryIdForBig",
-              "generic_param": null,
-              "args": []
-            }
+            "ExternalState": "MemoryIdForBig"
           },
           {
             "State": "memory_id_to_big_output_col0"
@@ -910,11 +902,7 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": {
-              "name": "MemoryIdForBig",
-              "generic_param": null,
-              "args": []
-            }
+            "ExternalState": "MemoryIdForBig"
           },
           {
             "State": "memory_id_to_big_output_col0"

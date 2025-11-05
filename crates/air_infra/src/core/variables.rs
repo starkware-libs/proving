@@ -226,12 +226,11 @@ impl Intermediate {
     }
 }
 
-// Describes an external preprocessed table and its type as used in the air infra.
+// Describes an external table and its type as used in the air infra.
 // Note that we can have two tables with the same CONST_TRACE_ID, but different types (see for
 // example Seq and SeqAddr), as long as they are represented by the same number of felts (i.e. the
 // number of columns in the table).
 pub trait ExtTable: Default + Debug + Clone {
-    const CONST_TRACE_ID: &'static str;
     type T: AirVar;
 
     fn new() -> Self::T {
@@ -240,31 +239,21 @@ pub trait ExtTable: Default + Debug + Clone {
         res
     }
 
-    // The arguments to the constructor of the preprocessed column object in stwo-cairo, except for
-    // the column index.
-    fn args() -> Vec<String> {
-        vec![]
-    }
-
-    fn generic_param() -> Option<u32> {
-        None
+    fn column_ids() -> Vec<String> {
+        let preprocessed = Self::preprocessed_columns();
+        assert_eq!(
+            preprocessed.len(),
+            Self::T::new("".to_string(), None).as_felts().len(),
+            "Not implemented for non-const tables"
+        );
+        preprocessed.iter().map(|col| col.id().id).collect()
     }
 
     fn to_state(v: &mut Self::T) {
         let felts = v.as_felts_mut();
-        let n = felts.len();
 
-        for (i, f) in felts.into_iter().enumerate() {
-            let mut args = Self::args();
-            if n > 1 {
-                args.extend_from_slice(&[i.to_string()]);
-            };
-
-            f.to_state(StateInfo::ExternalState(ExternalState {
-                name: Self::CONST_TRACE_ID.to_string(),
-                generic_param: Self::generic_param(),
-                args,
-            }));
+        for (felt, col_id) in felts.into_iter().zip(Self::column_ids()) {
+            felt.to_state(StateInfo::ExternalState(col_id));
         }
     }
 
@@ -275,11 +264,13 @@ pub trait ExtTable: Default + Debug + Clone {
     }
 
     /// For const-size tables, return a column of the table
-    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>>;
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>>;
 
     /// For const-size tables, return the log number of rows
     fn log_size() -> Option<u32> {
-        Self::preprocessed_column().map(|ppc| ppc.log_size())
+        Self::preprocessed_columns()
+            .first()
+            .map(|ppc| ppc.log_size())
     }
 }
 
@@ -572,11 +563,10 @@ impl AirVar for () {
 }
 
 impl ExtTable for () {
-    const CONST_TRACE_ID: &'static str = "";
     type T = ();
 
-    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
-        None
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
     }
 }
 

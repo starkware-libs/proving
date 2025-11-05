@@ -1467,11 +1467,7 @@
     "MulModBuiltinSegmentStart"
   ],
   "external_states": [
-    {
-      "name": "Seq",
-      "generic_param": null,
-      "args": []
-    }
+    "Seq"
   ],
   "constraints": [
     {
@@ -1487,11 +1483,7 @@
                     "PublicParam": "mul_mod_builtin_segment_start"
                   },
                   {
-                    "ExternalState": {
-                      "name": "Seq",
-                      "generic_param": null,
-                      "args": []
-                    }
+                    "ExternalState": "Seq"
                   }
                 ]
               },
@@ -9271,11 +9263,7 @@
         "var": {
           "MethodCall": [
             {
-              "ExternalState": {
-                "name": "Seq",
-                "generic_param": null,
-                "args": []
-              }
+              "ExternalState": "Seq"
             },
             "eq",
             [
@@ -9344,11 +9332,7 @@
                 },
                 "*",
                 {
-                  "ExternalState": {
-                    "name": "Seq",
-                    "generic_param": null,
-                    "args": []
-                  }
+                  "ExternalState": "Seq"
                 }
               ]
             }

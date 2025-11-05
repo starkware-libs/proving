@@ -134,23 +134,10 @@ pub fn make_preprocessed_column(
     external_state: &ExternalState,
     log_size_expr: &rust::Tokens,
 ) -> rust::Tokens {
-    if external_state.name == "Seq" {
+    if external_state == "Seq" {
         quote! { seq_column_idx($(log_size_expr)) }
     } else {
-        // TODO(adar): Once we represent external states using string IDs instead of
-        // (name, generic_param, args) tuples, this should be just
-        // quote! { preprocessed_columns::$(external_state.to_case(Case::Upper))_IDX }
-        let generic_param = external_state
-            .generic_param
-            .map(|c| c.to_string())
-            .unwrap_or_default();
-        let args_str = external_state
-            .args
-            .join("_")
-            .replace("[", "")
-            .replace("]", "")
-            .replace(",", "_");
-        quote! { $(&external_state.name.to_case(Case::Constant))_$(generic_param)_$(args_str)_IDX }
+        quote! { $(&external_state.to_case(Case::Constant))_IDX }
     }
 }
 

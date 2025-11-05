@@ -8,7 +8,6 @@ use genco::quote;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use super::super::utils::get_variable_name;
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
@@ -183,7 +182,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             .environment
             .external_states
             .get(external_state)
-            .unwrap_or_else(|| panic!("Missing external state {}", external_state.name));
+            .unwrap_or_else(|| panic!("Missing external state {}", external_state));
         let preprocessed_column =
             make_preprocessed_column(external_state, &quote! { component.claim.log_size });
         preprocessed_values.append(quote! {
@@ -289,19 +288,12 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     // External states
-    for external_state in &air_fn.external_states {
-        let variable_name = if external_state.name == "Seq" {
-            "seq"
-        } else {
-            &get_variable_name(
-                external_state.name.to_lowercase().as_str(),
-                external_state.args.join("_").as_str(),
-            )
-        };
+    for external_col_id in &air_fn.external_states {
+        let variable_name = external_col_id.to_lowercase();
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get($(make_preprocessed_column(external_state, &get_log_size(air_fn, false))));
+                = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
         });
     }
 
