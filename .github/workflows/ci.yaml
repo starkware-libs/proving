@@ -52,7 +52,7 @@ jobs:
       - run: scripts/js_typecheck.sh
 
   test-generated-code-in-stwo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-l
     steps:
       - uses: actions/checkout@v2
       - uses: software-mansion/setup-scarb@v1
