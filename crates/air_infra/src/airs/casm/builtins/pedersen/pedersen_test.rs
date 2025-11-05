@@ -7,7 +7,7 @@ use super::ec_add::*;
 use super::pedersen_builtin::*;
 use super::utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
-use crate::airs::casm::builtins::pedersen::points_table::NUM_WINDOWS;
+use crate::airs::casm::builtins::pedersen::points_table::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

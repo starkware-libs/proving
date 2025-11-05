@@ -1,8 +1,12 @@
+use std::collections::HashSet;
+
 use compiled_casm_air::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::assignment::Assignment;
 use genco::lang::rust;
 use genco::quote;
+use itertools::Itertools;
+use stwo_cairo_common::prover_types::cpu::QM31;
 
 use super::super::utils::get_variable_name;
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
@@ -12,13 +16,14 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, make_preprocessed_column,
     n_logup_columns, QM31_N_TRACE_CELLTS,
 };
-use crate::code_gen::utils::relations_used_or_yielded;
+use crate::code_gen::cairo_constraints::utils::lookup_elements_field;
+use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
 
 pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
 
 pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
-    _sample_assignment: &Assignment,
+    sample_assignment: &Assignment,
 ) -> rust::Tokens {
     let lookups = air_fn
         .constraint_lookups
@@ -27,7 +32,7 @@ pub fn generate_component_cairo_constraints_code(
         .map(|(i, (relation, _))| format!("{}_sum_{i}", relation.to_case(Case::Snake)))
         .collect::<Vec<_>>();
 
-    quote! {
+    let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))$("\n")
         $(gen_claim_struct(air_fn))$("\n")
@@ -39,7 +44,7 @@ pub fn generate_component_cairo_constraints_code(
             pub interaction_claim: InteractionClaim,
             $(relations_used_or_yielded(air_fn).iter().map(|relation| {
                 format!(
-                    "pub {}_lookup_elements: crate::{relation}Elements,", relation.to_case(Case::Snake)
+                    "pub {}: crate::{relation}Elements,", lookup_elements_field(relation)
                 )
             }).collect::<Vec<_>>().join("\n"))
         }
@@ -58,7 +63,7 @@ pub fn generate_component_cairo_constraints_code(
                     interaction_claim: *interaction_claim,
                     $(relations_used_or_yielded(air_fn).iter().map(|relation| {
                         format!(
-                            "{}_lookup_elements: interaction_elements.{}.clone(),", relation.to_case(Case::Snake), get_interaction_name(relation.to_case(Case::Snake))
+                            "{}: interaction_elements.{}.clone(),", lookup_elements_field(relation), get_interaction_name(relation.to_case(Case::Snake))
                         )
                     }).collect::<Vec<_>>().join("\n"))
                 }
@@ -115,6 +120,141 @@ pub fn generate_component_cairo_constraints_code(
         }
 
         $(gen_lookup_constraints_fn(air_fn))
+
+    };
+
+    // TODO(az-starkware): Implement the sample evaluation test for const-size components too
+    if !is_const_size_component(air_fn) {
+        result.extend(gen_tests_module(air_fn, sample_assignment));
+    }
+
+    result
+}
+
+fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
+    let relation_names = air_fn
+        .constraint_lookups
+        .iter()
+        .map(|x| x.0.clone())
+        .collect::<HashSet<_>>()
+        .into_iter()
+        .sorted()
+        .collect::<Vec<_>>();
+
+    let mut lookup_elements_fields: Vec<rust::Tokens> = vec![];
+    for relation_name in relation_names.iter() {
+        let lookup_elements = assignment
+            .lookup_elements
+            .get(relation_name)
+            .unwrap_or_else(|| panic!("Missing relation {relation_name} in assignment"));
+        lookup_elements_fields
+                    .push(quote! {
+                        $(lookup_elements_field(relation_name)):
+                            make_lookup_elements($(make_qm31(&lookup_elements.z)), $(make_qm31(&lookup_elements.alpha))), $("\n")
+                    });
+    }
+
+    let mut claim_fields = quote! { log_size: $(assignment.log_height), $("\n") };
+
+    for param in &air_fn.public_params {
+        let param_value = assignment
+            .environment
+            .public_params
+            .get(&param.name())
+            .unwrap_or_else(|| panic!("Missing public param {param:?} in assignment"));
+        claim_fields.append(quote! {
+            $(param.name()): $(param_value.0), $("\n")
+        });
+    }
+
+    quote! {
+        Component {
+            claim: Claim { $(claim_fields) },
+            interaction_claim: InteractionClaim { claimed_sum: $(make_qm31(&assignment.claimed_sum)) },
+            $(lookup_elements_fields)
+        }
+    }
+}
+
+fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
+    let mut preprocessed_values = quote! {};
+
+    for external_state in air_fn.external_states.iter() {
+        let external_column_value = assignment
+            .environment
+            .external_states
+            .get(external_state)
+            .unwrap_or_else(|| panic!("Missing external state {}", external_state.name));
+        let preprocessed_column =
+            make_preprocessed_column(external_state, &quote! { component.claim.log_size });
+        preprocessed_values.append(quote! {
+                    preprocessed_trace.values.insert(PreprocessedColumnKey::encode(@$(preprocessed_column)), NullableTrait::new($(make_qm31(external_column_value)))); $("\n")
+                });
+    }
+
+    let trace_values: rust::Tokens = assignment
+        .base_trace
+        .iter()
+        .chain(assignment.lookup_control_value.iter())
+        .flat_map(|value| quote! { [$(make_qm31(value))].span(), $("\n") })
+        .collect();
+
+    let interaction_values: rust::Tokens = assignment
+        .interaction_trace
+        .iter()
+        .flat_map(|value| quote! { $(make_qm31(value)), $("\n") })
+        .collect();
+
+    let expected_result_name = format!(
+        "{}{}",
+        air_fn.name.to_case(Case::UpperSnake),
+        SAMPLE_EVALUATION_RESULT_SUFFIX
+    );
+
+    quote! {
+        // Compiling for the "poseidon verifier", i.e. without the QM31 opcode, makes evaluate_constraints_at_point
+        // too long to compile for some components (e.g. generic_opcode). Therefore we only test the evaluation
+        // result when the opcode is available.
+        #[cfg(and(test, feature: "qm31_opcode"))]
+        mod tests {
+            use super::{Component, Claim, InteractionClaim};
+            use crate::utils::*;
+            use crate::components::sample_evaluations::*;
+            use crate::cairo_component::*;
+            use core::array::ArrayImpl;
+            use core::num::traits::Zero;
+            use crate::test_utils::{make_lookup_elements, make_interaction_trace};
+            #[allow(unused_imports)]
+            use stwo_constraint_framework::{LookupElements, PreprocessedColumn, PreprocessedColumnKey, PreprocessedColumnTrait, PreprocessedMaskValues};
+            use stwo_verifier_core::circle::CirclePoint;
+            use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
+
+            #[test]
+            fn test_evaluation_result() {
+                let component = $(gen_component_for_assignment(air_fn, assignment));
+                let mut sum: QM31 = Zero::zero();
+                let point = CirclePoint {
+                    x: $(make_qm31(&assignment.point.0)),
+                    y: $(make_qm31(&assignment.point.1))
+                };
+
+                let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
+                $(preprocessed_values)
+
+                let mut trace_columns = [ $(trace_values) ].span();
+                let interaction_values = array![ $(interaction_values) ];
+                let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
+                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), point);
+                assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
+            }
+        }
+    }
+}
+
+fn make_qm31(value: &QM31) -> rust::Tokens {
+    let value_components = value.to_m31_array();
+    quote! {
+        qm31_const::<$(value_components[0].0), $(value_components[1].0), $(value_components[2].0), $(value_components[3].0)>()
     }
 }
 
