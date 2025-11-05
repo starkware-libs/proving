@@ -80,8 +80,7 @@ mod tests {
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_7_2_5.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/triple_xor_32.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/verify_bitwise_xor_8.json",
-            // cannot generate - mults component with inputs
-            // "../compiled_casm_air/src/compiled_jsons/lookups/verify_instruction.json"
+            "../compiled_casm_air/src/compiled_jsons/lookups/verify_instruction.json",
             "../compiled_casm_air/src/compiled_jsons/opcodes/jnz_opcode_taken.json",
         ];
 

@@ -23,7 +23,6 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         "verify_bitwise_xor_12".into(),
-        "verify_instruction".into(),
     ]
 }
 
@@ -48,7 +47,6 @@ fn get_manual_witness_components() -> Vec<String> {
         "memory_id_to_big".into(),
         "cube_252".into(),
         "partial_ec_mul".into(),
-        "verify_instruction".into(),
         // Lookups to pre-processed tables
         "blake_round_sigma".into(),
         "pedersen_points_table".into(),

@@ -9,3 +9,4 @@ pub mod range_check_7_2_5;
 pub mod triple_xor_32;
 pub mod verify_bitwise_xor_8;
 pub mod jnz_opcode_taken;
+pub mod verify_instruction;

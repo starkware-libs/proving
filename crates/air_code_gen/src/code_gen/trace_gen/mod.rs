@@ -197,6 +197,7 @@ impl RustProverGen {
             sub_component_imports
                 .extend(quote! {use cairo_air::components::$(&self.air_fn.name)::LOG_SIZE;});
         }
+
         quote! {
             use crate::witness::prelude::*;
             use cairo_air::components::$(&self.air_fn.name)::{Claim, InteractionClaim, N_TRACE_COLUMNS};

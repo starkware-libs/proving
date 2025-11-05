@@ -1,7 +1,7 @@
+// This file was created by the AIR team.
+
 #![allow(unused_parens)]
-use cairo_air::components::verify_instruction::{
-    Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS,
-};
+use cairo_air::components::verify_instruction::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
 use crate::witness::components::{
     memory_address_to_id, memory_id_to_big, range_check_4_3, range_check_7_2_5,
@@ -13,35 +13,54 @@ pub type PackedInputType = (PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31
 
 #[derive(Default)]
 pub struct ClaimGenerator {
-    pub inputs: Vec<InputType>,
+    pub mults: DashMap<InputType, AtomicU32>,
 }
+
 impl ClaimGenerator {
-    pub fn new(inputs: Vec<InputType>) -> Self {
-        Self { inputs }
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.mults.is_empty()
     }
 
     pub fn write_trace(
-        mut self,
+        self,
         tree_builder: &mut impl TreeBuilder<SimdBackend>,
+        range_check_7_2_5_state: &range_check_7_2_5::ClaimGenerator,
+        range_check_4_3_state: &range_check_4_3::ClaimGenerator,
         memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
         memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
-        range_check_4_3_state: &range_check_4_3::ClaimGenerator,
-        range_check_7_2_5_state: &range_check_7_2_5::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
-        let n_rows = self.inputs.len();
+        let mut inputs_mults = self
+            .mults
+            .iter()
+            .map(|entry| (*entry.key(), M31(entry.value().load(Ordering::Relaxed))))
+            .collect::<Vec<_>>();
+
+        inputs_mults.sort_by_key(|(input, _)| input.0);
+
+        let (mut inputs, mut mults) = inputs_mults.into_iter().unzip::<_, _, Vec<_>, Vec<_>>();
+
+        let n_rows = inputs.len();
         assert_ne!(n_rows, 0);
         let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
         let log_size = size.ilog2();
-        self.inputs.resize(size, *self.inputs.first().unwrap());
-        let packed_inputs = pack_values(&self.inputs);
+
+        inputs.resize(size, *inputs.first().unwrap());
+        mults.resize(size, M31::zero());
+
+        let packed_inputs = pack_values(&inputs);
+        let packed_mults = pack_values(&mults);
 
         let (trace, lookup_data, sub_component_inputs) = write_trace_simd(
-            n_rows,
             packed_inputs,
+            packed_mults,
+            range_check_7_2_5_state,
+            range_check_4_3_state,
             memory_address_to_id_state,
             memory_id_to_big_state,
-            range_check_4_3_state,
-            range_check_7_2_5_state,
         );
         sub_component_inputs
             .range_check_7_2_5
@@ -69,15 +88,28 @@ impl ClaimGenerator {
             });
         tree_builder.extend_evals(trace.to_evals());
 
-        (Claim {}, InteractionClaimGenerator { lookup_data })
+        (
+            Claim { log_size },
+            InteractionClaimGenerator {
+                log_size,
+                lookup_data,
+            },
+        )
     }
 
-    pub fn add_packed_input(&self, input: &PackedInputType) {
-        unimplemented!("Implement manually");
+    pub fn add_input(&self, input: &InputType) {
+        self.mults
+            .entry(*input)
+            .or_insert_with(|| AtomicU32::new(0))
+            .fetch_add(1, Ordering::Relaxed);
     }
 
-    pub fn add_packed_inputs(&self, inputs: &[PackedInputType]) {
-        unimplemented!("Implement manually");
+    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
+        packed_inputs.into_par_iter().for_each(|packed_input| {
+            packed_input.unpack().into_par_iter().for_each(|input| {
+                self.add_input(&input);
+            });
+        });
     }
 }
 
@@ -94,12 +126,12 @@ struct SubComponentInputs {
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
 fn write_trace_simd(
-    n_rows: usize,
     inputs: Vec<PackedInputType>,
+    mults: Vec<PackedM31>,
+    range_check_7_2_5_state: &range_check_7_2_5::ClaimGenerator,
+    range_check_4_3_state: &range_check_4_3::ClaimGenerator,
     memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
     memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
-    range_check_4_3_state: &range_check_4_3::ClaimGenerator,
-    range_check_7_2_5_state: &range_check_7_2_5::ClaimGenerator,
 ) -> (
     ComponentTrace<N_TRACE_COLUMNS>,
     LookupData,
@@ -109,7 +141,7 @@ fn write_trace_simd(
     let log_size = log_n_packed_rows + LOG_N_LANES;
     let (mut trace, mut lookup_data, mut sub_component_inputs) = unsafe {
         (
-            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(LOG_SIZE),
+            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
             LookupData::uninitialized(log_n_packed_rows),
             SubComponentInputs::uninitialized(log_n_packed_rows),
         )
@@ -206,12 +238,15 @@ fn write_trace_simd(
 
                 // Mem Verify.
 
+                // Read Id.
+
                 let memory_address_to_id_value_tmp_16a4f_9 =
                     memory_address_to_id_state.deduce_output(input_pc_col0);
                 let instruction_id_col15 = memory_address_to_id_value_tmp_16a4f_9;
                 *row[15] = instruction_id_col15;
                 *sub_component_inputs.memory_address_to_id[0] = input_pc_col0;
                 *lookup_data.memory_address_to_id_0 = [input_pc_col0, instruction_id_col15];
+
                 *sub_component_inputs.memory_id_to_big[0] = instruction_id_col15;
                 *lookup_data.memory_id_to_big_0 = [
                     instruction_id_col15,
@@ -254,6 +289,9 @@ fn write_trace_simd(
                     input_inst_felt6_col5,
                     input_opcode_extension_col6,
                 ];
+                let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
+                *row[16] = mult_at_row;
+                *lookup_data.mults = mult_at_row;
             },
         );
 
@@ -267,9 +305,11 @@ struct LookupData {
     range_check_4_3_0: Vec<[PackedM31; 2]>,
     range_check_7_2_5_0: Vec<[PackedM31; 3]>,
     verify_instruction_0: Vec<[PackedM31; 7]>,
+    mults: Vec<PackedM31>,
 }
 
 pub struct InteractionClaimGenerator {
+    log_size: u32,
     lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
@@ -282,7 +322,7 @@ impl InteractionClaimGenerator {
         memory_id_to_big: &relations::MemoryIdToBig,
         verify_instruction: &relations::VerifyInstruction,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
+        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
@@ -318,11 +358,12 @@ impl InteractionClaimGenerator {
         (
             col_gen.par_iter_mut(),
             &self.lookup_data.verify_instruction_0,
+            self.lookup_data.mults,
         )
             .into_par_iter()
-            .for_each(|(writer, values)| {
+            .for_each(|(writer, values, mults)| {
                 let denom = verify_instruction.combine(values);
-                writer.write_frac(-PackedQM31::one(), denom);
+                writer.write_frac(-PackedQM31::one() * mults, denom);
             });
         col_gen.finalize_col();
 
