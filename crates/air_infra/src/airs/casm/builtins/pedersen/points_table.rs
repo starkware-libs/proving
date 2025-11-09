@@ -104,9 +104,7 @@ impl AirFn for PedersenPointsTable {
         _input: Self::In,
     ) -> Self::Out {
         #[cfg(test)]
-        if air_builder.is_run_mode() {
-            air_builder.set_row_number(_ext_input[0].value().map(|v| v.0 as usize));
-        }
+        air_builder.set_row_number(_ext_input[0].value().map(|v| v.0 as usize));
         air_builder.call_external_table(&PedersenPoints {})
     }
 
