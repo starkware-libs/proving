@@ -244,25 +244,15 @@ impl RustProverGen {
         } else {
             quote! {}
         };
-        let add_inputs = if !self.contains_sub_components() {
-            quote! {}
-        } else {
-            let add_sub_component_inputs = self
-                .add_input_mults
-                .iter()
-                .map(|(component_name, ..)| {
-                    quote! {
-                            $component_name$STATE_SUFFIX.add_packed_inputs(inputs.$(component_name).as_ref());
-
-                    }
-                })
-                .collect_vec();
-            quote! {
-                sub_component_inputs.iter().for_each(|inputs| {
-                    $(add_sub_component_inputs)
-                });
-            }
-        };
+        let add_inputs = self
+            .add_input_mults
+            .iter()
+            .map(|(component_name, ..)| {
+                quote! { sub_component_inputs.$(component_name).iter().for_each(|inputs| {
+                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs);
+                });}
+            })
+            .collect_vec();
         quote! {
             $(init_code)
 
@@ -412,7 +402,7 @@ impl RustProverGen {
         if self.contains_sub_components() {
             init_code.0.extend(quote! { mut sub_component_inputs, });
             init_code.1.extend(quote! {
-                uninitialized_sub_component_inputs(log_n_packed_rows),
+                SubComponentInputs::uninitialized(log_n_packed_rows),
             });
             lambda_producer.0.extend(quote! {
                 sub_component_inputs.par_iter_mut(),
@@ -564,7 +554,7 @@ impl RustProverGen {
                     let offset = add_inputs_offsets.get_mut(relation_name).unwrap();
                     if input != &CompiledAirVar::Tuple(vec![]) {
                         write_trace_body.extend(quote! {
-                            sub_component_inputs.$(relation_name.to_case(Case::Snake))[$(offset.to_string())] =
+                            *sub_component_inputs.$(relation_name.to_case(Case::Snake))[$(offset.to_string())] =
                                 $(simd_parse_air_var(input, const_names));
 
                         });
