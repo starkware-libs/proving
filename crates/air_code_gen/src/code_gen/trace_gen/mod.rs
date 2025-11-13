@@ -132,22 +132,14 @@ impl RustProverGen {
             .iter()
             .map(|(component_name, &mult)| {
                 quote! {
-                    $(component_name): [$component_name::PackedInputType; $mult],
+                    $(component_name): [Vec<$component_name::PackedInputType>; $mult],
                 }
             })
             .collect_vec();
 
         quote! {
-            type SubComponentInputs = Vec<SubComponentInputsPerRow>;
-
-            #[allow(clippy::uninit_vec)]
-            unsafe fn uninitialized_sub_component_inputs(log_n_packed_rows: u32) -> SubComponentInputs {
-                let mut vec: SubComponentInputs = Vec::with_capacity(1 << log_n_packed_rows);
-                vec.set_len(1 << log_n_packed_rows);
-                vec
-            }
-
-            struct SubComponentInputsPerRow {
+            #[derive(Uninitialized, IterMut, ParIterMut)]
+            struct SubComponentInputs {
                 $members
             }
         }
