@@ -18,7 +18,7 @@ use super::builtins::bitwise::*;
 use super::builtins::modulo::add_mod::*;
 use super::builtins::modulo::mul_mod::*;
 use super::builtins::pedersen::pedersen_builtin::*;
-use super::builtins::poseidon::poseidon_builtin::*;
+use super::builtins::poseidon::poseidon_aggregator::*;
 use super::builtins::range_check::*;
 // Opcodes
 use super::opcodes::add_ap_opcode::*;
@@ -326,7 +326,10 @@ fn add_entry_statistics(
         let compiled_called_entry = called_entry.clone().compile(reg);
         let entry_stats = stat.get(name).expect("Called entry not found in registry");
 
-        if compiled_called_entry.padding_type != PaddingType::Multiplicity {
+        if (compiled_called_entry.r#type != TraceType::Memory
+            && compiled_called_entry.name != "verify_instruction")
+            && called_entry.ext_input.is_none()
+        {
             // Update trace cells upper bound for the current component.
             trace_cells_upper_bound += rounded_cnt * entry_stats.trace_cells_upper_bound;
 

@@ -112,7 +112,9 @@ pub trait AirFn: Debug + InstDefTrait {
         match self.trace_type() {
             TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
             TraceType::Memory => PaddingType::Multiplicity,
-            TraceType::Component if self.name() == "verify_instruction" => {
+            TraceType::Component
+                if self.name() == "verify_instruction" || self.name() == "poseidon_aggregator" =>
+            {
                 PaddingType::Multiplicity
             }
             TraceType::Component if !<<Self as AirFn>::ExtIn as ExtTable>::T::is_empty() => {
