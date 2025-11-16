@@ -74,15 +74,8 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     if is_const_size_component(air_fn) {
-        let ExternalState {
-            name,
-            generic_param,
-            args,
-        } = air_fn.external_states.get_index(0).expect(
-            "We assume that const-size components include at least one preprocessed column",
-        );
         consts.extend(quote! {
-            const SOME_COLUMN: PreprocessedColumn = PreprocessedColumn::$(name)$(*generic_param)(($(args.join(", "))));
+            const LOG_SIZE: u32 = $(air_fn.log_height);
         });
     }
 
@@ -110,18 +103,7 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
 /// (where the type of `self` is `Eval`).
 pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
     if is_const_size_component(air_fn) {
-        // For constant-size components, we don't have an easy way to know the
-        // number of rows (it doesn't appear in the CompiledAirFn).
-        // Therefore we rely on the `log_size` function that the verifier
-        // implements for constant columns, and take the size of one of our
-        // const columns (doesn't matter which, as component columns all
-        // have the same size).
-        //
-        // We cannot have the size itself as a constant because Cairo doesn't
-        // allow `PreprocessedColumn::SomeColumn(...).log_size()` as a constant
-        // expression, so we store just the column as a constant and call
-        // `.log_size()` every time.
-        quote! { SOME_COLUMN.log_size() }
+        quote! { LOG_SIZE }
     } else if in_claim {
         quote! { *(self.log_size) }
     } else {
@@ -153,13 +135,22 @@ pub fn make_preprocessed_column(
     log_size_expr: &rust::Tokens,
 ) -> rust::Tokens {
     if external_state.name == "Seq" {
-        quote! { PreprocessedColumn::Seq($(log_size_expr)) }
+        quote! { seq_column_idx($(log_size_expr)) }
     } else {
+        // TODO(adar): Once we represent external states using string IDs instead of
+        // (name, generic_param, args) tuples, this should be just
+        // quote! { preprocessed_columns::$(external_state.to_case(Case::Upper))_IDX }
         let generic_param = external_state
             .generic_param
             .map(|c| c.to_string())
             .unwrap_or_default();
-        quote! { PreprocessedColumn::$(&external_state.name)$(generic_param)(($(external_state.args.join(", ")))) }
+        let args_str = external_state
+            .args
+            .join("_")
+            .replace("[", "")
+            .replace("]", "")
+            .replace(",", "_");
+        quote! { $(&external_state.name.to_case(Case::Constant))_$(generic_param)_$(args_str)_IDX }
     }
 }
 
