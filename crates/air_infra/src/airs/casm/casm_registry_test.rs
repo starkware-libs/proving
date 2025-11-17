@@ -18,7 +18,7 @@ use super::builtins::bitwise::*;
 use super::builtins::modulo::add_mod::*;
 use super::builtins::modulo::mul_mod::*;
 use super::builtins::pedersen::pedersen_builtin::*;
-use super::builtins::poseidon::poseidon_aggregator::*;
+use super::builtins::poseidon::poseidon_aggregator_tmp::*;
 use super::builtins::range_check::*;
 // Opcodes
 use super::opcodes::add_ap_opcode::*;
