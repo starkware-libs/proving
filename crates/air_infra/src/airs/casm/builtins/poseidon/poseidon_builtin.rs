@@ -4,7 +4,7 @@ use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
 use serde::Serialize;
 
-use crate::airs::casm::builtins::poseidon::poseidon_builtin_tmp::*;
+use crate::airs::casm::builtins::poseidon::poseidon_aggregator::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
 // Macros
