@@ -1,6 +1,6 @@
 use compiled_casm_air::public_params::PublicParam;
 
-use super::poseidon_aggregator::*;
+use super::poseidon_builtin::*;
 // Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
