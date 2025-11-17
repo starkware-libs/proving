@@ -38,30 +38,9 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    {
-      "name": "RangeCheck",
-      "generic_param": 3,
-      "args": [
-        "[7,2,5]",
-        "0"
-      ]
-    },
-    {
-      "name": "RangeCheck",
-      "generic_param": 3,
-      "args": [
-        "[7,2,5]",
-        "1"
-      ]
-    },
-    {
-      "name": "RangeCheck",
-      "generic_param": 3,
-      "args": [
-        "[7,2,5]",
-        "2"
-      ]
-    }
+    "range_check_7_2_5_column_0",
+    "range_check_7_2_5_column_1",
+    "range_check_7_2_5_column_2"
   ],
   "constraints": [
     {
@@ -69,34 +48,13 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck",
-              "generic_param": 3,
-              "args": [
-                "[7,2,5]",
-                "0"
-              ]
-            }
+            "ExternalState": "range_check_7_2_5_column_0"
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck",
-              "generic_param": 3,
-              "args": [
-                "[7,2,5]",
-                "1"
-              ]
-            }
+            "ExternalState": "range_check_7_2_5_column_1"
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck",
-              "generic_param": 3,
-              "args": [
-                "[7,2,5]",
-                "2"
-              ]
-            }
+            "ExternalState": "range_check_7_2_5_column_2"
           }
         ],
         "use_or_yield": "Yield"
@@ -109,34 +67,13 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck",
-              "generic_param": 3,
-              "args": [
-                "[7,2,5]",
-                "0"
-              ]
-            }
+            "ExternalState": "range_check_7_2_5_column_0"
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck",
-              "generic_param": 3,
-              "args": [
-                "[7,2,5]",
-                "1"
-              ]
-            }
+            "ExternalState": "range_check_7_2_5_column_1"
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck",
-              "generic_param": 3,
-              "args": [
-                "[7,2,5]",
-                "2"
-              ]
-            }
+            "ExternalState": "range_check_7_2_5_column_2"
           }
         ],
         "use_or_yield": "Yield"

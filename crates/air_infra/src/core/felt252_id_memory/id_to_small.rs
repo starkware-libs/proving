@@ -18,11 +18,14 @@ const STWO_COMPONENT_TYPE_MEM_ID_FOR_72BITS: &str = "MemoryIdForSmall";
 pub struct MemIdForSmall {}
 
 impl ExtTable for MemIdForSmall {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_MEM_ID_FOR_72BITS;
     type T = FeltExpr;
 
-    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
-        None
+    fn column_ids() -> Vec<String> {
+        vec![STWO_COMPONENT_TYPE_MEM_ID_FOR_72BITS.to_owned()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
     }
 }
 

@@ -7,4 +7,3 @@ edition.workspace = true
 serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
-convert_case.workspace = true

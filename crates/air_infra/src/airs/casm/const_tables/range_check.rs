@@ -11,8 +11,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::new_range_check;
 
-const STWO_COMPONENT_TYPE_RANGE_CHECK: &str = "RangeCheck";
-
 pub trait RangeCheckSize: ExtTable + Debug + Default {
     fn bits() -> &'static [u16];
 }
@@ -196,19 +194,16 @@ macro_rules! new_range_check {
         }
 
         impl ExtTable for $name {
-            const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK;
             type T = [FeltExpr; [$b0,$($b),+].len()];
 
-            fn args() -> Vec<String> {
-                vec![format!("[{}]", [$b0.to_string(), $($b.to_string()),+].join(","))]
-            }
-
-            fn generic_param() -> Option<u32> {
-                Some([$b0,$($b),+].len() as u32)
-            }
-
-            fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
-                Some(Box::new(stwo_cairo_common::preprocessed_columns::preprocessed_trace::RangeCheck::new([$b0,$($b),+], 0)))
+            fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+                let num_columns = [$b0,$($b),+].len();
+                (0..num_columns)
+                    .map(|i| {
+                        Box::new(stwo_cairo_common::preprocessed_columns::preprocessed_trace::RangeCheck::new([$b0,$($b),+], i))
+                            as Box<dyn PreProcessedColumn>
+                    })
+                    .collect()
             }
         }
     };

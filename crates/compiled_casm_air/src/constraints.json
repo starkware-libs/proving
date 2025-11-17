@@ -579,7 +579,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.bitwise_builtin_segment_start + (seq() * 5)), op0_id_col0"
+        "(public_params.bitwise_builtin_segment_start + (ExternalState(Seq) * 5)), op0_id_col0"
       ],
       [
         "MemoryIdToBig",
@@ -587,7 +587,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 1), op1_id_col29"
+        "((public_params.bitwise_builtin_segment_start + (ExternalState(Seq) * 5)) + 1), op1_id_col29"
       ],
       [
         "MemoryIdToBig",
@@ -707,7 +707,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 2), and_id_col86"
+        "((public_params.bitwise_builtin_segment_start + (ExternalState(Seq) * 5)) + 2), and_id_col86"
       ],
       [
         "MemoryIdToBig",
@@ -715,7 +715,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 3), xor_id_col87"
+        "((public_params.bitwise_builtin_segment_start + (ExternalState(Seq) * 5)) + 3), xor_id_col87"
       ],
       [
         "MemoryIdToBig",
@@ -723,7 +723,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 4), or_id_col88"
+        "((public_params.bitwise_builtin_segment_start + (ExternalState(Seq) * 5)) + 4), or_id_col88"
       ],
       [
         "MemoryIdToBig",
@@ -873,7 +873,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.range_check_builtin_segment_start + seq()), value_id_col0"
+        "(public_params.range_check_builtin_segment_start + ExternalState(Seq)), value_id_col0"
       ],
       [
         "MemoryIdToBig",
@@ -977,7 +977,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.range_check96_builtin_segment_start + seq()), value_id_col0"
+        "(public_params.range_check96_builtin_segment_start + ExternalState(Seq)), value_id_col0"
       ],
       [
         "RangeCheck_6",
@@ -2015,7 +2015,7 @@
       ],
       [
         "instance_addr_tmp_c1b19_2",
-        "(public_params.add_mod_builtin_segment_start + (7 * seq()))"
+        "(public_params.add_mod_builtin_segment_start + (7 * ExternalState(Seq)))"
       ],
       [
         "prev_instance_addr_tmp_c1b19_3",
@@ -2084,7 +2084,7 @@
     ],
     "constraints": [
       "(is_instance_0_col0 * (is_instance_0_col0 - 1))",
-      "(is_instance_0_col0 * seq())",
+      "(is_instance_0_col0 * ExternalState(Seq))",
       "(partial_limb_msb_col54 * (1 - partial_limb_msb_col54))",
       "(partial_limb_bit_before_msb_tmp_c1b19_28 * (1 - partial_limb_bit_before_msb_tmp_c1b19_28))",
       "(partial_limb_msb_col60 * (1 - partial_limb_msb_col60))",
@@ -4146,7 +4146,7 @@
       ],
       [
         "instance_addr_tmp_cf8b4_2",
-        "(public_params.mul_mod_builtin_segment_start + (7 * seq()))"
+        "(public_params.mul_mod_builtin_segment_start + (7 * ExternalState(Seq)))"
       ],
       [
         "prev_instance_addr_tmp_cf8b4_3",
@@ -7655,7 +7655,7 @@
     ],
     "constraints": [
       "(is_instance_0_col0 * (is_instance_0_col0 - 1))",
-      "(is_instance_0_col0 * seq())",
+      "(is_instance_0_col0 * ExternalState(Seq))",
       "(partial_limb_msb_col54 * (1 - partial_limb_msb_col54))",
       "(partial_limb_bit_before_msb_tmp_cf8b4_28 * (1 - partial_limb_bit_before_msb_tmp_cf8b4_28))",
       "(partial_limb_msb_col60 * (1 - partial_limb_msb_col60))",
@@ -18970,7 +18970,7 @@
       ],
       [
         "poseidon_full_round_chain_chain_tmp_tmp_7d028_63",
-        "(seq() * 2)"
+        "(ExternalState(Seq) * 2)"
       ],
       [
         "carry_0_tmp_7d028_71",
@@ -19203,7 +19203,7 @@
       ],
       [
         "Poseidon3PartialRoundsChain",
-        "seq(), 31, poseidon_3_partial_rounds_chain_output_limb_0_col105, poseidon_3_partial_rounds_chain_output_limb_1_col106, poseidon_3_partial_rounds_chain_output_limb_2_col107, poseidon_3_partial_rounds_chain_output_limb_3_col108, poseidon_3_partial_rounds_chain_output_limb_4_col109, poseidon_3_partial_rounds_chain_output_limb_5_col110, poseidon_3_partial_rounds_chain_output_limb_6_col111, poseidon_3_partial_rounds_chain_output_limb_7_col112, poseidon_3_partial_rounds_chain_output_limb_8_col113, poseidon_3_partial_rounds_chain_output_limb_9_col114, poseidon_3_partial_rounds_chain_output_limb_10_col115, poseidon_3_partial_rounds_chain_output_limb_11_col116, poseidon_3_partial_rounds_chain_output_limb_12_col117, poseidon_3_partial_rounds_chain_output_limb_13_col118, poseidon_3_partial_rounds_chain_output_limb_14_col119, poseidon_3_partial_rounds_chain_output_limb_15_col120, poseidon_3_partial_rounds_chain_output_limb_16_col121, poseidon_3_partial_rounds_chain_output_limb_17_col122, poseidon_3_partial_rounds_chain_output_limb_18_col123, poseidon_3_partial_rounds_chain_output_limb_19_col124, poseidon_3_partial_rounds_chain_output_limb_20_col125, poseidon_3_partial_rounds_chain_output_limb_21_col126, poseidon_3_partial_rounds_chain_output_limb_22_col127, poseidon_3_partial_rounds_chain_output_limb_23_col128, poseidon_3_partial_rounds_chain_output_limb_24_col129, poseidon_3_partial_rounds_chain_output_limb_25_col130, poseidon_3_partial_rounds_chain_output_limb_26_col131, poseidon_3_partial_rounds_chain_output_limb_27_col132, poseidon_3_partial_rounds_chain_output_limb_28_col133, poseidon_3_partial_rounds_chain_output_limb_29_col134, poseidon_3_partial_rounds_chain_output_limb_30_col135, poseidon_3_partial_rounds_chain_output_limb_31_col136, poseidon_3_partial_rounds_chain_output_limb_32_col137, poseidon_3_partial_rounds_chain_output_limb_33_col138, poseidon_3_partial_rounds_chain_output_limb_34_col139, poseidon_3_partial_rounds_chain_output_limb_35_col140, poseidon_3_partial_rounds_chain_output_limb_36_col141, poseidon_3_partial_rounds_chain_output_limb_37_col142, poseidon_3_partial_rounds_chain_output_limb_38_col143, poseidon_3_partial_rounds_chain_output_limb_39_col144"
+        "ExternalState(Seq), 31, poseidon_3_partial_rounds_chain_output_limb_0_col105, poseidon_3_partial_rounds_chain_output_limb_1_col106, poseidon_3_partial_rounds_chain_output_limb_2_col107, poseidon_3_partial_rounds_chain_output_limb_3_col108, poseidon_3_partial_rounds_chain_output_limb_4_col109, poseidon_3_partial_rounds_chain_output_limb_5_col110, poseidon_3_partial_rounds_chain_output_limb_6_col111, poseidon_3_partial_rounds_chain_output_limb_7_col112, poseidon_3_partial_rounds_chain_output_limb_8_col113, poseidon_3_partial_rounds_chain_output_limb_9_col114, poseidon_3_partial_rounds_chain_output_limb_10_col115, poseidon_3_partial_rounds_chain_output_limb_11_col116, poseidon_3_partial_rounds_chain_output_limb_12_col117, poseidon_3_partial_rounds_chain_output_limb_13_col118, poseidon_3_partial_rounds_chain_output_limb_14_col119, poseidon_3_partial_rounds_chain_output_limb_15_col120, poseidon_3_partial_rounds_chain_output_limb_16_col121, poseidon_3_partial_rounds_chain_output_limb_17_col122, poseidon_3_partial_rounds_chain_output_limb_18_col123, poseidon_3_partial_rounds_chain_output_limb_19_col124, poseidon_3_partial_rounds_chain_output_limb_20_col125, poseidon_3_partial_rounds_chain_output_limb_21_col126, poseidon_3_partial_rounds_chain_output_limb_22_col127, poseidon_3_partial_rounds_chain_output_limb_23_col128, poseidon_3_partial_rounds_chain_output_limb_24_col129, poseidon_3_partial_rounds_chain_output_limb_25_col130, poseidon_3_partial_rounds_chain_output_limb_26_col131, poseidon_3_partial_rounds_chain_output_limb_27_col132, poseidon_3_partial_rounds_chain_output_limb_28_col133, poseidon_3_partial_rounds_chain_output_limb_29_col134, poseidon_3_partial_rounds_chain_output_limb_30_col135, poseidon_3_partial_rounds_chain_output_limb_31_col136, poseidon_3_partial_rounds_chain_output_limb_32_col137, poseidon_3_partial_rounds_chain_output_limb_33_col138, poseidon_3_partial_rounds_chain_output_limb_34_col139, poseidon_3_partial_rounds_chain_output_limb_35_col140, poseidon_3_partial_rounds_chain_output_limb_36_col141, poseidon_3_partial_rounds_chain_output_limb_37_col142, poseidon_3_partial_rounds_chain_output_limb_38_col143, poseidon_3_partial_rounds_chain_output_limb_39_col144"
       ],
       [
         "RangeCheck_4_4_4_4",
@@ -19931,7 +19931,7 @@
       ],
       [
         "poseidon_full_round_chain_chain_tmp_tmp_51104_72",
-        "(seq() * 2)"
+        "(ExternalState(Seq) * 2)"
       ],
       [
         "carry_0_tmp_51104_80",
@@ -20284,7 +20284,7 @@
       ],
       [
         "Poseidon3PartialRoundsChain",
-        "seq(), 31, poseidon_3_partial_rounds_chain_output_limb_0_col195, poseidon_3_partial_rounds_chain_output_limb_1_col196, poseidon_3_partial_rounds_chain_output_limb_2_col197, poseidon_3_partial_rounds_chain_output_limb_3_col198, poseidon_3_partial_rounds_chain_output_limb_4_col199, poseidon_3_partial_rounds_chain_output_limb_5_col200, poseidon_3_partial_rounds_chain_output_limb_6_col201, poseidon_3_partial_rounds_chain_output_limb_7_col202, poseidon_3_partial_rounds_chain_output_limb_8_col203, poseidon_3_partial_rounds_chain_output_limb_9_col204, poseidon_3_partial_rounds_chain_output_limb_10_col205, poseidon_3_partial_rounds_chain_output_limb_11_col206, poseidon_3_partial_rounds_chain_output_limb_12_col207, poseidon_3_partial_rounds_chain_output_limb_13_col208, poseidon_3_partial_rounds_chain_output_limb_14_col209, poseidon_3_partial_rounds_chain_output_limb_15_col210, poseidon_3_partial_rounds_chain_output_limb_16_col211, poseidon_3_partial_rounds_chain_output_limb_17_col212, poseidon_3_partial_rounds_chain_output_limb_18_col213, poseidon_3_partial_rounds_chain_output_limb_19_col214, poseidon_3_partial_rounds_chain_output_limb_20_col215, poseidon_3_partial_rounds_chain_output_limb_21_col216, poseidon_3_partial_rounds_chain_output_limb_22_col217, poseidon_3_partial_rounds_chain_output_limb_23_col218, poseidon_3_partial_rounds_chain_output_limb_24_col219, poseidon_3_partial_rounds_chain_output_limb_25_col220, poseidon_3_partial_rounds_chain_output_limb_26_col221, poseidon_3_partial_rounds_chain_output_limb_27_col222, poseidon_3_partial_rounds_chain_output_limb_28_col223, poseidon_3_partial_rounds_chain_output_limb_29_col224, poseidon_3_partial_rounds_chain_output_limb_30_col225, poseidon_3_partial_rounds_chain_output_limb_31_col226, poseidon_3_partial_rounds_chain_output_limb_32_col227, poseidon_3_partial_rounds_chain_output_limb_33_col228, poseidon_3_partial_rounds_chain_output_limb_34_col229, poseidon_3_partial_rounds_chain_output_limb_35_col230, poseidon_3_partial_rounds_chain_output_limb_36_col231, poseidon_3_partial_rounds_chain_output_limb_37_col232, poseidon_3_partial_rounds_chain_output_limb_38_col233, poseidon_3_partial_rounds_chain_output_limb_39_col234"
+        "ExternalState(Seq), 31, poseidon_3_partial_rounds_chain_output_limb_0_col195, poseidon_3_partial_rounds_chain_output_limb_1_col196, poseidon_3_partial_rounds_chain_output_limb_2_col197, poseidon_3_partial_rounds_chain_output_limb_3_col198, poseidon_3_partial_rounds_chain_output_limb_4_col199, poseidon_3_partial_rounds_chain_output_limb_5_col200, poseidon_3_partial_rounds_chain_output_limb_6_col201, poseidon_3_partial_rounds_chain_output_limb_7_col202, poseidon_3_partial_rounds_chain_output_limb_8_col203, poseidon_3_partial_rounds_chain_output_limb_9_col204, poseidon_3_partial_rounds_chain_output_limb_10_col205, poseidon_3_partial_rounds_chain_output_limb_11_col206, poseidon_3_partial_rounds_chain_output_limb_12_col207, poseidon_3_partial_rounds_chain_output_limb_13_col208, poseidon_3_partial_rounds_chain_output_limb_14_col209, poseidon_3_partial_rounds_chain_output_limb_15_col210, poseidon_3_partial_rounds_chain_output_limb_16_col211, poseidon_3_partial_rounds_chain_output_limb_17_col212, poseidon_3_partial_rounds_chain_output_limb_18_col213, poseidon_3_partial_rounds_chain_output_limb_19_col214, poseidon_3_partial_rounds_chain_output_limb_20_col215, poseidon_3_partial_rounds_chain_output_limb_21_col216, poseidon_3_partial_rounds_chain_output_limb_22_col217, poseidon_3_partial_rounds_chain_output_limb_23_col218, poseidon_3_partial_rounds_chain_output_limb_24_col219, poseidon_3_partial_rounds_chain_output_limb_25_col220, poseidon_3_partial_rounds_chain_output_limb_26_col221, poseidon_3_partial_rounds_chain_output_limb_27_col222, poseidon_3_partial_rounds_chain_output_limb_28_col223, poseidon_3_partial_rounds_chain_output_limb_29_col224, poseidon_3_partial_rounds_chain_output_limb_30_col225, poseidon_3_partial_rounds_chain_output_limb_31_col226, poseidon_3_partial_rounds_chain_output_limb_32_col227, poseidon_3_partial_rounds_chain_output_limb_33_col228, poseidon_3_partial_rounds_chain_output_limb_34_col229, poseidon_3_partial_rounds_chain_output_limb_35_col230, poseidon_3_partial_rounds_chain_output_limb_36_col231, poseidon_3_partial_rounds_chain_output_limb_37_col232, poseidon_3_partial_rounds_chain_output_limb_38_col233, poseidon_3_partial_rounds_chain_output_limb_39_col234"
       ],
       [
         "RangeCheck_4_4_4_4",
@@ -20342,27 +20342,27 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.poseidon_builtin_segment_start + (seq() * 6)), input_state_0_id_col0"
+        "(public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)), input_state_0_id_col0"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 1), input_state_1_id_col1"
+        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 1), input_state_1_id_col1"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 2), input_state_2_id_col2"
+        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 2), input_state_2_id_col2"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 3), output_state_0_id_col3"
+        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 3), output_state_0_id_col3"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 4), output_state_1_id_col4"
+        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 4), output_state_1_id_col4"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 5), output_state_2_id_col5"
+        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 5), output_state_2_id_col5"
       ],
       [
         "PoseidonAggregator",
@@ -34863,7 +34863,7 @@
     "intermediates": [
       [
         "instance_addr_tmp_d00c6_0",
-        "((seq() * 3) + public_params.pedersen_builtin_segment_start)"
+        "((ExternalState(Seq) * 3) + public_params.pedersen_builtin_segment_start)"
       ],
       [
         "read_split_output_tmp_d00c6_7_original_limb_27",
@@ -34875,7 +34875,7 @@
       ],
       [
         "partial_ec_mul_chain_tmp_tmp_d00c6_20",
-        "(seq() * 2)"
+        "(ExternalState(Seq) * 2)"
       ],
       [
         "partial_ec_mul_chain_id_tmp_d00c6_35",
@@ -46298,7 +46298,7 @@
       ],
       [
         "BlakeRound",
-        "seq(), 10, blake_round_output_limb_0_col92, blake_round_output_limb_1_col93, blake_round_output_limb_2_col94, blake_round_output_limb_3_col95, blake_round_output_limb_4_col96, blake_round_output_limb_5_col97, blake_round_output_limb_6_col98, blake_round_output_limb_7_col99, blake_round_output_limb_8_col100, blake_round_output_limb_9_col101, blake_round_output_limb_10_col102, blake_round_output_limb_11_col103, blake_round_output_limb_12_col104, blake_round_output_limb_13_col105, blake_round_output_limb_14_col106, blake_round_output_limb_15_col107, blake_round_output_limb_16_col108, blake_round_output_limb_17_col109, blake_round_output_limb_18_col110, blake_round_output_limb_19_col111, blake_round_output_limb_20_col112, blake_round_output_limb_21_col113, blake_round_output_limb_22_col114, blake_round_output_limb_23_col115, blake_round_output_limb_24_col116, blake_round_output_limb_25_col117, blake_round_output_limb_26_col118, blake_round_output_limb_27_col119, blake_round_output_limb_28_col120, blake_round_output_limb_29_col121, blake_round_output_limb_30_col122, blake_round_output_limb_31_col123, blake_round_output_limb_32_col124"
+        "ExternalState(Seq), 10, blake_round_output_limb_0_col92, blake_round_output_limb_1_col93, blake_round_output_limb_2_col94, blake_round_output_limb_3_col95, blake_round_output_limb_4_col96, blake_round_output_limb_5_col97, blake_round_output_limb_6_col98, blake_round_output_limb_7_col99, blake_round_output_limb_8_col100, blake_round_output_limb_9_col101, blake_round_output_limb_10_col102, blake_round_output_limb_11_col103, blake_round_output_limb_12_col104, blake_round_output_limb_13_col105, blake_round_output_limb_14_col106, blake_round_output_limb_15_col107, blake_round_output_limb_16_col108, blake_round_output_limb_17_col109, blake_round_output_limb_18_col110, blake_round_output_limb_19_col111, blake_round_output_limb_20_col112, blake_round_output_limb_21_col113, blake_round_output_limb_22_col114, blake_round_output_limb_23_col115, blake_round_output_limb_24_col116, blake_round_output_limb_25_col117, blake_round_output_limb_26_col118, blake_round_output_limb_27_col119, blake_round_output_limb_28_col120, blake_round_output_limb_29_col121, blake_round_output_limb_30_col122, blake_round_output_limb_31_col123, blake_round_output_limb_32_col124"
       ],
       [
         "TripleXor32",

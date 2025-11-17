@@ -2,7 +2,6 @@ use std::iter::Sum;
 
 use compiled_casm_air::compiled_structs::ExternalState;
 use compiled_casm_air::public_params::PublicParam;
-use convert_case::{Case, Casing};
 use indexmap::IndexSet;
 
 use super::super::state::*;
@@ -90,13 +89,7 @@ impl FeltExpr {
             StateInfo::DegPolyOfState(_) => {
                 panic!("to_state shouldn't be used to make a FeltExpr an DegPolyOfState")
             }
-            StateInfo::ExternalState(ExternalState {
-                name,
-                generic_param: _,
-                args,
-            }) => {
-                format!("{}({})", name.to_case(Case::Snake), args.join(", "))
-            }
+            StateInfo::ExternalState(col_id) => col_id.clone(),
             StateInfo::PublicParam(public_param) => public_param.name(),
         };
 

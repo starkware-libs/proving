@@ -1,7 +1,7 @@
 #[cfg(test)]
 use std::array::from_fn;
 
-use stwo_cairo_common::preprocessed_columns::poseidon::PoseidonRoundKeys;
+use stwo_cairo_common::preprocessed_columns::poseidon::{PoseidonRoundKeys, N_WORDS};
 #[cfg(test)]
 use stwo_cairo_common::preprocessed_columns::poseidon_round_keys::round_keys;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
@@ -11,8 +11,6 @@ use crate::const_felt252_width27;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252width27_expr::*;
 use crate::core::variables::*;
-
-const STWO_COMPONENT_TYPE_POSEIDON_ROUND_KEYS: &str = "PoseidonRoundKeys";
 
 /// A constant table for the round keys of poseidon.
 /// Accessed by the PoseidonRoundKeys component through an external column call.
@@ -24,7 +22,6 @@ const STWO_COMPONENT_TYPE_POSEIDON_ROUND_KEYS: &str = "PoseidonRoundKeys";
 #[derive(Debug, Clone, Default)]
 pub struct Keys {}
 impl ExtTable for Keys {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_POSEIDON_ROUND_KEYS;
     type T = [Felt252Width27Expr; 3];
 
     fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
@@ -37,7 +34,9 @@ impl ExtTable for Keys {
         Self::T::default()
     }
 
-    fn preprocessed_column() -> Option<Box<dyn PreProcessedColumn>> {
-        Some(Box::new(PoseidonRoundKeys::new(0)))
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        (0..N_WORDS)
+            .map(|i| Box::new(PoseidonRoundKeys::new(i)) as Box<dyn PreProcessedColumn>)
+            .collect()
     }
 }

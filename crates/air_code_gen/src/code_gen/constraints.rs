@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep,
-    ExternalState, LookupTerm, PaddingType, TraceType, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
+    PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -161,21 +161,10 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
             $(param.name()): E::F,
         });
     }
-    for ExternalState {
-        name,
-        generic_param: _,
-        args,
-    } in &air_fn.external_states
-    {
-        if name == "Seq" {
-            code.append(quote! {
-                seq: E::F,
-            });
-        } else {
-            code.append(quote! {
-                $(get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())): E::F,
-            });
-        }
+    for external_col_id in &air_fn.external_states {
+        code.append(quote! {
+            $(external_col_id.to_lowercase()): E::F,
+        });
     }
     code
 }
@@ -425,20 +414,15 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     if air_fn.r#type != TraceType::Inline {
-        for ExternalState {
-            name,
-            generic_param: _,
-            args,
-        } in &air_fn.external_states
-        {
+        for external_col_id in &air_fn.external_states {
             // Seq is the only preprocessed column that is of unfixed size.
-            if name == "Seq" {
+            if external_col_id == "Seq" {
                 code.append(quote! {
                     let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
                 });
             } else {
                 code.append(quote! {
-                    let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) = eval.get_preprocessed_column(($name::new($(args.join(", ")))).id());
+                    let $(external_col_id) = eval.get_preprocessed_column(PreProcessedColumnId { id: $(format!("\"{}\"", external_col_id)).to_owned() });
                 });
             }
         }

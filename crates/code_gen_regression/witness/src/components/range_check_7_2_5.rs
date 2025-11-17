@@ -64,19 +64,22 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
         )
     };
 
-    let rangecheck_7_2_5_0 = RangeCheck::new([7, 2, 5], 0);
-    let rangecheck_7_2_5_1 = RangeCheck::new([7, 2, 5], 1);
-    let rangecheck_7_2_5_2 = RangeCheck::new([7, 2, 5], 2);
+    todo!();
+    todo!();
+    todo!();
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut())
         .into_par_iter()
         .enumerate()
         .for_each(|(row_index, (mut row, lookup_data))| {
-            let rangecheck_7_2_5_0 = rangecheck_7_2_5_0.packed_at(row_index);
-            let rangecheck_7_2_5_1 = rangecheck_7_2_5_1.packed_at(row_index);
-            let rangecheck_7_2_5_2 = rangecheck_7_2_5_2.packed_at(row_index);
-            *lookup_data.range_check_7_2_5_0 =
-                [rangecheck_7_2_5_0, rangecheck_7_2_5_1, rangecheck_7_2_5_2];
+            todo!();
+            todo!();
+            todo!();
+            *lookup_data.range_check_7_2_5_0 = [
+                range_check_7_2_5_column_0,
+                range_check_7_2_5_column_1,
+                range_check_7_2_5_column_2,
+            ];
             let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
             *row[0] = mult_at_row;
             *lookup_data.mults = mult_at_row;
