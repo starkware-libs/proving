@@ -68,7 +68,7 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
     (trace.par_iter_mut(), lookup_data.par_iter_mut())
         .into_par_iter()
         .enumerate()
-        .for_each(|(row_index, (mut row, lookup_data))| {
+        .for_each(|(row_index, (row, lookup_data))| {
             todo!();
             todo!();
             *lookup_data.range_check_9_9_0 = [range_check_9_9_column_0, range_check_9_9_column_1];
