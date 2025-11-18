@@ -13,7 +13,6 @@ use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use super::utils::{
     gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, make_preprocessed_column,
-    n_logup_columns, QM31_N_TRACE_CELLTS,
 };
 use crate::code_gen::cairo_constraints::utils::lookup_elements_field;
 use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
@@ -70,18 +69,6 @@ pub fn generate_component_cairo_constraints_code(
         }
 
         pub impl CairoComponentImpl of CairoComponent<Component> {
-            fn mask_points(
-                self: @Component,
-                ref preprocessed_column_set: PreprocessedColumnSet,
-                ref trace_mask_points: ColumnArray<Array<CirclePoint<QM31>>>,
-                ref interaction_trace_mask_points: ColumnArray<Array<CirclePoint<QM31>>>,
-                point: CirclePoint<QM31>,
-            ) {
-                let trace_gen = CanonicCosetImpl::new($(get_log_size(air_fn, false))).coset.step;
-                let point_offset_neg_1 = point.add_circle_point_m31(-trace_gen.mul(1).to_point());
-                $(gen_mask_points(air_fn))
-            }
-
             fn evaluate_constraints_at_point(
                 self: @Component,
                 ref sum: QM31,
@@ -296,52 +283,6 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
                 = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
         });
     }
-
-    code
-}
-
-fn gen_mask_points(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
-
-    // Generate preprocessed column set
-    for external_state in &air_fn.external_states {
-        code.append(quote! {
-            preprocessed_column_set.insert($(make_preprocessed_column(external_state, &get_log_size(air_fn, false))));
-        });
-    }
-
-    // Generate trace mask
-    for _name in &air_fn.state_names {
-        code.append(quote! {
-            trace_mask_points.append(array![point]);
-        });
-    }
-    if has_enabler_or_mult_column(air_fn) {
-        code.append(quote! {
-            trace_mask_points.append(array![point]);
-        });
-    }
-
-    // Generate interaction trace mask
-    if n_logup_columns(air_fn) == 0 {
-        return code;
-    }
-
-    // In a component with lookups, the last constraint is a prefix sum in QM31. Hence, the last 4
-    // columns are sampled at a -1 offset.
-    for _i in 0..(n_logup_columns(air_fn) - QM31_N_TRACE_CELLTS) {
-        code.append(quote! {
-            interaction_trace_mask_points.append(array![point]);
-        });
-    }
-    // NOTE: The protocol is sensitive to the ordering of offsets.
-    // This must agree with the ordering in the prover logup constraints.
-    code.append(quote! {
-        interaction_trace_mask_points.append(array![point_offset_neg_1, point]);
-        interaction_trace_mask_points.append(array![point_offset_neg_1, point]);
-        interaction_trace_mask_points.append(array![point_offset_neg_1, point]);
-        interaction_trace_mask_points.append(array![point_offset_neg_1, point]);
-    });
 
     code
 }
