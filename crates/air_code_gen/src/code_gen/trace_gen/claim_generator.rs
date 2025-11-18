@@ -385,7 +385,7 @@ impl RustProverGen {
                 trace.par_iter_mut(),
                 lookup_data.par_iter_mut(),
             },
-            quote! {mut row, lookup_data, },
+            quote! {row, lookup_data, },
         );
 
         let mut return_tuple = (

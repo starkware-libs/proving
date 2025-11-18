@@ -67,7 +67,7 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
     (trace.par_iter_mut(), lookup_data.par_iter_mut())
         .into_par_iter()
         .enumerate()
-        .for_each(|(row_index, (mut row, lookup_data))| {
+        .for_each(|(row_index, (row, lookup_data))| {
             todo!();
             *lookup_data.range_check_20_0 = [seq_20];
             let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
