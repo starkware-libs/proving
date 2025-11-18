@@ -1,55 +1,48 @@
 use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
 use serde::Serialize;
 
 use super::partial_ec_mul::*;
 use super::points_table::*;
 use super::read_split::*;
-use crate::airs::casm::casm_state::*;
-use crate::airs::casm::const_tables::seq::*;
 use crate::airs::felt252_utils::verify_reduced252::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::verify::*;
-
-const PEDERSEN_INSTANCE_SIZE: u32 = 3;
 
 #[derive(Debug, Default, Serialize)]
-pub struct PedersenBuiltin {
+pub struct PedersenAggregator {
     #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl AirFn for PedersenBuiltin {
+impl AirFn for PedersenAggregator {
     type ExtIn = ();
-    type In = ();
+    type In = ([CasmId; 2], CasmId);
     type Out = ();
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Builtin
+        TraceType::Component
     }
 
-    fn call(&self, air_builder: &mut AirBuilder, _: (), _input: ()) -> Self::Out {
-        let instance_num = air_builder.call_external_table(&Seq {});
-        let segment_start = air_builder.get_public_param(PublicParam::PedersenBuiltinSegmentStart);
-        let instance_addr = air_builder.let_(
-            instance_num * const_expr!(PEDERSEN_INSTANCE_SIZE) + segment_start,
-            "instance_addr",
-        );
+    fn call(
+        &self,
+        air_builder: &mut AirBuilder,
+        _: (),
+        ([a, b], output_id): Self::In,
+    ) -> Self::Out {
         let (a_high, [a_low, a_full]) = air_builder.call(
             &ReadSplit {
                 memory: self.memory.clone(),
             },
-            CasmAddress::new(instance_addr.clone(), "pedersen_a"),
+            a,
         );
 
         let (b_high, [b_low, b_full]) = air_builder.call(
             &ReadSplit {
                 memory: self.memory.clone(),
             },
-            CasmAddress::new(instance_addr.clone() + const_expr!(1), "pedersen_b"),
+            b,
         );
 
         // Verify a, b < P
@@ -78,14 +71,7 @@ impl AirFn for PedersenBuiltin {
             NUM_WINDOWS,
         );
 
-        air_builder.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(instance_addr + const_expr!(2), "pedersen_result"),
-                sum_2[0].clone(),
-            ),
-        );
+        self.memory
+            .mem_verify_known_id(air_builder, &output_id, sum_2[0].clone());
     }
 }

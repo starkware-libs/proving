@@ -4,9 +4,10 @@ use compiled_casm_air::public_params::PublicParam;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::ec_add::*;
-use super::pedersen_builtin::*;
 use super::utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
+use crate::airs::casm::builtins::pedersen::pedersen_aggregator::*;
+use crate::airs::casm::builtins::pedersen::pedersen_builtin::*;
 use crate::airs::casm::builtins::pedersen::points_table::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
@@ -123,7 +124,9 @@ fn test_pedersen_0() {
         ),
     ]);
 
-    let pedersen = PedersenBuiltin { memory };
+    let pedersen = PedersenBuiltin {
+        memory: memory.clone(),
+    };
     let mut registry = AirFnRegistry::new_empty();
     registry.public_params.set(
         PublicParam::PedersenBuiltinSegmentStart,
@@ -132,6 +135,19 @@ fn test_pedersen_0() {
     registry.add_entry(&pedersen);
 
     let (state, _) = registry.run_air_with_row_number(&pedersen, (), (), 0);
+    assert_eq!(state.get_felts().len(), 3);
+
+    let (state, _) = registry.run_air(
+        &PedersenAggregator { memory },
+        (),
+        (
+            [
+                CasmId::new(const_expr!(0), "a"),
+                CasmId::new(const_expr!(0), "b"),
+            ],
+            CasmId::new(const_expr!(1), "output"),
+        ),
+    );
     assert_eq!(state.get_felts().len(), 263);
 }
 

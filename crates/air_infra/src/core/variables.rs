@@ -654,6 +654,10 @@ impl_air_var!((CasmAddress, Offsets, FlagsFelts, FeltExpr));
 type PoseidonInputIds = [CasmId; 3];
 type PoseidonOutputIds = [CasmId; 3];
 impl_air_var!((PoseidonInputIds, PoseidonOutputIds));
+// PedersenAggregator
+type PedersenInputIds = [CasmId; 2];
+type PedersenOutputId = CasmId;
+impl_air_var!((PedersenInputIds, PedersenOutputId));
 
 // ChainRound
 
