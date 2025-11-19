@@ -1,16 +1,16 @@
 {
   "keccak": {
-    "trace_cells_upper_bound": 610627,
+    "trace_cells_upper_bound": 608759,
     "uses_upper_bound": {
       "memory_address_to_id": 32455,
-      "range_check_9_9": 55325,
-      "range_check_9_9_b": 55325,
-      "range_check_9_9_c": 55325,
-      "range_check_9_9_d": 55325,
-      "range_check_9_9_e": 55325,
-      "range_check_9_9_f": 55325,
-      "range_check_9_9_g": 27662,
-      "range_check_9_9_h": 27662,
+      "range_check_9_9": 55259,
+      "range_check_9_9_b": 55259,
+      "range_check_9_9_c": 55259,
+      "range_check_9_9_d": 55259,
+      "range_check_9_9_e": 55259,
+      "range_check_9_9_f": 55259,
+      "range_check_9_9_g": 27629,
+      "range_check_9_9_h": 27629,
       "verify_bitwise_xor_9": 37748,
       "verify_bitwise_xor_8": 1398,
       "range_check_12": 0,
@@ -43,21 +43,21 @@
       "verify_bitwise_xor_7": 0
     },
     "steps": 6533,
-    "max_num_instances_uses": 38815,
+    "max_num_instances_uses": 38862,
     "max_num_instances_steps": 10272
   },
   "ec_op": {
-    "trace_cells_upper_bound": 1053357,
+    "trace_cells_upper_bound": 1051489,
     "uses_upper_bound": {
       "memory_address_to_id": 34818,
-      "range_check_9_9": 76134,
-      "range_check_9_9_b": 76134,
-      "range_check_9_9_c": 76134,
-      "range_check_9_9_d": 76134,
-      "range_check_9_9_e": 76134,
-      "range_check_9_9_f": 76134,
-      "range_check_9_9_g": 38067,
-      "range_check_9_9_h": 38067,
+      "range_check_9_9": 76068,
+      "range_check_9_9_b": 76068,
+      "range_check_9_9_c": 76068,
+      "range_check_9_9_d": 76068,
+      "range_check_9_9_e": 76068,
+      "range_check_9_9_f": 76068,
+      "range_check_9_9_g": 38034,
+      "range_check_9_9_h": 38034,
       "range_check_12": 0,
       "range_check_3_6_6_3": 0,
       "range_check_18": 129,
@@ -90,21 +90,21 @@
       "verify_bitwise_xor_7": 0
     },
     "steps": 9410,
-    "max_num_instances_uses": 28206,
+    "max_num_instances_uses": 28231,
     "max_num_instances_steps": 7131
   },
   "ecdsa": {
-    "trace_cells_upper_bound": 1820438,
+    "trace_cells_upper_bound": 1818570,
     "uses_upper_bound": {
       "memory_address_to_id": 64923,
-      "range_check_9_9": 134439,
-      "range_check_9_9_b": 134439,
-      "range_check_9_9_c": 134439,
-      "range_check_9_9_d": 134439,
-      "range_check_9_9_e": 134439,
-      "range_check_9_9_f": 134439,
-      "range_check_9_9_g": 67219,
-      "range_check_9_9_h": 67219,
+      "range_check_9_9": 134373,
+      "range_check_9_9_b": 134373,
+      "range_check_9_9_c": 134373,
+      "range_check_9_9_d": 134373,
+      "range_check_9_9_e": 134373,
+      "range_check_9_9_f": 134373,
+      "range_check_9_9_g": 67186,
+      "range_check_9_9_h": 67186,
       "range_check_6": 87,
       "range_check_20": 14381,
       "range_check_20_b": 14381,
@@ -137,7 +137,7 @@
       "verify_bitwise_xor_7": 0
     },
     "steps": 17590,
-    "max_num_instances_uses": 15973,
+    "max_num_instances_uses": 15981,
     "max_num_instances_steps": 3815
   }
 }
