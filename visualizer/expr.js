@@ -90,13 +90,12 @@ function intermediate_var_node(json, air) {
 }
 
 export class ExternalCellNode {
-    constructor(json, air) {
-        this.table_name = json.name
-        this.table_args = json.args
+    constructor(name, air) {
+        this.table_name = name
     }
 
     get_html(air_view) {
-        return html`<span>External::${this.table_name}(${this.table_args.join(", ")})</span>`
+        return html`<span>External::${this.table_name}</span>`
     }
 }
 
