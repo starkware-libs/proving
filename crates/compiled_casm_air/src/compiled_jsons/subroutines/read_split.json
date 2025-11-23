@@ -1041,34 +1041,46 @@
     },
     {
       "Intermediate": {
-        "name": "ms_limb_low_tmp_61c4d_1",
+        "name": "ms_limb_tmp_61c4d_1",
+        "type": "UInt16",
+        "var": {
+          "StaticCall": [
+            "UInt16::from_m31",
+            [
+              {
+                "MethodCall": [
+                  {
+                    "Var": [
+                      "Felt252",
+                      "memory_id_to_big_value_tmp_61c4d_0"
+                    ]
+                  },
+                  "get_m31",
+                  [
+                    {
+                      "Const": [
+                        "usize",
+                        "27"
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "ms_limb_low_tmp_61c4d_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
-              "StaticCall": [
-                "UInt16::from_m31",
-                [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "Felt252",
-                          "memory_id_to_big_value_tmp_61c4d_0"
-                        ]
-                      },
-                      "get_m31",
-                      [
-                        {
-                          "Const": [
-                            "usize",
-                            "27"
-                          ]
-                        }
-                      ]
-                    ]
-                  }
-                ]
+              "Var": [
+                "UInt16",
+                "ms_limb_tmp_61c4d_1"
               ]
             },
             "&",
@@ -1088,7 +1100,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_limb_low_tmp_61c4d_1"
+              "ms_limb_low_tmp_61c4d_2"
             ]
           },
           "as_m31",
@@ -1098,34 +1110,14 @@
     },
     {
       "Intermediate": {
-        "name": "ms_limb_high_tmp_61c4d_2",
+        "name": "ms_limb_high_tmp_61c4d_3",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
-              "StaticCall": [
-                "UInt16::from_m31",
-                [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "Felt252",
-                          "memory_id_to_big_value_tmp_61c4d_0"
-                        ]
-                      },
-                      "get_m31",
-                      [
-                        {
-                          "Const": [
-                            "usize",
-                            "27"
-                          ]
-                        }
-                      ]
-                    ]
-                  }
-                ]
+              "Var": [
+                "UInt16",
+                "ms_limb_tmp_61c4d_1"
               ]
             },
             ">>",
@@ -1145,7 +1137,7 @@
           {
             "Var": [
               "UInt16",
-              "ms_limb_high_tmp_61c4d_2"
+              "ms_limb_high_tmp_61c4d_3"
             ]
           },
           "as_m31",
