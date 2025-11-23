@@ -131,8 +131,7 @@ function structure_matches(expr1, expr2) {
 
     if (expr1 instanceof ExternalCellNode) {
         return (expr2 instanceof ExternalCellNode) && 
-                expr1.table_name == expr2.table_name && 
-                expr1.table_args == expr2.table_args
+                expr1.table_name == expr2.table_name
     }
 
     if (expr1 instanceof PublicParamNode) {
