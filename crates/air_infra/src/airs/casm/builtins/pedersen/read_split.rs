@@ -47,7 +47,10 @@ impl AirFn for ReadSplit {
         }
 
         // Deduce the most significant limb split into two parts
-        let ms_limb = UInt16Expr::from(value.get_felt(FELT252_N_WORDS - 1));
+        let ms_limb = air_builder.let_for_deduction(
+            UInt16Expr::from(value.get_felt(FELT252_N_WORDS - 1)),
+            "ms_limb",
+        );
         let ms_limb_low = air_builder.deduce_air_var(
             ms_limb.clone() & const_u16_expr!((1 << LOW_BITS_IN_MS_LIMB) - 1),
             "ms_limb_low",
