@@ -1,14 +1,12 @@
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
-use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::verify::*;
 use crate::core::variables::*;
 use crate::{const_expr, const_u16_expr};
 
@@ -18,16 +16,16 @@ pub struct ReadSplit {
     pub memory: Felt252IdMemory,
 }
 
-// Read the felt252 at the given address and return it split into two parts: the least
+// Read the felt252 value for the given ID and return it split into two parts: the least
 // significant 248 bits (low) and the most significant 4 bits (high). Also returns the
 // original (non-split) value.
 impl AirFn for ReadSplit {
     type ExtIn = ();
-    type In = CasmAddress;
+    type In = CasmId;
     type Out = (FeltExpr, [Felt252Expr; 2]); // [high, low, original (high << 248 + low)]
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![Some("address".to_string())])
+        Some(vec![Some("id".to_string())])
     }
 
     fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
@@ -38,10 +36,10 @@ impl AirFn for ReadSplit {
         ])
     }
 
-    fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), id: Self::In) -> Self::Out {
         const LOW_BITS_IN_MS_LIMB: u16 =
             (248 - (FELT252_N_WORDS - 1) * FELT252_BITS_PER_WORD) as u16;
-        let (mut value, _id) = self.memory.read_unverified(air_builder, &address);
+        let mut value = self.memory.read_unverified_known_id(air_builder, &id);
 
         // Deduce the low limbs as-is
         for i in 0..(FELT252_N_WORDS - 1) {
@@ -76,12 +74,8 @@ impl AirFn for ReadSplit {
             ms_limb_high.as_felt() * const_expr!(1 << LOW_BITS_IN_MS_LIMB) + ms_limb_low.as_felt(),
         );
 
-        air_builder.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (address, memory_value_felts.clone().into()),
-        );
+        self.memory
+            .mem_verify_known_id(air_builder, &id, memory_value_felts.clone().into());
 
         // Build the low and high parts from the deduced felts.
         let mut low_felts: Vec<_> = value.as_felts()[0..FELT252_N_WORDS - 1].into();

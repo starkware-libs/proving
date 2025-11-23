@@ -113,7 +113,7 @@ pub trait AirFn: Debug + InstDefTrait {
             TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
             TraceType::Memory => PaddingType::Multiplicity,
             TraceType::Component
-                if self.name() == "verify_instruction" || self.name() == "poseidon_aggregator" =>
+                if self.name() == "verify_instruction" || self.name().contains("aggregator") =>
             {
                 PaddingType::Multiplicity
             }

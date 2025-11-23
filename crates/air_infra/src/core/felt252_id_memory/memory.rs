@@ -79,6 +79,14 @@ impl Felt252IdMemory {
         (value, id)
     }
 
+    pub fn read_unverified_known_id(
+        &self,
+        air_builder: &mut AirBuilder,
+        id: &CasmId,
+    ) -> Felt252Expr {
+        air_builder.mem_read_unverified(&self.id_to_big, id)
+    }
+
     pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> FeltExpr {
         air_builder
             .call(
