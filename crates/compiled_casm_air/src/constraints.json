@@ -20337,32 +20337,37 @@
       "output_state_1_id_col4",
       "output_state_2_id_col5"
     ],
-    "intermediates": [],
+    "intermediates": [
+      [
+        "instance_addr_tmp_51986_0",
+        "((ExternalState(Seq) * 6) + public_params.poseidon_builtin_segment_start)"
+      ]
+    ],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)), input_state_0_id_col0"
+        "instance_addr_tmp_51986_0, input_state_0_id_col0"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 1), input_state_1_id_col1"
+        "(instance_addr_tmp_51986_0 + 1), input_state_1_id_col1"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 2), input_state_2_id_col2"
+        "(instance_addr_tmp_51986_0 + 2), input_state_2_id_col2"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 3), output_state_0_id_col3"
+        "(instance_addr_tmp_51986_0 + 3), output_state_0_id_col3"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 4), output_state_1_id_col4"
+        "(instance_addr_tmp_51986_0 + 4), output_state_1_id_col4"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (ExternalState(Seq) * 6)) + 5), output_state_2_id_col5"
+        "(instance_addr_tmp_51986_0 + 5), output_state_2_id_col5"
       ],
       [
         "PoseidonAggregator",

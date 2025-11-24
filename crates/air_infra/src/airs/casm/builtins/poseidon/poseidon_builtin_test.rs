@@ -109,3 +109,7 @@ fn simple_failed_test_poseidon_builtin() {
 
     registry.run_air_with_row_number(&poseidon, (), (), 10);
 }
+
+fn get_addr(segment_start: FeltExpr, instance_num: FeltExpr, offset: u32) -> FeltExpr {
+    segment_start + instance_num * const_expr!(CELLS_PER_POSEIDON) + const_expr!(offset)
+}
