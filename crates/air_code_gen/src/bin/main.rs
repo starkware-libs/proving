@@ -6,7 +6,7 @@ use air_code_gen::code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
 };
 use air_code_gen::code_gen::utils::{
-    generate_air_fn_code, get_git_rev, load_air_fns, write_air_fn_code,
+    format_air_fn_code, generate_air_fn_code, get_git_rev, load_air_fns, write_air_fn_code,
 };
 use clap::Parser;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
@@ -14,6 +14,7 @@ use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use serde::Serialize;
+use xshell::{cmd, Shell};
 
 const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
@@ -103,10 +104,25 @@ fn generate_files(
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
         let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
-        let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
 
+        // Write un-formatted code, then format everything at the end. This is more
+        // efficient than formatting each file when generating it due to the startup
+        // time of rustfmt and scarb.
+        let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
         write_air_fn_code(compiled_air_fn, code, &dest_dir, job.code_type);
     }
+    format_stwo_cairo(stwo_cairo_path);
+}
+
+fn format_stwo_cairo(stwo_cairo_path: &Path) {
+    let shell = Shell::new().unwrap();
+    println!("Formatting Rust code...");
+    shell.change_dir(stwo_cairo_path.join("stwo_cairo_prover"));
+    cmd!(shell, "cargo fmt").run().unwrap();
+
+    println!("Formatting Cairo code...");
+    shell.change_dir(stwo_cairo_path.join("stwo_cairo_verifier"));
+    cmd!(shell, "scarb fmt").run().unwrap();
 }
 
 fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
@@ -233,11 +249,12 @@ fn generate_single(args: SingleArgs) {
     };
     let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &[job]);
 
-    let code = generate_air_fn_code(
+    let raw_code = generate_air_fn_code(
         compiled_air_fns.get(&air_fn_name).expect("AirFn missing"),
         sample_evaluations.get(&air_fn_name),
         code_type,
     );
+    let code = format_air_fn_code(raw_code, code_type);
 
     print!("{}", code);
 }
