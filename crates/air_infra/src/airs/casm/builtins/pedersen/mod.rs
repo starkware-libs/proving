@@ -1,7 +1,7 @@
 pub mod ec_add;
 pub mod partial_ec_mul;
-pub mod pedersen_aggregator;
-pub mod pedersen_builtin;
+pub mod pedersen_aggregator_tmp;
+pub mod pedersen_builtin_tmp;
 pub mod points_table;
 pub mod read_split;
 // TODO: Rename to test_utils.

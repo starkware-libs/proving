@@ -17,7 +17,7 @@ use stwo_cairo_common::prover_types::cpu::PRIME;
 use super::builtins::bitwise::*;
 use super::builtins::modulo::add_mod::*;
 use super::builtins::modulo::mul_mod::*;
-use super::builtins::pedersen::pedersen_aggregator::*;
+use super::builtins::pedersen::pedersen_aggregator_tmp::*;
 use super::builtins::poseidon::poseidon_builtin::*;
 use super::builtins::range_check::*;
 // Opcodes
