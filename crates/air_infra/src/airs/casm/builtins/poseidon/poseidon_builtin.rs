@@ -34,11 +34,15 @@ impl AirFn for PoseidonBuiltin {
     fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         let instance_num = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::PoseidonBuiltinSegmentStart);
+        let instance_addr = air_builder.let_(
+            instance_num * const_expr!(CELLS_PER_POSEIDON) + segment_start,
+            "instance_addr",
+        );
 
         // Read the input id's,
         let input_ids: [CasmId; 3] = from_fn(|i| {
             let address = CasmAddress::new(
-                get_addr(segment_start.clone(), instance_num.clone(), i as u32),
+                instance_addr.clone() + const_expr!(i),
                 &format!("input_state_{}", i),
             );
             air_builder.call(
@@ -52,7 +56,7 @@ impl AirFn for PoseidonBuiltin {
         // Read the output id's,
         let output_ids: [CasmId; 3] = from_fn(|i| {
             let address = CasmAddress::new(
-                get_addr(segment_start.clone(), instance_num.clone(), i as u32 + 3),
+                instance_addr.clone() + const_expr!(i + 3),
                 &format!("output_state_{}", i),
             );
             air_builder.call(
@@ -75,8 +79,4 @@ impl AirFn for PoseidonBuiltin {
     fn trace_type(&self) -> TraceType {
         TraceType::Builtin
     }
-}
-
-pub fn get_addr(segment_start: FeltExpr, instance_num: FeltExpr, offset: u32) -> FeltExpr {
-    segment_start + instance_num * const_expr!(CELLS_PER_POSEIDON) + const_expr!(offset)
 }
