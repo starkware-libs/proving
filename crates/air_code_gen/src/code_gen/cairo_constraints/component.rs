@@ -213,7 +213,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             #[allow(unused_imports)]
             use crate::test_utils::{make_lookup_elements, make_interaction_trace, preprocessed_mask_add};
             #[allow(unused_imports)]
-            use stwo_constraint_framework::{LookupElements, PreprocessedMaskValues};
+            use stwo_constraint_framework::{LookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
             use stwo_verifier_core::circle::CirclePoint;
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
@@ -226,13 +226,14 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                     y: $(make_qm31(&assignment.point.1))
                 };
 
-                let mut preprocessed_trace = PreprocessedMaskValues { values: [Default::default(); NUM_PREPROCESSED_COLUMNS].span().into() };
+                let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
                 $(preprocessed_values)
 
                 let mut trace_columns = [ $(trace_values) ].span();
                 let interaction_values = array![ $(interaction_values) ];
                 let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
                 component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), point);
+                preprocessed_trace.validate_usage();
                 assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
             }
         }
@@ -280,7 +281,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
+                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
         });
     }
 
