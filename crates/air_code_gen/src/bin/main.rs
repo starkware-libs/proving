@@ -105,13 +105,12 @@ fn generate_files(
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
         let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
 
-        // Write un-formatted code, then format everything at the end. This is more
-        // efficient than formatting each file when generating it due to the startup
+        // Here we write un-formatted code, which should be formatted by the caller at the end. This
+        // is more efficient than formatting each file when generating it due to the startup
         // time of rustfmt and scarb.
         let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
         write_air_fn_code(compiled_air_fn, code, &dest_dir, job.code_type);
     }
-    format_stwo_cairo(stwo_cairo_path);
 }
 
 fn format_stwo_cairo(stwo_cairo_path: &Path) {
@@ -282,6 +281,8 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     );
 
     generate_registry_properties_file(&args);
+
+    format_stwo_cairo(&args.stwo_cairo_path);
 
     println!(
         "Successfully processed JSON files from {} to {}",
