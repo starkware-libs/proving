@@ -89,12 +89,16 @@ impl AirFn for EvalOperands {
             "res",
         );
 
+        let not_pc_update_jnz = air_builder.let_for_constraint(
+            const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone(),
+            "not_pc_update_jnz",
+        );
         for i in 0..FELT252_N_WORDS {
             air_builder.constrain(
                 flags[FLAG_RES_ADD_INDEX].clone() * sum.get_felt(i)
                     + flags[FLAG_RES_MUL_INDEX].clone() * prod.get_felt(i)
                     + flags[FLAG_RES_OP1_INDEX].clone() * op1.get_felt(i)
-                    - (const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone()) * res.get_felt(i),
+                    - not_pc_update_jnz.clone() * res.get_felt(i),
                 &format!("constrain limb {i} of res"),
             );
         }
