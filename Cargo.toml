@@ -20,7 +20,6 @@ itertools = "0.12.1"
 num-traits = "0.2.18"
 serde = "1.0.196"
 serde_json = { version = "1.0.113", features = ["preserve_order"] }
-starknet-ff = "0.3.7"
 xshell = "0.2.5"
 indexmap = "2.2.6"
 convert_case = "0.8.0"
@@ -34,5 +33,5 @@ stwo-air-utils-derive = { git = "https://github.com/starkware-libs/stwo", rev = 
 stwo-constraint-framework = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = [
     "prover",
 ] }
-stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "39268b34" }
-stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "39268b34" }
+stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "a83685f" }
+stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "a83685f" }
