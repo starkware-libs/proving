@@ -25,6 +25,7 @@ pub struct AirFnEntry {
     pub inst_def: serde_json::Value,
     pub ext_input: Option<AirVarImpl>,
     pub input: Option<AirVarImpl>,
+    pub input_const_columns: Vec<String>,
     pub joined_input: AirVarImpl,
     pub input_expr_descriptions: Option<Vec<Option<String>>>,
     // <true> for felts in <joined_input> that participate in constraints, <false> otherwise.
@@ -85,6 +86,7 @@ impl AirFnEntry {
             inst_def: air_fn.inst_def(),
             ext_input: ext_input_option,
             input: input_option,
+            input_const_columns: E::column_ids(),
             joined_input,
             input_expr_descriptions: air_fn.input_expr_descriptions(),
             input_limbs_mask,
@@ -158,6 +160,7 @@ impl AirFnEntry {
                 self.joined_input.packed_prover_type(),
             ),
             verifier_input_limbs: self.input_limb_names(),
+            input_const_columns: self.input_const_columns.clone(),
             prover_output: (
                 self.output.clone().compile(CompileFor::Deductions),
                 Self::output_name(&self.name),

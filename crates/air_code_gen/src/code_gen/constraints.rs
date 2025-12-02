@@ -14,7 +14,7 @@ use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
 use super::utils::{get_variable_name, relations_used_or_yielded, replace_generics_with_turbofish};
-use crate::code_gen::utils::is_const_size_component;
+use crate::code_gen::utils::{is_const_size_component, make_preprocessed_column_id};
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
 pub fn generate_toplevel_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -422,7 +422,7 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
                 });
             } else {
                 code.append(quote! {
-                    let $(external_col_id) = eval.get_preprocessed_column(PreProcessedColumnId { id: $(format!("\"{}\"", external_col_id)).to_owned() });
+                    let $(external_col_id) = eval.get_preprocessed_column($(make_preprocessed_column_id(external_col_id)));
                 });
             }
         }

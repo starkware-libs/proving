@@ -286,6 +286,10 @@ pub fn get_variable_name(ty: &str, val: &str) -> String {
         .replace("__", "_")
 }
 
+pub fn make_preprocessed_column_id(id: &String) -> rust::Tokens {
+    quote! { PreProcessedColumnId { id: $(format!("\"{}\"", id)).to_owned() } }
+}
+
 /// Replaces plain generics `<...>` with Turobofish `::<...>`.
 /// Used where a function call is needed.
 /// E.g. "BigUint<x, y, z>" -> "BigUint::<x, y, z>".

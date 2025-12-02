@@ -12,18 +12,28 @@ pub type PackedInputType = [PackedM31; 3];
 
 pub struct ClaimGenerator {
     pub mults: AtomicMultiplicityColumn,
-}
-impl Default for ClaimGenerator {
-    fn default() -> Self {
-        Self {
-            mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
-        }
-    }
+    input_to_row: HashMap<[M31; 3], usize>,
+    preprocessed_trace: Arc<PreProcessedTrace>,
 }
 
 impl ClaimGenerator {
-    pub fn new() -> Self {
-        Self::default()
+    pub fn new(preprocessed_trace: Arc<PreProcessedTrace>) -> Self {
+        let column_ids = [
+            PreProcessedColumnId {
+                id: "range_check_7_2_5_column_0".to_owned(),
+            },
+            PreProcessedColumnId {
+                id: "range_check_7_2_5_column_1".to_owned(),
+            },
+            PreProcessedColumnId {
+                id: "range_check_7_2_5_column_2".to_owned(),
+            },
+        ];
+        Self {
+            mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+            input_to_row: make_input_to_row(&preprocessed_trace, column_ids),
+            preprocessed_trace,
+        }
     }
 
     pub fn write_trace(
@@ -32,14 +42,15 @@ impl ClaimGenerator {
     ) -> (Claim, InteractionClaimGenerator) {
         let mults = self.mults.into_simd_vec();
 
-        let (trace, lookup_data) = write_trace_simd(mults);
+        let (trace, lookup_data) = write_trace_simd(&self.preprocessed_trace, mults);
         tree_builder.extend_evals(trace.to_evals());
 
         (Claim {}, InteractionClaimGenerator { lookup_data })
     }
 
-    pub fn add_input(&self, _input: &InputType) {
-        todo!()
+    pub fn add_input(&self, input: &InputType) {
+        self.mults
+            .increase_at((*self.input_to_row.get(input).unwrap()).try_into().unwrap());
     }
 
     pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
@@ -55,7 +66,10 @@ impl ClaimGenerator {
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
-fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
+fn write_trace_simd(
+    preprocessed_trace: &PreProcessedTrace,
+    mults: Vec<PackedM31>,
+) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
     let log_n_packed_rows = LOG_SIZE - LOG_N_LANES;
     let (mut trace, mut lookup_data) = unsafe {
         (
@@ -64,17 +78,23 @@ fn write_trace_simd(mults: Vec<PackedM31>) -> (ComponentTrace<N_TRACE_COLUMNS>, 
         )
     };
 
-    todo!();
-    todo!();
-    todo!();
+    let range_check_7_2_5_column_0 = preprocessed_trace.get_column(&PreProcessedColumnId {
+        id: "range_check_7_2_5_column_0".to_owned(),
+    });
+    let range_check_7_2_5_column_1 = preprocessed_trace.get_column(&PreProcessedColumnId {
+        id: "range_check_7_2_5_column_1".to_owned(),
+    });
+    let range_check_7_2_5_column_2 = preprocessed_trace.get_column(&PreProcessedColumnId {
+        id: "range_check_7_2_5_column_2".to_owned(),
+    });
 
     (trace.par_iter_mut(), lookup_data.par_iter_mut())
         .into_par_iter()
         .enumerate()
         .for_each(|(row_index, (row, lookup_data))| {
-            todo!();
-            todo!();
-            todo!();
+            let range_check_7_2_5_column_0 = range_check_7_2_5_column_0.packed_at(row_index);
+            let range_check_7_2_5_column_1 = range_check_7_2_5_column_1.packed_at(row_index);
+            let range_check_7_2_5_column_2 = range_check_7_2_5_column_2.packed_at(row_index);
             *lookup_data.range_check_7_2_5_0 = [
                 range_check_7_2_5_column_0,
                 range_check_7_2_5_column_1,

@@ -48,43 +48,6 @@ fn get_manual_witness_components() -> Vec<String> {
         "cube_252".into(),
         "partial_ec_mul".into(),
         // Lookups to pre-processed tables
-        "blake_round_sigma".into(),
-        "pedersen_points_table".into(),
-        "poseidon_round_keys".into(),
-        "range_check_3_3_3_3_3".into(),
-        "range_check_3_6_6_3".into(),
-        "range_check_4_3".into(),
-        "range_check_4_4_4_4".into(),
-        "range_check_4_4".into(),
-        "range_check_5_4".into(),
-        "range_check_6".into(),
-        "range_check_7_2_5".into(),
-        "range_check_8".into(),
-        "range_check_9_9".into(),
-        "range_check_9_9_b".into(),
-        "range_check_9_9_c".into(),
-        "range_check_9_9_d".into(),
-        "range_check_9_9_e".into(),
-        "range_check_9_9_f".into(),
-        "range_check_9_9_g".into(),
-        "range_check_9_9_h".into(),
-        "range_check_11".into(),
-        "range_check_12".into(),
-        "range_check_18".into(),
-        "range_check_18_b".into(),
-        "range_check_20".into(),
-        "range_check_20_b".into(),
-        "range_check_20_c".into(),
-        "range_check_20_d".into(),
-        "range_check_20_e".into(),
-        "range_check_20_f".into(),
-        "range_check_20_g".into(),
-        "range_check_20_h".into(),
-        "verify_bitwise_xor_4".into(),
-        "verify_bitwise_xor_7".into(),
-        "verify_bitwise_xor_8".into(),
-        "verify_bitwise_xor_8_b".into(),
-        "verify_bitwise_xor_9".into(),
         "verify_bitwise_xor_12".into(),
     ]
 }
@@ -92,7 +55,6 @@ fn get_manual_witness_components() -> Vec<String> {
 /// Is code autogeneration supposed to work for the given file?
 pub fn is_supported(job: &AutogenCodeFile) -> bool {
     match job.code_type {
-        // We don't support autogeneration of witness-genenration code yet
         AutogenCodeType::WITNESS => !get_manual_witness_components().contains(&job.air_fn_name),
 
         AutogenCodeType::AIR => {
