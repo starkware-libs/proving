@@ -25,12 +25,14 @@ impl AirFn for CondFelt252AsAddr {
     type Out = CasmAddress;
 
     fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
-        for i in (LIMBS_IN_SMALL + 1)..FELT252_N_WORDS {
-            ab.constrain(
-                condition.clone() * value.get_felt(i),
-                &format!("Address limb {} equals 0", i),
-            );
-        }
+        let high_limbs_sum = ((LIMBS_IN_SMALL + 1)..FELT252_N_WORDS)
+            .map(|i| value.get_felt(i))
+            .sum();
+        ab.constrain(
+            condition.clone() * high_limbs_sum,
+            "When the condition holds, the high limbs must be zero for an address",
+        );
+
         ab.call(
             &CondRangeCheck2 {},
             [value.get_felt(LIMBS_IN_SMALL), condition],
