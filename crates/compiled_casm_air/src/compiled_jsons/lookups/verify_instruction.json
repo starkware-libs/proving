@@ -1,6 +1,8 @@
 {
   "name": "verify_instruction",
-  "relation_name": "VerifyInstruction",
+  "relation_names": [
+    "VerifyInstruction"
+  ],
   "relation_size": 7,
   "log_height": null,
   "description": "Verify Instruction",
@@ -68,11 +70,29 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_7_2_5": "Multiplicity",
-    "RangeCheck_4_3": "Multiplicity",
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity"
+  "sub_components": {
+    "range_check_7_2_5": "Multiplicity",
+    "range_check_4_3": "Multiplicity",
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      1
+    ],
+    "RangeCheck_4_3": [
+      "range_check_4_3",
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      1
+    ]
   },
   "inline_calls": {
     "encode_offsets": [
@@ -782,6 +802,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -817,6 +838,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_3",
+        "air_fn_name": "range_check_4_3",
         "input": {
           "Array": [
             {
@@ -943,6 +965,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "State": "input_pc_col0"
         }
@@ -966,6 +989,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "instruction_id_col15"
         }

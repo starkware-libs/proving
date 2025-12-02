@@ -1,10 +1,19 @@
 {
   "name": "range_check_9_9",
-  "relation_name": "RangeCheck_9_9",
+  "relation_names": [
+    "RangeCheck_9_9",
+    "RangeCheck_9_9_B",
+    "RangeCheck_9_9_C",
+    "RangeCheck_9_9_D",
+    "RangeCheck_9_9_E",
+    "RangeCheck_9_9_F",
+    "RangeCheck_9_9_G",
+    "RangeCheck_9_9_H"
+  ],
   "relation_size": 2,
   "log_height": 18,
   "description": "Range Check 9 9",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -36,9 +45,38 @@
     [
       "RangeCheck_9_9",
       "Yield"
+    ],
+    [
+      "RangeCheck_9_9_B",
+      "Yield"
+    ],
+    [
+      "RangeCheck_9_9_C",
+      "Yield"
+    ],
+    [
+      "RangeCheck_9_9_D",
+      "Yield"
+    ],
+    [
+      "RangeCheck_9_9_E",
+      "Yield"
+    ],
+    [
+      "RangeCheck_9_9_F",
+      "Yield"
+    ],
+    [
+      "RangeCheck_9_9_G",
+      "Yield"
+    ],
+    [
+      "RangeCheck_9_9_H",
+      "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [
@@ -59,12 +97,208 @@
         ],
         "use_or_yield": "Yield"
       }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_B",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_C",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_D",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_E",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_F",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_G",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_H",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
     }
   ],
   "deductions": [
     {
       "LookupTerm": {
         "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_B",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_C",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_D",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_E",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_F",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_G",
+        "felts": [
+          {
+            "ExternalState": "range_check_9_9_column_0"
+          },
+          {
+            "ExternalState": "range_check_9_9_column_1"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_H",
         "felts": [
           {
             "ExternalState": "range_check_9_9_column_0"

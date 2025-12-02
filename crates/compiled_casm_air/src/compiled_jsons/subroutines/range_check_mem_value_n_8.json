@@ -1,6 +1,6 @@
 {
   "name": "range_check_mem_value_n_8",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Range Check Mem Value N 8",
@@ -56,11 +56,26 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity"
+  "sub_components": {
+    "range_check_9_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      1
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      1
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -151,6 +166,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -192,6 +208,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_B",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -233,6 +250,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_C",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -274,6 +292,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_D",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {

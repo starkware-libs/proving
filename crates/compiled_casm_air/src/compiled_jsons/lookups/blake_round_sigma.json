@@ -1,6 +1,8 @@
 {
   "name": "blake_round_sigma",
-  "relation_name": "BlakeRoundSigma",
+  "relation_names": [
+    "BlakeRoundSigma"
+  ],
   "relation_size": 17,
   "log_height": 4,
   "description": "Blake Round Sigma",
@@ -86,7 +88,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [

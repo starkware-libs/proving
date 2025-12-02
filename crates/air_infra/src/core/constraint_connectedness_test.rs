@@ -119,7 +119,7 @@ fn build_constraint_graph(entry: &AirFnEntry) -> Graph {
                 // To know whether a relation is a chain relation or not, we assume that
                 // components only ever yield to a chain relation or to their own relation
                 let is_chain_yield = use_or_yield == UseOrYield::Yield
-                    && (Some(relation_name) != entry.relation_name);
+                    && !entry.relation_names.contains(&relation_name);
 
                 if use_or_yield == UseOrYield::Use || is_chain_yield {
                     // Don't count yield operations - the component that yields to a relation

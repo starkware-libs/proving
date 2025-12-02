@@ -1,6 +1,6 @@
 {
   "name": "mod_words_to_12_bit_array",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Mod Words To 12 Bit Array",
@@ -1096,8 +1096,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_3_6_6_3": "Multiplicity"
+  "sub_components": {
+    "range_check_3_6_6_3": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_3_6_6_3": [
+      "range_check_3_6_6_3",
+      5
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -1760,6 +1766,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_6_6_3",
+        "air_fn_name": "range_check_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2015,6 +2022,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_6_6_3",
+        "air_fn_name": "range_check_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2371,6 +2379,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_6_6_3",
+        "air_fn_name": "range_check_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2626,6 +2635,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_6_6_3",
+        "air_fn_name": "range_check_3_6_6_3",
         "input": {
           "Array": [
             {
@@ -2780,6 +2790,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_6_6_3",
+        "air_fn_name": "range_check_3_6_6_3",
         "input": {
           "Array": [
             {

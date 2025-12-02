@@ -184,10 +184,16 @@ fn imports(air_fn: &CompiledAirFn) -> rust::Tokens {
 
 fn generate_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut consts = match air_fn.padding_type {
-        PaddingType::Enabler | PaddingType::Multiplicity => {
+        PaddingType::Enabler => {
             // Add a padding column to the trace
             quote! {
                 pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + 1);
+            }
+        }
+        PaddingType::Multiplicity => {
+            // Add multiplicity columns to the trace
+            quote! {
+                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + air_fn.relation_names.len());
             }
         }
         _ => quote! {
@@ -446,8 +452,10 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
             });
         }
         PaddingType::Multiplicity => {
-            // Add multiplicity column to the trace
-            code.append(quote! { let multiplicity = eval.next_trace_mask();});
+            // Add multiplicity columns to the trace
+            for i in 0..air_fn.relation_names.len() {
+                code.append(quote! { let multiplicity_$i = eval.next_trace_mask();});
+            }
         }
         _ => {}
     }
@@ -496,7 +504,6 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
                     });
                 }
             }
-            // TODO(Ohad): implement.
             ConstraintEvalStep::LookupTerm(LookupTerm {
                 relation_name,
                 felts,

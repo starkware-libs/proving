@@ -7,7 +7,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::RustProverGen;
-use crate::code_gen::parse::is_masked_relation;
+use crate::code_gen::parse::relation_multiplicity_index;
 use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
 
 impl RustProverGen {
@@ -113,15 +113,48 @@ impl RustProverGen {
                 },
                 "denom0 * denom1",
             );
-            let is_masked = is_masked_relation(&self.air_fn, relation0)
-                || is_masked_relation(&self.air_fn, relation1);
+            let is_masked0 = relation_multiplicity_index(&self.air_fn, relation0);
+            let is_masked1 = relation_multiplicity_index(&self.air_fn, relation1);
             let (for_each, enumerate, mults) = match self.air_fn.padding_type {
-                PaddingType::Multiplicity if is_masked => (
-                    quote! { (writer, values0, values1, mults) },
+                PaddingType::Multiplicity if (is_masked0.is_some() && is_masked1.is_some()) => (
+                    quote! { (
+                        writer,
+                        values0,
+                        values1,
+                        mults_$(is_masked0.unwrap()),
+                        mults_$(is_masked1.unwrap())
+                    ) },
                     quote! {},
-                    quote! {, self.lookup_data.mults},
+                    quote! {
+                        , self.lookup_data.mults_$(is_masked0.unwrap()),
+                        self.lookup_data.mults_$(is_masked1.unwrap())
+                    },
                 ),
-                PaddingType::Enabler if is_masked => (
+                PaddingType::Multiplicity if is_masked0.is_some() => (
+                    quote! { (
+                        writer,
+                        values0,
+                        values1,
+                        mults_$(is_masked0.unwrap()),
+                    ) },
+                    quote! {},
+                    quote! {
+                        , self.lookup_data.mults_$(is_masked0.unwrap())
+                    },
+                ),
+                PaddingType::Multiplicity if is_masked1.is_some() => (
+                    quote! { (
+                        writer,
+                        values0,
+                        values1,
+                        mults_$(is_masked1.unwrap()),
+                    ) },
+                    quote! {},
+                    quote! {
+                        , self.lookup_data.mults_$(is_masked1.unwrap())
+                    },
+                ),
+                PaddingType::Enabler if (is_masked0.is_some() || is_masked1.is_some()) => (
                     quote! { (i, (writer, values0, values1)) },
                     quote! {.enumerate()},
                     quote! {},
@@ -134,11 +167,11 @@ impl RustProverGen {
                 &self.lookup_data.$(relation_0_snake_case)_$(term0_offset),
                 &self.lookup_data.$(relation_1_snake_case)_$(term1_offset)
                 $mults)
-                .into_par_iter()$enumerate.for_each(|$for_each| {
-                let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
-                let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
-                writer.write_frac($(numerator), $(denom));
-                });
+                    .into_par_iter()$enumerate.for_each(|$for_each| {
+                        let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
+                        let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
+                        writer.write_frac($(numerator), $(denom));
+                    });
                 col_gen.finalize_col();
                 $['\n']
             });
@@ -156,14 +189,14 @@ impl RustProverGen {
                 UseOrYield::Use => "",
                 UseOrYield::Yield => "-",
             };
-            let is_masked = is_masked_relation(&self.air_fn, &relation_name);
+            let is_masked = relation_multiplicity_index(&self.air_fn, &relation_name);
             let (for_each, enumerate, mults) = match self.air_fn.padding_type {
-                PaddingType::Multiplicity if is_masked => (
-                    quote! { (writer, values, mults) },
+                PaddingType::Multiplicity if is_masked.is_some() => (
+                    quote! { (writer, values, mults_$(is_masked.unwrap())) },
                     quote! {},
-                    quote! {, self.lookup_data.mults},
+                    quote! {, self.lookup_data.mults_$(is_masked.unwrap())},
                 ),
-                PaddingType::Enabler if is_masked => (
+                PaddingType::Enabler if is_masked.is_some() => (
                     quote! { (i, (writer, values)) },
                     quote! {.enumerate()},
                     quote! {},
@@ -173,10 +206,11 @@ impl RustProverGen {
             code.extend(quote! {
                     $['\n']$("//")$(format!("Sum last logup term."))
                     let mut col_gen = logup_gen.new_col();
-                    (col_gen.par_iter_mut(),
-                        &self.lookup_data
-                        .$(relation_name.to_case(Case::Snake))_$(*term_offset)
-                        $mults)
+                    (
+                        col_gen.par_iter_mut(),
+                        &self.lookup_data.$(relation_name.to_case(Case::Snake))_$(*term_offset)
+                        $mults
+                    )
                         .into_par_iter()$enumerate.for_each(|$for_each| {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
@@ -215,10 +249,12 @@ pub fn interaction_prover_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
 
 /// Determines if a relation is masked in the interaction trace and returns the proper mask.
 pub fn mask_relation(air_fn: &CompiledAirFn, relation_name: &str) -> rust::Tokens {
-    let is_masked = is_masked_relation(air_fn, relation_name);
+    let is_masked = relation_multiplicity_index(air_fn, relation_name);
     match air_fn.padding_type {
-        PaddingType::Enabler if is_masked => quote! { * enabler_col.packed_at(i)},
-        PaddingType::Multiplicity if is_masked => quote! { * mults },
+        PaddingType::Enabler if is_masked.is_some() => quote! { * enabler_col.packed_at(i)},
+        PaddingType::Multiplicity if is_masked.is_some() => {
+            quote! { * mults_$(is_masked.unwrap()) }
+        }
         _ => quote! {},
     }
 }

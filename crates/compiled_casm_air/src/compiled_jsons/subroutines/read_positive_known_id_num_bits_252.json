@@ -1,6 +1,6 @@
 {
   "name": "read_positive_known_id_num_bits_252",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Read Positive Known Id Num Bits 252",
@@ -158,8 +158,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryIdToBig": "Multiplicity"
+  "sub_components": {
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -875,6 +881,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "Var": [
             "M31",

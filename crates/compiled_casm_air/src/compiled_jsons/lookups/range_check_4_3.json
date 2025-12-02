@@ -1,10 +1,12 @@
 {
   "name": "range_check_4_3",
-  "relation_name": "RangeCheck_4_3",
+  "relation_names": [
+    "RangeCheck_4_3"
+  ],
   "relation_size": 2,
   "log_height": 7,
   "description": "Range Check 4 3",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -38,7 +40,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [

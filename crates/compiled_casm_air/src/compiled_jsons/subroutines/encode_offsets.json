@@ -1,6 +1,6 @@
 {
   "name": "encode_offsets",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Encode Offsets",
@@ -157,9 +157,19 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_7_2_5": "Multiplicity",
-    "RangeCheck_4_3": "Multiplicity"
+  "sub_components": {
+    "range_check_7_2_5": "Multiplicity",
+    "range_check_4_3": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      1
+    ],
+    "RangeCheck_4_3": [
+      "range_check_4_3",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -727,6 +737,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -762,6 +773,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_3",
+        "air_fn_name": "range_check_4_3",
         "input": {
           "Array": [
             {

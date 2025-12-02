@@ -1,6 +1,8 @@
 {
   "name": "add_ap_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Add Ap Opcode",
@@ -152,12 +154,34 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_18": "Multiplicity",
-    "RangeCheck_11": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_18": "Multiplicity",
+    "range_check_11": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      1
+    ],
+    "RangeCheck_18": [
+      "range_check_18",
+      1
+    ],
+    "RangeCheck_11": [
+      "range_check_11",
+      1
+    ]
   },
   "inline_calls": {
     "decode_instruction_d2a10": [
@@ -969,6 +993,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyInstruction",
+        "air_fn_name": "verify_instruction",
         "input": {
           "Tuple": [
             {
@@ -1410,6 +1435,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -1846,6 +1872,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op1_id_col7"
         }
@@ -2206,6 +2233,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_18",
+        "air_fn_name": "range_check_18",
         "input": {
           "Array": [
             {
@@ -2273,6 +2301,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_11",
+        "air_fn_name": "range_check_11",
         "input": {
           "Array": [
             {

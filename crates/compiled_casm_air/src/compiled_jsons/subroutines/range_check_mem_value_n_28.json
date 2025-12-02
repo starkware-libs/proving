@@ -1,6 +1,6 @@
 {
   "name": "range_check_mem_value_n_28",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Range Check Mem Value N 28",
@@ -116,15 +116,42 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity",
-    "RangeCheck_9_9_E": "Multiplicity",
-    "RangeCheck_9_9_F": "Multiplicity",
-    "RangeCheck_9_9_G": "Multiplicity",
-    "RangeCheck_9_9_H": "Multiplicity"
+  "sub_components": {
+    "range_check_9_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      2
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      2
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      2
+    ],
+    "RangeCheck_9_9_E": [
+      "range_check_9_9",
+      2
+    ],
+    "RangeCheck_9_9_F": [
+      "range_check_9_9",
+      2
+    ],
+    "RangeCheck_9_9_G": [
+      "range_check_9_9",
+      1
+    ],
+    "RangeCheck_9_9_H": [
+      "range_check_9_9",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -415,6 +442,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -456,6 +484,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_B",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -497,6 +526,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_C",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -538,6 +568,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_D",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -579,6 +610,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_E",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -620,6 +652,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_F",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -661,6 +694,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_G",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -702,6 +736,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_H",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -743,6 +778,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -784,6 +820,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_B",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -825,6 +862,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_C",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -866,6 +904,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_D",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -907,6 +946,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_E",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {
@@ -948,6 +988,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_9_9_F",
+        "air_fn_name": "range_check_9_9",
         "input": {
           "Array": [
             {

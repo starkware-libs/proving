@@ -6,7 +6,7 @@ use crate::public_params::PublicParam;
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFn {
     pub name: String,
-    pub relation_name: Option<String>,
+    pub relation_names: Vec<String>,
     pub relation_size: Option<usize>,
     // For constant-size component, the log_2 of the number of rows.
     pub log_height: Option<u32>,
@@ -37,9 +37,13 @@ pub struct CompiledAirFn {
     // The names of the lookup relations used/yielded.
     pub constraint_lookups: Vec<(String, UseOrYield)>,
 
-    // The names of the lookup relations called.
+    // The names of the called air_fn components and their padding type.
     // Some of these may not be used/yielded, see for example `mem_read_unverified`.
-    pub deduction_lookups: IndexMap<String, PaddingType>,
+    pub sub_components: IndexMap<String, PaddingType>,
+
+    // For each lookup relation, the name of the corresponding air function component and the max
+    // number of inputs added to it by each row in this component.
+    pub n_inputs_added_per_relation: IndexMap<String, (String, usize)>,
 
     // The names of the air functions that are inlined into this one, with their lookup names,
     // public params, and external states.
@@ -137,6 +141,7 @@ pub enum TraceGenStep {
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         relation_name: String,
+        air_fn_name: String,
         input: CompiledAirVar,
     },
 

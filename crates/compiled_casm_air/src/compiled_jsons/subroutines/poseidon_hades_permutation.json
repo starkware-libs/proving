@@ -1,6 +1,6 @@
 {
   "name": "poseidon_hades_permutation",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Poseidon Hades Permutation",
@@ -363,14 +363,44 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "PoseidonFullRoundChain": "Enabler",
-    "RangeCheck252Width27": "Enabler",
-    "Cube252": "Enabler",
-    "RangeCheck_3_3_3_3_3": "Multiplicity",
-    "RangeCheck_4_4_4_4": "Multiplicity",
-    "RangeCheck_4_4": "Multiplicity",
-    "Poseidon3PartialRoundsChain": "Enabler"
+  "sub_components": {
+    "poseidon_full_round_chain": "Enabler",
+    "range_check_252_width_27": "Enabler",
+    "cube_252": "Enabler",
+    "range_check_3_3_3_3_3": "Multiplicity",
+    "range_check_4_4_4_4": "Multiplicity",
+    "range_check_4_4": "Multiplicity",
+    "poseidon_3_partial_rounds_chain": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "PoseidonFullRoundChain": [
+      "poseidon_full_round_chain",
+      8
+    ],
+    "RangeCheck252Width27": [
+      "range_check_252_width_27",
+      2
+    ],
+    "Cube252": [
+      "cube_252",
+      2
+    ],
+    "RangeCheck_3_3_3_3_3": [
+      "range_check_3_3_3_3_3",
+      2
+    ],
+    "RangeCheck_4_4_4_4": [
+      "range_check_4_4_4_4",
+      6
+    ],
+    "RangeCheck_4_4": [
+      "range_check_4_4",
+      3
+    ],
+    "Poseidon3PartialRoundsChain": [
+      "poseidon_3_partial_rounds_chain",
+      27
+    ]
   },
   "inline_calls": {
     "linear_combination_n_2_coefs_1_1": [
@@ -5807,6 +5837,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -5901,6 +5932,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -5995,6 +6027,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -6089,6 +6122,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -6923,6 +6957,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck252Width27",
+        "air_fn_name": "range_check_252_width_27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -6972,6 +7007,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck252Width27",
+        "air_fn_name": "range_check_252_width_27",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -7021,6 +7057,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Cube252",
+        "air_fn_name": "cube_252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -8472,6 +8509,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
+        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -8653,6 +8691,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
+        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -8853,6 +8892,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Cube252",
+        "air_fn_name": "cube_252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -10524,6 +10564,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
+        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -10671,6 +10712,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
+        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -10824,6 +10866,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4",
+        "air_fn_name": "range_check_4_4",
         "input": {
           "Array": [
             {
@@ -11059,6 +11102,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11159,6 +11203,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11259,6 +11304,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11359,6 +11405,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11459,6 +11506,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11559,6 +11607,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11659,6 +11708,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11759,6 +11809,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11859,6 +11910,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -11959,6 +12011,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12059,6 +12112,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12159,6 +12213,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12259,6 +12314,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12359,6 +12415,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12459,6 +12516,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12559,6 +12617,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12659,6 +12718,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12759,6 +12819,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12859,6 +12920,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -12959,6 +13021,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13059,6 +13122,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13159,6 +13223,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13259,6 +13324,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13359,6 +13425,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13459,6 +13526,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13559,6 +13627,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -13659,6 +13728,7 @@
     {
       "LookupAddInput": {
         "relation_name": "Poseidon3PartialRoundsChain",
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": {
           "Tuple": [
             {
@@ -15989,6 +16059,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
+        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -16136,6 +16207,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
+        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -16289,6 +16361,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4",
+        "air_fn_name": "range_check_4_4",
         "input": {
           "Array": [
             {
@@ -17640,6 +17713,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
+        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -17787,6 +17861,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
+        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -17940,6 +18015,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4",
+        "air_fn_name": "range_check_4_4",
         "input": {
           "Array": [
             {
@@ -18171,6 +18247,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -18265,6 +18342,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -18359,6 +18437,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {
@@ -18453,6 +18532,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonFullRoundChain",
+        "air_fn_name": "poseidon_full_round_chain",
         "input": {
           "Tuple": [
             {

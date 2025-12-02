@@ -1,6 +1,6 @@
 {
   "name": "range_check_last_limb_bits_in_ms_limb_6",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Range Check Last Limb Bits In Ms Limb 6",
@@ -37,8 +37,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_6": "Multiplicity"
+  "sub_components": {
+    "range_check_6": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_6": [
+      "range_check_6",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -63,6 +69,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_6",
+        "air_fn_name": "range_check_6",
         "input": {
           "Array": [
             {

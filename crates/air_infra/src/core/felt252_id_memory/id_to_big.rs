@@ -64,8 +64,8 @@ impl AirFn for MemoryIdToBig {
         TraceType::Memory
     }
 
-    fn relation_name(&self) -> Option<String> {
-        Some(MEMORY_RELATION_NAME.to_string())
+    fn relation_names(&self) -> Vec<String> {
+        vec![MEMORY_RELATION_NAME.to_string()]
     }
 }
 

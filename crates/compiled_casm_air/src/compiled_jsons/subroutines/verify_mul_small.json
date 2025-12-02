@@ -1,6 +1,6 @@
 {
   "name": "verify_mul_small",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Verify Mul Small",
@@ -64,8 +64,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_11": "Multiplicity"
+  "sub_components": {
+    "range_check_11": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_11": [
+      "range_check_11",
+      3
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -885,6 +891,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_11",
+        "air_fn_name": "range_check_11",
         "input": {
           "Array": [
             {
@@ -1319,6 +1326,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_11",
+        "air_fn_name": "range_check_11",
         "input": {
           "Array": [
             {
@@ -1657,6 +1665,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_11",
+        "air_fn_name": "range_check_11",
         "input": {
           "Array": [
             {

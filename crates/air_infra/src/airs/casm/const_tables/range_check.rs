@@ -15,62 +15,32 @@ pub trait RangeCheckSize: ExtTable + Debug + Default {
     fn bits() -> &'static [u16];
 }
 
-#[derive(Debug, Copy, Clone, Serialize, Default, PartialEq, Eq)]
-pub enum RCVariant {
-    #[default]
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-}
-
 pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
-    match bits {
-        [6] => call_rc::<SeqConstLen<6>>(ab, input, RCVariant::default()),
-        [8] => call_rc::<SeqConstLen<8>>(ab, input, RCVariant::default()),
-        [9] => call_rc::<SeqConstLen<9>>(ab, input, RCVariant::default()),
-        [11] => call_rc::<SeqConstLen<11>>(ab, input, RCVariant::default()),
-        [12] => call_rc::<SeqConstLen<12>>(ab, input, RCVariant::default()),
-        [18] => call_rc::<SeqConstLen<18>>(ab, input, RCVariant::default()),
-        [20] => call_rc::<SeqConstLen<20>>(ab, input, RCVariant::default()),
-        [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input, RCVariant::default()),
-        [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input, RCVariant::default()),
-        [7, 2, 5] => call_rc::<RangeCheck_7_2_5_Const>(ab, input, RCVariant::default()),
-        [3, 6, 6, 3] => call_rc::<RangeCheck_3_6_6_3_Const>(ab, input, RCVariant::default()),
-        [4, 4, 4, 4] => call_rc::<RangeCheck_4_4_4_4_Const>(ab, input, RCVariant::default()),
-        [4, 4] => call_rc::<RangeCheck_4_4_Const>(ab, input, RCVariant::default()),
-        [3, 3, 3, 3, 3] => call_rc::<RangeCheck_3_3_3_3_3_Const>(ab, input, RCVariant::default()),
-        [2, 2, 2, 2, 2] => call_rc::<RangeCheck_2_2_2_2_2_Const>(ab, input, RCVariant::default()),
-        _ => panic!("Unsupported range check bits: {:?}", bits),
-    }
+    range_check_variant(ab, bits, input, 0)
 }
 
 pub fn range_check_variant(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr], variant: usize) {
-    let variant = match variant {
-        0 => RCVariant::A,
-        1 => RCVariant::B,
-        2 => RCVariant::C,
-        3 => RCVariant::D,
-        4 => RCVariant::E,
-        5 => RCVariant::F,
-        6 => RCVariant::G,
-        7 => RCVariant::H,
-        _ => unreachable!(),
-    };
-
     match bits {
+        [6] => call_rc::<SeqConstLen<6>>(ab, input, variant),
+        [8] => call_rc::<SeqConstLen<8>>(ab, input, variant),
+        [9] => call_rc::<SeqConstLen<9>>(ab, input, variant),
+        [11] => call_rc::<SeqConstLen<11>>(ab, input, variant),
+        [12] => call_rc::<SeqConstLen<12>>(ab, input, variant),
         [18] => call_rc::<SeqConstLen<18>>(ab, input, variant),
         [20] => call_rc::<SeqConstLen<20>>(ab, input, variant),
+        [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input, variant),
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input, variant),
+        [7, 2, 5] => call_rc::<RangeCheck_7_2_5_Const>(ab, input, variant),
+        [3, 6, 6, 3] => call_rc::<RangeCheck_3_6_6_3_Const>(ab, input, variant),
+        [4, 4, 4, 4] => call_rc::<RangeCheck_4_4_4_4_Const>(ab, input, variant),
+        [4, 4] => call_rc::<RangeCheck_4_4_Const>(ab, input, variant),
+        [3, 3, 3, 3, 3] => call_rc::<RangeCheck_3_3_3_3_3_Const>(ab, input, variant),
+        [2, 2, 2, 2, 2] => call_rc::<RangeCheck_2_2_2_2_2_Const>(ab, input, variant),
         _ => panic!("Unsupported range check bits: {:?}", bits),
     }
 }
 
-fn call_rc<R>(ab: &mut AirBuilder, input: &[FeltExpr], variant: RCVariant)
+fn call_rc<R>(ab: &mut AirBuilder, input: &[FeltExpr], variant: usize)
 where
     R: RangeCheckSize,
     <R as ExtTable>::T: TryFrom<Vec<FeltExpr>>,
@@ -80,14 +50,10 @@ where
         .to_vec()
         .try_into()
         .unwrap_or_else(|_| panic!("range check needs {} arguments", R::bits().len()));
-    ab.lookup_call(
-        &RangeCheck::<R> {
-            _phantom: PhantomData,
-            variant,
-        },
-        input,
-        (),
-    )
+    let rc = RangeCheck::<R> {
+        _phantom: PhantomData,
+    };
+    ab.lookup_call_variant(&rc, input, (), variant)
 }
 
 new_range_check!([4, 3], RangeCheck_4_3_Const);
@@ -103,7 +69,6 @@ new_range_check!([2, 2, 2, 2, 2], RangeCheck_2_2_2_2_2_Const);
 pub struct RangeCheck<R: RangeCheckSize> {
     #[serde(skip)]
     pub _phantom: PhantomData<R>,
-    pub variant: RCVariant,
 }
 
 impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
@@ -121,33 +86,30 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
             .join("_");
-        match self.variant {
-            RCVariant::A => format!("range_check_{}", bits),
-            RCVariant::B => format!("range_check_{}_b", bits),
-            RCVariant::C => format!("range_check_{}_c", bits),
-            RCVariant::D => format!("range_check_{}_d", bits),
-            RCVariant::E => format!("range_check_{}_e", bits),
-            RCVariant::F => format!("range_check_{}_f", bits),
-            RCVariant::G => format!("range_check_{}_g", bits),
-            RCVariant::H => format!("range_check_{}_h", bits),
-        }
+        format!("range_check_{}", bits)
     }
 
-    fn relation_name(&self) -> Option<String> {
+    fn relation_names(&self) -> Vec<String> {
         let bits = R::bits()
             .iter()
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
             .join("_");
-        match self.variant {
-            RCVariant::A => Some(format!("RangeCheck_{}", bits)),
-            RCVariant::B => Some(format!("RangeCheck_{}_B", bits)),
-            RCVariant::C => Some(format!("RangeCheck_{}_C", bits)),
-            RCVariant::D => Some(format!("RangeCheck_{}_D", bits)),
-            RCVariant::E => Some(format!("RangeCheck_{}_E", bits)),
-            RCVariant::F => Some(format!("RangeCheck_{}_F", bits)),
-            RCVariant::G => Some(format!("RangeCheck_{}_G", bits)),
-            RCVariant::H => Some(format!("RangeCheck_{}_H", bits)),
+        let relation_name = format!("RangeCheck_{}", bits);
+
+        match R::bits() {
+            [18] => vec![relation_name.clone(), relation_name.clone() + "_B"],
+            [20] | [9, 9] => vec![
+                relation_name.clone(),
+                relation_name.clone() + "_B",
+                relation_name.clone() + "_C",
+                relation_name.clone() + "_D",
+                relation_name.clone() + "_E",
+                relation_name.clone() + "_F",
+                relation_name.clone() + "_G",
+                relation_name + "_H",
+            ],
+            _ => vec![relation_name],
         }
     }
 

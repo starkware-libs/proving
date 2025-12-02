@@ -1,6 +1,6 @@
 {
   "name": "verify_mul_252",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Verify Mul 252",
@@ -257,15 +257,42 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_20": "Multiplicity",
-    "RangeCheck_20_B": "Multiplicity",
-    "RangeCheck_20_C": "Multiplicity",
-    "RangeCheck_20_D": "Multiplicity",
-    "RangeCheck_20_E": "Multiplicity",
-    "RangeCheck_20_F": "Multiplicity",
-    "RangeCheck_20_G": "Multiplicity",
-    "RangeCheck_20_H": "Multiplicity"
+  "sub_components": {
+    "range_check_20": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_20": [
+      "range_check_20",
+      4
+    ],
+    "RangeCheck_20_B": [
+      "range_check_20",
+      4
+    ],
+    "RangeCheck_20_C": [
+      "range_check_20",
+      4
+    ],
+    "RangeCheck_20_D": [
+      "range_check_20",
+      4
+    ],
+    "RangeCheck_20_E": [
+      "range_check_20",
+      3
+    ],
+    "RangeCheck_20_F": [
+      "range_check_20",
+      3
+    ],
+    "RangeCheck_20_G": [
+      "range_check_20",
+      3
+    ],
+    "RangeCheck_20_H": [
+      "range_check_20",
+      3
+    ]
   },
   "inline_calls": {
     "double_karatsuba_1454b": [
@@ -28623,6 +28650,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -28695,6 +28723,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_B",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -28767,6 +28796,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_C",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -28839,6 +28869,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_D",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -28911,6 +28942,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_E",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -28983,6 +29015,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_F",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29055,6 +29088,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_G",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29127,6 +29161,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_H",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29199,6 +29234,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29271,6 +29307,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_B",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29343,6 +29380,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_C",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29415,6 +29453,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_D",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29487,6 +29526,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_E",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29559,6 +29599,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_F",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29631,6 +29672,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_G",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29703,6 +29745,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_H",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29775,6 +29818,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29847,6 +29891,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_B",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29919,6 +29964,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_C",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -29991,6 +30037,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_D",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30063,6 +30110,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_E",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30135,6 +30183,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_F",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30226,6 +30275,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_G",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30298,6 +30348,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_H",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30370,6 +30421,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30442,6 +30494,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_B",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30514,6 +30567,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_C",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {
@@ -30586,6 +30640,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_20_D",
+        "air_fn_name": "range_check_20",
         "input": {
           "Array": [
             {

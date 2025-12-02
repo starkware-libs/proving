@@ -1,6 +1,6 @@
 {
   "name": "poseidon_builtin",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Poseidon Builtin",
@@ -66,9 +66,19 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "PoseidonAggregator": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "poseidon_aggregator": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      6
+    ],
+    "PoseidonAggregator": [
+      "poseidon_aggregator",
+      1
+    ]
   },
   "inline_calls": {
     "read_id": [
@@ -412,6 +422,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -482,6 +493,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -574,6 +586,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -666,6 +679,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -758,6 +772,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -850,6 +865,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -901,6 +917,7 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonAggregator",
+        "air_fn_name": "poseidon_aggregator",
         "input": {
           "Tuple": [
             {

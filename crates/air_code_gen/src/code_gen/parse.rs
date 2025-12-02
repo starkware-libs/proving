@@ -221,10 +221,13 @@ fn gen_evaluate_call(
 }
 
 /// Checks if the relation should be masked, meaning it's numerator should be altered.
-/// A relation is masked when and the relation name matches it's component's relation name (it's
+/// A relation is masked when the relation name matches one of the component's relation names (the
 /// component must contain an enabler/multiplicity columns).
-pub fn is_masked_relation(air_fn: &CompiledAirFn, relation_name: &str) -> bool {
-    air_fn.relation_name.is_some() && relation_name.eq(&air_fn.relation_name.clone().unwrap())
+pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
+    air_fn
+        .relation_names
+        .iter()
+        .position(|n| n == relation_name)
 }
 
 pub fn parse_lookup_constraint(
@@ -255,10 +258,12 @@ pub fn parse_lookup_constraint(
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
     };
-    let is_masked = is_masked_relation(air_fn, relation_name);
+    let is_masked = relation_multiplicity_index(air_fn, relation_name);
     let numerator = match air_fn.padding_type {
-        PaddingType::Enabler if is_masked => quote! {E::EF::from(enabler.clone())},
-        PaddingType::Multiplicity if is_masked => quote! {E::EF::from(multiplicity)},
+        PaddingType::Enabler if is_masked.is_some() => quote! {E::EF::from(enabler.clone())},
+        PaddingType::Multiplicity if is_masked.is_some() => {
+            quote! {E::EF::from(multiplicity_$(is_masked.unwrap()))}
+        }
         _ => quote! {E::EF::one()},
     };
     if air_fn.r#type == TraceType::Inline {

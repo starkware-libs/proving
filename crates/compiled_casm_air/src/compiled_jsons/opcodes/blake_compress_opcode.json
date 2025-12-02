@@ -1,6 +1,8 @@
 {
   "name": "blake_compress_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Blake Compress Opcode",
@@ -571,14 +573,44 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_7_2_5": "Multiplicity",
-    "VerifyBitwiseXor_8": "Multiplicity",
-    "BlakeRound": "Enabler",
-    "TripleXor32": "Enabler"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_7_2_5": "Multiplicity",
+    "verify_bitwise_xor_8": "Multiplicity",
+    "blake_round": "Enabler",
+    "triple_xor_32": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      20
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      20
+    ],
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      17
+    ],
+    "VerifyBitwiseXor_8": [
+      "verify_bitwise_xor_8",
+      4
+    ],
+    "BlakeRound": [
+      "blake_round",
+      10
+    ],
+    "TripleXor32": [
+      "triple_xor_32",
+      8
+    ]
   },
   "inline_calls": {
     "create_blake_output": [
@@ -3062,6 +3094,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyInstruction",
+        "air_fn_name": "verify_instruction",
         "input": {
           "Tuple": [
             {
@@ -3540,6 +3573,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -3748,6 +3782,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op0_id_col12"
         }
@@ -4190,6 +4225,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -4398,6 +4434,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op1_id_col19"
         }
@@ -4797,6 +4834,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "State": "input_ap_col1"
         }
@@ -4983,6 +5021,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "ap_id_col25"
         }
@@ -5829,6 +5868,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -5911,6 +5951,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -5956,6 +5997,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "dst_id_col37"
         }
@@ -6874,6 +6916,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -6948,6 +6991,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -6977,6 +7021,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_0_id_col43"
         }
@@ -7667,6 +7712,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -7752,6 +7798,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -7803,6 +7850,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_1_id_col49"
         }
@@ -8493,6 +8541,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -8578,6 +8627,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -8629,6 +8679,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_2_id_col55"
         }
@@ -9319,6 +9370,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -9404,6 +9456,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -9455,6 +9508,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_3_id_col61"
         }
@@ -10145,6 +10199,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -10230,6 +10285,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -10281,6 +10337,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_4_id_col67"
         }
@@ -10971,6 +11028,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -11056,6 +11114,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -11107,6 +11166,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_5_id_col73"
         }
@@ -11797,6 +11857,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -11882,6 +11943,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -11933,6 +11995,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_6_id_col79"
         }
@@ -12623,6 +12686,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -12708,6 +12772,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -12759,6 +12824,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "state_7_id_col85"
         }
@@ -13220,6 +13286,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -13312,6 +13379,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -13401,6 +13469,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -13493,6 +13562,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -14035,6 +14105,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -14299,6 +14370,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -14563,6 +14635,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -14827,6 +14900,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -15091,6 +15165,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -15355,6 +15430,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -15619,6 +15695,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -15883,6 +15960,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -16147,6 +16225,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -16411,6 +16490,7 @@
     {
       "LookupAddInput": {
         "relation_name": "BlakeRound",
+        "air_fn_name": "blake_round",
         "input": {
           "Tuple": [
             {
@@ -17442,6 +17522,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -17576,6 +17657,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -17710,6 +17792,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -17844,6 +17927,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -17978,6 +18062,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -18112,6 +18197,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -18246,6 +18332,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -18380,6 +18467,7 @@
     {
       "LookupAddInput": {
         "relation_name": "TripleXor32",
+        "air_fn_name": "triple_xor_32",
         "input": {
           "Array": [
             {
@@ -18727,6 +18815,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -18801,6 +18890,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -18830,6 +18920,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_0_id_col144"
         }
@@ -19221,6 +19312,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -19306,6 +19398,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -19357,6 +19450,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_1_id_col148"
         }
@@ -19748,6 +19842,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -19833,6 +19928,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -19884,6 +19980,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_2_id_col152"
         }
@@ -20275,6 +20372,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -20360,6 +20458,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -20411,6 +20510,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_3_id_col156"
         }
@@ -20802,6 +20902,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -20887,6 +20988,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -20938,6 +21040,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_4_id_col160"
         }
@@ -21329,6 +21432,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -21414,6 +21518,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -21465,6 +21570,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_5_id_col164"
         }
@@ -21856,6 +21962,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -21941,6 +22048,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -21992,6 +22100,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_6_id_col168"
         }
@@ -22383,6 +22492,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
+        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -22468,6 +22578,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -22519,6 +22630,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "new_state_7_id_col172"
         }

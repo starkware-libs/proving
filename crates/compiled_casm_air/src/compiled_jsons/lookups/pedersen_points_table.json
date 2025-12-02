@@ -1,6 +1,8 @@
 {
   "name": "pedersen_points_table",
-  "relation_name": "PedersenPointsTable",
+  "relation_names": [
+    "PedersenPointsTable"
+  ],
   "relation_size": 57,
   "log_height": 23,
   "description": "Pedersen Points Table",
@@ -50,7 +52,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [

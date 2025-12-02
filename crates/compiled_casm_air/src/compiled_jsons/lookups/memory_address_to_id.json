@@ -1,6 +1,8 @@
 {
   "name": "memory_address_to_id",
-  "relation_name": "MemoryAddressToId",
+  "relation_names": [
+    "MemoryAddressToId"
+  ],
   "relation_size": 2,
   "log_height": null,
   "description": "Memory Address To Id",
@@ -39,7 +41,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [

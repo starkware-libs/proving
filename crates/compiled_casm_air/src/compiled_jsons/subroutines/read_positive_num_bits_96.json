@@ -1,6 +1,6 @@
 {
   "name": "read_positive_num_bits_96",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Read Positive Num Bits 96",
@@ -68,10 +68,24 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "RangeCheck_6": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "range_check_6": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      1
+    ],
+    "RangeCheck_6": [
+      "range_check_6",
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      1
+    ]
   },
   "inline_calls": {
     "read_id": [
@@ -214,6 +228,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -496,6 +511,7 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_6",
+        "air_fn_name": "range_check_6",
         "input": {
           "Array": [
             {
@@ -520,6 +536,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
+        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "id_col0"
         }

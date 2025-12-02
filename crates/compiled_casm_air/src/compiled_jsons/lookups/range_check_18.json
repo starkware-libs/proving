@@ -1,10 +1,13 @@
 {
   "name": "range_check_18",
-  "relation_name": "RangeCheck_18",
+  "relation_names": [
+    "RangeCheck_18",
+    "RangeCheck_18_B"
+  ],
   "relation_size": 1,
   "log_height": 18,
   "description": "Range Check 18",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -35,9 +38,14 @@
     [
       "RangeCheck_18",
       "Yield"
+    ],
+    [
+      "RangeCheck_18_B",
+      "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [
@@ -54,12 +62,34 @@
         ],
         "use_or_yield": "Yield"
       }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18_B",
+        "felts": [
+          {
+            "ExternalState": "seq_18"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
     }
   ],
   "deductions": [
     {
       "LookupTerm": {
         "relation_name": "RangeCheck_18",
+        "felts": [
+          {
+            "ExternalState": "seq_18"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18_B",
         "felts": [
           {
             "ExternalState": "seq_18"

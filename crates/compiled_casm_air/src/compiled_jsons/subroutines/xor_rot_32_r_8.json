@@ -1,6 +1,6 @@
 {
   "name": "xor_rot_32_r_8",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Xor Rot 32 R 8",
@@ -80,9 +80,18 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "VerifyBitwiseXor_8": "Multiplicity",
-    "VerifyBitwiseXor_8_B": "Multiplicity"
+  "sub_components": {
+    "verify_bitwise_xor_8": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_8": [
+      "verify_bitwise_xor_8",
+      2
+    ],
+    "VerifyBitwiseXor_8_B": [
+      "verify_bitwise_xor_8",
+      2
+    ]
   },
   "inline_calls": {
     "bitwise_xor_num_bits_8": [
@@ -839,6 +848,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -935,6 +945,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -1025,6 +1036,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -1121,6 +1133,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {

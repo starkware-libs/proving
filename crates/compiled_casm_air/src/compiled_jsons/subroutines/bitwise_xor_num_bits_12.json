@@ -1,6 +1,6 @@
 {
   "name": "bitwise_xor_num_bits_12",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Bitwise Xor Num Bits 12",
@@ -40,8 +40,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "VerifyBitwiseXor_12": "Multiplicity"
+  "sub_components": {
+    "verify_bitwise_xor_12": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_12": [
+      "verify_bitwise_xor_12",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -126,6 +132,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_12",
+        "air_fn_name": "verify_bitwise_xor_12",
         "input": {
           "Array": [
             {

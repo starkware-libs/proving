@@ -304,8 +304,8 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
 }
 
 pub fn relations_used_or_yielded(air_fn: &CompiledAirFn) -> IndexSet<String> {
-    // TODO(AnatG): Change the names of deduction_lookups and constraint_lookups in compiled
-    // air. This is used also in trace_gen
+    // TODO(AnatG): Change the name of constraint_lookups in compiled air. This is used also in
+    // trace_gen.
     air_fn
         .constraint_lookups
         .iter()

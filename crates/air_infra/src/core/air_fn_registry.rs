@@ -18,7 +18,7 @@ use crate::core::constraint_connectedness_test::assert_constraint_graph_connecte
 #[derive(Debug, Clone)]
 pub struct AirFnEntry {
     pub name: String,
-    pub relation_name: Option<String>,
+    pub relation_names: Vec<String>,
     // For constant-size component, the log_2 of the number of rows.
     pub log_height: Option<u32>,
     pub description: String,
@@ -80,7 +80,7 @@ impl AirFnEntry {
 
         Self {
             name: air_fn.name(),
-            relation_name: air_fn.relation_name(),
+            relation_names: air_fn.relation_names(),
             description: air_fn.description(),
             log_height: E::log_size(),
             inst_def: air_fn.inst_def(),
@@ -121,32 +121,31 @@ impl AirFnEntry {
                 )
             })
             .collect();
-        let deduction_lookups = self
+        let sub_components = self
             .air_body
             .get_deduction_lookups()
             .iter()
-            .map(|n| {
-                // The called relations correspond to air functions.
-                let padding_type = &called_fns
-                    .get(n.to_case(Case::Snake).as_str())
-                    .unwrap_or_else(|| panic!("Cannot find called air function {n}"))
-                    .padding_type;
-
-                (n.clone(), *padding_type)
+            .filter_map(|n| {
+                // Keep the relations that correspond to air functions.
+                let name = n.to_case(Case::Snake);
+                called_fns
+                    .get(name.as_str())
+                    .as_ref()
+                    .map(|entry| (name, entry.padding_type))
             })
             .collect::<IndexMap<_, _>>();
         let relation_size =
             if self.trace_type == TraceType::Opcode || self.trace_type == TraceType::ChainRound {
                 Some(self.joined_input.as_felts().len())
+            } else if self.relation_names.is_empty() {
+                None
             } else {
-                self.relation_name
-                    .clone()
-                    .map(|_| self.joined_input.as_felts().len() + self.output.as_felts().len())
+                Some(self.joined_input.as_felts().len() + self.output.as_felts().len())
             };
 
         CompiledAirFn {
             name: self.name.clone(),
-            relation_name: self.relation_name.clone(),
+            relation_names: self.relation_names.clone(),
             relation_size,
             log_height: self.log_height,
             description: self.description.clone(),
@@ -174,7 +173,8 @@ impl AirFnEntry {
             ),
             state_names: self.state.get_state_names(),
             constraint_lookups: self.air_body.get_constraint_lookups(),
-            deduction_lookups,
+            sub_components,
+            n_inputs_added_per_relation: self.air_body.get_lookup_n_rows(),
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),

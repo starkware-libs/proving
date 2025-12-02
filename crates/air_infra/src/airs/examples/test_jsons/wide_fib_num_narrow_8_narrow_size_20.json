@@ -1,6 +1,6 @@
 {
   "name": "wide_fib_num_narrow_8_narrow_size_20",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Wide Fib Num Narrow 8 Narrow Size 20",
@@ -81,8 +81,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "NarrowFibNumSteps20": "Enabler"
+  "sub_components": {
+    "narrow_fib_num_steps_20": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "NarrowFibNumSteps20": [
+      "narrow_fib_num_steps_20",
+      8
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -264,6 +270,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -347,6 +354,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -421,6 +429,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -495,6 +504,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -569,6 +579,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -643,6 +654,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -717,6 +729,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {
@@ -791,6 +804,7 @@
     {
       "LookupAddInput": {
         "relation_name": "NarrowFibNumSteps20",
+        "air_fn_name": "narrow_fib_num_steps_20",
         "input": {
           "Array": [
             {

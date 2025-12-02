@@ -1,6 +1,6 @@
 {
   "name": "read_id",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Read Id",
@@ -39,8 +39,14 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],
@@ -95,6 +101,7 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
+        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",

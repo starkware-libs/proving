@@ -1,10 +1,12 @@
 {
   "name": "verify_bitwise_xor_7",
-  "relation_name": "VerifyBitwiseXor_7",
+  "relation_names": [
+    "VerifyBitwiseXor_7"
+  ],
   "relation_size": 3,
   "log_height": 14,
   "description": "Verify Bitwise Xor 7",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -39,7 +41,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [

@@ -1,6 +1,8 @@
 {
   "name": "blake_g",
-  "relation_name": "BlakeG",
+  "relation_names": [
+    "BlakeG"
+  ],
   "relation_size": 20,
   "log_height": null,
   "description": "Blake G",
@@ -207,13 +209,38 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "VerifyBitwiseXor_8": "Multiplicity",
-    "VerifyBitwiseXor_8_B": "Multiplicity",
-    "VerifyBitwiseXor_12": "Multiplicity",
-    "VerifyBitwiseXor_4": "Multiplicity",
-    "VerifyBitwiseXor_7": "Multiplicity",
-    "VerifyBitwiseXor_9": "Multiplicity"
+  "sub_components": {
+    "verify_bitwise_xor_8": "Multiplicity",
+    "verify_bitwise_xor_12": "Multiplicity",
+    "verify_bitwise_xor_4": "Multiplicity",
+    "verify_bitwise_xor_7": "Multiplicity",
+    "verify_bitwise_xor_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_8": [
+      "verify_bitwise_xor_8",
+      4
+    ],
+    "VerifyBitwiseXor_8_B": [
+      "verify_bitwise_xor_8",
+      4
+    ],
+    "VerifyBitwiseXor_12": [
+      "verify_bitwise_xor_12",
+      2
+    ],
+    "VerifyBitwiseXor_4": [
+      "verify_bitwise_xor_4",
+      2
+    ],
+    "VerifyBitwiseXor_7": [
+      "verify_bitwise_xor_7",
+      2
+    ],
+    "VerifyBitwiseXor_9": [
+      "verify_bitwise_xor_9",
+      2
+    ]
   },
   "inline_calls": {
     "triple_sum_32": [
@@ -1535,6 +1562,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -1631,6 +1659,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -1721,6 +1750,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -1817,6 +1847,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -2402,6 +2433,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_12",
+        "air_fn_name": "verify_bitwise_xor_12",
         "input": {
           "Array": [
             {
@@ -2498,6 +2530,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_4",
+        "air_fn_name": "verify_bitwise_xor_4",
         "input": {
           "Array": [
             {
@@ -2588,6 +2621,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_12",
+        "air_fn_name": "verify_bitwise_xor_12",
         "input": {
           "Array": [
             {
@@ -2684,6 +2718,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_4",
+        "air_fn_name": "verify_bitwise_xor_4",
         "input": {
           "Array": [
             {
@@ -3299,6 +3334,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -3395,6 +3431,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -3485,6 +3522,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -3581,6 +3619,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
+        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -4196,6 +4235,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_7",
+        "air_fn_name": "verify_bitwise_xor_7",
         "input": {
           "Array": [
             {
@@ -4292,6 +4332,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
+        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -4382,6 +4423,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_7",
+        "air_fn_name": "verify_bitwise_xor_7",
         "input": {
           "Array": [
             {
@@ -4478,6 +4520,7 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
+        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {

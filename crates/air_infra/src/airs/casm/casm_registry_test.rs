@@ -9,6 +9,7 @@ use compiled_casm_air::utils::{
     JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
     REGISTRY_PROPERTIES_FILE_NAME, SAMPLE_EVALUATIONS_FILE_NAME,
 };
+use convert_case::{Case, Casing};
 use eval_air_fn_constraints::create_sample_evaluation;
 use indexmap::IndexMap;
 use stwo_cairo_common::prover_types::cpu::PRIME;
@@ -37,7 +38,9 @@ use crate::core::felt252_id_memory::id_to_small::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
 
-const TRACE_COLUMNS_PER_LOGUP: usize = 2;
+const LOOKUPS_PER_BATCH: usize = 2;
+const TRACE_COLUMNS_PER_LOOKUP_BATCH: usize = 4;
+
 // Assumes blowup factor at most 4 and that tables are not splitted (as in the memory address to
 // id).
 const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(28);
@@ -268,16 +271,20 @@ fn add_entry_statistics(
         compiled_entry.r#type != TraceType::Const && compiled_entry.r#type != TraceType::Inline
     );
 
-    let padding = compiled_entry.padding_type == PaddingType::Multiplicity
-        || compiled_entry.padding_type == PaddingType::Enabler;
+    // Calculate number of trace columns.
+    let padding = match compiled_entry.padding_type {
+        PaddingType::None => 0,
+        PaddingType::Enabler => 1,
+        PaddingType::Multiplicity => compiled_entry.relation_names.len(),
+    };
     let num_state_cols = compiled_entry.state_names.len();
     let num_lookup_cols: usize = compiled_entry.constraint_lookups.len();
 
     let total_num_trace_cols = num_state_cols
-        + (TRACE_COLUMNS_PER_LOGUP * num_lookup_cols)
-        + ((num_lookup_cols % 2) * TRACE_COLUMNS_PER_LOGUP)
-        + (padding as usize);
+        + num_lookup_cols.div_ceil(LOOKUPS_PER_BATCH) * TRACE_COLUMNS_PER_LOOKUP_BATCH
+        + padding;
 
+    // Calculate use and yield lookups.
     let mut use_lookup_cols: IndexMap<String, usize> = IndexMap::new();
     for (name, _) in compiled_entry
         .constraint_lookups
@@ -317,7 +324,10 @@ fn add_entry_statistics(
 
     // The registry is ordered such that each component appears after its callees, so all callees
     // already have their statistics computed.
-    for (name, cnt) in lookup_rows.iter() {
+    for (relation_name, (air_fn_name, cnt)) in lookup_rows.iter() {
+        // TODO(AnatG): Consider using relation name without converting to snake case.
+        let name = relation_name.to_case(Case::Snake);
+
         // We round the number of times a lookup is called up to the next power of two, since the
         // statistics apply also to the padded rows.
         let rounded_cnt = if *cnt == 0 {
@@ -325,9 +335,14 @@ fn add_entry_statistics(
         } else {
             cnt.next_power_of_two()
         };
-        let called_entry = reg.get(name).expect("Called entry not found in registry");
+
+        let called_entry = reg
+            .get(air_fn_name)
+            .expect("Called entry not found in registry");
         let compiled_called_entry = called_entry.clone().compile(reg);
-        let entry_stats = stat.get(name).expect("Called entry not found in registry");
+        let entry_stats = stat
+            .get(air_fn_name)
+            .expect("Called entry not found in registry");
 
         if (compiled_called_entry.r#type != TraceType::Memory
             && compiled_called_entry.name != "verify_instruction")
@@ -382,7 +397,7 @@ fn add_entry_statistics(
             num_state_cols,
             use_lookup_cols,
             yield_lookup_cols,
-            lookup_rows,
+            lookup_rows: lookup_rows.into_iter().map(|(r, (_, c))| (r, c)).collect(),
             padding_type: compiled_entry.padding_type,
             total_num_trace_cols,
             trace_cells_upper_bound,
