@@ -14,18 +14,6 @@ use crate::code_gen::utils::{
 impl RustProverGen {
     // TODO(Gali): Consider uniting def and impl functions.
     pub fn generate_interaction_impl(&self) -> rust::Tokens {
-        let lookup_elements = relations_used_or_yielded(&self.air_fn)
-            .iter()
-            .map(|relation_name| {
-                quote! {
-                    $(relation_name.to_case(Case::Snake)): &relations::$(relation_name),$("\n")
-                }
-            })
-            .fold(rust::Tokens::new(), |mut tokens, next| {
-                tokens.extend(next);
-                tokens
-            });
-
         let padding = match self.air_fn.padding_type {
             PaddingType::Enabler => quote! {let enabler_col = Enabler::new(self.n_rows);},
             _ => quote! {},
@@ -41,7 +29,7 @@ impl RustProverGen {
                 pub fn write_interaction_trace(
                     self,
                     tree_builder: &mut impl TreeBuilder<SimdBackend>,
-                    $(lookup_elements)
+                    common_lookup_elements: &relations::CommonLookupElements
                 ) -> InteractionClaim
                 {
                     $(padding)
@@ -169,8 +157,8 @@ impl RustProverGen {
                 &self.lookup_data.$(relation_1_snake_case)_$(term1_offset)
                 $mults)
                     .into_par_iter()$enumerate.for_each(|$for_each| {
-                        let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
-                        let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
+                        let denom0: PackedQM31 = common_lookup_elements.combine(values0);
+                        let denom1: PackedQM31 = common_lookup_elements.combine(values1);
                         writer.write_frac($(numerator), $(denom));
                     });
                 col_gen.finalize_col();
@@ -214,7 +202,7 @@ impl RustProverGen {
                     )
                         .into_par_iter()$enumerate.for_each(|$for_each| {
                         let denom =
-                            $(&relation_name.to_case(Case::Snake)).combine(values);
+                            common_lookup_elements.combine(values);
                         writer.write_frac(
                             $(sign)PackedQM31::one()$(mask_relation(&self.air_fn, &relation_name)),
                             denom

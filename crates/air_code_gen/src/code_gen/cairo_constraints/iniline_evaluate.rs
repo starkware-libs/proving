@@ -2,7 +2,6 @@ use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexSet;
 
 use super::parse::{parse_constraints, parse_var};
 use super::utils::{gen_consts, gen_imports};
@@ -75,16 +74,9 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
             $(state_name): QM31,
         });
     }
-    for relation in air_fn
-        .constraint_lookups
-        .iter()
-        .map(|(r, _)| r)
-        .collect::<IndexSet<_>>()
-    {
-        code.append(quote! {
-            $(relation.to_case(Case::Snake))_lookup_elements: @crate::$(relation)Elements,
-        });
-    }
+    code.append(quote! {
+        common_lookup_elements: @CommonLookupElements,
+    });
     for param in &air_fn.public_params {
         code.append(quote! {
             $(param.name()): QM31,

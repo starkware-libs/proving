@@ -21,6 +21,7 @@ use super::state::*;
 use super::variables::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::const_expr;
+use crate::core::expressions::var_expr::*;
 use crate::utils::fix_str;
 
 pub const MAX_NAME_LEN: usize = 50;
@@ -228,34 +229,34 @@ pub trait AirFn: Debug + InstDefTrait {
         // Add lookup terms
         if self.trace_type() == TraceType::Opcode || self.trace_type() == TraceType::ChainRound {
             // Chain components - use the input and yield the output
-            air_builder.air_body.push(AirBodyComponent::LookupTerm {
-                relation_name: self.relation_name().expect("Relation name not set"),
-                felts: ext_input
+            air_builder.add_lookup_term(
+                &self.relation_name().expect("Relation name not set"),
+                ext_input
                     .as_felts()
                     .into_iter()
                     .chain(input.as_felts())
                     .collect(),
-                use_or_yield: UseOrYield::Use,
-            });
+                UseOrYield::Use,
+            );
 
-            air_builder.air_body.push(AirBodyComponent::LookupTerm {
-                relation_name: self.relation_name().expect("Relation name not set"),
-                felts: output.as_felts(),
-                use_or_yield: UseOrYield::Yield,
-            });
+            air_builder.add_lookup_term(
+                &self.relation_name().expect("Relation name not set"),
+                output.as_felts(),
+                UseOrYield::Yield,
+            );
         } else {
             // Other components - just yield the input and output
             for relation_name in self.relation_names() {
-                air_builder.air_body.push(AirBodyComponent::LookupTerm {
-                    relation_name,
-                    felts: ext_input
+                air_builder.add_lookup_term(
+                    &relation_name,
+                    ext_input
                         .as_felts()
                         .into_iter()
                         .chain(input.as_felts())
                         .chain(output.as_felts())
                         .collect(),
-                    use_or_yield: UseOrYield::Yield,
-                });
+                    UseOrYield::Yield,
+                );
             }
         }
 
@@ -320,6 +321,28 @@ impl AirBuilder {
     #[cfg(test)]
     pub fn set_row_number(&mut self, row_number: Option<usize>) {
         self.row_number = row_number;
+    }
+
+    pub(super) fn add_lookup_term(
+        &mut self,
+        relation_name: &str,
+        mut felts: Vec<FeltExpr>,
+        use_or_yield: UseOrYield,
+    ) {
+        let relation_id_expr = FeltExpr::Var(VarExpr::new_const(
+            *self
+                .registry
+                .relation_ids
+                .borrow()
+                .get(relation_name)
+                .unwrap_or_else(|| panic!("Relation {relation_name} not found")),
+        ));
+        felts.insert(0, relation_id_expr);
+        self.air_body.push(AirBodyComponent::LookupTerm {
+            relation_name: relation_name.to_owned(),
+            felts,
+            use_or_yield,
+        });
     }
 
     pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
@@ -588,16 +611,16 @@ impl AirBuilder {
             );
         }
 
-        self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name,
-            felts: ext_input
+        self.add_lookup_term(
+            &relation_name,
+            ext_input
                 .as_felts()
                 .into_iter()
                 .chain(input.as_felts())
                 .chain(output.as_felts())
                 .collect(),
-            use_or_yield: UseOrYield::Use,
-        });
+            UseOrYield::Use,
+        );
 
         output
     }
@@ -642,11 +665,11 @@ impl AirBuilder {
         let mut input = (chain_id.clone(), const_expr!(first_round), state);
 
         // Yield the input to the first round.
-        self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name: air_fn.relation_name().expect("Relation name not set"),
-            felts: input.as_felts(),
-            use_or_yield: UseOrYield::Yield,
-        });
+        self.add_lookup_term(
+            &air_fn.relation_name().expect("Relation name not set"),
+            input.as_felts(),
+            UseOrYield::Yield,
+        );
 
         // TODO(AnatG): Consider adding all inputs to the lookup component together in one
         // LookupAddInput.
@@ -687,16 +710,16 @@ impl AirBuilder {
         );
 
         // Use the output of the last round.
-        self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name: air_fn.relation_name().expect("Relation name not set"),
-            felts: (
+        self.add_lookup_term(
+            &air_fn.relation_name().expect("Relation name not set"),
+            (
                 chain_id,
                 const_expr!(first_round + num_of_rounds),
                 final_state.clone(),
             )
                 .as_felts(),
-            use_or_yield: UseOrYield::Use,
-        });
+            UseOrYield::Use,
+        );
 
         final_state
     }
@@ -868,11 +891,11 @@ impl AirBuilder {
             ext_input: Some(key.clone().into()),
             input: None,
         });
-        self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name: memory.relation_name().expect("Relation name not set"),
-            felts: key.as_felts().into_iter().chain(value.as_felts()).collect(),
-            use_or_yield: UseOrYield::Use,
-        });
+        self.add_lookup_term(
+            &memory.relation_name().expect("Relation name not set"),
+            key.as_felts().into_iter().chain(value.as_felts()).collect(),
+            UseOrYield::Use,
+        );
     }
 
     #[allow(unused_variables)]

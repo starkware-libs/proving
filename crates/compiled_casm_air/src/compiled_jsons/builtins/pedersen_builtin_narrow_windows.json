@@ -217,6 +217,12 @@
         "relation_name": "PedersenAggregatorWindowBits9",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "194336987"
+            ]
+          },
+          {
             "State": "input_state_0_id_col0"
           },
           {
@@ -305,6 +311,12 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
             "Var": [
               "M31",
               "instance_addr_tmp_adb38_0"
@@ -385,6 +397,12 @@
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
           {
             "BinaryOp": [
               {
@@ -478,6 +496,12 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
             "BinaryOp": [
               {
                 "Var": [
@@ -528,6 +552,12 @@
       "LookupTerm": {
         "relation_name": "PedersenAggregatorWindowBits9",
         "felts": [
+          {
+            "Const": [
+              "M31",
+              "194336987"
+            ]
+          },
           {
             "State": "input_state_0_id_col0"
           },

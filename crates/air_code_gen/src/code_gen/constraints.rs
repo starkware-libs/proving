@@ -13,7 +13,7 @@ use itertools::{chain, Itertools};
 use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
-use super::utils::{get_variable_name, relations_used_or_yielded, replace_generics_with_turbofish};
+use super::utils::{get_variable_name, replace_generics_with_turbofish};
 use crate::code_gen::utils::{is_const_size_component, make_preprocessed_column_id};
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
@@ -23,7 +23,7 @@ pub fn generate_toplevel_constraints_code(air_fn: &CompiledAirFn) -> rust::Token
         $['\n']
         $(generate_consts(air_fn))
         $['\n']
-        $(generate_component_structs(air_fn))
+        $(generate_component_structs())
         $['\n']
         $(generate_claim_struct(air_fn))
         $['\n']
@@ -64,7 +64,7 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
                         $log_size
                         $(get_dummy_public_params(air_fn))
                     },
-                    $(get_dummy_lookup_elements(air_fn))
+                    common_lookup_elements: relations::CommonLookupElements::dummy(),
                 };
                 let expr_eval = eval.evaluate(ExprEvaluator::new());
                 let assignment = expr_eval.random_assignment();
@@ -78,16 +78,6 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
             }
         }
     }
-}
-
-fn get_dummy_lookup_elements(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
-    for relation in relations_used_or_yielded(air_fn) {
-        code.append(quote! {
-            $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
-        });
-    }
-    code
 }
 
 fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -151,11 +141,9 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
             $(state_name): E::F,
         });
     }
-    for relation in relations_used_or_yielded(air_fn) {
-        code.append(quote! {
-            $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
-        });
-    }
+    code.append(quote! {
+        common_lookup_elements: &relations::CommonLookupElements,
+    });
     for param in &air_fn.public_params {
         code.append(quote! {
             $(param.name()): E::F,
@@ -239,30 +227,13 @@ fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_component_structs(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut members = rust::Tokens::new();
-
-    // Claims.
-    members.append(quote! {
-        pub claim: Claim,
-    });
-
-    // Sub-components Lookup elements.
-    for relation in relations_used_or_yielded(air_fn) {
-        members.append(quote! {
-            pub $(lookup_elements_field_name(&relation)): relations::$(relation),
-        });
-    }
-
+fn generate_component_structs() -> rust::Tokens {
     quote! {
         pub struct Eval {
-            $(members)
+            pub claim: Claim,
+            pub common_lookup_elements: relations::CommonLookupElements,
         }
     }
-}
-
-fn lookup_elements_field_name(relation_name: &str) -> String {
-    format!("{}_lookup_elements", relation_name.to_case(Case::Snake))
 }
 
 fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {

@@ -1,4 +1,3 @@
-use std::collections::BTreeMap;
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType};
@@ -27,11 +26,8 @@ pub struct Assignment {
     // The value in the enabler/multiplicity column, if there is one.
     pub lookup_control_value: Option<QM31>,
 
-    // The coefficients used to combine the elements of a tuple from a given relation into a single
-    // value used for the logup.
-    // We use a BTreeMap to have a stable order when serializing this to JSON (makes
-    // it easier to do regression tests)
-    pub lookup_elements: BTreeMap<String, LookupElements>,
+    // The coefficients used to combine the elements of relation tuples.
+    pub common_lookup_elements: LookupElements,
 
     // The total logup sum over all the rows of this component.
     pub claimed_sum: QM31,
@@ -45,19 +41,14 @@ impl Assignment {
     pub fn new_random_for(component: &CompiledAirFn) -> Assignment {
         let log_height = ASSIGNMENT_LOG_HEIGHT;
 
-        let point = circle_point_from_t(random_qm31(&"point_t".to_string()));
+        let point = circle_point_from_t(random_qm31("point_t"));
 
         let base_trace_len = component.state_names.len();
         let interaction_trace_len = component.constraint_lookups.len().div_ceil(2);
 
-        let mut lookup_elements = BTreeMap::default();
-        for (relation_name, ..) in component.constraint_lookups.iter() {
-            if !lookup_elements.contains_key(relation_name) {
-                let z = random_qm31(&format!("{relation_name}_z"));
-                let alpha = random_qm31(&format!("{relation_name}_alpha"));
-                lookup_elements.insert(relation_name.clone(), LookupElements { z, alpha });
-            }
-        }
+        let z = random_qm31("common_z");
+        let alpha = random_qm31("common_alpha");
+        let common_lookup_elements = LookupElements { z, alpha };
 
         let public_params = component
             .public_params
@@ -73,7 +64,7 @@ impl Assignment {
 
         let lookup_control_value = match component.padding_type {
             PaddingType::Enabler | PaddingType::Multiplicity => {
-                Some(random_qm31(&"enabler_or_multiplicity".to_string()))
+                Some(random_qm31("enabler_or_multiplicity"))
             }
             PaddingType::None => None,
         };
@@ -85,23 +76,17 @@ impl Assignment {
             interaction_trace: (0..interaction_trace_len)
                 .map(|i| random_qm31(&format!("interaction_{i}")))
                 .collect(),
-            random_coeff: random_qm31(&"random_coeff".to_string()),
-            last_row_sum: random_qm31(&"last_row_sum".to_string()),
+            random_coeff: random_qm31("random_coeff"),
+            last_row_sum: random_qm31("last_row_sum"),
             lookup_control_value,
-            lookup_elements,
+            common_lookup_elements,
             environment: Rc::new(Environment {
                 public_params,
                 external_states,
             }),
-            claimed_sum: random_qm31(&"claimed_sum".to_string()),
+            claimed_sum: random_qm31("claimed_sum"),
             log_height,
             point,
         }
-    }
-
-    pub fn lookup_elements(&self, relation_name: &String) -> &LookupElements {
-        self.lookup_elements
-            .get(relation_name)
-            .unwrap_or_else(|| panic!("Unknown relation {relation_name}"))
     }
 }

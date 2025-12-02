@@ -28,7 +28,6 @@ pub struct SampleEvaluation {
 
 #[derive(Clone)]
 struct EvaluatedLookupTerm {
-    relation_name: String,
     felt_values: Vec<QM31>,
     use_or_yield_sign: QM31,
 }
@@ -92,9 +91,9 @@ fn run_component_and_collect_steps(
                 steps.push(EvaluatedStep::Constraint(scope.evaluate(compiled_air_var)))
             }
             ConstraintEvalStep::LookupTerm(LookupTerm {
-                relation_name,
                 felts,
                 use_or_yield,
+                ..
             }) => {
                 let felt_values = felts.iter().map(|f| scope.evaluate(f)).collect();
                 let use_or_yield_sign = match use_or_yield {
@@ -102,7 +101,6 @@ fn run_component_and_collect_steps(
                     UseOrYield::Yield => (-1).into(),
                 };
                 steps.push(EvaluatedStep::LookupTerm(EvaluatedLookupTerm {
-                    relation_name: relation_name.clone(),
                     felt_values,
                     use_or_yield_sign,
                 }));

@@ -1,10 +1,11 @@
 use std::cell::{Ref, RefCell};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
 use indexmap::IndexMap;
+use stwo_cairo_common::prover_types::cpu::M31;
 
 use super::air_body::*;
 use super::air_fn::*;
@@ -12,6 +13,7 @@ use super::public_params::*;
 use super::state::*;
 use super::variables::*;
 use crate::core::constraint_connectedness_test::assert_constraint_graph_connected;
+use crate::utils::random_m31;
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone)]
@@ -283,6 +285,7 @@ impl AirFnEntry {
 pub struct AirFnRegistry {
     pub air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
     pub air_fn_ids: Rc<RefCell<HashSet<String>>>,
+    pub relation_ids: Rc<RefCell<HashMap<String, M31>>>,
     pub public_params: PublicParams,
 }
 
@@ -291,6 +294,7 @@ impl AirFnRegistry {
         Self {
             air_fns: Rc::new(RefCell::new(IndexMap::new())),
             air_fn_ids: Rc::new(RefCell::new(HashSet::new())),
+            relation_ids: Rc::new(RefCell::new(HashMap::new())),
             public_params: Default::default(),
         }
     }
@@ -331,6 +335,20 @@ impl AirFnRegistry {
             "Air function with the same hash already exists"
         );
         self.air_fn_ids.borrow_mut().insert(air_fn_id.clone());
+
+        for relation_name in air_fn.relation_names() {
+            if !self.relation_ids.borrow().contains_key(&relation_name) {
+                let id = random_m31(&relation_name);
+                assert!(
+                    !self.relation_ids.borrow().values().any(|x| *x == id),
+                    "Relation with the same ID already exists"
+                );
+
+                self.relation_ids
+                    .borrow_mut()
+                    .insert(relation_name.to_string(), id);
+            }
+        }
 
         let (air_body, state, ext_input, input, output) = self.build_air(air_fn, air_fn_id);
         let entry = AirFnEntry::new(air_fn, air_body, state, ext_input, input, output);

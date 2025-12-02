@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use compiled_casm_air::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::assignment::Assignment;
@@ -13,9 +11,9 @@ use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use super::utils::{
     gen_consts, gen_imports, get_log_size, get_lookup_sums, get_multiplicities,
-    lookup_elements_field, make_preprocessed_column,
+    make_preprocessed_column,
 };
-use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
+use crate::code_gen::utils::is_const_size_component;
 
 pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
 
@@ -33,11 +31,7 @@ pub fn generate_component_cairo_constraints_code(
         pub struct Component {
             pub claim: Claim,
             pub interaction_claim: InteractionClaim,
-            $(relations_used_or_yielded(air_fn).iter().map(|relation| {
-                format!(
-                    "pub {}: crate::{relation}Elements,", lookup_elements_field(relation)
-                )
-            }).collect::<Vec<_>>().join("\n"))
+            pub common_lookup_elements: CommonLookupElements
         }
 
         pub impl NewComponentImpl of NewComponent<Component> {
@@ -47,16 +41,12 @@ pub fn generate_component_cairo_constraints_code(
             fn new(
                 claim: @Claim,
                 interaction_claim: @InteractionClaim,
-                interaction_elements: @CairoInteractionElements,
+                common_lookup_elements: @CommonLookupElements,
             ) -> Component {
                 Component {
                     claim: *claim,
                     interaction_claim: *interaction_claim,
-                    $(relations_used_or_yielded(air_fn).iter().map(|relation| {
-                        format!(
-                            "{}: interaction_elements.{}.clone(),", lookup_elements_field(relation), get_interaction_name(relation.to_case(Case::Snake))
-                        )
-                    }).collect::<Vec<_>>().join("\n"))
+                    common_lookup_elements: common_lookup_elements.clone()
                 }
             }
         }
@@ -108,27 +98,11 @@ pub fn generate_component_cairo_constraints_code(
 }
 
 fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let relation_names = air_fn
-        .constraint_lookups
-        .iter()
-        .map(|x| x.0.clone())
-        .collect::<HashSet<_>>()
-        .into_iter()
-        .sorted()
-        .collect::<Vec<_>>();
-
-    let mut lookup_elements_fields: Vec<rust::Tokens> = vec![];
-    for relation_name in relation_names.iter() {
-        let lookup_elements = assignment
-            .lookup_elements
-            .get(relation_name)
-            .unwrap_or_else(|| panic!("Missing relation {relation_name} in assignment"));
-        lookup_elements_fields
-                    .push(quote! {
-                        $(lookup_elements_field(relation_name)):
-                            make_lookup_elements($(make_qm31(&lookup_elements.z)), $(make_qm31(&lookup_elements.alpha))), $("\n")
-                    });
-    }
+    let common_lookup_elements = &assignment.common_lookup_elements;
+    let lookup_elements_fields = quote! {
+        common_lookup_elements:
+            LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
+    };
 
     let mut claim_fields = quote! { log_size: $(assignment.log_height), $("\n") };
 
@@ -202,9 +176,9 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             #[allow(unused_imports)]
             use stwo_cairo_air::preprocessed_columns::{seq_column_idx, NUM_PREPROCESSED_COLUMNS};
             #[allow(unused_imports)]
-            use crate::test_utils::{make_lookup_elements, make_interaction_trace, preprocessed_mask_add};
+            use crate::test_utils::{make_interaction_trace, preprocessed_mask_add};
             #[allow(unused_imports)]
-            use stwo_constraint_framework::{LookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
+            use stwo_constraint_framework::{LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
             use stwo_verifier_core::circle::CirclePoint;
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
@@ -235,17 +209,6 @@ fn make_qm31(value: &QM31) -> rust::Tokens {
     let value_components = value.to_m31_array();
     quote! {
         qm31_const::<$(value_components[0].0), $(value_components[1].0), $(value_components[2].0), $(value_components[3].0)>()
-    }
-}
-
-fn get_interaction_name(relation: String) -> String {
-    match relation.as_str() {
-        "range_check_252_width_27" => relation,
-        range_check if range_check.starts_with("range_check") => {
-            relation.replace("range_check_", "range_checks.rc_")
-        }
-        "memory_id_to_big" => "memory_id_to_value".to_string(),
-        _ => relation,
     }
 }
 

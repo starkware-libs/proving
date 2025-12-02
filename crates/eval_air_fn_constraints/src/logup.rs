@@ -83,7 +83,7 @@ fn build_logup_terms(
             };
             let numerator = abs_numerator * lookup_term.use_or_yield_sign;
             let denominator = assignment
-                .lookup_elements(&lookup_term.relation_name)
+                .common_lookup_elements
                 .compute_logup_denominator(&lookup_term.felt_values);
             LogupTerm {
                 numerator,
