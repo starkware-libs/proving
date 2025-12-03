@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::{absolute, Path, PathBuf};
 
 use air_code_gen::code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
 use air_code_gen::code_gen::supported_components::{
@@ -114,14 +114,18 @@ fn generate_files(
 }
 
 fn format_stwo_cairo(stwo_cairo_path: &Path) {
+    // Convert the path to absolute, as change_dir works relative to the shell
+    // current directory, and this changes after the first call to change_dir.
+    let stwo_cairo_path = absolute(stwo_cairo_path).expect("Invalid path to stwo-cairo");
+
     let shell = Shell::new().unwrap();
     println!("Formatting Rust code...");
     shell.change_dir(stwo_cairo_path.join("stwo_cairo_prover"));
-    cmd!(shell, "cargo fmt").run().unwrap();
+    cmd!(shell, "cargo fmt").quiet().run().unwrap();
 
     println!("Formatting Cairo code...");
     shell.change_dir(stwo_cairo_path.join("stwo_cairo_verifier"));
-    cmd!(shell, "scarb fmt").run().unwrap();
+    cmd!(shell, "scarb fmt").quiet().run().unwrap();
 }
 
 fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
