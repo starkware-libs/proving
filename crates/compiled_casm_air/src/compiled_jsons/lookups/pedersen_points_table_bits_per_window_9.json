@@ -1,22 +1,22 @@
 {
-  "name": "pedersen_points_table",
+  "name": "pedersen_points_table_bits_per_window_9",
   "relation_names": [
-    "PedersenPointsTable"
+    "PedersenPointsTableBitsPerWindow9"
   ],
   "relation_size": 57,
-  "log_height": 23,
-  "description": "Pedersen Points Table",
-  "instance_definition": "{}",
+  "log_height": 15,
+  "description": "Pedersen Points Table Bits Per Window 9",
+  "instance_definition": "{\"bits_per_window\":9}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
-    "pedersen_points_table_input",
+    "pedersen_points_table_bits_per_window_9_input",
     "[M31; 1]",
     "[PackedM31; 1]"
   ],
   "verifier_input_limbs": [],
   "input_const_columns": [
-    "seq_23"
+    "seq_15"
   ],
   "prover_output": [
     {
@@ -35,7 +35,7 @@
         }
       ]
     },
-    "pedersen_points_table_output",
+    "pedersen_points_table_bits_per_window_9_output",
     "[Felt252; 2]",
     "[PackedFelt252; 2]"
   ],
@@ -48,7 +48,7 @@
   "state_names": [],
   "constraint_lookups": [
     [
-      "PedersenPointsTable",
+      "PedersenPointsTableBitsPerWindow9",
       "Yield"
     ]
   ],
@@ -57,7 +57,7 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    "seq_23",
+    "seq_15",
     "pedersen_points_0",
     "pedersen_points_1",
     "pedersen_points_2",
@@ -118,10 +118,10 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "PedersenPointsTable",
+        "relation_name": "PedersenPointsTableBitsPerWindow9",
         "felts": [
           {
-            "ExternalState": "seq_23"
+            "ExternalState": "seq_15"
           },
           {
             "ExternalState": "pedersen_points_0"
@@ -299,10 +299,10 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "PedersenPointsTable",
+        "relation_name": "PedersenPointsTableBitsPerWindow9",
         "felts": [
           {
-            "ExternalState": "seq_23"
+            "ExternalState": "seq_15"
           },
           {
             "ExternalState": "pedersen_points_0"

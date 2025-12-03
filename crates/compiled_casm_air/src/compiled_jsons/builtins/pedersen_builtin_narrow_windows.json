@@ -1,14 +1,14 @@
 {
-  "name": "pedersen_builtin",
+  "name": "pedersen_builtin_narrow_windows",
   "relation_names": [],
   "relation_size": null,
   "log_height": null,
-  "description": "Pedersen Builtin",
+  "description": "Pedersen Builtin Narrow Windows",
   "instance_definition": "{}",
   "type": "Builtin",
   "padding_type": "None",
   "prover_input": [
-    "pedersen_builtin_input",
+    "pedersen_builtin_narrow_windows_input",
     "()",
     "()"
   ],
@@ -18,7 +18,7 @@
     {
       "Tuple": []
     },
-    "pedersen_builtin_output",
+    "pedersen_builtin_narrow_windows_output",
     "()",
     "()"
   ],
@@ -47,13 +47,13 @@
       "Use"
     ],
     [
-      "PedersenAggregatorBitsPerWindow18",
+      "PedersenAggregatorBitsPerWindow9",
       "Use"
     ]
   ],
   "sub_components": {
     "memory_address_to_id": "Multiplicity",
-    "pedersen_aggregator_bits_per_window_18": "Multiplicity"
+    "pedersen_aggregator_bits_per_window_9": "Multiplicity"
   },
   "n_inputs_added_per_relation": {
     "MemoryAddressToId": [
@@ -61,8 +61,8 @@
       0,
       3
     ],
-    "PedersenAggregatorBitsPerWindow18": [
-      "pedersen_aggregator_bits_per_window_18",
+    "PedersenAggregatorBitsPerWindow9": [
+      "pedersen_aggregator_bits_per_window_9",
       0,
       1
     ]
@@ -89,7 +89,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "instance_addr_tmp_3bd90_0"
+          "instance_addr_tmp_adb38_0"
         ],
         "var": {
           "BinaryOp": [
@@ -127,7 +127,7 @@
                   {
                     "Var": [
                       "M31",
-                      "instance_addr_tmp_3bd90_0"
+                      "instance_addr_tmp_adb38_0"
                     ]
                   }
                 ]
@@ -154,7 +154,7 @@
                       {
                         "Var": [
                           "M31",
-                          "instance_addr_tmp_3bd90_0"
+                          "instance_addr_tmp_adb38_0"
                         ]
                       },
                       "+",
@@ -190,7 +190,7 @@
                       {
                         "Var": [
                           "M31",
-                          "instance_addr_tmp_3bd90_0"
+                          "instance_addr_tmp_adb38_0"
                         ]
                       },
                       "+",
@@ -214,7 +214,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "PedersenAggregatorBitsPerWindow18",
+        "relation_name": "PedersenAggregatorBitsPerWindow9",
         "felts": [
           {
             "State": "input_state_0_id_col0"
@@ -233,7 +233,7 @@
   "deductions": [
     {
       "Intermediate": {
-        "name": "instance_addr_tmp_3bd90_0",
+        "name": "instance_addr_tmp_adb38_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -264,7 +264,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_3bd90_1",
+        "name": "memory_address_to_id_value_tmp_adb38_1",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -273,7 +273,7 @@
               {
                 "Var": [
                   "M31",
-                  "instance_addr_tmp_3bd90_0"
+                  "instance_addr_tmp_adb38_0"
                 ]
               }
             ]
@@ -285,7 +285,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_3bd90_1"
+          "memory_address_to_id_value_tmp_adb38_1"
         ]
       }
     },
@@ -295,7 +295,7 @@
         "input": {
           "Var": [
             "M31",
-            "instance_addr_tmp_3bd90_0"
+            "instance_addr_tmp_adb38_0"
           ]
         }
       }
@@ -307,7 +307,7 @@
           {
             "Var": [
               "M31",
-              "instance_addr_tmp_3bd90_0"
+              "instance_addr_tmp_adb38_0"
             ]
           },
           {
@@ -323,7 +323,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_3bd90_3",
+        "name": "memory_address_to_id_value_tmp_adb38_3",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -334,7 +334,7 @@
                   {
                     "Var": [
                       "M31",
-                      "instance_addr_tmp_3bd90_0"
+                      "instance_addr_tmp_adb38_0"
                     ]
                   },
                   "+",
@@ -355,7 +355,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_3bd90_3"
+          "memory_address_to_id_value_tmp_adb38_3"
         ]
       }
     },
@@ -367,7 +367,7 @@
             {
               "Var": [
                 "M31",
-                "instance_addr_tmp_3bd90_0"
+                "instance_addr_tmp_adb38_0"
               ]
             },
             "+",
@@ -390,7 +390,7 @@
               {
                 "Var": [
                   "M31",
-                  "instance_addr_tmp_3bd90_0"
+                  "instance_addr_tmp_adb38_0"
                 ]
               },
               "+",
@@ -415,7 +415,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_3bd90_5",
+        "name": "memory_address_to_id_value_tmp_adb38_5",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -426,7 +426,7 @@
                   {
                     "Var": [
                       "M31",
-                      "instance_addr_tmp_3bd90_0"
+                      "instance_addr_tmp_adb38_0"
                     ]
                   },
                   "+",
@@ -447,7 +447,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_3bd90_5"
+          "memory_address_to_id_value_tmp_adb38_5"
         ]
       }
     },
@@ -459,7 +459,7 @@
             {
               "Var": [
                 "M31",
-                "instance_addr_tmp_3bd90_0"
+                "instance_addr_tmp_adb38_0"
               ]
             },
             "+",
@@ -482,7 +482,7 @@
               {
                 "Var": [
                   "M31",
-                  "instance_addr_tmp_3bd90_0"
+                  "instance_addr_tmp_adb38_0"
                 ]
               },
               "+",
@@ -504,7 +504,7 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "relation_name": "PedersenAggregatorBitsPerWindow18",
+        "relation_name": "PedersenAggregatorBitsPerWindow9",
         "input": {
           "Tuple": [
             {
@@ -526,7 +526,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "PedersenAggregatorBitsPerWindow18",
+        "relation_name": "PedersenAggregatorBitsPerWindow9",
         "felts": [
           {
             "State": "input_state_0_id_col0"

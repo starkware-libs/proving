@@ -1,7 +1,7 @@
 pub mod mul_mod_builtin;
+pub mod partial_ec_mul_bits_per_window_18;
+pub mod pedersen_points_table_bits_per_window_18;
 pub mod range_check_builtin;
-pub mod partial_ec_mul;
-pub mod pedersen_points_table;
 pub mod range_check_20;
 pub mod range_check_7_2_5;
 pub mod triple_xor_32;

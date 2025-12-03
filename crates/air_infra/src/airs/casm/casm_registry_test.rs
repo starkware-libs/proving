@@ -71,7 +71,8 @@ pub fn create_casm_registry() -> AirFnRegistry {
     reg.add_entry(&AddModBuiltin::default());
     reg.add_entry(&MulModBuiltin::default());
     reg.add_entry(&PoseidonBuiltin::default());
-    reg.add_entry(&PedersenBuiltin::default());
+    reg.add_entry(&PedersenBuiltin::<14>::default());
+    reg.add_entry(&PedersenBuiltin::<28>::default());
 
     // Add opcodes
 

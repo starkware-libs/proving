@@ -12,75 +12,86 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
 
-// A table with 2**23 rows, each containing a point on the Pedersen elliptic curve.
+// TODO(Dan): Fix documentation.
+// A table with 2**15 rows, each containing a point on the Pedersen elliptic curve.
 // The table is divided into 2 sections:
-// 1a. First 13 blocks of 2**18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_0
-// 1b. The 14th block of 2**18 rows: Row k + (l << 14) contains
-//       -P_shift + 2**(18*13) * k * P_0 + l * P_1
-// 2a. Next 13 blocks of 2**18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_2
-// 2b. The last block of 2**18 rows: Row k + (l << 14) contains
-//       -P_shift + 2**(18*13) * k * P_2 + l * P_3
+// 1a. First 27 blocks of 2**9 rows: Row k of block b contains -P_shift + 2**(9*b) * k * P_0
+// 1b. The 28th block of 2**9 rows: Row k + (l << 5) contains
+//       -P_shift + 2**(9*27) * k * P_0 + l * P_1
+// 2a. Next 27 blocks of 2**9 rows: Row k of block b contains -P_shift + 2**(9*b) * k * P_2
+// 2b. The last block of 2**9 rows: Row k + (l << 5) contains
+//       -P_shift + 2**(9*13) * k * P_2 + l * P_3
 #[derive(Clone, Debug, Default)]
-pub struct PedersenPoints {}
+pub struct PedersenPoints<const BITS_PER_WINDOW: usize> {
+    pub bits_per_window: usize,
+}
 
-// TODO: Take from stwo-cairo-common.
-pub const BITS_PER_WINDOW: usize = 18;
-pub const NUM_WINDOWS: usize = 252usize.div_ceil(BITS_PER_WINDOW);
-pub const ROWS_PER_WINDOW: usize = 1 << BITS_PER_WINDOW;
-pub const BITS_IN_LAST_WINDOW: usize = 14;
-pub const ROWS_IN_LAST_WINDOW: usize = 1 << BITS_IN_LAST_WINDOW;
-pub const P_0_SECTION_START: usize = 0;
-pub const P_2_SECTION_START: usize = P_0_SECTION_START + NUM_WINDOWS * ROWS_PER_WINDOW;
-#[cfg(test)]
-const TABLE_END: usize = P_2_SECTION_START + NUM_WINDOWS * ROWS_PER_WINDOW;
+impl<const BITS_PER_WINDOW: usize> PedersenPoints<BITS_PER_WINDOW> {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        Self {
+            bits_per_window: BITS_PER_WINDOW,
+        }
+    }
+}
 
 #[cfg(test)]
 fn compute_section_row(
+    bits_per_window: usize,
     row_in_section: usize,
     base_point: &CurvePoint,
     high_base_point: &CurvePoint,
 ) -> CurvePoint {
-    assert!(row_in_section < NUM_WINDOWS * ROWS_PER_WINDOW);
-    let block_num = row_in_section / ROWS_PER_WINDOW;
-    let row_in_block = if block_num < NUM_WINDOWS - 1 {
-        row_in_section % ROWS_PER_WINDOW
+    let num_windows = 252usize.div_ceil(bits_per_window);
+    let rows_per_window = 1 << bits_per_window;
+    let bits_in_last_window = bits_per_window - 4;
+    let rows_in_last_window = 1 << bits_in_last_window;
+
+    assert!(row_in_section < num_windows * rows_per_window);
+    let block_num = row_in_section / rows_per_window;
+    let row_in_block = if block_num < num_windows - 1 {
+        row_in_section % rows_per_window
     } else {
-        row_in_section % ROWS_IN_LAST_WINDOW
+        row_in_section % rows_in_last_window
     };
     let minus_p_shift = ec_neg(&P_SHIFT);
     let result = ec_add_mul(
         &minus_p_shift,
-        &ec_shift(base_point, BITS_PER_WINDOW * block_num),
+        &ec_shift(base_point, bits_per_window * block_num),
         row_in_block,
     );
-    if block_num < NUM_WINDOWS - 1 {
+    if block_num < num_windows - 1 {
         result
     } else {
         ec_add_mul(
             &result,
             high_base_point,
-            (row_in_section % ROWS_PER_WINDOW) >> BITS_IN_LAST_WINDOW,
+            (row_in_section % rows_per_window) >> bits_in_last_window,
         )
     }
 }
 
-impl ExtTable for PedersenPoints {
+impl<const BITS_PER_WINDOW: usize> ExtTable for PedersenPoints<BITS_PER_WINDOW> {
     type T = [Felt252Expr; 2];
 
     fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
+            let num_windows = 252usize.div_ceil(self.bits_per_window);
+            let rows_per_window = 1 << self.bits_per_window;
+            let p_0_section_start = 0;
+            let p_2_section_start = p_0_section_start + num_windows * rows_per_window;
+            let table_end: usize = p_2_section_start + num_windows * rows_per_window;
+
             let row_number = _air_builder.row_number().expect("Row number not set");
-            let point = match row_number {
-                P_0_SECTION_START..P_2_SECTION_START => {
-                    let row_in_section = row_number - P_0_SECTION_START;
-                    compute_section_row(row_in_section, &P_0, &P_1)
-                }
-                P_2_SECTION_START..TABLE_END => {
-                    let row_in_section = row_number - P_2_SECTION_START;
-                    compute_section_row(row_in_section, &P_2, &P_3)
-                }
-                _ => panic!("Access to row {} in PedersenPoints", row_number),
+            let point = if p_0_section_start <= row_number && row_number < p_2_section_start {
+                let row_in_section = row_number - p_0_section_start;
+                compute_section_row(self.bits_per_window, row_in_section, &P_0, &P_1)
+            } else if p_2_section_start <= row_number && row_number < table_end {
+                let row_in_section = row_number - p_2_section_start;
+                compute_section_row(self.bits_per_window, row_in_section, &P_2, &P_3)
+            } else {
+                panic!("Access to row {} in PedersenPoints", row_number)
             };
             return [
                 const_felt252_expr_from_felt252!(point.x),
@@ -94,18 +105,23 @@ impl ExtTable for PedersenPoints {
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
         (0..PEDERSEN_TABLE_N_COLUMNS)
             .map(|i| {
-                Box::new(stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::new(i))
-                    as Box<dyn PreProcessedColumn>
+                Box::new(
+                    stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::<
+                        BITS_PER_WINDOW,
+                    >::new(i),
+                ) as Box<dyn PreProcessedColumn>
             })
             .collect()
     }
 }
 
 #[derive(Debug, Serialize)]
-pub struct PedersenPointsTable {}
+pub struct PedersenPointsTable<const LOG_N_ROWS: usize> {
+    pub bits_per_window: usize,
+}
 
-impl AirFn for PedersenPointsTable {
-    type ExtIn = SeqConstLen<23>;
+impl<const LOG_N_ROWS: usize> AirFn for PedersenPointsTable<LOG_N_ROWS> {
+    type ExtIn = SeqConstLen<LOG_N_ROWS>;
     type In = ();
     type Out = [Felt252Expr; 2];
 
@@ -117,7 +133,11 @@ impl AirFn for PedersenPointsTable {
     ) -> Self::Out {
         #[cfg(test)]
         air_builder.set_row_number(_ext_input[0].value().map(|v| v.0 as usize));
-        air_builder.call_external_table(&PedersenPoints {})
+        match self.bits_per_window {
+            9 => air_builder.call_external_table(&PedersenPoints::<9>::new()),
+            18 => air_builder.call_external_table(&PedersenPoints::<18>::new()),
+            _ => panic!("Unsupported bits_per_window value {}", self.bits_per_window),
+        }
     }
 
     fn trace_type(&self) -> TraceType {
