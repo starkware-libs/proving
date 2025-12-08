@@ -164,6 +164,7 @@
   "n_inputs_added_per_relation": {
     "MemoryIdToBig": [
       "memory_id_to_big",
+      0,
       1
     ]
   },
@@ -881,7 +882,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "Var": [
             "M31",

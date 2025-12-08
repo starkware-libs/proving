@@ -62,7 +62,7 @@ impl RustProverGen {
             Mode::Inputs => (quote! {}, quote! {mut self, }),
             Mode::PackedInputs => (
                 quote! {
-                    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_name: &str) {
+                    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_index: usize) {
                         self.packed_inputs.extend(inputs);
                     }
                 },
@@ -71,15 +71,14 @@ impl RustProverGen {
             Mode::Mults => {
                 let mut add_inputs_code = if is_const_size_component(&self.air_fn) {
                     quote! {
-                        pub fn add_input(&self, input: &InputType, relation_name: &str) {
-                            let rel_ind = $(format!("{:?}", self.air_fn.relation_names)).iter().position(|r| *r == relation_name).unwrap();
-                            self.mults[rel_ind]
+                        pub fn add_input(&self, input: &InputType, relation_index: usize) {
+                            self.mults[relation_index]
                                 .increase_at((*self.input_to_row.get(input).unwrap()).try_into().unwrap());
                         }
                     }
                 } else {
                     quote! {
-                        pub fn add_input(&self, input: &InputType, _relation_name: &str) {
+                        pub fn add_input(&self, input: &InputType, _relation_index: usize) {
                             self.mults
                                 .entry(*input)
                                 .or_insert_with(|| AtomicU32::new(0))
@@ -92,11 +91,11 @@ impl RustProverGen {
                     pub fn add_packed_inputs(
                         &self,
                         packed_inputs: &[PackedInputType],
-                        relation_name: &str,
+                        relation_index: usize,
                     ) {
                         packed_inputs.into_par_iter().for_each(|packed_input| {
                             packed_input.unpack().into_par_iter().for_each(|input| {
-                                self.add_input(&input, relation_name);
+                                self.add_input(&input, relation_index);
                             });
                         });
                     }
@@ -270,9 +269,9 @@ impl RustProverGen {
             .air_fn
             .n_inputs_added_per_relation
             .iter()
-            .map(|(relation_name, (component_name, _))| {
+            .map(|(relation_name, (component_name, relation_index, _))| {
                 quote! { sub_component_inputs.$(relation_name.to_case(Case::Snake)).iter().for_each(|inputs| {
-                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs, $(format!("\"{}\"", relation_name)));
+                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs, $(*relation_index));
                 });}
             })
             .collect_vec();

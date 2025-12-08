@@ -66,25 +66,25 @@ impl ClaimGenerator {
             .range_check_7_2_5
             .iter()
             .for_each(|inputs| {
-                range_check_7_2_5_state.add_packed_inputs(inputs, "RangeCheck_7_2_5");
+                range_check_7_2_5_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .range_check_4_3
             .iter()
             .for_each(|inputs| {
-                range_check_4_3_state.add_packed_inputs(inputs, "RangeCheck_4_3");
+                range_check_4_3_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .memory_address_to_id
             .iter()
             .for_each(|inputs| {
-                memory_address_to_id_state.add_packed_inputs(inputs, "MemoryAddressToId");
+                memory_address_to_id_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .memory_id_to_big
             .iter()
             .for_each(|inputs| {
-                memory_id_to_big_state.add_packed_inputs(inputs, "MemoryIdToBig");
+                memory_id_to_big_state.add_packed_inputs(inputs, 0);
             });
         tree_builder.extend_evals(trace.to_evals());
 
@@ -97,17 +97,17 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_input(&self, input: &InputType, _relation_name: &str) {
+    pub fn add_input(&self, input: &InputType, _relation_index: usize) {
         self.mults
             .entry(*input)
             .or_insert_with(|| AtomicU32::new(0))
             .fetch_add(1, Ordering::Relaxed);
     }
 
-    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_name: &str) {
+    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
         packed_inputs.into_par_iter().for_each(|packed_input| {
             packed_input.unpack().into_par_iter().for_each(|input| {
-                self.add_input(&input, relation_name);
+                self.add_input(&input, relation_index);
             });
         });
     }

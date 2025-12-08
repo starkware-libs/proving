@@ -5,6 +5,7 @@ use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
+use super::get_relation_variant_names;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
@@ -82,10 +83,7 @@ impl<V: VerifyBitwiseXorSize> AirFn for VerifyBitwiseXor<V> {
 
     fn relation_names(&self) -> Vec<String> {
         if V::bits() == 8 {
-            return vec![
-                "VerifyBitwiseXor_8".to_string(),
-                "VerifyBitwiseXor_8_B".to_string(),
-            ];
+            return get_relation_variant_names("VerifyBitwiseXor_8", 2);
         }
 
         vec![format!("VerifyBitwiseXor_{}", V::bits())]

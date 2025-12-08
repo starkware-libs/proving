@@ -126,7 +126,7 @@ impl RustProverGen {
             .air_fn
             .n_inputs_added_per_relation
             .iter()
-            .map(|(relation_name, (air_fn_name, mult))| {
+            .map(|(relation_name, (air_fn_name, _, mult))| {
                 let name = relation_name.to_case(Case::Snake);
                 quote! {
                     $(&name): [Vec<$air_fn_name::PackedInputType>; $(*mult)],

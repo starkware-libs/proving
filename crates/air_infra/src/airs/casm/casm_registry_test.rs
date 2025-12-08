@@ -320,7 +320,7 @@ fn add_entry_statistics(
     let mut rows_upper_bound = IndexMap::new();
 
     let entry = reg.get(&compiled_entry.name).unwrap();
-    let lookup_rows = entry.air_body.get_lookup_n_rows();
+    let lookup_rows = entry.air_body.get_n_inputs_added_per_relation();
 
     // The registry is ordered such that each component appears after its callees, so all callees
     // already have their statistics computed.

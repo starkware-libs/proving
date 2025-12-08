@@ -40,10 +40,13 @@
       "Use"
     ]
   ],
-  "sub_components": {},
+  "sub_components": {
+    "verify_bitwise_xor_8": "Multiplicity"
+  },
   "n_inputs_added_per_relation": {
     "VerifyBitwiseXor_8_B": [
       "verify_bitwise_xor_8",
+      1,
       1
     ]
   },
@@ -130,7 +133,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8_B",
-        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {

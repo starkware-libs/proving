@@ -272,14 +272,17 @@
   "n_inputs_added_per_relation": {
     "Cube252": [
       "cube_252",
+      0,
       3
     ],
     "PoseidonRoundKeys": [
       "poseidon_round_keys",
+      0,
       1
     ],
     "RangeCheck_3_3_3_3_3": [
       "range_check_3_3_3_3_3",
+      0,
       6
     ]
   },
@@ -2012,7 +2015,6 @@
     {
       "LookupAddInput": {
         "relation_name": "Cube252",
-        "air_fn_name": "cube_252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -2321,7 +2323,6 @@
     {
       "LookupAddInput": {
         "relation_name": "Cube252",
-        "air_fn_name": "cube_252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -2630,7 +2631,6 @@
     {
       "LookupAddInput": {
         "relation_name": "Cube252",
-        "air_fn_name": "cube_252",
         "input": {
           "Var": [
             "Felt252Width27",
@@ -2939,7 +2939,6 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonRoundKeys",
-        "air_fn_name": "poseidon_round_keys",
         "input": {
           "Array": [
             {
@@ -4834,7 +4833,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
-        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -5016,7 +5014,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
-        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -6238,7 +6235,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
-        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -6420,7 +6416,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
-        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -7752,7 +7747,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
-        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {
@@ -7934,7 +7928,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_3_3_3_3_3",
-        "air_fn_name": "range_check_3_3_3_3_3",
         "input": {
           "Array": [
             {

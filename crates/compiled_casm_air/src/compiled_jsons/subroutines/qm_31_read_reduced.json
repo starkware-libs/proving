@@ -567,14 +567,17 @@
   "n_inputs_added_per_relation": {
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       1
     ],
     "MemoryIdToBig": [
       "memory_id_to_big",
+      0,
       1
     ],
     "RangeCheck_4_4_4_4": [
       "range_check_4_4_4_4",
+      0,
       1
     ]
   },
@@ -938,7 +941,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -1323,7 +1325,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "id_col0"
         }
@@ -1621,7 +1622,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
-        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {

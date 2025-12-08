@@ -41,13 +41,13 @@ impl ClaimGenerator {
             .verify_bitwise_xor_8
             .iter()
             .for_each(|inputs| {
-                verify_bitwise_xor_8_state.add_packed_inputs(inputs, "VerifyBitwiseXor_8");
+                verify_bitwise_xor_8_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .verify_bitwise_xor_8_b
             .iter()
             .for_each(|inputs| {
-                verify_bitwise_xor_8_state.add_packed_inputs(inputs, "VerifyBitwiseXor_8_B");
+                verify_bitwise_xor_8_state.add_packed_inputs(inputs, 1);
             });
         tree_builder.extend_evals(trace.to_evals());
 
@@ -61,7 +61,7 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_name: &str) {
+    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_index: usize) {
         self.packed_inputs.extend(inputs);
     }
 }

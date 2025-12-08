@@ -41,9 +41,10 @@ pub struct CompiledAirFn {
     // Some of these may not be used/yielded, see for example `mem_read_unverified`.
     pub sub_components: IndexMap<String, PaddingType>,
 
-    // For each lookup relation, the name of the corresponding air function component and the max
-    // number of inputs added to it by each row in this component.
-    pub n_inputs_added_per_relation: IndexMap<String, (String, usize)>,
+    // For each lookup relation, the name of the corresponding air function component, the index of
+    // the relation in this air function, and the max number of inputs added to it by each row
+    // in this component.
+    pub n_inputs_added_per_relation: IndexMap<String, (String, usize, usize)>,
 
     // The names of the air functions that are inlined into this one, with their lookup names,
     // public params, and external states.
@@ -141,7 +142,6 @@ pub enum TraceGenStep {
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         relation_name: String,
-        air_fn_name: String,
         input: CompiledAirVar,
     },
 

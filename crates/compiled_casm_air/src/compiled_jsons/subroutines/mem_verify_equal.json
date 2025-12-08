@@ -50,6 +50,7 @@
   "n_inputs_added_per_relation": {
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       2
     ]
   },
@@ -145,7 +146,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -175,7 +175,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",

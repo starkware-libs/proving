@@ -73,10 +73,12 @@
   "n_inputs_added_per_relation": {
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       6
     ],
     "PoseidonAggregator": [
       "poseidon_aggregator",
+      0,
       1
     ]
   },
@@ -422,7 +424,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -493,7 +494,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -586,7 +586,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -679,7 +678,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -772,7 +770,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -865,7 +862,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -917,7 +913,6 @@
     {
       "LookupAddInput": {
         "relation_name": "PoseidonAggregator",
-        "air_fn_name": "poseidon_aggregator",
         "input": {
           "Tuple": [
             {

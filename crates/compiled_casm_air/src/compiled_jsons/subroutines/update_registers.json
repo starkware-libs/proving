@@ -182,10 +182,12 @@
   "n_inputs_added_per_relation": {
     "RangeCheck_18": [
       "range_check_18",
+      0,
       1
     ],
     "RangeCheck_11": [
       "range_check_11",
+      0,
       1
     ]
   },
@@ -4915,7 +4917,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_18",
-        "air_fn_name": "range_check_18",
         "input": {
           "Array": [
             {
@@ -4977,7 +4978,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_11",
-        "air_fn_name": "range_check_11",
         "input": {
           "Array": [
             {

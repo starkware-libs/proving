@@ -546,18 +546,22 @@
   "n_inputs_added_per_relation": {
     "VerifyInstruction": [
       "verify_instruction",
+      0,
       1
     ],
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       4
     ],
     "MemoryIdToBig": [
       "memory_id_to_big",
+      0,
       4
     ],
     "RangeCheck_7_2_5": [
       "range_check_7_2_5",
+      0,
       1
     ]
   },
@@ -1998,7 +2002,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyInstruction",
-        "air_fn_name": "verify_instruction",
         "input": {
           "Tuple": [
             {
@@ -2489,7 +2492,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -2698,7 +2700,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op0_id_col9"
         }
@@ -3147,7 +3148,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -3356,7 +3356,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op1_id_col16"
         }
@@ -3759,7 +3758,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -3952,7 +3950,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "ap_id_col22"
         }
@@ -4805,7 +4802,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_7_2_5",
-        "air_fn_name": "range_check_7_2_5",
         "input": {
           "Array": [
             {
@@ -4888,7 +4884,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -4934,7 +4929,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "dst_id_col34"
         }

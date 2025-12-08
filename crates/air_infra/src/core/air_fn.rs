@@ -261,15 +261,6 @@ pub trait AirFn: Debug + InstDefTrait {
 
         output
     }
-
-    fn deduce_output(&self) -> Option<String> {
-        if (self.trace_type() != TraceType::ChainRound && self.trace_type() != TraceType::Component)
-            || Self::Out::is_empty()
-        {
-            return None;
-        }
-        panic!("deduce_output not implemented for this AirFn");
-    }
 }
 
 pub trait ChainRoundAirFn<S>:
@@ -787,11 +778,15 @@ impl AirBuilder {
         }
 
         if !O::is_empty() {
+            assert!(
+                relation_name
+                    == air_fn
+                        .relation_name()
+                        .expect("Called air_fn with output should have a single relation")
+            );
             self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-                relation_name,
-                method_name: air_fn
-                    .deduce_output()
-                    .expect("No deduce_output method name"),
+                air_fn_name: air_fn.name(),
+                method_name: format!("{}::deduce_output", relation_name),
                 ext_input: ext_input_option,
                 input: input_option,
                 output_name: output_name.expect("Output name not set"),
@@ -818,7 +813,7 @@ impl AirBuilder {
 
         let relation_name = memory.relation_name().expect("Relation name not found");
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-            relation_name: relation_name.clone(),
+            air_fn_name: memory.name(),
             method_name: format!("{}::deduce_output", relation_name),
             ext_input: Some(key.clone().into()),
             input: None,

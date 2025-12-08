@@ -32,11 +32,4 @@ impl AirFn for NarrowFib {
     fn trace_type(&self) -> TraceType {
         TraceType::Component
     }
-
-    fn deduce_output(&self) -> Option<String> {
-        Some(format!(
-            "{}::deduce_output",
-            self.relation_name().expect("Relation name not found")
-        ))
-    }
 }

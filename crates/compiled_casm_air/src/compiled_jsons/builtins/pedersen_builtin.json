@@ -58,10 +58,12 @@
   "n_inputs_added_per_relation": {
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       3
     ],
     "PedersenAggregator": [
       "pedersen_aggregator",
+      0,
       1
     ]
   },
@@ -290,7 +292,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "Var": [
             "M31",
@@ -361,7 +362,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -454,7 +454,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -506,7 +505,6 @@
     {
       "LookupAddInput": {
         "relation_name": "PedersenAggregator",
-        "air_fn_name": "pedersen_aggregator",
         "input": {
           "Tuple": [
             {

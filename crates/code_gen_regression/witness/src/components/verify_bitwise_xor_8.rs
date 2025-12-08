@@ -54,19 +54,15 @@ impl ClaimGenerator {
         (Claim {}, InteractionClaimGenerator { lookup_data })
     }
 
-    pub fn add_input(&self, input: &InputType, relation_name: &str) {
-        let rel_ind = ["VerifyBitwiseXor_8", "VerifyBitwiseXor_8_B"]
-            .iter()
-            .position(|r| *r == relation_name)
-            .unwrap();
-        self.mults[rel_ind]
+    pub fn add_input(&self, input: &InputType, relation_index: usize) {
+        self.mults[relation_index]
             .increase_at((*self.input_to_row.get(input).unwrap()).try_into().unwrap());
     }
 
-    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_name: &str) {
+    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
         packed_inputs.into_par_iter().for_each(|packed_input| {
             packed_input.unpack().into_par_iter().for_each(|input| {
-                self.add_input(&input, relation_name);
+                self.add_input(&input, relation_index);
             });
         });
     }

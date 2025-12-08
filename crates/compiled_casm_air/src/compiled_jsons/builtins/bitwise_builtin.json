@@ -282,18 +282,22 @@
   "n_inputs_added_per_relation": {
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       5
     ],
     "MemoryIdToBig": [
       "memory_id_to_big",
+      0,
       5
     ],
     "VerifyBitwiseXor_9": [
       "verify_bitwise_xor_9",
+      0,
       27
     ],
     "VerifyBitwiseXor_8": [
       "verify_bitwise_xor_8",
+      0,
       1
     ]
   },
@@ -3205,7 +3209,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -3874,7 +3877,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op0_id_col0"
         }
@@ -4160,7 +4162,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -4851,7 +4852,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op1_id_col29"
         }
@@ -5125,7 +5125,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5246,7 +5245,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5367,7 +5365,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5488,7 +5485,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5609,7 +5605,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5730,7 +5725,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5851,7 +5845,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -5972,7 +5965,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6093,7 +6085,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6214,7 +6205,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6335,7 +6325,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6456,7 +6445,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6577,7 +6565,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6698,7 +6685,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6819,7 +6805,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -6940,7 +6925,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7061,7 +7045,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7182,7 +7165,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7303,7 +7285,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7424,7 +7405,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7545,7 +7525,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7666,7 +7645,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7787,7 +7765,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -7908,7 +7885,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -8029,7 +8005,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -8150,7 +8125,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -8271,7 +8245,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_9",
-        "air_fn_name": "verify_bitwise_xor_9",
         "input": {
           "Array": [
             {
@@ -8392,7 +8365,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyBitwiseXor_8",
-        "air_fn_name": "verify_bitwise_xor_8",
         "input": {
           "Array": [
             {
@@ -8525,7 +8497,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -8609,7 +8580,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "and_id_col86"
         }
@@ -8858,7 +8828,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -8942,7 +8911,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "xor_id_col87"
         }
@@ -9107,7 +9075,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -9191,7 +9158,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "or_id_col88"
         }

@@ -164,22 +164,27 @@
   "n_inputs_added_per_relation": {
     "VerifyInstruction": [
       "verify_instruction",
+      0,
       1
     ],
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       1
     ],
     "MemoryIdToBig": [
       "memory_id_to_big",
+      0,
       1
     ],
     "RangeCheck_18": [
       "range_check_18",
+      0,
       1
     ],
     "RangeCheck_11": [
       "range_check_11",
+      0,
       1
     ]
   },
@@ -993,7 +998,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyInstruction",
-        "air_fn_name": "verify_instruction",
         "input": {
           "Tuple": [
             {
@@ -1435,7 +1439,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -1872,7 +1875,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "op1_id_col7"
         }
@@ -2233,7 +2235,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_18",
-        "air_fn_name": "range_check_18",
         "input": {
           "Array": [
             {
@@ -2301,7 +2302,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_11",
-        "air_fn_name": "range_check_11",
         "input": {
           "Array": [
             {

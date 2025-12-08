@@ -4,7 +4,6 @@ use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
-use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 
 use super::air_body::*;
@@ -123,15 +122,14 @@ impl AirFnEntry {
             .collect();
         let sub_components = self
             .air_body
-            .get_deduction_lookups()
-            .iter()
-            .filter_map(|n| {
-                // Keep the relations that correspond to air functions.
-                let name = n.to_case(Case::Snake);
+            .get_sub_components()
+            .into_iter()
+            .map(|name| {
                 called_fns
                     .get(name.as_str())
                     .as_ref()
                     .map(|entry| (name, entry.padding_type))
+                    .expect("Cannot find sub-component air function")
             })
             .collect::<IndexMap<_, _>>();
         let relation_size =
@@ -142,6 +140,25 @@ impl AirFnEntry {
             } else {
                 Some(self.joined_input.as_felts().len() + self.output.as_felts().len())
             };
+        let n_inputs_added_per_relation = self
+            .air_body
+            .get_n_inputs_added_per_relation()
+            .iter()
+            .map(|(relation_name, (component_name, max_inputs))| {
+                let relation_index = called_fns
+                    .get(component_name.as_str())
+                    .as_ref()
+                    .expect("Cannot find called component air function")
+                    .relation_names
+                    .iter()
+                    .position(|r| r == relation_name)
+                    .expect("Relation name not found in air function relation names");
+                (
+                    relation_name.clone(),
+                    (component_name.clone(), relation_index, *max_inputs),
+                )
+            })
+            .collect::<IndexMap<_, _>>();
 
         CompiledAirFn {
             name: self.name.clone(),
@@ -174,7 +191,7 @@ impl AirFnEntry {
             state_names: self.state.get_state_names(),
             constraint_lookups: self.air_body.get_constraint_lookups(),
             sub_components,
-            n_inputs_added_per_relation: self.air_body.get_lookup_n_rows(),
+            n_inputs_added_per_relation,
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),

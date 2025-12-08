@@ -214,6 +214,7 @@
   "n_inputs_added_per_relation": {
     "VerifyInstruction": [
       "verify_instruction",
+      0,
       1
     ]
   },
@@ -827,7 +828,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyInstruction",
-        "air_fn_name": "verify_instruction",
         "input": {
           "Tuple": [
             {

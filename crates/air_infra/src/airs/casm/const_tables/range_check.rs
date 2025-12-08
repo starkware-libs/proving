@@ -5,6 +5,7 @@ use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
+use super::get_relation_variant_names;
 use super::seq::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -98,17 +99,8 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
         let relation_name = format!("RangeCheck_{}", bits);
 
         match R::bits() {
-            [18] => vec![relation_name.clone(), relation_name.clone() + "_B"],
-            [20] | [9, 9] => vec![
-                relation_name.clone(),
-                relation_name.clone() + "_B",
-                relation_name.clone() + "_C",
-                relation_name.clone() + "_D",
-                relation_name.clone() + "_E",
-                relation_name.clone() + "_F",
-                relation_name.clone() + "_G",
-                relation_name + "_H",
-            ],
+            [18] => get_relation_variant_names(&relation_name, 2),
+            [20] | [9, 9] => get_relation_variant_names(&relation_name, 8),
             _ => vec![relation_name],
         }
     }

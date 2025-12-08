@@ -237,14 +237,17 @@
   "n_inputs_added_per_relation": {
     "VerifyInstruction": [
       "verify_instruction",
+      0,
       1
     ],
     "MemoryAddressToId": [
       "memory_address_to_id",
+      0,
       1
     ],
     "MemoryIdToBig": [
       "memory_id_to_big",
+      0,
       1
     ]
   },
@@ -959,7 +962,6 @@
     {
       "LookupAddInput": {
         "relation_name": "VerifyInstruction",
-        "air_fn_name": "verify_instruction",
         "input": {
           "Tuple": [
             {
@@ -1409,7 +1411,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryAddressToId",
-        "air_fn_name": "memory_address_to_id",
         "input": {
           "BinaryOp": [
             {
@@ -1618,7 +1619,6 @@
     {
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
-        "air_fn_name": "memory_id_to_big",
         "input": {
           "State": "next_pc_id_col7"
         }

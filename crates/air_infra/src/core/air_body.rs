@@ -33,7 +33,7 @@ pub struct Call {
 // Computes the output of the component into an intermediate variable named <output_name>.
 #[derive(Clone, Debug)]
 pub struct LookupCall {
-    pub relation_name: String,
+    pub air_fn_name: String,
     pub method_name: String,
     pub ext_input: Option<AirVarImpl>,
     pub input: Option<AirVarImpl>,
@@ -364,13 +364,12 @@ impl AirBody {
                 }
                 AirBodyComponent::LookupAddInput {
                     relation_name,
-                    air_fn_name,
+                    air_fn_name: _,
                     ext_input,
                     input,
                 } => {
                     deductions.push(TraceGenStep::LookupAddInput {
                         relation_name,
-                        air_fn_name,
                         input: AirFnEntry::join_inputs(ext_input, input)
                             .compile(CompileFor::Deductions),
                     });
@@ -505,16 +504,16 @@ impl AirBody {
     }
 
     // Returns the names of the lookup relations called by the air function.
-    pub fn get_deduction_lookups(&self) -> IndexSet<String> {
+    pub fn get_sub_components(&self) -> IndexSet<String> {
         let mut lookup_calls = IndexSet::new();
         for component in &self.0 {
             match component {
                 AirBodyComponent::Call(f) => {
-                    lookup_calls.extend(f.air_body.get_deduction_lookups());
+                    lookup_calls.extend(f.air_body.get_sub_components());
                 }
-                AirBodyComponent::LookupCall(LookupCall { relation_name, .. })
-                | AirBodyComponent::LookupAddInput { relation_name, .. } => {
-                    lookup_calls.insert(relation_name.clone());
+                AirBodyComponent::LookupCall(LookupCall { air_fn_name, .. })
+                | AirBodyComponent::LookupAddInput { air_fn_name, .. } => {
+                    lookup_calls.insert(air_fn_name.clone());
                 }
                 _ => (),
             }
@@ -534,7 +533,7 @@ impl AirBody {
 
     // Counts the inputs added per lookup. This is an upper bound on the number of rows in the air
     // function table. The value in the output map is (air_fn_name, count).
-    pub fn get_lookup_n_rows(&self) -> IndexMap<String, (String, usize)> {
+    pub fn get_n_inputs_added_per_relation(&self) -> IndexMap<String, (String, usize)> {
         let mut lookup_rows = IndexMap::new();
         self.0.iter().for_each(|comp| {
             if let AirBodyComponent::LookupAddInput {
@@ -549,7 +548,9 @@ impl AirBody {
                     .1 += 1;
             }
             if let AirBodyComponent::Call(call) = comp {
-                for (relation_name, (air_fn_name, cnt)) in call.air_body.get_lookup_n_rows() {
+                for (relation_name, (air_fn_name, cnt)) in
+                    call.air_body.get_n_inputs_added_per_relation()
+                {
                     lookup_rows
                         .entry(relation_name)
                         .or_insert((air_fn_name, 0))

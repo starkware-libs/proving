@@ -126,10 +126,12 @@
   "n_inputs_added_per_relation": {
     "RangeCheck_4_4_4_4": [
       "range_check_4_4_4_4",
+      0,
       2
     ],
     "RangeCheck_4_4": [
       "range_check_4_4",
+      0,
       1
     ]
   },
@@ -4191,7 +4193,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
-        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -4339,7 +4340,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4_4_4",
-        "air_fn_name": "range_check_4_4_4_4",
         "input": {
           "Array": [
             {
@@ -4493,7 +4493,6 @@
     {
       "LookupAddInput": {
         "relation_name": "RangeCheck_4_4",
-        "air_fn_name": "range_check_4_4",
         "input": {
           "Array": [
             {

@@ -48,103 +48,103 @@ impl ClaimGenerator {
             .pedersen_points_table
             .iter()
             .for_each(|inputs| {
-                pedersen_points_table_state.add_packed_inputs(inputs, "PedersenPointsTable");
+                pedersen_points_table_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .range_check_9_9
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9");
+                range_check_9_9_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .range_check_9_9_b
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_B");
+                range_check_9_9_state.add_packed_inputs(inputs, 1);
             });
         sub_component_inputs
             .range_check_9_9_c
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_C");
+                range_check_9_9_state.add_packed_inputs(inputs, 2);
             });
         sub_component_inputs
             .range_check_9_9_d
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_D");
+                range_check_9_9_state.add_packed_inputs(inputs, 3);
             });
         sub_component_inputs
             .range_check_9_9_e
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_E");
+                range_check_9_9_state.add_packed_inputs(inputs, 4);
             });
         sub_component_inputs
             .range_check_9_9_f
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_F");
+                range_check_9_9_state.add_packed_inputs(inputs, 5);
             });
         sub_component_inputs
             .range_check_9_9_g
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_G");
+                range_check_9_9_state.add_packed_inputs(inputs, 6);
             });
         sub_component_inputs
             .range_check_9_9_h
             .iter()
             .for_each(|inputs| {
-                range_check_9_9_state.add_packed_inputs(inputs, "RangeCheck_9_9_H");
+                range_check_9_9_state.add_packed_inputs(inputs, 7);
             });
         sub_component_inputs
             .range_check_20
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20");
+                range_check_20_state.add_packed_inputs(inputs, 0);
             });
         sub_component_inputs
             .range_check_20_b
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_B");
+                range_check_20_state.add_packed_inputs(inputs, 1);
             });
         sub_component_inputs
             .range_check_20_c
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_C");
+                range_check_20_state.add_packed_inputs(inputs, 2);
             });
         sub_component_inputs
             .range_check_20_d
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_D");
+                range_check_20_state.add_packed_inputs(inputs, 3);
             });
         sub_component_inputs
             .range_check_20_e
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_E");
+                range_check_20_state.add_packed_inputs(inputs, 4);
             });
         sub_component_inputs
             .range_check_20_f
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_F");
+                range_check_20_state.add_packed_inputs(inputs, 5);
             });
         sub_component_inputs
             .range_check_20_g
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_G");
+                range_check_20_state.add_packed_inputs(inputs, 6);
             });
         sub_component_inputs
             .range_check_20_h
             .iter()
             .for_each(|inputs| {
-                range_check_20_state.add_packed_inputs(inputs, "RangeCheck_20_H");
+                range_check_20_state.add_packed_inputs(inputs, 7);
             });
         tree_builder.extend_evals(trace.to_evals());
 
@@ -158,7 +158,7 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_name: &str) {
+    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_index: usize) {
         self.packed_inputs.extend(inputs);
     }
 }
