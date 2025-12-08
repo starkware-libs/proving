@@ -55,11 +55,6 @@ impl AirFn for UpdateRegisters {
         _: (),
         (casm_state, flags, [dst, op1, res]): Self::In,
     ) -> Self::Out {
-        let res_as_addr = air_builder.call(
-            &CondFelt252AsAddr {},
-            (res.clone(), flags[FLAG_PC_UPDATE_JUMP_INDEX].clone()),
-        );
-
         let dst_as_addr = air_builder.call(
             &CondFelt252AsAddr {},
             (dst.clone(), flags[FLAG_OPCODE_RET_INDEX].clone()),
@@ -139,7 +134,7 @@ impl AirFn for UpdateRegisters {
         // Update pc
         let mut next_pc = flags[FLAG_PC_UPDATE_REGULAR_INDEX].clone()
             * (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone())
-            + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_addr.var
+            + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_rel_imm.clone()
             + flags[FLAG_PC_UPDATE_JUMP_REL_INDEX].clone()
                 * (casm_state.pc().var + res_as_rel_imm.clone())
             + flags[FLAG_PC_UPDATE_JNZ_INDEX].clone() * npc_jnz;
