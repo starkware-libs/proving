@@ -1,10 +1,10 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use serde::Serialize;
-use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
+use crate::airs::casm::const_tables::seq::*;
 use crate::core::air_fn::*;
 use crate::core::constraint_connectedness_test;
 use crate::core::expressions::felt252_expr::*;
@@ -13,31 +13,13 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
-const STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG: &str = "MemoryIdForBig";
-
-/// External table for the memory big value IDs.
-#[derive(Debug, Clone, Default)]
-pub struct MemIdForBig {}
-
-impl ExtTable for MemIdForBig {
-    type T = CasmId;
-
-    fn column_ids() -> Vec<String> {
-        vec![STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG.to_owned()]
-    }
-
-    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
-        vec![]
-    }
-}
-
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct MemoryIdToBig {
     #[serde(skip)]
     memory: Memory<CasmId, Felt252Expr>,
 }
 
-impl IsMemory<MemIdForBig, Felt252Expr> for MemoryIdToBig {
+impl IsMemory<SeqId, Felt252Expr> for MemoryIdToBig {
     fn mem(&self) -> &Memory<CasmId, Felt252Expr> {
         &self.memory
     }
@@ -50,7 +32,7 @@ impl IsMemory<MemIdForBig, Felt252Expr> for MemoryIdToBig {
 /// A table with 29 columns. The first is the external column 'MemIdForBig' represents the ID,
 /// and the other 28 felts represent the corresponding big memory value.
 impl AirFn for MemoryIdToBig {
-    type ExtIn = MemIdForBig;
+    type ExtIn = SeqId;
     type In = ();
     type Out = Felt252Expr;
 

@@ -22,6 +22,8 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
     vec![
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
+        "memory_id_to_small".into(),
+        "range_check_mem_value_n_8".into(),
         "verify_bitwise_xor_12".into(),
     ]
 }
@@ -33,6 +35,8 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
     vec![
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
+        "memory_id_to_small".into(),
+        "range_check_mem_value_n_8".into(),
         "verify_bitwise_xor_12".into(),
         // TODO(AnatG): Make those changes in codegen or air compilation.
         "cube_252".into(),
@@ -45,6 +49,8 @@ fn get_manual_witness_components() -> Vec<String> {
         "blake_round".into(),
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
+        "memory_id_to_small".into(),
+        "range_check_mem_value_n_8".into(),
         "cube_252".into(),
         "partial_ec_mul".into(),
         // Lookups to pre-processed tables

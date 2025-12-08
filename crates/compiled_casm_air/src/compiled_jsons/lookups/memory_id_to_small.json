@@ -1,0 +1,358 @@
+{
+  "name": "memory_id_to_small",
+  "relation_name": "MemoryIdToBig",
+  "relation_size": 9,
+  "log_height": null,
+  "description": "Memory Id To Small",
+  "instance_definition": "{}",
+  "type": "Memory",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "memory_id_to_small_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "Seq"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "State": "memory_id_to_small_output_col0"
+        },
+        {
+          "State": "memory_id_to_small_output_col1"
+        },
+        {
+          "State": "memory_id_to_small_output_col2"
+        },
+        {
+          "State": "memory_id_to_small_output_col3"
+        },
+        {
+          "State": "memory_id_to_small_output_col4"
+        },
+        {
+          "State": "memory_id_to_small_output_col5"
+        },
+        {
+          "State": "memory_id_to_small_output_col6"
+        },
+        {
+          "State": "memory_id_to_small_output_col7"
+        }
+      ]
+    },
+    "memory_id_to_small_output",
+    "[M31; 8]",
+    "[PackedM31; 8]"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "memory_id_to_small_output_col0",
+    "memory_id_to_small_output_col1",
+    "memory_id_to_small_output_col2",
+    "memory_id_to_small_output_col3",
+    "memory_id_to_small_output_col4",
+    "memory_id_to_small_output_col5",
+    "memory_id_to_small_output_col6",
+    "memory_id_to_small_output_col7"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_9_9",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_B",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_C",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_D",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Yield"
+    ]
+  ],
+  "deduction_lookups": {
+    "RangeCheck_9_9": "Multiplicity",
+    "RangeCheck_9_9_B": "Multiplicity",
+    "RangeCheck_9_9_C": "Multiplicity",
+    "RangeCheck_9_9_D": "Multiplicity"
+  },
+  "inline_calls": {
+    "range_check_mem_value_n_8": [
+      [
+        [
+          "RangeCheck_9_9",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9_B",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9_C",
+          "Use"
+        ],
+        [
+          "RangeCheck_9_9_D",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [
+    "Seq"
+  ],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "range_check_mem_value_n_8::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "memory_id_to_small_output_col0"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col1"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col2"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col3"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col4"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col5"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col6"
+                  },
+                  {
+                    "State": "memory_id_to_small_output_col7"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "ExternalState": "Seq"
+          },
+          {
+            "State": "memory_id_to_small_output_col0"
+          },
+          {
+            "State": "memory_id_to_small_output_col1"
+          },
+          {
+            "State": "memory_id_to_small_output_col2"
+          },
+          {
+            "State": "memory_id_to_small_output_col3"
+          },
+          {
+            "State": "memory_id_to_small_output_col4"
+          },
+          {
+            "State": "memory_id_to_small_output_col5"
+          },
+          {
+            "State": "memory_id_to_small_output_col6"
+          },
+          {
+            "State": "memory_id_to_small_output_col7"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Range Check Mem Value N 8"
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "memory_id_to_small_output_col0"
+            },
+            {
+              "State": "memory_id_to_small_output_col1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "memory_id_to_small_output_col0"
+          },
+          {
+            "State": "memory_id_to_small_output_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9_B",
+        "input": {
+          "Array": [
+            {
+              "State": "memory_id_to_small_output_col2"
+            },
+            {
+              "State": "memory_id_to_small_output_col3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_B",
+        "felts": [
+          {
+            "State": "memory_id_to_small_output_col2"
+          },
+          {
+            "State": "memory_id_to_small_output_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9_C",
+        "input": {
+          "Array": [
+            {
+              "State": "memory_id_to_small_output_col4"
+            },
+            {
+              "State": "memory_id_to_small_output_col5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_C",
+        "felts": [
+          {
+            "State": "memory_id_to_small_output_col4"
+          },
+          {
+            "State": "memory_id_to_small_output_col5"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9_D",
+        "input": {
+          "Array": [
+            {
+              "State": "memory_id_to_small_output_col6"
+            },
+            {
+              "State": "memory_id_to_small_output_col7"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_D",
+        "felts": [
+          {
+            "State": "memory_id_to_small_output_col6"
+          },
+          {
+            "State": "memory_id_to_small_output_col7"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "ExternalState": "Seq"
+          },
+          {
+            "State": "memory_id_to_small_output_col0"
+          },
+          {
+            "State": "memory_id_to_small_output_col1"
+          },
+          {
+            "State": "memory_id_to_small_output_col2"
+          },
+          {
+            "State": "memory_id_to_small_output_col3"
+          },
+          {
+            "State": "memory_id_to_small_output_col4"
+          },
+          {
+            "State": "memory_id_to_small_output_col5"
+          },
+          {
+            "State": "memory_id_to_small_output_col6"
+          },
+          {
+            "State": "memory_id_to_small_output_col7"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

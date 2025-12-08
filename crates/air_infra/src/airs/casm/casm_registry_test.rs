@@ -33,6 +33,7 @@ use super::opcodes::mul_opcode::*;
 use super::opcodes::qm31::qm31_add_mul_opcode::*;
 use super::opcodes::ret_opcode::*;
 use crate::core::air_fn_registry::*;
+use crate::core::felt252_id_memory::id_to_small::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
 
@@ -50,8 +51,10 @@ const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(28);
 pub fn create_casm_registry() -> AirFnRegistry {
     let mut reg = AirFnRegistry::new_empty();
 
-    // Add builtins
+    // Memory id to small
+    reg.add_entry(&MemoryIdToSmall::default());
 
+    // Add builtins
     reg.add_entry(&BitwiseBuiltin::default());
     reg.add_entry(&RangeCheckBuiltin {
         bits: 128,

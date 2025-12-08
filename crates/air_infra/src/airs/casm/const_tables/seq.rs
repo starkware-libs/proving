@@ -6,6 +6,7 @@ use crate::airs::casm::casm_state::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_SEQ: &str = "Seq";
@@ -62,6 +63,21 @@ pub struct SeqAddr {}
 
 impl ExtTable for SeqAddr {
     type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec![STWO_COMPONENT_TYPE_SEQ.to_owned()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct SeqId {}
+
+impl ExtTable for SeqId {
+    type T = CasmId;
 
     fn column_ids() -> Vec<String> {
         vec![STWO_COMPONENT_TYPE_SEQ.to_owned()]
