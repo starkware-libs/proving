@@ -33,9 +33,10 @@ pub const LIMBS_IN_SMALL: usize = SMALL_BITS / FELT252_BITS_PER_WORD;
 // -2      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1ff
 // -3      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1fe
 
-/// Receives a felt252, and constrains its sign bits as a relative-immediate
+/// Receives a felt252 and constrains its sign bits as a relative-immediate
 /// (the "case" bits: msb and mid_limbs_set).
-/// Returns the deduced sign bits.
+/// Returns the dedeuced sign bits and the four values needed to construct the relative immediate
+/// besides the low-limbs value: the 7 high bits of limb 3, limbs 4–20, limb 21, and limb 27.
 /// If the given felt252 is not a small value, the mid_limbs_set will be set to zero, (i.e a grabage
 /// small value will be calculated out of this case bits).
 #[derive(Clone, Debug, Serialize)]
@@ -44,7 +45,7 @@ pub struct DecodeSmallSign {}
 impl AirFn for DecodeSmallSign {
     type ExtIn = ();
     type In = Felt252Expr;
-    type Out = [FeltExpr; 2];
+    type Out = [FeltExpr; 6];
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), value: Self::In) -> Self::Out {
         let msb = air_builder.deduce_air_var(value.get_felt(27).eq(const_expr!(0x100)), "msb");
@@ -72,7 +73,40 @@ impl AirFn for DecodeSmallSign {
             "Cannot have msb equals 0 and mid_limbs_set equals 1",
         );
 
-        [msb.as_felt(), mid_limbs_set.as_felt()]
+        // Bits 30-36 (7 high bits of limb 3) are 1 if mid_limbs_set and 0 otherwise
+        let limb3_7_high_bits = mid_limbs_set.as_felt() * const_expr!(0x1FC);
+
+        // Limbs 4-20 are 0x0 or all 0x1ff
+        let limbs4_to_20 = mid_limbs_set.as_felt() * const_expr!(0x1ff);
+
+        // Limb 21 is:
+        // 0x0 if the MSB is not set (this also implies that limbs 4-20 are zero)
+        // 0x88 if the MSB is set and limbs 4-20 are zero
+        // 0x87 if the MSB is set and limbs 4-20 are 0x1ff
+        let limb21 = msb.as_felt() * const_expr!(0x88) - mid_limbs_set.as_felt();
+
+        // Limb 27 is either 0x0 or 0x100
+        let limb27 = msb.as_felt() * const_expr!(0x100);
+
+        [
+            msb.as_felt(),
+            mid_limbs_set.as_felt(),
+            limb3_7_high_bits,
+            limbs4_to_20,
+            limb21,
+            limb27,
+        ]
+    }
+
+    fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
+        Some(vec![
+            Some("msb".to_string()),
+            Some("mid_limbs_set".to_string()),
+            Some("limb3_7_high_bits".to_string()),
+            Some("limbs4_to_20".to_string()),
+            Some("limb21".to_string()),
+            Some("limb27".to_string()),
+        ])
     }
 }
 
@@ -90,48 +124,6 @@ pub fn small_to_rel_imm(
         .collect::<Vec<_>>();
     let low_limbs_value = felt252_to_m31(limbs.into(), SMALL_BITS);
     low_limbs_value - msb - const_expr!(1 << SMALL_BITS) * mid_limbs_set
-}
-
-// Receives sign bits, the low limbs and the remainder bits in the next limb.
-// Returns a `felt252` that represents this relative immediate.
-pub fn small_to_felt252(
-    low_limbs: [FeltExpr; LIMBS_IN_SMALL],
-    remainder_bits: FeltExpr,
-    msb: FeltExpr,
-    mid_limbs_set: FeltExpr,
-) -> Felt252Expr {
-    let msb_limb = msb.clone() * const_expr!(0x100);
-    let mid_limb_value = mid_limbs_set.clone() * const_expr!(0x1ff);
-
-    // Represent the limbs of the full value as linear combinations of the input felts.
-    let mut full_value_limbs = vec![];
-
-    // Least significant three stay as-is
-    full_value_limbs.append(low_limbs.to_vec().as_mut());
-
-    // Bits 28 and 29 stay as-is and bits 30-36 are 1 if mid_limbs_set and 0 otherwise.
-    full_value_limbs.push(remainder_bits + (mid_limbs_set.clone() * const_expr!(0x1FC)));
-
-    // Limbs 4-20 are all 0x0 or all 0x1ff
-    for _ in (LIMBS_IN_SMALL + 1)..21 {
-        full_value_limbs.push(mid_limb_value.clone());
-    }
-
-    // Limb 21 is:
-    // 0x0 if the MSB is not set (this also implies that limbs 4-20 are zero)
-    // 0x88 if the MSB is set and limbs 4-20 are zero
-    // 0x87 if the MSB is set and limbs 4-20 are 0x1ff
-    full_value_limbs.push(const_expr!(0x88) * msb - mid_limbs_set);
-
-    // Limbs 22-26 are always zero
-    for _ in 22..27 {
-        full_value_limbs.push(const_expr!(0));
-    }
-
-    // Limb 27 is the most significant limb
-    full_value_limbs.push(msb_limb);
-
-    full_value_limbs.into()
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -157,13 +149,16 @@ impl AirFn for ReadSmall {
         );
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_big, &id);
 
-        // Compute and deduce "case" bits: msb and mid_limbs_set
-        let [msb, mid_limbs_set] = air_builder.call(&DecodeSmallSign {}, value.clone());
+        // Compute the four values needed to construct the relative immediate other then the
+        // low-limbs value.
+        let [msb, mid_limbs_set, limb3_7_high_bits, limbs4_to_20, limb21, limb27] =
+            air_builder.call(&DecodeSmallSign {}, value.clone());
 
         // Least significant three are deduced as-is
-        let mut low_value_limbs = vec![];
+        let mut expected_value = vec![];
         for i in 0..LIMBS_IN_SMALL {
-            low_value_limbs.push(
+            // Push limbs 0-2
+            expected_value.push(
                 air_builder.deduce(
                     value.get_felt_mut(i),
                     &address
@@ -176,33 +171,46 @@ impl AirFn for ReadSmall {
         }
 
         let remainder_bits = air_builder.deduce_air_var(
-            UInt16Expr::from(value.get_felt(3)) & const_u16_expr!(0b11),
+            UInt16Expr::from(value.get_felt(LIMBS_IN_SMALL)) & const_u16_expr!(0b11),
             "remainder_bits",
         );
-
         air_builder.call(
             &CondRangeCheck2 {},
             [remainder_bits.as_felt(), const_expr!(1)],
         );
 
-        let low_limbs_arr: [FeltExpr; LIMBS_IN_SMALL] = low_value_limbs
-            .try_into()
-            .expect("Incorrect size for the low value");
+        // Push limb 3
+        expected_value.push(remainder_bits.as_felt() + limb3_7_high_bits);
+
+        // Push limbs 4-20
+        for _ in (LIMBS_IN_SMALL + 1)..21 {
+            expected_value.push(limbs4_to_20.clone());
+        }
+
+        // Push limb 21
+        expected_value.push(limb21);
+
+        // Limbs 22-26 are always zero
+        for _ in 22..27 {
+            expected_value.push(const_expr!(0));
+        }
+
+        // Push limb 27
+        expected_value.push(limb27.clone());
 
         // Verify that the value in memory is the one we expect
-        air_builder.mem_verify(
-            &self.memory.id_to_big,
-            &id,
-            small_to_felt252(
-                low_limbs_arr.clone(),
-                remainder_bits.as_felt(),
-                msb.clone(),
-                mid_limbs_set.clone(),
-            ),
-        );
+        air_builder.mem_verify(&self.memory.id_to_big, &id, expected_value.clone().into());
 
         (
-            small_to_rel_imm(low_limbs_arr, remainder_bits.as_felt(), msb, mid_limbs_set),
+            small_to_rel_imm(
+                expected_value[..LIMBS_IN_SMALL]
+                    .to_vec()
+                    .try_into()
+                    .expect("Incorrect size for the low value"),
+                remainder_bits.as_felt(),
+                msb,
+                mid_limbs_set,
+            ),
             id,
         )
     }

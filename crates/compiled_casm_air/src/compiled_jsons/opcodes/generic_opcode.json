@@ -28612,7 +28612,7 @@
     {
       "Intermediate": {
         "name": "decode_small_sign_output_tmp_57455_97",
-        "type": "[M31; 2]",
+        "type": "[M31; 6]",
         "var": {
           "Array": [
             {
@@ -28620,6 +28620,70 @@
             },
             {
               "State": "mid_limbs_set_col230"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col230"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col230"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "511"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "msb_col229"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "mid_limbs_set_col230"
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col229"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -28637,17 +28701,9 @@
             },
             "-",
             {
-              "BinaryOp": [
-                {
-                  "State": "mid_limbs_set_col230"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "508"
-                  ]
-                }
+              "Var": [
+                "M31",
+                "decode_small_sign_output_tmp_57455_97[2]"
               ]
             }
           ]
@@ -29528,7 +29584,7 @@
     {
       "Intermediate": {
         "name": "decode_small_sign_output_tmp_57455_109",
-        "type": "[M31; 2]",
+        "type": "[M31; 6]",
         "var": {
           "Array": [
             {
@@ -29536,6 +29592,70 @@
             },
             {
               "State": "mid_limbs_set_col236"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col236"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col236"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "511"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "msb_col235"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "mid_limbs_set_col236"
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col235"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -29553,17 +29673,9 @@
             },
             "-",
             {
-              "BinaryOp": [
-                {
-                  "State": "mid_limbs_set_col236"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "508"
-                  ]
-                }
+              "Var": [
+                "M31",
+                "decode_small_sign_output_tmp_57455_109[2]"
               ]
             }
           ]

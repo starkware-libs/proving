@@ -287,7 +287,12 @@
     },
     {
       "Intermediate": {
-        "felt_names": [],
+        "felt_names": [
+          "decode_small_sign_output_tmp_ceaaf_5_limb3_7_high_bits",
+          "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20",
+          "decode_small_sign_output_tmp_ceaaf_5_limb21",
+          "decode_small_sign_output_tmp_ceaaf_5_limb27"
+        ],
         "var": {
           "StaticCall": [
             "decode_small_sign::evaluate",
@@ -357,279 +362,119 @@
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "mid_limbs_set_col2"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "508"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
+                "Var": [
                   "M31",
-                  "511"
+                  "decode_small_sign_output_tmp_ceaaf_5_limb3_7_high_bits"
                 ]
               }
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "136"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": "msb_col1"
-                  }
-                ]
-              },
-              "-",
-              {
-                "State": "mid_limbs_set_col2"
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limbs4_to_20"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limb21"
             ]
           },
           {
@@ -663,17 +508,9 @@
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "msb_col1"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "256"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5_limb27"
             ]
           }
         ],
@@ -878,7 +715,7 @@
     {
       "Intermediate": {
         "name": "decode_small_sign_output_tmp_ceaaf_5",
-        "type": "[M31; 2]",
+        "type": "[M31; 6]",
         "var": {
           "Array": [
             {
@@ -886,6 +723,70 @@
             },
             {
               "State": "mid_limbs_set_col2"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "511"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "msb_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "mid_limbs_set_col2"
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -1099,279 +1000,119 @@
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "mid_limbs_set_col2"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "508"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
+                "Var": [
                   "M31",
-                  "511"
+                  "decode_small_sign_output_tmp_ceaaf_5[2]"
                 ]
               }
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col2"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "136"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": "msb_col1"
-                  }
-                ]
-              },
-              "-",
-              {
-                "State": "mid_limbs_set_col2"
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[3]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[4]"
             ]
           },
           {
@@ -1405,17 +1146,9 @@
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "msb_col1"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "256"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_ceaaf_5[5]"
             ]
           }
         ],
