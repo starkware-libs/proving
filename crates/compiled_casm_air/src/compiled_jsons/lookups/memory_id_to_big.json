@@ -14,7 +14,7 @@
   ],
   "verifier_input_limbs": [],
   "input_const_columns": [
-    "MemoryIdForBig"
+    "Seq"
   ],
   "prover_output": [
     {
@@ -290,7 +290,7 @@
   },
   "public_params": [],
   "external_states": [
-    "MemoryIdForBig"
+    "Seq"
   ],
   "constraints": [
     {
@@ -398,7 +398,7 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": "MemoryIdForBig"
+            "ExternalState": "Seq"
           },
           {
             "State": "memory_id_to_big_output_col0"
@@ -905,7 +905,7 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": "MemoryIdForBig"
+            "ExternalState": "Seq"
           },
           {
             "State": "memory_id_to_big_output_col0"

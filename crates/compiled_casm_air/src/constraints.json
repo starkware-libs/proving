@@ -5,27 +5,6 @@
     "constraints": [],
     "lookups": []
   },
-  "memory_address_to_id": {
-    "state_names": [
-      "memory_address_to_id_output_col0"
-    ],
-    "intermediates": [],
-    "constraints": [],
-    "lookups": []
-  },
-  "read_id": {
-    "state_names": [
-      "id_col0"
-    ],
-    "intermediates": [],
-    "constraints": [],
-    "lookups": [
-      [
-        "MemoryAddressToId",
-        "read_id_input, id_col0"
-      ]
-    ]
-  },
   "range_check_9_9": {
     "state_names": [],
     "intermediates": [],
@@ -49,6 +28,82 @@
     "intermediates": [],
     "constraints": [],
     "lookups": []
+  },
+  "range_check_mem_value_n_8": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": [
+      [
+        "RangeCheck_9_9",
+        "range_check_mem_value_n_8_input_limb_0, range_check_mem_value_n_8_input_limb_1"
+      ],
+      [
+        "RangeCheck_9_9_B",
+        "range_check_mem_value_n_8_input_limb_2, range_check_mem_value_n_8_input_limb_3"
+      ],
+      [
+        "RangeCheck_9_9_C",
+        "range_check_mem_value_n_8_input_limb_4, range_check_mem_value_n_8_input_limb_5"
+      ],
+      [
+        "RangeCheck_9_9_D",
+        "range_check_mem_value_n_8_input_limb_6, range_check_mem_value_n_8_input_limb_7"
+      ]
+    ]
+  },
+  "memory_id_to_small": {
+    "state_names": [
+      "memory_id_to_small_output_col0",
+      "memory_id_to_small_output_col1",
+      "memory_id_to_small_output_col2",
+      "memory_id_to_small_output_col3",
+      "memory_id_to_small_output_col4",
+      "memory_id_to_small_output_col5",
+      "memory_id_to_small_output_col6",
+      "memory_id_to_small_output_col7"
+    ],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": [
+      [
+        "RangeCheck_9_9",
+        "memory_id_to_small_output_col0, memory_id_to_small_output_col1"
+      ],
+      [
+        "RangeCheck_9_9_B",
+        "memory_id_to_small_output_col2, memory_id_to_small_output_col3"
+      ],
+      [
+        "RangeCheck_9_9_C",
+        "memory_id_to_small_output_col4, memory_id_to_small_output_col5"
+      ],
+      [
+        "RangeCheck_9_9_D",
+        "memory_id_to_small_output_col6, memory_id_to_small_output_col7"
+      ]
+    ]
+  },
+  "memory_address_to_id": {
+    "state_names": [
+      "memory_address_to_id_output_col0"
+    ],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
+  "read_id": {
+    "state_names": [
+      "id_col0"
+    ],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": [
+      [
+        "MemoryAddressToId",
+        "read_id_input, id_col0"
+      ]
+    ]
   },
   "range_check_9_9_e": {
     "state_names": [],

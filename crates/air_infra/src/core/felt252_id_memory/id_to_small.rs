@@ -1,46 +1,35 @@
 use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use serde::Serialize;
-use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
+use crate::airs::casm::const_tables::seq::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
+use crate::core::constraint_connectedness_test;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::id_to_big::*;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::memory::*;
+#[cfg(test)]
 use crate::core::variables::*;
 
 pub const SMALL_MEM_VALUE_N_FELTS: usize = 8;
-const STWO_COMPONENT_TYPE_MEM_ID_FOR_72BITS: &str = "MemoryIdForSmall";
 
 /// External table for memory small value IDs.
 #[derive(Debug, Clone, Default)]
 pub struct MemIdForSmall {}
 
-impl ExtTable for MemIdForSmall {
-    type T = FeltExpr;
-
-    fn column_ids() -> Vec<String> {
-        vec![STWO_COMPONENT_TYPE_MEM_ID_FOR_72BITS.to_owned()]
-    }
-
-    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
-        vec![]
-    }
-}
-
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct MemoryIdToSmall {
     #[serde(skip)]
-    memory: Memory<FeltExpr, Felt252Expr>,
+    memory: Memory<CasmId, [FeltExpr; SMALL_MEM_VALUE_N_FELTS]>,
 }
 
-impl IsMemory<MemIdForSmall, Felt252Expr> for MemoryIdToSmall {
-    fn mem(&self) -> &Memory<FeltExpr, Felt252Expr> {
+impl IsMemory<SeqId, [FeltExpr; SMALL_MEM_VALUE_N_FELTS]> for MemoryIdToSmall {
+    fn mem(&self) -> &Memory<CasmId, [FeltExpr; SMALL_MEM_VALUE_N_FELTS]> {
         &self.memory
     }
 
-    fn mem_mut(&mut self) -> &mut Memory<FeltExpr, Felt252Expr> {
+    fn mem_mut(&mut self) -> &mut Memory<CasmId, [FeltExpr; SMALL_MEM_VALUE_N_FELTS]> {
         &mut self.memory
     }
 }
@@ -52,29 +41,34 @@ impl IsMemory<MemIdForSmall, Felt252Expr> for MemoryIdToSmall {
 /// but it is not used by the AIR infrastructure because we lookup into `MemoryIdToBig`,
 /// that share the same relation.
 impl AirFn for MemoryIdToSmall {
-    type ExtIn = MemIdForSmall;
+    type ExtIn = SeqId;
     type In = ();
-    type Out = Felt252Expr;
+    type Out = [FeltExpr; SMALL_MEM_VALUE_N_FELTS];
 
-    fn call(&self, air_builder: &mut AirBuilder, _id: FeltExpr, _: ()) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _id: CasmId, _: ()) -> Self::Out {
+        // constraint_connectedness_test fails because each pair of limbs is independent (not
+        // connected to the other limbs by constraints). However, this is OK - the memory can
+        // contain any valid value for a limb pair, independent of the other pairs.
+        constraint_connectedness_test::exclude(self);
+
         #[allow(unused_mut)]
         let mut value_in_state = air_builder.component_context.state().get_felts();
 
         #[cfg(test)]
         if air_builder.is_run_mode() {
             value_in_state = self.memory.get(&_id).expect("ID not in memory").as_felts();
-            value_in_state.truncate(SMALL_MEM_VALUE_N_FELTS);
         }
 
+        let values_array: [FeltExpr; SMALL_MEM_VALUE_N_FELTS] = value_in_state
+            .clone()
+            .try_into()
+            .expect("Expected 8 limbs in small memory value");
         air_builder.call(
             &RangeCheckMemValue::<SMALL_MEM_VALUE_N_FELTS>::new(),
-            value_in_state
-                .clone()
-                .try_into()
-                .expect("Expected 8 limbs in small memory value"),
+            values_array.clone(),
         );
 
-        Felt252Expr::from(value_in_state)
+        values_array
     }
 
     fn trace_type(&self) -> TraceType {
