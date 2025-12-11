@@ -14,9 +14,13 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
     if air_fn.padding_type == PaddingType::Enabler {
+        let mult_name = &format!(
+            "{}_multiplicity",
+            air_fn.relation_names[0].to_case(Case::Snake)
+        );
         code.append(quote! {
             // Constraint - enabler is a bit.
-            let constraint_quotient = (enabler * enabler - enabler) * domain_vanishing_eval_inv;
+            let constraint_quotient = ($mult_name * $mult_name - $mult_name) * domain_vanishing_eval_inv;
             sum = sum * random_coeff + constraint_quotient;
         });
     }

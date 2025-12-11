@@ -1,8 +1,6 @@
 use std::fs;
 
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
-};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, ExternalState, TraceType, UseOrYield};
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
@@ -43,15 +41,9 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut consts = rust::Tokens::new();
 
     if air_fn.r#type != TraceType::Inline {
-        if has_enabler_or_mult_column(air_fn) {
-            consts.extend(quote! {
-                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + 1);
-            });
-        } else {
-            consts.extend(quote! {
-                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
-            });
-        }
+        consts.extend(quote! {
+            pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + air_fn.relation_names.len());
+        });
 
         if !is_const_size_component(air_fn) {
             let uses = air_fn
@@ -109,16 +101,6 @@ pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
     } else {
         quote! { *(self.claim.log_size) }
     }
-}
-
-pub fn has_enabler_or_mult_column(air_fn: &CompiledAirFn) -> bool {
-    // TODO(AnatG): Support both enabler and multiplicity columns in the same component.
-    air_fn.padding_type == PaddingType::Enabler || air_fn.padding_type == PaddingType::Multiplicity
-}
-
-pub fn is_chain(air_fn: &CompiledAirFn) -> bool {
-    // All components that are part of a chain.
-    air_fn.r#type == TraceType::ChainRound || air_fn.r#type == TraceType::Opcode
 }
 
 pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {

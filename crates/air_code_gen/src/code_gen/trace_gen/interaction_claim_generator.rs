@@ -7,8 +7,9 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::RustProverGen;
-use crate::code_gen::parse::relation_multiplicity_index;
-use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
+use crate::code_gen::utils::{
+    is_const_size_component, relation_multiplicity_index, relations_used_or_yielded,
+};
 
 impl RustProverGen {
     // TODO(Gali): Consider uniting def and impl functions.
