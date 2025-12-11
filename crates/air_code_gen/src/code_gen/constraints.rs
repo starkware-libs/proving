@@ -74,7 +74,7 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
                     sum += c.assign(&assignment) * rng.gen::<QM31>();
                 }
 
-                assert_eq!(sum, $(air_fn.name.to_case(Case::UpperSnake)));
+                $(air_fn.name.to_case(Case::UpperSnake)).assert_debug_eq(&sum);
             }
         }
     }
