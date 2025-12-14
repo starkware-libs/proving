@@ -978,7 +978,7 @@
     {
       "Intermediate": {
         "name": "decode_small_sign_output_tmp_81a39_9",
-        "type": "[M31; 2]",
+        "type": "[M31; 6]",
         "var": {
           "Array": [
             {
@@ -986,6 +986,70 @@
             },
             {
               "State": "mid_limbs_set_col6"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col6"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col6"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "511"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "msb_col5"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "mid_limbs_set_col6"
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col5"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -1199,279 +1263,119 @@
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "mid_limbs_set_col6"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "508"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
+                "Var": [
                   "M31",
-                  "511"
+                  "decode_small_sign_output_tmp_81a39_9[2]"
                 ]
               }
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col6"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "136"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": "msb_col5"
-                  }
-                ]
-              },
-              "-",
-              {
-                "State": "mid_limbs_set_col6"
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[3]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[4]"
             ]
           },
           {
@@ -1505,17 +1409,9 @@
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "msb_col5"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "256"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_81a39_9[5]"
             ]
           }
         ],

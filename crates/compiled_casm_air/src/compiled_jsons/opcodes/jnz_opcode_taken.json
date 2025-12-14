@@ -3241,7 +3241,7 @@
     {
       "Intermediate": {
         "name": "decode_small_sign_output_tmp_f51a9_20",
-        "type": "[M31; 2]",
+        "type": "[M31; 6]",
         "var": {
           "Array": [
             {
@@ -3249,6 +3249,70 @@
             },
             {
               "State": "mid_limbs_set_col40"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col40"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "508"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col40"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "511"
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "msb_col39"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "mid_limbs_set_col40"
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col39"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -3462,279 +3526,119 @@
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "mid_limbs_set_col40"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "508"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
+                "Var": [
                   "M31",
-                  "511"
+                  "decode_small_sign_output_tmp_f51a9_20[2]"
                 ]
               }
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "mid_limbs_set_col40"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "511"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "136"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": "msb_col39"
-                  }
-                ]
-              },
-              "-",
-              {
-                "State": "mid_limbs_set_col40"
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[3]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[4]"
             ]
           },
           {
@@ -3768,17 +3672,9 @@
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "msb_col39"
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "256"
-                ]
-              }
+            "Var": [
+              "M31",
+              "decode_small_sign_output_tmp_f51a9_20[5]"
             ]
           }
         ],

@@ -11,7 +11,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::felt252_id_memory::read_small::*;
-use crate::core::variables::*;
 
 // Receives a felt252 that has been written to the trace and adds constraints to verify that
 // it is a valid address, i.e., between 0 and 2^29 - 1, if the given condition holds.
@@ -54,13 +53,14 @@ impl AirFn for CondFelt252AsRelImm {
     type Out = FeltExpr;
 
     fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
-        // Compute and deduce "case" bits: msb and mid_limbs_set
-        let [msb, mid_limbs] = ab.call(&DecodeSmallSign {}, value.clone());
+        // Compute the four values needed to construct the relative immediate other then the
+        // low-limbs value.
+        let [msb, mid_limbs_set, limb3_7_high_bits, limbs4_to_20, limb21, limb27] =
+            ab.call(&DecodeSmallSign {}, value.clone());
 
-        // Build the expected value limbs
-        let low_limbs_value: [FeltExpr; LIMBS_IN_SMALL] = from_fn(|i| value.get_felt(i));
+        // Constrain the remainder bits.
         let remainder_bits = ab.let_(
-            value.get_felt(LIMBS_IN_SMALL) - (mid_limbs.clone() * const_expr!(0x1FC)),
+            value.get_felt(LIMBS_IN_SMALL) - limb3_7_high_bits.clone(),
             "remainder_bits",
         );
         ab.call(
@@ -68,29 +68,34 @@ impl AirFn for CondFelt252AsRelImm {
             [remainder_bits.clone(), condition.clone()],
         );
 
-        let expected_value = small_to_felt252(
-            low_limbs_value.clone(),
-            remainder_bits.clone(),
-            msb.clone(),
-            mid_limbs.clone(),
+        // Constrain limbs 4-20.
+        let limbs_4_to_20_sum: FeltExpr = (4..=20).map(|i| value.get_felt(i)).sum();
+        ab.constrain(
+            condition.clone() * (limbs_4_to_20_sum - limbs4_to_20.clone() * const_expr!(17)),
+            "When the condition holds, limbs 4-20 must be zero or 0x1ff",
         );
 
-        // Verify that the given value is relative-immediate.
-        // No need to constrain the first LIMBS_IN_SMALL limbs.
-        // Limb LIMBS_IN_SMALL is constrained above.
-        for (i, expected_limb) in expected_value
-            .as_felts()
-            .into_iter()
-            .enumerate()
-            .skip(LIMBS_IN_SMALL + 1)
-        {
-            ab.constrain(
-                condition.clone() * (value.get_felt(i) - expected_limb),
-                &format!("rel_imm limb {} is fixed", i),
-            );
-        }
+        // Constrain limb 21.
+        ab.constrain(
+            condition.clone() * (value.get_felt(21) - limb21.clone()),
+            "When the condition holds, limb 21 must be 0x0, 0x88 or 0x87",
+        );
+
+        // Constrain limbs 22-26.
+        let limbs_22_to_26_sum = (22..=26).map(|i| value.get_felt(i)).sum();
+        ab.constrain(
+            condition.clone() * limbs_22_to_26_sum,
+            "When the condition holds, limbs 22-26 must be zero",
+        );
+
+        // Constrain limb 27.
+        ab.constrain(
+            condition.clone() * (value.get_felt(27) - limb27.clone()),
+            "When the condition holds, limb 27 must be 0x0 or 0x100",
+        );
 
         // Return the rel imm value
-        small_to_rel_imm(low_limbs_value, remainder_bits, msb, mid_limbs)
+        let low_limbs_value: [FeltExpr; LIMBS_IN_SMALL] = from_fn(|i| value.get_felt(i));
+        small_to_rel_imm(low_limbs_value, remainder_bits, msb, mid_limbs_set)
     }
 }
