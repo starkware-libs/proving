@@ -158,3 +158,20 @@ pub fn format_cairo_code(code_text: String) -> String {
 pub(super) fn lookup_elements_field(relation_name: &str) -> String {
     format!("{}_lookup_elements", relation_name.to_case(Case::Snake))
 }
+
+pub(super) fn get_multiplicities(air_fn: &CompiledAirFn) -> Vec<String> {
+    air_fn
+        .relation_names
+        .iter()
+        .map(|relation| format!("{}_multiplicity", relation.to_case(Case::Snake)))
+        .collect::<Vec<_>>()
+}
+
+pub(super) fn get_lookup_sums(air_fn: &CompiledAirFn) -> Vec<String> {
+    air_fn
+        .constraint_lookups
+        .iter()
+        .enumerate()
+        .map(|(i, (relation, _))| format!("{}_sum_{i}", relation.to_case(Case::Snake)))
+        .collect::<Vec<_>>()
+}

@@ -4,25 +4,13 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use super::utils::{n_logup_columns, QM31_N_TRACE_CELLTS};
+use super::utils::{get_lookup_sums, get_multiplicities, n_logup_columns, QM31_N_TRACE_CELLTS};
 use crate::code_gen::utils::relation_multiplicity_index;
 
 pub const LOOKUP_RELATION_BATCH_SIZE: usize = 2;
 pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;
 
 pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let lookups = air_fn
-        .constraint_lookups
-        .iter()
-        .enumerate()
-        .map(|(i, (relation, _))| format!("{}_sum_{i}: QM31", relation.to_case(Case::Snake)))
-        .collect::<Vec<_>>();
-    let mults = air_fn
-        .relation_names
-        .iter()
-        .map(|relation| format!("{}_multiplicity: QM31", relation.to_case(Case::Snake)))
-        .collect::<Vec<_>>();
-
     // Revoke the AP tracking after defining the interaction trace vars, to avoid offset overflow.
     quote! {
         $("\n")$("\n")
@@ -31,10 +19,10 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
             domain_vanishing_eval_inv: QM31,
             random_coeff: QM31,
             claimed_sum: QM31,
-            $(mults.join(",\n"))$((!mults.is_empty()).then(|| ",\n".to_string()).unwrap_or_default())
+            $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
             column_size: M31,
             ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
-            $(lookups.join(",\n"))
+            $(get_lookup_sums(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
         ) {
             $(get_interaction_trace_vars(air_fn))$("\n")
             core::internal::revoke_ap_tracking();$("\n")
@@ -47,8 +35,6 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     let mut prev_trace = vec![];
     let n_chunks = n_logup_columns(air_fn) / QM31_N_TRACE_CELLTS;
-    let last_sum_chunk_has_2_elements =
-        air_fn.constraint_lookups.len() % LOOKUP_RELATION_BATCH_SIZE == 0;
 
     for (i, (trace_chunk, sum_chunk)) in (0..n_logup_columns(air_fn))
         .chunks(QM31_N_TRACE_CELLTS)
@@ -65,26 +51,26 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         let sum_i = i * LOOKUP_RELATION_BATCH_SIZE;
         let (rel1, rel1_sign) = get_sum_name_and_sign(sum_i, &sum_chunk[0]);
 
-        if i < n_chunks - 1 || (i == n_chunks - 1 && last_sum_chunk_has_2_elements) {
+        if sum_chunk.len() == 2 {
             let (rel2, rel2_sign) = get_sum_name_and_sign(sum_i + 1, &sum_chunk[1]);
-            let rel1_t_rel2_mult = if relation_multiplicity_index(air_fn, &sum_chunk[1].0).is_some()
-            {
-                format!(
-                    "({rel1} * {}_multiplicity)",
-                    sum_chunk[1].0.to_case(Case::Snake)
-                )
-            } else {
-                rel1.clone()
-            };
-            let rel2_t_rel1_mult = if relation_multiplicity_index(air_fn, &sum_chunk[0].0).is_some()
-            {
-                format!(
-                    "({rel2} * {}_multiplicity)",
-                    sum_chunk[0].0.to_case(Case::Snake)
-                )
-            } else {
-                rel2.clone()
-            };
+            let rel1_times_rel2_mult =
+                if relation_multiplicity_index(air_fn, &sum_chunk[1].0).is_some() {
+                    format!(
+                        "({rel1} * {}_multiplicity)",
+                        sum_chunk[1].0.to_case(Case::Snake)
+                    )
+                } else {
+                    rel1.clone()
+                };
+            let rel2_times_rel1_mult =
+                if relation_multiplicity_index(air_fn, &sum_chunk[0].0).is_some() {
+                    format!(
+                        "({rel2} * {}_multiplicity)",
+                        sum_chunk[0].0.to_case(Case::Snake)
+                    )
+                } else {
+                    rel2.clone()
+                };
 
             code.append(quote! {
                 let constraint_quotient = (
@@ -92,7 +78,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                         (
                             $(prefix)
                         ) * $(rel1) * $(rel2)
-                    ) $(rel2_sign) $(rel1_t_rel2_mult) $(rel1_sign) $(rel2_t_rel1_mult)
+                    ) $(rel2_sign) $(rel1_times_rel2_mult) $(rel1_sign) $(rel2_times_rel1_mult)
                 ) * domain_vanishing_eval_inv;$("\n")
             });
         } else {
