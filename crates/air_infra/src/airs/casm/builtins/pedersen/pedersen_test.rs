@@ -148,7 +148,7 @@ fn test_pedersen_0() {
             CasmId::new(const_expr!(1), "output"),
         ),
     );
-    assert_eq!(state.get_felts().len(), 263);
+    assert_eq!(state.get_felts().len(), 205);
 }
 
 #[test]

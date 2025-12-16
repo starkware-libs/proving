@@ -637,9 +637,6 @@ impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
 // PartialECMul
 impl_air_var!((PackedECMultiplier, ECPoint));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState));
-// Pedersen::ReadSplit
-type SplitFelt252s = [Felt252Expr; 2];
-impl_air_var!((FeltExpr, SplitFelt252s));
 // QM31ReadReduced
 type QM31Coordinates = [FeltExpr; 4];
 impl_air_var!((QM31Coordinates, CasmId));

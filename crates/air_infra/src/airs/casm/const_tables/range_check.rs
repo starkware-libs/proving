@@ -38,7 +38,6 @@ pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
         [18] => call_rc::<SeqConstLen<18>>(ab, input, RCVariant::default()),
         [20] => call_rc::<SeqConstLen<20>>(ab, input, RCVariant::default()),
         [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input, RCVariant::default()),
-        [5, 4] => call_rc::<RangeCheck_5_4_Const>(ab, input, RCVariant::default()),
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input, RCVariant::default()),
         [7, 2, 5] => call_rc::<RangeCheck_7_2_5_Const>(ab, input, RCVariant::default()),
         [3, 6, 6, 3] => call_rc::<RangeCheck_3_6_6_3_Const>(ab, input, RCVariant::default()),
@@ -92,7 +91,6 @@ where
 }
 
 new_range_check!([4, 3], RangeCheck_4_3_Const);
-new_range_check!([5, 4], RangeCheck_5_4_Const);
 new_range_check!([9, 9], RangeCheck_9_9_Const);
 new_range_check!([7, 2, 5], RangeCheck_7_2_5_Const);
 new_range_check!([3, 6, 6, 3], RangeCheck_3_6_6_3_Const);

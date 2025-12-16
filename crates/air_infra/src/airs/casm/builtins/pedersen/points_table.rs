@@ -13,10 +13,13 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
 
 // A table with 2**23 rows, each containing a point on the Pedersen elliptic curve.
-// The table is divided into 3 sections:
-// 1. First 14 blocks of 2 ** 18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_0
-// 2. Next 14 blocks of 2 ** 18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_2
-// 3. Next 256 rows: Row k + (16 * l) contains 29 * P_shift + k * P_1 + l * P_3
+// The table is divided into 2 sections:
+// 1a. First 13 blocks of 2**18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_0
+// 1b. The 14th block of 2**18 rows: Row k + (l << 14) contains
+//       -P_shift + 2**(18*13) * k * P_0 + l * P_1
+// 2a. Next 13 blocks of 2**18 rows: Row k of block b contains -P_shift + 2**(18*b) * k * P_2
+// 2b. The last block of 2**18 rows: Row k + (l << 14) contains
+//       -P_shift + 2**(18*13) * k * P_2 + l * P_3
 #[derive(Clone, Debug, Default)]
 pub struct PedersenPoints {}
 
@@ -24,23 +27,41 @@ pub struct PedersenPoints {}
 pub const BITS_PER_WINDOW: usize = 18;
 pub const NUM_WINDOWS: usize = 252usize.div_ceil(BITS_PER_WINDOW);
 pub const ROWS_PER_WINDOW: usize = 1 << BITS_PER_WINDOW;
+pub const BITS_IN_LAST_WINDOW: usize = 14;
+pub const ROWS_IN_LAST_WINDOW: usize = 1 << BITS_IN_LAST_WINDOW;
 pub const P_0_SECTION_START: usize = 0;
 pub const P_2_SECTION_START: usize = P_0_SECTION_START + NUM_WINDOWS * ROWS_PER_WINDOW;
-pub const P_13_SECTION_START: usize = P_2_SECTION_START + NUM_WINDOWS * ROWS_PER_WINDOW;
 #[cfg(test)]
-const TABLE_END: usize = P_13_SECTION_START + 16 * 16;
+const TABLE_END: usize = P_2_SECTION_START + NUM_WINDOWS * ROWS_PER_WINDOW;
 
 #[cfg(test)]
-fn compute_section_row(row_in_section: usize, base_point: &CurvePoint) -> CurvePoint {
+fn compute_section_row(
+    row_in_section: usize,
+    base_point: &CurvePoint,
+    high_base_point: &CurvePoint,
+) -> CurvePoint {
     assert!(row_in_section < NUM_WINDOWS * ROWS_PER_WINDOW);
     let block_num = row_in_section / ROWS_PER_WINDOW;
-    let row_in_block = row_in_section % ROWS_PER_WINDOW;
+    let row_in_block = if block_num < NUM_WINDOWS - 1 {
+        row_in_section % ROWS_PER_WINDOW
+    } else {
+        row_in_section % ROWS_IN_LAST_WINDOW
+    };
     let minus_p_shift = ec_neg(&P_SHIFT);
-    ec_add_mul(
+    let result = ec_add_mul(
         &minus_p_shift,
         &ec_shift(base_point, BITS_PER_WINDOW * block_num),
         row_in_block,
-    )
+    );
+    if block_num < NUM_WINDOWS - 1 {
+        result
+    } else {
+        ec_add_mul(
+            &result,
+            high_base_point,
+            (row_in_section % ROWS_PER_WINDOW) >> BITS_IN_LAST_WINDOW,
+        )
+    }
 }
 
 impl ExtTable for PedersenPoints {
@@ -53,20 +74,11 @@ impl ExtTable for PedersenPoints {
             let point = match row_number {
                 P_0_SECTION_START..P_2_SECTION_START => {
                     let row_in_section = row_number - P_0_SECTION_START;
-                    compute_section_row(row_in_section, &P_0)
+                    compute_section_row(row_in_section, &P_0, &P_1)
                 }
-                P_2_SECTION_START..P_13_SECTION_START => {
+                P_2_SECTION_START..TABLE_END => {
                     let row_in_section = row_number - P_2_SECTION_START;
-                    compute_section_row(row_in_section, &P_2)
-                }
-                P_13_SECTION_START..TABLE_END => {
-                    let row_in_section = row_number - P_13_SECTION_START;
-                    let (row_low, row_high) = (row_in_section & 0xf, row_in_section >> 4);
-                    ec_add_mul(
-                        &ec_add_mul(&ec_mul(&P_SHIFT, 2 * NUM_WINDOWS + 1), &P_1, row_low),
-                        &P_3,
-                        row_high,
-                    )
+                    compute_section_row(row_in_section, &P_2, &P_3)
                 }
                 _ => panic!("Access to row {} in PedersenPoints", row_number),
             };
