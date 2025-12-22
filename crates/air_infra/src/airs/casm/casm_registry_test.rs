@@ -1,8 +1,7 @@
 use std::cell::Ref;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, LeanCompare, NonComponentStat, PaddingType, TraceType,
-    UseOrYield,
+    CompiledAirFn, CompiledAirFnStat, NonComponentStat, PaddingType, TraceType, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
@@ -175,28 +174,9 @@ pub fn create_casm_registry() -> AirFnRegistry {
 fn test_casm_registry() {
     let reg = create_casm_registry();
 
-    let mut constraints = IndexMap::new();
-    for (name, entry) in reg.air_fns.borrow().iter() {
-        let air_body_constraints = entry.air_body.get_constraints();
-        constraints.insert(
-            name.clone(),
-            LeanCompare {
-                state_names: entry.state.get_state_names(),
-                intermediates: air_body_constraints.intermediates,
-                constraints: air_body_constraints.constraints,
-                lookups: air_body_constraints.lookups,
-            },
-        );
-    }
-    compare_json(
-        &constraints,
-        &"../compiled_casm_air/src/constraints.json".to_string(),
-    );
-
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();
     let mut stat = IndexMap::new();
-    let mut const_tables = IndexMap::new();
     let mut sample_evaluations = IndexMap::new();
 
     for (name, compiled_entry) in compiled_reg.iter() {
@@ -209,11 +189,6 @@ fn test_casm_registry() {
             TraceType::Inline => JSONS_INLINE_DIR,
             TraceType::Const => "",
         };
-
-        // Collect preprocessed columns.
-        if !compiled_entry.external_states.is_empty() {
-            const_tables.insert(name, compiled_entry.external_states.clone());
-        }
 
         // Const functions are not compiled.
         if entry.trace_type == TraceType::Const {
@@ -235,11 +210,6 @@ fn test_casm_registry() {
             add_entry_statistics(&fns, compiled_entry, &mut stat);
         }
     }
-
-    compare_json(
-        &const_tables,
-        &"../compiled_casm_air/src/const_tables.json".to_string(),
-    );
 
     compare_json(
         &stat,
@@ -394,6 +364,7 @@ fn add_entry_statistics(
         compiled_entry.name.clone(),
         CompiledAirFnStat {
             trace_type: compiled_entry.r#type,
+            log_height: compiled_entry.log_height,
             num_state_cols,
             use_lookup_cols,
             yield_lookup_cols,

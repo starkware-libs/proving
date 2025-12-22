@@ -6,7 +6,6 @@ use compiled_casm_air::compiled_structs::{
     ConstraintEvalStep, ExternalState, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
-use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
@@ -618,58 +617,10 @@ impl AirBody {
         }
         result
     }
-
-    pub fn get_constraints(&self) -> Constraints {
-        let mut intermediates = vec![];
-        let mut constraints = vec![];
-        let mut lookups = vec![];
-
-        for component in self.get_flattened_constraint_components() {
-            match component {
-                ConstraintComponent::Constraint(expr) => {
-                    constraints.push(expr.compile(CompileFor::Constraints).to_string())
-                }
-                ConstraintComponent::Intermediate { name, value } => {
-                    intermediates.push((name, value.compile(CompileFor::Constraints).to_string()))
-                }
-                ConstraintComponent::LookupTerm {
-                    relation_name,
-                    felts,
-                    use_or_yield,
-                } => {
-                    if use_or_yield != UseOrYield::Use {
-                        continue;
-                    }
-                    if relation_name == OPCODES_RELATION_NAME {
-                        continue;
-                    }
-                    let felts = felts
-                        .into_iter()
-                        .map(|f| f.compile(CompileFor::Constraints).to_string())
-                        .collect::<Vec<_>>()
-                        .join(", ");
-                    lookups.push((relation_name, felts));
-                }
-            }
-        }
-
-        Constraints {
-            intermediates,
-            constraints,
-            lookups,
-        }
-    }
 }
 
 #[derive(Debug, Copy, Clone, Serialize, PartialEq, Eq)]
 pub enum CompileFor {
     Constraints,
     Deductions,
-}
-
-#[derive(Debug, Clone, Serialize, Default)]
-pub struct Constraints {
-    pub intermediates: Vec<(String, String)>,
-    pub constraints: Vec<String>,
-    pub lookups: Vec<(String, String)>,
 }
