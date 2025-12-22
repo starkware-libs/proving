@@ -1,14 +1,14 @@
 {
-  "name": "range_check_builtin_bits_128",
+  "name": "range_check_builtin",
   "relation_names": [],
   "relation_size": null,
   "log_height": null,
-  "description": "Range Check Builtin Bits 128",
+  "description": "Range Check Builtin",
   "instance_definition": "{\"bits\":128}",
   "type": "Builtin",
   "padding_type": "None",
   "prover_input": [
-    "range_check_builtin_bits_128_input",
+    "range_check_builtin_input",
     "()",
     "()"
   ],
@@ -18,7 +18,7 @@
     {
       "Tuple": []
     },
-    "range_check_builtin_bits_128_output",
+    "range_check_builtin_output",
     "()",
     "()"
   ],

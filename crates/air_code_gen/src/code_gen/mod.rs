@@ -71,7 +71,7 @@ mod tests {
     fn code_gen_regression() {
         let components_to_check = [
             "../compiled_casm_air/src/compiled_jsons/builtins/mul_mod_builtin.json",
-            "../compiled_casm_air/src/compiled_jsons/builtins/range_check_builtin_bits_128.json",
+            "../compiled_casm_air/src/compiled_jsons/builtins/range_check_builtin.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/partial_ec_mul.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_20.json",

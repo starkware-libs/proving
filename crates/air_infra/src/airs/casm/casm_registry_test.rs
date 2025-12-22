@@ -432,8 +432,8 @@ fn get_keccak_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentSt
         ("mul_mod_builtin".to_string(), 0),
         ("pedersen_builtin".to_string(), 512),
         ("poseidon_builtin".to_string(), 0),
-        ("range_check_builtin_bits_128".to_string(), 1048576),
-        ("range_check_builtin_bits_96".to_string(), 0),
+        ("range_check_builtin".to_string(), 1048576),
+        ("range_check96_builtin".to_string(), 0),
         ("add_mod_builtin".to_string(), 0),
         ("mul_opcode".to_string(), 1651001),
         ("assert_eq_opcode".to_string(), 70300),
@@ -461,10 +461,10 @@ fn get_keccak_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentSt
 
 fn get_ec_op_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentStat {
     let ec_op_3001 = IndexMap::from([
-        ("range_check_builtin_bits_128".to_string(), 16),
+        ("range_check_builtin".to_string(), 16),
         ("mul_mod_builtin".to_string(), 0),
         ("poseidon_builtin".to_string(), 0),
-        ("range_check_builtin_bits_96".to_string(), 0),
+        ("range_check96_builtin".to_string(), 0),
         ("pedersen_builtin".to_string(), 512),
         ("add_mod_builtin".to_string(), 0),
         ("bitwise_builtin".to_string(), 0),
@@ -495,8 +495,8 @@ fn get_ec_op_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentSta
 
 fn get_ecdsa_stat(stat: &IndexMap<String, CompiledAirFnStat>) -> NonComponentStat {
     let ecdsa_3000 = IndexMap::from([
-        ("range_check_builtin_bits_128".to_string(), 16),
-        ("range_check_builtin_bits_96".to_string(), 262144),
+        ("range_check_builtin".to_string(), 16),
+        ("range_check96_builtin".to_string(), 262144),
         ("poseidon_builtin".to_string(), 0),
         ("mul_mod_builtin".to_string(), 16384),
         ("bitwise_builtin".to_string(), 0),
