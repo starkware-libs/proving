@@ -270,9 +270,9 @@ impl RustProverGen {
             .n_inputs_added_per_relation
             .iter()
             .map(|(relation_name, (component_name, relation_index, _))| {
-                quote! { sub_component_inputs.$(relation_name.to_case(Case::Snake)).iter().for_each(|inputs| {
-                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs, $(*relation_index));
-                });}
+                quote! { for inputs in sub_component_inputs.$(relation_name.to_case(Case::Snake)) {
+                    $component_name$STATE_SUFFIX.add_packed_inputs(&inputs, $(*relation_index));
+                };}
             })
             .collect_vec();
         quote! {
