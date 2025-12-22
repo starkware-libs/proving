@@ -229,6 +229,8 @@ pub enum UseOrYield {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFnStat {
     pub trace_type: TraceType,
+    // For constant-size component, the log_2 of the number of rows.
+    pub log_height: Option<u32>,
     pub num_state_cols: usize,
     pub use_lookup_cols: IndexMap<String, usize>,
     pub yield_lookup_cols: IndexMap<String, usize>,
@@ -259,13 +261,4 @@ pub struct NonComponentStat {
     pub steps: usize,
     pub max_num_instances_uses: usize,
     pub max_num_instances_steps: usize,
-}
-
-/// See `constraints.json`.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
-pub struct LeanCompare {
-    pub state_names: Vec<String>,
-    pub intermediates: Vec<(String, String)>,
-    pub constraints: Vec<String>,
-    pub lookups: Vec<(String, String)>,
 }
