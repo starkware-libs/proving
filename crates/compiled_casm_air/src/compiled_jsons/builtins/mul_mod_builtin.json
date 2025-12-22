@@ -1,6 +1,6 @@
 {
   "name": "mul_mod_builtin",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Mul Mod Builtin",
@@ -1206,12 +1206,39 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "RangeCheck_12": "Multiplicity",
-    "RangeCheck_3_6_6_3": "Multiplicity",
-    "RangeCheck_18": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "range_check_12": "Multiplicity",
+    "range_check_3_6_6_3": "Multiplicity",
+    "range_check_18": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      29
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      24
+    ],
+    "RangeCheck_12": [
+      "range_check_12",
+      0,
+      32
+    ],
+    "RangeCheck_3_6_6_3": [
+      "range_check_3_6_6_3",
+      0,
+      40
+    ],
+    "RangeCheck_18": [
+      "range_check_18",
+      0,
+      62
+    ]
   },
   "inline_calls": {
     "double_karatsuba_b1daa": [

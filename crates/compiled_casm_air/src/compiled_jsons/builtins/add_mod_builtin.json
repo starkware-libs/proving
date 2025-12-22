@@ -1,6 +1,6 @@
 {
   "name": "add_mod_builtin",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Add Mod Builtin",
@@ -511,9 +511,21 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      29
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      24
+    ]
   },
   "inline_calls": {
     "mod_utils": [

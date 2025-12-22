@@ -1,6 +1,6 @@
 {
   "name": "bitwise_xor_num_bits_7",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Bitwise Xor Num Bits 7",
@@ -40,8 +40,15 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "VerifyBitwiseXor_7": "Multiplicity"
+  "sub_components": {
+    "verify_bitwise_xor_7": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_7": [
+      "verify_bitwise_xor_7",
+      0,
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],

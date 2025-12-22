@@ -1,6 +1,6 @@
 {
   "name": "felt_252_unpack_from_27_range_check_output",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Felt 252 Unpack From 27 Range Check Output",
@@ -192,15 +192,50 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity",
-    "RangeCheck_9_9_E": "Multiplicity",
-    "RangeCheck_9_9_F": "Multiplicity",
-    "RangeCheck_9_9_G": "Multiplicity",
-    "RangeCheck_9_9_H": "Multiplicity"
+  "sub_components": {
+    "range_check_9_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      0,
+      2
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1,
+      2
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2,
+      2
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      3,
+      2
+    ],
+    "RangeCheck_9_9_E": [
+      "range_check_9_9",
+      4,
+      2
+    ],
+    "RangeCheck_9_9_F": [
+      "range_check_9_9",
+      5,
+      2
+    ],
+    "RangeCheck_9_9_G": [
+      "range_check_9_9",
+      6,
+      1
+    ],
+    "RangeCheck_9_9_H": [
+      "range_check_9_9",
+      7,
+      1
+    ]
   },
   "inline_calls": {
     "range_check_mem_value_n_28": [

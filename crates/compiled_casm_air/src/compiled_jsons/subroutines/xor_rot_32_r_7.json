@@ -1,6 +1,6 @@
 {
   "name": "xor_rot_32_r_7",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Xor Rot 32 R 7",
@@ -80,9 +80,21 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "VerifyBitwiseXor_7": "Multiplicity",
-    "VerifyBitwiseXor_9": "Multiplicity"
+  "sub_components": {
+    "verify_bitwise_xor_7": "Multiplicity",
+    "verify_bitwise_xor_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_7": [
+      "verify_bitwise_xor_7",
+      0,
+      2
+    ],
+    "VerifyBitwiseXor_9": [
+      "verify_bitwise_xor_9",
+      0,
+      2
+    ]
   },
   "inline_calls": {
     "bitwise_xor_num_bits_7": [

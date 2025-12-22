@@ -1,6 +1,8 @@
 {
   "name": "mul_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Mul Opcode",
@@ -395,18 +397,68 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_20": "Multiplicity",
-    "RangeCheck_20_B": "Multiplicity",
-    "RangeCheck_20_C": "Multiplicity",
-    "RangeCheck_20_D": "Multiplicity",
-    "RangeCheck_20_E": "Multiplicity",
-    "RangeCheck_20_F": "Multiplicity",
-    "RangeCheck_20_G": "Multiplicity",
-    "RangeCheck_20_H": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_20": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      3
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      3
+    ],
+    "RangeCheck_20": [
+      "range_check_20",
+      0,
+      4
+    ],
+    "RangeCheck_20_B": [
+      "range_check_20",
+      1,
+      4
+    ],
+    "RangeCheck_20_C": [
+      "range_check_20",
+      2,
+      4
+    ],
+    "RangeCheck_20_D": [
+      "range_check_20",
+      3,
+      4
+    ],
+    "RangeCheck_20_E": [
+      "range_check_20",
+      4,
+      3
+    ],
+    "RangeCheck_20_F": [
+      "range_check_20",
+      5,
+      3
+    ],
+    "RangeCheck_20_G": [
+      "range_check_20",
+      6,
+      3
+    ],
+    "RangeCheck_20_H": [
+      "range_check_20",
+      7,
+      3
+    ]
   },
   "inline_calls": {
     "decode_instruction_4b8cf": [

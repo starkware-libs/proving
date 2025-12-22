@@ -5,6 +5,7 @@ use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
+use super::get_relation_variant_names;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
@@ -14,24 +15,11 @@ pub trait VerifyBitwiseXorSize: ExtTable + Debug + Default {
     fn bits() -> u16;
 }
 
-#[derive(Debug, Copy, Clone, Serialize, Default, PartialEq, Eq)]
-pub enum VerifyBitwiseXorVariant {
-    #[default]
-    A,
-    B,
-}
-
 pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3], variant: usize) {
-    let variant = match variant {
-        0 => VerifyBitwiseXorVariant::A,
-        1 => VerifyBitwiseXorVariant::B,
-        _ => unreachable!(),
-    };
-
     if bits != 8 {
         assert!(
-            variant == VerifyBitwiseXorVariant::A,
-            "Only variant A is supported for bits other than 8"
+            variant == 0,
+            "Only variant 0 is supported for bits other than 8"
         );
     }
 
@@ -46,13 +34,11 @@ pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3], 
             input,
             (),
         ),
-        8 => ab.lookup_call(
-            &VerifyBitwiseXor::<VerifyBitwiseXor_8_Const> {
-                _phantom: PhantomData,
-                variant,
-            },
+        8 => ab.lookup_call_variant(
+            &VerifyBitwiseXor::<VerifyBitwiseXor_8_Const>::default(),
             input,
             (),
+            variant,
         ),
         9 => ab.lookup_call(
             &VerifyBitwiseXor::<VerifyBitwiseXor_9_Const>::default(),
@@ -78,7 +64,6 @@ new_verify_bitwise_xor!(12, VerifyBitwiseXor_12_Const);
 pub struct VerifyBitwiseXor<V: VerifyBitwiseXorSize> {
     #[serde(skip)]
     _phantom: PhantomData<V>,
-    pub variant: VerifyBitwiseXorVariant,
 }
 
 // Asserts that the three felt expressions are in the correct range,
@@ -93,17 +78,15 @@ impl<V: VerifyBitwiseXorSize> AirFn for VerifyBitwiseXor<V> {
     }
 
     fn name(&self) -> String {
-        match self.variant {
-            VerifyBitwiseXorVariant::A => format!("verify_bitwise_xor_{}", V::bits()),
-            VerifyBitwiseXorVariant::B => format!("verify_bitwise_xor_{}_b", V::bits()),
-        }
+        format!("verify_bitwise_xor_{}", V::bits())
     }
 
-    fn relation_name(&self) -> Option<String> {
-        match self.variant {
-            VerifyBitwiseXorVariant::A => Some(format!("VerifyBitwiseXor_{}", V::bits())),
-            VerifyBitwiseXorVariant::B => Some(format!("VerifyBitwiseXor_{}_B", V::bits())),
+    fn relation_names(&self) -> Vec<String> {
+        if V::bits() == 8 {
+            return get_relation_variant_names("VerifyBitwiseXor_8", 2);
         }
+
+        vec![format!("VerifyBitwiseXor_{}", V::bits())]
     }
 
     fn call(

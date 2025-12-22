@@ -1,6 +1,8 @@
 {
   "name": "blake_compress_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Blake Compress Opcode",
@@ -571,14 +573,51 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_7_2_5": "Multiplicity",
-    "VerifyBitwiseXor_8": "Multiplicity",
-    "BlakeRound": "Enabler",
-    "TripleXor32": "Enabler"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_7_2_5": "Multiplicity",
+    "verify_bitwise_xor_8": "Multiplicity",
+    "blake_round": "Enabler",
+    "triple_xor_32": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      20
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      20
+    ],
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      0,
+      17
+    ],
+    "VerifyBitwiseXor_8": [
+      "verify_bitwise_xor_8",
+      0,
+      4
+    ],
+    "BlakeRound": [
+      "blake_round",
+      0,
+      10
+    ],
+    "TripleXor32": [
+      "triple_xor_32",
+      0,
+      8
+    ]
   },
   "inline_calls": {
     "create_blake_output": [

@@ -1,6 +1,8 @@
 {
   "name": "narrow_fib_num_steps_20",
-  "relation_name": "NarrowFibNumSteps20",
+  "relation_names": [
+    "NarrowFibNumSteps20"
+  ],
   "relation_size": 4,
   "log_height": null,
   "description": "Narrow Fib Num Steps 20",
@@ -65,7 +67,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {
     "fib_step": [
       [],

@@ -1,6 +1,8 @@
 {
   "name": "triple_xor_32",
-  "relation_name": "TripleXor32",
+  "relation_names": [
+    "TripleXor32"
+  ],
   "relation_size": 8,
   "log_height": null,
   "description": "Triple Xor 32",
@@ -107,9 +109,20 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "VerifyBitwiseXor_8": "Multiplicity",
-    "VerifyBitwiseXor_8_B": "Multiplicity"
+  "sub_components": {
+    "verify_bitwise_xor_8": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_8": [
+      "verify_bitwise_xor_8",
+      0,
+      4
+    ],
+    "VerifyBitwiseXor_8_B": [
+      "verify_bitwise_xor_8",
+      1,
+      4
+    ]
   },
   "inline_calls": {
     "bitwise_xor_num_bits_8": [

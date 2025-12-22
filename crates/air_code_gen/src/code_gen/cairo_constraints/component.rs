@@ -12,9 +12,9 @@ use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use super::utils::{
-    gen_consts, gen_imports, get_log_size, has_enabler_or_mult_column, make_preprocessed_column,
+    gen_consts, gen_imports, get_log_size, get_lookup_sums, get_multiplicities,
+    lookup_elements_field, make_preprocessed_column,
 };
-use crate::code_gen::cairo_constraints::utils::lookup_elements_field;
 use crate::code_gen::utils::{is_const_size_component, relations_used_or_yielded};
 
 pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
@@ -23,13 +23,6 @@ pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
     sample_assignment: &Assignment,
 ) -> rust::Tokens {
-    let lookups = air_fn
-        .constraint_lookups
-        .iter()
-        .enumerate()
-        .map(|(i, (relation, _))| format!("{}_sum_{i}", relation.to_case(Case::Snake)))
-        .collect::<Vec<_>>();
-
     let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))$("\n")
@@ -94,12 +87,10 @@ pub fn generate_component_cairo_constraints_code(
                     domain_vanishing_eval_inv,
                     random_coeff,
                     claimed_sum,
-                    $(has_enabler_or_mult_column(air_fn).then(||
-                        "enabler,".to_string()
-                    ).unwrap_or_default())
+                    $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ",\n").join(""))
                     column_size,
                     ref interaction_trace_mask_values,
-                    $(lookups.join(",\n"))
+                    $(get_lookup_sums(air_fn).join(",\n"))
                 );
             }
         }
@@ -292,12 +283,13 @@ fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
     let has_state_vars = !air_fn.state_names.is_empty();
-    let has_enabler = has_enabler_or_mult_column(air_fn);
+    let mults = get_multiplicities(air_fn);
+    let has_mults = !mults.is_empty();
 
-    match (has_state_vars, has_enabler) {
+    match (has_state_vars, has_mults) {
         (true, true) => {
             code.append(quote! {
-                let $(format!("[{}, enabler]: [Span<QM31>; {}]", air_fn.state_names.join(", "), air_fn.state_names.len() + 1))
+                let $(format!("[{}, {}]: [Span<QM31>; {}]", air_fn.state_names.join(", "), mults.join(", "), air_fn.state_names.len() + mults.len()))
                     = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
             });
         }
@@ -309,7 +301,8 @@ fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
         }
         (false, true) => {
             code.append(quote! {
-                let [enabler]: [Span<QM31>; 1] = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
+                let $(format!("[{}]: [Span<QM31>; {}]", mults.join(", "), mults.len()))
+                    = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
             });
         }
         (false, false) => {}
@@ -321,9 +314,9 @@ fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
         });
     }
 
-    if has_enabler {
+    for name in &mults {
         code.append(quote! {
-            let [enabler]: [QM31; 1] = (*enabler.try_into().unwrap()).unbox();
+            let [$(name)]: [QM31; 1] = (*$(name).try_into().unwrap()).unbox();
         });
     }
 

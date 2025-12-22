@@ -4,19 +4,13 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use super::utils::{has_enabler_or_mult_column, is_chain, n_logup_columns, QM31_N_TRACE_CELLTS};
+use super::utils::{get_lookup_sums, get_multiplicities, n_logup_columns, QM31_N_TRACE_CELLTS};
+use crate::code_gen::utils::relation_multiplicity_index;
 
 pub const LOOKUP_RELATION_BATCH_SIZE: usize = 2;
 pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;
 
 pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let lookups = air_fn
-        .constraint_lookups
-        .iter()
-        .enumerate()
-        .map(|(i, (relation, _))| format!("{}_sum_{i}: QM31", relation.to_case(Case::Snake)))
-        .collect::<Vec<_>>();
-
     // Revoke the AP tracking after defining the interaction trace vars, to avoid offset overflow.
     quote! {
         $("\n")$("\n")
@@ -25,12 +19,10 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
             domain_vanishing_eval_inv: QM31,
             random_coeff: QM31,
             claimed_sum: QM31,
-            $(has_enabler_or_mult_column(air_fn).then(||
-                    "enabler: QM31,".to_string()
-            ).unwrap_or_default())
+            $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
             column_size: M31,
             ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
-            $(lookups.join(",\n"))
+            $(get_lookup_sums(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
         ) {
             $(get_interaction_trace_vars(air_fn))$("\n")
             core::internal::revoke_ap_tracking();$("\n")
@@ -41,20 +33,13 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
 
 fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    let relations = &air_fn
-        .constraint_lookups
-        .iter()
-        .map(|(name, use_or_yield)| (name.to_case(Case::Snake), *use_or_yield))
-        .collect::<Vec<_>>();
     let mut prev_trace = vec![];
     let n_chunks = n_logup_columns(air_fn) / QM31_N_TRACE_CELLTS;
-    let last_sum_chunk_has_2_elements =
-        air_fn.constraint_lookups.len() % LOOKUP_RELATION_BATCH_SIZE == 0;
 
     for (i, (trace_chunk, sum_chunk)) in (0..n_logup_columns(air_fn))
         .chunks(QM31_N_TRACE_CELLTS)
         .into_iter()
-        .zip(relations.chunks(LOOKUP_RELATION_BATCH_SIZE))
+        .zip(air_fn.constraint_lookups.chunks(LOOKUP_RELATION_BATCH_SIZE))
         .enumerate()
     {
         code.append(quote! { $("\n") });
@@ -66,21 +51,26 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         let sum_i = i * LOOKUP_RELATION_BATCH_SIZE;
         let (rel1, rel1_sign) = get_sum_name_and_sign(sum_i, &sum_chunk[0]);
 
-        // The following assumes:
-        // 1. the last relation sum in the last chunk is a `yield`
-        // 2. in case of a chain, the one before last is a `use` of this same component.
-
-        if i < n_chunks - 1 || (i == n_chunks - 1 && last_sum_chunk_has_2_elements) {
+        if sum_chunk.len() == 2 {
             let (rel2, rel2_sign) = get_sum_name_and_sign(sum_i + 1, &sum_chunk[1]);
-            let (rel1_mult, rel2_mult) = build_numerator(
-                i,
-                n_chunks,
-                &rel1,
-                &rel2,
-                last_sum_chunk_has_2_elements,
-                is_chain(air_fn),
-                has_enabler_or_mult_column(air_fn),
-            );
+            let rel1_times_rel2_mult =
+                if relation_multiplicity_index(air_fn, &sum_chunk[1].0).is_some() {
+                    format!(
+                        "({rel1} * {}_multiplicity)",
+                        sum_chunk[1].0.to_case(Case::Snake)
+                    )
+                } else {
+                    rel1.clone()
+                };
+            let rel2_times_rel1_mult =
+                if relation_multiplicity_index(air_fn, &sum_chunk[0].0).is_some() {
+                    format!(
+                        "({rel2} * {}_multiplicity)",
+                        sum_chunk[0].0.to_case(Case::Snake)
+                    )
+                } else {
+                    rel2.clone()
+                };
 
             code.append(quote! {
                 let constraint_quotient = (
@@ -88,14 +78,14 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                         (
                             $(prefix)
                         ) * $(rel1) * $(rel2)
-                    ) $(rel2_sign) $(rel1_mult) $(rel1_sign) $(rel2_mult)
+                    ) $(rel2_sign) $(rel1_times_rel2_mult) $(rel1_sign) $(rel2_times_rel1_mult)
                 ) * domain_vanishing_eval_inv;$("\n")
             });
         } else {
-            let numerator = if has_enabler_or_mult_column(air_fn) {
-                "enabler"
+            let numerator = if !air_fn.relation_names.is_empty() {
+                format!("{}_multiplicity", sum_chunk[0].0.to_case(Case::Snake))
             } else {
-                "qm31_const::<1, 0, 0, 0>()"
+                "qm31_const::<1, 0, 0, 0>()".to_string()
             };
 
             code.append(quote! {
@@ -153,45 +143,9 @@ fn get_lookup_constraints_prefix(
 }
 
 fn get_sum_name_and_sign(i: usize, sum: &(String, UseOrYield)) -> (String, String) {
-    let name = format!("{}_sum_{}", sum.0, i);
+    let name = format!("{}_sum_{}", sum.0.to_case(Case::Snake), i);
     let sign = if sum.1 == UseOrYield::Use { "-" } else { "+" };
     (name, sign.to_string())
-}
-
-// Given two relations sums from the same chunk, this function decides whether to multiply each of
-// them in the numerator of the constraint quotient with the enabler/multiplicity column.
-fn build_numerator(
-    i: usize,
-    n_chunks: usize,
-    rel1: &String,
-    rel2: &String,
-    last_sum_chunk_has_2_elements: bool,
-    is_chain: bool,
-    has_enabler_or_mult_column: bool,
-) -> (String, String) {
-    let mut mult_rel1 = false;
-    let mut mult_rel2 = false;
-
-    if has_enabler_or_mult_column {
-        // The first relation sum in the chunk is multiplied by the enabler/multiplicity in the
-        // numerator if:
-        // 1. it is second to last sum (i.e., we are at the last chunk that has 2 elements).
-        // 2. it is the third to last sum (i.e., we are at the second to last chunk and last chunk
-        //    has one element), and it is a chain.
-        mult_rel1 =
-            i == n_chunks - 1 || (i == n_chunks - 2 && is_chain && !last_sum_chunk_has_2_elements);
-        // The second relation sum in the chunk is multiplied by the enabler/multipliicity in the
-        // numerator if it is the last relation sum (i.e., we are at the last chunk), and it is a
-        // chain.
-        mult_rel2 = i == n_chunks - 1 && is_chain;
-    }
-
-    match (mult_rel1, mult_rel2) {
-        (true, true) => (format!("({rel1} * enabler)"), format!("({rel2} * enabler)")),
-        (true, false) => (format!("({rel1} * enabler)"), rel2.clone()),
-        (false, true) => (rel1.clone(), format!("({rel2} * enabler)")),
-        (false, false) => (rel1.clone(), rel2.clone()),
-    }
 }
 
 fn get_interaction_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {

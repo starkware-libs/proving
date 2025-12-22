@@ -1,6 +1,6 @@
 {
   "name": "read_u_32",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Read U 32",
@@ -55,10 +55,27 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "RangeCheck_7_2_5": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "range_check_7_2_5": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ]
   },
   "inline_calls": {
     "verify_u_32": [

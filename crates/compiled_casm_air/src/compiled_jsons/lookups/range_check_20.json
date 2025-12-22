@@ -1,10 +1,19 @@
 {
   "name": "range_check_20",
-  "relation_name": "RangeCheck_20",
+  "relation_names": [
+    "RangeCheck_20",
+    "RangeCheck_20_B",
+    "RangeCheck_20_C",
+    "RangeCheck_20_D",
+    "RangeCheck_20_E",
+    "RangeCheck_20_F",
+    "RangeCheck_20_G",
+    "RangeCheck_20_H"
+  ],
   "relation_size": 1,
   "log_height": 20,
   "description": "Range Check 20",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -35,9 +44,38 @@
     [
       "RangeCheck_20",
       "Yield"
+    ],
+    [
+      "RangeCheck_20_B",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_C",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_D",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_E",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_F",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_G",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_H",
+      "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [
@@ -54,12 +92,166 @@
         ],
         "use_or_yield": "Yield"
       }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_B",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_C",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_D",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_E",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_F",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_G",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_H",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
     }
   ],
   "deductions": [
     {
       "LookupTerm": {
         "relation_name": "RangeCheck_20",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_B",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_C",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_D",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_E",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_F",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_G",
+        "felts": [
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_H",
         "felts": [
           {
             "ExternalState": "seq_20"

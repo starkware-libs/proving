@@ -1,6 +1,8 @@
 {
   "name": "mul_opcode_small",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Mul Opcode Small",
@@ -202,11 +204,33 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_11": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_11": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      3
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      3
+    ],
+    "RangeCheck_11": [
+      "range_check_11",
+      0,
+      3
+    ]
   },
   "inline_calls": {
     "decode_instruction_4b8cf": [

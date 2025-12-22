@@ -1,8 +1,6 @@
 use std::fs;
 
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ExternalState, PaddingType, TraceType, UseOrYield,
-};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, ExternalState, TraceType, UseOrYield};
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
@@ -43,15 +41,9 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut consts = rust::Tokens::new();
 
     if air_fn.r#type != TraceType::Inline {
-        if has_enabler_or_mult_column(air_fn) {
-            consts.extend(quote! {
-                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + 1);
-            });
-        } else {
-            consts.extend(quote! {
-                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
-            });
-        }
+        consts.extend(quote! {
+            pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + air_fn.relation_names.len());
+        });
 
         if !is_const_size_component(air_fn) {
             let uses = air_fn
@@ -111,16 +103,6 @@ pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
     }
 }
 
-pub fn has_enabler_or_mult_column(air_fn: &CompiledAirFn) -> bool {
-    // TODO(AnatG): Support both enabler and multiplicity columns in the same component.
-    air_fn.padding_type == PaddingType::Enabler || air_fn.padding_type == PaddingType::Multiplicity
-}
-
-pub fn is_chain(air_fn: &CompiledAirFn) -> bool {
-    // All components that are part of a chain.
-    air_fn.r#type == TraceType::ChainRound || air_fn.r#type == TraceType::Opcode
-}
-
 pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {
     const QM31_EXTENSION_DEGREE: usize = 4;
 
@@ -175,4 +157,21 @@ pub fn format_cairo_code(code_text: String) -> String {
 
 pub(super) fn lookup_elements_field(relation_name: &str) -> String {
     format!("{}_lookup_elements", relation_name.to_case(Case::Snake))
+}
+
+pub(super) fn get_multiplicities(air_fn: &CompiledAirFn) -> Vec<String> {
+    air_fn
+        .relation_names
+        .iter()
+        .map(|relation| format!("{}_multiplicity", relation.to_case(Case::Snake)))
+        .collect::<Vec<_>>()
+}
+
+pub(super) fn get_lookup_sums(air_fn: &CompiledAirFn) -> Vec<String> {
+    air_fn
+        .constraint_lookups
+        .iter()
+        .enumerate()
+        .map(|(i, (relation, _))| format!("{}_sum_{i}", relation.to_case(Case::Snake)))
+        .collect::<Vec<_>>()
 }

@@ -48,14 +48,6 @@ impl AirFn for PoseidonFullRoundChain {
         let new_state = [x_new, y_new, z_new];
         (chain, round + const_expr!(1), new_state)
     }
-
-    fn deduce_output(&self) -> Option<String> {
-        // TODO(DanC): Implement this in stwo-cairo
-        Some(format!(
-            "{}::deduce_output",
-            self.relation_name().expect("Relation name not found")
-        ))
-    }
 }
 
 impl ChainRoundAirFn<[Felt252Width27Expr; 3]> for PoseidonFullRoundChain {

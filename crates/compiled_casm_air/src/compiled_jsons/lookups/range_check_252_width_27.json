@@ -1,6 +1,8 @@
 {
   "name": "range_check_252_width_27",
-  "relation_name": "RangeCheck252Width27",
+  "relation_names": [
+    "RangeCheck252Width27"
+  ],
   "relation_size": 10,
   "log_height": null,
   "description": "Range Check 252 Width 27",
@@ -111,14 +113,46 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_18": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_18_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity",
-    "RangeCheck_9_9_E": "Multiplicity"
+  "sub_components": {
+    "range_check_9_9": "Multiplicity",
+    "range_check_18": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      0,
+      1
+    ],
+    "RangeCheck_18": [
+      "range_check_18",
+      0,
+      7
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1,
+      1
+    ],
+    "RangeCheck_18_B": [
+      "range_check_18",
+      1,
+      2
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2,
+      1
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      3,
+      1
+    ],
+    "RangeCheck_9_9_E": [
+      "range_check_9_9",
+      4,
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],

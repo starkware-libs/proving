@@ -1,6 +1,8 @@
 {
   "name": "poseidon_round_keys",
-  "relation_name": "PoseidonRoundKeys",
+  "relation_names": [
+    "PoseidonRoundKeys"
+  ],
   "relation_size": 31,
   "log_height": 6,
   "description": "Poseidon Round Keys",
@@ -56,7 +58,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [

@@ -4,7 +4,6 @@ use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
-use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 
 use super::air_body::*;
@@ -18,7 +17,7 @@ use crate::core::constraint_connectedness_test::assert_constraint_graph_connecte
 #[derive(Debug, Clone)]
 pub struct AirFnEntry {
     pub name: String,
-    pub relation_name: Option<String>,
+    pub relation_names: Vec<String>,
     // For constant-size component, the log_2 of the number of rows.
     pub log_height: Option<u32>,
     pub description: String,
@@ -80,7 +79,7 @@ impl AirFnEntry {
 
         Self {
             name: air_fn.name(),
-            relation_name: air_fn.relation_name(),
+            relation_names: air_fn.relation_names(),
             description: air_fn.description(),
             log_height: E::log_size(),
             inst_def: air_fn.inst_def(),
@@ -121,32 +120,49 @@ impl AirFnEntry {
                 )
             })
             .collect();
-        let deduction_lookups = self
+        let sub_components = self
             .air_body
-            .get_deduction_lookups()
-            .iter()
-            .map(|n| {
-                // The called relations correspond to air functions.
-                let padding_type = &called_fns
-                    .get(n.to_case(Case::Snake).as_str())
-                    .unwrap_or_else(|| panic!("Cannot find called air function {n}"))
-                    .padding_type;
-
-                (n.clone(), *padding_type)
+            .get_sub_components()
+            .into_iter()
+            .map(|name| {
+                called_fns
+                    .get(name.as_str())
+                    .as_ref()
+                    .map(|entry| (name, entry.padding_type))
+                    .expect("Cannot find sub-component air function")
             })
             .collect::<IndexMap<_, _>>();
         let relation_size =
             if self.trace_type == TraceType::Opcode || self.trace_type == TraceType::ChainRound {
                 Some(self.joined_input.as_felts().len())
+            } else if self.relation_names.is_empty() {
+                None
             } else {
-                self.relation_name
-                    .clone()
-                    .map(|_| self.joined_input.as_felts().len() + self.output.as_felts().len())
+                Some(self.joined_input.as_felts().len() + self.output.as_felts().len())
             };
+        let n_inputs_added_per_relation = self
+            .air_body
+            .get_n_inputs_added_per_relation()
+            .iter()
+            .map(|(relation_name, (component_name, max_inputs))| {
+                let relation_index = called_fns
+                    .get(component_name.as_str())
+                    .as_ref()
+                    .expect("Cannot find called component air function")
+                    .relation_names
+                    .iter()
+                    .position(|r| r == relation_name)
+                    .expect("Relation name not found in air function relation names");
+                (
+                    relation_name.clone(),
+                    (component_name.clone(), relation_index, *max_inputs),
+                )
+            })
+            .collect::<IndexMap<_, _>>();
 
         CompiledAirFn {
             name: self.name.clone(),
-            relation_name: self.relation_name.clone(),
+            relation_names: self.relation_names.clone(),
             relation_size,
             log_height: self.log_height,
             description: self.description.clone(),
@@ -174,7 +190,8 @@ impl AirFnEntry {
             ),
             state_names: self.state.get_state_names(),
             constraint_lookups: self.air_body.get_constraint_lookups(),
-            deduction_lookups,
+            sub_components,
+            n_inputs_added_per_relation,
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),

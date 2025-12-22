@@ -1,6 +1,8 @@
 {
   "name": "pedersen_aggregator",
-  "relation_name": "PedersenAggregator",
+  "relation_names": [
+    "PedersenAggregator"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Pedersen Aggregator",
@@ -285,10 +287,27 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryIdToBig": "Multiplicity",
-    "RangeCheck_8": "Multiplicity",
-    "PartialEcMul": "Enabler"
+  "sub_components": {
+    "memory_id_to_big": "Multiplicity",
+    "range_check_8": "Multiplicity",
+    "partial_ec_mul": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      3
+    ],
+    "RangeCheck_8": [
+      "range_check_8",
+      0,
+      4
+    ],
+    "PartialEcMul": [
+      "partial_ec_mul",
+      0,
+      28
+    ]
   },
   "inline_calls": {
     "read_positive_known_id_num_bits_252": [

@@ -1,6 +1,8 @@
 {
   "name": "memory_id_to_small",
-  "relation_name": "MemoryIdToBig",
+  "relation_names": [
+    "MemoryIdToBig"
+  ],
   "relation_size": 9,
   "log_height": null,
   "description": "Memory Id To Small",
@@ -87,11 +89,30 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity"
+  "sub_components": {
+    "range_check_9_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      0,
+      1
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1,
+      1
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2,
+      1
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      3,
+      1
+    ]
   },
   "inline_calls": {
     "range_check_mem_value_n_8": [

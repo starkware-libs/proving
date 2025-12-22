@@ -1,6 +1,6 @@
 {
   "name": "read_positive_known_id_num_bits_72",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Read Positive Known Id Num Bits 72",
@@ -198,8 +198,15 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryIdToBig": "Multiplicity"
+  "sub_components": {
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],

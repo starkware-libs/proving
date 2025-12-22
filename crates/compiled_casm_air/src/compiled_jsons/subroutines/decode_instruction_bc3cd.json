@@ -1,6 +1,6 @@
 {
   "name": "decode_instruction_bc3cd",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Decode Instruction",
@@ -232,10 +232,17 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ]
   },
   "inline_calls": {},
   "public_params": [],

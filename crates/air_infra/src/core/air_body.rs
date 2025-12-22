@@ -8,7 +8,6 @@ use compiled_casm_air::compiled_structs::{
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
-use convert_case::{Case, Casing};
 use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
@@ -34,7 +33,7 @@ pub struct Call {
 // Computes the output of the component into an intermediate variable named <output_name>.
 #[derive(Clone, Debug)]
 pub struct LookupCall {
-    pub relation_name: String,
+    pub air_fn_name: String,
     pub method_name: String,
     pub ext_input: Option<AirVarImpl>,
     pub input: Option<AirVarImpl>,
@@ -75,6 +74,7 @@ pub enum AirBodyComponent {
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         relation_name: String,
+        air_fn_name: String,
         ext_input: Option<AirVarImpl>,
         input: Option<AirVarImpl>,
     },
@@ -364,6 +364,7 @@ impl AirBody {
                 }
                 AirBodyComponent::LookupAddInput {
                     relation_name,
+                    air_fn_name: _,
                     ext_input,
                     input,
                 } => {
@@ -503,16 +504,16 @@ impl AirBody {
     }
 
     // Returns the names of the lookup relations called by the air function.
-    pub fn get_deduction_lookups(&self) -> IndexSet<String> {
+    pub fn get_sub_components(&self) -> IndexSet<String> {
         let mut lookup_calls = IndexSet::new();
         for component in &self.0 {
             match component {
                 AirBodyComponent::Call(f) => {
-                    lookup_calls.extend(f.air_body.get_deduction_lookups());
+                    lookup_calls.extend(f.air_body.get_sub_components());
                 }
-                AirBodyComponent::LookupCall(LookupCall { relation_name, .. })
-                | AirBodyComponent::LookupAddInput { relation_name, .. } => {
-                    lookup_calls.insert(relation_name.clone());
+                AirBodyComponent::LookupCall(LookupCall { air_fn_name, .. })
+                | AirBodyComponent::LookupAddInput { air_fn_name, .. } => {
+                    lookup_calls.insert(air_fn_name.clone());
                 }
                 _ => (),
             }
@@ -530,18 +531,30 @@ impl AirBody {
         inline_calls
     }
 
-    // Counts the inputs added per lookup. This is an upper bound on the number of rows.
-    pub fn get_lookup_n_rows(&self) -> IndexMap<String, usize> {
+    // Counts the inputs added per lookup. This is an upper bound on the number of rows in the air
+    // function table. The value in the output map is (air_fn_name, count).
+    pub fn get_n_inputs_added_per_relation(&self) -> IndexMap<String, (String, usize)> {
         let mut lookup_rows = IndexMap::new();
         self.0.iter().for_each(|comp| {
-            if let AirBodyComponent::LookupAddInput { relation_name, .. } = comp {
-                *lookup_rows
-                    .entry(relation_name.to_case(Case::Snake))
-                    .or_insert(0) += 1;
+            if let AirBodyComponent::LookupAddInput {
+                relation_name,
+                air_fn_name,
+                ..
+            } = comp
+            {
+                lookup_rows
+                    .entry(relation_name.clone())
+                    .or_insert((air_fn_name.clone(), 0))
+                    .1 += 1;
             }
             if let AirBodyComponent::Call(call) = comp {
-                for (name, cnt) in call.air_body.get_lookup_n_rows() {
-                    *lookup_rows.entry(name).or_insert(0) += cnt;
+                for (relation_name, (air_fn_name, cnt)) in
+                    call.air_body.get_n_inputs_added_per_relation()
+                {
+                    lookup_rows
+                        .entry(relation_name)
+                        .or_insert((air_fn_name, 0))
+                        .1 += cnt;
                 }
             }
         });

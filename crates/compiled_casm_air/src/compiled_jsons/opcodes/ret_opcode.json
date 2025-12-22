@@ -1,6 +1,8 @@
 {
   "name": "ret_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Ret Opcode",
@@ -335,10 +337,27 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      2
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      2
+    ]
   },
   "inline_calls": {
     "decode_instruction_15a61": [

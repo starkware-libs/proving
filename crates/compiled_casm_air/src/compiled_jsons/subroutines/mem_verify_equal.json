@@ -1,6 +1,6 @@
 {
   "name": "mem_verify_equal",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Mem Verify Equal",
@@ -44,8 +44,15 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      2
+    ]
   },
   "inline_calls": {
     "read_id": [

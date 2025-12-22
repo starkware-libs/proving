@@ -1,6 +1,8 @@
 {
   "name": "blake_round",
-  "relation_name": "BlakeRound",
+  "relation_names": [
+    "BlakeRound"
+  ],
   "relation_size": 35,
   "log_height": null,
   "description": "Blake Round",
@@ -621,12 +623,39 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "BlakeRoundSigma": "Multiplicity",
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "RangeCheck_7_2_5": "Multiplicity",
-    "BlakeG": "Enabler"
+  "sub_components": {
+    "blake_round_sigma": "Multiplicity",
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "range_check_7_2_5": "Multiplicity",
+    "blake_g": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "BlakeRoundSigma": [
+      "blake_round_sigma",
+      0,
+      1
+    ],
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      0,
+      16
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      16
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      16
+    ],
+    "BlakeG": [
+      "blake_g",
+      0,
+      8
+    ]
   },
   "inline_calls": {
     "read_u_32": [

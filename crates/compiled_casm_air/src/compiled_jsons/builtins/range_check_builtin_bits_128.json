@@ -1,6 +1,6 @@
 {
   "name": "range_check_builtin_bits_128",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Range Check Builtin Bits 128",
@@ -57,9 +57,21 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ]
   },
   "inline_calls": {
     "read_positive_num_bits_128": [

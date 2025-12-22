@@ -304,13 +304,23 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
 }
 
 pub fn relations_used_or_yielded(air_fn: &CompiledAirFn) -> IndexSet<String> {
-    // TODO(AnatG): Change the names of deduction_lookups and constraint_lookups in compiled
-    // air. This is used also in trace_gen
+    // TODO(AnatG): Change the name of constraint_lookups in compiled air. This is used also in
+    // trace_gen.
     air_fn
         .constraint_lookups
         .iter()
         .map(|(r, _)| r.clone())
         .collect::<IndexSet<_>>()
+}
+
+/// Checks if the relation should be masked, meaning it's numerator should be altered.
+/// A relation is masked when the relation name matches one of the component's relation names (the
+/// component must contain an enabler/multiplicity columns).
+pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
+    air_fn
+        .relation_names
+        .iter()
+        .position(|n| n == relation_name)
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'

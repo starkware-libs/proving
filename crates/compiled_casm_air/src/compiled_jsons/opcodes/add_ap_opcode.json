@@ -1,6 +1,8 @@
 {
   "name": "add_ap_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Add Ap Opcode",
@@ -152,12 +154,39 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_18": "Multiplicity",
-    "RangeCheck_11": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_18": "Multiplicity",
+    "range_check_11": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ],
+    "RangeCheck_18": [
+      "range_check_18",
+      0,
+      1
+    ],
+    "RangeCheck_11": [
+      "range_check_11",
+      0,
+      1
+    ]
   },
   "inline_calls": {
     "decode_instruction_d2a10": [

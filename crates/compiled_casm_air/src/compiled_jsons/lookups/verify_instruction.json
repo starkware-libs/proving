@@ -1,6 +1,8 @@
 {
   "name": "verify_instruction",
-  "relation_name": "VerifyInstruction",
+  "relation_names": [
+    "VerifyInstruction"
+  ],
   "relation_size": 7,
   "log_height": null,
   "description": "Verify Instruction",
@@ -68,11 +70,33 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_7_2_5": "Multiplicity",
-    "RangeCheck_4_3": "Multiplicity",
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity"
+  "sub_components": {
+    "range_check_7_2_5": "Multiplicity",
+    "range_check_4_3": "Multiplicity",
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_7_2_5": [
+      "range_check_7_2_5",
+      0,
+      1
+    ],
+    "RangeCheck_4_3": [
+      "range_check_4_3",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ]
   },
   "inline_calls": {
     "encode_offsets": [

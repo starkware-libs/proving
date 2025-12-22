@@ -1,6 +1,6 @@
 {
   "name": "mul_252",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Mul 252",
@@ -316,23 +316,91 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity",
-    "RangeCheck_9_9_E": "Multiplicity",
-    "RangeCheck_9_9_F": "Multiplicity",
-    "RangeCheck_9_9_G": "Multiplicity",
-    "RangeCheck_9_9_H": "Multiplicity",
-    "RangeCheck_20": "Multiplicity",
-    "RangeCheck_20_B": "Multiplicity",
-    "RangeCheck_20_C": "Multiplicity",
-    "RangeCheck_20_D": "Multiplicity",
-    "RangeCheck_20_E": "Multiplicity",
-    "RangeCheck_20_F": "Multiplicity",
-    "RangeCheck_20_G": "Multiplicity",
-    "RangeCheck_20_H": "Multiplicity"
+  "sub_components": {
+    "range_check_9_9": "Multiplicity",
+    "range_check_20": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      0,
+      2
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1,
+      2
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2,
+      2
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      3,
+      2
+    ],
+    "RangeCheck_9_9_E": [
+      "range_check_9_9",
+      4,
+      2
+    ],
+    "RangeCheck_9_9_F": [
+      "range_check_9_9",
+      5,
+      2
+    ],
+    "RangeCheck_9_9_G": [
+      "range_check_9_9",
+      6,
+      1
+    ],
+    "RangeCheck_9_9_H": [
+      "range_check_9_9",
+      7,
+      1
+    ],
+    "RangeCheck_20": [
+      "range_check_20",
+      0,
+      4
+    ],
+    "RangeCheck_20_B": [
+      "range_check_20",
+      1,
+      4
+    ],
+    "RangeCheck_20_C": [
+      "range_check_20",
+      2,
+      4
+    ],
+    "RangeCheck_20_D": [
+      "range_check_20",
+      3,
+      4
+    ],
+    "RangeCheck_20_E": [
+      "range_check_20",
+      4,
+      3
+    ],
+    "RangeCheck_20_F": [
+      "range_check_20",
+      5,
+      3
+    ],
+    "RangeCheck_20_G": [
+      "range_check_20",
+      6,
+      3
+    ],
+    "RangeCheck_20_H": [
+      "range_check_20",
+      7,
+      3
+    ]
   },
   "inline_calls": {
     "range_check_mem_value_n_28": [

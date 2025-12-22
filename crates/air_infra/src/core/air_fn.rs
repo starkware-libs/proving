@@ -81,15 +81,22 @@ pub trait AirFn: Debug + InstDefTrait {
         inst.replace("_tmpminus_", "_m")
     }
 
-    fn relation_name(&self) -> Option<String> {
+    fn relation_names(&self) -> Vec<String> {
         match self.trace_type() {
-            TraceType::Component | TraceType::ChainRound => Some(self.name().to_case(Case::Pascal)),
-            TraceType::Const => None,
-            TraceType::Builtin => None,
-            TraceType::Opcode => Some(OPCODES_RELATION_NAME.to_string()),
-            TraceType::Memory => Some(self.name().to_case(Case::Pascal)),
-            TraceType::Inline => None,
+            TraceType::Component | TraceType::ChainRound => vec![self.name().to_case(Case::Pascal)],
+            TraceType::Opcode => vec![OPCODES_RELATION_NAME.to_string()],
+            TraceType::Memory => vec![self.name().to_case(Case::Pascal)],
+            TraceType::Const | TraceType::Builtin | TraceType::Inline => vec![],
         }
+    }
+
+    fn relation_name(&self) -> Option<String> {
+        assert!(
+            self.relation_names().len() <= 1,
+            "AirFn {} has multiple relation names",
+            self.name()
+        );
+        self.relation_names().first().cloned()
     }
 
     fn description(&self) -> String {
@@ -237,29 +244,22 @@ pub trait AirFn: Debug + InstDefTrait {
                 use_or_yield: UseOrYield::Yield,
             });
         } else {
-            // Other components - just yield the output
-            air_builder.air_body.push(AirBodyComponent::LookupTerm {
-                relation_name: self.relation_name().expect("Relation name not set"),
-                felts: ext_input
-                    .as_felts()
-                    .into_iter()
-                    .chain(input.as_felts())
-                    .chain(output.as_felts())
-                    .collect(),
-                use_or_yield: UseOrYield::Yield,
-            });
+            // Other components - just yield the input and output
+            for relation_name in self.relation_names() {
+                air_builder.air_body.push(AirBodyComponent::LookupTerm {
+                    relation_name,
+                    felts: ext_input
+                        .as_felts()
+                        .into_iter()
+                        .chain(input.as_felts())
+                        .chain(output.as_felts())
+                        .collect(),
+                    use_or_yield: UseOrYield::Yield,
+                });
+            }
         }
 
         output
-    }
-
-    fn deduce_output(&self) -> Option<String> {
-        if (self.trace_type() != TraceType::ChainRound && self.trace_type() != TraceType::Component)
-            || Self::Out::is_empty()
-        {
-            return None;
-        }
-        panic!("deduce_output not implemented for this AirFn");
     }
 }
 
@@ -534,6 +534,21 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
+        self.lookup_call_variant(air_fn, ext_input, input, 0)
+    }
+
+    pub fn lookup_call_variant<E, I, O>(
+        &mut self,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        ext_input: E::T,
+        input: I,
+        variant: usize,
+    ) -> O
+    where
+        E: ExtTable,
+        I: AirVar,
+        O: AirVar,
+    {
         assert!(
             air_fn.trace_type() == TraceType::Component,
             "Cannot lookup call AirFn {} - it is not a component",
@@ -543,10 +558,20 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let output_name = (!O::is_empty())
-            .then(|| self.get_intermediate_name(Some(AirFnEntry::output_name(&air_fn.name()))));
+        let relation_name = air_fn
+            .relation_names()
+            .get(variant)
+            .expect("Relation name not found")
+            .clone();
+
+        let output_name = (!O::is_empty()).then(|| {
+            self.get_intermediate_name(Some(AirFnEntry::output_name(
+                &relation_name.to_case(Case::Snake),
+            )))
+        });
         let mut output = self.lookup_add_input_and_compute(
             air_fn,
+            relation_name.clone(),
             ext_input.clone(),
             input.clone(),
             output_name.clone(),
@@ -564,7 +589,7 @@ impl AirBuilder {
         }
 
         self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name: air_fn.relation_name().expect("Relation name not set"),
+            relation_name,
             felts: ext_input
                 .as_felts()
                 .into_iter()
@@ -633,6 +658,7 @@ impl AirBuilder {
             )));
             output = self.lookup_add_input_and_compute(
                 air_fn,
+                air_fn.relation_name().expect("Relation name not set"),
                 (),
                 input.clone(),
                 Some(output_name.clone()),
@@ -712,6 +738,7 @@ impl AirBuilder {
     fn lookup_add_input_and_compute<E, I, O>(
         &mut self,
         air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        relation_name: String,
         ext_input: E::T,
         input: I,
         output_name: Option<String>,
@@ -727,7 +754,8 @@ impl AirBuilder {
         let input_option = (!I::is_empty()).then(|| input.clone().into());
 
         self.air_body.push(AirBodyComponent::LookupAddInput {
-            relation_name: air_fn.relation_name().expect("Relation name not set"),
+            relation_name: relation_name.clone(),
+            air_fn_name: air_fn.name(),
             ext_input: ext_input_option.clone(),
             input: input_option.clone(),
         });
@@ -750,11 +778,15 @@ impl AirBuilder {
         }
 
         if !O::is_empty() {
+            assert!(
+                relation_name
+                    == air_fn
+                        .relation_name()
+                        .expect("Called air_fn with output should have a single relation")
+            );
             self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-                relation_name: air_fn.relation_name().expect("Relation name not set"),
-                method_name: air_fn
-                    .deduce_output()
-                    .expect("No deduce_output method name"),
+                air_fn_name: air_fn.name(),
+                method_name: format!("{}::deduce_output", relation_name),
                 ext_input: ext_input_option,
                 input: input_option,
                 output_name: output_name.expect("Output name not set"),
@@ -779,12 +811,10 @@ impl AirBuilder {
         #[allow(unused_mut)]
         let mut value = V::new(value_name.clone(), None);
 
+        let relation_name = memory.relation_name().expect("Relation name not found");
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-            relation_name: memory.relation_name().expect("Relation name not found"),
-            method_name: format!(
-                "{}::deduce_output",
-                memory.relation_name().expect("Relation name not found")
-            ),
+            air_fn_name: memory.name(),
+            method_name: format!("{}::deduce_output", relation_name),
             ext_input: Some(key.clone().into()),
             input: None,
             output_name: value_name.clone(),
@@ -834,6 +864,7 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::LookupAddInput {
             relation_name: memory.relation_name().expect("Relation name not found"),
+            air_fn_name: memory.name(),
             ext_input: Some(key.clone().into()),
             input: None,
         });

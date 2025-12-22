@@ -1,6 +1,6 @@
 {
   "name": "create_blake_output",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Create Blake Output",
@@ -178,8 +178,15 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "TripleXor32": "Enabler"
+  "sub_components": {
+    "triple_xor_32": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "TripleXor32": [
+      "triple_xor_32",
+      0,
+      8
+    ]
   },
   "inline_calls": {},
   "public_params": [],

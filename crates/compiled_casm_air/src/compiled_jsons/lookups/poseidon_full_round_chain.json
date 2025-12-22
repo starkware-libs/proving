@@ -1,6 +1,8 @@
 {
   "name": "poseidon_full_round_chain",
-  "relation_name": "PoseidonFullRoundChain",
+  "relation_names": [
+    "PoseidonFullRoundChain"
+  ],
   "relation_size": 32,
   "log_height": null,
   "description": "Poseidon Full Round Chain",
@@ -262,10 +264,27 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "Cube252": "Enabler",
-    "PoseidonRoundKeys": "Multiplicity",
-    "RangeCheck_3_3_3_3_3": "Multiplicity"
+  "sub_components": {
+    "cube_252": "Enabler",
+    "poseidon_round_keys": "Multiplicity",
+    "range_check_3_3_3_3_3": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "Cube252": [
+      "cube_252",
+      0,
+      3
+    ],
+    "PoseidonRoundKeys": [
+      "poseidon_round_keys",
+      0,
+      1
+    ],
+    "RangeCheck_3_3_3_3_3": [
+      "range_check_3_3_3_3_3",
+      0,
+      6
+    ]
   },
   "inline_calls": {
     "linear_combination_n_4_coefs_1_1_m2_1": [

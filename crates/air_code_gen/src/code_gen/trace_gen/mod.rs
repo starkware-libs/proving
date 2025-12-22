@@ -8,7 +8,6 @@ use compiled_casm_air::compiled_structs::{
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexMap;
 use interaction_claim_generator::interaction_prover_struct;
 use itertools::Itertools;
 
@@ -25,7 +24,6 @@ pub enum Mode {
 pub struct RustProverGen {
     pub air_fn: CompiledAirFn,
     pub constants: Vec<(String, String)>,
-    pub add_input_mults: IndexMap<String, usize>,
     pub lookup_terms: Vec<LookupTerm>,
     pub mode: Mode,
 }
@@ -48,14 +46,11 @@ impl RustProverGen {
         };
 
         let constants = deduction_consts(&air_fn.deductions);
-        // TODO(AnatG): Put air_body.get_lookup_n_rows in compiled air.
-        let add_input_mults = add_inputs_mults(&air_fn.deductions);
         let lookup_terms = filter_lookup_terms(&air_fn.deductions);
 
         Self {
             air_fn,
             mode,
-            add_input_mults,
             constants,
             lookup_terms,
         }
@@ -128,11 +123,13 @@ impl RustProverGen {
             return quote! {};
         }
         let members = self
-            .add_input_mults
+            .air_fn
+            .n_inputs_added_per_relation
             .iter()
-            .map(|(component_name, &mult)| {
+            .map(|(relation_name, (air_fn_name, _, mult))| {
+                let name = relation_name.to_case(Case::Snake);
                 quote! {
-                    $(component_name): [Vec<$component_name::PackedInputType>; $mult],
+                    $(&name): [Vec<$air_fn_name::PackedInputType>; $(*mult)],
                 }
             })
             .collect_vec();
@@ -173,7 +170,9 @@ impl RustProverGen {
             }
         }
         if self.air_fn.padding_type == PaddingType::Multiplicity {
-            members_code.extend(quote! { mults: $(vec_of_type("PackedM31")), })
+            for i in 0..self.air_fn.relation_names.len() {
+                members_code.extend(quote! { mults_$i: Vec<PackedM31>, })
+            }
         };
 
         quote! {
@@ -185,14 +184,11 @@ impl RustProverGen {
 
     fn generate_imports_code(&self) -> rust::Tokens {
         let mut sub_component_imports = rust::Tokens::new();
-        self.air_fn
-            .deduction_lookups
-            .iter()
-            .for_each(|(fn_name, _)| {
-                sub_component_imports.extend(quote! {
-                    use crate::witness::components::$(fn_name.to_case(Case::Snake));
-                })
-            });
+        self.air_fn.sub_components.iter().for_each(|(fn_name, _)| {
+            sub_component_imports.extend(quote! {
+                use crate::witness::components::$fn_name;
+            })
+        });
         if is_const_size_component(&self.air_fn) {
             sub_component_imports
                 .extend(quote! {use cairo_air::components::$(&self.air_fn.name)::LOG_SIZE;});
@@ -206,23 +202,8 @@ impl RustProverGen {
     }
 
     fn contains_sub_components(&self) -> bool {
-        !self.add_input_mults.is_empty()
+        !self.air_fn.n_inputs_added_per_relation.is_empty()
     }
-}
-
-/// Builds the IndexMap of the number of inputs for each sub-component, meaning how many inputs
-/// should be added to each sub-component per row in the trace.
-fn add_inputs_mults(deductions: &[TraceGenStep]) -> IndexMap<String, usize> {
-    let mut add_input_mults = IndexMap::new();
-    for deduction in deductions {
-        if let TraceGenStep::LookupAddInput { relation_name, .. } = deduction {
-            add_input_mults
-                .entry(relation_name.to_case(Case::Snake))
-                .and_modify(|e| *e += 1)
-                .or_insert(1);
-        }
-    }
-    add_input_mults
 }
 
 fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {

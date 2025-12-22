@@ -28,8 +28,9 @@ impl RustProverGen {
             Mode::Mults => {
                 if is_const_size_component(&self.air_fn) {
                     let n_input_columns = self.air_fn.input_const_columns.len();
+                    let n_relations = self.air_fn.relation_names.len();
                     quote! {
-                        pub mults: AtomicMultiplicityColumn,
+                        pub mults: [AtomicMultiplicityColumn; $(n_relations)],
                         input_to_row: HashMap<[M31; $(n_input_columns)], usize>,
                         preprocessed_trace: Arc<PreProcessedTrace>
                     }
@@ -61,7 +62,7 @@ impl RustProverGen {
             Mode::Inputs => (quote! {}, quote! {mut self, }),
             Mode::PackedInputs => (
                 quote! {
-                    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType]) {
+                    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_index: usize) {
                         self.packed_inputs.extend(inputs);
                     }
                 },
@@ -70,14 +71,14 @@ impl RustProverGen {
             Mode::Mults => {
                 let mut add_inputs_code = if is_const_size_component(&self.air_fn) {
                     quote! {
-                        pub fn add_input(&self, input: &InputType) {
-                            self.mults
+                        pub fn add_input(&self, input: &InputType, relation_index: usize) {
+                            self.mults[relation_index]
                                 .increase_at((*self.input_to_row.get(input).unwrap()).try_into().unwrap());
                         }
                     }
                 } else {
                     quote! {
-                        pub fn add_input(&self, input: &InputType) {
+                        pub fn add_input(&self, input: &InputType, _relation_index: usize) {
                             self.mults
                                 .entry(*input)
                                 .or_insert_with(|| AtomicU32::new(0))
@@ -87,10 +88,14 @@ impl RustProverGen {
                 };
                 add_inputs_code.extend(quote! {
                     $['\n']
-                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType]) {
+                    pub fn add_packed_inputs(
+                        &self,
+                        packed_inputs: &[PackedInputType],
+                        relation_index: usize,
+                    ) {
                         packed_inputs.into_par_iter().for_each(|packed_input| {
                             packed_input.unpack().into_par_iter().for_each(|input| {
-                                self.add_input(&input);
+                                self.add_input(&input, relation_index);
                             });
                         });
                     }
@@ -113,9 +118,11 @@ impl RustProverGen {
                 );
                 quote! {
                     pub fn new(preprocessed_trace: Arc<PreProcessedTrace>) -> Self {
+                        let mults = from_fn(|_| AtomicMultiplicityColumn::new(1 << LOG_SIZE));
                         let column_ids = [$(column_ids_code)];
+
                         Self {
-                            mults: AtomicMultiplicityColumn::new(1 << LOG_SIZE),
+                            mults,
                             input_to_row: make_input_to_row(&preprocessed_trace, column_ids),
                             preprocessed_trace
                         }
@@ -171,7 +178,7 @@ impl RustProverGen {
                 pub fn write_trace(
                     $(self_param)
                     tree_builder: &mut impl TreeBuilder<SimdBackend>,
-                    $(write_trace_params(&self.air_fn.deduction_lookups))
+                    $(write_trace_params(&self.air_fn.sub_components))
                 ) -> (Claim, InteractionClaimGenerator)
                 {
                     $(self.write_trace_body_simd())
@@ -216,7 +223,7 @@ impl RustProverGen {
             },
             Mode::Mults => {
                 if is_const_size_component(&self.air_fn) {
-                    quote! { let mults = self.mults.into_simd_vec(); }
+                    quote! { let mults = self.mults.into_iter().map(|v| v.into_simd_vec()).collect::<Vec<_>>(); }
                 } else {
                     quote! {
                         let mut inputs_mults = self
@@ -259,11 +266,12 @@ impl RustProverGen {
             quote! {}
         };
         let add_inputs = self
-            .add_input_mults
+            .air_fn
+            .n_inputs_added_per_relation
             .iter()
-            .map(|(component_name, ..)| {
-                quote! { sub_component_inputs.$(component_name).iter().for_each(|inputs| {
-                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs);
+            .map(|(relation_name, (component_name, relation_index, _))| {
+                quote! { sub_component_inputs.$(relation_name.to_case(Case::Snake)).iter().for_each(|inputs| {
+                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs, $(*relation_index));
                 });}
             })
             .collect_vec();
@@ -295,20 +303,17 @@ impl RustProverGen {
                 quote! { inputs: $(vec_of_type("PackedInputType")), }
             }
             Mode::Mults => {
-                let mut tokens = rust::Tokens::new();
                 if !is_const_size_component(&self.air_fn) {
-                    tokens.extend(quote! {
+                    quote! {
                         inputs: $(vec_of_type("PackedInputType")),
-                    });
+                        mults: $(vec_of_type("PackedM31")),
+                    }
                 } else {
-                    tokens.extend(quote! {
+                    quote! {
                         preprocessed_trace: &PreProcessedTrace,
-                    });
+                        mults: Vec<$(vec_of_type("PackedM31"))>,
+                    }
                 }
-                tokens.extend(quote! {
-                    mults: $(vec_of_type("PackedM31")),
-                });
-                tokens
             }
         };
         if self.air_fn.padding_type == PaddingType::Enabler {
@@ -317,7 +322,7 @@ impl RustProverGen {
         for public_param in &self.air_fn.public_params {
             params.extend(quote! { $(public_param.name()): u32, });
         }
-        params.extend(write_trace_params(&self.air_fn.deduction_lookups));
+        params.extend(write_trace_params(&self.air_fn.sub_components));
         params
     }
 
@@ -341,7 +346,7 @@ impl RustProverGen {
         for public_param in &self.air_fn.public_params {
             args.extend(quote! { self.$(public_param.name()), });
         }
-        args.extend(write_trace_args(&self.air_fn.deduction_lookups));
+        args.extend(write_trace_args(&self.air_fn.sub_components));
         args
     }
 
@@ -509,7 +514,7 @@ impl RustProverGen {
                 TraceGenStep::Deduction(expr) => {
                     let name = self.air_fn.state_names[offset].clone();
                     write_trace_body.append(quote! {
-                        let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
+                        let $(name.clone()) = $(simd_parse_air_var(expr, const_names));
                         *row[$(offset)] = $(name);
                     });
                     offset += 1;
@@ -552,6 +557,7 @@ impl RustProverGen {
                 TraceGenStep::LookupAddInput {
                     relation_name,
                     input,
+                    ..
                 } => {
                     let offset = add_inputs_offsets.get_mut(relation_name).unwrap();
                     if input != &CompiledAirVar::Tuple(vec![]) {
@@ -571,12 +577,26 @@ impl RustProverGen {
             PaddingType::Enabler => quote! {
                 *row[$(offset)] = enabler_col.packed_at(row_index);
             },
-            PaddingType::Multiplicity => quote! {
-
-                let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
-                *row[$(offset)] = mult_at_row;
-                *lookup_data.mults = mult_at_row;
-            },
+            PaddingType::Multiplicity => {
+                if !is_const_size_component(&self.air_fn) {
+                    quote! {
+                        let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
+                        *row[$(offset)] = mult_at_row;
+                        *lookup_data.mults_0 = mult_at_row;
+                    }
+                } else {
+                    let mut code = quote! {};
+                    for i in 0..self.air_fn.relation_names.len() {
+                        code.extend(quote! {
+                            let mult = &mults[$i];
+                            let mult_at_row = *mult.get(row_index).unwrap_or(&PackedM31::zero());
+                            *row[$(offset + i)] = mult_at_row;
+                            *lookup_data.mults_$i = mult_at_row;
+                        });
+                    }
+                    code
+                }
+            }
             _ => quote!(),
         });
 
@@ -585,28 +605,27 @@ impl RustProverGen {
 }
 
 const STATE_SUFFIX: &str = "_state";
-fn write_trace_params(lookups: &IndexMap<String, PaddingType>) -> rust::Tokens {
+fn write_trace_params(sub_components: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut params = rust::Tokens::new();
-    for (relation, padding_type) in lookups {
-        let fn_name = relation.to_case(Case::Snake);
+    for (name, padding_type) in sub_components {
         if padding_type == &PaddingType::Multiplicity {
             params.extend(quote! {
-                $(&fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,$("\n")
+                $name$STATE_SUFFIX: &$name::ClaimGenerator,$("\n")
             });
         } else {
             params.extend(quote! {
-                $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,$("\n")
+                $name$STATE_SUFFIX: &mut $name::ClaimGenerator,$("\n")
             });
         }
     }
     params
 }
 
-fn write_trace_args(lookups: &IndexMap<String, PaddingType>) -> rust::Tokens {
+fn write_trace_args(sub_components: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut args = rust::Tokens::new();
-    for (relation, _) in lookups {
+    for (name, _) in sub_components {
         args.extend(quote! {
-            $(relation.to_case(Case::Snake))$STATE_SUFFIX,
+            $name$STATE_SUFFIX,
         });
     }
     args

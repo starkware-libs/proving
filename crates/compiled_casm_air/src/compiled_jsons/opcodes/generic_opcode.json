@@ -1,6 +1,8 @@
 {
   "name": "generic_opcode",
-  "relation_name": "Opcodes",
+  "relation_names": [
+    "Opcodes"
+  ],
   "relation_size": 3,
   "log_height": null,
   "description": "Generic Opcode",
@@ -545,28 +547,121 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {
-    "MemoryAddressToId": "Multiplicity",
-    "MemoryIdToBig": "Multiplicity",
-    "VerifyInstruction": "Multiplicity",
-    "RangeCheck_9_9": "Multiplicity",
-    "RangeCheck_9_9_B": "Multiplicity",
-    "RangeCheck_9_9_C": "Multiplicity",
-    "RangeCheck_9_9_D": "Multiplicity",
-    "RangeCheck_9_9_E": "Multiplicity",
-    "RangeCheck_9_9_F": "Multiplicity",
-    "RangeCheck_9_9_G": "Multiplicity",
-    "RangeCheck_9_9_H": "Multiplicity",
-    "RangeCheck_20": "Multiplicity",
-    "RangeCheck_20_B": "Multiplicity",
-    "RangeCheck_20_C": "Multiplicity",
-    "RangeCheck_20_D": "Multiplicity",
-    "RangeCheck_20_E": "Multiplicity",
-    "RangeCheck_20_F": "Multiplicity",
-    "RangeCheck_20_G": "Multiplicity",
-    "RangeCheck_20_H": "Multiplicity",
-    "RangeCheck_18": "Multiplicity",
-    "RangeCheck_11": "Multiplicity"
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity",
+    "range_check_9_9": "Multiplicity",
+    "range_check_20": "Multiplicity",
+    "range_check_18": "Multiplicity",
+    "range_check_11": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ],
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      3
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      3
+    ],
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      0,
+      4
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1,
+      4
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2,
+      4
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      3,
+      4
+    ],
+    "RangeCheck_9_9_E": [
+      "range_check_9_9",
+      4,
+      4
+    ],
+    "RangeCheck_9_9_F": [
+      "range_check_9_9",
+      5,
+      4
+    ],
+    "RangeCheck_9_9_G": [
+      "range_check_9_9",
+      6,
+      2
+    ],
+    "RangeCheck_9_9_H": [
+      "range_check_9_9",
+      7,
+      2
+    ],
+    "RangeCheck_20": [
+      "range_check_20",
+      0,
+      4
+    ],
+    "RangeCheck_20_B": [
+      "range_check_20",
+      1,
+      4
+    ],
+    "RangeCheck_20_C": [
+      "range_check_20",
+      2,
+      4
+    ],
+    "RangeCheck_20_D": [
+      "range_check_20",
+      3,
+      4
+    ],
+    "RangeCheck_20_E": [
+      "range_check_20",
+      4,
+      3
+    ],
+    "RangeCheck_20_F": [
+      "range_check_20",
+      5,
+      3
+    ],
+    "RangeCheck_20_G": [
+      "range_check_20",
+      6,
+      3
+    ],
+    "RangeCheck_20_H": [
+      "range_check_20",
+      7,
+      3
+    ],
+    "RangeCheck_18": [
+      "range_check_18",
+      0,
+      1
+    ],
+    "RangeCheck_11": [
+      "range_check_11",
+      0,
+      1
+    ]
   },
   "inline_calls": {
     "decode_generic_instruction": [

@@ -76,7 +76,6 @@ mod tests {
             "../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_20.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9.json",
-            "../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9_b.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_7_2_5.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/triple_xor_32.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/verify_bitwise_xor_8.json",

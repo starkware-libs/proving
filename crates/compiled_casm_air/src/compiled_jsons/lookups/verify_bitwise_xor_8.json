@@ -1,10 +1,13 @@
 {
   "name": "verify_bitwise_xor_8",
-  "relation_name": "VerifyBitwiseXor_8",
+  "relation_names": [
+    "VerifyBitwiseXor_8",
+    "VerifyBitwiseXor_8_B"
+  ],
   "relation_size": 3,
   "log_height": 16,
   "description": "Verify Bitwise Xor 8",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -37,9 +40,14 @@
     [
       "VerifyBitwiseXor_8",
       "Yield"
+    ],
+    [
+      "VerifyBitwiseXor_8_B",
+      "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [
@@ -64,12 +72,46 @@
         ],
         "use_or_yield": "Yield"
       }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8_B",
+        "felts": [
+          {
+            "ExternalState": "bitwise_xor_8_0"
+          },
+          {
+            "ExternalState": "bitwise_xor_8_1"
+          },
+          {
+            "ExternalState": "bitwise_xor_8_2"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
     }
   ],
   "deductions": [
     {
       "LookupTerm": {
         "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "ExternalState": "bitwise_xor_8_0"
+          },
+          {
+            "ExternalState": "bitwise_xor_8_1"
+          },
+          {
+            "ExternalState": "bitwise_xor_8_2"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8_B",
         "felts": [
           {
             "ExternalState": "bitwise_xor_8_0"

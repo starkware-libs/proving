@@ -1,6 +1,6 @@
 {
   "name": "linear_combination_n_4_coefs_1_1_m2_1",
-  "relation_name": null,
+  "relation_names": [],
   "relation_size": null,
   "log_height": null,
   "description": "Linear Combination N 4 Coefs 1 1 M 2 1",
@@ -95,8 +95,15 @@
       "Use"
     ]
   ],
-  "deduction_lookups": {
-    "RangeCheck_3_3_3_3_3": "Multiplicity"
+  "sub_components": {
+    "range_check_3_3_3_3_3": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_3_3_3_3_3": [
+      "range_check_3_3_3_3_3",
+      0,
+      2
+    ]
   },
   "inline_calls": {},
   "public_params": [],

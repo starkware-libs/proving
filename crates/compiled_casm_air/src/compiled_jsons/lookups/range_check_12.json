@@ -1,10 +1,12 @@
 {
   "name": "range_check_12",
-  "relation_name": "RangeCheck_12",
+  "relation_names": [
+    "RangeCheck_12"
+  ],
   "relation_size": 1,
   "log_height": 12,
   "description": "Range Check 12",
-  "instance_definition": "{\"variant\":\"A\"}",
+  "instance_definition": "{}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
@@ -37,7 +39,8 @@
       "Yield"
     ]
   ],
-  "deduction_lookups": {},
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
   "inline_calls": {},
   "public_params": [],
   "external_states": [
