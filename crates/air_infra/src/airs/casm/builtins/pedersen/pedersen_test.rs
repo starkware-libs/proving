@@ -56,19 +56,19 @@ mod tests {
     use crate::{const_expr, const_felt252_expr, const_felt252_expr_from_felt252};
 
     fn pack_to_limbs<const NUM_WINDOWS: usize>(mut value: u64) -> PackedECMultiplier<NUM_WINDOWS> {
-        let bits_per_window: usize = 252 / NUM_WINDOWS;
-        let mask: u64 = (1 << bits_per_window) - 1;
+        let window_bits: usize = 252 / NUM_WINDOWS;
+        let mask: u64 = (1 << window_bits) - 1;
         from_fn(|_| {
             let double_limb = const_expr!(TryInto::<u32>::try_into(value & mask)
                 .expect("After masking the value should be small"));
-            value >>= bits_per_window;
+            value >>= window_bits;
             double_limb
         })
     }
 
     #[test]
     fn test_partial_mul<const NUM_WINDOWS: usize>() {
-        let bits_per_window = 252 / NUM_WINDOWS;
+        let window_bits = 252 / NUM_WINDOWS;
         let air_fn = &PartialECMul::<NUM_WINDOWS>::new();
         let (registry, _) = AirFnRegistry::new(air_fn);
 
@@ -91,7 +91,7 @@ mod tests {
             const_felt252_expr_from_felt252!(result.y),
         ];
 
-        let multiplier = (7 << bits_per_window) + 123;
+        let multiplier = (7 << window_bits) + 123;
         let (state, output) = registry.run_air(
             air_fn,
             (),
@@ -104,7 +104,7 @@ mod tests {
         assert_eq!(output.0.calc(), call_id.calc());
         assert_eq!(output.1.calc(), const_expr!(NUM_WINDOWS + 1).calc());
 
-        let expected_new_multiplier = pack_to_limbs::<NUM_WINDOWS>(multiplier >> bits_per_window);
+        let expected_new_multiplier = pack_to_limbs::<NUM_WINDOWS>(multiplier >> window_bits);
         for (output_elem, expected_elem) in output.2 .0.iter().zip(expected_new_multiplier.iter()) {
             assert_eq!(output_elem.calc(), expected_elem.calc());
         }

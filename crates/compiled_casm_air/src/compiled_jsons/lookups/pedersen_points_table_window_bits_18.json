@@ -1,16 +1,16 @@
 {
-  "name": "pedersen_points_table_bits_per_window_18",
+  "name": "pedersen_points_table_window_bits_18",
   "relation_names": [
-    "PedersenPointsTableBitsPerWindow18"
+    "PedersenPointsTableWindowBits18"
   ],
   "relation_size": 57,
   "log_height": 23,
-  "description": "Pedersen Points Table Bits Per Window 18",
-  "instance_definition": "{\"bits_per_window\":18}",
+  "description": "Pedersen Points Table Window Bits 18",
+  "instance_definition": "{\"window_bits\":18}",
   "type": "Component",
   "padding_type": "Multiplicity",
   "prover_input": [
-    "pedersen_points_table_bits_per_window_18_input",
+    "pedersen_points_table_window_bits_18_input",
     "[M31; 1]",
     "[PackedM31; 1]"
   ],
@@ -35,7 +35,7 @@
         }
       ]
     },
-    "pedersen_points_table_bits_per_window_18_output",
+    "pedersen_points_table_window_bits_18_output",
     "[Felt252; 2]",
     "[PackedFelt252; 2]"
   ],
@@ -48,7 +48,7 @@
   "state_names": [],
   "constraint_lookups": [
     [
-      "PedersenPointsTableBitsPerWindow18",
+      "PedersenPointsTableWindowBits18",
       "Yield"
     ]
   ],
@@ -118,7 +118,7 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "PedersenPointsTableBitsPerWindow18",
+        "relation_name": "PedersenPointsTableWindowBits18",
         "felts": [
           {
             "ExternalState": "seq_23"
@@ -299,7 +299,7 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "PedersenPointsTableBitsPerWindow18",
+        "relation_name": "PedersenPointsTableWindowBits18",
         "felts": [
           {
             "ExternalState": "seq_23"

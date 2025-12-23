@@ -829,13 +829,13 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
-  "pedersen_points_table_bits_per_window_18": {
+  "pedersen_points_table_window_bits_18": {
     "trace_type": "Component",
     "log_height": 23,
     "num_state_cols": 0,
     "use_lookup_cols": {},
     "yield_lookup_cols": {
-      "PedersenPointsTableBitsPerWindow18": 1
+      "PedersenPointsTableWindowBits18": 1
     },
     "lookup_rows": {},
     "padding_type": "Multiplicity",
@@ -846,12 +846,12 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
-  "partial_ec_mul_bits_per_window_18": {
+  "partial_ec_mul_window_bits_18": {
     "trace_type": "ChainRound",
     "log_height": null,
     "num_state_cols": 296,
     "use_lookup_cols": {
-      "PedersenPointsTableBitsPerWindow18": 1,
+      "PedersenPointsTableWindowBits18": 1,
       "RangeCheck_9_9": 6,
       "RangeCheck_9_9_B": 6,
       "RangeCheck_9_9_C": 6,
@@ -868,13 +868,13 @@
       "RangeCheck_20_F": 9,
       "RangeCheck_20_G": 9,
       "RangeCheck_20_H": 9,
-      "PartialEcMulBitsPerWindow18": 1
+      "PartialEcMulWindowBits18": 1
     },
     "yield_lookup_cols": {
-      "PartialEcMulBitsPerWindow18": 1
+      "PartialEcMulWindowBits18": 1
     },
     "lookup_rows": {
-      "PedersenPointsTableBitsPerWindow18": 1,
+      "PedersenPointsTableWindowBits18": 1,
       "RangeCheck_9_9": 6,
       "RangeCheck_9_9_B": 6,
       "RangeCheck_9_9_C": 6,
@@ -896,7 +896,7 @@
     "total_num_trace_cols": 557,
     "trace_cells_upper_bound": 557,
     "uses_upper_bound": {
-      "pedersen_points_table_bits_per_window_18": 1,
+      "pedersen_points_table_window_bits_18": 1,
       "range_check_9_9": 6,
       "range_check_9_9_b": 6,
       "range_check_9_9_c": 6,
@@ -918,23 +918,23 @@
     "max_instances_uses_limit": 178956970,
     "max_instances_rows_limit": 268435456
   },
-  "pedersen_aggregator_bits_per_window_18": {
+  "pedersen_aggregator_window_bits_18": {
     "trace_type": "Component",
     "log_height": null,
     "num_state_cols": 205,
     "use_lookup_cols": {
       "MemoryIdToBig": 3,
       "RangeCheck_8": 4,
-      "PartialEcMulBitsPerWindow18": 2
+      "PartialEcMulWindowBits18": 2
     },
     "yield_lookup_cols": {
-      "PartialEcMulBitsPerWindow18": 2,
-      "PedersenAggregatorBitsPerWindow18": 1
+      "PartialEcMulWindowBits18": 2,
+      "PedersenAggregatorWindowBits18": 1
     },
     "lookup_rows": {
       "MemoryIdToBig": 3,
       "RangeCheck_8": 4,
-      "PartialEcMulBitsPerWindow18": 28
+      "PartialEcMulWindowBits18": 28
     },
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 230,
@@ -949,7 +949,7 @@
       "range_check_9_9_g": 100,
       "range_check_9_9_h": 100,
       "range_check_8": 4,
-      "pedersen_points_table_bits_per_window_18": 32,
+      "pedersen_points_table_window_bits_18": 32,
       "range_check_20": 384,
       "range_check_20_b": 384,
       "range_check_20_c": 384,
@@ -960,7 +960,7 @@
       "range_check_20_h": 288
     },
     "rows_upper_bound": {
-      "partial_ec_mul_bits_per_window_18": 28
+      "partial_ec_mul_window_bits_18": 28
     },
     "max_instances_uses_limit": 5592405,
     "max_instances_rows_limit": 8388608
@@ -971,12 +971,12 @@
     "num_state_cols": 3,
     "use_lookup_cols": {
       "MemoryAddressToId": 3,
-      "PedersenAggregatorBitsPerWindow18": 1
+      "PedersenAggregatorWindowBits18": 1
     },
     "yield_lookup_cols": {},
     "lookup_rows": {
       "MemoryAddressToId": 3,
-      "PedersenAggregatorBitsPerWindow18": 1
+      "PedersenAggregatorWindowBits18": 1
     },
     "padding_type": "None",
     "total_num_trace_cols": 11,
@@ -992,7 +992,7 @@
       "range_check_9_9_g": 100,
       "range_check_9_9_h": 100,
       "range_check_8": 4,
-      "pedersen_points_table_bits_per_window_18": 32,
+      "pedersen_points_table_window_bits_18": 32,
       "range_check_20": 384,
       "range_check_20_b": 384,
       "range_check_20_c": 384,
@@ -1003,19 +1003,19 @@
       "range_check_20_h": 288
     },
     "rows_upper_bound": {
-      "pedersen_aggregator_bits_per_window_18": 1,
-      "partial_ec_mul_bits_per_window_18": 28
+      "pedersen_aggregator_window_bits_18": 1,
+      "partial_ec_mul_window_bits_18": 28
     },
     "max_instances_uses_limit": 5592405,
     "max_instances_rows_limit": 8388608
   },
-  "pedersen_points_table_bits_per_window_9": {
+  "pedersen_points_table_window_bits_9": {
     "trace_type": "Component",
     "log_height": 15,
     "num_state_cols": 0,
     "use_lookup_cols": {},
     "yield_lookup_cols": {
-      "PedersenPointsTableBitsPerWindow9": 1
+      "PedersenPointsTableWindowBits9": 1
     },
     "lookup_rows": {},
     "padding_type": "Multiplicity",
@@ -1026,12 +1026,12 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
-  "partial_ec_mul_bits_per_window_9": {
+  "partial_ec_mul_window_bits_9": {
     "trace_type": "ChainRound",
     "log_height": null,
     "num_state_cols": 310,
     "use_lookup_cols": {
-      "PedersenPointsTableBitsPerWindow9": 1,
+      "PedersenPointsTableWindowBits9": 1,
       "RangeCheck_9_9": 6,
       "RangeCheck_9_9_B": 6,
       "RangeCheck_9_9_C": 6,
@@ -1048,13 +1048,13 @@
       "RangeCheck_20_F": 9,
       "RangeCheck_20_G": 9,
       "RangeCheck_20_H": 9,
-      "PartialEcMulBitsPerWindow9": 1
+      "PartialEcMulWindowBits9": 1
     },
     "yield_lookup_cols": {
-      "PartialEcMulBitsPerWindow9": 1
+      "PartialEcMulWindowBits9": 1
     },
     "lookup_rows": {
-      "PedersenPointsTableBitsPerWindow9": 1,
+      "PedersenPointsTableWindowBits9": 1,
       "RangeCheck_9_9": 6,
       "RangeCheck_9_9_B": 6,
       "RangeCheck_9_9_C": 6,
@@ -1076,7 +1076,7 @@
     "total_num_trace_cols": 571,
     "trace_cells_upper_bound": 571,
     "uses_upper_bound": {
-      "pedersen_points_table_bits_per_window_9": 1,
+      "pedersen_points_table_window_bits_9": 1,
       "range_check_9_9": 6,
       "range_check_9_9_b": 6,
       "range_check_9_9_c": 6,
@@ -1098,23 +1098,23 @@
     "max_instances_uses_limit": 178956970,
     "max_instances_rows_limit": 268435456
   },
-  "pedersen_aggregator_bits_per_window_9": {
+  "pedersen_aggregator_window_bits_9": {
     "trace_type": "Component",
     "log_height": null,
     "num_state_cols": 233,
     "use_lookup_cols": {
       "MemoryIdToBig": 3,
       "RangeCheck_8": 4,
-      "PartialEcMulBitsPerWindow9": 2
+      "PartialEcMulWindowBits9": 2
     },
     "yield_lookup_cols": {
-      "PartialEcMulBitsPerWindow9": 2,
-      "PedersenAggregatorBitsPerWindow9": 1
+      "PartialEcMulWindowBits9": 2,
+      "PedersenAggregatorWindowBits9": 1
     },
     "lookup_rows": {
       "MemoryIdToBig": 3,
       "RangeCheck_8": 4,
-      "PartialEcMulBitsPerWindow9": 56
+      "PartialEcMulWindowBits9": 56
     },
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 258,
@@ -1129,7 +1129,7 @@
       "range_check_9_9_g": 196,
       "range_check_9_9_h": 196,
       "range_check_8": 4,
-      "pedersen_points_table_bits_per_window_9": 64,
+      "pedersen_points_table_window_bits_9": 64,
       "range_check_20": 768,
       "range_check_20_b": 768,
       "range_check_20_c": 768,
@@ -1140,7 +1140,7 @@
       "range_check_20_h": 576
     },
     "rows_upper_bound": {
-      "partial_ec_mul_bits_per_window_9": 56
+      "partial_ec_mul_window_bits_9": 56
     },
     "max_instances_uses_limit": 2796202,
     "max_instances_rows_limit": 4194304
@@ -1151,12 +1151,12 @@
     "num_state_cols": 3,
     "use_lookup_cols": {
       "MemoryAddressToId": 3,
-      "PedersenAggregatorBitsPerWindow9": 1
+      "PedersenAggregatorWindowBits9": 1
     },
     "yield_lookup_cols": {},
     "lookup_rows": {
       "MemoryAddressToId": 3,
-      "PedersenAggregatorBitsPerWindow9": 1
+      "PedersenAggregatorWindowBits9": 1
     },
     "padding_type": "None",
     "total_num_trace_cols": 11,
@@ -1172,7 +1172,7 @@
       "range_check_9_9_g": 196,
       "range_check_9_9_h": 196,
       "range_check_8": 4,
-      "pedersen_points_table_bits_per_window_9": 64,
+      "pedersen_points_table_window_bits_9": 64,
       "range_check_20": 768,
       "range_check_20_b": 768,
       "range_check_20_c": 768,
@@ -1183,8 +1183,8 @@
       "range_check_20_h": 576
     },
     "rows_upper_bound": {
-      "pedersen_aggregator_bits_per_window_9": 1,
-      "partial_ec_mul_bits_per_window_9": 56
+      "pedersen_aggregator_window_bits_9": 1,
+      "partial_ec_mul_window_bits_9": 56
     },
     "max_instances_uses_limit": 2796202,
     "max_instances_rows_limit": 4194304

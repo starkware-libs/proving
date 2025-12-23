@@ -14,7 +14,7 @@ use crate::core::felt252_id_memory::read_positive::*;
 pub struct PedersenAggregator<const NUM_WINDOWS: usize> {
     #[serde(skip)]
     pub memory: Felt252IdMemory,
-    bits_per_window: usize,
+    window_bits: usize,
 }
 
 impl<const NUM_WINDOWS: usize> PedersenAggregator<NUM_WINDOWS> {
@@ -22,7 +22,7 @@ impl<const NUM_WINDOWS: usize> PedersenAggregator<NUM_WINDOWS> {
         assert_eq!(252 % NUM_WINDOWS, 0);
         Self {
             memory,
-            bits_per_window: 252 / NUM_WINDOWS,
+            window_bits: 252 / NUM_WINDOWS,
         }
     }
 }

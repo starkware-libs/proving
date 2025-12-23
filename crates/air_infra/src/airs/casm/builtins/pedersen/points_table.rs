@@ -22,29 +22,29 @@ use crate::core::variables::*;
 // 2b. The last block of 2**9 rows: Row k + (l << 5) contains
 //       -P_shift + 2**(9*13) * k * P_2 + l * P_3
 #[derive(Clone, Debug, Default)]
-pub struct PedersenPoints<const BITS_PER_WINDOW: usize> {
-    pub bits_per_window: usize,
+pub struct PedersenPoints<const WINDOW_BITS: usize> {
+    pub window_bits: usize,
 }
 
-impl<const BITS_PER_WINDOW: usize> PedersenPoints<BITS_PER_WINDOW> {
+impl<const WINDOW_BITS: usize> PedersenPoints<WINDOW_BITS> {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self {
-            bits_per_window: BITS_PER_WINDOW,
+            window_bits: WINDOW_BITS,
         }
     }
 }
 
 #[cfg(test)]
 fn compute_section_row(
-    bits_per_window: usize,
+    window_bits: usize,
     row_in_section: usize,
     base_point: &CurvePoint,
     high_base_point: &CurvePoint,
 ) -> CurvePoint {
-    let num_windows = 252usize.div_ceil(bits_per_window);
-    let rows_per_window = 1 << bits_per_window;
-    let bits_in_last_window = bits_per_window - 4;
+    let num_windows = 252usize.div_ceil(window_bits);
+    let rows_per_window = 1 << window_bits;
+    let bits_in_last_window = window_bits - 4;
     let rows_in_last_window = 1 << bits_in_last_window;
 
     assert!(row_in_section < num_windows * rows_per_window);
@@ -57,7 +57,7 @@ fn compute_section_row(
     let minus_p_shift = ec_neg(&P_SHIFT);
     let result = ec_add_mul(
         &minus_p_shift,
-        &ec_shift(base_point, bits_per_window * block_num),
+        &ec_shift(base_point, window_bits * block_num),
         row_in_block,
     );
     if block_num < num_windows - 1 {
@@ -71,14 +71,14 @@ fn compute_section_row(
     }
 }
 
-impl<const BITS_PER_WINDOW: usize> ExtTable for PedersenPoints<BITS_PER_WINDOW> {
+impl<const WINDOW_BITS: usize> ExtTable for PedersenPoints<WINDOW_BITS> {
     type T = [Felt252Expr; 2];
 
     fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
-            let num_windows = 252usize.div_ceil(self.bits_per_window);
-            let rows_per_window = 1 << self.bits_per_window;
+            let num_windows = 252usize.div_ceil(self.window_bits);
+            let rows_per_window = 1 << self.window_bits;
             let p_0_section_start = 0;
             let p_2_section_start = p_0_section_start + num_windows * rows_per_window;
             let table_end: usize = p_2_section_start + num_windows * rows_per_window;
@@ -86,10 +86,10 @@ impl<const BITS_PER_WINDOW: usize> ExtTable for PedersenPoints<BITS_PER_WINDOW> 
             let row_number = _air_builder.row_number().expect("Row number not set");
             let point = if p_0_section_start <= row_number && row_number < p_2_section_start {
                 let row_in_section = row_number - p_0_section_start;
-                compute_section_row(self.bits_per_window, row_in_section, &P_0, &P_1)
+                compute_section_row(self.window_bits, row_in_section, &P_0, &P_1)
             } else if p_2_section_start <= row_number && row_number < table_end {
                 let row_in_section = row_number - p_2_section_start;
-                compute_section_row(self.bits_per_window, row_in_section, &P_2, &P_3)
+                compute_section_row(self.window_bits, row_in_section, &P_2, &P_3)
             } else {
                 panic!("Access to row {} in PedersenPoints", row_number)
             };
@@ -107,7 +107,7 @@ impl<const BITS_PER_WINDOW: usize> ExtTable for PedersenPoints<BITS_PER_WINDOW> 
             .map(|i| {
                 Box::new(
                     stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::<
-                        BITS_PER_WINDOW,
+                        WINDOW_BITS,
                     >::new(i),
                 ) as Box<dyn PreProcessedColumn>
             })
@@ -117,7 +117,7 @@ impl<const BITS_PER_WINDOW: usize> ExtTable for PedersenPoints<BITS_PER_WINDOW> 
 
 #[derive(Debug, Serialize)]
 pub struct PedersenPointsTable<const LOG_N_ROWS: usize> {
-    pub bits_per_window: usize,
+    pub window_bits: usize,
 }
 
 impl<const LOG_N_ROWS: usize> AirFn for PedersenPointsTable<LOG_N_ROWS> {
@@ -133,10 +133,10 @@ impl<const LOG_N_ROWS: usize> AirFn for PedersenPointsTable<LOG_N_ROWS> {
     ) -> Self::Out {
         #[cfg(test)]
         air_builder.set_row_number(_ext_input[0].value().map(|v| v.0 as usize));
-        match self.bits_per_window {
+        match self.window_bits {
             9 => air_builder.call_external_table(&PedersenPoints::<9>::new()),
             18 => air_builder.call_external_table(&PedersenPoints::<18>::new()),
-            _ => panic!("Unsupported bits_per_window value {}", self.bits_per_window),
+            _ => panic!("Unsupported window_bits value {}", self.window_bits),
         }
     }
 

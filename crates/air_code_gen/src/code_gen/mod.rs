@@ -72,8 +72,8 @@ mod tests {
         let components_to_check = [
             "../compiled_casm_air/src/compiled_jsons/builtins/mul_mod_builtin.json",
             "../compiled_casm_air/src/compiled_jsons/builtins/range_check_builtin.json",
-            "../compiled_casm_air/src/compiled_jsons/lookups/partial_ec_mul_bits_per_window_18.json",
-            "../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table_bits_per_window_18.json",
+            "../compiled_casm_air/src/compiled_jsons/lookups/partial_ec_mul_window_bits_18.json",
+            "../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table_window_bits_18.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_20.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9.json",
             "../compiled_casm_air/src/compiled_jsons/lookups/range_check_7_2_5.json",

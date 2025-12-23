@@ -14,7 +14,7 @@ use crate::core::variables::*;
 
 #[derive(Debug, Serialize)]
 pub struct PartialECMul<const NUM_WINDOWS: usize> {
-    bits_per_window: usize,
+    window_bits: usize,
 }
 
 impl<const NUM_WINDOWS: usize> PartialECMul<NUM_WINDOWS> {
@@ -22,7 +22,7 @@ impl<const NUM_WINDOWS: usize> PartialECMul<NUM_WINDOWS> {
     pub fn new() -> Self {
         assert_eq!(252 % NUM_WINDOWS, 0);
         Self {
-            bits_per_window: 252 / NUM_WINDOWS,
+            window_bits: 252 / NUM_WINDOWS,
         }
     }
 }
@@ -99,24 +99,24 @@ impl<const NUM_WINDOWS: usize> AirFn for PartialECMul<NUM_WINDOWS> {
         (chain_index, round_index, (m_shifted, accumulator)): Self::In,
     ) -> Self::Out {
         // Shift `m` one window to the right.
-        let bits_per_window = self.bits_per_window;
+        let window_bits = self.window_bits;
         let mut new_m_shifted_elements = m_shifted[1..NUM_WINDOWS].to_vec();
         new_m_shifted_elements.push(const_expr!(0));
 
         // Read partial product from the PedersenPoints table
         let window = m_shifted[0].clone();
-        let rows_per_window = 1 << bits_per_window;
+        let rows_per_window = 1 << window_bits;
         let partial_product_location = const_expr!(rows_per_window) * round_index.clone() + window;
-        let partial_product = match bits_per_window {
+        let partial_product = match window_bits {
             9 => {
-                let points_table_air = PedersenPointsTable::<15> { bits_per_window };
+                let points_table_air = PedersenPointsTable::<15> { window_bits };
                 air_builder.lookup_call(&points_table_air, [partial_product_location], ())
             }
             18 => {
-                let points_table_air = PedersenPointsTable::<23> { bits_per_window };
+                let points_table_air = PedersenPointsTable::<23> { window_bits };
                 air_builder.lookup_call(&points_table_air, [partial_product_location], ())
             }
-            _ => panic!("Unsupported bits_per_window value {}", bits_per_window),
+            _ => panic!("Unsupported window_bits value {}", window_bits),
         };
 
         // Compute output
