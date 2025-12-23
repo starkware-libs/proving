@@ -120,10 +120,10 @@ mod tests {
     use stwo_constraint_framework::expr::ExprEvaluator;
 
     use super::*;
-    use crate::components::constraints_regression_test_values::RANGE_CHECK_BUILTIN_BITS_128;
+    use crate::components::constraints_regression_test_values::RANGE_CHECK_BUILTIN;
 
     #[test]
-    fn range_check_builtin_bits_128_constraints_regression() {
+    fn range_check_builtin_constraints_regression() {
         let mut rng = SmallRng::seed_from_u64(0);
         let eval = Eval {
             claim: Claim {
@@ -141,6 +141,6 @@ mod tests {
             sum += c.assign(&assignment) * rng.gen::<QM31>();
         }
 
-        RANGE_CHECK_BUILTIN_BITS_128.assert_debug_eq(&sum);
+        RANGE_CHECK_BUILTIN.assert_debug_eq(&sum);
     }
 }

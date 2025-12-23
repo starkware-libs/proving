@@ -1,11 +1,11 @@
+pub mod jnz_opcode_taken;
 pub mod mul_mod_builtin;
-pub mod range_check_builtin_bits_128;
 pub mod partial_ec_mul;
 pub mod pedersen_points_table;
 pub mod range_check_20;
 pub mod range_check_7_2_5;
+pub mod range_check_9_9;
+pub mod range_check_builtin;
 pub mod triple_xor_32;
 pub mod verify_bitwise_xor_8;
-pub mod jnz_opcode_taken;
 pub mod verify_instruction;
-pub mod range_check_9_9;

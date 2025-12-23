@@ -38,4 +38,11 @@ impl AirFn for RangeCheckBuiltin {
     fn trace_type(&self) -> TraceType {
         TraceType::Builtin
     }
+
+    fn name(&self) -> String {
+        match self.bits {
+            128 => "range_check_builtin".to_string(),
+            _ => format!("range_check{}_builtin", self.bits),
+        }
+    }
 }

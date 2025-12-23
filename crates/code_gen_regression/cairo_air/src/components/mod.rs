@@ -1,5 +1,5 @@
 pub mod mul_mod_builtin;
-pub mod range_check_builtin_bits_128;
+pub mod range_check_builtin;
 pub mod partial_ec_mul;
 pub mod pedersen_points_table;
 pub mod range_check_20;

@@ -147,7 +147,7 @@ impl AirFn for UpdateRegisters {
             + flags[FLAG_OPCODE_CALL_INDEX].clone() * const_expr!(2);
         air_builder.assign(&mut next_ap, "next_ap");
 
-        air_builder.call(&RangeCheckAP {}, next_ap.clone());
+        air_builder.call(&RangeCheck29 {}, next_ap.clone());
 
         // Update fp
         let mut next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp().var
