@@ -47,7 +47,8 @@ fn get_manual_witness_components() -> Vec<String> {
         "memory_id_to_big".into(),
         "memory_id_to_small".into(),
         "cube_252".into(),
-        "partial_ec_mul".into(),
+        "partial_ec_mul_window_bits_18".into(),
+        "partial_ec_mul_window_bits_9".into(),
     ]
 }
 

@@ -13,24 +13,43 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
 #[derive(Debug, Serialize)]
-pub struct PartialECMul {}
+pub struct PartialECMul<const NUM_WINDOWS: usize> {
+    window_bits: usize,
+}
+
+impl<const NUM_WINDOWS: usize> PartialECMul<NUM_WINDOWS> {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        assert_eq!(252 % NUM_WINDOWS, 0);
+        Self {
+            window_bits: 252 / NUM_WINDOWS,
+        }
+    }
+}
 
 const _: () = {
     assert!(
         FELT252_N_WORDS % 2 == 0,
-        "PartialECMul stores the multiplier as pairs of limbs"
+        "PartialECMul {{ 18 }} stores the multiplier as pairs of limbs"
     );
 };
 pub type ECPoint = [Felt252Expr; 2];
-pub type PackedECMultiplier = [FeltExpr; FELT252_N_WORDS / 2];
-pub type PartialECMulState = (PackedECMultiplier, ECPoint);
+pub type PackedECMultiplier<const NUM_WINDOWS: usize> = [FeltExpr; NUM_WINDOWS];
+pub type PartialECMulState<const NUM_WINDOWS: usize> = (PackedECMultiplier<NUM_WINDOWS>, ECPoint);
 
-/// Convert a felt252 to double-limbs format. This is the format used for the PartialECMul
-/// multiplier.
-pub fn felt252_to_double_limbs(value: Felt252Expr) -> PackedECMultiplier {
-    from_fn(|i| {
-        value.get_felt(i * 2) + value.get_felt(i * 2 + 1) * const_expr!(1 << FELT252_BITS_PER_WORD)
-    })
+/// Converts a felt252 to the packed limbs format used for the PartialECMul multiplier.
+pub fn felt252_to_limbs<const NUM_WINDOWS: usize>(
+    value: Felt252Expr,
+) -> PackedECMultiplier<NUM_WINDOWS> {
+    const HALF_FELT252_N_WORDS: usize = FELT252_N_WORDS / 2;
+    match NUM_WINDOWS {
+        HALF_FELT252_N_WORDS => from_fn(|i| {
+            value.get_felt(i * 2)
+                + value.get_felt(i * 2 + 1) * const_expr!(1 << FELT252_BITS_PER_WORD)
+        }),
+        FELT252_N_WORDS => from_fn(|i| value.get_felt(i)),
+        _ => panic!("Unsupported NUM_WINDOWS val {}", NUM_WINDOWS),
+    }
 }
 
 // Implements the EC partial-mul round relation.
@@ -64,10 +83,10 @@ pub fn felt252_to_double_limbs(value: Felt252Expr) -> PackedECMultiplier {
 // 1. Yield (c, 14 * i,     m_c, Q_c)
 // 2. Use   (c, 14 * i + k, 0,   m_c * P_{2i} + Q_c)
 // 3. Add the `k` round rows to this component
-impl AirFn for PartialECMul {
+impl<const NUM_WINDOWS: usize> AirFn for PartialECMul<NUM_WINDOWS> {
     type ExtIn = ();
-    type In = (ChainIdVar, RoundNumVar, PartialECMulState);
-    type Out = (ChainIdVar, RoundNumVar, PartialECMulState);
+    type In = (ChainIdVar, RoundNumVar, PartialECMulState<NUM_WINDOWS>);
+    type Out = (ChainIdVar, RoundNumVar, PartialECMulState<NUM_WINDOWS>);
 
     fn trace_type(&self) -> TraceType {
         TraceType::ChainRound
@@ -79,22 +98,28 @@ impl AirFn for PartialECMul {
         _: (),
         (chain_index, round_index, (m_shifted, accumulator)): Self::In,
     ) -> Self::Out {
-        // Shift `m` 18 bits to the right. We use the fact that Felt252 limbs are 9 bits each,
-        // so 18 bits are a single double-limb.
-        assert_eq!(BITS_PER_WINDOW, FELT252_BITS_PER_WORD * 2);
-        let mut new_m_shifted_elements = m_shifted[1..FELT252_N_WORDS / 2].to_vec();
+        // Shift `m` one window to the right.
+        let window_bits = self.window_bits;
+        let mut new_m_shifted_elements = m_shifted[1..NUM_WINDOWS].to_vec();
         new_m_shifted_elements.push(const_expr!(0));
 
         // Read partial product from the PedersenPoints table
         let window = m_shifted[0].clone();
-        let partial_product_location = const_expr!(ROWS_PER_WINDOW) * round_index.clone() + window;
-        let partial_product =
-            air_builder.lookup_call(&PedersenPointsTable {}, [partial_product_location], ());
+        let rows_per_window = 1 << window_bits;
+        let partial_product_location = const_expr!(rows_per_window) * round_index.clone() + window;
+        let partial_product = match window_bits {
+            9 => {
+                let points_table_air = PedersenPointsTable::<15> { window_bits };
+                air_builder.lookup_call(&points_table_air, [partial_product_location], ())
+            }
+            18 => {
+                let points_table_air = PedersenPointsTable::<23> { window_bits };
+                air_builder.lookup_call(&points_table_air, [partial_product_location], ())
+            }
+            _ => panic!("Unsupported window_bits value {}", window_bits),
+        };
 
         // Compute output
-        let new_m_shifted: PackedECMultiplier = new_m_shifted_elements
-            .try_into()
-            .expect("New m_shifted was built to have FELT252_N_WORDS / 2 elements");
         let new_accumulator = air_builder.call(
             &ECAdd {},
             [
@@ -104,6 +129,11 @@ impl AirFn for PartialECMul {
                 partial_product[1].clone(),
             ],
         );
+
+        let new_m_shifted: PackedECMultiplier<NUM_WINDOWS> = new_m_shifted_elements
+            .try_into()
+            .expect("New m_shifted was built to have NUM_WINDOWS elements");
+
         (
             chain_index,
             round_index + const_expr!(1),
@@ -112,7 +142,9 @@ impl AirFn for PartialECMul {
     }
 }
 
-impl ChainRoundAirFn<PartialECMulState> for PartialECMul {
+impl<const NUM_WINDOWS: usize> ChainRoundAirFn<PartialECMulState<NUM_WINDOWS>>
+    for PartialECMul<NUM_WINDOWS>
+{
     fn number_of_chains(&self) -> usize {
         2
     }

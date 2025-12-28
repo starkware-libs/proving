@@ -635,8 +635,8 @@ impl_air_var!((BlakeH, BlakeState));
 // DecodeBlakeOpcode
 impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
 // PartialECMul
-impl_air_var!((PackedECMultiplier, ECPoint));
-impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState));
+impl_air_var!((PackedECMultiplier<const NUM_WINDOWS: usize>, ECPoint));
+impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState<const NUM_WINDOWS: usize>));
 // QM31ReadReduced
 type QM31Coordinates = [FeltExpr; 4];
 impl_air_var!((QM31Coordinates, CasmId));

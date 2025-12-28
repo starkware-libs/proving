@@ -17,12 +17,12 @@ use crate::core::felt252_id_memory::read_id::*;
 const PEDERSEN_INSTANCE_SIZE: u32 = 3;
 
 #[derive(Debug, Serialize, Default)]
-pub struct PedersenBuiltin {
+pub struct PedersenBuiltin<const NUM_WINDOWS: usize> {
     #[serde(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl AirFn for PedersenBuiltin {
+impl<const NUM_WINDOWS: usize> AirFn for PedersenBuiltin<NUM_WINDOWS> {
     type ExtIn = ();
     type In = ();
     type Out = ();
@@ -58,9 +58,7 @@ impl AirFn for PedersenBuiltin {
         );
 
         air_builder.lookup_call(
-            &PedersenAggregator {
-                memory: self.memory.clone(),
-            },
+            &PedersenAggregator::<NUM_WINDOWS>::new(self.memory.clone()),
             (),
             (input_ids, output_id),
         );
@@ -68,5 +66,14 @@ impl AirFn for PedersenBuiltin {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Builtin
+    }
+
+    fn name(&self) -> String {
+        match NUM_WINDOWS {
+            14 => "pedersen_builtin",
+            28 => "pedersen_builtin_narrow_windows",
+            _ => panic!("Unsupported NUM_WINDOWS val {}", NUM_WINDOWS),
+        }
+        .into()
     }
 }

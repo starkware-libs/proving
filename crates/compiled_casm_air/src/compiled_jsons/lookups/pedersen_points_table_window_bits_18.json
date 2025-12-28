@@ -1,0 +1,480 @@
+{
+  "name": "pedersen_points_table_window_bits_18",
+  "relation_names": [
+    "PedersenPointsTableWindowBits18"
+  ],
+  "relation_size": 57,
+  "log_height": 23,
+  "description": "Pedersen Points Table Window Bits 18",
+  "instance_definition": "{\"window_bits\":18}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "pedersen_points_table_window_bits_18_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "seq_23"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "Var": [
+            "Felt252",
+            "[0]"
+          ]
+        },
+        {
+          "Var": [
+            "Felt252",
+            "[1]"
+          ]
+        }
+      ]
+    },
+    "pedersen_points_table_window_bits_18_output",
+    "[Felt252; 2]",
+    "[PackedFelt252; 2]"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [],
+  "constraint_lookups": [
+    [
+      "PedersenPointsTableWindowBits18",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "seq_23",
+    "pedersen_points_0",
+    "pedersen_points_1",
+    "pedersen_points_2",
+    "pedersen_points_3",
+    "pedersen_points_4",
+    "pedersen_points_5",
+    "pedersen_points_6",
+    "pedersen_points_7",
+    "pedersen_points_8",
+    "pedersen_points_9",
+    "pedersen_points_10",
+    "pedersen_points_11",
+    "pedersen_points_12",
+    "pedersen_points_13",
+    "pedersen_points_14",
+    "pedersen_points_15",
+    "pedersen_points_16",
+    "pedersen_points_17",
+    "pedersen_points_18",
+    "pedersen_points_19",
+    "pedersen_points_20",
+    "pedersen_points_21",
+    "pedersen_points_22",
+    "pedersen_points_23",
+    "pedersen_points_24",
+    "pedersen_points_25",
+    "pedersen_points_26",
+    "pedersen_points_27",
+    "pedersen_points_28",
+    "pedersen_points_29",
+    "pedersen_points_30",
+    "pedersen_points_31",
+    "pedersen_points_32",
+    "pedersen_points_33",
+    "pedersen_points_34",
+    "pedersen_points_35",
+    "pedersen_points_36",
+    "pedersen_points_37",
+    "pedersen_points_38",
+    "pedersen_points_39",
+    "pedersen_points_40",
+    "pedersen_points_41",
+    "pedersen_points_42",
+    "pedersen_points_43",
+    "pedersen_points_44",
+    "pedersen_points_45",
+    "pedersen_points_46",
+    "pedersen_points_47",
+    "pedersen_points_48",
+    "pedersen_points_49",
+    "pedersen_points_50",
+    "pedersen_points_51",
+    "pedersen_points_52",
+    "pedersen_points_53",
+    "pedersen_points_54",
+    "pedersen_points_55"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "PedersenPointsTableWindowBits18",
+        "felts": [
+          {
+            "ExternalState": "seq_23"
+          },
+          {
+            "ExternalState": "pedersen_points_0"
+          },
+          {
+            "ExternalState": "pedersen_points_1"
+          },
+          {
+            "ExternalState": "pedersen_points_2"
+          },
+          {
+            "ExternalState": "pedersen_points_3"
+          },
+          {
+            "ExternalState": "pedersen_points_4"
+          },
+          {
+            "ExternalState": "pedersen_points_5"
+          },
+          {
+            "ExternalState": "pedersen_points_6"
+          },
+          {
+            "ExternalState": "pedersen_points_7"
+          },
+          {
+            "ExternalState": "pedersen_points_8"
+          },
+          {
+            "ExternalState": "pedersen_points_9"
+          },
+          {
+            "ExternalState": "pedersen_points_10"
+          },
+          {
+            "ExternalState": "pedersen_points_11"
+          },
+          {
+            "ExternalState": "pedersen_points_12"
+          },
+          {
+            "ExternalState": "pedersen_points_13"
+          },
+          {
+            "ExternalState": "pedersen_points_14"
+          },
+          {
+            "ExternalState": "pedersen_points_15"
+          },
+          {
+            "ExternalState": "pedersen_points_16"
+          },
+          {
+            "ExternalState": "pedersen_points_17"
+          },
+          {
+            "ExternalState": "pedersen_points_18"
+          },
+          {
+            "ExternalState": "pedersen_points_19"
+          },
+          {
+            "ExternalState": "pedersen_points_20"
+          },
+          {
+            "ExternalState": "pedersen_points_21"
+          },
+          {
+            "ExternalState": "pedersen_points_22"
+          },
+          {
+            "ExternalState": "pedersen_points_23"
+          },
+          {
+            "ExternalState": "pedersen_points_24"
+          },
+          {
+            "ExternalState": "pedersen_points_25"
+          },
+          {
+            "ExternalState": "pedersen_points_26"
+          },
+          {
+            "ExternalState": "pedersen_points_27"
+          },
+          {
+            "ExternalState": "pedersen_points_28"
+          },
+          {
+            "ExternalState": "pedersen_points_29"
+          },
+          {
+            "ExternalState": "pedersen_points_30"
+          },
+          {
+            "ExternalState": "pedersen_points_31"
+          },
+          {
+            "ExternalState": "pedersen_points_32"
+          },
+          {
+            "ExternalState": "pedersen_points_33"
+          },
+          {
+            "ExternalState": "pedersen_points_34"
+          },
+          {
+            "ExternalState": "pedersen_points_35"
+          },
+          {
+            "ExternalState": "pedersen_points_36"
+          },
+          {
+            "ExternalState": "pedersen_points_37"
+          },
+          {
+            "ExternalState": "pedersen_points_38"
+          },
+          {
+            "ExternalState": "pedersen_points_39"
+          },
+          {
+            "ExternalState": "pedersen_points_40"
+          },
+          {
+            "ExternalState": "pedersen_points_41"
+          },
+          {
+            "ExternalState": "pedersen_points_42"
+          },
+          {
+            "ExternalState": "pedersen_points_43"
+          },
+          {
+            "ExternalState": "pedersen_points_44"
+          },
+          {
+            "ExternalState": "pedersen_points_45"
+          },
+          {
+            "ExternalState": "pedersen_points_46"
+          },
+          {
+            "ExternalState": "pedersen_points_47"
+          },
+          {
+            "ExternalState": "pedersen_points_48"
+          },
+          {
+            "ExternalState": "pedersen_points_49"
+          },
+          {
+            "ExternalState": "pedersen_points_50"
+          },
+          {
+            "ExternalState": "pedersen_points_51"
+          },
+          {
+            "ExternalState": "pedersen_points_52"
+          },
+          {
+            "ExternalState": "pedersen_points_53"
+          },
+          {
+            "ExternalState": "pedersen_points_54"
+          },
+          {
+            "ExternalState": "pedersen_points_55"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "PedersenPointsTableWindowBits18",
+        "felts": [
+          {
+            "ExternalState": "seq_23"
+          },
+          {
+            "ExternalState": "pedersen_points_0"
+          },
+          {
+            "ExternalState": "pedersen_points_1"
+          },
+          {
+            "ExternalState": "pedersen_points_2"
+          },
+          {
+            "ExternalState": "pedersen_points_3"
+          },
+          {
+            "ExternalState": "pedersen_points_4"
+          },
+          {
+            "ExternalState": "pedersen_points_5"
+          },
+          {
+            "ExternalState": "pedersen_points_6"
+          },
+          {
+            "ExternalState": "pedersen_points_7"
+          },
+          {
+            "ExternalState": "pedersen_points_8"
+          },
+          {
+            "ExternalState": "pedersen_points_9"
+          },
+          {
+            "ExternalState": "pedersen_points_10"
+          },
+          {
+            "ExternalState": "pedersen_points_11"
+          },
+          {
+            "ExternalState": "pedersen_points_12"
+          },
+          {
+            "ExternalState": "pedersen_points_13"
+          },
+          {
+            "ExternalState": "pedersen_points_14"
+          },
+          {
+            "ExternalState": "pedersen_points_15"
+          },
+          {
+            "ExternalState": "pedersen_points_16"
+          },
+          {
+            "ExternalState": "pedersen_points_17"
+          },
+          {
+            "ExternalState": "pedersen_points_18"
+          },
+          {
+            "ExternalState": "pedersen_points_19"
+          },
+          {
+            "ExternalState": "pedersen_points_20"
+          },
+          {
+            "ExternalState": "pedersen_points_21"
+          },
+          {
+            "ExternalState": "pedersen_points_22"
+          },
+          {
+            "ExternalState": "pedersen_points_23"
+          },
+          {
+            "ExternalState": "pedersen_points_24"
+          },
+          {
+            "ExternalState": "pedersen_points_25"
+          },
+          {
+            "ExternalState": "pedersen_points_26"
+          },
+          {
+            "ExternalState": "pedersen_points_27"
+          },
+          {
+            "ExternalState": "pedersen_points_28"
+          },
+          {
+            "ExternalState": "pedersen_points_29"
+          },
+          {
+            "ExternalState": "pedersen_points_30"
+          },
+          {
+            "ExternalState": "pedersen_points_31"
+          },
+          {
+            "ExternalState": "pedersen_points_32"
+          },
+          {
+            "ExternalState": "pedersen_points_33"
+          },
+          {
+            "ExternalState": "pedersen_points_34"
+          },
+          {
+            "ExternalState": "pedersen_points_35"
+          },
+          {
+            "ExternalState": "pedersen_points_36"
+          },
+          {
+            "ExternalState": "pedersen_points_37"
+          },
+          {
+            "ExternalState": "pedersen_points_38"
+          },
+          {
+            "ExternalState": "pedersen_points_39"
+          },
+          {
+            "ExternalState": "pedersen_points_40"
+          },
+          {
+            "ExternalState": "pedersen_points_41"
+          },
+          {
+            "ExternalState": "pedersen_points_42"
+          },
+          {
+            "ExternalState": "pedersen_points_43"
+          },
+          {
+            "ExternalState": "pedersen_points_44"
+          },
+          {
+            "ExternalState": "pedersen_points_45"
+          },
+          {
+            "ExternalState": "pedersen_points_46"
+          },
+          {
+            "ExternalState": "pedersen_points_47"
+          },
+          {
+            "ExternalState": "pedersen_points_48"
+          },
+          {
+            "ExternalState": "pedersen_points_49"
+          },
+          {
+            "ExternalState": "pedersen_points_50"
+          },
+          {
+            "ExternalState": "pedersen_points_51"
+          },
+          {
+            "ExternalState": "pedersen_points_52"
+          },
+          {
+            "ExternalState": "pedersen_points_53"
+          },
+          {
+            "ExternalState": "pedersen_points_54"
+          },
+          {
+            "ExternalState": "pedersen_points_55"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}
