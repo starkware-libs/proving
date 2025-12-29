@@ -9,7 +9,6 @@ use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
 use indexmap::{IndexMap, IndexSet};
-use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
 use super::cairo_constraints::utils::generate_cairo_constraints_code;
@@ -97,23 +96,6 @@ pub fn get_git_rev(directory: &Path) -> String {
         .to_string()
 }
 
-// Generates the prover & verifier code.
-pub fn dump_component_code(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-    dest_path: &Path,
-) {
-    // TODO(Gali): handle witness sub-routines.
-    if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
-        return;
-    }
-
-    let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
-    let code = format_air_fn_code(raw_code, job.code_type);
-    write_air_fn_code(air_fn, code, dest_path, job.code_type);
-}
-
 /// Create the file `file_path` with the given content, and update the `mod.rs`
 /// file in the same directory to include the new file.
 pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: AutogenCodeType) {
@@ -198,18 +180,7 @@ pub fn format_air_fn_code(code: String, code_type: AutogenCodeType) -> String {
     }
 }
 
-pub fn write_air_fn_code(
-    air_fn: &CompiledAirFn,
-    code: String,
-    dest_dir: &Path,
-    code_type: AutogenCodeType,
-) {
-    let dest_path = generated_code_path(air_fn, dest_dir, code_type);
-
-    add_file_to_module(dest_path.as_path(), code, code_type);
-}
-
-fn generated_code_path(
+pub fn generated_code_path(
     air_fn: &CompiledAirFn,
     dest_dir: &Path,
     code_type: AutogenCodeType,
@@ -225,36 +196,6 @@ fn generated_code_path(
     };
 
     dest_dir.join(&file_name)
-}
-
-pub fn assert_generated_code_unchanged(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-    dest_dir: &Path,
-) {
-    let temp_dir = tempdir().expect("Could not open temporary folder!");
-    let temp_dir = temp_dir.path();
-    let new_code_path = temp_dir.join(&air_fn.name);
-
-    let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
-    let generated_code = format_air_fn_code(raw_code, job.code_type);
-    fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
-
-    let existing_code_path = generated_code_path(air_fn, dest_dir, job.code_type);
-    let existing_code = fs::read_to_string(&existing_code_path)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", existing_code_path.display()));
-    pretty_assertions::assert_eq!(
-        existing_code,
-        generated_code,
-        r#"
-        Generated code in {}.
-        is different from the code in {}.
-        Run the following  to update the code:
-        '$ FIX_CODE=1 cargo test'"#,
-        new_code_path.display(),
-        existing_code_path.display(),
-    );
 }
 
 pub fn get_constraints_folder_path_suffix(r#type: &TraceType, file_name: &String) -> String {
@@ -321,23 +262,6 @@ pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) 
         .relation_names
         .iter()
         .position(|n| n == relation_name)
-}
-
-/// To run in FIX mode - '$ FIX_CODE=1 cargo test'
-#[cfg(test)]
-pub fn compare_contents_or_fix_with_path(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-    path: &Path,
-) {
-    fs::create_dir_all(path).ok();
-    let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
-    if is_fix_mode {
-        dump_component_code(air_fn, sample_evaluation, job, path);
-    } else {
-        assert_generated_code_unchanged(air_fn, sample_evaluation, job, path);
-    }
 }
 
 pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {

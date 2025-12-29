@@ -6,7 +6,8 @@ use air_code_gen::code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
 };
 use air_code_gen::code_gen::utils::{
-    format_air_fn_code, generate_air_fn_code, get_git_rev, load_air_fns, write_air_fn_code,
+    add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
+    load_air_fns,
 };
 use clap::Parser;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
@@ -109,7 +110,8 @@ fn generate_files(
         // is more efficient than formatting each file when generating it due to the startup
         // time of rustfmt and scarb.
         let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
-        write_air_fn_code(compiled_air_fn, code, &dest_dir, job.code_type);
+        let dest_path = generated_code_path(compiled_air_fn, &dest_dir, job.code_type);
+        add_file_to_module(dest_path.as_path(), code, job.code_type);
     }
 }
 
