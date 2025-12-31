@@ -23,6 +23,7 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         "memory_id_to_small".into(),
+        "verify_bitwise_xor_12".into(),
     ]
 }
 
@@ -37,6 +38,7 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
         // TODO(AnatG): Make those changes in codegen or air compilation.
         "cube_252".into(),
         "poseidon_aggregator".into(),
+        "verify_bitwise_xor_12".into(),
     ]
 }
 
@@ -49,6 +51,7 @@ fn get_manual_witness_components() -> Vec<String> {
         "cube_252".into(),
         "partial_ec_mul_window_bits_18".into(),
         "partial_ec_mul_window_bits_9".into(),
+        "verify_bitwise_xor_12".into(),
     ]
 }
 
