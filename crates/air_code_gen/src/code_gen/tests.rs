@@ -11,87 +11,6 @@ use super::utils::{
     load_air_fns, project_root,
 };
 
-fn generate_component_code(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-) {
-    const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
-    const CAIRO_CONSTRAINTS_DIR: &str = "../code_gen_regression/verifier/src/components";
-    const WITNESS_DIR: &str = "../code_gen_regression/witness/src/components";
-    let [constraints_folder_path, cairo_constraints_dir, witness_folder_path] =
-        [CONSTRAINTS_DIR, CAIRO_CONSTRAINTS_DIR, WITNESS_DIR].map(|dir| project_root().join(dir));
-    let path = match job.code_type {
-        AutogenCodeType::WITNESS => witness_folder_path,
-        AutogenCodeType::AIR => constraints_folder_path,
-        AutogenCodeType::CAIRO => cairo_constraints_dir,
-    };
-    compare_contents_or_fix_with_path(air_fn, sample_evaluation, job, &path);
-}
-
-/// To run in FIX mode - '$ FIX_CODE=1 cargo test'
-fn compare_contents_or_fix_with_path(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-    path: &Path,
-) {
-    fs::create_dir_all(path).ok();
-    let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
-    if is_fix_mode {
-        dump_component_code(air_fn, sample_evaluation, job, path);
-    } else {
-        assert_generated_code_unchanged(air_fn, sample_evaluation, job, path);
-    }
-}
-
-fn dump_component_code(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-    dest_path: &Path,
-) {
-    // TODO(Gali): handle witness sub-routines.
-    if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
-        return;
-    }
-
-    let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
-    let code = format_air_fn_code(raw_code, job.code_type);
-    let dest_path = generated_code_path(air_fn, dest_path, job.code_type);
-    add_file_to_module(dest_path.as_path(), code, job.code_type);
-}
-
-fn assert_generated_code_unchanged(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-    dest_dir: &Path,
-) {
-    let temp_dir = tempdir().expect("Could not open temporary folder!");
-    let temp_dir = temp_dir.path();
-    let new_code_path = temp_dir.join(&air_fn.name);
-
-    let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
-    let generated_code = format_air_fn_code(raw_code, job.code_type);
-    fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
-
-    let existing_code_path = generated_code_path(air_fn, dest_dir, job.code_type);
-    let existing_code = fs::read_to_string(&existing_code_path)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", existing_code_path.display()));
-    pretty_assertions::assert_eq!(
-        existing_code,
-        generated_code,
-        r#"
-        Generated code in {}.
-        is different from the code in {}.
-        Run the following  to update the code:
-        '$ FIX_CODE=1 cargo test'"#,
-        new_code_path.display(),
-        existing_code_path.display(),
-    );
-}
-
 #[test]
 fn add_ap_cairo_code_gen() {
     let codegen_jobs = [
@@ -203,4 +122,85 @@ fn code_gen_regression() {
         let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
         generate_component_code(air_fn, sample_evaluation, &job);
     }
+}
+
+fn generate_component_code(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+) {
+    const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
+    const CAIRO_CONSTRAINTS_DIR: &str = "../code_gen_regression/verifier/src/components";
+    const WITNESS_DIR: &str = "../code_gen_regression/witness/src/components";
+    let [constraints_folder_path, cairo_constraints_dir, witness_folder_path] =
+        [CONSTRAINTS_DIR, CAIRO_CONSTRAINTS_DIR, WITNESS_DIR].map(|dir| project_root().join(dir));
+    let path = match job.code_type {
+        AutogenCodeType::WITNESS => witness_folder_path,
+        AutogenCodeType::AIR => constraints_folder_path,
+        AutogenCodeType::CAIRO => cairo_constraints_dir,
+    };
+    compare_contents_or_fix_with_path(air_fn, sample_evaluation, job, &path);
+}
+
+/// To run in FIX mode - '$ FIX_CODE=1 cargo test'
+fn compare_contents_or_fix_with_path(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+    path: &Path,
+) {
+    fs::create_dir_all(path).ok();
+    let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
+    if is_fix_mode {
+        dump_component_code(air_fn, sample_evaluation, job, path);
+    } else {
+        assert_generated_code_unchanged(air_fn, sample_evaluation, job, path);
+    }
+}
+
+fn dump_component_code(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+    dest_path: &Path,
+) {
+    // TODO(Gali): handle witness sub-routines.
+    if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
+        return;
+    }
+
+    let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
+    let code = format_air_fn_code(raw_code, job.code_type);
+    let dest_path = generated_code_path(air_fn, dest_path, job.code_type);
+    add_file_to_module(dest_path.as_path(), code, job.code_type);
+}
+
+fn assert_generated_code_unchanged(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+    job: &AutogenCodeFile,
+    dest_dir: &Path,
+) {
+    let temp_dir = tempdir().expect("Could not open temporary folder!");
+    let temp_dir = temp_dir.path();
+    let new_code_path = temp_dir.join(&air_fn.name);
+
+    let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
+    let generated_code = format_air_fn_code(raw_code, job.code_type);
+    fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
+
+    let existing_code_path = generated_code_path(air_fn, dest_dir, job.code_type);
+    let existing_code = fs::read_to_string(&existing_code_path)
+        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", existing_code_path.display()));
+    pretty_assertions::assert_eq!(
+        existing_code,
+        generated_code,
+        r#"
+        Generated code in {}.
+        is different from the code in {}.
+        Run the following  to update the code:
+        '$ FIX_CODE=1 cargo test'"#,
+        new_code_path.display(),
+        existing_code_path.display(),
+    );
 }
