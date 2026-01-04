@@ -33,15 +33,11 @@ pub struct Assignment {
     pub claimed_sum: QM31,
 
     pub log_height: u32,
-
-    pub point: (QM31, QM31),
 }
 
 impl Assignment {
     pub fn new_random_for(component: &CompiledAirFn) -> Assignment {
         let log_height = ASSIGNMENT_LOG_HEIGHT;
-
-        let point = circle_point_from_t(random_qm31("point_t"));
 
         let base_trace_len = component.state_names.len();
         let interaction_trace_len = component.constraint_lookups.len().div_ceil(2);
@@ -86,7 +82,6 @@ impl Assignment {
             }),
             claimed_sum: random_qm31("claimed_sum"),
             log_height,
-            point,
         }
     }
 }

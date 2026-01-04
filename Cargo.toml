@@ -26,13 +26,13 @@ convert_case = "0.8.0"
 eval_air_fn_constraints = { path = "./crates/eval_air_fn_constraints" }
 generic-tests = "0.1.3"
 
-stwo = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = [
+stwo = { git = "https://github.com/starkware-libs/stwo", rev = "c82225a", features = [
     "prover",
 ] }
-stwo-air-utils = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d" }
-stwo-air-utils-derive = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d" }
-stwo-constraint-framework = { git = "https://github.com/starkware-libs/stwo", rev = "d9c929d", features = [
+stwo-air-utils = { git = "https://github.com/starkware-libs/stwo", rev = "c82225a" }
+stwo-air-utils-derive = { git = "https://github.com/starkware-libs/stwo", rev = "c82225a" }
+stwo-constraint-framework = { git = "https://github.com/starkware-libs/stwo", rev = "c82225a", features = [
     "prover",
 ] }
-stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "e2f2f88" }
-stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "e2f2f88" }
+stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "3df217b" }
+stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "3df217b" }

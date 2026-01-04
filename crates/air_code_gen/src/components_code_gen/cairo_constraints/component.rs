@@ -59,11 +59,8 @@ pub fn generate_component_cairo_constraints_code(
                 ref trace_mask_values: ColumnSpan<Span<QM31>>,
                 ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
                 random_coeff: QM31,
-                point: CirclePoint<QM31>,
             ) {
                 let log_size = $(get_log_size(air_fn, false));
-                let trace_domain = CanonicCosetImpl::new(log_size);
-                let domain_vanishing_eval_inv = trace_domain.eval_vanishing(point).inverse();
                 let claimed_sum = *self.interaction_claim.claimed_sum;
                 let column_size = m31(pow2(log_size));
                 $(get_evaluate_locals(air_fn))$("\n")
@@ -74,7 +71,6 @@ pub fn generate_component_cairo_constraints_code(
 
                 lookup_constraints(
                     ref sum,
-                    domain_vanishing_eval_inv,
                     random_coeff,
                     claimed_sum,
                     $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ",\n").join(""))
@@ -179,17 +175,12 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             use crate::test_utils::{make_interaction_trace, preprocessed_mask_add};
             #[allow(unused_imports)]
             use stwo_constraint_framework::{LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
-            use stwo_verifier_core::circle::CirclePoint;
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
             #[test]
             fn test_evaluation_result() {
                 let component = $(gen_component_for_assignment(air_fn, assignment));
                 let mut sum: QM31 = Zero::zero();
-                let point = CirclePoint {
-                    x: $(make_qm31(&assignment.point.0)),
-                    y: $(make_qm31(&assignment.point.1))
-                };
 
                 let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
                 $(preprocessed_values)
@@ -197,7 +188,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                 let mut trace_columns = [ $(trace_values) ].span();
                 let interaction_values = array![ $(interaction_values) ];
                 let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
-                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), point);
+                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)));
                 preprocessed_trace.validate_usage();
                 assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
             }
