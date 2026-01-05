@@ -337,12 +337,14 @@ fn add_entry_statistics(
 
         // Update uses upper bound for the lowest level lookup components (that have no callees).
         if entry_stats.uses_upper_bound.is_empty() {
+            // The called AirFn is a leaf AirFn (doesn't use other AirFns)
             assert!(
                 compiled_called_entry.padding_type == PaddingType::Multiplicity,
                 "If the entry doesn't use any other components, it must be padded with multiplicity."
             );
             *uses_upper_bound.entry(name.clone()).or_default() += cnt;
         } else {
+            // The called AirFn is not a leaf AirFn
             entry_stats
                 .uses_upper_bound
                 .iter()

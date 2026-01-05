@@ -44,7 +44,7 @@ impl LookupElements {
 
 // Convert a string to a random QM31 using the FNV hash
 // (see https://en.wikipedia.org/wiki/Fowler-Noll-Vo_hash_function)
-pub fn random_qm31(id: &String) -> QM31 {
+pub fn random_qm31(id: &str) -> QM31 {
     let mut hash: u128 = 144066263297769815596495629667062367629;
 
     for byte in id.as_bytes() {

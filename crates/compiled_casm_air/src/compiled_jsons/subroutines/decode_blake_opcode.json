@@ -2135,6 +2135,12 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1719106205"
+            ]
+          },
+          {
             "Var": [
               "M31",
               "decode_blake_opcode_input.pc"
@@ -2513,6 +2519,12 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
             "BinaryOp": [
               {
                 "State": "mem0_base_col8"
@@ -2709,6 +2721,12 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
           {
             "State": "op0_id_col9"
           },
@@ -3169,6 +3187,12 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
             "BinaryOp": [
               {
                 "State": "mem1_base_col15"
@@ -3365,6 +3389,12 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
           {
             "State": "op1_id_col16"
           },
@@ -3771,6 +3801,12 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
             "Var": [
               "M31",
               "decode_blake_opcode_input.ap"
@@ -3959,6 +3995,12 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
           {
             "State": "ap_id_col22"
           },
@@ -4825,6 +4867,12 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "371240602"
+            ]
+          },
+          {
             "State": "low_7_ms_bits_col31"
           },
           {
@@ -4905,6 +4953,12 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
             "BinaryOp": [
               {
                 "State": "mem_dst_base_col28"
@@ -4938,6 +4992,12 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
           {
             "State": "dst_id_col34"
           },

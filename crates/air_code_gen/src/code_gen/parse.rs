@@ -10,7 +10,6 @@ use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexSet;
 use itertools::Itertools;
 
 use crate::code_gen::utils::{relation_multiplicity_index, remove_trailing_zeroes};
@@ -180,17 +179,11 @@ fn gen_evaluate_call(
         .map(|arg| parse_eval_constraint(air_fn, arg, constant_names))
         .collect::<Vec<_>>();
     let inline_fn = id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
-    let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
-    let relation_names = relations
-        .iter()
-        .map(|(relation, _)| relation.to_case(Case::Snake))
-        .collect::<IndexSet<_>>();
-    for relation in relation_names {
-        if air_fn.r#type == TraceType::Inline {
-            arg_str.push(format!("{relation}_lookup_elements"));
-        } else {
-            arg_str.push(format!("&self.{relation}_lookup_elements"));
-        }
+    let (_, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
+    if air_fn.r#type == TraceType::Inline {
+        arg_str.push("common_lookup_elements".to_string());
+    } else {
+        arg_str.push("&self.common_lookup_elements".to_string());
     }
     for param in params {
         arg_str.push(parse_eval_constraint(
@@ -259,13 +252,13 @@ pub fn parse_lookup_constraint(
     if air_fn.r#type == TraceType::Inline {
         quote! {
             eval.add_to_relation(RelationEntry::new(
-                $(relation_name.to_case(Case::Snake))_lookup_elements,
+                common_lookup_elements,
                 $(sign)$numerator, $(lookup_values_str)));
         }
     } else {
         quote! {
             eval.add_to_relation(RelationEntry::new(&self.
-                $(relation_name.to_case(Case::Snake))_lookup_elements,
+                common_lookup_elements,
                 $(sign)$numerator, $(lookup_values_str)));
         }
     }

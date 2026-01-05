@@ -6,9 +6,6 @@ use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use indexmap::IndexSet;
-
-use crate::code_gen::cairo_constraints::utils::lookup_elements_field;
 
 pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
@@ -62,16 +59,16 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                     .collect::<Vec<_>>();
                 let relation_name = relation_name.to_case(Case::Snake);
                 let lookup_elements = if air_fn.r#type == TraceType::Inline {
-                    format!("{relation_name}_lookup_elements")
+                    "common_lookup_elements"
                 } else {
-                    format!("self.{}", lookup_elements_field(&relation_name))
+                    "self.common_lookup_elements"
                 };
                 code.append(quote! {
                     $("\n")
                     $(relation_name.clone())_sum_$(relation_offset) = $(lookup_elements).combine_qm31(
                         [
                             $(felts.join(",\n"))
-                        ],
+                        ].span(),
                     );
                 });
                 relation_offset += 1;
@@ -137,16 +134,10 @@ fn gen_evaluate_call(
 
     let inline_fn = id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
     let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
-    let relation_names = relations
-        .iter()
-        .map(|(relation, _)| relation.to_case(Case::Snake))
-        .collect::<IndexSet<_>>();
-    for relation in &relation_names {
-        if air_fn.r#type == TraceType::Inline {
-            arg_str.push(format!("{relation}_lookup_elements"));
-        } else {
-            arg_str.push(format!("self.{}", lookup_elements_field(relation)));
-        }
+    if air_fn.r#type == TraceType::Inline {
+        arg_str.push("common_lookup_elements".to_string());
+    } else {
+        arg_str.push("self.common_lookup_elements".to_string());
     }
     for param in params {
         arg_str.push(parse_var(
