@@ -12,7 +12,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::code_gen::utils::{relation_multiplicity_index, remove_trailing_zeroes};
+use crate::utils::{relation_multiplicity_index, remove_trailing_zeroes};
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
 pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String, String)> {

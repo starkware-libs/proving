@@ -13,8 +13,10 @@ use itertools::{chain, Itertools};
 use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
-use super::utils::{get_variable_name, replace_generics_with_turbofish};
-use crate::code_gen::utils::{is_const_size_component, make_preprocessed_column_id};
+use crate::utils::{
+    get_variable_name, is_const_size_component, make_preprocessed_column_id,
+    replace_generics_with_turbofish,
+};
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
 pub fn generate_toplevel_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {

@@ -13,7 +13,7 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, get_lookup_sums, get_multiplicities,
     make_preprocessed_column,
 };
-use crate::code_gen::utils::is_const_size_component;
+use crate::utils::is_const_size_component;
 
 pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
 

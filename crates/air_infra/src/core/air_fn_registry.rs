@@ -299,7 +299,6 @@ impl AirFnRegistry {
         }
     }
 
-    #[cfg(test)]
     pub fn new<E, I, O>(air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>) -> (Self, AirFnEntry)
     where
         E: ExtTable,

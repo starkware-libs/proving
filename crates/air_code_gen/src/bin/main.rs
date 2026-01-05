@@ -1,11 +1,12 @@
 use std::fs;
 use std::path::{absolute, Path, PathBuf};
 
-use air_code_gen::code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
-use air_code_gen::code_gen::supported_components::{
+use air_code_gen::cairo_claim_generator::generate_cairo_claim_generator_file;
+use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
+use air_code_gen::components_code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
 };
-use air_code_gen::code_gen::utils::{
+use air_code_gen::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
     load_air_fns,
 };
@@ -19,6 +20,8 @@ use xshell::{cmd, Shell};
 
 const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
+pub const CAIRO_CLAIM_GENERATOR_FILE_PATH: &str =
+    "stwo_cairo_prover/crates/prover/src/witness/cairo_claim_generator.rs";
 
 #[derive(Serialize)]
 struct VersionedCasmRegistry {
@@ -287,6 +290,13 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     );
 
     generate_registry_properties_file(&args);
+
+    let cairo_claim_generator_code = generate_cairo_claim_generator_file();
+    fs::write(
+        args.stwo_cairo_path.join(CAIRO_CLAIM_GENERATOR_FILE_PATH),
+        cairo_claim_generator_code.to_string().unwrap(),
+    )
+    .expect("Failed to write cairo claim generator code");
 
     format_stwo_cairo(&args.stwo_cairo_path);
 

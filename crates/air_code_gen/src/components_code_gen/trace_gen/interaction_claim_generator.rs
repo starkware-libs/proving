@@ -7,7 +7,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::RustProverGen;
-use crate::code_gen::utils::{
+use crate::utils::{
     is_const_size_component, relation_multiplicity_index, relations_used_or_yielded,
 };
 

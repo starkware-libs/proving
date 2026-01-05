@@ -3,7 +3,7 @@ use genco::lang::rust;
 use genco::quote;
 
 use super::utils::{get_log_size, n_logup_columns};
-use crate::code_gen::utils::is_const_size_component;
+use crate::utils::is_const_size_component;
 
 pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();

@@ -3,7 +3,6 @@ use std::cell::Ref;
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirFnStat, NonComponentStat, PaddingType, TraceType, UseOrYield,
 };
-use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
     JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
     REGISTRY_PROPERTIES_FILE_NAME, SAMPLE_EVALUATIONS_FILE_NAME,
@@ -13,28 +12,10 @@ use eval_air_fn_constraints::create_sample_evaluation;
 use indexmap::IndexMap;
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
-// Builtins
-use super::builtins::bitwise::*;
-use super::builtins::modulo::add_mod::*;
-use super::builtins::modulo::mul_mod::*;
-use super::builtins::pedersen::pedersen_builtin::*;
-use super::builtins::poseidon::poseidon_builtin::*;
-use super::builtins::range_check::*;
-// Opcodes
-use super::opcodes::add_ap_opcode::*;
-use super::opcodes::add_opcode::*;
-use super::opcodes::assert_eq_opcode::*;
-use super::opcodes::blake::blake_compress_opcode::*;
-use super::opcodes::call_opcode::*;
-use super::opcodes::generic_opcode::generic_opcode::*;
-use super::opcodes::jnz_opcode::*;
-use super::opcodes::jump_opcode::*;
-use super::opcodes::mul_opcode::*;
-use super::opcodes::qm31::qm31_add_mul_opcode::*;
-use super::opcodes::ret_opcode::*;
+use crate::airs::casm::builtins::pedersen::pedersen_builtin::*;
+use crate::airs::casm::casm_registry::create_casm_registry;
 use crate::core::air_fn_registry::*;
 use crate::core::felt252_id_memory::id_to_small::*;
-use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
 
 const LOOKUPS_PER_BATCH: usize = 2;
@@ -49,131 +30,13 @@ const MAX_ROWS_PER_COMPONENT: usize = 2_usize.pow(28);
 // Note that other components used by an opcode or a builtin will be added to the registry
 // automatically.
 
-#[cfg(test)]
-pub fn create_casm_registry() -> AirFnRegistry {
-    let mut reg = AirFnRegistry::new_empty();
-
-    // Memory id to small
-    reg.add_entry(&MemoryIdToSmall::default());
-
-    // Add builtins
-    reg.add_entry(&BitwiseBuiltin::default());
-    reg.add_entry(&RangeCheckBuiltin {
-        bits: 128,
-        memory: Felt252IdMemory::default(),
-        segment_start: PublicParam::RangeCheckBuiltinSegmentStart,
-    });
-    reg.add_entry(&RangeCheckBuiltin {
-        bits: 96,
-        memory: Felt252IdMemory::default(),
-        segment_start: PublicParam::RangeCheck96BuiltinSegmentStart,
-    });
-    reg.add_entry(&AddModBuiltin::default());
-    reg.add_entry(&MulModBuiltin::default());
-    reg.add_entry(&PoseidonBuiltin::default());
-    reg.add_entry(&PedersenBuiltin::<14>::default());
-    reg.add_entry(&PedersenBuiltin::<28>::default());
-
-    // Add opcodes
-
-    // Generic opcode
-    reg.add_entry(&GenericOpcode::default());
-    // AddAp opcode
-    reg.add_entry(&AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    });
-    // Add opcode
-    reg.add_entry(&AddOpcode {
-        small: true,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AddOpcode {
-        small: false,
-        memory: Felt252IdMemory::default(),
-    });
-    // AssertEq opcode
-    reg.add_entry(&AssertEqOpcode {
-        double_deref: false,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AssertEqOpcode {
-        double_deref: true,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AssertEqOpcode {
-        double_deref: false,
-        imm: true,
-        memory: Felt252IdMemory::default(),
-    });
-    //  Call opcode
-    reg.add_entry(&CallOpcode {
-        rel_imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&CallOpcode {
-        rel_imm: true,
-        memory: Felt252IdMemory::default(),
-    });
-    // Jnz opcode
-    reg.add_entry(&JnzOpcode {
-        taken: true,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&JnzOpcode {
-        taken: false,
-        memory: Felt252IdMemory::default(),
-    });
-    // Jump opcode
-    reg.add_entry(&JumpOpcode {
-        rel: true,
-        imm: true,
-        double_deref: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&JumpOpcode {
-        rel: true,
-        imm: false,
-        double_deref: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&JumpOpcode {
-        rel: false,
-        imm: false,
-        double_deref: true,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&JumpOpcode {
-        rel: false,
-        imm: false,
-        double_deref: false,
-        memory: Felt252IdMemory::default(),
-    });
-    // Mul opcode
-    reg.add_entry(&MulOpcode {
-        small: true,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&MulOpcode {
-        small: false,
-        memory: Felt252IdMemory::default(),
-    });
-    // Ret opcode
-    reg.add_entry(&RetOpcode::default());
-    // QM31AddMul opcode
-    reg.add_entry(&QM31AddMulOpcode {
-        memory: Felt252IdMemory::default(),
-    });
-    // Blake opcode
-    reg.add_entry(&BlakeCompressOpcode::default());
-
-    reg
-}
-
 #[test]
 fn test_casm_registry() {
-    let reg = create_casm_registry();
+    let mut reg = create_casm_registry();
+    // Memory id to small
+    reg.add_entry(&MemoryIdToSmall::default());
+    // Pedersen builtin
+    reg.add_entry(&PedersenBuiltin::<28>::default());
 
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();

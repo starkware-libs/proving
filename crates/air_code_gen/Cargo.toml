@@ -4,6 +4,7 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
+air_infra = { path = "../air_infra" }
 compiled_casm_air = { path = "../compiled_casm_air" }
 eval_air_fn_constraints.workspace = true
 genco.workspace = true
@@ -23,6 +24,7 @@ default = []
 fix_code = []
 
 [dev-dependencies]
+expect-test = "1.4"
 rand = { version = "0.8.5" }
 serde_json.workspace = true
 

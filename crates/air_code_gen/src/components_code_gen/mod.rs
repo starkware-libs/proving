@@ -5,4 +5,3 @@ pub mod supported_components;
 #[cfg(test)]
 mod tests;
 pub mod trace_gen;
-pub mod utils;

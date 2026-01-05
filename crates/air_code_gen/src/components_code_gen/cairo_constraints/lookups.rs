@@ -5,7 +5,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::utils::{get_lookup_sums, get_multiplicities, n_logup_columns, QM31_N_TRACE_CELLTS};
-use crate::code_gen::utils::relation_multiplicity_index;
+use crate::utils::relation_multiplicity_index;
 
 pub const LOOKUP_RELATION_BATCH_SIZE: usize = 2;
 pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;
@@ -121,7 +121,7 @@ fn get_lookup_constraints_prefix(
     if !prev_trace.is_empty() {
         let prev = format!("QM31Impl::from_partial_evals([{}])", prev_trace.join(", "));
         prefix = format!(
-            "{prefix} 
+            "{prefix}
                 - {prev}"
         );
     }
@@ -133,7 +133,7 @@ fn get_lookup_constraints_prefix(
         );
         let claimed_sum = "(claimed_sum * (column_size.inverse().into()))".to_string();
         prefix = format!(
-            "{prefix} 
+            "{prefix}
                 - {neg}
                 + {claimed_sum}"
         );
