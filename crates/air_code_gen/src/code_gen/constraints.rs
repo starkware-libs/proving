@@ -379,15 +379,10 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
     for (ty, val) in constants.into_iter() {
         let name = get_variable_name(&ty, &val);
         const_names.insert((ty.clone(), val.clone()), name.clone());
-        if ty == "M31" {
-            code.append(quote! {
-                let $(name) = E::F::from($(replace_generics_with_turbofish(&ty))::from($(val)));
-            });
-        } else {
-            code.append(quote! {
-                let $(name) = $(replace_generics_with_turbofish(&ty))::from($(val));
-            });
-        }
+        assert_eq!(ty, "M31", "Unsupported constant type {ty}");
+        code.append(quote! {
+            let $(name) = E::F::from($(replace_generics_with_turbofish(&ty))::from($(val)));
+        });
     }
 
     if air_fn.r#type != TraceType::Inline {
