@@ -11,7 +11,7 @@ use xshell::{cmd, Shell};
 
 use super::component::generate_component_cairo_constraints_code;
 use super::iniline_evaluate::generate_inline_cairo_constraints_code;
-use crate::code_gen::utils::is_const_size_component;
+use crate::utils::is_const_size_component;
 
 pub const QM31_N_TRACE_CELLTS: usize = 4;
 

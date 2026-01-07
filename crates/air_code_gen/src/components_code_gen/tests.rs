@@ -6,7 +6,7 @@ use eval_air_fn_constraints::SampleEvaluation;
 use tempfile::tempdir;
 
 use super::supported_components::{AutogenCodeFile, AutogenCodeType};
-use super::utils::{
+use crate::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path,
     load_air_fns, project_root,
 };

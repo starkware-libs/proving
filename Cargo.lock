@@ -15,10 +15,12 @@ dependencies = [
 name = "air_code_gen"
 version = "0.1.0"
 dependencies = [
+ "air_infra",
  "clap",
  "compiled_casm_air",
  "convert_case",
  "eval_air_fn_constraints",
+ "expect-test",
  "genco",
  "indexmap",
  "itertools 0.12.1",
@@ -1754,7 +1756,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-common"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=c29727b#c29727bcad00bfd96a8bcc9c434a9feb89006550"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e2f2f88#e2f2f88989feb9febe1dd0b2842cc12e86bb1442"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1773,7 +1775,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=c29727b#c29727bcad00bfd96a8bcc9c434a9feb89006550"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e2f2f88#e2f2f88989feb9febe1dd0b2842cc12e86bb1442"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1783,7 +1785,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize-derive"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=c29727b#c29727bcad00bfd96a8bcc9c434a9feb89006550"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e2f2f88#e2f2f88989feb9febe1dd0b2842cc12e86bb1442"
 dependencies = [
  "quote",
  "syn 2.0.111",

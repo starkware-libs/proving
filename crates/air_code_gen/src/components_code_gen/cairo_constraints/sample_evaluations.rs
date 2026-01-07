@@ -8,9 +8,9 @@ use genco::quote;
 use indexmap::IndexMap;
 
 use super::component::SAMPLE_EVALUATION_RESULT_SUFFIX;
-use crate::code_gen::cairo_constraints::utils::format_cairo_code;
-use crate::code_gen::supported_components::AutogenCodeType;
-use crate::code_gen::utils::add_file_to_module;
+use crate::components_code_gen::cairo_constraints::utils::format_cairo_code;
+use crate::components_code_gen::supported_components::AutogenCodeType;
+use crate::utils::add_file_to_module;
 
 pub fn generate_sample_evaluations_file(
     dest_dir: &Path,

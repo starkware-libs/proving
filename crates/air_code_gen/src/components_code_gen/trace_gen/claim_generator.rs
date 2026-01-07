@@ -10,10 +10,10 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
-use crate::code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
-use crate::code_gen::utils::{
-    block_doc, get_variable_name, is_const_size_component, make_preprocessed_column_id,
-    relations_used_or_yielded, replace_generics_with_turbofish,
+use crate::components_code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
+use crate::utils::{
+    block_doc, get_variable_name, is_const_size_component, is_state_component_name,
+    make_preprocessed_column_id, relations_used_or_yielded, replace_generics_with_turbofish,
 };
 
 impl RustProverGen {
@@ -654,12 +654,8 @@ fn simd_parse_air_var(
         CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(id, args) => {
             // TODO(AnatG): get that information from the air infra.
-            let functions_requiring_state_object = [
-                "BlakeRound::deduce_output",
-                "MemoryAddressToId::deduce_output",
-                "MemoryIdToBig::deduce_output",
-            ];
-            if functions_requiring_state_object.contains(&id.as_str()) {
+            let component_name = id.split("::").next().unwrap().to_case(Case::Snake);
+            if is_state_component_name(&component_name) {
                 let mut id = id.to_case(Case::Snake);
                 id = id.replace("::", &format!("{STATE_SUFFIX}."));
                 let input = simd_parse_air_var(&args[0], constant_names);

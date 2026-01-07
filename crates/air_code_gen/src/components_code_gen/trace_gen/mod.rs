@@ -12,7 +12,7 @@ use interaction_claim_generator::interaction_prover_struct;
 use itertools::Itertools;
 
 use super::parse::seek_consts;
-use crate::code_gen::utils::is_const_size_component;
+use crate::utils::is_const_size_component;
 
 pub enum Mode {
     NoInputs,
