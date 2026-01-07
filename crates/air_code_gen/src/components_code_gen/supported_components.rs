@@ -36,10 +36,13 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         "memory_id_to_small".into(),
-        // TODO(AnatG): Make those changes in codegen or air compilation.
         "cube_252".into(),
         "poseidon_aggregator".into(),
         "verify_bitwise_xor_12".into(),
+        // We do not support pedersen narrow windows in Cairo.
+        // In particular, the ppt with the columns of pedersen_points_table_window_bits_9 doesn't
+        // exist, so the sample evaluation test of this component fails.
+        "pedersen_points_table_window_bits_9".into(),
     ]
 }
 

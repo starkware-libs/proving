@@ -28,8 +28,8 @@ pub fn generate_claim_generator_file(
         use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
             PreProcessedTrace, MAX_SEQUENCE_LOG_SIZE,
         };
+        pub use stwo::prover::backend::simd::SimdBackend;
         use crate::witness::components::*;
-        use crate::witness::prelude::SimdBackend;
         use crate::witness::utils::TreeBuilder;
 
         #[derive(Default)]
@@ -77,14 +77,12 @@ fn generate_fill_components(compiled_registry: &IndexMap<String, CompiledAirFn>)
             TraceType::Builtin => {
                 let constant_name_str = name.to_case(Case::Constant) + "_MEMORY_CELLS";
                 let init_code = quote! {
-                    let segment = builtin_segments.$(name).unwrap();
-
+                    let segment = builtin_segments.get_segment_by_name($(format!("\"{name}\""))).unwrap();
                     let segment_length = segment.stop_ptr - segment.begin_addr;
                     assert!(
                         segment_length.is_multiple_of($(&constant_name_str)),
                         $(format!("\"{} segment length is not a multiple of it's cells_per_instance\"", name))
                     );
-
                     let n_instances = segment_length / $(constant_name_str);
                     assert!(
                         n_instances.is_power_of_two(),
@@ -113,7 +111,7 @@ fn generate_fill_components(compiled_registry: &IndexMap<String, CompiledAirFn>)
         };
 
         spawn_bodies.append(quote! {
-            if components.contains($(format!("&\"{}\"", &name))) {
+            if components.contains($(format!("&\"{name}\""))) {
                 s.spawn(|_| {
                     $(builtin_init_code)
                     *$(&ref_name) = Some($(name)::ClaimGenerator::new($(args)));
