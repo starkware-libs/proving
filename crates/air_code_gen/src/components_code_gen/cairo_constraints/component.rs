@@ -3,7 +3,7 @@ use convert_case::{Case, Casing};
 use eval_air_fn_constraints::assignment::Assignment;
 use genco::lang::rust;
 use genco::quote;
-use itertools::Itertools;
+use itertools::{chain, Itertools};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
@@ -245,30 +245,14 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
-    let has_state_vars = !air_fn.state_names.is_empty();
     let mults = get_multiplicities(air_fn);
-    let has_mults = !mults.is_empty();
 
-    match (has_state_vars, has_mults) {
-        (true, true) => {
-            code.append(quote! {
-                let $(format!("[{}, {}]: [Span<QM31>; {}]", air_fn.state_names.join(", "), mults.join(", "), air_fn.state_names.len() + mults.len()))
-                    = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
-            });
-        }
-        (true, false) => {
-            code.append(quote! {
-                let $(format!("[{}]: [Span<QM31>; {}]", air_fn.state_names.join(", "), air_fn.state_names.len()))
-                    = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
-            });
-        }
-        (false, true) => {
-            code.append(quote! {
-                let $(format!("[{}]: [Span<QM31>; {}]", mults.join(", "), mults.len()))
-                    = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
-            });
-        }
-        (false, false) => {}
+    let trace_names = chain!(air_fn.state_names.clone(), mults.clone()).collect_vec();
+    if !trace_names.is_empty() {
+        code.append(quote! {
+            let $(format!("[{}]: [Span<QM31>; {}]", trace_names.join(", "), trace_names.len()))
+                = (*trace_mask_values.multi_pop_front().unwrap()).unbox();
+        });
     }
 
     for name in &air_fn.state_names {
