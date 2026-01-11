@@ -16,6 +16,9 @@ use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use serde::Serialize;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
+    CANONICAL_SIZE, CANONICAL_WITHOUT_PEDERSEN_SIZE,
+};
 use xshell::{cmd, Shell};
 
 const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
@@ -27,6 +30,9 @@ pub const CAIRO_CLAIM_GENERATOR_FILE_PATH: &str =
 struct VersionedCasmRegistry {
     /// The Git commit hash of the repository we took the statistics from
     pub air_version: String,
+    /// The total number of trace cells in the preprocessed tables, taken from stwo-cairo
+    pub canonical_ppt_n_trace_cells: u32,
+    pub canonical_without_pedersen_ppt_n_trace_cells: u32,
     pub air_fns: IndexMap<String, CompiledAirFnStat>,
 }
 
@@ -138,6 +144,8 @@ fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
     let casm_registry_src = read_casm_registry(&args.source);
     let casm_registry_out = VersionedCasmRegistry {
         air_version: source_repo_rev,
+        canonical_ppt_n_trace_cells: CANONICAL_SIZE,
+        canonical_without_pedersen_ppt_n_trace_cells: CANONICAL_WITHOUT_PEDERSEN_SIZE,
         air_fns: casm_registry_src,
     };
 
