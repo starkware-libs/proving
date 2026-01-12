@@ -138,6 +138,7 @@ fn generate_component_code(
         AutogenCodeType::WITNESS => witness_folder_path,
         AutogenCodeType::AIR => constraints_folder_path,
         AutogenCodeType::CAIRO => cairo_constraints_dir,
+        _ => unimplemented!(),
     };
     compare_contents_or_fix_with_path(air_fn, sample_evaluation, job, &path);
 }

@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::{absolute, Path, PathBuf};
+use std::path::{Path, PathBuf};
 
 use air_code_gen::cairo_claim_generator::generate_cairo_claim_generator_file;
 use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
@@ -23,6 +23,7 @@ use xshell::{cmd, Shell};
 
 const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
+const DEFAULT_STWO_CIRCUITS_PATH: &str = "../stwo-circuits/";
 pub const CAIRO_CLAIM_GENERATOR_FILE_PATH: &str =
     "stwo_cairo_prover/crates/prover/src/witness/cairo_claim_generator.rs";
 
@@ -56,11 +57,11 @@ fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
 
 /// For each JSON in the given directory, create AutogenCodeFile jobs
 /// for each code type.
-fn get_stwo_cairo_jobs(args: &GenerateStwoCairoArgs) -> Vec<AutogenCodeFile> {
+fn get_jobs(source_dir: &Path, code_types: &[AutogenCodeType]) -> Vec<AutogenCodeFile> {
     let mut result = vec![];
 
     let mut skipped_files = 0;
-    for json_path in jsons_in_dir(&args.source.join("compiled_jsons")) {
+    for json_path in jsons_in_dir(&source_dir.join("compiled_jsons")) {
         let air_fn_name = json_path
             .file_stem()
             .expect("Invalid path")
@@ -71,12 +72,8 @@ fn get_stwo_cairo_jobs(args: &GenerateStwoCairoArgs) -> Vec<AutogenCodeFile> {
             .parent()
             .expect("Invalid path")
             .ends_with("subroutines");
-        for code_type in [
-            AutogenCodeType::AIR,
-            AutogenCodeType::WITNESS,
-            AutogenCodeType::CAIRO,
-        ] {
-            if code_type == AutogenCodeType::WITNESS && is_subroutine {
+        for code_type in code_types {
+            if *code_type == AutogenCodeType::WITNESS && is_subroutine {
                 // Skip witness generation for subroutines (in witness code, the subroutines are
                 // inlined into their caller files).
                 continue;
@@ -85,7 +82,7 @@ fn get_stwo_cairo_jobs(args: &GenerateStwoCairoArgs) -> Vec<AutogenCodeFile> {
             let job = AutogenCodeFile {
                 air_fn_name: air_fn_name.clone(),
                 source_path: json_path.clone(),
-                code_type,
+                code_type: *code_type,
             };
             if is_supported(&job) {
                 result.push(job);
@@ -103,13 +100,13 @@ fn get_stwo_cairo_jobs(args: &GenerateStwoCairoArgs) -> Vec<AutogenCodeFile> {
 
 /// Generates component code from JSON files in the source directory.
 fn generate_files(
-    stwo_cairo_path: &Path,
+    target_repo_path: &Path,
     compiled_air_fns: &IndexMap<String, CompiledAirFn>,
     sample_evaluations: &IndexMap<String, SampleEvaluation>,
     jobs: &[AutogenCodeFile],
 ) {
     for job in jobs.iter() {
-        let dest_dir = dest_dir_for_job(job, stwo_cairo_path);
+        let dest_dir = dest_dir_for_job(job, target_repo_path);
         let compiled_air_fn = compiled_air_fns
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
@@ -124,16 +121,17 @@ fn generate_files(
     }
 }
 
-fn format_stwo_cairo(stwo_cairo_path: &Path) {
-    // Convert the path to absolute, as change_dir works relative to the shell
-    // current directory, and this changes after the first call to change_dir.
-    let stwo_cairo_path = absolute(stwo_cairo_path).expect("Invalid path to stwo-cairo");
-
+fn format_rust(path: &Path) {
     let shell = Shell::new().unwrap();
     println!("Formatting Rust code...");
-    shell.change_dir(stwo_cairo_path.join("stwo_cairo_prover"));
+    shell.change_dir(path);
     cmd!(shell, "cargo fmt").quiet().run().unwrap();
+}
 
+fn format_stwo_cairo(stwo_cairo_path: &Path) {
+    format_rust(&stwo_cairo_path.join("stwo_cairo_prover"));
+
+    let shell = Shell::new().unwrap();
     println!("Formatting Cairo code...");
     shell.change_dir(stwo_cairo_path.join("stwo_cairo_verifier"));
     cmd!(shell, "scarb fmt").quiet().run().unwrap();
@@ -159,14 +157,15 @@ fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
     .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dest_path.display()))
 }
 
-fn dest_dir_for_job(job: &AutogenCodeFile, stwo_cairo_path: &Path) -> PathBuf {
-    let path_in_stwo_cairo = match job.code_type {
+fn dest_dir_for_job(job: &AutogenCodeFile, target_repo_path: &Path) -> PathBuf {
+    let path_in_target_repo = match job.code_type {
         AutogenCodeType::WITNESS => "stwo_cairo_prover/crates/prover/src/witness/components",
         AutogenCodeType::AIR => "stwo_cairo_prover/crates/cairo-air/src/components",
         AutogenCodeType::CAIRO => "stwo_cairo_verifier/crates/cairo_air/src/components",
+        AutogenCodeType::CIRCUIT => "crates/stwo-circuits/src/cairo_air/components",
     };
 
-    stwo_cairo_path.join(path_in_stwo_cairo)
+    target_repo_path.join(path_in_target_repo)
 }
 
 fn read_casm_registry(compiled_crate_src: &Path) -> IndexMap<String, CompiledAirFnStat> {
@@ -187,12 +186,24 @@ struct GenerateStwoCairoArgs {
 }
 
 #[derive(Debug, Parser)]
+struct GenerateStwoCircuitsArgs {
+    /// Source directory of the compiled_casm_air crate
+    #[clap(long, default_value = DEFAULT_SOURCE_DIR)]
+    source: PathBuf,
+
+    #[clap(long, default_value = DEFAULT_STWO_CIRCUITS_PATH)]
+    stwo_circuits_path: PathBuf,
+}
+
+#[derive(Debug, Parser)]
 struct SingleArgs {
-    #[clap(long, conflicts_with = "cairo_constraints")]
+    #[clap(long, group = "code_type")]
     rust_constraints: bool,
-    #[clap(long, conflicts_with = "witness")]
+    #[clap(long, group = "code_type")]
+    circuit_constraints: bool,
+    #[clap(long, group = "code_type")]
     cairo_constraints: bool,
-    #[clap(long, conflicts_with = "rust_constraints")]
+    #[clap(long, group = "code_type")]
     witness: bool,
 
     /// Source directory of the compiled_casm_air crate
@@ -206,6 +217,7 @@ struct SingleArgs {
 #[derive(Debug, Parser)]
 enum Subcommand {
     GenerateStwoCairo(GenerateStwoCairoArgs),
+    GenerateStwoCircuits(GenerateStwoCircuitsArgs),
     Single(SingleArgs),
 }
 
@@ -231,6 +243,7 @@ fn main() {
 
     match args.subcommand {
         Subcommand::GenerateStwoCairo(cmd_args) => generate_stwo_cairo(cmd_args),
+        Subcommand::GenerateStwoCircuits(cmd_args) => generate_stwo_circuits(cmd_args),
         Subcommand::Single(cmd_args) => generate_single(cmd_args),
     }
 }
@@ -250,12 +263,14 @@ fn generate_single(args: SingleArgs) {
 
     let code_type = if args.cairo_constraints {
         AutogenCodeType::CAIRO
+    } else if args.circuit_constraints {
+        AutogenCodeType::CIRCUIT
     } else if args.rust_constraints {
         AutogenCodeType::AIR
     } else if args.witness {
         AutogenCodeType::WITNESS
     } else {
-        panic!("Code type not specified. Use --cairo-constraints, --rust-constraints or --witness")
+        panic!("Code type not specified. Use --cairo-constraints, --circuit-constraints, --rust-constraints or --witness")
     };
 
     let job = AutogenCodeFile {
@@ -280,7 +295,14 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         panic!("Source directory does not exist: {}", args.source.display());
     }
 
-    let jobs = get_stwo_cairo_jobs(&args);
+    let jobs = get_jobs(
+        &args.source,
+        &[
+            AutogenCodeType::AIR,
+            AutogenCodeType::CAIRO,
+            AutogenCodeType::WITNESS,
+        ],
+    );
     let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
 
     generate_files(
@@ -313,4 +335,22 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         args.source.display(),
         args.stwo_cairo_path.display(),
     );
+}
+
+fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
+    if !args.source.exists() {
+        panic!("Source directory does not exist: {}", args.source.display());
+    }
+
+    let jobs = get_jobs(&args.source, &[AutogenCodeType::CIRCUIT]);
+    let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
+
+    generate_files(
+        &args.stwo_circuits_path,
+        &compiled_air_fns,
+        &sample_evaluations,
+        &jobs,
+    );
+
+    format_rust(&args.stwo_circuits_path);
 }
