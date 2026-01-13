@@ -13,8 +13,7 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, get_lookup_sums, get_multiplicities,
     make_preprocessed_column,
 };
-
-pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
+use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
 pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,

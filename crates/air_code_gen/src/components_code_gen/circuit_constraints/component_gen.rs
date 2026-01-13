@@ -2,24 +2,28 @@ use std::collections::HashSet;
 
 use compiled_casm_air::compiled_structs::*;
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
+use convert_case::{Case, Casing};
+use eval_air_fn_constraints::assignment::Assignment;
+use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::{rust, Rust};
 use genco::tokens::quoted;
 use genco::{quote, Tokens};
 use itertools::{chain, Itertools};
+use stwo_cairo_common::prover_types::cpu::QM31;
 
 use crate::components_code_gen::constraints::generate_relation_uses;
 use crate::components_code_gen::parse::expr_iterator;
-use crate::utils::{
-    make_preprocessed_column_id, relation_multiplicity_index, remove_trailing_zeroes,
-};
+use crate::utils::*;
 
-pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust> {
+pub fn generate_circuit_constraints_code(
+    air_fn: &CompiledAirFn,
+    sample_evaluation: Option<&SampleEvaluation>,
+) -> Tokens<Rust> {
     let return_type = if air_fn.r#type == TraceType::Inline {
         quote! { -> Vec<Var> }
     } else {
         quote! {}
     };
-
     let mut code = quote! {
         use crate::cairo_air::components::prelude::*;
         $("\n\n")
@@ -39,10 +43,10 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
 
     code.append(quote! {
         #[allow(unused_variables)]
-        pub fn accumulate_constraints(
+        pub fn accumulate_constraints<Value: IValue>(
             input: &[Var],
-            context: &mut Context<impl IValue>,
-            component_data: &ComponentData<'_>,
+            context: &mut Context<Value>,
+            component_data: &dyn ComponentDataTrait<Value>,
             acc: &mut CompositionConstraintAccumulator) $(return_type) {
             $(generate_accumulate_constraints(air_fn))
         }
@@ -69,10 +73,10 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
                 fn evaluate(
                     &self,
                     context: &mut Context<Value>,
-                    component_data: &ComponentData<'_>,
+                    component_data: &dyn ComponentDataTrait<Value>,
                     acc: &mut CompositionConstraintAccumulator,
                 ) {
-                    accumulate_constraints(component_data.trace_columns, context, component_data, acc);
+                    accumulate_constraints(component_data.trace_columns(), context, component_data, acc);
                     $(check_component_size)
                 }
 
@@ -88,7 +92,13 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
                     &RELATION_USES_PER_ROW
                 }
             }
-        })
+        });
+        code.append(gen_tests_module(
+            air_fn,
+            &sample_evaluation
+                .unwrap_or_else(|| panic!("Missing sample evaluation {}", air_fn.name))
+                .assignment,
+        ));
     }
     code
 }
@@ -337,4 +347,113 @@ fn get_constraint_atoms(air_fn: &CompiledAirFn) -> HashSet<CompiledAirVar> {
         }
     }
     result
+}
+
+fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
+    let trace_values = assignment
+        .base_trace
+        .iter()
+        .chain(assignment.lookup_control_values.iter())
+        .map(|v| make_qm31(*v).to_string().unwrap())
+        .collect_vec();
+    let interaction_values = assignment
+        .interaction_trace
+        .iter()
+        .map(|v| make_qm31(*v).to_string().unwrap())
+        .collect_vec();
+    let preprocessed_columns = air_fn
+        .external_states
+        .iter()
+        .map(|col| {
+            let col_id = if col == "Seq" {
+                &format!("seq_{}", assignment.log_height)
+            } else { col };
+            let value = assignment.environment.external_states.get(col).unwrap();
+            quote! { (PreProcessedColumnId { id: $(quoted(col_id)).to_owned() }, context.constant($(make_qm31(*value)))) }
+                .to_string()
+                .unwrap()
+        })
+        .join(",\n");
+    let public_params = air_fn
+        .public_params
+        .iter()
+        .map(|param| {
+            let value = assignment
+                .environment
+                .public_params
+                .get(&param.name())
+                .unwrap();
+            let tokens: rust::Tokens =
+                quote! { ($(quoted(param.name())).to_owned(), context.constant($(value.0).into())) };
+            tokens.to_string().unwrap()
+        })
+        .join(",\n");
+    let expected_result_name = format!(
+        "{}{}",
+        air_fn.name.to_case(Case::UpperSnake),
+        SAMPLE_EVALUATION_RESULT_SUFFIX
+    );
+    quote! {
+        #[cfg(test)]
+        mod tests {
+            use std::collections::HashMap;
+            use stwo::core::fields::qm31::QM31;
+
+            #[allow(unused_imports)]
+            use crate::cairo_air::components::prelude::PreProcessedColumnId;
+            use crate::cairo_air::sample_evaluations::*;
+            use crate::cairo_air::test::TestComponentData;
+            use crate::circuits::context::Context;
+            use crate::circuits::ivalue::qm31_from_u32s;
+            use crate::stark_verifier::constraint_eval::*;
+
+            use super::Component;
+
+            #[test]
+            fn test_evaluation_result() {
+                let component = Component {};
+                let mut context: Context::<QM31> = Default::default();
+                context.enable_assert_eq_on_eval();
+                let trace_columns = [
+                    $(trace_values.join(",\n"))
+                ];
+                let interaction_columns = [
+                    $(interaction_values.join(",\n"))
+                ];
+                let component_data = TestComponentData::from_values(
+                    &mut context,
+                    &trace_columns,
+                    &interaction_columns,
+                    $(make_qm31(assignment.last_row_sum)),
+                    $(make_qm31(assignment.claimed_sum)),
+                    $(1 << assignment.log_height)
+                );
+                let random_coeff = context.new_var($(make_qm31(assignment.random_coeff)));
+                let interaction_elements = [
+                    context.new_var($(make_qm31(assignment.common_lookup_elements.z))),
+                    context.new_var($(make_qm31(assignment.common_lookup_elements.alpha))),
+                ];
+                let preprocessed_columns = HashMap::from([$(preprocessed_columns)]);
+                let public_params = HashMap::from([$(public_params)]);
+                let mut accumulator = CompositionConstraintAccumulator::new(&mut context, preprocessed_columns, public_params, random_coeff, interaction_elements);
+                accumulator.set_enable_bit(context.one());
+                component.evaluate(&mut context, &component_data, &mut accumulator);
+                accumulator.finalize_logup_in_pairs(
+                    &mut context,
+                    <TestComponentData as ComponentDataTrait<QM31>>::interaction_columns(&component_data),
+                    &component_data,
+                );
+
+                let result = accumulator.finalize();
+                let result_value = context.get(result);
+                assert_eq!(result_value, $(expected_result_name))
+            }
+        }
+    }
+}
+
+fn make_qm31(value: QM31) -> rust::Tokens {
+    let m31s = value.to_m31_array();
+
+    quote! { qm31_from_u32s($(m31s[0].0), $(m31s[1].0), $(m31s[2].0), $(m31s[3].0)) }
 }
