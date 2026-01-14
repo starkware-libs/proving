@@ -1,6 +1,7 @@
 pub mod bitwise;
 #[cfg(test)]
 pub mod bitwise_test;
+pub mod ec_op;
 pub mod ec_utils;
 pub mod modulo;
 pub mod pedersen;

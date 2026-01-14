@@ -12,6 +12,7 @@ use eval_air_fn_constraints::create_sample_evaluation;
 use indexmap::IndexMap;
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
+use crate::airs::casm::builtins::ec_op::ec_op_builtin::ECOpBuiltin;
 use crate::airs::casm::builtins::pedersen::pedersen_builtin::*;
 use crate::airs::casm::casm_registry::create_casm_registry;
 use crate::core::air_fn_registry::*;
@@ -37,6 +38,8 @@ fn test_casm_registry() {
     reg.add_entry(&MemoryIdToSmall::default());
     // Pedersen builtin
     reg.add_entry(&PedersenBuiltin::<28>::default());
+    // ECOp builtin
+    reg.add_entry(&ECOpBuiltin::default());
 
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();
