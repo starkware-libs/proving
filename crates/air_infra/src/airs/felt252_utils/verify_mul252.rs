@@ -67,7 +67,7 @@ impl AirFn for VerifyMul252 {
 
         #[allow(clippy::needless_range_loop)]
         for i in 0..FELT252_N_WORDS {
-            conv_tmps[i] -= (c.get_felt(i), 3 * MAX_WORD, -MAX_WORD).into();
+            conv_tmps[i] -= (c.get_felt(i), 3 * MAX_WORD + 1, -MAX_WORD).into();
         }
         conv_tmps = air_builder.let_(conv_tmps, "conv");
 
