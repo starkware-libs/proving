@@ -46,6 +46,8 @@ impl AirFn for VerifyReduced252 {
             "both_max is bit",
         );
 
+        // TODO(DanC): Change the two range_check([8]) to range_check([8,8]).
+
         // Range check ms_limb - ms_max. This verifies that
         // 1. ms_limb < 256, or
         // 2. ms_limb == 256 and ms_max == 1

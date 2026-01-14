@@ -22,6 +22,7 @@ use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
+use crate::airs::casm::builtins::ec_utils::utils::ECPoint;
 use crate::airs::casm::builtins::modulo::mod_utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
 use crate::airs::casm::casm_state::*;

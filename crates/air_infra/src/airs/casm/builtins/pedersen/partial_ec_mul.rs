@@ -4,7 +4,8 @@ use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
-use crate::airs::casm::builtins::pedersen::ec_add::*;
+use crate::airs::casm::builtins::ec_utils::ec_add::*;
+use crate::airs::casm::builtins::ec_utils::utils::ECPoint;
 use crate::airs::casm::builtins::pedersen::points_table::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -33,7 +34,6 @@ const _: () = {
         "PartialECMul {{ 18 }} stores the multiplier as pairs of limbs"
     );
 };
-pub type ECPoint = [Felt252Expr; 2];
 pub type PackedECMultiplier<const NUM_WINDOWS: usize> = [FeltExpr; NUM_WINDOWS];
 pub type PartialECMulState<const NUM_WINDOWS: usize> = (PackedECMultiplier<NUM_WINDOWS>, ECPoint);
 
