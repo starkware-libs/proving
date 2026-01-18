@@ -12,7 +12,7 @@ use compiled_casm_air::compiled_structs::{
 };
 use indexmap::IndexMap;
 use logup::evaluate_logup_constraints;
-use num_traits::{One, Zero};
+use num_traits::Zero;
 use scope::Scope;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::QM31;
@@ -216,21 +216,6 @@ fn evaluate_composition_polynomial(
     let mut result = QM31::zero();
     for eval in constraint_evals {
         result = result * assignment.random_coeff + eval;
-    }
-
-    let composition_denominator = eval_vanishing_polynomial(assignment);
-
-    result /= composition_denominator;
-
-    result
-}
-
-fn eval_vanishing_polynomial(assignment: &Assignment) -> QM31 {
-    let mut result = assignment.point.0;
-
-    for _ in 1..assignment.log_height {
-        let result2 = result * result;
-        result = result2 + result2 - QM31::one();
     }
 
     result

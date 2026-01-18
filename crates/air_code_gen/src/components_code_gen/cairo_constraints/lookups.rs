@@ -16,7 +16,6 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
         $("\n")$("\n")
         fn lookup_constraints(
             ref sum: QM31,
-            domain_vanishing_eval_inv: QM31,
             random_coeff: QM31,
             claimed_sum: QM31,
             $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
@@ -79,7 +78,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                             $(prefix)
                         ) * $(rel1) * $(rel2)
                     ) $(rel2_sign) $(rel1_times_rel2_mult) $(rel1_sign) $(rel2_times_rel1_mult)
-                ) * domain_vanishing_eval_inv;$("\n")
+                );$("\n")
             });
         } else {
             let numerator = if !air_fn.relation_names.is_empty() {
@@ -95,7 +94,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                             $(prefix)
                         ) * $(rel1)
                     ) $(rel1_sign) $(numerator)
-                ) * domain_vanishing_eval_inv;$("\n")
+                );$("\n")
             });
         }
 

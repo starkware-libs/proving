@@ -75,12 +75,3 @@ pub fn random_m31(id: &String) -> M31 {
 
     M31::from_u32_unchecked(hash % PRIME)
 }
-
-/// Build a circle point from its `t` parametrization
-/// Returns (x,y).
-pub fn circle_point_from_t(t: QM31) -> (QM31, QM31) {
-    (
-        (QM31::one() - t * t) / (t * t + QM31::one()),
-        (t + t) / (t * t + QM31::one()),
-    )
-}

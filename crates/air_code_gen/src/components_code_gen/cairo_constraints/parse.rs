@@ -17,7 +17,7 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         );
         code.append(quote! {
             // Constraint - enabler is a bit.
-            let constraint_quotient = ($mult_name * $mult_name - $mult_name) * domain_vanishing_eval_inv;
+            let constraint_quotient = ($mult_name * $mult_name - $mult_name);
             sum = sum * random_coeff + constraint_quotient;
         });
     }
@@ -29,7 +29,7 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 code.append(quote! {
                     $("\n")
                     $("//") Constraint - $(desc.clone().unwrap_or("".to_string()))
-                    let constraint_quotient = ($(parse_var(air_fn, c, &mut relation_offset))) * domain_vanishing_eval_inv;
+                    let constraint_quotient = ($(parse_var(air_fn, c, &mut relation_offset)));
                     sum = sum * random_coeff + constraint_quotient;
                 });
             }
@@ -163,7 +163,6 @@ fn gen_evaluate_call(
     }
 
     arg_str.push("ref sum".to_string());
-    arg_str.push("domain_vanishing_eval_inv".to_string());
     arg_str.push("random_coeff".to_string());
 
     format!(

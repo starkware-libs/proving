@@ -53,7 +53,6 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
             input: $(input_type),
             $(get_inline_args(air_fn))
             ref sum: QM31,
-            domain_vanishing_eval_inv: QM31,
             random_coeff: QM31,
         ) -> $(output_type) {
             let $(input_name) = input;
