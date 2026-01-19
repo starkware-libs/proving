@@ -66,7 +66,7 @@ pub fn reformat_rust_code(code_text: String) -> String {
 
 pub fn reformat_rust_code_inner(code_text: String) -> String {
     let shell = Shell::new().unwrap();
-    shell.set_var("RUSTUP_TOOLCHAIN", "nightly-2025-04-06");
+    shell.set_var("RUSTUP_TOOLCHAIN", "nightly-2025-07-14");
     let rustfmt_toml = project_root().join("../../rustfmt.toml");
     let mut stdout = cmd!(shell, "rustfmt --config-path {rustfmt_toml}")
         .stdin(code_text)
@@ -201,7 +201,7 @@ pub fn generated_code_path(
 
 pub fn get_constraints_folder_path_suffix(r#type: &TraceType, file_name: &String) -> String {
     if r#type == &TraceType::Inline {
-        format!("subroutines/{}", file_name)
+        format!("subroutines/{file_name}")
     } else {
         file_name.clone()
     }
@@ -291,6 +291,6 @@ mod tests {
             }
         });
         let code_text = reformat_rust_code(code.to_string().expect("Could not format Rust code."));
-        println!("{}", code_text);
+        println!("{code_text}");
     }
 }

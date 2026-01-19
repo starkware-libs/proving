@@ -36,10 +36,11 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
     } else {
         format!("[QM31; {}]", output_array.len())
     };
-    let revoke_ap_tracking = LARGE_SUBROUTINES
-        .contains(&air_fn.name.as_str())
-        .then(|| "\ncore::internal::revoke_ap_tracking();\n".to_string())
-        .unwrap_or_default();
+    let revoke_ap_tracking = if LARGE_SUBROUTINES.contains(&air_fn.name.as_str()) {
+        "\ncore::internal::revoke_ap_tracking();\n".to_string()
+    } else {
+        String::new()
+    };
     let mut code = rust::Tokens::new();
 
     code.append(quote! {

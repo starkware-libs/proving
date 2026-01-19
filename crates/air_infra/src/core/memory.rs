@@ -70,8 +70,7 @@ where
         let entry = data.entry(actual_key.clone()).or_insert(value.clone());
         assert!(
             entry.to_values() == value.to_values(),
-            "Memory::set() failed for key {:?}- given value != value in memory",
-            actual_key
+            "Memory::set() failed for key {actual_key:?}- given value != value in memory",
         );
     }
 }

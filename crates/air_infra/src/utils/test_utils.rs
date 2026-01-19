@@ -23,10 +23,9 @@ where
             given == expected,
             r#"
             Given value
-            is different from the json in {}.
+            is different from the json in {file_path}.
             Run the following to update the code:
             '$ FIX=1 cargo test'"#,
-            file_path
         );
     };
 }

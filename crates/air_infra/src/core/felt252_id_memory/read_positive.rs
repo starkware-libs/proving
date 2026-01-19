@@ -79,8 +79,8 @@ impl AirFn for ReadPositiveKnownId {
                 limb,
                 &id.extra_info
                     .clone()
-                    .map(|s| format!("{}_limb_{}", s, i))
-                    .unwrap_or(format!("value_limb_{}", i)),
+                    .map(|s| format!("{s}_limb_{i}"))
+                    .unwrap_or(format!("value_limb_{i}")),
             );
         }
 

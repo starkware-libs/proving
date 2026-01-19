@@ -388,13 +388,13 @@ impl AirVarImpl {
             .clone();
 
         match (expr_desc, expr_size) {
-            (Some(expr_desc), 1) => format!("{}_{}", name, expr_desc),
-            (Some(expr_desc), _) => format!("{}_{}_limb_{}", name, expr_desc, felt_in_expr_i),
+            (Some(expr_desc), 1) => format!("{name}_{expr_desc}"),
+            (Some(expr_desc), _) => format!("{name}_{expr_desc}_limb_{felt_in_expr_i}"),
             (None, _) => {
                 if self.as_felts().len() == 1 {
                     name.to_string()
                 } else {
-                    format!("{}_limb_{}", name, index)
+                    format!("{name}_limb_{index}")
                 }
             }
         }
@@ -422,7 +422,7 @@ impl AirVarImpl {
             }
             felt_index -= n;
         }
-        panic!("Felt index {} is out of bounds", felt_index)
+        panic!("Felt index {felt_index} is out of bounds")
     }
 
     pub fn as_felts(&self) -> Vec<FeltExpr> {
@@ -456,7 +456,7 @@ impl AirVarImpl {
 
                 format!("[{}; {}]", vars[0].packed_prover_type(), vars.len())
             }
-            AirVarImpl::Struct { r#type, .. } => format!("Packed{}", r#type),
+            AirVarImpl::Struct { r#type, .. } => format!("Packed{type}"),
         }
     }
 }

@@ -26,7 +26,7 @@ impl AirFn for ReadId {
             &mut id.var,
             &id.extra_info
                 .as_ref()
-                .map(|s| format!("{}_id", s))
+                .map(|s| format!("{s}_id"))
                 .unwrap_or("id".to_string()),
         );
 

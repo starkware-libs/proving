@@ -57,7 +57,7 @@ impl AirFn for BlakeRound {
         for (i, index) in curr_sigma.into_iter().enumerate() {
             let addr = CasmAddress::new(
                 massage_pointer.clone().var + index.clone(),
-                &format!("message_word_{}", i),
+                &format!("message_word_{i}"),
             );
             let curr_word = air_builder.call(&read_u32, addr);
             current_message.push(curr_word);

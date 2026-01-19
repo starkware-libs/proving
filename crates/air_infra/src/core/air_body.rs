@@ -232,10 +232,7 @@ impl AirBody {
                     let deg = f.deg_in_state().unwrap();
                     assert!(
                         deg <= 1,
-                        "lookup term must have degree <= 1, encountered degree {} in term named '{}' with expression\n{:#?}",
-                        deg,
-                        relation_name,
-                        f
+                        "lookup term must have degree <= 1, encountered degree {deg} in term named '{relation_name}' with expression {f:#?}",
                     );
                 }
             }

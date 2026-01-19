@@ -20,7 +20,7 @@ fn test_wide_fibonacci() {
 
     // Check entries
     for (name, entry) in registry.compile().iter() {
-        compare_json(&entry, &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, name));
+        compare_json(&entry, &format!("{TEST_JSONS_EXAMPLES_DIR}{name}.json"));
     }
 }
 

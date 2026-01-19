@@ -150,7 +150,7 @@ fn get_sum_name_and_sign(i: usize, sum: &(String, UseOrYield)) -> (String, Strin
 fn get_interaction_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     let names = (0..n_logup_columns(air_fn))
-        .map(|i| format!("trace_2_col{}", i))
+        .map(|i| format!("trace_2_col{i}"))
         .collect::<Vec<_>>();
     if names.is_empty() {
         return code;

@@ -58,7 +58,7 @@ impl AirFn for VerifyAdd252 {
             // out the computation with limbs of size 27 instead of 9 bits, which is still sound.
             // Similarly p * sub_p_bit can be directly subtracted as 27-bit limbs every third step.
             carry = a.get_felt(i) + b.get_felt(i) + carry - c.get_felt(i);
-            if i % 3 == 0 {
+            if i.is_multiple_of(3) {
                 carry = carry - const_expr!(P_PACKED27_FELTS[i / 3]) * sub_p_bit.as_felt();
             }
             carry = carry * shift_inverse.clone();
@@ -71,7 +71,7 @@ impl AirFn for VerifyAdd252 {
             }
         }
         let i = FELT252_N_WORDS - 1;
-        assert!(i % 3 == 0);
+        assert!(i.is_multiple_of(3));
         air_builder.constrain(
             a.get_felt(i) + b.get_felt(i) + carry
                 - c.get_felt(i)

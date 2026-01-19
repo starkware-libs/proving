@@ -60,7 +60,7 @@ fn test_casm_registry() {
         }
 
         // Check the compiled entry json.
-        compare_json(compiled_entry, &format!("{}{}.json", dir, name));
+        compare_json(compiled_entry, &format!("{dir}{name}.json"));
 
         if entry.trace_type != TraceType::Inline {
             // We don't support sampling inline AirFns because they don't have a trace

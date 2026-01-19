@@ -43,11 +43,11 @@ impl RustProverGen {
         for public_param in &self.air_fn.public_params {
             claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
         }
-        let derive_default = (!is_const_size_component(&self.air_fn))
-            .then(|| {
-                quote! { #[derive(Default)] }
-            })
-            .unwrap_or_default();
+        let derive_default = if !is_const_size_component(&self.air_fn) {
+            quote! { #[derive(Default)] }
+        } else {
+            quote! {}
+        };
         quote! {
             $derive_default
             pub struct ClaimGenerator {
@@ -647,7 +647,7 @@ fn simd_parse_air_var(
                 .map(|(_, name)| name.clone())
                 .unwrap_or_else(|| {
                     let name = get_variable_name(ty, val);
-                    panic!("const_{}", name)
+                    panic!("const_{name}")
                 }),
         },
         CompiledAirVar::Var(_, id) => id.clone(),
@@ -659,7 +659,7 @@ fn simd_parse_air_var(
                 let mut id = id.to_case(Case::Snake);
                 id = id.replace("::", &format!("{STATE_SUFFIX}."));
                 let input = simd_parse_air_var(&args[0], constant_names);
-                return format!("{}({})", id, input);
+                return format!("{id}({input})");
             }
 
             let mut arg_str = String::new();
@@ -673,9 +673,9 @@ fn simd_parse_air_var(
                 .replace("from_felt252", "from_packed_felt252")
                 .replace("from_biguint", "from_packed_biguint");
             if id.ends_with("from_packed_felt252_array") {
-                return format!("Packed{}(&{})", id, arg_str);
+                return format!("Packed{id}(&{arg_str})");
             }
-            format!("Packed{}({})", id, arg_str)
+            format!("Packed{id}({arg_str})")
         }
         CompiledAirVar::MethodCall(id, func, args) => {
             let func = if func == "as_felt" { "as_m31" } else { func };
@@ -715,7 +715,7 @@ fn simd_parse_air_var(
                 }
                 expr_str.push_str(&simd_parse_air_var(expr, constant_names));
             }
-            format!("({})", expr_str)
+            format!("({expr_str})")
         }
         CompiledAirVar::Array(exprs) => {
             format!(

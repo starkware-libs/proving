@@ -24,7 +24,7 @@ use crate::core::variables::*;
 pub const MUL_MOD_LIMB_SIZE: usize = 12;
 pub const MUL_MOD_NUM_LIMBS: usize = {
     assert!(
-        MOD_BUILTIN_WORD_BIT_LEN % MUL_MOD_LIMB_SIZE == 0,
+        MOD_BUILTIN_WORD_BIT_LEN.is_multiple_of(MUL_MOD_LIMB_SIZE),
         "Mul mod word bit length must be divisible by mul mod limb size"
     );
     MOD_BUILTIN_N_WORDS * MOD_BUILTIN_WORD_BIT_LEN / MUL_MOD_LIMB_SIZE
@@ -33,7 +33,7 @@ pub const NUM_12BIT_LIMBS_PER_WORD: usize = MOD_BUILTIN_WORD_BIT_LEN.div_ceil(MU
 pub const MUL_MOD_MAX_LIMB: i32 = (1 << MUL_MOD_LIMB_SIZE) - 1;
 pub const MUL_MOD_KARATSUBA_N: usize = {
     assert!(
-        MUL_MOD_NUM_LIMBS % 4 == 0,
+        MUL_MOD_NUM_LIMBS.is_multiple_of(4),
         "Mul mod number of limbs must be divisible by 4"
     );
     MUL_MOD_NUM_LIMBS / 4
@@ -112,7 +112,7 @@ impl AirFn for MulModBuiltin {
                 k_384
                     .as_felts()
                     .try_into()
-                    .unwrap_or_else(|_| panic!("k_384 should be of length {}", MUL_MOD_NUM_LIMBS)),
+                    .unwrap_or_else(|_| panic!("k_384 should be of length {MUL_MOD_NUM_LIMBS}")),
                 p_12bits,
             ],
         );
@@ -126,7 +126,7 @@ impl AirFn for MulModBuiltin {
             let mut carry = BoundedFeltExpr::new(
                 ab.assign(
                     &mut (limb_accumulator.var.clone() * shift_inverse.clone()),
-                    &format!("carry_{}", i),
+                    &format!("carry_{i}"),
                 ),
                 limb_accumulator.max_bound() >> MUL_MOD_LIMB_SIZE,
                 limb_accumulator.min_bound() >> MUL_MOD_LIMB_SIZE,

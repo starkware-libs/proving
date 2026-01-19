@@ -17,7 +17,7 @@ pub fn generate_sample_evaluations_file(
     source_repo_rev: &str,
     sample_evaluations: &IndexMap<String, SampleEvaluation>,
 ) {
-    let source_rev_comment = format!("// AIR version {}\n", source_repo_rev);
+    let source_rev_comment = format!("// AIR version {source_repo_rev}\n");
 
     let mut constants_to_write = HashMap::new();
 

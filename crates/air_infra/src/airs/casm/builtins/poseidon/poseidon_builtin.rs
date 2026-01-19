@@ -43,7 +43,7 @@ impl AirFn for PoseidonBuiltin {
         let input_ids: [CasmId; 3] = from_fn(|i| {
             let address = CasmAddress::new(
                 instance_addr.clone() + const_expr!(i),
-                &format!("input_state_{}", i),
+                &format!("input_state_{i}"),
             );
             air_builder.call(
                 &ReadId {
@@ -57,7 +57,7 @@ impl AirFn for PoseidonBuiltin {
         let output_ids: [CasmId; 3] = from_fn(|i| {
             let address = CasmAddress::new(
                 instance_addr.clone() + const_expr!(i + 3),
-                &format!("output_state_{}", i),
+                &format!("output_state_{i}"),
             );
             air_builder.call(
                 &ReadId {

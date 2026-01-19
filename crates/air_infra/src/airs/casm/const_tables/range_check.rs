@@ -37,7 +37,7 @@ pub fn range_check_variant(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]
         [4, 4] => call_rc::<RangeCheck_4_4_Const>(ab, input, variant),
         [3, 3, 3, 3, 3] => call_rc::<RangeCheck_3_3_3_3_3_Const>(ab, input, variant),
         [2, 2, 2, 2, 2] => call_rc::<RangeCheck_2_2_2_2_2_Const>(ab, input, variant),
-        _ => panic!("Unsupported range check bits: {:?}", bits),
+        _ => panic!("Unsupported range check bits: {bits:?}"),
     }
 }
 
@@ -87,7 +87,7 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
             .join("_");
-        format!("range_check_{}", bits)
+        format!("range_check_{bits}")
     }
 
     fn relation_names(&self) -> Vec<String> {
@@ -96,7 +96,7 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
             .join("_");
-        let relation_name = format!("RangeCheck_{}", bits);
+        let relation_name = format!("RangeCheck_{bits}");
 
         match R::bits() {
             [18] => get_relation_variant_names(&relation_name, 2),

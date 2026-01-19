@@ -111,7 +111,7 @@ impl AirFn for AddModBuiltin {
                         * (a_felts[t].clone() + b_felts[t].clone()
                             - c_felts[t].clone()
                             - p_felts[t].clone() * sub_p_bit.clone());
-                if (t + 1) % N_SUBWORDS_IN_WORD == 0 {
+                if (t + 1).is_multiple_of(N_SUBWORDS_IN_WORD) {
                     curr_bits += LAST_SUBWORD_BIT_LEN;
                 } else {
                     curr_bits += FELT252_BITS_PER_WORD;
@@ -129,7 +129,7 @@ impl AirFn for AddModBuiltin {
                 carry = ab.assign(
                     // 1 << (31 - curr_bits) is 1 / (1 << curr_bits) in m31
                     &mut (carry * const_expr!(1 << (31 - curr_bits))),
-                    &format!("carry_{}", i),
+                    &format!("carry_{i}"),
                 );
                 // Assert that carry is in {-1, 0, 1}.
                 ab.constrain(

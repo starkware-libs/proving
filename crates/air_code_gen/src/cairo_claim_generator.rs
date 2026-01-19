@@ -77,7 +77,7 @@ fn generate_fill_components(compiled_regisry: &IndexMap<String, CompiledAirFn>) 
     let mut spawn_bodies = rust::Tokens::new();
 
     for (name, compile_air_fn) in compiled_regisry {
-        let ref_name = format!("{}_ref", name);
+        let ref_name = format!("{name}_ref");
 
         destructure_fields.append(quote! {
             $(name): $(&ref_name),
@@ -173,7 +173,7 @@ fn generate_get_sub_components() -> rust::Tokens {
             $(format!("\"{}\"", name)) => {
                 vec![$(sub_components
                     .iter()
-                    .map(|component| format!("\"{}\"", component))
+                    .map(|component| format!("\"{component}\""))
                     .join(", "))]
             }
         });

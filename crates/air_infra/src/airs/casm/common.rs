@@ -173,7 +173,7 @@ pub fn assemble_instruction(
 }
 
 pub fn felt252_to_m31(value: Felt252Expr, num_bits: usize) -> FeltExpr {
-    assert!(num_bits <= 31, "{} bits can't fit in M31", num_bits);
+    assert!(num_bits <= 31, "{num_bits} bits can't fit in M31");
     let mut result = value.get_felt(0);
 
     for i in 1..(num_bits.div_ceil(FELT252_BITS_PER_WORD)) {

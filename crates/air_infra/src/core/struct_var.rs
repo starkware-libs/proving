@@ -43,7 +43,7 @@ where
             fields: self
                 .fields
                 .iter()
-                .map(|(n, f)| (n.clone(), f.let_for_deduction(format!("{}.{}", name, n)).0))
+                .map(|(n, f)| (n.clone(), f.let_for_deduction(format!("{name}.{n}")).0))
                 .collect(),
             r#type: PhantomData,
         };

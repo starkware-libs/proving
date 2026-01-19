@@ -132,7 +132,7 @@ fn gen_evaluate_call(
         .map(|arg| parse_var(air_fn, arg, relation_offset))
         .collect::<Vec<_>>();
 
-    let inline_fn = id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
+    let inline_fn = id.trim_end_matches(&format!("::{CONSTRAINT_EVAL_FUNCTION_NAME}"));
     let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
     if air_fn.r#type == TraceType::Inline {
         arg_str.push("common_lookup_elements".to_string());

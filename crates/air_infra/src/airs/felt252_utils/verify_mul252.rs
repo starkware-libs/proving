@@ -56,7 +56,7 @@ impl AirFn for VerifyMul252 {
             MAX_WORD * MAX_WORD,
             -MAX_WORD * MAX_WORD,
         );
-        let error_message = &format!("felt252 should have {} limbs", FELT252_N_WORDS);
+        let error_message = &format!("felt252 should have {FELT252_N_WORDS} limbs");
         let mut conv_tmps = air_builder.call(
             &karatsuba,
             [
@@ -161,7 +161,7 @@ impl AirFn for VerifyMul252 {
             carry = BoundedFeltExpr::new(
                 air_builder.deduce(
                     &mut (shifted_carry.var.clone() * shift_inverse.clone()),
-                    &format!("carry_{}", i),
+                    &format!("carry_{i}"),
                 ),
                 shifted_carry.max_bound() >> FELT252_BITS_PER_WORD,
                 shifted_carry.min_bound() >> FELT252_BITS_PER_WORD,

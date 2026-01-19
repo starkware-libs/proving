@@ -272,7 +272,7 @@ fn generate_single(args: SingleArgs) {
     );
     let code = format_air_fn_code(raw_code, code_type);
 
-    print!("{}", code);
+    print!("{code}");
 }
 
 fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {

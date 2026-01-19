@@ -41,7 +41,7 @@ impl AirFn for Felt252UnpackFrom27 {
             .take(FELT252_N_WORDS - 1)
         {
             if i % 3 != 2 {
-                air_builder.deduce(a_limb, &format!("unpacked_limb_{}", i));
+                air_builder.deduce(a_limb, &format!("unpacked_limb_{i}"));
                 v.push(a_limb.clone());
             }
             // Every third limb doesn't have to be deduced, as it is a linear combination of
@@ -91,7 +91,7 @@ pub fn felt252_pack_into27(unpacked: Felt252Expr) -> Felt252Width27Expr {
             v.push(packed_limb.clone());
         }
     }
-    if FELT252_N_WORDS % 3 != 0 {
+    if !FELT252_N_WORDS.is_multiple_of(3) {
         v.push(packed_limb);
     }
 
@@ -123,7 +123,7 @@ impl AirFn for RangeCheck252Width27 {
         a = air_builder.let_for_deduction(a, "input_as_felt252");
         for (j, i) in (0..(FELT252WIDTH27_N_WORDS)).step_by(2).enumerate() {
             let low_high =
-                air_builder.deduce(a.get_felt_mut(3 * i + 2), &format!("limb_{}_high_part", i));
+                air_builder.deduce(a.get_felt_mut(3 * i + 2), &format!("limb_{i}_high_part"));
             let high_low = if i < FELT252WIDTH27_N_WORDS - 2 {
                 air_builder.deduce(
                     a.get_felt_mut(3 * i + 3),

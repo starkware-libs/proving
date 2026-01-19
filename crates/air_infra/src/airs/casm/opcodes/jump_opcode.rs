@@ -72,12 +72,14 @@ impl AirFn for JumpOpcode {
         let offset1 = if self.double_deref { None } else { Some(-1) };
         let offset2 = if self.imm { Some(1) } else { None };
 
-        let flag_sets_of_sum_1 = (!self.imm && !self.double_deref)
-            .then_some(BTreeSet::from([BTreeSet::from([
+        let flag_sets_of_sum_1 = if !self.imm && !self.double_deref {
+            BTreeSet::from([BTreeSet::from([
                 FLAG_OP1_BASE_FP_INDEX,
                 FLAG_OP1_BASE_AP_INDEX,
-            ])]))
-            .unwrap_or_default();
+            ])])
+        } else {
+            BTreeSet::new()
+        };
 
         // Check the instruction.
         let ([_, offset1, offset2], flags, _) = ab.call(

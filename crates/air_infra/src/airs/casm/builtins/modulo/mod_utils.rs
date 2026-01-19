@@ -88,11 +88,11 @@ impl AirFn for ModUtils {
                 (
                     CasmAddress::new(
                         input_var_addr_start_prev.clone() + const_expr!(i as u32),
-                        &format!("p_prev{}", i),
+                        &format!("p_prev{i}"),
                     ),
                     CasmAddress::new(
                         input_var_addr_start.clone() + const_expr!(i as u32),
-                        &format!("p{}", i),
+                        &format!("p{i}"),
                     ),
                 )
             })

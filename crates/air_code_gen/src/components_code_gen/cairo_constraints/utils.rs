@@ -58,7 +58,7 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
             consts.extend(quote! {
                 pub const RELATION_USES_PER_ROW: [(felt252, u32); $(uses_count.keys().len())] = [
                     $(uses_count.iter().map(|(relation, count)| {
-                        format!(r#"('{}', {})"#, relation, count)
+                        format!(r#"('{relation}', {count})"#)
                     }).collect::<Vec<_>>().join(", "))
                 ];
             });

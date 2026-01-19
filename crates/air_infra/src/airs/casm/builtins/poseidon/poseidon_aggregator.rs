@@ -35,7 +35,7 @@ impl AirFn for PoseidonAggregator {
                 },
                 input_ids[i].clone(),
             ));
-            air_builder.let_(packed_input_state, &format!("packed_input_state_{}", i))
+            air_builder.let_(packed_input_state, &format!("packed_input_state_{i}"))
         });
 
         let output_state = air_builder.call(&PoseidonHadesPermutation {}, input_state);

@@ -809,7 +809,7 @@ impl AirBuilder {
             );
             self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
                 air_fn_name: air_fn.name(),
-                method_name: format!("{}::deduce_output", relation_name),
+                method_name: format!("{relation_name}::deduce_output"),
                 ext_input: ext_input_option,
                 input: input_option,
                 output_name: output_name.expect("Output name not set"),
@@ -837,7 +837,7 @@ impl AirBuilder {
         let relation_name = memory.relation_name().expect("Relation name not found");
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
-            method_name: format!("{}::deduce_output", relation_name),
+            method_name: format!("{relation_name}::deduce_output",),
             ext_input: Some(key.clone().into()),
             input: None,
             output_name: value_name.clone(),
@@ -941,7 +941,7 @@ impl AirBuilder {
             self.intermediate_id.borrow().1
         );
         let name = match desc {
-            Some(desc) => format!("{}_{}", desc, suffix),
+            Some(desc) => format!("{desc}_{suffix}"),
             None => suffix,
         };
 

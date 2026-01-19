@@ -31,37 +31,37 @@ impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             CompiledAirVar::StaticCall(id, args) => {
-                write!(f, "{}(", id)?;
+                write!(f, "{id}(")?;
                 for (i, arg) in args.iter().enumerate() {
                     if i > 0 {
                         write!(f, ", ")?;
                     }
-                    write!(f, "{}", arg)?;
+                    write!(f, "{arg}")?;
                 }
                 write!(f, ")")
             }
             CompiledAirVar::MethodCall(left, id, args) => {
-                write!(f, "{}.{}(", left, id)?;
+                write!(f, "{left}.{id}(")?;
                 for (i, arg) in args.iter().enumerate() {
                     if i > 0 {
                         write!(f, ", ")?;
                     }
-                    write!(f, "{}", arg)?;
+                    write!(f, "{arg}")?;
                 }
                 write!(f, ")")
             }
-            CompiledAirVar::Const(_, id) => write!(f, "{}", id),
+            CompiledAirVar::Const(_, id) => write!(f, "{id}"),
             CompiledAirVar::Var(_, id) => {
-                write!(f, "{}", id)
+                write!(f, "{id}")
             }
             CompiledAirVar::State(name) => {
-                write!(f, "{}", name)
+                write!(f, "{name}")
             }
             CompiledAirVar::BinaryOp(lhs, op, rhs) => {
-                write!(f, "({} {} {})", lhs, op, rhs)
+                write!(f, "({lhs} {op} {rhs})")
             }
             CompiledAirVar::UnaryOp(op, expr) => {
-                write!(f, "({} {})", op, expr)
+                write!(f, "({op} {expr})")
             }
             CompiledAirVar::Tuple(exprs) => {
                 let strs = exprs.iter().map(ToString::to_string).collect::<Vec<_>>();
@@ -73,16 +73,16 @@ impl Display for CompiledAirVar {
             CompiledAirVar::Struct { fields, .. } => {
                 let strs = fields
                     .iter()
-                    .map(|(name, expr)| format!("{}: {}", name, expr))
+                    .map(|(name, expr)| format!("{name}: {expr}"))
                     .collect::<Vec<_>>()
                     .join(", ");
-                write!(f, "{{{}}}", strs)
+                write!(f, "{{{strs}}}")
             }
             CompiledAirVar::ExternalState(col_id) => {
-                write!(f, "ExternalState({})", col_id)
+                write!(f, "ExternalState({col_id})")
             }
             CompiledAirVar::PublicParam(name) => {
-                write!(f, "public_params.{}", name)
+                write!(f, "public_params.{name}")
             }
         }
     }
@@ -103,7 +103,7 @@ pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {
     strs.truncate(strs.len() - i);
     let str = format!("[{}]", strs.join(", "));
     if leading_zeros {
-        format!("zero_extend({})", str)
+        format!("zero_extend({str})")
     } else {
         str
     }
@@ -133,8 +133,8 @@ where
 }
 
 pub fn read_json(file_path: &str) -> Value {
-    let json_file = fs::read_to_string(file_path)
-        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", file_path));
+    let json_file =
+        fs::read_to_string(file_path).unwrap_or_else(|e| panic!("Failed to read {file_path}: {e}"));
     serde_json::from_str(&json_file)
-        .unwrap_or_else(|e| panic!("Invalid JSON file {}: {e}", file_path))
+        .unwrap_or_else(|e| panic!("Invalid JSON file {file_path}: {e}"))
 }

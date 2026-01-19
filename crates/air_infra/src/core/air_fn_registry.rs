@@ -76,7 +76,7 @@ impl AirFnEntry {
         let output_limbs_mask = output
             .as_felts()
             .into_iter()
-            .map(|f| (!f.is_directly_in_state()))
+            .map(|f| !f.is_directly_in_state())
             .collect();
 
         Self {
@@ -212,11 +212,11 @@ impl AirFnEntry {
     }
 
     pub fn output_name(air_fn_name: &String) -> String {
-        format!("{}_{}", air_fn_name, OUTPUT_VAR_SUFFIX)
+        format!("{air_fn_name}_{OUTPUT_VAR_SUFFIX}")
     }
 
     pub fn input_name(air_fn_name: &String) -> String {
-        format!("{}_{}", air_fn_name, INPUT_VAR_SUFFIX)
+        format!("{air_fn_name}_{INPUT_VAR_SUFFIX}")
     }
 
     // Given an output of the air function, returns an array of the felts of the output that are in

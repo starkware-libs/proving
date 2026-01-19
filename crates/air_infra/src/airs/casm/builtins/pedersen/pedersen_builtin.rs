@@ -39,7 +39,7 @@ impl<const NUM_WINDOWS: usize> AirFn for PedersenBuiltin<NUM_WINDOWS> {
         let input_ids: [CasmId; 2] = from_fn(|i| {
             let address = CasmAddress::new(
                 instance_addr.clone() + const_expr!(i),
-                &format!("input_state_{}", i),
+                &format!("input_state_{i}"),
             );
             air_builder.call(
                 &ReadId {
@@ -72,7 +72,7 @@ impl<const NUM_WINDOWS: usize> AirFn for PedersenBuiltin<NUM_WINDOWS> {
         match NUM_WINDOWS {
             14 => "pedersen_builtin",
             28 => "pedersen_builtin_narrow_windows",
-            _ => panic!("Unsupported NUM_WINDOWS val {}", NUM_WINDOWS),
+            _ => panic!("Unsupported NUM_WINDOWS val {NUM_WINDOWS}"),
         }
         .into()
     }

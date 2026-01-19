@@ -103,8 +103,8 @@ impl State {
 
     pub fn get_cell_name(index: usize, desc: &Option<String>) -> String {
         match desc {
-            Some(desc) => format!("{}_{}{}", desc, STATE_VAR_SUFFIX, index),
-            None => format!("{}{}", STATE_VAR_SUFFIX, index),
+            Some(desc) => format!("{desc}_{STATE_VAR_SUFFIX}{index}"),
+            None => format!("{STATE_VAR_SUFFIX}{index}"),
         }
     }
 
@@ -133,6 +133,6 @@ impl Display for State {
                 cell.1.clone().unwrap_or_default()
             ));
         }
-        write!(f, "{}", s)
+        write!(f, "{s}")
     }
 }
