@@ -36,6 +36,7 @@ pub fn generate_cairo_claim_generator_file() -> rust::Tokens {
         use std::sync::Arc;
         use cairo_air::air::PublicData;
         use indexmap::IndexSet;
+        use rayon::scope;
         use stwo_cairo_adapter::builtins::BuiltinSegments;
         use stwo_cairo_adapter::memory::Memory;
         use stwo_cairo_adapter::opcodes::CasmStatesByOpcode;
@@ -72,9 +73,16 @@ fn generate_cairo_claim_generator_struct(all_components: &Vec<&String>) -> rust:
 }
 
 fn generate_fill_components(compiled_regisry: &IndexMap<String, CompiledAirFn>) -> rust::Tokens {
-    let mut function_body = rust::Tokens::new();
+    let mut destructure_fields = rust::Tokens::new();
+    let mut spawn_bodies = rust::Tokens::new();
 
     for (name, compile_air_fn) in compiled_regisry {
+        let ref_name = format!("{}_ref", name);
+
+        destructure_fields.append(quote! {
+            $(name): $(&ref_name),
+        });
+
         let (args, builtin_init_code) = match compile_air_fn.r#type {
             TraceType::Builtin => {
                 let constant_name_str = name.to_case(Case::Constant) + "_MEMORY_CELLS";
@@ -114,11 +122,13 @@ fn generate_fill_components(compiled_regisry: &IndexMap<String, CompiledAirFn>) 
             }
         };
 
-        function_body.append(quote! {
-            self.$(name) = components.contains($(format!("&\"{}\"", &name))).then(|| {
-                $(builtin_init_code)
-                $(name)::ClaimGenerator::new($(args))
-            });
+        spawn_bodies.append(quote! {
+            if components.contains($(format!("&\"{}\"", &name))) {
+                s.spawn(|_| {
+                    $(builtin_init_code)
+                    *$(&ref_name) = Some($(name)::ClaimGenerator::new($(args)));
+                });
+            }
         });
     }
 
@@ -133,7 +143,14 @@ fn generate_fill_components(compiled_regisry: &IndexMap<String, CompiledAirFn>) 
             memory: Arc<Memory>,
             preprocessed_trace: Arc<PreProcessedTrace>,
         ){
-            $(function_body)
+            let Self {
+                $(destructure_fields)
+                public_data: _,
+            } = self;
+
+            scope(|s| {
+                $(spawn_bodies)
+            });
         }
     }
     }
