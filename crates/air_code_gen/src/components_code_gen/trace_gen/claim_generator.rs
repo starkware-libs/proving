@@ -177,9 +177,8 @@ impl RustProverGen {
 
                 pub fn write_trace(
                     $(self_param)
-                    tree_builder: &mut impl TreeBuilder<SimdBackend>,
                     $(write_trace_params(&self.air_fn.sub_components))
-                ) -> (Claim, InteractionClaimGenerator)
+                ) -> (ComponentTrace<N_TRACE_COLUMNS>, Claim, InteractionClaimGenerator)
                 {
                     $(self.write_trace_body_simd())
                 }
@@ -281,9 +280,8 @@ impl RustProverGen {
             let (trace, lookup_data, $sub_component_inputs) =
                     write_trace_simd($(self.generate_write_trace_simd_args()));
             $add_inputs
-            tree_builder.extend_evals(trace.to_evals());
 
-            (
+            (trace,
             Claim {
                 $(claim_fields)
             },
