@@ -56,7 +56,7 @@ impl AirFn for CreateBlakeRoundInput {
         for i in 0..8 {
             let current_addr = CasmAddress::new(
                 h_pointer.var.clone() + const_expr!(i),
-                &format!("state_{}", i),
+                &format!("state_{i}"),
             );
             state.push(air_builder.call(read_u32, current_addr));
         }

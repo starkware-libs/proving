@@ -130,7 +130,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             .environment
             .external_states
             .get(external_state)
-            .unwrap_or_else(|| panic!("Missing external state {}", external_state));
+            .unwrap_or_else(|| panic!("Missing external state {external_state}"));
         let preprocessed_column =
             make_preprocessed_column(external_state, &quote! { component.claim.log_size });
         preprocessed_values.append(quote! {

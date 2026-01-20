@@ -161,7 +161,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
             if i < FELT252WIDTH27_N_WORDS - 1 {
                 limb_accumulator = air_builder.let_(
                     limb_accumulator * shift_inverse.clone(),
-                    &format!("carry_{}", i),
+                    &format!("carry_{i}"),
                 );
                 carry_vec.push(limb_accumulator.clone());
             }
@@ -202,12 +202,12 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                     // Bias and constrain the carries in the range [-1, 1].
                     let biased_carry = air_builder.let_for_constraint(
                         carry + (const_expr!(minus_lower_bound) - const_expr!(1)),
-                        &format!("biased_carry_{}", i),
+                        &format!("biased_carry_{i}"),
                     );
                     air_builder.constrain(
                         biased_carry.clone() * biased_carry.clone() * biased_carry.clone()
                             - biased_carry,
-                        &format!("carry constraint {}", i),
+                        &format!("carry constraint {i}"),
                     );
                 }
             }
@@ -216,11 +216,11 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                     // Bias and constrain the carries in the range [0, 1].
                     let biased_carry = air_builder.let_for_constraint(
                         carry + const_expr!(minus_lower_bound),
-                        &format!("biased_carry_{}", i),
+                        &format!("biased_carry_{i}"),
                     );
                     air_builder.constrain(
                         biased_carry.clone() * biased_carry.clone() - biased_carry,
-                        &format!("carry constraint {}", i),
+                        &format!("carry constraint {i}"),
                     );
                 }
             }

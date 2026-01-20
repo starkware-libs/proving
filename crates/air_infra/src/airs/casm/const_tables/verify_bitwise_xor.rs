@@ -50,7 +50,7 @@ pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3], 
             input,
             (),
         ),
-        _ => panic!("Unsupported verify bitwise xor bits: {:?}", bits),
+        _ => panic!("Unsupported verify bitwise xor bits: {bits:?}"),
     }
 }
 

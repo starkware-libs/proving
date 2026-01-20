@@ -323,7 +323,7 @@ fn test_verify_all() {
         (
             mem_data
                 .into_iter()
-                .map(|(a, _)| (CasmAddress::new(a, "")))
+                .map(|(a, _)| CasmAddress::new(a, ""))
                 .collect::<Vec<_>>()
                 .try_into()
                 .expect("Invalid size of array"),
@@ -356,7 +356,7 @@ fn test_failed_verify_all() {
         (
             mem_data
                 .into_iter()
-                .map(|(a, _)| (CasmAddress::new(a, "")))
+                .map(|(a, _)| CasmAddress::new(a, ""))
                 .collect::<Vec<_>>()
                 .try_into()
                 .expect("Invalid size of array"),

@@ -27,7 +27,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: nightly-2025-04-06
+          toolchain: nightly-2025-07-14
       - uses: Swatinem/rust-cache@v2
       - run: scripts/rust_fmt.sh --check
 
@@ -38,7 +38,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: clippy
-          toolchain: nightly-2025-04-06
+          toolchain: nightly-2025-07-14
       - uses: Swatinem/rust-cache@v2
       - run: scripts/clippy.sh
 
@@ -61,7 +61,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: nightly-2025-04-06
+          toolchain: nightly-2025-07-14
       - uses: Swatinem/rust-cache@v2
       - run: scripts/test_generated_code.py
 
@@ -76,7 +76,7 @@ jobs:
         with:
           components: rustfmt
           profile: minimal
-          toolchain: nightly-2025-04-06
+          toolchain: nightly-2025-07-14
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --release
 

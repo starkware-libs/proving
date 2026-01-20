@@ -1,4 +1,5 @@
 use std::cmp::{max, min};
+use std::slice::from_ref;
 
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
@@ -58,13 +59,13 @@ impl AirFn for VerifyMulSmall {
             if i % 2 == 1 {
                 let carry = air_builder.deduce(
                     &mut (limb_accumulator.clone() * double_shift_inverse.clone()),
-                    &format!("carry_{}", i),
+                    &format!("carry_{i}"),
                 );
                 // Each convolution has at most 4 addends, each addend has at most 2**9-1 overflow.
-                range_check(air_builder, &[11], &[carry.clone()]);
+                range_check(air_builder, &[11], from_ref(&carry));
                 air_builder.constrain(
                     carry.clone() * double_shift.clone() - limb_accumulator,
-                    &format!("carry {} definition", i),
+                    &format!("carry {i} definition"),
                 );
                 limb_accumulator = carry;
             }

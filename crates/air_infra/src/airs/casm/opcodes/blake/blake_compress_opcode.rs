@@ -68,7 +68,7 @@ impl AirFn for BlakeCompressOpcode {
         for i in 0..8 {
             let current_addr = CasmAddress::new(
                 new_state_pointer.var.clone() + const_expr!(i),
-                &format!("new_state_{}", i),
+                &format!("new_state_{i}"),
             );
             ab.call(
                 verify_u32,

@@ -113,7 +113,7 @@ mod tests {
         let expected_trace_len = match NUM_WINDOWS {
             14 => 296,
             28 => 310,
-            _ => panic!("Unsupported NUM_WINDOWS val {}", NUM_WINDOWS),
+            _ => panic!("Unsupported NUM_WINDOWS val {NUM_WINDOWS}"),
         };
         assert_eq!(state.get_felts().len(), expected_trace_len);
     }
@@ -158,7 +158,7 @@ mod tests {
         let expected_trace_len = match NUM_WINDOWS {
             14 => 205,
             28 => 233,
-            _ => panic!("Unsupported NUM_WINDOWS val {}", NUM_WINDOWS),
+            _ => panic!("Unsupported NUM_WINDOWS val {NUM_WINDOWS}"),
         };
         assert_eq!(state.get_felts().len(), expected_trace_len);
     }

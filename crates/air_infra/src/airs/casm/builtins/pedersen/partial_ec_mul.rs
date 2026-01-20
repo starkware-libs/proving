@@ -29,7 +29,7 @@ impl<const NUM_WINDOWS: usize> PartialECMul<NUM_WINDOWS> {
 
 const _: () = {
     assert!(
-        FELT252_N_WORDS % 2 == 0,
+        FELT252_N_WORDS.is_multiple_of(2),
         "PartialECMul {{ 18 }} stores the multiplier as pairs of limbs"
     );
 };
@@ -48,7 +48,7 @@ pub fn felt252_to_limbs<const NUM_WINDOWS: usize>(
                 + value.get_felt(i * 2 + 1) * const_expr!(1 << FELT252_BITS_PER_WORD)
         }),
         FELT252_N_WORDS => from_fn(|i| value.get_felt(i)),
-        _ => panic!("Unsupported NUM_WINDOWS val {}", NUM_WINDOWS),
+        _ => panic!("Unsupported NUM_WINDOWS val {NUM_WINDOWS}"),
     }
 }
 
@@ -116,7 +116,7 @@ impl<const NUM_WINDOWS: usize> AirFn for PartialECMul<NUM_WINDOWS> {
                 let points_table_air = PedersenPointsTable::<23> { window_bits };
                 air_builder.lookup_call(&points_table_air, [partial_product_location], ())
             }
-            _ => panic!("Unsupported window_bits value {}", window_bits),
+            _ => panic!("Unsupported window_bits value {window_bits}"),
         };
 
         // Compute output

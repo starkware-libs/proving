@@ -1,3 +1,5 @@
+use std::slice::from_ref;
+
 use serde::Serialize;
 
 use super::range_check::*;
@@ -26,7 +28,7 @@ impl AirFn for SmallAdd {
 
         let result = a + b;
 
-        range_check(air_builder, &[20], &[result.clone()]);
+        range_check(air_builder, &[20], from_ref(&result));
 
         result
     }

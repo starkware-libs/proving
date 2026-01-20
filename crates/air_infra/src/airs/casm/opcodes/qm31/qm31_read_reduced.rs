@@ -63,23 +63,23 @@ impl AirFn for QM31ReadReduced {
         let delta_prefix = addr
             .extra_info
             .clone()
-            .map(|s| format!("{}_delta_", s))
+            .map(|s| format!("{s}_delta_"))
             .unwrap_or("delta_".to_string());
         let delta_ab_inv = ab.deduce(
             &mut delta_ab.clone().inverse(),
-            &format!("{}ab_inv", delta_prefix),
+            &format!("{delta_prefix}ab_inv"),
         );
         let delta_cd_inv = ab.deduce(
             &mut delta_cd.clone().inverse(),
-            &format!("{}cd_inv", delta_prefix),
+            &format!("{delta_prefix}cd_inv"),
         );
         ab.constrain(
             delta_ab * delta_ab_inv - const_expr!(1),
-            &format!("{}ab doesn't equal 0", delta_prefix),
+            &format!("{delta_prefix}ab doesn't equal 0"),
         );
         ab.constrain(
             delta_cd * delta_cd_inv - const_expr!(1),
-            &format!("{}cd doesn't equal 0", delta_prefix),
+            &format!("{delta_prefix}cd doesn't equal 0"),
         );
 
         // Compute the M31 coordinates and output them along with the id.

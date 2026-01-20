@@ -252,9 +252,9 @@ fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
 }
 
 fn packed_name(ty: &str) -> String {
-    format!("Packed{}", ty)
+    format!("Packed{ty}")
 }
 
 fn vec_of_type(ty: &str) -> String {
-    format!("Vec<{}>", ty)
+    format!("Vec<{ty}>")
 }

@@ -87,7 +87,7 @@ impl<const N: usize> AirFn for RangeCheckMemValue<N> {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), value: Self::In) -> Self::Out {
-        assert!(N % 2 == 0, "Expected even number N",);
+        assert!(N.is_multiple_of(2), "Expected even number N",);
         for (i, pair) in value.chunks(2).enumerate() {
             range_check_variant(
                 air_builder,

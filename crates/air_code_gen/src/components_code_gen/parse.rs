@@ -97,7 +97,7 @@ pub fn parse_eval_constraint(
                 .to_string()
                 + ".clone()"
         }
-        CompiledAirVar::State(name) => format!("{}.clone()", name),
+        CompiledAirVar::State(name) => format!("{name}.clone()"),
         CompiledAirVar::StaticCall(id, args) => {
             if id.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME) {
                 return gen_evaluate_call(air_fn, id, args, constant_names);
@@ -111,7 +111,7 @@ pub fn parse_eval_constraint(
                 arg_str.push_str(&parse_eval_constraint(air_fn, arg, constant_names));
             }
 
-            format!("{}({})", id, arg_str)
+            format!("{id}({arg_str})")
         }
         CompiledAirVar::MethodCall(id, func, args) => {
             format!(
@@ -178,7 +178,7 @@ fn gen_evaluate_call(
         .iter()
         .map(|arg| parse_eval_constraint(air_fn, arg, constant_names))
         .collect::<Vec<_>>();
-    let inline_fn = id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
+    let inline_fn = id.trim_end_matches(&format!("::{CONSTRAINT_EVAL_FUNCTION_NAME}"));
     let (_, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
     if air_fn.r#type == TraceType::Inline {
         arg_str.push("common_lookup_elements".to_string());

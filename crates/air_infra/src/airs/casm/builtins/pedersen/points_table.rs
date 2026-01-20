@@ -91,7 +91,7 @@ impl<const WINDOW_BITS: usize> ExtTable for PedersenPoints<WINDOW_BITS> {
                 let row_in_section = row_number - p_2_section_start;
                 compute_section_row(self.window_bits, row_in_section, &P_2, &P_3)
             } else {
-                panic!("Access to row {} in PedersenPoints", row_number)
+                panic!("Access to row {row_number} in PedersenPoints")
             };
             return [
                 const_felt252_expr_from_felt252!(point.x),
