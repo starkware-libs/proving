@@ -28,20 +28,18 @@ impl RustProverGen {
                 // TODO(Ohad): use partial sums.
                 pub fn write_interaction_trace(
                     self,
-                    tree_builder: &mut impl TreeBuilder<SimdBackend>,
                     common_lookup_elements: &relations::CommonLookupElements
-                ) -> InteractionClaim
+                ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>, InteractionClaim)
                 {
                     $(padding)
                     let mut logup_gen = LogupTraceGenerator::new($log_size);
 
                     $(self.generate_write_interaction_trace_body())
                     let (trace, claimed_sum) = logup_gen.finalize_last();
-                    tree_builder.extend_evals(trace);
 
-                    InteractionClaim {
+                    (trace, InteractionClaim {
                         claimed_sum,
-                    }
+                    },)
                 }
             }
         }
