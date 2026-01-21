@@ -1,4 +1,5 @@
 use super::ec_add::*;
+use super::ec_double::*;
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
@@ -35,4 +36,30 @@ fn test_ec_add() {
         "[71185753667440069, 12894077368487963351, 14618120260975419084, 281472859247110997]"
     );
     assert_eq!(state.get_felts().len(), 168);
+}
+
+#[test]
+fn test_ec_double() {
+    let air_fn = &ECDouble {};
+    let (registry, _) = AirFnRegistry::new(air_fn);
+
+    let x = const_felt252_expr!(
+        0x8fa8120b6d56eb0c1080d17957ebe47b,
+        0x234287dcbaffe7f969c748655fca9e5
+    );
+    let y = const_felt252_expr!(
+        0x940135dd7a6c94cc6ed0268ee89e5615,
+        0x3b056f100f96fb21e889527d41f4e39
+    );
+
+    let (state, output) = registry.run_air(air_fn, (), [x, y]);
+    assert_eq!(
+        output[0].calc(),
+        "[3806079574567597174, 5185596089501980160, 466306979004812932, 16054420484727752]"
+    );
+    assert_eq!(
+        output[1].calc(),
+        "[15328562732460198937, 17488388439525081516, 11335053831013948278, 509520905531177432]"
+    );
+    assert_eq!(state.get_felts().len(), 253);
 }
