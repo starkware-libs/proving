@@ -1,5 +1,9 @@
 use stwo_cairo_common::prover_types::cpu::Felt252;
 
+use crate::core::expressions::felt252_expr::*;
+
+pub type ECPoint = [Felt252Expr; 2];
+
 #[derive(Clone)]
 pub struct CurvePoint {
     pub x: Felt252,

@@ -2,7 +2,7 @@ use compiled_casm_air::compiled_structs::TraceType;
 use serde::Serialize;
 
 use super::partial_ec_mul::*;
-use super::utils::*;
+use crate::airs::casm::builtins::ec_utils::utils::*;
 use crate::airs::felt252_utils::verify_reduced252::*;
 use crate::const_felt252_expr_from_felt252;
 use crate::core::air_fn::*;

@@ -4,7 +4,7 @@ use stwo_cairo_common::preprocessed_columns::pedersen::PEDERSEN_TABLE_N_COLUMNS;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 
 #[cfg(test)]
-use super::utils::*;
+use crate::airs::casm::builtins::ec_utils::utils::*;
 use crate::airs::casm::const_tables::seq::*;
 #[cfg(test)]
 use crate::const_felt252_expr_from_felt252;
