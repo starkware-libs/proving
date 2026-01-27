@@ -203,7 +203,7 @@ fn generate_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
 
 /// Counts the number of times each relation is used (not including yield) in the component, for
 /// each row.
-fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut relation_use_count = HashMap::new();
     for (relation_name, use_or_yield) in &air_fn.constraint_lookups {
         if *use_or_yield == UseOrYield::Use {
