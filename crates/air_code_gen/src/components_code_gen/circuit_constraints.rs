@@ -1,6 +1,7 @@
 use compiled_casm_air::compiled_structs::*;
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use genco::lang::{rust, Rust};
+use genco::tokens::quoted;
 use genco::{quote, Tokens};
 use itertools::{chain, Itertools};
 
@@ -34,6 +35,7 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
     code.append(quote! { $("\n\n") });
 
     code.append(quote! {
+        #[allow(unused_variables)]
         pub fn accumulate_constraints(
             input: &[Var],
             context: &mut Context<impl IValue>,
@@ -93,11 +95,6 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
 
     let input_names = input_names(air_fn);
 
-    // Mark component_data as used
-    code.append(quote! {
-        let _ = component_data;
-    });
-
     // Unpack input
     code.append(quote! {
         let [$(input_names.join(",\n"))] = input.try_into().unwrap();$("\n")
@@ -115,6 +112,12 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let $(external_col_id) = acc.get_preprocessed_column(&$(make_preprocessed_column_id(external_col_id)));
             });
         }
+    }
+
+    for public_param in &air_fn.public_params {
+        code.append(quote! {
+            let $(public_param.name()) = *acc.public_params.get($(quoted(public_param.name()))).unwrap();
+        });
     }
 
     // Evaluate enabler constraint
@@ -277,7 +280,7 @@ fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
         CompiledAirVar::Tuple(_vars) => todo!(),
         CompiledAirVar::Array(_vars) => todo!(),
         CompiledAirVar::ExternalState(col_id) => quote! { $(col_id.to_lowercase()) },
-        CompiledAirVar::PublicParam(_) => todo!(),
+        CompiledAirVar::PublicParam(param_name) => quote! { $(param_name) },
         CompiledAirVar::Struct { .. } | CompiledAirVar::MethodCall(..) => {
             panic!("Unsupported expression in constraint evaluation: {expr}")
         }
