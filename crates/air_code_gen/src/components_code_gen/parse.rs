@@ -99,30 +99,8 @@ pub fn parse_eval_constraint(
         }
         CompiledAirVar::State(name) => format!("{name}.clone()"),
         CompiledAirVar::StaticCall(id, args) => {
-            if id.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME) {
-                return gen_evaluate_call(air_fn, id, args, constant_names);
-            }
-
-            let mut arg_str = String::new();
-            for (i, arg) in args.iter().enumerate() {
-                if i > 0 {
-                    arg_str.push_str(", ");
-                }
-                arg_str.push_str(&parse_eval_constraint(air_fn, arg, constant_names));
-            }
-
-            format!("{id}({arg_str})")
-        }
-        CompiledAirVar::MethodCall(id, func, args) => {
-            format!(
-                "{}.{}({})",
-                parse_eval_constraint(air_fn, id, constant_names),
-                func,
-                args.iter()
-                    .map(|arg| parse_eval_constraint(air_fn, arg, constant_names))
-                    .collect_vec()
-                    .join(", ")
-            )
+            assert!(id.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME));
+            gen_evaluate_call(air_fn, id, args, constant_names)
         }
         CompiledAirVar::Var(_, id) => id.to_string() + ".clone()",
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
@@ -154,8 +132,8 @@ pub fn parse_eval_constraint(
                 .join(", ");
             format!("[{vars_str}]")
         }
-        CompiledAirVar::Struct { .. } => {
-            todo!()
+        CompiledAirVar::Struct { .. } | CompiledAirVar::MethodCall(..) => {
+            panic!("Unsupported expression in constraint evaluation: {expr}")
         }
         CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase() + ".clone()",
         CompiledAirVar::PublicParam(public_param) => {
