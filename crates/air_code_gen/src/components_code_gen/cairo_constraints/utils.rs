@@ -67,7 +67,7 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
 
     if is_const_size_component(air_fn) {
         consts.extend(quote! {
-            const LOG_SIZE: u32 = $(air_fn.log_height);
+            pub const LOG_SIZE: u32 = $(air_fn.log_height);
         });
     }
 
