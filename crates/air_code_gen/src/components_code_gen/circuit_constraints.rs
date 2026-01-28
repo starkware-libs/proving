@@ -41,6 +41,18 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
     });
 
     if air_fn.r#type != TraceType::Inline {
+        // In circuit proofs, the prover sends the size of all components, including
+        // const-size ones. Verify that the size of const-size components is the
+        // correct one.
+        let check_component_size = if let Some(log_height) = air_fn.log_height {
+            quote! {
+                $(format!("// Verify this component has 2 ** {log_height} rows"))
+                let size_bit = component_data.get_n_instances_bit(context, $(log_height));
+                eq(context, size_bit, context.one());
+            }
+        } else {
+            quote! {}
+        };
         code.append(quote! {
 
             pub struct Component {}
@@ -52,6 +64,7 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
                     acc: &mut CompositionConstraintAccumulator,
                 ) {
                     accumulate_constraints(component_data.trace_columns, context, component_data, acc);
+                    $(check_component_size)
                 }
 
                 fn trace_columns(&self) -> usize {
@@ -86,7 +99,9 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     for external_col_id in &air_fn.external_states {
         // Seq is the only preprocessed column that is of unfixed size.
         if external_col_id == "Seq" {
-            unimplemented!("Seq column of non-const size")
+            code.append(quote! {
+                let seq = seq_of_component_size(context, component_data, acc);
+            });
         } else {
             code.append(quote! {
                 let $(external_col_id) = acc.get_preprocessed_column(&$(make_preprocessed_column_id(external_col_id)));
@@ -253,7 +268,7 @@ fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
         }
         CompiledAirVar::Tuple(_vars) => todo!(),
         CompiledAirVar::Array(_vars) => todo!(),
-        CompiledAirVar::ExternalState(col_id) => quote! { $(col_id) },
+        CompiledAirVar::ExternalState(col_id) => quote! { $(col_id.to_lowercase()) },
         CompiledAirVar::PublicParam(_) => todo!(),
         CompiledAirVar::Struct { .. } | CompiledAirVar::MethodCall(..) => {
             panic!("Unsupported expression in constraint evaluation: {expr}")
