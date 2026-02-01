@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Instruct bash to immediately exit if any command in the pipeline fails, has a non-zero exit 
+# Instruct bash to immediately exit if any command in the pipeline fails, has a non-zero exit
 # status, or there's a reference to an undefined variable.
 set -eou pipefail
 

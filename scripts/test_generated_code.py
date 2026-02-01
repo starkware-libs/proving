@@ -68,7 +68,7 @@ run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--', 'generate-stwo-cairo',
 # We only run the tests for the stwo_cairo_prover and cairo-air packages as these are the only ones
 # that depend on the generated code.
 os.chdir(os.path.join(clone_dir, 'stwo_cairo_prover'))
-cargo_test_return_code = run_cmd(['cargo', 'test', '--package', 'stwo_cairo_prover'], check_success=False)
+cargo_test_return_code = run_cmd(['cargo', 'test', '--package', 'stwo-cairo-prover'], check_success=False)
 if cargo_test_return_code != 0:
     print(f"Failure: cargo test in stwo_cairo_prover exited with {cargo_test_return_code}")
     exit(1)

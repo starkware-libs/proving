@@ -1,7 +1,9 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use air_code_gen::cairo_claim_generator::generate_cairo_claim_generator_file;
+use air_code_gen::claims_cairo::generate_claims_cairo_file;
+use air_code_gen::claims_generator::generate_claim_generator_file;
+use air_code_gen::claims_rust::generate_claims_rust_file;
 use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
 use air_code_gen::components_code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
@@ -10,6 +12,7 @@ use air_code_gen::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
     load_air_fns,
 };
+use air_infra::airs::casm::casm_registry::create_components_casm_registry_reversed;
 use clap::Parser;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
 use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
@@ -24,8 +27,10 @@ use xshell::{cmd, Shell};
 const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
 const DEFAULT_STWO_CIRCUITS_PATH: &str = "../stwo-circuits/";
-pub const CAIRO_CLAIM_GENERATOR_FILE_PATH: &str =
+pub const CLAIM_GENERATOR_FILE_PATH: &str =
     "stwo_cairo_prover/crates/prover/src/witness/cairo_claim_generator.rs";
+pub const CLAIMS_RUST_FILE_PATH: &str = "stwo_cairo_prover/crates/cairo-air/src/claims.rs";
+pub const CLAIMS_CAIRO_FILE_PATH: &str = "stwo_cairo_verifier/crates/cairo_air/src/claims.cairo";
 
 #[derive(Serialize)]
 struct VersionedCasmRegistry {
@@ -321,12 +326,28 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
 
     generate_registry_properties_file(&args);
 
-    let cairo_claim_generator_code = generate_cairo_claim_generator_file();
+    let compiled_regisry = create_components_casm_registry_reversed();
+
+    let claim_generator_code = generate_claim_generator_file(&compiled_regisry);
     fs::write(
-        args.stwo_cairo_path.join(CAIRO_CLAIM_GENERATOR_FILE_PATH),
-        cairo_claim_generator_code.to_string().unwrap(),
+        args.stwo_cairo_path.join(CLAIM_GENERATOR_FILE_PATH),
+        claim_generator_code.to_string().unwrap(),
     )
-    .expect("Failed to write cairo claim generator code");
+    .expect("Failed to write claim generator code");
+
+    let claims_rust_code = generate_claims_rust_file(&compiled_regisry);
+    fs::write(
+        args.stwo_cairo_path.join(CLAIMS_RUST_FILE_PATH),
+        claims_rust_code.to_string().unwrap(),
+    )
+    .expect("Failed to write claims rust code");
+
+    let claims_cairo_code = generate_claims_cairo_file(&compiled_regisry);
+    fs::write(
+        args.stwo_cairo_path.join(CLAIMS_CAIRO_FILE_PATH),
+        claims_cairo_code.to_string().unwrap(),
+    )
+    .expect("Failed to write claims cairo code");
 
     format_stwo_cairo(&args.stwo_cairo_path);
 

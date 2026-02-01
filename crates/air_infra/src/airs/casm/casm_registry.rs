@@ -1,5 +1,6 @@
-use compiled_casm_air::compiled_structs::TraceType;
+use compiled_casm_air::compiled_structs::{CompiledAirFn, TraceType};
 use compiled_casm_air::public_params::PublicParam;
+use indexmap::IndexMap;
 
 // Builtins
 use super::builtins::bitwise::BitwiseBuiltin;
@@ -38,6 +39,24 @@ pub fn create_casm_registry() -> AirFnRegistry {
     }
 
     registry
+}
+
+// Returns a CASM registry filtered to exclude inline and const AIR functions,
+// ordered for code generation.
+pub fn create_components_casm_registry_reversed() -> IndexMap<String, CompiledAirFn> {
+    let registry = create_casm_registry();
+    let mut compiled_regisry: IndexMap<String, CompiledAirFn> = registry
+        .compile()
+        .into_iter()
+        .filter(|(_, compiled_air_fn)| {
+            compiled_air_fn.r#type != TraceType::Const
+                && compiled_air_fn.r#type != TraceType::Inline
+        })
+        .collect();
+
+    // Ensure each component appears before all its dependencies.
+    compiled_regisry.reverse();
+    compiled_regisry
 }
 
 /// Returns an array of all the air functions of opcodes.
