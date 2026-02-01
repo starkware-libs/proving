@@ -4,6 +4,7 @@ use genco::lang::{rust, Rust};
 use genco::{quote, Tokens};
 use itertools::{chain, Itertools};
 
+use crate::components_code_gen::constraints::generate_relation_uses;
 use crate::utils::{
     make_preprocessed_column_id, relation_multiplicity_index, remove_trailing_zeroes,
 };
@@ -28,6 +29,9 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
             pub const N_INTERACTION_COLUMNS: usize = $(interaction_columns);$("\n\n")
         });
     }
+
+    code.append(generate_relation_uses(air_fn));
+    code.append(quote! { $("\n\n") });
 
     code.append(quote! {
         pub fn accumulate_constraints(
@@ -73,6 +77,10 @@ pub fn generate_circuit_constraints_code(air_fn: &CompiledAirFn) -> Tokens<Rust>
 
                 fn interaction_columns(&self) -> usize {
                     N_INTERACTION_COLUMNS
+                }
+
+                fn relation_uses_per_row(&self) -> &[RelationUse] {
+                    &RELATION_USES_PER_ROW
                 }
             }
         })
