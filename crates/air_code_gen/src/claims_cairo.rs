@@ -29,6 +29,7 @@ pub fn generate_claims_cairo_file(
             format!("use crate::components::{name}::InteractionClaimImpl as {alias};")
         }).collect_vec().join("\n"))
         use crate::{ChannelTrait, PublicDataTrait, components};
+        use super::claim::{FlatClaim, FlatClaimTrait, flatten_interaction_claim};
 
         #[derive(Drop, Serde)]
         pub struct CairoClaim {
@@ -50,9 +51,8 @@ pub fn generate_claims_cairo_file(
         #[generate_trait]
         pub impl CairoInteractionClaimImpl of CairoInteractionClaimTrace {
             fn mix_into(self: @CairoInteractionClaim, ref channel: Channel) {
-                $(&components_names.iter().map(|name| {
-                    format!("if let Some(claim) = self.{name} {{claim.mix_into(ref channel);}}")
-                }).collect_vec().join("\n"))
+                let claim = flatten_interaction_claim(self);
+                channel.mix_felts(claim);
             }
         }
 
@@ -72,25 +72,9 @@ pub fn generate_claims_cairo_file(
 }
 
 fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>) -> rust::Tokens {
-    let mut mix_into_body = rust::Tokens::new();
     let mut accumulate_body = rust::Tokens::new();
 
-    // Generate public_data.mix_into
-    mix_into_body.append(quote! {
-        self.public_data.mix_into(ref channel);
-    });
-
     for (name, compiled_air_fn) in compiled_regisry {
-        // Add to mix_into() body with Option handling
-        mix_into_body.append(quote! {
-            if let Some(claim) = self.$(name) {
-                channel.mix_u64(1);
-                claim.mix_into(ref channel);
-            } else {
-                channel.mix_u64(0);
-            }
-        });
-
         // Add to accumulate_relation_uses() body
         if !is_const_size_component(compiled_air_fn) {
             accumulate_body.append(quote! {
@@ -101,6 +85,7 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
         }
     }
 
+    // TODO: Autogenerate `log_sizes` and 'mix_into` once the order is fixed.
     quote! {
         pub impl CairoClaimImpl of ClaimTrait<CairoClaim> {
             fn log_sizes(self: @CairoClaim) -> TreeArray<Span<u32>> {
@@ -108,7 +93,8 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
             }
 
             fn mix_into(self: @CairoClaim, ref channel: Channel) {
-                $(mix_into_body)
+                let claim: FlatClaim = FlatClaimTrait::from_cairo_claim(self);
+                claim.mix_into(ref channel);
             }
 
             fn accumulate_relation_uses(self: @CairoClaim, ref relation_uses: RelationUsesDict) {

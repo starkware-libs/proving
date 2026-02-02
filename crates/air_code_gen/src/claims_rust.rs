@@ -26,6 +26,7 @@ pub fn generate_claims_rust_file(
         use crate::claims::prelude::SecureField;
         use crate::components::*;
         use crate::relations::CommonLookupElements;
+        use super::flat_claims::{FlatClaim, flatten_interaction_claim};
 
         #[derive(Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
         pub struct CairoClaim {
@@ -46,9 +47,8 @@ pub fn generate_claims_rust_file(
 
         impl CairoInteractionClaim {
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                $(&components_names.iter().map(|name| {
-                    format!("self.{name}.as_ref().inspect(|c| c.mix_into(channel));")
-                }).collect_vec().join("\n"));
+                let claim = flatten_interaction_claim(self);
+                channel.mix_felts(claim.as_slice());
             }
         }
 
@@ -69,16 +69,9 @@ pub fn generate_claims_rust_file(
 }
 
 fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>) -> rust::Tokens {
-    let mut mix_into_body = rust::Tokens::new();
     let mut accumulate_body = rust::Tokens::new();
 
     for (name, compiled_air_fn) in compiled_regisry {
-        // Add to mix_into() body.
-        mix_into_body.append(quote! {
-            channel.mix_u64(self.$(name).is_some() as u64);
-            self.$(name).as_ref().inspect(|c| c.mix_into(channel));
-        });
-
         // Add to accumulate_relation_uses() body.
         if name == "memory_id_to_big" {
             accumulate_body.append(quote! {
@@ -100,11 +93,12 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
         }
     }
 
+    // TODO: Autogenerate `log_sizes` and 'mix_into` once the order is fixed.
     quote! {
         impl CairoClaim {
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                self.public_data.mix_into(channel);
-                $(mix_into_body)
+                let claim = FlatClaim::from_cairo_claim(self);
+                claim.mix_into(channel);
             }
 
             pub fn accumulate_relation_uses(
