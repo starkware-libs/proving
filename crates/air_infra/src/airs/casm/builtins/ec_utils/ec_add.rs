@@ -41,11 +41,11 @@ impl AirFn for ECAdd {
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_diff: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| x2.get_felt(i) - x1.get_felt(i))
+            .map(|i| air_builder.let_(x2.get_felt(i) - x1.get_felt(i), &format!("x_diff_{i}")))
             .collect::<Vec<_>>()
             .into();
         let y_diff: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| y2.get_felt(i) - y1.get_felt(i))
+            .map(|i| air_builder.let_(y2.get_felt(i) - y1.get_felt(i), &format!("y_diff_{i}")))
             .collect::<Vec<_>>()
             .into();
         air_builder.call(&VerifyMul252 {}, [slope.clone(), x_diff, y_diff]);
@@ -63,7 +63,12 @@ impl AirFn for ECAdd {
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_sum: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| x1.get_felt(i) + x2.get_felt(i) + result_x.get_felt(i))
+            .map(|i| {
+                air_builder.let_(
+                    x1.get_felt(i) + x2.get_felt(i) + result_x.get_felt(i),
+                    &format!("x_sum_{i}"),
+                )
+            })
             .collect::<Vec<_>>()
             .into();
         air_builder.call(&VerifyMul252 {}, [slope.clone(), slope.clone(), x_sum]);
@@ -81,11 +86,16 @@ impl AirFn for ECAdd {
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_diff_2: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| x1.get_felt(i) - result_x.get_felt(i))
+            .map(|i| {
+                air_builder.let_(
+                    x1.get_felt(i) - result_x.get_felt(i),
+                    &format!("x_diff2_{i}"),
+                )
+            })
             .collect::<Vec<_>>()
             .into();
         let y_sum: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| y1.get_felt(i) + result_y.get_felt(i))
+            .map(|i| air_builder.let_(y1.get_felt(i) + result_y.get_felt(i), &format!("y_sum_{i}")))
             .collect::<Vec<_>>()
             .into();
         air_builder.call(&VerifyMul252 {}, [slope, x_diff_2, y_sum]);

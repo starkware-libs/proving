@@ -45,11 +45,14 @@ impl AirFn for ECDouble {
         );
         let numerator: Felt252Expr = (0..FELT252_N_WORDS)
             .map(|i| {
-                if i == 0 {
-                    const_expr!(3) * x_squared.get_felt(i) + const_expr!(1)
-                } else {
-                    const_expr!(3) * x_squared.get_felt(i)
-                }
+                air_builder.let_(
+                    if i == 0 {
+                        const_expr!(3) * x_squared.get_felt(i) + const_expr!(1)
+                    } else {
+                        const_expr!(3) * x_squared.get_felt(i)
+                    },
+                    &format!("numerator_{i}"),
+                )
             })
             .collect::<Vec<_>>()
             .into();
@@ -68,7 +71,12 @@ impl AirFn for ECDouble {
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_sum: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| x.get_felt(i) + x.get_felt(i) + result_x.get_felt(i))
+            .map(|i| {
+                air_builder.let_(
+                    x.get_felt(i) + x.get_felt(i) + result_x.get_felt(i),
+                    &format!("x_sum_{i}"),
+                )
+            })
             .collect::<Vec<_>>()
             .into();
         air_builder.call(&VerifyMul252 {}, [slope.clone(), slope.clone(), x_sum]);
@@ -86,11 +94,11 @@ impl AirFn for ECDouble {
                 .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_diff: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| x.get_felt(i) - result_x.get_felt(i))
+            .map(|i| air_builder.let_(x.get_felt(i) - result_x.get_felt(i), &format!("x_diff_{i}")))
             .collect::<Vec<_>>()
             .into();
         let y_sum: Felt252Expr = (0..FELT252_N_WORDS)
-            .map(|i| y.get_felt(i) + result_y.get_felt(i))
+            .map(|i| air_builder.let_(y.get_felt(i) + result_y.get_felt(i), &format!("y_sum_{i}")))
             .collect::<Vec<_>>()
             .into();
         air_builder.call(&VerifyMul252 {}, [slope, x_diff, y_sum]);
