@@ -145,11 +145,7 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
         match self.trace_type() {
-            TraceType::Opcode => Some(vec![
-                Some("pc".to_string()),
-                Some("ap".to_string()),
-                Some("fp".to_string()),
-            ]),
+            TraceType::Opcode | TraceType::ChainRound => self.input_expr_descriptions(),
             _ => None,
         }
     }

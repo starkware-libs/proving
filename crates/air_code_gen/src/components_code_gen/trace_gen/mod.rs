@@ -109,7 +109,9 @@ impl RustProverGen {
     fn attributes(&self) -> rust::Tokens {
         let mut attributes = quote! {};
         attributes.append(quote!(#![allow(unused_parens)]));
-        if self.air_fn.name.contains("generic_opcode") {
+        if self.air_fn.name.contains("generic_opcode")
+            || self.air_fn.name.contains("partial_ec_mul_generic")
+        {
             attributes.extend(quote! {
                 #![cfg_attr(rustfmt, rustfmt_skip)]
             });

@@ -22,6 +22,7 @@ use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
+use crate::airs::casm::builtins::ec_op::partial_ec_mul_generic::*;
 use crate::airs::casm::builtins::ec_utils::utils::ECPoint;
 use crate::airs::casm::builtins::modulo::mod_utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
@@ -635,9 +636,6 @@ impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));
 impl_air_var!((BlakeH, BlakeState));
 // DecodeBlakeOpcode
 impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
-// PartialECMul
-impl_air_var!((PackedECMultiplier<const NUM_WINDOWS: usize>, ECPoint));
-impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState<const NUM_WINDOWS: usize>));
 // QM31ReadReduced
 type QM31Coordinates = [FeltExpr; 4];
 impl_air_var!((QM31Coordinates, CasmId));
@@ -669,6 +667,13 @@ impl_air_var!((ChainIdVar, RoundNumVar, PoseidonFullRoundState));
 type PoseidonPartialRoundState = [Felt252Width27Expr; 4];
 impl_air_var!((PoseidonPartialRoundState, Felt252Width27Expr));
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonPartialRoundState));
+// PartialECMul
+impl_air_var!((PackedECMultiplier<const NUM_WINDOWS: usize>, ECPoint));
+impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState<const NUM_WINDOWS: usize>));
+// PartialECMulGeneric
+type ECPointB = ECPoint;
+impl_air_var!((Felt252Width27Expr, ECPoint, ECPointB, FeltExpr));
+impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulGenericState));
 
 // Implements AirVar for arrays, tuples and arrays of arrays of air vars.
 #[macro_export]
