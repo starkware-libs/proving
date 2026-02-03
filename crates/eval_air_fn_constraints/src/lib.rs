@@ -30,6 +30,7 @@ pub struct SampleEvaluation {
 struct EvaluatedLookupTerm {
     felt_values: Vec<QM31>,
     use_or_yield_sign: QM31,
+    relation_name: String,
 }
 
 enum EvaluatedStep {
@@ -93,6 +94,7 @@ fn run_component_and_collect_steps(
             ConstraintEvalStep::LookupTerm(LookupTerm {
                 felts,
                 use_or_yield,
+                relation_name,
                 ..
             }) => {
                 let felt_values = felts.iter().map(|f| scope.evaluate(f)).collect();
@@ -103,6 +105,7 @@ fn run_component_and_collect_steps(
                 steps.push(EvaluatedStep::LookupTerm(EvaluatedLookupTerm {
                     felt_values,
                     use_or_yield_sign,
+                    relation_name: relation_name.clone(),
                 }));
             }
             ConstraintEvalStep::Intermediate(compiled_intermediate) => {
@@ -189,10 +192,10 @@ fn evaluate_composition_polynomial(
 
     // If we have an enabler, the enabler constraint comes first
     if component.padding_type == PaddingType::Enabler {
-        let enabler_value = assignment
-            .lookup_control_value
-            .expect("Components with Enabler padding should have enabler value");
-        constraint_evals.push(enabler_value * enabler_value - enabler_value)
+        let [enabler_value] = &assignment.lookup_control_values[..] else {
+            panic!("Components with Enabler padding should have enabler value")
+        };
+        constraint_evals.push(*enabler_value * *enabler_value - *enabler_value)
     }
 
     // Split the steps to local and lookup constraints
