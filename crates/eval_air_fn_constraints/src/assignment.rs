@@ -23,8 +23,8 @@ pub struct Assignment {
     // The value of the logup sum in the row before this one.
     pub last_row_sum: QM31,
 
-    // The value in the enabler/multiplicity column, if there is one.
-    pub lookup_control_value: Option<QM31>,
+    // The values in the enabler/multiplicity columns, if there are any.
+    pub lookup_control_values: Vec<QM31>,
 
     // The coefficients used to combine the elements of relation tuples.
     pub common_lookup_elements: LookupElements,
@@ -58,11 +58,15 @@ impl Assignment {
             .map(|ext_state| (ext_state.clone(), random_qm31(&ext_state.to_owned())))
             .collect();
 
-        let lookup_control_value = match component.padding_type {
-            PaddingType::Enabler | PaddingType::Multiplicity => {
-                Some(random_qm31("enabler_or_multiplicity"))
+        let lookup_control_values = match component.padding_type {
+            PaddingType::Enabler => {
+                vec![random_qm31("enabler_or_multiplicity")]
             }
-            PaddingType::None => None,
+            PaddingType::Multiplicity => {
+                // TODO use different values for different relations
+                vec![random_qm31("enabler_or_multiplicity"); component.relation_names.len()]
+            }
+            PaddingType::None => vec![],
         };
 
         Assignment {
@@ -74,7 +78,7 @@ impl Assignment {
                 .collect(),
             random_coeff: random_qm31("random_coeff"),
             last_row_sum: random_qm31("last_row_sum"),
-            lookup_control_value,
+            lookup_control_values,
             common_lookup_elements,
             environment: Rc::new(Environment {
                 public_params,

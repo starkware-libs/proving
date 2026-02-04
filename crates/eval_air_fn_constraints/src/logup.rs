@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType};
 use num_traits::{One, Zero};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
@@ -62,24 +62,19 @@ fn build_logup_terms(
 ) -> Vec<LogupTerm> {
     lookup_terms
         .iter()
-        .enumerate()
-        .map(|(i, lookup_term)| {
+        .map(|lookup_term| {
+            let is_masked = relation_multiplicity_index(component, &lookup_term.relation_name);
             let abs_numerator = match component.padding_type {
-                PaddingType::Multiplicity | PaddingType::Enabler => {
-                    // These multiply the last lookup term (the yield to the component relation),
-                    // and, in chain components, also the second-to-last term (the use of the chain
-                    // relation).
-                    let is_chain = component.r#type == TraceType::ChainRound
-                        || component.r#type == TraceType::Opcode;
-                    if (is_chain && i == lookup_terms.len() - 2) || (i == lookup_terms.len() - 1) {
-                        assignment.lookup_control_value.expect(
-                            "Components with padding should have enabler / multiplicity value",
-                        )
-                    } else {
-                        QM31::one()
-                    }
+                PaddingType::Enabler if is_masked.is_some() => {
+                    let [enabler_value] = assignment.lookup_control_values[..] else {
+                        panic!("Components with padding type Enabler should have enabler value")
+                    };
+                    enabler_value
                 }
-                PaddingType::None => QM31::one(),
+                PaddingType::Multiplicity if is_masked.is_some() => {
+                    assignment.lookup_control_values[is_masked.unwrap()]
+                }
+                _ => QM31::one(),
             };
             let numerator = abs_numerator * lookup_term.use_or_yield_sign;
             let denominator = assignment
@@ -91,4 +86,14 @@ fn build_logup_terms(
             }
         })
         .collect::<Vec<_>>()
+}
+
+/// Checks if the relation should be masked, meaning it's numerator should be altered.
+/// A relation is masked when the relation name matches one of the component's relation names (the
+/// component must contain an enabler/multiplicity columns).
+pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
+    air_fn
+        .relation_names
+        .iter()
+        .position(|n| n == relation_name)
 }

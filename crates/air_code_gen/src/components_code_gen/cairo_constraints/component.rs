@@ -141,7 +141,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
     let trace_values: rust::Tokens = assignment
         .base_trace
         .iter()
-        .chain(assignment.lookup_control_value.iter())
+        .chain(assignment.lookup_control_values.iter())
         .flat_map(|value| quote! { [$(make_qm31(value))].span(), $("\n") })
         .collect();
 
