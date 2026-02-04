@@ -42,7 +42,7 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String
         .collect()
 }
 
-fn expr_iterator<F>(expr: &CompiledAirVar, f: &mut F)
+pub fn expr_iterator<F>(expr: &CompiledAirVar, f: &mut F)
 where
     F: FnMut(&CompiledAirVar),
 {

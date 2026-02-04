@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use compiled_casm_air::compiled_structs::*;
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use genco::lang::{rust, Rust};
@@ -6,6 +8,7 @@ use genco::{quote, Tokens};
 use itertools::{chain, Itertools};
 
 use crate::components_code_gen::constraints::generate_relation_uses;
+use crate::components_code_gen::parse::expr_iterator;
 use crate::utils::{
     make_preprocessed_column_id, relation_multiplicity_index, remove_trailing_zeroes,
 };
@@ -100,8 +103,20 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         let [$(input_names.join(",\n"))] = input.try_into().unwrap();$("\n")
     });
 
+    let atoms = get_constraint_atoms(air_fn);
+    let used_preprocessed_columns: HashSet<String> = atoms
+        .iter()
+        .filter_map(|a| {
+            if let CompiledAirVar::ExternalState(col_id) = a {
+                Some(col_id.clone())
+            } else {
+                None
+            }
+        })
+        .collect();
+
     // Read preprocessed columns
-    for external_col_id in &air_fn.external_states {
+    for external_col_id in used_preprocessed_columns.iter().sorted() {
         // Seq is the only preprocessed column that is of unfixed size.
         if external_col_id == "Seq" {
             code.append(quote! {
@@ -114,9 +129,20 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    for public_param in &air_fn.public_params {
+    let used_public_params: HashSet<String> = atoms
+        .iter()
+        .filter_map(|a| {
+            if let CompiledAirVar::PublicParam(param) = a {
+                Some(param.clone())
+            } else {
+                None
+            }
+        })
+        .collect();
+
+    for public_param in used_public_params.iter().sorted() {
         code.append(quote! {
-            let $(public_param.name()) = *acc.public_params.get($(quoted(public_param.name()))).unwrap();
+            let $(public_param) = *acc.public_params.get($(quoted(public_param))).unwrap();
         });
     }
 
@@ -285,4 +311,30 @@ fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
             panic!("Unsupported expression in constraint evaluation: {expr}")
         }
     }
+}
+
+fn get_constraint_atoms(air_fn: &CompiledAirFn) -> HashSet<CompiledAirVar> {
+    let mut result = HashSet::new();
+
+    let mut insert = |expr: &CompiledAirVar| {
+        result.insert(expr.clone());
+    };
+
+    for step in air_fn.constraints.iter() {
+        match step {
+            ConstraintEvalStep::Constraint(compiled_air_var, _) => {
+                expr_iterator(compiled_air_var, &mut insert)
+            }
+            ConstraintEvalStep::LookupTerm(lookup_term) => {
+                lookup_term
+                    .felts
+                    .iter()
+                    .for_each(|f| expr_iterator(f, &mut insert));
+            }
+            ConstraintEvalStep::Intermediate(compiled_constraint_intermediate) => {
+                expr_iterator(&compiled_constraint_intermediate.var, &mut insert)
+            }
+        }
+    }
+    result
 }
