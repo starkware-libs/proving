@@ -59,6 +59,112 @@ pub fn create_components_casm_registry_reversed() -> IndexMap<String, CompiledAi
     compiled_regisry
 }
 
+// Returns a CASM registry filtered to exclude inline and const AIR functions,
+// ordered according to the aribitrary order defined in stwo-cairo.
+// TODO(Stav): delete after the components are auto-generated.
+pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, CompiledAirFn> {
+    let registry = create_casm_registry();
+    let mut compiled_registry: IndexMap<String, CompiledAirFn> = registry
+        .compile()
+        .into_iter()
+        .filter(|(_, compiled_air_fn)| {
+            compiled_air_fn.r#type != TraceType::Const
+                && compiled_air_fn.r#type != TraceType::Inline
+        })
+        .collect();
+
+    // Define the order
+    let order: Vec<&str> = vec![
+        // Opcodes
+        "add_opcode",
+        "add_opcode_small",
+        "add_ap_opcode",
+        "assert_eq_opcode",
+        "assert_eq_opcode_imm",
+        "assert_eq_opcode_double_deref",
+        "blake_compress_opcode",
+        "call_opcode_abs",
+        "call_opcode_rel_imm",
+        "generic_opcode",
+        "jnz_opcode_non_taken",
+        "jnz_opcode_taken",
+        "jump_opcode_abs",
+        "jump_opcode_double_deref",
+        "jump_opcode_rel",
+        "jump_opcode_rel_imm",
+        "mul_opcode",
+        "mul_opcode_small",
+        "qm_31_add_mul_opcode",
+        "ret_opcode",
+        // verify_instruction
+        "verify_instruction",
+        // Blake context components
+        "blake_round",
+        "blake_g",
+        "blake_round_sigma",
+        "triple_xor_32",
+        "verify_bitwise_xor_12",
+        // Builtins
+        "add_mod_builtin",
+        "bitwise_builtin",
+        "mul_mod_builtin",
+        "pedersen_builtin",
+        "poseidon_builtin",
+        "range_check96_builtin",
+        "range_check_builtin",
+        // Pedersen context components
+        "pedersen_aggregator_window_bits_18",
+        "partial_ec_mul_window_bits_18",
+        "pedersen_points_table_window_bits_18",
+        // Poseidon context components
+        "poseidon_aggregator",
+        "poseidon_3_partial_rounds_chain",
+        "poseidon_full_round_chain",
+        "cube_252",
+        "poseidon_round_keys",
+        "range_check_252_width_27",
+        // Memory components
+        "memory_address_to_id",
+        "memory_id_to_big",
+        // Range checks
+        "range_check_6",
+        "range_check_8",
+        "range_check_11",
+        "range_check_12",
+        "range_check_18",
+        "range_check_20",
+        "range_check_4_3",
+        "range_check_4_4",
+        "range_check_9_9",
+        "range_check_7_2_5",
+        "range_check_3_6_6_3",
+        "range_check_4_4_4_4",
+        "range_check_3_3_3_3_3",
+        // Verify bitwise xor components
+        "verify_bitwise_xor_4",
+        "verify_bitwise_xor_7",
+        "verify_bitwise_xor_8",
+        "verify_bitwise_xor_9",
+    ];
+
+    // Add components in the specified order.
+    let mut ordered = IndexMap::new();
+    for name in order {
+        if let Some(component) = compiled_registry.get(name) {
+            ordered.insert(name.to_string(), component.clone());
+            compiled_registry.swap_remove(name);
+        } else {
+            panic!("Component {name} not found in registry");
+        }
+    }
+
+    assert!(
+        compiled_registry.is_empty(),
+        "Some components were not added to the ordered registry"
+    );
+    ordered
+}
+
 /// Returns an array of all the air functions of opcodes.
 pub fn get_all_opcodes() -> Vec<Box<dyn AirFn<ExtIn = (), In = CasmStateVar, Out = CasmStateVar>>> {
     vec![
