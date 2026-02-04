@@ -12,7 +12,7 @@ use air_code_gen::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
     load_air_fns,
 };
-use air_infra::airs::casm::casm_registry::create_components_casm_registry_reversed;
+use air_infra::airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
 use clap::Parser;
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
 use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
@@ -326,7 +326,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
 
     generate_registry_properties_file(&args);
 
-    let compiled_regisry = create_components_casm_registry_reversed();
+    let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
 
     let claim_generator_code = generate_claim_generator_file(&compiled_regisry);
     fs::write(
