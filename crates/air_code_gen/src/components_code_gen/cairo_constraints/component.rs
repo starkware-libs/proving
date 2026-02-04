@@ -13,7 +13,6 @@ use super::utils::{
     gen_consts, gen_imports, get_log_size, get_lookup_sums, get_multiplicities,
     make_preprocessed_column,
 };
-use crate::utils::is_const_size_component;
 
 pub const SAMPLE_EVALUATION_RESULT_SUFFIX: &str = "_SAMPLE_EVAL_RESULT";
 
@@ -85,10 +84,7 @@ pub fn generate_component_cairo_constraints_code(
 
     };
 
-    // TODO(az-starkware): Implement the sample evaluation test for const-size components too
-    if !is_const_size_component(air_fn) {
-        result.extend(gen_tests_module(air_fn, sample_assignment));
-    }
+    result.extend(gen_tests_module(air_fn, sample_assignment));
 
     result
 }
@@ -100,7 +96,10 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
             LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
     };
 
-    let mut claim_fields = quote! { log_size: $(assignment.log_height), $("\n") };
+    let mut claim_fields = match air_fn.log_height {
+        Some(_fixed_size) => quote! {},
+        None => quote! { log_size: $(assignment.log_height), $("\n") },
+    };
 
     for param in &air_fn.public_params {
         let param_value = assignment
@@ -170,7 +169,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
             #[allow(unused_imports)]
-            use stwo_cairo_air::preprocessed_columns::{seq_column_idx, NUM_PREPROCESSED_COLUMNS};
+            use stwo_cairo_air::preprocessed_columns::*;
             #[allow(unused_imports)]
             use crate::test_utils::{make_interaction_trace, preprocessed_mask_add};
             #[allow(unused_imports)]

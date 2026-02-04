@@ -37,7 +37,7 @@ pub struct Assignment {
 
 impl Assignment {
     pub fn new_random_for(component: &CompiledAirFn) -> Assignment {
-        let log_height = ASSIGNMENT_LOG_HEIGHT;
+        let log_height = component.log_height.unwrap_or(ASSIGNMENT_LOG_HEIGHT);
 
         let base_trace_len = component.state_names.len();
         let interaction_trace_len = component.constraint_lookups.len().div_ceil(2);
@@ -60,12 +60,11 @@ impl Assignment {
 
         let lookup_control_values = match component.padding_type {
             PaddingType::Enabler => {
-                vec![random_qm31("enabler_or_multiplicity")]
+                vec![random_qm31("enabler")]
             }
-            PaddingType::Multiplicity => {
-                // TODO use different values for different relations
-                vec![random_qm31("enabler_or_multiplicity"); component.relation_names.len()]
-            }
+            PaddingType::Multiplicity => (0..component.relation_names.len())
+                .map(|i| random_qm31(&format!("multiplicity_{i}")))
+                .collect(),
             PaddingType::None => vec![],
         };
 
