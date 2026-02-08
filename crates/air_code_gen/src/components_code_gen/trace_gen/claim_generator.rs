@@ -69,37 +69,46 @@ impl RustProverGen {
                 quote! {mut self, },
             ),
             Mode::Mults => {
-                let mut add_inputs_code = if is_const_size_component(&self.air_fn) {
+                let add_inputs_code = if is_const_size_component(&self.air_fn) {
                     quote! {
-                        pub fn add_input(&self, input: &InputType, relation_index: usize) {
-                            self.mults[relation_index]
-                                .increase_at((*self.input_to_row.get(input).unwrap()).try_into().unwrap());
+                        pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
+                            packed_inputs.into_par_iter().for_each(|packed_input| {
+                                for input in packed_input.unpack() {
+                                    self.mults[relation_index].increase_at(
+                                        (*self.input_to_row.get(&input).unwrap())
+                                            .try_into()
+                                            .unwrap(),
+                                    );
+                                }
+                            });
                         }
                     }
                 } else {
                     quote! {
-                        pub fn add_input(&self, input: &InputType, _relation_index: usize) {
-                            self.mults
-                                .entry(*input)
-                                .or_insert_with(|| AtomicU32::new(0))
-                                .fetch_add(1, Ordering::Relaxed);
+                        pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], _relation_index: usize) {
+                            let merged: HashMap<InputType, u32> = packed_inputs
+                                .par_iter()
+                                .flat_map(|p| p.unpack())
+                                .fold_with(HashMap::new(), |mut local, input| {
+                                    *local.entry(input).or_insert(0) += 1;
+                                    local
+                                })
+                                .reduce(HashMap::new, |mut a, b| {
+                                    for (k, v) in b {
+                                        *a.entry(k).or_insert(0) += v;
+                                    }
+                                    a
+                                });
+
+                            for (k, v) in merged {
+                                self.mults
+                                    .entry(k)
+                                    .or_insert_with(|| AtomicU32::new(0))
+                                    .fetch_add(v, Ordering::Relaxed);
+                            }
                         }
                     }
                 };
-                add_inputs_code.extend(quote! {
-                    $['\n']
-                    pub fn add_packed_inputs(
-                        &self,
-                        packed_inputs: &[PackedInputType],
-                        relation_index: usize,
-                    ) {
-                        packed_inputs.into_par_iter().for_each(|packed_input| {
-                            packed_input.unpack().into_par_iter().for_each(|input| {
-                                self.add_input(&input, relation_index);
-                            });
-                        });
-                    }
-                });
                 (add_inputs_code, quote! {self, })
             }
         };
