@@ -54,7 +54,8 @@ fn test_single_karatsuba_input_len_16() {
         const_expr!(1935783627),
     ];
 
-    let simple_convolution_output = simple_convolution(&x_array, &y_array);
+    let simple_convolution_output: [FeltExpr; 4 * MUL_MOD_KARATSUBA_N - 1] =
+        simple_convolution(&x_array, &y_array);
 
     let (state, single_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
@@ -146,7 +147,8 @@ fn test_double_karatsuba_input_len_32() {
         const_expr!(691641612),
     ];
 
-    let simple_convolution_output = simple_convolution(&x_array, &y_array);
+    let simple_convolution_output: [FeltExpr; 8 * MUL_MOD_KARATSUBA_N - 1] =
+        simple_convolution(&x_array, &y_array);
 
     let (state, double_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
@@ -201,7 +203,8 @@ fn test_single_karatsuba_input_len_14() {
         const_expr!(1935783627),
     ];
 
-    let simple_convolution_output = simple_convolution(&x_array, &y_array);
+    let simple_convolution_output: [FeltExpr; 4 * MUL252_KARATSUBA_N - 1] =
+        simple_convolution(&x_array, &y_array);
 
     let (state, single_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
@@ -287,7 +290,8 @@ fn test_double_karatsuba_input_len_28() {
         const_expr!(691641612),
     ];
 
-    let simple_convolution_output = simple_convolution(&x_array, &y_array);
+    let simple_convolution_output: [FeltExpr; 8 * MUL252_KARATSUBA_N - 1] =
+        simple_convolution(&x_array, &y_array);
 
     let (state, double_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
