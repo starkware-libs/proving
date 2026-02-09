@@ -23,13 +23,16 @@ pub fn generate_claims_cairo_file(
         use stwo_verifier_core::channel::Channel;
         use stwo_verifier_core::fields::qm31::QM31;
         use stwo_verifier_core::utils::OptionImpl;
-        use crate::cairo_air::log_sizes;
         $(&components_names.iter().map(|name| {
             let alias = format!("{}InteractionClaimImpl", name.to_case(Case::Pascal));
             format!("use crate::components::{name}::InteractionClaimImpl as {alias};")
         }).collect_vec().join("\n"))
         use crate::{ChannelTrait, PublicDataTrait, components};
         use super::claim::{FlatClaim, FlatClaimTrait, flatten_interaction_claim};
+        use crate::cairo_air::override_preprocessed_trace_log_sizes;
+        use crate::utils::tree_array_concat_cols;
+        use crate::{ChannelTrait, PublicDataTrait, components};
+
 
         #[derive(Drop, Serde)]
         pub struct CairoClaim {
@@ -73,6 +76,7 @@ pub fn generate_claims_cairo_file(
 
 fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>) -> rust::Tokens {
     let mut accumulate_body = rust::Tokens::new();
+    let mut log_sizes_body = rust::Tokens::new();
 
     for (name, compiled_air_fn) in compiled_regisry {
         // Add to accumulate_relation_uses() body
@@ -83,13 +87,21 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
                 }
             });
         }
+
+        log_sizes_body.append(quote! {
+            if let Some(claim) = self.$(name) {
+                log_sizes_list.append(claim.log_sizes());
+            }
+        });
     }
 
-    // TODO: Autogenerate `log_sizes` and 'mix_into` once the order is fixed.
     quote! {
         pub impl CairoClaimImpl of ClaimTrait<CairoClaim> {
             fn log_sizes(self: @CairoClaim) -> TreeArray<Span<u32>> {
-                log_sizes(self)
+                let mut log_sizes_list = array![];
+                $(log_sizes_body)
+                let aggregated_log_sizes = tree_array_concat_cols(log_sizes_list);
+                override_preprocessed_trace_log_sizes(aggregated_log_sizes)
             }
 
             fn mix_into(self: @CairoClaim, ref channel: Channel) {
