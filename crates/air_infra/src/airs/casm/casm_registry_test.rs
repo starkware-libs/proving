@@ -13,7 +13,6 @@ use indexmap::IndexMap;
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
 use crate::airs::casm::builtins::ec_op::ec_op_builtin::ECOpBuiltin;
-use crate::airs::casm::builtins::pedersen::pedersen_builtin::*;
 use crate::airs::casm::casm_registry::create_casm_registry;
 use crate::core::air_fn_registry::*;
 use crate::core::felt252_id_memory::id_to_small::*;
@@ -36,8 +35,6 @@ fn test_casm_registry() {
     let mut reg = create_casm_registry();
     // Memory id to small
     reg.add_entry(&MemoryIdToSmall::default());
-    // Pedersen builtin
-    reg.add_entry(&PedersenBuiltin::<28>::default());
     // ECOp builtin
     reg.add_entry(&ECOpBuiltin::default());
 

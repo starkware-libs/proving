@@ -109,6 +109,7 @@ pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, Compiled
         "bitwise_builtin",
         "mul_mod_builtin",
         "pedersen_builtin",
+        "pedersen_builtin_narrow_windows",
         "poseidon_builtin",
         "range_check96_builtin",
         "range_check_builtin",
@@ -116,6 +117,10 @@ pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, Compiled
         "pedersen_aggregator_window_bits_18",
         "partial_ec_mul_window_bits_18",
         "pedersen_points_table_window_bits_18",
+        // Pedersen narrow windows context components
+        "pedersen_aggregator_window_bits_9",
+        "partial_ec_mul_window_bits_9",
+        "pedersen_points_table_window_bits_9",
         // Poseidon context components
         "poseidon_aggregator",
         "poseidon_3_partial_rounds_chain",
@@ -287,6 +292,8 @@ pub fn get_all_builtins() -> Vec<Box<dyn AirFn<ExtIn = (), In = (), Out = ()>>> 
         Box::new(PoseidonBuiltin::default()),
         // Pedersen builtin
         Box::new(PedersenBuiltin::<14>::default()),
+        // Pedersen builtin narrow windows
+        Box::new(PedersenBuiltin::<28>::default()),
     ]
 }
 

@@ -16,12 +16,11 @@ pub fn generate_claims_rust_file(
         use num_traits::Zero;
         use serde::{Deserialize, Serialize};
         use stwo::core::channel::Channel;
-        use stwo::core::fields::qm31::QM31;
+        use stwo::core::fields::qm31::SecureField;
         use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
         use crate::air::{
             accumulate_relation_memory, accumulate_relation_uses, PublicData, RelationUsesDict,
         };
-        use crate::claims::prelude::SecureField;
         use stwo::core::pcs::TreeVec;
         use crate::components::*;
         use crate::relations::CommonLookupElements;
@@ -57,7 +56,7 @@ pub fn generate_claims_rust_file(
             common_lookup_elements: &CommonLookupElements,
             interaction_claim: &CairoInteractionClaim,
         ) -> SecureField {
-            let mut sum = QM31::zero();
+            let mut sum = SecureField::zero();
             sum += claim.public_data.logup_sum(common_lookup_elements);
             $(&components_names.iter().map(|name| {
                 format!("interaction_claim.{name}.as_ref().inspect(|ic| {{sum += ic.claimed_sum;}});")
