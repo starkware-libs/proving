@@ -321,6 +321,7 @@ fn test_blake_opcode() {
         (3529, "high_14_ms_bits"),
         (6, "high_5_ms_bits"),
         (18, "new_state_7_id"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

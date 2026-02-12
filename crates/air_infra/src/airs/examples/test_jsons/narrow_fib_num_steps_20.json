@@ -59,7 +59,8 @@
     "col18",
     "col19",
     "col20",
-    "col21"
+    "col21",
+    "enabler_col22"
   ],
   "constraint_lookups": [
     [
@@ -79,6 +80,30 @@
   "public_params": [],
   "external_states": [],
   "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col22"
+                },
+                "*",
+                {
+                  "State": "enabler_col22"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col22"
+            }
+          ]
+        },
+        null
+      ]
+    },
     {
       "Intermediate": {
         "felt_names": [],
@@ -602,7 +627,10 @@
             "State": "col21"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "enabler_col22"
+        }
       }
     }
   ],
@@ -1306,7 +1334,10 @@
             "State": "col21"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "enabler_col22"
+        }
       }
     }
   ]

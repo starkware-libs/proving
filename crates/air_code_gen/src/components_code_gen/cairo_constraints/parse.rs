@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
-    PaddingType, TraceType,
+    TraceType,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -9,18 +9,6 @@ use genco::quote;
 
 pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-
-    if air_fn.padding_type == PaddingType::Enabler {
-        let mult_name = &format!(
-            "{}_multiplicity",
-            air_fn.relation_names[0].to_case(Case::Snake)
-        );
-        code.append(quote! {
-            // Constraint - enabler is a bit.
-            let constraint_quotient = ($mult_name * $mult_name - $mult_name);
-            sum = sum * random_coeff + constraint_quotient;
-        });
-    }
 
     let mut relation_offset = 0;
     for constraint in air_fn.constraints.iter() {
@@ -52,6 +40,7 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 relation_name,
                 felts,
                 use_or_yield: _,
+                multiplicity
             }) => {
                 let felts = felts
                     .iter()
@@ -70,6 +59,7 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                             $(felts.join(",\n"))
                         ].span(),
                     );
+                    numerator_$(relation_offset) = $(parse_var(air_fn, multiplicity, &mut relation_offset));
                 });
                 relation_offset += 1;
             }
@@ -159,6 +149,7 @@ fn gen_evaluate_call(
             relation.to_case(Case::Snake),
             *relation_offset
         ));
+        arg_str.push(format!("ref numerator_{}", *relation_offset));
         *relation_offset += 1;
     }
 

@@ -57,6 +57,7 @@ fn test_assert_eq_double_deref_big_op0() {
         (0, "mem1_base_limb_3"),
         (0, "partial_limb_msb"),
         (1, "dst_id"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -84,6 +85,7 @@ fn test_assert_eq_deref() {
         (11, "mem_dst_base"),
         (6, "mem1_base"),
         (1, "dst_id"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -102,6 +104,7 @@ fn test_assert_eq_imm() {
         (0, "ap_update_add_1"),
         (6, "mem_dst_base"),
         (1, "dst_id"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -130,6 +133,7 @@ fn test_assert_eq_double_deref() {
         (0, "mem1_base_limb_3"),
         (0, "partial_limb_msb"),
         (1, "dst_id"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

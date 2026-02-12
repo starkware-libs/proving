@@ -167,8 +167,8 @@ impl RustProverGen {
         // Handle odd remainder.
         if let Some(LookupTerm {
             relation_name,
-            felts: _,
             use_or_yield,
+            ..
         }) = remainder
         {
             let term_offset = relation_data_offsets.get_mut(&relation_name).unwrap();

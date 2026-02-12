@@ -23,9 +23,6 @@ pub struct Assignment {
     // The value of the logup sum in the row before this one.
     pub last_row_sum: QM31,
 
-    // The values in the enabler/multiplicity columns, if there are any.
-    pub lookup_control_values: Vec<QM31>,
-
     // The coefficients used to combine the elements of relation tuples.
     pub common_lookup_elements: LookupElements,
 
@@ -68,16 +65,26 @@ impl Assignment {
             PaddingType::None => vec![],
         };
 
+        let base_trace: Vec<_> = (0..base_trace_len)
+            .map(|i| random_qm31(&format!("base_{i}")))
+            .collect();
+
+        // TODO - This is temporary to keep the sample evaluation values identical.
+        // Remove.
+        let base_trace = base_trace
+            .iter()
+            .take(base_trace.len() - lookup_control_values.len())
+            .chain(lookup_control_values.iter())
+            .copied()
+            .collect::<Vec<_>>();
+
         Assignment {
-            base_trace: (0..base_trace_len)
-                .map(|i| random_qm31(&format!("base_{i}")))
-                .collect(),
+            base_trace,
             interaction_trace: (0..interaction_trace_len)
                 .map(|i| random_qm31(&format!("interaction_{i}")))
                 .collect(),
             random_coeff: random_qm31("random_coeff"),
             last_row_sum: random_qm31("last_row_sum"),
-            lookup_control_values,
             common_lookup_elements,
             environment: Rc::new(Environment {
                 public_params,

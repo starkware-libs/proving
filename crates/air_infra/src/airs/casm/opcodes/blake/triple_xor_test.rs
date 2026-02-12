@@ -43,6 +43,7 @@ fn test_xor() {
         (189, "xor"),
         (11, "xor"),
         (56, "xor"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

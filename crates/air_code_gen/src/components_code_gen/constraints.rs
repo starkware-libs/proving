@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
-    PaddingType, TraceType, UseOrYield,
+    TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -173,22 +173,8 @@ fn imports(air_fn: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut consts = match air_fn.padding_type {
-        PaddingType::Enabler => {
-            // Add a padding column to the trace
-            quote! {
-                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + 1);
-            }
-        }
-        PaddingType::Multiplicity => {
-            // Add multiplicity columns to the trace
-            quote! {
-                pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + air_fn.relation_names.len());
-            }
-        }
-        _ => quote! {
-            pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
-        },
+    let mut consts = quote! {
+        pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
     };
     if is_const_size_component(air_fn) {
         consts.extend(quote! {
@@ -410,24 +396,6 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    match air_fn.padding_type {
-        PaddingType::Enabler => {
-            // Add enabler column to the trace
-            code.append(quote! {
-                let enabler = eval.next_trace_mask();
-                // Check enabler column is a bit.
-                eval.add_constraint(enabler.clone() * enabler.clone() - enabler.clone());
-            });
-        }
-        PaddingType::Multiplicity => {
-            // Add multiplicity columns to the trace
-            for i in 0..air_fn.relation_names.len() {
-                code.append(quote! { let multiplicity_$i = eval.next_trace_mask();});
-            }
-        }
-        _ => {}
-    }
-
     code.extend(quote! { $("\n\n") });
 
     for constraint in air_fn.constraints.iter() {
@@ -473,15 +441,16 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
                 }
             }
             ConstraintEvalStep::LookupTerm(LookupTerm {
-                relation_name,
+                relation_name: _,
                 felts,
                 use_or_yield,
+                multiplicity,
             }) => {
                 code.extend(parse_lookup_constraint(
                     air_fn,
-                    relation_name,
                     felts,
                     use_or_yield,
+                    multiplicity,
                     &const_names,
                 ));
             }

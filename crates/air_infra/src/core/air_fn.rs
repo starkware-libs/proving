@@ -222,9 +222,53 @@ pub trait AirFn: Debug + InstDefTrait {
         // Perform AirFn logic
         let output = self.call(air_builder, ext_input.clone(), input.clone());
 
+        // Add enabler / multiplicity columns
+        let lookup_control_values = match self.padding_type() {
+            PaddingType::Multiplicity => (0..self.relation_names().len())
+                .map(|idx| {
+                    let name = format!("multiplicity_{idx}");
+                    let mut multiplicity = if air_builder.is_run_mode() {
+                        const_expr!(1)
+                    } else {
+                        FeltExpr::new(name.clone(), Some(1))
+                    };
+                    air_builder
+                        .component_context
+                        .state_mut()
+                        .add(&mut multiplicity, &name);
+                    multiplicity
+                })
+                .collect::<Vec<_>>(),
+            PaddingType::Enabler => {
+                let name = "enabler".to_string();
+                let mut enabler = if air_builder.is_run_mode() {
+                    const_expr!(1)
+                } else {
+                    FeltExpr::new(name.clone(), Some(1))
+                };
+                air_builder
+                    .component_context
+                    .state_mut()
+                    .add(&mut enabler, &name);
+
+                // TODO: Use air_builder.constrain() (will move the enabler constraint)
+                // to the end.
+                air_builder.air_body.0.insert(
+                    0,
+                    AirBodyComponent::Constraint(
+                        enabler.clone() * enabler.clone() - enabler.clone(),
+                        None,
+                    ),
+                );
+                vec![enabler]
+            }
+            PaddingType::None => panic!("Lookup call to an un-padded component"),
+        };
+
         // Add lookup terms
         if self.trace_type() == TraceType::Opcode || self.trace_type() == TraceType::ChainRound {
-            // Chain components - use the input and yield the output
+            // Chain components - use the input and yield the output gated by the enabler
+            assert!(self.padding_type() == PaddingType::Enabler);
             air_builder.add_lookup_term(
                 &self.relation_name().expect("Relation name not set"),
                 ext_input
@@ -233,18 +277,26 @@ pub trait AirFn: Debug + InstDefTrait {
                     .chain(input.as_felts())
                     .collect(),
                 UseOrYield::Use,
+                lookup_control_values[0].clone(),
             );
 
             air_builder.add_lookup_term(
                 &self.relation_name().expect("Relation name not set"),
                 output.as_felts(),
                 UseOrYield::Yield,
+                lookup_control_values[0].clone(),
             );
         } else {
             // Other components - just yield the input and output
-            for relation_name in self.relation_names() {
+            if self.padding_type() == PaddingType::Enabler {
+                // If we have a multiple-relation component with an enabler, the following
+                // loop will have to be changed.
+                assert_eq!(self.relation_names().len(), 1);
+            }
+
+            for (i, relation_name) in self.relation_names().iter().enumerate() {
                 air_builder.add_lookup_term(
-                    &relation_name,
+                    relation_name,
                     ext_input
                         .as_felts()
                         .into_iter()
@@ -252,6 +304,7 @@ pub trait AirFn: Debug + InstDefTrait {
                         .chain(output.as_felts())
                         .collect(),
                     UseOrYield::Yield,
+                    lookup_control_values[i].clone(),
                 );
             }
         }
@@ -306,6 +359,11 @@ impl AirBuilder {
         self.run
     }
 
+    #[cfg(not(test))]
+    pub fn is_run_mode(&self) -> bool {
+        false
+    }
+
     #[cfg(test)]
     pub fn row_number(&self) -> Option<usize> {
         self.row_number
@@ -324,6 +382,7 @@ impl AirBuilder {
         relation_name: &str,
         mut felts: Vec<FeltExpr>,
         use_or_yield: UseOrYield,
+        multiplicity: FeltExpr,
     ) {
         let relation_id_expr = FeltExpr::Var(VarExpr::new_const(
             *self
@@ -338,6 +397,7 @@ impl AirBuilder {
             relation_name: relation_name.to_owned(),
             felts,
             use_or_yield,
+            multiplicity,
         });
     }
 
@@ -616,6 +676,7 @@ impl AirBuilder {
                 .chain(output.as_felts())
                 .collect(),
             UseOrYield::Use,
+            const_expr!(1),
         );
 
         output
@@ -665,6 +726,7 @@ impl AirBuilder {
             &air_fn.relation_name().expect("Relation name not set"),
             input.as_felts(),
             UseOrYield::Yield,
+            const_expr!(1),
         );
 
         // TODO(AnatG): Consider adding all inputs to the lookup component together in one
@@ -715,6 +777,7 @@ impl AirBuilder {
             )
                 .as_felts(),
             UseOrYield::Use,
+            const_expr!(1),
         );
 
         final_state
@@ -891,6 +954,7 @@ impl AirBuilder {
             &memory.relation_name().expect("Relation name not set"),
             key.as_felts().into_iter().chain(value.as_felts()).collect(),
             UseOrYield::Use,
+            const_expr!(1),
         );
     }
 

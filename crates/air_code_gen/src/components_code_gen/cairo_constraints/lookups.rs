@@ -4,8 +4,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use super::utils::{get_lookup_sums, get_multiplicities, n_logup_columns, QM31_N_TRACE_CELLTS};
-use crate::utils::relation_multiplicity_index;
+use super::utils::{get_lookup_sums, get_numerators, n_logup_columns, QM31_N_TRACE_CELLTS};
 
 pub const LOOKUP_RELATION_BATCH_SIZE: usize = 2;
 pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;
@@ -18,7 +17,7 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
             ref sum: QM31,
             random_coeff: QM31,
             claimed_sum: QM31,
-            $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
+            $(get_numerators(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
             column_size: M31,
             ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
             $(get_lookup_sums(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
@@ -52,24 +51,8 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         if sum_chunk.len() == 2 {
             let (rel2, rel2_sign) = get_sum_name_and_sign(sum_i + 1, &sum_chunk[1]);
-            let rel1_times_rel2_mult =
-                if relation_multiplicity_index(air_fn, &sum_chunk[1].0).is_some() {
-                    format!(
-                        "({rel1} * {}_multiplicity)",
-                        sum_chunk[1].0.to_case(Case::Snake)
-                    )
-                } else {
-                    rel1.clone()
-                };
-            let rel2_times_rel1_mult =
-                if relation_multiplicity_index(air_fn, &sum_chunk[0].0).is_some() {
-                    format!(
-                        "({rel2} * {}_multiplicity)",
-                        sum_chunk[0].0.to_case(Case::Snake)
-                    )
-                } else {
-                    rel2.clone()
-                };
+            let rel1_times_rel2_mult = format!("({rel1} * numerator_{})", sum_i + 1);
+            let rel2_times_rel1_mult = format!("({rel2} * numerator_{sum_i})");
 
             code.append(quote! {
                 let constraint_quotient = (
@@ -81,11 +64,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 );$("\n")
             });
         } else {
-            let numerator = if !air_fn.relation_names.is_empty() {
-                format!("{}_multiplicity", sum_chunk[0].0.to_case(Case::Snake))
-            } else {
-                "qm31_const::<1, 0, 0, 0>()".to_string()
-            };
+            let numerator = format!("numerator_{sum_i}");
 
             code.append(quote! {
                 let constraint_quotient = (

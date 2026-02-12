@@ -134,6 +134,7 @@ fn test_abs_jump_base_ap() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -161,6 +162,7 @@ fn test_abs_jump_base_fp() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -188,6 +190,7 @@ fn test_abs_jump_base_ap_inc_ap() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -215,6 +218,7 @@ fn test_abs_jump_base_fp_inc_ap() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -242,6 +246,7 @@ fn test_abs_big_op1() {
         (6, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -269,6 +274,7 @@ fn test_abs_jump_negativ_offset() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -295,6 +301,7 @@ fn test_rel_jump() {
         (0, "next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -321,6 +328,7 @@ fn test_rel_jump_inc_ap() {
         (0, "next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -347,6 +355,7 @@ fn test_rel_big_op1() {
         (208, "next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -373,6 +382,7 @@ fn test_rel_negative_imm() {
         (511, "next_pc_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -402,6 +412,7 @@ fn test_rel_negative_op1() {
         (511, "next_pc_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -431,6 +442,7 @@ fn test_rel_deref_base_fp() {
         (0, "next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -465,6 +477,7 @@ fn test_abs_double_deref() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

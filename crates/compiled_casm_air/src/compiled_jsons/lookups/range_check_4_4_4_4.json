@@ -35,7 +35,9 @@
     },
     []
   ],
-  "state_names": [],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
   "constraint_lookups": [
     [
       "RangeCheck_4_4_4_4",
@@ -76,7 +78,10 @@
             "ExternalState": "range_check_4_4_4_4_column_3"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ],
@@ -104,7 +109,10 @@
             "ExternalState": "range_check_4_4_4_4_column_3"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ]

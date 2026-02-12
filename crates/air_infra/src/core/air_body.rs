@@ -85,6 +85,7 @@ pub enum AirBodyComponent {
         relation_name: String,
         felts: Vec<FeltExpr>,
         use_or_yield: UseOrYield,
+        multiplicity: FeltExpr,
     },
 }
 
@@ -98,6 +99,7 @@ pub enum ConstraintComponent {
         relation_name: String,
         felts: Vec<FeltExpr>,
         use_or_yield: UseOrYield,
+        multiplicity: FeltExpr,
     },
 }
 
@@ -374,6 +376,7 @@ impl AirBody {
                     relation_name,
                     felts,
                     use_or_yield,
+                    multiplicity,
                 } => {
                     deductions.push(TraceGenStep::LookupTerm(LookupTerm {
                         relation_name,
@@ -382,6 +385,7 @@ impl AirBody {
                             .map(|f| f.compile(CompileFor::Deductions))
                             .collect(),
                         use_or_yield,
+                        multiplicity: multiplicity.compile(CompileFor::Deductions),
                     }));
                 }
             }
@@ -462,6 +466,7 @@ impl AirBody {
                     relation_name,
                     felts,
                     use_or_yield,
+                    multiplicity,
                 } => {
                     constraints.push(ConstraintEvalStep::LookupTerm(LookupTerm {
                         relation_name,
@@ -470,6 +475,7 @@ impl AirBody {
                             .map(|f| f.compile(CompileFor::Constraints))
                             .collect(),
                         use_or_yield,
+                        multiplicity: multiplicity.compile(CompileFor::Constraints),
                     }));
                 }
             }
@@ -605,10 +611,12 @@ impl AirBody {
                     felts,
                     relation_name,
                     use_or_yield,
+                    multiplicity,
                 } => result.push(ConstraintComponent::LookupTerm {
                     relation_name: relation_name.to_string(),
                     felts: felts.clone(),
                     use_or_yield: *use_or_yield,
+                    multiplicity: multiplicity.clone(),
                 }),
             }
         }

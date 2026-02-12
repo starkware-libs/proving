@@ -70,6 +70,7 @@ fn test_ret_opcode() {
         (0, "next_fp_limb_2"),
         (0, "next_fp_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

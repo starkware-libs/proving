@@ -217,6 +217,7 @@ pub struct LookupTerm {
     pub relation_name: String,
     pub felts: Vec<CompiledAirVar>,
     pub use_or_yield: UseOrYield,
+    pub multiplicity: CompiledAirVar,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

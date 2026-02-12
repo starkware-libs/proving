@@ -123,6 +123,7 @@ fn test_relative_call_large_state() {
         (0, "distance_to_next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -155,6 +156,7 @@ fn test_relative_call_negative() {
         (511, "distance_to_next_pc_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -188,6 +190,7 @@ fn test_call_base_fp_positive_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -221,6 +224,7 @@ fn test_call_base_fp_negative_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -254,6 +258,7 @@ fn test_call_base_ap_positive_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -287,6 +292,7 @@ fn test_call_base_ap_negative_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

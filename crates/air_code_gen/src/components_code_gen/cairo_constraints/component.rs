@@ -3,16 +3,16 @@ use convert_case::{Case, Casing};
 use eval_air_fn_constraints::assignment::Assignment;
 use genco::lang::rust;
 use genco::quote;
-use itertools::{chain, Itertools};
+use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use super::utils::{
-    gen_consts, gen_imports, get_log_size, get_lookup_sums, get_multiplicities,
-    make_preprocessed_column,
+    gen_consts, gen_imports, get_log_size, get_lookup_sums, make_preprocessed_column,
 };
+use crate::components_code_gen::cairo_constraints::utils::get_numerators;
 use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
 pub fn generate_component_cairo_constraints_code(
@@ -71,7 +71,7 @@ pub fn generate_component_cairo_constraints_code(
                     ref sum,
                     random_coeff,
                     claimed_sum,
-                    $(get_multiplicities(air_fn).iter().map(|m| m.to_string() + ",\n").join(""))
+                    $(get_numerators(air_fn).iter().map(|m| m.to_string() + ",\n").join(""))
                     column_size,
                     ref interaction_trace_mask_values,
                     $(get_lookup_sums(air_fn).join(",\n"))
@@ -139,7 +139,6 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
     let trace_values: rust::Tokens = assignment
         .base_trace
         .iter()
-        .chain(assignment.lookup_control_values.iter())
         .flat_map(|value| quote! { [$(make_qm31(value))].span(), $("\n") })
         .collect();
 
@@ -211,10 +210,11 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
         });
     }
 
-    // Relation sums
+    // Relation sums and numerators
     for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
         code.append(quote! {
             let mut $(relation.to_case(Case::Snake))_sum_$(i): QM31 = Zero::zero();
+            let mut numerator_$(i): QM31 = Zero::zero();
         });
     }
 
@@ -234,9 +234,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
-    let mults = get_multiplicities(air_fn);
-
-    let trace_names = chain!(air_fn.state_names.clone(), mults.clone()).collect_vec();
+    let trace_names = air_fn.state_names.clone();
     if !trace_names.is_empty() {
         code.append(quote! {
             let $(format!("[{}]: [Span<QM31>; {}]", trace_names.join(", "), trace_names.len()))
@@ -245,12 +243,6 @@ fn get_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     for name in &air_fn.state_names {
-        code.append(quote! {
-            let [$(name)]: [QM31; 1] = (*$(name).try_into().unwrap()).unbox();
-        });
-    }
-
-    for name in &mults {
         code.append(quote! {
             let [$(name)]: [QM31; 1] = (*$(name).try_into().unwrap()).unbox();
         });

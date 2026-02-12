@@ -42,7 +42,7 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
 
     if air_fn.r#type != TraceType::Inline {
         consts.extend(quote! {
-            pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len() + air_fn.relation_names.len());
+            pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
         });
 
         if !is_const_size_component(air_fn) {
@@ -155,12 +155,10 @@ pub fn format_cairo_code(code_text: String) -> String {
     stdout
 }
 
-pub(super) fn get_multiplicities(air_fn: &CompiledAirFn) -> Vec<String> {
-    air_fn
-        .relation_names
-        .iter()
-        .map(|relation| format!("{}_multiplicity", relation.to_case(Case::Snake)))
-        .collect::<Vec<_>>()
+pub(super) fn get_numerators(air_fn: &CompiledAirFn) -> Vec<String> {
+    (0..air_fn.constraint_lookups.len())
+        .map(|idx| format!("numerator_{idx}"))
+        .collect()
 }
 
 pub(super) fn get_lookup_sums(air_fn: &CompiledAirFn) -> Vec<String> {

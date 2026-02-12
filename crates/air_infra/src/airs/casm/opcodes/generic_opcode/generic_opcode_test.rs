@@ -316,6 +316,7 @@ fn test_generic_consistency_rel_call() {
         (202, "next_ap"),
         (202, "range_check_29_bot11bits"),
         (202, "next_fp"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -704,6 +705,7 @@ fn test_generic_consistency_ret() {
         (11, "next_ap"),
         (11, "range_check_29_bot11bits"),
         (4, "next_fp"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -1019,6 +1021,7 @@ fn test_generic_consistency_assert_equal() {
         (11, "next_ap"),
         (11, "range_check_29_bot11bits"),
         (6, "next_fp"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -1328,6 +1331,7 @@ fn test_generic_consistency_jump() {
         (11, "next_ap"),
         (11, "range_check_29_bot11bits"),
         (6, "next_fp"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -1747,6 +1751,7 @@ fn test_generic_consistency_jnz_taken() {
         (200, "next_ap"),
         (200, "range_check_29_bot11bits"),
         (150, "next_fp"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -2052,6 +2057,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (200, "next_ap"),
         (200, "range_check_29_bot11bits"),
         (150, "next_fp"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

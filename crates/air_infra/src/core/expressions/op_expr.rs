@@ -623,7 +623,8 @@ impl Mul for FeltExpr {
             return const_expr_from_m31!(value.unwrap());
         }
 
-        if let Some(val) = self.value() {
+        if self.is_const() {
+            let val = self.value().unwrap();
             if val == 1.into() {
                 return other;
             }
@@ -632,7 +633,8 @@ impl Mul for FeltExpr {
             }
         }
 
-        if let Some(val) = other.value() {
+        if other.is_const() {
+            let val = other.value().unwrap();
             if val == 1.into() {
                 return self;
             }

@@ -45,7 +45,9 @@
     },
     []
   ],
-  "state_names": [],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
   "constraint_lookups": [
     [
       "PedersenPointsTableWindowBits18",
@@ -298,7 +300,10 @@
             "ExternalState": "pedersen_points_55"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ],
@@ -485,7 +490,10 @@
             "ExternalState": "pedersen_points_55"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ]

@@ -156,14 +156,6 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         });
     }
 
-    // Evaluate enabler constraint
-    if air_fn.padding_type == PaddingType::Enabler {
-        code.append(quote! {
-            let enabler_constraint_value = eval!(context, ((enabler) * (enabler)) - (enabler));
-            acc.add_constraint(context, enabler_constraint_value);$("\n")
-        });
-    }
-
     // Evaluate constraints
     for (i, constraint) in air_fn.constraints.iter().enumerate() {
         code.append(quote! { $("\n\n") });
@@ -204,20 +196,14 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 relation_name,
                 felts,
                 use_or_yield,
+                multiplicity,
             }) => {
                 let felts = remove_trailing_zeroes(felts);
                 let mut felt_strings = felts
                     .iter()
                     .map(|f| make_var_for_expr(f).to_string().unwrap());
 
-                let is_masked = relation_multiplicity_index(air_fn, relation_name);
-                let numerator = match air_fn.padding_type {
-                    PaddingType::Enabler if is_masked.is_some() => quote! { enabler },
-                    PaddingType::Multiplicity if is_masked.is_some() => {
-                        quote! { multiplicity_$(is_masked.unwrap()) }
-                    }
-                    _ => quote! { 1 },
-                };
+                let numerator = make_eval_body_for_expr(multiplicity);
 
                 let numerator = match use_or_yield {
                     UseOrYield::Use => quote! { eval!(context, $(numerator)) },
@@ -255,14 +241,7 @@ fn input_names(air_fn: &CompiledAirFn) -> Vec<String> {
         )
         .collect()
     } else {
-        let enabler_and_multiplicity_columns = match air_fn.padding_type {
-            PaddingType::Enabler => vec!["enabler".to_owned()],
-            PaddingType::Multiplicity => (0..air_fn.relation_names.len())
-                .map(|i| format!("multiplicity_{i}"))
-                .collect(),
-            PaddingType::None => vec![],
-        };
-        chain!(air_fn.state_names.clone(), enabler_and_multiplicity_columns).collect()
+        air_fn.state_names.clone()
     }
 }
 
@@ -353,7 +332,6 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
     let trace_values = assignment
         .base_trace
         .iter()
-        .chain(assignment.lookup_control_values.iter())
         .map(|v| make_qm31(*v).to_string().unwrap())
         .collect_vec();
     let interaction_values = assignment

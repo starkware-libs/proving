@@ -79,6 +79,7 @@ fn test_add_ap_negative_imm() {
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
         (10, "range_check_29_bot11bits"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -155,6 +156,7 @@ fn test_add_ap_deref_base_fp() {
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
         (310, "range_check_29_bot11bits"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

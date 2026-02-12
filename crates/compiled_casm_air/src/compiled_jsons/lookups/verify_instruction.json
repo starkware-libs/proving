@@ -46,7 +46,8 @@
     "offset2_low_col12",
     "offset2_mid_col13",
     "offset2_high_col14",
-    "instruction_id_col15"
+    "instruction_id_col15",
+    "multiplicity_0_col16"
   ],
   "constraint_lookups": [
     [
@@ -395,7 +396,10 @@
             "State": "input_opcode_extension_col6"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col16"
+        }
       }
     }
   ],
@@ -847,7 +851,13 @@
             "State": "offset1_high_col11"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -882,7 +892,13 @@
             "State": "offset2_high_col14"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -1007,7 +1023,13 @@
             "State": "instruction_id_col15"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -1191,7 +1213,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -1227,7 +1255,10 @@
             "State": "input_opcode_extension_col6"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col16"
+        }
       }
     }
   ]

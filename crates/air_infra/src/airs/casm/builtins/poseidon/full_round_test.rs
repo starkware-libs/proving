@@ -182,6 +182,7 @@ fn test_poseidon_full_round() {
         (123123101, "combination_limb_8"),
         (84, "combination_limb_9"),
         (0, "p_coef"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 

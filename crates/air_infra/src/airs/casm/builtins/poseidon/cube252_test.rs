@@ -162,6 +162,7 @@ fn test_cube252_no_overflow() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

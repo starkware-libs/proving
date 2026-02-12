@@ -33,7 +33,8 @@
     []
   ],
   "state_names": [
-    "memory_address_to_id_output_col0"
+    "memory_address_to_id_output_col0",
+    "multiplicity_0_col1"
   ],
   "constraint_lookups": [
     [
@@ -66,7 +67,10 @@
             "State": "memory_address_to_id_output_col0"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col1"
+        }
       }
     }
   ],
@@ -88,7 +92,10 @@
             "State": "memory_address_to_id_output_col0"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col1"
+        }
       }
     }
   ]
