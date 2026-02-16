@@ -4,7 +4,8 @@ use std::path::{Path, PathBuf};
 use air_code_gen::claims_cairo::generate_claims_cairo_file;
 use air_code_gen::claims_generator::generate_claim_generator_file;
 use air_code_gen::claims_rust::generate_claims_rust_file;
-use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations::generate_sample_evaluations_file;
+use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations as cairo_sample_evaluations;
+use air_code_gen::components_code_gen::circuit_constraints::sample_evaluations as circuit_sample_evaluations;
 use air_code_gen::components_code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
 };
@@ -316,7 +317,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         &sample_evaluations,
         &jobs,
     );
-    generate_sample_evaluations_file(
+    cairo_sample_evaluations::generate_sample_evaluations_file(
         &args
             .stwo_cairo_path
             .join("stwo_cairo_verifier/crates/cairo_air/src/components"),
@@ -371,6 +372,14 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
         &compiled_air_fns,
         &sample_evaluations,
         &jobs,
+    );
+
+    circuit_sample_evaluations::generate_sample_evaluations_file(
+        &args
+            .stwo_circuits_path
+            .join("crates/stwo-circuits/src/cairo_air"),
+        &get_git_rev(&args.source),
+        &sample_evaluations,
     );
 
     format_rust(&args.stwo_circuits_path);
