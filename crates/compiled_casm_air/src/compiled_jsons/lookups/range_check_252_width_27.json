@@ -160,30 +160,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col19"
-                },
-                "*",
-                {
-                  "State": "enabler_col19"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col19"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "RangeCheck_9_9",
         "felts": [
@@ -690,6 +666,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col19"
+                },
+                "*",
+                {
+                  "State": "enabler_col19"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col19"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

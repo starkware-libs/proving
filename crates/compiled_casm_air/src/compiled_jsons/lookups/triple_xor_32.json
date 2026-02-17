@@ -156,30 +156,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col20"
-                },
-                "*",
-                {
-                  "State": "enabler_col20"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col20"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "split_16_low_part_size_8_output_tmp_298db_1_limb_0"
@@ -598,6 +574,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col20"
+                },
+                "*",
+                {
+                  "State": "enabler_col20"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col20"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

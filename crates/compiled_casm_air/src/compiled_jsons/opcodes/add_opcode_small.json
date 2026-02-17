@@ -247,30 +247,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col38"
-                },
-                "*",
-                {
-                  "State": "enabler_col38"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col38"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_bc3cd_output_tmp_756b7_11_offset0",
@@ -708,6 +684,30 @@
           ]
         },
         "dst equals op0 + op1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col38"
+                },
+                "*",
+                {
+                  "State": "enabler_col38"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col38"
+            }
+          ]
+        },
+        "Enabler is a bit"
       ]
     },
     {

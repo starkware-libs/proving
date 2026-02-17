@@ -682,30 +682,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col211"
-                },
-                "*",
-                {
-                  "State": "enabler_col211"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col211"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "BlakeRoundSigma",
         "felts": [
@@ -2135,6 +2111,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col211"
+                },
+                "*",
+                {
+                  "State": "enabler_col211"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col211"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

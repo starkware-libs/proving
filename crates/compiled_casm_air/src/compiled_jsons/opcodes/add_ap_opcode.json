@@ -233,30 +233,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col16"
-                },
-                "*",
-                {
-                  "State": "enabler_col16"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col16"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_d2a10_output_tmp_c921e_6_offset2",
@@ -477,6 +453,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col16"
+                },
+                "*",
+                {
+                  "State": "enabler_col16"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col16"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

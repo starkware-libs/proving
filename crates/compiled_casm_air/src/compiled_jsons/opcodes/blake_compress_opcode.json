@@ -848,30 +848,6 @@
   ],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col173"
-                },
-                "*",
-                {
-                  "State": "enabler_col173"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col173"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_blake_opcode_output_tmp_53f39_42_limb_0",
@@ -2118,6 +2094,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col173"
+                },
+                "*",
+                {
+                  "State": "enabler_col173"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col173"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

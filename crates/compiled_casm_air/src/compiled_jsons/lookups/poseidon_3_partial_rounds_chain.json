@@ -404,30 +404,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col168"
-                },
-                "*",
-                {
-                  "State": "enabler_col168"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col168"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "PoseidonRoundKeys",
         "felts": [
@@ -1325,6 +1301,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col168"
+                },
+                "*",
+                {
+                  "State": "enabler_col168"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col168"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

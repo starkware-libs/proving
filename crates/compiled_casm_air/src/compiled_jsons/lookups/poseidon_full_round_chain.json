@@ -335,30 +335,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col125"
-                },
-                "*",
-                {
-                  "State": "enabler_col125"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col125"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "Cube252",
         "felts": [
@@ -1217,6 +1193,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col125"
+                },
+                "*",
+                {
+                  "State": "enabler_col125"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col125"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

@@ -192,30 +192,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col15"
-                },
-                "*",
-                {
-                  "State": "enabler_col15"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col15"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_ba944_output_tmp_62dfc_5_offset2",
@@ -344,6 +320,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col15"
+                },
+                "*",
+                {
+                  "State": "enabler_col15"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col15"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

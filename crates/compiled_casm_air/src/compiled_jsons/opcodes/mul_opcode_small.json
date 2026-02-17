@@ -295,30 +295,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col36"
-                },
-                "*",
-                {
-                  "State": "enabler_col36"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col36"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_4b8cf_output_tmp_9d1ad_11_offset0",
@@ -776,6 +752,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col36"
+                },
+                "*",
+                {
+                  "State": "enabler_col36"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col36"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {
