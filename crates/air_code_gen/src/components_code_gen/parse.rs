@@ -4,7 +4,7 @@ use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
-    PaddingType, TraceType, UseOrYield,
+    TraceType, UseOrYield,
 };
 use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
@@ -12,7 +12,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::utils::{relation_multiplicity_index, remove_trailing_zeroes};
+use crate::utils::remove_trailing_zeroes;
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
 pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String, String)> {
@@ -26,10 +26,12 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String
                 ConstraintEvalStep::LookupTerm(LookupTerm {
                     relation_name: _,
                     felts,
+                    multiplicity,
                     ..
                 }) => {
                     let felts = remove_trailing_zeroes(felts);
-                    const_defs.extend(felts.iter().flat_map(seek_consts))
+                    const_defs.extend(felts.iter().flat_map(seek_consts));
+                    const_defs.extend(seek_consts(multiplicity));
                 }
                 ConstraintEvalStep::Intermediate(CompiledConstraintIntermediate {
                     var, ..
@@ -193,9 +195,9 @@ fn gen_evaluate_call(
 
 pub fn parse_lookup_constraint(
     air_fn: &CompiledAirFn,
-    relation_name: &str,
     felts: &[CompiledAirVar],
     use_or_yield: &UseOrYield,
+    multiplicity: &CompiledAirVar,
     constant_defs: &HashMap<(String, String), String>,
 ) -> rust::Tokens {
     let lookup_values = remove_trailing_zeroes(felts)
@@ -219,13 +221,8 @@ pub fn parse_lookup_constraint(
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
     };
-    let is_masked = relation_multiplicity_index(air_fn, relation_name);
-    let numerator = match air_fn.padding_type {
-        PaddingType::Enabler if is_masked.is_some() => quote! {E::EF::from(enabler.clone())},
-        PaddingType::Multiplicity if is_masked.is_some() => {
-            quote! {E::EF::from(multiplicity_$(is_masked.unwrap()))}
-        }
-        _ => quote! {E::EF::one()},
+    let numerator = quote! {
+        E::EF::from($(parse_eval_constraint(air_fn, multiplicity, constant_defs)))
     };
     if air_fn.r#type == TraceType::Inline {
         quote! {

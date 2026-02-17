@@ -108,7 +108,8 @@
     "dst_base_fp_col4",
     "ap_update_add_1_col5",
     "mem_dst_base_col6",
-    "dst_id_col7"
+    "dst_id_col7",
+    "enabler_col8"
   ],
   "constraint_lookups": [
     [
@@ -183,6 +184,30 @@
   "public_params": [],
   "external_states": [],
   "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col8"
+                },
+                "*",
+                {
+                  "State": "enabler_col8"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col8"
+            }
+          ]
+        },
+        null
+      ]
+    },
     {
       "Intermediate": {
         "felt_names": [
@@ -485,7 +510,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "State": "enabler_col8"
+        }
       }
     },
     {
@@ -527,7 +555,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "enabler_col8"
+        }
       }
     }
   ],
@@ -1133,7 +1164,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -1399,7 +1436,13 @@
             "State": "dst_id_col7"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -1593,7 +1636,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -1617,7 +1666,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "State": "enabler_col8"
+        }
       }
     },
     {
@@ -1659,7 +1711,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "enabler_col8"
+        }
       }
     }
   ]

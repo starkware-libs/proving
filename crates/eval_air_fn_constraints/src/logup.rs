@@ -1,5 +1,4 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType};
-use num_traits::{One, Zero};
+use num_traits::Zero;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
 use crate::assignment::*;
@@ -12,11 +11,10 @@ struct LogupTerm {
 }
 
 pub fn evaluate_logup_constraints(
-    component: &CompiledAirFn,
     assignment: &Assignment,
     lookup_terms: &[EvaluatedLookupTerm],
 ) -> Vec<QM31> {
-    let logup_terms = build_logup_terms(component, assignment, lookup_terms);
+    let logup_terms = build_logup_terms(assignment, lookup_terms);
     let mut result = vec![];
 
     // Create constraints for summing the logup terms. Every two consecutive terms are
@@ -56,26 +54,13 @@ pub fn evaluate_logup_constraints(
 ///     - Denominator: z + sum_i(alpha^i * v_i) where z, alpha are the interaction elements for the
 ///       relation we look into, and v_i are the felts in the tuple we look for.
 fn build_logup_terms(
-    component: &CompiledAirFn,
     assignment: &Assignment,
     lookup_terms: &[EvaluatedLookupTerm],
 ) -> Vec<LogupTerm> {
     lookup_terms
         .iter()
         .map(|lookup_term| {
-            let is_masked = relation_multiplicity_index(component, &lookup_term.relation_name);
-            let abs_numerator = match component.padding_type {
-                PaddingType::Enabler if is_masked.is_some() => {
-                    let [enabler_value] = assignment.lookup_control_values[..] else {
-                        panic!("Components with padding type Enabler should have enabler value")
-                    };
-                    enabler_value
-                }
-                PaddingType::Multiplicity if is_masked.is_some() => {
-                    assignment.lookup_control_values[is_masked.unwrap()]
-                }
-                _ => QM31::one(),
-            };
+            let abs_numerator = lookup_term.multiplicity_value;
             let numerator = abs_numerator * lookup_term.use_or_yield_sign;
             let denominator = assignment
                 .common_lookup_elements
@@ -86,14 +71,4 @@ fn build_logup_terms(
             }
         })
         .collect::<Vec<_>>()
-}
-
-/// Checks if the relation should be masked, meaning it's numerator should be altered.
-/// A relation is masked when the relation name matches one of the component's relation names (the
-/// component must contain an enabler/multiplicity columns).
-pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
-    air_fn
-        .relation_names
-        .iter()
-        .position(|n| n == relation_name)
 }

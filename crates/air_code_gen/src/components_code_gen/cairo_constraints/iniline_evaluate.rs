@@ -90,6 +90,7 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
         code.append(quote! {
             ref $(relation.to_case(Case::Snake))_sum_$(i): QM31,
+            ref numerator_$(i): QM31,
         });
     }
     code

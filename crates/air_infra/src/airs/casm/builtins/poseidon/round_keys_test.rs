@@ -33,7 +33,7 @@ fn test_round_keys() {
         assert_eq!(out.calc(), exp_out.calc());
     }
 
-    assert!(state.is_empty());
+    assert_eq!(state.get_felts().len(), 1);
 }
 
 #[test]

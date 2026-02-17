@@ -61,6 +61,7 @@ fn test_verify_inst() {
         (0, "offset2_mid"),
         (4, "offset2_high"),
         (0, "instruction_id"),
+        (1, "multiplicity_0"),
     "#]]
     .assert_eq(&state.to_string());
 }

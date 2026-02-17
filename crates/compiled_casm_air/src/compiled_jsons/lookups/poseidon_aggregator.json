@@ -371,7 +371,8 @@
     "unpacked_limb_21_col337",
     "unpacked_limb_22_col338",
     "unpacked_limb_24_col339",
-    "unpacked_limb_25_col340"
+    "unpacked_limb_25_col340",
+    "multiplicity_0_col341"
   ],
   "constraint_lookups": [
     [
@@ -3272,7 +3273,13 @@
             "State": "poseidon_full_round_chain_output_limb_9_col266"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -3511,7 +3518,13 @@
             "State": "poseidon_full_round_chain_output_limb_19_col276"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -3750,7 +3763,13 @@
             "State": "poseidon_full_round_chain_output_limb_29_col286"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -3782,7 +3801,10 @@
             "State": "input_limb_5_col5"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col341"
+        }
       }
     }
   ],
@@ -4548,7 +4570,13 @@
             "State": "value_limb_27_col33"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -5755,7 +5783,13 @@
             "State": "value_limb_27_col61"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -6962,7 +6996,13 @@
             "State": "value_limb_27_col89"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -10556,7 +10596,13 @@
             "State": "combination_limb_9_col121"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -11678,7 +11724,13 @@
             "State": "poseidon_full_round_chain_output_limb_29_col152"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -11733,7 +11785,13 @@
             "State": "poseidon_full_round_chain_output_limb_9_col132"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -11788,7 +11846,13 @@
             "State": "poseidon_full_round_chain_output_limb_19_col142"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -12102,7 +12166,13 @@
             "State": "cube_252_output_limb_9_col162"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -13432,7 +13502,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -13625,7 +13701,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -13952,7 +14034,13 @@
             "State": "cube_252_output_limb_9_col183"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -15468,7 +15556,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -15627,7 +15721,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -15718,7 +15818,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -15874,7 +15980,13 @@
             "State": "combination_limb_9_col193"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -19557,7 +19669,13 @@
             "State": "poseidon_3_partial_rounds_chain_output_limb_39_col234"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -20963,7 +21081,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -21122,7 +21246,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -21213,7 +21343,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -22632,7 +22768,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -22791,7 +22933,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -22882,7 +23030,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -23034,7 +23188,13 @@
             "State": "poseidon_3_partial_rounds_chain_output_limb_39_col234"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -24156,7 +24316,13 @@
             "State": "poseidon_full_round_chain_output_limb_29_col286"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -25282,7 +25448,13 @@
             "State": "poseidon_full_round_chain_output_limb_9_col266"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -26379,7 +26551,13 @@
             "State": "poseidon_full_round_chain_output_limb_19_col276"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -27476,7 +27654,13 @@
             "State": "poseidon_full_round_chain_output_limb_29_col286"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -27508,7 +27692,10 @@
             "State": "input_limb_5_col5"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col341"
+        }
       }
     }
   ]

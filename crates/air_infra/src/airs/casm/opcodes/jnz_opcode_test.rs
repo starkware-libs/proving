@@ -104,6 +104,7 @@ fn test_jnz_not_taken_base_ap() {
         (0, "ap_update_add_1"),
         (200, "mem_dst_base"),
         (2, "dst_id"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -159,6 +160,7 @@ fn test_jnz_taken_base_ap() {
         (0, "next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -242,6 +244,7 @@ fn test_jnz_taken_negative_op1() {
         (511, "next_pc_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

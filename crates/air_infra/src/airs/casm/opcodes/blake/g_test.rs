@@ -83,6 +83,7 @@ fn test_g1() {
         (443, "xor"),
         (104, "xor"),
         (288, "xor"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -163,6 +164,7 @@ fn test_g2() {
         (463, "xor"),
         (16, "xor"),
         (334, "xor"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

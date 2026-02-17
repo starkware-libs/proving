@@ -106,17 +106,11 @@ fn add_entry_statistics(
     );
 
     // Calculate number of trace columns.
-    let padding = match compiled_entry.padding_type {
-        PaddingType::None => 0,
-        PaddingType::Enabler => 1,
-        PaddingType::Multiplicity => compiled_entry.relation_names.len(),
-    };
     let num_state_cols = compiled_entry.state_names.len();
     let num_lookup_cols: usize = compiled_entry.constraint_lookups.len();
 
     let total_num_trace_cols = num_state_cols
-        + num_lookup_cols.div_ceil(LOOKUPS_PER_BATCH) * TRACE_COLUMNS_PER_LOOKUP_BATCH
-        + padding;
+        + num_lookup_cols.div_ceil(LOOKUPS_PER_BATCH) * TRACE_COLUMNS_PER_LOOKUP_BATCH;
 
     // Calculate use and yield lookups.
     let mut use_lookup_cols: IndexMap<String, usize> = IndexMap::new();

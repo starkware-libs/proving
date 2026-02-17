@@ -59,6 +59,13 @@ impl Graph {
         // The graph is connected iff the component we built is the whole graph
         component.len() == self.vertices.len()
     }
+
+    fn remove_vertex(&mut self, vertex: &str) {
+        self.vertices.remove(vertex);
+        for e in self.edges.iter_mut() {
+            e.remove(vertex);
+        }
+    }
 }
 
 pub fn assert_constraint_graph_connected(entry: &AirFnEntry) {
@@ -91,6 +98,7 @@ fn build_constraint_graph(entry: &AirFnEntry) -> Graph {
     graph.vertices.extend(entry.state.get_state_names());
 
     let constraint_components = entry.air_body.get_flattened_constraint_components();
+    let mut multiplicity_vertices = HashSet::new();
 
     for component in constraint_components {
         match component {
@@ -105,6 +113,7 @@ fn build_constraint_graph(entry: &AirFnEntry) -> Graph {
                 relation_name,
                 felts,
                 use_or_yield,
+                multiplicity,
             } => {
                 // When we use a relation, we assume that the component that creates it is
                 // responsible for connecting its felts with constraints, so we
@@ -127,6 +136,8 @@ fn build_constraint_graph(entry: &AirFnEntry) -> Graph {
                     let edge: HashSet<_> = felts.iter().flat_map(expr_vertices).collect();
                     graph.edges.push(edge)
                 }
+
+                multiplicity_vertices.extend(expr_vertices(&multiplicity));
             }
         }
     }
@@ -139,6 +150,11 @@ fn build_constraint_graph(entry: &AirFnEntry) -> Graph {
                 "Edge {edge:?} contains unknown vertex {v}"
             );
         }
+    }
+
+    // Values used as multiplicity are excluded from the connectedness testing
+    for vertex in multiplicity_vertices {
+        graph.remove_vertex(&vertex);
     }
 
     graph

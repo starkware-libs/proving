@@ -7,8 +7,7 @@ use std::rc::Rc;
 
 use assignment::Assignment;
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, PaddingType, TraceType,
-    UseOrYield,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceType, UseOrYield,
 };
 use indexmap::IndexMap;
 use logup::evaluate_logup_constraints;
@@ -30,7 +29,7 @@ pub struct SampleEvaluation {
 struct EvaluatedLookupTerm {
     felt_values: Vec<QM31>,
     use_or_yield_sign: QM31,
-    relation_name: String,
+    multiplicity_value: QM31,
 }
 
 enum EvaluatedStep {
@@ -58,7 +57,7 @@ pub fn create_sample_evaluation(
         assignment.environment.clone(),
     );
     SampleEvaluation {
-        result: evaluate_composition_polynomial(component, steps, &assignment),
+        result: evaluate_composition_polynomial(steps, &assignment),
         assignment,
     }
 }
@@ -94,9 +93,10 @@ fn run_component_and_collect_steps(
             ConstraintEvalStep::LookupTerm(LookupTerm {
                 felts,
                 use_or_yield,
-                relation_name,
-                ..
+                relation_name: _,
+                multiplicity,
             }) => {
+                let multiplicity_value = scope.evaluate(multiplicity);
                 let felt_values = felts.iter().map(|f| scope.evaluate(f)).collect();
                 let use_or_yield_sign = match use_or_yield {
                     UseOrYield::Use => 1.into(),
@@ -105,7 +105,7 @@ fn run_component_and_collect_steps(
                 steps.push(EvaluatedStep::LookupTerm(EvaluatedLookupTerm {
                     felt_values,
                     use_or_yield_sign,
-                    relation_name: relation_name.clone(),
+                    multiplicity_value,
                 }));
             }
             ConstraintEvalStep::Intermediate(compiled_intermediate) => {
@@ -182,21 +182,9 @@ fn run_static_call_and_collect_steps(
     )
 }
 
-fn evaluate_composition_polynomial(
-    component: &CompiledAirFn,
-    steps: Vec<EvaluatedStep>,
-    assignment: &Assignment,
-) -> QM31 {
+fn evaluate_composition_polynomial(steps: Vec<EvaluatedStep>, assignment: &Assignment) -> QM31 {
     let mut constraint_evals = vec![];
     let mut lookup_terms: Vec<EvaluatedLookupTerm> = vec![];
-
-    // If we have an enabler, the enabler constraint comes first
-    if component.padding_type == PaddingType::Enabler {
-        let [enabler_value] = &assignment.lookup_control_values[..] else {
-            panic!("Components with Enabler padding should have enabler value")
-        };
-        constraint_evals.push(*enabler_value * *enabler_value - *enabler_value)
-    }
 
     // Split the steps to local and lookup constraints
     for step in steps {
@@ -209,11 +197,7 @@ fn evaluate_composition_polynomial(
     }
 
     // Evaluate the logup constraints
-    constraint_evals.append(&mut evaluate_logup_constraints(
-        component,
-        assignment,
-        &lookup_terms,
-    ));
+    constraint_evals.append(&mut evaluate_logup_constraints(assignment, &lookup_terms));
 
     // Combine all constraint evaluations to get the composition poynomial.
     let mut result = QM31::zero();

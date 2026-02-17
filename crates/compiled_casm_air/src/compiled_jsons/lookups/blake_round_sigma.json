@@ -81,7 +81,9 @@
     },
     []
   ],
-  "state_names": [],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
   "constraint_lookups": [
     [
       "BlakeRoundSigma",
@@ -174,7 +176,10 @@
             "ExternalState": "blake_sigma_15"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ],
@@ -241,7 +246,10 @@
             "ExternalState": "blake_sigma_15"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ]

@@ -188,7 +188,8 @@
     "op1_limb_14_col68",
     "op1_limb_15_col69",
     "op1_delta_ab_inv_col70",
-    "op1_delta_cd_inv_col71"
+    "op1_delta_cd_inv_col71",
+    "enabler_col72"
   ],
   "constraint_lookups": [
     [
@@ -301,6 +302,30 @@
   "public_params": [],
   "external_states": [],
   "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col72"
+                },
+                "*",
+                {
+                  "State": "enabler_col72"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col72"
+            }
+          ]
+        },
+        null
+      ]
+    },
     {
       "Intermediate": {
         "felt_names": [
@@ -1510,7 +1535,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "State": "enabler_col72"
+        }
       }
     },
     {
@@ -1560,7 +1588,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "enabler_col72"
+        }
       }
     }
   ],
@@ -3160,7 +3191,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -3529,7 +3566,13 @@
             "State": "dst_id_col15"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -4030,7 +4073,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -4235,7 +4284,13 @@
             "State": "dst_limb_15_col31"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -4765,7 +4820,13 @@
             "State": "op0_id_col34"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -5266,7 +5327,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -5471,7 +5538,13 @@
             "State": "op0_limb_15_col50"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -6001,7 +6074,13 @@
             "State": "op1_id_col53"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -6502,7 +6581,13 @@
             ]
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -6707,7 +6792,13 @@
             "State": "op1_limb_15_col69"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -7166,7 +7257,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "State": "enabler_col72"
+        }
       }
     },
     {
@@ -7216,7 +7310,10 @@
             "State": "input_fp_col2"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "enabler_col72"
+        }
       }
     }
   ]

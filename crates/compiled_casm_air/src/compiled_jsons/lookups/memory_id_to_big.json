@@ -152,7 +152,8 @@
     "memory_id_to_big_output_col24",
     "memory_id_to_big_output_col25",
     "memory_id_to_big_output_col26",
-    "memory_id_to_big_output_col27"
+    "memory_id_to_big_output_col27",
+    "multiplicity_0_col28"
   ],
   "constraint_lookups": [
     [
@@ -528,7 +529,10 @@
             "State": "memory_id_to_big_output_col27"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col28"
+        }
       }
     }
   ],
@@ -568,7 +572,13 @@
             "State": "memory_id_to_big_output_col1"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -603,7 +613,13 @@
             "State": "memory_id_to_big_output_col3"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -638,7 +654,13 @@
             "State": "memory_id_to_big_output_col5"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -673,7 +695,13 @@
             "State": "memory_id_to_big_output_col7"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -708,7 +736,13 @@
             "State": "memory_id_to_big_output_col9"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -743,7 +777,13 @@
             "State": "memory_id_to_big_output_col11"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -778,7 +818,13 @@
             "State": "memory_id_to_big_output_col13"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -813,7 +859,13 @@
             "State": "memory_id_to_big_output_col15"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -848,7 +900,13 @@
             "State": "memory_id_to_big_output_col17"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -883,7 +941,13 @@
             "State": "memory_id_to_big_output_col19"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -918,7 +982,13 @@
             "State": "memory_id_to_big_output_col21"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -953,7 +1023,13 @@
             "State": "memory_id_to_big_output_col23"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -988,7 +1064,13 @@
             "State": "memory_id_to_big_output_col25"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     {
@@ -1023,7 +1105,13 @@
             "State": "memory_id_to_big_output_col27"
           }
         ],
-        "use_or_yield": "Use"
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
       }
     },
     "EndBlock",
@@ -1125,7 +1213,10 @@
             "State": "memory_id_to_big_output_col27"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col28"
+        }
       }
     }
   ]

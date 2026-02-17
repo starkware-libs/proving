@@ -136,7 +136,7 @@ fn test_partial_mul_generic() {
     assert_eq!(output3.2 .2[1].calc(), res_y.calc());
     assert_eq!(output3.2 .3.calc(), const_expr!(26).calc());
 
-    assert_eq!(state.get_felts().len(), 623);
+    assert_eq!(state.get_felts().len(), 624);
 }
 
 #[test]

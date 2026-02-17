@@ -32,7 +32,9 @@
     },
     []
   ],
-  "state_names": [],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
   "constraint_lookups": [
     [
       "RangeCheck_6",
@@ -61,7 +63,10 @@
             "ExternalState": "seq_6"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ],
@@ -80,7 +85,10 @@
             "ExternalState": "seq_6"
           }
         ],
-        "use_or_yield": "Yield"
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
       }
     }
   ]

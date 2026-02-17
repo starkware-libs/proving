@@ -234,6 +234,7 @@ fn test_poseidon_partial_round() {
         (74735611, "combination_limb_8"),
         (199, "combination_limb_9"),
         (1, "p_coef"),
+        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 
