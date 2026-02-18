@@ -348,30 +348,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col52"
-                },
-                "*",
-                {
-                  "State": "enabler_col52"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col52"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [],
         "var": {
@@ -792,6 +768,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col52"
+                },
+                "*",
+                {
+                  "State": "enabler_col52"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col52"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

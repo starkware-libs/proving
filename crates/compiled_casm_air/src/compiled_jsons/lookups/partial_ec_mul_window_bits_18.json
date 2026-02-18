@@ -1559,30 +1559,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col296"
-                },
-                "*",
-                {
-                  "State": "enabler_col296"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col296"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "PedersenPointsTableWindowBits18",
         "felts": [
@@ -2647,6 +2623,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col296"
+                },
+                "*",
+                {
+                  "State": "enabler_col296"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col296"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

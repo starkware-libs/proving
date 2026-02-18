@@ -3567,30 +3567,6 @@
         {
           "BinaryOp": [
             {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col623"
-                },
-                "*",
-                {
-                  "State": "enabler_col623"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col623"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
               "State": "to_add_bit_col125"
             },
             "*",
@@ -9648,6 +9624,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col623"
+                },
+                "*",
+                {
+                  "State": "enabler_col623"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col623"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

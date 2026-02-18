@@ -217,30 +217,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col18"
-                },
-                "*",
-                {
-                  "State": "enabler_col18"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col18"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_cb32b_output_tmp_b1151_8_offset0",
@@ -534,6 +510,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col18"
+                },
+                "*",
+                {
+                  "State": "enabler_col18"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col18"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

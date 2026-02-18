@@ -303,30 +303,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col72"
-                },
-                "*",
-                {
-                  "State": "enabler_col72"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col72"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_3802d_output_tmp_fa85a_12_offset0",
@@ -1513,6 +1489,30 @@
           ]
         },
         "dst equals (op0 * op1)*flag_res_mul + (op0 + op1)*(1-flag_res_mul)"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col72"
+                },
+                "*",
+                {
+                  "State": "enabler_col72"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col72"
+            }
+          ]
+        },
+        "Enabler is a bit"
       ]
     },
     {

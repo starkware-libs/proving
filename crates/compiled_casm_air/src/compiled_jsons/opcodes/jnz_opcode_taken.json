@@ -245,30 +245,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col46"
-                },
-                "*",
-                {
-                  "State": "enabler_col46"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col46"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_de75a_output_tmp_f51a9_5_offset0"
@@ -936,6 +912,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col46"
+                },
+                "*",
+                {
+                  "State": "enabler_col46"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col46"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

@@ -251,14 +251,9 @@ pub trait AirFn: Debug + InstDefTrait {
                     .state_mut()
                     .add(&mut enabler, &name);
 
-                // TODO: Use air_builder.constrain() (will move the enabler constraint)
-                // to the end.
-                air_builder.air_body.0.insert(
-                    0,
-                    AirBodyComponent::Constraint(
-                        enabler.clone() * enabler.clone() - enabler.clone(),
-                        None,
-                    ),
+                air_builder.constrain(
+                    enabler.clone() * enabler.clone() - enabler.clone(),
+                    "Enabler is a bit",
                 );
                 vec![enabler]
             }

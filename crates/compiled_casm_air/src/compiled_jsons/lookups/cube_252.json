@@ -1659,30 +1659,6 @@
   "external_states": [],
   "constraints": [
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col140"
-                },
-                "*",
-                {
-                  "State": "enabler_col140"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col140"
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
       "Intermediate": {
         "felt_names": [
           "felt_252_unpack_from_27_range_check_output_output_tmp_fec87_2_limb_2",
@@ -2577,6 +2553,30 @@
           ]
         }
       }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col140"
+                },
+                "*",
+                {
+                  "State": "enabler_col140"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col140"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "LookupTerm": {

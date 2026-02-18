@@ -1,6 +1,6 @@
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType};
+use compiled_casm_air::compiled_structs::CompiledAirFn;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
@@ -55,28 +55,9 @@ impl Assignment {
             .map(|ext_state| (ext_state.clone(), random_qm31(&ext_state.to_owned())))
             .collect();
 
-        let lookup_control_values = match component.padding_type {
-            PaddingType::Enabler => {
-                vec![random_qm31("enabler")]
-            }
-            PaddingType::Multiplicity => (0..component.relation_names.len())
-                .map(|i| random_qm31(&format!("multiplicity_{i}")))
-                .collect(),
-            PaddingType::None => vec![],
-        };
-
         let base_trace: Vec<_> = (0..base_trace_len)
             .map(|i| random_qm31(&format!("base_{i}")))
             .collect();
-
-        // TODO - This is temporary to keep the sample evaluation values identical.
-        // Remove.
-        let base_trace = base_trace
-            .iter()
-            .take(base_trace.len() - lookup_control_values.len())
-            .chain(lookup_control_values.iter())
-            .copied()
-            .collect::<Vec<_>>();
 
         Assignment {
             base_trace,
