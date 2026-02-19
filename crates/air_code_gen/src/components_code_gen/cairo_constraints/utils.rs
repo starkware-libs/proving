@@ -1,6 +1,7 @@
 use std::fs;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, ExternalState, TraceType, UseOrYield};
+use air_common::{ExternalState, TraceType, UseOrYield};
+use air_compile::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;

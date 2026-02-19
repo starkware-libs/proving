@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 
 use super::qm31_read_reduced::*;

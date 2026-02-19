@@ -2,8 +2,8 @@ use std::array::from_fn;
 use std::collections::{BTreeSet, HashSet};
 use std::fmt::Debug;
 
-use compiled_casm_air::compiled_structs::{CompiledAirVar, ExternalState, TraceType};
-use compiled_casm_air::public_params::PublicParam;
+use air_common::{ExternalState, TraceType};
+use air_compile::compiled_structs::CompiledAirVar;
 use enum_dispatch::enum_dispatch;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
@@ -33,6 +33,7 @@ use crate::airs::casm::opcodes::blake::round::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 use crate::airs::convolution_utils::bounded_felt::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::public_params::PublicParam;
 #[cfg(test)]
 use crate::core::Felt;
 // Macros

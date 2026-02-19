@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
 
-use compiled_casm_air::public_params::PublicParam;
+use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::M31;
 
 use super::expressions::felt_expr::*;
@@ -37,5 +37,40 @@ impl PublicParams {
             .get(&param)
             .unwrap_or(&Self::create_public_param_expr(param, None))
             .clone();
+    }
+}
+
+#[derive(PartialEq, Eq, Hash, Clone, Debug, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum PublicParam {
+    AddModBuiltinSegmentStart,
+    MulModBuiltinSegmentStart,
+    BitwiseBuiltinSegmentStart,
+    PoseidonBuiltinSegmentStart,
+    RangeCheckBuiltinSegmentStart,
+    RangeCheck96BuiltinSegmentStart,
+    PedersenBuiltinSegmentStart,
+    ECOpBuiltinSegmentStart,
+}
+
+impl PublicParam {
+    pub fn name(&self) -> String {
+        match self {
+            PublicParam::AddModBuiltinSegmentStart => "add_mod_builtin_segment_start".to_string(),
+            PublicParam::MulModBuiltinSegmentStart => "mul_mod_builtin_segment_start".to_string(),
+            PublicParam::BitwiseBuiltinSegmentStart => "bitwise_builtin_segment_start".to_string(),
+            PublicParam::PoseidonBuiltinSegmentStart => {
+                "poseidon_builtin_segment_start".to_string()
+            }
+            PublicParam::RangeCheckBuiltinSegmentStart => {
+                "range_check_builtin_segment_start".to_string()
+            }
+            PublicParam::RangeCheck96BuiltinSegmentStart => {
+                "range_check96_builtin_segment_start".to_string()
+            }
+            PublicParam::PedersenBuiltinSegmentStart => {
+                "pedersen_builtin_segment_start".to_string()
+            }
+            PublicParam::ECOpBuiltinSegmentStart => "ec_op_builtin_segment_start".to_string(),
+        }
     }
 }

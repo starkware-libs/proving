@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use std::marker::PhantomData;
 
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;
 

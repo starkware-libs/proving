@@ -1,7 +1,6 @@
 use std::array::from_fn;
 
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
@@ -13,6 +12,7 @@ use crate::core::expressions::biguint_expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::public_params::PublicParam;
 // Macros
 use crate::{const_bigu384_expr, const_expr};
 

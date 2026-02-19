@@ -14,10 +14,11 @@ use air_code_gen::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
     load_air_fns,
 };
+use air_common::REGISTRY_PROPERTIES_FILE_NAME;
+use air_compile::compiled_structs::CompiledAirFn;
 use air_infra::airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
+use air_infra::core::air_fn_registry::AirFnStat;
 use clap::Parser;
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
-use compiled_casm_air::utils::REGISTRY_PROPERTIES_FILE_NAME;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use serde::Serialize;
@@ -26,7 +27,7 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
 };
 use xshell::{cmd, Shell};
 
-const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air/src";
+const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
 const DEFAULT_STWO_CIRCUITS_PATH: &str = "../stwo-circuits/";
 pub const CLAIM_GENERATOR_FILE_PATH: &str =
@@ -41,7 +42,7 @@ struct VersionedCasmRegistry {
     /// The total number of trace cells in the preprocessed tables, taken from stwo-cairo
     pub canonical_ppt_n_trace_cells: u32,
     pub canonical_without_pedersen_ppt_n_trace_cells: u32,
-    pub air_fns: IndexMap<String, CompiledAirFnStat>,
+    pub air_fns: IndexMap<String, AirFnStat>,
 }
 
 fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
@@ -175,7 +176,7 @@ fn dest_dir_for_job(job: &AutogenCodeFile, target_repo_path: &Path) -> PathBuf {
     target_repo_path.join(path_in_target_repo)
 }
 
-fn read_casm_registry(compiled_crate_src: &Path) -> IndexMap<String, CompiledAirFnStat> {
+fn read_casm_registry(compiled_crate_src: &Path) -> IndexMap<String, AirFnStat> {
     let casm_registry_path = compiled_crate_src.join(REGISTRY_PROPERTIES_FILE_NAME);
     let casm_registry_file = fs::read_to_string(&casm_registry_path)
         .unwrap_or_else(|e| panic!("Failed to read {}: {e}", casm_registry_path.display()));
@@ -240,11 +241,11 @@ struct Args {
 ///
 /// Generate code to stwo-cairo:
 /// `$ cargo run --bin cairo_code_gen -- generate-stwo-cairo --source
-///     ./crates/compiled_casm_air/src/ --stwo-cairo-path ~/stwo-cairo/`
+///     ./crates/compiled_casm_air/ --stwo-cairo-path ~/stwo-cairo/`
 ///
 /// Generate a single file (output to stdout):
 /// `$ cargo run --bin cairo_code_gen -- single --source
-///      ./crates/compiled_casm_air/src/ --rust-constraints /path/to/biwise_builtin.json`
+///      ./crates/compiled_casm_air/ --rust-constraints /path/to/biwise_builtin.json`
 fn main() {
     let args = Args::try_parse_from(std::env::args()).unwrap_or_else(|e| e.exit());
 

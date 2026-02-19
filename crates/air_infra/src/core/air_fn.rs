@@ -4,10 +4,8 @@ use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::{PaddingType, TraceType, UseOrYield};
-use compiled_casm_air::public_params::PublicParam;
-use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, STATE_INPUT_VAR, STATE_OUTPUT_VAR_SUFFIX};
+use air_common::utils::fix_str;
+use air_common::{PaddingType, TraceType, UseOrYield, OPCODES_RELATION_NAME};
 use convert_case::{Case, Casing};
 use regex::Regex;
 use serde::Serialize;
@@ -22,9 +20,15 @@ use super::variables::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::const_expr;
 use crate::core::expressions::var_expr::*;
-use crate::utils::fix_str;
+use crate::core::public_params::PublicParam;
 
 pub const MAX_NAME_LEN: usize = 50;
+pub const INTERMEDIATE_VAR_SUFFIX: &str = "tmp";
+pub const STATE_VAR_SUFFIX: &str = "col";
+pub const INPUT_VAR_SUFFIX: &str = "input";
+pub const OUTPUT_VAR_SUFFIX: &str = "output";
+pub const STATE_INPUT_VAR: &str = "input";
+pub const STATE_OUTPUT_VAR_SUFFIX: &str = "output";
 
 // An air function should define a struct that implements the AirFn trait.
 // The AirFn trait has two associated types, In and Out, which are the input and output types of the

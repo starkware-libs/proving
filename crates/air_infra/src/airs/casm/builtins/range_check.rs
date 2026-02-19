@@ -1,5 +1,4 @@
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
 use serde::Serialize;
 
 use crate::airs::casm::casm_state::*;
@@ -7,6 +6,7 @@ use crate::airs::casm::const_tables::seq::*;
 use crate::core::air_fn::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::read_positive::*;
+use crate::core::public_params::PublicParam;
 
 #[derive(Debug, Serialize)]
 pub struct RangeCheckBuiltin {

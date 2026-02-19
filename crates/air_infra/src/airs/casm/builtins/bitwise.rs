@@ -1,5 +1,4 @@
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
@@ -12,6 +11,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::verify::*;
+use crate::core::public_params::PublicParam;
 use crate::core::variables::*;
 
 // Each bitwise operation consists of 5 cells (two inputs and three outputs - and, or, xor).

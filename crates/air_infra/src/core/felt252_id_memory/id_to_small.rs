@@ -1,5 +1,4 @@
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::relations::MEMORY_RELATION_NAME;
+use air_common::{TraceType, MEMORY_RELATION_NAME};
 use serde::Serialize;
 
 use crate::airs::casm::const_tables::seq::*;

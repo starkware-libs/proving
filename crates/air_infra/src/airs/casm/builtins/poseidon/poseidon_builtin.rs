@@ -1,7 +1,6 @@
 use std::array::from_fn;
 
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
 use serde::Serialize;
 
 use crate::airs::casm::builtins::poseidon::poseidon_aggregator::*;
@@ -13,6 +12,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::read_id::*;
+use crate::core::public_params::PublicParam;
 
 // Each Poseidon operation consists of 6 cells (3 inputs and 3 outputs, each being a single state).
 pub const CELLS_PER_POSEIDON: u32 = 6;

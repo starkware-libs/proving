@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::CompiledAirFn;
+use air_compile::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::assignment::Assignment;
 use genco::lang::rust;
@@ -104,10 +104,10 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
         let param_value = assignment
             .environment
             .public_params
-            .get(&param.name())
+            .get(param)
             .unwrap_or_else(|| panic!("Missing public param {param:?} in assignment"));
         claim_fields.append(quote! {
-            $(param.name()): $(param_value.0), $("\n")
+            $(param): $(param_value.0), $("\n")
         });
     }
 
@@ -206,7 +206,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     // Public params
     for param in &air_fn.public_params {
         code.append(quote!{
-            let $(param.name()): QM31 = (TryInto::<u32, M31>::try_into((*(self.claim.$(param.name())))).unwrap()).into();
+            let $(param): QM31 = (TryInto::<u32, M31>::try_into((*(self.claim.$(param)))).unwrap()).into();
         });
     }
 

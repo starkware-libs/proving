@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::sync::{LazyLock, Mutex};
 
-use compiled_casm_air::compiled_structs::UseOrYield;
+use air_common::UseOrYield;
 
 use crate::core::air_body::*;
 use crate::core::air_fn::*;

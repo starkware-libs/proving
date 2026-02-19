@@ -1,7 +1,6 @@
 use std::iter::Sum;
 
-use compiled_casm_air::compiled_structs::ExternalState;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::ExternalState;
 use indexmap::IndexSet;
 
 use super::super::state::*;
@@ -11,6 +10,7 @@ use super::op_expr::*;
 use super::var_expr::*;
 // Macros
 use crate::const_expr;
+use crate::core::public_params::PublicParam;
 use crate::core::Felt;
 
 pub type FeltOperation = OpExpr<Felt>;

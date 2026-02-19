@@ -2,10 +2,13 @@ use std::cell::{Ref, RefCell};
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
-use compiled_casm_air::utils::{INPUT_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
+use air_common::utils::random_m31;
+use air_common::{PaddingType, TraceType, UseOrYield};
+use air_compile::compiled_structs::CompiledAirFn;
+use convert_case::{Case, Casing};
 use indexmap::IndexMap;
-use stwo_cairo_common::prover_types::cpu::M31;
+use serde::{Deserialize, Serialize};
+use stwo_cairo_common::prover_types::cpu::{M31, PRIME};
 
 use super::air_body::*;
 use super::air_fn::*;
@@ -13,7 +16,38 @@ use super::public_params::*;
 use super::state::*;
 use super::variables::*;
 use crate::core::constraint_connectedness_test::assert_constraint_graph_connected;
-use crate::utils::random_m31;
+
+pub const LOOKUPS_PER_BATCH: usize = 2;
+pub const TRACE_COLUMNS_PER_LOOKUP_BATCH: usize = 4;
+// Assumes blowup factor at most 4
+pub const MAX_ROWS_PER_TABLE: usize = 2_usize.pow(28);
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct AirFnStat {
+    pub trace_type: TraceType,
+    // For constant-size component, the log_2 of the number of rows.
+    pub log_height: Option<u32>,
+    pub num_state_cols: usize,
+    pub use_lookup_cols: IndexMap<String, usize>,
+    pub yield_lookup_cols: IndexMap<String, usize>,
+    pub lookup_rows: IndexMap<String, usize>,
+    pub padding_type: PaddingType,
+    pub total_num_trace_cols: usize,
+    // To this we should add the number of trace cells in:
+    // - Const tables and their corresponding lookup components (multiplicity and logup columns)
+    // - The memory tables (and their corresponding multiplicity and logup columns)
+    // - The table of verify instruction (with number of rows equals the number of different pc
+    //   values)
+    pub trace_cells_upper_bound: usize,
+    // An upper bound on the multiplicity values for lookups to const tables and memory tables.
+    pub uses_upper_bound: IndexMap<String, usize>,
+    // An upper bound on the number of rows in the trace for each called lookup relation.
+    pub rows_upper_bound: IndexMap<String, usize>,
+    // The uses upper bound is limited by the size of the field.
+    pub max_instances_uses_limit: usize,
+    // The rows upper bound is currently limited to 2**27.
+    pub max_instances_rows_limit: usize,
+}
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone)]
@@ -116,7 +150,7 @@ impl AirFnEntry {
                     n.clone(),
                     (
                         ab.get_constraint_lookups().clone(),
-                        ab.get_public_params().clone(),
+                        ab.get_public_params().iter().map(|p| p.name()).collect(),
                         ab.get_external_states().clone(),
                     ),
                 )
@@ -197,7 +231,12 @@ impl AirFnEntry {
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),
-            public_params: self.air_body.get_public_params(),
+            public_params: self
+                .air_body
+                .get_public_params()
+                .iter()
+                .map(|p| p.name())
+                .collect(),
             external_states: self.air_body.get_external_states(),
         }
     }
@@ -501,5 +540,157 @@ impl AirFnRegistry {
             .iter()
             .map(|(name, entry)| (name.clone(), entry.clone().compile(&self.air_fns.borrow())))
             .collect()
+    }
+
+    pub fn collect_stats(&self) -> IndexMap<String, AirFnStat> {
+        let mut stat = IndexMap::new();
+
+        for (_, entry) in self.air_fns.borrow().iter() {
+            if entry.trace_type == TraceType::Const || entry.trace_type == TraceType::Inline {
+                continue;
+            }
+
+            self.add_entry_statistics(entry, &mut stat);
+        }
+
+        stat
+    }
+
+    // Collects statistics on a component.
+    // trace_cells_upper_bound: An upper bound on the number of cells added to the trace for each
+    // `AddInput` to this component. Includes rows added to other lookup components called by
+    // this component. Doesn't include cells from components that are always filled
+    // by the prover, regardless of whether they're called or not (e.g. const tables, the memory,
+    // verify instruction).
+    // We compute rows and uses upper bounds for a (possibly indirect) callee C by assuming that all
+    // intermediate components are padded to a power of two, but ignoring the padding of C itself.
+    // For example, if each row in component A calls component B 3 times, and each row in B calls C
+    // 5 times, A.rows_upper_bound.get("C") will be 20, because we'll pad 3 to 4, but won't pad 5.
+    // For uses_upper_bound, no need to pad the last component. For rows_upper_bound, the padding of
+    // the last component is accounted for later, when computing `max_instances_rows_limit`.
+    // We do that instead of using the padded count for all calls from the start because it gives
+    // tighter upper bounds.
+    fn add_entry_statistics(&self, entry: &AirFnEntry, stat: &mut IndexMap<String, AirFnStat>) {
+        // Calculate number of trace columns.
+        let num_state_cols = entry.state.get_state_names().len();
+        let constraint_lookups = entry.air_body.get_constraint_lookups();
+        let num_lookup_cols: usize = constraint_lookups.len();
+
+        let total_num_trace_cols = num_state_cols
+            + num_lookup_cols.div_ceil(LOOKUPS_PER_BATCH) * TRACE_COLUMNS_PER_LOOKUP_BATCH;
+
+        // Calculate use and yield lookups.
+        let mut use_lookup_cols: IndexMap<String, usize> = IndexMap::new();
+        for (name, _) in constraint_lookups
+            .iter()
+            .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Use)
+        {
+            *use_lookup_cols.entry(name.clone()).or_default() += 1;
+        }
+        let mut yield_lookup_cols: IndexMap<String, usize> = IndexMap::new();
+        for (name, _) in constraint_lookups
+            .iter()
+            .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Yield)
+        {
+            *yield_lookup_cols.entry(name.clone()).or_default() += 1;
+        }
+
+        let mut trace_cells_upper_bound = total_num_trace_cols;
+        let mut uses_upper_bound = IndexMap::new();
+        let mut rows_upper_bound = IndexMap::new();
+
+        let reg = self.air_fns.borrow();
+        let lookup_rows = entry.air_body.get_n_inputs_added_per_relation();
+
+        // The registry is ordered such that each component appears after its callees, so all
+        // callees already have their statistics computed.
+        for (relation_name, (air_fn_name, cnt)) in lookup_rows.iter() {
+            // TODO(AnatG): Consider using relation name without converting to snake case.
+            let name = relation_name.to_case(Case::Snake);
+
+            // We round the number of times a lookup is called up to the next power of two, since
+            // the statistics apply also to the padded rows.
+            let rounded_cnt = if *cnt == 0 {
+                0
+            } else {
+                cnt.next_power_of_two()
+            };
+
+            let called_entry = reg
+                .get(air_fn_name)
+                .expect("Called entry not found in registry");
+            let compiled_called_entry = called_entry.clone().compile(&reg);
+            let entry_stats = stat
+                .get(air_fn_name)
+                .expect("Called entry not found in registry");
+
+            if (compiled_called_entry.r#type != TraceType::Memory
+                && compiled_called_entry.name != "verify_instruction")
+                && called_entry.ext_input.is_none()
+            {
+                // Update trace cells upper bound for the current component.
+                trace_cells_upper_bound += rounded_cnt * entry_stats.trace_cells_upper_bound;
+
+                // Update rows upper bound for all lookup components.
+                // The number of rows of each component is padded at the end, after adding all
+                // inputs from all calls to it.
+                *rows_upper_bound.entry(name.clone()).or_default() += cnt;
+                entry_stats
+                    .rows_upper_bound
+                    .iter()
+                    .for_each(|(row_name, row_bound)| {
+                        *rows_upper_bound.entry(row_name.clone()).or_default() +=
+                            rounded_cnt * row_bound;
+                    });
+            }
+
+            // Update uses upper bound for the lowest level lookup components (that have no
+            // callees).
+            if entry_stats.uses_upper_bound.is_empty() {
+                // The called AirFn is a leaf AirFn (doesn't use other AirFns)
+                assert!(
+                    compiled_called_entry.padding_type == PaddingType::Multiplicity,
+                    "If the entry doesn't use any other components, it must be padded with multiplicity."
+                );
+                *uses_upper_bound.entry(name.clone()).or_default() += cnt;
+            } else {
+                // The called AirFn is not a leaf AirFn
+                entry_stats
+                    .uses_upper_bound
+                    .iter()
+                    .for_each(|(use_name, use_bound)| {
+                        *uses_upper_bound.entry(use_name.clone()).or_default() +=
+                            rounded_cnt * *use_bound;
+                    });
+            }
+        }
+
+        let max_instances_uses_limit =
+            PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
+        let max_instances_rows_limit = MAX_ROWS_PER_TABLE
+            / rows_upper_bound
+                .values()
+                .max()
+                .unwrap_or(&1)
+                .next_power_of_two();
+
+        stat.insert(
+            entry.name.clone(),
+            AirFnStat {
+                trace_type: entry.trace_type,
+                log_height: entry.log_height,
+                num_state_cols,
+                use_lookup_cols,
+                yield_lookup_cols,
+                lookup_rows: lookup_rows.into_iter().map(|(r, (_, c))| (r, c)).collect(),
+                padding_type: entry.padding_type,
+                total_num_trace_cols,
+                trace_cells_upper_bound,
+                uses_upper_bound,
+                rows_upper_bound,
+                max_instances_uses_limit,
+                max_instances_rows_limit,
+            },
+        );
     }
 }

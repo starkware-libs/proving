@@ -4,19 +4,21 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-compiled_casm_air = { path = "../compiled_casm_air" }
+air_common = { path = "../air_common" }
+air_compile = { path = "../air_compile" }
+
 serde = { workspace = true, features = ["derive", "rc"] }
-stwo-cairo-common.workspace = true
 serde_json.workspace = true
 enum_dispatch = "0.3.13"
-clap = { version = "4.5.9", features = ["derive"] }
 indexmap = { workspace = true, features = ["serde"] }
 convert_case.workspace = true
 regex = "1.11.1"
 blake2 = "0.10.6"
 serde_arrays = "0.1.0"
 
+stwo-cairo-common.workspace = true
+
 [dev-dependencies]
-eval_air_fn_constraints.workspace = true
+eval_air_fn_constraints = { path = "../eval_air_fn_constraints" }
 generic-tests.workspace = true
 expect-test = "1.4"

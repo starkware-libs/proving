@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{
     FELT252WIDTH27_N_WORDS, FELT252_BITS_PER_WORD, FELT252_N_WORDS,
@@ -19,7 +19,7 @@ use crate::core::variables::*;
 /// If the range_check_output flag is set, also range checks the unpacked limbs.
 #[derive(Clone, Debug, Serialize)]
 pub struct Felt252UnpackFrom27 {
-    #[serde(skip_serializing_if = "crate::utils::is_false")]
+    #[serde(skip_serializing_if = "air_common::utils::is_false")]
     pub range_check_output: bool,
 }
 

@@ -5,10 +5,11 @@ mod util;
 
 use std::rc::Rc;
 
-use assignment::Assignment;
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceType, UseOrYield,
+use air_common::{TraceType, UseOrYield};
+use air_compile::compiled_structs::{
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm,
 };
+use assignment::Assignment;
 use indexmap::IndexMap;
 use logup::evaluate_logup_constraints;
 use num_traits::Zero;

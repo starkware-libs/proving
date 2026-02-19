@@ -1,5 +1,6 @@
+use air_common::{PaddingType, TraceType};
+use air_compile::compiled_structs::CompiledAirFn;
 use air_infra::airs::casm::casm_registry::{get_all_builtins, get_all_opcodes, get_sub_components};
-use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;

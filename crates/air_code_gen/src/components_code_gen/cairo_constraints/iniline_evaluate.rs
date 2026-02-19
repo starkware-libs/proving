@@ -1,4 +1,4 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar};
+use air_compile::compiled_structs::{CompiledAirFn, CompiledAirVar};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -79,7 +79,7 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     });
     for param in &air_fn.public_params {
         code.append(quote! {
-            $(param.name()): QM31,
+            $(param): QM31,
         });
     }
     for external_col_id in &air_fn.external_states {

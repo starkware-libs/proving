@@ -1,5 +1,5 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, TraceType};
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
+use air_compile::compiled_structs::CompiledAirFn;
 use indexmap::IndexMap;
 
 // Builtins
@@ -26,8 +26,12 @@ use crate::core::air_fn::AirFn;
 use crate::core::air_fn_registry::AirFnRegistry;
 use crate::core::felt252_id_memory::id_to_small::MemoryIdToSmall;
 use crate::core::felt252_id_memory::memory::Felt252IdMemory;
+use crate::core::public_params::PublicParam;
 use crate::core::variables::{AirVar, ExtTable};
 
+// The casm registry should contain all the builtins and opcodes used by Stwo for the casm vm.
+// Note that other components used by an opcode or a builtin will be added to the registry
+// automatically.
 pub fn create_casm_registry() -> AirFnRegistry {
     let mut registry = AirFnRegistry::new_empty();
 

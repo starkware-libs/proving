@@ -1,5 +1,4 @@
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::relations::MEMORY_RELATION_NAME;
+use air_common::{TraceType, MEMORY_RELATION_NAME};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 

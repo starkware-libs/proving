@@ -61,7 +61,7 @@ run_cmd(['git', '-C', clone_dir, 'checkout', stwo_cairo_commit])
 
 # Generate code
 run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--', 'generate-stwo-cairo',
-         '--source', os.path.join(repository_root, 'crates/compiled_casm_air/src/'),
+         '--source', os.path.join(repository_root, 'crates/compiled_casm_air/'),
          '--stwo-cairo-path', clone_dir])
 
 # Test Rust generated code

@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
-use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, PaddingType, TraceGenStep,
+use air_common::PaddingType;
+use air_compile::compiled_structs::{
+    CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, TraceGenStep,
 };
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
@@ -41,7 +42,7 @@ impl RustProverGen {
         };
         // TODO(Gali): Get the types of the public params from air_infra.
         for public_param in &self.air_fn.public_params {
-            claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
+            claim_generator_fields.extend(quote! { pub $(public_param): u32, });
         }
         let derive_default = if !is_const_size_component(&self.air_fn) {
             quote! { #[derive(Default)] }
@@ -149,7 +150,7 @@ impl RustProverGen {
                 }
             },
             Mode::NoInputs => {
-                let builtin_segment_start = self.air_fn.public_params[0].name();
+                let builtin_segment_start = self.air_fn.public_params[0].clone();
                 quote! {
                     pub fn new(log_size: u32, $(builtin_segment_start.clone()): u32) -> Self {
                         assert!(log_size >= LOG_N_LANES);
@@ -205,7 +206,7 @@ impl RustProverGen {
         };
         for public_param in &self.air_fn.public_params {
             claim_fields.extend(quote! {
-                $(public_param.name()): self.$(public_param.name()),
+                $(public_param): self.$(public_param),
             });
         }
 
@@ -327,7 +328,7 @@ impl RustProverGen {
             params.extend(quote! { n_rows: usize, })
         }
         for public_param in &self.air_fn.public_params {
-            params.extend(quote! { $(public_param.name()): u32, });
+            params.extend(quote! { $(public_param): u32, });
         }
         params.extend(write_trace_params(&self.air_fn.sub_components));
         params
@@ -351,7 +352,7 @@ impl RustProverGen {
             args.extend(quote! { n_rows, })
         }
         for public_param in &self.air_fn.public_params {
-            args.extend(quote! { self.$(public_param.name()), });
+            args.extend(quote! { self.$(public_param), });
         }
         args.extend(write_trace_args(&self.air_fn.sub_components));
         args

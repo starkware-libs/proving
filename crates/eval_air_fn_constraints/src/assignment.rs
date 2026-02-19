@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::CompiledAirFn;
+use air_common::utils::{random_m31, random_qm31};
+use air_compile::compiled_structs::CompiledAirFn;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
@@ -46,7 +47,7 @@ impl Assignment {
         let public_params = component
             .public_params
             .iter()
-            .map(|param| (param.name().clone(), random_m31(&param.name())))
+            .map(|param| (param.clone(), random_m31(param)))
             .collect();
 
         let external_states = component

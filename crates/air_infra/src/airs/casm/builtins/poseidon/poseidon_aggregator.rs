@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 
 use super::poseidon_permutation::*;

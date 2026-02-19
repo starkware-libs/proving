@@ -1,8 +1,11 @@
+use std::path::Path;
+
 use expect_test::expect;
 use serde::Serialize;
 
 use super::bit_unpack::*;
 use super::div2::*;
+use crate::airs::examples::TEST_JSONS_EXAMPLES_DIR;
 // Macros
 use crate::const_expr;
 use crate::const_u16_expr;
@@ -12,7 +15,7 @@ use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
+use crate::test_utils::*;
 
 #[test]
 fn test_bit_unpacking() {
@@ -38,7 +41,7 @@ fn test_bit_unpacking() {
     // Check entry
     compare_json(
         registry.compile().get(&entry.name).unwrap(),
-        &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, entry.name),
+        &Path::new(TEST_JSONS_EXAMPLES_DIR).join(format!("{}.json", entry.name)),
     );
 }
 
@@ -74,6 +77,6 @@ fn test_bit_mux() {
     // Check entry
     compare_json(
         registry.compile().get(&entry.name).unwrap(),
-        &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, entry.name),
+        &Path::new(TEST_JSONS_EXAMPLES_DIR).join(format!("{}.json", entry.name)),
     );
 }
