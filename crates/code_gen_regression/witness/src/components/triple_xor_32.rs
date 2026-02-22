@@ -1,10 +1,9 @@
 // This file was created by the AIR team.
 
 #![allow(unused_parens)]
-use cairo_air::components::triple_xor_32::{Claim, InteractionClaim, N_TRACE_COLUMNS};
-
 use crate::witness::components::verify_bitwise_xor_8;
 use crate::witness::prelude::*;
+use cairo_air::components::triple_xor_32::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
 pub type PackedInputType = [PackedUInt32; 3];
 
@@ -351,7 +350,7 @@ impl InteractionClaimGenerator {
         let enabler_col = Enabler::new(self.n_rows);
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
-        // Sum logup terms in pairs.
+        //Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),
@@ -408,7 +407,7 @@ impl InteractionClaimGenerator {
             });
         col_gen.finalize_col();
 
-        // Sum last logup term.
+        //Sum last logup term.
         let mut col_gen = logup_gen.new_col();
         (col_gen.par_iter_mut(), &self.lookup_data.triple_xor_32_0)
             .into_par_iter()

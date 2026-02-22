@@ -1,10 +1,11 @@
 // This file was created by the AIR team.
 
 #![allow(unused_parens)]
-use cairo_air::components::jnz_opcode_taken::{Claim, InteractionClaim, N_TRACE_COLUMNS};
-
-use crate::witness::components::{memory_address_to_id, memory_id_to_big, verify_instruction};
+use crate::witness::components::memory_address_to_id;
+use crate::witness::components::memory_id_to_big;
+use crate::witness::components::verify_instruction;
 use crate::witness::prelude::*;
+use cairo_air::components::jnz_opcode_taken::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
 pub type InputType = CasmState;
 pub type PackedInputType = PackedCasmState;
@@ -551,7 +552,7 @@ impl InteractionClaimGenerator {
         let enabler_col = Enabler::new(self.n_rows);
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
-        // Sum logup terms in pairs.
+        //Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),
@@ -595,7 +596,7 @@ impl InteractionClaimGenerator {
             });
         col_gen.finalize_col();
 
-        // Sum last logup term.
+        //Sum last logup term.
         let mut col_gen = logup_gen.new_col();
         (col_gen.par_iter_mut(), &self.lookup_data.opcodes_1)
             .into_par_iter()

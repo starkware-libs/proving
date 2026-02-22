@@ -1,10 +1,10 @@
 // This file was created by the AIR team.
 
 #![allow(unused_parens)]
-use cairo_air::components::range_check_builtin::{Claim, InteractionClaim, N_TRACE_COLUMNS};
-
-use crate::witness::components::{memory_address_to_id, memory_id_to_big};
+use crate::witness::components::memory_address_to_id;
+use crate::witness::components::memory_id_to_big;
 use crate::witness::prelude::*;
+use cairo_air::components::range_check_builtin::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -260,7 +260,7 @@ impl InteractionClaimGenerator {
     ) {
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
-        // Sum logup terms in pairs.
+        //Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),

@@ -1533,7 +1533,7 @@ impl FrameworkEval for Eval {
                 &self.common_lookup_elements,
                 &mut eval,
             );
-        // carry_0.
+        //carry_0.
         eval.add_constraint(
             (carry_0_col364.clone()
                 - (((M31_0.clone()
@@ -1551,7 +1551,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_1.
+        //carry_1.
         eval.add_constraint(
             (carry_1_col365.clone()
                 - (((carry_0_col364.clone()
@@ -1569,7 +1569,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_2.
+        //carry_2.
         eval.add_constraint(
             (carry_2_col366.clone()
                 - (((carry_1_col365.clone()
@@ -1587,7 +1587,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_3.
+        //carry_3.
         eval.add_constraint(
             (carry_3_col367.clone()
                 - (((carry_2_col366.clone()
@@ -1605,7 +1605,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_4.
+        //carry_4.
         eval.add_constraint(
             (carry_4_col368.clone()
                 - (((carry_3_col367.clone()
@@ -1623,7 +1623,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_5.
+        //carry_5.
         eval.add_constraint(
             (carry_5_col369.clone()
                 - (((carry_4_col368.clone()
@@ -1641,7 +1641,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_6.
+        //carry_6.
         eval.add_constraint(
             (carry_6_col370.clone()
                 - (((carry_5_col369.clone()
@@ -1659,7 +1659,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_7.
+        //carry_7.
         eval.add_constraint(
             (carry_7_col371.clone()
                 - (((carry_6_col370.clone()
@@ -1677,7 +1677,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_8.
+        //carry_8.
         eval.add_constraint(
             (carry_8_col372.clone()
                 - (((carry_7_col371.clone()
@@ -1695,7 +1695,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_9.
+        //carry_9.
         eval.add_constraint(
             (carry_9_col373.clone()
                 - (((carry_8_col372.clone()
@@ -1713,7 +1713,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_10.
+        //carry_10.
         eval.add_constraint(
             (carry_10_col374.clone()
                 - (((carry_9_col373.clone()
@@ -1731,7 +1731,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_11.
+        //carry_11.
         eval.add_constraint(
             (carry_11_col375.clone()
                 - (((carry_10_col374.clone()
@@ -1749,7 +1749,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_12.
+        //carry_12.
         eval.add_constraint(
             (carry_12_col376.clone()
                 - (((carry_11_col375.clone()
@@ -1767,7 +1767,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_13.
+        //carry_13.
         eval.add_constraint(
             (carry_13_col377.clone()
                 - (((carry_12_col376.clone()
@@ -1785,7 +1785,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_14.
+        //carry_14.
         eval.add_constraint(
             (carry_14_col378.clone()
                 - (((carry_13_col377.clone()
@@ -1803,7 +1803,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_15.
+        //carry_15.
         eval.add_constraint(
             (carry_15_col379.clone()
                 - (((carry_14_col378.clone()
@@ -1821,7 +1821,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_16.
+        //carry_16.
         eval.add_constraint(
             (carry_16_col380.clone()
                 - (((carry_15_col379.clone()
@@ -1839,7 +1839,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_17.
+        //carry_17.
         eval.add_constraint(
             (carry_17_col381.clone()
                 - (((carry_16_col380.clone()
@@ -1857,7 +1857,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_18.
+        //carry_18.
         eval.add_constraint(
             (carry_18_col382.clone()
                 - (((carry_17_col381.clone()
@@ -1875,7 +1875,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_19.
+        //carry_19.
         eval.add_constraint(
             (carry_19_col383.clone()
                 - (((carry_18_col382.clone()
@@ -1893,7 +1893,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_20.
+        //carry_20.
         eval.add_constraint(
             (carry_20_col384.clone()
                 - (((carry_19_col383.clone()
@@ -1911,7 +1911,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_21.
+        //carry_21.
         eval.add_constraint(
             (carry_21_col385.clone()
                 - (((carry_20_col384.clone()
@@ -1929,7 +1929,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_22.
+        //carry_22.
         eval.add_constraint(
             (carry_22_col386.clone()
                 - (((carry_21_col385.clone()
@@ -1947,7 +1947,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_23.
+        //carry_23.
         eval.add_constraint(
             (carry_23_col387.clone()
                 - (((carry_22_col386.clone()
@@ -1965,7 +1965,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_24.
+        //carry_24.
         eval.add_constraint(
             (carry_24_col388.clone()
                 - (((carry_23_col387.clone()
@@ -1983,7 +1983,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_25.
+        //carry_25.
         eval.add_constraint(
             (carry_25_col389.clone()
                 - (((carry_24_col388.clone()
@@ -2001,7 +2001,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_26.
+        //carry_26.
         eval.add_constraint(
             (carry_26_col390.clone()
                 - (((carry_25_col389.clone()
@@ -2019,7 +2019,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_27.
+        //carry_27.
         eval.add_constraint(
             (carry_27_col391.clone()
                 - (((carry_26_col390.clone()
@@ -2037,7 +2037,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_28.
+        //carry_28.
         eval.add_constraint(
             (carry_28_col392.clone()
                 - (((carry_27_col391.clone()
@@ -2055,7 +2055,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_29.
+        //carry_29.
         eval.add_constraint(
             (carry_29_col393.clone()
                 - (((carry_28_col392.clone()
@@ -2073,7 +2073,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_30.
+        //carry_30.
         eval.add_constraint(
             (carry_30_col394.clone()
                 - (((carry_29_col393.clone()
@@ -2091,7 +2091,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_31.
+        //carry_31.
         eval.add_constraint(
             (carry_31_col395.clone()
                 - (((carry_30_col394.clone()
@@ -2109,7 +2109,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_32.
+        //carry_32.
         eval.add_constraint(
             (carry_32_col396.clone()
                 - ((carry_31_col395.clone()
@@ -2126,7 +2126,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_33.
+        //carry_33.
         eval.add_constraint(
             (carry_33_col397.clone()
                 - ((carry_32_col396.clone()
@@ -2143,7 +2143,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_34.
+        //carry_34.
         eval.add_constraint(
             (carry_34_col398.clone()
                 - ((carry_33_col397.clone()
@@ -2160,7 +2160,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_35.
+        //carry_35.
         eval.add_constraint(
             (carry_35_col399.clone()
                 - ((carry_34_col398.clone()
@@ -2177,7 +2177,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_36.
+        //carry_36.
         eval.add_constraint(
             (carry_36_col400.clone()
                 - ((carry_35_col399.clone()
@@ -2194,7 +2194,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_37.
+        //carry_37.
         eval.add_constraint(
             (carry_37_col401.clone()
                 - ((carry_36_col400.clone()
@@ -2211,7 +2211,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_38.
+        //carry_38.
         eval.add_constraint(
             (carry_38_col402.clone()
                 - ((carry_37_col401.clone()
@@ -2228,7 +2228,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_39.
+        //carry_39.
         eval.add_constraint(
             (carry_39_col403.clone()
                 - ((carry_38_col402.clone()
@@ -2245,7 +2245,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_40.
+        //carry_40.
         eval.add_constraint(
             (carry_40_col404.clone()
                 - ((carry_39_col403.clone()
@@ -2262,7 +2262,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_41.
+        //carry_41.
         eval.add_constraint(
             (carry_41_col405.clone()
                 - ((carry_40_col404.clone()
@@ -2279,7 +2279,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_42.
+        //carry_42.
         eval.add_constraint(
             (carry_42_col406.clone()
                 - ((carry_41_col405.clone()
@@ -2296,7 +2296,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_43.
+        //carry_43.
         eval.add_constraint(
             (carry_43_col407.clone()
                 - ((carry_42_col406.clone()
@@ -2313,7 +2313,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_44.
+        //carry_44.
         eval.add_constraint(
             (carry_44_col408.clone()
                 - ((carry_43_col407.clone()
@@ -2330,7 +2330,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_45.
+        //carry_45.
         eval.add_constraint(
             (carry_45_col409.clone()
                 - ((carry_44_col408.clone()
@@ -2347,7 +2347,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_46.
+        //carry_46.
         eval.add_constraint(
             (carry_46_col410.clone()
                 - ((carry_45_col409.clone()
@@ -2364,7 +2364,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_47.
+        //carry_47.
         eval.add_constraint(
             (carry_47_col411.clone()
                 - ((carry_46_col410.clone()
@@ -2381,7 +2381,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_48.
+        //carry_48.
         eval.add_constraint(
             (carry_48_col412.clone()
                 - ((carry_47_col411.clone()
@@ -2398,7 +2398,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_49.
+        //carry_49.
         eval.add_constraint(
             (carry_49_col413.clone()
                 - ((carry_48_col412.clone()
@@ -2415,7 +2415,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_50.
+        //carry_50.
         eval.add_constraint(
             (carry_50_col414.clone()
                 - ((carry_49_col413.clone()
@@ -2432,7 +2432,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_51.
+        //carry_51.
         eval.add_constraint(
             (carry_51_col415.clone()
                 - ((carry_50_col414.clone()
@@ -2449,7 +2449,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_52.
+        //carry_52.
         eval.add_constraint(
             (carry_52_col416.clone()
                 - ((carry_51_col415.clone()
@@ -2466,7 +2466,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_53.
+        //carry_53.
         eval.add_constraint(
             (carry_53_col417.clone()
                 - ((carry_52_col416.clone()
@@ -2483,7 +2483,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_54.
+        //carry_54.
         eval.add_constraint(
             (carry_54_col418.clone()
                 - ((carry_53_col417.clone()
@@ -2500,7 +2500,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_55.
+        //carry_55.
         eval.add_constraint(
             (carry_55_col419.clone()
                 - ((carry_54_col418.clone()
@@ -2517,7 +2517,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_56.
+        //carry_56.
         eval.add_constraint(
             (carry_56_col420.clone()
                 - ((carry_55_col419.clone()
@@ -2534,7 +2534,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_57.
+        //carry_57.
         eval.add_constraint(
             (carry_57_col421.clone()
                 - ((carry_56_col420.clone()
@@ -2551,7 +2551,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_58.
+        //carry_58.
         eval.add_constraint(
             (carry_58_col422.clone()
                 - ((carry_57_col421.clone()
@@ -2568,7 +2568,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_59.
+        //carry_59.
         eval.add_constraint(
             (carry_59_col423.clone()
                 - ((carry_58_col422.clone()
@@ -2585,7 +2585,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_60.
+        //carry_60.
         eval.add_constraint(
             (carry_60_col424.clone()
                 - ((carry_59_col423.clone()
@@ -2602,7 +2602,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // carry_61.
+        //carry_61.
         eval.add_constraint(
             (carry_61_col425.clone()
                 - ((carry_60_col424.clone()
@@ -2619,7 +2619,7 @@ impl FrameworkEval for Eval {
             ],
         ));
 
-        // final limb constraint.
+        //final limb constraint.
         eval.add_constraint(
             ((double_karatsuba_b1daa_output_tmp_cf8b4_350_limb_62.clone()
                 + carry_61_col425.clone())

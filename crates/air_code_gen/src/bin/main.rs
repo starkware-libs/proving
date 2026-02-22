@@ -133,7 +133,10 @@ fn format_rust(path: &Path) {
     let shell = Shell::new().unwrap();
     println!("Formatting Rust code...");
     shell.change_dir(path);
-    cmd!(shell, "cargo fmt").quiet().run().unwrap();
+    cmd!(shell, "env -u RUSTUP_TOOLCHAIN cargo fmt --all")
+        .quiet()
+        .run()
+        .unwrap();
 }
 
 fn format_stwo_cairo(stwo_cairo_path: &Path) {
@@ -191,6 +194,10 @@ struct GenerateStwoCairoArgs {
 
     #[clap(long, default_value = DEFAULT_STWO_CAIRO_PATH)]
     stwo_cairo_path: PathBuf,
+
+    /// Skip formatting the generated code
+    #[clap(long, default_value_t = false)]
+    skip_format: bool,
 }
 
 #[derive(Debug, Parser)]
@@ -352,7 +359,9 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     )
     .expect("Failed to write claims cairo code");
 
-    format_stwo_cairo(&args.stwo_cairo_path);
+    if !args.skip_format {
+        format_stwo_cairo(&args.stwo_cairo_path);
+    }
 
     println!(
         "Successfully processed JSON files from {} to {}",

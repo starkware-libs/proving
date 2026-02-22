@@ -23,7 +23,7 @@ impl VerifyAdd252 {
         let M31_256 = E::F::from(M31::from(256));
         let M31_4194304 = E::F::from(M31::from(4194304));
 
-        // sub_p_bit is a bit.
+        //sub_p_bit is a bit.
         eval.add_constraint((sub_p_bit_col0.clone() * (sub_p_bit_col0.clone() - M31_1.clone())));
         let carry_tmp_4afb1_1 = eval.add_intermediate(
             ((((verify_add_252_input_a_limb_2.clone() + verify_add_252_input_b_limb_2.clone())

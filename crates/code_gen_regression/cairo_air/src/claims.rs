@@ -1,18 +1,17 @@
 // This file was created by the AIR team.
 
-use num_traits::Zero;
-use serde::{Deserialize, Serialize};
-use stwo::core::channel::Channel;
-use stwo::core::fields::qm31::SecureField;
-use stwo::core::pcs::TreeVec;
-use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
-
 use super::flat_claims::FlatClaim;
 use crate::air::{accumulate_relation_uses, PublicData, RelationUsesDict};
 use crate::components::memory_address_to_id::MEMORY_ADDRESS_TO_ID_SPLIT;
 use crate::components::memory_id_to_big::accumulate_relation_memory;
 use crate::components::*;
 use crate::relations::CommonLookupElements;
+use num_traits::Zero;
+use serde::{Deserialize, Serialize};
+use stwo::core::channel::Channel;
+use stwo::core::fields::qm31::SecureField;
+use stwo::core::pcs::TreeVec;
+use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
 
 #[derive(Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
 pub struct CairoClaim {

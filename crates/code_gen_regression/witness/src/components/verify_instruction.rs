@@ -1,12 +1,12 @@
 // This file was created by the AIR team.
 
 #![allow(unused_parens)]
-use cairo_air::components::verify_instruction::{Claim, InteractionClaim, N_TRACE_COLUMNS};
-
-use crate::witness::components::{
-    memory_address_to_id, memory_id_to_big, range_check_4_3, range_check_7_2_5,
-};
+use crate::witness::components::memory_address_to_id;
+use crate::witness::components::memory_id_to_big;
+use crate::witness::components::range_check_4_3;
+use crate::witness::components::range_check_7_2_5;
 use crate::witness::prelude::*;
+use cairo_air::components::verify_instruction::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
 pub type InputType = (M31, [M31; 3], [M31; 2], M31);
 pub type PackedInputType = (PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31);
@@ -331,7 +331,7 @@ impl InteractionClaimGenerator {
     ) {
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
-        // Sum logup terms in pairs.
+        //Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),
@@ -360,7 +360,7 @@ impl InteractionClaimGenerator {
             });
         col_gen.finalize_col();
 
-        // Sum last logup term.
+        //Sum last logup term.
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),
