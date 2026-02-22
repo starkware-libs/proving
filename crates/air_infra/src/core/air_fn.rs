@@ -5,7 +5,7 @@ use std::hash::{DefaultHasher, Hash, Hasher};
 use std::rc::Rc;
 
 use air_common::utils::fix_str;
-use air_common::{PaddingType, TraceType, UseOrYield, OPCODES_RELATION_NAME};
+use air_common::{PaddingType, TraceType, UseOrYield, GATE_RELATION_NAME, OPCODES_RELATION_NAME};
 use convert_case::{Case, Casing};
 use regex::Regex;
 use serde::Serialize;
@@ -92,6 +92,8 @@ pub trait AirFn: Debug + InstDefTrait {
             TraceType::Opcode => vec![OPCODES_RELATION_NAME.to_string()],
             TraceType::Memory => vec![self.name().to_case(Case::Pascal)],
             TraceType::Const | TraceType::Builtin | TraceType::Inline => vec![],
+            TraceType::Gate => vec![GATE_RELATION_NAME.to_string()],
+            TraceType::Relation => vec![self.name().to_case(Case::Pascal)],
         }
     }
 
@@ -132,6 +134,7 @@ pub trait AirFn: Debug + InstDefTrait {
             TraceType::Component if !<<Self as AirFn>::ExtIn as ExtTable>::T::is_empty() => {
                 PaddingType::Multiplicity
             }
+            TraceType::Gate | TraceType::Relation => PaddingType::Multiplicity,
             _ => PaddingType::Enabler,
         }
     }
@@ -175,6 +178,33 @@ pub trait AirFn: Debug + InstDefTrait {
         )
     }
 
+    fn gate_call(
+        &self,
+        air_builder: &mut AirBuilder,
+        mut ext_input: <Self::ExtIn as ExtTable>::T,
+        mut input: Self::In,
+    ) -> Self::Out {
+        assert!(self.trace_type() == TraceType::Gate, "AirFn must be a gate");
+
+        Self::ExtIn::to_state(&mut ext_input);
+
+        // Deduce input
+        #[cfg(test)]
+        if air_builder.is_run_mode() {
+            // In run mode the input might not be a variable - make it a variable.
+            // The name is irrelevant in run mode.
+            input = input.let_for_deduction("".to_string()).0;
+        }
+        air_builder.deduce_intermediate_var(
+            &mut input,
+            STATE_INPUT_VAR,
+            self.input_expr_descriptions(),
+        );
+
+        // Perform AirFn logic
+        self.call(air_builder, ext_input.clone(), input.clone())
+    }
+
     fn lookup_call(
         &self,
         air_builder: &mut AirBuilder,
@@ -185,8 +215,9 @@ pub trait AirFn: Debug + InstDefTrait {
             self.trace_type() == TraceType::Component
                 || self.trace_type() == TraceType::ChainRound
                 || self.trace_type() == TraceType::Opcode
-                || self.trace_type() == TraceType::Memory,
-            "AirFn must be a component, chain round, opcode or memory"
+                || self.trace_type() == TraceType::Memory
+                || self.trace_type() == TraceType::Relation,
+            "AirFn must be a component, chain round, opcode, memory or relation"
         );
 
         Self::ExtIn::to_state(&mut ext_input);
@@ -341,15 +372,15 @@ where
 // assignments and intermediate variables to the air function.
 #[derive(Debug)]
 pub struct AirBuilder {
-    pub(super) component_context: ComponentContext,
-    pub(super) air_body: AirBody,
+    pub component_context: ComponentContext,
+    pub air_body: AirBody,
     #[cfg(test)]
-    pub(super) row_number: Option<usize>,
+    pub row_number: Option<usize>,
     #[cfg(test)]
-    pub(super) run: bool,
-    pub(super) registry: AirFnRegistry,
+    pub run: bool,
+    pub registry: AirFnRegistry,
     // TODO(AnatG): Move this to component_context.
-    pub(super) intermediate_id: Rc<RefCell<(String, usize)>>,
+    pub intermediate_id: Rc<RefCell<(String, usize)>>,
 }
 
 impl AirBuilder {
@@ -376,7 +407,7 @@ impl AirBuilder {
         self.row_number = row_number;
     }
 
-    pub(super) fn add_lookup_term(
+    pub fn add_lookup_term(
         &mut self,
         relation_name: &str,
         mut felts: Vec<FeltExpr>,
@@ -628,8 +659,9 @@ impl AirBuilder {
         O: AirVar,
     {
         assert!(
-            air_fn.trace_type() == TraceType::Component,
-            "Cannot lookup call AirFn {} - it is not a component",
+            air_fn.trace_type() == TraceType::Component
+                || air_fn.trace_type() == TraceType::Relation,
+            "Cannot lookup call AirFn {} - it is not a component/relation",
             air_fn.name()
         );
 

@@ -27,6 +27,8 @@ pub fn range_check_variant(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]
         [9] => call_rc::<SeqConstLen<9>>(ab, input, variant),
         [11] => call_rc::<SeqConstLen<11>>(ab, input, variant),
         [12] => call_rc::<SeqConstLen<12>>(ab, input, variant),
+        [15] => call_rc::<SeqConstLen<15>>(ab, input, variant),
+        [16] => call_rc::<SeqConstLen<16>>(ab, input, variant),
         [18] => call_rc::<SeqConstLen<18>>(ab, input, variant),
         [20] => call_rc::<SeqConstLen<20>>(ab, input, variant),
         [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input, variant),

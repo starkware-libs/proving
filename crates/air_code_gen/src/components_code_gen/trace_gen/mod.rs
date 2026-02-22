@@ -41,8 +41,8 @@ impl RustProverGen {
                 }
             }
             TraceType::Opcode | TraceType::Memory => Mode::Inputs,
-            TraceType::Const | TraceType::Inline => {
-                panic!("Not generating code for Const/Inline components.")
+            TraceType::Const | TraceType::Inline | TraceType::Gate | TraceType::Relation => {
+                panic!("Not generating code for Const/Inline/Gate/Relation components.")
             }
         };
 

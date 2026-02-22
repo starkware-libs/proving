@@ -14,6 +14,8 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 
+pub const BLAKE_NUM_ROUNDS: usize = 10;
+
 #[derive(Clone, Debug, Serialize, Default)]
 pub struct BlakeCompressOpcode {
     #[serde(skip)]
@@ -42,14 +44,14 @@ impl AirFn for BlakeCompressOpcode {
             (h_pointer, t.clone(), is_last_block.clone()),
         );
 
-        // Run 10 blake rounds.
+        // Run BLAKE_NUM_ROUNDS blake rounds.
         let (new_state, _) = ab.chain_lookup_call(
             &BlakeRound {
                 memory: self.memory.clone(),
             },
             (input.clone(), message_pointer),
             0,
-            10,
+            BLAKE_NUM_ROUNDS,
         );
 
         // Create blake output.

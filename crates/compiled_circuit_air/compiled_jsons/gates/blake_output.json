@@ -1,0 +1,1175 @@
+{
+  "name": "blake_output",
+  "relation_names": [
+    "BlakeOutput"
+  ],
+  "relation_size": 24,
+  "log_height": null,
+  "description": "Blake Output",
+  "instance_definition": "{}",
+  "type": "Gate",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "blake_output_input",
+    "[UInt32; 8]",
+    "[PackedUInt32; 8]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "State": "output_limb0_col16"
+        },
+        {
+          "State": "output_limb1_col17"
+        },
+        {
+          "State": "output_limb2_col18"
+        },
+        {
+          "State": "output_limb3_col19"
+        },
+        {
+          "State": "output_limb4_col20"
+        },
+        {
+          "State": "output_limb5_col21"
+        },
+        {
+          "State": "output_limb6_col22"
+        },
+        {
+          "State": "output_limb7_col23"
+        }
+      ]
+    },
+    "blake_output_output",
+    "[M31; 8]",
+    "[PackedM31; 8]"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "input_final_state_limb0_limb_0_col0",
+    "input_final_state_limb0_limb_1_col1",
+    "input_final_state_limb1_limb_0_col2",
+    "input_final_state_limb1_limb_1_col3",
+    "input_final_state_limb2_limb_0_col4",
+    "input_final_state_limb2_limb_1_col5",
+    "input_final_state_limb3_limb_0_col6",
+    "input_final_state_limb3_limb_1_col7",
+    "input_final_state_limb4_limb_0_col8",
+    "input_final_state_limb4_limb_1_col9",
+    "input_final_state_limb5_limb_0_col10",
+    "input_final_state_limb5_limb_1_col11",
+    "input_final_state_limb6_limb_0_col12",
+    "input_final_state_limb6_limb_1_col13",
+    "input_final_state_limb7_limb_0_col14",
+    "input_final_state_limb7_limb_1_col15",
+    "output_limb0_col16",
+    "output_limb1_col17",
+    "output_limb2_col18",
+    "output_limb3_col19",
+    "output_limb4_col20",
+    "output_limb5_col21",
+    "output_limb6_col22",
+    "output_limb7_col23"
+  ],
+  "constraint_lookups": [
+    [
+      "BlakeOutput",
+      "Use"
+    ],
+    [
+      "Gate",
+      "Yield"
+    ],
+    [
+      "Gate",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "final_state_addr",
+    "blake_output0_addr",
+    "blake_output0_multiplicity",
+    "blake_output1_addr",
+    "blake_output1_multiplicity"
+  ],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb0_col16"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb0_limb_0_col0"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb0_limb_1_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb1_col17"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb1_limb_0_col2"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb1_limb_1_col3"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb2_col18"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb2_limb_0_col4"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb2_limb_1_col5"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb2"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb3_col19"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb3_limb_0_col6"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb3_limb_1_col7"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb3"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb4_col20"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb4_limb_0_col8"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb4_limb_1_col9"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb4"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb5_col21"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb5_limb_0_col10"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb5_limb_1_col11"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb5"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb6_col22"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb6_limb_0_col12"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb6_limb_1_col13"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb6"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "output_limb7_col23"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_final_state_limb7_limb_0_col14"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_final_state_limb7_limb_1_col15"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_limb7"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "BlakeOutput",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1061955672"
+            ]
+          },
+          {
+            "ExternalState": "final_state_addr"
+          },
+          {
+            "State": "input_final_state_limb0_limb_0_col0"
+          },
+          {
+            "State": "input_final_state_limb0_limb_1_col1"
+          },
+          {
+            "State": "input_final_state_limb1_limb_0_col2"
+          },
+          {
+            "State": "input_final_state_limb1_limb_1_col3"
+          },
+          {
+            "State": "input_final_state_limb2_limb_0_col4"
+          },
+          {
+            "State": "input_final_state_limb2_limb_1_col5"
+          },
+          {
+            "State": "input_final_state_limb3_limb_0_col6"
+          },
+          {
+            "State": "input_final_state_limb3_limb_1_col7"
+          },
+          {
+            "State": "input_final_state_limb4_limb_0_col8"
+          },
+          {
+            "State": "input_final_state_limb4_limb_1_col9"
+          },
+          {
+            "State": "input_final_state_limb5_limb_0_col10"
+          },
+          {
+            "State": "input_final_state_limb5_limb_1_col11"
+          },
+          {
+            "State": "input_final_state_limb6_limb_0_col12"
+          },
+          {
+            "State": "input_final_state_limb6_limb_1_col13"
+          },
+          {
+            "State": "input_final_state_limb7_limb_0_col14"
+          },
+          {
+            "State": "input_final_state_limb7_limb_1_col15"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "blake_output0_addr"
+          },
+          {
+            "State": "output_limb0_col16"
+          },
+          {
+            "State": "output_limb1_col17"
+          },
+          {
+            "State": "output_limb2_col18"
+          },
+          {
+            "State": "output_limb3_col19"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "blake_output0_multiplicity"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "blake_output1_addr"
+          },
+          {
+            "State": "output_limb4_col20"
+          },
+          {
+            "State": "output_limb5_col21"
+          },
+          {
+            "State": "output_limb6_col22"
+          },
+          {
+            "State": "output_limb7_col23"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "blake_output1_multiplicity"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[0]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[0]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[1]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[1]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[2]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[2]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[3]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[3]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[4]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[4]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[5]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[5]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[6]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[6]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[7]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "blake_output_input[7]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb0_limb_0_col0"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb0_limb_1_col1"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb1_limb_0_col2"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb1_limb_1_col3"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb2_limb_0_col4"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb2_limb_1_col5"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb3_limb_0_col6"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb3_limb_1_col7"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb4_limb_0_col8"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb4_limb_1_col9"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb5_limb_0_col10"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb5_limb_1_col11"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb6_limb_0_col12"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb6_limb_1_col13"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "State": "input_final_state_limb7_limb_0_col14"
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_final_state_limb7_limb_1_col15"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "65536"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "BlakeOutput",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1061955672"
+            ]
+          },
+          {
+            "ExternalState": "final_state_addr"
+          },
+          {
+            "State": "input_final_state_limb0_limb_0_col0"
+          },
+          {
+            "State": "input_final_state_limb0_limb_1_col1"
+          },
+          {
+            "State": "input_final_state_limb1_limb_0_col2"
+          },
+          {
+            "State": "input_final_state_limb1_limb_1_col3"
+          },
+          {
+            "State": "input_final_state_limb2_limb_0_col4"
+          },
+          {
+            "State": "input_final_state_limb2_limb_1_col5"
+          },
+          {
+            "State": "input_final_state_limb3_limb_0_col6"
+          },
+          {
+            "State": "input_final_state_limb3_limb_1_col7"
+          },
+          {
+            "State": "input_final_state_limb4_limb_0_col8"
+          },
+          {
+            "State": "input_final_state_limb4_limb_1_col9"
+          },
+          {
+            "State": "input_final_state_limb5_limb_0_col10"
+          },
+          {
+            "State": "input_final_state_limb5_limb_1_col11"
+          },
+          {
+            "State": "input_final_state_limb6_limb_0_col12"
+          },
+          {
+            "State": "input_final_state_limb6_limb_1_col13"
+          },
+          {
+            "State": "input_final_state_limb7_limb_0_col14"
+          },
+          {
+            "State": "input_final_state_limb7_limb_1_col15"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "blake_output0_addr"
+          },
+          {
+            "State": "output_limb0_col16"
+          },
+          {
+            "State": "output_limb1_col17"
+          },
+          {
+            "State": "output_limb2_col18"
+          },
+          {
+            "State": "output_limb3_col19"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "blake_output0_multiplicity"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "blake_output1_addr"
+          },
+          {
+            "State": "output_limb4_col20"
+          },
+          {
+            "State": "output_limb5_col21"
+          },
+          {
+            "State": "output_limb6_col22"
+          },
+          {
+            "State": "output_limb7_col23"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "blake_output1_multiplicity"
+        }
+      }
+    }
+  ]
+}

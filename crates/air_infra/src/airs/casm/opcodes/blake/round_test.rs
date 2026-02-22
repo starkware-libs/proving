@@ -27,7 +27,7 @@ fn test_blake_round() {
     let message_pointer = 7687346;
 
     // Fill memory
-    let messgae: [i64; 16] = [
+    let message: [i64; 16] = [
         1190313840, 586871615, 3326317950, 2157490798, 2171729911, 4006315130, 3006051123,
         3934250148, 745259603, 1963379556, 3874654107, 2051567115, 2102274589, 1991875188,
         1621381226, 1307057221,
@@ -36,7 +36,7 @@ fn test_blake_round() {
         .map(|i| {
             (
                 const_expr!(message_pointer + i),
-                const_felt252_expr!(messgae[i as usize]),
+                const_felt252_expr!(message[i as usize]),
             )
         })
         .collect();
@@ -299,7 +299,7 @@ fn test_blake_round2() {
     let message_pointer = 8676;
 
     // Fill memory
-    let messgae: [i64; 16] = [
+    let message: [i64; 16] = [
         1883221824, 4159262814, 3806732234, 552650188, 2549022015, 3000021069, 2298537828,
         915357142, 1657285681, 1835346724, 4150146227, 3993296861, 2937251920, 1002511359,
         2142515262, 4138014718,
@@ -308,7 +308,7 @@ fn test_blake_round2() {
         .map(|i| {
             (
                 const_expr!(message_pointer + i),
-                const_felt252_expr!(messgae[i as usize]),
+                const_felt252_expr!(message[i as usize]),
             )
         })
         .collect();

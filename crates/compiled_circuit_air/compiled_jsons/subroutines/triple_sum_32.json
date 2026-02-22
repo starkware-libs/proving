@@ -1,0 +1,358 @@
+{
+  "name": "triple_sum_32",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Triple Sum 32",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "triple_sum_32_input",
+    "[UInt32; 3]",
+    "[PackedUInt32; 3]"
+  ],
+  "verifier_input_limbs": [
+    "triple_sum_32_input_a_limb_0",
+    "triple_sum_32_input_a_limb_1",
+    "triple_sum_32_input_b_limb_0",
+    "triple_sum_32_input_b_limb_1",
+    "triple_sum_32_input_c_limb_0",
+    "triple_sum_32_input_c_limb_1"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Var": [
+        "UInt32",
+        "triple_sum32_res_tmp_541fa_0"
+      ]
+    },
+    "triple_sum_32_output",
+    "UInt32",
+    "PackedUInt32"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "triple_sum32_res_limb_0_col0",
+    "triple_sum32_res_limb_1_col1"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [
+          "carry_low_tmp_541fa_1"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "triple_sum_32_input_a_limb_0"
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "triple_sum_32_input_b_limb_0"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "triple_sum_32_input_c_limb_0"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "triple_sum32_res_limb_0_col0"
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "32768"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_low_tmp_541fa_1"
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_low_tmp_541fa_1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_low_tmp_541fa_1"
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry low is 0 or 1 or 2"
+      ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "carry_high_tmp_541fa_2"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "triple_sum_32_input_a_limb_1"
+                              ]
+                            },
+                            "+",
+                            {
+                              "Var": [
+                                "M31",
+                                "triple_sum_32_input_b_limb_1"
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "triple_sum_32_input_c_limb_1"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_low_tmp_541fa_1"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "triple_sum32_res_limb_1_col1"
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "32768"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_high_tmp_541fa_2"
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_high_tmp_541fa_2"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_high_tmp_541fa_2"
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry high is 0 or 1 or 2"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "triple_sum32_res_tmp_541fa_0",
+        "type": "UInt32",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "triple_sum_32_input[0]"
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "UInt32",
+                    "triple_sum_32_input[1]"
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "Var": [
+                "UInt32",
+                "triple_sum_32_input[2]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "triple_sum32_res_tmp_541fa_0"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "triple_sum32_res_tmp_541fa_0"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    }
+  ]
+}

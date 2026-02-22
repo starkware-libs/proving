@@ -1,0 +1,256 @@
+{
+  "name": "blake_round_sigma",
+  "relation_names": [
+    "BlakeRoundSigma"
+  ],
+  "relation_size": 17,
+  "log_height": 4,
+  "description": "Blake Round Sigma",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "blake_round_sigma_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "seq_4"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "ExternalState": "blake_sigma_0"
+        },
+        {
+          "ExternalState": "blake_sigma_1"
+        },
+        {
+          "ExternalState": "blake_sigma_2"
+        },
+        {
+          "ExternalState": "blake_sigma_3"
+        },
+        {
+          "ExternalState": "blake_sigma_4"
+        },
+        {
+          "ExternalState": "blake_sigma_5"
+        },
+        {
+          "ExternalState": "blake_sigma_6"
+        },
+        {
+          "ExternalState": "blake_sigma_7"
+        },
+        {
+          "ExternalState": "blake_sigma_8"
+        },
+        {
+          "ExternalState": "blake_sigma_9"
+        },
+        {
+          "ExternalState": "blake_sigma_10"
+        },
+        {
+          "ExternalState": "blake_sigma_11"
+        },
+        {
+          "ExternalState": "blake_sigma_12"
+        },
+        {
+          "ExternalState": "blake_sigma_13"
+        },
+        {
+          "ExternalState": "blake_sigma_14"
+        },
+        {
+          "ExternalState": "blake_sigma_15"
+        }
+      ]
+    },
+    "blake_round_sigma_output",
+    "[M31; 16]",
+    "[PackedM31; 16]"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "BlakeRoundSigma",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "seq_4",
+    "blake_sigma_0",
+    "blake_sigma_1",
+    "blake_sigma_2",
+    "blake_sigma_3",
+    "blake_sigma_4",
+    "blake_sigma_5",
+    "blake_sigma_6",
+    "blake_sigma_7",
+    "blake_sigma_8",
+    "blake_sigma_9",
+    "blake_sigma_10",
+    "blake_sigma_11",
+    "blake_sigma_12",
+    "blake_sigma_13",
+    "blake_sigma_14",
+    "blake_sigma_15"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "BlakeRoundSigma",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1805967942"
+            ]
+          },
+          {
+            "ExternalState": "seq_4"
+          },
+          {
+            "ExternalState": "blake_sigma_0"
+          },
+          {
+            "ExternalState": "blake_sigma_1"
+          },
+          {
+            "ExternalState": "blake_sigma_2"
+          },
+          {
+            "ExternalState": "blake_sigma_3"
+          },
+          {
+            "ExternalState": "blake_sigma_4"
+          },
+          {
+            "ExternalState": "blake_sigma_5"
+          },
+          {
+            "ExternalState": "blake_sigma_6"
+          },
+          {
+            "ExternalState": "blake_sigma_7"
+          },
+          {
+            "ExternalState": "blake_sigma_8"
+          },
+          {
+            "ExternalState": "blake_sigma_9"
+          },
+          {
+            "ExternalState": "blake_sigma_10"
+          },
+          {
+            "ExternalState": "blake_sigma_11"
+          },
+          {
+            "ExternalState": "blake_sigma_12"
+          },
+          {
+            "ExternalState": "blake_sigma_13"
+          },
+          {
+            "ExternalState": "blake_sigma_14"
+          },
+          {
+            "ExternalState": "blake_sigma_15"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "BlakeRoundSigma",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1805967942"
+            ]
+          },
+          {
+            "ExternalState": "seq_4"
+          },
+          {
+            "ExternalState": "blake_sigma_0"
+          },
+          {
+            "ExternalState": "blake_sigma_1"
+          },
+          {
+            "ExternalState": "blake_sigma_2"
+          },
+          {
+            "ExternalState": "blake_sigma_3"
+          },
+          {
+            "ExternalState": "blake_sigma_4"
+          },
+          {
+            "ExternalState": "blake_sigma_5"
+          },
+          {
+            "ExternalState": "blake_sigma_6"
+          },
+          {
+            "ExternalState": "blake_sigma_7"
+          },
+          {
+            "ExternalState": "blake_sigma_8"
+          },
+          {
+            "ExternalState": "blake_sigma_9"
+          },
+          {
+            "ExternalState": "blake_sigma_10"
+          },
+          {
+            "ExternalState": "blake_sigma_11"
+          },
+          {
+            "ExternalState": "blake_sigma_12"
+          },
+          {
+            "ExternalState": "blake_sigma_13"
+          },
+          {
+            "ExternalState": "blake_sigma_14"
+          },
+          {
+            "ExternalState": "blake_sigma_15"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

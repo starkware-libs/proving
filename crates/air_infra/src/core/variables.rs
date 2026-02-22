@@ -676,6 +676,19 @@ type ECPointB = ECPoint;
 impl_air_var!((Felt252Width27Expr, ECPoint, ECPointB, FeltExpr));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulGenericState));
 
+// Gates
+type H = [UInt32Expr; 8];
+impl_air_var!((H, BoolExpr));
+impl_air_var!([H]);
+type Hes = [H; 2];
+type QM31Message = [FeltExpr; 16];
+impl_air_var!((QM31Message, FeltExpr));
+impl_air_var!((Hes, QM31Message));
+type State = [UInt32Expr; 16];
+impl_air_var!((State, FeltExpr));
+type StateMessageId = (State, FeltExpr);
+impl_air_var!((ChainIdVar, RoundNumVar, StateMessageId));
+
 // Implements AirVar for arrays, tuples and arrays of arrays of air vars.
 #[macro_export]
 macro_rules! impl_air_var {
