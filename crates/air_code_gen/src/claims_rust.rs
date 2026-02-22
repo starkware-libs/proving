@@ -18,8 +18,9 @@ pub fn generate_claims_rust_file(
         use stwo::core::fields::qm31::SecureField;
         use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
         use crate::air::{
-            accumulate_relation_memory, accumulate_relation_uses, PublicData, RelationUsesDict,
+        accumulate_relation_uses, PublicData, RelationUsesDict,
         };
+        use crate::components::memory_id_to_big::accumulate_relation_memory;
         use stwo::core::pcs::TreeVec;
         use crate::components::*;
         use crate::relations::CommonLookupElements;
@@ -71,7 +72,6 @@ pub fn generate_cairo_interaction_claim_impl(components_names: &Vec<&String>) ->
             flatten_interaction_body.append(quote! {
                 let memory_id_to_big::InteractionClaim {
                     big_claimed_sums,
-                    small_claimed_sum,
                     claimed_sum: _,
                 } = self.memory_id_to_big.as_ref().unwrap();
                 assert!(big_claimed_sums.len() <= MEMORY_ADDRESS_TO_ID_SPLIT);
@@ -81,7 +81,6 @@ pub fn generate_cairo_interaction_claim_impl(components_names: &Vec<&String>) ->
                 for _ in 0..(MEMORY_ADDRESS_TO_ID_SPLIT - big_claimed_sums.len()) {
                     claimed_sums.push(SecureField::zero());
                 }
-                claimed_sums.push(*small_claimed_sum);
             });
         } else {
             flatten_interaction_body.append(quote! {
@@ -128,15 +127,14 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
         if name == "memory_id_to_big" {
             accumulate_body.append(quote! {
                 accumulate_relation_memory(
-                    relation_uses,
-                    &self.memory_id_to_big,
+                        relation_uses,
+                        &self.memory_id_to_big,
                 );
             });
 
             flatten_claim_body.append(quote! {
                 let memory_id_to_big::Claim {
                     big_log_sizes,
-                    small_log_size,
                 } = self.memory_id_to_big.as_ref().unwrap();
                 assert!(big_log_sizes.len() <= MEMORY_ADDRESS_TO_ID_SPLIT);
                 for log_size in big_log_sizes {
@@ -147,8 +145,6 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
                     component_log_sizes.push(0_u32);
                     component_enable_bits.push(false);
                 }
-                component_log_sizes.push(*small_log_size);
-                component_enable_bits.push(true);
             });
         } else {
             if !is_const_size_component(compiled_air_fn) {

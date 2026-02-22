@@ -24,6 +24,7 @@ use super::opcodes::qm31::qm31_add_mul_opcode::QM31AddMulOpcode;
 use super::opcodes::ret_opcode::RetOpcode;
 use crate::core::air_fn::AirFn;
 use crate::core::air_fn_registry::AirFnRegistry;
+use crate::core::felt252_id_memory::id_to_small::MemoryIdToSmall;
 use crate::core::felt252_id_memory::memory::Felt252IdMemory;
 use crate::core::variables::{AirVar, ExtTable};
 
@@ -37,6 +38,9 @@ pub fn create_casm_registry() -> AirFnRegistry {
     for opcode in get_all_opcodes() {
         registry.add_entry(opcode.as_ref());
     }
+
+    // Memory id to small need to be added manually.
+    registry.add_entry(&MemoryIdToSmall::default());
 
     registry
 }
@@ -131,6 +135,7 @@ pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, Compiled
         // Memory components
         "memory_address_to_id",
         "memory_id_to_big",
+        "memory_id_to_small",
         // Range checks
         "range_check_6",
         "range_check_8",

@@ -91,7 +91,7 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
         if name == "memory_id_to_big" {
             flatten_claim_body.append(quote! {
                 let memory_id_to_big::Claim {
-                    big_log_sizes, small_log_size,
+                    big_log_sizes,
                 } = self.memory_id_to_big.as_snap().unwrap();
                 assert!(big_log_sizes.len() <= MEMORY_ADDRESS_TO_ID_SPLIT);
                 for log_size in big_log_sizes {
@@ -102,8 +102,6 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
                     component_log_sizes.append(0_u32);
                     component_enable_bits.append(false);
                 }
-                component_log_sizes.append(*small_log_size);
-                component_enable_bits.append(true);
             });
         } else {
             let (claim_binding, log_size_expr) = if is_const_size_component(compiled_air_fn) {
@@ -170,7 +168,7 @@ pub fn generate_cairo_interaction_claim_impl(components_names: &Vec<&String>) ->
         if name == "memory_id_to_big" {
             flatten_interaction_body.append(quote! {
                 let memory_id_to_big::InteractionClaim {
-                    big_claimed_sums, small_claimed_sum, claimed_sum: _,
+                    big_claimed_sums, claimed_sum: _,
                 } = self.memory_id_to_big.as_snap().unwrap();
                 assert!(big_claimed_sums.len() <= MEMORY_ADDRESS_TO_ID_SPLIT);
                 for claimed_sum in big_claimed_sums {
@@ -179,7 +177,6 @@ pub fn generate_cairo_interaction_claim_impl(components_names: &Vec<&String>) ->
                 for _ in 0..(MEMORY_ADDRESS_TO_ID_SPLIT - big_claimed_sums.len()) {
                     claimed_sums.append(Zero::zero());
                 }
-                claimed_sums.append(*small_claimed_sum);
             });
         } else {
             flatten_interaction_body.append(quote! {
