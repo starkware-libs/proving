@@ -35,7 +35,7 @@ pub fn generate_claim_generator_file(
         #[derive(Default)]
         pub struct CairoClaimGenerator {
             pub public_data: PublicData,
-            $(&components_names.iter().map(|name| {
+            $(&components_names.iter().filter(|name| name.as_str() != "memory_id_to_small").map(|name| {
                 format!("pub {name}: Option<{name}::ClaimGenerator>")
             }).collect_vec().join(", "))
         }
@@ -48,7 +48,7 @@ pub fn generate_claim_generator_file(
 
         #[derive(Default)]
         pub struct CairoInteractionClaimGenerator {
-            $(&components_names.iter().map(|name| {
+            $(&components_names.iter().filter(|name| name.as_str() != "memory_id_to_small").map(|name| {
                 format!("pub {name}: Option<{name}::InteractionClaimGenerator>")
             }).collect_vec().join(", "))
         }
@@ -67,6 +67,10 @@ fn generate_fill_components(compiled_registry: &IndexMap<String, CompiledAirFn>)
     let mut spawn_bodies = rust::Tokens::new();
 
     for (name, compile_air_fn) in compiled_registry {
+        if name == "memory_id_to_small" {
+            continue;
+        }
+
         let ref_name = format!("{name}_ref");
 
         destructure_fields.append(quote! {
@@ -151,10 +155,6 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
     // Non-opcode blocks
     let mut non_opcode_blocks = rust::Tokens::new();
 
-    // Return values fields
-    let mut cairo_claim_fields = rust::Tokens::new();
-    let mut interaction_gen_fields = rust::Tokens::new();
-
     for (component_name, compiled_air_fn) in compiled_registry {
         let claim_var = format!("{component_name}_claim");
         let interaction_gen_var = format!("{component_name}_interaction_gen");
@@ -198,6 +198,10 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
             });
         } else {
             // Non-opcode
+            if component_name == "memory_id_to_small" {
+                continue;
+            }
+
             // Special handling for memory_id_to_big.
             let non_opcode_body = if component_name == "memory_id_to_big" {
                 quote! {
@@ -232,9 +236,6 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
                     .unzip();
             });
         }
-
-        cairo_claim_fields.append(quote! { $(component_name): $(&claim_var), });
-        interaction_gen_fields.append(quote! { $(component_name): $(&interaction_gen_var), });
     }
 
     quote! {
@@ -252,13 +253,23 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
 
             $(non_opcode_blocks)
 
+            let (memory_id_to_big_claim, memory_id_to_small_claim) = memory_id_to_big_claim.unzip();
             (
                 CairoClaim {
                     public_data: self.public_data,
-                    $(cairo_claim_fields)
+                    $(&compiled_registry
+                        .keys()
+                        .map(|name| format!("{name}: {name}_claim,"))
+                        .collect_vec()
+                        .join("\n"))
                 },
                 CairoInteractionClaimGenerator {
-                    $(interaction_gen_fields)
+                    $(&compiled_registry
+                        .keys()
+                        .filter(|name| name.as_str() != "memory_id_to_small")
+                        .map(|name| format!("{name}: {name}_interaction_gen,"))
+                        .collect_vec()
+                        .join("\n"))
                 },
             )
         }
@@ -266,17 +277,15 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
 }
 
 fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::Tokens {
-    let mut result_init_fields = rust::Tokens::new();
     let mut spawn_blocks = rust::Tokens::new();
     let mut extend_evals_blocks = rust::Tokens::new();
-    let mut interaction_claim_fields = rust::Tokens::new();
 
     for &name in components_names {
         let result_var = format!("{name}_result");
-        let interaction_claim_var = format!("{name}_interaction_claim");
 
-        // Init the result field.
-        result_init_fields.append(quote! { let mut $(&result_var) = None; });
+        if name == "memory_id_to_small" {
+            continue;
+        }
 
         // Spawn write interaction trace.
         spawn_blocks.append(quote! {
@@ -291,25 +300,24 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
         // interaction_claim)).
         if name == "memory_id_to_big" {
             extend_evals_blocks.append(quote! {
-                let $(&interaction_claim_var) = $(&result_var)
-                    .map(|(big_traces, small_trace, interaction_claim)| {
+                let (memory_id_to_big_interaction_claim, memory_id_to_small_interaction_claim) = $(&result_var)
+                    .map(|(big_traces, small_trace, big_interaction_claim, small_interaction_claim)| {
                         for big_trace in big_traces {
                             tree_builder.extend_evals(big_trace);
                         }
                         tree_builder.extend_evals(small_trace);
-                        interaction_claim
-                    });
+                        (big_interaction_claim, small_interaction_claim)
+                    }).unzip();
             });
         } else {
             extend_evals_blocks.append(quote! {
-                let $(&interaction_claim_var) = $(&result_var)
+                let $(&(name.to_string() + "_interaction_claim")) = $(&result_var)
                     .map(|(trace, interaction_claim)| {
                         tree_builder.extend_evals(trace);
                         interaction_claim
                     });
             });
         }
-        interaction_claim_fields.append(quote! { $(name): $(&interaction_claim_var), });
     }
 
     quote! {
@@ -318,7 +326,12 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
             tree_builder: &mut impl TreeBuilder<SimdBackend>,
             common_lookup_elements: &CommonLookupElements,
         ) -> CairoInteractionClaim {
-            $(result_init_fields)
+            $(&components_names
+                .iter()
+                .filter(|name| name.as_str() != "memory_id_to_small")
+                .map(|name| format!("let mut {name}_result = None;"))
+                .collect_vec()
+                .join("\n"))
 
             scope(|s| {
                 $(spawn_blocks)
@@ -327,7 +340,11 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
             $(extend_evals_blocks)
 
             CairoInteractionClaim {
-                $(interaction_claim_fields)
+                $(&components_names
+                    .iter()
+                    .map(|name| format!("{name}: {name}_interaction_claim,"))
+                    .collect_vec()
+                    .join("\n"))
             }
         }
     }

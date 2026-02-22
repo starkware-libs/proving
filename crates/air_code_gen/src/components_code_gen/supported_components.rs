@@ -23,7 +23,6 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
     vec![
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
-        "memory_id_to_small".into(),
         "verify_bitwise_xor_12".into(),
     ]
 }
@@ -35,7 +34,6 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
     vec![
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
-        "memory_id_to_small".into(),
         "cube_252".into(),
         "poseidon_aggregator".into(),
         "verify_bitwise_xor_12".into(),
