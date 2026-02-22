@@ -70,6 +70,10 @@ pub fn generate_circuit_constraints_code(
 
             pub struct Component {}
             impl<Value: IValue> CircuitEval<Value> for Component {
+                fn name(&self) -> String {
+                    $(quoted(&air_fn.name)).to_string()
+                }
+
                 fn evaluate(
                     &self,
                     context: &mut Context<Value>,

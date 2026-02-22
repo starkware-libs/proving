@@ -5,6 +5,7 @@ use air_code_gen::claims_cairo::generate_claims_cairo_file;
 use air_code_gen::claims_generator::generate_claim_generator_file;
 use air_code_gen::claims_rust::generate_claims_rust_file;
 use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations as cairo_sample_evaluations;
+use air_code_gen::components_code_gen::circuit_constraints::all_components::generate_all_components_file;
 use air_code_gen::components_code_gen::circuit_constraints::sample_evaluations as circuit_sample_evaluations;
 use air_code_gen::components_code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
@@ -380,6 +381,14 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
             .join("crates/stwo-circuits/src/cairo_air"),
         &get_git_rev(&args.source),
         &sample_evaluations,
+    );
+
+    let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
+    generate_all_components_file(
+        &args
+            .stwo_circuits_path
+            .join("crates/stwo-circuits/src/cairo_air"),
+        &compiled_regisry,
     );
 
     format_rust(&args.stwo_circuits_path);
