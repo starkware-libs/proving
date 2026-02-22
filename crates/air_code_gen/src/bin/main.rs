@@ -10,6 +10,8 @@ use air_code_gen::components_code_gen::circuit_constraints::sample_evaluations a
 use air_code_gen::components_code_gen::supported_components::{
     is_supported, AutogenCodeFile, AutogenCodeType,
 };
+use air_code_gen::components_rust::generate_components_rust_file;
+use air_code_gen::provers_rust::generate_provers_rust_file;
 use air_code_gen::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
     load_air_fns,
@@ -21,6 +23,7 @@ use air_infra::core::air_fn_registry::AirFnStat;
 use clap::Parser;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
+use itertools::Itertools;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
     CANONICAL_SIZE, CANONICAL_WITHOUT_PEDERSEN_SIZE,
@@ -34,6 +37,9 @@ pub const CLAIM_GENERATOR_FILE_PATH: &str =
     "stwo_cairo_prover/crates/prover/src/witness/cairo_claim_generator.rs";
 pub const CLAIMS_RUST_FILE_PATH: &str = "stwo_cairo_prover/crates/cairo-air/src/claims.rs";
 pub const CLAIMS_CAIRO_FILE_PATH: &str = "stwo_cairo_verifier/crates/cairo_air/src/claims.cairo";
+pub const COMPONENTS_RUST_FILE_PATH: &str =
+    "stwo_cairo_prover/crates/cairo-air/src/cairo_components.rs";
+pub const PROVERS_UTILS_FILE_PATH: &str = "stwo_cairo_prover/crates/prover/src/utils.rs";
 
 #[derive(Serialize)]
 struct VersionedCasmRegistry {
@@ -351,6 +357,21 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         claims_rust_code.to_string().unwrap(),
     )
     .expect("Failed to write claims rust code");
+
+    let components_rust_code =
+        generate_components_rust_file(&compiled_regisry.keys().collect_vec());
+    fs::write(
+        args.stwo_cairo_path.join(COMPONENTS_RUST_FILE_PATH),
+        components_rust_code.to_string().unwrap(),
+    )
+    .expect("Failed to write components rust code");
+
+    let provers_utils_code = generate_provers_rust_file(&compiled_regisry.keys().collect_vec());
+    fs::write(
+        args.stwo_cairo_path.join(PROVERS_UTILS_FILE_PATH),
+        provers_utils_code.to_string().unwrap(),
+    )
+    .expect("Failed to write provers utils code");
 
     let claims_cairo_code = generate_claims_cairo_file(&compiled_regisry);
     fs::write(
