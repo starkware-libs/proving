@@ -1,14 +1,15 @@
 use std::fs;
 use std::path::Path;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, TraceType};
+use air_common::utils::project_root;
+use air_common::TraceType;
+use air_compile::compiled_structs::CompiledAirFn;
 use eval_air_fn_constraints::SampleEvaluation;
 use tempfile::tempdir;
 
 use super::supported_components::{AutogenCodeFile, AutogenCodeType};
 use crate::utils::{
-    add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path,
-    load_air_fns, project_root,
+    add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, load_air_fns,
 };
 
 #[test]
@@ -16,27 +17,25 @@ fn add_ap_cairo_code_gen() {
     let codegen_jobs = [
         AutogenCodeFile {
             air_fn_name: "add_ap_opcode".to_string(),
-            source_path: "../compiled_casm_air/src/compiled_jsons/opcodes/add_ap_opcode.json"
-                .into(),
+            source_path: "../compiled_casm_air/compiled_jsons/opcodes/add_ap_opcode.json".into(),
             code_type: AutogenCodeType::CAIRO,
         },
         AutogenCodeFile {
             air_fn_name: "read_small".to_string(),
-            source_path: "../compiled_casm_air/src/compiled_jsons/subroutines/read_small.json"
-                .into(),
+            source_path: "../compiled_casm_air/compiled_jsons/subroutines/read_small.json".into(),
             code_type: AutogenCodeType::CAIRO,
         },
         AutogenCodeFile {
             air_fn_name: "decode_instruction_d2a10".to_string(),
             source_path:
-                "../compiled_casm_air/src/compiled_jsons/subroutines/decode_instruction_d2a10.json"
+                "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_d2a10.json"
                     .into(),
             code_type: AutogenCodeType::CAIRO,
         },
     ];
 
     let (compiled_air_fns, sample_evaluations) =
-        load_air_fns(Path::new("../compiled_casm_air/src/"), &codegen_jobs);
+        load_air_fns(Path::new("../compiled_casm_air/"), &codegen_jobs);
 
     for job in codegen_jobs {
         let air_fn = compiled_air_fns
@@ -50,26 +49,26 @@ fn add_ap_cairo_code_gen() {
 #[test]
 fn code_gen_regression() {
     let components_to_check = [
-        "../compiled_casm_air/src/compiled_jsons/builtins/mul_mod_builtin.json",
-        "../compiled_casm_air/src/compiled_jsons/builtins/range_check_builtin.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/partial_ec_mul_window_bits_18.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/pedersen_points_table_window_bits_18.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/range_check_20.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/range_check_9_9.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/range_check_7_2_5.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/triple_xor_32.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/verify_bitwise_xor_8.json",
-        "../compiled_casm_air/src/compiled_jsons/lookups/verify_instruction.json",
-        "../compiled_casm_air/src/compiled_jsons/opcodes/jnz_opcode_taken.json",
+        "../compiled_casm_air/compiled_jsons/builtins/mul_mod_builtin.json",
+        "../compiled_casm_air/compiled_jsons/builtins/range_check_builtin.json",
+        "../compiled_casm_air/compiled_jsons/lookups/partial_ec_mul_window_bits_18.json",
+        "../compiled_casm_air/compiled_jsons/lookups/pedersen_points_table_window_bits_18.json",
+        "../compiled_casm_air/compiled_jsons/lookups/range_check_20.json",
+        "../compiled_casm_air/compiled_jsons/lookups/range_check_9_9.json",
+        "../compiled_casm_air/compiled_jsons/lookups/range_check_7_2_5.json",
+        "../compiled_casm_air/compiled_jsons/lookups/triple_xor_32.json",
+        "../compiled_casm_air/compiled_jsons/lookups/verify_bitwise_xor_8.json",
+        "../compiled_casm_air/compiled_jsons/lookups/verify_instruction.json",
+        "../compiled_casm_air/compiled_jsons/opcodes/jnz_opcode_taken.json",
     ];
 
     let inline_air_fns_to_check = [
-        "../compiled_casm_air/src/compiled_jsons/subroutines/decode_instruction_d2a10.json",
-        "../compiled_casm_air/src/compiled_jsons/subroutines/double_karatsuba_1454b.json",
-        "../compiled_casm_air/src/compiled_jsons/subroutines/ec_add.json",
-        "../compiled_casm_air/src/compiled_jsons/subroutines/mem_verify.json",
-        "../compiled_casm_air/src/compiled_jsons/subroutines/verify_add_252.json",
-        "../compiled_casm_air/src/compiled_jsons/subroutines/verify_mul_252.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_d2a10.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/double_karatsuba_1454b.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/ec_add.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/mem_verify.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/verify_add_252.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/verify_mul_252.json",
     ];
 
     // Generate witness code only for component AirFns
@@ -113,7 +112,7 @@ fn code_gen_regression() {
     let jobs = [constraint_jobs, witness_jobs].concat();
 
     let (compiled_air_fns, sample_evaluations) =
-        load_air_fns(Path::new("../compiled_casm_air/src/"), &jobs);
+        load_air_fns(Path::new("../compiled_casm_air/"), &jobs);
 
     for job in jobs {
         let air_fn = compiled_air_fns

@@ -1,7 +1,6 @@
+use air_common::{ExternalState, PaddingType, TraceType, UseOrYield};
 use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
-
-use crate::public_params::PublicParam;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFn {
@@ -53,78 +52,19 @@ pub struct CompiledAirFn {
         String,
         (
             Vec<(String, UseOrYield)>,
-            IndexSet<PublicParam>,
+            IndexSet<String>,
             IndexSet<ExternalState>,
         ),
     >,
 
     // The set of public parameters used in the air function.
-    pub public_params: IndexSet<PublicParam>,
+    pub public_params: IndexSet<String>,
 
     // The set of external states used in the air function.
     pub external_states: IndexSet<ExternalState>,
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub enum PaddingType {
-    // The multiplicity column is used to pad the lookups to const columns, memory, and verify
-    // instruction.
-    Multiplicity,
-    // The enabler column is used to pad the chain lookups, as "Opcodes" and "BlakeRound", and
-    // every lookup with no multiplicity.
-    Enabler,
-    // For air functions that are not a component in the trace, as inline air functions.
-    None,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub enum TraceType {
-    // Doesn't have its own component in the trace, always inlined into its caller.
-    // Can be called only with call.
-    Inline,
-
-    // Has its own component in the trace. Each call generates a new row in that component.
-    // Can be called only with lookup_call. Yields lookup data.
-    Component,
-
-    // Has its own component in the trace. The trace for this component is pre-filled with rows
-    // for all possible inputs by external means. Doesn't generate deductions or constraints.
-    // Has no input, only output. Can be called only with call_external_table. Doesn't yield
-    // lookup data.
-    Const,
-
-    // Has its own component in the trace. Has no input and no output. Cannot be called from
-    // another component. Doesn't yield lookup data.
-    Builtin,
-
-    // Has its own component in the trace. Its input and output are casm states.
-    // Cannot be called from another component. Doesn't yield multiplicity column.
-    // Generates accumulated sum column where the input
-    // is used and the output is yielded (chain lookup constraint).
-    // Their chain lookup relation is called OPCODES_RELATION_NAME.
-    Opcode,
-
-    // Memory components are pre-filled. Their trace consists of only input and output columns, or
-    // only output columns, if the input is const. They don't generate deductions. They can
-    // generate constraints, and they yield lookup data. They implement the IsMemory trait.
-    Memory,
-
-    // Has its own component in the trace. Its input and output are of the same type ([FeltExpr;
-    // 2], S), where S is some AirVar. Doesn't yield multiplicity column.
-    // Generates accumulated sum column where the input
-    // is used and the output is yielded (chain lookup constraint).
-    //
-    // Important:
-    // - A ChainRound can be called from a single caller. This is because we use the caller Seq
-    //   column to identify the chain (see chain_lookup_call).
-    // - A ChainRound must have consts per round that are returned from a lookup component with a
-    //   const round number column in its external input. Without this the chain lookup is not
-    //   sound (for example, a malicious prover can run for more rounds than intended by
-    //   overflowing the round number).
-    ChainRound,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
@@ -194,11 +134,6 @@ pub enum CompiledAirVar {
     PublicParam(String),
 }
 
-// A preprocessed column represented by its id in stwo-cairo. The special
-// value "Seq" is used to represent the Seq column whose size equals the size
-// of the current component.
-pub type ExternalState = String;
-
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct CompiledTraceGenIntermediate {
     pub name: String,
@@ -218,48 +153,4 @@ pub struct LookupTerm {
     pub felts: Vec<CompiledAirVar>,
     pub use_or_yield: UseOrYield,
     pub multiplicity: CompiledAirVar,
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
-pub enum UseOrYield {
-    Use,
-    Yield,
-}
-
-/// See `casm_registry.json`.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct CompiledAirFnStat {
-    pub trace_type: TraceType,
-    // For constant-size component, the log_2 of the number of rows.
-    pub log_height: Option<u32>,
-    pub num_state_cols: usize,
-    pub use_lookup_cols: IndexMap<String, usize>,
-    pub yield_lookup_cols: IndexMap<String, usize>,
-    pub lookup_rows: IndexMap<String, usize>,
-    pub padding_type: PaddingType,
-    pub total_num_trace_cols: usize,
-    // To this we should add the number of trace cells in:
-    // - Const tables and their corresponding lookup components (multiplicity and logup columns)
-    // - The memory tables (and their corresponding multiplicity and logup columns)
-    // - The table of verify instruction (with number of rows equals the number of different pc
-    //   values)
-    pub trace_cells_upper_bound: usize,
-    // An upper bound on the multiplicity values for lookups to const tables and memory tables.
-    pub uses_upper_bound: IndexMap<String, usize>,
-    // An upper bound on the number of rows in the trace for each called lookup relation.
-    pub rows_upper_bound: IndexMap<String, usize>,
-    // The uses upper bound is limited by the size of the field.
-    pub max_instances_uses_limit: usize,
-    // The rows upper bound is currently limited to 2**27.
-    pub max_instances_rows_limit: usize,
-}
-
-/// See `non_components.json`.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct NonComponentStat {
-    pub trace_cells_upper_bound: usize,
-    pub uses_upper_bound: IndexMap<String, usize>,
-    pub steps: usize,
-    pub max_num_instances_uses: usize,
-    pub max_num_instances_steps: usize,
 }

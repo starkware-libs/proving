@@ -1,5 +1,3 @@
-use compiled_casm_air::public_params::PublicParam;
-
 use super::poseidon_builtin::*;
 // Macros
 use crate::const_expr;
@@ -8,6 +6,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::public_params::PublicParam;
 use crate::core::*;
 
 #[test]

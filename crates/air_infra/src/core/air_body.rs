@@ -1,12 +1,11 @@
 use std::collections::BTreeSet;
 use std::fmt::Debug;
 
-use compiled_casm_air::compiled_structs::{
+use air_common::{ExternalState, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_compile::compiled_structs::{
     CompiledAirVar, CompiledConstraintIntermediate, CompiledTraceGenIntermediate,
-    ConstraintEvalStep, ExternalState, LookupTerm, TraceGenStep, UseOrYield,
+    ConstraintEvalStep, LookupTerm, TraceGenStep,
 };
-use compiled_casm_air::public_params::PublicParam;
-use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
@@ -14,6 +13,7 @@ use stwo_cairo_common::prover_types::cpu::ProverType;
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
+use crate::core::public_params::PublicParam;
 use crate::core::Felt;
 
 // A Call is an air_body component that represents a call to another air function.

@@ -1,5 +1,3 @@
-use compiled_casm_air::public_params::PublicParam;
-
 use super::ec_op_builtin::*;
 use super::partial_ec_mul_generic::*;
 use crate::airs::casm::builtins::ec_utils::utils::*;
@@ -8,6 +6,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::public_params::PublicParam;
 use crate::core::variables::*;
 use crate::core::*;
 use crate::{const_expr, const_felt252_expr, const_felt252_expr_from_felt252};

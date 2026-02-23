@@ -1,4 +1,5 @@
-use compiled_casm_air::compiled_structs::{CompiledAirFn, UseOrYield};
+use air_common::UseOrYield;
+use air_compile::compiled_structs::CompiledAirFn;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;

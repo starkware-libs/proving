@@ -1,8 +1,7 @@
-use compiled_casm_air::compiled_structs::{
+use air_common::{TraceType, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
-    TraceType,
 };
-use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -132,7 +131,7 @@ fn gen_evaluate_call(
     for param in params {
         arg_str.push(parse_var(
             air_fn,
-            &CompiledAirVar::PublicParam(param.name()),
+            &CompiledAirVar::PublicParam(param.clone()),
             relation_offset,
         ));
     }

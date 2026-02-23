@@ -1,8 +1,5 @@
-use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use stwo_cairo_common::prover_types::cpu::{BigUInt, Bool, Felt252, UInt32, UInt64, PRIME};
 
-use super::super::air_body::*;
-use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
 use super::felt252_expr::*;
@@ -10,6 +7,9 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
+use crate::core::air_body::*;
+use crate::core::air_fn::*;
+use crate::core::variables::*;
 // Macros
 use crate::{
     bool_expr, const_bigu384_expr, const_bigu768_expr, const_expr, const_felt252_expr,

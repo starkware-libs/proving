@@ -1,5 +1,4 @@
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
 use serde::Serialize;
 
 use super::partial_ec_mul_generic::*;
@@ -13,6 +12,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::verify::*;
+use crate::core::public_params::PublicParam;
 
 // Each ECOp instance consists of 7 memory cells:
 // 5 inputs [p.x, p.y, q.x, q.y, m], and 2 outputs [res.x, res.y].

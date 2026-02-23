@@ -4,8 +4,9 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::str::from_utf8;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceType};
-use compiled_casm_air::utils::{read_json, SAMPLE_EVALUATIONS_FILE_NAME};
+use air_common::utils::{project_root, read_json};
+use air_common::{TraceType, SAMPLE_EVALUATIONS_FILE_NAME};
+use air_compile::compiled_structs::{CompiledAirFn, CompiledAirVar};
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
@@ -59,10 +60,6 @@ pub fn load_air_fns(
     .unwrap_or_else(|e| panic!("Invalid sample evaluations file: {e}"));
 
     (air_fns, sample_evaluations)
-}
-
-pub fn project_root() -> PathBuf {
-    std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
 }
 
 pub fn reformat_rust_code(code_text: String) -> String {

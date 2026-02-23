@@ -1,7 +1,5 @@
 use core::array::from_fn;
 
-use compiled_casm_air::public_params::PublicParam;
-
 use super::mod_utils::*;
 use super::mul_mod::*;
 // Macros
@@ -11,6 +9,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::public_params::PublicParam;
 use crate::core::*;
 
 type BigInt = [u128; MOD_BUILTIN_N_WORDS];

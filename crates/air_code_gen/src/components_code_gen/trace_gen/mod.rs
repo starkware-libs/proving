@@ -2,8 +2,9 @@ mod claim_generator;
 mod interaction_claim_generator;
 use std::collections::{HashMap, HashSet};
 
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledTraceGenIntermediate, LookupTerm, PaddingType, TraceGenStep, TraceType,
+use air_common::{PaddingType, TraceType};
+use air_compile::compiled_structs::{
+    CompiledAirFn, CompiledTraceGenIntermediate, LookupTerm, TraceGenStep,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;

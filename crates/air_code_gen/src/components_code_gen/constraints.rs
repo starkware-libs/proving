@@ -1,10 +1,9 @@
 use std::collections::HashMap;
 
-use compiled_casm_air::compiled_structs::{
+use air_common::{TraceType, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
-    TraceType, UseOrYield,
 };
-use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -86,7 +85,7 @@ fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     for param in &air_fn.public_params {
         code.append(quote! {
-         $(param.name()): rng.gen::<u32>(),
+         $(param): rng.gen::<u32>(),
         });
     }
     code
@@ -148,7 +147,7 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     });
     for param in &air_fn.public_params {
         code.append(quote! {
-            $(param.name()): E::F,
+            $(param): E::F,
         });
     }
     for external_col_id in &air_fn.external_states {
@@ -237,7 +236,7 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
     for public_param in &air_fn.public_params {
         channel_mix_code.append(quote! {
-            channel.mix_u64(self.$(public_param.name()) as u64);
+            channel.mix_u64(self.$(public_param) as u64);
         });
     }
 
@@ -296,7 +295,7 @@ pub fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
 
     for public_param in &air_fn.public_params {
         members.append(quote! {
-            pub $(public_param.name()): u32,
+            pub $(public_param): u32,
         });
     }
     members

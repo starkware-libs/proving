@@ -5,8 +5,6 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::rc::Rc;
 
-use compiled_casm_air::utils::STATE_VAR_SUFFIX;
-
 use super::air_fn::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;

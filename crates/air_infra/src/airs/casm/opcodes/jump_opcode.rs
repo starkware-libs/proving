@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 
 use super::super::casm_state::*;
@@ -21,11 +21,11 @@ use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct JumpOpcode {
-    #[serde(skip_serializing_if = "crate::utils::is_false")]
+    #[serde(skip_serializing_if = "air_common::utils::is_false")]
     pub rel: bool,
-    #[serde(skip_serializing_if = "crate::utils::is_false")]
+    #[serde(skip_serializing_if = "air_common::utils::is_false")]
     pub imm: bool,
-    #[serde(skip_serializing_if = "crate::utils::is_false")]
+    #[serde(skip_serializing_if = "air_common::utils::is_false")]
     pub double_deref: bool,
     #[serde(skip)]
     pub memory: Felt252IdMemory,

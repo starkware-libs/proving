@@ -15,9 +15,10 @@ dependencies = [
 name = "air_code_gen"
 version = "0.1.0"
 dependencies = [
+ "air_common",
+ "air_compile",
  "air_infra",
  "clap",
- "compiled_casm_air",
  "convert_case",
  "eval_air_fn_constraints",
  "expect-test",
@@ -34,12 +35,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "air_common"
+version = "0.1.0"
+dependencies = [
+ "air_infra",
+ "convert_case",
+ "serde",
+ "serde_json",
+ "stwo-cairo-common",
+]
+
+[[package]]
+name = "air_compile"
+version = "0.1.0"
+dependencies = [
+ "air_common",
+ "indexmap",
+ "serde",
+]
+
+[[package]]
 name = "air_infra"
 version = "0.1.0"
 dependencies = [
+ "air_common",
+ "air_compile",
  "blake2",
- "clap",
- "compiled_casm_air",
  "convert_case",
  "enum_dispatch",
  "eval_air_fn_constraints",
@@ -512,15 +533,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b05b61dc5112cbb17e4b6cd61790d9845d13888356391624cbe7e41efeac1e75"
 
 [[package]]
-name = "compiled_casm_air"
-version = "0.1.0"
-dependencies = [
- "indexmap",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "const_format"
 version = "0.2.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -755,7 +767,8 @@ dependencies = [
 name = "eval_air_fn_constraints"
 version = "0.1.0"
 dependencies = [
- "compiled_casm_air",
+ "air_common",
+ "air_compile",
  "indexmap",
  "num-traits",
  "serde",

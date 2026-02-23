@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-use compiled_casm_air::compiled_structs::*;
-use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
+use air_common::{TraceType, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_compile::compiled_structs::*;
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::assignment::Assignment;
 use eval_air_fn_constraints::SampleEvaluation;
@@ -360,13 +360,9 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         .public_params
         .iter()
         .map(|param| {
-            let value = assignment
-                .environment
-                .public_params
-                .get(&param.name())
-                .unwrap();
+            let value = assignment.environment.public_params.get(param).unwrap();
             let tokens: rust::Tokens =
-                quote! { ($(quoted(param.name())).to_owned(), context.constant($(value.0).into())) };
+                quote! { ($(quoted(param)).to_owned(), context.constant($(value.0).into())) };
             tokens.to_string().unwrap()
         })
         .join(",\n");

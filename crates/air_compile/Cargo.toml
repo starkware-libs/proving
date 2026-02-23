@@ -1,9 +1,10 @@
 [package]
-name = "compiled_casm_air"
+name = "air_compile"
 version.workspace = true
 edition.workspace = true
 
 [dependencies]
 serde = { workspace = true, features = ["derive", "rc"] }
-serde_json.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
+
+air_common = { path = "../air_common" }

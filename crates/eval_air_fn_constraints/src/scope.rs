@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::CompiledAirVar;
+use air_compile::compiled_structs::CompiledAirVar;
 use stwo_cairo_common::prover_types::cpu::{M31, QM31};
 
 use crate::util::Environment;

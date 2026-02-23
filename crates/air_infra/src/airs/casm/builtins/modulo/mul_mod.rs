@@ -1,7 +1,6 @@
 use core::array::from_fn;
 
-use compiled_casm_air::compiled_structs::TraceType;
-use compiled_casm_air::public_params::PublicParam;
+use air_common::TraceType;
 use serde::Serialize;
 
 use super::mod_utils::*;
@@ -19,6 +18,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::public_params::PublicParam;
 use crate::core::variables::*;
 
 pub const MUL_MOD_LIMB_SIZE: usize = 12;

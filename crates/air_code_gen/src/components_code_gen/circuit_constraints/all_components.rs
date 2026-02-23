@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use compiled_casm_air::compiled_structs::CompiledAirFn;
+use air_compile::compiled_structs::CompiledAirFn;
 use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;

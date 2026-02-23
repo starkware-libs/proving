@@ -2,11 +2,10 @@
 
 use std::collections::{BTreeSet, HashMap, HashSet};
 
-use compiled_casm_air::compiled_structs::{
+use air_common::{TraceType, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
-    TraceType, UseOrYield,
 };
-use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -168,7 +167,7 @@ fn gen_evaluate_call(
     for param in params {
         arg_str.push(parse_eval_constraint(
             air_fn,
-            &CompiledAirVar::PublicParam(param.name()),
+            &CompiledAirVar::PublicParam(param.clone()),
             constant_names,
         ));
     }

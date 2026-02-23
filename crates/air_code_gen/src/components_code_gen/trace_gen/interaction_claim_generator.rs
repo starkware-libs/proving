@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, LookupTerm, PaddingType, UseOrYield};
+use air_common::{PaddingType, UseOrYield};
+use air_compile::compiled_structs::{CompiledAirFn, LookupTerm};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;

@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::P_FELTS;
 
@@ -24,7 +24,7 @@ use crate::core::variables::*;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct JnzOpcode {
-    #[serde(skip_serializing_if = "crate::utils::is_false")]
+    #[serde(skip_serializing_if = "air_common::utils::is_false")]
     pub taken: bool,
     #[serde(skip)]
     pub memory: Felt252IdMemory,

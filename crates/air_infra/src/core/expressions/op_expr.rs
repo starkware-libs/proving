@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::fmt::Display;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
-use compiled_casm_air::compiled_structs::CompiledAirVar;
+use air_compile::compiled_structs::CompiledAirVar;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::{
     BigUInt, Bool, Felt252, Felt252Width27, ProverType, UInt16, UInt32, FELT252WIDTH27_N_WORDS,

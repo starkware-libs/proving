@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use compiled_casm_air::compiled_structs::TraceType;
+use air_common::TraceType;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252WIDTH27_N_WORDS, FELT252_N_WORDS};
 
