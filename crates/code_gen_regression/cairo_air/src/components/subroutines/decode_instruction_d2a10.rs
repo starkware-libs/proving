@@ -30,15 +30,15 @@ impl DecodeInstructionD2A10 {
         let M31_32768 = E::F::from(M31::from(32768));
         let M31_64 = E::F::from(M31::from(64));
 
-        // Flag op1_imm is a bit.
+        //Flag op1_imm is a bit.
         eval.add_constraint((op1_imm_col1.clone() * (M31_1.clone() - op1_imm_col1.clone())));
-        // Flag op1_base_fp is a bit.
+        //Flag op1_base_fp is a bit.
         eval.add_constraint(
             (op1_base_fp_col2.clone() * (M31_1.clone() - op1_base_fp_col2.clone())),
         );
         let op1_base_ap_tmp_d2a10_5 = eval
             .add_intermediate(((M31_1.clone() - op1_imm_col1.clone()) - op1_base_fp_col2.clone()));
-        // Flag op1_base_ap is a bit.
+        //Flag op1_base_ap is a bit.
         eval.add_constraint(
             (op1_base_ap_tmp_d2a10_5.clone() * (M31_1.clone() - op1_base_ap_tmp_d2a10_5.clone())),
         );

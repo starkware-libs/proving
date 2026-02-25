@@ -1,9 +1,9 @@
 // This file was created by the AIR team.
 
 #![allow(unused_parens)]
-use cairo_air::components::range_check_20::{Claim, InteractionClaim, LOG_SIZE, N_TRACE_COLUMNS};
-
 use crate::witness::prelude::*;
+use cairo_air::components::range_check_20::LOG_SIZE;
+use cairo_air::components::range_check_20::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 
 pub type InputType = [M31; 1];
 pub type PackedInputType = [PackedM31; 1];
@@ -170,7 +170,7 @@ impl InteractionClaimGenerator {
     ) {
         let mut logup_gen = LogupTraceGenerator::new(LOG_SIZE);
 
-        // Sum logup terms in pairs.
+        //Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
         (
             col_gen.par_iter_mut(),

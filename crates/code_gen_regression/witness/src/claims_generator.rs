@@ -1,12 +1,13 @@
 // This file was created by the AIR team.
 
-use std::sync::Arc;
-
+use crate::witness::components::*;
+use crate::witness::utils::TreeBuilder;
 use cairo_air::air::PublicData;
 use cairo_air::claims::{CairoClaim, CairoInteractionClaim};
 use cairo_air::relations::CommonLookupElements;
 use indexmap::IndexSet;
 use rayon::scope;
+use std::sync::Arc;
 pub use stwo::prover::backend::simd::SimdBackend;
 use stwo_cairo_adapter::builtins::BuiltinSegments;
 use stwo_cairo_adapter::memory::Memory;
@@ -15,9 +16,6 @@ use stwo_cairo_common::builtins::*;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
     PreProcessedTrace, MAX_SEQUENCE_LOG_SIZE,
 };
-
-use crate::witness::components::*;
-use crate::witness::utils::TreeBuilder;
 
 #[derive(Default)]
 pub struct CairoClaimGenerator {

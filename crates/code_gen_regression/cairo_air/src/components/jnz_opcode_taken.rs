@@ -134,7 +134,7 @@ impl FrameworkEval for Eval {
                 &self.common_lookup_elements,
                 &mut eval,
             );
-        // mem_dst_base.
+        //mem_dst_base.
         eval.add_constraint(
             (mem_dst_base_col6.clone()
                 - ((dst_base_fp_col4.clone() * input_fp_col2.clone())
@@ -202,7 +202,7 @@ impl FrameworkEval for Eval {
                 + dst_limb_25_col33.clone())
                 + dst_limb_26_col34.clone()),
         );
-        // dst doesn't equal 0.
+        //dst doesn't equal 0.
         eval.add_constraint(
             (((dst_sum_p_zero_tmp_f51a9_11.clone()
                 + ((dst_limb_0_col8.clone() + dst_limb_21_col29.clone())
@@ -216,7 +216,7 @@ impl FrameworkEval for Eval {
             eval.add_intermediate((dst_limb_21_col29.clone() - M31_136.clone()));
         let diff_from_p_tmp_f51a9_14 =
             eval.add_intermediate((dst_limb_27_col35.clone() - M31_256.clone()));
-        // dst doesn't equal P.
+        //dst doesn't equal P.
         eval.add_constraint(
             (((dst_sum_p_zero_tmp_f51a9_11.clone()
                 + (((diff_from_p_tmp_f51a9_12.clone() * diff_from_p_tmp_f51a9_12.clone())
@@ -240,7 +240,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             &mut eval,
         );
-        // Enabler is a bit.
+        //Enabler is a bit.
         eval.add_constraint(
             ((enabler_col46.clone() * enabler_col46.clone()) - enabler_col46.clone()),
         );

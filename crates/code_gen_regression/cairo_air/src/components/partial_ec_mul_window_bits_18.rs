@@ -779,7 +779,7 @@ impl FrameworkEval for Eval {
             &self.common_lookup_elements,
             &mut eval,
         );
-        // Enabler is a bit.
+        //Enabler is a bit.
         eval.add_constraint(
             ((enabler_col296.clone() * enabler_col296.clone()) - enabler_col296.clone()),
         );

@@ -199,7 +199,7 @@ impl FrameworkEval for Eval {
             eval.add_intermediate((xor_col13.clone() + (xor_col15.clone() * M31_256.clone())));
         let triple_xor32_output_tmp_298db_28_limb_1 =
             eval.add_intermediate((xor_col17.clone() + (xor_col19.clone() * M31_256.clone())));
-        // Enabler is a bit.
+        //Enabler is a bit.
         eval.add_constraint(
             ((enabler_col20.clone() * enabler_col20.clone()) - enabler_col20.clone()),
         );
