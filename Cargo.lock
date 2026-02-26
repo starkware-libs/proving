@@ -844,12 +844,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2"
 
 [[package]]
-name = "foldhash"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
-
-[[package]]
 name = "funty"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -948,7 +942,10 @@ version = "0.15.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1"
 dependencies = [
- "foldhash 0.1.5",
+ "allocator-api2",
+ "equivalent",
+ "foldhash",
+ "serde",
 ]
 
 [[package]]
@@ -956,13 +953,6 @@ name = "hashbrown"
 version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100"
-dependencies = [
- "allocator-api2",
- "equivalent",
- "foldhash 0.2.0",
- "serde",
- "serde_core",
-]
 
 [[package]]
 name = "heck"
@@ -1799,8 +1789,9 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "stwo"
-version = "2.0.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=b70dbd31#b70dbd31b68c0ef42ee1199b835a9f2fc9fd03ba"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17c0c344963f57a53bb83a4f90bbc2f8968385b55f11efe1887f23ad803ee00e"
 dependencies = [
  "blake2",
  "blake3",
@@ -1809,7 +1800,7 @@ dependencies = [
  "dashmap",
  "educe 0.5.11",
  "fnv",
- "hashbrown 0.16.1",
+ "hashbrown 0.15.5",
  "hex",
  "indexmap",
  "itertools 0.12.1",
@@ -1826,8 +1817,8 @@ dependencies = [
 
 [[package]]
 name = "stwo-cairo-common"
-version = "1.0.1"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=2d2160f#2d2160f04550cbb5576cbb74a7e36eed900311d2"
+version = "1.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=d20c69fa#d20c69faf4ec1b44d9e16b812058174eeae1d489"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1845,8 +1836,8 @@ dependencies = [
 
 [[package]]
 name = "stwo-cairo-serialize"
-version = "1.0.1"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=2d2160f#2d2160f04550cbb5576cbb74a7e36eed900311d2"
+version = "1.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=d20c69fa#d20c69faf4ec1b44d9e16b812058174eeae1d489"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1855,8 +1846,8 @@ dependencies = [
 
 [[package]]
 name = "stwo-cairo-serialize-derive"
-version = "1.0.1"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=2d2160f#2d2160f04550cbb5576cbb74a7e36eed900311d2"
+version = "1.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=d20c69fa#d20c69faf4ec1b44d9e16b812058174eeae1d489"
 dependencies = [
  "quote",
  "syn 2.0.116",
@@ -1864,10 +1855,11 @@ dependencies = [
 
 [[package]]
 name = "stwo-constraint-framework"
-version = "2.0.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=b70dbd31#b70dbd31b68c0ef42ee1199b835a9f2fc9fd03ba"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ac823b7e9eae7c5bbc7886eb9b7610c5b84e163b57fc5909bcdbe61d1e3d7b15"
 dependencies = [
- "hashbrown 0.16.1",
+ "hashbrown 0.15.5",
  "itertools 0.12.1",
  "num-traits",
  "rand 0.8.5",
