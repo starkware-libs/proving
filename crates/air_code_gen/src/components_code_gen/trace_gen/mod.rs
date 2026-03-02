@@ -15,11 +15,18 @@ use itertools::Itertools;
 use super::parse::seek_consts;
 use crate::utils::is_const_size_component;
 
+pub enum MultiplicityMode {
+    // The inputs are known at compile time.
+    KnownInputs,
+    // The inputs are not known at compile time.
+    UnknownInputs,
+}
+
 pub enum Mode {
     NoInputs,
     Inputs, // TODO(Gali): Unite with PackedInputs.
     PackedInputs,
-    Mults,
+    Mults(MultiplicityMode),
 }
 
 pub struct RustProverGen {
@@ -35,7 +42,11 @@ impl RustProverGen {
             TraceType::ChainRound => Mode::PackedInputs,
             TraceType::Component => {
                 if air_fn.padding_type == PaddingType::Multiplicity {
-                    Mode::Mults
+                    if is_const_size_component(&air_fn) {
+                        Mode::Mults(MultiplicityMode::KnownInputs)
+                    } else {
+                        Mode::Mults(MultiplicityMode::UnknownInputs)
+                    }
                 } else {
                     Mode::PackedInputs
                 }
@@ -98,7 +109,7 @@ impl RustProverGen {
                     pub type PackedInputType = $packed_ty;
                 }
             }
-            Mode::Inputs | Mode::Mults => {
+            Mode::Inputs | Mode::Mults(_) => {
                 quote! {
                     pub type InputType = $ty;
                     pub type PackedInputType = $packed_ty;
