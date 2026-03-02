@@ -11,7 +11,7 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
-use crate::components_code_gen::trace_gen::{vec_of_type, Mode, RustProverGen};
+use crate::components_code_gen::trace_gen::{vec_of_type, Mode, MultiplicityMode, RustProverGen};
 use crate::utils::{
     block_doc, get_variable_name, is_const_size_component, is_state_component_name,
     make_preprocessed_column_id, relations_used_or_yielded, replace_generics_with_turbofish,
@@ -26,18 +26,17 @@ impl RustProverGen {
                 quote! { pub packed_inputs: $(vec_of_type("PackedInputType")), }
             }
             Mode::Inputs => quote! { pub inputs: $(vec_of_type("InputType")), },
-            Mode::Mults => {
-                if is_const_size_component(&self.air_fn) {
-                    let n_input_columns = self.air_fn.input_const_columns.len();
-                    let n_relations = self.air_fn.relation_names.len();
-                    quote! {
-                        pub mults: [AtomicMultiplicityColumn; $(n_relations)],
-                        input_to_row: HashMap<[M31; $(n_input_columns)], usize>,
-                        preprocessed_trace: Arc<PreProcessedTrace>
-                    }
-                } else {
-                    quote! { pub mults: DashMap<InputType, AtomicU32>, }
+            Mode::Mults(MultiplicityMode::KnownInputs) => {
+                let n_input_columns = self.air_fn.input_const_columns.len();
+                let n_relations = self.air_fn.relation_names.len();
+                quote! {
+                    pub mults: [AtomicMultiplicityColumn; $(n_relations)],
+                    input_to_row: HashMap<[M31; $(n_input_columns)], usize>,
+                    preprocessed_trace: Arc<PreProcessedTrace>
                 }
+            }
+            Mode::Mults(MultiplicityMode::UnknownInputs) => {
+                quote! { pub mults: DashMap<InputType, AtomicU32>, }
             }
         };
         // TODO(Gali): Get the types of the public params from air_infra.
@@ -69,44 +68,44 @@ impl RustProverGen {
                 },
                 quote! {mut self, },
             ),
-            Mode::Mults => {
-                let add_inputs_code = if is_const_size_component(&self.air_fn) {
-                    quote! {
-                        pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
-                            packed_inputs.into_par_iter().for_each(|packed_input| {
-                                for input in packed_input.unpack() {
-                                    self.mults[relation_index].increase_at(
-                                        (*self.input_to_row.get(&input).unwrap())
-                                            .try_into()
-                                            .unwrap(),
-                                    );
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    quote! {
-                        pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], _relation_index: usize) {
-                            let merged: HashMap<InputType, u32> = packed_inputs
-                                .par_iter()
-                                .flat_map(|p| p.unpack())
-                                .fold_with(HashMap::new(), |mut local, input| {
-                                    *local.entry(input).or_insert(0) += 1;
-                                    local
-                                })
-                                .reduce(HashMap::new, |mut a, b| {
-                                    for (k, v) in b {
-                                        *a.entry(k).or_insert(0) += v;
-                                    }
-                                    a
-                                });
-
-                            for (k, v) in merged {
-                                self.mults
-                                    .entry(k)
-                                    .or_insert_with(|| AtomicU32::new(0))
-                                    .fetch_add(v, Ordering::Relaxed);
+            Mode::Mults(MultiplicityMode::KnownInputs) => {
+                let add_inputs_code = quote! {
+                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
+                        packed_inputs.into_par_iter().for_each(|packed_input| {
+                            for input in packed_input.unpack() {
+                                self.mults[relation_index].increase_at(
+                                    (*self.input_to_row.get(&input).unwrap())
+                                        .try_into()
+                                        .unwrap(),
+                                );
                             }
+                        });
+                    }
+                };
+                (add_inputs_code, quote! {self, })
+            }
+            Mode::Mults(MultiplicityMode::UnknownInputs) => {
+                let add_inputs_code = quote! {
+                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], _relation_index: usize) {
+                        let merged: HashMap<InputType, u32> = packed_inputs
+                            .par_iter()
+                            .flat_map(|p| p.unpack())
+                            .fold_with(HashMap::new(), |mut local, input| {
+                                *local.entry(input).or_insert(0) += 1;
+                                local
+                            })
+                            .reduce(HashMap::new, |mut a, b| {
+                                for (k, v) in b {
+                                    *a.entry(k).or_insert(0) += v;
+                                }
+                                a
+                            });
+
+                        for (k, v) in merged {
+                            self.mults
+                                .entry(k)
+                                .or_insert_with(|| AtomicU32::new(0))
+                                .fetch_add(v, Ordering::Relaxed);
                         }
                     }
                 };
@@ -115,7 +114,7 @@ impl RustProverGen {
         };
 
         let new_code = match self.mode {
-            Mode::Mults if is_const_size_component(&self.air_fn) => {
+            Mode::Mults(MultiplicityMode::KnownInputs) => {
                 let column_ids_code = rust::Tokens::from_iter(
                     Itertools::intersperse(
                         self.air_fn
@@ -139,7 +138,7 @@ impl RustProverGen {
                     }
                 }
             }
-            Mode::PackedInputs | Mode::Mults => quote! {
+            Mode::PackedInputs | Mode::Mults(MultiplicityMode::UnknownInputs) => quote! {
                 pub fn new() -> Self {
                     Self::default()
                 }
@@ -169,12 +168,12 @@ impl RustProverGen {
                     self.packed_inputs.is_empty()
                 }
             },
-            Mode::Mults if !is_const_size_component(&self.air_fn) => quote! {
+            Mode::Mults(MultiplicityMode::UnknownInputs) => quote! {
                 pub fn is_empty(&self) -> bool {
                     self.mults.is_empty()
                 }
             },
-            _ => quote! {},
+            Mode::NoInputs | Mode::Inputs | Mode::Mults(MultiplicityMode::KnownInputs) => quote! {},
         };
 
         quote! {
@@ -230,34 +229,33 @@ impl RustProverGen {
                 self.inputs.resize(size, *self.inputs.first().unwrap());
                 let packed_inputs = pack_values(&self.inputs);
             },
-            Mode::Mults => {
-                if is_const_size_component(&self.air_fn) {
-                    quote! { let mults = self.mults.into_iter().map(|v| v.into_simd_vec()).collect::<Vec<_>>(); }
-                } else {
-                    quote! {
-                        let mut inputs_mults = self
-                            .mults
-                            .iter()
-                            .map(|entry| (*entry.key(), M31(entry.value().load(Ordering::Relaxed))))
-                            .collect::<Vec<_>>();
+            Mode::Mults(MultiplicityMode::KnownInputs) => {
+                quote! { let mults = self.mults.into_iter().map(|v| v.into_simd_vec()).collect::<Vec<_>>(); }
+            }
+            Mode::Mults(MultiplicityMode::UnknownInputs) => {
+                quote! {
+                    let mut inputs_mults = self
+                        .mults
+                        .iter()
+                        .map(|entry| (*entry.key(), M31(entry.value().load(Ordering::Relaxed))))
+                        .collect::<Vec<_>>();
 
-                        inputs_mults.sort_by_key(|(input, _)| input.0);
+                    inputs_mults.sort_by_key(|(input, _)| input.0);
 
-                        let (mut inputs, mut mults) = inputs_mults.into_iter().unzip::<_, _, Vec<_>, Vec<_>>();
+                    let (mut inputs, mut mults) = inputs_mults.into_iter().unzip::<_, _, Vec<_>, Vec<_>>();
 
-                        // Calculate component size.
-                        let n_rows = inputs.len();
-                        assert_ne!(n_rows, 0);
-                        let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-                        let log_size = size.ilog2();
+                    // Calculate component size.
+                    let n_rows = inputs.len();
+                    assert_ne!(n_rows, 0);
+                    let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+                    let log_size = size.ilog2();
 
-                        // Pad component.
-                        inputs.resize(size, *inputs.first().unwrap());
-                        mults.resize(size, M31::zero());
+                    // Pad component.
+                    inputs.resize(size, *inputs.first().unwrap());
+                    mults.resize(size, M31::zero());
 
-                        let packed_inputs = pack_values(&inputs);
-                        let packed_mults = pack_values(&mults);
-                    }
+                    let packed_inputs = pack_values(&inputs);
+                    let packed_mults = pack_values(&mults);
                 }
             }
         };
@@ -310,17 +308,16 @@ impl RustProverGen {
             Mode::PackedInputs | Mode::Inputs => {
                 quote! { inputs: $(vec_of_type("PackedInputType")), }
             }
-            Mode::Mults => {
-                if !is_const_size_component(&self.air_fn) {
-                    quote! {
-                        inputs: $(vec_of_type("PackedInputType")),
-                        mults: $(vec_of_type("PackedM31")),
-                    }
-                } else {
-                    quote! {
-                        preprocessed_trace: &PreProcessedTrace,
-                        mults: Vec<$(vec_of_type("PackedM31"))>,
-                    }
+            Mode::Mults(MultiplicityMode::UnknownInputs) => {
+                quote! {
+                    inputs: $(vec_of_type("PackedInputType")),
+                    mults: $(vec_of_type("PackedM31")),
+                }
+            }
+            Mode::Mults(MultiplicityMode::KnownInputs) => {
+                quote! {
+                    preprocessed_trace: &PreProcessedTrace,
+                    mults: Vec<$(vec_of_type("PackedM31"))>,
                 }
             }
         };
@@ -340,12 +337,11 @@ impl RustProverGen {
             Mode::NoInputs => quote! { log_size, },
             Mode::PackedInputs => quote! { self.packed_inputs, },
             Mode::Inputs => quote! { packed_inputs, },
-            Mode::Mults => {
-                if is_const_size_component(&self.air_fn) {
-                    quote! { &self.preprocessed_trace, mults, }
-                } else {
-                    quote! { packed_inputs, packed_mults, }
-                }
+            Mode::Mults(MultiplicityMode::KnownInputs) => {
+                quote! { &self.preprocessed_trace, mults, }
+            }
+            Mode::Mults(MultiplicityMode::UnknownInputs) => {
+                quote! { packed_inputs, packed_mults, }
             }
         };
         if self.air_fn.padding_type == PaddingType::Enabler {
@@ -395,13 +391,15 @@ impl RustProverGen {
             Mode::NoInputs => quote! {
             let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
-            Mode::Mults if is_const_size_component(&self.air_fn) => quote! {
+            Mode::Mults(MultiplicityMode::KnownInputs) => quote! {
             let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
-            _ => quote! {
-            let log_n_packed_rows = inputs.len().ilog2();
-            let log_size = log_n_packed_rows + LOG_N_LANES;
-            },
+            Mode::PackedInputs | Mode::Inputs | Mode::Mults(MultiplicityMode::UnknownInputs) => {
+                quote! {
+                let log_n_packed_rows = inputs.len().ilog2();
+                let log_size = log_n_packed_rows + LOG_N_LANES;
+                }
+            }
         };
 
         let mut init_code = (
@@ -442,8 +440,8 @@ impl RustProverGen {
 
         match self.mode {
             Mode::NoInputs => {}
-            Mode::Mults if is_const_size_component(&self.air_fn) => {}
-            _ => {
+            Mode::Mults(MultiplicityMode::KnownInputs) => {}
+            Mode::PackedInputs | Mode::Inputs | Mode::Mults(MultiplicityMode::UnknownInputs) => {
                 lambda_producer.0.extend(quote! {
                    inputs.into_par_iter(),
                 });
@@ -586,7 +584,7 @@ impl RustProverGen {
                 *row[$(offset)] = enabler_col.packed_at(row_index);
             },
             PaddingType::Multiplicity => {
-                if !is_const_size_component(&self.air_fn) {
+                if matches!(self.mode, Mode::Mults(MultiplicityMode::UnknownInputs)) {
                     quote! {
                         let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
                         *row[$(offset)] = mult_at_row;
