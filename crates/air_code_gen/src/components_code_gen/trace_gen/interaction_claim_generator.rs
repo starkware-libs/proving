@@ -33,7 +33,7 @@ impl RustProverGen {
                 ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>, InteractionClaim)
                 {
                     $(padding)
-                    let mut logup_gen = LogupTraceGenerator::new($log_size);
+                    let mut logup_gen = unsafe { LogupTraceGenerator::uninitialized($log_size) };
 
                     $(self.generate_write_interaction_trace_body())
                     let (trace, claimed_sum) = logup_gen.finalize_last();
