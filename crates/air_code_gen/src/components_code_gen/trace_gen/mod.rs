@@ -20,6 +20,8 @@ pub enum MultiplicityMode {
     KnownInputs,
     // The inputs are not known at compile time.
     UnknownInputs,
+    // The inputs are the seq column.
+    Seq,
 }
 
 pub enum Mode {
@@ -43,7 +45,13 @@ impl RustProverGen {
             TraceType::Component => {
                 if air_fn.padding_type == PaddingType::Multiplicity {
                     if is_const_size_component(&air_fn) {
-                        Mode::Mults(MultiplicityMode::KnownInputs)
+                        if air_fn.external_states.len() == 1
+                            && air_fn.external_states.first().unwrap().starts_with("seq_")
+                        {
+                            Mode::Mults(MultiplicityMode::Seq)
+                        } else {
+                            Mode::Mults(MultiplicityMode::KnownInputs)
+                        }
                     } else {
                         Mode::Mults(MultiplicityMode::UnknownInputs)
                     }

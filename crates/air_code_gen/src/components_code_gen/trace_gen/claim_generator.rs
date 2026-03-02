@@ -35,6 +35,13 @@ impl RustProverGen {
                     preprocessed_trace: Arc<PreProcessedTrace>
                 }
             }
+            Mode::Mults(MultiplicityMode::Seq) => {
+                let n_relations = self.air_fn.relation_names.len();
+                quote! {
+                    pub mults: [AtomicMultiplicityColumn; $(n_relations)],
+                    preprocessed_trace: Arc<PreProcessedTrace>
+                }
+            }
             Mode::Mults(MultiplicityMode::UnknownInputs) => {
                 quote! { pub mults: DashMap<InputType, AtomicU32>, }
             }
@@ -78,6 +85,18 @@ impl RustProverGen {
                                         .try_into()
                                         .unwrap(),
                                 );
+                            }
+                        });
+                    }
+                };
+                (add_inputs_code, quote! {self, })
+            }
+            Mode::Mults(MultiplicityMode::Seq) => {
+                let add_inputs_code = quote! {
+                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
+                        packed_inputs.into_par_iter().for_each(|packed_input| {
+                            for [idx] in packed_input.unpack() {
+                                self.mults[relation_index].increase_at(idx.0);
                             }
                         });
                     }
@@ -138,6 +157,17 @@ impl RustProverGen {
                     }
                 }
             }
+            Mode::Mults(MultiplicityMode::Seq) => {
+                quote! {
+                    pub fn new(preprocessed_trace: Arc<PreProcessedTrace>) -> Self {
+                        let mults = from_fn(|_| AtomicMultiplicityColumn::new(1 << LOG_SIZE));
+                        Self {
+                            mults,
+                            preprocessed_trace
+                        }
+                    }
+                }
+            }
             Mode::PackedInputs | Mode::Mults(MultiplicityMode::UnknownInputs) => quote! {
                 pub fn new() -> Self {
                     Self::default()
@@ -173,7 +203,9 @@ impl RustProverGen {
                     self.mults.is_empty()
                 }
             },
-            Mode::NoInputs | Mode::Inputs | Mode::Mults(MultiplicityMode::KnownInputs) => quote! {},
+            Mode::NoInputs
+            | Mode::Inputs
+            | Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => quote! {},
         };
 
         quote! {
@@ -229,7 +261,7 @@ impl RustProverGen {
                 self.inputs.resize(size, *self.inputs.first().unwrap());
                 let packed_inputs = pack_values(&self.inputs);
             },
-            Mode::Mults(MultiplicityMode::KnownInputs) => {
+            Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => {
                 quote! { let mults = self.mults.into_iter().map(|v| v.into_simd_vec()).collect::<Vec<_>>(); }
             }
             Mode::Mults(MultiplicityMode::UnknownInputs) => {
@@ -314,7 +346,7 @@ impl RustProverGen {
                     mults: $(vec_of_type("PackedM31")),
                 }
             }
-            Mode::Mults(MultiplicityMode::KnownInputs) => {
+            Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => {
                 quote! {
                     preprocessed_trace: &PreProcessedTrace,
                     mults: Vec<$(vec_of_type("PackedM31"))>,
@@ -337,7 +369,7 @@ impl RustProverGen {
             Mode::NoInputs => quote! { log_size, },
             Mode::PackedInputs => quote! { self.packed_inputs, },
             Mode::Inputs => quote! { packed_inputs, },
-            Mode::Mults(MultiplicityMode::KnownInputs) => {
+            Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => {
                 quote! { &self.preprocessed_trace, mults, }
             }
             Mode::Mults(MultiplicityMode::UnknownInputs) => {
@@ -391,7 +423,7 @@ impl RustProverGen {
             Mode::NoInputs => quote! {
             let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
-            Mode::Mults(MultiplicityMode::KnownInputs) => quote! {
+            Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => quote! {
             let log_n_packed_rows = $(&log_size) - LOG_N_LANES;
             },
             Mode::PackedInputs | Mode::Inputs | Mode::Mults(MultiplicityMode::UnknownInputs) => {
@@ -440,7 +472,7 @@ impl RustProverGen {
 
         match self.mode {
             Mode::NoInputs => {}
-            Mode::Mults(MultiplicityMode::KnownInputs) => {}
+            Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => {}
             Mode::PackedInputs | Mode::Inputs | Mode::Mults(MultiplicityMode::UnknownInputs) => {
                 lambda_producer.0.extend(quote! {
                    inputs.into_par_iter(),
