@@ -1,0 +1,1224 @@
+{
+  "name": "qm_31_ops",
+  "relation_names": [
+    "Gate"
+  ],
+  "relation_size": 12,
+  "log_height": null,
+  "description": "Qm 31 Ops",
+  "instance_definition": "{}",
+  "type": "Gate",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "qm_31_ops_input",
+    "[[M31; 4]; 3]",
+    "[[PackedM31; 4]; 3]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "qm_31_ops_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "input_op0_limb0_col0",
+    "input_op0_limb1_col1",
+    "input_op0_limb2_col2",
+    "input_op0_limb3_col3",
+    "input_op1_limb0_col4",
+    "input_op1_limb1_col5",
+    "input_op1_limb2_col6",
+    "input_op1_limb3_col7",
+    "input_dst_limb0_col8",
+    "input_dst_limb1_col9",
+    "input_dst_limb2_col10",
+    "input_dst_limb3_col11"
+  ],
+  "constraint_lookups": [
+    [
+      "Gate",
+      "Use"
+    ],
+    [
+      "Gate",
+      "Use"
+    ],
+    [
+      "Gate",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "add_flag",
+    "mul_flag",
+    "pointwise_mul_flag",
+    "sub_flag",
+    "op0_addr",
+    "op1_addr",
+    "dst_addr",
+    "qm31_ops_multiplicity"
+  ],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "ExternalState": "add_flag"
+                        },
+                        "+",
+                        {
+                          "ExternalState": "sub_flag"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "ExternalState": "mul_flag"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "ExternalState": "pointwise_mul_flag"
+                }
+              ]
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "all flags sum to 1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "ExternalState": "add_flag"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "ExternalState": "add_flag"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "add_flag is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "ExternalState": "sub_flag"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "ExternalState": "sub_flag"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "sub_flag is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "ExternalState": "mul_flag"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "ExternalState": "mul_flag"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mul_flag is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "ExternalState": "pointwise_mul_flag"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "ExternalState": "pointwise_mul_flag"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "pointwise_mul_flag is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_dst_limb0_col8"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "State": "input_op0_limb0_col0"
+                                                },
+                                                "*",
+                                                {
+                                                  "State": "input_op1_limb0_col4"
+                                                }
+                                              ]
+                                            },
+                                            "-",
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "State": "input_op0_limb1_col1"
+                                                },
+                                                "*",
+                                                {
+                                                  "State": "input_op1_limb1_col5"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "2"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "input_op0_limb2_col2"
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "State": "input_op1_limb2_col6"
+                                                    }
+                                                  ]
+                                                },
+                                                "-",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "input_op0_limb3_col3"
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "State": "input_op1_limb3_col7"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "input_op0_limb2_col2"
+                                        },
+                                        "*",
+                                        {
+                                          "State": "input_op1_limb3_col7"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "input_op0_limb3_col3"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "input_op1_limb2_col6"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "mul_flag"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "input_op0_limb0_col0"
+                                },
+                                "+",
+                                {
+                                  "State": "input_op1_limb0_col4"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "add_flag"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "input_op0_limb0_col0"
+                            },
+                            "-",
+                            {
+                              "State": "input_op1_limb0_col4"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "ExternalState": "sub_flag"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "input_op0_limb0_col0"
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb0_col4"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "ExternalState": "pointwise_mul_flag"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_dst_limb1_col9"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "State": "input_op0_limb0_col0"
+                                                },
+                                                "*",
+                                                {
+                                                  "State": "input_op1_limb1_col5"
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "State": "input_op0_limb1_col1"
+                                                },
+                                                "*",
+                                                {
+                                                  "State": "input_op1_limb0_col4"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "2"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "input_op0_limb2_col2"
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "State": "input_op1_limb3_col7"
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "input_op0_limb3_col3"
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "State": "input_op1_limb2_col6"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "input_op0_limb2_col2"
+                                        },
+                                        "*",
+                                        {
+                                          "State": "input_op1_limb2_col6"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "input_op0_limb3_col3"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "input_op1_limb3_col7"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "mul_flag"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "input_op0_limb1_col1"
+                                },
+                                "+",
+                                {
+                                  "State": "input_op1_limb1_col5"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "add_flag"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "input_op0_limb1_col1"
+                            },
+                            "-",
+                            {
+                              "State": "input_op1_limb1_col5"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "ExternalState": "sub_flag"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "input_op0_limb1_col1"
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb1_col5"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "ExternalState": "pointwise_mul_flag"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_dst_limb2_col10"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "State": "input_op0_limb0_col0"
+                                            },
+                                            "*",
+                                            {
+                                              "State": "input_op1_limb2_col6"
+                                            }
+                                          ]
+                                        },
+                                        "-",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "State": "input_op0_limb1_col1"
+                                            },
+                                            "*",
+                                            {
+                                              "State": "input_op1_limb3_col7"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "input_op0_limb2_col2"
+                                        },
+                                        "*",
+                                        {
+                                          "State": "input_op1_limb0_col4"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "input_op0_limb3_col3"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "input_op1_limb1_col5"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "mul_flag"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "input_op0_limb2_col2"
+                                },
+                                "+",
+                                {
+                                  "State": "input_op1_limb2_col6"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "add_flag"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "input_op0_limb2_col2"
+                            },
+                            "-",
+                            {
+                              "State": "input_op1_limb2_col6"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "ExternalState": "sub_flag"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "input_op0_limb2_col2"
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb2_col6"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "ExternalState": "pointwise_mul_flag"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_dst_limb3_col11"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "State": "input_op0_limb0_col0"
+                                            },
+                                            "*",
+                                            {
+                                              "State": "input_op1_limb3_col7"
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "State": "input_op0_limb1_col1"
+                                            },
+                                            "*",
+                                            {
+                                              "State": "input_op1_limb2_col6"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "input_op0_limb2_col2"
+                                        },
+                                        "*",
+                                        {
+                                          "State": "input_op1_limb1_col5"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "input_op0_limb3_col3"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "input_op1_limb0_col4"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "mul_flag"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "input_op0_limb3_col3"
+                                },
+                                "+",
+                                {
+                                  "State": "input_op1_limb3_col7"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "ExternalState": "add_flag"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "input_op0_limb3_col3"
+                            },
+                            "-",
+                            {
+                              "State": "input_op1_limb3_col7"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "ExternalState": "sub_flag"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "input_op0_limb3_col3"
+                        },
+                        "*",
+                        {
+                          "State": "input_op1_limb3_col7"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "ExternalState": "pointwise_mul_flag"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "op0_addr"
+          },
+          {
+            "State": "input_op0_limb0_col0"
+          },
+          {
+            "State": "input_op0_limb1_col1"
+          },
+          {
+            "State": "input_op0_limb2_col2"
+          },
+          {
+            "State": "input_op0_limb3_col3"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "op1_addr"
+          },
+          {
+            "State": "input_op1_limb0_col4"
+          },
+          {
+            "State": "input_op1_limb1_col5"
+          },
+          {
+            "State": "input_op1_limb2_col6"
+          },
+          {
+            "State": "input_op1_limb3_col7"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "dst_addr"
+          },
+          {
+            "State": "input_dst_limb0_col8"
+          },
+          {
+            "State": "input_dst_limb1_col9"
+          },
+          {
+            "State": "input_dst_limb2_col10"
+          },
+          {
+            "State": "input_dst_limb3_col11"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "qm31_ops_multiplicity"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[0][0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[0][1]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[0][2]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[0][3]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[1][0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[1][1]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[1][2]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[1][3]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[2][0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[2][1]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[2][2]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "qm_31_ops_input[2][3]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "op0_addr"
+          },
+          {
+            "State": "input_op0_limb0_col0"
+          },
+          {
+            "State": "input_op0_limb1_col1"
+          },
+          {
+            "State": "input_op0_limb2_col2"
+          },
+          {
+            "State": "input_op0_limb3_col3"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "op1_addr"
+          },
+          {
+            "State": "input_op1_limb0_col4"
+          },
+          {
+            "State": "input_op1_limb1_col5"
+          },
+          {
+            "State": "input_op1_limb2_col6"
+          },
+          {
+            "State": "input_op1_limb3_col7"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "dst_addr"
+          },
+          {
+            "State": "input_dst_limb0_col8"
+          },
+          {
+            "State": "input_dst_limb1_col9"
+          },
+          {
+            "State": "input_dst_limb2_col10"
+          },
+          {
+            "State": "input_dst_limb3_col11"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "qm31_ops_multiplicity"
+        }
+      }
+    }
+  ]
+}

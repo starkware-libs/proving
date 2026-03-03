@@ -1,20 +1,14 @@
 use air_common::TraceType;
 use serde::Serialize;
 
-use super::g::*;
-use super::read_u32::*;
-use super::round_sigma::*;
-use crate::airs::casm::casm_state::*;
-// Macros
+use super::blake_message::*;
+use crate::airs::casm::opcodes::blake::g::*;
+use crate::airs::casm::opcodes::blake::round_sigma::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
-use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
-
-pub type BlakeState = [UInt32Expr; 16];
-pub type BlakeRoundInput = (BlakeState, CasmAddress);
 
 // Each row `i` contains the state's indices sent to the function `G` in the `i`-th call for each
 // round.
@@ -29,45 +23,40 @@ pub const G_STATE_INDICES: [[usize; 4]; 8] = [
     [3, 4, 9, 14],
 ];
 
-#[derive(Debug, Serialize, Default)]
+#[derive(Debug, Serialize)]
 pub struct BlakeRound {
     #[serde(skip)]
-    pub memory: Felt252IdMemory,
+    pub message: [UInt32Expr; 16],
 }
 
 impl AirFn for BlakeRound {
     type ExtIn = ();
-    type In = (ChainIdVar, RoundNumVar, BlakeRoundInput);
-    type Out = (ChainIdVar, RoundNumVar, BlakeRoundInput);
+    type In = (ChainIdVar, RoundNumVar, ([UInt32Expr; 16], FeltExpr));
+    type Out = (ChainIdVar, RoundNumVar, ([UInt32Expr; 16], FeltExpr));
 
     fn call(
         &self,
-        air_builder: &mut AirBuilder,
+        ab: &mut AirBuilder,
         _: (),
-        (chain, rnd, (mut state, message_pointer)): Self::In,
+        (chain, rnd, (mut state, message_id)): Self::In,
     ) -> Self::Out {
         // Read current message permutation (sigma) according to the round.
-        let curr_sigma = air_builder.lookup_call(&BlakeRoundSigma {}, [rnd.clone()], ());
+        let curr_sigma = ab.lookup_call(&BlakeRoundSigma {}, [rnd.clone()], ());
 
         // Read the current message according to the permutation.
-        let read_u32 = ReadU32 {
-            memory: self.memory.clone(),
+        let blake_message = BlakeMessage {
+            message: self.message.clone(),
         };
         let mut current_message = vec![];
-        for (i, index) in curr_sigma.into_iter().enumerate() {
-            let addr = CasmAddress::new(
-                message_pointer.clone().var + index.clone(),
-                &format!("message_word_{i}"),
-            );
-            let curr_word = air_builder.call(&read_u32, addr);
-            current_message.push(curr_word);
+        for i in curr_sigma.into_iter() {
+            let message_limbi = ab.lookup_call(&blake_message, (), [message_id.clone(), i]);
+            current_message.push(message_limbi);
         }
 
         // Apply the G function to the state.
-        let g = BlakeG {};
         for (row_index, &[i0, i1, i2, i3]) in G_STATE_INDICES.iter().enumerate() {
-            [state[i0], state[i1], state[i2], state[i3]] = air_builder.lookup_call(
-                &g,
+            [state[i0], state[i1], state[i2], state[i3]] = ab.lookup_call(
+                &BlakeG {},
                 (),
                 [
                     state[i0].clone(),
@@ -79,7 +68,8 @@ impl AirFn for BlakeRound {
                 ],
             );
         }
-        (chain, rnd + const_expr!(1), (state, message_pointer))
+
+        (chain, rnd + const_expr!(1), (state, message_id))
     }
 
     fn trace_type(&self) -> TraceType {
@@ -87,7 +77,7 @@ impl AirFn for BlakeRound {
     }
 }
 
-impl ChainRoundAirFn<BlakeRoundInput> for BlakeRound {
+impl ChainRoundAirFn<([UInt32Expr; 16], FeltExpr)> for BlakeRound {
     fn number_of_chains(&self) -> usize {
         1
     }

@@ -27,7 +27,7 @@ fn test_blake(
 ) -> (State, CasmStateVar) {
     let [pc_value, ap_value, fp_value] = casm_state;
     let ([dst_base_fp, op0_base_fp, op1_base_fp, op1_base_ap, _ap_update_add_1], opcode) = flags;
-    let [state_pointer, new_state_pointer, messgae_pointer] = pointers;
+    let [state_pointer, new_state_pointer, message_pointer] = pointers;
     let pc = const_expr!(pc_value);
     let ap = const_expr!(ap_value);
     let fp = const_expr!(fp_value);
@@ -77,7 +77,7 @@ fn test_blake(
     };
     memory_values.push((
         const_expr!((op1_base as i16 + offsets[2]) as u32),
-        const_felt252_expr!(messgae_pointer as i64),
+        const_felt252_expr!(message_pointer as i64),
     ));
 
     for i in 0..8 {
@@ -95,7 +95,7 @@ fn test_blake(
     for i in 0..16 {
         // message
         memory_values.push((
-            const_expr!(messgae_pointer + i),
+            const_expr!(message_pointer + i),
             const_felt252_expr!(message[i as usize] as i64),
         ));
     }
@@ -124,7 +124,7 @@ fn test_blake_opcode() {
         3732224820, 992304330, 2505173906, 3209801007, 2076716084, 1709955699, 2814744008,
         925232990,
     ];
-    let messgae = [
+    let message = [
         3675856565, 2505499898, 2411686070, 3389252950, 3499394596, 729107608, 2054428875,
         2812783018, 494163526, 2118351834, 3071324623, 2000055100, 1663106196, 876311781,
         2518385179, 203883843,
@@ -137,7 +137,7 @@ fn test_blake_opcode() {
         state,
         64,
         new_state,
-        messgae,
+        message,
         ([false, true, true, false, true], OpcodeExtension::Blake),
     );
 
@@ -335,7 +335,7 @@ fn test_blake_last_block() {
     let new_state = [
         3682597515, 2216389235, 312988646, 2824139482, 287550524, 1393039850, 2625350416, 483117428,
     ];
-    let messgae = [
+    let message = [
         1730312174, 3506704347, 1997875835, 3947607044, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ];
     let [pc, ap, fp] = [546, 5656, 886];
@@ -347,7 +347,7 @@ fn test_blake_last_block() {
         state,
         16,
         new_state,
-        messgae,
+        message,
         (
             [true, true, true, false, false],
             OpcodeExtension::BlakeFinalize,
@@ -370,7 +370,7 @@ fn test_blake_opcode_fail() {
         3732224820, 992304331, 2505173906, 3209801007, 2076716084, 1709955699, 2814744008,
         925232990,
     ];
-    let messgae = [
+    let message = [
         3675856565, 2505499898, 2411686070, 3389252950, 3499394596, 729107608, 2054428875,
         2812783018, 494163526, 2118351834, 3071324623, 2000055100, 1663106196, 876311781,
         2518385179, 203883843,
@@ -383,7 +383,7 @@ fn test_blake_opcode_fail() {
         state,
         64,
         new_state,
-        messgae,
+        message,
         ([false, true, true, false, true], OpcodeExtension::Blake),
     );
 }
@@ -395,7 +395,6 @@ mod blake_rust_tests {
     use crate::airs::casm::opcodes::blake::create_blake_round_input::*;
 
     // Convert array of bytes to array of u32
-    #[cfg(test)]
     fn u8_to_u32_array(bytes: &[u8]) -> Vec<u32> {
         let mut u32_array = vec![];
         for chunk in bytes.chunks(4) {
@@ -428,7 +427,7 @@ mod blake_rust_tests {
             IV[7],
         ];
         let new_state = u8_to_u32_array(&hash);
-        let messgae = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let message = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         test_blake(
             [45, 83, 112],
@@ -439,7 +438,7 @@ mod blake_rust_tests {
             new_state
                 .try_into()
                 .expect("Expected hash size of 8 u32 elements"),
-            messgae,
+            message,
             (
                 [false, true, true, false, true],
                 OpcodeExtension::BlakeFinalize,
@@ -474,7 +473,7 @@ mod blake_rust_tests {
             1393684787, 2988713546, 1902042253, 224103376, 992369913, 3965699322, 2296366438,
             863347823,
         ];
-        let messgae0 = input_as_u32[0..16]
+        let message0 = input_as_u32[0..16]
             .try_into()
             .expect("Expected at least 16 u32 elements in input");
 
@@ -485,7 +484,7 @@ mod blake_rust_tests {
             state,
             64,
             new_state,
-            messgae0,
+            message0,
             ([false, true, true, false, true], OpcodeExtension::Blake),
         );
 

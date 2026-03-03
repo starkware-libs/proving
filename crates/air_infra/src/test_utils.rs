@@ -16,6 +16,7 @@ pub const JSONS_OPCODES_DIR: &str = "compiled_jsons/opcodes/";
 pub const JSONS_BUILTINS_DIR: &str = "compiled_jsons/builtins/";
 pub const JSONS_LOOKUPS_DIR: &str = "compiled_jsons/lookups/";
 pub const JSONS_INLINE_DIR: &str = "compiled_jsons/subroutines/";
+pub const JSONS_GATES_DIR: &str = "compiled_jsons/gates/";
 
 pub fn compare_json<T>(value: &T, file_path: &Path)
 where
@@ -69,7 +70,8 @@ pub fn compare_registry_jsons(registry: &AirFnRegistry, path: &Path) {
 
     for (name, compiled_entry) in compiled_reg.iter() {
         // Const functions are not compiled.
-        if compiled_entry.r#type == TraceType::Const {
+        if compiled_entry.r#type == TraceType::Const || compiled_entry.r#type == TraceType::Relation
+        {
             continue;
         }
 
@@ -78,7 +80,10 @@ pub fn compare_registry_jsons(registry: &AirFnRegistry, path: &Path) {
             TraceType::Component | TraceType::Memory | TraceType::ChainRound => JSONS_LOOKUPS_DIR,
             TraceType::Builtin => JSONS_BUILTINS_DIR,
             TraceType::Inline => JSONS_INLINE_DIR,
-            TraceType::Const => panic!("Const functions should have been filtered out above"),
+            TraceType::Gate => JSONS_GATES_DIR,
+            TraceType::Const | TraceType::Relation => {
+                panic!("Const functions and relations should have been filtered out above")
+            }
         };
 
         // Check the compiled entry json.

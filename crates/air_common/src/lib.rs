@@ -16,6 +16,7 @@ pub const SAMPLE_EVALUATIONS_FILE_NAME: &str = "sample_evaluations.json";
 
 // These relation names should be taken from stwo-cairo.
 pub const OPCODES_RELATION_NAME: &str = "Opcodes";
+pub const GATE_RELATION_NAME: &str = "Gate";
 pub const MEMORY_RELATION_NAME: &str = "MemoryIdToBig";
 
 // A preprocessed column represented by its id in stwo-cairo. The special
@@ -80,6 +81,12 @@ pub enum TraceType {
     //   sound (for example, a malicious prover can run for more rounds than intended by
     //   overflowing the round number).
     ChainRound,
+
+    // Used by the circuit airs for AirFns that are separate components, but manage their uses /
+    // yields manually.
+    Gate,
+    // Relation that doesn't have a table in the trace, but can be used for lookups.
+    Relation,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

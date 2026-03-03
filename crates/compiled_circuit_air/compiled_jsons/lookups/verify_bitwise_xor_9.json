@@ -1,0 +1,111 @@
+{
+  "name": "verify_bitwise_xor_9",
+  "relation_names": [
+    "VerifyBitwiseXor_9"
+  ],
+  "relation_size": 3,
+  "log_height": 18,
+  "description": "Verify Bitwise Xor 9",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "verify_bitwise_xor_9_input",
+    "[M31; 3]",
+    "[PackedM31; 3]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "bitwise_xor_9_0",
+    "bitwise_xor_9_1",
+    "bitwise_xor_9_2"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "verify_bitwise_xor_9_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "VerifyBitwiseXor_9",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "bitwise_xor_9_0",
+    "bitwise_xor_9_1",
+    "bitwise_xor_9_2"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_9",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "95781001"
+            ]
+          },
+          {
+            "ExternalState": "bitwise_xor_9_0"
+          },
+          {
+            "ExternalState": "bitwise_xor_9_1"
+          },
+          {
+            "ExternalState": "bitwise_xor_9_2"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_9",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "95781001"
+            ]
+          },
+          {
+            "ExternalState": "bitwise_xor_9_0"
+          },
+          {
+            "ExternalState": "bitwise_xor_9_1"
+          },
+          {
+            "ExternalState": "bitwise_xor_9_2"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

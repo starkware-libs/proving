@@ -453,7 +453,8 @@ impl AirFnRegistry {
             TraceType::Component
             | TraceType::ChainRound
             | TraceType::Memory
-            | TraceType::Opcode => air_fn.lookup_call(&mut air_builder, ext_input, input),
+            | TraceType::Opcode
+            | TraceType::Relation => air_fn.lookup_call(&mut air_builder, ext_input, input),
             // For constant AirFns there are no constraints or deductions, so we just return the
             // output.
             TraceType::Const => {
@@ -464,6 +465,7 @@ impl AirFnRegistry {
                 );
                 output
             }
+            TraceType::Gate => air_fn.gate_call(&mut air_builder, ext_input, input),
         };
 
         let state = air_builder.component_context.state().clone();
@@ -510,8 +512,19 @@ impl AirFnRegistry {
             TraceType::Component
             | TraceType::ChainRound
             | TraceType::Opcode
-            | TraceType::Memory => {
+            | TraceType::Memory
+            | TraceType::Relation => {
                 let output = air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone());
+                // Make sure that all intermediate variables in the output are visible in the
+                // trace generation code, since this code returns the output.
+                assert!(
+                    output.clone().into().visibility().in_deductions,
+                    "Output must have no intermediate variables that are not in deductions",
+                );
+                output
+            }
+            TraceType::Gate => {
+                let output = air_fn.gate_call(&mut air_builder, ext_input.clone(), input.clone());
                 // Make sure that all intermediate variables in the output are visible in the
                 // trace generation code, since this code returns the output.
                 assert!(

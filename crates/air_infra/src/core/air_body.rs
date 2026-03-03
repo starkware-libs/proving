@@ -1,5 +1,6 @@
 use std::collections::BTreeSet;
 use std::fmt::Debug;
+use std::iter::once;
 
 use air_common::{ExternalState, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
 use air_compile::compiled_structs::{
@@ -268,8 +269,17 @@ impl AirBody {
                         external_states.extend(input.external_states());
                     }
                 }
-                AirBodyComponent::LookupTerm { felts, .. } => {
-                    external_states.extend(felts.iter().flat_map(|f| f.external_states()));
+                AirBodyComponent::LookupTerm {
+                    felts,
+                    multiplicity,
+                    ..
+                } => {
+                    external_states.extend(
+                        felts
+                            .iter()
+                            .chain(once(&multiplicity))
+                            .flat_map(|f| f.external_states()),
+                    );
                 }
             }
         }
@@ -302,8 +312,17 @@ impl AirBody {
                         public_params.extend(input.public_params());
                     }
                 }
-                AirBodyComponent::LookupTerm { felts, .. } => {
-                    public_params.extend(felts.iter().flat_map(|f| f.public_params()));
+                AirBodyComponent::LookupTerm {
+                    felts,
+                    multiplicity,
+                    ..
+                } => {
+                    public_params.extend(
+                        felts
+                            .iter()
+                            .chain(once(&multiplicity))
+                            .flat_map(|f| f.public_params()),
+                    );
                 }
             }
         }
