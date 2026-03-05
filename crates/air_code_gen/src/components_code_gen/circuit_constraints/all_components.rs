@@ -37,9 +37,9 @@ pub fn generate_all_components_file(
 
         use indexmap::IndexMap;
 
-        use crate::circuits::ivalue::IValue;
-        use crate::stark_verifier::constraint_eval::CircuitEval;
-        use crate::cairo_air::components;
+        use circuits::ivalue::IValue;
+        use circuits_stark_verifier::constraint_eval::CircuitEval;
+        use crate::components;
 
         pub fn all_components<Value: IValue>() -> IndexMap<&'static str, Box<dyn CircuitEval<Value>>> {
             IndexMap::from([$(body.join(", "))])

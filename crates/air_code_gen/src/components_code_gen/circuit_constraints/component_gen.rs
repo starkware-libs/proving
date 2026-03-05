@@ -25,7 +25,7 @@ pub fn generate_circuit_constraints_code(
         quote! {}
     };
     let mut code = quote! {
-        use crate::cairo_air::components::prelude::*;
+        use crate::components::prelude::*;
         $("\n\n")
     };
 
@@ -378,12 +378,12 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             use stwo::core::fields::qm31::QM31;
 
             #[allow(unused_imports)]
-            use crate::cairo_air::components::prelude::PreProcessedColumnId;
-            use crate::cairo_air::sample_evaluations::*;
-            use crate::cairo_air::test::TestComponentData;
-            use crate::circuits::context::Context;
-            use crate::circuits::ivalue::qm31_from_u32s;
-            use crate::stark_verifier::constraint_eval::*;
+            use crate::components::prelude::PreProcessedColumnId;
+            use crate::sample_evaluations::*;
+            use crate::test::TestComponentData;
+            use circuits::context::Context;
+            use circuits::ivalue::qm31_from_u32s;
+            use circuits_stark_verifier::constraint_eval::*;
 
             use super::Component;
 

@@ -173,7 +173,7 @@ fn dest_dir_for_job(job: &AutogenCodeFile, target_repo_path: &Path) -> PathBuf {
         AutogenCodeType::WITNESS => "stwo_cairo_prover/crates/prover/src/witness/components",
         AutogenCodeType::AIR => "stwo_cairo_prover/crates/cairo-air/src/components",
         AutogenCodeType::CAIRO => "stwo_cairo_verifier/crates/cairo_air/src/components",
-        AutogenCodeType::CIRCUIT => "crates/stwo-circuits/src/cairo_air/components",
+        AutogenCodeType::CIRCUIT => "crates/cairo_air/src/components",
     };
 
     target_repo_path.join(path_in_target_repo)
@@ -386,18 +386,14 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
     );
 
     circuit_sample_evaluations::generate_sample_evaluations_file(
-        &args
-            .stwo_circuits_path
-            .join("crates/stwo-circuits/src/cairo_air"),
+        &args.stwo_circuits_path.join("crates/cairo_air/src"),
         &get_git_rev(&args.source),
         &sample_evaluations,
     );
 
     let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
     generate_all_components_file(
-        &args
-            .stwo_circuits_path
-            .join("crates/stwo-circuits/src/cairo_air"),
+        &args.stwo_circuits_path.join("crates/cairo_air/src"),
         &compiled_regisry,
     );
 
