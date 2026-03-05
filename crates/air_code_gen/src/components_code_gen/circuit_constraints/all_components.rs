@@ -24,9 +24,6 @@ pub fn generate_all_components_file(
                     "(\"memory_id_to_big_{i}\", Box::new(components::memory_id_to_big::Component {{ index: {i} }}) as Box<dyn CircuitEval<Value>>)"
                 ));
             }
-            body.push(
-                "(\"memory_id_to_small\", Box::new(components::memory_id_to_small::Component {}) as Box<dyn CircuitEval<Value>>)".to_string()
-            );
         } else {
             body.push(format!("(\"{name}\", Box::new(components::{name}::Component {{}}) as Box<dyn CircuitEval<Value>>)"));
         }

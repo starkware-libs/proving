@@ -13,7 +13,7 @@ impl ExtTable for BlakeGateEnabler {
     type T = FeltExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["blake_gate_enabler".to_string()]
+        vec!["compress_enabler".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -125,7 +125,7 @@ impl ExtTable for BlakeOutput0Multiplicity {
     type T = FeltExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["blake_output0_multiplicity".to_string()]
+        vec!["blake_output0_mults".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -153,7 +153,7 @@ impl ExtTable for BlakeOutput1Multiplicity {
     type T = FeltExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["blake_output1_multiplicity".to_string()]
+        vec!["blake_output1_mults".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {

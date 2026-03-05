@@ -761,7 +761,7 @@
     "finalize_flag",
     "Seq",
     "state_before_addr",
-    "blake_gate_enabler",
+    "compress_enabler",
     "state_after_addr",
     "message0_addr",
     "message1_addr",
@@ -1918,7 +1918,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -1986,7 +1986,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -2018,7 +2018,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -2050,7 +2050,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -2082,7 +2082,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -2114,7 +2114,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     }
@@ -3901,14 +3901,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -3928,7 +3921,9 @@
                 "State": "input_message_limb0_col32"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -4155,14 +4150,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -4182,7 +4170,9 @@
                 "State": "input_message_limb1_col33"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -4409,14 +4399,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -4436,7 +4419,9 @@
                 "State": "input_message_limb2_col34"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -4663,14 +4648,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -4690,7 +4668,9 @@
                 "State": "input_message_limb3_col35"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -4917,14 +4897,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -4944,7 +4917,9 @@
                 "State": "input_message_limb4_col36"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -5171,14 +5146,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -5198,7 +5166,9 @@
                 "State": "input_message_limb5_col37"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -5425,14 +5395,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -5452,7 +5415,9 @@
                 "State": "input_message_limb6_col38"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -5679,14 +5644,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -5706,7 +5664,9 @@
                 "State": "input_message_limb7_col39"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -5933,14 +5893,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -5960,7 +5913,9 @@
                 "State": "input_message_limb8_col40"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -6187,14 +6142,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -6214,7 +6162,9 @@
                 "State": "input_message_limb9_col41"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -6441,14 +6391,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -6468,7 +6411,9 @@
                 "State": "input_message_limb10_col42"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -6695,14 +6640,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -6722,7 +6660,9 @@
                 "State": "input_message_limb11_col43"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -6949,14 +6889,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -6976,7 +6909,9 @@
                 "State": "input_message_limb12_col44"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -7203,14 +7138,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -7230,7 +7158,9 @@
                 "State": "input_message_limb13_col45"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -7457,14 +7387,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -7484,7 +7407,9 @@
                 "State": "input_message_limb14_col46"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -7711,14 +7636,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -7738,7 +7656,9 @@
                 "State": "input_message_limb15_col47"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -12988,7 +12908,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -13056,7 +12976,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -13088,7 +13008,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -13120,7 +13040,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -13152,7 +13072,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     },
@@ -13184,7 +13104,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "ExternalState": "blake_gate_enabler"
+          "ExternalState": "compress_enabler"
         }
       }
     }

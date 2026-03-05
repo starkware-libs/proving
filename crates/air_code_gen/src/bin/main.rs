@@ -21,13 +21,14 @@ use air_infra::core::air_fn_registry::AirFnStat;
 use clap::Parser;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
+use itertools::Itertools;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
     CANONICAL_SIZE, CANONICAL_WITHOUT_PEDERSEN_SIZE,
 };
 use xshell::{cmd, Shell};
 
-const DEFAULT_SOURCE_DIR: &str = "./crates/compiled_casm_air";
+const DEFAULT_SOURCE_DIR: &str = ".";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
 const DEFAULT_STWO_CIRCUITS_PATH: &str = "../stwo-circuits/";
 pub const CLAIM_GENERATOR_FILE_PATH: &str =
@@ -65,11 +66,15 @@ fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
 
 /// For each JSON in the given directory, create AutogenCodeFile jobs
 /// for each code type.
-fn get_jobs(source_dir: &Path, code_types: &[AutogenCodeType]) -> Vec<AutogenCodeFile> {
+fn get_jobs(
+    source_dir: &Path,
+    dest_dir: &Path,
+    code_type: AutogenCodeType,
+) -> Vec<AutogenCodeFile> {
     let mut result = vec![];
 
     let mut skipped_files = 0;
-    for json_path in jsons_in_dir(&source_dir.join("compiled_jsons")) {
+    for json_path in jsons_in_dir(source_dir) {
         let air_fn_name = json_path
             .file_stem()
             .expect("Invalid path")
@@ -80,23 +85,22 @@ fn get_jobs(source_dir: &Path, code_types: &[AutogenCodeType]) -> Vec<AutogenCod
             .parent()
             .expect("Invalid path")
             .ends_with("subroutines");
-        for code_type in code_types {
-            if *code_type == AutogenCodeType::WITNESS && is_subroutine {
-                // Skip witness generation for subroutines (in witness code, the subroutines are
-                // inlined into their caller files).
-                continue;
-            }
+        if code_type == AutogenCodeType::WITNESS && is_subroutine {
+            // Skip witness generation for subroutines (in witness code, the subroutines are
+            // inlined into their caller files).
+            continue;
+        }
 
-            let job = AutogenCodeFile {
-                air_fn_name: air_fn_name.clone(),
-                source_path: json_path.clone(),
-                code_type: *code_type,
-            };
-            if is_supported(&job) {
-                result.push(job);
-            } else {
-                skipped_files += 1;
-            }
+        let job = AutogenCodeFile {
+            air_fn_name: air_fn_name.clone(),
+            source_path: json_path.clone(),
+            dest_dir: dest_dir.to_path_buf(),
+            code_type,
+        };
+        if is_supported(&job) {
+            result.push(job);
+        } else {
+            skipped_files += 1;
         }
     }
     println!(
@@ -114,7 +118,6 @@ fn generate_files(
     jobs: &[AutogenCodeFile],
 ) {
     for job in jobs.iter() {
-        let dest_dir = dest_dir_for_job(job, target_repo_path);
         let compiled_air_fn = compiled_air_fns
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
@@ -124,7 +127,11 @@ fn generate_files(
         // is more efficient than formatting each file when generating it due to the startup
         // time of rustfmt and scarb.
         let code = generate_air_fn_code(compiled_air_fn, sample_evaluation, job.code_type);
-        let dest_path = generated_code_path(compiled_air_fn, &dest_dir, job.code_type);
+        let dest_path = generated_code_path(
+            compiled_air_fn,
+            &target_repo_path.join(&job.dest_dir),
+            job.code_type,
+        );
         add_file_to_module(dest_path.as_path(), code, job.code_type);
     }
 }
@@ -168,17 +175,6 @@ fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
     .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dest_path.display()))
 }
 
-fn dest_dir_for_job(job: &AutogenCodeFile, target_repo_path: &Path) -> PathBuf {
-    let path_in_target_repo = match job.code_type {
-        AutogenCodeType::WITNESS => "stwo_cairo_prover/crates/prover/src/witness/components",
-        AutogenCodeType::AIR => "stwo_cairo_prover/crates/cairo-air/src/components",
-        AutogenCodeType::CAIRO => "stwo_cairo_verifier/crates/cairo_air/src/components",
-        AutogenCodeType::CIRCUIT => "crates/cairo_air/src/components",
-    };
-
-    target_repo_path.join(path_in_target_repo)
-}
-
 fn read_casm_registry(compiled_crate_src: &Path) -> IndexMap<String, AirFnStat> {
     let casm_registry_path = compiled_crate_src.join(REGISTRY_PROPERTIES_FILE_NAME);
     let casm_registry_file = fs::read_to_string(&casm_registry_path)
@@ -202,7 +198,7 @@ struct GenerateStwoCairoArgs {
 
 #[derive(Debug, Parser)]
 struct GenerateStwoCircuitsArgs {
-    /// Source directory of the compiled_casm_air crate
+    /// Source directory of stwo_air_infra
     #[clap(long, default_value = DEFAULT_SOURCE_DIR)]
     source: PathBuf,
 
@@ -248,11 +244,11 @@ struct Args {
 ///
 /// Generate code to stwo-cairo:
 /// `$ cargo run --bin cairo_code_gen -- generate-stwo-cairo --source
-///     ./crates/compiled_casm_air/ --stwo-cairo-path ~/stwo-cairo/`
+///     . --stwo-cairo-path ~/stwo-cairo/`
 ///
 /// Generate a single file (output to stdout):
 /// `$ cargo run --bin cairo_code_gen -- single --source
-///      ./crates/compiled_casm_air/ --rust-constraints /path/to/biwise_builtin.json`
+///      . --rust-constraints /path/to/biwise_builtin.json`
 fn main() {
     let args = Args::try_parse_from(std::env::args()).unwrap_or_else(|e| e.exit());
 
@@ -291,6 +287,7 @@ fn generate_single(args: SingleArgs) {
     let job = AutogenCodeFile {
         air_fn_name: air_fn_name.clone(),
         source_path: args.file,
+        dest_dir: "<stdout>".into(), // We output to stdout and don't use this value
         code_type,
     };
     let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &[job]);
@@ -310,14 +307,26 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         panic!("Source directory does not exist: {}", args.source.display());
     }
 
-    let jobs = get_jobs(
-        &args.source,
-        &[
+    let code_type_and_dir = [
+        (
             AutogenCodeType::AIR,
+            Path::new("stwo_cairo_prover/crates/cairo-air/src/components"),
+        ),
+        (
             AutogenCodeType::CAIRO,
+            Path::new("stwo_cairo_verifier/crates/cairo_air/src/components"),
+        ),
+        (
             AutogenCodeType::WITNESS,
-        ],
-    );
+            Path::new("stwo_cairo_prover/crates/prover/src/witness/components"),
+        ),
+    ];
+
+    let jobs = code_type_and_dir
+        .iter()
+        .flat_map(|(ty, dir)| get_jobs(&args.source.join("compiled_jsons"), dir, *ty))
+        .collect_vec();
+
     let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
 
     generate_files(
@@ -375,21 +384,35 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
         panic!("Source directory does not exist: {}", args.source.display());
     }
 
-    let jobs = get_jobs(&args.source, &[AutogenCodeType::CIRCUIT]);
-    let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
+    let source_and_dest = [
+        (
+            &args.source.join("crates/compiled_casm_air"),
+            Path::new("crates/cairo_air/src/components"),
+        ),
+        (
+            &args.source.join("crates/compiled_circuit_air"),
+            Path::new("crates/circuit_air/src/circuit_eval_components"),
+        ),
+    ];
 
-    generate_files(
-        &args.stwo_circuits_path,
-        &compiled_air_fns,
-        &sample_evaluations,
-        &jobs,
-    );
+    let git_rev = get_git_rev(&args.source);
 
-    circuit_sample_evaluations::generate_sample_evaluations_file(
-        &args.stwo_circuits_path.join("crates/cairo_air/src"),
-        &get_git_rev(&args.source),
-        &sample_evaluations,
-    );
+    for (src, dst) in source_and_dest {
+        let jobs = get_jobs(&src.join("compiled_jsons"), dst, AutogenCodeType::CIRCUIT);
+        let (compiled_air_fns, sample_evaluations) = load_air_fns(src, &jobs);
+        generate_files(
+            &args.stwo_circuits_path,
+            &compiled_air_fns,
+            &sample_evaluations,
+            &jobs,
+        );
+
+        circuit_sample_evaluations::generate_sample_evaluations_file(
+            &args.stwo_circuits_path.join(dst).join(".."),
+            &git_rev,
+            &sample_evaluations,
+        );
+    }
 
     let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
     generate_all_components_file(
