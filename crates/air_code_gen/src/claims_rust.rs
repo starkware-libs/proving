@@ -56,7 +56,7 @@ pub fn generate_claims_rust_file(
             sum += claim.public_data.logup_sum(common_lookup_elements);
             $(&components_names.iter().map(|name| {
                 format!("interaction_claim.{name}.as_ref().inspect(|ic| {{sum += ic.claimed_sum;}});")
-            }).collect_vec().join("\n"));
+            }).collect_vec().join("\n"))
             sum
         }
 

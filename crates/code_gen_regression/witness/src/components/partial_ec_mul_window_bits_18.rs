@@ -21,10 +21,6 @@ impl ClaimGenerator {
         Self::default()
     }
 
-    pub fn is_empty(&self) -> bool {
-        self.packed_inputs.is_empty()
-    }
-
     pub fn write_trace(
         mut self,
         pedersen_points_table_window_bits_18_state: &pedersen_points_table_window_bits_18::ClaimGenerator,

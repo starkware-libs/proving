@@ -230,28 +230,11 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
         quote! { self.log_size }
     };
 
-    let mut channel_mix_code = quote! {};
-    if !is_const_size_component(air_fn) {
-        channel_mix_code.append(quote! { channel.mix_u64($(&log_size) as u64); });
-    }
-    for public_param in &air_fn.public_params {
-        channel_mix_code.append(quote! {
-            channel.mix_u64(self.$(public_param) as u64);
-        });
-    }
-
     let struct_code = quote! {
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
         pub struct Claim {
             $(get_claim_members(air_fn))
         }
-    };
-
-    // Clippy wants us to prefix the parameter name with a '_' iff it is unused
-    let channel_param = if is_const_size_component(air_fn) {
-        quote! { _channel }
-    } else {
-        quote! { channel }
     };
 
     let impl_code = quote! {
@@ -264,10 +247,6 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
                     trace_log_sizes,
                     interaction_log_sizes,
                 ])
-            }
-             // TODO(Ohad): better mix_into.
-            pub fn mix_into(&self, $(channel_param): &mut impl Channel) {
-                $(channel_mix_code)
             }
         }
     };
@@ -302,22 +281,12 @@ pub fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_interaction_claim_struct() -> rust::Tokens {
-    let struct_code = quote! {
+    quote! {
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
         pub struct InteractionClaim {
             pub claimed_sum: SecureField,
         }
-    };
-    let mut impl_code = rust::Tokens::new();
-    impl_code.append(quote! {
-        impl InteractionClaim {
-            pub fn mix_into(&self, channel: &mut impl Channel) {
-                channel.mix_felts(&[self.claimed_sum]);
-            }
-        }
-    });
-
-    chain!(struct_code, impl_code).collect()
+    }
 }
 
 fn generate_component_type_def() -> rust::Tokens {
