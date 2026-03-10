@@ -53,8 +53,7 @@ fn get_manual_circuit_constraints_components() -> Vec<String> {
         "memory_id_to_big".into(),
         "qm_31_ops".into(),
         // The circuit version requires applying the enabler to the reading of the message,
-        // which is different from the stwo-cairo version.
-        "blake_round".into(),
+        "circuit_blake_round".into(),
         "verify_bitwise_xor_12".into(),
     ]
 }

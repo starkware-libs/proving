@@ -210,7 +210,7 @@
     "max_instances_uses_limit": 536870911,
     "max_instances_rows_limit": 268435456
   },
-  "blake_round": {
+  "circuit_blake_round": {
     "trace_type": "ChainRound",
     "log_height": null,
     "num_state_cols": 148,
@@ -218,10 +218,10 @@
       "BlakeRoundSigma": 1,
       "BlakeMessage": 16,
       "BlakeG": 8,
-      "BlakeRound": 1
+      "CircuitBlakeRound": 1
     },
     "yield_lookup_cols": {
-      "BlakeRound": 1
+      "CircuitBlakeRound": 1
     },
     "lookup_rows": {
       "BlakeRoundSigma": 1,
@@ -301,21 +301,21 @@
       "VerifyBitwiseXor_8": 4,
       "RangeCheck_16": 16,
       "RangeCheck_15": 16,
-      "BlakeRound": 1,
+      "CircuitBlakeRound": 1,
       "TripleXor32": 8,
       "BlakeOutput": 1,
       "Gate": 4
     },
     "yield_lookup_cols": {
       "BlakeMessage": 16,
-      "BlakeRound": 1,
+      "CircuitBlakeRound": 1,
       "BlakeOutput": 1
     },
     "lookup_rows": {
       "VerifyBitwiseXor_8": 4,
       "RangeCheck_16": 16,
       "RangeCheck_15": 16,
-      "BlakeRound": 10,
+      "CircuitBlakeRound": 10,
       "TripleXor32": 8
     },
     "padding_type": "Enabler",
@@ -334,7 +334,7 @@
       "verify_bitwise_xor_9": 256
     },
     "rows_upper_bound": {
-      "blake_round": 10,
+      "circuit_blake_round": 10,
       "blake_message": 256,
       "blake_g": 128,
       "triple_xor_32": 8

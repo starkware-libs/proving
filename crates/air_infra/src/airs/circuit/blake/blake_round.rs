@@ -24,12 +24,12 @@ pub const G_STATE_INDICES: [[usize; 4]; 8] = [
 ];
 
 #[derive(Debug, Serialize)]
-pub struct BlakeRound {
+pub struct CircuitBlakeRound {
     #[serde(skip)]
     pub message: [UInt32Expr; 16],
 }
 
-impl AirFn for BlakeRound {
+impl AirFn for CircuitBlakeRound {
     type ExtIn = ();
     type In = (ChainIdVar, RoundNumVar, ([UInt32Expr; 16], FeltExpr));
     type Out = (ChainIdVar, RoundNumVar, ([UInt32Expr; 16], FeltExpr));
@@ -77,7 +77,7 @@ impl AirFn for BlakeRound {
     }
 }
 
-impl ChainRoundAirFn<([UInt32Expr; 16], FeltExpr)> for BlakeRound {
+impl ChainRoundAirFn<([UInt32Expr; 16], FeltExpr)> for CircuitBlakeRound {
     fn number_of_chains(&self) -> usize {
         1
     }

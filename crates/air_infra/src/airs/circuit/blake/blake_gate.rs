@@ -45,7 +45,7 @@ impl AirFn for BlakeGate {
         let new_message = ab.call(&QM31IntoU32 {}, (message.clone(), message_id.clone()));
 
         let (new_state, _) = ab.chain_lookup_call(
-            &BlakeRound {
+            &CircuitBlakeRound {
                 message: new_message.clone(),
             },
             (state, message_id),
