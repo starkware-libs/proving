@@ -133,39 +133,39 @@
     "limbi_low_col99",
     "limbi_high_col100",
     "limbi_inv_or_one_col101",
-    "blake_round_output_limb_0_col102",
-    "blake_round_output_limb_1_col103",
-    "blake_round_output_limb_2_col104",
-    "blake_round_output_limb_3_col105",
-    "blake_round_output_limb_4_col106",
-    "blake_round_output_limb_5_col107",
-    "blake_round_output_limb_6_col108",
-    "blake_round_output_limb_7_col109",
-    "blake_round_output_limb_8_col110",
-    "blake_round_output_limb_9_col111",
-    "blake_round_output_limb_10_col112",
-    "blake_round_output_limb_11_col113",
-    "blake_round_output_limb_12_col114",
-    "blake_round_output_limb_13_col115",
-    "blake_round_output_limb_14_col116",
-    "blake_round_output_limb_15_col117",
-    "blake_round_output_limb_16_col118",
-    "blake_round_output_limb_17_col119",
-    "blake_round_output_limb_18_col120",
-    "blake_round_output_limb_19_col121",
-    "blake_round_output_limb_20_col122",
-    "blake_round_output_limb_21_col123",
-    "blake_round_output_limb_22_col124",
-    "blake_round_output_limb_23_col125",
-    "blake_round_output_limb_24_col126",
-    "blake_round_output_limb_25_col127",
-    "blake_round_output_limb_26_col128",
-    "blake_round_output_limb_27_col129",
-    "blake_round_output_limb_28_col130",
-    "blake_round_output_limb_29_col131",
-    "blake_round_output_limb_30_col132",
-    "blake_round_output_limb_31_col133",
-    "blake_round_output_limb_32_col134",
+    "circuit_blake_round_output_limb_0_col102",
+    "circuit_blake_round_output_limb_1_col103",
+    "circuit_blake_round_output_limb_2_col104",
+    "circuit_blake_round_output_limb_3_col105",
+    "circuit_blake_round_output_limb_4_col106",
+    "circuit_blake_round_output_limb_5_col107",
+    "circuit_blake_round_output_limb_6_col108",
+    "circuit_blake_round_output_limb_7_col109",
+    "circuit_blake_round_output_limb_8_col110",
+    "circuit_blake_round_output_limb_9_col111",
+    "circuit_blake_round_output_limb_10_col112",
+    "circuit_blake_round_output_limb_11_col113",
+    "circuit_blake_round_output_limb_12_col114",
+    "circuit_blake_round_output_limb_13_col115",
+    "circuit_blake_round_output_limb_14_col116",
+    "circuit_blake_round_output_limb_15_col117",
+    "circuit_blake_round_output_limb_16_col118",
+    "circuit_blake_round_output_limb_17_col119",
+    "circuit_blake_round_output_limb_18_col120",
+    "circuit_blake_round_output_limb_19_col121",
+    "circuit_blake_round_output_limb_20_col122",
+    "circuit_blake_round_output_limb_21_col123",
+    "circuit_blake_round_output_limb_22_col124",
+    "circuit_blake_round_output_limb_23_col125",
+    "circuit_blake_round_output_limb_24_col126",
+    "circuit_blake_round_output_limb_25_col127",
+    "circuit_blake_round_output_limb_26_col128",
+    "circuit_blake_round_output_limb_27_col129",
+    "circuit_blake_round_output_limb_28_col130",
+    "circuit_blake_round_output_limb_29_col131",
+    "circuit_blake_round_output_limb_30_col132",
+    "circuit_blake_round_output_limb_31_col133",
+    "circuit_blake_round_output_limb_32_col134",
     "triple_xor_32_output_limb_0_col135",
     "triple_xor_32_output_limb_1_col136",
     "triple_xor_32_output_limb_0_col137",
@@ -393,11 +393,11 @@
       "Yield"
     ],
     [
-      "BlakeRound",
+      "CircuitBlakeRound",
       "Yield"
     ],
     [
-      "BlakeRound",
+      "CircuitBlakeRound",
       "Use"
     ],
     [
@@ -461,7 +461,7 @@
     "verify_bitwise_xor_8": "Multiplicity",
     "range_check_16": "Multiplicity",
     "range_check_15": "Multiplicity",
-    "blake_round": "Enabler",
+    "circuit_blake_round": "Enabler",
     "triple_xor_32": "Enabler"
   },
   "n_inputs_added_per_relation": {
@@ -480,8 +480,8 @@
       0,
       16
     ],
-    "BlakeRound": [
-      "blake_round",
+    "CircuitBlakeRound": [
+      "circuit_blake_round",
       0,
       10
     ],
@@ -1088,12 +1088,12 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "felts": [
           {
             "Const": [
               "M31",
-              "40528774"
+              "798668640"
             ]
           },
           {
@@ -1264,12 +1264,12 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "felts": [
           {
             "Const": [
               "M31",
-              "40528774"
+              "798668640"
             ]
           },
           {
@@ -1282,103 +1282,103 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_0_col102"
+            "State": "circuit_blake_round_output_limb_0_col102"
           },
           {
-            "State": "blake_round_output_limb_1_col103"
+            "State": "circuit_blake_round_output_limb_1_col103"
           },
           {
-            "State": "blake_round_output_limb_2_col104"
+            "State": "circuit_blake_round_output_limb_2_col104"
           },
           {
-            "State": "blake_round_output_limb_3_col105"
+            "State": "circuit_blake_round_output_limb_3_col105"
           },
           {
-            "State": "blake_round_output_limb_4_col106"
+            "State": "circuit_blake_round_output_limb_4_col106"
           },
           {
-            "State": "blake_round_output_limb_5_col107"
+            "State": "circuit_blake_round_output_limb_5_col107"
           },
           {
-            "State": "blake_round_output_limb_6_col108"
+            "State": "circuit_blake_round_output_limb_6_col108"
           },
           {
-            "State": "blake_round_output_limb_7_col109"
+            "State": "circuit_blake_round_output_limb_7_col109"
           },
           {
-            "State": "blake_round_output_limb_8_col110"
+            "State": "circuit_blake_round_output_limb_8_col110"
           },
           {
-            "State": "blake_round_output_limb_9_col111"
+            "State": "circuit_blake_round_output_limb_9_col111"
           },
           {
-            "State": "blake_round_output_limb_10_col112"
+            "State": "circuit_blake_round_output_limb_10_col112"
           },
           {
-            "State": "blake_round_output_limb_11_col113"
+            "State": "circuit_blake_round_output_limb_11_col113"
           },
           {
-            "State": "blake_round_output_limb_12_col114"
+            "State": "circuit_blake_round_output_limb_12_col114"
           },
           {
-            "State": "blake_round_output_limb_13_col115"
+            "State": "circuit_blake_round_output_limb_13_col115"
           },
           {
-            "State": "blake_round_output_limb_14_col116"
+            "State": "circuit_blake_round_output_limb_14_col116"
           },
           {
-            "State": "blake_round_output_limb_15_col117"
+            "State": "circuit_blake_round_output_limb_15_col117"
           },
           {
-            "State": "blake_round_output_limb_16_col118"
+            "State": "circuit_blake_round_output_limb_16_col118"
           },
           {
-            "State": "blake_round_output_limb_17_col119"
+            "State": "circuit_blake_round_output_limb_17_col119"
           },
           {
-            "State": "blake_round_output_limb_18_col120"
+            "State": "circuit_blake_round_output_limb_18_col120"
           },
           {
-            "State": "blake_round_output_limb_19_col121"
+            "State": "circuit_blake_round_output_limb_19_col121"
           },
           {
-            "State": "blake_round_output_limb_20_col122"
+            "State": "circuit_blake_round_output_limb_20_col122"
           },
           {
-            "State": "blake_round_output_limb_21_col123"
+            "State": "circuit_blake_round_output_limb_21_col123"
           },
           {
-            "State": "blake_round_output_limb_22_col124"
+            "State": "circuit_blake_round_output_limb_22_col124"
           },
           {
-            "State": "blake_round_output_limb_23_col125"
+            "State": "circuit_blake_round_output_limb_23_col125"
           },
           {
-            "State": "blake_round_output_limb_24_col126"
+            "State": "circuit_blake_round_output_limb_24_col126"
           },
           {
-            "State": "blake_round_output_limb_25_col127"
+            "State": "circuit_blake_round_output_limb_25_col127"
           },
           {
-            "State": "blake_round_output_limb_26_col128"
+            "State": "circuit_blake_round_output_limb_26_col128"
           },
           {
-            "State": "blake_round_output_limb_27_col129"
+            "State": "circuit_blake_round_output_limb_27_col129"
           },
           {
-            "State": "blake_round_output_limb_28_col130"
+            "State": "circuit_blake_round_output_limb_28_col130"
           },
           {
-            "State": "blake_round_output_limb_29_col131"
+            "State": "circuit_blake_round_output_limb_29_col131"
           },
           {
-            "State": "blake_round_output_limb_30_col132"
+            "State": "circuit_blake_round_output_limb_30_col132"
           },
           {
-            "State": "blake_round_output_limb_31_col133"
+            "State": "circuit_blake_round_output_limb_31_col133"
           },
           {
-            "State": "blake_round_output_limb_32_col134"
+            "State": "circuit_blake_round_output_limb_32_col134"
           }
         ],
         "use_or_yield": "Use",
@@ -1448,100 +1448,100 @@
                     "State": "input_state_before_limb7_limb_1_col15"
                   },
                   {
-                    "State": "blake_round_output_limb_0_col102"
+                    "State": "circuit_blake_round_output_limb_0_col102"
                   },
                   {
-                    "State": "blake_round_output_limb_1_col103"
+                    "State": "circuit_blake_round_output_limb_1_col103"
                   },
                   {
-                    "State": "blake_round_output_limb_2_col104"
+                    "State": "circuit_blake_round_output_limb_2_col104"
                   },
                   {
-                    "State": "blake_round_output_limb_3_col105"
+                    "State": "circuit_blake_round_output_limb_3_col105"
                   },
                   {
-                    "State": "blake_round_output_limb_4_col106"
+                    "State": "circuit_blake_round_output_limb_4_col106"
                   },
                   {
-                    "State": "blake_round_output_limb_5_col107"
+                    "State": "circuit_blake_round_output_limb_5_col107"
                   },
                   {
-                    "State": "blake_round_output_limb_6_col108"
+                    "State": "circuit_blake_round_output_limb_6_col108"
                   },
                   {
-                    "State": "blake_round_output_limb_7_col109"
+                    "State": "circuit_blake_round_output_limb_7_col109"
                   },
                   {
-                    "State": "blake_round_output_limb_8_col110"
+                    "State": "circuit_blake_round_output_limb_8_col110"
                   },
                   {
-                    "State": "blake_round_output_limb_9_col111"
+                    "State": "circuit_blake_round_output_limb_9_col111"
                   },
                   {
-                    "State": "blake_round_output_limb_10_col112"
+                    "State": "circuit_blake_round_output_limb_10_col112"
                   },
                   {
-                    "State": "blake_round_output_limb_11_col113"
+                    "State": "circuit_blake_round_output_limb_11_col113"
                   },
                   {
-                    "State": "blake_round_output_limb_12_col114"
+                    "State": "circuit_blake_round_output_limb_12_col114"
                   },
                   {
-                    "State": "blake_round_output_limb_13_col115"
+                    "State": "circuit_blake_round_output_limb_13_col115"
                   },
                   {
-                    "State": "blake_round_output_limb_14_col116"
+                    "State": "circuit_blake_round_output_limb_14_col116"
                   },
                   {
-                    "State": "blake_round_output_limb_15_col117"
+                    "State": "circuit_blake_round_output_limb_15_col117"
                   },
                   {
-                    "State": "blake_round_output_limb_16_col118"
+                    "State": "circuit_blake_round_output_limb_16_col118"
                   },
                   {
-                    "State": "blake_round_output_limb_17_col119"
+                    "State": "circuit_blake_round_output_limb_17_col119"
                   },
                   {
-                    "State": "blake_round_output_limb_18_col120"
+                    "State": "circuit_blake_round_output_limb_18_col120"
                   },
                   {
-                    "State": "blake_round_output_limb_19_col121"
+                    "State": "circuit_blake_round_output_limb_19_col121"
                   },
                   {
-                    "State": "blake_round_output_limb_20_col122"
+                    "State": "circuit_blake_round_output_limb_20_col122"
                   },
                   {
-                    "State": "blake_round_output_limb_21_col123"
+                    "State": "circuit_blake_round_output_limb_21_col123"
                   },
                   {
-                    "State": "blake_round_output_limb_22_col124"
+                    "State": "circuit_blake_round_output_limb_22_col124"
                   },
                   {
-                    "State": "blake_round_output_limb_23_col125"
+                    "State": "circuit_blake_round_output_limb_23_col125"
                   },
                   {
-                    "State": "blake_round_output_limb_24_col126"
+                    "State": "circuit_blake_round_output_limb_24_col126"
                   },
                   {
-                    "State": "blake_round_output_limb_25_col127"
+                    "State": "circuit_blake_round_output_limb_25_col127"
                   },
                   {
-                    "State": "blake_round_output_limb_26_col128"
+                    "State": "circuit_blake_round_output_limb_26_col128"
                   },
                   {
-                    "State": "blake_round_output_limb_27_col129"
+                    "State": "circuit_blake_round_output_limb_27_col129"
                   },
                   {
-                    "State": "blake_round_output_limb_28_col130"
+                    "State": "circuit_blake_round_output_limb_28_col130"
                   },
                   {
-                    "State": "blake_round_output_limb_29_col131"
+                    "State": "circuit_blake_round_output_limb_29_col131"
                   },
                   {
-                    "State": "blake_round_output_limb_30_col132"
+                    "State": "circuit_blake_round_output_limb_30_col132"
                   },
                   {
-                    "State": "blake_round_output_limb_31_col133"
+                    "State": "circuit_blake_round_output_limb_31_col133"
                   }
                 ]
               },
@@ -7982,12 +7982,12 @@
     "EndBlock",
     {
       "LookupTerm": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "felts": [
           {
             "Const": [
               "M31",
-              "40528774"
+              "798668640"
             ]
           },
           {
@@ -8206,7 +8206,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -8331,11 +8331,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_0_tmp_8e0ec_63",
+        "name": "circuit_blake_round_output_round_0_tmp_8e0ec_63",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -8464,7 +8464,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -8483,97 +8483,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[0]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[1]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[2]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[3]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[4]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[5]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[6]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[7]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[8]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[9]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[10]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[11]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[12]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[13]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[14]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_0_tmp_8e0ec_63.2.0[15]"
+                        "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[15]"
                       ]
                     }
                   ]
@@ -8581,7 +8581,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_0_tmp_8e0ec_63.2.1"
+                    "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.1"
                   ]
                 }
               ]
@@ -8592,11 +8592,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_1_tmp_8e0ec_64",
+        "name": "circuit_blake_round_output_round_1_tmp_8e0ec_64",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -8616,97 +8616,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[0]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[1]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[2]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[3]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[4]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[5]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[6]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[7]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[8]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[9]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[10]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[11]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[12]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[13]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[14]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_0_tmp_8e0ec_63.2.0[15]"
+                              "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.0[15]"
                             ]
                           }
                         ]
@@ -8714,7 +8714,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_0_tmp_8e0ec_63.2.1"
+                          "circuit_blake_round_output_round_0_tmp_8e0ec_63.2.1"
                         ]
                       }
                     ]
@@ -8728,7 +8728,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -8747,97 +8747,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[0]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[1]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[2]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[3]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[4]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[5]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[6]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[7]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[8]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[9]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[10]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[11]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[12]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[13]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[14]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_1_tmp_8e0ec_64.2.0[15]"
+                        "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[15]"
                       ]
                     }
                   ]
@@ -8845,7 +8845,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_1_tmp_8e0ec_64.2.1"
+                    "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.1"
                   ]
                 }
               ]
@@ -8856,11 +8856,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_2_tmp_8e0ec_65",
+        "name": "circuit_blake_round_output_round_2_tmp_8e0ec_65",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -8880,97 +8880,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[0]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[1]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[2]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[3]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[4]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[5]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[6]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[7]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[8]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[9]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[10]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[11]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[12]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[13]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[14]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_1_tmp_8e0ec_64.2.0[15]"
+                              "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.0[15]"
                             ]
                           }
                         ]
@@ -8978,7 +8978,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_1_tmp_8e0ec_64.2.1"
+                          "circuit_blake_round_output_round_1_tmp_8e0ec_64.2.1"
                         ]
                       }
                     ]
@@ -8992,7 +8992,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -9011,97 +9011,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[0]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[1]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[2]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[3]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[4]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[5]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[6]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[7]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[8]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[9]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[10]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[11]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[12]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[13]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[14]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_2_tmp_8e0ec_65.2.0[15]"
+                        "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[15]"
                       ]
                     }
                   ]
@@ -9109,7 +9109,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_2_tmp_8e0ec_65.2.1"
+                    "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.1"
                   ]
                 }
               ]
@@ -9120,11 +9120,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_3_tmp_8e0ec_66",
+        "name": "circuit_blake_round_output_round_3_tmp_8e0ec_66",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -9144,97 +9144,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[0]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[1]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[2]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[3]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[4]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[5]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[6]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[7]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[8]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[9]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[10]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[11]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[12]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[13]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[14]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_2_tmp_8e0ec_65.2.0[15]"
+                              "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.0[15]"
                             ]
                           }
                         ]
@@ -9242,7 +9242,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_2_tmp_8e0ec_65.2.1"
+                          "circuit_blake_round_output_round_2_tmp_8e0ec_65.2.1"
                         ]
                       }
                     ]
@@ -9256,7 +9256,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -9275,97 +9275,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[0]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[1]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[2]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[3]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[4]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[5]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[6]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[7]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[8]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[9]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[10]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[11]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[12]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[13]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[14]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_3_tmp_8e0ec_66.2.0[15]"
+                        "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[15]"
                       ]
                     }
                   ]
@@ -9373,7 +9373,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_3_tmp_8e0ec_66.2.1"
+                    "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.1"
                   ]
                 }
               ]
@@ -9384,11 +9384,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_4_tmp_8e0ec_67",
+        "name": "circuit_blake_round_output_round_4_tmp_8e0ec_67",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -9408,97 +9408,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[0]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[1]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[2]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[3]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[4]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[5]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[6]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[7]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[8]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[9]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[10]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[11]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[12]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[13]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[14]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_3_tmp_8e0ec_66.2.0[15]"
+                              "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.0[15]"
                             ]
                           }
                         ]
@@ -9506,7 +9506,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_3_tmp_8e0ec_66.2.1"
+                          "circuit_blake_round_output_round_3_tmp_8e0ec_66.2.1"
                         ]
                       }
                     ]
@@ -9520,7 +9520,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -9539,97 +9539,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[0]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[1]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[2]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[3]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[4]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[5]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[6]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[7]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[8]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[9]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[10]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[11]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[12]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[13]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[14]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_4_tmp_8e0ec_67.2.0[15]"
+                        "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[15]"
                       ]
                     }
                   ]
@@ -9637,7 +9637,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_4_tmp_8e0ec_67.2.1"
+                    "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.1"
                   ]
                 }
               ]
@@ -9648,11 +9648,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_5_tmp_8e0ec_68",
+        "name": "circuit_blake_round_output_round_5_tmp_8e0ec_68",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -9672,97 +9672,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[0]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[1]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[2]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[3]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[4]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[5]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[6]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[7]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[8]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[9]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[10]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[11]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[12]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[13]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[14]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_4_tmp_8e0ec_67.2.0[15]"
+                              "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.0[15]"
                             ]
                           }
                         ]
@@ -9770,7 +9770,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_4_tmp_8e0ec_67.2.1"
+                          "circuit_blake_round_output_round_4_tmp_8e0ec_67.2.1"
                         ]
                       }
                     ]
@@ -9784,7 +9784,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -9803,97 +9803,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[0]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[1]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[2]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[3]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[4]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[5]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[6]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[7]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[8]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[9]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[10]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[11]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[12]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[13]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[14]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_5_tmp_8e0ec_68.2.0[15]"
+                        "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[15]"
                       ]
                     }
                   ]
@@ -9901,7 +9901,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_5_tmp_8e0ec_68.2.1"
+                    "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.1"
                   ]
                 }
               ]
@@ -9912,11 +9912,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_6_tmp_8e0ec_69",
+        "name": "circuit_blake_round_output_round_6_tmp_8e0ec_69",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -9936,97 +9936,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[0]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[1]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[2]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[3]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[4]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[5]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[6]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[7]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[8]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[9]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[10]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[11]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[12]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[13]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[14]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_5_tmp_8e0ec_68.2.0[15]"
+                              "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.0[15]"
                             ]
                           }
                         ]
@@ -10034,7 +10034,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_5_tmp_8e0ec_68.2.1"
+                          "circuit_blake_round_output_round_5_tmp_8e0ec_68.2.1"
                         ]
                       }
                     ]
@@ -10048,7 +10048,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -10067,97 +10067,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[0]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[1]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[2]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[3]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[4]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[5]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[6]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[7]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[8]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[9]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[10]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[11]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[12]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[13]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[14]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_6_tmp_8e0ec_69.2.0[15]"
+                        "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[15]"
                       ]
                     }
                   ]
@@ -10165,7 +10165,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_6_tmp_8e0ec_69.2.1"
+                    "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.1"
                   ]
                 }
               ]
@@ -10176,11 +10176,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_7_tmp_8e0ec_70",
+        "name": "circuit_blake_round_output_round_7_tmp_8e0ec_70",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -10200,97 +10200,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[0]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[1]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[2]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[3]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[4]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[5]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[6]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[7]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[8]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[9]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[10]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[11]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[12]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[13]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[14]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_6_tmp_8e0ec_69.2.0[15]"
+                              "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.0[15]"
                             ]
                           }
                         ]
@@ -10298,7 +10298,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_6_tmp_8e0ec_69.2.1"
+                          "circuit_blake_round_output_round_6_tmp_8e0ec_69.2.1"
                         ]
                       }
                     ]
@@ -10312,7 +10312,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -10331,97 +10331,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[0]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[1]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[2]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[3]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[4]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[5]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[6]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[7]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[8]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[9]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[10]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[11]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[12]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[13]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[14]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_7_tmp_8e0ec_70.2.0[15]"
+                        "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[15]"
                       ]
                     }
                   ]
@@ -10429,7 +10429,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_7_tmp_8e0ec_70.2.1"
+                    "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.1"
                   ]
                 }
               ]
@@ -10440,11 +10440,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_8_tmp_8e0ec_71",
+        "name": "circuit_blake_round_output_round_8_tmp_8e0ec_71",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -10464,97 +10464,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[0]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[1]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[2]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[3]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[4]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[5]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[6]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[7]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[8]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[9]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[10]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[11]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[12]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[13]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[14]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_7_tmp_8e0ec_70.2.0[15]"
+                              "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.0[15]"
                             ]
                           }
                         ]
@@ -10562,7 +10562,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_7_tmp_8e0ec_70.2.1"
+                          "circuit_blake_round_output_round_7_tmp_8e0ec_70.2.1"
                         ]
                       }
                     ]
@@ -10576,7 +10576,7 @@
     },
     {
       "LookupAddInput": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "input": {
           "Tuple": [
             {
@@ -10595,97 +10595,97 @@
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[0]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[0]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[1]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[1]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[2]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[2]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[3]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[3]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[4]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[4]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[5]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[5]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[6]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[6]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[7]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[7]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[8]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[8]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[9]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[9]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[10]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[10]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[11]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[11]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[12]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[12]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[13]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[13]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[14]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[14]"
                       ]
                     },
                     {
                       "Var": [
                         "UInt32",
-                        "blake_round_output_round_8_tmp_8e0ec_71.2.0[15]"
+                        "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[15]"
                       ]
                     }
                   ]
@@ -10693,7 +10693,7 @@
                 {
                   "Var": [
                     "M31",
-                    "blake_round_output_round_8_tmp_8e0ec_71.2.1"
+                    "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.1"
                   ]
                 }
               ]
@@ -10704,11 +10704,11 @@
     },
     {
       "Intermediate": {
-        "name": "blake_round_output_round_9_tmp_8e0ec_72",
+        "name": "circuit_blake_round_output_round_9_tmp_8e0ec_72",
         "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
-            "BlakeRound::deduce_output",
+            "CircuitBlakeRound::deduce_output",
             [
               {
                 "Tuple": [
@@ -10728,97 +10728,97 @@
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[0]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[0]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[1]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[1]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[2]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[2]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[3]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[3]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[4]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[4]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[5]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[5]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[6]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[6]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[7]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[7]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[8]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[8]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[9]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[9]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[10]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[10]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[11]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[11]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[12]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[12]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[13]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[13]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[14]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[14]"
                             ]
                           },
                           {
                             "Var": [
                               "UInt32",
-                              "blake_round_output_round_8_tmp_8e0ec_71.2.0[15]"
+                              "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.0[15]"
                             ]
                           }
                         ]
@@ -10826,7 +10826,7 @@
                       {
                         "Var": [
                           "M31",
-                          "blake_round_output_round_8_tmp_8e0ec_71.2.1"
+                          "circuit_blake_round_output_round_8_tmp_8e0ec_71.2.1"
                         ]
                       }
                     ]
@@ -10846,7 +10846,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
                 ]
               },
               "low",
@@ -10866,7 +10866,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
                 ]
               },
               "high",
@@ -10886,7 +10886,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
                 ]
               },
               "low",
@@ -10906,7 +10906,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
                 ]
               },
               "high",
@@ -10926,7 +10926,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
                 ]
               },
               "low",
@@ -10946,7 +10946,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
                 ]
               },
               "high",
@@ -10966,7 +10966,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
                 ]
               },
               "low",
@@ -10986,7 +10986,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
                 ]
               },
               "high",
@@ -11006,7 +11006,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
                 ]
               },
               "low",
@@ -11026,7 +11026,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
                 ]
               },
               "high",
@@ -11046,7 +11046,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
                 ]
               },
               "low",
@@ -11066,7 +11066,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
                 ]
               },
               "high",
@@ -11086,7 +11086,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
                 ]
               },
               "low",
@@ -11106,7 +11106,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
                 ]
               },
               "high",
@@ -11126,7 +11126,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
                 ]
               },
               "low",
@@ -11146,7 +11146,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
                 ]
               },
               "high",
@@ -11166,7 +11166,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
                 ]
               },
               "low",
@@ -11186,7 +11186,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
                 ]
               },
               "high",
@@ -11206,7 +11206,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
                 ]
               },
               "low",
@@ -11226,7 +11226,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
                 ]
               },
               "high",
@@ -11246,7 +11246,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
                 ]
               },
               "low",
@@ -11266,7 +11266,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
                 ]
               },
               "high",
@@ -11286,7 +11286,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
                 ]
               },
               "low",
@@ -11306,7 +11306,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
                 ]
               },
               "high",
@@ -11326,7 +11326,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
                 ]
               },
               "low",
@@ -11346,7 +11346,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
                 ]
               },
               "high",
@@ -11366,7 +11366,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
                 ]
               },
               "low",
@@ -11386,7 +11386,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
                 ]
               },
               "high",
@@ -11406,7 +11406,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
                 ]
               },
               "low",
@@ -11426,7 +11426,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
                 ]
               },
               "high",
@@ -11446,7 +11446,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
                 ]
               },
               "low",
@@ -11466,7 +11466,7 @@
               {
                 "Var": [
                   "UInt32",
-                  "blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
+                  "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
                 ]
               },
               "high",
@@ -11482,18 +11482,18 @@
       "Deduction": {
         "Var": [
           "M31",
-          "blake_round_output_round_9_tmp_8e0ec_72.2.1"
+          "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.1"
         ]
       }
     },
     {
       "LookupTerm": {
-        "relation_name": "BlakeRound",
+        "relation_name": "CircuitBlakeRound",
         "felts": [
           {
             "Const": [
               "M31",
-              "40528774"
+              "798668640"
             ]
           },
           {
@@ -11506,103 +11506,103 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_0_col102"
+            "State": "circuit_blake_round_output_limb_0_col102"
           },
           {
-            "State": "blake_round_output_limb_1_col103"
+            "State": "circuit_blake_round_output_limb_1_col103"
           },
           {
-            "State": "blake_round_output_limb_2_col104"
+            "State": "circuit_blake_round_output_limb_2_col104"
           },
           {
-            "State": "blake_round_output_limb_3_col105"
+            "State": "circuit_blake_round_output_limb_3_col105"
           },
           {
-            "State": "blake_round_output_limb_4_col106"
+            "State": "circuit_blake_round_output_limb_4_col106"
           },
           {
-            "State": "blake_round_output_limb_5_col107"
+            "State": "circuit_blake_round_output_limb_5_col107"
           },
           {
-            "State": "blake_round_output_limb_6_col108"
+            "State": "circuit_blake_round_output_limb_6_col108"
           },
           {
-            "State": "blake_round_output_limb_7_col109"
+            "State": "circuit_blake_round_output_limb_7_col109"
           },
           {
-            "State": "blake_round_output_limb_8_col110"
+            "State": "circuit_blake_round_output_limb_8_col110"
           },
           {
-            "State": "blake_round_output_limb_9_col111"
+            "State": "circuit_blake_round_output_limb_9_col111"
           },
           {
-            "State": "blake_round_output_limb_10_col112"
+            "State": "circuit_blake_round_output_limb_10_col112"
           },
           {
-            "State": "blake_round_output_limb_11_col113"
+            "State": "circuit_blake_round_output_limb_11_col113"
           },
           {
-            "State": "blake_round_output_limb_12_col114"
+            "State": "circuit_blake_round_output_limb_12_col114"
           },
           {
-            "State": "blake_round_output_limb_13_col115"
+            "State": "circuit_blake_round_output_limb_13_col115"
           },
           {
-            "State": "blake_round_output_limb_14_col116"
+            "State": "circuit_blake_round_output_limb_14_col116"
           },
           {
-            "State": "blake_round_output_limb_15_col117"
+            "State": "circuit_blake_round_output_limb_15_col117"
           },
           {
-            "State": "blake_round_output_limb_16_col118"
+            "State": "circuit_blake_round_output_limb_16_col118"
           },
           {
-            "State": "blake_round_output_limb_17_col119"
+            "State": "circuit_blake_round_output_limb_17_col119"
           },
           {
-            "State": "blake_round_output_limb_18_col120"
+            "State": "circuit_blake_round_output_limb_18_col120"
           },
           {
-            "State": "blake_round_output_limb_19_col121"
+            "State": "circuit_blake_round_output_limb_19_col121"
           },
           {
-            "State": "blake_round_output_limb_20_col122"
+            "State": "circuit_blake_round_output_limb_20_col122"
           },
           {
-            "State": "blake_round_output_limb_21_col123"
+            "State": "circuit_blake_round_output_limb_21_col123"
           },
           {
-            "State": "blake_round_output_limb_22_col124"
+            "State": "circuit_blake_round_output_limb_22_col124"
           },
           {
-            "State": "blake_round_output_limb_23_col125"
+            "State": "circuit_blake_round_output_limb_23_col125"
           },
           {
-            "State": "blake_round_output_limb_24_col126"
+            "State": "circuit_blake_round_output_limb_24_col126"
           },
           {
-            "State": "blake_round_output_limb_25_col127"
+            "State": "circuit_blake_round_output_limb_25_col127"
           },
           {
-            "State": "blake_round_output_limb_26_col128"
+            "State": "circuit_blake_round_output_limb_26_col128"
           },
           {
-            "State": "blake_round_output_limb_27_col129"
+            "State": "circuit_blake_round_output_limb_27_col129"
           },
           {
-            "State": "blake_round_output_limb_28_col130"
+            "State": "circuit_blake_round_output_limb_28_col130"
           },
           {
-            "State": "blake_round_output_limb_29_col131"
+            "State": "circuit_blake_round_output_limb_29_col131"
           },
           {
-            "State": "blake_round_output_limb_30_col132"
+            "State": "circuit_blake_round_output_limb_30_col132"
           },
           {
-            "State": "blake_round_output_limb_31_col133"
+            "State": "circuit_blake_round_output_limb_31_col133"
           },
           {
-            "State": "blake_round_output_limb_32_col134"
+            "State": "circuit_blake_round_output_limb_32_col134"
           }
         ],
         "use_or_yield": "Use",
@@ -11625,13 +11625,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
               ]
             },
             {
@@ -11657,13 +11657,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[0]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[8]"
                     ]
                   },
                   {
@@ -11730,16 +11730,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_0_col102"
+            "State": "circuit_blake_round_output_limb_0_col102"
           },
           {
-            "State": "blake_round_output_limb_1_col103"
+            "State": "circuit_blake_round_output_limb_1_col103"
           },
           {
-            "State": "blake_round_output_limb_16_col118"
+            "State": "circuit_blake_round_output_limb_16_col118"
           },
           {
-            "State": "blake_round_output_limb_17_col119"
+            "State": "circuit_blake_round_output_limb_17_col119"
           },
           {
             "State": "input_state_before_limb0_limb_0_col0"
@@ -11771,13 +11771,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
               ]
             },
             {
@@ -11803,13 +11803,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[1]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[9]"
                     ]
                   },
                   {
@@ -11876,16 +11876,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_2_col104"
+            "State": "circuit_blake_round_output_limb_2_col104"
           },
           {
-            "State": "blake_round_output_limb_3_col105"
+            "State": "circuit_blake_round_output_limb_3_col105"
           },
           {
-            "State": "blake_round_output_limb_18_col120"
+            "State": "circuit_blake_round_output_limb_18_col120"
           },
           {
-            "State": "blake_round_output_limb_19_col121"
+            "State": "circuit_blake_round_output_limb_19_col121"
           },
           {
             "State": "input_state_before_limb1_limb_0_col2"
@@ -11917,13 +11917,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
               ]
             },
             {
@@ -11949,13 +11949,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[2]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[10]"
                     ]
                   },
                   {
@@ -12022,16 +12022,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_4_col106"
+            "State": "circuit_blake_round_output_limb_4_col106"
           },
           {
-            "State": "blake_round_output_limb_5_col107"
+            "State": "circuit_blake_round_output_limb_5_col107"
           },
           {
-            "State": "blake_round_output_limb_20_col122"
+            "State": "circuit_blake_round_output_limb_20_col122"
           },
           {
-            "State": "blake_round_output_limb_21_col123"
+            "State": "circuit_blake_round_output_limb_21_col123"
           },
           {
             "State": "input_state_before_limb2_limb_0_col4"
@@ -12063,13 +12063,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
               ]
             },
             {
@@ -12095,13 +12095,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[3]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[11]"
                     ]
                   },
                   {
@@ -12168,16 +12168,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_6_col108"
+            "State": "circuit_blake_round_output_limb_6_col108"
           },
           {
-            "State": "blake_round_output_limb_7_col109"
+            "State": "circuit_blake_round_output_limb_7_col109"
           },
           {
-            "State": "blake_round_output_limb_22_col124"
+            "State": "circuit_blake_round_output_limb_22_col124"
           },
           {
-            "State": "blake_round_output_limb_23_col125"
+            "State": "circuit_blake_round_output_limb_23_col125"
           },
           {
             "State": "input_state_before_limb3_limb_0_col6"
@@ -12209,13 +12209,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
               ]
             },
             {
@@ -12241,13 +12241,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[4]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[12]"
                     ]
                   },
                   {
@@ -12314,16 +12314,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_8_col110"
+            "State": "circuit_blake_round_output_limb_8_col110"
           },
           {
-            "State": "blake_round_output_limb_9_col111"
+            "State": "circuit_blake_round_output_limb_9_col111"
           },
           {
-            "State": "blake_round_output_limb_24_col126"
+            "State": "circuit_blake_round_output_limb_24_col126"
           },
           {
-            "State": "blake_round_output_limb_25_col127"
+            "State": "circuit_blake_round_output_limb_25_col127"
           },
           {
             "State": "input_state_before_limb4_limb_0_col8"
@@ -12355,13 +12355,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
               ]
             },
             {
@@ -12387,13 +12387,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[5]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[13]"
                     ]
                   },
                   {
@@ -12460,16 +12460,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_10_col112"
+            "State": "circuit_blake_round_output_limb_10_col112"
           },
           {
-            "State": "blake_round_output_limb_11_col113"
+            "State": "circuit_blake_round_output_limb_11_col113"
           },
           {
-            "State": "blake_round_output_limb_26_col128"
+            "State": "circuit_blake_round_output_limb_26_col128"
           },
           {
-            "State": "blake_round_output_limb_27_col129"
+            "State": "circuit_blake_round_output_limb_27_col129"
           },
           {
             "State": "input_state_before_limb5_limb_0_col10"
@@ -12501,13 +12501,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
               ]
             },
             {
@@ -12533,13 +12533,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[6]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[14]"
                     ]
                   },
                   {
@@ -12606,16 +12606,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_12_col114"
+            "State": "circuit_blake_round_output_limb_12_col114"
           },
           {
-            "State": "blake_round_output_limb_13_col115"
+            "State": "circuit_blake_round_output_limb_13_col115"
           },
           {
-            "State": "blake_round_output_limb_28_col130"
+            "State": "circuit_blake_round_output_limb_28_col130"
           },
           {
-            "State": "blake_round_output_limb_29_col131"
+            "State": "circuit_blake_round_output_limb_29_col131"
           },
           {
             "State": "input_state_before_limb6_limb_0_col12"
@@ -12647,13 +12647,13 @@
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
               ]
             },
             {
               "Var": [
                 "UInt32",
-                "blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
+                "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
               ]
             },
             {
@@ -12679,13 +12679,13 @@
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[7]"
                     ]
                   },
                   {
                     "Var": [
                       "UInt32",
-                      "blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
+                      "circuit_blake_round_output_round_9_tmp_8e0ec_72.2.0[15]"
                     ]
                   },
                   {
@@ -12752,16 +12752,16 @@
             ]
           },
           {
-            "State": "blake_round_output_limb_14_col116"
+            "State": "circuit_blake_round_output_limb_14_col116"
           },
           {
-            "State": "blake_round_output_limb_15_col117"
+            "State": "circuit_blake_round_output_limb_15_col117"
           },
           {
-            "State": "blake_round_output_limb_30_col132"
+            "State": "circuit_blake_round_output_limb_30_col132"
           },
           {
-            "State": "blake_round_output_limb_31_col133"
+            "State": "circuit_blake_round_output_limb_31_col133"
           },
           {
             "State": "input_state_before_limb7_limb_0_col14"
