@@ -19,13 +19,16 @@ pub fn generate_circuit_constraints_code(
     air_fn: &CompiledAirFn,
     sample_evaluation: Option<&SampleEvaluation>,
 ) -> Tokens<Rust> {
-    let return_type = if air_fn.r#type == TraceType::Inline {
-        quote! { -> Vec<Var> }
+    let (return_type, prelude_use) = if air_fn.r#type == TraceType::Inline {
+        (
+            quote! { -> Vec<Var> },
+            quote! { use super::super::prelude::*; },
+        )
     } else {
-        quote! {}
+        (quote! {}, quote! { use super::prelude::*; })
     };
     let mut code = quote! {
-        use crate::components::prelude::*;
+        $(prelude_use)
         $("\n\n")
     };
 
@@ -323,6 +326,7 @@ fn get_constraint_atoms(air_fn: &CompiledAirFn) -> HashSet<CompiledAirVar> {
                     .felts
                     .iter()
                     .for_each(|f| expr_iterator(f, &mut insert));
+                expr_iterator(&lookup_term.multiplicity, &mut insert);
             }
             ConstraintEvalStep::Intermediate(compiled_constraint_intermediate) => {
                 expr_iterator(&compiled_constraint_intermediate.var, &mut insert)
@@ -380,10 +384,10 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             #[allow(unused_imports)]
             use crate::components::prelude::PreProcessedColumnId;
             use crate::sample_evaluations::*;
-            use crate::test::TestComponentData;
             use circuits::context::Context;
             use circuits::ivalue::qm31_from_u32s;
             use circuits_stark_verifier::constraint_eval::*;
+            use circuits_stark_verifier::test_utils::TestComponentData;
 
             use super::Component;
 

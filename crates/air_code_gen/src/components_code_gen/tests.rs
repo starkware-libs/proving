@@ -1,7 +1,6 @@
 use std::fs;
 use std::path::Path;
 
-use air_common::utils::project_root;
 use air_common::TraceType;
 use air_compile::compiled_structs::CompiledAirFn;
 use eval_air_fn_constraints::SampleEvaluation;
@@ -18,11 +17,13 @@ fn add_ap_cairo_code_gen() {
         AutogenCodeFile {
             air_fn_name: "add_ap_opcode".to_string(),
             source_path: "../compiled_casm_air/compiled_jsons/opcodes/add_ap_opcode.json".into(),
+            dest_dir: "../code_gen_regression/verifier/src/components".into(),
             code_type: AutogenCodeType::CAIRO,
         },
         AutogenCodeFile {
             air_fn_name: "read_small".to_string(),
             source_path: "../compiled_casm_air/compiled_jsons/subroutines/read_small.json".into(),
+            dest_dir: "../code_gen_regression/verifier/src/components".into(),
             code_type: AutogenCodeType::CAIRO,
         },
         AutogenCodeFile {
@@ -30,6 +31,7 @@ fn add_ap_cairo_code_gen() {
             source_path:
                 "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_d2a10.json"
                     .into(),
+            dest_dir: "../code_gen_regression/verifier/src/components".into(),
             code_type: AutogenCodeType::CAIRO,
         },
     ];
@@ -42,7 +44,7 @@ fn add_ap_cairo_code_gen() {
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
         let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
-        generate_component_code(air_fn, sample_evaluation, &job);
+        compare_contents_or_fix_with_path(air_fn, sample_evaluation, &job);
     }
 }
 
@@ -85,6 +87,7 @@ fn code_gen_regression() {
             AutogenCodeFile {
                 air_fn_name: air_fn_name.to_string(),
                 source_path: path.into(),
+                dest_dir: "../code_gen_regression/witness/src/components".into(),
                 code_type: AutogenCodeType::WITNESS,
             }
         })
@@ -104,6 +107,7 @@ fn code_gen_regression() {
             AutogenCodeFile {
                 air_fn_name: air_fn_name.to_string(),
                 source_path: path.into(),
+                dest_dir: "../code_gen_regression/cairo_air/src/components".into(),
                 code_type: AutogenCodeType::AIR,
             }
         })
@@ -119,27 +123,8 @@ fn code_gen_regression() {
             .get(&job.air_fn_name)
             .unwrap_or_else(|| panic!("Missing AirFn {}", job.air_fn_name));
         let sample_evaluation = sample_evaluations.get(&job.air_fn_name);
-        generate_component_code(air_fn, sample_evaluation, &job);
+        compare_contents_or_fix_with_path(air_fn, sample_evaluation, &job);
     }
-}
-
-fn generate_component_code(
-    air_fn: &CompiledAirFn,
-    sample_evaluation: Option<&SampleEvaluation>,
-    job: &AutogenCodeFile,
-) {
-    const CONSTRAINTS_DIR: &str = "../code_gen_regression/cairo_air/src/components";
-    const CAIRO_CONSTRAINTS_DIR: &str = "../code_gen_regression/verifier/src/components";
-    const WITNESS_DIR: &str = "../code_gen_regression/witness/src/components";
-    let [constraints_folder_path, cairo_constraints_dir, witness_folder_path] =
-        [CONSTRAINTS_DIR, CAIRO_CONSTRAINTS_DIR, WITNESS_DIR].map(|dir| project_root().join(dir));
-    let path = match job.code_type {
-        AutogenCodeType::WITNESS => witness_folder_path,
-        AutogenCodeType::AIR => constraints_folder_path,
-        AutogenCodeType::CAIRO => cairo_constraints_dir,
-        _ => unimplemented!(),
-    };
-    compare_contents_or_fix_with_path(air_fn, sample_evaluation, job, &path);
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
@@ -147,14 +132,13 @@ fn compare_contents_or_fix_with_path(
     air_fn: &CompiledAirFn,
     sample_evaluation: Option<&SampleEvaluation>,
     job: &AutogenCodeFile,
-    path: &Path,
 ) {
-    fs::create_dir_all(path).ok();
+    fs::create_dir_all(&job.dest_dir).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
     if is_fix_mode {
-        dump_component_code(air_fn, sample_evaluation, job, path);
+        dump_component_code(air_fn, sample_evaluation, job);
     } else {
-        assert_generated_code_unchanged(air_fn, sample_evaluation, job, path);
+        assert_generated_code_unchanged(air_fn, sample_evaluation, job);
     }
 }
 
@@ -162,7 +146,6 @@ fn dump_component_code(
     air_fn: &CompiledAirFn,
     sample_evaluation: Option<&SampleEvaluation>,
     job: &AutogenCodeFile,
-    dest_path: &Path,
 ) {
     // TODO(Gali): handle witness sub-routines.
     if air_fn.r#type == TraceType::Inline && job.code_type == AutogenCodeType::WITNESS {
@@ -171,7 +154,7 @@ fn dump_component_code(
 
     let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
     let code = format_air_fn_code(raw_code, job.code_type);
-    let dest_path = generated_code_path(air_fn, dest_path, job.code_type);
+    let dest_path = generated_code_path(air_fn, &job.dest_dir, job.code_type);
     add_file_to_module(dest_path.as_path(), code, job.code_type);
 }
 
@@ -179,7 +162,6 @@ fn assert_generated_code_unchanged(
     air_fn: &CompiledAirFn,
     sample_evaluation: Option<&SampleEvaluation>,
     job: &AutogenCodeFile,
-    dest_dir: &Path,
 ) {
     let temp_dir = tempdir().expect("Could not open temporary folder!");
     let temp_dir = temp_dir.path();
@@ -189,7 +171,7 @@ fn assert_generated_code_unchanged(
     let generated_code = format_air_fn_code(raw_code, job.code_type);
     fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
 
-    let existing_code_path = generated_code_path(air_fn, dest_dir, job.code_type);
+    let existing_code_path = generated_code_path(air_fn, &job.dest_dir, job.code_type);
     let existing_code = fs::read_to_string(&existing_code_path)
         .unwrap_or_else(|e| panic!("Cannot read {}: {e}", existing_code_path.display()));
     pretty_assertions::assert_eq!(

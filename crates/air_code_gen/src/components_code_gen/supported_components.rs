@@ -13,6 +13,9 @@ pub struct AutogenCodeFile {
     pub air_fn_name: String,
     /// Path of the source JSON
     pub source_path: PathBuf,
+    /// The directory where to place the result. The filename and subdirectory (e.g.
+    /// "subroutines/") are determined from the AirFn itself.
+    pub dest_dir: PathBuf,
     pub code_type: AutogenCodeType,
 }
 
@@ -48,6 +51,10 @@ fn get_manual_circuit_constraints_components() -> Vec<String> {
     vec![
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
+        "qm_31_ops".into(),
+        // The circuit version requires applying the enabler to the reading of the message,
+        // which is different from the stwo-cairo version.
+        "blake_round".into(),
         "verify_bitwise_xor_12".into(),
     ]
 }

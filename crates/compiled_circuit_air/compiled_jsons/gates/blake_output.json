@@ -102,9 +102,9 @@
   "external_states": [
     "final_state_addr",
     "blake_output0_addr",
-    "blake_output0_multiplicity",
+    "blake_output0_mults",
     "blake_output1_addr",
-    "blake_output1_multiplicity"
+    "blake_output1_mults"
   ],
   "constraints": [
     {
@@ -486,7 +486,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "blake_output0_multiplicity"
+          "ExternalState": "blake_output0_mults"
         }
       }
     },
@@ -518,7 +518,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "blake_output1_multiplicity"
+          "ExternalState": "blake_output1_mults"
         }
       }
     }
@@ -1135,7 +1135,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "blake_output0_multiplicity"
+          "ExternalState": "blake_output0_mults"
         }
       }
     },
@@ -1167,7 +1167,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "blake_output1_multiplicity"
+          "ExternalState": "blake_output1_mults"
         }
       }
     }

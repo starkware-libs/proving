@@ -47,7 +47,7 @@ impl AirFn for QM31IntoU32 {
             // 0xffff) in the blake message.
             let is_zero = ab.let_for_deduction(const_expr!(0).eq(limbi.clone()), "limbi_is_zero");
             let inv = ab.deduce(
-                &mut (const_expr!(1) / (is_zero.as_felt() + limbi.clone())),
+                &mut (const_expr!(1) * (is_zero.as_felt() + limbi.clone()).inverse()),
                 "limbi_inv_or_one",
             );
             ab.constrain(
