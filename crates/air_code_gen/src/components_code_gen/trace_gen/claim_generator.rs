@@ -192,29 +192,11 @@ impl RustProverGen {
             }
         };
 
-        let is_empty_code = match self.mode {
-            Mode::PackedInputs => quote! {
-                pub fn is_empty(&self) -> bool {
-                    self.packed_inputs.is_empty()
-                }
-            },
-            Mode::Mults(MultiplicityMode::UnknownInputs) => quote! {
-                pub fn is_empty(&self) -> bool {
-                    self.mults.is_empty()
-                }
-            },
-            Mode::NoInputs
-            | Mode::Inputs
-            | Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => quote! {},
-        };
-
         quote! {
             $("\n")
 
             impl ClaimGenerator {
                 $(new_code)
-
-                $(is_empty_code)
 
                 pub fn write_trace(
                     $(self_param)
