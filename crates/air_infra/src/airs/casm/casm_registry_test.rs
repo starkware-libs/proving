@@ -5,7 +5,6 @@ use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
-use crate::airs::casm::builtins::ec_op::ec_op_builtin::ECOpBuiltin;
 use crate::airs::casm::casm_registry::create_casm_registry;
 use crate::core::air_fn_registry::AirFnStat;
 use crate::test_utils::{compare_json, compare_registry_jsons};
@@ -22,11 +21,7 @@ pub struct NonComponentStat {
 
 #[test]
 fn test_casm_registry() {
-    let mut reg = create_casm_registry();
-
-    // The following builtin is added here since it is not in stwo-cairo yet.
-    // ECOp builtin
-    reg.add_entry(&ECOpBuiltin::default());
+    let reg = create_casm_registry();
 
     // TODO(AnatG): Remove jsons from git.
     compare_registry_jsons(&reg, Path::new("../compiled_casm_air/"));

@@ -77,8 +77,8 @@ fn get_jobs(
     code_type: AutogenCodeType,
 ) -> Vec<AutogenCodeFile> {
     let mut result = vec![];
-
     let mut skipped_files = 0;
+
     for json_path in jsons_in_dir(source_dir) {
         let air_fn_name = json_path
             .file_stem()
@@ -102,16 +102,20 @@ fn get_jobs(
             dest_dir: dest_dir.to_path_buf(),
             code_type,
         };
+
         if is_supported(&job) {
             result.push(job);
         } else {
             skipped_files += 1;
         }
     }
+
     println!(
-        "Will generate {} files. Skipped {skipped_files} manually-implemented files.",
-        result.len()
+        "Will generate {} files of type {:?}. Skipped {skipped_files} manually-implemented files.",
+        result.len(),
+        code_type,
     );
+
     result
 }
 
@@ -160,31 +164,25 @@ fn format_stwo_cairo(stwo_cairo_path: &Path) {
     cmd!(shell, "scarb fmt").quiet().run().unwrap();
 }
 
-fn generate_registry_properties_file(args: &GenerateStwoCairoArgs) {
-    let source_repo_rev = get_git_rev(&args.source);
-    let casm_registry_src = read_casm_registry(&args.source);
+fn generate_registry_properties_file(src: &Path, dst: &Path) {
+    let casm_registry_path = src.join(REGISTRY_PROPERTIES_FILE_NAME);
+    let casm_registry_file = fs::read_to_string(&casm_registry_path)
+        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", casm_registry_path.display()));
+    let casm_registry_src =
+        serde_json::from_str(&casm_registry_file).expect("Invalid casm_registry.json file");
+
     let casm_registry_out = VersionedCasmRegistry {
-        air_version: source_repo_rev,
+        air_version: get_git_rev(src),
         canonical_ppt_n_trace_cells: CANONICAL_SIZE,
         canonical_without_pedersen_ppt_n_trace_cells: CANONICAL_WITHOUT_PEDERSEN_SIZE,
         air_fns: casm_registry_src,
     };
 
-    let dest_path = args
-        .stwo_cairo_path
-        .join("stwo_cairo_prover/crates/common/casm_registry.json");
     fs::write(
-        &dest_path,
+        dst,
         serde_json::to_string_pretty(&casm_registry_out).expect("Cannot serialize casm_registry"),
     )
-    .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dest_path.display()))
-}
-
-fn read_casm_registry(compiled_crate_src: &Path) -> IndexMap<String, AirFnStat> {
-    let casm_registry_path = compiled_crate_src.join(REGISTRY_PROPERTIES_FILE_NAME);
-    let casm_registry_file = fs::read_to_string(&casm_registry_path)
-        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", casm_registry_path.display()));
-    serde_json::from_str(&casm_registry_file).expect("Invalid casm_registry.json file")
+    .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dst.display()))
 }
 
 #[derive(Debug, Parser)]
@@ -311,6 +309,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     if !args.source.exists() {
         panic!("Source directory does not exist: {}", args.source.display());
     }
+    let compiled_casm_crate = args.source.join("crates/compiled_casm_air/");
 
     let code_type_and_dir = [
         (
@@ -329,10 +328,10 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
 
     let jobs = code_type_and_dir
         .iter()
-        .flat_map(|(ty, dir)| get_jobs(&args.source.join("compiled_jsons"), dir, *ty))
+        .flat_map(|(ty, dir)| get_jobs(&compiled_casm_crate.join("compiled_jsons"), dir, *ty))
         .collect_vec();
 
-    let (compiled_air_fns, sample_evaluations) = load_air_fns(&args.source, &jobs);
+    let (compiled_air_fns, sample_evaluations) = load_air_fns(&compiled_casm_crate, &jobs);
 
     generate_files(
         &args.stwo_cairo_path,
@@ -344,11 +343,16 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         &args
             .stwo_cairo_path
             .join("stwo_cairo_verifier/crates/cairo_air/src/components"),
-        &get_git_rev(&args.source),
+        &get_git_rev(&compiled_casm_crate),
         &sample_evaluations,
     );
 
-    generate_registry_properties_file(&args);
+    generate_registry_properties_file(
+        &compiled_casm_crate,
+        &args
+            .stwo_cairo_path
+            .join("stwo_cairo_prover/crates/common/casm_registry.json"),
+    );
 
     let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
 
@@ -394,7 +398,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
 
     println!(
         "Successfully processed JSON files from {} to {}",
-        args.source.display(),
+        compiled_casm_crate.display(),
         args.stwo_cairo_path.display(),
     );
 }
