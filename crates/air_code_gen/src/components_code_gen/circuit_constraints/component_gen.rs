@@ -418,7 +418,6 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                 let preprocessed_columns = HashMap::from([$(preprocessed_columns)]);
                 let public_params = HashMap::from([$(public_params)]);
                 let mut accumulator = CompositionConstraintAccumulator::new(&mut context, preprocessed_columns, public_params, random_coeff, interaction_elements);
-                accumulator.set_enable_bit(context.one());
                 component.evaluate(&mut context, &component_data, &mut accumulator);
                 accumulator.finalize_logup_in_pairs(
                     &mut context,
