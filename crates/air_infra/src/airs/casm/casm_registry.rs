@@ -4,6 +4,7 @@ use indexmap::IndexMap;
 
 // Builtins
 use super::builtins::bitwise::BitwiseBuiltin;
+use super::builtins::ec_op::ec_op_builtin::ECOpBuiltin;
 use super::builtins::modulo::add_mod::AddModBuiltin;
 use super::builtins::modulo::mul_mod::MulModBuiltin;
 use super::builtins::pedersen::pedersen_builtin::PedersenBuiltin;
@@ -121,6 +122,9 @@ pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, Compiled
         "poseidon_builtin",
         "range_check96_builtin",
         "range_check_builtin",
+        "ec_op_builtin",
+        // ECOp components
+        "partial_ec_mul_generic",
         // Pedersen context components
         "pedersen_aggregator_window_bits_18",
         "partial_ec_mul_window_bits_18",
@@ -303,6 +307,8 @@ pub fn get_all_builtins() -> Vec<Box<dyn AirFn<ExtIn = (), In = (), Out = ()>>> 
         Box::new(PedersenBuiltin::<14>::default()),
         // Pedersen builtin narrow windows
         Box::new(PedersenBuiltin::<28>::default()),
+        // ECOp builtin
+        Box::new(ECOpBuiltin::default()),
     ]
 }
 

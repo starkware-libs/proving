@@ -1790,8 +1790,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 [[package]]
 name = "stwo"
 version = "2.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17c0c344963f57a53bb83a4f90bbc2f8968385b55f11efe1887f23ad803ee00e"
+source = "git+https://github.com/starkware-libs/stwo?rev=aeceb74c#aeceb74c58184d7886ebd7f34a7453fee714ca40"
 dependencies = [
  "blake2",
  "blake3",
@@ -1818,7 +1817,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-common"
 version = "1.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3c969c4#3c969c47c429048534275afcd0d93625be1f8e0f"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4649712#4649712f8c165f141d5b4f6f8249e1abc3631c3b"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1837,7 +1836,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize"
 version = "1.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3c969c4#3c969c47c429048534275afcd0d93625be1f8e0f"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4649712#4649712f8c165f141d5b4f6f8249e1abc3631c3b"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1847,7 +1846,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize-derive"
 version = "1.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3c969c4#3c969c47c429048534275afcd0d93625be1f8e0f"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4649712#4649712f8c165f141d5b4f6f8249e1abc3631c3b"
 dependencies = [
  "quote",
  "syn 2.0.116",
@@ -1856,8 +1855,7 @@ dependencies = [
 [[package]]
 name = "stwo-constraint-framework"
 version = "2.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac823b7e9eae7c5bbc7886eb9b7610c5b84e163b57fc5909bcdbe61d1e3d7b15"
+source = "git+https://github.com/starkware-libs/stwo?rev=aeceb74c#aeceb74c58184d7886ebd7f34a7453fee714ca40"
 dependencies = [
  "hashbrown 0.15.5",
  "itertools 0.12.1",
