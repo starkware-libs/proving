@@ -24,6 +24,9 @@ pub fn generate_all_components_file(
                     "(\"memory_id_to_big_{i}\", Box::new(components::memory_id_to_big::Component {{ index: {i} }}) as Box<dyn CircuitEval<Value>>)"
                 ));
             }
+        // TODO: remove after those components integrate in 'stwo-circuit'.
+        } else if name == "ec_op_builtin" || name == "partial_ec_mul_generic" {
+            continue;
         } else {
             body.push(format!("(\"{name}\", Box::new(components::{name}::Component {{}}) as Box<dyn CircuitEval<Value>>)"));
         }

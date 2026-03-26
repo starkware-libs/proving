@@ -94,15 +94,20 @@ pub fn get_git_rev(directory: &Path) -> String {
         .to_string()
 }
 
-/// Create the file `file_path` with the given content, and update the `mod.rs`
-/// file in the same directory to include the new file.
+/// Create the file `file_path` with the given content, and update the relevant module file
+/// to include the new file.
 pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: AutogenCodeType) {
     let parent_dir = file_path
         .parent()
         .expect("path should include directory name");
     let (mod_file_path, mod_file_name) = match code_type {
         AutogenCodeType::WITNESS | AutogenCodeType::AIR | AutogenCodeType::CIRCUIT => {
-            (parent_dir, "mod.rs".to_string())
+            let mod_file_name = if parent_dir.join("lib.rs").exists() {
+                "lib.rs".to_string()
+            } else {
+                "mod.rs".to_string()
+            };
+            (parent_dir, mod_file_name)
         }
         AutogenCodeType::CAIRO => {
             let file_name = parent_dir
