@@ -8,6 +8,22 @@ use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
 
 #[test]
+fn test_verify_triple_sum() {
+    let verify = VerifyTripleSum32 {};
+    let (registry, _) = AirFnRegistry::new(&verify);
+    registry.run_air(
+        &verify,
+        (),
+        [
+            const_u32_expr!(2724151460),
+            const_u32_expr!(102499851),
+            const_u32_expr!(1441071338),
+            const_u32_expr!(4267722649),
+        ],
+    );
+}
+
+#[test]
 fn test_triple_sum1() {
     let triple_sum = TripleSum32 {};
     let (registry, _) = AirFnRegistry::new(&triple_sum);
