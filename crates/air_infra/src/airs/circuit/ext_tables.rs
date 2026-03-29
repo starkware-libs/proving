@@ -338,3 +338,45 @@ impl ExtTable for PointwiseMulFlag {
         const_bool_expr!(false)
     }
 }
+
+#[derive(Debug, Default, Clone)]
+pub struct M31ToU32InputAddr {}
+impl ExtTable for M31ToU32InputAddr {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["m31_to_u32_input_addr".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct M31ToU32OutputAddr {}
+impl ExtTable for M31ToU32OutputAddr {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["m31_to_u32_output_addr".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct M31ToU32Multiplicity {}
+impl ExtTable for M31ToU32Multiplicity {
+    type T = FeltExpr;
+
+    fn column_ids() -> Vec<String> {
+        vec!["m31_to_u32_multiplicity".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
