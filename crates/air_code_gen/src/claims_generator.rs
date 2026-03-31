@@ -1,4 +1,4 @@
-use air_common::{PaddingType, TraceType};
+use air_common::TraceType;
 use air_compile::compiled_structs::CompiledAirFn;
 use air_infra::airs::casm::casm_registry::{get_all_builtins, get_all_opcodes, get_sub_components};
 use convert_case::{Case, Casing};
@@ -164,14 +164,9 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
 
         // Collect the write trace args.
         let mut write_trace_args = rust::Tokens::new();
-        for (name, padding_type) in &compiled_air_fn.sub_components {
-            let as_ref_or_mut = if padding_type == &PaddingType::Multiplicity {
-                quote! { as_ref() }
-            } else {
-                quote! { as_mut() }
-            };
+        for (name, _padding_type) in &compiled_air_fn.sub_components {
             write_trace_args.extend(quote! {
-                self.$(name).$(as_ref_or_mut).unwrap(),
+                self.$(name).as_ref().unwrap(),
             });
         }
 
@@ -242,7 +237,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
 
     quote! {
         pub fn write_trace(
-            mut self,
+            self,
         ) -> (Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>, CairoClaim, CairoInteractionClaimGenerator) {
             let mut evals = Vec::new();
             $(opcodes_init_vars)

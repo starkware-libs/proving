@@ -112,12 +112,7 @@ impl RustProverGen {
         let (_name, ty, packed_ty) = &self.air_fn.prover_input;
         match self.mode {
             Mode::NoInputs => quote!(),
-            Mode::PackedInputs => {
-                quote! {
-                    pub type PackedInputType = $packed_ty;
-                }
-            }
-            Mode::Inputs | Mode::Mults(_) => {
+            Mode::PackedInputs | Mode::Inputs | Mode::Mults(_) => {
                 quote! {
                     pub type InputType = $ty;
                     pub type PackedInputType = $packed_ty;
