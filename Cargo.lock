@@ -1789,8 +1789,9 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "stwo"
-version = "2.1.0"
-source = "git+https://github.com/starkware-libs/stwo?rev=aeceb74c#aeceb74c58184d7886ebd7f34a7453fee714ca40"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d400ae91acbeafa6f80070a03e1117a794a95f295050f44538a4c7dd55abd491"
 dependencies = [
  "blake2",
  "blake3",
@@ -1816,8 +1817,8 @@ dependencies = [
 
 [[package]]
 name = "stwo-cairo-common"
-version = "1.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4649712#4649712f8c165f141d5b4f6f8249e1abc3631c3b"
+version = "1.2.2"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=56b219a2#56b219a299fa89574d9a7ee061e8aa2d41c968ed"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1835,8 +1836,8 @@ dependencies = [
 
 [[package]]
 name = "stwo-cairo-serialize"
-version = "1.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4649712#4649712f8c165f141d5b4f6f8249e1abc3631c3b"
+version = "1.2.2"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=56b219a2#56b219a299fa89574d9a7ee061e8aa2d41c968ed"
 dependencies = [
  "starknet-ff",
  "stwo",
@@ -1845,8 +1846,8 @@ dependencies = [
 
 [[package]]
 name = "stwo-cairo-serialize-derive"
-version = "1.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4649712#4649712f8c165f141d5b4f6f8249e1abc3631c3b"
+version = "1.2.2"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=56b219a2#56b219a299fa89574d9a7ee061e8aa2d41c968ed"
 dependencies = [
  "quote",
  "syn 2.0.116",
@@ -1854,8 +1855,9 @@ dependencies = [
 
 [[package]]
 name = "stwo-constraint-framework"
-version = "2.1.0"
-source = "git+https://github.com/starkware-libs/stwo?rev=aeceb74c#aeceb74c58184d7886ebd7f34a7453fee714ca40"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "47aca0d5d36d4b015703fb14f162a23cb685e67f8aa08dbe7faf39bd66fe93f1"
 dependencies = [
  "hashbrown 0.15.5",
  "itertools 0.12.1",
