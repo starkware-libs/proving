@@ -25,9 +25,7 @@ use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use itertools::Itertools;
 use serde::Serialize;
-use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
-    CANONICAL_SIZE, CANONICAL_WITHOUT_PEDERSEN_SIZE,
-};
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use xshell::{cmd, Shell};
 
 const DEFAULT_SOURCE_DIR: &str = ".";
@@ -173,8 +171,9 @@ fn generate_registry_properties_file(src: &Path, dst: &Path) {
 
     let casm_registry_out = VersionedCasmRegistry {
         air_version: get_git_rev(src),
-        canonical_ppt_n_trace_cells: CANONICAL_SIZE,
-        canonical_without_pedersen_ppt_n_trace_cells: CANONICAL_WITHOUT_PEDERSEN_SIZE,
+        canonical_ppt_n_trace_cells: PreProcessedTraceVariant::Canonical.n_trace_cells(),
+        canonical_without_pedersen_ppt_n_trace_cells:
+            PreProcessedTraceVariant::CanonicalWithoutPedersen.n_trace_cells(),
         air_fns: casm_registry_src,
     };
 
