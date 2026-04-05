@@ -29,9 +29,10 @@ pub fn generate_claim_generator_file(
         use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
             PreProcessedTrace, MAX_SEQUENCE_LOG_SIZE,
         };
+        use stwo_cairo_common::preprocessed_columns::simd_prelude::{BaseField, CircleEvaluation};
         pub use stwo::prover::backend::simd::SimdBackend;
+        use stwo::prover::poly::BitReversedOrder;
         use crate::witness::components::*;
-        use crate::witness::utils::TreeBuilder;
 
         #[derive(Default)]
         pub struct CairoClaimGenerator {
@@ -193,7 +194,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
             // Extend trace evals after the thread is done.
             opcodes_extend_evals_blocks.append(quote! {
                 let ($(&claim_var), $(&interaction_gen_var)) = $(&result_var).map(|(trace, claim, interaction_gen)| {
-                    tree_builder.extend_evals(trace.to_evals());
+                    evals.extend(trace.to_evals());
                     (claim, interaction_gen)
                 }).unzip();
             });
@@ -209,9 +210,9 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
                     const LOG_MAX_BIG_SIZE: u32 = MAX_SEQUENCE_LOG_SIZE;
                     let (big_traces, small_trace, claim, interaction_gen) = gen.write_trace(self.range_check_9_9.as_ref().unwrap(), LOG_MAX_BIG_SIZE);
                     for big_trace in big_traces {
-                        tree_builder.extend_evals(big_trace);
+                        evals.extend(big_trace);
                     }
-                    tree_builder.extend_evals(small_trace);
+                    evals.extend(small_trace);
                 }
             } else {
                 let to_evals = if component_name == "verify_bitwise_xor_12"
@@ -223,7 +224,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
                 };
                 quote! {
                     let (trace, claim, interaction_gen) = gen.write_trace($(write_trace_args));
-                    tree_builder.extend_evals(trace$(to_evals));
+                    evals.extend(trace$(to_evals));
                 }
             };
 
@@ -242,8 +243,8 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
     quote! {
         pub fn write_trace(
             mut self,
-            tree_builder: &mut impl TreeBuilder<SimdBackend>,
-        ) -> (CairoClaim, CairoInteractionClaimGenerator) {
+        ) -> (Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>, CairoClaim, CairoInteractionClaimGenerator) {
+            let mut evals = Vec::new();
             $(opcodes_init_vars)
 
             scope(|s| {
@@ -256,6 +257,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
 
             let (memory_id_to_big_claim, memory_id_to_small_claim) = memory_id_to_big_claim.unzip();
             (
+                evals,
                 CairoClaim {
                     public_data: self.public_data,
                     $(&compiled_registry
@@ -304,9 +306,9 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
                 let (memory_id_to_big_interaction_claim, memory_id_to_small_interaction_claim) = $(&result_var)
                     .map(|(big_traces, small_trace, big_interaction_claim, small_interaction_claim)| {
                         for big_trace in big_traces {
-                            tree_builder.extend_evals(big_trace);
+                            evals.extend(big_trace);
                         }
-                        tree_builder.extend_evals(small_trace);
+                        evals.extend(small_trace);
                         (big_interaction_claim, small_interaction_claim)
                     }).unzip();
             });
@@ -314,7 +316,7 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
             extend_evals_blocks.append(quote! {
                 let $(&(name.to_string() + "_interaction_claim")) = $(&result_var)
                     .map(|(trace, interaction_claim)| {
-                        tree_builder.extend_evals(trace);
+                        evals.extend(trace);
                         interaction_claim
                     });
             });
@@ -324,9 +326,9 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
     quote! {
         pub fn write_interaction_trace(
             self,
-            tree_builder: &mut impl TreeBuilder<SimdBackend>,
             common_lookup_elements: &CommonLookupElements,
-        ) -> CairoInteractionClaim {
+        ) -> (Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>, CairoInteractionClaim) {
+            let mut evals = Vec::new();
             $(&components_names
                 .iter()
                 .filter(|name| name.as_str() != "memory_id_to_small")
@@ -340,13 +342,14 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
 
             $(extend_evals_blocks)
 
-            CairoInteractionClaim {
+            (evals,
+             CairoInteractionClaim {
                 $(&components_names
                     .iter()
                     .map(|name| format!("{name}: {name}_interaction_claim,"))
                     .collect_vec()
                     .join("\n"))
-            }
+            })
         }
     }
 }
