@@ -243,7 +243,6 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let trace_log_sizes = vec![$(&log_size); N_TRACE_COLUMNS];
                 let interaction_log_sizes = vec![$(&log_size); $(get_n_logup_columns(air_fn))];
                 TreeVec::new(vec![
-                    vec![],
                     trace_log_sizes,
                     interaction_log_sizes,
                 ])
