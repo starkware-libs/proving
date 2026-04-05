@@ -132,6 +132,10 @@ pub enum CompiledAirVar {
     // A value passed to the verifier outside the trace. Can influence the constraints
     // that the verifier checks.
     PublicParam(String),
+    // A value that is 1 in active rows and 0 in padding rows
+    Enabler,
+    // A value equal to the number of uses of the i'th yield of this row
+    Multiplicity(usize),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

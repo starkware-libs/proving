@@ -91,7 +91,7 @@ impl State {
     pub(super) fn add(&mut self, expr: &mut FeltExpr, desc: &str) {
         let len = self.row.len();
         let desc = (!desc.is_empty()).then(|| desc.to_string());
-        expr.to_state(StateInfo::StateIndex(len, desc.clone()));
+        expr.set_value(ValueInfo::StateIndex(len, desc.clone()));
         self.row.push(StateCell(expr.clone(), desc));
     }
 

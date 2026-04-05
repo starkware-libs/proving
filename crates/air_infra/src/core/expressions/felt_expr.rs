@@ -18,7 +18,7 @@ pub type FeltExpr = Expr<Felt>;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FeltInfo {
-    pub state_info: StateInfo,
+    pub value_info: ValueInfo,
     // If some, the felt is an intermediate variable used in constraints.
     pub constraint_intermediate: Option<String>,
     pub is_const: bool,
@@ -31,7 +31,7 @@ impl FeltInfo {
     //    compilation will prefer to compile it directly as CompiledAirVar::State or ::PublicParam.
     pub fn get_used_constraint_intermediate_name(&self) -> Option<String> {
         if let Some(ref name) = self.constraint_intermediate {
-            if matches!(self.state_info, StateInfo::DegPolyOfState(_)) {
+            if matches!(self.value_info, ValueInfo::DegPolyOfState(_)) {
                 return Some(name.clone());
             }
         }
@@ -41,7 +41,7 @@ impl FeltInfo {
     // If this felt is stored in a state cell, return the name of that cell in the
     // compiled AirFn.
     pub fn get_state_cell_name(&self) -> Option<String> {
-        if let StateInfo::StateIndex(index, ref desc) = self.state_info {
+        if let ValueInfo::StateIndex(index, ref desc) = self.value_info {
             Some(State::get_cell_name(index, desc))
         } else {
             None
@@ -49,9 +49,9 @@ impl FeltInfo {
     }
 }
 
-// Describes where in the state this FeltExpr resides
+// Describes the value of a felt var
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum StateInfo {
+pub enum ValueInfo {
     // The felt is in the state of the current component, at the specified index.
     // The second argument is the description of the trace cell. It is used only for compilation.
     // Consider moving to a compilation context.
@@ -65,12 +65,16 @@ pub enum StateInfo {
     ExternalState(ExternalState),
     // The felt is one of the public parameters.
     PublicParam(PublicParam),
+    // The felt is 1 in active rows and 0 in padding rows
+    Enabler,
+    // The felt is the multiplicity of the i-th relation of the component
+    Multiplicity(usize),
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
     fn create_complex_or_felt(&mut self, is_const: bool, deg_in_state: Option<usize>) {
         self.complex_or_felt = ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::DegPolyOfState(deg_in_state),
+            value_info: ValueInfo::DegPolyOfState(deg_in_state),
             constraint_intermediate: None,
             is_const,
         });
@@ -83,14 +87,16 @@ impl VarExprUpdate for VarExpr<Felt> {
 impl FeltExpr {
     // When an expression is written to the trace, this function is called to change its felts
     // into variables that have state information.
-    pub fn to_state(&mut self, new_state_info: StateInfo) {
-        let name = match &new_state_info {
-            StateInfo::StateIndex(index, desc) => State::get_cell_name(*index, desc),
-            StateInfo::DegPolyOfState(_) => {
-                panic!("to_state shouldn't be used to make a FeltExpr an DegPolyOfState")
+    pub fn set_value(&mut self, new_value_info: ValueInfo) {
+        let name = match &new_value_info {
+            ValueInfo::StateIndex(index, desc) => State::get_cell_name(*index, desc),
+            ValueInfo::DegPolyOfState(_) => {
+                panic!("set_value shouldn't be used to make a FeltExpr an DegPolyOfState")
             }
-            StateInfo::ExternalState(col_id) => col_id.clone(),
-            StateInfo::PublicParam(public_param) => public_param.name(),
+            ValueInfo::ExternalState(col_id) => col_id.clone(),
+            ValueInfo::PublicParam(public_param) => public_param.name(),
+            ValueInfo::Enabler => "enabler".to_string(),
+            ValueInfo::Multiplicity(idx) => format!("multiplicity_{idx}"),
         };
 
         match self {
@@ -104,7 +110,7 @@ impl FeltExpr {
         self.as_var_mut()
             .complex_or_felt
             .as_felt_info_mut()
-            .state_info = new_state_info;
+            .value_info = new_value_info;
         self.as_var_mut().visibility.in_constraints = true;
         self.as_var_mut().visibility.in_deductions = true;
     }
@@ -118,10 +124,10 @@ impl FeltExpr {
 
         match self {
             FeltExpr::Var(v) => matches!(
-                v.complex_or_felt.as_felt_info().state_info,
-                StateInfo::StateIndex(..)
-                    | StateInfo::ExternalState { .. }
-                    | StateInfo::PublicParam(_)
+                v.complex_or_felt.as_felt_info().value_info,
+                ValueInfo::StateIndex(..)
+                    | ValueInfo::ExternalState { .. }
+                    | ValueInfo::PublicParam(_)
             ),
             _ => false,
         }

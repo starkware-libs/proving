@@ -27,12 +27,12 @@ fn test_expr_array() {
         .as_felts()
         .iter()
         .all(|f| f.in_state()));
-    array[0].to_state(StateInfo::StateIndex(0, None));
+    array[0].set_value(ValueInfo::StateIndex(0, None));
     assert!(!AirVarImpl::from(array.clone())
         .as_felts()
         .iter()
         .all(|f| f.in_state()));
-    array[1].to_state(StateInfo::StateIndex(1, None));
+    array[1].set_value(ValueInfo::StateIndex(1, None));
     assert!(AirVarImpl::from(array.clone())
         .as_felts()
         .iter()
@@ -56,12 +56,14 @@ fn test_expr_tuple() {
             .iter()
             .all(|f| f.in_state()))
     );
-    tup.0.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
+    tup.0
+        .as_felt_mut()
+        .set_value(ValueInfo::StateIndex(0, None));
     assert!(!AirVarImpl::from(tup.clone())
         .as_felts()
         .iter()
         .all(|f| f.in_state()));
-    tup.1.to_state(StateInfo::StateIndex(1, None));
+    tup.1.set_value(ValueInfo::StateIndex(1, None));
     assert!(AirVarImpl::from(tup.clone())
         .as_felts()
         .iter()

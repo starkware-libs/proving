@@ -4880,6 +4880,8 @@ fn write_trace_simd(
 
                 let ec_add_output_tmp_d9509_207 = [result_x_tmp_d9509_79, result_y_tmp_d9509_129];
 
+                let enabler_col296 = enabler_col.packed_at(row_index);
+                *row[296] = enabler_col296;
                 *lookup_data.partial_ec_mul_window_bits_18_0 = [
                     M31_1621226978,
                     input_limb_0_col0,
@@ -5030,7 +5032,6 @@ fn write_trace_simd(
                     result_y_limb_26_col266,
                     result_y_limb_27_col267,
                 ];
-                *row[296] = enabler_col.packed_at(row_index);
             },
         );
 

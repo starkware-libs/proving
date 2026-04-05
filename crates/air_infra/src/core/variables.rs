@@ -248,7 +248,7 @@ pub trait ExtTable: Default + Debug + Clone {
         let felts = v.as_felts_mut();
 
         for (felt, col_id) in felts.into_iter().zip(Self::column_ids()) {
-            felt.to_state(StateInfo::ExternalState(col_id));
+            felt.set_value(ValueInfo::ExternalState(col_id));
         }
     }
 
