@@ -1,6 +1,7 @@
 use std::collections::BTreeSet;
 use std::fmt::Debug;
 use std::iter::once;
+use std::rc::Rc;
 
 use air_common::{ExternalState, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
 use air_compile::compiled_structs::{
@@ -22,7 +23,7 @@ use crate::core::Felt;
 // and the air_body of the called function.
 #[derive(Clone, Debug)]
 pub struct Call {
-    pub entry: AirFnEntry,
+    pub entry: Rc<AirFnEntry>,
     pub input: AirVarImpl,
     pub output_name: String,
     pub output: AirVarImpl,
@@ -363,7 +364,7 @@ impl AirBody {
                 AirBodyComponent::Call(call) => {
                     let call_deductions = call.air_body.compile_for_deductions();
                     if !call_deductions.is_empty() {
-                        deductions.push(TraceGenStep::StartBlock(call.entry.description));
+                        deductions.push(TraceGenStep::StartBlock(call.entry.description.clone()));
                         deductions.extend(call_deductions);
                         deductions.push(TraceGenStep::EndBlock);
                     }
