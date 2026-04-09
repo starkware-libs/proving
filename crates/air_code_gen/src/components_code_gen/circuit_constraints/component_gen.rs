@@ -407,7 +407,6 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                     &trace_columns,
                     &interaction_columns,
                     $(make_qm31(assignment.last_row_sum)),
-                    $(make_qm31(assignment.claimed_sum)),
                     $(1 << assignment.log_height)
                 );
                 let random_coeff = context.new_var($(make_qm31(assignment.random_coeff)));
@@ -419,10 +418,12 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                 let public_params = HashMap::from([$(public_params)]);
                 let mut accumulator = CompositionConstraintAccumulator::new(&mut context, preprocessed_columns, public_params, random_coeff, interaction_elements);
                 component.evaluate(&mut context, &component_data, &mut accumulator);
+                let claimed_sum = context.new_var($(make_qm31(assignment.claimed_sum)));
                 accumulator.finalize_logup_in_pairs(
                     &mut context,
                     <TestComponentData as ComponentDataTrait<QM31>>::interaction_columns(&component_data),
                     &component_data,
+                    claimed_sum,
                 );
 
                 let result = accumulator.finalize();
