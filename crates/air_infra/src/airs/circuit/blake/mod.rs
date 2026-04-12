@@ -7,3 +7,6 @@ pub mod m31_to_u32;
 #[cfg(test)]
 mod m31_to_u32_test;
 pub mod qm31_into_u32;
+pub mod triple_xor;
+#[cfg(test)]
+mod triple_xor_test;

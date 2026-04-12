@@ -340,6 +340,76 @@ impl ExtTable for PointwiseMulFlag {
 }
 
 #[derive(Debug, Default, Clone)]
+pub struct TripleXorInputAddr0 {}
+impl ExtTable for TripleXorInputAddr0 {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["triple_xor_input_addr_0".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct TripleXorInputAddr1 {}
+impl ExtTable for TripleXorInputAddr1 {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["triple_xor_input_addr_1".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct TripleXorInputAddr2 {}
+impl ExtTable for TripleXorInputAddr2 {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["triple_xor_input_addr_2".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct TripleXorOutputAddr {}
+impl ExtTable for TripleXorOutputAddr {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["triple_xor_output_addr".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct TripleXorMultiplicity {}
+impl ExtTable for TripleXorMultiplicity {
+    type T = FeltExpr;
+
+    fn column_ids() -> Vec<String> {
+        vec!["triple_xor_multiplicity".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
 pub struct M31ToU32InputAddr {}
 impl ExtTable for M31ToU32InputAddr {
     type T = CasmAddress;
