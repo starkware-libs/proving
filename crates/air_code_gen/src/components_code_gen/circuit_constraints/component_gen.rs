@@ -137,7 +137,7 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         // Seq is the only preprocessed column that is of unfixed size.
         if external_col_id == "Seq" {
             code.append(quote! {
-                let seq = seq_of_component_size(context, component_data, acc);
+                let seq = seq_of_component_size(context, component_data, &acc.preprocessed_columns);
             });
         } else {
             code.append(quote! {
