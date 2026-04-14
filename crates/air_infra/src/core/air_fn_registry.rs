@@ -136,7 +136,7 @@ impl AirFnEntry {
     }
 
     // Compiles the air function entry into a compiled air function.
-    pub fn compile(self, called_fns: &Ref<'_, IndexMap<String, AirFnEntry>>) -> CompiledAirFn {
+    pub fn compile(&self, called_fns: &Ref<'_, IndexMap<String, Rc<AirFnEntry>>>) -> CompiledAirFn {
         let inline_calls = self
             .air_body
             .get_inline_calls()
@@ -322,7 +322,7 @@ impl AirFnEntry {
 // for the air function and its subroutines.
 #[derive(Debug, Clone, Default)]
 pub struct AirFnRegistry {
-    pub air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
+    pub air_fns: Rc<RefCell<IndexMap<String, Rc<AirFnEntry>>>>,
     pub air_fn_ids: Rc<RefCell<HashSet<String>>>,
     pub relation_ids: Rc<RefCell<HashMap<String, M31>>>,
     pub public_params: PublicParams,
@@ -338,7 +338,7 @@ impl AirFnRegistry {
         }
     }
 
-    pub fn new<E, I, O>(air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>) -> (Self, AirFnEntry)
+    pub fn new<E, I, O>(air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>) -> (Self, Rc<AirFnEntry>)
     where
         E: ExtTable,
         I: AirVar,
@@ -352,7 +352,7 @@ impl AirFnRegistry {
     pub fn add_entry<E, I, O>(
         &mut self,
         air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
-    ) -> AirFnEntry
+    ) -> Rc<AirFnEntry>
     where
         E: ExtTable,
         I: AirVar,
@@ -398,11 +398,12 @@ impl AirFnRegistry {
             assert_constraint_graph_connected(&entry);
         }
 
+        let entry_rc = Rc::new(entry);
         self.air_fns
             .borrow_mut()
-            .insert(air_fn.name(), entry.clone());
+            .insert(air_fn.name(), entry_rc.clone());
 
-        entry
+        entry_rc
     }
 
     // Runs the air function on a given input and returns the resulting state and output.
@@ -551,7 +552,7 @@ impl AirFnRegistry {
         self.air_fns
             .borrow()
             .iter()
-            .map(|(name, entry)| (name.clone(), entry.clone().compile(&self.air_fns.borrow())))
+            .map(|(name, entry)| (name.clone(), entry.compile(&self.air_fns.borrow())))
             .collect()
     }
 
@@ -632,7 +633,7 @@ impl AirFnRegistry {
             let called_entry = reg
                 .get(air_fn_name)
                 .expect("Called entry not found in registry");
-            let compiled_called_entry = called_entry.clone().compile(&reg);
+            let compiled_called_entry = called_entry.compile(&reg);
             let entry_stats = stat
                 .get(air_fn_name)
                 .expect("Called entry not found in registry");
