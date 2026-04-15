@@ -55,6 +55,9 @@ fn get_manual_circuit_constraints_components() -> Vec<String> {
         // The circuit version requires applying the enabler to the reading of the message,
         "circuit_blake_round".into(),
         "verify_bitwise_xor_12".into(),
+        "qm_31_into_u_32".into(),
+        "blake_gate".into(),
+        "create_blake_output".into(),
     ]
 }
 
