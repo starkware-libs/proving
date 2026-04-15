@@ -78,16 +78,11 @@ pub fn generate_cairo_interaction_claim_impl(components_names: &Vec<&String>) ->
                 for claimed_sum in big_claimed_sums {
                     claimed_sums.push(*claimed_sum);
                 }
-                for _ in 0..(MEMORY_ADDRESS_TO_ID_SPLIT - big_claimed_sums.len()) {
-                    claimed_sums.push(SecureField::zero());
-                }
             });
         } else {
             flatten_interaction_body.append(quote! {
                 if let Some(c) = self.$(name) {
                     claimed_sums.push(c.claimed_sum);
-                } else {
-                    claimed_sums.push(SecureField::zero());
                 }
             });
         }
@@ -141,10 +136,7 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
                     component_log_sizes.push(*log_size);
                     component_enable_bits.push(true);
                 }
-                for _ in 0..(MEMORY_ADDRESS_TO_ID_SPLIT - big_log_sizes.len()) {
-                    component_log_sizes.push(0_u32);
-                    component_enable_bits.push(false);
-                }
+                component_enable_bits.extend(std::iter::repeat_n(false, MEMORY_ADDRESS_TO_ID_SPLIT - big_log_sizes.len()));
             });
         } else {
             if !is_const_size_component(compiled_air_fn) {
@@ -169,7 +161,6 @@ fn generate_cairo_claim_impl(compiled_regisry: &IndexMap<String, CompiledAirFn>)
                     component_log_sizes.push($(log_size_expr));
                     component_enable_bits.push(true);
                 } else {
-                    component_log_sizes.push(0_u32);
                     component_enable_bits.push(false);
                 }
             });
