@@ -341,5 +341,29 @@
     },
     "max_instances_uses_limit": 3918765,
     "max_instances_rows_limit": 1048576
+  },
+  "m_31_to_u_32": {
+    "trace_type": "Gate",
+    "log_height": null,
+    "num_state_cols": 4,
+    "use_lookup_cols": {
+      "RangeCheck_16": 3,
+      "Gate": 1
+    },
+    "yield_lookup_cols": {
+      "Gate": 1
+    },
+    "lookup_rows": {
+      "RangeCheck_16": 3
+    },
+    "padding_type": "Multiplicity",
+    "total_num_trace_cols": 16,
+    "trace_cells_upper_bound": 16,
+    "uses_upper_bound": {
+      "range_check_16": 3
+    },
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 715827882,
+    "max_instances_rows_limit": 268435456
   }
 }

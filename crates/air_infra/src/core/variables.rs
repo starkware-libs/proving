@@ -677,6 +677,8 @@ impl_air_var!((Felt252Width27Expr, ECPoint, ECPointB, FeltExpr));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulGenericState));
 
 // Gates
+// M31ToU32
+impl_air_var!((FeltExpr, UInt32Expr));
 type H = [UInt32Expr; 8];
 impl_air_var!((H, BoolExpr));
 impl_air_var!([H]);
