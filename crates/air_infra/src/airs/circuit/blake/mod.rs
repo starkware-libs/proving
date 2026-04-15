@@ -1,3 +1,6 @@
+pub mod blake_g_gate;
+#[cfg(test)]
+mod blake_g_gate_test;
 pub mod blake_gate;
 pub mod blake_message;
 pub mod blake_output;
