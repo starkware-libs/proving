@@ -206,6 +206,10 @@ struct GenerateStwoCircuitsArgs {
 
     #[clap(long, default_value = DEFAULT_STWO_CIRCUITS_PATH)]
     stwo_circuits_path: PathBuf,
+
+    /// Skip formatting the generated code
+    #[clap(long, default_value_t = false)]
+    skip_format: bool,
 }
 
 #[derive(Debug, Parser)]
@@ -443,5 +447,7 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
         &compiled_regisry,
     );
 
-    format_rust(&args.stwo_circuits_path);
+    if !args.skip_format {
+        format_rust(&args.stwo_circuits_path);
+    }
 }
