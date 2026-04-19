@@ -9,11 +9,13 @@ use cairo_air::components::partial_ec_mul_window_bits_18::{
     Claim, InteractionClaim, N_TRACE_COLUMNS,
 };
 
+pub type InputType = (M31, M31, ([M31; 14], [Felt252; 2]));
 pub type PackedInputType = (PackedM31, PackedM31, ([PackedM31; 14], [PackedFelt252; 2]));
 
 #[derive(Default)]
 pub struct ClaimGenerator {
-    pub packed_inputs: Vec<PackedInputType>,
+    pub packed_inputs: Mutex<Vec<PackedInputType>>,
+    pub remainder_inputs: Mutex<Vec<InputType>>,
 }
 
 impl ClaimGenerator {
@@ -22,7 +24,7 @@ impl ClaimGenerator {
     }
 
     pub fn write_trace(
-        mut self,
+        self,
         pedersen_points_table_window_bits_18_state: &pedersen_points_table_window_bits_18::ClaimGenerator,
         range_check_9_9_state: &range_check_9_9::ClaimGenerator,
         range_check_20_state: &range_check_20::ClaimGenerator,
@@ -31,71 +33,77 @@ impl ClaimGenerator {
         Claim,
         InteractionClaimGenerator,
     ) {
-        assert!(!self.packed_inputs.is_empty());
-        let n_vec_rows = self.packed_inputs.len();
+        let mut packed_inputs = self.packed_inputs.into_inner().unwrap();
+        assert!(!packed_inputs.is_empty());
+        assert!(self.remainder_inputs.lock().unwrap().is_empty());
+        let n_vec_rows = packed_inputs.len();
         let n_rows = n_vec_rows * N_LANES;
         let packed_size = n_vec_rows.next_power_of_two();
         let log_size = packed_size.ilog2() + LOG_N_LANES;
-        self.packed_inputs
-            .resize(packed_size, *self.packed_inputs.first().unwrap());
+        packed_inputs.resize(packed_size, *packed_inputs.first().unwrap());
 
         let (trace, lookup_data, sub_component_inputs) = write_trace_simd(
-            self.packed_inputs,
+            packed_inputs,
             n_rows,
             pedersen_points_table_window_bits_18_state,
             range_check_9_9_state,
             range_check_20_state,
         );
         for inputs in sub_component_inputs.pedersen_points_table_window_bits_18 {
-            pedersen_points_table_window_bits_18_state.add_packed_inputs(&inputs, 0);
+            add_inputs(
+                pedersen_points_table_window_bits_18_state,
+                &inputs,
+                inputs.len() * N_LANES,
+                0,
+            );
         }
         for inputs in sub_component_inputs.range_check_9_9 {
-            range_check_9_9_state.add_packed_inputs(&inputs, 0);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 0);
         }
         for inputs in sub_component_inputs.range_check_9_9_b {
-            range_check_9_9_state.add_packed_inputs(&inputs, 1);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 1);
         }
         for inputs in sub_component_inputs.range_check_9_9_c {
-            range_check_9_9_state.add_packed_inputs(&inputs, 2);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 2);
         }
         for inputs in sub_component_inputs.range_check_9_9_d {
-            range_check_9_9_state.add_packed_inputs(&inputs, 3);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 3);
         }
         for inputs in sub_component_inputs.range_check_9_9_e {
-            range_check_9_9_state.add_packed_inputs(&inputs, 4);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 4);
         }
         for inputs in sub_component_inputs.range_check_9_9_f {
-            range_check_9_9_state.add_packed_inputs(&inputs, 5);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 5);
         }
         for inputs in sub_component_inputs.range_check_9_9_g {
-            range_check_9_9_state.add_packed_inputs(&inputs, 6);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 6);
         }
         for inputs in sub_component_inputs.range_check_9_9_h {
-            range_check_9_9_state.add_packed_inputs(&inputs, 7);
+            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 7);
         }
         for inputs in sub_component_inputs.range_check_20 {
-            range_check_20_state.add_packed_inputs(&inputs, 0);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 0);
         }
         for inputs in sub_component_inputs.range_check_20_b {
-            range_check_20_state.add_packed_inputs(&inputs, 1);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 1);
         }
         for inputs in sub_component_inputs.range_check_20_c {
-            range_check_20_state.add_packed_inputs(&inputs, 2);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 2);
         }
         for inputs in sub_component_inputs.range_check_20_d {
-            range_check_20_state.add_packed_inputs(&inputs, 3);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 3);
         }
         for inputs in sub_component_inputs.range_check_20_e {
-            range_check_20_state.add_packed_inputs(&inputs, 4);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 4);
         }
         for inputs in sub_component_inputs.range_check_20_f {
-            range_check_20_state.add_packed_inputs(&inputs, 5);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 5);
         }
         for inputs in sub_component_inputs.range_check_20_g {
-            range_check_20_state.add_packed_inputs(&inputs, 6);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 6);
         }
         for inputs in sub_component_inputs.range_check_20_h {
-            range_check_20_state.add_packed_inputs(&inputs, 7);
+            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 7);
         }
 
         (
@@ -108,9 +116,17 @@ impl ClaimGenerator {
             },
         )
     }
+}
 
-    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_index: usize) {
-        self.packed_inputs.extend(inputs);
+impl AddInputs for ClaimGenerator {
+    type PackedInputType = PackedInputType;
+    type InputType = InputType;
+
+    fn add_packed_inputs(&self, inputs: &[PackedInputType], _relation_index: usize) {
+        self.packed_inputs.lock().unwrap().extend(inputs);
+    }
+    fn add_input(&self, input: &InputType, _relation_index: usize) {
+        self.remainder_inputs.lock().unwrap().push(*input);
     }
 }
 

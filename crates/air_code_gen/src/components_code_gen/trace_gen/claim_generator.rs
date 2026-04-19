@@ -23,7 +23,10 @@ impl RustProverGen {
         let mut claim_generator_fields = match self.mode {
             Mode::NoInputs => quote! { pub log_size: u32, },
             Mode::PackedInputs => {
-                quote! { pub packed_inputs: $(vec_of_type("PackedInputType")), }
+                quote! {
+                    pub packed_inputs: Mutex<$(vec_of_type("PackedInputType"))>,
+                    pub remainder_inputs: Mutex<$(vec_of_type("InputType"))>,
+                }
             }
             Mode::Inputs => quote! { pub inputs: $(vec_of_type("InputType")), },
             Mode::Mults(MultiplicityMode::KnownInputs) => {
@@ -69,43 +72,53 @@ impl RustProverGen {
             Mode::Inputs => (quote! {}, quote! {mut self, }),
             Mode::PackedInputs => (
                 quote! {
-                    pub fn add_packed_inputs(&mut self, inputs: &[PackedInputType], _relation_index: usize) {
-                        self.packed_inputs.extend(inputs);
+                    fn add_packed_inputs(&self, inputs: &[PackedInputType], _relation_index: usize) {
+                        self.packed_inputs.lock().unwrap().extend(inputs);
+                    }
+                    fn add_input(&self, input: &InputType, _relation_index: usize) {
+                        self.remainder_inputs.lock().unwrap().push(*input);
                     }
                 },
-                quote! {mut self, },
+                quote! {self, },
             ),
             Mode::Mults(MultiplicityMode::KnownInputs) => {
                 let add_inputs_code = quote! {
-                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
+                    fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
                         packed_inputs.into_par_iter().for_each(|packed_input| {
                             for input in packed_input.unpack() {
-                                self.mults[relation_index].increase_at(
-                                    (*self.input_to_row.get(&input).unwrap())
-                                        .try_into()
-                                        .unwrap(),
-                                );
+                                self.add_input(&input, relation_index);
                             }
                         });
+                    }
+                    fn add_input(&self, input: &InputType, relation_index: usize) {
+                        self.mults[relation_index].increase_at(
+                            (*self.input_to_row.get(input).unwrap())
+                                .try_into()
+                                .unwrap(),
+                        );
                     }
                 };
                 (add_inputs_code, quote! {self, })
             }
             Mode::Mults(MultiplicityMode::Seq) => {
+                // Here PackedInputType is [PackedM31; 1] and InputType is [M31; 1]
                 let add_inputs_code = quote! {
-                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
+                    fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], relation_index: usize) {
                         packed_inputs.into_par_iter().for_each(|packed_input| {
                             for [idx] in packed_input.unpack() {
                                 self.mults[relation_index].increase_at(idx.0);
                             }
                         });
                     }
+                    fn add_input(&self, input: &InputType, relation_index: usize) {
+                        self.mults[relation_index].increase_at(input[0].0);
+                    }
                 };
                 (add_inputs_code, quote! {self, })
             }
             Mode::Mults(MultiplicityMode::UnknownInputs) => {
                 let add_inputs_code = quote! {
-                    pub fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], _relation_index: usize) {
+                    fn add_packed_inputs(&self, packed_inputs: &[PackedInputType], _relation_index: usize) {
                         let merged: HashMap<InputType, u32> = packed_inputs
                             .par_iter()
                             .flat_map(|p| p.unpack())
@@ -126,6 +139,12 @@ impl RustProverGen {
                                 .or_insert_with(|| AtomicU32::new(0))
                                 .fetch_add(v, Ordering::Relaxed);
                         }
+                    }
+                    fn add_input(&self, input: &InputType, _relation_index: usize) {
+                        self.mults
+                        .entry(*input)
+                        .or_insert_with(|| AtomicU32::new(0))
+                        .fetch_add(1, Ordering::Relaxed);
                     }
                 };
                 (add_inputs_code, quote! {self, })
@@ -192,6 +211,18 @@ impl RustProverGen {
             }
         };
 
+        let add_inputs_trait_impl = match self.mode {
+            Mode::PackedInputs | Mode::Mults(_) => quote! {
+                impl AddInputs for ClaimGenerator {
+                    type PackedInputType = PackedInputType;
+                    type InputType = InputType;
+
+                    $(add_inputs_code)
+                }
+            },
+            _ => quote! {},
+        };
+
         quote! {
             $("\n")
 
@@ -205,9 +236,9 @@ impl RustProverGen {
                 {
                     $(self.write_trace_body_simd())
                 }
-
-                $(add_inputs_code)
             }
+
+            $(add_inputs_trait_impl)
         }
     }
 
@@ -228,12 +259,14 @@ impl RustProverGen {
                let log_size = self.log_size;
             },
             Mode::PackedInputs => quote! {
-                assert!(!self.packed_inputs.is_empty());
-                let n_vec_rows = self.packed_inputs.len();
+                let mut packed_inputs = self.packed_inputs.into_inner().unwrap();
+                assert!(!packed_inputs.is_empty());
+                assert!(self.remainder_inputs.lock().unwrap().is_empty());
+                let n_vec_rows = packed_inputs.len();
                 let n_rows = n_vec_rows * N_LANES;
                 let packed_size = n_vec_rows.next_power_of_two();
                 let log_size = packed_size.ilog2() + LOG_N_LANES;
-                self.packed_inputs.resize(packed_size, *self.packed_inputs.first().unwrap());
+                packed_inputs.resize(packed_size, *packed_inputs.first().unwrap());
             },
             Mode::Inputs => quote! {
                 let n_rows = self.inputs.len();
@@ -292,7 +325,7 @@ impl RustProverGen {
             .iter()
             .map(|(relation_name, (component_name, relation_index, _))| {
                 quote! { for inputs in sub_component_inputs.$(relation_name.to_case(Case::Snake)) {
-                    $component_name$STATE_SUFFIX.add_packed_inputs(&inputs, $(*relation_index));
+                    add_inputs($component_name$STATE_SUFFIX, &inputs, inputs.len() * N_LANES, $(*relation_index));
                 };}
             })
             .collect_vec();
@@ -349,7 +382,7 @@ impl RustProverGen {
     fn generate_write_trace_simd_args(&self) -> rust::Tokens {
         let mut args = match self.mode {
             Mode::NoInputs => quote! { log_size, },
-            Mode::PackedInputs => quote! { self.packed_inputs, },
+            Mode::PackedInputs => quote! { packed_inputs, },
             Mode::Inputs => quote! { packed_inputs, },
             Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => {
                 quote! { &self.preprocessed_trace, mults, }
@@ -627,16 +660,10 @@ impl RustProverGen {
 const STATE_SUFFIX: &str = "_state";
 fn write_trace_params(sub_components: &IndexMap<String, PaddingType>) -> rust::Tokens {
     let mut params = rust::Tokens::new();
-    for (name, padding_type) in sub_components {
-        if padding_type == &PaddingType::Multiplicity {
-            params.extend(quote! {
-                $name$STATE_SUFFIX: &$name::ClaimGenerator,$("\n")
-            });
-        } else {
-            params.extend(quote! {
-                $name$STATE_SUFFIX: &mut $name::ClaimGenerator,$("\n")
-            });
-        }
+    for (name, _padding_type) in sub_components {
+        params.extend(quote! {
+            $name$STATE_SUFFIX: &$name::ClaimGenerator,$("\n")
+        });
     }
     params
 }
