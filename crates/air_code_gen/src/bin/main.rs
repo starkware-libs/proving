@@ -46,6 +46,7 @@ struct VersionedCasmRegistry {
     /// The total number of trace cells in the preprocessed tables, taken from stwo-cairo
     pub canonical_ppt_n_trace_cells: u32,
     pub canonical_without_pedersen_ppt_n_trace_cells: u32,
+    pub canonical_small_ppt_n_trace_cells: u32,
     pub air_fns: IndexMap<String, AirFnStat>,
 }
 
@@ -163,23 +164,23 @@ fn format_stwo_cairo(stwo_cairo_path: &Path) {
 }
 
 fn generate_registry_properties_file(src: &Path, dst: &Path) {
-    let casm_registry_path = src.join(REGISTRY_PROPERTIES_FILE_NAME);
-    let casm_registry_file = fs::read_to_string(&casm_registry_path)
-        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", casm_registry_path.display()));
-    let casm_registry_src =
-        serde_json::from_str(&casm_registry_file).expect("Invalid casm_registry.json file");
+    let registry_path = src.join(REGISTRY_PROPERTIES_FILE_NAME);
+    let registry_file = fs::read_to_string(&registry_path)
+        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", registry_path.display()));
+    let registry_src = serde_json::from_str(&registry_file).expect("Invalid registry.json file");
 
-    let casm_registry_out = VersionedCasmRegistry {
+    let registry_out = VersionedCasmRegistry {
         air_version: get_git_rev(src),
         canonical_ppt_n_trace_cells: PreProcessedTraceVariant::Canonical.n_trace_cells(),
         canonical_without_pedersen_ppt_n_trace_cells:
             PreProcessedTraceVariant::CanonicalWithoutPedersen.n_trace_cells(),
-        air_fns: casm_registry_src,
+        canonical_small_ppt_n_trace_cells: PreProcessedTraceVariant::CanonicalSmall.n_trace_cells(),
+        air_fns: registry_src,
     };
 
     fs::write(
         dst,
-        serde_json::to_string_pretty(&casm_registry_out).expect("Cannot serialize casm_registry"),
+        serde_json::to_string_pretty(&registry_out).expect("Cannot serialize registry"),
     )
     .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dst.display()))
 }
@@ -308,43 +309,50 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     if !args.source.exists() {
         panic!("Source directory does not exist: {}", args.source.display());
     }
-    let compiled_casm_crate = args.source.join("crates/compiled_casm_air/");
 
-    let code_type_and_dir = [
+    let compiled_casm_crate = args.source.join("crates/compiled_casm_air");
+    let compiled_circuit_crate = args.source.join("crates/compiled_circuit_air");
+    let jobs_desc = [
         (
-            AutogenCodeType::AIR,
+            &compiled_casm_crate,
             Path::new("stwo_cairo_prover/crates/cairo-air/src/components"),
+            AutogenCodeType::AIR,
         ),
         (
-            AutogenCodeType::CAIRO,
+            &compiled_casm_crate,
             Path::new("stwo_cairo_verifier/crates/cairo_air/src/components"),
+            AutogenCodeType::CAIRO,
         ),
         (
-            AutogenCodeType::WITNESS,
+            &compiled_casm_crate,
             Path::new("stwo_cairo_prover/crates/prover/src/witness/components"),
+            AutogenCodeType::WITNESS,
+        ),
+        (
+            &compiled_circuit_crate,
+            Path::new("stwo_cairo_verifier/crates/circuit_air/src/components"),
+            AutogenCodeType::CAIRO,
         ),
     ];
 
-    let jobs = code_type_and_dir
-        .iter()
-        .flat_map(|(ty, dir)| get_jobs(&compiled_casm_crate.join("compiled_jsons"), dir, *ty))
-        .collect_vec();
+    for (src, dst, code) in jobs_desc {
+        let jobs = get_jobs(&src.join("compiled_jsons"), dst, code);
+        let (compiled_air_fns, sample_evaluations) = load_air_fns(src, &jobs);
+        generate_files(
+            &args.stwo_cairo_path,
+            &compiled_air_fns,
+            &sample_evaluations,
+            &jobs,
+        );
 
-    let (compiled_air_fns, sample_evaluations) = load_air_fns(&compiled_casm_crate, &jobs);
-
-    generate_files(
-        &args.stwo_cairo_path,
-        &compiled_air_fns,
-        &sample_evaluations,
-        &jobs,
-    );
-    cairo_sample_evaluations::generate_sample_evaluations_file(
-        &args
-            .stwo_cairo_path
-            .join("stwo_cairo_verifier/crates/cairo_air/src/components"),
-        &get_git_rev(&compiled_casm_crate),
-        &sample_evaluations,
-    );
+        if code == AutogenCodeType::CAIRO {
+            cairo_sample_evaluations::generate_sample_evaluations_file(
+                &args.stwo_cairo_path.join(dst),
+                &get_git_rev(&args.source),
+                &sample_evaluations,
+            );
+        }
+    }
 
     generate_registry_properties_file(
         &compiled_casm_crate,
@@ -407,21 +415,25 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
         panic!("Source directory does not exist: {}", args.source.display());
     }
 
-    let source_and_dest = [
+    let compiled_casm_crate = args.source.join("crates/compiled_casm_air");
+    let compiled_circuit_crate = args.source.join("crates/compiled_circuit_air");
+    let jobs_desc = [
         (
-            &args.source.join("crates/compiled_casm_air"),
+            &compiled_casm_crate,
             Path::new("crates/cairo_verifier/src/components"),
+            AutogenCodeType::CIRCUIT,
         ),
         (
-            &args.source.join("crates/compiled_circuit_air"),
+            &compiled_circuit_crate,
             Path::new("crates/circuit_verifier/src/components"),
+            AutogenCodeType::CIRCUIT,
         ),
     ];
 
     let git_rev = get_git_rev(&args.source);
 
-    for (src, dst) in source_and_dest {
-        let jobs = get_jobs(&src.join("compiled_jsons"), dst, AutogenCodeType::CIRCUIT);
+    for (src, dst, code) in jobs_desc {
+        let jobs = get_jobs(&src.join("compiled_jsons"), dst, code);
         let (compiled_air_fns, sample_evaluations) = load_air_fns(src, &jobs);
         generate_files(
             &args.stwo_circuits_path,
@@ -436,6 +448,14 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
             &sample_evaluations,
         );
     }
+
+    // TODO: Do we want circuit registry file in stwo-circuits?
+    // generate_registry_properties_file(
+    //     &compiled_circuit_crate,
+    //     &args
+    //         .stwo_circuits_path
+    //         .join("crates/circuit_prover/circuit_registry.json"),
+    // );
 
     let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
     generate_all_components_file(
