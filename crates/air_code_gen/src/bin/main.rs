@@ -410,11 +410,11 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
     let source_and_dest = [
         (
             &args.source.join("crates/compiled_casm_air"),
-            Path::new("crates/cairo_air/src/components"),
+            Path::new("crates/cairo_verifier/src/components"),
         ),
         (
             &args.source.join("crates/compiled_circuit_air"),
-            Path::new("crates/circuit_air/src/circuit_eval_components"),
+            Path::new("crates/circuit_verifier/src/components"),
         ),
     ];
 
@@ -439,7 +439,7 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
 
     let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
     generate_all_components_file(
-        &args.stwo_circuits_path.join("crates/cairo_air/src"),
+        &args.stwo_circuits_path.join("crates/cairo_verifier/src"),
         &compiled_regisry,
     );
 
