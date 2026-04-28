@@ -18,8 +18,8 @@ use air_code_gen::utils::{
 };
 use air_common::REGISTRY_PROPERTIES_FILE_NAME;
 use air_compile::compiled_structs::CompiledAirFn;
-use air_infra::airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
 use air_infra::core::air_fn_registry::AirFnStat;
+use airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
 use clap::Parser;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;

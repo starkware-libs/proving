@@ -5,6 +5,7 @@ edition.workspace = true
 
 [dependencies]
 air_infra = { path = "../air_infra" }
+airs = { path = "../airs" }
 air_compile = { path = "../air_compile" }
 air_common = { path = "../air_common" }
 eval_air_fn_constraints = { path = "../eval_air_fn_constraints" }

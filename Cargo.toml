@@ -7,6 +7,7 @@ members = [
     "crates/air_common",
     "crates/air_code_gen",
     "crates/air_infra",
+    "crates/airs",
     "crates/air_compile",
     "crates/eval_air_fn_constraints",
 ]
@@ -21,6 +22,7 @@ itertools = "0.12.1"
 num-traits = "0.2.18"
 serde = "1.0.196"
 serde_json = { version = "1.0.113", features = ["preserve_order"] }
+serde_arrays = "0.1.0"
 xshell = "0.2.5"
 indexmap = "2.2.6"
 convert_case = "0.8.0"

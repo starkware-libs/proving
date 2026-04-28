@@ -1,6 +1,6 @@
 use air_common::TraceType;
 use air_compile::compiled_structs::CompiledAirFn;
-use air_infra::airs::casm::casm_registry::{get_all_builtins, get_all_opcodes, get_sub_components};
+use airs::casm::casm_registry::{get_all_builtins, get_all_opcodes, get_sub_components};
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;

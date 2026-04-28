@@ -146,7 +146,7 @@
                     {
                       "Var": [
                         "M31",
-                        "remainder_bits_tmp_1e9bf_3"
+                        "remainder_bits_tmp_37f57_3"
                       ]
                     },
                     "*",
@@ -252,7 +252,7 @@
                         {
                           "Var": [
                             "M31",
-                            "remainder_bits_tmp_1e9bf_3"
+                            "remainder_bits_tmp_37f57_3"
                           ]
                         },
                         "*",
@@ -321,10 +321,10 @@
     {
       "Intermediate": {
         "felt_names": [
-          "decode_small_sign_output_tmp_1e9bf_2_limb3_7_high_bits",
-          "decode_small_sign_output_tmp_1e9bf_2_limbs4_to_20",
-          "decode_small_sign_output_tmp_1e9bf_2_limb21",
-          "decode_small_sign_output_tmp_1e9bf_2_limb27"
+          "decode_small_sign_output_tmp_37f57_2_limb3_7_high_bits",
+          "decode_small_sign_output_tmp_37f57_2_limbs4_to_20",
+          "decode_small_sign_output_tmp_37f57_2_limb21",
+          "decode_small_sign_output_tmp_37f57_2_limb27"
         ],
         "var": {
           "StaticCall": [
@@ -347,7 +347,7 @@
     {
       "Intermediate": {
         "felt_names": [
-          "remainder_bits_tmp_1e9bf_3"
+          "remainder_bits_tmp_37f57_3"
         ],
         "var": {
           "BinaryOp": [
@@ -361,7 +361,7 @@
             {
               "Var": [
                 "M31",
-                "decode_small_sign_output_tmp_1e9bf_2_limb3_7_high_bits"
+                "decode_small_sign_output_tmp_37f57_2_limb3_7_high_bits"
               ]
             }
           ]
@@ -380,7 +380,7 @@
                   {
                     "Var": [
                       "M31",
-                      "remainder_bits_tmp_1e9bf_3"
+                      "remainder_bits_tmp_37f57_3"
                     ]
                   },
                   {
@@ -600,7 +600,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_small_sign_output_tmp_1e9bf_2_limbs4_to_20"
+                        "decode_small_sign_output_tmp_37f57_2_limbs4_to_20"
                       ]
                     },
                     "*",
@@ -642,7 +642,7 @@
                 {
                   "Var": [
                     "M31",
-                    "decode_small_sign_output_tmp_1e9bf_2_limb21"
+                    "decode_small_sign_output_tmp_37f57_2_limb21"
                   ]
                 }
               ]
@@ -741,7 +741,7 @@
                 {
                   "Var": [
                     "M31",
-                    "decode_small_sign_output_tmp_1e9bf_2_limb27"
+                    "decode_small_sign_output_tmp_37f57_2_limb27"
                   ]
                 }
               ]
@@ -758,7 +758,7 @@
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_1e9bf_0",
+        "name": "msb_tmp_37f57_0",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -800,7 +800,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_1e9bf_0"
+              "msb_tmp_37f57_0"
             ]
           },
           "as_m31",
@@ -810,7 +810,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_1e9bf_1",
+        "name": "mid_limbs_set_tmp_37f57_1",
         "type": "Bool",
         "var": {
           "BinaryOp": [
@@ -850,7 +850,7 @@
             {
               "Var": [
                 "Bool",
-                "msb_tmp_1e9bf_0"
+                "msb_tmp_37f57_0"
               ]
             }
           ]
@@ -863,7 +863,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_1e9bf_1"
+              "mid_limbs_set_tmp_37f57_1"
             ]
           },
           "as_m31",
@@ -873,7 +873,7 @@
     },
     {
       "Intermediate": {
-        "name": "decode_small_sign_output_tmp_1e9bf_2",
+        "name": "decode_small_sign_output_tmp_37f57_2",
         "type": "[M31; 6]",
         "var": {
           "Array": [
@@ -954,7 +954,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "remainder_bits_tmp_1e9bf_3",
+        "name": "remainder_bits_tmp_37f57_3",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -981,7 +981,7 @@
             {
               "Var": [
                 "M31",
-                "decode_small_sign_output_tmp_1e9bf_2[2]"
+                "decode_small_sign_output_tmp_37f57_2[2]"
               ]
             }
           ]
@@ -993,7 +993,7 @@
     },
     {
       "Intermediate": {
-        "name": "partial_limb_msb_tmp_1e9bf_4",
+        "name": "partial_limb_msb_tmp_37f57_4",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1006,7 +1006,7 @@
                       {
                         "Var": [
                           "M31",
-                          "remainder_bits_tmp_1e9bf_3"
+                          "remainder_bits_tmp_37f57_3"
                         ]
                       }
                     ]
@@ -1038,7 +1038,7 @@
           {
             "Var": [
               "UInt16",
-              "partial_limb_msb_tmp_1e9bf_4"
+              "partial_limb_msb_tmp_37f57_4"
             ]
           },
           "as_m31",

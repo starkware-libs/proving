@@ -18,6 +18,7 @@ dependencies = [
  "air_common",
  "air_compile",
  "air_infra",
+ "airs",
  "clap",
  "convert_case",
  "eval_air_fn_constraints",
@@ -69,8 +70,23 @@ dependencies = [
  "indexmap",
  "regex",
  "serde",
- "serde_arrays",
  "serde_json",
+ "stwo-cairo-common",
+]
+
+[[package]]
+name = "airs"
+version = "0.1.0"
+dependencies = [
+ "air_common",
+ "air_compile",
+ "air_infra",
+ "blake2",
+ "expect-test",
+ "generic-tests",
+ "indexmap",
+ "serde",
+ "serde_arrays",
  "stwo-cairo-common",
 ]
 

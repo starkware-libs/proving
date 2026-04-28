@@ -1,10 +1,10 @@
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use std::fmt::Display;
 
 use enum_dispatch::enum_dispatch;
 use stwo_cairo_common::prover_types::cpu::ProverType;
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use super::super::air_body::*;
 use super::super::variables::*;
 use super::biguint_expr::*;
@@ -169,7 +169,7 @@ where
     }
 }
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 impl<T> Display for Expr<T>
 where
     T: ProverType,

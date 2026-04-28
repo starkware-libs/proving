@@ -29,7 +29,7 @@ fn add_ap_cairo_code_gen() {
         AutogenCodeFile {
             air_fn_name: "decode_instruction_d2a10".to_string(),
             source_path:
-                "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_d2a10.json"
+                "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_1af1f.json"
                     .into(),
             dest_dir: "../code_gen_regression/verifier/src/components".into(),
             code_type: AutogenCodeType::CAIRO,
@@ -65,8 +65,8 @@ fn code_gen_regression() {
     ];
 
     let inline_air_fns_to_check = [
-        "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_d2a10.json",
-        "../compiled_casm_air/compiled_jsons/subroutines/double_karatsuba_1454b.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_1af1f.json",
+        "../compiled_casm_air/compiled_jsons/subroutines/double_karatsuba_9cdb9.json",
         "../compiled_casm_air/compiled_jsons/subroutines/ec_add.json",
         "../compiled_casm_air/compiled_jsons/subroutines/mem_verify.json",
         "../compiled_casm_air/compiled_jsons/subroutines/verify_add_252.json",

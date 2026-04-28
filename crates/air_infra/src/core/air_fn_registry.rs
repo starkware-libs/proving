@@ -407,7 +407,7 @@ impl AirFnRegistry {
     }
 
     // Runs the air function on a given input and returns the resulting state and output.
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn run_air<E, I, O>(
         &self,
         air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
@@ -424,7 +424,7 @@ impl AirFnRegistry {
 
     // Runs the air function on a given input in a specific row (relevant if it uses an
     // external column) and returns the resulting state and output.
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn run_air_with_row_number<E, I, O>(
         &self,
         air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
@@ -496,9 +496,9 @@ impl AirFnRegistry {
             air_body: AirBody::default(),
 
             // The row number doesn't influence the generated air_body.
-            #[cfg(test)]
+            #[cfg(any(test, feature = "test"))]
             row_number: None,
-            #[cfg(test)]
+            #[cfg(any(test, feature = "test"))]
             run: false,
             registry: self.clone(),
             intermediate_id: Rc::new(RefCell::new((air_fn_id, 0))),
