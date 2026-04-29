@@ -49,7 +49,7 @@ pub fn generate_component_cairo_constraints_code(
             }
         }
 
-        pub impl CairoComponentImpl of CairoComponent<Component> {
+        pub impl AirComponentImpl of AirComponent<Component> {
             fn evaluate_constraints_at_point(
                 self: @Component,
                 ref sum: QM31,
@@ -163,7 +163,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             use super::{Component, Claim, InteractionClaim};
             use crate::utils::*;
             use crate::components::sample_evaluations::*;
-            use crate::cairo_component::*;
+            use stwo_constraint_framework::AirComponent;
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
             #[allow(unused_imports)]
