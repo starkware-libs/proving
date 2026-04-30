@@ -1,8 +1,8 @@
 // This file was created by the AIR team.
 
-use stwo_cairo_air::claim::ClaimTrait;
 use stwo_cairo_air::{PublicData, PublicDataImpl, RelationUsesDict};
-use stwo_constraint_framework::CommonLookupElements;
+use stwo_constraint_framework::claim::ClaimTrait;
+use stwo_constraint_framework::{CommonLookupElements, tree_array_concat_cols};
 use stwo_verifier_core::TreeArray;
 use stwo_verifier_core::channel::Channel;
 use stwo_verifier_core::fields::qm31::QM31;
@@ -28,7 +28,6 @@ use crate::components::{
     verify_bitwise_xor_4, verify_bitwise_xor_7, verify_bitwise_xor_8, verify_bitwise_xor_9,
     verify_instruction,
 };
-use crate::utils::tree_array_concat_cols;
 use crate::{ChannelTrait, PublicDataTrait, components};
 use super::claim::{FlatClaim, FlatClaimTrait};
 
