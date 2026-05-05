@@ -4,7 +4,7 @@ use std::collections::{HashMap, HashSet};
 
 use air_common::{PaddingType, TraceType};
 use air_compile::compiled_structs::{
-    CompiledAirFn, CompiledTraceGenIntermediate, LookupTerm, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, TraceGenStep,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
@@ -35,6 +35,7 @@ pub struct RustProverGen {
     pub air_fn: CompiledAirFn,
     pub constants: Vec<(String, String)>,
     pub lookup_terms: Vec<LookupTerm>,
+    multiplicity_indices: HashMap<CompiledAirVar, usize>,
     pub mode: Mode,
 }
 impl RustProverGen {
@@ -67,13 +68,26 @@ impl RustProverGen {
 
         let constants = deduction_consts(&air_fn.deductions);
         let lookup_terms = filter_lookup_terms(&air_fn.deductions);
+        let multiplicity_indices = Self::assign_multiplicity_indices(&lookup_terms);
 
         Self {
             air_fn,
             mode,
             constants,
             lookup_terms,
+            multiplicity_indices,
         }
+    }
+
+    fn assign_multiplicity_indices(lookup_terms: &[LookupTerm]) -> HashMap<CompiledAirVar, usize> {
+        let mut result = HashMap::new();
+        for term in lookup_terms {
+            if result.contains_key(&term.multiplicity) {
+                continue;
+            }
+            result.insert(term.multiplicity.clone(), result.len());
+        }
+        result
     }
 
     pub fn generate_witness_code(&self) -> rust::Tokens {
@@ -162,35 +176,18 @@ impl RustProverGen {
     fn generate_lookup_data_struct(&self) -> rust::Tokens {
         let mut members_code = quote! {};
 
-        let mut relation_offsets = HashMap::new();
-        for LookupTerm {
-            relation_name,
-            felts,
-            ..
-        } in &self.lookup_terms
-        {
-            let offset = relation_offsets
-                .entry((relation_name, felts.len()))
-                .or_insert(0);
-            *offset += 1;
+        for (offset, term) in self.lookup_terms.iter().enumerate() {
+            let member_name = format!("{}_{offset}", term.relation_name.to_case(Case::Snake));
+            members_code.extend(quote! {
+                $(member_name): Vec<[PackedM31; $(term.felts.len())]>,
+            });
         }
 
-        for ((relation_name, width), &n_relation_terms) in
-            relation_offsets.iter().sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
-        {
-            let relation_name = relation_name.to_case(Case::Snake);
-            for offset in 0..n_relation_terms {
-                let member_name = format!("{relation_name}_{offset}");
-                members_code.extend(quote! {
-                    $(&member_name): Vec<[PackedM31; $(*width)]>,
-                });
-            }
+        for i in 0..self.multiplicity_indices.len() {
+            members_code.extend(quote! {
+                mults_$(i): Vec<PackedM31>,
+            });
         }
-        if self.air_fn.padding_type == PaddingType::Multiplicity {
-            for i in 0..self.air_fn.relation_names.len() {
-                members_code.extend(quote! { mults_$i: Vec<PackedM31>, })
-            }
-        };
 
         quote! {
             #[derive(Uninitialized,IterMut, ParIterMut)]
@@ -241,8 +238,12 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                 TraceGenStep::LookupTerm(LookupTerm {
                     relation_name: _,
                     felts,
+                    multiplicity,
                     ..
-                }) => const_defs.extend(felts.iter().flat_map(seek_consts)),
+                }) => {
+                    const_defs.extend(felts.iter().flat_map(seek_consts));
+                    const_defs.extend(seek_consts(multiplicity));
+                }
                 TraceGenStep::StartBlock(_) => {}
                 TraceGenStep::EndBlock => {}
                 // TODO

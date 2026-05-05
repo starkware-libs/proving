@@ -1,9 +1,7 @@
 use std::collections::HashMap;
 
 use air_common::PaddingType;
-use air_compile::compiled_structs::{
-    CompiledAirVar, CompiledTraceGenIntermediate, LookupTerm, TraceGenStep,
-};
+use air_compile::compiled_structs::{CompiledAirVar, CompiledTraceGenIntermediate, TraceGenStep};
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
 use genco::quote;
@@ -14,7 +12,7 @@ use super::{deduction_consts, packed_name};
 use crate::rust::component_code::trace_gen::{vec_of_type, Mode, MultiplicityMode, RustProverGen};
 use crate::utils::{
     block_doc, get_variable_name, is_const_size_component, is_state_component_name,
-    make_preprocessed_column_id, relations_used_or_yielded, replace_generics_with_turbofish,
+    make_preprocessed_column_id, replace_generics_with_turbofish,
 };
 
 impl RustProverGen {
@@ -306,10 +304,7 @@ impl RustProverGen {
                 }
             }
         };
-        let mut interaction_claim_fields = match self.air_fn.padding_type {
-            PaddingType::Enabler => quote! { n_rows, },
-            _ => quote! {},
-        };
+        let mut interaction_claim_fields = quote! {};
         if !is_const_size_component(&self.air_fn) {
             interaction_claim_fields.extend(quote! { log_size, });
         }
@@ -546,6 +541,7 @@ impl RustProverGen {
             .collect_vec();
         let mut write_trace_body = rust::Tokens::new();
         let mut offset = 0;
+        let mut lookup_data_offset = 0;
         let mut add_inputs_offsets = HashMap::new();
         for deduction in &self.air_fn.deductions {
             if let TraceGenStep::LookupAddInput { relation_name, .. } = deduction {
@@ -558,10 +554,6 @@ impl RustProverGen {
             });
         }
 
-        let mut relation_data_offsets = HashMap::new();
-        for relation in relations_used_or_yielded(&self.air_fn) {
-            relation_data_offsets.insert(relation, 0);
-        }
         for deduction in &self.air_fn.deductions {
             match deduction {
                 TraceGenStep::Deduction(expr) => {
@@ -589,23 +581,19 @@ impl RustProverGen {
                         $['\n']
                     ));
                 }
-                TraceGenStep::LookupTerm(LookupTerm {
-                    relation_name,
-                    felts,
-                    ..
-                }) => {
-                    let offset = relation_data_offsets.get_mut(relation_name).unwrap();
-                    let felts = felts
+                TraceGenStep::LookupTerm(term) => {
+                    let felts = term
+                        .felts
                         .iter()
                         .map(|felt| simd_parse_air_var(felt, const_names))
                         .join(", ");
                     let felts = &felts;
                     let collect_felts = quote! {
                         // TODO(Ohad): change this to not vec.
-                        *lookup_data.$(relation_name.to_case(Case::Snake))_$(*offset) = [$(felts)];
+                        *lookup_data.$(term.relation_name.to_case(Case::Snake))_$(lookup_data_offset) = [$(felts)];
                     };
                     write_trace_body.extend(collect_felts);
-                    *offset += 1;
+                    lookup_data_offset += 1;
                 }
                 TraceGenStep::LookupAddInput {
                     relation_name,
@@ -625,28 +613,15 @@ impl RustProverGen {
             }
         }
 
-        // Padding code.
-        write_trace_body.extend(match self.air_fn.padding_type {
-            PaddingType::Multiplicity => {
-                if matches!(self.mode, Mode::Mults(MultiplicityMode::UnknownInputs)) {
-                    quote! {
-                        let mult_at_row = *mults[0].get(row_index).unwrap_or(&PackedM31::zero());
-                        *lookup_data.mults_0 = mult_at_row;
-                    }
-                } else {
-                    let mut code = quote! {};
-                    for i in 0..self.air_fn.relation_names.len() {
-                        code.extend(quote! {
-                            let mult = &mults[$i];
-                            let mult_at_row = *mult.get(row_index).unwrap_or(&PackedM31::zero());
-                            *lookup_data.mults_$i = mult_at_row;
-                        });
-                    }
-                    code
-                }
-            }
-            _ => quote!(),
-        });
+        for (multiplicity, index) in self
+            .multiplicity_indices
+            .iter()
+            .sorted_by_key(|(_m, i)| **i)
+        {
+            write_trace_body.extend(quote! {
+                *lookup_data.mults_$(*index) = $(simd_parse_air_var(multiplicity, const_names));
+            });
+        }
 
         write_trace_body
     }
