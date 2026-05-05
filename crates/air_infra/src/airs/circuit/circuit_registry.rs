@@ -2,6 +2,7 @@
 use super::blake::blake_gate::BlakeGate;
 use super::blake::blake_output::BlakeOutput;
 use super::blake::m31_to_u32::M31ToU32;
+use super::blake::triple_xor::TripleXor;
 use super::qm31_ops::Qm31Ops;
 use crate::core::air_fn_registry::AirFnRegistry;
 
@@ -12,6 +13,7 @@ pub fn create_circuit_registry() -> AirFnRegistry {
     registry.add_entry(&BlakeGate {});
     registry.add_entry(&BlakeOutput {});
     registry.add_entry(&M31ToU32 {});
+    registry.add_entry(&TripleXor {});
 
     registry
 }

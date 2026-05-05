@@ -365,5 +365,29 @@
     "rows_upper_bound": {},
     "max_instances_uses_limit": 715827882,
     "max_instances_rows_limit": 268435456
+  },
+  "triple_xor": {
+    "trace_type": "Gate",
+    "log_height": null,
+    "num_state_cols": 20,
+    "use_lookup_cols": {
+      "VerifyBitwiseXor_8": 8,
+      "Gate": 3
+    },
+    "yield_lookup_cols": {
+      "Gate": 1
+    },
+    "lookup_rows": {
+      "VerifyBitwiseXor_8": 8
+    },
+    "padding_type": "Multiplicity",
+    "total_num_trace_cols": 44,
+    "trace_cells_upper_bound": 44,
+    "uses_upper_bound": {
+      "verify_bitwise_xor_8": 8
+    },
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 268435455,
+    "max_instances_rows_limit": 268435456
   }
 }
