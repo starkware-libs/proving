@@ -410,6 +410,160 @@ impl ExtTable for TripleXorMultiplicity {
 }
 
 #[derive(Debug, Default, Clone)]
+pub struct BlakeGGateMultiplicity {}
+impl ExtTable for BlakeGGateMultiplicity {
+    type T = FeltExpr;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_multiplicity".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateInputAddrA {}
+impl ExtTable for BlakeGGateInputAddrA {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_input_addr_a".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateInputAddrB {}
+impl ExtTable for BlakeGGateInputAddrB {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_input_addr_b".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateInputAddrC {}
+impl ExtTable for BlakeGGateInputAddrC {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_input_addr_c".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateInputAddrD {}
+impl ExtTable for BlakeGGateInputAddrD {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_input_addr_d".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateInputAddrF0 {}
+impl ExtTable for BlakeGGateInputAddrF0 {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_input_addr_f0".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateInputAddrF1 {}
+impl ExtTable for BlakeGGateInputAddrF1 {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_input_addr_f1".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateOutputAddrA {}
+impl ExtTable for BlakeGGateOutputAddrA {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_output_addr_a".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateOutputAddrB {}
+impl ExtTable for BlakeGGateOutputAddrB {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_output_addr_b".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateOutputAddrC {}
+impl ExtTable for BlakeGGateOutputAddrC {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_output_addr_c".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct BlakeGGateOutputAddrD {}
+impl ExtTable for BlakeGGateOutputAddrD {
+    type T = CasmAddress;
+
+    fn column_ids() -> Vec<String> {
+        vec!["blake_g_gate_output_addr_d".to_string()]
+    }
+
+    fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
+        vec![]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
 pub struct M31ToU32InputAddr {}
 impl ExtTable for M31ToU32InputAddr {
     type T = CasmAddress;

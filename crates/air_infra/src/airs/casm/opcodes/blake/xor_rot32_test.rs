@@ -105,3 +105,51 @@ fn test_xor_rot16() {
     "#]]
     .assert_eq(&state.to_string());
 }
+
+#[test]
+fn test_verify_xor_rot7() {
+    let verify = VerifyXorRot32 { r: 7 };
+    let (registry, _) = AirFnRegistry::new(&verify);
+    let (state, _) = registry.run_air(
+        &verify,
+        (),
+        [
+            const_u32_expr!(95330889),
+            const_u32_expr!(1741830375),
+            const_u32_expr!(1556412725),
+        ],
+    );
+    expect![[r#"
+        (324, "ms_9_bits"),
+        (11, "ms_9_bits"),
+        (113, "ms_9_bits"),
+        (207, "ms_9_bits"),
+        (124, "ms_7_bits"),
+        (46, "ms_7_bits"),
+    "#]]
+    .assert_eq(&state.to_string());
+}
+
+#[test]
+fn test_verify_xor_rot8() {
+    let verify = VerifyXorRot32 { r: 8 };
+    let (registry, _) = AirFnRegistry::new(&verify);
+    let (state, _) = registry.run_air(
+        &verify,
+        (),
+        [
+            const_u32_expr!(2147516416),
+            const_u32_expr!(33558528),
+            const_u32_expr!(8519824),
+        ],
+    );
+    expect![[r#"
+        (128, "ms_8_bits"),
+        (128, "ms_8_bits"),
+        (16, "ms_8_bits"),
+        (2, "ms_8_bits"),
+        (0, "ms_8_bits"),
+        (0, "ms_8_bits"),
+    "#]]
+    .assert_eq(&state.to_string());
+}
