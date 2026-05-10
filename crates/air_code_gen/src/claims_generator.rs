@@ -203,7 +203,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
             let non_opcode_body = if component_name == "memory_id_to_big" {
                 quote! {
                     const LOG_MAX_BIG_SIZE: u32 = MAX_SEQUENCE_LOG_SIZE;
-                    let (big_traces, small_trace, claim, interaction_gen) = gen.write_trace(self.range_check_9_9.as_ref().unwrap(), LOG_MAX_BIG_SIZE);
+                    let (big_traces, small_trace, claim, interaction_gen) = gen.write_trace(self.range_check_9_9.as_ref().unwrap(), LOG_MAX_BIG_SIZE, opt_n_id_to_big_components);
                     for big_trace in big_traces {
                         evals.extend(big_trace);
                     }
@@ -238,6 +238,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
     quote! {
         pub fn write_trace(
             self,
+            opt_n_id_to_big_components: Option<usize>,
         ) -> (Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>, CairoClaim, CairoInteractionClaimGenerator) {
             let mut evals = Vec::new();
             $(opcodes_init_vars)
