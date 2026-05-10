@@ -718,6 +718,7 @@ impl CairoClaimGenerator {
 
     pub fn write_trace(
         self,
+        opt_n_id_to_big_components: Option<usize>,
     ) -> (
         Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>,
         CairoClaim,
@@ -1422,8 +1423,11 @@ impl CairoClaimGenerator {
             .memory_id_to_big
             .map(|gen| {
                 const LOG_MAX_BIG_SIZE: u32 = MAX_SEQUENCE_LOG_SIZE;
-                let (big_traces, small_trace, claim, interaction_gen) =
-                    gen.write_trace(self.range_check_9_9.as_ref().unwrap(), LOG_MAX_BIG_SIZE);
+                let (big_traces, small_trace, claim, interaction_gen) = gen.write_trace(
+                    self.range_check_9_9.as_ref().unwrap(),
+                    LOG_MAX_BIG_SIZE,
+                    opt_n_id_to_big_components,
+                );
                 for big_trace in big_traces {
                     evals.extend(big_trace);
                 }
