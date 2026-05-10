@@ -67,6 +67,28 @@ pub fn generate_circuit_constraints_code(
         } else {
             quote! {}
         };
+
+        let (mut log_size, mut preprocessed_column_log_sizes) =
+            (quote! { None }, quote! { _preprocessed_column_log_sizes });
+        if let Some(log_height) = air_fn.log_height {
+            log_size = quote! { Some($(log_height)) };
+        }
+        // Gates have external states of known size, so we need to get the log size from the
+        // preprocessed column log sizes.
+        if air_fn.r#type == TraceType::Gate {
+            let col_id = air_fn
+                .external_states
+                .iter()
+                .next()
+                .expect("Expected at least one external state");
+            log_size = quote! {
+                preprocessed_column_log_sizes
+                    .get(&PreProcessedColumnId { id: $(quoted(col_id)).to_string() })
+                    .cloned()
+            };
+            preprocessed_column_log_sizes = quote! { preprocessed_column_log_sizes };
+        }
+
         code.append(quote! {
 
             pub struct Component {}
@@ -81,7 +103,12 @@ pub fn generate_circuit_constraints_code(
                     component_data: &dyn ComponentDataTrait<Value>,
                     acc: &mut CompositionConstraintAccumulator,
                 ) {
-                    accumulate_constraints(component_data.trace_columns(), context, component_data, acc);
+                    accumulate_constraints(
+                        component_data.trace_columns(),
+                        context,
+                        component_data,
+                        acc
+                    );
                     $(check_component_size)
                 }
 
@@ -95,6 +122,13 @@ pub fn generate_circuit_constraints_code(
 
                 fn relation_uses_per_row(&self) -> &[RelationUse] {
                     &RELATION_USES_PER_ROW
+                }
+
+                fn log_size(
+                    &self,
+                    $(preprocessed_column_log_sizes): &OrderedHashMap<PreProcessedColumnId, u32>
+                ) -> Option<u32> {
+                    $(log_size)
                 }
             }
         });
