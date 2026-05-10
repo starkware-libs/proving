@@ -33,6 +33,6 @@ pub fn generate_sample_evaluations_file(
     add_file_to_module(
         &dest_dir.join("sample_evaluations.rs"),
         source_rev_comment + &tokens.to_string().unwrap(),
-        AutogenCodeType::CIRCUIT,
+        &AutogenCodeType::CIRCUIT,
     );
 }

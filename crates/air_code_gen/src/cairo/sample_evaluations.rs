@@ -31,6 +31,6 @@ pub fn generate_sample_evaluations_file(
     add_file_to_module(
         &dest_dir.join("sample_evaluations.cairo"),
         format_cairo_code(source_rev_comment + &tokens.to_string().unwrap()),
-        AutogenCodeType::CAIRO,
+        &AutogenCodeType::CAIRO,
     );
 }

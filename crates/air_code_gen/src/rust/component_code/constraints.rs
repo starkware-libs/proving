@@ -8,27 +8,32 @@ use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 use itertools::chain;
+use itertools::Itertools;
 
 use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
+use crate::supported_components::AirAutogenConfig;
 use crate::utils::{
     generate_relation_uses, get_variable_name, is_const_size_component,
     make_preprocessed_column_id, replace_generics_with_turbofish,
 };
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
-pub fn generate_toplevel_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_toplevel_constraints_code(
+    air_fn: &CompiledAirFn,
+    autogen_config: &AirAutogenConfig,
+) -> rust::Tokens {
     quote! {
-        $(imports(air_fn))
+        $(imports(air_fn, autogen_config.prelude_import_path))
         $['\n']
         $(generate_consts(air_fn))
         $['\n']
         $(generate_component_structs(air_fn))
         $['\n']
-        $(generate_claim_struct(air_fn))
+        $(generate_claim_struct(air_fn, autogen_config.additional_claim_traits))
         $['\n']
-        $(generate_interaction_claim_struct())
+        $(generate_interaction_claim_struct(autogen_config.additional_claim_traits))
         $['\n']
         $(generate_component_type_def())
         $['\n']
@@ -55,7 +60,6 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
             use stwo::core::fields::qm31::QM31;
 
             use super::*;
-            use crate::components::constraints_regression_test_values::$(air_fn.name.to_case(Case::UpperSnake));
 
             #[test]
             fn $(air_fn.name.clone())_constraints_regression() {
@@ -72,10 +76,10 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
 
                 let mut sum = QM31::zero();
                 for c in expr_eval.constraints {
-                    sum += c.assign(&assignment) * rng.gen::<QM31>();
+                    sum += c.assign(&assignment) * rng.r#gen::<QM31>();
                 }
 
-                $(air_fn.name.to_case(Case::UpperSnake)).assert_debug_eq(&sum);
+                constraints_regression_test_values::$(air_fn.name.to_case(Case::UpperSnake)).assert_debug_eq(&sum);
             }
         }
     }
@@ -85,7 +89,7 @@ fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     for param in &air_fn.public_params {
         code.append(quote! {
-         $(param): rng.gen::<u32>(),
+         $(param): rng.r#gen::<u32>(),
         });
     }
     code
@@ -93,7 +97,10 @@ fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
 
 /// Generate constraints evaluation code for an inline AirFn (AirFn that is only called from
 /// other AirFns)
-pub fn generate_inline_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_inline_constraints_code(
+    air_fn: &CompiledAirFn,
+    autogen_config: &AirAutogenConfig,
+) -> rust::Tokens {
     let CompiledAirVar::Array(ref output_array) = air_fn.verifier_output.0 else {
         panic!("Verifier output is not array in {}", &air_fn.name)
     };
@@ -104,9 +111,9 @@ pub fn generate_inline_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens 
 
     // TODO(AnatG): Find a way to remove <#[allow(unused_variables)]> below.
     quote! {
-        $(imports(air_fn))
+        $(imports(air_fn, autogen_config.prelude_import_path))
         $['\n']
-        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+        #[derive(Copy, Clone)]
         pub struct $(name.clone()) {}
         $['\n']
         impl $(name) {
@@ -128,10 +135,13 @@ pub fn generate_inline_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens 
     }
 }
 
-pub fn generate_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
+pub fn generate_constraints_code(
+    air_fn: &CompiledAirFn,
+    autogen_config: &AirAutogenConfig,
+) -> rust::Tokens {
     match air_fn.r#type {
-        TraceType::Inline => generate_inline_constraints_code(air_fn),
-        _ => generate_toplevel_constraints_code(air_fn),
+        TraceType::Inline => generate_inline_constraints_code(air_fn, autogen_config),
+        _ => generate_toplevel_constraints_code(air_fn, autogen_config),
     }
 }
 
@@ -158,14 +168,14 @@ fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-fn imports(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn imports(air_fn: &CompiledAirFn, prelude_import_path: &str) -> rust::Tokens {
     let mut res = rust::Tokens::new();
     res.append(quote! {
-        use crate::components::prelude::*;
+        use $(prelude_import_path)::*;
     });
     for (inline_fn, _) in &air_fn.inline_calls {
         res.append(quote! {
-            use crate::components::subroutines::$(inline_fn)::$(inline_fn.to_case(Case::Pascal));
+            use subroutines::$(inline_fn)::$(inline_fn.to_case(Case::Pascal));
         });
     }
     res
@@ -196,7 +206,7 @@ fn generate_component_structs(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn generate_claim_struct(air_fn: &CompiledAirFn, additional_claim_traits: &[&str]) -> rust::Tokens {
     let log_size = if is_const_size_component(air_fn) {
         quote! { LOG_SIZE }
     } else {
@@ -204,7 +214,7 @@ fn generate_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
     };
 
     let struct_code = quote! {
-        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+        #[derive(Copy, Clone, Serialize, Deserialize, $(additional_claim_traits.iter().join(",")))]
         pub struct Claim {
             $(get_claim_members(air_fn))
         }
@@ -256,9 +266,9 @@ fn get_eval_public_param_members(air_fn: &CompiledAirFn) -> rust::Tokens {
     members
 }
 
-fn generate_interaction_claim_struct() -> rust::Tokens {
+fn generate_interaction_claim_struct(additional_claim_traits: &[&str]) -> rust::Tokens {
     quote! {
-        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+        #[derive(Copy, Clone, Serialize, Deserialize, $(additional_claim_traits.iter().join(",")))]
         pub struct InteractionClaim {
             pub claimed_sum: SecureField,
         }

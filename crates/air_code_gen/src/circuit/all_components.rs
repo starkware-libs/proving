@@ -46,6 +46,6 @@ pub fn generate_all_components_file(
     add_file_to_module(
         &dest_dir.join("all_components.rs"),
         tokens.to_string().unwrap(),
-        AutogenCodeType::CIRCUIT,
+        &AutogenCodeType::CIRCUIT,
     );
 }

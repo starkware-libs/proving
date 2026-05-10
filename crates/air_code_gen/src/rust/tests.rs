@@ -10,7 +10,7 @@ use crate::rust::components::generate_components_rust_file;
 use crate::rust::provers::generate_provers_rust_file;
 use crate::supported_components::{AutogenCodeFile, AutogenCodeType};
 use crate::test_utils::compare_contents_or_fix_with_path;
-use crate::utils::{load_air_fns, reformat_rust_code};
+use crate::utils::{load_air_fns, reformat_rust_code, STWO_CAIRO_AIR_CONFIG};
 
 #[test]
 fn code_gen_regression() {
@@ -72,7 +72,7 @@ fn code_gen_regression() {
                 air_fn_name: air_fn_name.to_string(),
                 source_path: path.into(),
                 dest_dir: "../code_gen_regression/cairo_air/src/components".into(),
-                code_type: AutogenCodeType::AIR,
+                code_type: AutogenCodeType::AIR(STWO_CAIRO_AIR_CONFIG),
             }
         })
         .collect::<Vec<_>>();

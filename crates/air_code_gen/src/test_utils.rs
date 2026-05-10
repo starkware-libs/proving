@@ -36,9 +36,9 @@ fn dump_component_code(
     }
 
     let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
-    let code = format_air_fn_code(raw_code, job.code_type);
-    let dest_path = generated_code_path(air_fn, &job.dest_dir, job.code_type);
-    add_file_to_module(dest_path.as_path(), code, job.code_type);
+    let code = format_air_fn_code(raw_code, &job.code_type);
+    let dest_path = generated_code_path(air_fn, &job.dest_dir, &job.code_type);
+    add_file_to_module(dest_path.as_path(), code, &job.code_type);
 }
 
 fn assert_generated_code_unchanged(
@@ -51,10 +51,10 @@ fn assert_generated_code_unchanged(
     let new_code_path = temp_dir.join(&air_fn.name);
 
     let raw_code = generate_air_fn_code(air_fn, sample_evaluation, job.code_type);
-    let generated_code = format_air_fn_code(raw_code, job.code_type);
+    let generated_code = format_air_fn_code(raw_code, &job.code_type);
     fs::write(&new_code_path, &generated_code).expect("Couldn't write temp file");
 
-    let existing_code_path = generated_code_path(air_fn, &job.dest_dir, job.code_type);
+    let existing_code_path = generated_code_path(air_fn, &job.dest_dir, &job.code_type);
     let existing_code = fs::read_to_string(&existing_code_path)
         .unwrap_or_else(|e| panic!("Cannot read {}: {e}", existing_code_path.display()));
     pretty_assertions::assert_eq!(

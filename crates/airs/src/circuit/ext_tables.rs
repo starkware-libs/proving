@@ -180,7 +180,7 @@ impl ExtTable for QM31OpsMultiplicity {
     type T = FeltExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["qm31_ops_multiplicity".to_string()]
+        vec!["qm31_ops_mults".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -194,7 +194,7 @@ impl ExtTable for Op0Addr {
     type T = CasmAddress;
 
     fn column_ids() -> Vec<String> {
-        vec!["op0_addr".to_string()]
+        vec!["qm31_ops_in0_address".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -208,7 +208,7 @@ impl ExtTable for Op1Addr {
     type T = CasmAddress;
 
     fn column_ids() -> Vec<String> {
-        vec!["op1_addr".to_string()]
+        vec!["qm31_ops_in1_address".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -222,7 +222,7 @@ impl ExtTable for DstAddr {
     type T = CasmAddress;
 
     fn column_ids() -> Vec<String> {
-        vec!["dst_addr".to_string()]
+        vec!["qm31_ops_out_address".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -272,7 +272,7 @@ impl ExtTable for AddFlag {
     type T = BoolExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["add_flag".to_string()]
+        vec!["qm31_ops_add_flag".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -290,7 +290,7 @@ impl ExtTable for SubFlag {
     type T = BoolExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["sub_flag".to_string()]
+        vec!["qm31_ops_sub_flag".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -308,7 +308,7 @@ impl ExtTable for MulFlag {
     type T = BoolExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["mul_flag".to_string()]
+        vec!["qm31_ops_mul_flag".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
@@ -326,7 +326,7 @@ impl ExtTable for PointwiseMulFlag {
     type T = BoolExpr;
 
     fn column_ids() -> Vec<String> {
-        vec!["pointwise_mul_flag".to_string()]
+        vec!["qm31_ops_pointwise_mul_flag".to_string()]
     }
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
