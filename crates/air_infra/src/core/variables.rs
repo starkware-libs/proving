@@ -22,20 +22,12 @@ use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
-use crate::airs::casm::builtins::ec_op::partial_ec_mul_generic::*;
-use crate::airs::casm::builtins::ec_utils::utils::ECPoint;
-use crate::airs::casm::builtins::modulo::mod_utils::*;
-use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
-use crate::airs::casm::casm_state::*;
-use crate::airs::casm::opcodes::blake::create_blake_output::*;
-use crate::airs::casm::opcodes::blake::decode_blake_opcode::*;
-use crate::airs::casm::opcodes::blake::round::*;
-use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
-use crate::airs::convolution_utils::bounded_felt::*;
-use crate::core::felt252_id_memory::memory::*;
-use crate::core::public_params::PublicParam;
-#[cfg(test)]
+use crate::casm_state::*;
+use crate::core::public_params::*;
+use crate::core::struct_var::VarWrapper;
+#[cfg(any(test, feature = "test"))]
 use crate::core::Felt;
+use crate::felt252_id_memory::memory::*;
 // Macros
 use crate::impl_air_var;
 
@@ -65,7 +57,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
         false
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     fn to_values(&self) -> Option<Vec<Felt>> {
         self.as_felts()
             .iter()
@@ -312,7 +304,7 @@ where
 
     // Returns the calculation of the value as a string, when it is known.
     // Used for testing.
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     fn calc(&self) -> String {
         self.value()
             .expect("calc was called on a var without a value")
@@ -586,6 +578,7 @@ impl_air_var!((FeltExpr, RoundNumVar, TestState));
 
 // SingleKaratsuba + DoubleKaratsuba
 impl_air_var!([[FeltExpr]]);
+type BoundedFeltExpr = VarWrapper<FeltExpr, (i32, i32)>;
 // DoubleKaratsuba
 impl_air_var!([BoundedFeltExpr]);
 // MemVerify
@@ -608,7 +601,7 @@ type Cond = FeltExpr;
 impl_air_var!((CasmAddress, CasmId, Cond));
 // ReadSmall
 impl_air_var!((FeltExpr, CasmId));
-type GenericFlags = [FeltExpr; GENERIC_FLAGS_SIZE];
+type GenericFlags = [FeltExpr; 20]; // GENERIC_FLAGS_SIZE = 20
 type Operands = [Felt252Expr; 3];
 // DecodeGenericInstruction
 impl_air_var!((GenericFlags, Offsets));
@@ -618,8 +611,8 @@ impl_air_var!((CasmStateVar, GenericFlags, Offsets));
 impl_air_var!((CasmStateVar, GenericFlags, Offsets, Operands));
 // UpdateRegisters
 impl_air_var!((CasmStateVar, GenericFlags, Operands));
-type ModValue = [Felt252Expr; MOD_BUILTIN_N_WORDS];
-// ModUtils
+type ModValue = [Felt252Expr; 4]; // MOD_BUILTIN_N_WORDS = 4
+                                  // ModUtils
 impl_air_var!([ModValue]);
 // ModUtils
 impl_air_var!((CasmAddress, FeltExpr));
@@ -634,8 +627,12 @@ impl_air_var!((CasmAddress, UInt32Expr));
 // CreateBlakeRoundInput
 impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));
 // CreateBlakeOutput
+type BlakeH = [UInt32Expr; 8];
+type BlakeState = [UInt32Expr; 16];
 impl_air_var!((BlakeH, BlakeState));
 // DecodeBlakeOpcode
+type BlakePointers = [CasmAddress; 3];
+type BlakeFlags = [BoolExpr; 2];
 impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
 // QM31ReadReduced
 type QM31Coordinates = [FeltExpr; 4];
@@ -660,6 +657,7 @@ impl_air_var!((PedersenInputIds, PedersenOutputId));
 
 // BlakeRound
 impl_air_var!((BlakeState, CasmAddress));
+type BlakeRoundInput = (BlakeState, CasmAddress);
 impl_air_var!((ChainIdVar, RoundNumVar, BlakeRoundInput));
 // PoseidonFullRound
 type PoseidonFullRoundState = [Felt252Width27Expr; 3];
@@ -669,10 +667,14 @@ type PoseidonPartialRoundState = [Felt252Width27Expr; 4];
 impl_air_var!((PoseidonPartialRoundState, Felt252Width27Expr));
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonPartialRoundState));
 // PartialECMul
+type ECPoint = [Felt252Expr; 2];
+type PackedECMultiplier<const NUM_WINDOWS: usize> = [FeltExpr; NUM_WINDOWS];
+type PartialECMulState<const NUM_WINDOWS: usize> = (PackedECMultiplier<NUM_WINDOWS>, ECPoint);
 impl_air_var!((PackedECMultiplier<const NUM_WINDOWS: usize>, ECPoint));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState<const NUM_WINDOWS: usize>));
 // PartialECMulGeneric
 type ECPointB = ECPoint;
+type PartialECMulGenericState = (Felt252Width27Expr, ECPoint, ECPoint, FeltExpr);
 impl_air_var!((Felt252Width27Expr, ECPoint, ECPointB, FeltExpr));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulGenericState));
 

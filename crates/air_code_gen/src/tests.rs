@@ -1,4 +1,4 @@
-use air_infra::airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
+use airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
 use expect_test::expect_file;
 use itertools::Itertools;
 
@@ -9,6 +9,7 @@ use crate::components_code_gen::cairo_constraints::utils::format_cairo_code;
 use crate::components_rust::generate_components_rust_file;
 use crate::provers_rust::generate_provers_rust_file;
 use crate::utils::reformat_rust_code;
+
 #[test]
 fn test_generate_claims_generator() {
     let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();

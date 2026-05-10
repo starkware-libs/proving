@@ -7,7 +7,7 @@ use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::variables::*;
-use crate::airs::casm::const_tables::range_check::*;
+use crate::range_check::*;
 use crate::{const_expr, const_felt252_expr, const_u32_expr};
 
 #[test]

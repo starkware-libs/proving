@@ -1,0 +1,403 @@
+{
+  "name": "decode_instruction_a4d88",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Decode Instruction",
+  "instance_definition": "{\"const_offsets\":[-2,-1,-1],\"const_flags\":{\"dst_base_fp\":true,\"op0_base_fp\":true,\"op1_imm\":false,\"op1_base_fp\":true,\"op1_base_ap\":false,\"res_add\":false,\"res_mul\":false,\"pc_update_jump\":true,\"pc_update_jump_rel\":false,\"pc_update_jnz\":false,\"ap_update_add\":false,\"ap_update_add_1\":false,\"opcode_call\":false,\"opcode_ret\":true,\"opcode_assert_eq\":false},\"const_opcode_extension\":\"Stone\",\"flag_sets_of_sum_1\":[]}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "decode_instruction_a4d88_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "decode_instruction_a4d88_input_pc"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": [
+        {
+          "Array": [
+            {
+              "Const": [
+                "M31",
+                "2147483645"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "2147483646"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "2147483646"
+              ]
+            }
+          ]
+        },
+        {
+          "Array": [
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            }
+          ]
+        },
+        {
+          "Const": [
+            "M31",
+            "0"
+          ]
+        }
+      ]
+    },
+    "decode_instruction_a4d88_output",
+    "([M31; 3], [M31; 15], M31)",
+    "([PackedM31; 3], [PackedM31; 15], PackedM31)"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [],
+  "constraint_lookups": [
+    [
+      "VerifyInstruction",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity",
+    "verify_instruction": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyInstruction": [
+      "verify_instruction",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1719106205"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "decode_instruction_a4d88_input_pc"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32766"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32767"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32767"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "88"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "130"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a4d88_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "decode_instruction_a4d88_input"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_a4d88_1",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_a4d88_0"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "VerifyInstruction",
+        "input": {
+          "Tuple": [
+            {
+              "Var": [
+                "M31",
+                "decode_instruction_a4d88_input"
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "32766"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32767"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32767"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "88"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "130"
+                  ]
+                }
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1719106205"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "decode_instruction_a4d88_input"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32766"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32767"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32767"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "88"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "130"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    }
+  ]
+}

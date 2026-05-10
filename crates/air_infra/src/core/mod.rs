@@ -3,7 +3,6 @@ pub mod air_fn;
 pub mod air_fn_registry;
 pub mod constraint_connectedness_test;
 pub mod expressions;
-pub mod felt252_id_memory;
 pub mod memory;
 pub mod public_params;
 pub mod state;

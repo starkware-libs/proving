@@ -20,7 +20,7 @@ impl PublicParams {
         result
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn set(&mut self, param: PublicParam, value: M31) {
         self.values.borrow_mut().insert(
             param.clone(),

@@ -1,7 +1,7 @@
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::HashMap;
 use std::fmt::Debug;
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use std::fmt::Display;
 use std::rc::Rc;
 
@@ -114,13 +114,13 @@ impl State {
             .collect()
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn is_empty(&self) -> bool {
         self.row.is_empty()
     }
 }
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 impl Display for State {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut s = String::new();

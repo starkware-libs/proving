@@ -17,10 +17,10 @@ use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;
 use super::variables::*;
-use crate::airs::casm::const_tables::seq::*;
 use crate::const_expr;
 use crate::core::expressions::var_expr::*;
 use crate::core::public_params::PublicParam;
+use crate::seq::*;
 
 pub const MAX_NAME_LEN: usize = 50;
 pub const INTERMEDIATE_VAR_SUFFIX: &str = "tmp";
@@ -189,7 +189,7 @@ pub trait AirFn: Debug + InstDefTrait {
         Self::ExtIn::to_state(&mut ext_input);
 
         // Deduce input
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if air_builder.is_run_mode() {
             // In run mode the input might not be a variable - make it a variable.
             // The name is irrelevant in run mode.
@@ -241,7 +241,7 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         } else {
             // Anything else - deduce input
-            #[cfg(test)]
+            #[cfg(any(test, feature = "test"))]
             if air_builder.is_run_mode() {
                 // In run mode the input might not be a variable - make it a variable.
                 // The name is irrelevant in run mode.
@@ -374,9 +374,9 @@ where
 pub struct AirBuilder {
     pub component_context: ComponentContext,
     pub air_body: AirBody,
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub row_number: Option<usize>,
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub run: bool,
     pub registry: AirFnRegistry,
     // TODO(AnatG): Move this to component_context.
@@ -384,17 +384,17 @@ pub struct AirBuilder {
 }
 
 impl AirBuilder {
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn is_run_mode(&self) -> bool {
         self.run
     }
 
-    #[cfg(not(test))]
+    #[cfg(not(any(test, feature = "test")))]
     pub fn is_run_mode(&self) -> bool {
         false
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn row_number(&self) -> Option<usize> {
         self.row_number
     }
@@ -402,7 +402,7 @@ impl AirBuilder {
     // TODO(Anat): Remove once we have row_index.
     // Should be used only within a lookup component, prior to calling
     // a constant table (with call_external_column).
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn set_row_number(&mut self, row_number: Option<usize>) {
         self.row_number = row_number;
     }
@@ -432,7 +432,7 @@ impl AirBuilder {
     }
 
     pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if self.run {
             assert!(
                 expr.calc() == 0.to_string(),
@@ -447,7 +447,7 @@ impl AirBuilder {
     }
 
     pub fn deduce(&mut self, expr: &mut FeltExpr, desc: &str) -> FeltExpr {
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if !self.run {
             // Cannot assert this in run mode, where we might deduce constants.
             assert!(!expr.is_const(), "Cannot deduce a constant");
@@ -462,7 +462,7 @@ impl AirBuilder {
     }
 
     pub fn assign(&mut self, expr: &mut FeltExpr, desc: &str) -> FeltExpr {
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if !self.run {
             // Cannot assert this in run mode, where we might deduce constants.
             assert!(!expr.is_const(), "Cannot assign a constant");
@@ -609,9 +609,9 @@ impl AirBuilder {
         let mut air_builder = Self {
             component_context: self.component_context.clone(),
             air_body: AirBody::default(),
-            #[cfg(test)]
+            #[cfg(any(test, feature = "test"))]
             row_number: self.row_number,
-            #[cfg(test)]
+            #[cfg(any(test, feature = "test"))]
             run: self.run,
             registry: self.registry.clone(),
             intermediate_id: self.intermediate_id.clone(),
@@ -819,7 +819,7 @@ impl AirBuilder {
         S: AirVar,
         (ChainIdVar, RoundNumVar, S): AirVar,
     {
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if self.run {
             // The chain id is not relevant in run mode.
             return FeltExpr::default();
@@ -873,7 +873,7 @@ impl AirBuilder {
             input: input_option.clone(),
         });
 
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if self.run {
             let mut air_builder = Self {
                 component_context: Default::default(),
@@ -912,7 +912,7 @@ impl AirBuilder {
 
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
-    pub(super) fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K::T) -> V
+    pub(crate) fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K::T) -> V
     where
         K: ExtTable,
         V: AirVar,
@@ -934,7 +934,7 @@ impl AirBuilder {
             output: value.clone().into(),
         }));
 
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if self.run {
             let mut air_builder = Self {
                 component_context: Default::default(),
@@ -962,7 +962,7 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if self.run {
             assert_eq!(
                 memory
@@ -1001,14 +1001,14 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(&air_fn);
 
-        #[cfg(test)]
+        #[cfg(any(test, feature = "test"))]
         if self.run {
             let mut air_builder = Self {
                 component_context: Default::default(),
                 air_body: AirBody::default(),
-                #[cfg(test)]
+                #[cfg(any(test, feature = "test"))]
                 row_number: self.row_number,
-                #[cfg(test)]
+                #[cfg(any(test, feature = "test"))]
                 run: self.run,
                 registry: self.registry.clone(),
                 // The intermediate_id is not used in run mode.

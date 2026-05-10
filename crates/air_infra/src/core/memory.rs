@@ -1,15 +1,15 @@
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use std::cell::RefCell;
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use std::collections::HashMap;
 use std::fmt::Debug;
 use std::marker::PhantomData;
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use std::rc::Rc;
 
 use super::air_fn::*;
 use super::variables::*;
-#[cfg(test)]
+#[cfg(any(test, feature = "test"))]
 use super::Felt;
 
 /// Describes an AirFn that is a memory component. This means:
@@ -34,7 +34,7 @@ where
     K: AirVar,
     V: AirVar,
 {
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub(super) data: Rc<RefCell<HashMap<Vec<Felt>, V>>>,
     key_type: PhantomData<K>,
     value_type: PhantomData<V>,
@@ -48,20 +48,20 @@ where
     #[allow(unused)]
     pub(super) fn new() -> Self {
         Self {
-            #[cfg(test)]
+            #[cfg(any(test, feature = "test"))]
             data: Rc::new(RefCell::new(HashMap::new())),
             key_type: PhantomData,
             value_type: PhantomData,
         }
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn get(&self, key: &K) -> Option<V> {
         let actual_key = key.to_values();
         actual_key.and_then(|k| self.data.borrow().get(&k).cloned())
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, feature = "test"))]
     pub fn set(&mut self, key: K, value: V) {
         let actual_key = key.to_values().expect("key has no values");
         assert!(value.clone().into().is_const());

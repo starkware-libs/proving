@@ -1,5 +1,6 @@
 pub mod biguint_expr;
 pub mod bool_expr;
+pub mod bounded_felt;
 
 pub mod expr;
 pub mod felt252_expr;
