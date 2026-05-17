@@ -2,7 +2,7 @@ use air_compile::compiled_structs::CompiledAirFn;
 use genco::lang::rust;
 use genco::quote;
 
-use super::utils::{get_log_size, n_logup_columns};
+use super::utils::get_log_size;
 use crate::utils::is_const_size_component;
 
 pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
@@ -18,7 +18,7 @@ pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let log_size = $(get_log_size(air_fn, true));
                 let preprocessed_log_sizes = array![log_size].span();
                 let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
-                let interaction_log_sizes = [log_size; $(n_logup_columns(air_fn))].span();
+                let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
                 array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
             }
 

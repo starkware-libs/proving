@@ -44,6 +44,7 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     if air_fn.r#type != TraceType::Inline {
         consts.extend(quote! {
             pub const N_TRACE_COLUMNS: usize = $(air_fn.state_names.len());
+            pub const N_INTERACTION_COLUMNS: usize = $(n_logup_columns(air_fn));
         });
 
         if !is_const_size_component(air_fn) {
