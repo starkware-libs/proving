@@ -4,7 +4,7 @@ use genco::lang::rust;
 use genco::quote;
 
 use super::parse::{parse_constraints, parse_var};
-use super::utils::{gen_consts, gen_imports};
+use crate::cairo::utils::{gen_consts, gen_imports};
 
 // Subroutines that need extra calls to revoke_ap_tracking when compiled without qm31_opcode,
 // otherwise you get an offset overflow error.

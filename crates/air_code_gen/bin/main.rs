@@ -1,17 +1,15 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use air_code_gen::claims_cairo::generate_claims_cairo_file;
-use air_code_gen::claims_generator::generate_claim_generator_file;
-use air_code_gen::claims_rust::generate_claims_rust_file;
-use air_code_gen::components_code_gen::cairo_constraints::sample_evaluations as cairo_sample_evaluations;
-use air_code_gen::components_code_gen::circuit_constraints::all_components::generate_all_components_file;
-use air_code_gen::components_code_gen::circuit_constraints::sample_evaluations as circuit_sample_evaluations;
-use air_code_gen::components_code_gen::supported_components::{
-    is_supported, AutogenCodeFile, AutogenCodeType,
-};
-use air_code_gen::components_rust::generate_components_rust_file;
-use air_code_gen::provers_rust::generate_provers_rust_file;
+use air_code_gen::cairo::claims::generate_claims_cairo_file;
+use air_code_gen::cairo::sample_evaluations as cairo_sample_evaluations;
+use air_code_gen::circuit::all_components::generate_all_components_file;
+use air_code_gen::circuit::sample_evaluations as circuit_sample_evaluations;
+use air_code_gen::rust::claims::generate_claims_rust_file;
+use air_code_gen::rust::claims_generator::generate_claim_generator_file;
+use air_code_gen::rust::components::generate_components_rust_file;
+use air_code_gen::rust::provers::generate_provers_rust_file;
+use air_code_gen::supported_components::{is_supported, AutogenCodeFile, AutogenCodeType};
 use air_code_gen::utils::{
     add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
     load_air_fns,
@@ -250,11 +248,11 @@ struct Args {
 /// # Example usage:
 ///
 /// Generate code to stwo-cairo:
-/// `$ cargo run --bin cairo_code_gen -- generate-stwo-cairo --source
+/// `$ cargo run --bin air_code_gen -- generate-stwo-cairo --source
 ///     . --stwo-cairo-path ~/stwo-cairo/`
 ///
 /// Generate a single file (output to stdout):
-/// `$ cargo run --bin cairo_code_gen -- single --source
+/// `$ cargo run --bin air_code_gen -- single --source
 ///      . --rust-constraints /path/to/biwise_builtin.json`
 fn main() {
     let args = Args::try_parse_from(std::env::args()).unwrap_or_else(|e| e.exit());

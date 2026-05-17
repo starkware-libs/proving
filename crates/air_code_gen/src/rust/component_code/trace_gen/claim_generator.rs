@@ -11,7 +11,7 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
-use crate::components_code_gen::trace_gen::{vec_of_type, Mode, MultiplicityMode, RustProverGen};
+use crate::rust::component_code::trace_gen::{vec_of_type, Mode, MultiplicityMode, RustProverGen};
 use crate::utils::{
     block_doc, get_variable_name, is_const_size_component, is_state_component_name,
     make_preprocessed_column_id, relations_used_or_yielded, replace_generics_with_turbofish,

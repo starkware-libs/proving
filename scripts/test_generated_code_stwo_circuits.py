@@ -29,7 +29,7 @@ print(f"Testing against stwo-circuits commit {STWO_CIRCUITS_COMMIT}")
 clone_or_update_repo('https://github.com/starkware-libs/stwo-circuits', clone_dir, STWO_CIRCUITS_COMMIT)
 
 # Generate code
-run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--', 'generate-stwo-circuits',
+run_cmd(['cargo', 'run', '--bin', 'air_code_gen', '--', 'generate-stwo-circuits',
          '--source', os.path.join(repository_root),
          '--stwo-circuits-path', clone_dir])
 

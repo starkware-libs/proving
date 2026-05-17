@@ -2,7 +2,7 @@ use air_compile::compiled_structs::CompiledAirFn;
 use genco::lang::rust;
 use genco::quote;
 
-use super::utils::get_log_size;
+use crate::cairo::utils::get_log_size;
 use crate::utils::is_const_size_component;
 
 pub fn gen_claim_struct(air_fn: &CompiledAirFn) -> rust::Tokens {

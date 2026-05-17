@@ -5,8 +5,8 @@ use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;
 
-use crate::components_code_gen::cairo_constraints::utils::format_cairo_code;
-use crate::components_code_gen::supported_components::AutogenCodeType;
+use crate::cairo::utils::format_cairo_code;
+use crate::supported_components::AutogenCodeType;
 use crate::utils::*;
 
 pub fn generate_sample_evaluations_file(

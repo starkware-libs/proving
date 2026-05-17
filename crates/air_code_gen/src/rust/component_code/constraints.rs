@@ -1,20 +1,20 @@
 use std::collections::HashMap;
 
-use air_common::{TraceType, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_common::{TraceType, CONSTRAINT_EVAL_FUNCTION_NAME};
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use itertools::{chain, Itertools};
+use itertools::chain;
 
 use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
 };
 use crate::utils::{
-    get_variable_name, is_const_size_component, make_preprocessed_column_id,
-    replace_generics_with_turbofish,
+    generate_relation_uses, get_variable_name, is_const_size_component,
+    make_preprocessed_column_id, replace_generics_with_turbofish,
 };
 
 /// Generate constraints evaluation code for an AirFn that is not called from other AirFns
@@ -184,34 +184,6 @@ fn generate_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     consts.extend(generate_relation_uses(air_fn));
 
     consts
-}
-
-/// Counts the number of times each relation is used (not including yield) in the component, for
-/// each row.
-pub fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
-    let mut relation_use_count = HashMap::new();
-    for (relation_name, use_or_yield) in &air_fn.constraint_lookups {
-        if *use_or_yield == UseOrYield::Use {
-            let offset = relation_use_count.entry(relation_name.clone()).or_insert(0);
-            *offset += 1;
-        }
-    }
-
-    let mut code = rust::Tokens::new();
-    for (relation, uses) in relation_use_count
-        .iter()
-        .sorted_by_key(|(relation, _)| *relation)
-    {
-        code.append(quote! {
-            RelationUse {
-                relation_id: $("\"")$(relation)$("\""),
-                uses: $(*uses),
-            },
-        });
-    }
-    quote! {
-        pub const RELATION_USES_PER_ROW: [RelationUse; $(relation_use_count.len())] = [$(code)];
-    }
 }
 
 fn generate_component_structs() -> rust::Tokens {

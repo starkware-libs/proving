@@ -1,3 +1,3 @@
 pub mod all_components;
-pub mod component_gen;
+pub mod component;
 pub mod sample_evaluations;
