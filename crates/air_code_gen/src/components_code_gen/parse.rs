@@ -68,6 +68,8 @@ where
             iter_many(&fields.iter().cloned().map(|(_, var)| var).collect_vec())
         }
         CompiledAirVar::PublicParam(_) => f(expr),
+        CompiledAirVar::Enabler => f(expr),
+        CompiledAirVar::Multiplicity(_) => f(expr),
     }
 }
 
@@ -133,8 +135,9 @@ pub fn parse_eval_constraint(
                 .join(", ");
             format!("[{vars_str}]")
         }
-        CompiledAirVar::Struct { .. } | CompiledAirVar::MethodCall(..) => {
-            panic!("Unsupported expression in constraint evaluation: {expr}")
+        CompiledAirVar::Enabler => {
+            assert_eq!(air_fn.r#type, TraceType::Inline);
+            "enabler.clone()".to_string()
         }
         CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase() + ".clone()",
         CompiledAirVar::PublicParam(public_param) => {
@@ -143,6 +146,11 @@ pub fn parse_eval_constraint(
             } else {
                 format!("E::F::from(M31::from(self.claim.{public_param}))")
             }
+        }
+        CompiledAirVar::Struct { .. }
+        | CompiledAirVar::MethodCall(..)
+        | CompiledAirVar::Multiplicity(_) => {
+            panic!("Unsupported expression in constraint evaluation: {expr}")
         }
     }
 }

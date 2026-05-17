@@ -59,6 +59,8 @@ impl Display for CompiledAirVar {
             CompiledAirVar::PublicParam(name) => {
                 write!(f, "public_params.{name}")
             }
+            CompiledAirVar::Enabler => write!(f, "Enabler"),
+            CompiledAirVar::Multiplicity(idx) => write!(f, "Multiplicity({idx})"),
         }
     }
 }

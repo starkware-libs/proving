@@ -265,12 +265,11 @@ pub trait AirFn: Debug + InstDefTrait {
                     let mut multiplicity = if air_builder.is_run_mode() {
                         const_expr!(1)
                     } else {
-                        FeltExpr::new(name.clone(), Some(1))
+                        let mut multiplicity = FeltExpr::new(name.clone(), Some(1));
+                        multiplicity.set_value(ValueInfo::Multiplicity(idx));
+                        multiplicity
                     };
-                    air_builder
-                        .component_context
-                        .state_mut()
-                        .add(&mut multiplicity, &name);
+                    air_builder.deduce(&mut multiplicity, &format!("multiplicity_{idx}"));
                     multiplicity
                 })
                 .collect::<Vec<_>>(),
@@ -279,12 +278,11 @@ pub trait AirFn: Debug + InstDefTrait {
                 let mut enabler = if air_builder.is_run_mode() {
                     const_expr!(1)
                 } else {
-                    FeltExpr::new(name.clone(), Some(1))
+                    let mut enabler = FeltExpr::new(name.clone(), Some(1));
+                    enabler.set_value(ValueInfo::Enabler);
+                    enabler
                 };
-                air_builder
-                    .component_context
-                    .state_mut()
-                    .add(&mut enabler, &name);
+                air_builder.deduce(&mut enabler, "enabler");
 
                 air_builder.constrain(
                     enabler.clone() * enabler.clone() - enabler.clone(),

@@ -230,7 +230,7 @@ fn test_conversion_bool_to_uint16() {
     assert_eq!(i.calc(), "1");
     assert_eq!(&i.to_string(), "UInt16::from_bool(tmp0)");
 
-    b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
+    b.as_felt_mut().set_value(ValueInfo::StateIndex(0, None));
     let mut i: UInt16Expr = b.clone().into();
     i = i.let_for_deduction("tmp0".to_string()).0;
     assert!(!i.as_felt().in_state());
@@ -244,7 +244,7 @@ fn test_conversion_felt_to_uint16() {
     assert_eq!(i.calc(), "255");
     assert_eq!(&i.as_felt().to_string(), "tmp0");
 
-    f.to_state(StateInfo::StateIndex(0, None));
+    f.set_value(ValueInfo::StateIndex(0, None));
     let mut i: UInt16Expr = f.clone().into();
     assert!(i.as_felt().in_state());
     assert_eq!(&i.as_felt().to_string(), "col0");
@@ -263,7 +263,7 @@ fn test_in_state() {
 
     x.low_mut()
         .as_felt_mut()
-        .to_state(StateInfo::StateIndex(0, None));
+        .set_value(ValueInfo::StateIndex(0, None));
     assert!(x.low().as_felt().in_state());
     assert!(!x.high().as_felt().in_state());
 
@@ -273,7 +273,7 @@ fn test_in_state() {
 
     x.high_mut()
         .as_felt_mut()
-        .to_state(StateInfo::StateIndex(1, None));
+        .set_value(ValueInfo::StateIndex(1, None));
     assert!(x.low().as_felt().in_state());
     assert!(x.high().as_felt().in_state());
 
@@ -300,7 +300,7 @@ fn test_degree_in_state() {
     assert!(!f.in_state());
     assert!(f.deg_in_state().is_none());
 
-    f.to_state(StateInfo::StateIndex(0, None));
+    f.set_value(ValueInfo::StateIndex(0, None));
     assert!(f.in_state());
     assert_eq!(f.deg_in_state(), Some(1));
 
@@ -367,7 +367,7 @@ fn test_conversion_felts_to_felt252() {
         "Felt252::from_limbs(zero_extend([1, tmp0]))"
     );
 
-    f2.to_state(StateInfo::StateIndex(1, None));
+    f2.set_value(ValueInfo::StateIndex(1, None));
     let e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert!(e.as_felts().iter().all(|f| f.in_state()));
 

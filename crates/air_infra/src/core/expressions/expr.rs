@@ -112,7 +112,7 @@ where
                     felt.as_var_mut()
                         .complex_or_felt
                         .as_felt_info_mut()
-                        .state_info = StateInfo::DegPolyOfState(orig_felt.deg_in_state());
+                        .value_info = ValueInfo::DegPolyOfState(orig_felt.deg_in_state());
                 }
             }
         }

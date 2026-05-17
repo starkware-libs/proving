@@ -358,7 +358,7 @@ impl RustProverGen {
             Mode::Mults(MultiplicityMode::UnknownInputs) => {
                 quote! {
                     inputs: $(vec_of_type("PackedInputType")),
-                    mults: $(vec_of_type("PackedM31")),
+                    mults: Vec<$(vec_of_type("PackedM31"))>,
                 }
             }
             Mode::Mults(MultiplicityMode::KnownInputs | MultiplicityMode::Seq) => {
@@ -388,7 +388,7 @@ impl RustProverGen {
                 quote! { &self.preprocessed_trace, mults, }
             }
             Mode::Mults(MultiplicityMode::UnknownInputs) => {
-                quote! { packed_inputs, packed_mults, }
+                quote! { packed_inputs, vec![packed_mults], }
             }
         };
         if self.air_fn.padding_type == PaddingType::Enabler {
@@ -627,14 +627,10 @@ impl RustProverGen {
 
         // Padding code.
         write_trace_body.extend(match self.air_fn.padding_type {
-            PaddingType::Enabler => quote! {
-                *row[$(offset)] = enabler_col.packed_at(row_index);
-            },
             PaddingType::Multiplicity => {
                 if matches!(self.mode, Mode::Mults(MultiplicityMode::UnknownInputs)) {
                     quote! {
-                        let mult_at_row = *mults.get(row_index).unwrap_or(&PackedM31::zero());
-                        *row[$(offset)] = mult_at_row;
+                        let mult_at_row = *mults[0].get(row_index).unwrap_or(&PackedM31::zero());
                         *lookup_data.mults_0 = mult_at_row;
                     }
                 } else {
@@ -643,7 +639,6 @@ impl RustProverGen {
                         code.extend(quote! {
                             let mult = &mults[$i];
                             let mult_at_row = *mult.get(row_index).unwrap_or(&PackedM31::zero());
-                            *row[$(offset + i)] = mult_at_row;
                             *lookup_data.mults_$i = mult_at_row;
                         });
                     }
@@ -791,6 +786,10 @@ fn simd_parse_air_var(
         CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase(),
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
+        }
+        CompiledAirVar::Enabler => "enabler_col.packed_at(row_index)".to_string(),
+        CompiledAirVar::Multiplicity(idx) => {
+            format!("*mults[{idx}].get(row_index).unwrap_or(&PackedM31::zero())")
         }
     }
 }

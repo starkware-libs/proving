@@ -156,7 +156,7 @@ where
             is_const: self.is_const(),
             visibility: self.visibility,
             public_param: if let ComplexOrFelt::Felt(FeltInfo {
-                state_info: StateInfo::PublicParam(ref p),
+                value_info: ValueInfo::PublicParam(ref p),
                 constraint_intermediate: _,
                 is_const: _,
             }) = self.complex_or_felt
@@ -166,7 +166,7 @@ where
                 None
             },
             external_state: if let ComplexOrFelt::Felt(FeltInfo {
-                state_info: StateInfo::ExternalState(ext_state),
+                value_info: ValueInfo::ExternalState(ext_state),
                 constraint_intermediate: _,
                 is_const: _,
             }) = self.complex_or_felt.clone()
@@ -187,11 +187,13 @@ where
         if self.is_const() {
             Some(0)
         } else {
-            match &self.complex_or_felt.as_felt_info().state_info {
-                StateInfo::StateIndex(..) => Some(1),
-                StateInfo::DegPolyOfState(deg) => *deg,
-                StateInfo::ExternalState { .. } => Some(1),
-                StateInfo::PublicParam(_) => Some(0),
+            match &self.complex_or_felt.as_felt_info().value_info {
+                ValueInfo::StateIndex(..) => Some(1),
+                ValueInfo::DegPolyOfState(deg) => *deg,
+                ValueInfo::ExternalState { .. } => Some(1),
+                ValueInfo::PublicParam(_) => Some(0),
+                ValueInfo::Enabler => Some(1),
+                ValueInfo::Multiplicity(_) => Some(1),
             }
         }
     }
@@ -211,7 +213,7 @@ where
 
         // self was written to the trace
         if let ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::StateIndex(i, desc),
+            value_info: ValueInfo::StateIndex(i, desc),
             constraint_intermediate: _,
             is_const: _,
         }) = self.complex_or_felt
@@ -221,7 +223,7 @@ where
 
         // self was written to the trace of an external const table
         if let ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::ExternalState(ext_state),
+            value_info: ValueInfo::ExternalState(ext_state),
             constraint_intermediate: _,
             is_const: _,
         }) = self.complex_or_felt
@@ -231,12 +233,32 @@ where
 
         // self is a public param
         if let ComplexOrFelt::Felt(FeltInfo {
-            state_info: StateInfo::PublicParam(param),
+            value_info: ValueInfo::PublicParam(param),
             constraint_intermediate: _,
             is_const: _,
         }) = self.complex_or_felt
         {
             return CompiledAirVar::PublicParam(param.name());
+        }
+
+        // self is the enabler value
+        if let ComplexOrFelt::Felt(FeltInfo {
+            value_info: ValueInfo::Enabler,
+            constraint_intermediate: _,
+            is_const: _,
+        }) = self.complex_or_felt
+        {
+            return CompiledAirVar::Enabler;
+        }
+
+        // self is a multiplicity value
+        if let ComplexOrFelt::Felt(FeltInfo {
+            value_info: ValueInfo::Multiplicity(idx),
+            constraint_intermediate: _,
+            is_const: _,
+        }) = self.complex_or_felt
+        {
+            return CompiledAirVar::Multiplicity(idx);
         }
 
         if compile_for == CompileFor::Deductions {
@@ -248,7 +270,7 @@ where
             // <compile_for> == CompileFor::Constraints
             // self is an intermediate visible in constraints
             if let ComplexOrFelt::Felt(FeltInfo {
-                state_info: _,
+                value_info: _,
                 constraint_intermediate: Some(name),
                 is_const: _,
             }) = self.complex_or_felt
