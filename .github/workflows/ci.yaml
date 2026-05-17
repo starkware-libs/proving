@@ -54,15 +54,30 @@ jobs:
           deno-version: v2.2.10
       - run: scripts/js_typecheck.sh
 
-  test-generated-code-in-stwo:
+  test-generated-code-in-stwo-cairo:
     runs-on: ubuntu-latest-l
     steps:
       - uses: actions/checkout@v2
       - uses: software-mansion/setup-scarb@v1
         with:
           scarb-version: "2.12.2"
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          components: rustfmt
+          toolchain: nightly-2025-06-23
       - uses: Swatinem/rust-cache@v2
-      - run: scripts/test_generated_code.py
+      - run: scripts/test_generated_code_stwo_cairo.py
+
+  test-generated-code-in-stwo-circuits:
+    runs-on: ubuntu-latest-l
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          components: rustfmt
+          toolchain: nightly-2025-06-23
+      - uses: Swatinem/rust-cache@v2
+      - run: scripts/test_generated_code_stwo_circuits.py
 
   run-tests:
     runs-on: ubuntu-latest
@@ -96,7 +111,8 @@ jobs:
     - format
     - run-tests
     - machete-check
-    - test-generated-code-in-stwo
+    - test-generated-code-in-stwo-cairo
+    - test-generated-code-in-stwo-circuits
     steps:
     - name: Decide whether all the needed jobs succeeded or failed
       uses: re-actors/alls-green@v1.2.2
