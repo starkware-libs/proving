@@ -35,6 +35,7 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
 /// listed here.
 fn get_manual_cairo_constraints_components() -> Vec<String> {
     vec![
+        // CASM components
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         "cube_252".into(),
@@ -44,13 +45,23 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
         // In particular, the ppt with the columns of pedersen_points_table_window_bits_9 doesn't
         // exist, so the sample evaluation test of this component fails.
         "pedersen_points_table_window_bits_9".into(),
+        // Gates components
+        "qm_31_ops".into(),
+        // The circuit version requires applying the enabler to the reading of the message,
+        "circuit_blake_round".into(),
+        "verify_bitwise_xor_12".into(),
+        "qm_31_into_u_32".into(),
+        "blake_gate".into(),
+        "create_blake_output".into(),
     ]
 }
 
 fn get_manual_circuit_constraints_components() -> Vec<String> {
     vec![
+        // CASM components
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
+        // Gates components
         "qm_31_ops".into(),
         // The circuit version requires applying the enabler to the reading of the message,
         "circuit_blake_round".into(),
