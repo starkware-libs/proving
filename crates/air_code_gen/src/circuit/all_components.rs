@@ -5,7 +5,7 @@ use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;
 
-use crate::components_code_gen::supported_components::AutogenCodeType;
+use crate::supported_components::AutogenCodeType;
 use crate::utils::*;
 
 pub fn generate_all_components_file(

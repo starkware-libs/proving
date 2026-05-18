@@ -11,7 +11,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::utils::remove_trailing_zeroes;
+use crate::utils::{expr_iterator, remove_trailing_zeroes};
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
 pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String, String)> {
@@ -41,36 +41,6 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String
         .into_iter()
         .sorted()
         .collect()
-}
-
-pub fn expr_iterator<F>(expr: &CompiledAirVar, f: &mut F)
-where
-    F: FnMut(&CompiledAirVar),
-{
-    let mut iter_many =
-        |vars: &[CompiledAirVar]| vars.iter().for_each(|var| expr_iterator::<F>(var, f));
-
-    match expr {
-        CompiledAirVar::Const(..) => f(expr),
-        CompiledAirVar::Var(..) => f(expr),
-        CompiledAirVar::State(..) => f(expr),
-        CompiledAirVar::ExternalState { .. } => f(expr),
-        CompiledAirVar::StaticCall(_, vars) => iter_many(vars),
-        CompiledAirVar::MethodCall(self_var, _, vars) => {
-            iter_many(vars);
-            expr_iterator(self_var, f);
-        }
-        CompiledAirVar::BinaryOp(lhs, _, rhs) => iter_many(&[*lhs.clone(), *rhs.clone()]),
-        CompiledAirVar::UnaryOp(_, var) => f(var),
-        CompiledAirVar::Tuple(vars) => iter_many(vars),
-        CompiledAirVar::Array(vars) => iter_many(vars),
-        CompiledAirVar::Struct { r#type: _, fields } => {
-            iter_many(&fields.iter().cloned().map(|(_, var)| var).collect_vec())
-        }
-        CompiledAirVar::PublicParam(_) => f(expr),
-        CompiledAirVar::Enabler => f(expr),
-        CompiledAirVar::Multiplicity(_) => f(expr),
-    }
 }
 
 pub fn seek_consts(expr: &CompiledAirVar) -> BTreeSet<(String, String)> {

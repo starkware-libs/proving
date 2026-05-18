@@ -11,8 +11,6 @@ use genco::{quote, Tokens};
 use itertools::{chain, Itertools};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use crate::components_code_gen::constraints::generate_relation_uses;
-use crate::components_code_gen::parse::expr_iterator;
 use crate::utils::*;
 
 pub fn generate_circuit_constraints_code(

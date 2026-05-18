@@ -47,7 +47,7 @@ print(f"Testing against stwo commit {stwo_cairo_commit}")
 clone_or_update_repo('https://github.com/starkware-libs/stwo-cairo', clone_dir, stwo_cairo_commit)
 
 # Generate code
-run_cmd(['cargo', 'run', '--bin', 'cairo_code_gen', '--', 'generate-stwo-cairo',
+run_cmd(['cargo', 'run', '--bin', 'air_code_gen', '--', 'generate-stwo-cairo',
          '--source', os.path.join(repository_root),
          '--stwo-cairo-path', clone_dir])
 

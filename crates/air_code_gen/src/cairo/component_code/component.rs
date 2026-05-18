@@ -9,10 +9,10 @@ use stwo_cairo_common::prover_types::cpu::QM31;
 use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
-use super::utils::{
+use crate::cairo::utils::get_numerators;
+use crate::cairo::utils::{
     gen_consts, gen_imports, get_log_size, get_lookup_sums, make_preprocessed_column,
 };
-use crate::components_code_gen::cairo_constraints::utils::get_numerators;
 use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
 pub fn generate_component_cairo_constraints_code(
