@@ -36,74 +36,6 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
-  "blake_message": {
-    "trace_type": "Relation",
-    "log_height": null,
-    "num_state_cols": 3,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "BlakeMessage": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 7,
-    "trace_cells_upper_bound": 7,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
-    "max_instances_rows_limit": 268435456
-  },
-  "range_check_16": {
-    "trace_type": "Component",
-    "log_height": 16,
-    "num_state_cols": 1,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "RangeCheck_16": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
-    "max_instances_rows_limit": 268435456
-  },
-  "range_check_15": {
-    "trace_type": "Component",
-    "log_height": 15,
-    "num_state_cols": 1,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "RangeCheck_15": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
-    "max_instances_rows_limit": 268435456
-  },
-  "blake_round_sigma": {
-    "trace_type": "Component",
-    "log_height": 4,
-    "num_state_cols": 1,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "BlakeRoundSigma": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
-    "max_instances_rows_limit": 268435456
-  },
   "verify_bitwise_xor_12": {
     "trace_type": "Component",
     "log_height": 24,
@@ -138,23 +70,6 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
-  "verify_bitwise_xor_7": {
-    "trace_type": "Component",
-    "log_height": 14,
-    "num_state_cols": 1,
-    "use_lookup_cols": {},
-    "yield_lookup_cols": {
-      "VerifyBitwiseXor_7": 1
-    },
-    "lookup_rows": {},
-    "padding_type": "Multiplicity",
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5,
-    "uses_upper_bound": {},
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 2147483647,
-    "max_instances_rows_limit": 268435456
-  },
   "verify_bitwise_xor_9": {
     "trace_type": "Component",
     "log_height": 18,
@@ -172,175 +87,22 @@
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
-  "blake_g": {
+  "verify_bitwise_xor_7": {
     "trace_type": "Component",
-    "log_height": null,
-    "num_state_cols": 53,
-    "use_lookup_cols": {
-      "VerifyBitwiseXor_8": 4,
-      "VerifyBitwiseXor_8_B": 4,
-      "VerifyBitwiseXor_12": 2,
-      "VerifyBitwiseXor_4": 2,
-      "VerifyBitwiseXor_7": 2,
-      "VerifyBitwiseXor_9": 2
-    },
+    "log_height": 14,
+    "num_state_cols": 1,
+    "use_lookup_cols": {},
     "yield_lookup_cols": {
-      "BlakeG": 1
-    },
-    "lookup_rows": {
-      "VerifyBitwiseXor_8": 4,
-      "VerifyBitwiseXor_8_B": 4,
-      "VerifyBitwiseXor_12": 2,
-      "VerifyBitwiseXor_4": 2,
-      "VerifyBitwiseXor_7": 2,
-      "VerifyBitwiseXor_9": 2
-    },
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 89,
-    "trace_cells_upper_bound": 89,
-    "uses_upper_bound": {
-      "verify_bitwise_xor_8": 4,
-      "verify_bitwise_xor_8_b": 4,
-      "verify_bitwise_xor_12": 2,
-      "verify_bitwise_xor_4": 2,
-      "verify_bitwise_xor_7": 2,
-      "verify_bitwise_xor_9": 2
-    },
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 536870911,
-    "max_instances_rows_limit": 268435456
-  },
-  "circuit_blake_round": {
-    "trace_type": "ChainRound",
-    "log_height": null,
-    "num_state_cols": 148,
-    "use_lookup_cols": {
-      "BlakeRoundSigma": 1,
-      "BlakeMessage": 16,
-      "BlakeG": 8,
-      "CircuitBlakeRound": 1
-    },
-    "yield_lookup_cols": {
-      "CircuitBlakeRound": 1
-    },
-    "lookup_rows": {
-      "BlakeRoundSigma": 1,
-      "BlakeMessage": 16,
-      "BlakeG": 8
-    },
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 204,
-    "trace_cells_upper_bound": 1028,
-    "uses_upper_bound": {
-      "blake_round_sigma": 1,
-      "blake_message": 16,
-      "verify_bitwise_xor_8": 32,
-      "verify_bitwise_xor_8_b": 32,
-      "verify_bitwise_xor_12": 16,
-      "verify_bitwise_xor_4": 16,
-      "verify_bitwise_xor_7": 16,
-      "verify_bitwise_xor_9": 16
-    },
-    "rows_upper_bound": {
-      "blake_message": 16,
-      "blake_g": 8
-    },
-    "max_instances_uses_limit": 67108863,
-    "max_instances_rows_limit": 16777216
-  },
-  "triple_xor_32": {
-    "trace_type": "Component",
-    "log_height": null,
-    "num_state_cols": 21,
-    "use_lookup_cols": {
-      "VerifyBitwiseXor_8": 4,
-      "VerifyBitwiseXor_8_B": 4
-    },
-    "yield_lookup_cols": {
-      "TripleXor32": 1
-    },
-    "lookup_rows": {
-      "VerifyBitwiseXor_8": 4,
-      "VerifyBitwiseXor_8_B": 4
-    },
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 41,
-    "trace_cells_upper_bound": 41,
-    "uses_upper_bound": {
-      "verify_bitwise_xor_8": 4,
-      "verify_bitwise_xor_8_b": 4
-    },
-    "rows_upper_bound": {},
-    "max_instances_uses_limit": 536870911,
-    "max_instances_rows_limit": 268435456
-  },
-  "blake_output": {
-    "trace_type": "Gate",
-    "log_height": null,
-    "num_state_cols": 24,
-    "use_lookup_cols": {
-      "BlakeOutput": 1
-    },
-    "yield_lookup_cols": {
-      "Gate": 2
+      "VerifyBitwiseXor_7": 1
     },
     "lookup_rows": {},
     "padding_type": "Multiplicity",
-    "total_num_trace_cols": 32,
-    "trace_cells_upper_bound": 32,
+    "total_num_trace_cols": 5,
+    "trace_cells_upper_bound": 5,
     "uses_upper_bound": {},
     "rows_upper_bound": {},
     "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
-  },
-  "blake_gate": {
-    "trace_type": "Gate",
-    "log_height": null,
-    "num_state_cols": 151,
-    "use_lookup_cols": {
-      "VerifyBitwiseXor_8": 4,
-      "RangeCheck_16": 16,
-      "RangeCheck_15": 16,
-      "CircuitBlakeRound": 1,
-      "TripleXor32": 8,
-      "BlakeOutput": 1,
-      "Gate": 4
-    },
-    "yield_lookup_cols": {
-      "BlakeMessage": 16,
-      "CircuitBlakeRound": 1,
-      "BlakeOutput": 1
-    },
-    "lookup_rows": {
-      "VerifyBitwiseXor_8": 4,
-      "RangeCheck_16": 16,
-      "RangeCheck_15": 16,
-      "CircuitBlakeRound": 10,
-      "TripleXor32": 8
-    },
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 287,
-    "trace_cells_upper_bound": 17063,
-    "uses_upper_bound": {
-      "verify_bitwise_xor_8": 548,
-      "range_check_16": 16,
-      "range_check_15": 16,
-      "blake_round_sigma": 16,
-      "blake_message": 256,
-      "verify_bitwise_xor_8_b": 544,
-      "verify_bitwise_xor_12": 256,
-      "verify_bitwise_xor_4": 256,
-      "verify_bitwise_xor_7": 256,
-      "verify_bitwise_xor_9": 256
-    },
-    "rows_upper_bound": {
-      "circuit_blake_round": 10,
-      "blake_message": 256,
-      "blake_g": 128,
-      "triple_xor_32": 8
-    },
-    "max_instances_uses_limit": 3918765,
-    "max_instances_rows_limit": 1048576
   },
   "blake_g_gate": {
     "trace_type": "Gate",
@@ -379,6 +141,23 @@
     },
     "rows_upper_bound": {},
     "max_instances_uses_limit": 357913941,
+    "max_instances_rows_limit": 268435456
+  },
+  "range_check_16": {
+    "trace_type": "Component",
+    "log_height": 16,
+    "num_state_cols": 1,
+    "use_lookup_cols": {},
+    "yield_lookup_cols": {
+      "RangeCheck_16": 1
+    },
+    "lookup_rows": {},
+    "padding_type": "Multiplicity",
+    "total_num_trace_cols": 5,
+    "trace_cells_upper_bound": 5,
+    "uses_upper_bound": {},
+    "rows_upper_bound": {},
+    "max_instances_uses_limit": 2147483647,
     "max_instances_rows_limit": 268435456
   },
   "m_31_to_u_32": {
