@@ -24,7 +24,7 @@ pub fn generate_toplevel_constraints_code(air_fn: &CompiledAirFn) -> rust::Token
         $['\n']
         $(generate_consts(air_fn))
         $['\n']
-        $(generate_component_structs())
+        $(generate_component_structs(air_fn))
         $['\n']
         $(generate_claim_struct(air_fn))
         $['\n']
@@ -63,9 +63,9 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
                 let eval = Eval {
                     claim: Claim {
                         $log_size
-                        $(get_dummy_public_params(air_fn))
                     },
                     common_lookup_elements: relations::CommonLookupElements::dummy(),
+                    $(get_dummy_public_params(air_fn))
                 };
                 let expr_eval = eval.evaluate(ExprEvaluator::new());
                 let assignment = expr_eval.random_assignment();
@@ -186,11 +186,12 @@ fn generate_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
     consts
 }
 
-fn generate_component_structs() -> rust::Tokens {
+fn generate_component_structs(air_fn: &CompiledAirFn) -> rust::Tokens {
     quote! {
         pub struct Eval {
             pub claim: Claim,
             pub common_lookup_elements: relations::CommonLookupElements,
+            $(get_eval_public_param_members(air_fn))
         }
     }
 }
@@ -242,7 +243,11 @@ pub fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
     if !is_const_size_component(air_fn) {
         members.append(quote! { pub log_size: u32, });
     };
+    members
+}
 
+fn get_eval_public_param_members(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut members = quote! {};
     for public_param in &air_fn.public_params {
         members.append(quote! {
             pub $(public_param): u32,

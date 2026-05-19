@@ -114,7 +114,7 @@ pub fn parse_eval_constraint(
             if air_fn.r#type == TraceType::Inline {
                 public_param.clone() + ".clone()"
             } else {
-                format!("E::F::from(M31::from(self.claim.{public_param}))")
+                format!("E::F::from(M31::from(self.{public_param}))")
             }
         }
         CompiledAirVar::Struct { .. }

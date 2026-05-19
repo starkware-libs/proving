@@ -39,11 +39,6 @@ fn get_claim_members(air_fn: &CompiledAirFn) -> rust::Tokens {
     if !is_const_size_component(air_fn) {
         members.append(quote! { pub log_size: u32, });
     };
-    for public_param in &air_fn.public_params {
-        members.append(quote! {
-            pub $(public_param): u32,
-        });
-    }
     members
 }
 
@@ -52,11 +47,6 @@ fn gen_mix_into(air_fn: &CompiledAirFn) -> rust::Tokens {
     if !is_const_size_component(air_fn) {
         code.append(quote! {
             channel.mix_u64(($(get_log_size(air_fn, true))).into());
-        });
-    }
-    for param in &air_fn.public_params {
-        code.append(quote! {
-            channel.mix_u64((*self.$(param)).into());
         });
     }
     code
