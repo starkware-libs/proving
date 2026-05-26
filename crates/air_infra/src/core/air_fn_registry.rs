@@ -27,11 +27,18 @@ pub struct AirFnStat {
     pub trace_type: TraceType,
     // For constant-size component, the log_2 of the number of rows.
     pub log_height: Option<u32>,
+    // The number of cells in each row, excluding interaction columns.
     pub num_state_cols: usize,
+    // How many use lookups each row does. A map of relation name -> number of lookups to this relation.
     pub use_lookup_cols: IndexMap<String, usize>,
+    // How many yield lookups each row does. A map of relation name -> number of lookups to this relation.
     pub yield_lookup_cols: IndexMap<String, usize>,
+    // How many rows each row in this component adds to other components. This is higher than use_lookup_cols
+    // for calls to chain round components. For example, blake_compress_opcode adds 10 rows to blake_round,
+    // but does only one use lookup and one yield lookup to that component.
     pub lookup_rows: IndexMap<String, usize>,
     pub padding_type: PaddingType,
+    // The number of cells in each row, including interaction columns.
     pub total_num_trace_cols: usize,
     // To this we should add the number of trace cells in:
     // - Const tables and their corresponding lookup components (multiplicity and logup columns)
