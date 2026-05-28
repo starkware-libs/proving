@@ -379,8 +379,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     )
     .expect("Failed to write claims rust code");
 
-    let components_rust_code =
-        generate_components_rust_file(&compiled_regisry.keys().collect_vec());
+    let components_rust_code = generate_components_rust_file(&compiled_regisry);
     fs::write(
         args.stwo_cairo_path.join(COMPONENTS_RUST_FILE_PATH),
         components_rust_code.to_string().unwrap(),

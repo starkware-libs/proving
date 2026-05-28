@@ -241,16 +241,11 @@ impl RustProverGen {
     }
 
     fn write_trace_body_simd(&self) -> rust::Tokens {
-        let mut claim_fields = if is_const_size_component(&self.air_fn) {
+        let claim_fields = if is_const_size_component(&self.air_fn) {
             quote! {}
         } else {
             quote! {log_size,}
         };
-        for public_param in &self.air_fn.public_params {
-            claim_fields.extend(quote! {
-                $(public_param): self.$(public_param),
-            });
-        }
 
         let init_code = match self.mode {
             Mode::NoInputs => quote! {
