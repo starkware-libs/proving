@@ -407,6 +407,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "partial_limb_msb_col0"
               }
@@ -613,6 +614,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "msb_col1"
               },
@@ -1583,6 +1585,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "msb_col7"
               },
@@ -1901,6 +1904,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "range_check_29_bot11bits_col13"
               }
@@ -4979,12 +4983,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     {
@@ -5014,12 +5013,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     "EndBlock",

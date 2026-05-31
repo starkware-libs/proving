@@ -73,6 +73,7 @@ fn test_generic_consistency_rel_call() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -315,7 +316,6 @@ fn test_generic_consistency_rel_call() {
         (202, "next_ap"),
         (202, "range_check_29_bot11bits"),
         (202, "next_fp"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -462,6 +462,7 @@ fn test_generic_consistency_ret() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -704,7 +705,6 @@ fn test_generic_consistency_ret() {
         (11, "next_ap"),
         (11, "range_check_29_bot11bits"),
         (4, "next_fp"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -778,6 +778,7 @@ fn test_generic_consistency_assert_equal() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -1020,7 +1021,6 @@ fn test_generic_consistency_assert_equal() {
         (11, "next_ap"),
         (11, "range_check_29_bot11bits"),
         (6, "next_fp"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -1088,6 +1088,7 @@ fn test_generic_consistency_jump() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -1330,7 +1331,6 @@ fn test_generic_consistency_jump() {
         (11, "next_ap"),
         (11, "range_check_29_bot11bits"),
         (6, "next_fp"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -1508,6 +1508,7 @@ fn test_generic_consistency_jnz_taken() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -1750,7 +1751,6 @@ fn test_generic_consistency_jnz_taken() {
         (200, "next_ap"),
         (200, "range_check_29_bot11bits"),
         (150, "next_fp"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -1814,6 +1814,7 @@ fn test_generic_consistency_jnz_not_taken() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -2056,7 +2057,6 @@ fn test_generic_consistency_jnz_not_taken() {
         (200, "next_ap"),
         (200, "range_check_29_bot11bits"),
         (150, "next_fp"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

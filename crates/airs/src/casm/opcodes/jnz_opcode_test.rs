@@ -96,6 +96,7 @@ fn test_jnz_not_taken_base_ap() {
     let state = build_and_test([false, false, false], -13, const_felt252_expr!(0, 0), 15);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -104,7 +105,6 @@ fn test_jnz_not_taken_base_ap() {
         (0, "ap_update_add_1"),
         (200, "mem_dst_base"),
         (2, "dst_id"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -114,6 +114,7 @@ fn test_jnz_taken_base_ap() {
     let state = build_and_test([true, false, false], -13, const_felt252_expr!(123, 456), 15);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -160,7 +161,6 @@ fn test_jnz_taken_base_ap() {
         (0, "next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -198,6 +198,7 @@ fn test_jnz_taken_negative_op1() {
     let state = build_and_test([true, true, false], -13, const_felt252_expr!(123, 456), -22);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -244,7 +245,6 @@ fn test_jnz_taken_negative_op1() {
         (511, "next_pc_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

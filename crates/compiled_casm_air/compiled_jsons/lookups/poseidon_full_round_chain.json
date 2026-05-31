@@ -20,12 +20,12 @@
     {
       "Tuple": [
         {
-          "State": "input_limb_0_col0"
+          "State": "input_limb_0_col1"
         },
         {
           "BinaryOp": [
             {
-              "State": "input_limb_1_col1"
+              "State": "input_limb_1_col2"
             },
             "+",
             {
@@ -70,7 +70,7 @@
         {
           "BinaryOp": [
             {
-              "State": "input_limb_1_col1"
+              "State": "input_limb_1_col2"
             },
             "+",
             {
@@ -88,132 +88,132 @@
     ]
   ],
   "state_names": [
-    "input_limb_0_col0",
-    "input_limb_1_col1",
-    "input_limb_2_col2",
-    "input_limb_3_col3",
-    "input_limb_4_col4",
-    "input_limb_5_col5",
-    "input_limb_6_col6",
-    "input_limb_7_col7",
-    "input_limb_8_col8",
-    "input_limb_9_col9",
-    "input_limb_10_col10",
-    "input_limb_11_col11",
-    "input_limb_12_col12",
-    "input_limb_13_col13",
-    "input_limb_14_col14",
-    "input_limb_15_col15",
-    "input_limb_16_col16",
-    "input_limb_17_col17",
-    "input_limb_18_col18",
-    "input_limb_19_col19",
-    "input_limb_20_col20",
-    "input_limb_21_col21",
-    "input_limb_22_col22",
-    "input_limb_23_col23",
-    "input_limb_24_col24",
-    "input_limb_25_col25",
-    "input_limb_26_col26",
-    "input_limb_27_col27",
-    "input_limb_28_col28",
-    "input_limb_29_col29",
-    "input_limb_30_col30",
-    "input_limb_31_col31",
-    "cube_252_output_limb_0_col32",
-    "cube_252_output_limb_1_col33",
-    "cube_252_output_limb_2_col34",
-    "cube_252_output_limb_3_col35",
-    "cube_252_output_limb_4_col36",
-    "cube_252_output_limb_5_col37",
-    "cube_252_output_limb_6_col38",
-    "cube_252_output_limb_7_col39",
-    "cube_252_output_limb_8_col40",
-    "cube_252_output_limb_9_col41",
-    "cube_252_output_limb_0_col42",
-    "cube_252_output_limb_1_col43",
-    "cube_252_output_limb_2_col44",
-    "cube_252_output_limb_3_col45",
-    "cube_252_output_limb_4_col46",
-    "cube_252_output_limb_5_col47",
-    "cube_252_output_limb_6_col48",
-    "cube_252_output_limb_7_col49",
-    "cube_252_output_limb_8_col50",
-    "cube_252_output_limb_9_col51",
-    "cube_252_output_limb_0_col52",
-    "cube_252_output_limb_1_col53",
-    "cube_252_output_limb_2_col54",
-    "cube_252_output_limb_3_col55",
-    "cube_252_output_limb_4_col56",
-    "cube_252_output_limb_5_col57",
-    "cube_252_output_limb_6_col58",
-    "cube_252_output_limb_7_col59",
-    "cube_252_output_limb_8_col60",
-    "cube_252_output_limb_9_col61",
-    "poseidon_round_keys_output_limb_0_col62",
-    "poseidon_round_keys_output_limb_1_col63",
-    "poseidon_round_keys_output_limb_2_col64",
-    "poseidon_round_keys_output_limb_3_col65",
-    "poseidon_round_keys_output_limb_4_col66",
-    "poseidon_round_keys_output_limb_5_col67",
-    "poseidon_round_keys_output_limb_6_col68",
-    "poseidon_round_keys_output_limb_7_col69",
-    "poseidon_round_keys_output_limb_8_col70",
-    "poseidon_round_keys_output_limb_9_col71",
-    "poseidon_round_keys_output_limb_10_col72",
-    "poseidon_round_keys_output_limb_11_col73",
-    "poseidon_round_keys_output_limb_12_col74",
-    "poseidon_round_keys_output_limb_13_col75",
-    "poseidon_round_keys_output_limb_14_col76",
-    "poseidon_round_keys_output_limb_15_col77",
-    "poseidon_round_keys_output_limb_16_col78",
-    "poseidon_round_keys_output_limb_17_col79",
-    "poseidon_round_keys_output_limb_18_col80",
-    "poseidon_round_keys_output_limb_19_col81",
-    "poseidon_round_keys_output_limb_20_col82",
-    "poseidon_round_keys_output_limb_21_col83",
-    "poseidon_round_keys_output_limb_22_col84",
-    "poseidon_round_keys_output_limb_23_col85",
-    "poseidon_round_keys_output_limb_24_col86",
-    "poseidon_round_keys_output_limb_25_col87",
-    "poseidon_round_keys_output_limb_26_col88",
-    "poseidon_round_keys_output_limb_27_col89",
-    "poseidon_round_keys_output_limb_28_col90",
-    "poseidon_round_keys_output_limb_29_col91",
-    "combination_limb_0_col92",
-    "combination_limb_1_col93",
-    "combination_limb_2_col94",
-    "combination_limb_3_col95",
-    "combination_limb_4_col96",
-    "combination_limb_5_col97",
-    "combination_limb_6_col98",
-    "combination_limb_7_col99",
-    "combination_limb_8_col100",
-    "combination_limb_9_col101",
-    "p_coef_col102",
-    "combination_limb_0_col103",
-    "combination_limb_1_col104",
-    "combination_limb_2_col105",
-    "combination_limb_3_col106",
-    "combination_limb_4_col107",
-    "combination_limb_5_col108",
-    "combination_limb_6_col109",
-    "combination_limb_7_col110",
-    "combination_limb_8_col111",
-    "combination_limb_9_col112",
-    "p_coef_col113",
-    "combination_limb_0_col114",
-    "combination_limb_1_col115",
-    "combination_limb_2_col116",
-    "combination_limb_3_col117",
-    "combination_limb_4_col118",
-    "combination_limb_5_col119",
-    "combination_limb_6_col120",
-    "combination_limb_7_col121",
-    "combination_limb_8_col122",
-    "combination_limb_9_col123",
-    "p_coef_col124",
-    "enabler_col125"
+    "enabler_col0",
+    "input_limb_0_col1",
+    "input_limb_1_col2",
+    "input_limb_2_col3",
+    "input_limb_3_col4",
+    "input_limb_4_col5",
+    "input_limb_5_col6",
+    "input_limb_6_col7",
+    "input_limb_7_col8",
+    "input_limb_8_col9",
+    "input_limb_9_col10",
+    "input_limb_10_col11",
+    "input_limb_11_col12",
+    "input_limb_12_col13",
+    "input_limb_13_col14",
+    "input_limb_14_col15",
+    "input_limb_15_col16",
+    "input_limb_16_col17",
+    "input_limb_17_col18",
+    "input_limb_18_col19",
+    "input_limb_19_col20",
+    "input_limb_20_col21",
+    "input_limb_21_col22",
+    "input_limb_22_col23",
+    "input_limb_23_col24",
+    "input_limb_24_col25",
+    "input_limb_25_col26",
+    "input_limb_26_col27",
+    "input_limb_27_col28",
+    "input_limb_28_col29",
+    "input_limb_29_col30",
+    "input_limb_30_col31",
+    "input_limb_31_col32",
+    "cube_252_output_limb_0_col33",
+    "cube_252_output_limb_1_col34",
+    "cube_252_output_limb_2_col35",
+    "cube_252_output_limb_3_col36",
+    "cube_252_output_limb_4_col37",
+    "cube_252_output_limb_5_col38",
+    "cube_252_output_limb_6_col39",
+    "cube_252_output_limb_7_col40",
+    "cube_252_output_limb_8_col41",
+    "cube_252_output_limb_9_col42",
+    "cube_252_output_limb_0_col43",
+    "cube_252_output_limb_1_col44",
+    "cube_252_output_limb_2_col45",
+    "cube_252_output_limb_3_col46",
+    "cube_252_output_limb_4_col47",
+    "cube_252_output_limb_5_col48",
+    "cube_252_output_limb_6_col49",
+    "cube_252_output_limb_7_col50",
+    "cube_252_output_limb_8_col51",
+    "cube_252_output_limb_9_col52",
+    "cube_252_output_limb_0_col53",
+    "cube_252_output_limb_1_col54",
+    "cube_252_output_limb_2_col55",
+    "cube_252_output_limb_3_col56",
+    "cube_252_output_limb_4_col57",
+    "cube_252_output_limb_5_col58",
+    "cube_252_output_limb_6_col59",
+    "cube_252_output_limb_7_col60",
+    "cube_252_output_limb_8_col61",
+    "cube_252_output_limb_9_col62",
+    "poseidon_round_keys_output_limb_0_col63",
+    "poseidon_round_keys_output_limb_1_col64",
+    "poseidon_round_keys_output_limb_2_col65",
+    "poseidon_round_keys_output_limb_3_col66",
+    "poseidon_round_keys_output_limb_4_col67",
+    "poseidon_round_keys_output_limb_5_col68",
+    "poseidon_round_keys_output_limb_6_col69",
+    "poseidon_round_keys_output_limb_7_col70",
+    "poseidon_round_keys_output_limb_8_col71",
+    "poseidon_round_keys_output_limb_9_col72",
+    "poseidon_round_keys_output_limb_10_col73",
+    "poseidon_round_keys_output_limb_11_col74",
+    "poseidon_round_keys_output_limb_12_col75",
+    "poseidon_round_keys_output_limb_13_col76",
+    "poseidon_round_keys_output_limb_14_col77",
+    "poseidon_round_keys_output_limb_15_col78",
+    "poseidon_round_keys_output_limb_16_col79",
+    "poseidon_round_keys_output_limb_17_col80",
+    "poseidon_round_keys_output_limb_18_col81",
+    "poseidon_round_keys_output_limb_19_col82",
+    "poseidon_round_keys_output_limb_20_col83",
+    "poseidon_round_keys_output_limb_21_col84",
+    "poseidon_round_keys_output_limb_22_col85",
+    "poseidon_round_keys_output_limb_23_col86",
+    "poseidon_round_keys_output_limb_24_col87",
+    "poseidon_round_keys_output_limb_25_col88",
+    "poseidon_round_keys_output_limb_26_col89",
+    "poseidon_round_keys_output_limb_27_col90",
+    "poseidon_round_keys_output_limb_28_col91",
+    "poseidon_round_keys_output_limb_29_col92",
+    "combination_limb_0_col93",
+    "combination_limb_1_col94",
+    "combination_limb_2_col95",
+    "combination_limb_3_col96",
+    "combination_limb_4_col97",
+    "combination_limb_5_col98",
+    "combination_limb_6_col99",
+    "combination_limb_7_col100",
+    "combination_limb_8_col101",
+    "combination_limb_9_col102",
+    "p_coef_col103",
+    "combination_limb_0_col104",
+    "combination_limb_1_col105",
+    "combination_limb_2_col106",
+    "combination_limb_3_col107",
+    "combination_limb_4_col108",
+    "combination_limb_5_col109",
+    "combination_limb_6_col110",
+    "combination_limb_7_col111",
+    "combination_limb_8_col112",
+    "combination_limb_9_col113",
+    "p_coef_col114",
+    "combination_limb_0_col115",
+    "combination_limb_1_col116",
+    "combination_limb_2_col117",
+    "combination_limb_3_col118",
+    "combination_limb_4_col119",
+    "combination_limb_5_col120",
+    "combination_limb_6_col121",
+    "combination_limb_7_col122",
+    "combination_limb_8_col123",
+    "combination_limb_9_col124",
+    "p_coef_col125"
   ],
   "constraint_lookups": [
     [
@@ -335,6 +335,30 @@
   "external_states": [],
   "constraints": [
     {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col0"
+                },
+                "*",
+                {
+                  "State": "enabler_col0"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col0"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
+    },
+    {
       "LookupTerm": {
         "relation_name": "Cube252",
         "felts": [
@@ -345,72 +369,69 @@
             ]
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_limb_2_col3"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_limb_3_col4"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_limb_4_col5"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_limb_5_col6"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_limb_6_col7"
           },
           {
-            "State": "input_limb_7_col7"
+            "State": "input_limb_7_col8"
           },
           {
-            "State": "input_limb_8_col8"
+            "State": "input_limb_8_col9"
           },
           {
-            "State": "input_limb_9_col9"
+            "State": "input_limb_9_col10"
           },
           {
-            "State": "input_limb_10_col10"
+            "State": "input_limb_10_col11"
           },
           {
-            "State": "input_limb_11_col11"
+            "State": "input_limb_11_col12"
           },
           {
-            "State": "cube_252_output_limb_0_col32"
+            "State": "cube_252_output_limb_0_col33"
           },
           {
-            "State": "cube_252_output_limb_1_col33"
+            "State": "cube_252_output_limb_1_col34"
           },
           {
-            "State": "cube_252_output_limb_2_col34"
+            "State": "cube_252_output_limb_2_col35"
           },
           {
-            "State": "cube_252_output_limb_3_col35"
+            "State": "cube_252_output_limb_3_col36"
           },
           {
-            "State": "cube_252_output_limb_4_col36"
+            "State": "cube_252_output_limb_4_col37"
           },
           {
-            "State": "cube_252_output_limb_5_col37"
+            "State": "cube_252_output_limb_5_col38"
           },
           {
-            "State": "cube_252_output_limb_6_col38"
+            "State": "cube_252_output_limb_6_col39"
           },
           {
-            "State": "cube_252_output_limb_7_col39"
+            "State": "cube_252_output_limb_7_col40"
           },
           {
-            "State": "cube_252_output_limb_8_col40"
+            "State": "cube_252_output_limb_8_col41"
           },
           {
-            "State": "cube_252_output_limb_9_col41"
+            "State": "cube_252_output_limb_9_col42"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -425,72 +446,69 @@
             ]
           },
           {
-            "State": "input_limb_12_col12"
+            "State": "input_limb_12_col13"
           },
           {
-            "State": "input_limb_13_col13"
+            "State": "input_limb_13_col14"
           },
           {
-            "State": "input_limb_14_col14"
+            "State": "input_limb_14_col15"
           },
           {
-            "State": "input_limb_15_col15"
+            "State": "input_limb_15_col16"
           },
           {
-            "State": "input_limb_16_col16"
+            "State": "input_limb_16_col17"
           },
           {
-            "State": "input_limb_17_col17"
+            "State": "input_limb_17_col18"
           },
           {
-            "State": "input_limb_18_col18"
+            "State": "input_limb_18_col19"
           },
           {
-            "State": "input_limb_19_col19"
+            "State": "input_limb_19_col20"
           },
           {
-            "State": "input_limb_20_col20"
+            "State": "input_limb_20_col21"
           },
           {
-            "State": "input_limb_21_col21"
+            "State": "input_limb_21_col22"
           },
           {
-            "State": "cube_252_output_limb_0_col42"
+            "State": "cube_252_output_limb_0_col43"
           },
           {
-            "State": "cube_252_output_limb_1_col43"
+            "State": "cube_252_output_limb_1_col44"
           },
           {
-            "State": "cube_252_output_limb_2_col44"
+            "State": "cube_252_output_limb_2_col45"
           },
           {
-            "State": "cube_252_output_limb_3_col45"
+            "State": "cube_252_output_limb_3_col46"
           },
           {
-            "State": "cube_252_output_limb_4_col46"
+            "State": "cube_252_output_limb_4_col47"
           },
           {
-            "State": "cube_252_output_limb_5_col47"
+            "State": "cube_252_output_limb_5_col48"
           },
           {
-            "State": "cube_252_output_limb_6_col48"
+            "State": "cube_252_output_limb_6_col49"
           },
           {
-            "State": "cube_252_output_limb_7_col49"
+            "State": "cube_252_output_limb_7_col50"
           },
           {
-            "State": "cube_252_output_limb_8_col50"
+            "State": "cube_252_output_limb_8_col51"
           },
           {
-            "State": "cube_252_output_limb_9_col51"
+            "State": "cube_252_output_limb_9_col52"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -505,72 +523,69 @@
             ]
           },
           {
-            "State": "input_limb_22_col22"
+            "State": "input_limb_22_col23"
           },
           {
-            "State": "input_limb_23_col23"
+            "State": "input_limb_23_col24"
           },
           {
-            "State": "input_limb_24_col24"
+            "State": "input_limb_24_col25"
           },
           {
-            "State": "input_limb_25_col25"
+            "State": "input_limb_25_col26"
           },
           {
-            "State": "input_limb_26_col26"
+            "State": "input_limb_26_col27"
           },
           {
-            "State": "input_limb_27_col27"
+            "State": "input_limb_27_col28"
           },
           {
-            "State": "input_limb_28_col28"
+            "State": "input_limb_28_col29"
           },
           {
-            "State": "input_limb_29_col29"
+            "State": "input_limb_29_col30"
           },
           {
-            "State": "input_limb_30_col30"
+            "State": "input_limb_30_col31"
           },
           {
-            "State": "input_limb_31_col31"
+            "State": "input_limb_31_col32"
           },
           {
-            "State": "cube_252_output_limb_0_col52"
+            "State": "cube_252_output_limb_0_col53"
           },
           {
-            "State": "cube_252_output_limb_1_col53"
+            "State": "cube_252_output_limb_1_col54"
           },
           {
-            "State": "cube_252_output_limb_2_col54"
+            "State": "cube_252_output_limb_2_col55"
           },
           {
-            "State": "cube_252_output_limb_3_col55"
+            "State": "cube_252_output_limb_3_col56"
           },
           {
-            "State": "cube_252_output_limb_4_col56"
+            "State": "cube_252_output_limb_4_col57"
           },
           {
-            "State": "cube_252_output_limb_5_col57"
+            "State": "cube_252_output_limb_5_col58"
           },
           {
-            "State": "cube_252_output_limb_6_col58"
+            "State": "cube_252_output_limb_6_col59"
           },
           {
-            "State": "cube_252_output_limb_7_col59"
+            "State": "cube_252_output_limb_7_col60"
           },
           {
-            "State": "cube_252_output_limb_8_col60"
+            "State": "cube_252_output_limb_8_col61"
           },
           {
-            "State": "cube_252_output_limb_9_col61"
+            "State": "cube_252_output_limb_9_col62"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -585,105 +600,102 @@
             ]
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_limb_1_col2"
           },
           {
-            "State": "poseidon_round_keys_output_limb_0_col62"
+            "State": "poseidon_round_keys_output_limb_0_col63"
           },
           {
-            "State": "poseidon_round_keys_output_limb_1_col63"
+            "State": "poseidon_round_keys_output_limb_1_col64"
           },
           {
-            "State": "poseidon_round_keys_output_limb_2_col64"
+            "State": "poseidon_round_keys_output_limb_2_col65"
           },
           {
-            "State": "poseidon_round_keys_output_limb_3_col65"
+            "State": "poseidon_round_keys_output_limb_3_col66"
           },
           {
-            "State": "poseidon_round_keys_output_limb_4_col66"
+            "State": "poseidon_round_keys_output_limb_4_col67"
           },
           {
-            "State": "poseidon_round_keys_output_limb_5_col67"
+            "State": "poseidon_round_keys_output_limb_5_col68"
           },
           {
-            "State": "poseidon_round_keys_output_limb_6_col68"
+            "State": "poseidon_round_keys_output_limb_6_col69"
           },
           {
-            "State": "poseidon_round_keys_output_limb_7_col69"
+            "State": "poseidon_round_keys_output_limb_7_col70"
           },
           {
-            "State": "poseidon_round_keys_output_limb_8_col70"
+            "State": "poseidon_round_keys_output_limb_8_col71"
           },
           {
-            "State": "poseidon_round_keys_output_limb_9_col71"
+            "State": "poseidon_round_keys_output_limb_9_col72"
           },
           {
-            "State": "poseidon_round_keys_output_limb_10_col72"
+            "State": "poseidon_round_keys_output_limb_10_col73"
           },
           {
-            "State": "poseidon_round_keys_output_limb_11_col73"
+            "State": "poseidon_round_keys_output_limb_11_col74"
           },
           {
-            "State": "poseidon_round_keys_output_limb_12_col74"
+            "State": "poseidon_round_keys_output_limb_12_col75"
           },
           {
-            "State": "poseidon_round_keys_output_limb_13_col75"
+            "State": "poseidon_round_keys_output_limb_13_col76"
           },
           {
-            "State": "poseidon_round_keys_output_limb_14_col76"
+            "State": "poseidon_round_keys_output_limb_14_col77"
           },
           {
-            "State": "poseidon_round_keys_output_limb_15_col77"
+            "State": "poseidon_round_keys_output_limb_15_col78"
           },
           {
-            "State": "poseidon_round_keys_output_limb_16_col78"
+            "State": "poseidon_round_keys_output_limb_16_col79"
           },
           {
-            "State": "poseidon_round_keys_output_limb_17_col79"
+            "State": "poseidon_round_keys_output_limb_17_col80"
           },
           {
-            "State": "poseidon_round_keys_output_limb_18_col80"
+            "State": "poseidon_round_keys_output_limb_18_col81"
           },
           {
-            "State": "poseidon_round_keys_output_limb_19_col81"
+            "State": "poseidon_round_keys_output_limb_19_col82"
           },
           {
-            "State": "poseidon_round_keys_output_limb_20_col82"
+            "State": "poseidon_round_keys_output_limb_20_col83"
           },
           {
-            "State": "poseidon_round_keys_output_limb_21_col83"
+            "State": "poseidon_round_keys_output_limb_21_col84"
           },
           {
-            "State": "poseidon_round_keys_output_limb_22_col84"
+            "State": "poseidon_round_keys_output_limb_22_col85"
           },
           {
-            "State": "poseidon_round_keys_output_limb_23_col85"
+            "State": "poseidon_round_keys_output_limb_23_col86"
           },
           {
-            "State": "poseidon_round_keys_output_limb_24_col86"
+            "State": "poseidon_round_keys_output_limb_24_col87"
           },
           {
-            "State": "poseidon_round_keys_output_limb_25_col87"
+            "State": "poseidon_round_keys_output_limb_25_col88"
           },
           {
-            "State": "poseidon_round_keys_output_limb_26_col88"
+            "State": "poseidon_round_keys_output_limb_26_col89"
           },
           {
-            "State": "poseidon_round_keys_output_limb_27_col89"
+            "State": "poseidon_round_keys_output_limb_27_col90"
           },
           {
-            "State": "poseidon_round_keys_output_limb_28_col90"
+            "State": "poseidon_round_keys_output_limb_28_col91"
           },
           {
-            "State": "poseidon_round_keys_output_limb_29_col91"
+            "State": "poseidon_round_keys_output_limb_29_col92"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -697,159 +709,162 @@
               {
                 "Array": [
                   {
-                    "State": "cube_252_output_limb_0_col32"
+                    "State": "cube_252_output_limb_0_col33"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col33"
+                    "State": "cube_252_output_limb_1_col34"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col34"
+                    "State": "cube_252_output_limb_2_col35"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col35"
+                    "State": "cube_252_output_limb_3_col36"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col36"
+                    "State": "cube_252_output_limb_4_col37"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col37"
+                    "State": "cube_252_output_limb_5_col38"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col38"
+                    "State": "cube_252_output_limb_6_col39"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col39"
+                    "State": "cube_252_output_limb_7_col40"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col40"
+                    "State": "cube_252_output_limb_8_col41"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col41"
+                    "State": "cube_252_output_limb_9_col42"
                   },
                   {
-                    "State": "cube_252_output_limb_0_col42"
+                    "State": "cube_252_output_limb_0_col43"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col43"
+                    "State": "cube_252_output_limb_1_col44"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col44"
+                    "State": "cube_252_output_limb_2_col45"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col45"
+                    "State": "cube_252_output_limb_3_col46"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col46"
+                    "State": "cube_252_output_limb_4_col47"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col47"
+                    "State": "cube_252_output_limb_5_col48"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col48"
+                    "State": "cube_252_output_limb_6_col49"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col49"
+                    "State": "cube_252_output_limb_7_col50"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col50"
+                    "State": "cube_252_output_limb_8_col51"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col51"
+                    "State": "cube_252_output_limb_9_col52"
                   },
                   {
-                    "State": "cube_252_output_limb_0_col52"
+                    "State": "cube_252_output_limb_0_col53"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col53"
+                    "State": "cube_252_output_limb_1_col54"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col54"
+                    "State": "cube_252_output_limb_2_col55"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col55"
+                    "State": "cube_252_output_limb_3_col56"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col56"
+                    "State": "cube_252_output_limb_4_col57"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col57"
+                    "State": "cube_252_output_limb_5_col58"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col58"
+                    "State": "cube_252_output_limb_6_col59"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col59"
+                    "State": "cube_252_output_limb_7_col60"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col60"
+                    "State": "cube_252_output_limb_8_col61"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col61"
+                    "State": "cube_252_output_limb_9_col62"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_0_col62"
+                    "State": "poseidon_round_keys_output_limb_0_col63"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_1_col63"
+                    "State": "poseidon_round_keys_output_limb_1_col64"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_2_col64"
+                    "State": "poseidon_round_keys_output_limb_2_col65"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_3_col65"
+                    "State": "poseidon_round_keys_output_limb_3_col66"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_4_col66"
+                    "State": "poseidon_round_keys_output_limb_4_col67"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_5_col67"
+                    "State": "poseidon_round_keys_output_limb_5_col68"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_6_col68"
+                    "State": "poseidon_round_keys_output_limb_6_col69"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_7_col69"
+                    "State": "poseidon_round_keys_output_limb_7_col70"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_8_col70"
+                    "State": "poseidon_round_keys_output_limb_8_col71"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_9_col71"
+                    "State": "poseidon_round_keys_output_limb_9_col72"
                   }
                 ]
               },
               {
-                "State": "combination_limb_0_col92"
+                "State": "enabler_col0"
               },
               {
-                "State": "combination_limb_1_col93"
+                "State": "combination_limb_0_col93"
               },
               {
-                "State": "combination_limb_2_col94"
+                "State": "combination_limb_1_col94"
               },
               {
-                "State": "combination_limb_3_col95"
+                "State": "combination_limb_2_col95"
               },
               {
-                "State": "combination_limb_4_col96"
+                "State": "combination_limb_3_col96"
               },
               {
-                "State": "combination_limb_5_col97"
+                "State": "combination_limb_4_col97"
               },
               {
-                "State": "combination_limb_6_col98"
+                "State": "combination_limb_5_col98"
               },
               {
-                "State": "combination_limb_7_col99"
+                "State": "combination_limb_6_col99"
               },
               {
-                "State": "combination_limb_8_col100"
+                "State": "combination_limb_7_col100"
               },
               {
-                "State": "combination_limb_9_col101"
+                "State": "combination_limb_8_col101"
               },
               {
-                "State": "p_coef_col102"
+                "State": "combination_limb_9_col102"
+              },
+              {
+                "State": "p_coef_col103"
               }
             ]
           ]
@@ -866,159 +881,162 @@
               {
                 "Array": [
                   {
-                    "State": "cube_252_output_limb_0_col32"
+                    "State": "cube_252_output_limb_0_col33"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col33"
+                    "State": "cube_252_output_limb_1_col34"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col34"
+                    "State": "cube_252_output_limb_2_col35"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col35"
+                    "State": "cube_252_output_limb_3_col36"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col36"
+                    "State": "cube_252_output_limb_4_col37"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col37"
+                    "State": "cube_252_output_limb_5_col38"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col38"
+                    "State": "cube_252_output_limb_6_col39"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col39"
+                    "State": "cube_252_output_limb_7_col40"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col40"
+                    "State": "cube_252_output_limb_8_col41"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col41"
+                    "State": "cube_252_output_limb_9_col42"
                   },
                   {
-                    "State": "cube_252_output_limb_0_col42"
+                    "State": "cube_252_output_limb_0_col43"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col43"
+                    "State": "cube_252_output_limb_1_col44"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col44"
+                    "State": "cube_252_output_limb_2_col45"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col45"
+                    "State": "cube_252_output_limb_3_col46"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col46"
+                    "State": "cube_252_output_limb_4_col47"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col47"
+                    "State": "cube_252_output_limb_5_col48"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col48"
+                    "State": "cube_252_output_limb_6_col49"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col49"
+                    "State": "cube_252_output_limb_7_col50"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col50"
+                    "State": "cube_252_output_limb_8_col51"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col51"
+                    "State": "cube_252_output_limb_9_col52"
                   },
                   {
-                    "State": "cube_252_output_limb_0_col52"
+                    "State": "cube_252_output_limb_0_col53"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col53"
+                    "State": "cube_252_output_limb_1_col54"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col54"
+                    "State": "cube_252_output_limb_2_col55"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col55"
+                    "State": "cube_252_output_limb_3_col56"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col56"
+                    "State": "cube_252_output_limb_4_col57"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col57"
+                    "State": "cube_252_output_limb_5_col58"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col58"
+                    "State": "cube_252_output_limb_6_col59"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col59"
+                    "State": "cube_252_output_limb_7_col60"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col60"
+                    "State": "cube_252_output_limb_8_col61"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col61"
+                    "State": "cube_252_output_limb_9_col62"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_10_col72"
+                    "State": "poseidon_round_keys_output_limb_10_col73"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_11_col73"
+                    "State": "poseidon_round_keys_output_limb_11_col74"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_12_col74"
+                    "State": "poseidon_round_keys_output_limb_12_col75"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_13_col75"
+                    "State": "poseidon_round_keys_output_limb_13_col76"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_14_col76"
+                    "State": "poseidon_round_keys_output_limb_14_col77"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_15_col77"
+                    "State": "poseidon_round_keys_output_limb_15_col78"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_16_col78"
+                    "State": "poseidon_round_keys_output_limb_16_col79"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_17_col79"
+                    "State": "poseidon_round_keys_output_limb_17_col80"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_18_col80"
+                    "State": "poseidon_round_keys_output_limb_18_col81"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_19_col81"
+                    "State": "poseidon_round_keys_output_limb_19_col82"
                   }
                 ]
               },
               {
-                "State": "combination_limb_0_col103"
+                "State": "enabler_col0"
               },
               {
-                "State": "combination_limb_1_col104"
+                "State": "combination_limb_0_col104"
               },
               {
-                "State": "combination_limb_2_col105"
+                "State": "combination_limb_1_col105"
               },
               {
-                "State": "combination_limb_3_col106"
+                "State": "combination_limb_2_col106"
               },
               {
-                "State": "combination_limb_4_col107"
+                "State": "combination_limb_3_col107"
               },
               {
-                "State": "combination_limb_5_col108"
+                "State": "combination_limb_4_col108"
               },
               {
-                "State": "combination_limb_6_col109"
+                "State": "combination_limb_5_col109"
               },
               {
-                "State": "combination_limb_7_col110"
+                "State": "combination_limb_6_col110"
               },
               {
-                "State": "combination_limb_8_col111"
+                "State": "combination_limb_7_col111"
               },
               {
-                "State": "combination_limb_9_col112"
+                "State": "combination_limb_8_col112"
               },
               {
-                "State": "p_coef_col113"
+                "State": "combination_limb_9_col113"
+              },
+              {
+                "State": "p_coef_col114"
               }
             ]
           ]
@@ -1035,159 +1053,162 @@
               {
                 "Array": [
                   {
-                    "State": "cube_252_output_limb_0_col32"
+                    "State": "cube_252_output_limb_0_col33"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col33"
+                    "State": "cube_252_output_limb_1_col34"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col34"
+                    "State": "cube_252_output_limb_2_col35"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col35"
+                    "State": "cube_252_output_limb_3_col36"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col36"
+                    "State": "cube_252_output_limb_4_col37"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col37"
+                    "State": "cube_252_output_limb_5_col38"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col38"
+                    "State": "cube_252_output_limb_6_col39"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col39"
+                    "State": "cube_252_output_limb_7_col40"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col40"
+                    "State": "cube_252_output_limb_8_col41"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col41"
+                    "State": "cube_252_output_limb_9_col42"
                   },
                   {
-                    "State": "cube_252_output_limb_0_col42"
+                    "State": "cube_252_output_limb_0_col43"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col43"
+                    "State": "cube_252_output_limb_1_col44"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col44"
+                    "State": "cube_252_output_limb_2_col45"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col45"
+                    "State": "cube_252_output_limb_3_col46"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col46"
+                    "State": "cube_252_output_limb_4_col47"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col47"
+                    "State": "cube_252_output_limb_5_col48"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col48"
+                    "State": "cube_252_output_limb_6_col49"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col49"
+                    "State": "cube_252_output_limb_7_col50"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col50"
+                    "State": "cube_252_output_limb_8_col51"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col51"
+                    "State": "cube_252_output_limb_9_col52"
                   },
                   {
-                    "State": "cube_252_output_limb_0_col52"
+                    "State": "cube_252_output_limb_0_col53"
                   },
                   {
-                    "State": "cube_252_output_limb_1_col53"
+                    "State": "cube_252_output_limb_1_col54"
                   },
                   {
-                    "State": "cube_252_output_limb_2_col54"
+                    "State": "cube_252_output_limb_2_col55"
                   },
                   {
-                    "State": "cube_252_output_limb_3_col55"
+                    "State": "cube_252_output_limb_3_col56"
                   },
                   {
-                    "State": "cube_252_output_limb_4_col56"
+                    "State": "cube_252_output_limb_4_col57"
                   },
                   {
-                    "State": "cube_252_output_limb_5_col57"
+                    "State": "cube_252_output_limb_5_col58"
                   },
                   {
-                    "State": "cube_252_output_limb_6_col58"
+                    "State": "cube_252_output_limb_6_col59"
                   },
                   {
-                    "State": "cube_252_output_limb_7_col59"
+                    "State": "cube_252_output_limb_7_col60"
                   },
                   {
-                    "State": "cube_252_output_limb_8_col60"
+                    "State": "cube_252_output_limb_8_col61"
                   },
                   {
-                    "State": "cube_252_output_limb_9_col61"
+                    "State": "cube_252_output_limb_9_col62"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_20_col82"
+                    "State": "poseidon_round_keys_output_limb_20_col83"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_21_col83"
+                    "State": "poseidon_round_keys_output_limb_21_col84"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_22_col84"
+                    "State": "poseidon_round_keys_output_limb_22_col85"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_23_col85"
+                    "State": "poseidon_round_keys_output_limb_23_col86"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_24_col86"
+                    "State": "poseidon_round_keys_output_limb_24_col87"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_25_col87"
+                    "State": "poseidon_round_keys_output_limb_25_col88"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_26_col88"
+                    "State": "poseidon_round_keys_output_limb_26_col89"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_27_col89"
+                    "State": "poseidon_round_keys_output_limb_27_col90"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_28_col90"
+                    "State": "poseidon_round_keys_output_limb_28_col91"
                   },
                   {
-                    "State": "poseidon_round_keys_output_limb_29_col91"
+                    "State": "poseidon_round_keys_output_limb_29_col92"
                   }
                 ]
               },
               {
-                "State": "combination_limb_0_col114"
+                "State": "enabler_col0"
               },
               {
-                "State": "combination_limb_1_col115"
+                "State": "combination_limb_0_col115"
               },
               {
-                "State": "combination_limb_2_col116"
+                "State": "combination_limb_1_col116"
               },
               {
-                "State": "combination_limb_3_col117"
+                "State": "combination_limb_2_col117"
               },
               {
-                "State": "combination_limb_4_col118"
+                "State": "combination_limb_3_col118"
               },
               {
-                "State": "combination_limb_5_col119"
+                "State": "combination_limb_4_col119"
               },
               {
-                "State": "combination_limb_6_col120"
+                "State": "combination_limb_5_col120"
               },
               {
-                "State": "combination_limb_7_col121"
+                "State": "combination_limb_6_col121"
               },
               {
-                "State": "combination_limb_8_col122"
+                "State": "combination_limb_7_col122"
               },
               {
-                "State": "combination_limb_9_col123"
+                "State": "combination_limb_8_col123"
               },
               {
-                "State": "p_coef_col124"
+                "State": "combination_limb_9_col124"
+              },
+              {
+                "State": "p_coef_col125"
               }
             ]
           ]
@@ -1195,30 +1216,6 @@
       }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col125"
-                },
-                "*",
-                {
-                  "State": "enabler_col125"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col125"
-            }
-          ]
-        },
-        "Enabler is a bit"
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "PoseidonFullRoundChain",
         "felts": [
@@ -1229,105 +1226,105 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_limb_1_col2"
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_limb_2_col3"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_limb_3_col4"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_limb_4_col5"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_limb_5_col6"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_limb_6_col7"
           },
           {
-            "State": "input_limb_7_col7"
+            "State": "input_limb_7_col8"
           },
           {
-            "State": "input_limb_8_col8"
+            "State": "input_limb_8_col9"
           },
           {
-            "State": "input_limb_9_col9"
+            "State": "input_limb_9_col10"
           },
           {
-            "State": "input_limb_10_col10"
+            "State": "input_limb_10_col11"
           },
           {
-            "State": "input_limb_11_col11"
+            "State": "input_limb_11_col12"
           },
           {
-            "State": "input_limb_12_col12"
+            "State": "input_limb_12_col13"
           },
           {
-            "State": "input_limb_13_col13"
+            "State": "input_limb_13_col14"
           },
           {
-            "State": "input_limb_14_col14"
+            "State": "input_limb_14_col15"
           },
           {
-            "State": "input_limb_15_col15"
+            "State": "input_limb_15_col16"
           },
           {
-            "State": "input_limb_16_col16"
+            "State": "input_limb_16_col17"
           },
           {
-            "State": "input_limb_17_col17"
+            "State": "input_limb_17_col18"
           },
           {
-            "State": "input_limb_18_col18"
+            "State": "input_limb_18_col19"
           },
           {
-            "State": "input_limb_19_col19"
+            "State": "input_limb_19_col20"
           },
           {
-            "State": "input_limb_20_col20"
+            "State": "input_limb_20_col21"
           },
           {
-            "State": "input_limb_21_col21"
+            "State": "input_limb_21_col22"
           },
           {
-            "State": "input_limb_22_col22"
+            "State": "input_limb_22_col23"
           },
           {
-            "State": "input_limb_23_col23"
+            "State": "input_limb_23_col24"
           },
           {
-            "State": "input_limb_24_col24"
+            "State": "input_limb_24_col25"
           },
           {
-            "State": "input_limb_25_col25"
+            "State": "input_limb_25_col26"
           },
           {
-            "State": "input_limb_26_col26"
+            "State": "input_limb_26_col27"
           },
           {
-            "State": "input_limb_27_col27"
+            "State": "input_limb_27_col28"
           },
           {
-            "State": "input_limb_28_col28"
+            "State": "input_limb_28_col29"
           },
           {
-            "State": "input_limb_29_col29"
+            "State": "input_limb_29_col30"
           },
           {
-            "State": "input_limb_30_col30"
+            "State": "input_limb_30_col31"
           },
           {
-            "State": "input_limb_31_col31"
+            "State": "input_limb_31_col32"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "State": "enabler_col125"
+          "State": "enabler_col0"
         }
       }
     },
@@ -1342,12 +1339,12 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
             "BinaryOp": [
               {
-                "State": "input_limb_1_col1"
+                "State": "input_limb_1_col2"
               },
               "+",
               {
@@ -1359,104 +1356,107 @@
             ]
           },
           {
-            "State": "combination_limb_0_col92"
+            "State": "combination_limb_0_col93"
           },
           {
-            "State": "combination_limb_1_col93"
+            "State": "combination_limb_1_col94"
           },
           {
-            "State": "combination_limb_2_col94"
+            "State": "combination_limb_2_col95"
           },
           {
-            "State": "combination_limb_3_col95"
+            "State": "combination_limb_3_col96"
           },
           {
-            "State": "combination_limb_4_col96"
+            "State": "combination_limb_4_col97"
           },
           {
-            "State": "combination_limb_5_col97"
+            "State": "combination_limb_5_col98"
           },
           {
-            "State": "combination_limb_6_col98"
+            "State": "combination_limb_6_col99"
           },
           {
-            "State": "combination_limb_7_col99"
+            "State": "combination_limb_7_col100"
           },
           {
-            "State": "combination_limb_8_col100"
+            "State": "combination_limb_8_col101"
           },
           {
-            "State": "combination_limb_9_col101"
+            "State": "combination_limb_9_col102"
           },
           {
-            "State": "combination_limb_0_col103"
+            "State": "combination_limb_0_col104"
           },
           {
-            "State": "combination_limb_1_col104"
+            "State": "combination_limb_1_col105"
           },
           {
-            "State": "combination_limb_2_col105"
+            "State": "combination_limb_2_col106"
           },
           {
-            "State": "combination_limb_3_col106"
+            "State": "combination_limb_3_col107"
           },
           {
-            "State": "combination_limb_4_col107"
+            "State": "combination_limb_4_col108"
           },
           {
-            "State": "combination_limb_5_col108"
+            "State": "combination_limb_5_col109"
           },
           {
-            "State": "combination_limb_6_col109"
+            "State": "combination_limb_6_col110"
           },
           {
-            "State": "combination_limb_7_col110"
+            "State": "combination_limb_7_col111"
           },
           {
-            "State": "combination_limb_8_col111"
+            "State": "combination_limb_8_col112"
           },
           {
-            "State": "combination_limb_9_col112"
+            "State": "combination_limb_9_col113"
           },
           {
-            "State": "combination_limb_0_col114"
+            "State": "combination_limb_0_col115"
           },
           {
-            "State": "combination_limb_1_col115"
+            "State": "combination_limb_1_col116"
           },
           {
-            "State": "combination_limb_2_col116"
+            "State": "combination_limb_2_col117"
           },
           {
-            "State": "combination_limb_3_col117"
+            "State": "combination_limb_3_col118"
           },
           {
-            "State": "combination_limb_4_col118"
+            "State": "combination_limb_4_col119"
           },
           {
-            "State": "combination_limb_5_col119"
+            "State": "combination_limb_5_col120"
           },
           {
-            "State": "combination_limb_6_col120"
+            "State": "combination_limb_6_col121"
           },
           {
-            "State": "combination_limb_7_col121"
+            "State": "combination_limb_7_col122"
           },
           {
-            "State": "combination_limb_8_col122"
+            "State": "combination_limb_8_col123"
           },
           {
-            "State": "combination_limb_9_col123"
+            "State": "combination_limb_9_col124"
           }
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col125"
+          "State": "enabler_col0"
         }
       }
     }
   ],
   "deductions": [
+    {
+      "Deduction": "Enabler"
+    },
     {
       "Deduction": {
         "Var": [
@@ -2354,72 +2354,69 @@
             ]
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_limb_2_col3"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_limb_3_col4"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_limb_4_col5"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_limb_5_col6"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_limb_6_col7"
           },
           {
-            "State": "input_limb_7_col7"
+            "State": "input_limb_7_col8"
           },
           {
-            "State": "input_limb_8_col8"
+            "State": "input_limb_8_col9"
           },
           {
-            "State": "input_limb_9_col9"
+            "State": "input_limb_9_col10"
           },
           {
-            "State": "input_limb_10_col10"
+            "State": "input_limb_10_col11"
           },
           {
-            "State": "input_limb_11_col11"
+            "State": "input_limb_11_col12"
           },
           {
-            "State": "cube_252_output_limb_0_col32"
+            "State": "cube_252_output_limb_0_col33"
           },
           {
-            "State": "cube_252_output_limb_1_col33"
+            "State": "cube_252_output_limb_1_col34"
           },
           {
-            "State": "cube_252_output_limb_2_col34"
+            "State": "cube_252_output_limb_2_col35"
           },
           {
-            "State": "cube_252_output_limb_3_col35"
+            "State": "cube_252_output_limb_3_col36"
           },
           {
-            "State": "cube_252_output_limb_4_col36"
+            "State": "cube_252_output_limb_4_col37"
           },
           {
-            "State": "cube_252_output_limb_5_col37"
+            "State": "cube_252_output_limb_5_col38"
           },
           {
-            "State": "cube_252_output_limb_6_col38"
+            "State": "cube_252_output_limb_6_col39"
           },
           {
-            "State": "cube_252_output_limb_7_col39"
+            "State": "cube_252_output_limb_7_col40"
           },
           {
-            "State": "cube_252_output_limb_8_col40"
+            "State": "cube_252_output_limb_8_col41"
           },
           {
-            "State": "cube_252_output_limb_9_col41"
+            "State": "cube_252_output_limb_9_col42"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -2674,72 +2671,69 @@
             ]
           },
           {
-            "State": "input_limb_12_col12"
+            "State": "input_limb_12_col13"
           },
           {
-            "State": "input_limb_13_col13"
+            "State": "input_limb_13_col14"
           },
           {
-            "State": "input_limb_14_col14"
+            "State": "input_limb_14_col15"
           },
           {
-            "State": "input_limb_15_col15"
+            "State": "input_limb_15_col16"
           },
           {
-            "State": "input_limb_16_col16"
+            "State": "input_limb_16_col17"
           },
           {
-            "State": "input_limb_17_col17"
+            "State": "input_limb_17_col18"
           },
           {
-            "State": "input_limb_18_col18"
+            "State": "input_limb_18_col19"
           },
           {
-            "State": "input_limb_19_col19"
+            "State": "input_limb_19_col20"
           },
           {
-            "State": "input_limb_20_col20"
+            "State": "input_limb_20_col21"
           },
           {
-            "State": "input_limb_21_col21"
+            "State": "input_limb_21_col22"
           },
           {
-            "State": "cube_252_output_limb_0_col42"
+            "State": "cube_252_output_limb_0_col43"
           },
           {
-            "State": "cube_252_output_limb_1_col43"
+            "State": "cube_252_output_limb_1_col44"
           },
           {
-            "State": "cube_252_output_limb_2_col44"
+            "State": "cube_252_output_limb_2_col45"
           },
           {
-            "State": "cube_252_output_limb_3_col45"
+            "State": "cube_252_output_limb_3_col46"
           },
           {
-            "State": "cube_252_output_limb_4_col46"
+            "State": "cube_252_output_limb_4_col47"
           },
           {
-            "State": "cube_252_output_limb_5_col47"
+            "State": "cube_252_output_limb_5_col48"
           },
           {
-            "State": "cube_252_output_limb_6_col48"
+            "State": "cube_252_output_limb_6_col49"
           },
           {
-            "State": "cube_252_output_limb_7_col49"
+            "State": "cube_252_output_limb_7_col50"
           },
           {
-            "State": "cube_252_output_limb_8_col50"
+            "State": "cube_252_output_limb_8_col51"
           },
           {
-            "State": "cube_252_output_limb_9_col51"
+            "State": "cube_252_output_limb_9_col52"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -2994,72 +2988,69 @@
             ]
           },
           {
-            "State": "input_limb_22_col22"
+            "State": "input_limb_22_col23"
           },
           {
-            "State": "input_limb_23_col23"
+            "State": "input_limb_23_col24"
           },
           {
-            "State": "input_limb_24_col24"
+            "State": "input_limb_24_col25"
           },
           {
-            "State": "input_limb_25_col25"
+            "State": "input_limb_25_col26"
           },
           {
-            "State": "input_limb_26_col26"
+            "State": "input_limb_26_col27"
           },
           {
-            "State": "input_limb_27_col27"
+            "State": "input_limb_27_col28"
           },
           {
-            "State": "input_limb_28_col28"
+            "State": "input_limb_28_col29"
           },
           {
-            "State": "input_limb_29_col29"
+            "State": "input_limb_29_col30"
           },
           {
-            "State": "input_limb_30_col30"
+            "State": "input_limb_30_col31"
           },
           {
-            "State": "input_limb_31_col31"
+            "State": "input_limb_31_col32"
           },
           {
-            "State": "cube_252_output_limb_0_col52"
+            "State": "cube_252_output_limb_0_col53"
           },
           {
-            "State": "cube_252_output_limb_1_col53"
+            "State": "cube_252_output_limb_1_col54"
           },
           {
-            "State": "cube_252_output_limb_2_col54"
+            "State": "cube_252_output_limb_2_col55"
           },
           {
-            "State": "cube_252_output_limb_3_col55"
+            "State": "cube_252_output_limb_3_col56"
           },
           {
-            "State": "cube_252_output_limb_4_col56"
+            "State": "cube_252_output_limb_4_col57"
           },
           {
-            "State": "cube_252_output_limb_5_col57"
+            "State": "cube_252_output_limb_5_col58"
           },
           {
-            "State": "cube_252_output_limb_6_col58"
+            "State": "cube_252_output_limb_6_col59"
           },
           {
-            "State": "cube_252_output_limb_7_col59"
+            "State": "cube_252_output_limb_7_col60"
           },
           {
-            "State": "cube_252_output_limb_8_col60"
+            "State": "cube_252_output_limb_8_col61"
           },
           {
-            "State": "cube_252_output_limb_9_col61"
+            "State": "cube_252_output_limb_9_col62"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -3069,7 +3060,7 @@
         "input": {
           "Array": [
             {
-              "State": "input_limb_1_col1"
+              "State": "input_limb_1_col2"
             }
           ]
         }
@@ -3086,7 +3077,7 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_1_col1"
+                    "State": "input_limb_1_col2"
                   }
                 ]
               }
@@ -3736,105 +3727,102 @@
             ]
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_limb_1_col2"
           },
           {
-            "State": "poseidon_round_keys_output_limb_0_col62"
+            "State": "poseidon_round_keys_output_limb_0_col63"
           },
           {
-            "State": "poseidon_round_keys_output_limb_1_col63"
+            "State": "poseidon_round_keys_output_limb_1_col64"
           },
           {
-            "State": "poseidon_round_keys_output_limb_2_col64"
+            "State": "poseidon_round_keys_output_limb_2_col65"
           },
           {
-            "State": "poseidon_round_keys_output_limb_3_col65"
+            "State": "poseidon_round_keys_output_limb_3_col66"
           },
           {
-            "State": "poseidon_round_keys_output_limb_4_col66"
+            "State": "poseidon_round_keys_output_limb_4_col67"
           },
           {
-            "State": "poseidon_round_keys_output_limb_5_col67"
+            "State": "poseidon_round_keys_output_limb_5_col68"
           },
           {
-            "State": "poseidon_round_keys_output_limb_6_col68"
+            "State": "poseidon_round_keys_output_limb_6_col69"
           },
           {
-            "State": "poseidon_round_keys_output_limb_7_col69"
+            "State": "poseidon_round_keys_output_limb_7_col70"
           },
           {
-            "State": "poseidon_round_keys_output_limb_8_col70"
+            "State": "poseidon_round_keys_output_limb_8_col71"
           },
           {
-            "State": "poseidon_round_keys_output_limb_9_col71"
+            "State": "poseidon_round_keys_output_limb_9_col72"
           },
           {
-            "State": "poseidon_round_keys_output_limb_10_col72"
+            "State": "poseidon_round_keys_output_limb_10_col73"
           },
           {
-            "State": "poseidon_round_keys_output_limb_11_col73"
+            "State": "poseidon_round_keys_output_limb_11_col74"
           },
           {
-            "State": "poseidon_round_keys_output_limb_12_col74"
+            "State": "poseidon_round_keys_output_limb_12_col75"
           },
           {
-            "State": "poseidon_round_keys_output_limb_13_col75"
+            "State": "poseidon_round_keys_output_limb_13_col76"
           },
           {
-            "State": "poseidon_round_keys_output_limb_14_col76"
+            "State": "poseidon_round_keys_output_limb_14_col77"
           },
           {
-            "State": "poseidon_round_keys_output_limb_15_col77"
+            "State": "poseidon_round_keys_output_limb_15_col78"
           },
           {
-            "State": "poseidon_round_keys_output_limb_16_col78"
+            "State": "poseidon_round_keys_output_limb_16_col79"
           },
           {
-            "State": "poseidon_round_keys_output_limb_17_col79"
+            "State": "poseidon_round_keys_output_limb_17_col80"
           },
           {
-            "State": "poseidon_round_keys_output_limb_18_col80"
+            "State": "poseidon_round_keys_output_limb_18_col81"
           },
           {
-            "State": "poseidon_round_keys_output_limb_19_col81"
+            "State": "poseidon_round_keys_output_limb_19_col82"
           },
           {
-            "State": "poseidon_round_keys_output_limb_20_col82"
+            "State": "poseidon_round_keys_output_limb_20_col83"
           },
           {
-            "State": "poseidon_round_keys_output_limb_21_col83"
+            "State": "poseidon_round_keys_output_limb_21_col84"
           },
           {
-            "State": "poseidon_round_keys_output_limb_22_col84"
+            "State": "poseidon_round_keys_output_limb_22_col85"
           },
           {
-            "State": "poseidon_round_keys_output_limb_23_col85"
+            "State": "poseidon_round_keys_output_limb_23_col86"
           },
           {
-            "State": "poseidon_round_keys_output_limb_24_col86"
+            "State": "poseidon_round_keys_output_limb_24_col87"
           },
           {
-            "State": "poseidon_round_keys_output_limb_25_col87"
+            "State": "poseidon_round_keys_output_limb_25_col88"
           },
           {
-            "State": "poseidon_round_keys_output_limb_26_col88"
+            "State": "poseidon_round_keys_output_limb_26_col89"
           },
           {
-            "State": "poseidon_round_keys_output_limb_27_col89"
+            "State": "poseidon_round_keys_output_limb_27_col90"
           },
           {
-            "State": "poseidon_round_keys_output_limb_28_col90"
+            "State": "poseidon_round_keys_output_limb_28_col91"
           },
           {
-            "State": "poseidon_round_keys_output_limb_29_col91"
+            "State": "poseidon_round_keys_output_limb_29_col92"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -4214,31 +4202,31 @@
                                       },
                                       "*",
                                       {
-                                        "State": "cube_252_output_limb_0_col32"
+                                        "State": "cube_252_output_limb_0_col33"
                                       }
                                     ]
                                   },
                                   "+",
                                   {
-                                    "State": "cube_252_output_limb_0_col42"
+                                    "State": "cube_252_output_limb_0_col43"
                                   }
                                 ]
                               },
                               "+",
                               {
-                                "State": "cube_252_output_limb_0_col52"
+                                "State": "cube_252_output_limb_0_col53"
                               }
                             ]
                           },
                           "+",
                           {
-                            "State": "poseidon_round_keys_output_limb_0_col62"
+                            "State": "poseidon_round_keys_output_limb_0_col63"
                           }
                         ]
                       },
                       "-",
                       {
-                        "State": "combination_limb_0_col92"
+                        "State": "combination_limb_0_col93"
                       }
                     ]
                   },
@@ -4313,37 +4301,37 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_0_col32"
+                                      "State": "cube_252_output_limb_0_col33"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_0_col42"
+                                  "State": "cube_252_output_limb_0_col43"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_0_col52"
+                              "State": "cube_252_output_limb_0_col53"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "poseidon_round_keys_output_limb_0_col62"
+                          "State": "poseidon_round_keys_output_limb_0_col63"
                         }
                       ]
                     },
                     "-",
                     {
-                      "State": "combination_limb_0_col92"
+                      "State": "combination_limb_0_col93"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "p_coef_col102"
+                  "State": "p_coef_col103"
                 }
               ]
             },
@@ -4391,7 +4379,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_1_col33"
+                                      "State": "cube_252_output_limb_1_col34"
                                     }
                                   ]
                                 }
@@ -4399,25 +4387,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_1_col43"
+                              "State": "cube_252_output_limb_1_col44"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_1_col53"
+                          "State": "cube_252_output_limb_1_col54"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_1_col63"
+                      "State": "poseidon_round_keys_output_limb_1_col64"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_1_col93"
+                  "State": "combination_limb_1_col94"
                 }
               ]
             },
@@ -4465,7 +4453,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_2_col34"
+                                      "State": "cube_252_output_limb_2_col35"
                                     }
                                   ]
                                 }
@@ -4473,25 +4461,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_2_col44"
+                              "State": "cube_252_output_limb_2_col45"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_2_col54"
+                          "State": "cube_252_output_limb_2_col55"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_2_col64"
+                      "State": "poseidon_round_keys_output_limb_2_col65"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_2_col94"
+                  "State": "combination_limb_2_col95"
                 }
               ]
             },
@@ -4539,7 +4527,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_3_col35"
+                                      "State": "cube_252_output_limb_3_col36"
                                     }
                                   ]
                                 }
@@ -4547,25 +4535,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_3_col45"
+                              "State": "cube_252_output_limb_3_col46"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_3_col55"
+                          "State": "cube_252_output_limb_3_col56"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_3_col65"
+                      "State": "poseidon_round_keys_output_limb_3_col66"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_3_col95"
+                  "State": "combination_limb_3_col96"
                 }
               ]
             },
@@ -4613,7 +4601,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_4_col36"
+                                      "State": "cube_252_output_limb_4_col37"
                                     }
                                   ]
                                 }
@@ -4621,25 +4609,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_4_col46"
+                              "State": "cube_252_output_limb_4_col47"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_4_col56"
+                          "State": "cube_252_output_limb_4_col57"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_4_col66"
+                      "State": "poseidon_round_keys_output_limb_4_col67"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_4_col96"
+                  "State": "combination_limb_4_col97"
                 }
               ]
             },
@@ -4687,7 +4675,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_5_col37"
+                                      "State": "cube_252_output_limb_5_col38"
                                     }
                                   ]
                                 }
@@ -4695,25 +4683,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_5_col47"
+                              "State": "cube_252_output_limb_5_col48"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_5_col57"
+                          "State": "cube_252_output_limb_5_col58"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_5_col67"
+                      "State": "poseidon_round_keys_output_limb_5_col68"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_5_col97"
+                  "State": "combination_limb_5_col98"
                 }
               ]
             },
@@ -4761,7 +4749,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_6_col38"
+                                      "State": "cube_252_output_limb_6_col39"
                                     }
                                   ]
                                 }
@@ -4769,25 +4757,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_6_col48"
+                              "State": "cube_252_output_limb_6_col49"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_6_col58"
+                          "State": "cube_252_output_limb_6_col59"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_6_col68"
+                      "State": "poseidon_round_keys_output_limb_6_col69"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_6_col98"
+                  "State": "combination_limb_6_col99"
                 }
               ]
             },
@@ -4837,7 +4825,7 @@
                                         },
                                         "*",
                                         {
-                                          "State": "cube_252_output_limb_7_col39"
+                                          "State": "cube_252_output_limb_7_col40"
                                         }
                                       ]
                                     }
@@ -4845,25 +4833,25 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_7_col49"
+                                  "State": "cube_252_output_limb_7_col50"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_7_col59"
+                              "State": "cube_252_output_limb_7_col60"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "poseidon_round_keys_output_limb_7_col69"
+                          "State": "poseidon_round_keys_output_limb_7_col70"
                         }
                       ]
                     },
                     "-",
                     {
-                      "State": "combination_limb_7_col99"
+                      "State": "combination_limb_7_col100"
                     }
                   ]
                 },
@@ -4871,7 +4859,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "p_coef_col102"
+                      "State": "p_coef_col103"
                     },
                     "*",
                     {
@@ -4928,7 +4916,7 @@
                                     },
                                     "*",
                                     {
-                                      "State": "cube_252_output_limb_8_col40"
+                                      "State": "cube_252_output_limb_8_col41"
                                     }
                                   ]
                                 }
@@ -4936,25 +4924,25 @@
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_8_col50"
+                              "State": "cube_252_output_limb_8_col51"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_8_col60"
+                          "State": "cube_252_output_limb_8_col61"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_8_col70"
+                      "State": "poseidon_round_keys_output_limb_8_col71"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_8_col100"
+                  "State": "combination_limb_8_col101"
                 }
               ]
             },
@@ -4977,7 +4965,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "p_coef_col102"
+                  "State": "p_coef_col103"
                 },
                 "+",
                 {
@@ -5073,7 +5061,7 @@
           {
             "BinaryOp": [
               {
-                "State": "p_coef_col102"
+                "State": "p_coef_col103"
               },
               "+",
               {
@@ -5155,10 +5143,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -5354,10 +5339,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -5741,29 +5723,29 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "State": "cube_252_output_limb_0_col32"
+                                    "State": "cube_252_output_limb_0_col33"
                                   },
                                   "-",
                                   {
-                                    "State": "cube_252_output_limb_0_col42"
+                                    "State": "cube_252_output_limb_0_col43"
                                   }
                                 ]
                               },
                               "+",
                               {
-                                "State": "cube_252_output_limb_0_col52"
+                                "State": "cube_252_output_limb_0_col53"
                               }
                             ]
                           },
                           "+",
                           {
-                            "State": "poseidon_round_keys_output_limb_10_col72"
+                            "State": "poseidon_round_keys_output_limb_10_col73"
                           }
                         ]
                       },
                       "-",
                       {
-                        "State": "combination_limb_0_col103"
+                        "State": "combination_limb_0_col104"
                       }
                     ]
                   },
@@ -5829,35 +5811,35 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "State": "cube_252_output_limb_0_col32"
+                                  "State": "cube_252_output_limb_0_col33"
                                 },
                                 "-",
                                 {
-                                  "State": "cube_252_output_limb_0_col42"
+                                  "State": "cube_252_output_limb_0_col43"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_0_col52"
+                              "State": "cube_252_output_limb_0_col53"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "poseidon_round_keys_output_limb_10_col72"
+                          "State": "poseidon_round_keys_output_limb_10_col73"
                         }
                       ]
                     },
                     "-",
                     {
-                      "State": "combination_limb_0_col103"
+                      "State": "combination_limb_0_col104"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "p_coef_col113"
+                  "State": "p_coef_col114"
                 }
               ]
             },
@@ -5896,31 +5878,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_1_col33"
+                                  "State": "cube_252_output_limb_1_col34"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_1_col43"
+                              "State": "cube_252_output_limb_1_col44"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_1_col53"
+                          "State": "cube_252_output_limb_1_col54"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_11_col73"
+                      "State": "poseidon_round_keys_output_limb_11_col74"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_1_col104"
+                  "State": "combination_limb_1_col105"
                 }
               ]
             },
@@ -5959,31 +5941,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_2_col34"
+                                  "State": "cube_252_output_limb_2_col35"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_2_col44"
+                              "State": "cube_252_output_limb_2_col45"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_2_col54"
+                          "State": "cube_252_output_limb_2_col55"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_12_col74"
+                      "State": "poseidon_round_keys_output_limb_12_col75"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_2_col105"
+                  "State": "combination_limb_2_col106"
                 }
               ]
             },
@@ -6022,31 +6004,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_3_col35"
+                                  "State": "cube_252_output_limb_3_col36"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_3_col45"
+                              "State": "cube_252_output_limb_3_col46"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_3_col55"
+                          "State": "cube_252_output_limb_3_col56"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_13_col75"
+                      "State": "poseidon_round_keys_output_limb_13_col76"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_3_col106"
+                  "State": "combination_limb_3_col107"
                 }
               ]
             },
@@ -6085,31 +6067,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_4_col36"
+                                  "State": "cube_252_output_limb_4_col37"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_4_col46"
+                              "State": "cube_252_output_limb_4_col47"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_4_col56"
+                          "State": "cube_252_output_limb_4_col57"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_14_col76"
+                      "State": "poseidon_round_keys_output_limb_14_col77"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_4_col107"
+                  "State": "combination_limb_4_col108"
                 }
               ]
             },
@@ -6148,31 +6130,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_5_col37"
+                                  "State": "cube_252_output_limb_5_col38"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_5_col47"
+                              "State": "cube_252_output_limb_5_col48"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_5_col57"
+                          "State": "cube_252_output_limb_5_col58"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_15_col77"
+                      "State": "poseidon_round_keys_output_limb_15_col78"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_5_col108"
+                  "State": "combination_limb_5_col109"
                 }
               ]
             },
@@ -6211,31 +6193,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_6_col38"
+                                  "State": "cube_252_output_limb_6_col39"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_6_col48"
+                              "State": "cube_252_output_limb_6_col49"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_6_col58"
+                          "State": "cube_252_output_limb_6_col59"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_16_col78"
+                      "State": "poseidon_round_keys_output_limb_16_col79"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_6_col109"
+                  "State": "combination_limb_6_col110"
                 }
               ]
             },
@@ -6276,31 +6258,31 @@
                                     },
                                     "+",
                                     {
-                                      "State": "cube_252_output_limb_7_col39"
+                                      "State": "cube_252_output_limb_7_col40"
                                     }
                                   ]
                                 },
                                 "-",
                                 {
-                                  "State": "cube_252_output_limb_7_col49"
+                                  "State": "cube_252_output_limb_7_col50"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_7_col59"
+                              "State": "cube_252_output_limb_7_col60"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "poseidon_round_keys_output_limb_17_col79"
+                          "State": "poseidon_round_keys_output_limb_17_col80"
                         }
                       ]
                     },
                     "-",
                     {
-                      "State": "combination_limb_7_col110"
+                      "State": "combination_limb_7_col111"
                     }
                   ]
                 },
@@ -6308,7 +6290,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "p_coef_col113"
+                      "State": "p_coef_col114"
                     },
                     "*",
                     {
@@ -6356,31 +6338,31 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_8_col40"
+                                  "State": "cube_252_output_limb_8_col41"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "State": "cube_252_output_limb_8_col50"
+                              "State": "cube_252_output_limb_8_col51"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_8_col60"
+                          "State": "cube_252_output_limb_8_col61"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_18_col80"
+                      "State": "poseidon_round_keys_output_limb_18_col81"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_8_col111"
+                  "State": "combination_limb_8_col112"
                 }
               ]
             },
@@ -6403,7 +6385,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "p_coef_col113"
+                  "State": "p_coef_col114"
                 },
                 "+",
                 {
@@ -6499,7 +6481,7 @@
           {
             "BinaryOp": [
               {
-                "State": "p_coef_col113"
+                "State": "p_coef_col114"
               },
               "+",
               {
@@ -6581,10 +6563,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -6780,10 +6759,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -7167,11 +7143,11 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "State": "cube_252_output_limb_0_col32"
+                                    "State": "cube_252_output_limb_0_col33"
                                   },
                                   "+",
                                   {
-                                    "State": "cube_252_output_limb_0_col42"
+                                    "State": "cube_252_output_limb_0_col43"
                                   }
                                 ]
                               },
@@ -7186,7 +7162,7 @@
                                   },
                                   "*",
                                   {
-                                    "State": "cube_252_output_limb_0_col52"
+                                    "State": "cube_252_output_limb_0_col53"
                                   }
                                 ]
                               }
@@ -7194,13 +7170,13 @@
                           },
                           "+",
                           {
-                            "State": "poseidon_round_keys_output_limb_20_col82"
+                            "State": "poseidon_round_keys_output_limb_20_col83"
                           }
                         ]
                       },
                       "-",
                       {
-                        "State": "combination_limb_0_col114"
+                        "State": "combination_limb_0_col115"
                       }
                     ]
                   },
@@ -7266,11 +7242,11 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "State": "cube_252_output_limb_0_col32"
+                                  "State": "cube_252_output_limb_0_col33"
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_0_col42"
+                                  "State": "cube_252_output_limb_0_col43"
                                 }
                               ]
                             },
@@ -7285,7 +7261,7 @@
                                 },
                                 "*",
                                 {
-                                  "State": "cube_252_output_limb_0_col52"
+                                  "State": "cube_252_output_limb_0_col53"
                                 }
                               ]
                             }
@@ -7293,19 +7269,19 @@
                         },
                         "+",
                         {
-                          "State": "poseidon_round_keys_output_limb_20_col82"
+                          "State": "poseidon_round_keys_output_limb_20_col83"
                         }
                       ]
                     },
                     "-",
                     {
-                      "State": "combination_limb_0_col114"
+                      "State": "combination_limb_0_col115"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "p_coef_col124"
+                  "State": "p_coef_col125"
                 }
               ]
             },
@@ -7344,13 +7320,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_1_col33"
+                                  "State": "cube_252_output_limb_1_col34"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_1_col43"
+                              "State": "cube_252_output_limb_1_col44"
                             }
                           ]
                         },
@@ -7365,7 +7341,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_1_col53"
+                              "State": "cube_252_output_limb_1_col54"
                             }
                           ]
                         }
@@ -7373,13 +7349,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_21_col83"
+                      "State": "poseidon_round_keys_output_limb_21_col84"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_1_col115"
+                  "State": "combination_limb_1_col116"
                 }
               ]
             },
@@ -7418,13 +7394,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_2_col34"
+                                  "State": "cube_252_output_limb_2_col35"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_2_col44"
+                              "State": "cube_252_output_limb_2_col45"
                             }
                           ]
                         },
@@ -7439,7 +7415,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_2_col54"
+                              "State": "cube_252_output_limb_2_col55"
                             }
                           ]
                         }
@@ -7447,13 +7423,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_22_col84"
+                      "State": "poseidon_round_keys_output_limb_22_col85"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_2_col116"
+                  "State": "combination_limb_2_col117"
                 }
               ]
             },
@@ -7492,13 +7468,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_3_col35"
+                                  "State": "cube_252_output_limb_3_col36"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_3_col45"
+                              "State": "cube_252_output_limb_3_col46"
                             }
                           ]
                         },
@@ -7513,7 +7489,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_3_col55"
+                              "State": "cube_252_output_limb_3_col56"
                             }
                           ]
                         }
@@ -7521,13 +7497,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_23_col85"
+                      "State": "poseidon_round_keys_output_limb_23_col86"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_3_col117"
+                  "State": "combination_limb_3_col118"
                 }
               ]
             },
@@ -7566,13 +7542,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_4_col36"
+                                  "State": "cube_252_output_limb_4_col37"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_4_col46"
+                              "State": "cube_252_output_limb_4_col47"
                             }
                           ]
                         },
@@ -7587,7 +7563,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_4_col56"
+                              "State": "cube_252_output_limb_4_col57"
                             }
                           ]
                         }
@@ -7595,13 +7571,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_24_col86"
+                      "State": "poseidon_round_keys_output_limb_24_col87"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_4_col118"
+                  "State": "combination_limb_4_col119"
                 }
               ]
             },
@@ -7640,13 +7616,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_5_col37"
+                                  "State": "cube_252_output_limb_5_col38"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_5_col47"
+                              "State": "cube_252_output_limb_5_col48"
                             }
                           ]
                         },
@@ -7661,7 +7637,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_5_col57"
+                              "State": "cube_252_output_limb_5_col58"
                             }
                           ]
                         }
@@ -7669,13 +7645,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_25_col87"
+                      "State": "poseidon_round_keys_output_limb_25_col88"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_5_col119"
+                  "State": "combination_limb_5_col120"
                 }
               ]
             },
@@ -7714,13 +7690,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_6_col38"
+                                  "State": "cube_252_output_limb_6_col39"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_6_col48"
+                              "State": "cube_252_output_limb_6_col49"
                             }
                           ]
                         },
@@ -7735,7 +7711,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_6_col58"
+                              "State": "cube_252_output_limb_6_col59"
                             }
                           ]
                         }
@@ -7743,13 +7719,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_26_col88"
+                      "State": "poseidon_round_keys_output_limb_26_col89"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_6_col120"
+                  "State": "combination_limb_6_col121"
                 }
               ]
             },
@@ -7790,13 +7766,13 @@
                                     },
                                     "+",
                                     {
-                                      "State": "cube_252_output_limb_7_col39"
+                                      "State": "cube_252_output_limb_7_col40"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_7_col49"
+                                  "State": "cube_252_output_limb_7_col50"
                                 }
                               ]
                             },
@@ -7811,7 +7787,7 @@
                                 },
                                 "*",
                                 {
-                                  "State": "cube_252_output_limb_7_col59"
+                                  "State": "cube_252_output_limb_7_col60"
                                 }
                               ]
                             }
@@ -7819,13 +7795,13 @@
                         },
                         "+",
                         {
-                          "State": "poseidon_round_keys_output_limb_27_col89"
+                          "State": "poseidon_round_keys_output_limb_27_col90"
                         }
                       ]
                     },
                     "-",
                     {
-                      "State": "combination_limb_7_col121"
+                      "State": "combination_limb_7_col122"
                     }
                   ]
                 },
@@ -7833,7 +7809,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "p_coef_col124"
+                      "State": "p_coef_col125"
                     },
                     "*",
                     {
@@ -7881,13 +7857,13 @@
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_8_col40"
+                                  "State": "cube_252_output_limb_8_col41"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_8_col50"
+                              "State": "cube_252_output_limb_8_col51"
                             }
                           ]
                         },
@@ -7902,7 +7878,7 @@
                             },
                             "*",
                             {
-                              "State": "cube_252_output_limb_8_col60"
+                              "State": "cube_252_output_limb_8_col61"
                             }
                           ]
                         }
@@ -7910,13 +7886,13 @@
                     },
                     "+",
                     {
-                      "State": "poseidon_round_keys_output_limb_28_col90"
+                      "State": "poseidon_round_keys_output_limb_28_col91"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "combination_limb_8_col122"
+                  "State": "combination_limb_8_col123"
                 }
               ]
             },
@@ -7939,7 +7915,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "p_coef_col124"
+                  "State": "p_coef_col125"
                 },
                 "+",
                 {
@@ -8035,7 +8011,7 @@
           {
             "BinaryOp": [
               {
-                "State": "p_coef_col124"
+                "State": "p_coef_col125"
               },
               "+",
               {
@@ -8117,10 +8093,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -8316,10 +8289,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -8337,9 +8307,6 @@
     },
     "EndBlock",
     {
-      "Deduction": "Enabler"
-    },
-    {
       "LookupTerm": {
         "relation_name": "PoseidonFullRoundChain",
         "felts": [
@@ -8350,105 +8317,105 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_limb_1_col2"
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_limb_2_col3"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_limb_3_col4"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_limb_4_col5"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_limb_5_col6"
           },
           {
-            "State": "input_limb_6_col6"
+            "State": "input_limb_6_col7"
           },
           {
-            "State": "input_limb_7_col7"
+            "State": "input_limb_7_col8"
           },
           {
-            "State": "input_limb_8_col8"
+            "State": "input_limb_8_col9"
           },
           {
-            "State": "input_limb_9_col9"
+            "State": "input_limb_9_col10"
           },
           {
-            "State": "input_limb_10_col10"
+            "State": "input_limb_10_col11"
           },
           {
-            "State": "input_limb_11_col11"
+            "State": "input_limb_11_col12"
           },
           {
-            "State": "input_limb_12_col12"
+            "State": "input_limb_12_col13"
           },
           {
-            "State": "input_limb_13_col13"
+            "State": "input_limb_13_col14"
           },
           {
-            "State": "input_limb_14_col14"
+            "State": "input_limb_14_col15"
           },
           {
-            "State": "input_limb_15_col15"
+            "State": "input_limb_15_col16"
           },
           {
-            "State": "input_limb_16_col16"
+            "State": "input_limb_16_col17"
           },
           {
-            "State": "input_limb_17_col17"
+            "State": "input_limb_17_col18"
           },
           {
-            "State": "input_limb_18_col18"
+            "State": "input_limb_18_col19"
           },
           {
-            "State": "input_limb_19_col19"
+            "State": "input_limb_19_col20"
           },
           {
-            "State": "input_limb_20_col20"
+            "State": "input_limb_20_col21"
           },
           {
-            "State": "input_limb_21_col21"
+            "State": "input_limb_21_col22"
           },
           {
-            "State": "input_limb_22_col22"
+            "State": "input_limb_22_col23"
           },
           {
-            "State": "input_limb_23_col23"
+            "State": "input_limb_23_col24"
           },
           {
-            "State": "input_limb_24_col24"
+            "State": "input_limb_24_col25"
           },
           {
-            "State": "input_limb_25_col25"
+            "State": "input_limb_25_col26"
           },
           {
-            "State": "input_limb_26_col26"
+            "State": "input_limb_26_col27"
           },
           {
-            "State": "input_limb_27_col27"
+            "State": "input_limb_27_col28"
           },
           {
-            "State": "input_limb_28_col28"
+            "State": "input_limb_28_col29"
           },
           {
-            "State": "input_limb_29_col29"
+            "State": "input_limb_29_col30"
           },
           {
-            "State": "input_limb_30_col30"
+            "State": "input_limb_30_col31"
           },
           {
-            "State": "input_limb_31_col31"
+            "State": "input_limb_31_col32"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "State": "enabler_col125"
+          "State": "enabler_col0"
         }
       }
     },
@@ -8463,12 +8430,12 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
             "BinaryOp": [
               {
-                "State": "input_limb_1_col1"
+                "State": "input_limb_1_col2"
               },
               "+",
               {
@@ -8480,99 +8447,99 @@
             ]
           },
           {
-            "State": "combination_limb_0_col92"
+            "State": "combination_limb_0_col93"
           },
           {
-            "State": "combination_limb_1_col93"
+            "State": "combination_limb_1_col94"
           },
           {
-            "State": "combination_limb_2_col94"
+            "State": "combination_limb_2_col95"
           },
           {
-            "State": "combination_limb_3_col95"
+            "State": "combination_limb_3_col96"
           },
           {
-            "State": "combination_limb_4_col96"
+            "State": "combination_limb_4_col97"
           },
           {
-            "State": "combination_limb_5_col97"
+            "State": "combination_limb_5_col98"
           },
           {
-            "State": "combination_limb_6_col98"
+            "State": "combination_limb_6_col99"
           },
           {
-            "State": "combination_limb_7_col99"
+            "State": "combination_limb_7_col100"
           },
           {
-            "State": "combination_limb_8_col100"
+            "State": "combination_limb_8_col101"
           },
           {
-            "State": "combination_limb_9_col101"
+            "State": "combination_limb_9_col102"
           },
           {
-            "State": "combination_limb_0_col103"
+            "State": "combination_limb_0_col104"
           },
           {
-            "State": "combination_limb_1_col104"
+            "State": "combination_limb_1_col105"
           },
           {
-            "State": "combination_limb_2_col105"
+            "State": "combination_limb_2_col106"
           },
           {
-            "State": "combination_limb_3_col106"
+            "State": "combination_limb_3_col107"
           },
           {
-            "State": "combination_limb_4_col107"
+            "State": "combination_limb_4_col108"
           },
           {
-            "State": "combination_limb_5_col108"
+            "State": "combination_limb_5_col109"
           },
           {
-            "State": "combination_limb_6_col109"
+            "State": "combination_limb_6_col110"
           },
           {
-            "State": "combination_limb_7_col110"
+            "State": "combination_limb_7_col111"
           },
           {
-            "State": "combination_limb_8_col111"
+            "State": "combination_limb_8_col112"
           },
           {
-            "State": "combination_limb_9_col112"
+            "State": "combination_limb_9_col113"
           },
           {
-            "State": "combination_limb_0_col114"
+            "State": "combination_limb_0_col115"
           },
           {
-            "State": "combination_limb_1_col115"
+            "State": "combination_limb_1_col116"
           },
           {
-            "State": "combination_limb_2_col116"
+            "State": "combination_limb_2_col117"
           },
           {
-            "State": "combination_limb_3_col117"
+            "State": "combination_limb_3_col118"
           },
           {
-            "State": "combination_limb_4_col118"
+            "State": "combination_limb_4_col119"
           },
           {
-            "State": "combination_limb_5_col119"
+            "State": "combination_limb_5_col120"
           },
           {
-            "State": "combination_limb_6_col120"
+            "State": "combination_limb_6_col121"
           },
           {
-            "State": "combination_limb_7_col121"
+            "State": "combination_limb_7_col122"
           },
           {
-            "State": "combination_limb_8_col122"
+            "State": "combination_limb_8_col123"
           },
           {
-            "State": "combination_limb_9_col123"
+            "State": "combination_limb_9_col124"
           }
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col125"
+          "State": "enabler_col0"
         }
       }
     }

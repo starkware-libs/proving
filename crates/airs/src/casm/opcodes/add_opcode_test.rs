@@ -123,6 +123,7 @@ fn test_add_small_not_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -161,7 +162,6 @@ fn test_add_small_not_imm() {
         (47, "op1_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -200,6 +200,7 @@ fn test_add_small_neg_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -238,7 +239,6 @@ fn test_add_small_neg_imm() {
         (511, "op1_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -254,6 +254,7 @@ fn test_add_big_not_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -356,7 +357,6 @@ fn test_add_big_not_imm() {
         (0, "op1_limb_26"),
         (0, "op1_limb_27"),
         (0, "sub_p_bit"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -384,6 +384,7 @@ fn test_add_big_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -486,7 +487,6 @@ fn test_add_big_imm() {
         (0, "op1_limb_26"),
         (0, "op1_limb_27"),
         (0, "sub_p_bit"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -505,6 +505,7 @@ fn test_add_big_with_overflow() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -607,7 +608,6 @@ fn test_add_big_with_overflow() {
         (0, "op1_limb_26"),
         (256, "op1_limb_27"),
         (1, "sub_p_bit"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

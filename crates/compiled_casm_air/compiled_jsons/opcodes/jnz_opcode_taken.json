@@ -26,7 +26,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_pc_col0"
+                  "State": "input_pc_col1"
                 },
                 "+",
                 {
@@ -43,11 +43,11 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_ap_col1"
+                  "State": "input_ap_col2"
                 },
                 "+",
                 {
-                  "State": "ap_update_add_1_col5"
+                  "State": "ap_update_add_1_col6"
                 }
               ]
             }
@@ -55,7 +55,7 @@
           [
             "fp",
             {
-              "State": "input_fp_col2"
+              "State": "input_fp_col3"
             }
           ]
         ]
@@ -71,7 +71,7 @@
         {
           "BinaryOp": [
             {
-              "State": "input_pc_col0"
+              "State": "input_pc_col1"
             },
             "+",
             {
@@ -85,11 +85,11 @@
         {
           "BinaryOp": [
             {
-              "State": "input_ap_col1"
+              "State": "input_ap_col2"
             },
             "+",
             {
-              "State": "ap_update_add_1_col5"
+              "State": "ap_update_add_1_col6"
             }
           ]
         }
@@ -101,53 +101,53 @@
     ]
   ],
   "state_names": [
-    "input_pc_col0",
-    "input_ap_col1",
-    "input_fp_col2",
-    "offset0_col3",
-    "dst_base_fp_col4",
-    "ap_update_add_1_col5",
-    "mem_dst_base_col6",
-    "dst_id_col7",
-    "dst_limb_0_col8",
-    "dst_limb_1_col9",
-    "dst_limb_2_col10",
-    "dst_limb_3_col11",
-    "dst_limb_4_col12",
-    "dst_limb_5_col13",
-    "dst_limb_6_col14",
-    "dst_limb_7_col15",
-    "dst_limb_8_col16",
-    "dst_limb_9_col17",
-    "dst_limb_10_col18",
-    "dst_limb_11_col19",
-    "dst_limb_12_col20",
-    "dst_limb_13_col21",
-    "dst_limb_14_col22",
-    "dst_limb_15_col23",
-    "dst_limb_16_col24",
-    "dst_limb_17_col25",
-    "dst_limb_18_col26",
-    "dst_limb_19_col27",
-    "dst_limb_20_col28",
-    "dst_limb_21_col29",
-    "dst_limb_22_col30",
-    "dst_limb_23_col31",
-    "dst_limb_24_col32",
-    "dst_limb_25_col33",
-    "dst_limb_26_col34",
-    "dst_limb_27_col35",
-    "dst_sum_inv_col36",
-    "dst_sum_squares_inv_col37",
-    "next_pc_id_col38",
-    "msb_col39",
-    "mid_limbs_set_col40",
-    "next_pc_limb_0_col41",
-    "next_pc_limb_1_col42",
-    "next_pc_limb_2_col43",
-    "remainder_bits_col44",
-    "partial_limb_msb_col45",
-    "enabler_col46"
+    "enabler_col0",
+    "input_pc_col1",
+    "input_ap_col2",
+    "input_fp_col3",
+    "offset0_col4",
+    "dst_base_fp_col5",
+    "ap_update_add_1_col6",
+    "mem_dst_base_col7",
+    "dst_id_col8",
+    "dst_limb_0_col9",
+    "dst_limb_1_col10",
+    "dst_limb_2_col11",
+    "dst_limb_3_col12",
+    "dst_limb_4_col13",
+    "dst_limb_5_col14",
+    "dst_limb_6_col15",
+    "dst_limb_7_col16",
+    "dst_limb_8_col17",
+    "dst_limb_9_col18",
+    "dst_limb_10_col19",
+    "dst_limb_11_col20",
+    "dst_limb_12_col21",
+    "dst_limb_13_col22",
+    "dst_limb_14_col23",
+    "dst_limb_15_col24",
+    "dst_limb_16_col25",
+    "dst_limb_17_col26",
+    "dst_limb_18_col27",
+    "dst_limb_19_col28",
+    "dst_limb_20_col29",
+    "dst_limb_21_col30",
+    "dst_limb_22_col31",
+    "dst_limb_23_col32",
+    "dst_limb_24_col33",
+    "dst_limb_25_col34",
+    "dst_limb_26_col35",
+    "dst_limb_27_col36",
+    "dst_sum_inv_col37",
+    "dst_sum_squares_inv_col38",
+    "next_pc_id_col39",
+    "msb_col40",
+    "mid_limbs_set_col41",
+    "next_pc_limb_0_col42",
+    "next_pc_limb_1_col43",
+    "next_pc_limb_2_col44",
+    "remainder_bits_col45",
+    "partial_limb_msb_col46"
   ],
   "constraint_lookups": [
     [
@@ -245,6 +245,30 @@
   "external_states": [],
   "constraints": [
     {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col0"
+                },
+                "*",
+                {
+                  "State": "enabler_col0"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col0"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
+    },
+    {
       "Intermediate": {
         "felt_names": [
           "decode_instruction_ad440_output_tmp_7f087_5_offset0"
@@ -256,18 +280,21 @@
               {
                 "Array": [
                   {
-                    "State": "input_pc_col0"
+                    "State": "input_pc_col1"
                   }
                 ]
               },
               {
-                "State": "offset0_col3"
+                "State": "enabler_col0"
               },
               {
-                "State": "dst_base_fp_col4"
+                "State": "offset0_col4"
               },
               {
-                "State": "ap_update_add_1_col5"
+                "State": "dst_base_fp_col5"
+              },
+              {
+                "State": "ap_update_add_1_col6"
               }
             ]
           ]
@@ -279,7 +306,7 @@
         {
           "BinaryOp": [
             {
-              "State": "mem_dst_base_col6"
+              "State": "mem_dst_base_col7"
             },
             "-",
             {
@@ -287,11 +314,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "dst_base_fp_col4"
+                      "State": "dst_base_fp_col5"
                     },
                     "*",
                     {
-                      "State": "input_fp_col2"
+                      "State": "input_fp_col3"
                     }
                   ]
                 },
@@ -308,13 +335,13 @@
                         },
                         "-",
                         {
-                          "State": "dst_base_fp_col4"
+                          "State": "dst_base_fp_col5"
                         }
                       ]
                     },
                     "*",
                     {
-                      "State": "input_ap_col1"
+                      "State": "input_ap_col2"
                     }
                   ]
                 }
@@ -337,7 +364,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "mem_dst_base_col6"
+                        "State": "mem_dst_base_col7"
                       },
                       "+",
                       {
@@ -351,91 +378,94 @@
                 ]
               },
               {
-                "State": "dst_id_col7"
+                "State": "enabler_col0"
               },
               {
-                "State": "dst_limb_0_col8"
+                "State": "dst_id_col8"
               },
               {
-                "State": "dst_limb_1_col9"
+                "State": "dst_limb_0_col9"
               },
               {
-                "State": "dst_limb_2_col10"
+                "State": "dst_limb_1_col10"
               },
               {
-                "State": "dst_limb_3_col11"
+                "State": "dst_limb_2_col11"
               },
               {
-                "State": "dst_limb_4_col12"
+                "State": "dst_limb_3_col12"
               },
               {
-                "State": "dst_limb_5_col13"
+                "State": "dst_limb_4_col13"
               },
               {
-                "State": "dst_limb_6_col14"
+                "State": "dst_limb_5_col14"
               },
               {
-                "State": "dst_limb_7_col15"
+                "State": "dst_limb_6_col15"
               },
               {
-                "State": "dst_limb_8_col16"
+                "State": "dst_limb_7_col16"
               },
               {
-                "State": "dst_limb_9_col17"
+                "State": "dst_limb_8_col17"
               },
               {
-                "State": "dst_limb_10_col18"
+                "State": "dst_limb_9_col18"
               },
               {
-                "State": "dst_limb_11_col19"
+                "State": "dst_limb_10_col19"
               },
               {
-                "State": "dst_limb_12_col20"
+                "State": "dst_limb_11_col20"
               },
               {
-                "State": "dst_limb_13_col21"
+                "State": "dst_limb_12_col21"
               },
               {
-                "State": "dst_limb_14_col22"
+                "State": "dst_limb_13_col22"
               },
               {
-                "State": "dst_limb_15_col23"
+                "State": "dst_limb_14_col23"
               },
               {
-                "State": "dst_limb_16_col24"
+                "State": "dst_limb_15_col24"
               },
               {
-                "State": "dst_limb_17_col25"
+                "State": "dst_limb_16_col25"
               },
               {
-                "State": "dst_limb_18_col26"
+                "State": "dst_limb_17_col26"
               },
               {
-                "State": "dst_limb_19_col27"
+                "State": "dst_limb_18_col27"
               },
               {
-                "State": "dst_limb_20_col28"
+                "State": "dst_limb_19_col28"
               },
               {
-                "State": "dst_limb_21_col29"
+                "State": "dst_limb_20_col29"
               },
               {
-                "State": "dst_limb_22_col30"
+                "State": "dst_limb_21_col30"
               },
               {
-                "State": "dst_limb_23_col31"
+                "State": "dst_limb_22_col31"
               },
               {
-                "State": "dst_limb_24_col32"
+                "State": "dst_limb_23_col32"
               },
               {
-                "State": "dst_limb_25_col33"
+                "State": "dst_limb_24_col33"
               },
               {
-                "State": "dst_limb_26_col34"
+                "State": "dst_limb_25_col34"
               },
               {
-                "State": "dst_limb_27_col35"
+                "State": "dst_limb_26_col35"
+              },
+              {
+                "State": "dst_limb_27_col36"
               }
             ]
           ]
@@ -496,149 +526,149 @@
                                                                                                     {
                                                                                                       "BinaryOp": [
                                                                                                         {
-                                                                                                          "State": "dst_limb_1_col9"
+                                                                                                          "State": "dst_limb_1_col10"
                                                                                                         },
                                                                                                         "+",
                                                                                                         {
-                                                                                                          "State": "dst_limb_2_col10"
+                                                                                                          "State": "dst_limb_2_col11"
                                                                                                         }
                                                                                                       ]
                                                                                                     },
                                                                                                     "+",
                                                                                                     {
-                                                                                                      "State": "dst_limb_3_col11"
+                                                                                                      "State": "dst_limb_3_col12"
                                                                                                     }
                                                                                                   ]
                                                                                                 },
                                                                                                 "+",
                                                                                                 {
-                                                                                                  "State": "dst_limb_4_col12"
+                                                                                                  "State": "dst_limb_4_col13"
                                                                                                 }
                                                                                               ]
                                                                                             },
                                                                                             "+",
                                                                                             {
-                                                                                              "State": "dst_limb_5_col13"
+                                                                                              "State": "dst_limb_5_col14"
                                                                                             }
                                                                                           ]
                                                                                         },
                                                                                         "+",
                                                                                         {
-                                                                                          "State": "dst_limb_6_col14"
+                                                                                          "State": "dst_limb_6_col15"
                                                                                         }
                                                                                       ]
                                                                                     },
                                                                                     "+",
                                                                                     {
-                                                                                      "State": "dst_limb_7_col15"
+                                                                                      "State": "dst_limb_7_col16"
                                                                                     }
                                                                                   ]
                                                                                 },
                                                                                 "+",
                                                                                 {
-                                                                                  "State": "dst_limb_8_col16"
+                                                                                  "State": "dst_limb_8_col17"
                                                                                 }
                                                                               ]
                                                                             },
                                                                             "+",
                                                                             {
-                                                                              "State": "dst_limb_9_col17"
+                                                                              "State": "dst_limb_9_col18"
                                                                             }
                                                                           ]
                                                                         },
                                                                         "+",
                                                                         {
-                                                                          "State": "dst_limb_10_col18"
+                                                                          "State": "dst_limb_10_col19"
                                                                         }
                                                                       ]
                                                                     },
                                                                     "+",
                                                                     {
-                                                                      "State": "dst_limb_11_col19"
+                                                                      "State": "dst_limb_11_col20"
                                                                     }
                                                                   ]
                                                                 },
                                                                 "+",
                                                                 {
-                                                                  "State": "dst_limb_12_col20"
+                                                                  "State": "dst_limb_12_col21"
                                                                 }
                                                               ]
                                                             },
                                                             "+",
                                                             {
-                                                              "State": "dst_limb_13_col21"
+                                                              "State": "dst_limb_13_col22"
                                                             }
                                                           ]
                                                         },
                                                         "+",
                                                         {
-                                                          "State": "dst_limb_14_col22"
+                                                          "State": "dst_limb_14_col23"
                                                         }
                                                       ]
                                                     },
                                                     "+",
                                                     {
-                                                      "State": "dst_limb_15_col23"
+                                                      "State": "dst_limb_15_col24"
                                                     }
                                                   ]
                                                 },
                                                 "+",
                                                 {
-                                                  "State": "dst_limb_16_col24"
+                                                  "State": "dst_limb_16_col25"
                                                 }
                                               ]
                                             },
                                             "+",
                                             {
-                                              "State": "dst_limb_17_col25"
+                                              "State": "dst_limb_17_col26"
                                             }
                                           ]
                                         },
                                         "+",
                                         {
-                                          "State": "dst_limb_18_col26"
+                                          "State": "dst_limb_18_col27"
                                         }
                                       ]
                                     },
                                     "+",
                                     {
-                                      "State": "dst_limb_19_col27"
+                                      "State": "dst_limb_19_col28"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "dst_limb_20_col28"
+                                  "State": "dst_limb_20_col29"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "dst_limb_22_col30"
+                              "State": "dst_limb_22_col31"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "dst_limb_23_col31"
+                          "State": "dst_limb_23_col32"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "dst_limb_24_col32"
+                      "State": "dst_limb_24_col33"
                     }
                   ]
                 },
                 "+",
                 {
-                  "State": "dst_limb_25_col33"
+                  "State": "dst_limb_25_col34"
                 }
               ]
             },
             "+",
             {
-              "State": "dst_limb_26_col34"
+              "State": "dst_limb_26_col35"
             }
           ]
         }
@@ -664,17 +694,17 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "dst_limb_0_col8"
+                              "State": "dst_limb_0_col9"
                             },
                             "+",
                             {
-                              "State": "dst_limb_21_col29"
+                              "State": "dst_limb_21_col30"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "dst_limb_27_col35"
+                          "State": "dst_limb_27_col36"
                         }
                       ]
                     }
@@ -682,7 +712,7 @@
                 },
                 "*",
                 {
-                  "State": "dst_sum_inv_col36"
+                  "State": "dst_sum_inv_col37"
                 }
               ]
             },
@@ -706,7 +736,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "dst_limb_0_col8"
+              "State": "dst_limb_0_col9"
             },
             "-",
             {
@@ -727,7 +757,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "dst_limb_21_col29"
+              "State": "dst_limb_21_col30"
             },
             "-",
             {
@@ -748,7 +778,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "dst_limb_27_col35"
+              "State": "dst_limb_27_col36"
             },
             "-",
             {
@@ -841,7 +871,7 @@
                 },
                 "*",
                 {
-                  "State": "dst_sum_squares_inv_col37"
+                  "State": "dst_sum_squares_inv_col38"
                 }
               ]
             },
@@ -871,7 +901,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "input_pc_col0"
+                        "State": "input_pc_col1"
                       },
                       "+",
                       {
@@ -885,57 +915,36 @@
                 ]
               },
               {
-                "State": "next_pc_id_col38"
+                "State": "enabler_col0"
               },
               {
-                "State": "msb_col39"
+                "State": "next_pc_id_col39"
               },
               {
-                "State": "mid_limbs_set_col40"
+                "State": "msb_col40"
               },
               {
-                "State": "next_pc_limb_0_col41"
+                "State": "mid_limbs_set_col41"
               },
               {
-                "State": "next_pc_limb_1_col42"
+                "State": "next_pc_limb_0_col42"
               },
               {
-                "State": "next_pc_limb_2_col43"
+                "State": "next_pc_limb_1_col43"
               },
               {
-                "State": "remainder_bits_col44"
+                "State": "next_pc_limb_2_col44"
               },
               {
-                "State": "partial_limb_msb_col45"
+                "State": "remainder_bits_col45"
+              },
+              {
+                "State": "partial_limb_msb_col46"
               }
             ]
           ]
         }
       }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col46"
-                },
-                "*",
-                {
-                  "State": "enabler_col46"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col46"
-            }
-          ]
-        },
-        "Enabler is a bit"
-      ]
     },
     {
       "LookupTerm": {
@@ -948,18 +957,18 @@
             ]
           },
           {
-            "State": "input_pc_col0"
+            "State": "input_pc_col1"
           },
           {
-            "State": "input_ap_col1"
+            "State": "input_ap_col2"
           },
           {
-            "State": "input_fp_col2"
+            "State": "input_fp_col3"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "State": "enabler_col46"
+          "State": "enabler_col0"
         }
       }
     },
@@ -976,7 +985,7 @@
           {
             "BinaryOp": [
               {
-                "State": "input_pc_col0"
+                "State": "input_pc_col1"
               },
               "+",
               {
@@ -990,26 +999,29 @@
           {
             "BinaryOp": [
               {
-                "State": "input_ap_col1"
+                "State": "input_ap_col2"
               },
               "+",
               {
-                "State": "ap_update_add_1_col5"
+                "State": "ap_update_add_1_col6"
               }
             ]
           },
           {
-            "State": "input_fp_col2"
+            "State": "input_fp_col3"
           }
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col46"
+          "State": "enabler_col0"
         }
       }
     }
   ],
   "deductions": [
+    {
+      "Deduction": "Enabler"
+    },
     {
       "Deduction": {
         "Var": [
@@ -1046,7 +1058,7 @@
             "MemoryAddressToId::deduce_output",
             [
               {
-                "State": "input_pc_col0"
+                "State": "input_pc_col1"
               }
             ]
           ]
@@ -1419,12 +1431,12 @@
         "input": {
           "Tuple": [
             {
-              "State": "input_pc_col0"
+              "State": "input_pc_col1"
             },
             {
               "Array": [
                 {
-                  "State": "offset0_col3"
+                  "State": "offset0_col4"
                 },
                 {
                   "Const": [
@@ -1449,7 +1461,7 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "dst_base_fp_col4"
+                              "State": "dst_base_fp_col5"
                             },
                             "*",
                             {
@@ -1490,7 +1502,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "ap_update_add_1_col5"
+                          "State": "ap_update_add_1_col6"
                         },
                         "*",
                         {
@@ -1526,10 +1538,10 @@
             ]
           },
           {
-            "State": "input_pc_col0"
+            "State": "input_pc_col1"
           },
           {
-            "State": "offset0_col3"
+            "State": "offset0_col4"
           },
           {
             "Const": [
@@ -1550,7 +1562,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "dst_base_fp_col4"
+                        "State": "dst_base_fp_col5"
                       },
                       "*",
                       {
@@ -1591,7 +1603,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col5"
+                    "State": "ap_update_add_1_col6"
                   },
                   "*",
                   {
@@ -1613,10 +1625,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1631,7 +1640,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "offset0_col3"
+                      "State": "offset0_col4"
                     },
                     "-",
                     {
@@ -1659,7 +1668,7 @@
             {
               "Array": [
                 {
-                  "State": "dst_base_fp_col4"
+                  "State": "dst_base_fp_col5"
                 },
                 {
                   "Const": [
@@ -1722,7 +1731,7 @@
                   ]
                 },
                 {
-                  "State": "ap_update_add_1_col5"
+                  "State": "ap_update_add_1_col6"
                 },
                 {
                   "Const": [
@@ -1761,11 +1770,11 @@
           {
             "BinaryOp": [
               {
-                "State": "dst_base_fp_col4"
+                "State": "dst_base_fp_col5"
               },
               "*",
               {
-                "State": "input_fp_col2"
+                "State": "input_fp_col3"
               }
             ]
           },
@@ -1782,13 +1791,13 @@
                   },
                   "-",
                   {
-                    "State": "dst_base_fp_col4"
+                    "State": "dst_base_fp_col5"
                   }
                 ]
               },
               "*",
               {
-                "State": "input_ap_col1"
+                "State": "input_ap_col2"
               }
             ]
           }
@@ -1812,7 +1821,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "mem_dst_base_col6"
+                    "State": "mem_dst_base_col7"
                   },
                   "+",
                   {
@@ -1842,7 +1851,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "mem_dst_base_col6"
+              "State": "mem_dst_base_col7"
             },
             "+",
             {
@@ -1868,7 +1877,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem_dst_base_col6"
+                "State": "mem_dst_base_col7"
               },
               "+",
               {
@@ -1880,15 +1889,12 @@
             ]
           },
           {
-            "State": "dst_id_col7"
+            "State": "dst_id_col8"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1905,7 +1911,7 @@
             "MemoryIdToBig::deduce_output",
             [
               {
-                "State": "dst_id_col7"
+                "State": "dst_id_col8"
               }
             ]
           ]
@@ -2504,7 +2510,7 @@
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
         "input": {
-          "State": "dst_id_col7"
+          "State": "dst_id_col8"
         }
       }
     },
@@ -2519,99 +2525,96 @@
             ]
           },
           {
-            "State": "dst_id_col7"
+            "State": "dst_id_col8"
           },
           {
-            "State": "dst_limb_0_col8"
+            "State": "dst_limb_0_col9"
           },
           {
-            "State": "dst_limb_1_col9"
+            "State": "dst_limb_1_col10"
           },
           {
-            "State": "dst_limb_2_col10"
+            "State": "dst_limb_2_col11"
           },
           {
-            "State": "dst_limb_3_col11"
+            "State": "dst_limb_3_col12"
           },
           {
-            "State": "dst_limb_4_col12"
+            "State": "dst_limb_4_col13"
           },
           {
-            "State": "dst_limb_5_col13"
+            "State": "dst_limb_5_col14"
           },
           {
-            "State": "dst_limb_6_col14"
+            "State": "dst_limb_6_col15"
           },
           {
-            "State": "dst_limb_7_col15"
+            "State": "dst_limb_7_col16"
           },
           {
-            "State": "dst_limb_8_col16"
+            "State": "dst_limb_8_col17"
           },
           {
-            "State": "dst_limb_9_col17"
+            "State": "dst_limb_9_col18"
           },
           {
-            "State": "dst_limb_10_col18"
+            "State": "dst_limb_10_col19"
           },
           {
-            "State": "dst_limb_11_col19"
+            "State": "dst_limb_11_col20"
           },
           {
-            "State": "dst_limb_12_col20"
+            "State": "dst_limb_12_col21"
           },
           {
-            "State": "dst_limb_13_col21"
+            "State": "dst_limb_13_col22"
           },
           {
-            "State": "dst_limb_14_col22"
+            "State": "dst_limb_14_col23"
           },
           {
-            "State": "dst_limb_15_col23"
+            "State": "dst_limb_15_col24"
           },
           {
-            "State": "dst_limb_16_col24"
+            "State": "dst_limb_16_col25"
           },
           {
-            "State": "dst_limb_17_col25"
+            "State": "dst_limb_17_col26"
           },
           {
-            "State": "dst_limb_18_col26"
+            "State": "dst_limb_18_col27"
           },
           {
-            "State": "dst_limb_19_col27"
+            "State": "dst_limb_19_col28"
           },
           {
-            "State": "dst_limb_20_col28"
+            "State": "dst_limb_20_col29"
           },
           {
-            "State": "dst_limb_21_col29"
+            "State": "dst_limb_21_col30"
           },
           {
-            "State": "dst_limb_22_col30"
+            "State": "dst_limb_22_col31"
           },
           {
-            "State": "dst_limb_23_col31"
+            "State": "dst_limb_23_col32"
           },
           {
-            "State": "dst_limb_24_col32"
+            "State": "dst_limb_24_col33"
           },
           {
-            "State": "dst_limb_25_col33"
+            "State": "dst_limb_25_col34"
           },
           {
-            "State": "dst_limb_26_col34"
+            "State": "dst_limb_26_col35"
           },
           {
-            "State": "dst_limb_27_col35"
+            "State": "dst_limb_27_col36"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -2626,88 +2629,88 @@
               {
                 "Array": [
                   {
-                    "State": "dst_limb_0_col8"
+                    "State": "dst_limb_0_col9"
                   },
                   {
-                    "State": "dst_limb_1_col9"
+                    "State": "dst_limb_1_col10"
                   },
                   {
-                    "State": "dst_limb_2_col10"
+                    "State": "dst_limb_2_col11"
                   },
                   {
-                    "State": "dst_limb_3_col11"
+                    "State": "dst_limb_3_col12"
                   },
                   {
-                    "State": "dst_limb_4_col12"
+                    "State": "dst_limb_4_col13"
                   },
                   {
-                    "State": "dst_limb_5_col13"
+                    "State": "dst_limb_5_col14"
                   },
                   {
-                    "State": "dst_limb_6_col14"
+                    "State": "dst_limb_6_col15"
                   },
                   {
-                    "State": "dst_limb_7_col15"
+                    "State": "dst_limb_7_col16"
                   },
                   {
-                    "State": "dst_limb_8_col16"
+                    "State": "dst_limb_8_col17"
                   },
                   {
-                    "State": "dst_limb_9_col17"
+                    "State": "dst_limb_9_col18"
                   },
                   {
-                    "State": "dst_limb_10_col18"
+                    "State": "dst_limb_10_col19"
                   },
                   {
-                    "State": "dst_limb_11_col19"
+                    "State": "dst_limb_11_col20"
                   },
                   {
-                    "State": "dst_limb_12_col20"
+                    "State": "dst_limb_12_col21"
                   },
                   {
-                    "State": "dst_limb_13_col21"
+                    "State": "dst_limb_13_col22"
                   },
                   {
-                    "State": "dst_limb_14_col22"
+                    "State": "dst_limb_14_col23"
                   },
                   {
-                    "State": "dst_limb_15_col23"
+                    "State": "dst_limb_15_col24"
                   },
                   {
-                    "State": "dst_limb_16_col24"
+                    "State": "dst_limb_16_col25"
                   },
                   {
-                    "State": "dst_limb_17_col25"
+                    "State": "dst_limb_17_col26"
                   },
                   {
-                    "State": "dst_limb_18_col26"
+                    "State": "dst_limb_18_col27"
                   },
                   {
-                    "State": "dst_limb_19_col27"
+                    "State": "dst_limb_19_col28"
                   },
                   {
-                    "State": "dst_limb_20_col28"
+                    "State": "dst_limb_20_col29"
                   },
                   {
-                    "State": "dst_limb_21_col29"
+                    "State": "dst_limb_21_col30"
                   },
                   {
-                    "State": "dst_limb_22_col30"
+                    "State": "dst_limb_22_col31"
                   },
                   {
-                    "State": "dst_limb_23_col31"
+                    "State": "dst_limb_23_col32"
                   },
                   {
-                    "State": "dst_limb_24_col32"
+                    "State": "dst_limb_24_col33"
                   },
                   {
-                    "State": "dst_limb_25_col33"
+                    "State": "dst_limb_25_col34"
                   },
                   {
-                    "State": "dst_limb_26_col34"
+                    "State": "dst_limb_26_col35"
                   },
                   {
-                    "State": "dst_limb_27_col35"
+                    "State": "dst_limb_27_col36"
                   }
                 ]
               }
@@ -2730,7 +2733,7 @@
               ]
             },
             {
-              "State": "dst_id_col7"
+              "State": "dst_id_col8"
             }
           ]
         }
@@ -2790,149 +2793,149 @@
                                                                                                     {
                                                                                                       "BinaryOp": [
                                                                                                         {
-                                                                                                          "State": "dst_limb_1_col9"
+                                                                                                          "State": "dst_limb_1_col10"
                                                                                                         },
                                                                                                         "+",
                                                                                                         {
-                                                                                                          "State": "dst_limb_2_col10"
+                                                                                                          "State": "dst_limb_2_col11"
                                                                                                         }
                                                                                                       ]
                                                                                                     },
                                                                                                     "+",
                                                                                                     {
-                                                                                                      "State": "dst_limb_3_col11"
+                                                                                                      "State": "dst_limb_3_col12"
                                                                                                     }
                                                                                                   ]
                                                                                                 },
                                                                                                 "+",
                                                                                                 {
-                                                                                                  "State": "dst_limb_4_col12"
+                                                                                                  "State": "dst_limb_4_col13"
                                                                                                 }
                                                                                               ]
                                                                                             },
                                                                                             "+",
                                                                                             {
-                                                                                              "State": "dst_limb_5_col13"
+                                                                                              "State": "dst_limb_5_col14"
                                                                                             }
                                                                                           ]
                                                                                         },
                                                                                         "+",
                                                                                         {
-                                                                                          "State": "dst_limb_6_col14"
+                                                                                          "State": "dst_limb_6_col15"
                                                                                         }
                                                                                       ]
                                                                                     },
                                                                                     "+",
                                                                                     {
-                                                                                      "State": "dst_limb_7_col15"
+                                                                                      "State": "dst_limb_7_col16"
                                                                                     }
                                                                                   ]
                                                                                 },
                                                                                 "+",
                                                                                 {
-                                                                                  "State": "dst_limb_8_col16"
+                                                                                  "State": "dst_limb_8_col17"
                                                                                 }
                                                                               ]
                                                                             },
                                                                             "+",
                                                                             {
-                                                                              "State": "dst_limb_9_col17"
+                                                                              "State": "dst_limb_9_col18"
                                                                             }
                                                                           ]
                                                                         },
                                                                         "+",
                                                                         {
-                                                                          "State": "dst_limb_10_col18"
+                                                                          "State": "dst_limb_10_col19"
                                                                         }
                                                                       ]
                                                                     },
                                                                     "+",
                                                                     {
-                                                                      "State": "dst_limb_11_col19"
+                                                                      "State": "dst_limb_11_col20"
                                                                     }
                                                                   ]
                                                                 },
                                                                 "+",
                                                                 {
-                                                                  "State": "dst_limb_12_col20"
+                                                                  "State": "dst_limb_12_col21"
                                                                 }
                                                               ]
                                                             },
                                                             "+",
                                                             {
-                                                              "State": "dst_limb_13_col21"
+                                                              "State": "dst_limb_13_col22"
                                                             }
                                                           ]
                                                         },
                                                         "+",
                                                         {
-                                                          "State": "dst_limb_14_col22"
+                                                          "State": "dst_limb_14_col23"
                                                         }
                                                       ]
                                                     },
                                                     "+",
                                                     {
-                                                      "State": "dst_limb_15_col23"
+                                                      "State": "dst_limb_15_col24"
                                                     }
                                                   ]
                                                 },
                                                 "+",
                                                 {
-                                                  "State": "dst_limb_16_col24"
+                                                  "State": "dst_limb_16_col25"
                                                 }
                                               ]
                                             },
                                             "+",
                                             {
-                                              "State": "dst_limb_17_col25"
+                                              "State": "dst_limb_17_col26"
                                             }
                                           ]
                                         },
                                         "+",
                                         {
-                                          "State": "dst_limb_18_col26"
+                                          "State": "dst_limb_18_col27"
                                         }
                                       ]
                                     },
                                     "+",
                                     {
-                                      "State": "dst_limb_19_col27"
+                                      "State": "dst_limb_19_col28"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "dst_limb_20_col28"
+                                  "State": "dst_limb_20_col29"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "dst_limb_22_col30"
+                              "State": "dst_limb_22_col31"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "dst_limb_23_col31"
+                          "State": "dst_limb_23_col32"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "dst_limb_24_col32"
+                      "State": "dst_limb_24_col33"
                     }
                   ]
                 },
                 "+",
                 {
-                  "State": "dst_limb_25_col33"
+                  "State": "dst_limb_25_col34"
                 }
               ]
             },
             "+",
             {
-              "State": "dst_limb_26_col34"
+              "State": "dst_limb_26_col35"
             }
           ]
         }
@@ -2955,17 +2958,17 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "dst_limb_0_col8"
+                        "State": "dst_limb_0_col9"
                       },
                       "+",
                       {
-                        "State": "dst_limb_21_col29"
+                        "State": "dst_limb_21_col30"
                       }
                     ]
                   },
                   "+",
                   {
-                    "State": "dst_limb_27_col35"
+                    "State": "dst_limb_27_col36"
                   }
                 ]
               }
@@ -2983,7 +2986,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "dst_limb_0_col8"
+              "State": "dst_limb_0_col9"
             },
             "-",
             {
@@ -3003,7 +3006,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "dst_limb_21_col29"
+              "State": "dst_limb_21_col30"
             },
             "-",
             {
@@ -3023,7 +3026,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "dst_limb_27_col35"
+              "State": "dst_limb_27_col36"
             },
             "-",
             {
@@ -3133,7 +3136,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "input_pc_col0"
+                    "State": "input_pc_col1"
                   },
                   "+",
                   {
@@ -3163,7 +3166,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "input_pc_col0"
+              "State": "input_pc_col1"
             },
             "+",
             {
@@ -3189,7 +3192,7 @@
           {
             "BinaryOp": [
               {
-                "State": "input_pc_col0"
+                "State": "input_pc_col1"
               },
               "+",
               {
@@ -3201,15 +3204,12 @@
             ]
           },
           {
-            "State": "next_pc_id_col38"
+            "State": "next_pc_id_col39"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -3223,7 +3223,7 @@
             "MemoryIdToBig::deduce_output",
             [
               {
-                "State": "next_pc_id_col38"
+                "State": "next_pc_id_col39"
               }
             ]
           ]
@@ -3355,15 +3355,15 @@
         "var": {
           "Array": [
             {
-              "State": "msb_col39"
+              "State": "msb_col40"
             },
             {
-              "State": "mid_limbs_set_col40"
+              "State": "mid_limbs_set_col41"
             },
             {
               "BinaryOp": [
                 {
-                  "State": "mid_limbs_set_col40"
+                  "State": "mid_limbs_set_col41"
                 },
                 "*",
                 {
@@ -3377,7 +3377,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "mid_limbs_set_col40"
+                  "State": "mid_limbs_set_col41"
                 },
                 "*",
                 {
@@ -3393,7 +3393,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "msb_col39"
+                      "State": "msb_col40"
                     },
                     "*",
                     {
@@ -3406,14 +3406,14 @@
                 },
                 "-",
                 {
-                  "State": "mid_limbs_set_col40"
+                  "State": "mid_limbs_set_col41"
                 }
               ]
             },
             {
               "BinaryOp": [
                 {
-                  "State": "msb_col39"
+                  "State": "msb_col40"
                 },
                 "*",
                 {
@@ -3565,7 +3565,7 @@
                     "UInt16::from_m31",
                     [
                       {
-                        "State": "remainder_bits_col44"
+                        "State": "remainder_bits_col45"
                       }
                     ]
                   ]
@@ -3609,7 +3609,7 @@
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
         "input": {
-          "State": "next_pc_id_col38"
+          "State": "next_pc_id_col39"
         }
       }
     },
@@ -3624,21 +3624,21 @@
             ]
           },
           {
-            "State": "next_pc_id_col38"
+            "State": "next_pc_id_col39"
           },
           {
-            "State": "next_pc_limb_0_col41"
+            "State": "next_pc_limb_0_col42"
           },
           {
-            "State": "next_pc_limb_1_col42"
+            "State": "next_pc_limb_1_col43"
           },
           {
-            "State": "next_pc_limb_2_col43"
+            "State": "next_pc_limb_2_col44"
           },
           {
             "BinaryOp": [
               {
-                "State": "remainder_bits_col44"
+                "State": "remainder_bits_col45"
               },
               "+",
               {
@@ -3796,10 +3796,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -3820,13 +3817,13 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "State": "next_pc_limb_0_col41"
+                                  "State": "next_pc_limb_0_col42"
                                 },
                                 "+",
                                 {
                                   "BinaryOp": [
                                     {
-                                      "State": "next_pc_limb_1_col42"
+                                      "State": "next_pc_limb_1_col43"
                                     },
                                     "*",
                                     {
@@ -3843,7 +3840,7 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "State": "next_pc_limb_2_col43"
+                                  "State": "next_pc_limb_2_col44"
                                 },
                                 "*",
                                 {
@@ -3860,7 +3857,7 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "remainder_bits_col44"
+                              "State": "remainder_bits_col45"
                             },
                             "*",
                             {
@@ -3875,7 +3872,7 @@
                     },
                     "-",
                     {
-                      "State": "msb_col39"
+                      "State": "msb_col40"
                     }
                   ]
                 },
@@ -3890,23 +3887,20 @@
                     },
                     "*",
                     {
-                      "State": "mid_limbs_set_col40"
+                      "State": "mid_limbs_set_col41"
                     }
                   ]
                 }
               ]
             },
             {
-              "State": "next_pc_id_col38"
+              "State": "next_pc_id_col39"
             }
           ]
         }
       }
     },
     "EndBlock",
-    {
-      "Deduction": "Enabler"
-    },
     {
       "LookupTerm": {
         "relation_name": "Opcodes",
@@ -3918,18 +3912,18 @@
             ]
           },
           {
-            "State": "input_pc_col0"
+            "State": "input_pc_col1"
           },
           {
-            "State": "input_ap_col1"
+            "State": "input_ap_col2"
           },
           {
-            "State": "input_fp_col2"
+            "State": "input_fp_col3"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "State": "enabler_col46"
+          "State": "enabler_col0"
         }
       }
     },
@@ -3946,7 +3940,7 @@
           {
             "BinaryOp": [
               {
-                "State": "input_pc_col0"
+                "State": "input_pc_col1"
               },
               "+",
               {
@@ -3960,21 +3954,21 @@
           {
             "BinaryOp": [
               {
-                "State": "input_ap_col1"
+                "State": "input_ap_col2"
               },
               "+",
               {
-                "State": "ap_update_add_1_col5"
+                "State": "ap_update_add_1_col6"
               }
             ]
           },
           {
-            "State": "input_fp_col2"
+            "State": "input_fp_col3"
           }
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col46"
+          "State": "enabler_col0"
         }
       }
     }

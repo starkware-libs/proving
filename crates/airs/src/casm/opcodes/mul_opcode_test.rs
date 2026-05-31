@@ -124,6 +124,7 @@ fn test_mul_small_not_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -160,7 +161,6 @@ fn test_mul_small_not_imm() {
         (198, "carry_1"),
         (652, "carry_3"),
         (495, "carry_5"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -200,6 +200,7 @@ fn test_mul_small_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -236,7 +237,6 @@ fn test_mul_small_imm() {
         (0, "carry_1"),
         (0, "carry_3"),
         (0, "carry_5"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -252,6 +252,7 @@ fn test_mul_big_imm_no_overflow() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -381,7 +382,6 @@ fn test_mul_big_imm_no_overflow() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -400,6 +400,7 @@ fn test_mul_big_with_overflow() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -529,7 +530,6 @@ fn test_mul_big_with_overflow() {
         (2147483645, "carry_24"),
         (2147483645, "carry_25"),
         (8190, "carry_26"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

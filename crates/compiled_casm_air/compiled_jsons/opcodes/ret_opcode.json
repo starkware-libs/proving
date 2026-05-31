@@ -30,13 +30,13 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_pc_limb_0_col4"
+                          "State": "next_pc_limb_0_col5"
                         },
                         "+",
                         {
                           "BinaryOp": [
                             {
-                              "State": "next_pc_limb_1_col5"
+                              "State": "next_pc_limb_1_col6"
                             },
                             "*",
                             {
@@ -53,7 +53,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_pc_limb_2_col6"
+                          "State": "next_pc_limb_2_col7"
                         },
                         "*",
                         {
@@ -70,7 +70,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_pc_limb_3_col7"
+                      "State": "next_pc_limb_3_col8"
                     },
                     "*",
                     {
@@ -87,7 +87,7 @@
           [
             "ap",
             {
-              "State": "input_ap_col1"
+              "State": "input_ap_col2"
             }
           ],
           [
@@ -99,13 +99,13 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_fp_limb_0_col10"
+                          "State": "next_fp_limb_0_col11"
                         },
                         "+",
                         {
                           "BinaryOp": [
                             {
-                              "State": "next_fp_limb_1_col11"
+                              "State": "next_fp_limb_1_col12"
                             },
                             "*",
                             {
@@ -122,7 +122,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_fp_limb_2_col12"
+                          "State": "next_fp_limb_2_col13"
                         },
                         "*",
                         {
@@ -139,7 +139,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_fp_limb_3_col13"
+                      "State": "next_fp_limb_3_col14"
                     },
                     "*",
                     {
@@ -170,13 +170,13 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_pc_limb_0_col4"
+                      "State": "next_pc_limb_0_col5"
                     },
                     "+",
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_pc_limb_1_col5"
+                          "State": "next_pc_limb_1_col6"
                         },
                         "*",
                         {
@@ -193,7 +193,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_pc_limb_2_col6"
+                      "State": "next_pc_limb_2_col7"
                     },
                     "*",
                     {
@@ -210,7 +210,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "next_pc_limb_3_col7"
+                  "State": "next_pc_limb_3_col8"
                 },
                 "*",
                 {
@@ -230,13 +230,13 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_fp_limb_0_col10"
+                      "State": "next_fp_limb_0_col11"
                     },
                     "+",
                     {
                       "BinaryOp": [
                         {
-                          "State": "next_fp_limb_1_col11"
+                          "State": "next_fp_limb_1_col12"
                         },
                         "*",
                         {
@@ -253,7 +253,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "next_fp_limb_2_col12"
+                      "State": "next_fp_limb_2_col13"
                     },
                     "*",
                     {
@@ -270,7 +270,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "next_fp_limb_3_col13"
+                  "State": "next_fp_limb_3_col14"
                 },
                 "*",
                 {
@@ -291,22 +291,22 @@
     ]
   ],
   "state_names": [
-    "input_pc_col0",
-    "input_ap_col1",
-    "input_fp_col2",
-    "next_pc_id_col3",
-    "next_pc_limb_0_col4",
-    "next_pc_limb_1_col5",
-    "next_pc_limb_2_col6",
-    "next_pc_limb_3_col7",
-    "partial_limb_msb_col8",
-    "next_fp_id_col9",
-    "next_fp_limb_0_col10",
-    "next_fp_limb_1_col11",
-    "next_fp_limb_2_col12",
-    "next_fp_limb_3_col13",
-    "partial_limb_msb_col14",
-    "enabler_col15"
+    "enabler_col0",
+    "input_pc_col1",
+    "input_ap_col2",
+    "input_fp_col3",
+    "next_pc_id_col4",
+    "next_pc_limb_0_col5",
+    "next_pc_limb_1_col6",
+    "next_pc_limb_2_col7",
+    "next_pc_limb_3_col8",
+    "partial_limb_msb_col9",
+    "next_fp_id_col10",
+    "next_fp_limb_0_col11",
+    "next_fp_limb_1_col12",
+    "next_fp_limb_2_col13",
+    "next_fp_limb_3_col14",
+    "partial_limb_msb_col15"
   ],
   "constraint_lookups": [
     [
@@ -390,6 +390,30 @@
   "external_states": [],
   "constraints": [
     {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col0"
+                },
+                "*",
+                {
+                  "State": "enabler_col0"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col0"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
+    },
+    {
       "Intermediate": {
         "felt_names": [],
         "var": {
@@ -399,9 +423,12 @@
               {
                 "Array": [
                   {
-                    "State": "input_pc_col0"
+                    "State": "input_pc_col1"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               }
             ]
           ]
@@ -420,7 +447,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "input_fp_col2"
+                        "State": "input_fp_col3"
                       },
                       "-",
                       {
@@ -434,22 +461,25 @@
                 ]
               },
               {
-                "State": "next_pc_id_col3"
+                "State": "enabler_col0"
               },
               {
-                "State": "next_pc_limb_0_col4"
+                "State": "next_pc_id_col4"
               },
               {
-                "State": "next_pc_limb_1_col5"
+                "State": "next_pc_limb_0_col5"
               },
               {
-                "State": "next_pc_limb_2_col6"
+                "State": "next_pc_limb_1_col6"
               },
               {
-                "State": "next_pc_limb_3_col7"
+                "State": "next_pc_limb_2_col7"
               },
               {
-                "State": "partial_limb_msb_col8"
+                "State": "next_pc_limb_3_col8"
+              },
+              {
+                "State": "partial_limb_msb_col9"
               }
             ]
           ]
@@ -468,7 +498,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "input_fp_col2"
+                        "State": "input_fp_col3"
                       },
                       "-",
                       {
@@ -482,51 +512,30 @@
                 ]
               },
               {
-                "State": "next_fp_id_col9"
+                "State": "enabler_col0"
               },
               {
-                "State": "next_fp_limb_0_col10"
+                "State": "next_fp_id_col10"
               },
               {
-                "State": "next_fp_limb_1_col11"
+                "State": "next_fp_limb_0_col11"
               },
               {
-                "State": "next_fp_limb_2_col12"
+                "State": "next_fp_limb_1_col12"
               },
               {
-                "State": "next_fp_limb_3_col13"
+                "State": "next_fp_limb_2_col13"
               },
               {
-                "State": "partial_limb_msb_col14"
+                "State": "next_fp_limb_3_col14"
+              },
+              {
+                "State": "partial_limb_msb_col15"
               }
             ]
           ]
         }
       }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col15"
-                },
-                "*",
-                {
-                  "State": "enabler_col15"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col15"
-            }
-          ]
-        },
-        "Enabler is a bit"
-      ]
     },
     {
       "LookupTerm": {
@@ -539,18 +548,18 @@
             ]
           },
           {
-            "State": "input_pc_col0"
+            "State": "input_pc_col1"
           },
           {
-            "State": "input_ap_col1"
+            "State": "input_ap_col2"
           },
           {
-            "State": "input_fp_col2"
+            "State": "input_fp_col3"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "State": "enabler_col15"
+          "State": "enabler_col0"
         }
       }
     },
@@ -571,13 +580,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_pc_limb_0_col4"
+                        "State": "next_pc_limb_0_col5"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "next_pc_limb_1_col5"
+                            "State": "next_pc_limb_1_col6"
                           },
                           "*",
                           {
@@ -594,7 +603,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_pc_limb_2_col6"
+                        "State": "next_pc_limb_2_col7"
                       },
                       "*",
                       {
@@ -611,7 +620,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_pc_limb_3_col7"
+                    "State": "next_pc_limb_3_col8"
                   },
                   "*",
                   {
@@ -625,7 +634,7 @@
             ]
           },
           {
-            "State": "input_ap_col1"
+            "State": "input_ap_col2"
           },
           {
             "BinaryOp": [
@@ -634,13 +643,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_fp_limb_0_col10"
+                        "State": "next_fp_limb_0_col11"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "next_fp_limb_1_col11"
+                            "State": "next_fp_limb_1_col12"
                           },
                           "*",
                           {
@@ -657,7 +666,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_fp_limb_2_col12"
+                        "State": "next_fp_limb_2_col13"
                       },
                       "*",
                       {
@@ -674,7 +683,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_fp_limb_3_col13"
+                    "State": "next_fp_limb_3_col14"
                   },
                   "*",
                   {
@@ -690,12 +699,15 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col15"
+          "State": "enabler_col0"
         }
       }
     }
   ],
   "deductions": [
+    {
+      "Deduction": "Enabler"
+    },
     {
       "Deduction": {
         "Var": [
@@ -732,7 +744,7 @@
             "MemoryAddressToId::deduce_output",
             [
               {
-                "State": "input_pc_col0"
+                "State": "input_pc_col1"
               }
             ]
           ]
@@ -764,7 +776,7 @@
         "input": {
           "Tuple": [
             {
-              "State": "input_pc_col0"
+              "State": "input_pc_col1"
             },
             {
               "Array": [
@@ -825,7 +837,7 @@
             ]
           },
           {
-            "State": "input_pc_col0"
+            "State": "input_pc_col1"
           },
           {
             "Const": [
@@ -866,10 +878,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1023,7 +1032,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "input_fp_col2"
+                    "State": "input_fp_col3"
                   },
                   "-",
                   {
@@ -1053,7 +1062,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "input_fp_col2"
+              "State": "input_fp_col3"
             },
             "-",
             {
@@ -1079,7 +1088,7 @@
           {
             "BinaryOp": [
               {
-                "State": "input_fp_col2"
+                "State": "input_fp_col3"
               },
               "-",
               {
@@ -1091,15 +1100,12 @@
             ]
           },
           {
-            "State": "next_pc_id_col3"
+            "State": "next_pc_id_col4"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1116,7 +1122,7 @@
             "MemoryIdToBig::deduce_output",
             [
               {
-                "State": "next_pc_id_col3"
+                "State": "next_pc_id_col4"
               }
             ]
           ]
@@ -1226,7 +1232,7 @@
                     "UInt16::from_m31",
                     [
                       {
-                        "State": "next_pc_limb_3_col7"
+                        "State": "next_pc_limb_3_col8"
                       }
                     ]
                   ]
@@ -1271,7 +1277,7 @@
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
         "input": {
-          "State": "next_pc_id_col3"
+          "State": "next_pc_id_col4"
         }
       }
     },
@@ -1286,19 +1292,19 @@
             ]
           },
           {
-            "State": "next_pc_id_col3"
+            "State": "next_pc_id_col4"
           },
           {
-            "State": "next_pc_limb_0_col4"
+            "State": "next_pc_limb_0_col5"
           },
           {
-            "State": "next_pc_limb_1_col5"
+            "State": "next_pc_limb_1_col6"
           },
           {
-            "State": "next_pc_limb_2_col6"
+            "State": "next_pc_limb_2_col7"
           },
           {
-            "State": "next_pc_limb_3_col7"
+            "State": "next_pc_limb_3_col8"
           },
           {
             "Const": [
@@ -1447,10 +1453,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1465,16 +1468,16 @@
               {
                 "Array": [
                   {
-                    "State": "next_pc_limb_0_col4"
+                    "State": "next_pc_limb_0_col5"
                   },
                   {
-                    "State": "next_pc_limb_1_col5"
+                    "State": "next_pc_limb_1_col6"
                   },
                   {
-                    "State": "next_pc_limb_2_col6"
+                    "State": "next_pc_limb_2_col7"
                   },
                   {
-                    "State": "next_pc_limb_3_col7"
+                    "State": "next_pc_limb_3_col8"
                   },
                   {
                     "Const": [
@@ -1641,7 +1644,7 @@
               ]
             },
             {
-              "State": "next_pc_id_col3"
+              "State": "next_pc_id_col4"
             }
           ]
         }
@@ -1665,7 +1668,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "input_fp_col2"
+                    "State": "input_fp_col3"
                   },
                   "-",
                   {
@@ -1695,7 +1698,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "input_fp_col2"
+              "State": "input_fp_col3"
             },
             "-",
             {
@@ -1721,7 +1724,7 @@
           {
             "BinaryOp": [
               {
-                "State": "input_fp_col2"
+                "State": "input_fp_col3"
               },
               "-",
               {
@@ -1733,15 +1736,12 @@
             ]
           },
           {
-            "State": "next_fp_id_col9"
+            "State": "next_fp_id_col10"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1758,7 +1758,7 @@
             "MemoryIdToBig::deduce_output",
             [
               {
-                "State": "next_fp_id_col9"
+                "State": "next_fp_id_col10"
               }
             ]
           ]
@@ -1868,7 +1868,7 @@
                     "UInt16::from_m31",
                     [
                       {
-                        "State": "next_fp_limb_3_col13"
+                        "State": "next_fp_limb_3_col14"
                       }
                     ]
                   ]
@@ -1913,7 +1913,7 @@
       "LookupAddInput": {
         "relation_name": "MemoryIdToBig",
         "input": {
-          "State": "next_fp_id_col9"
+          "State": "next_fp_id_col10"
         }
       }
     },
@@ -1928,19 +1928,19 @@
             ]
           },
           {
-            "State": "next_fp_id_col9"
+            "State": "next_fp_id_col10"
           },
           {
-            "State": "next_fp_limb_0_col10"
+            "State": "next_fp_limb_0_col11"
           },
           {
-            "State": "next_fp_limb_1_col11"
+            "State": "next_fp_limb_1_col12"
           },
           {
-            "State": "next_fp_limb_2_col12"
+            "State": "next_fp_limb_2_col13"
           },
           {
-            "State": "next_fp_limb_3_col13"
+            "State": "next_fp_limb_3_col14"
           },
           {
             "Const": [
@@ -2089,10 +2089,7 @@
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -2107,16 +2104,16 @@
               {
                 "Array": [
                   {
-                    "State": "next_fp_limb_0_col10"
+                    "State": "next_fp_limb_0_col11"
                   },
                   {
-                    "State": "next_fp_limb_1_col11"
+                    "State": "next_fp_limb_1_col12"
                   },
                   {
-                    "State": "next_fp_limb_2_col12"
+                    "State": "next_fp_limb_2_col13"
                   },
                   {
-                    "State": "next_fp_limb_3_col13"
+                    "State": "next_fp_limb_3_col14"
                   },
                   {
                     "Const": [
@@ -2283,16 +2280,13 @@
               ]
             },
             {
-              "State": "next_fp_id_col9"
+              "State": "next_fp_id_col10"
             }
           ]
         }
       }
     },
     "EndBlock",
-    {
-      "Deduction": "Enabler"
-    },
     {
       "LookupTerm": {
         "relation_name": "Opcodes",
@@ -2304,18 +2298,18 @@
             ]
           },
           {
-            "State": "input_pc_col0"
+            "State": "input_pc_col1"
           },
           {
-            "State": "input_ap_col1"
+            "State": "input_ap_col2"
           },
           {
-            "State": "input_fp_col2"
+            "State": "input_fp_col3"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "State": "enabler_col15"
+          "State": "enabler_col0"
         }
       }
     },
@@ -2336,13 +2330,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_pc_limb_0_col4"
+                        "State": "next_pc_limb_0_col5"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "next_pc_limb_1_col5"
+                            "State": "next_pc_limb_1_col6"
                           },
                           "*",
                           {
@@ -2359,7 +2353,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_pc_limb_2_col6"
+                        "State": "next_pc_limb_2_col7"
                       },
                       "*",
                       {
@@ -2376,7 +2370,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_pc_limb_3_col7"
+                    "State": "next_pc_limb_3_col8"
                   },
                   "*",
                   {
@@ -2390,7 +2384,7 @@
             ]
           },
           {
-            "State": "input_ap_col1"
+            "State": "input_ap_col2"
           },
           {
             "BinaryOp": [
@@ -2399,13 +2393,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_fp_limb_0_col10"
+                        "State": "next_fp_limb_0_col11"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "next_fp_limb_1_col11"
+                            "State": "next_fp_limb_1_col12"
                           },
                           "*",
                           {
@@ -2422,7 +2416,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "next_fp_limb_2_col12"
+                        "State": "next_fp_limb_2_col13"
                       },
                       "*",
                       {
@@ -2439,7 +2433,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "next_fp_limb_3_col13"
+                    "State": "next_fp_limb_3_col14"
                   },
                   "*",
                   {
@@ -2455,7 +2449,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col15"
+          "State": "enabler_col0"
         }
       }
     }

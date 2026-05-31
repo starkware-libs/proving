@@ -145,6 +145,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "ms_4_bits_col0"
               }
@@ -172,6 +173,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "ms_4_bits_col1"
               }
@@ -199,6 +201,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "ms_4_bits_col2"
               }
@@ -226,6 +229,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "ms_4_bits_col3"
               }
@@ -257,6 +261,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "xor_col4"
               }
@@ -282,6 +287,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "xor_col5"
               }
@@ -313,6 +319,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "xor_col6"
               }
@@ -338,6 +345,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "xor_col7"
               }
@@ -899,12 +907,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     "EndBlock",
@@ -995,12 +998,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     "EndBlock",
@@ -1109,12 +1107,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     "EndBlock",
@@ -1205,12 +1198,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     "EndBlock",

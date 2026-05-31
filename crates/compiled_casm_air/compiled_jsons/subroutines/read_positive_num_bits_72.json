@@ -119,6 +119,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "id_col0"
               }
@@ -141,6 +142,7 @@
                   }
                 ]
               },
+              "Enabler",
               {
                 "State": "value_limb_0_col1"
               },
@@ -234,12 +236,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     "EndBlock",
@@ -597,12 +594,7 @@
           }
         ],
         "use_or_yield": "Use",
-        "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
-        }
+        "multiplicity": "Enabler"
       }
     },
     {

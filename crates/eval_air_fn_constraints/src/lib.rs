@@ -53,7 +53,7 @@ pub fn create_sample_evaluation(
     let (_, steps) = run_component_and_collect_steps(
         compiled_registry,
         component,
-        &vec![],
+        &[],
         &assignment.base_trace,
         assignment.environment.clone(),
     );
@@ -68,15 +68,21 @@ pub fn create_sample_evaluation(
 fn run_component_and_collect_steps(
     compiled_registry: &IndexMap<String, CompiledAirFn>,
     component: &CompiledAirFn,
-    input: &Vec<QM31>,
-    base_trace: &Vec<QM31>,
+    input: &[QM31],
+    rest_params: &[QM31],
     environment: Rc<Environment>,
 ) -> (Vec<QM31>, Vec<EvaluatedStep>) {
     let verifier_input_names = &component.verifier_input_limbs;
+    let (enabler, base_trace) = if component.r#type == TraceType::Inline {
+        // Inline components receive the enabler as the first parameter after the input
+        (Some(rest_params[0]), &rest_params[1..])
+    } else {
+        (None, rest_params)
+    };
+    let mut scope = Scope::new(Rc::clone(&environment), enabler);
     assert_eq!(base_trace.len(), component.state_names.len());
     assert_eq!(input.len(), verifier_input_names.len());
 
-    let mut scope = Scope::new(Rc::clone(&environment));
     for (name, value) in component.state_names.iter().zip(base_trace) {
         scope.add_new_var(name.clone(), *value);
     }

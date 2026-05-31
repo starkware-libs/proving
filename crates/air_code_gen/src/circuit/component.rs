@@ -276,6 +276,7 @@ fn input_names(air_fn: &CompiledAirFn) -> Vec<String> {
     if air_fn.r#type == TraceType::Inline {
         chain!(
             air_fn.verifier_input_limbs.clone(),
+            ["enabler".to_string()],
             air_fn.state_names.clone()
         )
         .collect()
@@ -335,9 +336,9 @@ fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
         CompiledAirVar::Array(_vars) => todo!(),
         CompiledAirVar::ExternalState(col_id) => quote! { $(col_id.to_lowercase()) },
         CompiledAirVar::PublicParam(param_name) => quote! { $(param_name) },
+        CompiledAirVar::Enabler => quote! { enabler },
         CompiledAirVar::Struct { .. }
         | CompiledAirVar::MethodCall(..)
-        | CompiledAirVar::Enabler
         | CompiledAirVar::Multiplicity(_) => {
             panic!("Unsupported expression in constraint evaluation: {expr}")
         }

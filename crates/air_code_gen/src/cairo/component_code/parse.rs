@@ -106,6 +106,7 @@ pub fn parse_var(
         }
         CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase(),
         CompiledAirVar::PublicParam(name) => name.clone(),
+        CompiledAirVar::Enabler => "enabler".to_string(),
         v => unimplemented!("Unsupported variable type: {v:?}"),
     }
 }

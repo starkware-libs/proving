@@ -34,17 +34,18 @@ impl ClaimGenerator {
         InteractionClaimGenerator,
     ) {
         let mut packed_inputs = self.packed_inputs.into_inner().unwrap();
+        let remainder_inputs = self.remainder_inputs.into_inner().unwrap();
+        let n_active_rows = packed_inputs.len() * N_LANES + remainder_inputs.len();
+        add_remainder(&mut packed_inputs, &remainder_inputs);
         assert!(!packed_inputs.is_empty());
-        assert!(self.remainder_inputs.lock().unwrap().is_empty());
         let n_vec_rows = packed_inputs.len();
-        let n_rows = n_vec_rows * N_LANES;
         let packed_size = n_vec_rows.next_power_of_two();
         let log_size = packed_size.ilog2() + LOG_N_LANES;
         packed_inputs.resize(packed_size, *packed_inputs.first().unwrap());
 
         let (trace, lookup_data, sub_component_inputs) = write_trace_simd(
             packed_inputs,
-            n_rows,
+            n_active_rows,
             pedersen_points_table_window_bits_18_state,
             range_check_9_9_state,
             range_check_20_state,
@@ -53,57 +54,57 @@ impl ClaimGenerator {
             add_inputs(
                 pedersen_points_table_window_bits_18_state,
                 &inputs,
-                inputs.len() * N_LANES,
+                n_active_rows,
                 0,
             );
         }
         for inputs in sub_component_inputs.range_check_9_9 {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 0);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 0);
         }
         for inputs in sub_component_inputs.range_check_9_9_b {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 1);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 1);
         }
         for inputs in sub_component_inputs.range_check_9_9_c {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 2);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 2);
         }
         for inputs in sub_component_inputs.range_check_9_9_d {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 3);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 3);
         }
         for inputs in sub_component_inputs.range_check_9_9_e {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 4);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 4);
         }
         for inputs in sub_component_inputs.range_check_9_9_f {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 5);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 5);
         }
         for inputs in sub_component_inputs.range_check_9_9_g {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 6);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 6);
         }
         for inputs in sub_component_inputs.range_check_9_9_h {
-            add_inputs(range_check_9_9_state, &inputs, inputs.len() * N_LANES, 7);
+            add_inputs(range_check_9_9_state, &inputs, n_active_rows, 7);
         }
         for inputs in sub_component_inputs.range_check_20 {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 0);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 0);
         }
         for inputs in sub_component_inputs.range_check_20_b {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 1);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 1);
         }
         for inputs in sub_component_inputs.range_check_20_c {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 2);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 2);
         }
         for inputs in sub_component_inputs.range_check_20_d {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 3);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 3);
         }
         for inputs in sub_component_inputs.range_check_20_e {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 4);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 4);
         }
         for inputs in sub_component_inputs.range_check_20_f {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 5);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 5);
         }
         for inputs in sub_component_inputs.range_check_20_g {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 6);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 6);
         }
         for inputs in sub_component_inputs.range_check_20_h {
-            add_inputs(range_check_20_state, &inputs, inputs.len() * N_LANES, 7);
+            add_inputs(range_check_20_state, &inputs, n_active_rows, 7);
         }
 
         (
@@ -226,383 +227,385 @@ fn write_trace_simd(
                 row_index,
                 (row, lookup_data, sub_component_inputs, partial_ec_mul_window_bits_18_input),
             )| {
-                let input_limb_0_col0 = partial_ec_mul_window_bits_18_input.0;
-                *row[0] = input_limb_0_col0;
-                let input_limb_1_col1 = partial_ec_mul_window_bits_18_input.1;
-                *row[1] = input_limb_1_col1;
-                let input_limb_2_col2 = partial_ec_mul_window_bits_18_input.2 .0[0];
-                *row[2] = input_limb_2_col2;
-                let input_limb_3_col3 = partial_ec_mul_window_bits_18_input.2 .0[1];
-                *row[3] = input_limb_3_col3;
-                let input_limb_4_col4 = partial_ec_mul_window_bits_18_input.2 .0[2];
-                *row[4] = input_limb_4_col4;
-                let input_limb_5_col5 = partial_ec_mul_window_bits_18_input.2 .0[3];
-                *row[5] = input_limb_5_col5;
-                let input_limb_6_col6 = partial_ec_mul_window_bits_18_input.2 .0[4];
-                *row[6] = input_limb_6_col6;
-                let input_limb_7_col7 = partial_ec_mul_window_bits_18_input.2 .0[5];
-                *row[7] = input_limb_7_col7;
-                let input_limb_8_col8 = partial_ec_mul_window_bits_18_input.2 .0[6];
-                *row[8] = input_limb_8_col8;
-                let input_limb_9_col9 = partial_ec_mul_window_bits_18_input.2 .0[7];
-                *row[9] = input_limb_9_col9;
-                let input_limb_10_col10 = partial_ec_mul_window_bits_18_input.2 .0[8];
-                *row[10] = input_limb_10_col10;
-                let input_limb_11_col11 = partial_ec_mul_window_bits_18_input.2 .0[9];
-                *row[11] = input_limb_11_col11;
-                let input_limb_12_col12 = partial_ec_mul_window_bits_18_input.2 .0[10];
-                *row[12] = input_limb_12_col12;
-                let input_limb_13_col13 = partial_ec_mul_window_bits_18_input.2 .0[11];
-                *row[13] = input_limb_13_col13;
-                let input_limb_14_col14 = partial_ec_mul_window_bits_18_input.2 .0[12];
-                *row[14] = input_limb_14_col14;
-                let input_limb_15_col15 = partial_ec_mul_window_bits_18_input.2 .0[13];
-                *row[15] = input_limb_15_col15;
-                let input_limb_16_col16 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(0);
-                *row[16] = input_limb_16_col16;
-                let input_limb_17_col17 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(1);
-                *row[17] = input_limb_17_col17;
-                let input_limb_18_col18 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(2);
-                *row[18] = input_limb_18_col18;
-                let input_limb_19_col19 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(3);
-                *row[19] = input_limb_19_col19;
-                let input_limb_20_col20 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(4);
-                *row[20] = input_limb_20_col20;
-                let input_limb_21_col21 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(5);
-                *row[21] = input_limb_21_col21;
-                let input_limb_22_col22 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(6);
-                *row[22] = input_limb_22_col22;
-                let input_limb_23_col23 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(7);
-                *row[23] = input_limb_23_col23;
-                let input_limb_24_col24 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(8);
-                *row[24] = input_limb_24_col24;
-                let input_limb_25_col25 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(9);
-                *row[25] = input_limb_25_col25;
-                let input_limb_26_col26 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(10);
-                *row[26] = input_limb_26_col26;
-                let input_limb_27_col27 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(11);
-                *row[27] = input_limb_27_col27;
-                let input_limb_28_col28 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(12);
-                *row[28] = input_limb_28_col28;
-                let input_limb_29_col29 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(13);
-                *row[29] = input_limb_29_col29;
-                let input_limb_30_col30 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(14);
-                *row[30] = input_limb_30_col30;
-                let input_limb_31_col31 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(15);
-                *row[31] = input_limb_31_col31;
-                let input_limb_32_col32 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(16);
-                *row[32] = input_limb_32_col32;
-                let input_limb_33_col33 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(17);
-                *row[33] = input_limb_33_col33;
-                let input_limb_34_col34 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(18);
-                *row[34] = input_limb_34_col34;
-                let input_limb_35_col35 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(19);
-                *row[35] = input_limb_35_col35;
-                let input_limb_36_col36 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(20);
-                *row[36] = input_limb_36_col36;
-                let input_limb_37_col37 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(21);
-                *row[37] = input_limb_37_col37;
-                let input_limb_38_col38 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(22);
-                *row[38] = input_limb_38_col38;
-                let input_limb_39_col39 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(23);
-                *row[39] = input_limb_39_col39;
-                let input_limb_40_col40 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(24);
-                *row[40] = input_limb_40_col40;
-                let input_limb_41_col41 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(25);
-                *row[41] = input_limb_41_col41;
-                let input_limb_42_col42 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(26);
-                *row[42] = input_limb_42_col42;
-                let input_limb_43_col43 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(27);
-                *row[43] = input_limb_43_col43;
-                let input_limb_44_col44 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(0);
-                *row[44] = input_limb_44_col44;
-                let input_limb_45_col45 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(1);
-                *row[45] = input_limb_45_col45;
-                let input_limb_46_col46 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(2);
-                *row[46] = input_limb_46_col46;
-                let input_limb_47_col47 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(3);
-                *row[47] = input_limb_47_col47;
-                let input_limb_48_col48 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(4);
-                *row[48] = input_limb_48_col48;
-                let input_limb_49_col49 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(5);
-                *row[49] = input_limb_49_col49;
-                let input_limb_50_col50 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(6);
-                *row[50] = input_limb_50_col50;
-                let input_limb_51_col51 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(7);
-                *row[51] = input_limb_51_col51;
-                let input_limb_52_col52 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(8);
-                *row[52] = input_limb_52_col52;
-                let input_limb_53_col53 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(9);
-                *row[53] = input_limb_53_col53;
-                let input_limb_54_col54 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(10);
-                *row[54] = input_limb_54_col54;
-                let input_limb_55_col55 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(11);
-                *row[55] = input_limb_55_col55;
-                let input_limb_56_col56 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(12);
-                *row[56] = input_limb_56_col56;
-                let input_limb_57_col57 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(13);
-                *row[57] = input_limb_57_col57;
-                let input_limb_58_col58 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(14);
-                *row[58] = input_limb_58_col58;
-                let input_limb_59_col59 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(15);
-                *row[59] = input_limb_59_col59;
-                let input_limb_60_col60 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(16);
-                *row[60] = input_limb_60_col60;
-                let input_limb_61_col61 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(17);
-                *row[61] = input_limb_61_col61;
-                let input_limb_62_col62 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(18);
-                *row[62] = input_limb_62_col62;
-                let input_limb_63_col63 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(19);
-                *row[63] = input_limb_63_col63;
-                let input_limb_64_col64 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(20);
-                *row[64] = input_limb_64_col64;
-                let input_limb_65_col65 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(21);
-                *row[65] = input_limb_65_col65;
-                let input_limb_66_col66 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(22);
-                *row[66] = input_limb_66_col66;
-                let input_limb_67_col67 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(23);
-                *row[67] = input_limb_67_col67;
-                let input_limb_68_col68 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(24);
-                *row[68] = input_limb_68_col68;
-                let input_limb_69_col69 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(25);
-                *row[69] = input_limb_69_col69;
-                let input_limb_70_col70 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(26);
-                *row[70] = input_limb_70_col70;
-                let input_limb_71_col71 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(27);
-                *row[71] = input_limb_71_col71;
+                let enabler_col0 = enabler_col.packed_at(row_index);
+                *row[0] = enabler_col0;
+                let input_limb_0_col1 = partial_ec_mul_window_bits_18_input.0;
+                *row[1] = input_limb_0_col1;
+                let input_limb_1_col2 = partial_ec_mul_window_bits_18_input.1;
+                *row[2] = input_limb_1_col2;
+                let input_limb_2_col3 = partial_ec_mul_window_bits_18_input.2 .0[0];
+                *row[3] = input_limb_2_col3;
+                let input_limb_3_col4 = partial_ec_mul_window_bits_18_input.2 .0[1];
+                *row[4] = input_limb_3_col4;
+                let input_limb_4_col5 = partial_ec_mul_window_bits_18_input.2 .0[2];
+                *row[5] = input_limb_4_col5;
+                let input_limb_5_col6 = partial_ec_mul_window_bits_18_input.2 .0[3];
+                *row[6] = input_limb_5_col6;
+                let input_limb_6_col7 = partial_ec_mul_window_bits_18_input.2 .0[4];
+                *row[7] = input_limb_6_col7;
+                let input_limb_7_col8 = partial_ec_mul_window_bits_18_input.2 .0[5];
+                *row[8] = input_limb_7_col8;
+                let input_limb_8_col9 = partial_ec_mul_window_bits_18_input.2 .0[6];
+                *row[9] = input_limb_8_col9;
+                let input_limb_9_col10 = partial_ec_mul_window_bits_18_input.2 .0[7];
+                *row[10] = input_limb_9_col10;
+                let input_limb_10_col11 = partial_ec_mul_window_bits_18_input.2 .0[8];
+                *row[11] = input_limb_10_col11;
+                let input_limb_11_col12 = partial_ec_mul_window_bits_18_input.2 .0[9];
+                *row[12] = input_limb_11_col12;
+                let input_limb_12_col13 = partial_ec_mul_window_bits_18_input.2 .0[10];
+                *row[13] = input_limb_12_col13;
+                let input_limb_13_col14 = partial_ec_mul_window_bits_18_input.2 .0[11];
+                *row[14] = input_limb_13_col14;
+                let input_limb_14_col15 = partial_ec_mul_window_bits_18_input.2 .0[12];
+                *row[15] = input_limb_14_col15;
+                let input_limb_15_col16 = partial_ec_mul_window_bits_18_input.2 .0[13];
+                *row[16] = input_limb_15_col16;
+                let input_limb_16_col17 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(0);
+                *row[17] = input_limb_16_col17;
+                let input_limb_17_col18 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(1);
+                *row[18] = input_limb_17_col18;
+                let input_limb_18_col19 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(2);
+                *row[19] = input_limb_18_col19;
+                let input_limb_19_col20 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(3);
+                *row[20] = input_limb_19_col20;
+                let input_limb_20_col21 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(4);
+                *row[21] = input_limb_20_col21;
+                let input_limb_21_col22 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(5);
+                *row[22] = input_limb_21_col22;
+                let input_limb_22_col23 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(6);
+                *row[23] = input_limb_22_col23;
+                let input_limb_23_col24 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(7);
+                *row[24] = input_limb_23_col24;
+                let input_limb_24_col25 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(8);
+                *row[25] = input_limb_24_col25;
+                let input_limb_25_col26 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(9);
+                *row[26] = input_limb_25_col26;
+                let input_limb_26_col27 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(10);
+                *row[27] = input_limb_26_col27;
+                let input_limb_27_col28 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(11);
+                *row[28] = input_limb_27_col28;
+                let input_limb_28_col29 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(12);
+                *row[29] = input_limb_28_col29;
+                let input_limb_29_col30 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(13);
+                *row[30] = input_limb_29_col30;
+                let input_limb_30_col31 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(14);
+                *row[31] = input_limb_30_col31;
+                let input_limb_31_col32 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(15);
+                *row[32] = input_limb_31_col32;
+                let input_limb_32_col33 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(16);
+                *row[33] = input_limb_32_col33;
+                let input_limb_33_col34 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(17);
+                *row[34] = input_limb_33_col34;
+                let input_limb_34_col35 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(18);
+                *row[35] = input_limb_34_col35;
+                let input_limb_35_col36 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(19);
+                *row[36] = input_limb_35_col36;
+                let input_limb_36_col37 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(20);
+                *row[37] = input_limb_36_col37;
+                let input_limb_37_col38 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(21);
+                *row[38] = input_limb_37_col38;
+                let input_limb_38_col39 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(22);
+                *row[39] = input_limb_38_col39;
+                let input_limb_39_col40 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(23);
+                *row[40] = input_limb_39_col40;
+                let input_limb_40_col41 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(24);
+                *row[41] = input_limb_40_col41;
+                let input_limb_41_col42 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(25);
+                *row[42] = input_limb_41_col42;
+                let input_limb_42_col43 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(26);
+                *row[43] = input_limb_42_col43;
+                let input_limb_43_col44 = partial_ec_mul_window_bits_18_input.2 .1[0].get_m31(27);
+                *row[44] = input_limb_43_col44;
+                let input_limb_44_col45 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(0);
+                *row[45] = input_limb_44_col45;
+                let input_limb_45_col46 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(1);
+                *row[46] = input_limb_45_col46;
+                let input_limb_46_col47 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(2);
+                *row[47] = input_limb_46_col47;
+                let input_limb_47_col48 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(3);
+                *row[48] = input_limb_47_col48;
+                let input_limb_48_col49 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(4);
+                *row[49] = input_limb_48_col49;
+                let input_limb_49_col50 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(5);
+                *row[50] = input_limb_49_col50;
+                let input_limb_50_col51 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(6);
+                *row[51] = input_limb_50_col51;
+                let input_limb_51_col52 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(7);
+                *row[52] = input_limb_51_col52;
+                let input_limb_52_col53 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(8);
+                *row[53] = input_limb_52_col53;
+                let input_limb_53_col54 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(9);
+                *row[54] = input_limb_53_col54;
+                let input_limb_54_col55 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(10);
+                *row[55] = input_limb_54_col55;
+                let input_limb_55_col56 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(11);
+                *row[56] = input_limb_55_col56;
+                let input_limb_56_col57 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(12);
+                *row[57] = input_limb_56_col57;
+                let input_limb_57_col58 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(13);
+                *row[58] = input_limb_57_col58;
+                let input_limb_58_col59 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(14);
+                *row[59] = input_limb_58_col59;
+                let input_limb_59_col60 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(15);
+                *row[60] = input_limb_59_col60;
+                let input_limb_60_col61 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(16);
+                *row[61] = input_limb_60_col61;
+                let input_limb_61_col62 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(17);
+                *row[62] = input_limb_61_col62;
+                let input_limb_62_col63 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(18);
+                *row[63] = input_limb_62_col63;
+                let input_limb_63_col64 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(19);
+                *row[64] = input_limb_63_col64;
+                let input_limb_64_col65 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(20);
+                *row[65] = input_limb_64_col65;
+                let input_limb_65_col66 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(21);
+                *row[66] = input_limb_65_col66;
+                let input_limb_66_col67 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(22);
+                *row[67] = input_limb_66_col67;
+                let input_limb_67_col68 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(23);
+                *row[68] = input_limb_67_col68;
+                let input_limb_68_col69 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(24);
+                *row[69] = input_limb_68_col69;
+                let input_limb_69_col70 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(25);
+                *row[70] = input_limb_69_col70;
+                let input_limb_70_col71 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(26);
+                *row[71] = input_limb_70_col71;
+                let input_limb_71_col72 = partial_ec_mul_window_bits_18_input.2 .1[1].get_m31(27);
+                *row[72] = input_limb_71_col72;
                 *sub_component_inputs.pedersen_points_table_window_bits_18[0] =
-                    [(((M31_262144) * (input_limb_1_col1)) + (input_limb_2_col2))];
+                    [(((M31_262144) * (input_limb_1_col2)) + (input_limb_2_col3))];
                 let pedersen_points_table_window_bits_18_output_tmp_d9509_0 =
                     PackedPedersenPointsTableWindowBits18::deduce_output([(((M31_262144)
-                        * (input_limb_1_col1))
-                        + (input_limb_2_col2))]);
-                let pedersen_points_table_window_bits_18_output_limb_0_col72 =
+                        * (input_limb_1_col2))
+                        + (input_limb_2_col3))]);
+                let pedersen_points_table_window_bits_18_output_limb_0_col73 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(0);
-                *row[72] = pedersen_points_table_window_bits_18_output_limb_0_col72;
-                let pedersen_points_table_window_bits_18_output_limb_1_col73 =
+                *row[73] = pedersen_points_table_window_bits_18_output_limb_0_col73;
+                let pedersen_points_table_window_bits_18_output_limb_1_col74 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(1);
-                *row[73] = pedersen_points_table_window_bits_18_output_limb_1_col73;
-                let pedersen_points_table_window_bits_18_output_limb_2_col74 =
+                *row[74] = pedersen_points_table_window_bits_18_output_limb_1_col74;
+                let pedersen_points_table_window_bits_18_output_limb_2_col75 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(2);
-                *row[74] = pedersen_points_table_window_bits_18_output_limb_2_col74;
-                let pedersen_points_table_window_bits_18_output_limb_3_col75 =
+                *row[75] = pedersen_points_table_window_bits_18_output_limb_2_col75;
+                let pedersen_points_table_window_bits_18_output_limb_3_col76 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(3);
-                *row[75] = pedersen_points_table_window_bits_18_output_limb_3_col75;
-                let pedersen_points_table_window_bits_18_output_limb_4_col76 =
+                *row[76] = pedersen_points_table_window_bits_18_output_limb_3_col76;
+                let pedersen_points_table_window_bits_18_output_limb_4_col77 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(4);
-                *row[76] = pedersen_points_table_window_bits_18_output_limb_4_col76;
-                let pedersen_points_table_window_bits_18_output_limb_5_col77 =
+                *row[77] = pedersen_points_table_window_bits_18_output_limb_4_col77;
+                let pedersen_points_table_window_bits_18_output_limb_5_col78 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(5);
-                *row[77] = pedersen_points_table_window_bits_18_output_limb_5_col77;
-                let pedersen_points_table_window_bits_18_output_limb_6_col78 =
+                *row[78] = pedersen_points_table_window_bits_18_output_limb_5_col78;
+                let pedersen_points_table_window_bits_18_output_limb_6_col79 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(6);
-                *row[78] = pedersen_points_table_window_bits_18_output_limb_6_col78;
-                let pedersen_points_table_window_bits_18_output_limb_7_col79 =
+                *row[79] = pedersen_points_table_window_bits_18_output_limb_6_col79;
+                let pedersen_points_table_window_bits_18_output_limb_7_col80 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(7);
-                *row[79] = pedersen_points_table_window_bits_18_output_limb_7_col79;
-                let pedersen_points_table_window_bits_18_output_limb_8_col80 =
+                *row[80] = pedersen_points_table_window_bits_18_output_limb_7_col80;
+                let pedersen_points_table_window_bits_18_output_limb_8_col81 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(8);
-                *row[80] = pedersen_points_table_window_bits_18_output_limb_8_col80;
-                let pedersen_points_table_window_bits_18_output_limb_9_col81 =
+                *row[81] = pedersen_points_table_window_bits_18_output_limb_8_col81;
+                let pedersen_points_table_window_bits_18_output_limb_9_col82 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(9);
-                *row[81] = pedersen_points_table_window_bits_18_output_limb_9_col81;
-                let pedersen_points_table_window_bits_18_output_limb_10_col82 =
+                *row[82] = pedersen_points_table_window_bits_18_output_limb_9_col82;
+                let pedersen_points_table_window_bits_18_output_limb_10_col83 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(10);
-                *row[82] = pedersen_points_table_window_bits_18_output_limb_10_col82;
-                let pedersen_points_table_window_bits_18_output_limb_11_col83 =
+                *row[83] = pedersen_points_table_window_bits_18_output_limb_10_col83;
+                let pedersen_points_table_window_bits_18_output_limb_11_col84 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(11);
-                *row[83] = pedersen_points_table_window_bits_18_output_limb_11_col83;
-                let pedersen_points_table_window_bits_18_output_limb_12_col84 =
+                *row[84] = pedersen_points_table_window_bits_18_output_limb_11_col84;
+                let pedersen_points_table_window_bits_18_output_limb_12_col85 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(12);
-                *row[84] = pedersen_points_table_window_bits_18_output_limb_12_col84;
-                let pedersen_points_table_window_bits_18_output_limb_13_col85 =
+                *row[85] = pedersen_points_table_window_bits_18_output_limb_12_col85;
+                let pedersen_points_table_window_bits_18_output_limb_13_col86 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(13);
-                *row[85] = pedersen_points_table_window_bits_18_output_limb_13_col85;
-                let pedersen_points_table_window_bits_18_output_limb_14_col86 =
+                *row[86] = pedersen_points_table_window_bits_18_output_limb_13_col86;
+                let pedersen_points_table_window_bits_18_output_limb_14_col87 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(14);
-                *row[86] = pedersen_points_table_window_bits_18_output_limb_14_col86;
-                let pedersen_points_table_window_bits_18_output_limb_15_col87 =
+                *row[87] = pedersen_points_table_window_bits_18_output_limb_14_col87;
+                let pedersen_points_table_window_bits_18_output_limb_15_col88 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(15);
-                *row[87] = pedersen_points_table_window_bits_18_output_limb_15_col87;
-                let pedersen_points_table_window_bits_18_output_limb_16_col88 =
+                *row[88] = pedersen_points_table_window_bits_18_output_limb_15_col88;
+                let pedersen_points_table_window_bits_18_output_limb_16_col89 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(16);
-                *row[88] = pedersen_points_table_window_bits_18_output_limb_16_col88;
-                let pedersen_points_table_window_bits_18_output_limb_17_col89 =
+                *row[89] = pedersen_points_table_window_bits_18_output_limb_16_col89;
+                let pedersen_points_table_window_bits_18_output_limb_17_col90 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(17);
-                *row[89] = pedersen_points_table_window_bits_18_output_limb_17_col89;
-                let pedersen_points_table_window_bits_18_output_limb_18_col90 =
+                *row[90] = pedersen_points_table_window_bits_18_output_limb_17_col90;
+                let pedersen_points_table_window_bits_18_output_limb_18_col91 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(18);
-                *row[90] = pedersen_points_table_window_bits_18_output_limb_18_col90;
-                let pedersen_points_table_window_bits_18_output_limb_19_col91 =
+                *row[91] = pedersen_points_table_window_bits_18_output_limb_18_col91;
+                let pedersen_points_table_window_bits_18_output_limb_19_col92 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(19);
-                *row[91] = pedersen_points_table_window_bits_18_output_limb_19_col91;
-                let pedersen_points_table_window_bits_18_output_limb_20_col92 =
+                *row[92] = pedersen_points_table_window_bits_18_output_limb_19_col92;
+                let pedersen_points_table_window_bits_18_output_limb_20_col93 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(20);
-                *row[92] = pedersen_points_table_window_bits_18_output_limb_20_col92;
-                let pedersen_points_table_window_bits_18_output_limb_21_col93 =
+                *row[93] = pedersen_points_table_window_bits_18_output_limb_20_col93;
+                let pedersen_points_table_window_bits_18_output_limb_21_col94 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(21);
-                *row[93] = pedersen_points_table_window_bits_18_output_limb_21_col93;
-                let pedersen_points_table_window_bits_18_output_limb_22_col94 =
+                *row[94] = pedersen_points_table_window_bits_18_output_limb_21_col94;
+                let pedersen_points_table_window_bits_18_output_limb_22_col95 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(22);
-                *row[94] = pedersen_points_table_window_bits_18_output_limb_22_col94;
-                let pedersen_points_table_window_bits_18_output_limb_23_col95 =
+                *row[95] = pedersen_points_table_window_bits_18_output_limb_22_col95;
+                let pedersen_points_table_window_bits_18_output_limb_23_col96 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(23);
-                *row[95] = pedersen_points_table_window_bits_18_output_limb_23_col95;
-                let pedersen_points_table_window_bits_18_output_limb_24_col96 =
+                *row[96] = pedersen_points_table_window_bits_18_output_limb_23_col96;
+                let pedersen_points_table_window_bits_18_output_limb_24_col97 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(24);
-                *row[96] = pedersen_points_table_window_bits_18_output_limb_24_col96;
-                let pedersen_points_table_window_bits_18_output_limb_25_col97 =
+                *row[97] = pedersen_points_table_window_bits_18_output_limb_24_col97;
+                let pedersen_points_table_window_bits_18_output_limb_25_col98 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(25);
-                *row[97] = pedersen_points_table_window_bits_18_output_limb_25_col97;
-                let pedersen_points_table_window_bits_18_output_limb_26_col98 =
+                *row[98] = pedersen_points_table_window_bits_18_output_limb_25_col98;
+                let pedersen_points_table_window_bits_18_output_limb_26_col99 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(26);
-                *row[98] = pedersen_points_table_window_bits_18_output_limb_26_col98;
-                let pedersen_points_table_window_bits_18_output_limb_27_col99 =
+                *row[99] = pedersen_points_table_window_bits_18_output_limb_26_col99;
+                let pedersen_points_table_window_bits_18_output_limb_27_col100 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[0].get_m31(27);
-                *row[99] = pedersen_points_table_window_bits_18_output_limb_27_col99;
-                let pedersen_points_table_window_bits_18_output_limb_28_col100 =
+                *row[100] = pedersen_points_table_window_bits_18_output_limb_27_col100;
+                let pedersen_points_table_window_bits_18_output_limb_28_col101 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(0);
-                *row[100] = pedersen_points_table_window_bits_18_output_limb_28_col100;
-                let pedersen_points_table_window_bits_18_output_limb_29_col101 =
+                *row[101] = pedersen_points_table_window_bits_18_output_limb_28_col101;
+                let pedersen_points_table_window_bits_18_output_limb_29_col102 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(1);
-                *row[101] = pedersen_points_table_window_bits_18_output_limb_29_col101;
-                let pedersen_points_table_window_bits_18_output_limb_30_col102 =
+                *row[102] = pedersen_points_table_window_bits_18_output_limb_29_col102;
+                let pedersen_points_table_window_bits_18_output_limb_30_col103 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(2);
-                *row[102] = pedersen_points_table_window_bits_18_output_limb_30_col102;
-                let pedersen_points_table_window_bits_18_output_limb_31_col103 =
+                *row[103] = pedersen_points_table_window_bits_18_output_limb_30_col103;
+                let pedersen_points_table_window_bits_18_output_limb_31_col104 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(3);
-                *row[103] = pedersen_points_table_window_bits_18_output_limb_31_col103;
-                let pedersen_points_table_window_bits_18_output_limb_32_col104 =
+                *row[104] = pedersen_points_table_window_bits_18_output_limb_31_col104;
+                let pedersen_points_table_window_bits_18_output_limb_32_col105 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(4);
-                *row[104] = pedersen_points_table_window_bits_18_output_limb_32_col104;
-                let pedersen_points_table_window_bits_18_output_limb_33_col105 =
+                *row[105] = pedersen_points_table_window_bits_18_output_limb_32_col105;
+                let pedersen_points_table_window_bits_18_output_limb_33_col106 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(5);
-                *row[105] = pedersen_points_table_window_bits_18_output_limb_33_col105;
-                let pedersen_points_table_window_bits_18_output_limb_34_col106 =
+                *row[106] = pedersen_points_table_window_bits_18_output_limb_33_col106;
+                let pedersen_points_table_window_bits_18_output_limb_34_col107 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(6);
-                *row[106] = pedersen_points_table_window_bits_18_output_limb_34_col106;
-                let pedersen_points_table_window_bits_18_output_limb_35_col107 =
+                *row[107] = pedersen_points_table_window_bits_18_output_limb_34_col107;
+                let pedersen_points_table_window_bits_18_output_limb_35_col108 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(7);
-                *row[107] = pedersen_points_table_window_bits_18_output_limb_35_col107;
-                let pedersen_points_table_window_bits_18_output_limb_36_col108 =
+                *row[108] = pedersen_points_table_window_bits_18_output_limb_35_col108;
+                let pedersen_points_table_window_bits_18_output_limb_36_col109 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(8);
-                *row[108] = pedersen_points_table_window_bits_18_output_limb_36_col108;
-                let pedersen_points_table_window_bits_18_output_limb_37_col109 =
+                *row[109] = pedersen_points_table_window_bits_18_output_limb_36_col109;
+                let pedersen_points_table_window_bits_18_output_limb_37_col110 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(9);
-                *row[109] = pedersen_points_table_window_bits_18_output_limb_37_col109;
-                let pedersen_points_table_window_bits_18_output_limb_38_col110 =
+                *row[110] = pedersen_points_table_window_bits_18_output_limb_37_col110;
+                let pedersen_points_table_window_bits_18_output_limb_38_col111 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(10);
-                *row[110] = pedersen_points_table_window_bits_18_output_limb_38_col110;
-                let pedersen_points_table_window_bits_18_output_limb_39_col111 =
+                *row[111] = pedersen_points_table_window_bits_18_output_limb_38_col111;
+                let pedersen_points_table_window_bits_18_output_limb_39_col112 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(11);
-                *row[111] = pedersen_points_table_window_bits_18_output_limb_39_col111;
-                let pedersen_points_table_window_bits_18_output_limb_40_col112 =
+                *row[112] = pedersen_points_table_window_bits_18_output_limb_39_col112;
+                let pedersen_points_table_window_bits_18_output_limb_40_col113 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(12);
-                *row[112] = pedersen_points_table_window_bits_18_output_limb_40_col112;
-                let pedersen_points_table_window_bits_18_output_limb_41_col113 =
+                *row[113] = pedersen_points_table_window_bits_18_output_limb_40_col113;
+                let pedersen_points_table_window_bits_18_output_limb_41_col114 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(13);
-                *row[113] = pedersen_points_table_window_bits_18_output_limb_41_col113;
-                let pedersen_points_table_window_bits_18_output_limb_42_col114 =
+                *row[114] = pedersen_points_table_window_bits_18_output_limb_41_col114;
+                let pedersen_points_table_window_bits_18_output_limb_42_col115 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(14);
-                *row[114] = pedersen_points_table_window_bits_18_output_limb_42_col114;
-                let pedersen_points_table_window_bits_18_output_limb_43_col115 =
+                *row[115] = pedersen_points_table_window_bits_18_output_limb_42_col115;
+                let pedersen_points_table_window_bits_18_output_limb_43_col116 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(15);
-                *row[115] = pedersen_points_table_window_bits_18_output_limb_43_col115;
-                let pedersen_points_table_window_bits_18_output_limb_44_col116 =
+                *row[116] = pedersen_points_table_window_bits_18_output_limb_43_col116;
+                let pedersen_points_table_window_bits_18_output_limb_44_col117 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(16);
-                *row[116] = pedersen_points_table_window_bits_18_output_limb_44_col116;
-                let pedersen_points_table_window_bits_18_output_limb_45_col117 =
+                *row[117] = pedersen_points_table_window_bits_18_output_limb_44_col117;
+                let pedersen_points_table_window_bits_18_output_limb_45_col118 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(17);
-                *row[117] = pedersen_points_table_window_bits_18_output_limb_45_col117;
-                let pedersen_points_table_window_bits_18_output_limb_46_col118 =
+                *row[118] = pedersen_points_table_window_bits_18_output_limb_45_col118;
+                let pedersen_points_table_window_bits_18_output_limb_46_col119 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(18);
-                *row[118] = pedersen_points_table_window_bits_18_output_limb_46_col118;
-                let pedersen_points_table_window_bits_18_output_limb_47_col119 =
+                *row[119] = pedersen_points_table_window_bits_18_output_limb_46_col119;
+                let pedersen_points_table_window_bits_18_output_limb_47_col120 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(19);
-                *row[119] = pedersen_points_table_window_bits_18_output_limb_47_col119;
-                let pedersen_points_table_window_bits_18_output_limb_48_col120 =
+                *row[120] = pedersen_points_table_window_bits_18_output_limb_47_col120;
+                let pedersen_points_table_window_bits_18_output_limb_48_col121 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(20);
-                *row[120] = pedersen_points_table_window_bits_18_output_limb_48_col120;
-                let pedersen_points_table_window_bits_18_output_limb_49_col121 =
+                *row[121] = pedersen_points_table_window_bits_18_output_limb_48_col121;
+                let pedersen_points_table_window_bits_18_output_limb_49_col122 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(21);
-                *row[121] = pedersen_points_table_window_bits_18_output_limb_49_col121;
-                let pedersen_points_table_window_bits_18_output_limb_50_col122 =
+                *row[122] = pedersen_points_table_window_bits_18_output_limb_49_col122;
+                let pedersen_points_table_window_bits_18_output_limb_50_col123 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(22);
-                *row[122] = pedersen_points_table_window_bits_18_output_limb_50_col122;
-                let pedersen_points_table_window_bits_18_output_limb_51_col123 =
+                *row[123] = pedersen_points_table_window_bits_18_output_limb_50_col123;
+                let pedersen_points_table_window_bits_18_output_limb_51_col124 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(23);
-                *row[123] = pedersen_points_table_window_bits_18_output_limb_51_col123;
-                let pedersen_points_table_window_bits_18_output_limb_52_col124 =
+                *row[124] = pedersen_points_table_window_bits_18_output_limb_51_col124;
+                let pedersen_points_table_window_bits_18_output_limb_52_col125 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(24);
-                *row[124] = pedersen_points_table_window_bits_18_output_limb_52_col124;
-                let pedersen_points_table_window_bits_18_output_limb_53_col125 =
+                *row[125] = pedersen_points_table_window_bits_18_output_limb_52_col125;
+                let pedersen_points_table_window_bits_18_output_limb_53_col126 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(25);
-                *row[125] = pedersen_points_table_window_bits_18_output_limb_53_col125;
-                let pedersen_points_table_window_bits_18_output_limb_54_col126 =
+                *row[126] = pedersen_points_table_window_bits_18_output_limb_53_col126;
+                let pedersen_points_table_window_bits_18_output_limb_54_col127 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(26);
-                *row[126] = pedersen_points_table_window_bits_18_output_limb_54_col126;
-                let pedersen_points_table_window_bits_18_output_limb_55_col127 =
+                *row[127] = pedersen_points_table_window_bits_18_output_limb_54_col127;
+                let pedersen_points_table_window_bits_18_output_limb_55_col128 =
                     pedersen_points_table_window_bits_18_output_tmp_d9509_0[1].get_m31(27);
-                *row[127] = pedersen_points_table_window_bits_18_output_limb_55_col127;
+                *row[128] = pedersen_points_table_window_bits_18_output_limb_55_col128;
                 *lookup_data.pedersen_points_table_window_bits_18_0 = [
                     M31_1444721856,
-                    (((M31_262144) * (input_limb_1_col1)) + (input_limb_2_col2)),
-                    pedersen_points_table_window_bits_18_output_limb_0_col72,
-                    pedersen_points_table_window_bits_18_output_limb_1_col73,
-                    pedersen_points_table_window_bits_18_output_limb_2_col74,
-                    pedersen_points_table_window_bits_18_output_limb_3_col75,
-                    pedersen_points_table_window_bits_18_output_limb_4_col76,
-                    pedersen_points_table_window_bits_18_output_limb_5_col77,
-                    pedersen_points_table_window_bits_18_output_limb_6_col78,
-                    pedersen_points_table_window_bits_18_output_limb_7_col79,
-                    pedersen_points_table_window_bits_18_output_limb_8_col80,
-                    pedersen_points_table_window_bits_18_output_limb_9_col81,
-                    pedersen_points_table_window_bits_18_output_limb_10_col82,
-                    pedersen_points_table_window_bits_18_output_limb_11_col83,
-                    pedersen_points_table_window_bits_18_output_limb_12_col84,
-                    pedersen_points_table_window_bits_18_output_limb_13_col85,
-                    pedersen_points_table_window_bits_18_output_limb_14_col86,
-                    pedersen_points_table_window_bits_18_output_limb_15_col87,
-                    pedersen_points_table_window_bits_18_output_limb_16_col88,
-                    pedersen_points_table_window_bits_18_output_limb_17_col89,
-                    pedersen_points_table_window_bits_18_output_limb_18_col90,
-                    pedersen_points_table_window_bits_18_output_limb_19_col91,
-                    pedersen_points_table_window_bits_18_output_limb_20_col92,
-                    pedersen_points_table_window_bits_18_output_limb_21_col93,
-                    pedersen_points_table_window_bits_18_output_limb_22_col94,
-                    pedersen_points_table_window_bits_18_output_limb_23_col95,
-                    pedersen_points_table_window_bits_18_output_limb_24_col96,
-                    pedersen_points_table_window_bits_18_output_limb_25_col97,
-                    pedersen_points_table_window_bits_18_output_limb_26_col98,
-                    pedersen_points_table_window_bits_18_output_limb_27_col99,
-                    pedersen_points_table_window_bits_18_output_limb_28_col100,
-                    pedersen_points_table_window_bits_18_output_limb_29_col101,
-                    pedersen_points_table_window_bits_18_output_limb_30_col102,
-                    pedersen_points_table_window_bits_18_output_limb_31_col103,
-                    pedersen_points_table_window_bits_18_output_limb_32_col104,
-                    pedersen_points_table_window_bits_18_output_limb_33_col105,
-                    pedersen_points_table_window_bits_18_output_limb_34_col106,
-                    pedersen_points_table_window_bits_18_output_limb_35_col107,
-                    pedersen_points_table_window_bits_18_output_limb_36_col108,
-                    pedersen_points_table_window_bits_18_output_limb_37_col109,
-                    pedersen_points_table_window_bits_18_output_limb_38_col110,
-                    pedersen_points_table_window_bits_18_output_limb_39_col111,
-                    pedersen_points_table_window_bits_18_output_limb_40_col112,
-                    pedersen_points_table_window_bits_18_output_limb_41_col113,
-                    pedersen_points_table_window_bits_18_output_limb_42_col114,
-                    pedersen_points_table_window_bits_18_output_limb_43_col115,
-                    pedersen_points_table_window_bits_18_output_limb_44_col116,
-                    pedersen_points_table_window_bits_18_output_limb_45_col117,
-                    pedersen_points_table_window_bits_18_output_limb_46_col118,
-                    pedersen_points_table_window_bits_18_output_limb_47_col119,
-                    pedersen_points_table_window_bits_18_output_limb_48_col120,
-                    pedersen_points_table_window_bits_18_output_limb_49_col121,
-                    pedersen_points_table_window_bits_18_output_limb_50_col122,
-                    pedersen_points_table_window_bits_18_output_limb_51_col123,
-                    pedersen_points_table_window_bits_18_output_limb_52_col124,
-                    pedersen_points_table_window_bits_18_output_limb_53_col125,
-                    pedersen_points_table_window_bits_18_output_limb_54_col126,
-                    pedersen_points_table_window_bits_18_output_limb_55_col127,
+                    (((M31_262144) * (input_limb_1_col2)) + (input_limb_2_col3)),
+                    pedersen_points_table_window_bits_18_output_limb_0_col73,
+                    pedersen_points_table_window_bits_18_output_limb_1_col74,
+                    pedersen_points_table_window_bits_18_output_limb_2_col75,
+                    pedersen_points_table_window_bits_18_output_limb_3_col76,
+                    pedersen_points_table_window_bits_18_output_limb_4_col77,
+                    pedersen_points_table_window_bits_18_output_limb_5_col78,
+                    pedersen_points_table_window_bits_18_output_limb_6_col79,
+                    pedersen_points_table_window_bits_18_output_limb_7_col80,
+                    pedersen_points_table_window_bits_18_output_limb_8_col81,
+                    pedersen_points_table_window_bits_18_output_limb_9_col82,
+                    pedersen_points_table_window_bits_18_output_limb_10_col83,
+                    pedersen_points_table_window_bits_18_output_limb_11_col84,
+                    pedersen_points_table_window_bits_18_output_limb_12_col85,
+                    pedersen_points_table_window_bits_18_output_limb_13_col86,
+                    pedersen_points_table_window_bits_18_output_limb_14_col87,
+                    pedersen_points_table_window_bits_18_output_limb_15_col88,
+                    pedersen_points_table_window_bits_18_output_limb_16_col89,
+                    pedersen_points_table_window_bits_18_output_limb_17_col90,
+                    pedersen_points_table_window_bits_18_output_limb_18_col91,
+                    pedersen_points_table_window_bits_18_output_limb_19_col92,
+                    pedersen_points_table_window_bits_18_output_limb_20_col93,
+                    pedersen_points_table_window_bits_18_output_limb_21_col94,
+                    pedersen_points_table_window_bits_18_output_limb_22_col95,
+                    pedersen_points_table_window_bits_18_output_limb_23_col96,
+                    pedersen_points_table_window_bits_18_output_limb_24_col97,
+                    pedersen_points_table_window_bits_18_output_limb_25_col98,
+                    pedersen_points_table_window_bits_18_output_limb_26_col99,
+                    pedersen_points_table_window_bits_18_output_limb_27_col100,
+                    pedersen_points_table_window_bits_18_output_limb_28_col101,
+                    pedersen_points_table_window_bits_18_output_limb_29_col102,
+                    pedersen_points_table_window_bits_18_output_limb_30_col103,
+                    pedersen_points_table_window_bits_18_output_limb_31_col104,
+                    pedersen_points_table_window_bits_18_output_limb_32_col105,
+                    pedersen_points_table_window_bits_18_output_limb_33_col106,
+                    pedersen_points_table_window_bits_18_output_limb_34_col107,
+                    pedersen_points_table_window_bits_18_output_limb_35_col108,
+                    pedersen_points_table_window_bits_18_output_limb_36_col109,
+                    pedersen_points_table_window_bits_18_output_limb_37_col110,
+                    pedersen_points_table_window_bits_18_output_limb_38_col111,
+                    pedersen_points_table_window_bits_18_output_limb_39_col112,
+                    pedersen_points_table_window_bits_18_output_limb_40_col113,
+                    pedersen_points_table_window_bits_18_output_limb_41_col114,
+                    pedersen_points_table_window_bits_18_output_limb_42_col115,
+                    pedersen_points_table_window_bits_18_output_limb_43_col116,
+                    pedersen_points_table_window_bits_18_output_limb_44_col117,
+                    pedersen_points_table_window_bits_18_output_limb_45_col118,
+                    pedersen_points_table_window_bits_18_output_limb_46_col119,
+                    pedersen_points_table_window_bits_18_output_limb_47_col120,
+                    pedersen_points_table_window_bits_18_output_limb_48_col121,
+                    pedersen_points_table_window_bits_18_output_limb_49_col122,
+                    pedersen_points_table_window_bits_18_output_limb_50_col123,
+                    pedersen_points_table_window_bits_18_output_limb_51_col124,
+                    pedersen_points_table_window_bits_18_output_limb_52_col125,
+                    pedersen_points_table_window_bits_18_output_limb_53_col126,
+                    pedersen_points_table_window_bits_18_output_limb_54_col127,
+                    pedersen_points_table_window_bits_18_output_limb_55_col128,
                 ];
 
                 // Ec Add.
@@ -612,290 +615,290 @@ fn write_trace_simd(
                     - (partial_ec_mul_window_bits_18_input.2 .1[1]))
                     / ((pedersen_points_table_window_bits_18_output_tmp_d9509_0[0])
                         - (partial_ec_mul_window_bits_18_input.2 .1[0])));
-                let slope_limb_0_col128 = slope_tmp_d9509_1.get_m31(0);
-                *row[128] = slope_limb_0_col128;
-                let slope_limb_1_col129 = slope_tmp_d9509_1.get_m31(1);
-                *row[129] = slope_limb_1_col129;
-                let slope_limb_2_col130 = slope_tmp_d9509_1.get_m31(2);
-                *row[130] = slope_limb_2_col130;
-                let slope_limb_3_col131 = slope_tmp_d9509_1.get_m31(3);
-                *row[131] = slope_limb_3_col131;
-                let slope_limb_4_col132 = slope_tmp_d9509_1.get_m31(4);
-                *row[132] = slope_limb_4_col132;
-                let slope_limb_5_col133 = slope_tmp_d9509_1.get_m31(5);
-                *row[133] = slope_limb_5_col133;
-                let slope_limb_6_col134 = slope_tmp_d9509_1.get_m31(6);
-                *row[134] = slope_limb_6_col134;
-                let slope_limb_7_col135 = slope_tmp_d9509_1.get_m31(7);
-                *row[135] = slope_limb_7_col135;
-                let slope_limb_8_col136 = slope_tmp_d9509_1.get_m31(8);
-                *row[136] = slope_limb_8_col136;
-                let slope_limb_9_col137 = slope_tmp_d9509_1.get_m31(9);
-                *row[137] = slope_limb_9_col137;
-                let slope_limb_10_col138 = slope_tmp_d9509_1.get_m31(10);
-                *row[138] = slope_limb_10_col138;
-                let slope_limb_11_col139 = slope_tmp_d9509_1.get_m31(11);
-                *row[139] = slope_limb_11_col139;
-                let slope_limb_12_col140 = slope_tmp_d9509_1.get_m31(12);
-                *row[140] = slope_limb_12_col140;
-                let slope_limb_13_col141 = slope_tmp_d9509_1.get_m31(13);
-                *row[141] = slope_limb_13_col141;
-                let slope_limb_14_col142 = slope_tmp_d9509_1.get_m31(14);
-                *row[142] = slope_limb_14_col142;
-                let slope_limb_15_col143 = slope_tmp_d9509_1.get_m31(15);
-                *row[143] = slope_limb_15_col143;
-                let slope_limb_16_col144 = slope_tmp_d9509_1.get_m31(16);
-                *row[144] = slope_limb_16_col144;
-                let slope_limb_17_col145 = slope_tmp_d9509_1.get_m31(17);
-                *row[145] = slope_limb_17_col145;
-                let slope_limb_18_col146 = slope_tmp_d9509_1.get_m31(18);
-                *row[146] = slope_limb_18_col146;
-                let slope_limb_19_col147 = slope_tmp_d9509_1.get_m31(19);
-                *row[147] = slope_limb_19_col147;
-                let slope_limb_20_col148 = slope_tmp_d9509_1.get_m31(20);
-                *row[148] = slope_limb_20_col148;
-                let slope_limb_21_col149 = slope_tmp_d9509_1.get_m31(21);
-                *row[149] = slope_limb_21_col149;
-                let slope_limb_22_col150 = slope_tmp_d9509_1.get_m31(22);
-                *row[150] = slope_limb_22_col150;
-                let slope_limb_23_col151 = slope_tmp_d9509_1.get_m31(23);
-                *row[151] = slope_limb_23_col151;
-                let slope_limb_24_col152 = slope_tmp_d9509_1.get_m31(24);
-                *row[152] = slope_limb_24_col152;
-                let slope_limb_25_col153 = slope_tmp_d9509_1.get_m31(25);
-                *row[153] = slope_limb_25_col153;
-                let slope_limb_26_col154 = slope_tmp_d9509_1.get_m31(26);
-                *row[154] = slope_limb_26_col154;
-                let slope_limb_27_col155 = slope_tmp_d9509_1.get_m31(27);
-                *row[155] = slope_limb_27_col155;
+                let slope_limb_0_col129 = slope_tmp_d9509_1.get_m31(0);
+                *row[129] = slope_limb_0_col129;
+                let slope_limb_1_col130 = slope_tmp_d9509_1.get_m31(1);
+                *row[130] = slope_limb_1_col130;
+                let slope_limb_2_col131 = slope_tmp_d9509_1.get_m31(2);
+                *row[131] = slope_limb_2_col131;
+                let slope_limb_3_col132 = slope_tmp_d9509_1.get_m31(3);
+                *row[132] = slope_limb_3_col132;
+                let slope_limb_4_col133 = slope_tmp_d9509_1.get_m31(4);
+                *row[133] = slope_limb_4_col133;
+                let slope_limb_5_col134 = slope_tmp_d9509_1.get_m31(5);
+                *row[134] = slope_limb_5_col134;
+                let slope_limb_6_col135 = slope_tmp_d9509_1.get_m31(6);
+                *row[135] = slope_limb_6_col135;
+                let slope_limb_7_col136 = slope_tmp_d9509_1.get_m31(7);
+                *row[136] = slope_limb_7_col136;
+                let slope_limb_8_col137 = slope_tmp_d9509_1.get_m31(8);
+                *row[137] = slope_limb_8_col137;
+                let slope_limb_9_col138 = slope_tmp_d9509_1.get_m31(9);
+                *row[138] = slope_limb_9_col138;
+                let slope_limb_10_col139 = slope_tmp_d9509_1.get_m31(10);
+                *row[139] = slope_limb_10_col139;
+                let slope_limb_11_col140 = slope_tmp_d9509_1.get_m31(11);
+                *row[140] = slope_limb_11_col140;
+                let slope_limb_12_col141 = slope_tmp_d9509_1.get_m31(12);
+                *row[141] = slope_limb_12_col141;
+                let slope_limb_13_col142 = slope_tmp_d9509_1.get_m31(13);
+                *row[142] = slope_limb_13_col142;
+                let slope_limb_14_col143 = slope_tmp_d9509_1.get_m31(14);
+                *row[143] = slope_limb_14_col143;
+                let slope_limb_15_col144 = slope_tmp_d9509_1.get_m31(15);
+                *row[144] = slope_limb_15_col144;
+                let slope_limb_16_col145 = slope_tmp_d9509_1.get_m31(16);
+                *row[145] = slope_limb_16_col145;
+                let slope_limb_17_col146 = slope_tmp_d9509_1.get_m31(17);
+                *row[146] = slope_limb_17_col146;
+                let slope_limb_18_col147 = slope_tmp_d9509_1.get_m31(18);
+                *row[147] = slope_limb_18_col147;
+                let slope_limb_19_col148 = slope_tmp_d9509_1.get_m31(19);
+                *row[148] = slope_limb_19_col148;
+                let slope_limb_20_col149 = slope_tmp_d9509_1.get_m31(20);
+                *row[149] = slope_limb_20_col149;
+                let slope_limb_21_col150 = slope_tmp_d9509_1.get_m31(21);
+                *row[150] = slope_limb_21_col150;
+                let slope_limb_22_col151 = slope_tmp_d9509_1.get_m31(22);
+                *row[151] = slope_limb_22_col151;
+                let slope_limb_23_col152 = slope_tmp_d9509_1.get_m31(23);
+                *row[152] = slope_limb_23_col152;
+                let slope_limb_24_col153 = slope_tmp_d9509_1.get_m31(24);
+                *row[153] = slope_limb_24_col153;
+                let slope_limb_25_col154 = slope_tmp_d9509_1.get_m31(25);
+                *row[154] = slope_limb_25_col154;
+                let slope_limb_26_col155 = slope_tmp_d9509_1.get_m31(26);
+                *row[155] = slope_limb_26_col155;
+                let slope_limb_27_col156 = slope_tmp_d9509_1.get_m31(27);
+                *row[156] = slope_limb_27_col156;
 
                 // Range Check Mem Value N 28.
 
                 *sub_component_inputs.range_check_9_9[0] =
-                    [slope_limb_0_col128, slope_limb_1_col129];
+                    [slope_limb_0_col129, slope_limb_1_col130];
                 *lookup_data.range_check_9_9_1 =
-                    [M31_517791011, slope_limb_0_col128, slope_limb_1_col129];
+                    [M31_517791011, slope_limb_0_col129, slope_limb_1_col130];
                 *sub_component_inputs.range_check_9_9_b[0] =
-                    [slope_limb_2_col130, slope_limb_3_col131];
+                    [slope_limb_2_col131, slope_limb_3_col132];
                 *lookup_data.range_check_9_9_b_2 =
-                    [M31_1897792095, slope_limb_2_col130, slope_limb_3_col131];
+                    [M31_1897792095, slope_limb_2_col131, slope_limb_3_col132];
                 *sub_component_inputs.range_check_9_9_c[0] =
-                    [slope_limb_4_col132, slope_limb_5_col133];
+                    [slope_limb_4_col133, slope_limb_5_col134];
                 *lookup_data.range_check_9_9_c_3 =
-                    [M31_1881014476, slope_limb_4_col132, slope_limb_5_col133];
+                    [M31_1881014476, slope_limb_4_col133, slope_limb_5_col134];
                 *sub_component_inputs.range_check_9_9_d[0] =
-                    [slope_limb_6_col134, slope_limb_7_col135];
+                    [slope_limb_6_col135, slope_limb_7_col136];
                 *lookup_data.range_check_9_9_d_4 =
-                    [M31_1864236857, slope_limb_6_col134, slope_limb_7_col135];
+                    [M31_1864236857, slope_limb_6_col135, slope_limb_7_col136];
                 *sub_component_inputs.range_check_9_9_e[0] =
-                    [slope_limb_8_col136, slope_limb_9_col137];
+                    [slope_limb_8_col137, slope_limb_9_col138];
                 *lookup_data.range_check_9_9_e_5 =
-                    [M31_1847459238, slope_limb_8_col136, slope_limb_9_col137];
+                    [M31_1847459238, slope_limb_8_col137, slope_limb_9_col138];
                 *sub_component_inputs.range_check_9_9_f[0] =
-                    [slope_limb_10_col138, slope_limb_11_col139];
+                    [slope_limb_10_col139, slope_limb_11_col140];
                 *lookup_data.range_check_9_9_f_6 =
-                    [M31_1830681619, slope_limb_10_col138, slope_limb_11_col139];
+                    [M31_1830681619, slope_limb_10_col139, slope_limb_11_col140];
                 *sub_component_inputs.range_check_9_9_g[0] =
-                    [slope_limb_12_col140, slope_limb_13_col141];
+                    [slope_limb_12_col141, slope_limb_13_col142];
                 *lookup_data.range_check_9_9_g_7 =
-                    [M31_1813904000, slope_limb_12_col140, slope_limb_13_col141];
+                    [M31_1813904000, slope_limb_12_col141, slope_limb_13_col142];
                 *sub_component_inputs.range_check_9_9_h[0] =
-                    [slope_limb_14_col142, slope_limb_15_col143];
+                    [slope_limb_14_col143, slope_limb_15_col144];
                 *lookup_data.range_check_9_9_h_8 =
-                    [M31_2065568285, slope_limb_14_col142, slope_limb_15_col143];
+                    [M31_2065568285, slope_limb_14_col143, slope_limb_15_col144];
                 *sub_component_inputs.range_check_9_9[1] =
-                    [slope_limb_16_col144, slope_limb_17_col145];
+                    [slope_limb_16_col145, slope_limb_17_col146];
                 *lookup_data.range_check_9_9_9 =
-                    [M31_517791011, slope_limb_16_col144, slope_limb_17_col145];
+                    [M31_517791011, slope_limb_16_col145, slope_limb_17_col146];
                 *sub_component_inputs.range_check_9_9_b[1] =
-                    [slope_limb_18_col146, slope_limb_19_col147];
+                    [slope_limb_18_col147, slope_limb_19_col148];
                 *lookup_data.range_check_9_9_b_10 =
-                    [M31_1897792095, slope_limb_18_col146, slope_limb_19_col147];
+                    [M31_1897792095, slope_limb_18_col147, slope_limb_19_col148];
                 *sub_component_inputs.range_check_9_9_c[1] =
-                    [slope_limb_20_col148, slope_limb_21_col149];
+                    [slope_limb_20_col149, slope_limb_21_col150];
                 *lookup_data.range_check_9_9_c_11 =
-                    [M31_1881014476, slope_limb_20_col148, slope_limb_21_col149];
+                    [M31_1881014476, slope_limb_20_col149, slope_limb_21_col150];
                 *sub_component_inputs.range_check_9_9_d[1] =
-                    [slope_limb_22_col150, slope_limb_23_col151];
+                    [slope_limb_22_col151, slope_limb_23_col152];
                 *lookup_data.range_check_9_9_d_12 =
-                    [M31_1864236857, slope_limb_22_col150, slope_limb_23_col151];
+                    [M31_1864236857, slope_limb_22_col151, slope_limb_23_col152];
                 *sub_component_inputs.range_check_9_9_e[1] =
-                    [slope_limb_24_col152, slope_limb_25_col153];
+                    [slope_limb_24_col153, slope_limb_25_col154];
                 *lookup_data.range_check_9_9_e_13 =
-                    [M31_1847459238, slope_limb_24_col152, slope_limb_25_col153];
+                    [M31_1847459238, slope_limb_24_col153, slope_limb_25_col154];
                 *sub_component_inputs.range_check_9_9_f[1] =
-                    [slope_limb_26_col154, slope_limb_27_col155];
+                    [slope_limb_26_col155, slope_limb_27_col156];
                 *lookup_data.range_check_9_9_f_14 =
-                    [M31_1830681619, slope_limb_26_col154, slope_limb_27_col155];
+                    [M31_1830681619, slope_limb_26_col155, slope_limb_27_col156];
 
                 let x_diff_0_tmp_d9509_2 =
-                    ((pedersen_points_table_window_bits_18_output_limb_0_col72)
-                        - (input_limb_16_col16));
+                    ((pedersen_points_table_window_bits_18_output_limb_0_col73)
+                        - (input_limb_16_col17));
                 let x_diff_1_tmp_d9509_3 =
-                    ((pedersen_points_table_window_bits_18_output_limb_1_col73)
-                        - (input_limb_17_col17));
+                    ((pedersen_points_table_window_bits_18_output_limb_1_col74)
+                        - (input_limb_17_col18));
                 let x_diff_2_tmp_d9509_4 =
-                    ((pedersen_points_table_window_bits_18_output_limb_2_col74)
-                        - (input_limb_18_col18));
+                    ((pedersen_points_table_window_bits_18_output_limb_2_col75)
+                        - (input_limb_18_col19));
                 let x_diff_3_tmp_d9509_5 =
-                    ((pedersen_points_table_window_bits_18_output_limb_3_col75)
-                        - (input_limb_19_col19));
+                    ((pedersen_points_table_window_bits_18_output_limb_3_col76)
+                        - (input_limb_19_col20));
                 let x_diff_4_tmp_d9509_6 =
-                    ((pedersen_points_table_window_bits_18_output_limb_4_col76)
-                        - (input_limb_20_col20));
+                    ((pedersen_points_table_window_bits_18_output_limb_4_col77)
+                        - (input_limb_20_col21));
                 let x_diff_5_tmp_d9509_7 =
-                    ((pedersen_points_table_window_bits_18_output_limb_5_col77)
-                        - (input_limb_21_col21));
+                    ((pedersen_points_table_window_bits_18_output_limb_5_col78)
+                        - (input_limb_21_col22));
                 let x_diff_6_tmp_d9509_8 =
-                    ((pedersen_points_table_window_bits_18_output_limb_6_col78)
-                        - (input_limb_22_col22));
+                    ((pedersen_points_table_window_bits_18_output_limb_6_col79)
+                        - (input_limb_22_col23));
                 let x_diff_7_tmp_d9509_9 =
-                    ((pedersen_points_table_window_bits_18_output_limb_7_col79)
-                        - (input_limb_23_col23));
+                    ((pedersen_points_table_window_bits_18_output_limb_7_col80)
+                        - (input_limb_23_col24));
                 let x_diff_8_tmp_d9509_10 =
-                    ((pedersen_points_table_window_bits_18_output_limb_8_col80)
-                        - (input_limb_24_col24));
+                    ((pedersen_points_table_window_bits_18_output_limb_8_col81)
+                        - (input_limb_24_col25));
                 let x_diff_9_tmp_d9509_11 =
-                    ((pedersen_points_table_window_bits_18_output_limb_9_col81)
-                        - (input_limb_25_col25));
+                    ((pedersen_points_table_window_bits_18_output_limb_9_col82)
+                        - (input_limb_25_col26));
                 let x_diff_10_tmp_d9509_12 =
-                    ((pedersen_points_table_window_bits_18_output_limb_10_col82)
-                        - (input_limb_26_col26));
+                    ((pedersen_points_table_window_bits_18_output_limb_10_col83)
+                        - (input_limb_26_col27));
                 let x_diff_11_tmp_d9509_13 =
-                    ((pedersen_points_table_window_bits_18_output_limb_11_col83)
-                        - (input_limb_27_col27));
+                    ((pedersen_points_table_window_bits_18_output_limb_11_col84)
+                        - (input_limb_27_col28));
                 let x_diff_12_tmp_d9509_14 =
-                    ((pedersen_points_table_window_bits_18_output_limb_12_col84)
-                        - (input_limb_28_col28));
+                    ((pedersen_points_table_window_bits_18_output_limb_12_col85)
+                        - (input_limb_28_col29));
                 let x_diff_13_tmp_d9509_15 =
-                    ((pedersen_points_table_window_bits_18_output_limb_13_col85)
-                        - (input_limb_29_col29));
+                    ((pedersen_points_table_window_bits_18_output_limb_13_col86)
+                        - (input_limb_29_col30));
                 let x_diff_14_tmp_d9509_16 =
-                    ((pedersen_points_table_window_bits_18_output_limb_14_col86)
-                        - (input_limb_30_col30));
+                    ((pedersen_points_table_window_bits_18_output_limb_14_col87)
+                        - (input_limb_30_col31));
                 let x_diff_15_tmp_d9509_17 =
-                    ((pedersen_points_table_window_bits_18_output_limb_15_col87)
-                        - (input_limb_31_col31));
+                    ((pedersen_points_table_window_bits_18_output_limb_15_col88)
+                        - (input_limb_31_col32));
                 let x_diff_16_tmp_d9509_18 =
-                    ((pedersen_points_table_window_bits_18_output_limb_16_col88)
-                        - (input_limb_32_col32));
+                    ((pedersen_points_table_window_bits_18_output_limb_16_col89)
+                        - (input_limb_32_col33));
                 let x_diff_17_tmp_d9509_19 =
-                    ((pedersen_points_table_window_bits_18_output_limb_17_col89)
-                        - (input_limb_33_col33));
+                    ((pedersen_points_table_window_bits_18_output_limb_17_col90)
+                        - (input_limb_33_col34));
                 let x_diff_18_tmp_d9509_20 =
-                    ((pedersen_points_table_window_bits_18_output_limb_18_col90)
-                        - (input_limb_34_col34));
+                    ((pedersen_points_table_window_bits_18_output_limb_18_col91)
+                        - (input_limb_34_col35));
                 let x_diff_19_tmp_d9509_21 =
-                    ((pedersen_points_table_window_bits_18_output_limb_19_col91)
-                        - (input_limb_35_col35));
+                    ((pedersen_points_table_window_bits_18_output_limb_19_col92)
+                        - (input_limb_35_col36));
                 let x_diff_20_tmp_d9509_22 =
-                    ((pedersen_points_table_window_bits_18_output_limb_20_col92)
-                        - (input_limb_36_col36));
+                    ((pedersen_points_table_window_bits_18_output_limb_20_col93)
+                        - (input_limb_36_col37));
                 let x_diff_21_tmp_d9509_23 =
-                    ((pedersen_points_table_window_bits_18_output_limb_21_col93)
-                        - (input_limb_37_col37));
+                    ((pedersen_points_table_window_bits_18_output_limb_21_col94)
+                        - (input_limb_37_col38));
                 let x_diff_22_tmp_d9509_24 =
-                    ((pedersen_points_table_window_bits_18_output_limb_22_col94)
-                        - (input_limb_38_col38));
+                    ((pedersen_points_table_window_bits_18_output_limb_22_col95)
+                        - (input_limb_38_col39));
                 let x_diff_23_tmp_d9509_25 =
-                    ((pedersen_points_table_window_bits_18_output_limb_23_col95)
-                        - (input_limb_39_col39));
+                    ((pedersen_points_table_window_bits_18_output_limb_23_col96)
+                        - (input_limb_39_col40));
                 let x_diff_24_tmp_d9509_26 =
-                    ((pedersen_points_table_window_bits_18_output_limb_24_col96)
-                        - (input_limb_40_col40));
+                    ((pedersen_points_table_window_bits_18_output_limb_24_col97)
+                        - (input_limb_40_col41));
                 let x_diff_25_tmp_d9509_27 =
-                    ((pedersen_points_table_window_bits_18_output_limb_25_col97)
-                        - (input_limb_41_col41));
+                    ((pedersen_points_table_window_bits_18_output_limb_25_col98)
+                        - (input_limb_41_col42));
                 let x_diff_26_tmp_d9509_28 =
-                    ((pedersen_points_table_window_bits_18_output_limb_26_col98)
-                        - (input_limb_42_col42));
+                    ((pedersen_points_table_window_bits_18_output_limb_26_col99)
+                        - (input_limb_42_col43));
                 let x_diff_27_tmp_d9509_29 =
-                    ((pedersen_points_table_window_bits_18_output_limb_27_col99)
-                        - (input_limb_43_col43));
+                    ((pedersen_points_table_window_bits_18_output_limb_27_col100)
+                        - (input_limb_43_col44));
                 let y_diff_0_tmp_d9509_30 =
-                    ((pedersen_points_table_window_bits_18_output_limb_28_col100)
-                        - (input_limb_44_col44));
+                    ((pedersen_points_table_window_bits_18_output_limb_28_col101)
+                        - (input_limb_44_col45));
                 let y_diff_1_tmp_d9509_31 =
-                    ((pedersen_points_table_window_bits_18_output_limb_29_col101)
-                        - (input_limb_45_col45));
+                    ((pedersen_points_table_window_bits_18_output_limb_29_col102)
+                        - (input_limb_45_col46));
                 let y_diff_2_tmp_d9509_32 =
-                    ((pedersen_points_table_window_bits_18_output_limb_30_col102)
-                        - (input_limb_46_col46));
+                    ((pedersen_points_table_window_bits_18_output_limb_30_col103)
+                        - (input_limb_46_col47));
                 let y_diff_3_tmp_d9509_33 =
-                    ((pedersen_points_table_window_bits_18_output_limb_31_col103)
-                        - (input_limb_47_col47));
+                    ((pedersen_points_table_window_bits_18_output_limb_31_col104)
+                        - (input_limb_47_col48));
                 let y_diff_4_tmp_d9509_34 =
-                    ((pedersen_points_table_window_bits_18_output_limb_32_col104)
-                        - (input_limb_48_col48));
+                    ((pedersen_points_table_window_bits_18_output_limb_32_col105)
+                        - (input_limb_48_col49));
                 let y_diff_5_tmp_d9509_35 =
-                    ((pedersen_points_table_window_bits_18_output_limb_33_col105)
-                        - (input_limb_49_col49));
+                    ((pedersen_points_table_window_bits_18_output_limb_33_col106)
+                        - (input_limb_49_col50));
                 let y_diff_6_tmp_d9509_36 =
-                    ((pedersen_points_table_window_bits_18_output_limb_34_col106)
-                        - (input_limb_50_col50));
+                    ((pedersen_points_table_window_bits_18_output_limb_34_col107)
+                        - (input_limb_50_col51));
                 let y_diff_7_tmp_d9509_37 =
-                    ((pedersen_points_table_window_bits_18_output_limb_35_col107)
-                        - (input_limb_51_col51));
+                    ((pedersen_points_table_window_bits_18_output_limb_35_col108)
+                        - (input_limb_51_col52));
                 let y_diff_8_tmp_d9509_38 =
-                    ((pedersen_points_table_window_bits_18_output_limb_36_col108)
-                        - (input_limb_52_col52));
+                    ((pedersen_points_table_window_bits_18_output_limb_36_col109)
+                        - (input_limb_52_col53));
                 let y_diff_9_tmp_d9509_39 =
-                    ((pedersen_points_table_window_bits_18_output_limb_37_col109)
-                        - (input_limb_53_col53));
+                    ((pedersen_points_table_window_bits_18_output_limb_37_col110)
+                        - (input_limb_53_col54));
                 let y_diff_10_tmp_d9509_40 =
-                    ((pedersen_points_table_window_bits_18_output_limb_38_col110)
-                        - (input_limb_54_col54));
+                    ((pedersen_points_table_window_bits_18_output_limb_38_col111)
+                        - (input_limb_54_col55));
                 let y_diff_11_tmp_d9509_41 =
-                    ((pedersen_points_table_window_bits_18_output_limb_39_col111)
-                        - (input_limb_55_col55));
+                    ((pedersen_points_table_window_bits_18_output_limb_39_col112)
+                        - (input_limb_55_col56));
                 let y_diff_12_tmp_d9509_42 =
-                    ((pedersen_points_table_window_bits_18_output_limb_40_col112)
-                        - (input_limb_56_col56));
+                    ((pedersen_points_table_window_bits_18_output_limb_40_col113)
+                        - (input_limb_56_col57));
                 let y_diff_13_tmp_d9509_43 =
-                    ((pedersen_points_table_window_bits_18_output_limb_41_col113)
-                        - (input_limb_57_col57));
+                    ((pedersen_points_table_window_bits_18_output_limb_41_col114)
+                        - (input_limb_57_col58));
                 let y_diff_14_tmp_d9509_44 =
-                    ((pedersen_points_table_window_bits_18_output_limb_42_col114)
-                        - (input_limb_58_col58));
+                    ((pedersen_points_table_window_bits_18_output_limb_42_col115)
+                        - (input_limb_58_col59));
                 let y_diff_15_tmp_d9509_45 =
-                    ((pedersen_points_table_window_bits_18_output_limb_43_col115)
-                        - (input_limb_59_col59));
+                    ((pedersen_points_table_window_bits_18_output_limb_43_col116)
+                        - (input_limb_59_col60));
                 let y_diff_16_tmp_d9509_46 =
-                    ((pedersen_points_table_window_bits_18_output_limb_44_col116)
-                        - (input_limb_60_col60));
+                    ((pedersen_points_table_window_bits_18_output_limb_44_col117)
+                        - (input_limb_60_col61));
                 let y_diff_17_tmp_d9509_47 =
-                    ((pedersen_points_table_window_bits_18_output_limb_45_col117)
-                        - (input_limb_61_col61));
+                    ((pedersen_points_table_window_bits_18_output_limb_45_col118)
+                        - (input_limb_61_col62));
                 let y_diff_18_tmp_d9509_48 =
-                    ((pedersen_points_table_window_bits_18_output_limb_46_col118)
-                        - (input_limb_62_col62));
+                    ((pedersen_points_table_window_bits_18_output_limb_46_col119)
+                        - (input_limb_62_col63));
                 let y_diff_19_tmp_d9509_49 =
-                    ((pedersen_points_table_window_bits_18_output_limb_47_col119)
-                        - (input_limb_63_col63));
+                    ((pedersen_points_table_window_bits_18_output_limb_47_col120)
+                        - (input_limb_63_col64));
                 let y_diff_20_tmp_d9509_50 =
-                    ((pedersen_points_table_window_bits_18_output_limb_48_col120)
-                        - (input_limb_64_col64));
+                    ((pedersen_points_table_window_bits_18_output_limb_48_col121)
+                        - (input_limb_64_col65));
                 let y_diff_21_tmp_d9509_51 =
-                    ((pedersen_points_table_window_bits_18_output_limb_49_col121)
-                        - (input_limb_65_col65));
+                    ((pedersen_points_table_window_bits_18_output_limb_49_col122)
+                        - (input_limb_65_col66));
                 let y_diff_22_tmp_d9509_52 =
-                    ((pedersen_points_table_window_bits_18_output_limb_50_col122)
-                        - (input_limb_66_col66));
+                    ((pedersen_points_table_window_bits_18_output_limb_50_col123)
+                        - (input_limb_66_col67));
                 let y_diff_23_tmp_d9509_53 =
-                    ((pedersen_points_table_window_bits_18_output_limb_51_col123)
-                        - (input_limb_67_col67));
+                    ((pedersen_points_table_window_bits_18_output_limb_51_col124)
+                        - (input_limb_67_col68));
                 let y_diff_24_tmp_d9509_54 =
-                    ((pedersen_points_table_window_bits_18_output_limb_52_col124)
-                        - (input_limb_68_col68));
+                    ((pedersen_points_table_window_bits_18_output_limb_52_col125)
+                        - (input_limb_68_col69));
                 let y_diff_25_tmp_d9509_55 =
-                    ((pedersen_points_table_window_bits_18_output_limb_53_col125)
-                        - (input_limb_69_col69));
+                    ((pedersen_points_table_window_bits_18_output_limb_53_col126)
+                        - (input_limb_69_col70));
                 let y_diff_26_tmp_d9509_56 =
-                    ((pedersen_points_table_window_bits_18_output_limb_54_col126)
-                        - (input_limb_70_col70));
+                    ((pedersen_points_table_window_bits_18_output_limb_54_col127)
+                        - (input_limb_70_col71));
                 let y_diff_27_tmp_d9509_57 =
-                    ((pedersen_points_table_window_bits_18_output_limb_55_col127)
-                        - (input_limb_71_col71));
+                    ((pedersen_points_table_window_bits_18_output_limb_55_col128)
+                        - (input_limb_71_col72));
 
                 // Verify Mul 252.
 
@@ -904,115 +907,115 @@ fn write_trace_simd(
                 // Single Karatsuba N 7.
 
                 let z0_tmp_d9509_58 = [
-                    ((slope_limb_0_col128) * (x_diff_0_tmp_d9509_2)),
-                    (((slope_limb_0_col128) * (x_diff_1_tmp_d9509_3))
-                        + ((slope_limb_1_col129) * (x_diff_0_tmp_d9509_2))),
-                    ((((slope_limb_0_col128) * (x_diff_2_tmp_d9509_4))
-                        + ((slope_limb_1_col129) * (x_diff_1_tmp_d9509_3)))
-                        + ((slope_limb_2_col130) * (x_diff_0_tmp_d9509_2))),
-                    (((((slope_limb_0_col128) * (x_diff_3_tmp_d9509_5))
-                        + ((slope_limb_1_col129) * (x_diff_2_tmp_d9509_4)))
-                        + ((slope_limb_2_col130) * (x_diff_1_tmp_d9509_3)))
-                        + ((slope_limb_3_col131) * (x_diff_0_tmp_d9509_2))),
-                    ((((((slope_limb_0_col128) * (x_diff_4_tmp_d9509_6))
-                        + ((slope_limb_1_col129) * (x_diff_3_tmp_d9509_5)))
-                        + ((slope_limb_2_col130) * (x_diff_2_tmp_d9509_4)))
-                        + ((slope_limb_3_col131) * (x_diff_1_tmp_d9509_3)))
-                        + ((slope_limb_4_col132) * (x_diff_0_tmp_d9509_2))),
-                    (((((((slope_limb_0_col128) * (x_diff_5_tmp_d9509_7))
-                        + ((slope_limb_1_col129) * (x_diff_4_tmp_d9509_6)))
-                        + ((slope_limb_2_col130) * (x_diff_3_tmp_d9509_5)))
-                        + ((slope_limb_3_col131) * (x_diff_2_tmp_d9509_4)))
-                        + ((slope_limb_4_col132) * (x_diff_1_tmp_d9509_3)))
-                        + ((slope_limb_5_col133) * (x_diff_0_tmp_d9509_2))),
-                    ((((((((slope_limb_0_col128) * (x_diff_6_tmp_d9509_8))
-                        + ((slope_limb_1_col129) * (x_diff_5_tmp_d9509_7)))
-                        + ((slope_limb_2_col130) * (x_diff_4_tmp_d9509_6)))
-                        + ((slope_limb_3_col131) * (x_diff_3_tmp_d9509_5)))
-                        + ((slope_limb_4_col132) * (x_diff_2_tmp_d9509_4)))
-                        + ((slope_limb_5_col133) * (x_diff_1_tmp_d9509_3)))
-                        + ((slope_limb_6_col134) * (x_diff_0_tmp_d9509_2))),
-                    (((((((slope_limb_1_col129) * (x_diff_6_tmp_d9509_8))
-                        + ((slope_limb_2_col130) * (x_diff_5_tmp_d9509_7)))
-                        + ((slope_limb_3_col131) * (x_diff_4_tmp_d9509_6)))
-                        + ((slope_limb_4_col132) * (x_diff_3_tmp_d9509_5)))
-                        + ((slope_limb_5_col133) * (x_diff_2_tmp_d9509_4)))
-                        + ((slope_limb_6_col134) * (x_diff_1_tmp_d9509_3))),
-                    ((((((slope_limb_2_col130) * (x_diff_6_tmp_d9509_8))
-                        + ((slope_limb_3_col131) * (x_diff_5_tmp_d9509_7)))
-                        + ((slope_limb_4_col132) * (x_diff_4_tmp_d9509_6)))
-                        + ((slope_limb_5_col133) * (x_diff_3_tmp_d9509_5)))
-                        + ((slope_limb_6_col134) * (x_diff_2_tmp_d9509_4))),
-                    (((((slope_limb_3_col131) * (x_diff_6_tmp_d9509_8))
-                        + ((slope_limb_4_col132) * (x_diff_5_tmp_d9509_7)))
-                        + ((slope_limb_5_col133) * (x_diff_4_tmp_d9509_6)))
-                        + ((slope_limb_6_col134) * (x_diff_3_tmp_d9509_5))),
-                    ((((slope_limb_4_col132) * (x_diff_6_tmp_d9509_8))
-                        + ((slope_limb_5_col133) * (x_diff_5_tmp_d9509_7)))
-                        + ((slope_limb_6_col134) * (x_diff_4_tmp_d9509_6))),
-                    (((slope_limb_5_col133) * (x_diff_6_tmp_d9509_8))
-                        + ((slope_limb_6_col134) * (x_diff_5_tmp_d9509_7))),
-                    ((slope_limb_6_col134) * (x_diff_6_tmp_d9509_8)),
+                    ((slope_limb_0_col129) * (x_diff_0_tmp_d9509_2)),
+                    (((slope_limb_0_col129) * (x_diff_1_tmp_d9509_3))
+                        + ((slope_limb_1_col130) * (x_diff_0_tmp_d9509_2))),
+                    ((((slope_limb_0_col129) * (x_diff_2_tmp_d9509_4))
+                        + ((slope_limb_1_col130) * (x_diff_1_tmp_d9509_3)))
+                        + ((slope_limb_2_col131) * (x_diff_0_tmp_d9509_2))),
+                    (((((slope_limb_0_col129) * (x_diff_3_tmp_d9509_5))
+                        + ((slope_limb_1_col130) * (x_diff_2_tmp_d9509_4)))
+                        + ((slope_limb_2_col131) * (x_diff_1_tmp_d9509_3)))
+                        + ((slope_limb_3_col132) * (x_diff_0_tmp_d9509_2))),
+                    ((((((slope_limb_0_col129) * (x_diff_4_tmp_d9509_6))
+                        + ((slope_limb_1_col130) * (x_diff_3_tmp_d9509_5)))
+                        + ((slope_limb_2_col131) * (x_diff_2_tmp_d9509_4)))
+                        + ((slope_limb_3_col132) * (x_diff_1_tmp_d9509_3)))
+                        + ((slope_limb_4_col133) * (x_diff_0_tmp_d9509_2))),
+                    (((((((slope_limb_0_col129) * (x_diff_5_tmp_d9509_7))
+                        + ((slope_limb_1_col130) * (x_diff_4_tmp_d9509_6)))
+                        + ((slope_limb_2_col131) * (x_diff_3_tmp_d9509_5)))
+                        + ((slope_limb_3_col132) * (x_diff_2_tmp_d9509_4)))
+                        + ((slope_limb_4_col133) * (x_diff_1_tmp_d9509_3)))
+                        + ((slope_limb_5_col134) * (x_diff_0_tmp_d9509_2))),
+                    ((((((((slope_limb_0_col129) * (x_diff_6_tmp_d9509_8))
+                        + ((slope_limb_1_col130) * (x_diff_5_tmp_d9509_7)))
+                        + ((slope_limb_2_col131) * (x_diff_4_tmp_d9509_6)))
+                        + ((slope_limb_3_col132) * (x_diff_3_tmp_d9509_5)))
+                        + ((slope_limb_4_col133) * (x_diff_2_tmp_d9509_4)))
+                        + ((slope_limb_5_col134) * (x_diff_1_tmp_d9509_3)))
+                        + ((slope_limb_6_col135) * (x_diff_0_tmp_d9509_2))),
+                    (((((((slope_limb_1_col130) * (x_diff_6_tmp_d9509_8))
+                        + ((slope_limb_2_col131) * (x_diff_5_tmp_d9509_7)))
+                        + ((slope_limb_3_col132) * (x_diff_4_tmp_d9509_6)))
+                        + ((slope_limb_4_col133) * (x_diff_3_tmp_d9509_5)))
+                        + ((slope_limb_5_col134) * (x_diff_2_tmp_d9509_4)))
+                        + ((slope_limb_6_col135) * (x_diff_1_tmp_d9509_3))),
+                    ((((((slope_limb_2_col131) * (x_diff_6_tmp_d9509_8))
+                        + ((slope_limb_3_col132) * (x_diff_5_tmp_d9509_7)))
+                        + ((slope_limb_4_col133) * (x_diff_4_tmp_d9509_6)))
+                        + ((slope_limb_5_col134) * (x_diff_3_tmp_d9509_5)))
+                        + ((slope_limb_6_col135) * (x_diff_2_tmp_d9509_4))),
+                    (((((slope_limb_3_col132) * (x_diff_6_tmp_d9509_8))
+                        + ((slope_limb_4_col133) * (x_diff_5_tmp_d9509_7)))
+                        + ((slope_limb_5_col134) * (x_diff_4_tmp_d9509_6)))
+                        + ((slope_limb_6_col135) * (x_diff_3_tmp_d9509_5))),
+                    ((((slope_limb_4_col133) * (x_diff_6_tmp_d9509_8))
+                        + ((slope_limb_5_col134) * (x_diff_5_tmp_d9509_7)))
+                        + ((slope_limb_6_col135) * (x_diff_4_tmp_d9509_6))),
+                    (((slope_limb_5_col134) * (x_diff_6_tmp_d9509_8))
+                        + ((slope_limb_6_col135) * (x_diff_5_tmp_d9509_7))),
+                    ((slope_limb_6_col135) * (x_diff_6_tmp_d9509_8)),
                 ];
                 let z2_tmp_d9509_59 = [
-                    ((slope_limb_7_col135) * (x_diff_7_tmp_d9509_9)),
-                    (((slope_limb_7_col135) * (x_diff_8_tmp_d9509_10))
-                        + ((slope_limb_8_col136) * (x_diff_7_tmp_d9509_9))),
-                    ((((slope_limb_7_col135) * (x_diff_9_tmp_d9509_11))
-                        + ((slope_limb_8_col136) * (x_diff_8_tmp_d9509_10)))
-                        + ((slope_limb_9_col137) * (x_diff_7_tmp_d9509_9))),
-                    (((((slope_limb_7_col135) * (x_diff_10_tmp_d9509_12))
-                        + ((slope_limb_8_col136) * (x_diff_9_tmp_d9509_11)))
-                        + ((slope_limb_9_col137) * (x_diff_8_tmp_d9509_10)))
-                        + ((slope_limb_10_col138) * (x_diff_7_tmp_d9509_9))),
-                    ((((((slope_limb_7_col135) * (x_diff_11_tmp_d9509_13))
-                        + ((slope_limb_8_col136) * (x_diff_10_tmp_d9509_12)))
-                        + ((slope_limb_9_col137) * (x_diff_9_tmp_d9509_11)))
-                        + ((slope_limb_10_col138) * (x_diff_8_tmp_d9509_10)))
-                        + ((slope_limb_11_col139) * (x_diff_7_tmp_d9509_9))),
-                    (((((((slope_limb_7_col135) * (x_diff_12_tmp_d9509_14))
-                        + ((slope_limb_8_col136) * (x_diff_11_tmp_d9509_13)))
-                        + ((slope_limb_9_col137) * (x_diff_10_tmp_d9509_12)))
-                        + ((slope_limb_10_col138) * (x_diff_9_tmp_d9509_11)))
-                        + ((slope_limb_11_col139) * (x_diff_8_tmp_d9509_10)))
-                        + ((slope_limb_12_col140) * (x_diff_7_tmp_d9509_9))),
-                    ((((((((slope_limb_7_col135) * (x_diff_13_tmp_d9509_15))
-                        + ((slope_limb_8_col136) * (x_diff_12_tmp_d9509_14)))
-                        + ((slope_limb_9_col137) * (x_diff_11_tmp_d9509_13)))
-                        + ((slope_limb_10_col138) * (x_diff_10_tmp_d9509_12)))
-                        + ((slope_limb_11_col139) * (x_diff_9_tmp_d9509_11)))
-                        + ((slope_limb_12_col140) * (x_diff_8_tmp_d9509_10)))
-                        + ((slope_limb_13_col141) * (x_diff_7_tmp_d9509_9))),
-                    (((((((slope_limb_8_col136) * (x_diff_13_tmp_d9509_15))
-                        + ((slope_limb_9_col137) * (x_diff_12_tmp_d9509_14)))
-                        + ((slope_limb_10_col138) * (x_diff_11_tmp_d9509_13)))
-                        + ((slope_limb_11_col139) * (x_diff_10_tmp_d9509_12)))
-                        + ((slope_limb_12_col140) * (x_diff_9_tmp_d9509_11)))
-                        + ((slope_limb_13_col141) * (x_diff_8_tmp_d9509_10))),
-                    ((((((slope_limb_9_col137) * (x_diff_13_tmp_d9509_15))
-                        + ((slope_limb_10_col138) * (x_diff_12_tmp_d9509_14)))
-                        + ((slope_limb_11_col139) * (x_diff_11_tmp_d9509_13)))
-                        + ((slope_limb_12_col140) * (x_diff_10_tmp_d9509_12)))
-                        + ((slope_limb_13_col141) * (x_diff_9_tmp_d9509_11))),
-                    (((((slope_limb_10_col138) * (x_diff_13_tmp_d9509_15))
-                        + ((slope_limb_11_col139) * (x_diff_12_tmp_d9509_14)))
-                        + ((slope_limb_12_col140) * (x_diff_11_tmp_d9509_13)))
-                        + ((slope_limb_13_col141) * (x_diff_10_tmp_d9509_12))),
-                    ((((slope_limb_11_col139) * (x_diff_13_tmp_d9509_15))
-                        + ((slope_limb_12_col140) * (x_diff_12_tmp_d9509_14)))
-                        + ((slope_limb_13_col141) * (x_diff_11_tmp_d9509_13))),
-                    (((slope_limb_12_col140) * (x_diff_13_tmp_d9509_15))
-                        + ((slope_limb_13_col141) * (x_diff_12_tmp_d9509_14))),
-                    ((slope_limb_13_col141) * (x_diff_13_tmp_d9509_15)),
+                    ((slope_limb_7_col136) * (x_diff_7_tmp_d9509_9)),
+                    (((slope_limb_7_col136) * (x_diff_8_tmp_d9509_10))
+                        + ((slope_limb_8_col137) * (x_diff_7_tmp_d9509_9))),
+                    ((((slope_limb_7_col136) * (x_diff_9_tmp_d9509_11))
+                        + ((slope_limb_8_col137) * (x_diff_8_tmp_d9509_10)))
+                        + ((slope_limb_9_col138) * (x_diff_7_tmp_d9509_9))),
+                    (((((slope_limb_7_col136) * (x_diff_10_tmp_d9509_12))
+                        + ((slope_limb_8_col137) * (x_diff_9_tmp_d9509_11)))
+                        + ((slope_limb_9_col138) * (x_diff_8_tmp_d9509_10)))
+                        + ((slope_limb_10_col139) * (x_diff_7_tmp_d9509_9))),
+                    ((((((slope_limb_7_col136) * (x_diff_11_tmp_d9509_13))
+                        + ((slope_limb_8_col137) * (x_diff_10_tmp_d9509_12)))
+                        + ((slope_limb_9_col138) * (x_diff_9_tmp_d9509_11)))
+                        + ((slope_limb_10_col139) * (x_diff_8_tmp_d9509_10)))
+                        + ((slope_limb_11_col140) * (x_diff_7_tmp_d9509_9))),
+                    (((((((slope_limb_7_col136) * (x_diff_12_tmp_d9509_14))
+                        + ((slope_limb_8_col137) * (x_diff_11_tmp_d9509_13)))
+                        + ((slope_limb_9_col138) * (x_diff_10_tmp_d9509_12)))
+                        + ((slope_limb_10_col139) * (x_diff_9_tmp_d9509_11)))
+                        + ((slope_limb_11_col140) * (x_diff_8_tmp_d9509_10)))
+                        + ((slope_limb_12_col141) * (x_diff_7_tmp_d9509_9))),
+                    ((((((((slope_limb_7_col136) * (x_diff_13_tmp_d9509_15))
+                        + ((slope_limb_8_col137) * (x_diff_12_tmp_d9509_14)))
+                        + ((slope_limb_9_col138) * (x_diff_11_tmp_d9509_13)))
+                        + ((slope_limb_10_col139) * (x_diff_10_tmp_d9509_12)))
+                        + ((slope_limb_11_col140) * (x_diff_9_tmp_d9509_11)))
+                        + ((slope_limb_12_col141) * (x_diff_8_tmp_d9509_10)))
+                        + ((slope_limb_13_col142) * (x_diff_7_tmp_d9509_9))),
+                    (((((((slope_limb_8_col137) * (x_diff_13_tmp_d9509_15))
+                        + ((slope_limb_9_col138) * (x_diff_12_tmp_d9509_14)))
+                        + ((slope_limb_10_col139) * (x_diff_11_tmp_d9509_13)))
+                        + ((slope_limb_11_col140) * (x_diff_10_tmp_d9509_12)))
+                        + ((slope_limb_12_col141) * (x_diff_9_tmp_d9509_11)))
+                        + ((slope_limb_13_col142) * (x_diff_8_tmp_d9509_10))),
+                    ((((((slope_limb_9_col138) * (x_diff_13_tmp_d9509_15))
+                        + ((slope_limb_10_col139) * (x_diff_12_tmp_d9509_14)))
+                        + ((slope_limb_11_col140) * (x_diff_11_tmp_d9509_13)))
+                        + ((slope_limb_12_col141) * (x_diff_10_tmp_d9509_12)))
+                        + ((slope_limb_13_col142) * (x_diff_9_tmp_d9509_11))),
+                    (((((slope_limb_10_col139) * (x_diff_13_tmp_d9509_15))
+                        + ((slope_limb_11_col140) * (x_diff_12_tmp_d9509_14)))
+                        + ((slope_limb_12_col141) * (x_diff_11_tmp_d9509_13)))
+                        + ((slope_limb_13_col142) * (x_diff_10_tmp_d9509_12))),
+                    ((((slope_limb_11_col140) * (x_diff_13_tmp_d9509_15))
+                        + ((slope_limb_12_col141) * (x_diff_12_tmp_d9509_14)))
+                        + ((slope_limb_13_col142) * (x_diff_11_tmp_d9509_13))),
+                    (((slope_limb_12_col141) * (x_diff_13_tmp_d9509_15))
+                        + ((slope_limb_13_col142) * (x_diff_12_tmp_d9509_14))),
+                    ((slope_limb_13_col142) * (x_diff_13_tmp_d9509_15)),
                 ];
                 let x_sum_tmp_d9509_60 = [
-                    ((slope_limb_0_col128) + (slope_limb_7_col135)),
-                    ((slope_limb_1_col129) + (slope_limb_8_col136)),
-                    ((slope_limb_2_col130) + (slope_limb_9_col137)),
-                    ((slope_limb_3_col131) + (slope_limb_10_col138)),
-                    ((slope_limb_4_col132) + (slope_limb_11_col139)),
-                    ((slope_limb_5_col133) + (slope_limb_12_col140)),
-                    ((slope_limb_6_col134) + (slope_limb_13_col141)),
+                    ((slope_limb_0_col129) + (slope_limb_7_col136)),
+                    ((slope_limb_1_col130) + (slope_limb_8_col137)),
+                    ((slope_limb_2_col131) + (slope_limb_9_col138)),
+                    ((slope_limb_3_col132) + (slope_limb_10_col139)),
+                    ((slope_limb_4_col133) + (slope_limb_11_col140)),
+                    ((slope_limb_5_col134) + (slope_limb_12_col141)),
+                    ((slope_limb_6_col135) + (slope_limb_13_col142)),
                 ];
                 let y_sum_tmp_d9509_61 = [
                     ((x_diff_0_tmp_d9509_2) + (x_diff_7_tmp_d9509_9)),
@@ -1130,115 +1133,115 @@ fn write_trace_simd(
                 // Single Karatsuba N 7.
 
                 let z0_tmp_d9509_63 = [
-                    ((slope_limb_14_col142) * (x_diff_14_tmp_d9509_16)),
-                    (((slope_limb_14_col142) * (x_diff_15_tmp_d9509_17))
-                        + ((slope_limb_15_col143) * (x_diff_14_tmp_d9509_16))),
-                    ((((slope_limb_14_col142) * (x_diff_16_tmp_d9509_18))
-                        + ((slope_limb_15_col143) * (x_diff_15_tmp_d9509_17)))
-                        + ((slope_limb_16_col144) * (x_diff_14_tmp_d9509_16))),
-                    (((((slope_limb_14_col142) * (x_diff_17_tmp_d9509_19))
-                        + ((slope_limb_15_col143) * (x_diff_16_tmp_d9509_18)))
-                        + ((slope_limb_16_col144) * (x_diff_15_tmp_d9509_17)))
-                        + ((slope_limb_17_col145) * (x_diff_14_tmp_d9509_16))),
-                    ((((((slope_limb_14_col142) * (x_diff_18_tmp_d9509_20))
-                        + ((slope_limb_15_col143) * (x_diff_17_tmp_d9509_19)))
-                        + ((slope_limb_16_col144) * (x_diff_16_tmp_d9509_18)))
-                        + ((slope_limb_17_col145) * (x_diff_15_tmp_d9509_17)))
-                        + ((slope_limb_18_col146) * (x_diff_14_tmp_d9509_16))),
-                    (((((((slope_limb_14_col142) * (x_diff_19_tmp_d9509_21))
-                        + ((slope_limb_15_col143) * (x_diff_18_tmp_d9509_20)))
-                        + ((slope_limb_16_col144) * (x_diff_17_tmp_d9509_19)))
-                        + ((slope_limb_17_col145) * (x_diff_16_tmp_d9509_18)))
-                        + ((slope_limb_18_col146) * (x_diff_15_tmp_d9509_17)))
-                        + ((slope_limb_19_col147) * (x_diff_14_tmp_d9509_16))),
-                    ((((((((slope_limb_14_col142) * (x_diff_20_tmp_d9509_22))
-                        + ((slope_limb_15_col143) * (x_diff_19_tmp_d9509_21)))
-                        + ((slope_limb_16_col144) * (x_diff_18_tmp_d9509_20)))
-                        + ((slope_limb_17_col145) * (x_diff_17_tmp_d9509_19)))
-                        + ((slope_limb_18_col146) * (x_diff_16_tmp_d9509_18)))
-                        + ((slope_limb_19_col147) * (x_diff_15_tmp_d9509_17)))
-                        + ((slope_limb_20_col148) * (x_diff_14_tmp_d9509_16))),
-                    (((((((slope_limb_15_col143) * (x_diff_20_tmp_d9509_22))
-                        + ((slope_limb_16_col144) * (x_diff_19_tmp_d9509_21)))
-                        + ((slope_limb_17_col145) * (x_diff_18_tmp_d9509_20)))
-                        + ((slope_limb_18_col146) * (x_diff_17_tmp_d9509_19)))
-                        + ((slope_limb_19_col147) * (x_diff_16_tmp_d9509_18)))
-                        + ((slope_limb_20_col148) * (x_diff_15_tmp_d9509_17))),
-                    ((((((slope_limb_16_col144) * (x_diff_20_tmp_d9509_22))
-                        + ((slope_limb_17_col145) * (x_diff_19_tmp_d9509_21)))
-                        + ((slope_limb_18_col146) * (x_diff_18_tmp_d9509_20)))
-                        + ((slope_limb_19_col147) * (x_diff_17_tmp_d9509_19)))
-                        + ((slope_limb_20_col148) * (x_diff_16_tmp_d9509_18))),
-                    (((((slope_limb_17_col145) * (x_diff_20_tmp_d9509_22))
-                        + ((slope_limb_18_col146) * (x_diff_19_tmp_d9509_21)))
-                        + ((slope_limb_19_col147) * (x_diff_18_tmp_d9509_20)))
-                        + ((slope_limb_20_col148) * (x_diff_17_tmp_d9509_19))),
-                    ((((slope_limb_18_col146) * (x_diff_20_tmp_d9509_22))
-                        + ((slope_limb_19_col147) * (x_diff_19_tmp_d9509_21)))
-                        + ((slope_limb_20_col148) * (x_diff_18_tmp_d9509_20))),
-                    (((slope_limb_19_col147) * (x_diff_20_tmp_d9509_22))
-                        + ((slope_limb_20_col148) * (x_diff_19_tmp_d9509_21))),
-                    ((slope_limb_20_col148) * (x_diff_20_tmp_d9509_22)),
+                    ((slope_limb_14_col143) * (x_diff_14_tmp_d9509_16)),
+                    (((slope_limb_14_col143) * (x_diff_15_tmp_d9509_17))
+                        + ((slope_limb_15_col144) * (x_diff_14_tmp_d9509_16))),
+                    ((((slope_limb_14_col143) * (x_diff_16_tmp_d9509_18))
+                        + ((slope_limb_15_col144) * (x_diff_15_tmp_d9509_17)))
+                        + ((slope_limb_16_col145) * (x_diff_14_tmp_d9509_16))),
+                    (((((slope_limb_14_col143) * (x_diff_17_tmp_d9509_19))
+                        + ((slope_limb_15_col144) * (x_diff_16_tmp_d9509_18)))
+                        + ((slope_limb_16_col145) * (x_diff_15_tmp_d9509_17)))
+                        + ((slope_limb_17_col146) * (x_diff_14_tmp_d9509_16))),
+                    ((((((slope_limb_14_col143) * (x_diff_18_tmp_d9509_20))
+                        + ((slope_limb_15_col144) * (x_diff_17_tmp_d9509_19)))
+                        + ((slope_limb_16_col145) * (x_diff_16_tmp_d9509_18)))
+                        + ((slope_limb_17_col146) * (x_diff_15_tmp_d9509_17)))
+                        + ((slope_limb_18_col147) * (x_diff_14_tmp_d9509_16))),
+                    (((((((slope_limb_14_col143) * (x_diff_19_tmp_d9509_21))
+                        + ((slope_limb_15_col144) * (x_diff_18_tmp_d9509_20)))
+                        + ((slope_limb_16_col145) * (x_diff_17_tmp_d9509_19)))
+                        + ((slope_limb_17_col146) * (x_diff_16_tmp_d9509_18)))
+                        + ((slope_limb_18_col147) * (x_diff_15_tmp_d9509_17)))
+                        + ((slope_limb_19_col148) * (x_diff_14_tmp_d9509_16))),
+                    ((((((((slope_limb_14_col143) * (x_diff_20_tmp_d9509_22))
+                        + ((slope_limb_15_col144) * (x_diff_19_tmp_d9509_21)))
+                        + ((slope_limb_16_col145) * (x_diff_18_tmp_d9509_20)))
+                        + ((slope_limb_17_col146) * (x_diff_17_tmp_d9509_19)))
+                        + ((slope_limb_18_col147) * (x_diff_16_tmp_d9509_18)))
+                        + ((slope_limb_19_col148) * (x_diff_15_tmp_d9509_17)))
+                        + ((slope_limb_20_col149) * (x_diff_14_tmp_d9509_16))),
+                    (((((((slope_limb_15_col144) * (x_diff_20_tmp_d9509_22))
+                        + ((slope_limb_16_col145) * (x_diff_19_tmp_d9509_21)))
+                        + ((slope_limb_17_col146) * (x_diff_18_tmp_d9509_20)))
+                        + ((slope_limb_18_col147) * (x_diff_17_tmp_d9509_19)))
+                        + ((slope_limb_19_col148) * (x_diff_16_tmp_d9509_18)))
+                        + ((slope_limb_20_col149) * (x_diff_15_tmp_d9509_17))),
+                    ((((((slope_limb_16_col145) * (x_diff_20_tmp_d9509_22))
+                        + ((slope_limb_17_col146) * (x_diff_19_tmp_d9509_21)))
+                        + ((slope_limb_18_col147) * (x_diff_18_tmp_d9509_20)))
+                        + ((slope_limb_19_col148) * (x_diff_17_tmp_d9509_19)))
+                        + ((slope_limb_20_col149) * (x_diff_16_tmp_d9509_18))),
+                    (((((slope_limb_17_col146) * (x_diff_20_tmp_d9509_22))
+                        + ((slope_limb_18_col147) * (x_diff_19_tmp_d9509_21)))
+                        + ((slope_limb_19_col148) * (x_diff_18_tmp_d9509_20)))
+                        + ((slope_limb_20_col149) * (x_diff_17_tmp_d9509_19))),
+                    ((((slope_limb_18_col147) * (x_diff_20_tmp_d9509_22))
+                        + ((slope_limb_19_col148) * (x_diff_19_tmp_d9509_21)))
+                        + ((slope_limb_20_col149) * (x_diff_18_tmp_d9509_20))),
+                    (((slope_limb_19_col148) * (x_diff_20_tmp_d9509_22))
+                        + ((slope_limb_20_col149) * (x_diff_19_tmp_d9509_21))),
+                    ((slope_limb_20_col149) * (x_diff_20_tmp_d9509_22)),
                 ];
                 let z2_tmp_d9509_64 = [
-                    ((slope_limb_21_col149) * (x_diff_21_tmp_d9509_23)),
-                    (((slope_limb_21_col149) * (x_diff_22_tmp_d9509_24))
-                        + ((slope_limb_22_col150) * (x_diff_21_tmp_d9509_23))),
-                    ((((slope_limb_21_col149) * (x_diff_23_tmp_d9509_25))
-                        + ((slope_limb_22_col150) * (x_diff_22_tmp_d9509_24)))
-                        + ((slope_limb_23_col151) * (x_diff_21_tmp_d9509_23))),
-                    (((((slope_limb_21_col149) * (x_diff_24_tmp_d9509_26))
-                        + ((slope_limb_22_col150) * (x_diff_23_tmp_d9509_25)))
-                        + ((slope_limb_23_col151) * (x_diff_22_tmp_d9509_24)))
-                        + ((slope_limb_24_col152) * (x_diff_21_tmp_d9509_23))),
-                    ((((((slope_limb_21_col149) * (x_diff_25_tmp_d9509_27))
-                        + ((slope_limb_22_col150) * (x_diff_24_tmp_d9509_26)))
-                        + ((slope_limb_23_col151) * (x_diff_23_tmp_d9509_25)))
-                        + ((slope_limb_24_col152) * (x_diff_22_tmp_d9509_24)))
-                        + ((slope_limb_25_col153) * (x_diff_21_tmp_d9509_23))),
-                    (((((((slope_limb_21_col149) * (x_diff_26_tmp_d9509_28))
-                        + ((slope_limb_22_col150) * (x_diff_25_tmp_d9509_27)))
-                        + ((slope_limb_23_col151) * (x_diff_24_tmp_d9509_26)))
-                        + ((slope_limb_24_col152) * (x_diff_23_tmp_d9509_25)))
-                        + ((slope_limb_25_col153) * (x_diff_22_tmp_d9509_24)))
-                        + ((slope_limb_26_col154) * (x_diff_21_tmp_d9509_23))),
-                    ((((((((slope_limb_21_col149) * (x_diff_27_tmp_d9509_29))
-                        + ((slope_limb_22_col150) * (x_diff_26_tmp_d9509_28)))
-                        + ((slope_limb_23_col151) * (x_diff_25_tmp_d9509_27)))
-                        + ((slope_limb_24_col152) * (x_diff_24_tmp_d9509_26)))
-                        + ((slope_limb_25_col153) * (x_diff_23_tmp_d9509_25)))
-                        + ((slope_limb_26_col154) * (x_diff_22_tmp_d9509_24)))
-                        + ((slope_limb_27_col155) * (x_diff_21_tmp_d9509_23))),
-                    (((((((slope_limb_22_col150) * (x_diff_27_tmp_d9509_29))
-                        + ((slope_limb_23_col151) * (x_diff_26_tmp_d9509_28)))
-                        + ((slope_limb_24_col152) * (x_diff_25_tmp_d9509_27)))
-                        + ((slope_limb_25_col153) * (x_diff_24_tmp_d9509_26)))
-                        + ((slope_limb_26_col154) * (x_diff_23_tmp_d9509_25)))
-                        + ((slope_limb_27_col155) * (x_diff_22_tmp_d9509_24))),
-                    ((((((slope_limb_23_col151) * (x_diff_27_tmp_d9509_29))
-                        + ((slope_limb_24_col152) * (x_diff_26_tmp_d9509_28)))
-                        + ((slope_limb_25_col153) * (x_diff_25_tmp_d9509_27)))
-                        + ((slope_limb_26_col154) * (x_diff_24_tmp_d9509_26)))
-                        + ((slope_limb_27_col155) * (x_diff_23_tmp_d9509_25))),
-                    (((((slope_limb_24_col152) * (x_diff_27_tmp_d9509_29))
-                        + ((slope_limb_25_col153) * (x_diff_26_tmp_d9509_28)))
-                        + ((slope_limb_26_col154) * (x_diff_25_tmp_d9509_27)))
-                        + ((slope_limb_27_col155) * (x_diff_24_tmp_d9509_26))),
-                    ((((slope_limb_25_col153) * (x_diff_27_tmp_d9509_29))
-                        + ((slope_limb_26_col154) * (x_diff_26_tmp_d9509_28)))
-                        + ((slope_limb_27_col155) * (x_diff_25_tmp_d9509_27))),
-                    (((slope_limb_26_col154) * (x_diff_27_tmp_d9509_29))
-                        + ((slope_limb_27_col155) * (x_diff_26_tmp_d9509_28))),
-                    ((slope_limb_27_col155) * (x_diff_27_tmp_d9509_29)),
+                    ((slope_limb_21_col150) * (x_diff_21_tmp_d9509_23)),
+                    (((slope_limb_21_col150) * (x_diff_22_tmp_d9509_24))
+                        + ((slope_limb_22_col151) * (x_diff_21_tmp_d9509_23))),
+                    ((((slope_limb_21_col150) * (x_diff_23_tmp_d9509_25))
+                        + ((slope_limb_22_col151) * (x_diff_22_tmp_d9509_24)))
+                        + ((slope_limb_23_col152) * (x_diff_21_tmp_d9509_23))),
+                    (((((slope_limb_21_col150) * (x_diff_24_tmp_d9509_26))
+                        + ((slope_limb_22_col151) * (x_diff_23_tmp_d9509_25)))
+                        + ((slope_limb_23_col152) * (x_diff_22_tmp_d9509_24)))
+                        + ((slope_limb_24_col153) * (x_diff_21_tmp_d9509_23))),
+                    ((((((slope_limb_21_col150) * (x_diff_25_tmp_d9509_27))
+                        + ((slope_limb_22_col151) * (x_diff_24_tmp_d9509_26)))
+                        + ((slope_limb_23_col152) * (x_diff_23_tmp_d9509_25)))
+                        + ((slope_limb_24_col153) * (x_diff_22_tmp_d9509_24)))
+                        + ((slope_limb_25_col154) * (x_diff_21_tmp_d9509_23))),
+                    (((((((slope_limb_21_col150) * (x_diff_26_tmp_d9509_28))
+                        + ((slope_limb_22_col151) * (x_diff_25_tmp_d9509_27)))
+                        + ((slope_limb_23_col152) * (x_diff_24_tmp_d9509_26)))
+                        + ((slope_limb_24_col153) * (x_diff_23_tmp_d9509_25)))
+                        + ((slope_limb_25_col154) * (x_diff_22_tmp_d9509_24)))
+                        + ((slope_limb_26_col155) * (x_diff_21_tmp_d9509_23))),
+                    ((((((((slope_limb_21_col150) * (x_diff_27_tmp_d9509_29))
+                        + ((slope_limb_22_col151) * (x_diff_26_tmp_d9509_28)))
+                        + ((slope_limb_23_col152) * (x_diff_25_tmp_d9509_27)))
+                        + ((slope_limb_24_col153) * (x_diff_24_tmp_d9509_26)))
+                        + ((slope_limb_25_col154) * (x_diff_23_tmp_d9509_25)))
+                        + ((slope_limb_26_col155) * (x_diff_22_tmp_d9509_24)))
+                        + ((slope_limb_27_col156) * (x_diff_21_tmp_d9509_23))),
+                    (((((((slope_limb_22_col151) * (x_diff_27_tmp_d9509_29))
+                        + ((slope_limb_23_col152) * (x_diff_26_tmp_d9509_28)))
+                        + ((slope_limb_24_col153) * (x_diff_25_tmp_d9509_27)))
+                        + ((slope_limb_25_col154) * (x_diff_24_tmp_d9509_26)))
+                        + ((slope_limb_26_col155) * (x_diff_23_tmp_d9509_25)))
+                        + ((slope_limb_27_col156) * (x_diff_22_tmp_d9509_24))),
+                    ((((((slope_limb_23_col152) * (x_diff_27_tmp_d9509_29))
+                        + ((slope_limb_24_col153) * (x_diff_26_tmp_d9509_28)))
+                        + ((slope_limb_25_col154) * (x_diff_25_tmp_d9509_27)))
+                        + ((slope_limb_26_col155) * (x_diff_24_tmp_d9509_26)))
+                        + ((slope_limb_27_col156) * (x_diff_23_tmp_d9509_25))),
+                    (((((slope_limb_24_col153) * (x_diff_27_tmp_d9509_29))
+                        + ((slope_limb_25_col154) * (x_diff_26_tmp_d9509_28)))
+                        + ((slope_limb_26_col155) * (x_diff_25_tmp_d9509_27)))
+                        + ((slope_limb_27_col156) * (x_diff_24_tmp_d9509_26))),
+                    ((((slope_limb_25_col154) * (x_diff_27_tmp_d9509_29))
+                        + ((slope_limb_26_col155) * (x_diff_26_tmp_d9509_28)))
+                        + ((slope_limb_27_col156) * (x_diff_25_tmp_d9509_27))),
+                    (((slope_limb_26_col155) * (x_diff_27_tmp_d9509_29))
+                        + ((slope_limb_27_col156) * (x_diff_26_tmp_d9509_28))),
+                    ((slope_limb_27_col156) * (x_diff_27_tmp_d9509_29)),
                 ];
                 let x_sum_tmp_d9509_65 = [
-                    ((slope_limb_14_col142) + (slope_limb_21_col149)),
-                    ((slope_limb_15_col143) + (slope_limb_22_col150)),
-                    ((slope_limb_16_col144) + (slope_limb_23_col151)),
-                    ((slope_limb_17_col145) + (slope_limb_24_col152)),
-                    ((slope_limb_18_col146) + (slope_limb_25_col153)),
-                    ((slope_limb_19_col147) + (slope_limb_26_col154)),
-                    ((slope_limb_20_col148) + (slope_limb_27_col155)),
+                    ((slope_limb_14_col143) + (slope_limb_21_col150)),
+                    ((slope_limb_15_col144) + (slope_limb_22_col151)),
+                    ((slope_limb_16_col145) + (slope_limb_23_col152)),
+                    ((slope_limb_17_col146) + (slope_limb_24_col153)),
+                    ((slope_limb_18_col147) + (slope_limb_25_col154)),
+                    ((slope_limb_19_col148) + (slope_limb_26_col155)),
+                    ((slope_limb_20_col149) + (slope_limb_27_col156)),
                 ];
                 let y_sum_tmp_d9509_66 = [
                     ((x_diff_14_tmp_d9509_16) + (x_diff_21_tmp_d9509_23)),
@@ -1354,20 +1357,20 @@ fn write_trace_simd(
                 ];
 
                 let x_sum_tmp_d9509_68 = [
-                    ((slope_limb_0_col128) + (slope_limb_14_col142)),
-                    ((slope_limb_1_col129) + (slope_limb_15_col143)),
-                    ((slope_limb_2_col130) + (slope_limb_16_col144)),
-                    ((slope_limb_3_col131) + (slope_limb_17_col145)),
-                    ((slope_limb_4_col132) + (slope_limb_18_col146)),
-                    ((slope_limb_5_col133) + (slope_limb_19_col147)),
-                    ((slope_limb_6_col134) + (slope_limb_20_col148)),
-                    ((slope_limb_7_col135) + (slope_limb_21_col149)),
-                    ((slope_limb_8_col136) + (slope_limb_22_col150)),
-                    ((slope_limb_9_col137) + (slope_limb_23_col151)),
-                    ((slope_limb_10_col138) + (slope_limb_24_col152)),
-                    ((slope_limb_11_col139) + (slope_limb_25_col153)),
-                    ((slope_limb_12_col140) + (slope_limb_26_col154)),
-                    ((slope_limb_13_col141) + (slope_limb_27_col155)),
+                    ((slope_limb_0_col129) + (slope_limb_14_col143)),
+                    ((slope_limb_1_col130) + (slope_limb_15_col144)),
+                    ((slope_limb_2_col131) + (slope_limb_16_col145)),
+                    ((slope_limb_3_col132) + (slope_limb_17_col146)),
+                    ((slope_limb_4_col133) + (slope_limb_18_col147)),
+                    ((slope_limb_5_col134) + (slope_limb_19_col148)),
+                    ((slope_limb_6_col135) + (slope_limb_20_col149)),
+                    ((slope_limb_7_col136) + (slope_limb_21_col150)),
+                    ((slope_limb_8_col137) + (slope_limb_22_col151)),
+                    ((slope_limb_9_col138) + (slope_limb_23_col152)),
+                    ((slope_limb_10_col139) + (slope_limb_24_col153)),
+                    ((slope_limb_11_col140) + (slope_limb_25_col154)),
+                    ((slope_limb_12_col141) + (slope_limb_26_col155)),
+                    ((slope_limb_13_col142) + (slope_limb_27_col156)),
                 ];
                 let y_sum_tmp_d9509_69 = [
                     ((x_diff_0_tmp_d9509_2) + (x_diff_14_tmp_d9509_16)),
@@ -1898,419 +1901,419 @@ fn write_trace_simd(
                             << (UInt32_9)))
                         + (UInt32_131072))
                         & (UInt32_262143));
-                let k_col156 = ((k_mod_2_18_biased_tmp_d9509_78.low().as_m31())
+                let k_col157 = ((k_mod_2_18_biased_tmp_d9509_78.low().as_m31())
                     + (((k_mod_2_18_biased_tmp_d9509_78.high().as_m31()) - (M31_2)) * (M31_65536)));
-                *row[156] = k_col156;
-                *sub_component_inputs.range_check_20[0] = [((k_col156) + (M31_524288))];
-                *lookup_data.range_check_20_15 = [M31_1410849886, ((k_col156) + (M31_524288))];
-                let carry_0_col157 = (((conv_mod_tmp_d9509_77[0]) - (k_col156)) * (M31_4194304));
-                *row[157] = carry_0_col157;
-                *sub_component_inputs.range_check_20_b[0] = [((carry_0_col157) + (M31_524288))];
+                *row[157] = k_col157;
+                *sub_component_inputs.range_check_20[0] = [((k_col157) + (M31_524288))];
+                *lookup_data.range_check_20_15 = [M31_1410849886, ((k_col157) + (M31_524288))];
+                let carry_0_col158 = (((conv_mod_tmp_d9509_77[0]) - (k_col157)) * (M31_4194304));
+                *row[158] = carry_0_col158;
+                *sub_component_inputs.range_check_20_b[0] = [((carry_0_col158) + (M31_524288))];
                 *lookup_data.range_check_20_b_16 =
-                    [M31_514232941, ((carry_0_col157) + (M31_524288))];
-                let carry_1_col158 =
-                    (((conv_mod_tmp_d9509_77[1]) + (carry_0_col157)) * (M31_4194304));
-                *row[158] = carry_1_col158;
-                *sub_component_inputs.range_check_20_c[0] = [((carry_1_col158) + (M31_524288))];
+                    [M31_514232941, ((carry_0_col158) + (M31_524288))];
+                let carry_1_col159 =
+                    (((conv_mod_tmp_d9509_77[1]) + (carry_0_col158)) * (M31_4194304));
+                *row[159] = carry_1_col159;
+                *sub_component_inputs.range_check_20_c[0] = [((carry_1_col159) + (M31_524288))];
                 *lookup_data.range_check_20_c_17 =
-                    [M31_531010560, ((carry_1_col158) + (M31_524288))];
-                let carry_2_col159 =
-                    (((conv_mod_tmp_d9509_77[2]) + (carry_1_col158)) * (M31_4194304));
-                *row[159] = carry_2_col159;
-                *sub_component_inputs.range_check_20_d[0] = [((carry_2_col159) + (M31_524288))];
+                    [M31_531010560, ((carry_1_col159) + (M31_524288))];
+                let carry_2_col160 =
+                    (((conv_mod_tmp_d9509_77[2]) + (carry_1_col159)) * (M31_4194304));
+                *row[160] = carry_2_col160;
+                *sub_component_inputs.range_check_20_d[0] = [((carry_2_col160) + (M31_524288))];
                 *lookup_data.range_check_20_d_18 =
-                    [M31_480677703, ((carry_2_col159) + (M31_524288))];
-                let carry_3_col160 =
-                    (((conv_mod_tmp_d9509_77[3]) + (carry_2_col159)) * (M31_4194304));
-                *row[160] = carry_3_col160;
-                *sub_component_inputs.range_check_20_e[0] = [((carry_3_col160) + (M31_524288))];
+                    [M31_480677703, ((carry_2_col160) + (M31_524288))];
+                let carry_3_col161 =
+                    (((conv_mod_tmp_d9509_77[3]) + (carry_2_col160)) * (M31_4194304));
+                *row[161] = carry_3_col161;
+                *sub_component_inputs.range_check_20_e[0] = [((carry_3_col161) + (M31_524288))];
                 *lookup_data.range_check_20_e_19 =
-                    [M31_497455322, ((carry_3_col160) + (M31_524288))];
-                let carry_4_col161 =
-                    (((conv_mod_tmp_d9509_77[4]) + (carry_3_col160)) * (M31_4194304));
-                *row[161] = carry_4_col161;
-                *sub_component_inputs.range_check_20_f[0] = [((carry_4_col161) + (M31_524288))];
+                    [M31_497455322, ((carry_3_col161) + (M31_524288))];
+                let carry_4_col162 =
+                    (((conv_mod_tmp_d9509_77[4]) + (carry_3_col161)) * (M31_4194304));
+                *row[162] = carry_4_col162;
+                *sub_component_inputs.range_check_20_f[0] = [((carry_4_col162) + (M31_524288))];
                 *lookup_data.range_check_20_f_20 =
-                    [M31_447122465, ((carry_4_col161) + (M31_524288))];
-                let carry_5_col162 =
-                    (((conv_mod_tmp_d9509_77[5]) + (carry_4_col161)) * (M31_4194304));
-                *row[162] = carry_5_col162;
-                *sub_component_inputs.range_check_20_g[0] = [((carry_5_col162) + (M31_524288))];
+                    [M31_447122465, ((carry_4_col162) + (M31_524288))];
+                let carry_5_col163 =
+                    (((conv_mod_tmp_d9509_77[5]) + (carry_4_col162)) * (M31_4194304));
+                *row[163] = carry_5_col163;
+                *sub_component_inputs.range_check_20_g[0] = [((carry_5_col163) + (M31_524288))];
                 *lookup_data.range_check_20_g_21 =
-                    [M31_463900084, ((carry_5_col162) + (M31_524288))];
-                let carry_6_col163 =
-                    (((conv_mod_tmp_d9509_77[6]) + (carry_5_col162)) * (M31_4194304));
-                *row[163] = carry_6_col163;
-                *sub_component_inputs.range_check_20_h[0] = [((carry_6_col163) + (M31_524288))];
+                    [M31_463900084, ((carry_5_col163) + (M31_524288))];
+                let carry_6_col164 =
+                    (((conv_mod_tmp_d9509_77[6]) + (carry_5_col163)) * (M31_4194304));
+                *row[164] = carry_6_col164;
+                *sub_component_inputs.range_check_20_h[0] = [((carry_6_col164) + (M31_524288))];
                 *lookup_data.range_check_20_h_22 =
-                    [M31_682009131, ((carry_6_col163) + (M31_524288))];
-                let carry_7_col164 =
-                    (((conv_mod_tmp_d9509_77[7]) + (carry_6_col163)) * (M31_4194304));
-                *row[164] = carry_7_col164;
-                *sub_component_inputs.range_check_20[1] = [((carry_7_col164) + (M31_524288))];
+                    [M31_682009131, ((carry_6_col164) + (M31_524288))];
+                let carry_7_col165 =
+                    (((conv_mod_tmp_d9509_77[7]) + (carry_6_col164)) * (M31_4194304));
+                *row[165] = carry_7_col165;
+                *sub_component_inputs.range_check_20[1] = [((carry_7_col165) + (M31_524288))];
                 *lookup_data.range_check_20_23 =
-                    [M31_1410849886, ((carry_7_col164) + (M31_524288))];
-                let carry_8_col165 =
-                    (((conv_mod_tmp_d9509_77[8]) + (carry_7_col164)) * (M31_4194304));
-                *row[165] = carry_8_col165;
-                *sub_component_inputs.range_check_20_b[1] = [((carry_8_col165) + (M31_524288))];
+                    [M31_1410849886, ((carry_7_col165) + (M31_524288))];
+                let carry_8_col166 =
+                    (((conv_mod_tmp_d9509_77[8]) + (carry_7_col165)) * (M31_4194304));
+                *row[166] = carry_8_col166;
+                *sub_component_inputs.range_check_20_b[1] = [((carry_8_col166) + (M31_524288))];
                 *lookup_data.range_check_20_b_24 =
-                    [M31_514232941, ((carry_8_col165) + (M31_524288))];
-                let carry_9_col166 =
-                    (((conv_mod_tmp_d9509_77[9]) + (carry_8_col165)) * (M31_4194304));
-                *row[166] = carry_9_col166;
-                *sub_component_inputs.range_check_20_c[1] = [((carry_9_col166) + (M31_524288))];
+                    [M31_514232941, ((carry_8_col166) + (M31_524288))];
+                let carry_9_col167 =
+                    (((conv_mod_tmp_d9509_77[9]) + (carry_8_col166)) * (M31_4194304));
+                *row[167] = carry_9_col167;
+                *sub_component_inputs.range_check_20_c[1] = [((carry_9_col167) + (M31_524288))];
                 *lookup_data.range_check_20_c_25 =
-                    [M31_531010560, ((carry_9_col166) + (M31_524288))];
-                let carry_10_col167 =
-                    (((conv_mod_tmp_d9509_77[10]) + (carry_9_col166)) * (M31_4194304));
-                *row[167] = carry_10_col167;
-                *sub_component_inputs.range_check_20_d[1] = [((carry_10_col167) + (M31_524288))];
+                    [M31_531010560, ((carry_9_col167) + (M31_524288))];
+                let carry_10_col168 =
+                    (((conv_mod_tmp_d9509_77[10]) + (carry_9_col167)) * (M31_4194304));
+                *row[168] = carry_10_col168;
+                *sub_component_inputs.range_check_20_d[1] = [((carry_10_col168) + (M31_524288))];
                 *lookup_data.range_check_20_d_26 =
-                    [M31_480677703, ((carry_10_col167) + (M31_524288))];
-                let carry_11_col168 =
-                    (((conv_mod_tmp_d9509_77[11]) + (carry_10_col167)) * (M31_4194304));
-                *row[168] = carry_11_col168;
-                *sub_component_inputs.range_check_20_e[1] = [((carry_11_col168) + (M31_524288))];
+                    [M31_480677703, ((carry_10_col168) + (M31_524288))];
+                let carry_11_col169 =
+                    (((conv_mod_tmp_d9509_77[11]) + (carry_10_col168)) * (M31_4194304));
+                *row[169] = carry_11_col169;
+                *sub_component_inputs.range_check_20_e[1] = [((carry_11_col169) + (M31_524288))];
                 *lookup_data.range_check_20_e_27 =
-                    [M31_497455322, ((carry_11_col168) + (M31_524288))];
-                let carry_12_col169 =
-                    (((conv_mod_tmp_d9509_77[12]) + (carry_11_col168)) * (M31_4194304));
-                *row[169] = carry_12_col169;
-                *sub_component_inputs.range_check_20_f[1] = [((carry_12_col169) + (M31_524288))];
+                    [M31_497455322, ((carry_11_col169) + (M31_524288))];
+                let carry_12_col170 =
+                    (((conv_mod_tmp_d9509_77[12]) + (carry_11_col169)) * (M31_4194304));
+                *row[170] = carry_12_col170;
+                *sub_component_inputs.range_check_20_f[1] = [((carry_12_col170) + (M31_524288))];
                 *lookup_data.range_check_20_f_28 =
-                    [M31_447122465, ((carry_12_col169) + (M31_524288))];
-                let carry_13_col170 =
-                    (((conv_mod_tmp_d9509_77[13]) + (carry_12_col169)) * (M31_4194304));
-                *row[170] = carry_13_col170;
-                *sub_component_inputs.range_check_20_g[1] = [((carry_13_col170) + (M31_524288))];
+                    [M31_447122465, ((carry_12_col170) + (M31_524288))];
+                let carry_13_col171 =
+                    (((conv_mod_tmp_d9509_77[13]) + (carry_12_col170)) * (M31_4194304));
+                *row[171] = carry_13_col171;
+                *sub_component_inputs.range_check_20_g[1] = [((carry_13_col171) + (M31_524288))];
                 *lookup_data.range_check_20_g_29 =
-                    [M31_463900084, ((carry_13_col170) + (M31_524288))];
-                let carry_14_col171 =
-                    (((conv_mod_tmp_d9509_77[14]) + (carry_13_col170)) * (M31_4194304));
-                *row[171] = carry_14_col171;
-                *sub_component_inputs.range_check_20_h[1] = [((carry_14_col171) + (M31_524288))];
+                    [M31_463900084, ((carry_13_col171) + (M31_524288))];
+                let carry_14_col172 =
+                    (((conv_mod_tmp_d9509_77[14]) + (carry_13_col171)) * (M31_4194304));
+                *row[172] = carry_14_col172;
+                *sub_component_inputs.range_check_20_h[1] = [((carry_14_col172) + (M31_524288))];
                 *lookup_data.range_check_20_h_30 =
-                    [M31_682009131, ((carry_14_col171) + (M31_524288))];
-                let carry_15_col172 =
-                    (((conv_mod_tmp_d9509_77[15]) + (carry_14_col171)) * (M31_4194304));
-                *row[172] = carry_15_col172;
-                *sub_component_inputs.range_check_20[2] = [((carry_15_col172) + (M31_524288))];
+                    [M31_682009131, ((carry_14_col172) + (M31_524288))];
+                let carry_15_col173 =
+                    (((conv_mod_tmp_d9509_77[15]) + (carry_14_col172)) * (M31_4194304));
+                *row[173] = carry_15_col173;
+                *sub_component_inputs.range_check_20[2] = [((carry_15_col173) + (M31_524288))];
                 *lookup_data.range_check_20_31 =
-                    [M31_1410849886, ((carry_15_col172) + (M31_524288))];
-                let carry_16_col173 =
-                    (((conv_mod_tmp_d9509_77[16]) + (carry_15_col172)) * (M31_4194304));
-                *row[173] = carry_16_col173;
-                *sub_component_inputs.range_check_20_b[2] = [((carry_16_col173) + (M31_524288))];
+                    [M31_1410849886, ((carry_15_col173) + (M31_524288))];
+                let carry_16_col174 =
+                    (((conv_mod_tmp_d9509_77[16]) + (carry_15_col173)) * (M31_4194304));
+                *row[174] = carry_16_col174;
+                *sub_component_inputs.range_check_20_b[2] = [((carry_16_col174) + (M31_524288))];
                 *lookup_data.range_check_20_b_32 =
-                    [M31_514232941, ((carry_16_col173) + (M31_524288))];
-                let carry_17_col174 =
-                    (((conv_mod_tmp_d9509_77[17]) + (carry_16_col173)) * (M31_4194304));
-                *row[174] = carry_17_col174;
-                *sub_component_inputs.range_check_20_c[2] = [((carry_17_col174) + (M31_524288))];
+                    [M31_514232941, ((carry_16_col174) + (M31_524288))];
+                let carry_17_col175 =
+                    (((conv_mod_tmp_d9509_77[17]) + (carry_16_col174)) * (M31_4194304));
+                *row[175] = carry_17_col175;
+                *sub_component_inputs.range_check_20_c[2] = [((carry_17_col175) + (M31_524288))];
                 *lookup_data.range_check_20_c_33 =
-                    [M31_531010560, ((carry_17_col174) + (M31_524288))];
-                let carry_18_col175 =
-                    (((conv_mod_tmp_d9509_77[18]) + (carry_17_col174)) * (M31_4194304));
-                *row[175] = carry_18_col175;
-                *sub_component_inputs.range_check_20_d[2] = [((carry_18_col175) + (M31_524288))];
+                    [M31_531010560, ((carry_17_col175) + (M31_524288))];
+                let carry_18_col176 =
+                    (((conv_mod_tmp_d9509_77[18]) + (carry_17_col175)) * (M31_4194304));
+                *row[176] = carry_18_col176;
+                *sub_component_inputs.range_check_20_d[2] = [((carry_18_col176) + (M31_524288))];
                 *lookup_data.range_check_20_d_34 =
-                    [M31_480677703, ((carry_18_col175) + (M31_524288))];
-                let carry_19_col176 =
-                    (((conv_mod_tmp_d9509_77[19]) + (carry_18_col175)) * (M31_4194304));
-                *row[176] = carry_19_col176;
-                *sub_component_inputs.range_check_20_e[2] = [((carry_19_col176) + (M31_524288))];
+                    [M31_480677703, ((carry_18_col176) + (M31_524288))];
+                let carry_19_col177 =
+                    (((conv_mod_tmp_d9509_77[19]) + (carry_18_col176)) * (M31_4194304));
+                *row[177] = carry_19_col177;
+                *sub_component_inputs.range_check_20_e[2] = [((carry_19_col177) + (M31_524288))];
                 *lookup_data.range_check_20_e_35 =
-                    [M31_497455322, ((carry_19_col176) + (M31_524288))];
-                let carry_20_col177 =
-                    (((conv_mod_tmp_d9509_77[20]) + (carry_19_col176)) * (M31_4194304));
-                *row[177] = carry_20_col177;
-                *sub_component_inputs.range_check_20_f[2] = [((carry_20_col177) + (M31_524288))];
+                    [M31_497455322, ((carry_19_col177) + (M31_524288))];
+                let carry_20_col178 =
+                    (((conv_mod_tmp_d9509_77[20]) + (carry_19_col177)) * (M31_4194304));
+                *row[178] = carry_20_col178;
+                *sub_component_inputs.range_check_20_f[2] = [((carry_20_col178) + (M31_524288))];
                 *lookup_data.range_check_20_f_36 =
-                    [M31_447122465, ((carry_20_col177) + (M31_524288))];
-                let carry_21_col178 = ((((conv_mod_tmp_d9509_77[21]) - ((M31_136) * (k_col156)))
-                    + (carry_20_col177))
+                    [M31_447122465, ((carry_20_col178) + (M31_524288))];
+                let carry_21_col179 = ((((conv_mod_tmp_d9509_77[21]) - ((M31_136) * (k_col157)))
+                    + (carry_20_col178))
                     * (M31_4194304));
-                *row[178] = carry_21_col178;
-                *sub_component_inputs.range_check_20_g[2] = [((carry_21_col178) + (M31_524288))];
+                *row[179] = carry_21_col179;
+                *sub_component_inputs.range_check_20_g[2] = [((carry_21_col179) + (M31_524288))];
                 *lookup_data.range_check_20_g_37 =
-                    [M31_463900084, ((carry_21_col178) + (M31_524288))];
-                let carry_22_col179 =
-                    (((conv_mod_tmp_d9509_77[22]) + (carry_21_col178)) * (M31_4194304));
-                *row[179] = carry_22_col179;
-                *sub_component_inputs.range_check_20_h[2] = [((carry_22_col179) + (M31_524288))];
+                    [M31_463900084, ((carry_21_col179) + (M31_524288))];
+                let carry_22_col180 =
+                    (((conv_mod_tmp_d9509_77[22]) + (carry_21_col179)) * (M31_4194304));
+                *row[180] = carry_22_col180;
+                *sub_component_inputs.range_check_20_h[2] = [((carry_22_col180) + (M31_524288))];
                 *lookup_data.range_check_20_h_38 =
-                    [M31_682009131, ((carry_22_col179) + (M31_524288))];
-                let carry_23_col180 =
-                    (((conv_mod_tmp_d9509_77[23]) + (carry_22_col179)) * (M31_4194304));
-                *row[180] = carry_23_col180;
-                *sub_component_inputs.range_check_20[3] = [((carry_23_col180) + (M31_524288))];
+                    [M31_682009131, ((carry_22_col180) + (M31_524288))];
+                let carry_23_col181 =
+                    (((conv_mod_tmp_d9509_77[23]) + (carry_22_col180)) * (M31_4194304));
+                *row[181] = carry_23_col181;
+                *sub_component_inputs.range_check_20[3] = [((carry_23_col181) + (M31_524288))];
                 *lookup_data.range_check_20_39 =
-                    [M31_1410849886, ((carry_23_col180) + (M31_524288))];
-                let carry_24_col181 =
-                    (((conv_mod_tmp_d9509_77[24]) + (carry_23_col180)) * (M31_4194304));
-                *row[181] = carry_24_col181;
-                *sub_component_inputs.range_check_20_b[3] = [((carry_24_col181) + (M31_524288))];
+                    [M31_1410849886, ((carry_23_col181) + (M31_524288))];
+                let carry_24_col182 =
+                    (((conv_mod_tmp_d9509_77[24]) + (carry_23_col181)) * (M31_4194304));
+                *row[182] = carry_24_col182;
+                *sub_component_inputs.range_check_20_b[3] = [((carry_24_col182) + (M31_524288))];
                 *lookup_data.range_check_20_b_40 =
-                    [M31_514232941, ((carry_24_col181) + (M31_524288))];
-                let carry_25_col182 =
-                    (((conv_mod_tmp_d9509_77[25]) + (carry_24_col181)) * (M31_4194304));
-                *row[182] = carry_25_col182;
-                *sub_component_inputs.range_check_20_c[3] = [((carry_25_col182) + (M31_524288))];
+                    [M31_514232941, ((carry_24_col182) + (M31_524288))];
+                let carry_25_col183 =
+                    (((conv_mod_tmp_d9509_77[25]) + (carry_24_col182)) * (M31_4194304));
+                *row[183] = carry_25_col183;
+                *sub_component_inputs.range_check_20_c[3] = [((carry_25_col183) + (M31_524288))];
                 *lookup_data.range_check_20_c_41 =
-                    [M31_531010560, ((carry_25_col182) + (M31_524288))];
-                let carry_26_col183 =
-                    (((conv_mod_tmp_d9509_77[26]) + (carry_25_col182)) * (M31_4194304));
-                *row[183] = carry_26_col183;
-                *sub_component_inputs.range_check_20_d[3] = [((carry_26_col183) + (M31_524288))];
+                    [M31_531010560, ((carry_25_col183) + (M31_524288))];
+                let carry_26_col184 =
+                    (((conv_mod_tmp_d9509_77[26]) + (carry_25_col183)) * (M31_4194304));
+                *row[184] = carry_26_col184;
+                *sub_component_inputs.range_check_20_d[3] = [((carry_26_col184) + (M31_524288))];
                 *lookup_data.range_check_20_d_42 =
-                    [M31_480677703, ((carry_26_col183) + (M31_524288))];
+                    [M31_480677703, ((carry_26_col184) + (M31_524288))];
 
                 let result_x_tmp_d9509_79 = ((((slope_tmp_d9509_1) * (slope_tmp_d9509_1))
                     - (partial_ec_mul_window_bits_18_input.2 .1[0]))
                     - (pedersen_points_table_window_bits_18_output_tmp_d9509_0[0]));
-                let result_x_limb_0_col184 = result_x_tmp_d9509_79.get_m31(0);
-                *row[184] = result_x_limb_0_col184;
-                let result_x_limb_1_col185 = result_x_tmp_d9509_79.get_m31(1);
-                *row[185] = result_x_limb_1_col185;
-                let result_x_limb_2_col186 = result_x_tmp_d9509_79.get_m31(2);
-                *row[186] = result_x_limb_2_col186;
-                let result_x_limb_3_col187 = result_x_tmp_d9509_79.get_m31(3);
-                *row[187] = result_x_limb_3_col187;
-                let result_x_limb_4_col188 = result_x_tmp_d9509_79.get_m31(4);
-                *row[188] = result_x_limb_4_col188;
-                let result_x_limb_5_col189 = result_x_tmp_d9509_79.get_m31(5);
-                *row[189] = result_x_limb_5_col189;
-                let result_x_limb_6_col190 = result_x_tmp_d9509_79.get_m31(6);
-                *row[190] = result_x_limb_6_col190;
-                let result_x_limb_7_col191 = result_x_tmp_d9509_79.get_m31(7);
-                *row[191] = result_x_limb_7_col191;
-                let result_x_limb_8_col192 = result_x_tmp_d9509_79.get_m31(8);
-                *row[192] = result_x_limb_8_col192;
-                let result_x_limb_9_col193 = result_x_tmp_d9509_79.get_m31(9);
-                *row[193] = result_x_limb_9_col193;
-                let result_x_limb_10_col194 = result_x_tmp_d9509_79.get_m31(10);
-                *row[194] = result_x_limb_10_col194;
-                let result_x_limb_11_col195 = result_x_tmp_d9509_79.get_m31(11);
-                *row[195] = result_x_limb_11_col195;
-                let result_x_limb_12_col196 = result_x_tmp_d9509_79.get_m31(12);
-                *row[196] = result_x_limb_12_col196;
-                let result_x_limb_13_col197 = result_x_tmp_d9509_79.get_m31(13);
-                *row[197] = result_x_limb_13_col197;
-                let result_x_limb_14_col198 = result_x_tmp_d9509_79.get_m31(14);
-                *row[198] = result_x_limb_14_col198;
-                let result_x_limb_15_col199 = result_x_tmp_d9509_79.get_m31(15);
-                *row[199] = result_x_limb_15_col199;
-                let result_x_limb_16_col200 = result_x_tmp_d9509_79.get_m31(16);
-                *row[200] = result_x_limb_16_col200;
-                let result_x_limb_17_col201 = result_x_tmp_d9509_79.get_m31(17);
-                *row[201] = result_x_limb_17_col201;
-                let result_x_limb_18_col202 = result_x_tmp_d9509_79.get_m31(18);
-                *row[202] = result_x_limb_18_col202;
-                let result_x_limb_19_col203 = result_x_tmp_d9509_79.get_m31(19);
-                *row[203] = result_x_limb_19_col203;
-                let result_x_limb_20_col204 = result_x_tmp_d9509_79.get_m31(20);
-                *row[204] = result_x_limb_20_col204;
-                let result_x_limb_21_col205 = result_x_tmp_d9509_79.get_m31(21);
-                *row[205] = result_x_limb_21_col205;
-                let result_x_limb_22_col206 = result_x_tmp_d9509_79.get_m31(22);
-                *row[206] = result_x_limb_22_col206;
-                let result_x_limb_23_col207 = result_x_tmp_d9509_79.get_m31(23);
-                *row[207] = result_x_limb_23_col207;
-                let result_x_limb_24_col208 = result_x_tmp_d9509_79.get_m31(24);
-                *row[208] = result_x_limb_24_col208;
-                let result_x_limb_25_col209 = result_x_tmp_d9509_79.get_m31(25);
-                *row[209] = result_x_limb_25_col209;
-                let result_x_limb_26_col210 = result_x_tmp_d9509_79.get_m31(26);
-                *row[210] = result_x_limb_26_col210;
-                let result_x_limb_27_col211 = result_x_tmp_d9509_79.get_m31(27);
-                *row[211] = result_x_limb_27_col211;
+                let result_x_limb_0_col185 = result_x_tmp_d9509_79.get_m31(0);
+                *row[185] = result_x_limb_0_col185;
+                let result_x_limb_1_col186 = result_x_tmp_d9509_79.get_m31(1);
+                *row[186] = result_x_limb_1_col186;
+                let result_x_limb_2_col187 = result_x_tmp_d9509_79.get_m31(2);
+                *row[187] = result_x_limb_2_col187;
+                let result_x_limb_3_col188 = result_x_tmp_d9509_79.get_m31(3);
+                *row[188] = result_x_limb_3_col188;
+                let result_x_limb_4_col189 = result_x_tmp_d9509_79.get_m31(4);
+                *row[189] = result_x_limb_4_col189;
+                let result_x_limb_5_col190 = result_x_tmp_d9509_79.get_m31(5);
+                *row[190] = result_x_limb_5_col190;
+                let result_x_limb_6_col191 = result_x_tmp_d9509_79.get_m31(6);
+                *row[191] = result_x_limb_6_col191;
+                let result_x_limb_7_col192 = result_x_tmp_d9509_79.get_m31(7);
+                *row[192] = result_x_limb_7_col192;
+                let result_x_limb_8_col193 = result_x_tmp_d9509_79.get_m31(8);
+                *row[193] = result_x_limb_8_col193;
+                let result_x_limb_9_col194 = result_x_tmp_d9509_79.get_m31(9);
+                *row[194] = result_x_limb_9_col194;
+                let result_x_limb_10_col195 = result_x_tmp_d9509_79.get_m31(10);
+                *row[195] = result_x_limb_10_col195;
+                let result_x_limb_11_col196 = result_x_tmp_d9509_79.get_m31(11);
+                *row[196] = result_x_limb_11_col196;
+                let result_x_limb_12_col197 = result_x_tmp_d9509_79.get_m31(12);
+                *row[197] = result_x_limb_12_col197;
+                let result_x_limb_13_col198 = result_x_tmp_d9509_79.get_m31(13);
+                *row[198] = result_x_limb_13_col198;
+                let result_x_limb_14_col199 = result_x_tmp_d9509_79.get_m31(14);
+                *row[199] = result_x_limb_14_col199;
+                let result_x_limb_15_col200 = result_x_tmp_d9509_79.get_m31(15);
+                *row[200] = result_x_limb_15_col200;
+                let result_x_limb_16_col201 = result_x_tmp_d9509_79.get_m31(16);
+                *row[201] = result_x_limb_16_col201;
+                let result_x_limb_17_col202 = result_x_tmp_d9509_79.get_m31(17);
+                *row[202] = result_x_limb_17_col202;
+                let result_x_limb_18_col203 = result_x_tmp_d9509_79.get_m31(18);
+                *row[203] = result_x_limb_18_col203;
+                let result_x_limb_19_col204 = result_x_tmp_d9509_79.get_m31(19);
+                *row[204] = result_x_limb_19_col204;
+                let result_x_limb_20_col205 = result_x_tmp_d9509_79.get_m31(20);
+                *row[205] = result_x_limb_20_col205;
+                let result_x_limb_21_col206 = result_x_tmp_d9509_79.get_m31(21);
+                *row[206] = result_x_limb_21_col206;
+                let result_x_limb_22_col207 = result_x_tmp_d9509_79.get_m31(22);
+                *row[207] = result_x_limb_22_col207;
+                let result_x_limb_23_col208 = result_x_tmp_d9509_79.get_m31(23);
+                *row[208] = result_x_limb_23_col208;
+                let result_x_limb_24_col209 = result_x_tmp_d9509_79.get_m31(24);
+                *row[209] = result_x_limb_24_col209;
+                let result_x_limb_25_col210 = result_x_tmp_d9509_79.get_m31(25);
+                *row[210] = result_x_limb_25_col210;
+                let result_x_limb_26_col211 = result_x_tmp_d9509_79.get_m31(26);
+                *row[211] = result_x_limb_26_col211;
+                let result_x_limb_27_col212 = result_x_tmp_d9509_79.get_m31(27);
+                *row[212] = result_x_limb_27_col212;
 
                 // Range Check Mem Value N 28.
 
                 *sub_component_inputs.range_check_9_9[2] =
-                    [result_x_limb_0_col184, result_x_limb_1_col185];
+                    [result_x_limb_0_col185, result_x_limb_1_col186];
                 *lookup_data.range_check_9_9_43 = [
                     M31_517791011,
-                    result_x_limb_0_col184,
-                    result_x_limb_1_col185,
+                    result_x_limb_0_col185,
+                    result_x_limb_1_col186,
                 ];
                 *sub_component_inputs.range_check_9_9_b[2] =
-                    [result_x_limb_2_col186, result_x_limb_3_col187];
+                    [result_x_limb_2_col187, result_x_limb_3_col188];
                 *lookup_data.range_check_9_9_b_44 = [
                     M31_1897792095,
-                    result_x_limb_2_col186,
-                    result_x_limb_3_col187,
+                    result_x_limb_2_col187,
+                    result_x_limb_3_col188,
                 ];
                 *sub_component_inputs.range_check_9_9_c[2] =
-                    [result_x_limb_4_col188, result_x_limb_5_col189];
+                    [result_x_limb_4_col189, result_x_limb_5_col190];
                 *lookup_data.range_check_9_9_c_45 = [
                     M31_1881014476,
-                    result_x_limb_4_col188,
-                    result_x_limb_5_col189,
+                    result_x_limb_4_col189,
+                    result_x_limb_5_col190,
                 ];
                 *sub_component_inputs.range_check_9_9_d[2] =
-                    [result_x_limb_6_col190, result_x_limb_7_col191];
+                    [result_x_limb_6_col191, result_x_limb_7_col192];
                 *lookup_data.range_check_9_9_d_46 = [
                     M31_1864236857,
-                    result_x_limb_6_col190,
-                    result_x_limb_7_col191,
+                    result_x_limb_6_col191,
+                    result_x_limb_7_col192,
                 ];
                 *sub_component_inputs.range_check_9_9_e[2] =
-                    [result_x_limb_8_col192, result_x_limb_9_col193];
+                    [result_x_limb_8_col193, result_x_limb_9_col194];
                 *lookup_data.range_check_9_9_e_47 = [
                     M31_1847459238,
-                    result_x_limb_8_col192,
-                    result_x_limb_9_col193,
+                    result_x_limb_8_col193,
+                    result_x_limb_9_col194,
                 ];
                 *sub_component_inputs.range_check_9_9_f[2] =
-                    [result_x_limb_10_col194, result_x_limb_11_col195];
+                    [result_x_limb_10_col195, result_x_limb_11_col196];
                 *lookup_data.range_check_9_9_f_48 = [
                     M31_1830681619,
-                    result_x_limb_10_col194,
-                    result_x_limb_11_col195,
+                    result_x_limb_10_col195,
+                    result_x_limb_11_col196,
                 ];
                 *sub_component_inputs.range_check_9_9_g[1] =
-                    [result_x_limb_12_col196, result_x_limb_13_col197];
+                    [result_x_limb_12_col197, result_x_limb_13_col198];
                 *lookup_data.range_check_9_9_g_49 = [
                     M31_1813904000,
-                    result_x_limb_12_col196,
-                    result_x_limb_13_col197,
+                    result_x_limb_12_col197,
+                    result_x_limb_13_col198,
                 ];
                 *sub_component_inputs.range_check_9_9_h[1] =
-                    [result_x_limb_14_col198, result_x_limb_15_col199];
+                    [result_x_limb_14_col199, result_x_limb_15_col200];
                 *lookup_data.range_check_9_9_h_50 = [
                     M31_2065568285,
-                    result_x_limb_14_col198,
-                    result_x_limb_15_col199,
+                    result_x_limb_14_col199,
+                    result_x_limb_15_col200,
                 ];
                 *sub_component_inputs.range_check_9_9[3] =
-                    [result_x_limb_16_col200, result_x_limb_17_col201];
+                    [result_x_limb_16_col201, result_x_limb_17_col202];
                 *lookup_data.range_check_9_9_51 = [
                     M31_517791011,
-                    result_x_limb_16_col200,
-                    result_x_limb_17_col201,
+                    result_x_limb_16_col201,
+                    result_x_limb_17_col202,
                 ];
                 *sub_component_inputs.range_check_9_9_b[3] =
-                    [result_x_limb_18_col202, result_x_limb_19_col203];
+                    [result_x_limb_18_col203, result_x_limb_19_col204];
                 *lookup_data.range_check_9_9_b_52 = [
                     M31_1897792095,
-                    result_x_limb_18_col202,
-                    result_x_limb_19_col203,
+                    result_x_limb_18_col203,
+                    result_x_limb_19_col204,
                 ];
                 *sub_component_inputs.range_check_9_9_c[3] =
-                    [result_x_limb_20_col204, result_x_limb_21_col205];
+                    [result_x_limb_20_col205, result_x_limb_21_col206];
                 *lookup_data.range_check_9_9_c_53 = [
                     M31_1881014476,
-                    result_x_limb_20_col204,
-                    result_x_limb_21_col205,
+                    result_x_limb_20_col205,
+                    result_x_limb_21_col206,
                 ];
                 *sub_component_inputs.range_check_9_9_d[3] =
-                    [result_x_limb_22_col206, result_x_limb_23_col207];
+                    [result_x_limb_22_col207, result_x_limb_23_col208];
                 *lookup_data.range_check_9_9_d_54 = [
                     M31_1864236857,
-                    result_x_limb_22_col206,
-                    result_x_limb_23_col207,
+                    result_x_limb_22_col207,
+                    result_x_limb_23_col208,
                 ];
                 *sub_component_inputs.range_check_9_9_e[3] =
-                    [result_x_limb_24_col208, result_x_limb_25_col209];
+                    [result_x_limb_24_col209, result_x_limb_25_col210];
                 *lookup_data.range_check_9_9_e_55 = [
                     M31_1847459238,
-                    result_x_limb_24_col208,
-                    result_x_limb_25_col209,
+                    result_x_limb_24_col209,
+                    result_x_limb_25_col210,
                 ];
                 *sub_component_inputs.range_check_9_9_f[3] =
-                    [result_x_limb_26_col210, result_x_limb_27_col211];
+                    [result_x_limb_26_col211, result_x_limb_27_col212];
                 *lookup_data.range_check_9_9_f_56 = [
                     M31_1830681619,
-                    result_x_limb_26_col210,
-                    result_x_limb_27_col211,
+                    result_x_limb_26_col211,
+                    result_x_limb_27_col212,
                 ];
 
-                let x_sum_0_tmp_d9509_80 = (((input_limb_16_col16)
-                    + (pedersen_points_table_window_bits_18_output_limb_0_col72))
-                    + (result_x_limb_0_col184));
-                let x_sum_1_tmp_d9509_81 = (((input_limb_17_col17)
-                    + (pedersen_points_table_window_bits_18_output_limb_1_col73))
-                    + (result_x_limb_1_col185));
-                let x_sum_2_tmp_d9509_82 = (((input_limb_18_col18)
-                    + (pedersen_points_table_window_bits_18_output_limb_2_col74))
-                    + (result_x_limb_2_col186));
-                let x_sum_3_tmp_d9509_83 = (((input_limb_19_col19)
-                    + (pedersen_points_table_window_bits_18_output_limb_3_col75))
-                    + (result_x_limb_3_col187));
-                let x_sum_4_tmp_d9509_84 = (((input_limb_20_col20)
-                    + (pedersen_points_table_window_bits_18_output_limb_4_col76))
-                    + (result_x_limb_4_col188));
-                let x_sum_5_tmp_d9509_85 = (((input_limb_21_col21)
-                    + (pedersen_points_table_window_bits_18_output_limb_5_col77))
-                    + (result_x_limb_5_col189));
-                let x_sum_6_tmp_d9509_86 = (((input_limb_22_col22)
-                    + (pedersen_points_table_window_bits_18_output_limb_6_col78))
-                    + (result_x_limb_6_col190));
-                let x_sum_7_tmp_d9509_87 = (((input_limb_23_col23)
-                    + (pedersen_points_table_window_bits_18_output_limb_7_col79))
-                    + (result_x_limb_7_col191));
-                let x_sum_8_tmp_d9509_88 = (((input_limb_24_col24)
-                    + (pedersen_points_table_window_bits_18_output_limb_8_col80))
-                    + (result_x_limb_8_col192));
-                let x_sum_9_tmp_d9509_89 = (((input_limb_25_col25)
-                    + (pedersen_points_table_window_bits_18_output_limb_9_col81))
-                    + (result_x_limb_9_col193));
-                let x_sum_10_tmp_d9509_90 = (((input_limb_26_col26)
-                    + (pedersen_points_table_window_bits_18_output_limb_10_col82))
-                    + (result_x_limb_10_col194));
-                let x_sum_11_tmp_d9509_91 = (((input_limb_27_col27)
-                    + (pedersen_points_table_window_bits_18_output_limb_11_col83))
-                    + (result_x_limb_11_col195));
-                let x_sum_12_tmp_d9509_92 = (((input_limb_28_col28)
-                    + (pedersen_points_table_window_bits_18_output_limb_12_col84))
-                    + (result_x_limb_12_col196));
-                let x_sum_13_tmp_d9509_93 = (((input_limb_29_col29)
-                    + (pedersen_points_table_window_bits_18_output_limb_13_col85))
-                    + (result_x_limb_13_col197));
-                let x_sum_14_tmp_d9509_94 = (((input_limb_30_col30)
-                    + (pedersen_points_table_window_bits_18_output_limb_14_col86))
-                    + (result_x_limb_14_col198));
-                let x_sum_15_tmp_d9509_95 = (((input_limb_31_col31)
-                    + (pedersen_points_table_window_bits_18_output_limb_15_col87))
-                    + (result_x_limb_15_col199));
-                let x_sum_16_tmp_d9509_96 = (((input_limb_32_col32)
-                    + (pedersen_points_table_window_bits_18_output_limb_16_col88))
-                    + (result_x_limb_16_col200));
-                let x_sum_17_tmp_d9509_97 = (((input_limb_33_col33)
-                    + (pedersen_points_table_window_bits_18_output_limb_17_col89))
-                    + (result_x_limb_17_col201));
-                let x_sum_18_tmp_d9509_98 = (((input_limb_34_col34)
-                    + (pedersen_points_table_window_bits_18_output_limb_18_col90))
-                    + (result_x_limb_18_col202));
-                let x_sum_19_tmp_d9509_99 = (((input_limb_35_col35)
-                    + (pedersen_points_table_window_bits_18_output_limb_19_col91))
-                    + (result_x_limb_19_col203));
-                let x_sum_20_tmp_d9509_100 = (((input_limb_36_col36)
-                    + (pedersen_points_table_window_bits_18_output_limb_20_col92))
-                    + (result_x_limb_20_col204));
-                let x_sum_21_tmp_d9509_101 = (((input_limb_37_col37)
-                    + (pedersen_points_table_window_bits_18_output_limb_21_col93))
-                    + (result_x_limb_21_col205));
-                let x_sum_22_tmp_d9509_102 = (((input_limb_38_col38)
-                    + (pedersen_points_table_window_bits_18_output_limb_22_col94))
-                    + (result_x_limb_22_col206));
-                let x_sum_23_tmp_d9509_103 = (((input_limb_39_col39)
-                    + (pedersen_points_table_window_bits_18_output_limb_23_col95))
-                    + (result_x_limb_23_col207));
-                let x_sum_24_tmp_d9509_104 = (((input_limb_40_col40)
-                    + (pedersen_points_table_window_bits_18_output_limb_24_col96))
-                    + (result_x_limb_24_col208));
-                let x_sum_25_tmp_d9509_105 = (((input_limb_41_col41)
-                    + (pedersen_points_table_window_bits_18_output_limb_25_col97))
-                    + (result_x_limb_25_col209));
-                let x_sum_26_tmp_d9509_106 = (((input_limb_42_col42)
-                    + (pedersen_points_table_window_bits_18_output_limb_26_col98))
-                    + (result_x_limb_26_col210));
-                let x_sum_27_tmp_d9509_107 = (((input_limb_43_col43)
-                    + (pedersen_points_table_window_bits_18_output_limb_27_col99))
-                    + (result_x_limb_27_col211));
+                let x_sum_0_tmp_d9509_80 = (((input_limb_16_col17)
+                    + (pedersen_points_table_window_bits_18_output_limb_0_col73))
+                    + (result_x_limb_0_col185));
+                let x_sum_1_tmp_d9509_81 = (((input_limb_17_col18)
+                    + (pedersen_points_table_window_bits_18_output_limb_1_col74))
+                    + (result_x_limb_1_col186));
+                let x_sum_2_tmp_d9509_82 = (((input_limb_18_col19)
+                    + (pedersen_points_table_window_bits_18_output_limb_2_col75))
+                    + (result_x_limb_2_col187));
+                let x_sum_3_tmp_d9509_83 = (((input_limb_19_col20)
+                    + (pedersen_points_table_window_bits_18_output_limb_3_col76))
+                    + (result_x_limb_3_col188));
+                let x_sum_4_tmp_d9509_84 = (((input_limb_20_col21)
+                    + (pedersen_points_table_window_bits_18_output_limb_4_col77))
+                    + (result_x_limb_4_col189));
+                let x_sum_5_tmp_d9509_85 = (((input_limb_21_col22)
+                    + (pedersen_points_table_window_bits_18_output_limb_5_col78))
+                    + (result_x_limb_5_col190));
+                let x_sum_6_tmp_d9509_86 = (((input_limb_22_col23)
+                    + (pedersen_points_table_window_bits_18_output_limb_6_col79))
+                    + (result_x_limb_6_col191));
+                let x_sum_7_tmp_d9509_87 = (((input_limb_23_col24)
+                    + (pedersen_points_table_window_bits_18_output_limb_7_col80))
+                    + (result_x_limb_7_col192));
+                let x_sum_8_tmp_d9509_88 = (((input_limb_24_col25)
+                    + (pedersen_points_table_window_bits_18_output_limb_8_col81))
+                    + (result_x_limb_8_col193));
+                let x_sum_9_tmp_d9509_89 = (((input_limb_25_col26)
+                    + (pedersen_points_table_window_bits_18_output_limb_9_col82))
+                    + (result_x_limb_9_col194));
+                let x_sum_10_tmp_d9509_90 = (((input_limb_26_col27)
+                    + (pedersen_points_table_window_bits_18_output_limb_10_col83))
+                    + (result_x_limb_10_col195));
+                let x_sum_11_tmp_d9509_91 = (((input_limb_27_col28)
+                    + (pedersen_points_table_window_bits_18_output_limb_11_col84))
+                    + (result_x_limb_11_col196));
+                let x_sum_12_tmp_d9509_92 = (((input_limb_28_col29)
+                    + (pedersen_points_table_window_bits_18_output_limb_12_col85))
+                    + (result_x_limb_12_col197));
+                let x_sum_13_tmp_d9509_93 = (((input_limb_29_col30)
+                    + (pedersen_points_table_window_bits_18_output_limb_13_col86))
+                    + (result_x_limb_13_col198));
+                let x_sum_14_tmp_d9509_94 = (((input_limb_30_col31)
+                    + (pedersen_points_table_window_bits_18_output_limb_14_col87))
+                    + (result_x_limb_14_col199));
+                let x_sum_15_tmp_d9509_95 = (((input_limb_31_col32)
+                    + (pedersen_points_table_window_bits_18_output_limb_15_col88))
+                    + (result_x_limb_15_col200));
+                let x_sum_16_tmp_d9509_96 = (((input_limb_32_col33)
+                    + (pedersen_points_table_window_bits_18_output_limb_16_col89))
+                    + (result_x_limb_16_col201));
+                let x_sum_17_tmp_d9509_97 = (((input_limb_33_col34)
+                    + (pedersen_points_table_window_bits_18_output_limb_17_col90))
+                    + (result_x_limb_17_col202));
+                let x_sum_18_tmp_d9509_98 = (((input_limb_34_col35)
+                    + (pedersen_points_table_window_bits_18_output_limb_18_col91))
+                    + (result_x_limb_18_col203));
+                let x_sum_19_tmp_d9509_99 = (((input_limb_35_col36)
+                    + (pedersen_points_table_window_bits_18_output_limb_19_col92))
+                    + (result_x_limb_19_col204));
+                let x_sum_20_tmp_d9509_100 = (((input_limb_36_col37)
+                    + (pedersen_points_table_window_bits_18_output_limb_20_col93))
+                    + (result_x_limb_20_col205));
+                let x_sum_21_tmp_d9509_101 = (((input_limb_37_col38)
+                    + (pedersen_points_table_window_bits_18_output_limb_21_col94))
+                    + (result_x_limb_21_col206));
+                let x_sum_22_tmp_d9509_102 = (((input_limb_38_col39)
+                    + (pedersen_points_table_window_bits_18_output_limb_22_col95))
+                    + (result_x_limb_22_col207));
+                let x_sum_23_tmp_d9509_103 = (((input_limb_39_col40)
+                    + (pedersen_points_table_window_bits_18_output_limb_23_col96))
+                    + (result_x_limb_23_col208));
+                let x_sum_24_tmp_d9509_104 = (((input_limb_40_col41)
+                    + (pedersen_points_table_window_bits_18_output_limb_24_col97))
+                    + (result_x_limb_24_col209));
+                let x_sum_25_tmp_d9509_105 = (((input_limb_41_col42)
+                    + (pedersen_points_table_window_bits_18_output_limb_25_col98))
+                    + (result_x_limb_25_col210));
+                let x_sum_26_tmp_d9509_106 = (((input_limb_42_col43)
+                    + (pedersen_points_table_window_bits_18_output_limb_26_col99))
+                    + (result_x_limb_26_col211));
+                let x_sum_27_tmp_d9509_107 = (((input_limb_43_col44)
+                    + (pedersen_points_table_window_bits_18_output_limb_27_col100))
+                    + (result_x_limb_27_col212));
 
                 // Verify Mul 252.
 
@@ -2319,124 +2322,124 @@ fn write_trace_simd(
                 // Single Karatsuba N 7.
 
                 let z0_tmp_d9509_108 = [
-                    ((slope_limb_0_col128) * (slope_limb_0_col128)),
-                    (((slope_limb_0_col128) * (slope_limb_1_col129))
-                        + ((slope_limb_1_col129) * (slope_limb_0_col128))),
-                    ((((slope_limb_0_col128) * (slope_limb_2_col130))
-                        + ((slope_limb_1_col129) * (slope_limb_1_col129)))
-                        + ((slope_limb_2_col130) * (slope_limb_0_col128))),
-                    (((((slope_limb_0_col128) * (slope_limb_3_col131))
-                        + ((slope_limb_1_col129) * (slope_limb_2_col130)))
-                        + ((slope_limb_2_col130) * (slope_limb_1_col129)))
-                        + ((slope_limb_3_col131) * (slope_limb_0_col128))),
-                    ((((((slope_limb_0_col128) * (slope_limb_4_col132))
-                        + ((slope_limb_1_col129) * (slope_limb_3_col131)))
-                        + ((slope_limb_2_col130) * (slope_limb_2_col130)))
-                        + ((slope_limb_3_col131) * (slope_limb_1_col129)))
-                        + ((slope_limb_4_col132) * (slope_limb_0_col128))),
-                    (((((((slope_limb_0_col128) * (slope_limb_5_col133))
-                        + ((slope_limb_1_col129) * (slope_limb_4_col132)))
-                        + ((slope_limb_2_col130) * (slope_limb_3_col131)))
-                        + ((slope_limb_3_col131) * (slope_limb_2_col130)))
-                        + ((slope_limb_4_col132) * (slope_limb_1_col129)))
-                        + ((slope_limb_5_col133) * (slope_limb_0_col128))),
-                    ((((((((slope_limb_0_col128) * (slope_limb_6_col134))
-                        + ((slope_limb_1_col129) * (slope_limb_5_col133)))
-                        + ((slope_limb_2_col130) * (slope_limb_4_col132)))
-                        + ((slope_limb_3_col131) * (slope_limb_3_col131)))
-                        + ((slope_limb_4_col132) * (slope_limb_2_col130)))
-                        + ((slope_limb_5_col133) * (slope_limb_1_col129)))
-                        + ((slope_limb_6_col134) * (slope_limb_0_col128))),
-                    (((((((slope_limb_1_col129) * (slope_limb_6_col134))
-                        + ((slope_limb_2_col130) * (slope_limb_5_col133)))
-                        + ((slope_limb_3_col131) * (slope_limb_4_col132)))
-                        + ((slope_limb_4_col132) * (slope_limb_3_col131)))
-                        + ((slope_limb_5_col133) * (slope_limb_2_col130)))
-                        + ((slope_limb_6_col134) * (slope_limb_1_col129))),
-                    ((((((slope_limb_2_col130) * (slope_limb_6_col134))
-                        + ((slope_limb_3_col131) * (slope_limb_5_col133)))
-                        + ((slope_limb_4_col132) * (slope_limb_4_col132)))
-                        + ((slope_limb_5_col133) * (slope_limb_3_col131)))
-                        + ((slope_limb_6_col134) * (slope_limb_2_col130))),
-                    (((((slope_limb_3_col131) * (slope_limb_6_col134))
-                        + ((slope_limb_4_col132) * (slope_limb_5_col133)))
-                        + ((slope_limb_5_col133) * (slope_limb_4_col132)))
-                        + ((slope_limb_6_col134) * (slope_limb_3_col131))),
-                    ((((slope_limb_4_col132) * (slope_limb_6_col134))
-                        + ((slope_limb_5_col133) * (slope_limb_5_col133)))
-                        + ((slope_limb_6_col134) * (slope_limb_4_col132))),
-                    (((slope_limb_5_col133) * (slope_limb_6_col134))
-                        + ((slope_limb_6_col134) * (slope_limb_5_col133))),
-                    ((slope_limb_6_col134) * (slope_limb_6_col134)),
+                    ((slope_limb_0_col129) * (slope_limb_0_col129)),
+                    (((slope_limb_0_col129) * (slope_limb_1_col130))
+                        + ((slope_limb_1_col130) * (slope_limb_0_col129))),
+                    ((((slope_limb_0_col129) * (slope_limb_2_col131))
+                        + ((slope_limb_1_col130) * (slope_limb_1_col130)))
+                        + ((slope_limb_2_col131) * (slope_limb_0_col129))),
+                    (((((slope_limb_0_col129) * (slope_limb_3_col132))
+                        + ((slope_limb_1_col130) * (slope_limb_2_col131)))
+                        + ((slope_limb_2_col131) * (slope_limb_1_col130)))
+                        + ((slope_limb_3_col132) * (slope_limb_0_col129))),
+                    ((((((slope_limb_0_col129) * (slope_limb_4_col133))
+                        + ((slope_limb_1_col130) * (slope_limb_3_col132)))
+                        + ((slope_limb_2_col131) * (slope_limb_2_col131)))
+                        + ((slope_limb_3_col132) * (slope_limb_1_col130)))
+                        + ((slope_limb_4_col133) * (slope_limb_0_col129))),
+                    (((((((slope_limb_0_col129) * (slope_limb_5_col134))
+                        + ((slope_limb_1_col130) * (slope_limb_4_col133)))
+                        + ((slope_limb_2_col131) * (slope_limb_3_col132)))
+                        + ((slope_limb_3_col132) * (slope_limb_2_col131)))
+                        + ((slope_limb_4_col133) * (slope_limb_1_col130)))
+                        + ((slope_limb_5_col134) * (slope_limb_0_col129))),
+                    ((((((((slope_limb_0_col129) * (slope_limb_6_col135))
+                        + ((slope_limb_1_col130) * (slope_limb_5_col134)))
+                        + ((slope_limb_2_col131) * (slope_limb_4_col133)))
+                        + ((slope_limb_3_col132) * (slope_limb_3_col132)))
+                        + ((slope_limb_4_col133) * (slope_limb_2_col131)))
+                        + ((slope_limb_5_col134) * (slope_limb_1_col130)))
+                        + ((slope_limb_6_col135) * (slope_limb_0_col129))),
+                    (((((((slope_limb_1_col130) * (slope_limb_6_col135))
+                        + ((slope_limb_2_col131) * (slope_limb_5_col134)))
+                        + ((slope_limb_3_col132) * (slope_limb_4_col133)))
+                        + ((slope_limb_4_col133) * (slope_limb_3_col132)))
+                        + ((slope_limb_5_col134) * (slope_limb_2_col131)))
+                        + ((slope_limb_6_col135) * (slope_limb_1_col130))),
+                    ((((((slope_limb_2_col131) * (slope_limb_6_col135))
+                        + ((slope_limb_3_col132) * (slope_limb_5_col134)))
+                        + ((slope_limb_4_col133) * (slope_limb_4_col133)))
+                        + ((slope_limb_5_col134) * (slope_limb_3_col132)))
+                        + ((slope_limb_6_col135) * (slope_limb_2_col131))),
+                    (((((slope_limb_3_col132) * (slope_limb_6_col135))
+                        + ((slope_limb_4_col133) * (slope_limb_5_col134)))
+                        + ((slope_limb_5_col134) * (slope_limb_4_col133)))
+                        + ((slope_limb_6_col135) * (slope_limb_3_col132))),
+                    ((((slope_limb_4_col133) * (slope_limb_6_col135))
+                        + ((slope_limb_5_col134) * (slope_limb_5_col134)))
+                        + ((slope_limb_6_col135) * (slope_limb_4_col133))),
+                    (((slope_limb_5_col134) * (slope_limb_6_col135))
+                        + ((slope_limb_6_col135) * (slope_limb_5_col134))),
+                    ((slope_limb_6_col135) * (slope_limb_6_col135)),
                 ];
                 let z2_tmp_d9509_109 = [
-                    ((slope_limb_7_col135) * (slope_limb_7_col135)),
-                    (((slope_limb_7_col135) * (slope_limb_8_col136))
-                        + ((slope_limb_8_col136) * (slope_limb_7_col135))),
-                    ((((slope_limb_7_col135) * (slope_limb_9_col137))
-                        + ((slope_limb_8_col136) * (slope_limb_8_col136)))
-                        + ((slope_limb_9_col137) * (slope_limb_7_col135))),
-                    (((((slope_limb_7_col135) * (slope_limb_10_col138))
-                        + ((slope_limb_8_col136) * (slope_limb_9_col137)))
-                        + ((slope_limb_9_col137) * (slope_limb_8_col136)))
-                        + ((slope_limb_10_col138) * (slope_limb_7_col135))),
-                    ((((((slope_limb_7_col135) * (slope_limb_11_col139))
-                        + ((slope_limb_8_col136) * (slope_limb_10_col138)))
-                        + ((slope_limb_9_col137) * (slope_limb_9_col137)))
-                        + ((slope_limb_10_col138) * (slope_limb_8_col136)))
-                        + ((slope_limb_11_col139) * (slope_limb_7_col135))),
-                    (((((((slope_limb_7_col135) * (slope_limb_12_col140))
-                        + ((slope_limb_8_col136) * (slope_limb_11_col139)))
-                        + ((slope_limb_9_col137) * (slope_limb_10_col138)))
-                        + ((slope_limb_10_col138) * (slope_limb_9_col137)))
-                        + ((slope_limb_11_col139) * (slope_limb_8_col136)))
-                        + ((slope_limb_12_col140) * (slope_limb_7_col135))),
-                    ((((((((slope_limb_7_col135) * (slope_limb_13_col141))
-                        + ((slope_limb_8_col136) * (slope_limb_12_col140)))
-                        + ((slope_limb_9_col137) * (slope_limb_11_col139)))
-                        + ((slope_limb_10_col138) * (slope_limb_10_col138)))
-                        + ((slope_limb_11_col139) * (slope_limb_9_col137)))
-                        + ((slope_limb_12_col140) * (slope_limb_8_col136)))
-                        + ((slope_limb_13_col141) * (slope_limb_7_col135))),
-                    (((((((slope_limb_8_col136) * (slope_limb_13_col141))
-                        + ((slope_limb_9_col137) * (slope_limb_12_col140)))
-                        + ((slope_limb_10_col138) * (slope_limb_11_col139)))
-                        + ((slope_limb_11_col139) * (slope_limb_10_col138)))
-                        + ((slope_limb_12_col140) * (slope_limb_9_col137)))
-                        + ((slope_limb_13_col141) * (slope_limb_8_col136))),
-                    ((((((slope_limb_9_col137) * (slope_limb_13_col141))
-                        + ((slope_limb_10_col138) * (slope_limb_12_col140)))
-                        + ((slope_limb_11_col139) * (slope_limb_11_col139)))
-                        + ((slope_limb_12_col140) * (slope_limb_10_col138)))
-                        + ((slope_limb_13_col141) * (slope_limb_9_col137))),
-                    (((((slope_limb_10_col138) * (slope_limb_13_col141))
-                        + ((slope_limb_11_col139) * (slope_limb_12_col140)))
-                        + ((slope_limb_12_col140) * (slope_limb_11_col139)))
-                        + ((slope_limb_13_col141) * (slope_limb_10_col138))),
-                    ((((slope_limb_11_col139) * (slope_limb_13_col141))
-                        + ((slope_limb_12_col140) * (slope_limb_12_col140)))
-                        + ((slope_limb_13_col141) * (slope_limb_11_col139))),
-                    (((slope_limb_12_col140) * (slope_limb_13_col141))
-                        + ((slope_limb_13_col141) * (slope_limb_12_col140))),
-                    ((slope_limb_13_col141) * (slope_limb_13_col141)),
+                    ((slope_limb_7_col136) * (slope_limb_7_col136)),
+                    (((slope_limb_7_col136) * (slope_limb_8_col137))
+                        + ((slope_limb_8_col137) * (slope_limb_7_col136))),
+                    ((((slope_limb_7_col136) * (slope_limb_9_col138))
+                        + ((slope_limb_8_col137) * (slope_limb_8_col137)))
+                        + ((slope_limb_9_col138) * (slope_limb_7_col136))),
+                    (((((slope_limb_7_col136) * (slope_limb_10_col139))
+                        + ((slope_limb_8_col137) * (slope_limb_9_col138)))
+                        + ((slope_limb_9_col138) * (slope_limb_8_col137)))
+                        + ((slope_limb_10_col139) * (slope_limb_7_col136))),
+                    ((((((slope_limb_7_col136) * (slope_limb_11_col140))
+                        + ((slope_limb_8_col137) * (slope_limb_10_col139)))
+                        + ((slope_limb_9_col138) * (slope_limb_9_col138)))
+                        + ((slope_limb_10_col139) * (slope_limb_8_col137)))
+                        + ((slope_limb_11_col140) * (slope_limb_7_col136))),
+                    (((((((slope_limb_7_col136) * (slope_limb_12_col141))
+                        + ((slope_limb_8_col137) * (slope_limb_11_col140)))
+                        + ((slope_limb_9_col138) * (slope_limb_10_col139)))
+                        + ((slope_limb_10_col139) * (slope_limb_9_col138)))
+                        + ((slope_limb_11_col140) * (slope_limb_8_col137)))
+                        + ((slope_limb_12_col141) * (slope_limb_7_col136))),
+                    ((((((((slope_limb_7_col136) * (slope_limb_13_col142))
+                        + ((slope_limb_8_col137) * (slope_limb_12_col141)))
+                        + ((slope_limb_9_col138) * (slope_limb_11_col140)))
+                        + ((slope_limb_10_col139) * (slope_limb_10_col139)))
+                        + ((slope_limb_11_col140) * (slope_limb_9_col138)))
+                        + ((slope_limb_12_col141) * (slope_limb_8_col137)))
+                        + ((slope_limb_13_col142) * (slope_limb_7_col136))),
+                    (((((((slope_limb_8_col137) * (slope_limb_13_col142))
+                        + ((slope_limb_9_col138) * (slope_limb_12_col141)))
+                        + ((slope_limb_10_col139) * (slope_limb_11_col140)))
+                        + ((slope_limb_11_col140) * (slope_limb_10_col139)))
+                        + ((slope_limb_12_col141) * (slope_limb_9_col138)))
+                        + ((slope_limb_13_col142) * (slope_limb_8_col137))),
+                    ((((((slope_limb_9_col138) * (slope_limb_13_col142))
+                        + ((slope_limb_10_col139) * (slope_limb_12_col141)))
+                        + ((slope_limb_11_col140) * (slope_limb_11_col140)))
+                        + ((slope_limb_12_col141) * (slope_limb_10_col139)))
+                        + ((slope_limb_13_col142) * (slope_limb_9_col138))),
+                    (((((slope_limb_10_col139) * (slope_limb_13_col142))
+                        + ((slope_limb_11_col140) * (slope_limb_12_col141)))
+                        + ((slope_limb_12_col141) * (slope_limb_11_col140)))
+                        + ((slope_limb_13_col142) * (slope_limb_10_col139))),
+                    ((((slope_limb_11_col140) * (slope_limb_13_col142))
+                        + ((slope_limb_12_col141) * (slope_limb_12_col141)))
+                        + ((slope_limb_13_col142) * (slope_limb_11_col140))),
+                    (((slope_limb_12_col141) * (slope_limb_13_col142))
+                        + ((slope_limb_13_col142) * (slope_limb_12_col141))),
+                    ((slope_limb_13_col142) * (slope_limb_13_col142)),
                 ];
                 let x_sum_tmp_d9509_110 = [
-                    ((slope_limb_0_col128) + (slope_limb_7_col135)),
-                    ((slope_limb_1_col129) + (slope_limb_8_col136)),
-                    ((slope_limb_2_col130) + (slope_limb_9_col137)),
-                    ((slope_limb_3_col131) + (slope_limb_10_col138)),
-                    ((slope_limb_4_col132) + (slope_limb_11_col139)),
-                    ((slope_limb_5_col133) + (slope_limb_12_col140)),
-                    ((slope_limb_6_col134) + (slope_limb_13_col141)),
+                    ((slope_limb_0_col129) + (slope_limb_7_col136)),
+                    ((slope_limb_1_col130) + (slope_limb_8_col137)),
+                    ((slope_limb_2_col131) + (slope_limb_9_col138)),
+                    ((slope_limb_3_col132) + (slope_limb_10_col139)),
+                    ((slope_limb_4_col133) + (slope_limb_11_col140)),
+                    ((slope_limb_5_col134) + (slope_limb_12_col141)),
+                    ((slope_limb_6_col135) + (slope_limb_13_col142)),
                 ];
                 let y_sum_tmp_d9509_111 = [
-                    ((slope_limb_0_col128) + (slope_limb_7_col135)),
-                    ((slope_limb_1_col129) + (slope_limb_8_col136)),
-                    ((slope_limb_2_col130) + (slope_limb_9_col137)),
-                    ((slope_limb_3_col131) + (slope_limb_10_col138)),
-                    ((slope_limb_4_col132) + (slope_limb_11_col139)),
-                    ((slope_limb_5_col133) + (slope_limb_12_col140)),
-                    ((slope_limb_6_col134) + (slope_limb_13_col141)),
+                    ((slope_limb_0_col129) + (slope_limb_7_col136)),
+                    ((slope_limb_1_col130) + (slope_limb_8_col137)),
+                    ((slope_limb_2_col131) + (slope_limb_9_col138)),
+                    ((slope_limb_3_col132) + (slope_limb_10_col139)),
+                    ((slope_limb_4_col133) + (slope_limb_11_col140)),
+                    ((slope_limb_5_col134) + (slope_limb_12_col141)),
+                    ((slope_limb_6_col135) + (slope_limb_13_col142)),
                 ];
                 let single_karatsuba_n_7_output_tmp_d9509_112 = [
                     z0_tmp_d9509_108[0],
@@ -2545,124 +2548,124 @@ fn write_trace_simd(
                 // Single Karatsuba N 7.
 
                 let z0_tmp_d9509_113 = [
-                    ((slope_limb_14_col142) * (slope_limb_14_col142)),
-                    (((slope_limb_14_col142) * (slope_limb_15_col143))
-                        + ((slope_limb_15_col143) * (slope_limb_14_col142))),
-                    ((((slope_limb_14_col142) * (slope_limb_16_col144))
-                        + ((slope_limb_15_col143) * (slope_limb_15_col143)))
-                        + ((slope_limb_16_col144) * (slope_limb_14_col142))),
-                    (((((slope_limb_14_col142) * (slope_limb_17_col145))
-                        + ((slope_limb_15_col143) * (slope_limb_16_col144)))
-                        + ((slope_limb_16_col144) * (slope_limb_15_col143)))
-                        + ((slope_limb_17_col145) * (slope_limb_14_col142))),
-                    ((((((slope_limb_14_col142) * (slope_limb_18_col146))
-                        + ((slope_limb_15_col143) * (slope_limb_17_col145)))
-                        + ((slope_limb_16_col144) * (slope_limb_16_col144)))
-                        + ((slope_limb_17_col145) * (slope_limb_15_col143)))
-                        + ((slope_limb_18_col146) * (slope_limb_14_col142))),
-                    (((((((slope_limb_14_col142) * (slope_limb_19_col147))
-                        + ((slope_limb_15_col143) * (slope_limb_18_col146)))
-                        + ((slope_limb_16_col144) * (slope_limb_17_col145)))
-                        + ((slope_limb_17_col145) * (slope_limb_16_col144)))
-                        + ((slope_limb_18_col146) * (slope_limb_15_col143)))
-                        + ((slope_limb_19_col147) * (slope_limb_14_col142))),
-                    ((((((((slope_limb_14_col142) * (slope_limb_20_col148))
-                        + ((slope_limb_15_col143) * (slope_limb_19_col147)))
-                        + ((slope_limb_16_col144) * (slope_limb_18_col146)))
-                        + ((slope_limb_17_col145) * (slope_limb_17_col145)))
-                        + ((slope_limb_18_col146) * (slope_limb_16_col144)))
-                        + ((slope_limb_19_col147) * (slope_limb_15_col143)))
-                        + ((slope_limb_20_col148) * (slope_limb_14_col142))),
-                    (((((((slope_limb_15_col143) * (slope_limb_20_col148))
-                        + ((slope_limb_16_col144) * (slope_limb_19_col147)))
-                        + ((slope_limb_17_col145) * (slope_limb_18_col146)))
-                        + ((slope_limb_18_col146) * (slope_limb_17_col145)))
-                        + ((slope_limb_19_col147) * (slope_limb_16_col144)))
-                        + ((slope_limb_20_col148) * (slope_limb_15_col143))),
-                    ((((((slope_limb_16_col144) * (slope_limb_20_col148))
-                        + ((slope_limb_17_col145) * (slope_limb_19_col147)))
-                        + ((slope_limb_18_col146) * (slope_limb_18_col146)))
-                        + ((slope_limb_19_col147) * (slope_limb_17_col145)))
-                        + ((slope_limb_20_col148) * (slope_limb_16_col144))),
-                    (((((slope_limb_17_col145) * (slope_limb_20_col148))
-                        + ((slope_limb_18_col146) * (slope_limb_19_col147)))
-                        + ((slope_limb_19_col147) * (slope_limb_18_col146)))
-                        + ((slope_limb_20_col148) * (slope_limb_17_col145))),
-                    ((((slope_limb_18_col146) * (slope_limb_20_col148))
-                        + ((slope_limb_19_col147) * (slope_limb_19_col147)))
-                        + ((slope_limb_20_col148) * (slope_limb_18_col146))),
-                    (((slope_limb_19_col147) * (slope_limb_20_col148))
-                        + ((slope_limb_20_col148) * (slope_limb_19_col147))),
-                    ((slope_limb_20_col148) * (slope_limb_20_col148)),
+                    ((slope_limb_14_col143) * (slope_limb_14_col143)),
+                    (((slope_limb_14_col143) * (slope_limb_15_col144))
+                        + ((slope_limb_15_col144) * (slope_limb_14_col143))),
+                    ((((slope_limb_14_col143) * (slope_limb_16_col145))
+                        + ((slope_limb_15_col144) * (slope_limb_15_col144)))
+                        + ((slope_limb_16_col145) * (slope_limb_14_col143))),
+                    (((((slope_limb_14_col143) * (slope_limb_17_col146))
+                        + ((slope_limb_15_col144) * (slope_limb_16_col145)))
+                        + ((slope_limb_16_col145) * (slope_limb_15_col144)))
+                        + ((slope_limb_17_col146) * (slope_limb_14_col143))),
+                    ((((((slope_limb_14_col143) * (slope_limb_18_col147))
+                        + ((slope_limb_15_col144) * (slope_limb_17_col146)))
+                        + ((slope_limb_16_col145) * (slope_limb_16_col145)))
+                        + ((slope_limb_17_col146) * (slope_limb_15_col144)))
+                        + ((slope_limb_18_col147) * (slope_limb_14_col143))),
+                    (((((((slope_limb_14_col143) * (slope_limb_19_col148))
+                        + ((slope_limb_15_col144) * (slope_limb_18_col147)))
+                        + ((slope_limb_16_col145) * (slope_limb_17_col146)))
+                        + ((slope_limb_17_col146) * (slope_limb_16_col145)))
+                        + ((slope_limb_18_col147) * (slope_limb_15_col144)))
+                        + ((slope_limb_19_col148) * (slope_limb_14_col143))),
+                    ((((((((slope_limb_14_col143) * (slope_limb_20_col149))
+                        + ((slope_limb_15_col144) * (slope_limb_19_col148)))
+                        + ((slope_limb_16_col145) * (slope_limb_18_col147)))
+                        + ((slope_limb_17_col146) * (slope_limb_17_col146)))
+                        + ((slope_limb_18_col147) * (slope_limb_16_col145)))
+                        + ((slope_limb_19_col148) * (slope_limb_15_col144)))
+                        + ((slope_limb_20_col149) * (slope_limb_14_col143))),
+                    (((((((slope_limb_15_col144) * (slope_limb_20_col149))
+                        + ((slope_limb_16_col145) * (slope_limb_19_col148)))
+                        + ((slope_limb_17_col146) * (slope_limb_18_col147)))
+                        + ((slope_limb_18_col147) * (slope_limb_17_col146)))
+                        + ((slope_limb_19_col148) * (slope_limb_16_col145)))
+                        + ((slope_limb_20_col149) * (slope_limb_15_col144))),
+                    ((((((slope_limb_16_col145) * (slope_limb_20_col149))
+                        + ((slope_limb_17_col146) * (slope_limb_19_col148)))
+                        + ((slope_limb_18_col147) * (slope_limb_18_col147)))
+                        + ((slope_limb_19_col148) * (slope_limb_17_col146)))
+                        + ((slope_limb_20_col149) * (slope_limb_16_col145))),
+                    (((((slope_limb_17_col146) * (slope_limb_20_col149))
+                        + ((slope_limb_18_col147) * (slope_limb_19_col148)))
+                        + ((slope_limb_19_col148) * (slope_limb_18_col147)))
+                        + ((slope_limb_20_col149) * (slope_limb_17_col146))),
+                    ((((slope_limb_18_col147) * (slope_limb_20_col149))
+                        + ((slope_limb_19_col148) * (slope_limb_19_col148)))
+                        + ((slope_limb_20_col149) * (slope_limb_18_col147))),
+                    (((slope_limb_19_col148) * (slope_limb_20_col149))
+                        + ((slope_limb_20_col149) * (slope_limb_19_col148))),
+                    ((slope_limb_20_col149) * (slope_limb_20_col149)),
                 ];
                 let z2_tmp_d9509_114 = [
-                    ((slope_limb_21_col149) * (slope_limb_21_col149)),
-                    (((slope_limb_21_col149) * (slope_limb_22_col150))
-                        + ((slope_limb_22_col150) * (slope_limb_21_col149))),
-                    ((((slope_limb_21_col149) * (slope_limb_23_col151))
-                        + ((slope_limb_22_col150) * (slope_limb_22_col150)))
-                        + ((slope_limb_23_col151) * (slope_limb_21_col149))),
-                    (((((slope_limb_21_col149) * (slope_limb_24_col152))
-                        + ((slope_limb_22_col150) * (slope_limb_23_col151)))
-                        + ((slope_limb_23_col151) * (slope_limb_22_col150)))
-                        + ((slope_limb_24_col152) * (slope_limb_21_col149))),
-                    ((((((slope_limb_21_col149) * (slope_limb_25_col153))
-                        + ((slope_limb_22_col150) * (slope_limb_24_col152)))
-                        + ((slope_limb_23_col151) * (slope_limb_23_col151)))
-                        + ((slope_limb_24_col152) * (slope_limb_22_col150)))
-                        + ((slope_limb_25_col153) * (slope_limb_21_col149))),
-                    (((((((slope_limb_21_col149) * (slope_limb_26_col154))
-                        + ((slope_limb_22_col150) * (slope_limb_25_col153)))
-                        + ((slope_limb_23_col151) * (slope_limb_24_col152)))
-                        + ((slope_limb_24_col152) * (slope_limb_23_col151)))
-                        + ((slope_limb_25_col153) * (slope_limb_22_col150)))
-                        + ((slope_limb_26_col154) * (slope_limb_21_col149))),
-                    ((((((((slope_limb_21_col149) * (slope_limb_27_col155))
-                        + ((slope_limb_22_col150) * (slope_limb_26_col154)))
-                        + ((slope_limb_23_col151) * (slope_limb_25_col153)))
-                        + ((slope_limb_24_col152) * (slope_limb_24_col152)))
-                        + ((slope_limb_25_col153) * (slope_limb_23_col151)))
-                        + ((slope_limb_26_col154) * (slope_limb_22_col150)))
-                        + ((slope_limb_27_col155) * (slope_limb_21_col149))),
-                    (((((((slope_limb_22_col150) * (slope_limb_27_col155))
-                        + ((slope_limb_23_col151) * (slope_limb_26_col154)))
-                        + ((slope_limb_24_col152) * (slope_limb_25_col153)))
-                        + ((slope_limb_25_col153) * (slope_limb_24_col152)))
-                        + ((slope_limb_26_col154) * (slope_limb_23_col151)))
-                        + ((slope_limb_27_col155) * (slope_limb_22_col150))),
-                    ((((((slope_limb_23_col151) * (slope_limb_27_col155))
-                        + ((slope_limb_24_col152) * (slope_limb_26_col154)))
-                        + ((slope_limb_25_col153) * (slope_limb_25_col153)))
-                        + ((slope_limb_26_col154) * (slope_limb_24_col152)))
-                        + ((slope_limb_27_col155) * (slope_limb_23_col151))),
-                    (((((slope_limb_24_col152) * (slope_limb_27_col155))
-                        + ((slope_limb_25_col153) * (slope_limb_26_col154)))
-                        + ((slope_limb_26_col154) * (slope_limb_25_col153)))
-                        + ((slope_limb_27_col155) * (slope_limb_24_col152))),
-                    ((((slope_limb_25_col153) * (slope_limb_27_col155))
-                        + ((slope_limb_26_col154) * (slope_limb_26_col154)))
-                        + ((slope_limb_27_col155) * (slope_limb_25_col153))),
-                    (((slope_limb_26_col154) * (slope_limb_27_col155))
-                        + ((slope_limb_27_col155) * (slope_limb_26_col154))),
-                    ((slope_limb_27_col155) * (slope_limb_27_col155)),
+                    ((slope_limb_21_col150) * (slope_limb_21_col150)),
+                    (((slope_limb_21_col150) * (slope_limb_22_col151))
+                        + ((slope_limb_22_col151) * (slope_limb_21_col150))),
+                    ((((slope_limb_21_col150) * (slope_limb_23_col152))
+                        + ((slope_limb_22_col151) * (slope_limb_22_col151)))
+                        + ((slope_limb_23_col152) * (slope_limb_21_col150))),
+                    (((((slope_limb_21_col150) * (slope_limb_24_col153))
+                        + ((slope_limb_22_col151) * (slope_limb_23_col152)))
+                        + ((slope_limb_23_col152) * (slope_limb_22_col151)))
+                        + ((slope_limb_24_col153) * (slope_limb_21_col150))),
+                    ((((((slope_limb_21_col150) * (slope_limb_25_col154))
+                        + ((slope_limb_22_col151) * (slope_limb_24_col153)))
+                        + ((slope_limb_23_col152) * (slope_limb_23_col152)))
+                        + ((slope_limb_24_col153) * (slope_limb_22_col151)))
+                        + ((slope_limb_25_col154) * (slope_limb_21_col150))),
+                    (((((((slope_limb_21_col150) * (slope_limb_26_col155))
+                        + ((slope_limb_22_col151) * (slope_limb_25_col154)))
+                        + ((slope_limb_23_col152) * (slope_limb_24_col153)))
+                        + ((slope_limb_24_col153) * (slope_limb_23_col152)))
+                        + ((slope_limb_25_col154) * (slope_limb_22_col151)))
+                        + ((slope_limb_26_col155) * (slope_limb_21_col150))),
+                    ((((((((slope_limb_21_col150) * (slope_limb_27_col156))
+                        + ((slope_limb_22_col151) * (slope_limb_26_col155)))
+                        + ((slope_limb_23_col152) * (slope_limb_25_col154)))
+                        + ((slope_limb_24_col153) * (slope_limb_24_col153)))
+                        + ((slope_limb_25_col154) * (slope_limb_23_col152)))
+                        + ((slope_limb_26_col155) * (slope_limb_22_col151)))
+                        + ((slope_limb_27_col156) * (slope_limb_21_col150))),
+                    (((((((slope_limb_22_col151) * (slope_limb_27_col156))
+                        + ((slope_limb_23_col152) * (slope_limb_26_col155)))
+                        + ((slope_limb_24_col153) * (slope_limb_25_col154)))
+                        + ((slope_limb_25_col154) * (slope_limb_24_col153)))
+                        + ((slope_limb_26_col155) * (slope_limb_23_col152)))
+                        + ((slope_limb_27_col156) * (slope_limb_22_col151))),
+                    ((((((slope_limb_23_col152) * (slope_limb_27_col156))
+                        + ((slope_limb_24_col153) * (slope_limb_26_col155)))
+                        + ((slope_limb_25_col154) * (slope_limb_25_col154)))
+                        + ((slope_limb_26_col155) * (slope_limb_24_col153)))
+                        + ((slope_limb_27_col156) * (slope_limb_23_col152))),
+                    (((((slope_limb_24_col153) * (slope_limb_27_col156))
+                        + ((slope_limb_25_col154) * (slope_limb_26_col155)))
+                        + ((slope_limb_26_col155) * (slope_limb_25_col154)))
+                        + ((slope_limb_27_col156) * (slope_limb_24_col153))),
+                    ((((slope_limb_25_col154) * (slope_limb_27_col156))
+                        + ((slope_limb_26_col155) * (slope_limb_26_col155)))
+                        + ((slope_limb_27_col156) * (slope_limb_25_col154))),
+                    (((slope_limb_26_col155) * (slope_limb_27_col156))
+                        + ((slope_limb_27_col156) * (slope_limb_26_col155))),
+                    ((slope_limb_27_col156) * (slope_limb_27_col156)),
                 ];
                 let x_sum_tmp_d9509_115 = [
-                    ((slope_limb_14_col142) + (slope_limb_21_col149)),
-                    ((slope_limb_15_col143) + (slope_limb_22_col150)),
-                    ((slope_limb_16_col144) + (slope_limb_23_col151)),
-                    ((slope_limb_17_col145) + (slope_limb_24_col152)),
-                    ((slope_limb_18_col146) + (slope_limb_25_col153)),
-                    ((slope_limb_19_col147) + (slope_limb_26_col154)),
-                    ((slope_limb_20_col148) + (slope_limb_27_col155)),
+                    ((slope_limb_14_col143) + (slope_limb_21_col150)),
+                    ((slope_limb_15_col144) + (slope_limb_22_col151)),
+                    ((slope_limb_16_col145) + (slope_limb_23_col152)),
+                    ((slope_limb_17_col146) + (slope_limb_24_col153)),
+                    ((slope_limb_18_col147) + (slope_limb_25_col154)),
+                    ((slope_limb_19_col148) + (slope_limb_26_col155)),
+                    ((slope_limb_20_col149) + (slope_limb_27_col156)),
                 ];
                 let y_sum_tmp_d9509_116 = [
-                    ((slope_limb_14_col142) + (slope_limb_21_col149)),
-                    ((slope_limb_15_col143) + (slope_limb_22_col150)),
-                    ((slope_limb_16_col144) + (slope_limb_23_col151)),
-                    ((slope_limb_17_col145) + (slope_limb_24_col152)),
-                    ((slope_limb_18_col146) + (slope_limb_25_col153)),
-                    ((slope_limb_19_col147) + (slope_limb_26_col154)),
-                    ((slope_limb_20_col148) + (slope_limb_27_col155)),
+                    ((slope_limb_14_col143) + (slope_limb_21_col150)),
+                    ((slope_limb_15_col144) + (slope_limb_22_col151)),
+                    ((slope_limb_16_col145) + (slope_limb_23_col152)),
+                    ((slope_limb_17_col146) + (slope_limb_24_col153)),
+                    ((slope_limb_18_col147) + (slope_limb_25_col154)),
+                    ((slope_limb_19_col148) + (slope_limb_26_col155)),
+                    ((slope_limb_20_col149) + (slope_limb_27_col156)),
                 ];
                 let single_karatsuba_n_7_output_tmp_d9509_117 = [
                     z0_tmp_d9509_113[0],
@@ -2769,36 +2772,36 @@ fn write_trace_simd(
                 ];
 
                 let x_sum_tmp_d9509_118 = [
-                    ((slope_limb_0_col128) + (slope_limb_14_col142)),
-                    ((slope_limb_1_col129) + (slope_limb_15_col143)),
-                    ((slope_limb_2_col130) + (slope_limb_16_col144)),
-                    ((slope_limb_3_col131) + (slope_limb_17_col145)),
-                    ((slope_limb_4_col132) + (slope_limb_18_col146)),
-                    ((slope_limb_5_col133) + (slope_limb_19_col147)),
-                    ((slope_limb_6_col134) + (slope_limb_20_col148)),
-                    ((slope_limb_7_col135) + (slope_limb_21_col149)),
-                    ((slope_limb_8_col136) + (slope_limb_22_col150)),
-                    ((slope_limb_9_col137) + (slope_limb_23_col151)),
-                    ((slope_limb_10_col138) + (slope_limb_24_col152)),
-                    ((slope_limb_11_col139) + (slope_limb_25_col153)),
-                    ((slope_limb_12_col140) + (slope_limb_26_col154)),
-                    ((slope_limb_13_col141) + (slope_limb_27_col155)),
+                    ((slope_limb_0_col129) + (slope_limb_14_col143)),
+                    ((slope_limb_1_col130) + (slope_limb_15_col144)),
+                    ((slope_limb_2_col131) + (slope_limb_16_col145)),
+                    ((slope_limb_3_col132) + (slope_limb_17_col146)),
+                    ((slope_limb_4_col133) + (slope_limb_18_col147)),
+                    ((slope_limb_5_col134) + (slope_limb_19_col148)),
+                    ((slope_limb_6_col135) + (slope_limb_20_col149)),
+                    ((slope_limb_7_col136) + (slope_limb_21_col150)),
+                    ((slope_limb_8_col137) + (slope_limb_22_col151)),
+                    ((slope_limb_9_col138) + (slope_limb_23_col152)),
+                    ((slope_limb_10_col139) + (slope_limb_24_col153)),
+                    ((slope_limb_11_col140) + (slope_limb_25_col154)),
+                    ((slope_limb_12_col141) + (slope_limb_26_col155)),
+                    ((slope_limb_13_col142) + (slope_limb_27_col156)),
                 ];
                 let y_sum_tmp_d9509_119 = [
-                    ((slope_limb_0_col128) + (slope_limb_14_col142)),
-                    ((slope_limb_1_col129) + (slope_limb_15_col143)),
-                    ((slope_limb_2_col130) + (slope_limb_16_col144)),
-                    ((slope_limb_3_col131) + (slope_limb_17_col145)),
-                    ((slope_limb_4_col132) + (slope_limb_18_col146)),
-                    ((slope_limb_5_col133) + (slope_limb_19_col147)),
-                    ((slope_limb_6_col134) + (slope_limb_20_col148)),
-                    ((slope_limb_7_col135) + (slope_limb_21_col149)),
-                    ((slope_limb_8_col136) + (slope_limb_22_col150)),
-                    ((slope_limb_9_col137) + (slope_limb_23_col151)),
-                    ((slope_limb_10_col138) + (slope_limb_24_col152)),
-                    ((slope_limb_11_col139) + (slope_limb_25_col153)),
-                    ((slope_limb_12_col140) + (slope_limb_26_col154)),
-                    ((slope_limb_13_col141) + (slope_limb_27_col155)),
+                    ((slope_limb_0_col129) + (slope_limb_14_col143)),
+                    ((slope_limb_1_col130) + (slope_limb_15_col144)),
+                    ((slope_limb_2_col131) + (slope_limb_16_col145)),
+                    ((slope_limb_3_col132) + (slope_limb_17_col146)),
+                    ((slope_limb_4_col133) + (slope_limb_18_col147)),
+                    ((slope_limb_5_col134) + (slope_limb_19_col148)),
+                    ((slope_limb_6_col135) + (slope_limb_20_col149)),
+                    ((slope_limb_7_col136) + (slope_limb_21_col150)),
+                    ((slope_limb_8_col137) + (slope_limb_22_col151)),
+                    ((slope_limb_9_col138) + (slope_limb_23_col152)),
+                    ((slope_limb_10_col139) + (slope_limb_24_col153)),
+                    ((slope_limb_11_col140) + (slope_limb_25_col154)),
+                    ((slope_limb_12_col141) + (slope_limb_26_col155)),
+                    ((slope_limb_13_col142) + (slope_limb_27_col156)),
                 ];
 
                 // Single Karatsuba N 7.
@@ -3318,392 +3321,392 @@ fn write_trace_simd(
                             << (UInt32_9)))
                         + (UInt32_131072))
                         & (UInt32_262143));
-                let k_col212 = ((k_mod_2_18_biased_tmp_d9509_128.low().as_m31())
+                let k_col213 = ((k_mod_2_18_biased_tmp_d9509_128.low().as_m31())
                     + (((k_mod_2_18_biased_tmp_d9509_128.high().as_m31()) - (M31_2))
                         * (M31_65536)));
-                *row[212] = k_col212;
-                *sub_component_inputs.range_check_20[4] = [((k_col212) + (M31_524288))];
-                *lookup_data.range_check_20_57 = [M31_1410849886, ((k_col212) + (M31_524288))];
-                let carry_0_col213 = (((conv_mod_tmp_d9509_127[0]) - (k_col212)) * (M31_4194304));
-                *row[213] = carry_0_col213;
-                *sub_component_inputs.range_check_20_b[4] = [((carry_0_col213) + (M31_524288))];
+                *row[213] = k_col213;
+                *sub_component_inputs.range_check_20[4] = [((k_col213) + (M31_524288))];
+                *lookup_data.range_check_20_57 = [M31_1410849886, ((k_col213) + (M31_524288))];
+                let carry_0_col214 = (((conv_mod_tmp_d9509_127[0]) - (k_col213)) * (M31_4194304));
+                *row[214] = carry_0_col214;
+                *sub_component_inputs.range_check_20_b[4] = [((carry_0_col214) + (M31_524288))];
                 *lookup_data.range_check_20_b_58 =
-                    [M31_514232941, ((carry_0_col213) + (M31_524288))];
-                let carry_1_col214 =
-                    (((conv_mod_tmp_d9509_127[1]) + (carry_0_col213)) * (M31_4194304));
-                *row[214] = carry_1_col214;
-                *sub_component_inputs.range_check_20_c[4] = [((carry_1_col214) + (M31_524288))];
+                    [M31_514232941, ((carry_0_col214) + (M31_524288))];
+                let carry_1_col215 =
+                    (((conv_mod_tmp_d9509_127[1]) + (carry_0_col214)) * (M31_4194304));
+                *row[215] = carry_1_col215;
+                *sub_component_inputs.range_check_20_c[4] = [((carry_1_col215) + (M31_524288))];
                 *lookup_data.range_check_20_c_59 =
-                    [M31_531010560, ((carry_1_col214) + (M31_524288))];
-                let carry_2_col215 =
-                    (((conv_mod_tmp_d9509_127[2]) + (carry_1_col214)) * (M31_4194304));
-                *row[215] = carry_2_col215;
-                *sub_component_inputs.range_check_20_d[4] = [((carry_2_col215) + (M31_524288))];
+                    [M31_531010560, ((carry_1_col215) + (M31_524288))];
+                let carry_2_col216 =
+                    (((conv_mod_tmp_d9509_127[2]) + (carry_1_col215)) * (M31_4194304));
+                *row[216] = carry_2_col216;
+                *sub_component_inputs.range_check_20_d[4] = [((carry_2_col216) + (M31_524288))];
                 *lookup_data.range_check_20_d_60 =
-                    [M31_480677703, ((carry_2_col215) + (M31_524288))];
-                let carry_3_col216 =
-                    (((conv_mod_tmp_d9509_127[3]) + (carry_2_col215)) * (M31_4194304));
-                *row[216] = carry_3_col216;
-                *sub_component_inputs.range_check_20_e[3] = [((carry_3_col216) + (M31_524288))];
+                    [M31_480677703, ((carry_2_col216) + (M31_524288))];
+                let carry_3_col217 =
+                    (((conv_mod_tmp_d9509_127[3]) + (carry_2_col216)) * (M31_4194304));
+                *row[217] = carry_3_col217;
+                *sub_component_inputs.range_check_20_e[3] = [((carry_3_col217) + (M31_524288))];
                 *lookup_data.range_check_20_e_61 =
-                    [M31_497455322, ((carry_3_col216) + (M31_524288))];
-                let carry_4_col217 =
-                    (((conv_mod_tmp_d9509_127[4]) + (carry_3_col216)) * (M31_4194304));
-                *row[217] = carry_4_col217;
-                *sub_component_inputs.range_check_20_f[3] = [((carry_4_col217) + (M31_524288))];
+                    [M31_497455322, ((carry_3_col217) + (M31_524288))];
+                let carry_4_col218 =
+                    (((conv_mod_tmp_d9509_127[4]) + (carry_3_col217)) * (M31_4194304));
+                *row[218] = carry_4_col218;
+                *sub_component_inputs.range_check_20_f[3] = [((carry_4_col218) + (M31_524288))];
                 *lookup_data.range_check_20_f_62 =
-                    [M31_447122465, ((carry_4_col217) + (M31_524288))];
-                let carry_5_col218 =
-                    (((conv_mod_tmp_d9509_127[5]) + (carry_4_col217)) * (M31_4194304));
-                *row[218] = carry_5_col218;
-                *sub_component_inputs.range_check_20_g[3] = [((carry_5_col218) + (M31_524288))];
+                    [M31_447122465, ((carry_4_col218) + (M31_524288))];
+                let carry_5_col219 =
+                    (((conv_mod_tmp_d9509_127[5]) + (carry_4_col218)) * (M31_4194304));
+                *row[219] = carry_5_col219;
+                *sub_component_inputs.range_check_20_g[3] = [((carry_5_col219) + (M31_524288))];
                 *lookup_data.range_check_20_g_63 =
-                    [M31_463900084, ((carry_5_col218) + (M31_524288))];
-                let carry_6_col219 =
-                    (((conv_mod_tmp_d9509_127[6]) + (carry_5_col218)) * (M31_4194304));
-                *row[219] = carry_6_col219;
-                *sub_component_inputs.range_check_20_h[3] = [((carry_6_col219) + (M31_524288))];
+                    [M31_463900084, ((carry_5_col219) + (M31_524288))];
+                let carry_6_col220 =
+                    (((conv_mod_tmp_d9509_127[6]) + (carry_5_col219)) * (M31_4194304));
+                *row[220] = carry_6_col220;
+                *sub_component_inputs.range_check_20_h[3] = [((carry_6_col220) + (M31_524288))];
                 *lookup_data.range_check_20_h_64 =
-                    [M31_682009131, ((carry_6_col219) + (M31_524288))];
-                let carry_7_col220 =
-                    (((conv_mod_tmp_d9509_127[7]) + (carry_6_col219)) * (M31_4194304));
-                *row[220] = carry_7_col220;
-                *sub_component_inputs.range_check_20[5] = [((carry_7_col220) + (M31_524288))];
+                    [M31_682009131, ((carry_6_col220) + (M31_524288))];
+                let carry_7_col221 =
+                    (((conv_mod_tmp_d9509_127[7]) + (carry_6_col220)) * (M31_4194304));
+                *row[221] = carry_7_col221;
+                *sub_component_inputs.range_check_20[5] = [((carry_7_col221) + (M31_524288))];
                 *lookup_data.range_check_20_65 =
-                    [M31_1410849886, ((carry_7_col220) + (M31_524288))];
-                let carry_8_col221 =
-                    (((conv_mod_tmp_d9509_127[8]) + (carry_7_col220)) * (M31_4194304));
-                *row[221] = carry_8_col221;
-                *sub_component_inputs.range_check_20_b[5] = [((carry_8_col221) + (M31_524288))];
+                    [M31_1410849886, ((carry_7_col221) + (M31_524288))];
+                let carry_8_col222 =
+                    (((conv_mod_tmp_d9509_127[8]) + (carry_7_col221)) * (M31_4194304));
+                *row[222] = carry_8_col222;
+                *sub_component_inputs.range_check_20_b[5] = [((carry_8_col222) + (M31_524288))];
                 *lookup_data.range_check_20_b_66 =
-                    [M31_514232941, ((carry_8_col221) + (M31_524288))];
-                let carry_9_col222 =
-                    (((conv_mod_tmp_d9509_127[9]) + (carry_8_col221)) * (M31_4194304));
-                *row[222] = carry_9_col222;
-                *sub_component_inputs.range_check_20_c[5] = [((carry_9_col222) + (M31_524288))];
+                    [M31_514232941, ((carry_8_col222) + (M31_524288))];
+                let carry_9_col223 =
+                    (((conv_mod_tmp_d9509_127[9]) + (carry_8_col222)) * (M31_4194304));
+                *row[223] = carry_9_col223;
+                *sub_component_inputs.range_check_20_c[5] = [((carry_9_col223) + (M31_524288))];
                 *lookup_data.range_check_20_c_67 =
-                    [M31_531010560, ((carry_9_col222) + (M31_524288))];
-                let carry_10_col223 =
-                    (((conv_mod_tmp_d9509_127[10]) + (carry_9_col222)) * (M31_4194304));
-                *row[223] = carry_10_col223;
-                *sub_component_inputs.range_check_20_d[5] = [((carry_10_col223) + (M31_524288))];
+                    [M31_531010560, ((carry_9_col223) + (M31_524288))];
+                let carry_10_col224 =
+                    (((conv_mod_tmp_d9509_127[10]) + (carry_9_col223)) * (M31_4194304));
+                *row[224] = carry_10_col224;
+                *sub_component_inputs.range_check_20_d[5] = [((carry_10_col224) + (M31_524288))];
                 *lookup_data.range_check_20_d_68 =
-                    [M31_480677703, ((carry_10_col223) + (M31_524288))];
-                let carry_11_col224 =
-                    (((conv_mod_tmp_d9509_127[11]) + (carry_10_col223)) * (M31_4194304));
-                *row[224] = carry_11_col224;
-                *sub_component_inputs.range_check_20_e[4] = [((carry_11_col224) + (M31_524288))];
+                    [M31_480677703, ((carry_10_col224) + (M31_524288))];
+                let carry_11_col225 =
+                    (((conv_mod_tmp_d9509_127[11]) + (carry_10_col224)) * (M31_4194304));
+                *row[225] = carry_11_col225;
+                *sub_component_inputs.range_check_20_e[4] = [((carry_11_col225) + (M31_524288))];
                 *lookup_data.range_check_20_e_69 =
-                    [M31_497455322, ((carry_11_col224) + (M31_524288))];
-                let carry_12_col225 =
-                    (((conv_mod_tmp_d9509_127[12]) + (carry_11_col224)) * (M31_4194304));
-                *row[225] = carry_12_col225;
-                *sub_component_inputs.range_check_20_f[4] = [((carry_12_col225) + (M31_524288))];
+                    [M31_497455322, ((carry_11_col225) + (M31_524288))];
+                let carry_12_col226 =
+                    (((conv_mod_tmp_d9509_127[12]) + (carry_11_col225)) * (M31_4194304));
+                *row[226] = carry_12_col226;
+                *sub_component_inputs.range_check_20_f[4] = [((carry_12_col226) + (M31_524288))];
                 *lookup_data.range_check_20_f_70 =
-                    [M31_447122465, ((carry_12_col225) + (M31_524288))];
-                let carry_13_col226 =
-                    (((conv_mod_tmp_d9509_127[13]) + (carry_12_col225)) * (M31_4194304));
-                *row[226] = carry_13_col226;
-                *sub_component_inputs.range_check_20_g[4] = [((carry_13_col226) + (M31_524288))];
+                    [M31_447122465, ((carry_12_col226) + (M31_524288))];
+                let carry_13_col227 =
+                    (((conv_mod_tmp_d9509_127[13]) + (carry_12_col226)) * (M31_4194304));
+                *row[227] = carry_13_col227;
+                *sub_component_inputs.range_check_20_g[4] = [((carry_13_col227) + (M31_524288))];
                 *lookup_data.range_check_20_g_71 =
-                    [M31_463900084, ((carry_13_col226) + (M31_524288))];
-                let carry_14_col227 =
-                    (((conv_mod_tmp_d9509_127[14]) + (carry_13_col226)) * (M31_4194304));
-                *row[227] = carry_14_col227;
-                *sub_component_inputs.range_check_20_h[4] = [((carry_14_col227) + (M31_524288))];
+                    [M31_463900084, ((carry_13_col227) + (M31_524288))];
+                let carry_14_col228 =
+                    (((conv_mod_tmp_d9509_127[14]) + (carry_13_col227)) * (M31_4194304));
+                *row[228] = carry_14_col228;
+                *sub_component_inputs.range_check_20_h[4] = [((carry_14_col228) + (M31_524288))];
                 *lookup_data.range_check_20_h_72 =
-                    [M31_682009131, ((carry_14_col227) + (M31_524288))];
-                let carry_15_col228 =
-                    (((conv_mod_tmp_d9509_127[15]) + (carry_14_col227)) * (M31_4194304));
-                *row[228] = carry_15_col228;
-                *sub_component_inputs.range_check_20[6] = [((carry_15_col228) + (M31_524288))];
+                    [M31_682009131, ((carry_14_col228) + (M31_524288))];
+                let carry_15_col229 =
+                    (((conv_mod_tmp_d9509_127[15]) + (carry_14_col228)) * (M31_4194304));
+                *row[229] = carry_15_col229;
+                *sub_component_inputs.range_check_20[6] = [((carry_15_col229) + (M31_524288))];
                 *lookup_data.range_check_20_73 =
-                    [M31_1410849886, ((carry_15_col228) + (M31_524288))];
-                let carry_16_col229 =
-                    (((conv_mod_tmp_d9509_127[16]) + (carry_15_col228)) * (M31_4194304));
-                *row[229] = carry_16_col229;
-                *sub_component_inputs.range_check_20_b[6] = [((carry_16_col229) + (M31_524288))];
+                    [M31_1410849886, ((carry_15_col229) + (M31_524288))];
+                let carry_16_col230 =
+                    (((conv_mod_tmp_d9509_127[16]) + (carry_15_col229)) * (M31_4194304));
+                *row[230] = carry_16_col230;
+                *sub_component_inputs.range_check_20_b[6] = [((carry_16_col230) + (M31_524288))];
                 *lookup_data.range_check_20_b_74 =
-                    [M31_514232941, ((carry_16_col229) + (M31_524288))];
-                let carry_17_col230 =
-                    (((conv_mod_tmp_d9509_127[17]) + (carry_16_col229)) * (M31_4194304));
-                *row[230] = carry_17_col230;
-                *sub_component_inputs.range_check_20_c[6] = [((carry_17_col230) + (M31_524288))];
+                    [M31_514232941, ((carry_16_col230) + (M31_524288))];
+                let carry_17_col231 =
+                    (((conv_mod_tmp_d9509_127[17]) + (carry_16_col230)) * (M31_4194304));
+                *row[231] = carry_17_col231;
+                *sub_component_inputs.range_check_20_c[6] = [((carry_17_col231) + (M31_524288))];
                 *lookup_data.range_check_20_c_75 =
-                    [M31_531010560, ((carry_17_col230) + (M31_524288))];
-                let carry_18_col231 =
-                    (((conv_mod_tmp_d9509_127[18]) + (carry_17_col230)) * (M31_4194304));
-                *row[231] = carry_18_col231;
-                *sub_component_inputs.range_check_20_d[6] = [((carry_18_col231) + (M31_524288))];
+                    [M31_531010560, ((carry_17_col231) + (M31_524288))];
+                let carry_18_col232 =
+                    (((conv_mod_tmp_d9509_127[18]) + (carry_17_col231)) * (M31_4194304));
+                *row[232] = carry_18_col232;
+                *sub_component_inputs.range_check_20_d[6] = [((carry_18_col232) + (M31_524288))];
                 *lookup_data.range_check_20_d_76 =
-                    [M31_480677703, ((carry_18_col231) + (M31_524288))];
-                let carry_19_col232 =
-                    (((conv_mod_tmp_d9509_127[19]) + (carry_18_col231)) * (M31_4194304));
-                *row[232] = carry_19_col232;
-                *sub_component_inputs.range_check_20_e[5] = [((carry_19_col232) + (M31_524288))];
+                    [M31_480677703, ((carry_18_col232) + (M31_524288))];
+                let carry_19_col233 =
+                    (((conv_mod_tmp_d9509_127[19]) + (carry_18_col232)) * (M31_4194304));
+                *row[233] = carry_19_col233;
+                *sub_component_inputs.range_check_20_e[5] = [((carry_19_col233) + (M31_524288))];
                 *lookup_data.range_check_20_e_77 =
-                    [M31_497455322, ((carry_19_col232) + (M31_524288))];
-                let carry_20_col233 =
-                    (((conv_mod_tmp_d9509_127[20]) + (carry_19_col232)) * (M31_4194304));
-                *row[233] = carry_20_col233;
-                *sub_component_inputs.range_check_20_f[5] = [((carry_20_col233) + (M31_524288))];
+                    [M31_497455322, ((carry_19_col233) + (M31_524288))];
+                let carry_20_col234 =
+                    (((conv_mod_tmp_d9509_127[20]) + (carry_19_col233)) * (M31_4194304));
+                *row[234] = carry_20_col234;
+                *sub_component_inputs.range_check_20_f[5] = [((carry_20_col234) + (M31_524288))];
                 *lookup_data.range_check_20_f_78 =
-                    [M31_447122465, ((carry_20_col233) + (M31_524288))];
-                let carry_21_col234 = ((((conv_mod_tmp_d9509_127[21]) - ((M31_136) * (k_col212)))
-                    + (carry_20_col233))
+                    [M31_447122465, ((carry_20_col234) + (M31_524288))];
+                let carry_21_col235 = ((((conv_mod_tmp_d9509_127[21]) - ((M31_136) * (k_col213)))
+                    + (carry_20_col234))
                     * (M31_4194304));
-                *row[234] = carry_21_col234;
-                *sub_component_inputs.range_check_20_g[5] = [((carry_21_col234) + (M31_524288))];
+                *row[235] = carry_21_col235;
+                *sub_component_inputs.range_check_20_g[5] = [((carry_21_col235) + (M31_524288))];
                 *lookup_data.range_check_20_g_79 =
-                    [M31_463900084, ((carry_21_col234) + (M31_524288))];
-                let carry_22_col235 =
-                    (((conv_mod_tmp_d9509_127[22]) + (carry_21_col234)) * (M31_4194304));
-                *row[235] = carry_22_col235;
-                *sub_component_inputs.range_check_20_h[5] = [((carry_22_col235) + (M31_524288))];
+                    [M31_463900084, ((carry_21_col235) + (M31_524288))];
+                let carry_22_col236 =
+                    (((conv_mod_tmp_d9509_127[22]) + (carry_21_col235)) * (M31_4194304));
+                *row[236] = carry_22_col236;
+                *sub_component_inputs.range_check_20_h[5] = [((carry_22_col236) + (M31_524288))];
                 *lookup_data.range_check_20_h_80 =
-                    [M31_682009131, ((carry_22_col235) + (M31_524288))];
-                let carry_23_col236 =
-                    (((conv_mod_tmp_d9509_127[23]) + (carry_22_col235)) * (M31_4194304));
-                *row[236] = carry_23_col236;
-                *sub_component_inputs.range_check_20[7] = [((carry_23_col236) + (M31_524288))];
+                    [M31_682009131, ((carry_22_col236) + (M31_524288))];
+                let carry_23_col237 =
+                    (((conv_mod_tmp_d9509_127[23]) + (carry_22_col236)) * (M31_4194304));
+                *row[237] = carry_23_col237;
+                *sub_component_inputs.range_check_20[7] = [((carry_23_col237) + (M31_524288))];
                 *lookup_data.range_check_20_81 =
-                    [M31_1410849886, ((carry_23_col236) + (M31_524288))];
-                let carry_24_col237 =
-                    (((conv_mod_tmp_d9509_127[24]) + (carry_23_col236)) * (M31_4194304));
-                *row[237] = carry_24_col237;
-                *sub_component_inputs.range_check_20_b[7] = [((carry_24_col237) + (M31_524288))];
+                    [M31_1410849886, ((carry_23_col237) + (M31_524288))];
+                let carry_24_col238 =
+                    (((conv_mod_tmp_d9509_127[24]) + (carry_23_col237)) * (M31_4194304));
+                *row[238] = carry_24_col238;
+                *sub_component_inputs.range_check_20_b[7] = [((carry_24_col238) + (M31_524288))];
                 *lookup_data.range_check_20_b_82 =
-                    [M31_514232941, ((carry_24_col237) + (M31_524288))];
-                let carry_25_col238 =
-                    (((conv_mod_tmp_d9509_127[25]) + (carry_24_col237)) * (M31_4194304));
-                *row[238] = carry_25_col238;
-                *sub_component_inputs.range_check_20_c[7] = [((carry_25_col238) + (M31_524288))];
+                    [M31_514232941, ((carry_24_col238) + (M31_524288))];
+                let carry_25_col239 =
+                    (((conv_mod_tmp_d9509_127[25]) + (carry_24_col238)) * (M31_4194304));
+                *row[239] = carry_25_col239;
+                *sub_component_inputs.range_check_20_c[7] = [((carry_25_col239) + (M31_524288))];
                 *lookup_data.range_check_20_c_83 =
-                    [M31_531010560, ((carry_25_col238) + (M31_524288))];
-                let carry_26_col239 =
-                    (((conv_mod_tmp_d9509_127[26]) + (carry_25_col238)) * (M31_4194304));
-                *row[239] = carry_26_col239;
-                *sub_component_inputs.range_check_20_d[7] = [((carry_26_col239) + (M31_524288))];
+                    [M31_531010560, ((carry_25_col239) + (M31_524288))];
+                let carry_26_col240 =
+                    (((conv_mod_tmp_d9509_127[26]) + (carry_25_col239)) * (M31_4194304));
+                *row[240] = carry_26_col240;
+                *sub_component_inputs.range_check_20_d[7] = [((carry_26_col240) + (M31_524288))];
                 *lookup_data.range_check_20_d_84 =
-                    [M31_480677703, ((carry_26_col239) + (M31_524288))];
+                    [M31_480677703, ((carry_26_col240) + (M31_524288))];
 
                 let result_y_tmp_d9509_129 = (((slope_tmp_d9509_1)
                     * ((partial_ec_mul_window_bits_18_input.2 .1[0]) - (result_x_tmp_d9509_79)))
                     - (partial_ec_mul_window_bits_18_input.2 .1[1]));
-                let result_y_limb_0_col240 = result_y_tmp_d9509_129.get_m31(0);
-                *row[240] = result_y_limb_0_col240;
-                let result_y_limb_1_col241 = result_y_tmp_d9509_129.get_m31(1);
-                *row[241] = result_y_limb_1_col241;
-                let result_y_limb_2_col242 = result_y_tmp_d9509_129.get_m31(2);
-                *row[242] = result_y_limb_2_col242;
-                let result_y_limb_3_col243 = result_y_tmp_d9509_129.get_m31(3);
-                *row[243] = result_y_limb_3_col243;
-                let result_y_limb_4_col244 = result_y_tmp_d9509_129.get_m31(4);
-                *row[244] = result_y_limb_4_col244;
-                let result_y_limb_5_col245 = result_y_tmp_d9509_129.get_m31(5);
-                *row[245] = result_y_limb_5_col245;
-                let result_y_limb_6_col246 = result_y_tmp_d9509_129.get_m31(6);
-                *row[246] = result_y_limb_6_col246;
-                let result_y_limb_7_col247 = result_y_tmp_d9509_129.get_m31(7);
-                *row[247] = result_y_limb_7_col247;
-                let result_y_limb_8_col248 = result_y_tmp_d9509_129.get_m31(8);
-                *row[248] = result_y_limb_8_col248;
-                let result_y_limb_9_col249 = result_y_tmp_d9509_129.get_m31(9);
-                *row[249] = result_y_limb_9_col249;
-                let result_y_limb_10_col250 = result_y_tmp_d9509_129.get_m31(10);
-                *row[250] = result_y_limb_10_col250;
-                let result_y_limb_11_col251 = result_y_tmp_d9509_129.get_m31(11);
-                *row[251] = result_y_limb_11_col251;
-                let result_y_limb_12_col252 = result_y_tmp_d9509_129.get_m31(12);
-                *row[252] = result_y_limb_12_col252;
-                let result_y_limb_13_col253 = result_y_tmp_d9509_129.get_m31(13);
-                *row[253] = result_y_limb_13_col253;
-                let result_y_limb_14_col254 = result_y_tmp_d9509_129.get_m31(14);
-                *row[254] = result_y_limb_14_col254;
-                let result_y_limb_15_col255 = result_y_tmp_d9509_129.get_m31(15);
-                *row[255] = result_y_limb_15_col255;
-                let result_y_limb_16_col256 = result_y_tmp_d9509_129.get_m31(16);
-                *row[256] = result_y_limb_16_col256;
-                let result_y_limb_17_col257 = result_y_tmp_d9509_129.get_m31(17);
-                *row[257] = result_y_limb_17_col257;
-                let result_y_limb_18_col258 = result_y_tmp_d9509_129.get_m31(18);
-                *row[258] = result_y_limb_18_col258;
-                let result_y_limb_19_col259 = result_y_tmp_d9509_129.get_m31(19);
-                *row[259] = result_y_limb_19_col259;
-                let result_y_limb_20_col260 = result_y_tmp_d9509_129.get_m31(20);
-                *row[260] = result_y_limb_20_col260;
-                let result_y_limb_21_col261 = result_y_tmp_d9509_129.get_m31(21);
-                *row[261] = result_y_limb_21_col261;
-                let result_y_limb_22_col262 = result_y_tmp_d9509_129.get_m31(22);
-                *row[262] = result_y_limb_22_col262;
-                let result_y_limb_23_col263 = result_y_tmp_d9509_129.get_m31(23);
-                *row[263] = result_y_limb_23_col263;
-                let result_y_limb_24_col264 = result_y_tmp_d9509_129.get_m31(24);
-                *row[264] = result_y_limb_24_col264;
-                let result_y_limb_25_col265 = result_y_tmp_d9509_129.get_m31(25);
-                *row[265] = result_y_limb_25_col265;
-                let result_y_limb_26_col266 = result_y_tmp_d9509_129.get_m31(26);
-                *row[266] = result_y_limb_26_col266;
-                let result_y_limb_27_col267 = result_y_tmp_d9509_129.get_m31(27);
-                *row[267] = result_y_limb_27_col267;
+                let result_y_limb_0_col241 = result_y_tmp_d9509_129.get_m31(0);
+                *row[241] = result_y_limb_0_col241;
+                let result_y_limb_1_col242 = result_y_tmp_d9509_129.get_m31(1);
+                *row[242] = result_y_limb_1_col242;
+                let result_y_limb_2_col243 = result_y_tmp_d9509_129.get_m31(2);
+                *row[243] = result_y_limb_2_col243;
+                let result_y_limb_3_col244 = result_y_tmp_d9509_129.get_m31(3);
+                *row[244] = result_y_limb_3_col244;
+                let result_y_limb_4_col245 = result_y_tmp_d9509_129.get_m31(4);
+                *row[245] = result_y_limb_4_col245;
+                let result_y_limb_5_col246 = result_y_tmp_d9509_129.get_m31(5);
+                *row[246] = result_y_limb_5_col246;
+                let result_y_limb_6_col247 = result_y_tmp_d9509_129.get_m31(6);
+                *row[247] = result_y_limb_6_col247;
+                let result_y_limb_7_col248 = result_y_tmp_d9509_129.get_m31(7);
+                *row[248] = result_y_limb_7_col248;
+                let result_y_limb_8_col249 = result_y_tmp_d9509_129.get_m31(8);
+                *row[249] = result_y_limb_8_col249;
+                let result_y_limb_9_col250 = result_y_tmp_d9509_129.get_m31(9);
+                *row[250] = result_y_limb_9_col250;
+                let result_y_limb_10_col251 = result_y_tmp_d9509_129.get_m31(10);
+                *row[251] = result_y_limb_10_col251;
+                let result_y_limb_11_col252 = result_y_tmp_d9509_129.get_m31(11);
+                *row[252] = result_y_limb_11_col252;
+                let result_y_limb_12_col253 = result_y_tmp_d9509_129.get_m31(12);
+                *row[253] = result_y_limb_12_col253;
+                let result_y_limb_13_col254 = result_y_tmp_d9509_129.get_m31(13);
+                *row[254] = result_y_limb_13_col254;
+                let result_y_limb_14_col255 = result_y_tmp_d9509_129.get_m31(14);
+                *row[255] = result_y_limb_14_col255;
+                let result_y_limb_15_col256 = result_y_tmp_d9509_129.get_m31(15);
+                *row[256] = result_y_limb_15_col256;
+                let result_y_limb_16_col257 = result_y_tmp_d9509_129.get_m31(16);
+                *row[257] = result_y_limb_16_col257;
+                let result_y_limb_17_col258 = result_y_tmp_d9509_129.get_m31(17);
+                *row[258] = result_y_limb_17_col258;
+                let result_y_limb_18_col259 = result_y_tmp_d9509_129.get_m31(18);
+                *row[259] = result_y_limb_18_col259;
+                let result_y_limb_19_col260 = result_y_tmp_d9509_129.get_m31(19);
+                *row[260] = result_y_limb_19_col260;
+                let result_y_limb_20_col261 = result_y_tmp_d9509_129.get_m31(20);
+                *row[261] = result_y_limb_20_col261;
+                let result_y_limb_21_col262 = result_y_tmp_d9509_129.get_m31(21);
+                *row[262] = result_y_limb_21_col262;
+                let result_y_limb_22_col263 = result_y_tmp_d9509_129.get_m31(22);
+                *row[263] = result_y_limb_22_col263;
+                let result_y_limb_23_col264 = result_y_tmp_d9509_129.get_m31(23);
+                *row[264] = result_y_limb_23_col264;
+                let result_y_limb_24_col265 = result_y_tmp_d9509_129.get_m31(24);
+                *row[265] = result_y_limb_24_col265;
+                let result_y_limb_25_col266 = result_y_tmp_d9509_129.get_m31(25);
+                *row[266] = result_y_limb_25_col266;
+                let result_y_limb_26_col267 = result_y_tmp_d9509_129.get_m31(26);
+                *row[267] = result_y_limb_26_col267;
+                let result_y_limb_27_col268 = result_y_tmp_d9509_129.get_m31(27);
+                *row[268] = result_y_limb_27_col268;
 
                 // Range Check Mem Value N 28.
 
                 *sub_component_inputs.range_check_9_9[4] =
-                    [result_y_limb_0_col240, result_y_limb_1_col241];
+                    [result_y_limb_0_col241, result_y_limb_1_col242];
                 *lookup_data.range_check_9_9_85 = [
                     M31_517791011,
-                    result_y_limb_0_col240,
-                    result_y_limb_1_col241,
+                    result_y_limb_0_col241,
+                    result_y_limb_1_col242,
                 ];
                 *sub_component_inputs.range_check_9_9_b[4] =
-                    [result_y_limb_2_col242, result_y_limb_3_col243];
+                    [result_y_limb_2_col243, result_y_limb_3_col244];
                 *lookup_data.range_check_9_9_b_86 = [
                     M31_1897792095,
-                    result_y_limb_2_col242,
-                    result_y_limb_3_col243,
+                    result_y_limb_2_col243,
+                    result_y_limb_3_col244,
                 ];
                 *sub_component_inputs.range_check_9_9_c[4] =
-                    [result_y_limb_4_col244, result_y_limb_5_col245];
+                    [result_y_limb_4_col245, result_y_limb_5_col246];
                 *lookup_data.range_check_9_9_c_87 = [
                     M31_1881014476,
-                    result_y_limb_4_col244,
-                    result_y_limb_5_col245,
+                    result_y_limb_4_col245,
+                    result_y_limb_5_col246,
                 ];
                 *sub_component_inputs.range_check_9_9_d[4] =
-                    [result_y_limb_6_col246, result_y_limb_7_col247];
+                    [result_y_limb_6_col247, result_y_limb_7_col248];
                 *lookup_data.range_check_9_9_d_88 = [
                     M31_1864236857,
-                    result_y_limb_6_col246,
-                    result_y_limb_7_col247,
+                    result_y_limb_6_col247,
+                    result_y_limb_7_col248,
                 ];
                 *sub_component_inputs.range_check_9_9_e[4] =
-                    [result_y_limb_8_col248, result_y_limb_9_col249];
+                    [result_y_limb_8_col249, result_y_limb_9_col250];
                 *lookup_data.range_check_9_9_e_89 = [
                     M31_1847459238,
-                    result_y_limb_8_col248,
-                    result_y_limb_9_col249,
+                    result_y_limb_8_col249,
+                    result_y_limb_9_col250,
                 ];
                 *sub_component_inputs.range_check_9_9_f[4] =
-                    [result_y_limb_10_col250, result_y_limb_11_col251];
+                    [result_y_limb_10_col251, result_y_limb_11_col252];
                 *lookup_data.range_check_9_9_f_90 = [
                     M31_1830681619,
-                    result_y_limb_10_col250,
-                    result_y_limb_11_col251,
+                    result_y_limb_10_col251,
+                    result_y_limb_11_col252,
                 ];
                 *sub_component_inputs.range_check_9_9_g[2] =
-                    [result_y_limb_12_col252, result_y_limb_13_col253];
+                    [result_y_limb_12_col253, result_y_limb_13_col254];
                 *lookup_data.range_check_9_9_g_91 = [
                     M31_1813904000,
-                    result_y_limb_12_col252,
-                    result_y_limb_13_col253,
+                    result_y_limb_12_col253,
+                    result_y_limb_13_col254,
                 ];
                 *sub_component_inputs.range_check_9_9_h[2] =
-                    [result_y_limb_14_col254, result_y_limb_15_col255];
+                    [result_y_limb_14_col255, result_y_limb_15_col256];
                 *lookup_data.range_check_9_9_h_92 = [
                     M31_2065568285,
-                    result_y_limb_14_col254,
-                    result_y_limb_15_col255,
+                    result_y_limb_14_col255,
+                    result_y_limb_15_col256,
                 ];
                 *sub_component_inputs.range_check_9_9[5] =
-                    [result_y_limb_16_col256, result_y_limb_17_col257];
+                    [result_y_limb_16_col257, result_y_limb_17_col258];
                 *lookup_data.range_check_9_9_93 = [
                     M31_517791011,
-                    result_y_limb_16_col256,
-                    result_y_limb_17_col257,
+                    result_y_limb_16_col257,
+                    result_y_limb_17_col258,
                 ];
                 *sub_component_inputs.range_check_9_9_b[5] =
-                    [result_y_limb_18_col258, result_y_limb_19_col259];
+                    [result_y_limb_18_col259, result_y_limb_19_col260];
                 *lookup_data.range_check_9_9_b_94 = [
                     M31_1897792095,
-                    result_y_limb_18_col258,
-                    result_y_limb_19_col259,
+                    result_y_limb_18_col259,
+                    result_y_limb_19_col260,
                 ];
                 *sub_component_inputs.range_check_9_9_c[5] =
-                    [result_y_limb_20_col260, result_y_limb_21_col261];
+                    [result_y_limb_20_col261, result_y_limb_21_col262];
                 *lookup_data.range_check_9_9_c_95 = [
                     M31_1881014476,
-                    result_y_limb_20_col260,
-                    result_y_limb_21_col261,
+                    result_y_limb_20_col261,
+                    result_y_limb_21_col262,
                 ];
                 *sub_component_inputs.range_check_9_9_d[5] =
-                    [result_y_limb_22_col262, result_y_limb_23_col263];
+                    [result_y_limb_22_col263, result_y_limb_23_col264];
                 *lookup_data.range_check_9_9_d_96 = [
                     M31_1864236857,
-                    result_y_limb_22_col262,
-                    result_y_limb_23_col263,
+                    result_y_limb_22_col263,
+                    result_y_limb_23_col264,
                 ];
                 *sub_component_inputs.range_check_9_9_e[5] =
-                    [result_y_limb_24_col264, result_y_limb_25_col265];
+                    [result_y_limb_24_col265, result_y_limb_25_col266];
                 *lookup_data.range_check_9_9_e_97 = [
                     M31_1847459238,
-                    result_y_limb_24_col264,
-                    result_y_limb_25_col265,
+                    result_y_limb_24_col265,
+                    result_y_limb_25_col266,
                 ];
                 *sub_component_inputs.range_check_9_9_f[5] =
-                    [result_y_limb_26_col266, result_y_limb_27_col267];
+                    [result_y_limb_26_col267, result_y_limb_27_col268];
                 *lookup_data.range_check_9_9_f_98 = [
                     M31_1830681619,
-                    result_y_limb_26_col266,
-                    result_y_limb_27_col267,
+                    result_y_limb_26_col267,
+                    result_y_limb_27_col268,
                 ];
 
-                let x_diff2_0_tmp_d9509_130 = ((input_limb_16_col16) - (result_x_limb_0_col184));
-                let x_diff2_1_tmp_d9509_131 = ((input_limb_17_col17) - (result_x_limb_1_col185));
-                let x_diff2_2_tmp_d9509_132 = ((input_limb_18_col18) - (result_x_limb_2_col186));
-                let x_diff2_3_tmp_d9509_133 = ((input_limb_19_col19) - (result_x_limb_3_col187));
-                let x_diff2_4_tmp_d9509_134 = ((input_limb_20_col20) - (result_x_limb_4_col188));
-                let x_diff2_5_tmp_d9509_135 = ((input_limb_21_col21) - (result_x_limb_5_col189));
-                let x_diff2_6_tmp_d9509_136 = ((input_limb_22_col22) - (result_x_limb_6_col190));
-                let x_diff2_7_tmp_d9509_137 = ((input_limb_23_col23) - (result_x_limb_7_col191));
-                let x_diff2_8_tmp_d9509_138 = ((input_limb_24_col24) - (result_x_limb_8_col192));
-                let x_diff2_9_tmp_d9509_139 = ((input_limb_25_col25) - (result_x_limb_9_col193));
-                let x_diff2_10_tmp_d9509_140 = ((input_limb_26_col26) - (result_x_limb_10_col194));
-                let x_diff2_11_tmp_d9509_141 = ((input_limb_27_col27) - (result_x_limb_11_col195));
-                let x_diff2_12_tmp_d9509_142 = ((input_limb_28_col28) - (result_x_limb_12_col196));
-                let x_diff2_13_tmp_d9509_143 = ((input_limb_29_col29) - (result_x_limb_13_col197));
-                let x_diff2_14_tmp_d9509_144 = ((input_limb_30_col30) - (result_x_limb_14_col198));
-                let x_diff2_15_tmp_d9509_145 = ((input_limb_31_col31) - (result_x_limb_15_col199));
-                let x_diff2_16_tmp_d9509_146 = ((input_limb_32_col32) - (result_x_limb_16_col200));
-                let x_diff2_17_tmp_d9509_147 = ((input_limb_33_col33) - (result_x_limb_17_col201));
-                let x_diff2_18_tmp_d9509_148 = ((input_limb_34_col34) - (result_x_limb_18_col202));
-                let x_diff2_19_tmp_d9509_149 = ((input_limb_35_col35) - (result_x_limb_19_col203));
-                let x_diff2_20_tmp_d9509_150 = ((input_limb_36_col36) - (result_x_limb_20_col204));
-                let x_diff2_21_tmp_d9509_151 = ((input_limb_37_col37) - (result_x_limb_21_col205));
-                let x_diff2_22_tmp_d9509_152 = ((input_limb_38_col38) - (result_x_limb_22_col206));
-                let x_diff2_23_tmp_d9509_153 = ((input_limb_39_col39) - (result_x_limb_23_col207));
-                let x_diff2_24_tmp_d9509_154 = ((input_limb_40_col40) - (result_x_limb_24_col208));
-                let x_diff2_25_tmp_d9509_155 = ((input_limb_41_col41) - (result_x_limb_25_col209));
-                let x_diff2_26_tmp_d9509_156 = ((input_limb_42_col42) - (result_x_limb_26_col210));
-                let x_diff2_27_tmp_d9509_157 = ((input_limb_43_col43) - (result_x_limb_27_col211));
-                let y_sum_0_tmp_d9509_158 = ((input_limb_44_col44) + (result_y_limb_0_col240));
-                let y_sum_1_tmp_d9509_159 = ((input_limb_45_col45) + (result_y_limb_1_col241));
-                let y_sum_2_tmp_d9509_160 = ((input_limb_46_col46) + (result_y_limb_2_col242));
-                let y_sum_3_tmp_d9509_161 = ((input_limb_47_col47) + (result_y_limb_3_col243));
-                let y_sum_4_tmp_d9509_162 = ((input_limb_48_col48) + (result_y_limb_4_col244));
-                let y_sum_5_tmp_d9509_163 = ((input_limb_49_col49) + (result_y_limb_5_col245));
-                let y_sum_6_tmp_d9509_164 = ((input_limb_50_col50) + (result_y_limb_6_col246));
-                let y_sum_7_tmp_d9509_165 = ((input_limb_51_col51) + (result_y_limb_7_col247));
-                let y_sum_8_tmp_d9509_166 = ((input_limb_52_col52) + (result_y_limb_8_col248));
-                let y_sum_9_tmp_d9509_167 = ((input_limb_53_col53) + (result_y_limb_9_col249));
-                let y_sum_10_tmp_d9509_168 = ((input_limb_54_col54) + (result_y_limb_10_col250));
-                let y_sum_11_tmp_d9509_169 = ((input_limb_55_col55) + (result_y_limb_11_col251));
-                let y_sum_12_tmp_d9509_170 = ((input_limb_56_col56) + (result_y_limb_12_col252));
-                let y_sum_13_tmp_d9509_171 = ((input_limb_57_col57) + (result_y_limb_13_col253));
-                let y_sum_14_tmp_d9509_172 = ((input_limb_58_col58) + (result_y_limb_14_col254));
-                let y_sum_15_tmp_d9509_173 = ((input_limb_59_col59) + (result_y_limb_15_col255));
-                let y_sum_16_tmp_d9509_174 = ((input_limb_60_col60) + (result_y_limb_16_col256));
-                let y_sum_17_tmp_d9509_175 = ((input_limb_61_col61) + (result_y_limb_17_col257));
-                let y_sum_18_tmp_d9509_176 = ((input_limb_62_col62) + (result_y_limb_18_col258));
-                let y_sum_19_tmp_d9509_177 = ((input_limb_63_col63) + (result_y_limb_19_col259));
-                let y_sum_20_tmp_d9509_178 = ((input_limb_64_col64) + (result_y_limb_20_col260));
-                let y_sum_21_tmp_d9509_179 = ((input_limb_65_col65) + (result_y_limb_21_col261));
-                let y_sum_22_tmp_d9509_180 = ((input_limb_66_col66) + (result_y_limb_22_col262));
-                let y_sum_23_tmp_d9509_181 = ((input_limb_67_col67) + (result_y_limb_23_col263));
-                let y_sum_24_tmp_d9509_182 = ((input_limb_68_col68) + (result_y_limb_24_col264));
-                let y_sum_25_tmp_d9509_183 = ((input_limb_69_col69) + (result_y_limb_25_col265));
-                let y_sum_26_tmp_d9509_184 = ((input_limb_70_col70) + (result_y_limb_26_col266));
-                let y_sum_27_tmp_d9509_185 = ((input_limb_71_col71) + (result_y_limb_27_col267));
+                let x_diff2_0_tmp_d9509_130 = ((input_limb_16_col17) - (result_x_limb_0_col185));
+                let x_diff2_1_tmp_d9509_131 = ((input_limb_17_col18) - (result_x_limb_1_col186));
+                let x_diff2_2_tmp_d9509_132 = ((input_limb_18_col19) - (result_x_limb_2_col187));
+                let x_diff2_3_tmp_d9509_133 = ((input_limb_19_col20) - (result_x_limb_3_col188));
+                let x_diff2_4_tmp_d9509_134 = ((input_limb_20_col21) - (result_x_limb_4_col189));
+                let x_diff2_5_tmp_d9509_135 = ((input_limb_21_col22) - (result_x_limb_5_col190));
+                let x_diff2_6_tmp_d9509_136 = ((input_limb_22_col23) - (result_x_limb_6_col191));
+                let x_diff2_7_tmp_d9509_137 = ((input_limb_23_col24) - (result_x_limb_7_col192));
+                let x_diff2_8_tmp_d9509_138 = ((input_limb_24_col25) - (result_x_limb_8_col193));
+                let x_diff2_9_tmp_d9509_139 = ((input_limb_25_col26) - (result_x_limb_9_col194));
+                let x_diff2_10_tmp_d9509_140 = ((input_limb_26_col27) - (result_x_limb_10_col195));
+                let x_diff2_11_tmp_d9509_141 = ((input_limb_27_col28) - (result_x_limb_11_col196));
+                let x_diff2_12_tmp_d9509_142 = ((input_limb_28_col29) - (result_x_limb_12_col197));
+                let x_diff2_13_tmp_d9509_143 = ((input_limb_29_col30) - (result_x_limb_13_col198));
+                let x_diff2_14_tmp_d9509_144 = ((input_limb_30_col31) - (result_x_limb_14_col199));
+                let x_diff2_15_tmp_d9509_145 = ((input_limb_31_col32) - (result_x_limb_15_col200));
+                let x_diff2_16_tmp_d9509_146 = ((input_limb_32_col33) - (result_x_limb_16_col201));
+                let x_diff2_17_tmp_d9509_147 = ((input_limb_33_col34) - (result_x_limb_17_col202));
+                let x_diff2_18_tmp_d9509_148 = ((input_limb_34_col35) - (result_x_limb_18_col203));
+                let x_diff2_19_tmp_d9509_149 = ((input_limb_35_col36) - (result_x_limb_19_col204));
+                let x_diff2_20_tmp_d9509_150 = ((input_limb_36_col37) - (result_x_limb_20_col205));
+                let x_diff2_21_tmp_d9509_151 = ((input_limb_37_col38) - (result_x_limb_21_col206));
+                let x_diff2_22_tmp_d9509_152 = ((input_limb_38_col39) - (result_x_limb_22_col207));
+                let x_diff2_23_tmp_d9509_153 = ((input_limb_39_col40) - (result_x_limb_23_col208));
+                let x_diff2_24_tmp_d9509_154 = ((input_limb_40_col41) - (result_x_limb_24_col209));
+                let x_diff2_25_tmp_d9509_155 = ((input_limb_41_col42) - (result_x_limb_25_col210));
+                let x_diff2_26_tmp_d9509_156 = ((input_limb_42_col43) - (result_x_limb_26_col211));
+                let x_diff2_27_tmp_d9509_157 = ((input_limb_43_col44) - (result_x_limb_27_col212));
+                let y_sum_0_tmp_d9509_158 = ((input_limb_44_col45) + (result_y_limb_0_col241));
+                let y_sum_1_tmp_d9509_159 = ((input_limb_45_col46) + (result_y_limb_1_col242));
+                let y_sum_2_tmp_d9509_160 = ((input_limb_46_col47) + (result_y_limb_2_col243));
+                let y_sum_3_tmp_d9509_161 = ((input_limb_47_col48) + (result_y_limb_3_col244));
+                let y_sum_4_tmp_d9509_162 = ((input_limb_48_col49) + (result_y_limb_4_col245));
+                let y_sum_5_tmp_d9509_163 = ((input_limb_49_col50) + (result_y_limb_5_col246));
+                let y_sum_6_tmp_d9509_164 = ((input_limb_50_col51) + (result_y_limb_6_col247));
+                let y_sum_7_tmp_d9509_165 = ((input_limb_51_col52) + (result_y_limb_7_col248));
+                let y_sum_8_tmp_d9509_166 = ((input_limb_52_col53) + (result_y_limb_8_col249));
+                let y_sum_9_tmp_d9509_167 = ((input_limb_53_col54) + (result_y_limb_9_col250));
+                let y_sum_10_tmp_d9509_168 = ((input_limb_54_col55) + (result_y_limb_10_col251));
+                let y_sum_11_tmp_d9509_169 = ((input_limb_55_col56) + (result_y_limb_11_col252));
+                let y_sum_12_tmp_d9509_170 = ((input_limb_56_col57) + (result_y_limb_12_col253));
+                let y_sum_13_tmp_d9509_171 = ((input_limb_57_col58) + (result_y_limb_13_col254));
+                let y_sum_14_tmp_d9509_172 = ((input_limb_58_col59) + (result_y_limb_14_col255));
+                let y_sum_15_tmp_d9509_173 = ((input_limb_59_col60) + (result_y_limb_15_col256));
+                let y_sum_16_tmp_d9509_174 = ((input_limb_60_col61) + (result_y_limb_16_col257));
+                let y_sum_17_tmp_d9509_175 = ((input_limb_61_col62) + (result_y_limb_17_col258));
+                let y_sum_18_tmp_d9509_176 = ((input_limb_62_col63) + (result_y_limb_18_col259));
+                let y_sum_19_tmp_d9509_177 = ((input_limb_63_col64) + (result_y_limb_19_col260));
+                let y_sum_20_tmp_d9509_178 = ((input_limb_64_col65) + (result_y_limb_20_col261));
+                let y_sum_21_tmp_d9509_179 = ((input_limb_65_col66) + (result_y_limb_21_col262));
+                let y_sum_22_tmp_d9509_180 = ((input_limb_66_col67) + (result_y_limb_22_col263));
+                let y_sum_23_tmp_d9509_181 = ((input_limb_67_col68) + (result_y_limb_23_col264));
+                let y_sum_24_tmp_d9509_182 = ((input_limb_68_col69) + (result_y_limb_24_col265));
+                let y_sum_25_tmp_d9509_183 = ((input_limb_69_col70) + (result_y_limb_25_col266));
+                let y_sum_26_tmp_d9509_184 = ((input_limb_70_col71) + (result_y_limb_26_col267));
+                let y_sum_27_tmp_d9509_185 = ((input_limb_71_col72) + (result_y_limb_27_col268));
 
                 // Verify Mul 252.
 
@@ -3712,115 +3715,115 @@ fn write_trace_simd(
                 // Single Karatsuba N 7.
 
                 let z0_tmp_d9509_186 = [
-                    ((slope_limb_0_col128) * (x_diff2_0_tmp_d9509_130)),
-                    (((slope_limb_0_col128) * (x_diff2_1_tmp_d9509_131))
-                        + ((slope_limb_1_col129) * (x_diff2_0_tmp_d9509_130))),
-                    ((((slope_limb_0_col128) * (x_diff2_2_tmp_d9509_132))
-                        + ((slope_limb_1_col129) * (x_diff2_1_tmp_d9509_131)))
-                        + ((slope_limb_2_col130) * (x_diff2_0_tmp_d9509_130))),
-                    (((((slope_limb_0_col128) * (x_diff2_3_tmp_d9509_133))
-                        + ((slope_limb_1_col129) * (x_diff2_2_tmp_d9509_132)))
-                        + ((slope_limb_2_col130) * (x_diff2_1_tmp_d9509_131)))
-                        + ((slope_limb_3_col131) * (x_diff2_0_tmp_d9509_130))),
-                    ((((((slope_limb_0_col128) * (x_diff2_4_tmp_d9509_134))
-                        + ((slope_limb_1_col129) * (x_diff2_3_tmp_d9509_133)))
-                        + ((slope_limb_2_col130) * (x_diff2_2_tmp_d9509_132)))
-                        + ((slope_limb_3_col131) * (x_diff2_1_tmp_d9509_131)))
-                        + ((slope_limb_4_col132) * (x_diff2_0_tmp_d9509_130))),
-                    (((((((slope_limb_0_col128) * (x_diff2_5_tmp_d9509_135))
-                        + ((slope_limb_1_col129) * (x_diff2_4_tmp_d9509_134)))
-                        + ((slope_limb_2_col130) * (x_diff2_3_tmp_d9509_133)))
-                        + ((slope_limb_3_col131) * (x_diff2_2_tmp_d9509_132)))
-                        + ((slope_limb_4_col132) * (x_diff2_1_tmp_d9509_131)))
-                        + ((slope_limb_5_col133) * (x_diff2_0_tmp_d9509_130))),
-                    ((((((((slope_limb_0_col128) * (x_diff2_6_tmp_d9509_136))
-                        + ((slope_limb_1_col129) * (x_diff2_5_tmp_d9509_135)))
-                        + ((slope_limb_2_col130) * (x_diff2_4_tmp_d9509_134)))
-                        + ((slope_limb_3_col131) * (x_diff2_3_tmp_d9509_133)))
-                        + ((slope_limb_4_col132) * (x_diff2_2_tmp_d9509_132)))
-                        + ((slope_limb_5_col133) * (x_diff2_1_tmp_d9509_131)))
-                        + ((slope_limb_6_col134) * (x_diff2_0_tmp_d9509_130))),
-                    (((((((slope_limb_1_col129) * (x_diff2_6_tmp_d9509_136))
-                        + ((slope_limb_2_col130) * (x_diff2_5_tmp_d9509_135)))
-                        + ((slope_limb_3_col131) * (x_diff2_4_tmp_d9509_134)))
-                        + ((slope_limb_4_col132) * (x_diff2_3_tmp_d9509_133)))
-                        + ((slope_limb_5_col133) * (x_diff2_2_tmp_d9509_132)))
-                        + ((slope_limb_6_col134) * (x_diff2_1_tmp_d9509_131))),
-                    ((((((slope_limb_2_col130) * (x_diff2_6_tmp_d9509_136))
-                        + ((slope_limb_3_col131) * (x_diff2_5_tmp_d9509_135)))
-                        + ((slope_limb_4_col132) * (x_diff2_4_tmp_d9509_134)))
-                        + ((slope_limb_5_col133) * (x_diff2_3_tmp_d9509_133)))
-                        + ((slope_limb_6_col134) * (x_diff2_2_tmp_d9509_132))),
-                    (((((slope_limb_3_col131) * (x_diff2_6_tmp_d9509_136))
-                        + ((slope_limb_4_col132) * (x_diff2_5_tmp_d9509_135)))
-                        + ((slope_limb_5_col133) * (x_diff2_4_tmp_d9509_134)))
-                        + ((slope_limb_6_col134) * (x_diff2_3_tmp_d9509_133))),
-                    ((((slope_limb_4_col132) * (x_diff2_6_tmp_d9509_136))
-                        + ((slope_limb_5_col133) * (x_diff2_5_tmp_d9509_135)))
-                        + ((slope_limb_6_col134) * (x_diff2_4_tmp_d9509_134))),
-                    (((slope_limb_5_col133) * (x_diff2_6_tmp_d9509_136))
-                        + ((slope_limb_6_col134) * (x_diff2_5_tmp_d9509_135))),
-                    ((slope_limb_6_col134) * (x_diff2_6_tmp_d9509_136)),
+                    ((slope_limb_0_col129) * (x_diff2_0_tmp_d9509_130)),
+                    (((slope_limb_0_col129) * (x_diff2_1_tmp_d9509_131))
+                        + ((slope_limb_1_col130) * (x_diff2_0_tmp_d9509_130))),
+                    ((((slope_limb_0_col129) * (x_diff2_2_tmp_d9509_132))
+                        + ((slope_limb_1_col130) * (x_diff2_1_tmp_d9509_131)))
+                        + ((slope_limb_2_col131) * (x_diff2_0_tmp_d9509_130))),
+                    (((((slope_limb_0_col129) * (x_diff2_3_tmp_d9509_133))
+                        + ((slope_limb_1_col130) * (x_diff2_2_tmp_d9509_132)))
+                        + ((slope_limb_2_col131) * (x_diff2_1_tmp_d9509_131)))
+                        + ((slope_limb_3_col132) * (x_diff2_0_tmp_d9509_130))),
+                    ((((((slope_limb_0_col129) * (x_diff2_4_tmp_d9509_134))
+                        + ((slope_limb_1_col130) * (x_diff2_3_tmp_d9509_133)))
+                        + ((slope_limb_2_col131) * (x_diff2_2_tmp_d9509_132)))
+                        + ((slope_limb_3_col132) * (x_diff2_1_tmp_d9509_131)))
+                        + ((slope_limb_4_col133) * (x_diff2_0_tmp_d9509_130))),
+                    (((((((slope_limb_0_col129) * (x_diff2_5_tmp_d9509_135))
+                        + ((slope_limb_1_col130) * (x_diff2_4_tmp_d9509_134)))
+                        + ((slope_limb_2_col131) * (x_diff2_3_tmp_d9509_133)))
+                        + ((slope_limb_3_col132) * (x_diff2_2_tmp_d9509_132)))
+                        + ((slope_limb_4_col133) * (x_diff2_1_tmp_d9509_131)))
+                        + ((slope_limb_5_col134) * (x_diff2_0_tmp_d9509_130))),
+                    ((((((((slope_limb_0_col129) * (x_diff2_6_tmp_d9509_136))
+                        + ((slope_limb_1_col130) * (x_diff2_5_tmp_d9509_135)))
+                        + ((slope_limb_2_col131) * (x_diff2_4_tmp_d9509_134)))
+                        + ((slope_limb_3_col132) * (x_diff2_3_tmp_d9509_133)))
+                        + ((slope_limb_4_col133) * (x_diff2_2_tmp_d9509_132)))
+                        + ((slope_limb_5_col134) * (x_diff2_1_tmp_d9509_131)))
+                        + ((slope_limb_6_col135) * (x_diff2_0_tmp_d9509_130))),
+                    (((((((slope_limb_1_col130) * (x_diff2_6_tmp_d9509_136))
+                        + ((slope_limb_2_col131) * (x_diff2_5_tmp_d9509_135)))
+                        + ((slope_limb_3_col132) * (x_diff2_4_tmp_d9509_134)))
+                        + ((slope_limb_4_col133) * (x_diff2_3_tmp_d9509_133)))
+                        + ((slope_limb_5_col134) * (x_diff2_2_tmp_d9509_132)))
+                        + ((slope_limb_6_col135) * (x_diff2_1_tmp_d9509_131))),
+                    ((((((slope_limb_2_col131) * (x_diff2_6_tmp_d9509_136))
+                        + ((slope_limb_3_col132) * (x_diff2_5_tmp_d9509_135)))
+                        + ((slope_limb_4_col133) * (x_diff2_4_tmp_d9509_134)))
+                        + ((slope_limb_5_col134) * (x_diff2_3_tmp_d9509_133)))
+                        + ((slope_limb_6_col135) * (x_diff2_2_tmp_d9509_132))),
+                    (((((slope_limb_3_col132) * (x_diff2_6_tmp_d9509_136))
+                        + ((slope_limb_4_col133) * (x_diff2_5_tmp_d9509_135)))
+                        + ((slope_limb_5_col134) * (x_diff2_4_tmp_d9509_134)))
+                        + ((slope_limb_6_col135) * (x_diff2_3_tmp_d9509_133))),
+                    ((((slope_limb_4_col133) * (x_diff2_6_tmp_d9509_136))
+                        + ((slope_limb_5_col134) * (x_diff2_5_tmp_d9509_135)))
+                        + ((slope_limb_6_col135) * (x_diff2_4_tmp_d9509_134))),
+                    (((slope_limb_5_col134) * (x_diff2_6_tmp_d9509_136))
+                        + ((slope_limb_6_col135) * (x_diff2_5_tmp_d9509_135))),
+                    ((slope_limb_6_col135) * (x_diff2_6_tmp_d9509_136)),
                 ];
                 let z2_tmp_d9509_187 = [
-                    ((slope_limb_7_col135) * (x_diff2_7_tmp_d9509_137)),
-                    (((slope_limb_7_col135) * (x_diff2_8_tmp_d9509_138))
-                        + ((slope_limb_8_col136) * (x_diff2_7_tmp_d9509_137))),
-                    ((((slope_limb_7_col135) * (x_diff2_9_tmp_d9509_139))
-                        + ((slope_limb_8_col136) * (x_diff2_8_tmp_d9509_138)))
-                        + ((slope_limb_9_col137) * (x_diff2_7_tmp_d9509_137))),
-                    (((((slope_limb_7_col135) * (x_diff2_10_tmp_d9509_140))
-                        + ((slope_limb_8_col136) * (x_diff2_9_tmp_d9509_139)))
-                        + ((slope_limb_9_col137) * (x_diff2_8_tmp_d9509_138)))
-                        + ((slope_limb_10_col138) * (x_diff2_7_tmp_d9509_137))),
-                    ((((((slope_limb_7_col135) * (x_diff2_11_tmp_d9509_141))
-                        + ((slope_limb_8_col136) * (x_diff2_10_tmp_d9509_140)))
-                        + ((slope_limb_9_col137) * (x_diff2_9_tmp_d9509_139)))
-                        + ((slope_limb_10_col138) * (x_diff2_8_tmp_d9509_138)))
-                        + ((slope_limb_11_col139) * (x_diff2_7_tmp_d9509_137))),
-                    (((((((slope_limb_7_col135) * (x_diff2_12_tmp_d9509_142))
-                        + ((slope_limb_8_col136) * (x_diff2_11_tmp_d9509_141)))
-                        + ((slope_limb_9_col137) * (x_diff2_10_tmp_d9509_140)))
-                        + ((slope_limb_10_col138) * (x_diff2_9_tmp_d9509_139)))
-                        + ((slope_limb_11_col139) * (x_diff2_8_tmp_d9509_138)))
-                        + ((slope_limb_12_col140) * (x_diff2_7_tmp_d9509_137))),
-                    ((((((((slope_limb_7_col135) * (x_diff2_13_tmp_d9509_143))
-                        + ((slope_limb_8_col136) * (x_diff2_12_tmp_d9509_142)))
-                        + ((slope_limb_9_col137) * (x_diff2_11_tmp_d9509_141)))
-                        + ((slope_limb_10_col138) * (x_diff2_10_tmp_d9509_140)))
-                        + ((slope_limb_11_col139) * (x_diff2_9_tmp_d9509_139)))
-                        + ((slope_limb_12_col140) * (x_diff2_8_tmp_d9509_138)))
-                        + ((slope_limb_13_col141) * (x_diff2_7_tmp_d9509_137))),
-                    (((((((slope_limb_8_col136) * (x_diff2_13_tmp_d9509_143))
-                        + ((slope_limb_9_col137) * (x_diff2_12_tmp_d9509_142)))
-                        + ((slope_limb_10_col138) * (x_diff2_11_tmp_d9509_141)))
-                        + ((slope_limb_11_col139) * (x_diff2_10_tmp_d9509_140)))
-                        + ((slope_limb_12_col140) * (x_diff2_9_tmp_d9509_139)))
-                        + ((slope_limb_13_col141) * (x_diff2_8_tmp_d9509_138))),
-                    ((((((slope_limb_9_col137) * (x_diff2_13_tmp_d9509_143))
-                        + ((slope_limb_10_col138) * (x_diff2_12_tmp_d9509_142)))
-                        + ((slope_limb_11_col139) * (x_diff2_11_tmp_d9509_141)))
-                        + ((slope_limb_12_col140) * (x_diff2_10_tmp_d9509_140)))
-                        + ((slope_limb_13_col141) * (x_diff2_9_tmp_d9509_139))),
-                    (((((slope_limb_10_col138) * (x_diff2_13_tmp_d9509_143))
-                        + ((slope_limb_11_col139) * (x_diff2_12_tmp_d9509_142)))
-                        + ((slope_limb_12_col140) * (x_diff2_11_tmp_d9509_141)))
-                        + ((slope_limb_13_col141) * (x_diff2_10_tmp_d9509_140))),
-                    ((((slope_limb_11_col139) * (x_diff2_13_tmp_d9509_143))
-                        + ((slope_limb_12_col140) * (x_diff2_12_tmp_d9509_142)))
-                        + ((slope_limb_13_col141) * (x_diff2_11_tmp_d9509_141))),
-                    (((slope_limb_12_col140) * (x_diff2_13_tmp_d9509_143))
-                        + ((slope_limb_13_col141) * (x_diff2_12_tmp_d9509_142))),
-                    ((slope_limb_13_col141) * (x_diff2_13_tmp_d9509_143)),
+                    ((slope_limb_7_col136) * (x_diff2_7_tmp_d9509_137)),
+                    (((slope_limb_7_col136) * (x_diff2_8_tmp_d9509_138))
+                        + ((slope_limb_8_col137) * (x_diff2_7_tmp_d9509_137))),
+                    ((((slope_limb_7_col136) * (x_diff2_9_tmp_d9509_139))
+                        + ((slope_limb_8_col137) * (x_diff2_8_tmp_d9509_138)))
+                        + ((slope_limb_9_col138) * (x_diff2_7_tmp_d9509_137))),
+                    (((((slope_limb_7_col136) * (x_diff2_10_tmp_d9509_140))
+                        + ((slope_limb_8_col137) * (x_diff2_9_tmp_d9509_139)))
+                        + ((slope_limb_9_col138) * (x_diff2_8_tmp_d9509_138)))
+                        + ((slope_limb_10_col139) * (x_diff2_7_tmp_d9509_137))),
+                    ((((((slope_limb_7_col136) * (x_diff2_11_tmp_d9509_141))
+                        + ((slope_limb_8_col137) * (x_diff2_10_tmp_d9509_140)))
+                        + ((slope_limb_9_col138) * (x_diff2_9_tmp_d9509_139)))
+                        + ((slope_limb_10_col139) * (x_diff2_8_tmp_d9509_138)))
+                        + ((slope_limb_11_col140) * (x_diff2_7_tmp_d9509_137))),
+                    (((((((slope_limb_7_col136) * (x_diff2_12_tmp_d9509_142))
+                        + ((slope_limb_8_col137) * (x_diff2_11_tmp_d9509_141)))
+                        + ((slope_limb_9_col138) * (x_diff2_10_tmp_d9509_140)))
+                        + ((slope_limb_10_col139) * (x_diff2_9_tmp_d9509_139)))
+                        + ((slope_limb_11_col140) * (x_diff2_8_tmp_d9509_138)))
+                        + ((slope_limb_12_col141) * (x_diff2_7_tmp_d9509_137))),
+                    ((((((((slope_limb_7_col136) * (x_diff2_13_tmp_d9509_143))
+                        + ((slope_limb_8_col137) * (x_diff2_12_tmp_d9509_142)))
+                        + ((slope_limb_9_col138) * (x_diff2_11_tmp_d9509_141)))
+                        + ((slope_limb_10_col139) * (x_diff2_10_tmp_d9509_140)))
+                        + ((slope_limb_11_col140) * (x_diff2_9_tmp_d9509_139)))
+                        + ((slope_limb_12_col141) * (x_diff2_8_tmp_d9509_138)))
+                        + ((slope_limb_13_col142) * (x_diff2_7_tmp_d9509_137))),
+                    (((((((slope_limb_8_col137) * (x_diff2_13_tmp_d9509_143))
+                        + ((slope_limb_9_col138) * (x_diff2_12_tmp_d9509_142)))
+                        + ((slope_limb_10_col139) * (x_diff2_11_tmp_d9509_141)))
+                        + ((slope_limb_11_col140) * (x_diff2_10_tmp_d9509_140)))
+                        + ((slope_limb_12_col141) * (x_diff2_9_tmp_d9509_139)))
+                        + ((slope_limb_13_col142) * (x_diff2_8_tmp_d9509_138))),
+                    ((((((slope_limb_9_col138) * (x_diff2_13_tmp_d9509_143))
+                        + ((slope_limb_10_col139) * (x_diff2_12_tmp_d9509_142)))
+                        + ((slope_limb_11_col140) * (x_diff2_11_tmp_d9509_141)))
+                        + ((slope_limb_12_col141) * (x_diff2_10_tmp_d9509_140)))
+                        + ((slope_limb_13_col142) * (x_diff2_9_tmp_d9509_139))),
+                    (((((slope_limb_10_col139) * (x_diff2_13_tmp_d9509_143))
+                        + ((slope_limb_11_col140) * (x_diff2_12_tmp_d9509_142)))
+                        + ((slope_limb_12_col141) * (x_diff2_11_tmp_d9509_141)))
+                        + ((slope_limb_13_col142) * (x_diff2_10_tmp_d9509_140))),
+                    ((((slope_limb_11_col140) * (x_diff2_13_tmp_d9509_143))
+                        + ((slope_limb_12_col141) * (x_diff2_12_tmp_d9509_142)))
+                        + ((slope_limb_13_col142) * (x_diff2_11_tmp_d9509_141))),
+                    (((slope_limb_12_col141) * (x_diff2_13_tmp_d9509_143))
+                        + ((slope_limb_13_col142) * (x_diff2_12_tmp_d9509_142))),
+                    ((slope_limb_13_col142) * (x_diff2_13_tmp_d9509_143)),
                 ];
                 let x_sum_tmp_d9509_188 = [
-                    ((slope_limb_0_col128) + (slope_limb_7_col135)),
-                    ((slope_limb_1_col129) + (slope_limb_8_col136)),
-                    ((slope_limb_2_col130) + (slope_limb_9_col137)),
-                    ((slope_limb_3_col131) + (slope_limb_10_col138)),
-                    ((slope_limb_4_col132) + (slope_limb_11_col139)),
-                    ((slope_limb_5_col133) + (slope_limb_12_col140)),
-                    ((slope_limb_6_col134) + (slope_limb_13_col141)),
+                    ((slope_limb_0_col129) + (slope_limb_7_col136)),
+                    ((slope_limb_1_col130) + (slope_limb_8_col137)),
+                    ((slope_limb_2_col131) + (slope_limb_9_col138)),
+                    ((slope_limb_3_col132) + (slope_limb_10_col139)),
+                    ((slope_limb_4_col133) + (slope_limb_11_col140)),
+                    ((slope_limb_5_col134) + (slope_limb_12_col141)),
+                    ((slope_limb_6_col135) + (slope_limb_13_col142)),
                 ];
                 let y_sum_tmp_d9509_189 = [
                     ((x_diff2_0_tmp_d9509_130) + (x_diff2_7_tmp_d9509_137)),
@@ -3938,115 +3941,115 @@ fn write_trace_simd(
                 // Single Karatsuba N 7.
 
                 let z0_tmp_d9509_191 = [
-                    ((slope_limb_14_col142) * (x_diff2_14_tmp_d9509_144)),
-                    (((slope_limb_14_col142) * (x_diff2_15_tmp_d9509_145))
-                        + ((slope_limb_15_col143) * (x_diff2_14_tmp_d9509_144))),
-                    ((((slope_limb_14_col142) * (x_diff2_16_tmp_d9509_146))
-                        + ((slope_limb_15_col143) * (x_diff2_15_tmp_d9509_145)))
-                        + ((slope_limb_16_col144) * (x_diff2_14_tmp_d9509_144))),
-                    (((((slope_limb_14_col142) * (x_diff2_17_tmp_d9509_147))
-                        + ((slope_limb_15_col143) * (x_diff2_16_tmp_d9509_146)))
-                        + ((slope_limb_16_col144) * (x_diff2_15_tmp_d9509_145)))
-                        + ((slope_limb_17_col145) * (x_diff2_14_tmp_d9509_144))),
-                    ((((((slope_limb_14_col142) * (x_diff2_18_tmp_d9509_148))
-                        + ((slope_limb_15_col143) * (x_diff2_17_tmp_d9509_147)))
-                        + ((slope_limb_16_col144) * (x_diff2_16_tmp_d9509_146)))
-                        + ((slope_limb_17_col145) * (x_diff2_15_tmp_d9509_145)))
-                        + ((slope_limb_18_col146) * (x_diff2_14_tmp_d9509_144))),
-                    (((((((slope_limb_14_col142) * (x_diff2_19_tmp_d9509_149))
-                        + ((slope_limb_15_col143) * (x_diff2_18_tmp_d9509_148)))
-                        + ((slope_limb_16_col144) * (x_diff2_17_tmp_d9509_147)))
-                        + ((slope_limb_17_col145) * (x_diff2_16_tmp_d9509_146)))
-                        + ((slope_limb_18_col146) * (x_diff2_15_tmp_d9509_145)))
-                        + ((slope_limb_19_col147) * (x_diff2_14_tmp_d9509_144))),
-                    ((((((((slope_limb_14_col142) * (x_diff2_20_tmp_d9509_150))
-                        + ((slope_limb_15_col143) * (x_diff2_19_tmp_d9509_149)))
-                        + ((slope_limb_16_col144) * (x_diff2_18_tmp_d9509_148)))
-                        + ((slope_limb_17_col145) * (x_diff2_17_tmp_d9509_147)))
-                        + ((slope_limb_18_col146) * (x_diff2_16_tmp_d9509_146)))
-                        + ((slope_limb_19_col147) * (x_diff2_15_tmp_d9509_145)))
-                        + ((slope_limb_20_col148) * (x_diff2_14_tmp_d9509_144))),
-                    (((((((slope_limb_15_col143) * (x_diff2_20_tmp_d9509_150))
-                        + ((slope_limb_16_col144) * (x_diff2_19_tmp_d9509_149)))
-                        + ((slope_limb_17_col145) * (x_diff2_18_tmp_d9509_148)))
-                        + ((slope_limb_18_col146) * (x_diff2_17_tmp_d9509_147)))
-                        + ((slope_limb_19_col147) * (x_diff2_16_tmp_d9509_146)))
-                        + ((slope_limb_20_col148) * (x_diff2_15_tmp_d9509_145))),
-                    ((((((slope_limb_16_col144) * (x_diff2_20_tmp_d9509_150))
-                        + ((slope_limb_17_col145) * (x_diff2_19_tmp_d9509_149)))
-                        + ((slope_limb_18_col146) * (x_diff2_18_tmp_d9509_148)))
-                        + ((slope_limb_19_col147) * (x_diff2_17_tmp_d9509_147)))
-                        + ((slope_limb_20_col148) * (x_diff2_16_tmp_d9509_146))),
-                    (((((slope_limb_17_col145) * (x_diff2_20_tmp_d9509_150))
-                        + ((slope_limb_18_col146) * (x_diff2_19_tmp_d9509_149)))
-                        + ((slope_limb_19_col147) * (x_diff2_18_tmp_d9509_148)))
-                        + ((slope_limb_20_col148) * (x_diff2_17_tmp_d9509_147))),
-                    ((((slope_limb_18_col146) * (x_diff2_20_tmp_d9509_150))
-                        + ((slope_limb_19_col147) * (x_diff2_19_tmp_d9509_149)))
-                        + ((slope_limb_20_col148) * (x_diff2_18_tmp_d9509_148))),
-                    (((slope_limb_19_col147) * (x_diff2_20_tmp_d9509_150))
-                        + ((slope_limb_20_col148) * (x_diff2_19_tmp_d9509_149))),
-                    ((slope_limb_20_col148) * (x_diff2_20_tmp_d9509_150)),
+                    ((slope_limb_14_col143) * (x_diff2_14_tmp_d9509_144)),
+                    (((slope_limb_14_col143) * (x_diff2_15_tmp_d9509_145))
+                        + ((slope_limb_15_col144) * (x_diff2_14_tmp_d9509_144))),
+                    ((((slope_limb_14_col143) * (x_diff2_16_tmp_d9509_146))
+                        + ((slope_limb_15_col144) * (x_diff2_15_tmp_d9509_145)))
+                        + ((slope_limb_16_col145) * (x_diff2_14_tmp_d9509_144))),
+                    (((((slope_limb_14_col143) * (x_diff2_17_tmp_d9509_147))
+                        + ((slope_limb_15_col144) * (x_diff2_16_tmp_d9509_146)))
+                        + ((slope_limb_16_col145) * (x_diff2_15_tmp_d9509_145)))
+                        + ((slope_limb_17_col146) * (x_diff2_14_tmp_d9509_144))),
+                    ((((((slope_limb_14_col143) * (x_diff2_18_tmp_d9509_148))
+                        + ((slope_limb_15_col144) * (x_diff2_17_tmp_d9509_147)))
+                        + ((slope_limb_16_col145) * (x_diff2_16_tmp_d9509_146)))
+                        + ((slope_limb_17_col146) * (x_diff2_15_tmp_d9509_145)))
+                        + ((slope_limb_18_col147) * (x_diff2_14_tmp_d9509_144))),
+                    (((((((slope_limb_14_col143) * (x_diff2_19_tmp_d9509_149))
+                        + ((slope_limb_15_col144) * (x_diff2_18_tmp_d9509_148)))
+                        + ((slope_limb_16_col145) * (x_diff2_17_tmp_d9509_147)))
+                        + ((slope_limb_17_col146) * (x_diff2_16_tmp_d9509_146)))
+                        + ((slope_limb_18_col147) * (x_diff2_15_tmp_d9509_145)))
+                        + ((slope_limb_19_col148) * (x_diff2_14_tmp_d9509_144))),
+                    ((((((((slope_limb_14_col143) * (x_diff2_20_tmp_d9509_150))
+                        + ((slope_limb_15_col144) * (x_diff2_19_tmp_d9509_149)))
+                        + ((slope_limb_16_col145) * (x_diff2_18_tmp_d9509_148)))
+                        + ((slope_limb_17_col146) * (x_diff2_17_tmp_d9509_147)))
+                        + ((slope_limb_18_col147) * (x_diff2_16_tmp_d9509_146)))
+                        + ((slope_limb_19_col148) * (x_diff2_15_tmp_d9509_145)))
+                        + ((slope_limb_20_col149) * (x_diff2_14_tmp_d9509_144))),
+                    (((((((slope_limb_15_col144) * (x_diff2_20_tmp_d9509_150))
+                        + ((slope_limb_16_col145) * (x_diff2_19_tmp_d9509_149)))
+                        + ((slope_limb_17_col146) * (x_diff2_18_tmp_d9509_148)))
+                        + ((slope_limb_18_col147) * (x_diff2_17_tmp_d9509_147)))
+                        + ((slope_limb_19_col148) * (x_diff2_16_tmp_d9509_146)))
+                        + ((slope_limb_20_col149) * (x_diff2_15_tmp_d9509_145))),
+                    ((((((slope_limb_16_col145) * (x_diff2_20_tmp_d9509_150))
+                        + ((slope_limb_17_col146) * (x_diff2_19_tmp_d9509_149)))
+                        + ((slope_limb_18_col147) * (x_diff2_18_tmp_d9509_148)))
+                        + ((slope_limb_19_col148) * (x_diff2_17_tmp_d9509_147)))
+                        + ((slope_limb_20_col149) * (x_diff2_16_tmp_d9509_146))),
+                    (((((slope_limb_17_col146) * (x_diff2_20_tmp_d9509_150))
+                        + ((slope_limb_18_col147) * (x_diff2_19_tmp_d9509_149)))
+                        + ((slope_limb_19_col148) * (x_diff2_18_tmp_d9509_148)))
+                        + ((slope_limb_20_col149) * (x_diff2_17_tmp_d9509_147))),
+                    ((((slope_limb_18_col147) * (x_diff2_20_tmp_d9509_150))
+                        + ((slope_limb_19_col148) * (x_diff2_19_tmp_d9509_149)))
+                        + ((slope_limb_20_col149) * (x_diff2_18_tmp_d9509_148))),
+                    (((slope_limb_19_col148) * (x_diff2_20_tmp_d9509_150))
+                        + ((slope_limb_20_col149) * (x_diff2_19_tmp_d9509_149))),
+                    ((slope_limb_20_col149) * (x_diff2_20_tmp_d9509_150)),
                 ];
                 let z2_tmp_d9509_192 = [
-                    ((slope_limb_21_col149) * (x_diff2_21_tmp_d9509_151)),
-                    (((slope_limb_21_col149) * (x_diff2_22_tmp_d9509_152))
-                        + ((slope_limb_22_col150) * (x_diff2_21_tmp_d9509_151))),
-                    ((((slope_limb_21_col149) * (x_diff2_23_tmp_d9509_153))
-                        + ((slope_limb_22_col150) * (x_diff2_22_tmp_d9509_152)))
-                        + ((slope_limb_23_col151) * (x_diff2_21_tmp_d9509_151))),
-                    (((((slope_limb_21_col149) * (x_diff2_24_tmp_d9509_154))
-                        + ((slope_limb_22_col150) * (x_diff2_23_tmp_d9509_153)))
-                        + ((slope_limb_23_col151) * (x_diff2_22_tmp_d9509_152)))
-                        + ((slope_limb_24_col152) * (x_diff2_21_tmp_d9509_151))),
-                    ((((((slope_limb_21_col149) * (x_diff2_25_tmp_d9509_155))
-                        + ((slope_limb_22_col150) * (x_diff2_24_tmp_d9509_154)))
-                        + ((slope_limb_23_col151) * (x_diff2_23_tmp_d9509_153)))
-                        + ((slope_limb_24_col152) * (x_diff2_22_tmp_d9509_152)))
-                        + ((slope_limb_25_col153) * (x_diff2_21_tmp_d9509_151))),
-                    (((((((slope_limb_21_col149) * (x_diff2_26_tmp_d9509_156))
-                        + ((slope_limb_22_col150) * (x_diff2_25_tmp_d9509_155)))
-                        + ((slope_limb_23_col151) * (x_diff2_24_tmp_d9509_154)))
-                        + ((slope_limb_24_col152) * (x_diff2_23_tmp_d9509_153)))
-                        + ((slope_limb_25_col153) * (x_diff2_22_tmp_d9509_152)))
-                        + ((slope_limb_26_col154) * (x_diff2_21_tmp_d9509_151))),
-                    ((((((((slope_limb_21_col149) * (x_diff2_27_tmp_d9509_157))
-                        + ((slope_limb_22_col150) * (x_diff2_26_tmp_d9509_156)))
-                        + ((slope_limb_23_col151) * (x_diff2_25_tmp_d9509_155)))
-                        + ((slope_limb_24_col152) * (x_diff2_24_tmp_d9509_154)))
-                        + ((slope_limb_25_col153) * (x_diff2_23_tmp_d9509_153)))
-                        + ((slope_limb_26_col154) * (x_diff2_22_tmp_d9509_152)))
-                        + ((slope_limb_27_col155) * (x_diff2_21_tmp_d9509_151))),
-                    (((((((slope_limb_22_col150) * (x_diff2_27_tmp_d9509_157))
-                        + ((slope_limb_23_col151) * (x_diff2_26_tmp_d9509_156)))
-                        + ((slope_limb_24_col152) * (x_diff2_25_tmp_d9509_155)))
-                        + ((slope_limb_25_col153) * (x_diff2_24_tmp_d9509_154)))
-                        + ((slope_limb_26_col154) * (x_diff2_23_tmp_d9509_153)))
-                        + ((slope_limb_27_col155) * (x_diff2_22_tmp_d9509_152))),
-                    ((((((slope_limb_23_col151) * (x_diff2_27_tmp_d9509_157))
-                        + ((slope_limb_24_col152) * (x_diff2_26_tmp_d9509_156)))
-                        + ((slope_limb_25_col153) * (x_diff2_25_tmp_d9509_155)))
-                        + ((slope_limb_26_col154) * (x_diff2_24_tmp_d9509_154)))
-                        + ((slope_limb_27_col155) * (x_diff2_23_tmp_d9509_153))),
-                    (((((slope_limb_24_col152) * (x_diff2_27_tmp_d9509_157))
-                        + ((slope_limb_25_col153) * (x_diff2_26_tmp_d9509_156)))
-                        + ((slope_limb_26_col154) * (x_diff2_25_tmp_d9509_155)))
-                        + ((slope_limb_27_col155) * (x_diff2_24_tmp_d9509_154))),
-                    ((((slope_limb_25_col153) * (x_diff2_27_tmp_d9509_157))
-                        + ((slope_limb_26_col154) * (x_diff2_26_tmp_d9509_156)))
-                        + ((slope_limb_27_col155) * (x_diff2_25_tmp_d9509_155))),
-                    (((slope_limb_26_col154) * (x_diff2_27_tmp_d9509_157))
-                        + ((slope_limb_27_col155) * (x_diff2_26_tmp_d9509_156))),
-                    ((slope_limb_27_col155) * (x_diff2_27_tmp_d9509_157)),
+                    ((slope_limb_21_col150) * (x_diff2_21_tmp_d9509_151)),
+                    (((slope_limb_21_col150) * (x_diff2_22_tmp_d9509_152))
+                        + ((slope_limb_22_col151) * (x_diff2_21_tmp_d9509_151))),
+                    ((((slope_limb_21_col150) * (x_diff2_23_tmp_d9509_153))
+                        + ((slope_limb_22_col151) * (x_diff2_22_tmp_d9509_152)))
+                        + ((slope_limb_23_col152) * (x_diff2_21_tmp_d9509_151))),
+                    (((((slope_limb_21_col150) * (x_diff2_24_tmp_d9509_154))
+                        + ((slope_limb_22_col151) * (x_diff2_23_tmp_d9509_153)))
+                        + ((slope_limb_23_col152) * (x_diff2_22_tmp_d9509_152)))
+                        + ((slope_limb_24_col153) * (x_diff2_21_tmp_d9509_151))),
+                    ((((((slope_limb_21_col150) * (x_diff2_25_tmp_d9509_155))
+                        + ((slope_limb_22_col151) * (x_diff2_24_tmp_d9509_154)))
+                        + ((slope_limb_23_col152) * (x_diff2_23_tmp_d9509_153)))
+                        + ((slope_limb_24_col153) * (x_diff2_22_tmp_d9509_152)))
+                        + ((slope_limb_25_col154) * (x_diff2_21_tmp_d9509_151))),
+                    (((((((slope_limb_21_col150) * (x_diff2_26_tmp_d9509_156))
+                        + ((slope_limb_22_col151) * (x_diff2_25_tmp_d9509_155)))
+                        + ((slope_limb_23_col152) * (x_diff2_24_tmp_d9509_154)))
+                        + ((slope_limb_24_col153) * (x_diff2_23_tmp_d9509_153)))
+                        + ((slope_limb_25_col154) * (x_diff2_22_tmp_d9509_152)))
+                        + ((slope_limb_26_col155) * (x_diff2_21_tmp_d9509_151))),
+                    ((((((((slope_limb_21_col150) * (x_diff2_27_tmp_d9509_157))
+                        + ((slope_limb_22_col151) * (x_diff2_26_tmp_d9509_156)))
+                        + ((slope_limb_23_col152) * (x_diff2_25_tmp_d9509_155)))
+                        + ((slope_limb_24_col153) * (x_diff2_24_tmp_d9509_154)))
+                        + ((slope_limb_25_col154) * (x_diff2_23_tmp_d9509_153)))
+                        + ((slope_limb_26_col155) * (x_diff2_22_tmp_d9509_152)))
+                        + ((slope_limb_27_col156) * (x_diff2_21_tmp_d9509_151))),
+                    (((((((slope_limb_22_col151) * (x_diff2_27_tmp_d9509_157))
+                        + ((slope_limb_23_col152) * (x_diff2_26_tmp_d9509_156)))
+                        + ((slope_limb_24_col153) * (x_diff2_25_tmp_d9509_155)))
+                        + ((slope_limb_25_col154) * (x_diff2_24_tmp_d9509_154)))
+                        + ((slope_limb_26_col155) * (x_diff2_23_tmp_d9509_153)))
+                        + ((slope_limb_27_col156) * (x_diff2_22_tmp_d9509_152))),
+                    ((((((slope_limb_23_col152) * (x_diff2_27_tmp_d9509_157))
+                        + ((slope_limb_24_col153) * (x_diff2_26_tmp_d9509_156)))
+                        + ((slope_limb_25_col154) * (x_diff2_25_tmp_d9509_155)))
+                        + ((slope_limb_26_col155) * (x_diff2_24_tmp_d9509_154)))
+                        + ((slope_limb_27_col156) * (x_diff2_23_tmp_d9509_153))),
+                    (((((slope_limb_24_col153) * (x_diff2_27_tmp_d9509_157))
+                        + ((slope_limb_25_col154) * (x_diff2_26_tmp_d9509_156)))
+                        + ((slope_limb_26_col155) * (x_diff2_25_tmp_d9509_155)))
+                        + ((slope_limb_27_col156) * (x_diff2_24_tmp_d9509_154))),
+                    ((((slope_limb_25_col154) * (x_diff2_27_tmp_d9509_157))
+                        + ((slope_limb_26_col155) * (x_diff2_26_tmp_d9509_156)))
+                        + ((slope_limb_27_col156) * (x_diff2_25_tmp_d9509_155))),
+                    (((slope_limb_26_col155) * (x_diff2_27_tmp_d9509_157))
+                        + ((slope_limb_27_col156) * (x_diff2_26_tmp_d9509_156))),
+                    ((slope_limb_27_col156) * (x_diff2_27_tmp_d9509_157)),
                 ];
                 let x_sum_tmp_d9509_193 = [
-                    ((slope_limb_14_col142) + (slope_limb_21_col149)),
-                    ((slope_limb_15_col143) + (slope_limb_22_col150)),
-                    ((slope_limb_16_col144) + (slope_limb_23_col151)),
-                    ((slope_limb_17_col145) + (slope_limb_24_col152)),
-                    ((slope_limb_18_col146) + (slope_limb_25_col153)),
-                    ((slope_limb_19_col147) + (slope_limb_26_col154)),
-                    ((slope_limb_20_col148) + (slope_limb_27_col155)),
+                    ((slope_limb_14_col143) + (slope_limb_21_col150)),
+                    ((slope_limb_15_col144) + (slope_limb_22_col151)),
+                    ((slope_limb_16_col145) + (slope_limb_23_col152)),
+                    ((slope_limb_17_col146) + (slope_limb_24_col153)),
+                    ((slope_limb_18_col147) + (slope_limb_25_col154)),
+                    ((slope_limb_19_col148) + (slope_limb_26_col155)),
+                    ((slope_limb_20_col149) + (slope_limb_27_col156)),
                 ];
                 let y_sum_tmp_d9509_194 = [
                     ((x_diff2_14_tmp_d9509_144) + (x_diff2_21_tmp_d9509_151)),
@@ -4162,20 +4165,20 @@ fn write_trace_simd(
                 ];
 
                 let x_sum_tmp_d9509_196 = [
-                    ((slope_limb_0_col128) + (slope_limb_14_col142)),
-                    ((slope_limb_1_col129) + (slope_limb_15_col143)),
-                    ((slope_limb_2_col130) + (slope_limb_16_col144)),
-                    ((slope_limb_3_col131) + (slope_limb_17_col145)),
-                    ((slope_limb_4_col132) + (slope_limb_18_col146)),
-                    ((slope_limb_5_col133) + (slope_limb_19_col147)),
-                    ((slope_limb_6_col134) + (slope_limb_20_col148)),
-                    ((slope_limb_7_col135) + (slope_limb_21_col149)),
-                    ((slope_limb_8_col136) + (slope_limb_22_col150)),
-                    ((slope_limb_9_col137) + (slope_limb_23_col151)),
-                    ((slope_limb_10_col138) + (slope_limb_24_col152)),
-                    ((slope_limb_11_col139) + (slope_limb_25_col153)),
-                    ((slope_limb_12_col140) + (slope_limb_26_col154)),
-                    ((slope_limb_13_col141) + (slope_limb_27_col155)),
+                    ((slope_limb_0_col129) + (slope_limb_14_col143)),
+                    ((slope_limb_1_col130) + (slope_limb_15_col144)),
+                    ((slope_limb_2_col131) + (slope_limb_16_col145)),
+                    ((slope_limb_3_col132) + (slope_limb_17_col146)),
+                    ((slope_limb_4_col133) + (slope_limb_18_col147)),
+                    ((slope_limb_5_col134) + (slope_limb_19_col148)),
+                    ((slope_limb_6_col135) + (slope_limb_20_col149)),
+                    ((slope_limb_7_col136) + (slope_limb_21_col150)),
+                    ((slope_limb_8_col137) + (slope_limb_22_col151)),
+                    ((slope_limb_9_col138) + (slope_limb_23_col152)),
+                    ((slope_limb_10_col139) + (slope_limb_24_col153)),
+                    ((slope_limb_11_col140) + (slope_limb_25_col154)),
+                    ((slope_limb_12_col141) + (slope_limb_26_col155)),
+                    ((slope_limb_13_col142) + (slope_limb_27_col156)),
                 ];
                 let y_sum_tmp_d9509_197 = [
                     ((x_diff2_0_tmp_d9509_130) + (x_diff2_14_tmp_d9509_144)),
@@ -4711,331 +4714,328 @@ fn write_trace_simd(
                             << (UInt32_9)))
                         + (UInt32_131072))
                         & (UInt32_262143));
-                let k_col268 = ((k_mod_2_18_biased_tmp_d9509_206.low().as_m31())
+                let k_col269 = ((k_mod_2_18_biased_tmp_d9509_206.low().as_m31())
                     + (((k_mod_2_18_biased_tmp_d9509_206.high().as_m31()) - (M31_2))
                         * (M31_65536)));
-                *row[268] = k_col268;
-                *sub_component_inputs.range_check_20[8] = [((k_col268) + (M31_524288))];
-                *lookup_data.range_check_20_99 = [M31_1410849886, ((k_col268) + (M31_524288))];
-                let carry_0_col269 = (((conv_mod_tmp_d9509_205[0]) - (k_col268)) * (M31_4194304));
-                *row[269] = carry_0_col269;
-                *sub_component_inputs.range_check_20_b[8] = [((carry_0_col269) + (M31_524288))];
+                *row[269] = k_col269;
+                *sub_component_inputs.range_check_20[8] = [((k_col269) + (M31_524288))];
+                *lookup_data.range_check_20_99 = [M31_1410849886, ((k_col269) + (M31_524288))];
+                let carry_0_col270 = (((conv_mod_tmp_d9509_205[0]) - (k_col269)) * (M31_4194304));
+                *row[270] = carry_0_col270;
+                *sub_component_inputs.range_check_20_b[8] = [((carry_0_col270) + (M31_524288))];
                 *lookup_data.range_check_20_b_100 =
-                    [M31_514232941, ((carry_0_col269) + (M31_524288))];
-                let carry_1_col270 =
-                    (((conv_mod_tmp_d9509_205[1]) + (carry_0_col269)) * (M31_4194304));
-                *row[270] = carry_1_col270;
-                *sub_component_inputs.range_check_20_c[8] = [((carry_1_col270) + (M31_524288))];
+                    [M31_514232941, ((carry_0_col270) + (M31_524288))];
+                let carry_1_col271 =
+                    (((conv_mod_tmp_d9509_205[1]) + (carry_0_col270)) * (M31_4194304));
+                *row[271] = carry_1_col271;
+                *sub_component_inputs.range_check_20_c[8] = [((carry_1_col271) + (M31_524288))];
                 *lookup_data.range_check_20_c_101 =
-                    [M31_531010560, ((carry_1_col270) + (M31_524288))];
-                let carry_2_col271 =
-                    (((conv_mod_tmp_d9509_205[2]) + (carry_1_col270)) * (M31_4194304));
-                *row[271] = carry_2_col271;
-                *sub_component_inputs.range_check_20_d[8] = [((carry_2_col271) + (M31_524288))];
+                    [M31_531010560, ((carry_1_col271) + (M31_524288))];
+                let carry_2_col272 =
+                    (((conv_mod_tmp_d9509_205[2]) + (carry_1_col271)) * (M31_4194304));
+                *row[272] = carry_2_col272;
+                *sub_component_inputs.range_check_20_d[8] = [((carry_2_col272) + (M31_524288))];
                 *lookup_data.range_check_20_d_102 =
-                    [M31_480677703, ((carry_2_col271) + (M31_524288))];
-                let carry_3_col272 =
-                    (((conv_mod_tmp_d9509_205[3]) + (carry_2_col271)) * (M31_4194304));
-                *row[272] = carry_3_col272;
-                *sub_component_inputs.range_check_20_e[6] = [((carry_3_col272) + (M31_524288))];
+                    [M31_480677703, ((carry_2_col272) + (M31_524288))];
+                let carry_3_col273 =
+                    (((conv_mod_tmp_d9509_205[3]) + (carry_2_col272)) * (M31_4194304));
+                *row[273] = carry_3_col273;
+                *sub_component_inputs.range_check_20_e[6] = [((carry_3_col273) + (M31_524288))];
                 *lookup_data.range_check_20_e_103 =
-                    [M31_497455322, ((carry_3_col272) + (M31_524288))];
-                let carry_4_col273 =
-                    (((conv_mod_tmp_d9509_205[4]) + (carry_3_col272)) * (M31_4194304));
-                *row[273] = carry_4_col273;
-                *sub_component_inputs.range_check_20_f[6] = [((carry_4_col273) + (M31_524288))];
+                    [M31_497455322, ((carry_3_col273) + (M31_524288))];
+                let carry_4_col274 =
+                    (((conv_mod_tmp_d9509_205[4]) + (carry_3_col273)) * (M31_4194304));
+                *row[274] = carry_4_col274;
+                *sub_component_inputs.range_check_20_f[6] = [((carry_4_col274) + (M31_524288))];
                 *lookup_data.range_check_20_f_104 =
-                    [M31_447122465, ((carry_4_col273) + (M31_524288))];
-                let carry_5_col274 =
-                    (((conv_mod_tmp_d9509_205[5]) + (carry_4_col273)) * (M31_4194304));
-                *row[274] = carry_5_col274;
-                *sub_component_inputs.range_check_20_g[6] = [((carry_5_col274) + (M31_524288))];
+                    [M31_447122465, ((carry_4_col274) + (M31_524288))];
+                let carry_5_col275 =
+                    (((conv_mod_tmp_d9509_205[5]) + (carry_4_col274)) * (M31_4194304));
+                *row[275] = carry_5_col275;
+                *sub_component_inputs.range_check_20_g[6] = [((carry_5_col275) + (M31_524288))];
                 *lookup_data.range_check_20_g_105 =
-                    [M31_463900084, ((carry_5_col274) + (M31_524288))];
-                let carry_6_col275 =
-                    (((conv_mod_tmp_d9509_205[6]) + (carry_5_col274)) * (M31_4194304));
-                *row[275] = carry_6_col275;
-                *sub_component_inputs.range_check_20_h[6] = [((carry_6_col275) + (M31_524288))];
+                    [M31_463900084, ((carry_5_col275) + (M31_524288))];
+                let carry_6_col276 =
+                    (((conv_mod_tmp_d9509_205[6]) + (carry_5_col275)) * (M31_4194304));
+                *row[276] = carry_6_col276;
+                *sub_component_inputs.range_check_20_h[6] = [((carry_6_col276) + (M31_524288))];
                 *lookup_data.range_check_20_h_106 =
-                    [M31_682009131, ((carry_6_col275) + (M31_524288))];
-                let carry_7_col276 =
-                    (((conv_mod_tmp_d9509_205[7]) + (carry_6_col275)) * (M31_4194304));
-                *row[276] = carry_7_col276;
-                *sub_component_inputs.range_check_20[9] = [((carry_7_col276) + (M31_524288))];
+                    [M31_682009131, ((carry_6_col276) + (M31_524288))];
+                let carry_7_col277 =
+                    (((conv_mod_tmp_d9509_205[7]) + (carry_6_col276)) * (M31_4194304));
+                *row[277] = carry_7_col277;
+                *sub_component_inputs.range_check_20[9] = [((carry_7_col277) + (M31_524288))];
                 *lookup_data.range_check_20_107 =
-                    [M31_1410849886, ((carry_7_col276) + (M31_524288))];
-                let carry_8_col277 =
-                    (((conv_mod_tmp_d9509_205[8]) + (carry_7_col276)) * (M31_4194304));
-                *row[277] = carry_8_col277;
-                *sub_component_inputs.range_check_20_b[9] = [((carry_8_col277) + (M31_524288))];
+                    [M31_1410849886, ((carry_7_col277) + (M31_524288))];
+                let carry_8_col278 =
+                    (((conv_mod_tmp_d9509_205[8]) + (carry_7_col277)) * (M31_4194304));
+                *row[278] = carry_8_col278;
+                *sub_component_inputs.range_check_20_b[9] = [((carry_8_col278) + (M31_524288))];
                 *lookup_data.range_check_20_b_108 =
-                    [M31_514232941, ((carry_8_col277) + (M31_524288))];
-                let carry_9_col278 =
-                    (((conv_mod_tmp_d9509_205[9]) + (carry_8_col277)) * (M31_4194304));
-                *row[278] = carry_9_col278;
-                *sub_component_inputs.range_check_20_c[9] = [((carry_9_col278) + (M31_524288))];
+                    [M31_514232941, ((carry_8_col278) + (M31_524288))];
+                let carry_9_col279 =
+                    (((conv_mod_tmp_d9509_205[9]) + (carry_8_col278)) * (M31_4194304));
+                *row[279] = carry_9_col279;
+                *sub_component_inputs.range_check_20_c[9] = [((carry_9_col279) + (M31_524288))];
                 *lookup_data.range_check_20_c_109 =
-                    [M31_531010560, ((carry_9_col278) + (M31_524288))];
-                let carry_10_col279 =
-                    (((conv_mod_tmp_d9509_205[10]) + (carry_9_col278)) * (M31_4194304));
-                *row[279] = carry_10_col279;
-                *sub_component_inputs.range_check_20_d[9] = [((carry_10_col279) + (M31_524288))];
+                    [M31_531010560, ((carry_9_col279) + (M31_524288))];
+                let carry_10_col280 =
+                    (((conv_mod_tmp_d9509_205[10]) + (carry_9_col279)) * (M31_4194304));
+                *row[280] = carry_10_col280;
+                *sub_component_inputs.range_check_20_d[9] = [((carry_10_col280) + (M31_524288))];
                 *lookup_data.range_check_20_d_110 =
-                    [M31_480677703, ((carry_10_col279) + (M31_524288))];
-                let carry_11_col280 =
-                    (((conv_mod_tmp_d9509_205[11]) + (carry_10_col279)) * (M31_4194304));
-                *row[280] = carry_11_col280;
-                *sub_component_inputs.range_check_20_e[7] = [((carry_11_col280) + (M31_524288))];
+                    [M31_480677703, ((carry_10_col280) + (M31_524288))];
+                let carry_11_col281 =
+                    (((conv_mod_tmp_d9509_205[11]) + (carry_10_col280)) * (M31_4194304));
+                *row[281] = carry_11_col281;
+                *sub_component_inputs.range_check_20_e[7] = [((carry_11_col281) + (M31_524288))];
                 *lookup_data.range_check_20_e_111 =
-                    [M31_497455322, ((carry_11_col280) + (M31_524288))];
-                let carry_12_col281 =
-                    (((conv_mod_tmp_d9509_205[12]) + (carry_11_col280)) * (M31_4194304));
-                *row[281] = carry_12_col281;
-                *sub_component_inputs.range_check_20_f[7] = [((carry_12_col281) + (M31_524288))];
+                    [M31_497455322, ((carry_11_col281) + (M31_524288))];
+                let carry_12_col282 =
+                    (((conv_mod_tmp_d9509_205[12]) + (carry_11_col281)) * (M31_4194304));
+                *row[282] = carry_12_col282;
+                *sub_component_inputs.range_check_20_f[7] = [((carry_12_col282) + (M31_524288))];
                 *lookup_data.range_check_20_f_112 =
-                    [M31_447122465, ((carry_12_col281) + (M31_524288))];
-                let carry_13_col282 =
-                    (((conv_mod_tmp_d9509_205[13]) + (carry_12_col281)) * (M31_4194304));
-                *row[282] = carry_13_col282;
-                *sub_component_inputs.range_check_20_g[7] = [((carry_13_col282) + (M31_524288))];
+                    [M31_447122465, ((carry_12_col282) + (M31_524288))];
+                let carry_13_col283 =
+                    (((conv_mod_tmp_d9509_205[13]) + (carry_12_col282)) * (M31_4194304));
+                *row[283] = carry_13_col283;
+                *sub_component_inputs.range_check_20_g[7] = [((carry_13_col283) + (M31_524288))];
                 *lookup_data.range_check_20_g_113 =
-                    [M31_463900084, ((carry_13_col282) + (M31_524288))];
-                let carry_14_col283 =
-                    (((conv_mod_tmp_d9509_205[14]) + (carry_13_col282)) * (M31_4194304));
-                *row[283] = carry_14_col283;
-                *sub_component_inputs.range_check_20_h[7] = [((carry_14_col283) + (M31_524288))];
+                    [M31_463900084, ((carry_13_col283) + (M31_524288))];
+                let carry_14_col284 =
+                    (((conv_mod_tmp_d9509_205[14]) + (carry_13_col283)) * (M31_4194304));
+                *row[284] = carry_14_col284;
+                *sub_component_inputs.range_check_20_h[7] = [((carry_14_col284) + (M31_524288))];
                 *lookup_data.range_check_20_h_114 =
-                    [M31_682009131, ((carry_14_col283) + (M31_524288))];
-                let carry_15_col284 =
-                    (((conv_mod_tmp_d9509_205[15]) + (carry_14_col283)) * (M31_4194304));
-                *row[284] = carry_15_col284;
-                *sub_component_inputs.range_check_20[10] = [((carry_15_col284) + (M31_524288))];
+                    [M31_682009131, ((carry_14_col284) + (M31_524288))];
+                let carry_15_col285 =
+                    (((conv_mod_tmp_d9509_205[15]) + (carry_14_col284)) * (M31_4194304));
+                *row[285] = carry_15_col285;
+                *sub_component_inputs.range_check_20[10] = [((carry_15_col285) + (M31_524288))];
                 *lookup_data.range_check_20_115 =
-                    [M31_1410849886, ((carry_15_col284) + (M31_524288))];
-                let carry_16_col285 =
-                    (((conv_mod_tmp_d9509_205[16]) + (carry_15_col284)) * (M31_4194304));
-                *row[285] = carry_16_col285;
-                *sub_component_inputs.range_check_20_b[10] = [((carry_16_col285) + (M31_524288))];
+                    [M31_1410849886, ((carry_15_col285) + (M31_524288))];
+                let carry_16_col286 =
+                    (((conv_mod_tmp_d9509_205[16]) + (carry_15_col285)) * (M31_4194304));
+                *row[286] = carry_16_col286;
+                *sub_component_inputs.range_check_20_b[10] = [((carry_16_col286) + (M31_524288))];
                 *lookup_data.range_check_20_b_116 =
-                    [M31_514232941, ((carry_16_col285) + (M31_524288))];
-                let carry_17_col286 =
-                    (((conv_mod_tmp_d9509_205[17]) + (carry_16_col285)) * (M31_4194304));
-                *row[286] = carry_17_col286;
-                *sub_component_inputs.range_check_20_c[10] = [((carry_17_col286) + (M31_524288))];
+                    [M31_514232941, ((carry_16_col286) + (M31_524288))];
+                let carry_17_col287 =
+                    (((conv_mod_tmp_d9509_205[17]) + (carry_16_col286)) * (M31_4194304));
+                *row[287] = carry_17_col287;
+                *sub_component_inputs.range_check_20_c[10] = [((carry_17_col287) + (M31_524288))];
                 *lookup_data.range_check_20_c_117 =
-                    [M31_531010560, ((carry_17_col286) + (M31_524288))];
-                let carry_18_col287 =
-                    (((conv_mod_tmp_d9509_205[18]) + (carry_17_col286)) * (M31_4194304));
-                *row[287] = carry_18_col287;
-                *sub_component_inputs.range_check_20_d[10] = [((carry_18_col287) + (M31_524288))];
+                    [M31_531010560, ((carry_17_col287) + (M31_524288))];
+                let carry_18_col288 =
+                    (((conv_mod_tmp_d9509_205[18]) + (carry_17_col287)) * (M31_4194304));
+                *row[288] = carry_18_col288;
+                *sub_component_inputs.range_check_20_d[10] = [((carry_18_col288) + (M31_524288))];
                 *lookup_data.range_check_20_d_118 =
-                    [M31_480677703, ((carry_18_col287) + (M31_524288))];
-                let carry_19_col288 =
-                    (((conv_mod_tmp_d9509_205[19]) + (carry_18_col287)) * (M31_4194304));
-                *row[288] = carry_19_col288;
-                *sub_component_inputs.range_check_20_e[8] = [((carry_19_col288) + (M31_524288))];
+                    [M31_480677703, ((carry_18_col288) + (M31_524288))];
+                let carry_19_col289 =
+                    (((conv_mod_tmp_d9509_205[19]) + (carry_18_col288)) * (M31_4194304));
+                *row[289] = carry_19_col289;
+                *sub_component_inputs.range_check_20_e[8] = [((carry_19_col289) + (M31_524288))];
                 *lookup_data.range_check_20_e_119 =
-                    [M31_497455322, ((carry_19_col288) + (M31_524288))];
-                let carry_20_col289 =
-                    (((conv_mod_tmp_d9509_205[20]) + (carry_19_col288)) * (M31_4194304));
-                *row[289] = carry_20_col289;
-                *sub_component_inputs.range_check_20_f[8] = [((carry_20_col289) + (M31_524288))];
+                    [M31_497455322, ((carry_19_col289) + (M31_524288))];
+                let carry_20_col290 =
+                    (((conv_mod_tmp_d9509_205[20]) + (carry_19_col289)) * (M31_4194304));
+                *row[290] = carry_20_col290;
+                *sub_component_inputs.range_check_20_f[8] = [((carry_20_col290) + (M31_524288))];
                 *lookup_data.range_check_20_f_120 =
-                    [M31_447122465, ((carry_20_col289) + (M31_524288))];
-                let carry_21_col290 = ((((conv_mod_tmp_d9509_205[21]) - ((M31_136) * (k_col268)))
-                    + (carry_20_col289))
+                    [M31_447122465, ((carry_20_col290) + (M31_524288))];
+                let carry_21_col291 = ((((conv_mod_tmp_d9509_205[21]) - ((M31_136) * (k_col269)))
+                    + (carry_20_col290))
                     * (M31_4194304));
-                *row[290] = carry_21_col290;
-                *sub_component_inputs.range_check_20_g[8] = [((carry_21_col290) + (M31_524288))];
+                *row[291] = carry_21_col291;
+                *sub_component_inputs.range_check_20_g[8] = [((carry_21_col291) + (M31_524288))];
                 *lookup_data.range_check_20_g_121 =
-                    [M31_463900084, ((carry_21_col290) + (M31_524288))];
-                let carry_22_col291 =
-                    (((conv_mod_tmp_d9509_205[22]) + (carry_21_col290)) * (M31_4194304));
-                *row[291] = carry_22_col291;
-                *sub_component_inputs.range_check_20_h[8] = [((carry_22_col291) + (M31_524288))];
+                    [M31_463900084, ((carry_21_col291) + (M31_524288))];
+                let carry_22_col292 =
+                    (((conv_mod_tmp_d9509_205[22]) + (carry_21_col291)) * (M31_4194304));
+                *row[292] = carry_22_col292;
+                *sub_component_inputs.range_check_20_h[8] = [((carry_22_col292) + (M31_524288))];
                 *lookup_data.range_check_20_h_122 =
-                    [M31_682009131, ((carry_22_col291) + (M31_524288))];
-                let carry_23_col292 =
-                    (((conv_mod_tmp_d9509_205[23]) + (carry_22_col291)) * (M31_4194304));
-                *row[292] = carry_23_col292;
-                *sub_component_inputs.range_check_20[11] = [((carry_23_col292) + (M31_524288))];
+                    [M31_682009131, ((carry_22_col292) + (M31_524288))];
+                let carry_23_col293 =
+                    (((conv_mod_tmp_d9509_205[23]) + (carry_22_col292)) * (M31_4194304));
+                *row[293] = carry_23_col293;
+                *sub_component_inputs.range_check_20[11] = [((carry_23_col293) + (M31_524288))];
                 *lookup_data.range_check_20_123 =
-                    [M31_1410849886, ((carry_23_col292) + (M31_524288))];
-                let carry_24_col293 =
-                    (((conv_mod_tmp_d9509_205[24]) + (carry_23_col292)) * (M31_4194304));
-                *row[293] = carry_24_col293;
-                *sub_component_inputs.range_check_20_b[11] = [((carry_24_col293) + (M31_524288))];
+                    [M31_1410849886, ((carry_23_col293) + (M31_524288))];
+                let carry_24_col294 =
+                    (((conv_mod_tmp_d9509_205[24]) + (carry_23_col293)) * (M31_4194304));
+                *row[294] = carry_24_col294;
+                *sub_component_inputs.range_check_20_b[11] = [((carry_24_col294) + (M31_524288))];
                 *lookup_data.range_check_20_b_124 =
-                    [M31_514232941, ((carry_24_col293) + (M31_524288))];
-                let carry_25_col294 =
-                    (((conv_mod_tmp_d9509_205[25]) + (carry_24_col293)) * (M31_4194304));
-                *row[294] = carry_25_col294;
-                *sub_component_inputs.range_check_20_c[11] = [((carry_25_col294) + (M31_524288))];
+                    [M31_514232941, ((carry_24_col294) + (M31_524288))];
+                let carry_25_col295 =
+                    (((conv_mod_tmp_d9509_205[25]) + (carry_24_col294)) * (M31_4194304));
+                *row[295] = carry_25_col295;
+                *sub_component_inputs.range_check_20_c[11] = [((carry_25_col295) + (M31_524288))];
                 *lookup_data.range_check_20_c_125 =
-                    [M31_531010560, ((carry_25_col294) + (M31_524288))];
-                let carry_26_col295 =
-                    (((conv_mod_tmp_d9509_205[26]) + (carry_25_col294)) * (M31_4194304));
-                *row[295] = carry_26_col295;
-                *sub_component_inputs.range_check_20_d[11] = [((carry_26_col295) + (M31_524288))];
+                    [M31_531010560, ((carry_25_col295) + (M31_524288))];
+                let carry_26_col296 =
+                    (((conv_mod_tmp_d9509_205[26]) + (carry_25_col295)) * (M31_4194304));
+                *row[296] = carry_26_col296;
+                *sub_component_inputs.range_check_20_d[11] = [((carry_26_col296) + (M31_524288))];
                 *lookup_data.range_check_20_d_126 =
-                    [M31_480677703, ((carry_26_col295) + (M31_524288))];
+                    [M31_480677703, ((carry_26_col296) + (M31_524288))];
 
                 let ec_add_output_tmp_d9509_207 = [result_x_tmp_d9509_79, result_y_tmp_d9509_129];
 
-                let enabler_col296 = enabler_col.packed_at(row_index);
-                *row[296] = enabler_col296;
                 *lookup_data.partial_ec_mul_window_bits_18_127 = [
                     M31_1621226978,
-                    input_limb_0_col0,
-                    input_limb_1_col1,
-                    input_limb_2_col2,
-                    input_limb_3_col3,
-                    input_limb_4_col4,
-                    input_limb_5_col5,
-                    input_limb_6_col6,
-                    input_limb_7_col7,
-                    input_limb_8_col8,
-                    input_limb_9_col9,
-                    input_limb_10_col10,
-                    input_limb_11_col11,
-                    input_limb_12_col12,
-                    input_limb_13_col13,
-                    input_limb_14_col14,
-                    input_limb_15_col15,
-                    input_limb_16_col16,
-                    input_limb_17_col17,
-                    input_limb_18_col18,
-                    input_limb_19_col19,
-                    input_limb_20_col20,
-                    input_limb_21_col21,
-                    input_limb_22_col22,
-                    input_limb_23_col23,
-                    input_limb_24_col24,
-                    input_limb_25_col25,
-                    input_limb_26_col26,
-                    input_limb_27_col27,
-                    input_limb_28_col28,
-                    input_limb_29_col29,
-                    input_limb_30_col30,
-                    input_limb_31_col31,
-                    input_limb_32_col32,
-                    input_limb_33_col33,
-                    input_limb_34_col34,
-                    input_limb_35_col35,
-                    input_limb_36_col36,
-                    input_limb_37_col37,
-                    input_limb_38_col38,
-                    input_limb_39_col39,
-                    input_limb_40_col40,
-                    input_limb_41_col41,
-                    input_limb_42_col42,
-                    input_limb_43_col43,
-                    input_limb_44_col44,
-                    input_limb_45_col45,
-                    input_limb_46_col46,
-                    input_limb_47_col47,
-                    input_limb_48_col48,
-                    input_limb_49_col49,
-                    input_limb_50_col50,
-                    input_limb_51_col51,
-                    input_limb_52_col52,
-                    input_limb_53_col53,
-                    input_limb_54_col54,
-                    input_limb_55_col55,
-                    input_limb_56_col56,
-                    input_limb_57_col57,
-                    input_limb_58_col58,
-                    input_limb_59_col59,
-                    input_limb_60_col60,
-                    input_limb_61_col61,
-                    input_limb_62_col62,
-                    input_limb_63_col63,
-                    input_limb_64_col64,
-                    input_limb_65_col65,
-                    input_limb_66_col66,
-                    input_limb_67_col67,
-                    input_limb_68_col68,
-                    input_limb_69_col69,
-                    input_limb_70_col70,
-                    input_limb_71_col71,
+                    input_limb_0_col1,
+                    input_limb_1_col2,
+                    input_limb_2_col3,
+                    input_limb_3_col4,
+                    input_limb_4_col5,
+                    input_limb_5_col6,
+                    input_limb_6_col7,
+                    input_limb_7_col8,
+                    input_limb_8_col9,
+                    input_limb_9_col10,
+                    input_limb_10_col11,
+                    input_limb_11_col12,
+                    input_limb_12_col13,
+                    input_limb_13_col14,
+                    input_limb_14_col15,
+                    input_limb_15_col16,
+                    input_limb_16_col17,
+                    input_limb_17_col18,
+                    input_limb_18_col19,
+                    input_limb_19_col20,
+                    input_limb_20_col21,
+                    input_limb_21_col22,
+                    input_limb_22_col23,
+                    input_limb_23_col24,
+                    input_limb_24_col25,
+                    input_limb_25_col26,
+                    input_limb_26_col27,
+                    input_limb_27_col28,
+                    input_limb_28_col29,
+                    input_limb_29_col30,
+                    input_limb_30_col31,
+                    input_limb_31_col32,
+                    input_limb_32_col33,
+                    input_limb_33_col34,
+                    input_limb_34_col35,
+                    input_limb_35_col36,
+                    input_limb_36_col37,
+                    input_limb_37_col38,
+                    input_limb_38_col39,
+                    input_limb_39_col40,
+                    input_limb_40_col41,
+                    input_limb_41_col42,
+                    input_limb_42_col43,
+                    input_limb_43_col44,
+                    input_limb_44_col45,
+                    input_limb_45_col46,
+                    input_limb_46_col47,
+                    input_limb_47_col48,
+                    input_limb_48_col49,
+                    input_limb_49_col50,
+                    input_limb_50_col51,
+                    input_limb_51_col52,
+                    input_limb_52_col53,
+                    input_limb_53_col54,
+                    input_limb_54_col55,
+                    input_limb_55_col56,
+                    input_limb_56_col57,
+                    input_limb_57_col58,
+                    input_limb_58_col59,
+                    input_limb_59_col60,
+                    input_limb_60_col61,
+                    input_limb_61_col62,
+                    input_limb_62_col63,
+                    input_limb_63_col64,
+                    input_limb_64_col65,
+                    input_limb_65_col66,
+                    input_limb_66_col67,
+                    input_limb_67_col68,
+                    input_limb_68_col69,
+                    input_limb_69_col70,
+                    input_limb_70_col71,
+                    input_limb_71_col72,
                 ];
                 *lookup_data.partial_ec_mul_window_bits_18_128 = [
                     M31_1621226978,
-                    input_limb_0_col0,
-                    ((input_limb_1_col1) + (M31_1)),
-                    input_limb_3_col3,
-                    input_limb_4_col4,
-                    input_limb_5_col5,
-                    input_limb_6_col6,
-                    input_limb_7_col7,
-                    input_limb_8_col8,
-                    input_limb_9_col9,
-                    input_limb_10_col10,
-                    input_limb_11_col11,
-                    input_limb_12_col12,
-                    input_limb_13_col13,
-                    input_limb_14_col14,
-                    input_limb_15_col15,
+                    input_limb_0_col1,
+                    ((input_limb_1_col2) + (M31_1)),
+                    input_limb_3_col4,
+                    input_limb_4_col5,
+                    input_limb_5_col6,
+                    input_limb_6_col7,
+                    input_limb_7_col8,
+                    input_limb_8_col9,
+                    input_limb_9_col10,
+                    input_limb_10_col11,
+                    input_limb_11_col12,
+                    input_limb_12_col13,
+                    input_limb_13_col14,
+                    input_limb_14_col15,
+                    input_limb_15_col16,
                     M31_0,
-                    result_x_limb_0_col184,
-                    result_x_limb_1_col185,
-                    result_x_limb_2_col186,
-                    result_x_limb_3_col187,
-                    result_x_limb_4_col188,
-                    result_x_limb_5_col189,
-                    result_x_limb_6_col190,
-                    result_x_limb_7_col191,
-                    result_x_limb_8_col192,
-                    result_x_limb_9_col193,
-                    result_x_limb_10_col194,
-                    result_x_limb_11_col195,
-                    result_x_limb_12_col196,
-                    result_x_limb_13_col197,
-                    result_x_limb_14_col198,
-                    result_x_limb_15_col199,
-                    result_x_limb_16_col200,
-                    result_x_limb_17_col201,
-                    result_x_limb_18_col202,
-                    result_x_limb_19_col203,
-                    result_x_limb_20_col204,
-                    result_x_limb_21_col205,
-                    result_x_limb_22_col206,
-                    result_x_limb_23_col207,
-                    result_x_limb_24_col208,
-                    result_x_limb_25_col209,
-                    result_x_limb_26_col210,
-                    result_x_limb_27_col211,
-                    result_y_limb_0_col240,
-                    result_y_limb_1_col241,
-                    result_y_limb_2_col242,
-                    result_y_limb_3_col243,
-                    result_y_limb_4_col244,
-                    result_y_limb_5_col245,
-                    result_y_limb_6_col246,
-                    result_y_limb_7_col247,
-                    result_y_limb_8_col248,
-                    result_y_limb_9_col249,
-                    result_y_limb_10_col250,
-                    result_y_limb_11_col251,
-                    result_y_limb_12_col252,
-                    result_y_limb_13_col253,
-                    result_y_limb_14_col254,
-                    result_y_limb_15_col255,
-                    result_y_limb_16_col256,
-                    result_y_limb_17_col257,
-                    result_y_limb_18_col258,
-                    result_y_limb_19_col259,
-                    result_y_limb_20_col260,
-                    result_y_limb_21_col261,
-                    result_y_limb_22_col262,
-                    result_y_limb_23_col263,
-                    result_y_limb_24_col264,
-                    result_y_limb_25_col265,
-                    result_y_limb_26_col266,
-                    result_y_limb_27_col267,
+                    result_x_limb_0_col185,
+                    result_x_limb_1_col186,
+                    result_x_limb_2_col187,
+                    result_x_limb_3_col188,
+                    result_x_limb_4_col189,
+                    result_x_limb_5_col190,
+                    result_x_limb_6_col191,
+                    result_x_limb_7_col192,
+                    result_x_limb_8_col193,
+                    result_x_limb_9_col194,
+                    result_x_limb_10_col195,
+                    result_x_limb_11_col196,
+                    result_x_limb_12_col197,
+                    result_x_limb_13_col198,
+                    result_x_limb_14_col199,
+                    result_x_limb_15_col200,
+                    result_x_limb_16_col201,
+                    result_x_limb_17_col202,
+                    result_x_limb_18_col203,
+                    result_x_limb_19_col204,
+                    result_x_limb_20_col205,
+                    result_x_limb_21_col206,
+                    result_x_limb_22_col207,
+                    result_x_limb_23_col208,
+                    result_x_limb_24_col209,
+                    result_x_limb_25_col210,
+                    result_x_limb_26_col211,
+                    result_x_limb_27_col212,
+                    result_y_limb_0_col241,
+                    result_y_limb_1_col242,
+                    result_y_limb_2_col243,
+                    result_y_limb_3_col244,
+                    result_y_limb_4_col245,
+                    result_y_limb_5_col246,
+                    result_y_limb_6_col247,
+                    result_y_limb_7_col248,
+                    result_y_limb_8_col249,
+                    result_y_limb_9_col250,
+                    result_y_limb_10_col251,
+                    result_y_limb_11_col252,
+                    result_y_limb_12_col253,
+                    result_y_limb_13_col254,
+                    result_y_limb_14_col255,
+                    result_y_limb_15_col256,
+                    result_y_limb_16_col257,
+                    result_y_limb_17_col258,
+                    result_y_limb_18_col259,
+                    result_y_limb_19_col260,
+                    result_y_limb_20_col261,
+                    result_y_limb_21_col262,
+                    result_y_limb_22_col263,
+                    result_y_limb_23_col264,
+                    result_y_limb_24_col265,
+                    result_y_limb_25_col266,
+                    result_y_limb_26_col267,
+                    result_y_limb_27_col268,
                 ];
-                *lookup_data.mults_0 = M31_1;
-                *lookup_data.mults_1 = enabler_col296;
+                *lookup_data.mults_0 = enabler_col0;
             },
         );
 
@@ -5174,7 +5174,6 @@ struct LookupData {
     partial_ec_mul_window_bits_18_127: Vec<[PackedM31; 73]>,
     partial_ec_mul_window_bits_18_128: Vec<[PackedM31; 73]>,
     mults_0: Vec<PackedM31>,
-    mults_1: Vec<PackedM31>,
 }
 
 pub struct InteractionClaimGenerator {
@@ -6206,7 +6205,7 @@ impl InteractionClaimGenerator {
             &self.lookup_data.range_check_20_d_126,
             &self.lookup_data.partial_ec_mul_window_bits_18_127,
             &self.lookup_data.mults_0,
-            &self.lookup_data.mults_1,
+            &self.lookup_data.mults_0,
         )
             .into_par_iter()
             .for_each(|(writer, values0, values1, mult0, mult1)| {
@@ -6221,7 +6220,7 @@ impl InteractionClaimGenerator {
         (
             col_gen.par_iter_mut(),
             &self.lookup_data.partial_ec_mul_window_bits_18_128,
-            self.lookup_data.mults_1,
+            self.lookup_data.mults_0,
         )
             .into_par_iter()
             .for_each(|(writer, values, mult)| {

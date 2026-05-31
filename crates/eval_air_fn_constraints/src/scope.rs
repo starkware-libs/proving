@@ -9,13 +9,17 @@ use crate::util::Environment;
 /// The set of variables (both local and global) available inside a certain AirFn
 pub struct Scope {
     var_values: HashMap<String, QM31>,
+
+    // The enabler value, for inline components that receive it.
+    enabler: Option<QM31>,
     environment: Rc<Environment>,
 }
 
 impl Scope {
-    pub fn new(environment: Rc<Environment>) -> Scope {
+    pub fn new(environment: Rc<Environment>, enabler: Option<QM31>) -> Scope {
         Scope {
             var_values: Default::default(),
+            enabler,
             environment,
         }
     }
@@ -61,6 +65,7 @@ impl Scope {
                     .get(name)
                     .expect("External state not found"),
             ),
+            CompiledAirVar::Enabler => self.enabler.expect("Missing enabler value"),
             _ => panic!("Unexpected expression {expr}"),
         }
     }

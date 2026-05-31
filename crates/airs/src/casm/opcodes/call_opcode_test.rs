@@ -100,6 +100,7 @@ fn test_relative_call_large_state() {
     let state = build_and_test(false, None, 500, [1000000, 2000000, 4000000]);
 
     expect![[r#"
+        (1, "enabler"),
         (1000000, "input_pc"),
         (2000000, "input_ap"),
         (4000000, "input_fp"),
@@ -123,7 +124,6 @@ fn test_relative_call_large_state() {
         (0, "distance_to_next_pc_limb_2"),
         (0, "remainder_bits"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -133,6 +133,7 @@ fn test_relative_call_negative() {
     let state = build_and_test(false, None, -17, [50, 200, 150]);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -156,7 +157,6 @@ fn test_relative_call_negative() {
         (511, "distance_to_next_pc_limb_2"),
         (3, "remainder_bits"),
         (1, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -166,6 +166,7 @@ fn test_call_base_fp_positive_offset2() {
     let state = build_and_test(true, Some(5), 600, [50, 200, 150]);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -190,7 +191,6 @@ fn test_call_base_fp_positive_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -200,6 +200,7 @@ fn test_call_base_fp_negative_offset2() {
     let state = build_and_test(true, Some(-5), 400, [50, 200, 150]);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -224,7 +225,6 @@ fn test_call_base_fp_negative_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -234,6 +234,7 @@ fn test_call_base_ap_positive_offset2() {
     let state = build_and_test(false, Some(10), 1234, [50, 200, 150]);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -258,7 +259,6 @@ fn test_call_base_ap_positive_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -268,6 +268,7 @@ fn test_call_base_ap_negative_offset2() {
     let state = build_and_test(false, Some(-10), 55, [50, 200, 150]);
 
     expect![[r#"
+        (1, "enabler"),
         (50, "input_pc"),
         (200, "input_ap"),
         (150, "input_fp"),
@@ -292,7 +293,6 @@ fn test_call_base_ap_negative_offset2() {
         (0, "next_pc_limb_2"),
         (0, "next_pc_limb_3"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

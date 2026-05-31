@@ -33,8 +33,9 @@ impl IsMemory<SeqId, [FeltExpr; SMALL_MEM_VALUE_N_FELTS]> for MemoryIdToSmall {
     }
 }
 
-/// A table with 9 columns. The first is the external column 'MemIdForSmall' represents the ID,
-/// and the other 'SMALL_MEM_VALUE_N_FELTS' felts represent the corresponding small memory value.
+/// A table with 10 columns: the external column 'MemIdForSmall' represents the ID, a multiplicity
+/// column and then 'SMALL_MEM_VALUE_N_FELTS' felts that represent the corresponding small memory
+/// value.
 /// This table yields a relation with an output type of `Felt252`, therefore, the output is padded
 /// to match this type.  This air fn created to add the relevant constraints for this table,
 /// but it is not used by the AIR infrastructure because we lookup into `MemoryIdToBig`,
@@ -50,8 +51,11 @@ impl AirFn for MemoryIdToSmall {
         // contain any valid value for a limb pair, independent of the other pairs.
         constraint_connectedness_test::exclude(self);
 
+        let state_felts = air_builder.component_context.state().get_felts();
+
         #[allow(unused_mut)]
-        let mut value_in_state = air_builder.component_context.state().get_felts();
+        // Skip the multiplicity column
+        let mut value_in_state = state_felts[1..].to_vec();
 
         #[cfg(any(test, feature = "test"))]
         if air_builder.is_run_mode() {

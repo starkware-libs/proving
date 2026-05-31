@@ -250,21 +250,23 @@ impl RustProverGen {
         let init_code = match self.mode {
             Mode::NoInputs => quote! {
                let log_size = self.log_size;
+               let size = 1 << log_size;
             },
             Mode::PackedInputs => quote! {
                 let mut packed_inputs = self.packed_inputs.into_inner().unwrap();
+                let remainder_inputs = self.remainder_inputs.into_inner().unwrap();
+                let n_active_rows = packed_inputs.len() * N_LANES + remainder_inputs.len();
+                add_remainder(&mut packed_inputs, &remainder_inputs);
                 assert!(!packed_inputs.is_empty());
-                assert!(self.remainder_inputs.lock().unwrap().is_empty());
                 let n_vec_rows = packed_inputs.len();
-                let n_rows = n_vec_rows * N_LANES;
                 let packed_size = n_vec_rows.next_power_of_two();
                 let log_size = packed_size.ilog2() + LOG_N_LANES;
                 packed_inputs.resize(packed_size, *packed_inputs.first().unwrap());
             },
             Mode::Inputs => quote! {
-                let n_rows = self.inputs.len();
-                assert_ne!(n_rows, 0);
-                let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+                let n_active_rows = self.inputs.len();
+                assert_ne!(n_active_rows, 0);
+                let size = std::cmp::max(n_active_rows.next_power_of_two(), N_LANES);
                 let log_size = size.ilog2();
                 self.inputs.resize(size, *self.inputs.first().unwrap());
                 let packed_inputs = pack_values(&self.inputs);
@@ -285,9 +287,9 @@ impl RustProverGen {
                     let (mut inputs, mut mults) = inputs_mults.into_iter().unzip::<_, _, Vec<_>, Vec<_>>();
 
                     // Calculate component size.
-                    let n_rows = inputs.len();
-                    assert_ne!(n_rows, 0);
-                    let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+                    let n_active_rows = inputs.len();
+                    assert_ne!(n_active_rows, 0);
+                    let size = std::cmp::max(n_active_rows.next_power_of_two(), N_LANES);
                     let log_size = size.ilog2();
 
                     // Pad component.
@@ -309,13 +311,19 @@ impl RustProverGen {
         } else {
             quote! {}
         };
+
+        let num_inputs_added = match self.air_fn.padding_type {
+            PaddingType::Multiplicity => quote! { size },
+            PaddingType::Enabler => quote! { n_active_rows },
+            PaddingType::None => quote! { size },
+        };
         let add_inputs = self
             .air_fn
             .n_inputs_added_per_relation
             .iter()
             .map(|(relation_name, (component_name, relation_index, _))| {
                 quote! { for inputs in sub_component_inputs.$(relation_name.to_case(Case::Snake)) {
-                    add_inputs($component_name$STATE_SUFFIX, &inputs, inputs.len() * N_LANES, $(*relation_index));
+                    add_inputs($component_name$STATE_SUFFIX, &inputs, $(&num_inputs_added), $(*relation_index));
                 };}
             })
             .collect_vec();
@@ -382,7 +390,7 @@ impl RustProverGen {
             }
         };
         if self.air_fn.padding_type == PaddingType::Enabler {
-            args.extend(quote! { n_rows, })
+            args.extend(quote! { n_active_rows, })
         }
         for public_param in &self.air_fn.public_params {
             args.extend(quote! { self.$(public_param), });

@@ -20,10 +20,10 @@
     {
       "Array": [
         {
-          "State": "col20"
+          "State": "col21"
         },
         {
-          "State": "col21"
+          "State": "col22"
         }
       ]
     },
@@ -38,9 +38,9 @@
     []
   ],
   "state_names": [
-    "input_limb_0_col0",
-    "input_limb_1_col1",
-    "col2",
+    "enabler_col0",
+    "input_limb_0_col1",
+    "input_limb_1_col2",
     "col3",
     "col4",
     "col5",
@@ -60,7 +60,7 @@
     "col19",
     "col20",
     "col21",
-    "enabler_col22"
+    "col22"
   ],
   "constraint_lookups": [
     [
@@ -81,29 +81,28 @@
   "external_states": [],
   "constraints": [
     {
-      "Intermediate": {
-        "felt_names": [],
-        "var": {
-          "StaticCall": [
-            "fib_step::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "State": "input_limb_0_col0"
-                  },
-                  {
-                    "State": "input_limb_1_col1"
-                  }
-                ]
-              },
-              {
-                "State": "col2"
-              }
-            ]
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col0"
+                },
+                "*",
+                {
+                  "State": "enabler_col0"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col0"
+            }
           ]
-        }
-      }
+        },
+        "Enabler is a bit"
+      ]
     },
     {
       "Intermediate": {
@@ -115,12 +114,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_1_col1"
+                    "State": "input_limb_0_col1"
                   },
                   {
-                    "State": "col2"
+                    "State": "input_limb_1_col2"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col3"
@@ -140,12 +142,15 @@
               {
                 "Array": [
                   {
-                    "State": "col2"
+                    "State": "input_limb_1_col2"
                   },
                   {
                     "State": "col3"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col4"
@@ -173,6 +178,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col5"
               }
             ]
@@ -196,6 +204,9 @@
                     "State": "col5"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col6"
@@ -223,6 +234,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col7"
               }
             ]
@@ -246,6 +260,9 @@
                     "State": "col7"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col8"
@@ -273,6 +290,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col9"
               }
             ]
@@ -296,6 +316,9 @@
                     "State": "col9"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col10"
@@ -323,6 +346,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col11"
               }
             ]
@@ -346,6 +372,9 @@
                     "State": "col11"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col12"
@@ -373,6 +402,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col13"
               }
             ]
@@ -396,6 +428,9 @@
                     "State": "col13"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col14"
@@ -423,6 +458,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col15"
               }
             ]
@@ -446,6 +484,9 @@
                     "State": "col15"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col16"
@@ -473,6 +514,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col17"
               }
             ]
@@ -496,6 +540,9 @@
                     "State": "col17"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col18"
@@ -523,6 +570,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col19"
               }
             ]
@@ -546,6 +596,9 @@
                     "State": "col19"
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "col20"
@@ -573,6 +626,9 @@
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "col21"
               }
             ]
@@ -581,28 +637,32 @@
       }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col22"
-                },
-                "*",
-                {
-                  "State": "enabler_col22"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col22"
-            }
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col20"
+                  },
+                  {
+                    "State": "col21"
+                  }
+                ]
+              },
+              {
+                "State": "enabler_col0"
+              },
+              {
+                "State": "col22"
+              }
+            ]
           ]
-        },
-        "Enabler is a bit"
-      ]
+        }
+      }
     },
     {
       "LookupTerm": {
@@ -615,26 +675,29 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
-            "State": "input_limb_1_col1"
-          },
-          {
-            "State": "col20"
+            "State": "input_limb_1_col2"
           },
           {
             "State": "col21"
+          },
+          {
+            "State": "col22"
           }
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col22"
+          "State": "enabler_col0"
         }
       }
     }
   ],
   "deductions": [
+    {
+      "Deduction": "Enabler"
+    },
     {
       "Deduction": {
         "Var": [
@@ -660,11 +723,11 @@
           {
             "BinaryOp": [
               {
-                "State": "input_limb_0_col0"
+                "State": "input_limb_0_col1"
               },
               "*",
               {
-                "State": "input_limb_0_col0"
+                "State": "input_limb_0_col1"
               }
             ]
           },
@@ -672,11 +735,11 @@
           {
             "BinaryOp": [
               {
-                "State": "input_limb_1_col1"
+                "State": "input_limb_1_col2"
               },
               "*",
               {
-                "State": "input_limb_1_col1"
+                "State": "input_limb_1_col2"
               }
             ]
           }
@@ -693,44 +756,11 @@
           {
             "BinaryOp": [
               {
-                "State": "input_limb_1_col1"
+                "State": "input_limb_1_col2"
               },
               "*",
               {
-                "State": "input_limb_1_col1"
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": "col2"
-              },
-              "*",
-              {
-                "State": "col2"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
-    },
-    {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": "col2"
-              },
-              "*",
-              {
-                "State": "col2"
+                "State": "input_limb_1_col2"
               }
             ]
           },
@@ -1312,8 +1342,38 @@
     },
     "EndBlock",
     {
-      "Deduction": "Enabler"
+      "StartBlock": "Fib Step"
     },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col20"
+              },
+              "*",
+              {
+                "State": "col20"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col21"
+              },
+              "*",
+              {
+                "State": "col21"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "NarrowFibNumSteps20",
@@ -1325,21 +1385,21 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
-            "State": "input_limb_1_col1"
-          },
-          {
-            "State": "col20"
+            "State": "input_limb_1_col2"
           },
           {
             "State": "col21"
+          },
+          {
+            "State": "col22"
           }
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col22"
+          "State": "enabler_col0"
         }
       }
     }

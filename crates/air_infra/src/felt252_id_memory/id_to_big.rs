@@ -28,8 +28,8 @@ impl IsMemory<SeqId, Felt252Expr> for MemoryIdToBig {
     }
 }
 
-/// A table with 29 columns. The first is the external column 'MemIdForBig' represents the ID,
-/// and the other 28 felts represent the corresponding big memory value.
+/// A table with 30 columns: the external column 'MemIdForBig' that represents the ID,
+/// a multiplicity column and then 28 felts that represent the corresponding big memory value.
 impl AirFn for MemoryIdToBig {
     type ExtIn = SeqId;
     type In = ();
@@ -39,9 +39,11 @@ impl AirFn for MemoryIdToBig {
         // This component is manually implemented in the prover. The code here is just for tests.
         constraint_connectedness_test::exclude(self);
 
+        let state_felts = air_builder.component_context.state().get_felts();
+
         #[allow(unused_mut)]
-        let mut value_in_state: Felt252Expr =
-            air_builder.component_context.state().get_felts().into();
+        // Skip the multiplicity column
+        let mut value_in_state: Felt252Expr = state_felts[1..].to_vec().into();
 
         #[cfg(any(test, feature = "test"))]
         if air_builder.is_run_mode() {
