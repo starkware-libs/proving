@@ -17,7 +17,9 @@ import json
 import argparse
 
 VISUALIZER_DIR = os.path.abspath(os.path.dirname(__file__))
-AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_casm_air/compiled_jsons")
+CASM_AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_casm_air/compiled_jsons")
+CIRCUITS_AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_circuit_air/compiled_jsons")
+AIR_DIRS = {"CASM AIRs": CASM_AIRS_DIR, "Circuit AIRs": CIRCUITS_AIRS_DIR}
 
 class MyTCPServer(socketserver.TCPServer):
     def server_bind(self):
@@ -26,10 +28,11 @@ class MyTCPServer(socketserver.TCPServer):
 
 def get_air_files():
     result = []
-    for json_rel_path in glob.glob('*/*.json', root_dir=AIRS_DIR):
-        path = os.path.join(AIRS_DIR, json_rel_path)
-        air_name = json.load(open(path, 'rb'))['name']
-        result.append({"path": json_rel_path, "name": air_name})
+    for group, air_dir in AIR_DIRS.items():
+        for json_rel_path in glob.glob('*/*.json', root_dir=air_dir):
+            path = os.path.join(air_dir, json_rel_path)
+            air_name = json.load(open(path, 'rb'))['name']
+            result.append({"path": json_rel_path, "name": air_name, "group": group})
     return result
 
 def main():
@@ -67,7 +70,11 @@ def main():
                 self.wfile.write(result_str.encode())
             elif parsed_path.path.startswith("/airs/"):
                 air_json_rel_path = parsed_path.path.removeprefix("/airs/")
-                air_json_path = os.path.join(AIRS_DIR, air_json_rel_path)
+                for d in AIR_DIRS.values():
+                    p = os.path.join(d, air_json_rel_path)
+                    if os.path.isfile(p):
+                        air_json_path = p
+                        break
                 size = os.path.getsize(air_json_path)
                 self.send_response(200)
                 self.send_header("Content-type", "text/json")

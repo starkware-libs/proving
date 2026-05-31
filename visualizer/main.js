@@ -105,11 +105,22 @@ class AirView {
 
 function populate_component_selector() {
     const select_elem = document.getElementById("component_select")
+    const by_group = new Map()
     for (const air_name of Array.from(AIRS.keys()).sort()) {
-        const option = document.createElement('option')
-        option.innerText = air_name
-        option.value = air_name
-        select_elem.append(option)
+        const group = AIRS.get(air_name).group || ""
+        if (!by_group.has(group)) by_group.set(group, [])
+        by_group.get(group).push(air_name)
+    }
+    for (const [group, names] of by_group) {
+        const optgroup = document.createElement('optgroup')
+        optgroup.label = group
+        for (const air_name of names) {
+            const option = document.createElement('option')
+            option.innerText = air_name
+            option.value = air_name
+            optgroup.append(option)
+        }
+        select_elem.append(optgroup)
     }
 }
 
