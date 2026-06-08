@@ -33,10 +33,16 @@ pub struct AirFnStat {
     pub use_lookup_cols: IndexMap<String, usize>,
     // How many yield lookups each row does. A map of relation name -> number of lookups to this relation.
     pub yield_lookup_cols: IndexMap<String, usize>,
-    // How many rows each row in this component adds to other components. This is higher than use_lookup_cols
-    // for calls to chain round components. For example, blake_compress_opcode adds 10 rows to blake_round,
-    // but does only one use lookup and one yield lookup to that component.
+    // How many rows each row in this component adds to other components, keyed by relation name.
+    // This is higher than `use_lookup_cols` for calls to chain round components. For example,
+    // blake_compress_opcode adds 10 rows to blake_round, but does only one use lookup and one yield
+    // lookup to that component. Unlike `direct_rows`, this also counts the memory,
+    // verify_instruction and const-table relations.
     pub lookup_rows: IndexMap<String, usize>,
+    // The number of rows this component adds to each directly-called lookup relation. Unlike
+    // `rows_upper_bound` (which may overestimate the row count), it is exact and non-transitive;
+    // unlike `lookup_rows`, it excludes the memory, verify_instruction and const-table relations.
+    pub direct_rows: IndexMap<String, usize>,
     pub padding_type: PaddingType,
     // The number of cells in each row, including interaction columns.
     pub total_num_trace_cols: usize,
@@ -623,6 +629,11 @@ impl AirFnRegistry {
         let reg = self.air_fns.borrow();
         let lookup_rows = entry.air_body.get_n_inputs_added_per_relation();
 
+        // The number of rows this component adds to each directly-called lookup relation. Populated
+        // below using the same filter as `rows_upper_bound`, so its keys are always a subset of
+        // `rows_upper_bound`'s keys.
+        let mut direct_rows: IndexMap<String, usize> = IndexMap::new();
+
         // The registry is ordered such that each component appears after its callees, so all
         // callees already have their statistics computed.
         for (relation_name, (air_fn_name, cnt)) in lookup_rows.iter() {
@@ -651,6 +662,9 @@ impl AirFnRegistry {
             {
                 // Update trace cells upper bound for the current component.
                 trace_cells_upper_bound += rounded_cnt * entry_stats.trace_cells_upper_bound;
+
+                // Record the exact number of rows added directly to `name`.
+                *direct_rows.entry(name.clone()).or_default() += cnt;
 
                 // Update rows upper bound for all lookup components.
                 // The number of rows of each component is padded at the end, after adding all
@@ -704,6 +718,7 @@ impl AirFnRegistry {
                 use_lookup_cols,
                 yield_lookup_cols,
                 lookup_rows: lookup_rows.into_iter().map(|(r, (_, c))| (r, c)).collect(),
+                direct_rows,
                 padding_type: entry.padding_type,
                 total_num_trace_cols,
                 trace_cells_upper_bound,
