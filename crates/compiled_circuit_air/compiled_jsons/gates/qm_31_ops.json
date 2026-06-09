@@ -63,14 +63,14 @@
   "inline_calls": {},
   "public_params": [],
   "external_states": [
-    "add_flag",
-    "mul_flag",
-    "pointwise_mul_flag",
-    "sub_flag",
-    "op0_addr",
-    "op1_addr",
-    "dst_addr",
-    "qm31_ops_multiplicity"
+    "qm31_ops_add_flag",
+    "qm31_ops_mul_flag",
+    "qm31_ops_pointwise_mul_flag",
+    "qm31_ops_sub_flag",
+    "qm31_ops_in0_address",
+    "qm31_ops_in1_address",
+    "qm31_ops_out_address",
+    "qm31_ops_mults"
   ],
   "constraints": [
     {
@@ -84,23 +84,23 @@
                     {
                       "BinaryOp": [
                         {
-                          "ExternalState": "add_flag"
+                          "ExternalState": "qm31_ops_add_flag"
                         },
                         "+",
                         {
-                          "ExternalState": "sub_flag"
+                          "ExternalState": "qm31_ops_sub_flag"
                         }
                       ]
                     },
                     "+",
                     {
-                      "ExternalState": "mul_flag"
+                      "ExternalState": "qm31_ops_mul_flag"
                     }
                   ]
                 },
                 "+",
                 {
-                  "ExternalState": "pointwise_mul_flag"
+                  "ExternalState": "qm31_ops_pointwise_mul_flag"
                 }
               ]
             },
@@ -121,13 +121,13 @@
         {
           "BinaryOp": [
             {
-              "ExternalState": "add_flag"
+              "ExternalState": "qm31_ops_add_flag"
             },
             "*",
             {
               "BinaryOp": [
                 {
-                  "ExternalState": "add_flag"
+                  "ExternalState": "qm31_ops_add_flag"
                 },
                 "-",
                 {
@@ -148,13 +148,13 @@
         {
           "BinaryOp": [
             {
-              "ExternalState": "sub_flag"
+              "ExternalState": "qm31_ops_sub_flag"
             },
             "*",
             {
               "BinaryOp": [
                 {
-                  "ExternalState": "sub_flag"
+                  "ExternalState": "qm31_ops_sub_flag"
                 },
                 "-",
                 {
@@ -175,13 +175,13 @@
         {
           "BinaryOp": [
             {
-              "ExternalState": "mul_flag"
+              "ExternalState": "qm31_ops_mul_flag"
             },
             "*",
             {
               "BinaryOp": [
                 {
-                  "ExternalState": "mul_flag"
+                  "ExternalState": "qm31_ops_mul_flag"
                 },
                 "-",
                 {
@@ -202,13 +202,13 @@
         {
           "BinaryOp": [
             {
-              "ExternalState": "pointwise_mul_flag"
+              "ExternalState": "qm31_ops_pointwise_mul_flag"
             },
             "*",
             {
               "BinaryOp": [
                 {
-                  "ExternalState": "pointwise_mul_flag"
+                  "ExternalState": "qm31_ops_pointwise_mul_flag"
                 },
                 "-",
                 {
@@ -344,7 +344,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "mul_flag"
+                              "ExternalState": "qm31_ops_mul_flag"
                             }
                           ]
                         },
@@ -364,7 +364,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "add_flag"
+                              "ExternalState": "qm31_ops_add_flag"
                             }
                           ]
                         }
@@ -386,7 +386,7 @@
                         },
                         "*",
                         {
-                          "ExternalState": "sub_flag"
+                          "ExternalState": "qm31_ops_sub_flag"
                         }
                       ]
                     }
@@ -408,7 +408,7 @@
                     },
                     "*",
                     {
-                      "ExternalState": "pointwise_mul_flag"
+                      "ExternalState": "qm31_ops_pointwise_mul_flag"
                     }
                   ]
                 }
@@ -539,7 +539,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "mul_flag"
+                              "ExternalState": "qm31_ops_mul_flag"
                             }
                           ]
                         },
@@ -559,7 +559,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "add_flag"
+                              "ExternalState": "qm31_ops_add_flag"
                             }
                           ]
                         }
@@ -581,7 +581,7 @@
                         },
                         "*",
                         {
-                          "ExternalState": "sub_flag"
+                          "ExternalState": "qm31_ops_sub_flag"
                         }
                       ]
                     }
@@ -603,7 +603,7 @@
                     },
                     "*",
                     {
-                      "ExternalState": "pointwise_mul_flag"
+                      "ExternalState": "qm31_ops_pointwise_mul_flag"
                     }
                   ]
                 }
@@ -691,7 +691,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "mul_flag"
+                              "ExternalState": "qm31_ops_mul_flag"
                             }
                           ]
                         },
@@ -711,7 +711,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "add_flag"
+                              "ExternalState": "qm31_ops_add_flag"
                             }
                           ]
                         }
@@ -733,7 +733,7 @@
                         },
                         "*",
                         {
-                          "ExternalState": "sub_flag"
+                          "ExternalState": "qm31_ops_sub_flag"
                         }
                       ]
                     }
@@ -755,7 +755,7 @@
                     },
                     "*",
                     {
-                      "ExternalState": "pointwise_mul_flag"
+                      "ExternalState": "qm31_ops_pointwise_mul_flag"
                     }
                   ]
                 }
@@ -843,7 +843,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "mul_flag"
+                              "ExternalState": "qm31_ops_mul_flag"
                             }
                           ]
                         },
@@ -863,7 +863,7 @@
                             },
                             "*",
                             {
-                              "ExternalState": "add_flag"
+                              "ExternalState": "qm31_ops_add_flag"
                             }
                           ]
                         }
@@ -885,7 +885,7 @@
                         },
                         "*",
                         {
-                          "ExternalState": "sub_flag"
+                          "ExternalState": "qm31_ops_sub_flag"
                         }
                       ]
                     }
@@ -907,7 +907,7 @@
                     },
                     "*",
                     {
-                      "ExternalState": "pointwise_mul_flag"
+                      "ExternalState": "qm31_ops_pointwise_mul_flag"
                     }
                   ]
                 }
@@ -929,7 +929,7 @@
             ]
           },
           {
-            "ExternalState": "op0_addr"
+            "ExternalState": "qm31_ops_in0_address"
           },
           {
             "State": "input_op0_limb0_col0"
@@ -964,7 +964,7 @@
             ]
           },
           {
-            "ExternalState": "op1_addr"
+            "ExternalState": "qm31_ops_in1_address"
           },
           {
             "State": "input_op1_limb0_col4"
@@ -999,7 +999,7 @@
             ]
           },
           {
-            "ExternalState": "dst_addr"
+            "ExternalState": "qm31_ops_out_address"
           },
           {
             "State": "input_dst_limb0_col8"
@@ -1016,7 +1016,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "qm31_ops_multiplicity"
+          "ExternalState": "qm31_ops_mults"
         }
       }
     }
@@ -1129,7 +1129,7 @@
             ]
           },
           {
-            "ExternalState": "op0_addr"
+            "ExternalState": "qm31_ops_in0_address"
           },
           {
             "State": "input_op0_limb0_col0"
@@ -1164,7 +1164,7 @@
             ]
           },
           {
-            "ExternalState": "op1_addr"
+            "ExternalState": "qm31_ops_in1_address"
           },
           {
             "State": "input_op1_limb0_col4"
@@ -1199,7 +1199,7 @@
             ]
           },
           {
-            "ExternalState": "dst_addr"
+            "ExternalState": "qm31_ops_out_address"
           },
           {
             "State": "input_dst_limb0_col8"
@@ -1216,7 +1216,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "ExternalState": "qm31_ops_multiplicity"
+          "ExternalState": "qm31_ops_mults"
         }
       }
     }

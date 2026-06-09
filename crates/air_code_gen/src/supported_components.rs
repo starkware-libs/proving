@@ -1,9 +1,17 @@
 use std::path::PathBuf;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
+pub struct AirAutogenConfig {
+    /// Additional traits that should be #[derive]-ed on the Claim and InteractionClaim structs
+    pub additional_claim_traits: &'static [&'static str],
+    /// Absolute path to the prelude module (e.g. "crate::components::prelude")
+    pub prelude_import_path: &'static str,
+}
+
+#[derive(PartialEq, Debug, Clone, Copy)]
 pub enum AutogenCodeType {
     WITNESS,
-    AIR,
+    AIR(AirAutogenConfig),
     CAIRO,
     CIRCUIT,
 }
@@ -27,6 +35,10 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         "verify_bitwise_xor_12".into(),
+        "circuit_blake_round".into(),
+        "qm_31_into_u_32".into(),
+        "blake_gate".into(),
+        "create_blake_output".into(),
     ]
 }
 
@@ -90,7 +102,7 @@ pub fn is_supported(job: &AutogenCodeFile) -> bool {
     match job.code_type {
         AutogenCodeType::WITNESS => !get_manual_witness_components().contains(&job.air_fn_name),
 
-        AutogenCodeType::AIR => {
+        AutogenCodeType::AIR(_) => {
             !get_manual_rust_constraints_components().contains(&job.air_fn_name)
         }
 
