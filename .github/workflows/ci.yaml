@@ -54,6 +54,15 @@ jobs:
           deno-version: v2.2.10
       - run: scripts/js_typecheck.sh
 
+  visualizer-webapp-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.2.10
+      - run: scripts/visualizer_webapp_test.sh
+
   test-generated-code-in-stwo-cairo:
     runs-on: ubuntu-latest-l
     steps:
@@ -115,6 +124,7 @@ jobs:
     - format
     - run-tests
     - machete-check
+    - visualizer-webapp-test
     - test-generated-code-in-stwo-cairo
     - test-generated-code-in-stwo-circuits
     steps:
