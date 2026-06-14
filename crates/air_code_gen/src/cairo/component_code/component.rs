@@ -38,12 +38,12 @@ pub fn generate_component_cairo_constraints_code(
 
             fn new(
                 claim: @Claim,
-                interaction_claim: @InteractionClaim,
+                claimed_sum: QM31,
                 common_lookup_elements: @CommonLookupElements,
             ) -> Component {
                 Component {
                     claim: *claim,
-                    interaction_claim: *interaction_claim,
+                    interaction_claim: InteractionClaim { claimed_sum },
                     common_lookup_elements: common_lookup_elements.clone()
                 }
             }
