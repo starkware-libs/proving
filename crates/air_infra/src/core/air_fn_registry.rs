@@ -36,13 +36,17 @@ pub struct AirFnStat {
     // How many rows each row in this component adds to other components, keyed by relation name.
     // This is higher than `use_lookup_cols` for calls to chain round components. For example,
     // blake_compress_opcode adds 10 rows to blake_round, but does only one use lookup and one yield
-    // lookup to that component. Unlike `direct_rows`, this also counts the memory,
-    // verify_instruction and const-table relations.
+    // lookup to that component. Unlike `exact_rows`, this also counts the memory, verify_instruction
+    // and const-table relations.
     pub lookup_rows: IndexMap<String, usize>,
-    // The number of rows this component adds to each directly-called lookup relation. Unlike
-    // `rows_upper_bound` (which may overestimate the row count), it is exact and non-transitive;
-    // unlike `lookup_rows`, it excludes the memory, verify_instruction and const-table relations.
-    pub direct_rows: IndexMap<String, usize>,
+    // The exact number of rows this component adds to each lookup relation it depends on, directly
+    // or transitively. Same as `rows_upper_bound` but without the power-of-two padding, so it has
+    // the same keys and its values are at most the corresponding upper bounds. Like
+    // `rows_upper_bound`, it excludes the memory, verify_instruction and const-table relations.
+    // Note that since intermediate component tables are padded to a power of two in the prover, the
+    // real number of rows is at least this value; i.e. this is a lower bound on the actual row
+    // counts.
+    pub exact_rows: IndexMap<String, usize>,
     pub padding_type: PaddingType,
     // The number of cells in each row, including interaction columns.
     pub total_num_trace_cols: usize,
@@ -629,10 +633,10 @@ impl AirFnRegistry {
         let reg = self.air_fns.borrow();
         let lookup_rows = entry.air_body.get_n_inputs_added_per_relation();
 
-        // The number of rows this component adds to each directly-called lookup relation. Populated
-        // below using the same filter as `rows_upper_bound`, so its keys are always a subset of
-        // `rows_upper_bound`'s keys.
-        let mut direct_rows: IndexMap<String, usize> = IndexMap::new();
+        // The exact number of rows this component adds to each lookup relation it depends on,
+        // directly or transitively. Computed below like `rows_upper_bound`, but using the raw call
+        // count `cnt` instead of the power-of-two-rounded `rounded_cnt`.
+        let mut exact_rows: IndexMap<String, usize> = IndexMap::new();
 
         // The registry is ordered such that each component appears after its callees, so all
         // callees already have their statistics computed.
@@ -663,8 +667,17 @@ impl AirFnRegistry {
                 // Update trace cells upper bound for the current component.
                 trace_cells_upper_bound += rounded_cnt * entry_stats.trace_cells_upper_bound;
 
-                // Record the exact number of rows added directly to `name`.
-                *direct_rows.entry(name.clone()).or_default() += cnt;
+                // Record the exact number of rows added to `name` directly (`cnt`) plus the rows
+                // `name` adds transitively to its own dependencies (already exact in
+                // `entry_stats.exact_rows`). Unlike `rows_upper_bound`, the transitive term uses the
+                // raw `cnt` rather than `rounded_cnt`.
+                *exact_rows.entry(name.clone()).or_default() += cnt;
+                entry_stats
+                    .exact_rows
+                    .iter()
+                    .for_each(|(row_name, row_bound)| {
+                        *exact_rows.entry(row_name.clone()).or_default() += cnt * row_bound;
+                    });
 
                 // Update rows upper bound for all lookup components.
                 // The number of rows of each component is padded at the end, after adding all
@@ -718,7 +731,7 @@ impl AirFnRegistry {
                 use_lookup_cols,
                 yield_lookup_cols,
                 lookup_rows: lookup_rows.into_iter().map(|(r, (_, c))| (r, c)).collect(),
-                direct_rows,
+                exact_rows,
                 padding_type: entry.padding_type,
                 total_num_trace_cols,
                 trace_cells_upper_bound,
