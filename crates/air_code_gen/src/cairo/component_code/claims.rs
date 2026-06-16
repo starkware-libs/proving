@@ -63,19 +63,3 @@ pub fn get_accumulate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
     code
 }
-
-pub fn gen_interaction_claim_struct() -> rust::Tokens {
-    quote! {
-        #[derive(Drop, Serde, Copy)]
-        pub struct InteractionClaim {
-            pub claimed_sum: QM31,
-        }
-
-        #[generate_trait]
-        pub impl InteractionClaimImpl of InteractionClaimTrait {
-            fn mix_into(self: @InteractionClaim, ref channel: Channel) {
-                channel.mix_felts([*self.claimed_sum].span());
-            }
-        }
-    }
-}
