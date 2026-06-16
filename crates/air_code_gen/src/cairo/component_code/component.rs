@@ -6,7 +6,7 @@ use genco::quote;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use super::claims::{gen_claim_struct, gen_interaction_claim_struct};
+use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use crate::cairo::utils::get_numerators;
@@ -23,18 +23,16 @@ pub fn generate_component_cairo_constraints_code(
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))$("\n")
         $(gen_claim_struct(air_fn))$("\n")
-        $(gen_interaction_claim_struct())$("\n")
 
         #[derive(Drop)]
         pub struct Component {
             pub claim: Claim,
-            pub interaction_claim: InteractionClaim,
+            pub claimed_sum: QM31,
             pub common_lookup_elements: CommonLookupElements
         }
 
         pub impl NewComponentImpl of NewComponent<Component> {
             type Claim = Claim;
-            type InteractionClaim = InteractionClaim;
 
             fn new(
                 claim: @Claim,
@@ -43,7 +41,7 @@ pub fn generate_component_cairo_constraints_code(
             ) -> Component {
                 Component {
                     claim: *claim,
-                    interaction_claim: InteractionClaim { claimed_sum },
+                    claimed_sum,
                     common_lookup_elements: common_lookup_elements.clone()
                 }
             }
@@ -60,7 +58,7 @@ pub fn generate_component_cairo_constraints_code(
                 public_params: Span<u32>,
             ) {
                 let log_size = $(get_log_size(air_fn, false));
-                let claimed_sum = *self.interaction_claim.claimed_sum;
+                let claimed_sum = *self.claimed_sum;
                 let column_size = m31(pow2(log_size));
                 $(get_evaluate_locals(air_fn))$("\n")
                 $(get_trace_vars(air_fn))$("\n")
@@ -104,7 +102,7 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
     quote! {
         Component {
             claim: Claim { $(claim_fields) },
-            interaction_claim: InteractionClaim { claimed_sum: $(make_qm31(&assignment.claimed_sum)) },
+            claimed_sum: $(make_qm31(&assignment.claimed_sum)),
             $(lookup_elements_fields)
         }
     }
@@ -160,7 +158,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         // result when the opcode is available.
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
-            use super::{Component, Claim, InteractionClaim};
+            use super::{Component, Claim};
             use crate::utils::*;
             use crate::components::sample_evaluations::*;
             use stwo_constraint_framework::AirComponent;
