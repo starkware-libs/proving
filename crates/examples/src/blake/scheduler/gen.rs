@@ -126,7 +126,8 @@ pub fn gen_interaction_trace(
 
     let mut logup_gen = LogupTraceGenerator::new(log_size);
 
-    for [l0, l1] in lookup_data.round_lookups.array_chunks::<2>() {
+    let (pairs, reminder) = lookup_data.round_lookups.as_chunks::<2>();
+    for [l0, l1] in pairs.iter() {
         let mut col_gen = logup_gen.new_col();
 
         for vec_row in 0..(1 << (log_size - LOG_N_LANES)) {
@@ -151,11 +152,8 @@ pub fn gen_interaction_trace(
                 .map(|l| l.data[vec_row]),
         );
         if N_ROUNDS % 2 == 1 {
-            let p_round: PackedSecureField = round_lookup_elements.combine(
-                &lookup_data.round_lookups[N_ROUNDS - 1]
-                    .each_ref()
-                    .map(|l| l.data[vec_row]),
-            );
+            let p_round: PackedSecureField =
+                round_lookup_elements.combine(&reminder[0].each_ref().map(|l| l.data[vec_row]));
             // TODO(alont): Remove.
             col_gen.write_frac(vec_row, p_blake, p_round * p_blake);
         } else {
