@@ -20,7 +20,7 @@ on:
       - checks_requested
 
 env:
-  STABLE_VERSION: "1.90.0"
+  STABLE_VERSION: "1.94.0"
 
 jobs:
   format:
@@ -73,7 +73,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: nightly-2025-06-23
+          toolchain: nightly-2026-01-15
       - uses: Swatinem/rust-cache@v2
       - run: scripts/test_generated_code_stwo_cairo.py
 
@@ -84,7 +84,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: nightly-2025-06-23
+          toolchain: nightly-2026-01-15
       - uses: Swatinem/rust-cache@v2
       - run: scripts/test_generated_code_stwo_circuits.py
 
