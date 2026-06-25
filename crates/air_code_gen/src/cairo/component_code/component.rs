@@ -159,15 +159,14 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
             use super::{Component, Claim};
-            use crate::utils::*;
             use crate::components::sample_evaluations::*;
             use stwo_constraint_framework::AirComponent;
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
             #[allow(unused_imports)]
-            use stwo_cairo_air::preprocessed_columns::*;
+            use crate::preprocessed_columns::*;
             #[allow(unused_imports)]
-            use crate::test_utils::{make_interaction_trace, preprocessed_mask_add};
+            use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
             #[allow(unused_imports)]
             use stwo_constraint_framework::{LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
