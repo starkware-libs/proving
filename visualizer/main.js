@@ -1,4 +1,4 @@
-import { Air, CallStep, LookupTermStep } from "./air.js"
+import { Air, CallStep, get_constraints_html, LookupTermStep } from "./air.js"
 import { DefaultMap, create_var_span, html, intersperse, zip } from "./utils.js"
 
 let AIRS = new Map()
@@ -76,7 +76,7 @@ class VarsView {
     }
 }
 
-class AirView {
+export class AirView {
     /** @param {Air} [air] */
     constructor(air) {
         let i
@@ -276,10 +276,7 @@ async function show_air(air_name) {
     document.getElementById("cells_panel_title").innerText = json.type == "Inline" ? "State cells (from caller)" : "State cells"
     document.getElementById("cells_panel").replaceChildren(view.cells_view.element)
     document.getElementById("vars_panel").replaceChildren(view.internal_view.element)
-    document.getElementById("constraints_panel").replaceChildren(html`
-        <div>
-            ${air.constraints.map(c => c.get_html(view))}
-        </div>`)
+    document.getElementById("constraints_panel").replaceChildren(get_constraints_html(air, view))
     show_comment()
 
     fill_xrefs_panel(air)

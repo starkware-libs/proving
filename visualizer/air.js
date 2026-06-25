@@ -1,41 +1,45 @@
 import { VarNode, expr_from_json, expr_var_ids } from "./expr.js"
 import { exprs_maximal_template, exprs_to_templates_greedy } from "./expr_templates.js"
-import { goto_air } from "./main.js"
+import { AirView, goto_air } from "./main.js"
 import { strings_maximal_template } from "./string_templates.js"
 import { DefaultMap, create_var_span, html, intersperse, remove_prefix, remove_suffix, shorten_name } from "./utils.js"
 
-function make_step_highlight_button(air_view, var_ids) {
-    const result = html`
-        <span style="cursor: pointer">
-            <svg width="12" height="12">
-                <rect x="1" y="1" width="10" height="10" rx="2" ry="2" stroke="#000000" stroke-width="1" fill="none" />
-            </svg>
-        </span>`
-    result.addEventListener('click', (e) => air_view.select_vars(var_ids))
-    return result
+
+/** @interface */
+class Step {
+    /** Return the IDs of the variables that appear in this step
+     * @returns {string[]}
+     */
+    get_var_ids() {
+        throw new Error("Unimplemented");
+    }
+
+    /** Return the HTML that shows this step. Doesn't include
+     * step number or step comments.
+     * @param {AirView} air_view
+     */
+    get_html(air_view) {
+        throw new Error("Unimplemented");
+    }
 }
 
+/** @implements {Step} */
 class ConstraintStep {
     constructor(json, air) {
         this.expr = expr_from_json(json[0], air)
         this.comment = json[1]
     }
 
+    get_var_ids() {
+        return Array.from(expr_var_ids(this.expr))
+    }
+
     get_html(air_view) {
-        const button = make_step_highlight_button(air_view, Array.from(expr_var_ids(this.expr)))
-        if (this.comment === null) {
-            return html`<div class="constraint">${button} ${this.expr.get_html(air_view)} = 0</div>`
-        } else {
-            const result = html`
-            <div class="constraint">
-                <span class="constraint-comment">// ${this.comment}</span><br/>
-                ${button} ${this.expr.get_html(air_view)} = 0
-            </div>`
-            return result
-        }
+        return html`${this.expr.get_html(air_view)} = 0`
     }
 }
 
+/** @implements {Step} */
 class IntermediateStep {
     constructor(json, air) {
         if (json.felt_names.length != 1) {
@@ -46,16 +50,18 @@ class IntermediateStep {
         this.expr = expr_from_json(json.var, air)
     }
 
+    get_var_ids() {
+        const var_obj = this.air.vars.get(this.var_id)
+        return Array.from(expr_var_ids(this.expr)).concat([var_obj.id])
+    }
+
     get_html(air_view) {
         const var_obj = this.air.vars.get(this.var_id)
-        const button = make_step_highlight_button(air_view, Array.from(expr_var_ids(this.expr)).concat([var_obj.id]))
-        return html`
-            <div class="constraint">
-                ${button} ${create_var_span(var_obj, air_view)} = ${this.expr.get_html(air_view)}
-            </div>`
+        return html`${create_var_span(var_obj, air_view)} = ${this.expr.get_html(air_view)}`
     }
 }
 
+/** @implements {Step} */
 export class CallStep {
     constructor(json, air) {
         this.air = air
@@ -81,14 +87,17 @@ export class CallStep {
         return input_exprs
     }
 
-    get_html(air_view) {
+    get_var_ids() {
         const var_ids = new Set(this.output_var_ids)
         for (const input_expr of this.input_exprs) {
             for (const var_id of expr_var_ids(input_expr)) {
                 var_ids.add(var_id)
             }
         }
-        const button = make_step_highlight_button(air_view, Array.from(var_ids))
+        return Array.from(var_ids)
+    }
+
+    get_html(air_view) {
         const param_templates = exprs_to_templates_greedy(this.input_exprs)
         const call_elem =
             html`<span class="air-link">${this.air_name}</span>
@@ -96,7 +105,7 @@ export class CallStep {
         call_elem[0].addEventListener('click', (e) => goto_air(this.air_name))
 
         if (this.output_var_ids.length == 0) {
-            return html`<div class="constraint">${button} ${call_elem}</div>`
+            return call_elem
         } else {
             const output_var_objects = this.output_var_ids.map(name => this.air.vars.get(name))
             let output_var_html = html`${intersperse(output_var_objects.map(v => create_var_span(v, air_view)), ", ")}`
@@ -108,11 +117,12 @@ export class CallStep {
                     output_var_html = template.get_html(air_view)
                 }
             }
-            return html`<div class="constraint">${button} [${output_var_html}] = ${call_elem}</div>`
+            return html`[${output_var_html}] = ${call_elem}`
         }
     }
 }
 
+/** @implements {Step} */
 export class LookupTermStep {
     /** @type {string} */
     relation_name
@@ -126,20 +136,37 @@ export class LookupTermStep {
         this.felts = json.felts.map(x => expr_from_json(x, air))
     }
 
-    get_html(air_view) {
+    get_var_ids() {
         const var_ids = new Set()
         for (const felt of this.felts) {
             for (const var_id of expr_var_ids(felt)) {
                 var_ids.add(var_id)
             }
         }
-        const button = make_step_highlight_button(air_view, Array.from(var_ids))
-        const felt_templates = exprs_to_templates_greedy(this.felts)
-        return html`
-            <div class="constraint">
-                ${button} ${this.direction} ${this.relation_name}: [${intersperse(felt_templates.map(x => x.get_html(air_view)), ", ")}]
-            </div>`
+        return Array.from(var_ids)
     }
+
+    get_html(air_view) {
+        const felt_templates = exprs_to_templates_greedy(this.felts)
+        return html`${this.direction} ${this.relation_name}: [${intersperse(felt_templates.map(x => x.get_html(air_view)), ", ")}]`
+    }
+}
+
+export function get_constraints_html(air, air_view) {
+    const result = html`<div></div>`
+    let step_num = 1
+    for (const step of air.constraints) {
+        const button = html`<span class="constraint-num-button">${step_num}</span>`
+        button.addEventListener('click', (e) => air_view.select_vars(step.get_var_ids()))
+
+        let comment = ""
+        if (step instanceof ConstraintStep && step.comment !== null) {
+            comment = html`<span class="constraint-comment">// ${step.comment}</span>`
+        }
+        result.appendChild(html`<div class="constraint">${comment}${button} ${step.get_html(air_view)}</div>`)
+        step_num += 1
+    }
+    return result
 }
 
 class VarGroup {
@@ -203,6 +230,8 @@ export class Air {
 
     var_groups
     group_order_by_type
+
+    /** @type {Step[]} */
     constraints
     output_exprs
     output_names
