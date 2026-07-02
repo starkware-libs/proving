@@ -38,7 +38,6 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
         "circuit_blake_round".into(),
         "qm_31_into_u_32".into(),
         "blake_gate".into(),
-        "create_blake_output".into(),
     ]
 }
 
@@ -64,7 +63,6 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
         "verify_bitwise_xor_12".into(),
         "qm_31_into_u_32".into(),
         "blake_gate".into(),
-        "create_blake_output".into(),
     ]
 }
 
@@ -80,7 +78,6 @@ fn get_manual_circuit_constraints_components() -> Vec<String> {
         "verify_bitwise_xor_12".into(),
         "qm_31_into_u_32".into(),
         "blake_gate".into(),
-        "create_blake_output".into(),
     ]
 }
 

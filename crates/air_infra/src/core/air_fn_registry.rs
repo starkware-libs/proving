@@ -15,7 +15,9 @@ use super::air_fn::*;
 use super::public_params::*;
 use super::state::*;
 use super::variables::*;
+use crate::const_expr;
 use crate::core::constraint_connectedness_test::assert_constraint_graph_connected;
+use crate::core::expressions::felt_expr::{FeltExpr, ValueInfo};
 
 pub const LOOKUPS_PER_BATCH: usize = 2;
 pub const TRACE_COLUMNS_PER_LOOKUP_BATCH: usize = 4;
@@ -290,6 +292,7 @@ impl AirFnEntry {
     // Given an input to the air function, returns an array of the felts of the input that are in
     // the mask.
     pub fn filter_input_limbs(&self, input: AirVarImpl) -> AirVarImpl {
+        assert_eq!(input.as_felts().len(), self.input_limbs_mask.len());
         AirVarImpl::Array(
             self.input_limbs_mask
                 .iter()
@@ -503,8 +506,8 @@ impl AirFnRegistry {
     {
         let ext_input = E::new();
         let input_name = AirFnEntry::input_name(&air_fn.name());
-        let mut input = I::new(input_name.clone(), Some(1));
-        input = input
+        let input = I::new(input_name.clone(), Some(1));
+        let input = input
             .rec_let(input_name, air_fn.input_expr_descriptions())
             .0;
 
@@ -521,6 +524,15 @@ impl AirFnRegistry {
             intermediate_id: Rc::new(RefCell::new((air_fn_id, 0))),
         };
 
+        if air_fn.trace_type() == TraceType::Inline {
+            air_builder.component_context.enabler = if air_builder.is_run_mode() {
+                const_expr!(1)
+            } else {
+                let mut enabler = FeltExpr::new("enabler".to_string(), Some(1));
+                enabler.set_value(ValueInfo::Enabler);
+                enabler
+            };
+        }
         let output = match air_fn.trace_type() {
             // For constant AirFns the value of <output> is meaningless, as we don't
             // output any constraints or deductions. It just has to be of the correct type.

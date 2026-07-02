@@ -50,19 +50,19 @@
     ]
   ],
   "state_names": [
-    "input_limb_0_col0",
-    "input_limb_1_col1",
-    "input_limb_2_col2",
-    "input_limb_3_col3",
-    "input_limb_4_col4",
-    "input_limb_5_col5",
-    "ms_8_bits_col6",
+    "enabler_col0",
+    "input_limb_0_col1",
+    "input_limb_1_col2",
+    "input_limb_2_col3",
+    "input_limb_3_col4",
+    "input_limb_4_col5",
+    "input_limb_5_col6",
     "ms_8_bits_col7",
     "ms_8_bits_col8",
     "ms_8_bits_col9",
     "ms_8_bits_col10",
     "ms_8_bits_col11",
-    "xor_col12",
+    "ms_8_bits_col12",
     "xor_col13",
     "xor_col14",
     "xor_col15",
@@ -70,7 +70,7 @@
     "xor_col17",
     "xor_col18",
     "xor_col19",
-    "enabler_col20"
+    "xor_col20"
   ],
   "constraint_lookups": [
     [
@@ -156,6 +156,30 @@
   "external_states": [],
   "constraints": [
     {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "enabler_col0"
+                },
+                "*",
+                {
+                  "State": "enabler_col0"
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "enabler_col0"
+            }
+          ]
+        },
+        "Enabler is a bit"
+      ]
+    },
+    {
       "Intermediate": {
         "felt_names": [
           "split_16_low_part_size_8_output_tmp_6e2d1_1_limb_0"
@@ -167,12 +191,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_0_col0"
+                    "State": "input_limb_0_col1"
                   }
                 ]
               },
               {
-                "State": "ms_8_bits_col6"
+                "State": "enabler_col0"
+              },
+              {
+                "State": "ms_8_bits_col7"
               }
             ]
           ]
@@ -191,12 +218,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_1_col1"
+                    "State": "input_limb_1_col2"
                   }
                 ]
               },
               {
-                "State": "ms_8_bits_col7"
+                "State": "enabler_col0"
+              },
+              {
+                "State": "ms_8_bits_col8"
               }
             ]
           ]
@@ -215,12 +245,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_2_col2"
+                    "State": "input_limb_2_col3"
                   }
                 ]
               },
               {
-                "State": "ms_8_bits_col8"
+                "State": "enabler_col0"
+              },
+              {
+                "State": "ms_8_bits_col9"
               }
             ]
           ]
@@ -239,12 +272,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_3_col3"
+                    "State": "input_limb_3_col4"
                   }
                 ]
               },
               {
-                "State": "ms_8_bits_col9"
+                "State": "enabler_col0"
+              },
+              {
+                "State": "ms_8_bits_col10"
               }
             ]
           ]
@@ -263,12 +299,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_4_col4"
+                    "State": "input_limb_4_col5"
                   }
                 ]
               },
               {
-                "State": "ms_8_bits_col10"
+                "State": "enabler_col0"
+              },
+              {
+                "State": "ms_8_bits_col11"
               }
             ]
           ]
@@ -287,12 +326,15 @@
               {
                 "Array": [
                   {
-                    "State": "input_limb_5_col5"
+                    "State": "input_limb_5_col6"
                   }
                 ]
               },
               {
-                "State": "ms_8_bits_col11"
+                "State": "enabler_col0"
+              },
+              {
+                "State": "ms_8_bits_col12"
               }
             ]
           ]
@@ -323,32 +365,7 @@
                 ]
               },
               {
-                "State": "xor_col12"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "felt_names": [],
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "State": "xor_col12"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "split_16_low_part_size_8_output_tmp_6e2d1_9_limb_0"
-                    ]
-                  }
-                ]
+                "State": "enabler_col0"
               },
               {
                 "State": "xor_col13"
@@ -368,12 +385,18 @@
               {
                 "Array": [
                   {
-                    "State": "ms_8_bits_col6"
+                    "State": "xor_col13"
                   },
                   {
-                    "State": "ms_8_bits_col8"
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_6e2d1_9_limb_0"
+                    ]
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "xor_col14"
@@ -393,15 +416,46 @@
               {
                 "Array": [
                   {
-                    "State": "xor_col14"
+                    "State": "ms_8_bits_col7"
                   },
                   {
-                    "State": "ms_8_bits_col10"
+                    "State": "ms_8_bits_col9"
                   }
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "xor_col15"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_8::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "xor_col15"
+                  },
+                  {
+                    "State": "ms_8_bits_col11"
+                  }
+                ]
+              },
+              {
+                "State": "enabler_col0"
+              },
+              {
+                "State": "xor_col16"
               }
             ]
           ]
@@ -432,32 +486,7 @@
                 ]
               },
               {
-                "State": "xor_col16"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "felt_names": [],
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_8_b::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "State": "xor_col16"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "split_16_low_part_size_8_output_tmp_6e2d1_11_limb_0"
-                    ]
-                  }
-                ]
+                "State": "enabler_col0"
               },
               {
                 "State": "xor_col17"
@@ -477,12 +506,18 @@
               {
                 "Array": [
                   {
-                    "State": "ms_8_bits_col7"
+                    "State": "xor_col17"
                   },
                   {
-                    "State": "ms_8_bits_col9"
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_6e2d1_11_limb_0"
+                    ]
                   }
                 ]
+              },
+              {
+                "State": "enabler_col0"
               },
               {
                 "State": "xor_col18"
@@ -502,15 +537,46 @@
               {
                 "Array": [
                   {
-                    "State": "xor_col18"
+                    "State": "ms_8_bits_col8"
                   },
                   {
-                    "State": "ms_8_bits_col11"
+                    "State": "ms_8_bits_col10"
                   }
                 ]
               },
               {
+                "State": "enabler_col0"
+              },
+              {
                 "State": "xor_col19"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "bitwise_xor_num_bits_8_b::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "xor_col19"
+                  },
+                  {
+                    "State": "ms_8_bits_col12"
+                  }
+                ]
+              },
+              {
+                "State": "enabler_col0"
+              },
+              {
+                "State": "xor_col20"
               }
             ]
           ]
@@ -525,13 +591,13 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "xor_col13"
+              "State": "xor_col14"
             },
             "+",
             {
               "BinaryOp": [
                 {
-                  "State": "xor_col15"
+                  "State": "xor_col16"
                 },
                 "*",
                 {
@@ -554,13 +620,13 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "xor_col17"
+              "State": "xor_col18"
             },
             "+",
             {
               "BinaryOp": [
                 {
-                  "State": "xor_col19"
+                  "State": "xor_col20"
                 },
                 "*",
                 {
@@ -576,30 +642,6 @@
       }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": "enabler_col20"
-                },
-                "*",
-                {
-                  "State": "enabler_col20"
-                }
-              ]
-            },
-            "-",
-            {
-              "State": "enabler_col20"
-            }
-          ]
-        },
-        "Enabler is a bit"
-      ]
-    },
-    {
       "LookupTerm": {
         "relation_name": "TripleXor32",
         "felts": [
@@ -610,22 +652,22 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_limb_1_col2"
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_limb_2_col3"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_limb_3_col4"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_limb_4_col5"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_limb_5_col6"
           },
           {
             "Var": [
@@ -642,12 +684,15 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col20"
+          "State": "enabler_col0"
         }
       }
     }
   ],
   "deductions": [
+    {
+      "Deduction": "Enabler"
+    },
     {
       "Deduction": {
         "MethodCall": [
@@ -823,13 +868,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_limb_0_col0"
+                  "State": "input_limb_0_col1"
                 },
                 "-",
                 {
                   "BinaryOp": [
                     {
-                      "State": "ms_8_bits_col6"
+                      "State": "ms_8_bits_col7"
                     },
                     "*",
                     {
@@ -843,7 +888,7 @@
               ]
             },
             {
-              "State": "ms_8_bits_col6"
+              "State": "ms_8_bits_col7"
             }
           ]
         }
@@ -905,13 +950,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_limb_1_col1"
+                  "State": "input_limb_1_col2"
                 },
                 "-",
                 {
                   "BinaryOp": [
                     {
-                      "State": "ms_8_bits_col7"
+                      "State": "ms_8_bits_col8"
                     },
                     "*",
                     {
@@ -925,7 +970,7 @@
               ]
             },
             {
-              "State": "ms_8_bits_col7"
+              "State": "ms_8_bits_col8"
             }
           ]
         }
@@ -987,13 +1032,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_limb_2_col2"
+                  "State": "input_limb_2_col3"
                 },
                 "-",
                 {
                   "BinaryOp": [
                     {
-                      "State": "ms_8_bits_col8"
+                      "State": "ms_8_bits_col9"
                     },
                     "*",
                     {
@@ -1007,7 +1052,7 @@
               ]
             },
             {
-              "State": "ms_8_bits_col8"
+              "State": "ms_8_bits_col9"
             }
           ]
         }
@@ -1069,13 +1114,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_limb_3_col3"
+                  "State": "input_limb_3_col4"
                 },
                 "-",
                 {
                   "BinaryOp": [
                     {
-                      "State": "ms_8_bits_col9"
+                      "State": "ms_8_bits_col10"
                     },
                     "*",
                     {
@@ -1089,7 +1134,7 @@
               ]
             },
             {
-              "State": "ms_8_bits_col9"
+              "State": "ms_8_bits_col10"
             }
           ]
         }
@@ -1151,13 +1196,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_limb_4_col4"
+                  "State": "input_limb_4_col5"
                 },
                 "-",
                 {
                   "BinaryOp": [
                     {
-                      "State": "ms_8_bits_col10"
+                      "State": "ms_8_bits_col11"
                     },
                     "*",
                     {
@@ -1171,7 +1216,7 @@
               ]
             },
             {
-              "State": "ms_8_bits_col10"
+              "State": "ms_8_bits_col11"
             }
           ]
         }
@@ -1233,13 +1278,13 @@
             {
               "BinaryOp": [
                 {
-                  "State": "input_limb_5_col5"
+                  "State": "input_limb_5_col6"
                 },
                 "-",
                 {
                   "BinaryOp": [
                     {
-                      "State": "ms_8_bits_col11"
+                      "State": "ms_8_bits_col12"
                     },
                     "*",
                     {
@@ -1253,7 +1298,7 @@
               ]
             },
             {
-              "State": "ms_8_bits_col11"
+              "State": "ms_8_bits_col12"
             }
           ]
         }
@@ -1332,7 +1377,7 @@
               ]
             },
             {
-              "State": "xor_col12"
+              "State": "xor_col13"
             }
           ]
         }
@@ -1361,15 +1406,12 @@
             ]
           },
           {
-            "State": "xor_col12"
+            "State": "xor_col13"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1388,7 +1430,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "xor_col12"
+                    "State": "xor_col13"
                   }
                 ]
               ]
@@ -1431,7 +1473,7 @@
         "input": {
           "Array": [
             {
-              "State": "xor_col12"
+              "State": "xor_col13"
             },
             {
               "Var": [
@@ -1440,7 +1482,7 @@
               ]
             },
             {
-              "State": "xor_col13"
+              "State": "xor_col14"
             }
           ]
         }
@@ -1457,7 +1499,7 @@
             ]
           },
           {
-            "State": "xor_col12"
+            "State": "xor_col13"
           },
           {
             "Var": [
@@ -1466,15 +1508,12 @@
             ]
           },
           {
-            "State": "xor_col13"
+            "State": "xor_col14"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1493,7 +1532,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "ms_8_bits_col6"
+                    "State": "ms_8_bits_col7"
                   }
                 ]
               ]
@@ -1504,7 +1543,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "ms_8_bits_col8"
+                    "State": "ms_8_bits_col9"
                   }
                 ]
               ]
@@ -1533,13 +1572,13 @@
         "input": {
           "Array": [
             {
-              "State": "ms_8_bits_col6"
+              "State": "ms_8_bits_col7"
             },
             {
-              "State": "ms_8_bits_col8"
+              "State": "ms_8_bits_col9"
             },
             {
-              "State": "xor_col14"
+              "State": "xor_col15"
             }
           ]
         }
@@ -1556,21 +1595,18 @@
             ]
           },
           {
-            "State": "ms_8_bits_col6"
+            "State": "ms_8_bits_col7"
           },
           {
-            "State": "ms_8_bits_col8"
+            "State": "ms_8_bits_col9"
           },
           {
-            "State": "xor_col14"
+            "State": "xor_col15"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1589,7 +1625,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "xor_col14"
+                    "State": "xor_col15"
                   }
                 ]
               ]
@@ -1600,7 +1636,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "ms_8_bits_col10"
+                    "State": "ms_8_bits_col11"
                   }
                 ]
               ]
@@ -1629,13 +1665,13 @@
         "input": {
           "Array": [
             {
-              "State": "xor_col14"
-            },
-            {
-              "State": "ms_8_bits_col10"
-            },
-            {
               "State": "xor_col15"
+            },
+            {
+              "State": "ms_8_bits_col11"
+            },
+            {
+              "State": "xor_col16"
             }
           ]
         }
@@ -1652,21 +1688,18 @@
             ]
           },
           {
-            "State": "xor_col14"
-          },
-          {
-            "State": "ms_8_bits_col10"
-          },
-          {
             "State": "xor_col15"
+          },
+          {
+            "State": "ms_8_bits_col11"
+          },
+          {
+            "State": "xor_col16"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1743,7 +1776,7 @@
               ]
             },
             {
-              "State": "xor_col16"
+              "State": "xor_col17"
             }
           ]
         }
@@ -1772,15 +1805,12 @@
             ]
           },
           {
-            "State": "xor_col16"
+            "State": "xor_col17"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1799,7 +1829,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "xor_col16"
+                    "State": "xor_col17"
                   }
                 ]
               ]
@@ -1842,7 +1872,7 @@
         "input": {
           "Array": [
             {
-              "State": "xor_col16"
+              "State": "xor_col17"
             },
             {
               "Var": [
@@ -1851,7 +1881,7 @@
               ]
             },
             {
-              "State": "xor_col17"
+              "State": "xor_col18"
             }
           ]
         }
@@ -1868,7 +1898,7 @@
             ]
           },
           {
-            "State": "xor_col16"
+            "State": "xor_col17"
           },
           {
             "Var": [
@@ -1877,15 +1907,12 @@
             ]
           },
           {
-            "State": "xor_col17"
+            "State": "xor_col18"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -1904,7 +1931,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "ms_8_bits_col7"
+                    "State": "ms_8_bits_col8"
                   }
                 ]
               ]
@@ -1915,7 +1942,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "ms_8_bits_col9"
+                    "State": "ms_8_bits_col10"
                   }
                 ]
               ]
@@ -1944,13 +1971,13 @@
         "input": {
           "Array": [
             {
-              "State": "ms_8_bits_col7"
+              "State": "ms_8_bits_col8"
             },
             {
-              "State": "ms_8_bits_col9"
+              "State": "ms_8_bits_col10"
             },
             {
-              "State": "xor_col18"
+              "State": "xor_col19"
             }
           ]
         }
@@ -1967,21 +1994,18 @@
             ]
           },
           {
-            "State": "ms_8_bits_col7"
+            "State": "ms_8_bits_col8"
           },
           {
-            "State": "ms_8_bits_col9"
+            "State": "ms_8_bits_col10"
           },
           {
-            "State": "xor_col18"
+            "State": "xor_col19"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -2000,7 +2024,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "xor_col18"
+                    "State": "xor_col19"
                   }
                 ]
               ]
@@ -2011,7 +2035,7 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "State": "ms_8_bits_col11"
+                    "State": "ms_8_bits_col12"
                   }
                 ]
               ]
@@ -2040,13 +2064,13 @@
         "input": {
           "Array": [
             {
-              "State": "xor_col18"
-            },
-            {
-              "State": "ms_8_bits_col11"
-            },
-            {
               "State": "xor_col19"
+            },
+            {
+              "State": "ms_8_bits_col12"
+            },
+            {
+              "State": "xor_col20"
             }
           ]
         }
@@ -2063,21 +2087,18 @@
             ]
           },
           {
-            "State": "xor_col18"
-          },
-          {
-            "State": "ms_8_bits_col11"
-          },
-          {
             "State": "xor_col19"
+          },
+          {
+            "State": "ms_8_bits_col12"
+          },
+          {
+            "State": "xor_col20"
           }
         ],
         "use_or_yield": "Use",
         "multiplicity": {
-          "Const": [
-            "M31",
-            "1"
-          ]
+          "State": "enabler_col0"
         }
       }
     },
@@ -2095,13 +2116,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col13"
+                        "State": "xor_col14"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "xor_col15"
+                            "State": "xor_col16"
                           },
                           "*",
                           {
@@ -2117,13 +2138,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col17"
+                        "State": "xor_col18"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "xor_col19"
+                            "State": "xor_col20"
                           },
                           "*",
                           {
@@ -2144,9 +2165,6 @@
       }
     },
     {
-      "Deduction": "Enabler"
-    },
-    {
       "LookupTerm": {
         "relation_name": "TripleXor32",
         "felts": [
@@ -2157,22 +2175,22 @@
             ]
           },
           {
-            "State": "input_limb_0_col0"
+            "State": "input_limb_0_col1"
           },
           {
-            "State": "input_limb_1_col1"
+            "State": "input_limb_1_col2"
           },
           {
-            "State": "input_limb_2_col2"
+            "State": "input_limb_2_col3"
           },
           {
-            "State": "input_limb_3_col3"
+            "State": "input_limb_3_col4"
           },
           {
-            "State": "input_limb_4_col4"
+            "State": "input_limb_4_col5"
           },
           {
-            "State": "input_limb_5_col5"
+            "State": "input_limb_5_col6"
           },
           {
             "MethodCall": [
@@ -2213,7 +2231,7 @@
         ],
         "use_or_yield": "Yield",
         "multiplicity": {
-          "State": "enabler_col20"
+          "State": "enabler_col0"
         }
       }
     }

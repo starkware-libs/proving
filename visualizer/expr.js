@@ -109,6 +109,12 @@ export class PublicParamNode {
     }
 }
 
+export class EnablerNode {
+    get_html(air_view) {
+        return html`<span>_enabler</span>`
+    }
+}
+
 const MAX_FELT = 0xfffffffe
 export class ConstNode {
     constructor(json, air) {
@@ -171,5 +177,8 @@ export function expr_from_json(json, air) {
     if (json.hasOwnProperty("PublicParam")) {
         return new PublicParamNode(json.PublicParam, air)
     }
-    throw new Error("Unknown expression node type" + Array.from(Object.keys(json)))
+    if (typeof json == "string" && json == "Enabler") {
+        return new EnablerNode()
+    }
+    throw new Error("Unknown expression node type " + Array.from(Object.keys(json)))
 }

@@ -23,6 +23,7 @@ fn test_xor() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (25957, "input_limb_0"),
         (2222, "input_limb_1"),
         (53282, "input_limb_2"),
@@ -43,7 +44,6 @@ fn test_xor() {
         (189, "xor"),
         (11, "xor"),
         (56, "xor"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

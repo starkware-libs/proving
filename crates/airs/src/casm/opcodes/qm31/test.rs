@@ -224,6 +224,7 @@ fn test_qm31_add() {
         coordinates_to_packed([1234567890, 1414213562, 1732050807, 1618033988]),
     );
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -296,7 +297,6 @@ fn test_qm31_add() {
         (12, "op1_limb_15"),
         (1471724291, "op1_delta_ab_inv"),
         (247557051, "op1_delta_cd_inv"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -372,6 +372,7 @@ fn test_qm31_mul() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -444,7 +445,6 @@ fn test_qm31_mul() {
         (2, "op1_limb_15"),
         (1756722233, "op1_delta_ab_inv"),
         (796687207, "op1_delta_cd_inv"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -487,6 +487,7 @@ fn test_qm31_mul_imm() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (10, "input_pc"),
         (50, "input_ap"),
         (100, "input_fp"),
@@ -559,7 +560,6 @@ fn test_qm31_mul_imm() {
         (15, "op1_limb_15"),
         (128080545, "op1_delta_ab_inv"),
         (1111409758, "op1_delta_cd_inv"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

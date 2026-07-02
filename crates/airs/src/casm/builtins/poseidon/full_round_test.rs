@@ -56,6 +56,7 @@ fn test_poseidon_full_round() {
         assert_eq!(out.calc(), exp_out.calc());
     }
     expect![[r#"
+        (1, "enabler"),
         (0, "input_limb_0"),
         (0, "input_limb_1"),
         (74972784, "input_limb_2"),
@@ -181,7 +182,6 @@ fn test_poseidon_full_round() {
         (123123101, "combination_limb_8"),
         (84, "combination_limb_9"),
         (0, "p_coef"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 

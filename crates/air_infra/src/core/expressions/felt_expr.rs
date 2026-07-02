@@ -91,7 +91,7 @@ impl FeltExpr {
         let name = match &new_value_info {
             ValueInfo::StateIndex(index, desc) => State::get_cell_name(*index, desc),
             ValueInfo::DegPolyOfState(_) => {
-                panic!("set_value shouldn't be used to make a FeltExpr an DegPolyOfState")
+                panic!("set_value shouldn't be used to make a FeltExpr a DegPolyOfState")
             }
             ValueInfo::ExternalState(col_id) => col_id.clone(),
             ValueInfo::PublicParam(public_param) => public_param.name(),

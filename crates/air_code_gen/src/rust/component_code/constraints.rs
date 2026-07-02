@@ -147,6 +147,11 @@ pub fn generate_constraints_code(
 
 fn get_inline_args(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
+    if air_fn.r#type == TraceType::Inline {
+        code.append(quote! {
+            enabler: E::F,
+        });
+    }
     for state_name in &air_fn.state_names {
         code.append(quote! {
             $(state_name): E::F,

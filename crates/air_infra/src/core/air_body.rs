@@ -25,6 +25,7 @@ use crate::core::Felt;
 pub struct Call {
     pub entry: Rc<AirFnEntry>,
     pub input: AirVarImpl,
+    pub enabler: FeltExpr,
     pub output_name: String,
     pub output: AirVarImpl,
     pub state_names: Vec<String>,
@@ -458,10 +459,9 @@ impl AirBody {
                             .iter()
                             .map(|s| CompiledAirVar::State(s.clone()))
                             .collect::<Vec<_>>();
-                        let input = call
-                            .entry
-                            .filter_input_limbs(call.input)
-                            .compile(CompileFor::Constraints);
+                        let input = call.entry.filter_input_limbs(call.input);
+                        let input = input.compile(CompileFor::Constraints);
+                        let enabler = call.enabler.compile(CompileFor::Constraints);
 
                         constraints.push(ConstraintEvalStep::Intermediate(
                             CompiledConstraintIntermediate {
@@ -473,6 +473,7 @@ impl AirBody {
                                     ),
                                     vec![input]
                                         .into_iter()
+                                        .chain(once(enabler))
                                         .chain(state_vars.into_iter())
                                         .collect(),
                                 ),
@@ -593,10 +594,15 @@ impl AirBody {
                 ConstraintComponent::Intermediate { value, .. } => {
                     result.extend(value.get_used_constraint_intermediates());
                 }
-                ConstraintComponent::LookupTerm { felts, .. } => {
+                ConstraintComponent::LookupTerm {
+                    felts,
+                    multiplicity,
+                    ..
+                } => {
                     for f in felts {
                         result.extend(f.get_used_constraint_intermediates());
                     }
+                    result.extend(multiplicity.get_used_constraint_intermediates());
                 }
             }
         }

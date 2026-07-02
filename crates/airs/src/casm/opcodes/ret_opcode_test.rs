@@ -55,6 +55,7 @@ fn test_ret_opcode() {
     assert_eq!(output.fp().calc(), saved_fp.to_string());
     assert_eq!(output.ap().calc(), ap_value.to_string());
     expect![[r#"
+        (1, "enabler"),
         (3, "input_pc"),
         (11, "input_ap"),
         (6, "input_fp"),
@@ -70,7 +71,6 @@ fn test_ret_opcode() {
         (0, "next_fp_limb_2"),
         (0, "next_fp_limb_3"),
         (0, "partial_limb_msb"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

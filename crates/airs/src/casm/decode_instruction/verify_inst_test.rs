@@ -44,6 +44,7 @@ fn test_verify_inst() {
     );
 
     expect![[r#"
+        (1, "multiplicity_0"),
         (0, "input_pc"),
         (32769, "input_offset0"),
         (32767, "input_offset1"),
@@ -60,7 +61,6 @@ fn test_verify_inst() {
         (0, "offset2_mid"),
         (4, "offset2_high"),
         (0, "instruction_id"),
-        (1, "multiplicity_0"),
     "#]]
     .assert_eq(&state.to_string());
 }

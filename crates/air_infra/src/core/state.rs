@@ -5,13 +5,15 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::rc::Rc;
 
+use crate::const_expr;
+
 use super::air_fn::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
 
 /// The "context" that we carry while running / building a component
 /// This is passed to, and updated by, all inline AirFns called by the component
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct ComponentContext {
     // The state of the component. Contains all the values deduced so far.
     state: Rc<RefCell<State>>,
@@ -21,6 +23,7 @@ pub struct ComponentContext {
     // For each chain round component, an intermediate for seq * number of chains. Used to assign
     // each call a unique ID in chain_lookup_call.
     chain_call_intermediates: Rc<RefCell<HashMap<String, FeltExpr>>>,
+    pub enabler: FeltExpr,
 }
 
 impl ComponentContext {
@@ -76,6 +79,17 @@ impl ComponentContext {
     {
         let mut chain_call_intermediates = self.chain_call_intermediates.borrow_mut();
         chain_call_intermediates.insert(called_round.name(), var);
+    }
+}
+
+impl Default for ComponentContext {
+    fn default() -> Self {
+        Self {
+            state: Default::default(),
+            chain_call_counts: Default::default(),
+            chain_call_intermediates: Default::default(),
+            enabler: const_expr!(1),
+        }
     }
 }
 

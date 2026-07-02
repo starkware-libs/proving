@@ -84,6 +84,7 @@ fn test_verify_felt252width27_rangecheck() {
     );
 
     expect![[r#"
+        (1, "enabler"),
         (106181136, "input_limb_0"),
         (60248846, "input_limb_1"),
         (121094139, "input_limb_2"),
@@ -103,7 +104,6 @@ fn test_verify_felt252width27_rangecheck() {
         (493, "limb_6_high_part"),
         (383, "limb_7_low_part"),
         (209, "limb_8_high_part"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

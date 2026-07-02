@@ -35,7 +35,9 @@ run_cmd(['cargo', 'run', '--bin', 'air_code_gen', '--', 'generate-stwo-circuits'
 
 # Test generated Rust code
 os.chdir(clone_dir)
-cargo_test_return_code = run_cmd(['cargo', 'test'], check_success=False)
+
+# Run a single test at a time because some of them are memory heavy
+cargo_test_return_code = run_cmd(['cargo', 'test', '--', '--test-threads=1'], check_success=False)
 if cargo_test_return_code != 0:
     print(f"Failure: cargo test in stwo-circuits exited with {cargo_test_return_code}")
     exit(1)

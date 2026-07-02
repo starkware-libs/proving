@@ -30,6 +30,7 @@ fn test_g1() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (22136, "input_limb_0"),
         (4660, "input_limb_1"),
         (65535, "input_limb_2"),
@@ -82,7 +83,6 @@ fn test_g1() {
         (443, "xor"),
         (104, "xor"),
         (288, "xor"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
@@ -111,6 +111,7 @@ fn test_g2() {
 
     // Check state
     expect![[r#"
+        (1, "enabler"),
         (9365, "input_limb_0"),
         (56368, "input_limb_1"),
         (12847, "input_limb_2"),
@@ -163,7 +164,6 @@ fn test_g2() {
         (463, "xor"),
         (16, "xor"),
         (334, "xor"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

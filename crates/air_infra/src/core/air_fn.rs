@@ -222,6 +222,44 @@ pub trait AirFn: Debug + InstDefTrait {
 
         Self::ExtIn::to_state(&mut ext_input);
 
+        // Add enabler / multiplicity columns
+        let lookup_control_values = match self.padding_type() {
+            PaddingType::Multiplicity => (0..self.relation_names().len())
+                .map(|idx| {
+                    let name = format!("multiplicity_{idx}");
+                    let mut multiplicity = if air_builder.is_run_mode() {
+                        const_expr!(1)
+                    } else {
+                        let mut multiplicity = FeltExpr::new(name.clone(), Some(1));
+                        multiplicity.set_value(ValueInfo::Multiplicity(idx));
+                        multiplicity
+                    };
+                    air_builder.deduce(&mut multiplicity, &format!("multiplicity_{idx}"));
+                    multiplicity
+                })
+                .collect::<Vec<_>>(),
+            PaddingType::Enabler => {
+                let name = "enabler".to_string();
+                let mut enabler = if air_builder.is_run_mode() {
+                    const_expr!(1)
+                } else {
+                    let mut enabler = FeltExpr::new(name.clone(), Some(1));
+                    enabler.set_value(ValueInfo::Enabler);
+                    enabler
+                };
+                air_builder.deduce(&mut enabler, "enabler");
+
+                air_builder.component_context.enabler = enabler.clone();
+
+                air_builder.constrain(
+                    enabler.clone() * enabler.clone() - enabler.clone(),
+                    "Enabler is a bit",
+                );
+                vec![enabler]
+            }
+            PaddingType::None => panic!("Lookup call to an un-padded component"),
+        };
+
         // Handle input
         if self.trace_type() == TraceType::Memory {
             // Memory - Assume input & output are already in state (filled by Stwo)
@@ -256,42 +294,6 @@ pub trait AirFn: Debug + InstDefTrait {
 
         // Perform AirFn logic
         let output = self.call(air_builder, ext_input.clone(), input.clone());
-
-        // Add enabler / multiplicity columns
-        let lookup_control_values = match self.padding_type() {
-            PaddingType::Multiplicity => (0..self.relation_names().len())
-                .map(|idx| {
-                    let name = format!("multiplicity_{idx}");
-                    let mut multiplicity = if air_builder.is_run_mode() {
-                        const_expr!(1)
-                    } else {
-                        let mut multiplicity = FeltExpr::new(name.clone(), Some(1));
-                        multiplicity.set_value(ValueInfo::Multiplicity(idx));
-                        multiplicity
-                    };
-                    air_builder.deduce(&mut multiplicity, &format!("multiplicity_{idx}"));
-                    multiplicity
-                })
-                .collect::<Vec<_>>(),
-            PaddingType::Enabler => {
-                let name = "enabler".to_string();
-                let mut enabler = if air_builder.is_run_mode() {
-                    const_expr!(1)
-                } else {
-                    let mut enabler = FeltExpr::new(name.clone(), Some(1));
-                    enabler.set_value(ValueInfo::Enabler);
-                    enabler
-                };
-                air_builder.deduce(&mut enabler, "enabler");
-
-                air_builder.constrain(
-                    enabler.clone() * enabler.clone() - enabler.clone(),
-                    "Enabler is a bit",
-                );
-                vec![enabler]
-            }
-            PaddingType::None => panic!("Lookup call to an un-padded component"),
-        };
 
         // Add lookup terms
         if self.trace_type() == TraceType::Opcode || self.trace_type() == TraceType::ChainRound {
@@ -620,6 +622,7 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::Call(Call {
             entry,
+            enabler: self.component_context.enabler.clone(),
             input: input.into(),
             output_name,
             output: output.clone().into(),
@@ -705,7 +708,7 @@ impl AirBuilder {
                 .chain(output.as_felts())
                 .collect(),
             UseOrYield::Use,
-            const_expr!(1),
+            self.component_context.enabler.clone(),
         );
 
         output
@@ -755,7 +758,7 @@ impl AirBuilder {
             &air_fn.relation_name().expect("Relation name not set"),
             input.as_felts(),
             UseOrYield::Yield,
-            const_expr!(1),
+            self.component_context.enabler.clone(),
         );
 
         // TODO(AnatG): Consider adding all inputs to the lookup component together in one
@@ -806,7 +809,7 @@ impl AirBuilder {
             )
                 .as_felts(),
             UseOrYield::Use,
-            const_expr!(1),
+            self.component_context.enabler.clone(),
         );
 
         final_state
@@ -983,7 +986,7 @@ impl AirBuilder {
             &memory.relation_name().expect("Relation name not set"),
             key.as_felts().into_iter().chain(value.as_felts()).collect(),
             UseOrYield::Use,
-            const_expr!(1),
+            self.component_context.enabler.clone(),
         );
     }
 

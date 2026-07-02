@@ -21,6 +21,7 @@ fn test_cube252_no_overflow() {
         const_felt252_expr!(0x1018120805436188603c18060001u128, 0u128).calc()
     );
     expect![[r#"
+        (1, "enabler"),
         (131073, "input_limb_0"),
         (513, "input_limb_1"),
         (0, "input_limb_2"),
@@ -161,7 +162,6 @@ fn test_cube252_no_overflow() {
         (0, "carry_24"),
         (0, "carry_25"),
         (0, "carry_26"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }

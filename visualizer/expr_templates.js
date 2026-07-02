@@ -1,4 +1,4 @@
-import { BinaryOpNode, ConstNode, ExternalCellNode, PublicParamNode, VarNode } from "./expr.js"
+import { BinaryOpNode, ConstNode, EnablerNode, ExternalCellNode, PublicParamNode, VarNode } from "./expr.js"
 import { strings_maximal_template } from "./string_templates.js"
 import { create_var_span, html, intersperse } from "./utils.js"
 
@@ -140,6 +140,10 @@ function structure_matches(expr1, expr2) {
 
     if (expr1 instanceof VarNode) {
         return (expr2 instanceof VarNode)
+    }
+
+    if (expr1 instanceof EnablerNode) {
+        return (expr2 instanceof EnablerNode)
     }
 
     throw new Error(`Unexpected expression root type ${expr1}`)

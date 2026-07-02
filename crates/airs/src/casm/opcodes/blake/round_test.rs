@@ -68,6 +68,7 @@ fn test_blake_round() {
 
     // Check state.
     expect![[r#"
+        (1, "enabler"),
         (0, "input_limb_0"),
         (5, "input_limb_1"),
         (26625, "input_limb_2"),
@@ -279,7 +280,6 @@ fn test_blake_round() {
         (58370, "blake_g_output_limb_5"),
         (33068, "blake_g_output_limb_6"),
         (48721, "blake_g_output_limb_7"),
-        (1, "enabler"),
     "#]]
     .assert_eq(&state.to_string());
 }
