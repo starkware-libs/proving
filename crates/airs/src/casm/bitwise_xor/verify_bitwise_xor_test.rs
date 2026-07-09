@@ -21,7 +21,7 @@ fn test_bitwise_xor() {
 
 #[test]
 #[should_panic(expected = "The bitwise XOR of 1111 and 1101 is not 101")]
-fn test_falied_bitwise_xor() {
+fn test_failed_bitwise_xor() {
     let bitwise_xor = VerifyBitwiseXor::<VerifyBitwiseXor_4_Const>::default();
     let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
@@ -37,7 +37,7 @@ fn test_falied_bitwise_xor() {
 
 #[test]
 #[should_panic(expected = "RangeCheck4 failed")]
-fn test_falied_big_input_xor() {
+fn test_failed_big_input_xor() {
     let bitwise_xor = VerifyBitwiseXor::<VerifyBitwiseXor_4_Const>::default();
     let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(

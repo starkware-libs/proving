@@ -93,7 +93,7 @@ impl AirFn for UpdateRegisters {
             "dst_not_p",
         );
 
-        // Calcualte npc for jnz
+        // Calculate npc for jnz
         let mut dst_sum: FeltExpr = dst.as_felts().clone().into_iter().sum();
         dst_sum = air_builder.let_(dst_sum, "dst_sum");
 

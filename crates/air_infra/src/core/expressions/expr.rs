@@ -18,7 +18,7 @@ use super::uint32_expr::*;
 use super::uint64_expr::*;
 use super::var_expr::*;
 
-/// Experssions can be manipulated with binary and unary operations.
+/// Expressions can be manipulated with binary and unary operations.
 /// They have a type that determines the operations that can be performed on them.
 #[derive(Clone, Debug)]
 #[enum_dispatch(AirVarImplInfo, AsProverType<T>)]

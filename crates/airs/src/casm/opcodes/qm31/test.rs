@@ -99,7 +99,7 @@ fn test_qm31_add_mul_opcode(
     let ap = const_expr!(ap_value);
     let fp = const_expr!(fp_value);
 
-    // Cretae the non-constant flags
+    // Create the non-constant flags
     let non_consts_flags = vec![
         flag_dst_base_fp,
         flag_op0_base_fp,
@@ -323,7 +323,7 @@ fn test_qm31_neither_add_res_nor_mul_res() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_qm31_add_both_op1_base_fp_and_op1_imm() {
     test_qm31_add_mul_opcode(
         [false, true, true, true, false, true, false, true],
@@ -340,7 +340,7 @@ fn test_qm31_add_both_op1_base_fp_and_op1_imm() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_qm31_add_not_equal() {
     test_qm31_add_mul_opcode(
         [true, false, false, false, true, true, false, false],
@@ -450,7 +450,7 @@ fn test_qm31_mul() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_qm31_mul_not_equal() {
     let dst_coordinates = [1061611715, 1937705850, 1725588458, 638022338];
     let op0_coordinates = [1374529783, 2085302751, 630173584, 1752038619];
@@ -565,7 +565,7 @@ fn test_qm31_mul_imm() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_qm31_mul_imm_not_equal() {
     let dst_coordinates = [947980980, 1510986506, 623360030, 1260310989];
     let op0_coordinates = [1414213562, 1732050807, 1618033988, 1234567890];

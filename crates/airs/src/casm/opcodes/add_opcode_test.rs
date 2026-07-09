@@ -362,7 +362,7 @@ fn test_add_big_not_imm() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_add_big_mod_not_equal() {
     test_add_opcode(
         [false, false, true, false, false, true, false],

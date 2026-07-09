@@ -37,7 +37,7 @@ pub type PartialECMulGenericState = (Felt252Width27Expr, ECPoint, ECPoint, FeltE
 // - `r` is the round number, ranging from 0 to 251.
 // - m_c is the coefficient of Q_c in the chain with index `c`.
 // - (m_c)_r are the r least-significant bits of m_c.
-// - `counter` is an auxillary term equal to (26 - r) % 27, used for determining the round type.
+// - `counter` is an auxiliary term equal to (26 - r) % 27, used for determining the round type.
 // The third element m_c >> r is represented as an array of 27-bit limbs to save trace cells.
 // The shift is performed by shifting the entire array [r/27] limbs, and the least limb by r % 27.
 //

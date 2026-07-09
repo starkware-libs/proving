@@ -27,7 +27,7 @@ impl AirFn for Split16 {
             &format!("ms_{}_bits", 16 - self.low_part_size),
         );
 
-        // Caclulate the low 'low_part_size' bits.
+        // Calculate the low 'low_part_size' bits.
         let al = a.as_felt() - ah.as_felt() * const_expr!(1 << self.low_part_size);
         [al, ah.as_felt()]
     }

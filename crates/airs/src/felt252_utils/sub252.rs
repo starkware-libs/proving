@@ -10,7 +10,7 @@ use super::verify_add252::*;
 
 /// Subtraction of two 252-bit felts.
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
-/// The result is not constrained to be fully reduced, i.e. an assignement with b = ((c-a) % P) + P
+/// The result is not constrained to be fully reduced, i.e. an assignment with b = ((c-a) % P) + P
 /// could satisfy the constraints.
 #[derive(Clone, Debug, Serialize)]
 pub struct Sub252 {}

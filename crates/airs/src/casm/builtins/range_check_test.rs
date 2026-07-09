@@ -47,7 +47,7 @@ fn test_range_check_partial_limbs() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_range_check_2_bit_msl_fail() {
     run_range_check(const_felt252_expr!(0, 1), 128);
 }

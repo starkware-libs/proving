@@ -363,37 +363,37 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
             .join("stwo_cairo_prover/crates/common/casm_registry.json"),
     );
 
-    let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
+    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo();
 
-    let claim_generator_code = generate_claim_generator_file(&compiled_regisry);
+    let claim_generator_code = generate_claim_generator_file(&compiled_registry);
     fs::write(
         args.stwo_cairo_path.join(CLAIM_GENERATOR_FILE_PATH),
         claim_generator_code.to_string().unwrap(),
     )
     .expect("Failed to write claim generator code");
 
-    let claims_rust_code = generate_claims_rust_file(&compiled_regisry);
+    let claims_rust_code = generate_claims_rust_file(&compiled_registry);
     fs::write(
         args.stwo_cairo_path.join(CLAIMS_RUST_FILE_PATH),
         claims_rust_code.to_string().unwrap(),
     )
     .expect("Failed to write claims rust code");
 
-    let components_rust_code = generate_components_rust_file(&compiled_regisry);
+    let components_rust_code = generate_components_rust_file(&compiled_registry);
     fs::write(
         args.stwo_cairo_path.join(COMPONENTS_RUST_FILE_PATH),
         components_rust_code.to_string().unwrap(),
     )
     .expect("Failed to write components rust code");
 
-    let provers_utils_code = generate_provers_rust_file(&compiled_regisry.keys().collect_vec());
+    let provers_utils_code = generate_provers_rust_file(&compiled_registry.keys().collect_vec());
     fs::write(
         args.stwo_cairo_path.join(PROVERS_UTILS_FILE_PATH),
         provers_utils_code.to_string().unwrap(),
     )
     .expect("Failed to write provers utils code");
 
-    let claims_cairo_code = generate_claims_cairo_file(&compiled_regisry);
+    let claims_cairo_code = generate_claims_cairo_file(&compiled_registry);
     fs::write(
         args.stwo_cairo_path.join(CLAIMS_CAIRO_FILE_PATH),
         claims_cairo_code.to_string().unwrap(),
@@ -457,10 +457,10 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
         }
     }
 
-    let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
+    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo();
     generate_all_components_file(
         &args.stwo_circuits_path.join("crates/cairo_verifier/src"),
-        &compiled_regisry,
+        &compiled_registry,
     );
 
     if !args.skip_format {

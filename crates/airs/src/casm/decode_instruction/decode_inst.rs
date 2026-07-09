@@ -144,10 +144,10 @@ impl AirFn for DecodeInstruction {
         let mut flags_vec: Vec<FeltExpr> = vec![];
         for (i, flag) in self.const_flags.to_arr().iter().enumerate() {
             let flag_to_push = if last_to_rest.contains_key(&i) {
-                // Infered flag - the last flag of each set is given the value of 1 minus the sum of
+                // Inferred flag - the last flag of each set is given the value of 1 minus the sum of
                 // the other flags. If there are more than 2 flags in the set, it needs to be
                 // constrained to be a bit.
-                let mut infered_flag = last_to_rest[&i]
+                let mut inferred_flag = last_to_rest[&i]
                     .iter()
                     .map(|&j| flags_vec[j].clone())
                     .fold(const_expr!(1), |acc, flag| acc - flag);
@@ -155,14 +155,14 @@ impl AirFn for DecodeInstruction {
                 if last_to_rest[&i].len() > 1 {
                     // The expression for the inferred variable contains multiple operations.
                     // Put it in an intermediate to simplify the "is a bit" constraint below.
-                    infered_flag = ab.let_(infered_flag, FLAG_NAMES[i]);
+                    inferred_flag = ab.let_(inferred_flag, FLAG_NAMES[i]);
 
                     ab.constrain(
-                        infered_flag.clone() * (const_expr!(1) - infered_flag.clone()),
+                        inferred_flag.clone() * (const_expr!(1) - inferred_flag.clone()),
                         &format!("Flag {} is a bit", FLAG_NAMES[i]),
                     );
                 }
-                infered_flag
+                inferred_flag
             } else if let Some(flag) = flag {
                 // Const flag - doesn't need to be constrained to be a bit.
                 const_expr!(*flag as u32)

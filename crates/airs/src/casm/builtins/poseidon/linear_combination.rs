@@ -140,7 +140,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                 // 2**27). The value that limb accumulator currently holds therefore equals
                 // 2**27 * carry_0 + p_coef * 1. Thus we would liked to reduce limb accumulator mod
                 // 2**27 to obtain p_coef. Because both p_coef and carry_0 might be negative, we
-                // first bias the limb accumlator by adding (2**27 + 1) * minus_lower_bound (as
+                // first bias the limb accumulator by adding (2**27 + 1) * minus_lower_bound (as
                 // -minus_lower_bound is a lower bound for both p_coef and carry_0). Then we convert
                 // the biased limb accumulator into a u32, and deduce p_coef by unbiasing its low
                 // part (no further reduction is necessary as 27 > 16).

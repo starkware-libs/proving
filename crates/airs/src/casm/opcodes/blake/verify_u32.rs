@@ -47,7 +47,7 @@ impl AirFn for VerifyU32 {
         let high_9_mid_bits =
             high_14_ms_bits.as_felt() - high_5_ms_bits.as_felt() * const_expr!(1 << 9);
 
-        // Range check the splited chunks.
+        // Range check the split chunks.
         range_check(
             air_builder,
             &[7, 2, 5],

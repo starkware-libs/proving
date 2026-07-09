@@ -48,8 +48,8 @@ fn add_ap_cairo_code_gen() {
 
 #[test]
 fn test_generate_claims_cairo() {
-    let compiled_regisry = create_casm_registry_ordered_by_stwo_cairo();
-    let generated_code = generate_claims_cairo_file(&compiled_regisry);
+    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo();
+    let generated_code = generate_claims_cairo_file(&compiled_registry);
     let code_string = generated_code.to_string().unwrap();
     let formatted_code = format_cairo_code(code_string);
     expect_file!["../../../code_gen_regression/cairo_air/src/claims.cairo"]

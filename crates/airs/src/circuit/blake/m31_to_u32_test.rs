@@ -29,7 +29,7 @@ fn test_m31_to_u32() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_m31_to_u32_fails_on_p() {
     let m31_to_u32 = M31ToU32 {};
     let (registry, _) = AirFnRegistry::new(&m31_to_u32);

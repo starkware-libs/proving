@@ -161,7 +161,7 @@ fn test_add_ap_deref_base_fp() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_failed_op1_src() {
     // Build the air function
     let mut add_ap_opcode = AddApOpcode {

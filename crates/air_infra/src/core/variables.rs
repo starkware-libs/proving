@@ -65,7 +65,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
             .collect::<Option<Vec<_>>>()
     }
 
-    // Defines a new variable for the top level variable, visibile in deductions, and a variable for
+    // Defines a new variable for the top level variable, visible in deductions, and a variable for
     // each felt, visible in constraints.
     fn rec_let(
         &self,
@@ -75,7 +75,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
         let (mut res, interm0) = self.let_for_deduction(name.clone());
 
         // When the expression is a single felt that is directly in state, no intermediates
-        // are neccessary.
+        // are necessary.
         if let AirVarImpl::Expr(ExprImpl::Felt(f)) = self.clone().into() {
             if f.is_directly_in_state() {
                 return (self.clone(), vec![]);
@@ -345,7 +345,7 @@ impl AirVarImpl {
         match self {
             // Note that this implementation is not suitable for AirVarImpl::Tuple because a
             // tuple might have elements that are larger than a single felt, so the i'th felt
-            // isn't neccessarily in the i'th position.
+            // isn't necessarily in the i'th position.
             AirVarImpl::Array(arr) => arr.get(index).expect("Invalid index").as_felt(),
             _ => panic!("Cannot get a Felt"),
         }
@@ -355,7 +355,7 @@ impl AirVarImpl {
         match self {
             // Note that this implementation is not suitable for AirVarImpl::Tuple because a
             // tuple might have elements that are larger than a single felt, so the i'th felt
-            // isn't neccessarily in the i'th position.
+            // isn't necessarily in the i'th position.
             AirVarImpl::Array(arr) => arr.get_mut(index).expect("Invalid index").as_felt_mut(),
             _ => panic!("Cannot get a Felt"),
         }

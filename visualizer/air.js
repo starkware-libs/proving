@@ -277,7 +277,7 @@ export class Air {
     disambiguate_display_names() {
         const display_name_counts = new DefaultMap(() => 0)
 
-        // Count occurences of each display name
+        // Count occurrences of each display name
         for (const var_id of this.var_order) {
             const display_name = this.vars.get(var_id).display_name
 
