@@ -59,7 +59,7 @@ class TemplateVarNode {
             }
 
             if (this.vars.length > 1) {
-                // If this is a templae representing multiple vars, wait before highlighting. This
+                // If this is a template representing multiple vars, wait before highlighting. This
                 // click might be the first part of a double-click, which means "expand", not "highlight".
                 highlight_task = setTimeout(() => {
                     air_view.select_vars(var_ids)

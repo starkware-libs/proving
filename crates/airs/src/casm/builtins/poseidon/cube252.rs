@@ -10,7 +10,7 @@ use crate::felt252_utils::mul252::*;
 /// Cubing of a 252-bit felt, as a lookup function.
 /// The input and output are given in packed form. The function expands them to Felt252 and
 /// explicitly range-checks the limbs after expansion.
-/// The result is not constrained to be fully reduced, i.e. an assignement with y = ((x*x*x) % P) +
+/// The result is not constrained to be fully reduced, i.e. an assignment with y = ((x*x*x) % P) +
 /// P could satisfy the constraints.
 #[derive(Clone, Debug, Serialize)]
 pub struct Cube252 {}

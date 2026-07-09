@@ -85,7 +85,7 @@ impl AirFn for HandleOpcodes {
         );
 
         // Handle call
-        // ofsset0 = 0
+        // offset0 = 0
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone() * offset0.clone(),
             "call opcode offset0 equals 0",

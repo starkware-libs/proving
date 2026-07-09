@@ -10,10 +10,10 @@ use crate::utils::*;
 
 pub fn generate_all_components_file(
     dest_dir: &Path,
-    compiled_regisry: &IndexMap<String, CompiledAirFn>,
+    compiled_registry: &IndexMap<String, CompiledAirFn>,
 ) {
     let mut body = vec![];
-    for (name, _) in compiled_regisry.iter() {
+    for (name, _) in compiled_registry.iter() {
         if name == "memory_id_to_big" {
             body.push(
                 "(\"memory_id_to_big\", Box::new(components::memory_id_to_big::Component { index: 0 }) as Box<dyn CircuitEval<Value>>)".to_string()

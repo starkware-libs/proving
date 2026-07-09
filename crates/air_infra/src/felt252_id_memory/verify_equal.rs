@@ -44,7 +44,7 @@ pub struct MemCondVerifyEqualKnownId {
 
 /// Same as MemVerifyEqual, but receives a condition so that the values are verified to be equal
 /// only when the given condition is met. The condition is created after reading one of the values
-/// with ReadSmall for example, so there is no need to read, deduce or verifiy its ID.
+/// with ReadSmall for example, so there is no need to read, deduce or verify its ID.
 impl AirFn for MemCondVerifyEqualKnownId {
     type ExtIn = ();
     type In = (CasmAddress, CasmId, FeltExpr);

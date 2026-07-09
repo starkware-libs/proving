@@ -69,7 +69,7 @@ pub struct CompiledAirFn {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum TraceGenStep {
-    // Constains a description of the following code block.
+    // Contains a description of the following code block.
     StartBlock(String),
 
     EndBlock,

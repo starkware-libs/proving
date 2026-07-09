@@ -2465,7 +2465,7 @@ fn test_generic_add_ap_res_add() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_call_wrong_offset() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
@@ -2511,7 +2511,7 @@ fn test_generic_soundness_call_wrong_offset() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_call_fp_not_pushed() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
@@ -2557,7 +2557,7 @@ fn test_generic_soundness_call_fp_not_pushed() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_call_wrong_next_pc() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
@@ -2655,7 +2655,7 @@ fn test_generic_soundness_jnz_dst_p() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_assert_eq() {
     let mut generic_opcode = GenericOpcode::default();
     let assert_eq = AssertEqOpcode {

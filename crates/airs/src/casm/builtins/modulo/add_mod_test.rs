@@ -376,7 +376,7 @@ fn test_add_mod_builtin_on_abcp_bank() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_add_mod_builtin_on_distorted_n() {
     let mut instances = sequence_from_bank(0, 2, VALID_ABCP_BANK[0].1.len(), 600, 1000);
     for instance in instances.iter_mut() {
@@ -387,7 +387,7 @@ fn test_add_mod_builtin_on_distorted_n() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_add_mod_builtin_on_distorted_abcp() {
     let mut instances = sequence_from_bank(0, 1, 2, 600, 1000);
     instances[0].distort("b", 1, 2);

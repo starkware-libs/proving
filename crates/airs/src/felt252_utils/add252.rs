@@ -11,7 +11,7 @@ use super::verify_add252::*;
 /// Addition of two 252-bit felts.
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
 /// The result is not constrained to be fully reduced,
-/// i.e. an assignement with c = ((a+b) % P) + P could satisfy the constraints.
+/// i.e. an assignment with c = ((a+b) % P) + P could satisfy the constraints.
 #[derive(Clone, Debug, Serialize)]
 pub struct Add252 {}
 

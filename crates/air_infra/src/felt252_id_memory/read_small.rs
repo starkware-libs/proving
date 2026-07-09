@@ -37,7 +37,7 @@ pub const LIMBS_IN_SMALL: usize = SMALL_BITS / FELT252_BITS_PER_WORD;
 /// (the "case" bits: msb and mid_limbs_set).
 /// Returns the dedeuced sign bits and the four values needed to construct the relative immediate
 /// besides the low-limbs value: the 7 high bits of limb 3, limbs 4–20, limb 21, and limb 27.
-/// If the given felt252 is not a small value, the mid_limbs_set will be set to zero, (i.e a grabage
+/// If the given felt252 is not a small value, the mid_limbs_set will be set to zero, (i.e a garbage
 /// small value will be calculated out of this case bits).
 #[derive(Clone, Debug, Serialize)]
 pub struct DecodeSmallSign {}

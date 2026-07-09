@@ -353,7 +353,7 @@ where
     fn number_of_chains(&self) -> usize;
 }
 
-// Seperated from the air fn trait to support automated implementation
+// Separated from the air fn trait to support automated implementation
 pub trait InstDefTrait {
     fn inst_def(&self) -> serde_json::Value;
 }
@@ -436,7 +436,7 @@ impl AirBuilder {
         if self.run {
             assert!(
                 expr.calc() == 0.to_string(),
-                "Added incorrect constraint (does not evalutate to 0)"
+                "Added incorrect constraint (does not evaluate to 0)"
             )
         }
 

@@ -251,7 +251,7 @@ fn test_abs_big_op1() {
 }
 
 #[test]
-fn test_abs_jump_negativ_offset() {
+fn test_abs_jump_negative_offset() {
     let state = test_jump_opcode(
         [false, false, false, false, false, false],
         125,

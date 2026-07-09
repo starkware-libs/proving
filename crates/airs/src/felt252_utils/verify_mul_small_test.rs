@@ -48,7 +48,7 @@ fn test_verify_mul_small_edge() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_verify_mul_small_not_equal() {
     let air_fn = VerifyMulSmall {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

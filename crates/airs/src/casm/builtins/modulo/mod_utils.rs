@@ -35,7 +35,7 @@ pub struct ModUtils {
     pub memory: Felt252IdMemory,
 }
 
-// A function that recieves a starting address and an instance number from a mod builtin function
+// A function that receives a starting address and an instance number from a mod builtin function
 // and returns the values of p,a,b,c, while also verifying that the values n, offsets_ptr,
 // values_ptr and p are consistent with that of the previous instance.
 impl AirFn for ModUtils {

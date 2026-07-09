@@ -37,7 +37,7 @@ impl ComponentContext {
 
     // Returns a unique index for a call to the given chain round component.
     //
-    // Each call returns a new index. For each chain round, the indices are sequencial
+    // Each call returns a new index. For each chain round, the indices are sequential
     // and start from 0.
     pub fn get_chain_call_index<S>(&mut self, called_round: &dyn ChainRoundAirFn<S>) -> usize
     where
@@ -49,7 +49,7 @@ impl ComponentContext {
         let current_count = *value_in_map;
         assert!(
             current_count < called_round.number_of_chains(),
-            "Chain round {} called more than its delcared number_of_chains ({})",
+            "Chain round {} called more than its declared number_of_chains ({})",
             called_round.name(),
             called_round.number_of_chains()
         );

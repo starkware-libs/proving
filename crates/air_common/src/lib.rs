@@ -1,10 +1,10 @@
 pub mod utils;
 
 /// This module defines common types and constants used by air_infra and air_compile.
-/// The reason for this module is so that both the visualizer and eval_air_fn_consraints will
+/// The reason for this module is so that both the visualizer and eval_air_fn_constraints will
 /// depend on the same structures, as the former used for audits, and the latter used to check
 /// the generated code. Since the visualizer is a separate binary, it works on serialized
-/// airs, as defined in air_compile, and we don't want it to have access to exra information
+/// airs, as defined in air_compile, and we don't want it to have access to extra information
 /// from air_infra.
 use serde::{Deserialize, Serialize};
 
