@@ -313,7 +313,7 @@ impl AirFnEntry {
         self.output_limbs_mask
             .iter()
             .enumerate()
-            .filter(|(_, &b)| b)
+            .filter(|&(_, &b)| b)
             .map(|(i, _)| {
                 self.output
                     .get_limb_name(&name, i, &self.output_expr_descriptions)
@@ -329,7 +329,7 @@ impl AirFnEntry {
         self.input_limbs_mask
             .iter()
             .enumerate()
-            .filter(|(_, &b)| b)
+            .filter(|&(_, &b)| b)
             .map(|(i, _)| {
                 self.joined_input
                     .get_limb_name(&name, i, &self.input_expr_descriptions)

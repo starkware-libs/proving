@@ -106,7 +106,7 @@ where
         let mut res = Expr::Var(VarExpr::new(name, from.value(), from.is_const(), None));
         if let Ok(orig_felts) = from.clone().try_as_felts_mut() {
             for (felt, orig_felt) in res.as_felts_mut().into_iter().zip(orig_felts) {
-                if let Expr::Var(ref orig_v) = orig_felt {
+                if let Expr::Var(orig_v) = &orig_felt {
                     *felt.as_var_mut() = orig_v.clone();
                 } else {
                     felt.as_var_mut()

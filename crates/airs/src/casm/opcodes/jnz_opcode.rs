@@ -100,7 +100,7 @@ impl AirFn for JnzOpcode {
             let (p_zero_zip_dst, p_nonzero_zip_dst) = P_FELTS
                 .iter()
                 .zip(dst)
-                .partition::<Vec<_>, _>(|(&p_i, _)| p_i == 0);
+                .partition::<Vec<_>, _>(|&(&p_i, _)| p_i == 0);
 
             // dst_sum_p_zero is the sum of dst[i] for i where P_FELTS[i] == 0
             let dst_sum_p_zero: FeltExpr = ab.let_(

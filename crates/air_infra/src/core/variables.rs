@@ -367,7 +367,7 @@ impl AirVarImpl {
         index: usize,
         expr_descriptions: &Option<Vec<Option<String>>>,
     ) -> String {
-        if let Some(ref descriptions) = expr_descriptions {
+        if let Some(descriptions) = expr_descriptions {
             assert_eq!(
                 self.as_exprs().len(),
                 descriptions.len(),
