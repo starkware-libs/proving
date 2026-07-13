@@ -179,9 +179,9 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
 
             // Add the spawn block.
             opcodes_spawn_blocks.append(quote! {
-                if let Some(gen) = self.$(component_name) {
+                if let Some(generator) = self.$(component_name) {
                     s.spawn(|_| {
-                        $(&result_var) = Some(gen.write_trace($(write_trace_args)));
+                        $(&result_var) = Some(generator.write_trace($(write_trace_args)));
                     });
                 }
             });
@@ -203,7 +203,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
             let non_opcode_body = if component_name == "memory_id_to_big" {
                 quote! {
                     const LOG_MAX_BIG_SIZE: u32 = MAX_SEQUENCE_LOG_SIZE;
-                    let (big_traces, small_trace, claim, interaction_gen) = gen.write_trace(self.range_check_9_9.as_ref().unwrap(), LOG_MAX_BIG_SIZE, opt_n_id_to_big_components);
+                    let (big_traces, small_trace, claim, interaction_gen) = generator.write_trace(self.range_check_9_9.as_ref().unwrap(), LOG_MAX_BIG_SIZE, opt_n_id_to_big_components);
                     for big_trace in big_traces {
                         evals.extend(big_trace);
                     }
@@ -218,7 +218,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
                     quote! { .to_evals() }
                 };
                 quote! {
-                    let (trace, claim, interaction_gen) = gen.write_trace($(write_trace_args));
+                    let (trace, claim, interaction_gen) = generator.write_trace($(write_trace_args));
                     evals.extend(trace$(to_evals));
                 }
             };
@@ -226,7 +226,7 @@ fn generate_write_trace(compiled_registry: &IndexMap<String, CompiledAirFn>) -> 
             non_opcode_blocks.append(quote! {
                 let ($(&claim_var), $(&interaction_gen_var)) = self
                     .$(component_name)
-                    .map(|gen| {
+                    .map(|generator| {
                         $(non_opcode_body)
                         (claim, interaction_gen)
                     })
@@ -288,9 +288,9 @@ fn generate_write_interaction_trace(components_names: &Vec<&String>) -> rust::To
 
         // Spawn write interaction trace.
         spawn_blocks.append(quote! {
-            if let Some(gen) = self.$(name) {
+            if let Some(generator) = self.$(name) {
                 s.spawn(|_| {
-                    $(&result_var) = Some(gen.write_interaction_trace(common_lookup_elements));
+                    $(&result_var) = Some(generator.write_interaction_trace(common_lookup_elements));
                 });
             }
         });
