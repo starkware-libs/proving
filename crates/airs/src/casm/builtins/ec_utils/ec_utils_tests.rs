@@ -11,22 +11,14 @@ fn test_ec_add() {
     let air_fn = &ECAdd {};
     let (registry, _) = AirFnRegistry::new(air_fn);
 
-    let x1 = const_felt252_expr!(
-        0x8fa8120b6d56eb0c1080d17957ebe47b,
-        0x234287dcbaffe7f969c748655fca9e5
-    );
-    let y1 = const_felt252_expr!(
-        0x940135dd7a6c94cc6ed0268ee89e5615,
-        0x3b056f100f96fb21e889527d41f4e39
-    );
-    let x2 = const_felt252_expr!(
-        0x99099ec1de5e3018b7a6932dba8aa378,
-        0x4fa56f376c83db33f9dab2656558f33
-    );
-    let y2 = const_felt252_expr!(
-        0x562761f92a7a23b45168f4e80ff5b54d,
-        0x3fa0984c931c9e38113e0c0e47e4401
-    );
+    let x1 =
+        const_felt252_expr!(0x8fa8120b6d56eb0c1080d17957ebe47b, 0x234287dcbaffe7f969c748655fca9e5);
+    let y1 =
+        const_felt252_expr!(0x940135dd7a6c94cc6ed0268ee89e5615, 0x3b056f100f96fb21e889527d41f4e39);
+    let x2 =
+        const_felt252_expr!(0x99099ec1de5e3018b7a6932dba8aa378, 0x4fa56f376c83db33f9dab2656558f33);
+    let y2 =
+        const_felt252_expr!(0x562761f92a7a23b45168f4e80ff5b54d, 0x3fa0984c931c9e38113e0c0e47e4401);
     let (state, output) = registry.run_air(air_fn, (), [x1, y1, x2, y2]);
     assert_eq!(
         output[0].calc(),
@@ -44,14 +36,10 @@ fn test_ec_double() {
     let air_fn = &ECDouble {};
     let (registry, _) = AirFnRegistry::new(air_fn);
 
-    let x = const_felt252_expr!(
-        0x8fa8120b6d56eb0c1080d17957ebe47b,
-        0x234287dcbaffe7f969c748655fca9e5
-    );
-    let y = const_felt252_expr!(
-        0x940135dd7a6c94cc6ed0268ee89e5615,
-        0x3b056f100f96fb21e889527d41f4e39
-    );
+    let x =
+        const_felt252_expr!(0x8fa8120b6d56eb0c1080d17957ebe47b, 0x234287dcbaffe7f969c748655fca9e5);
+    let y =
+        const_felt252_expr!(0x940135dd7a6c94cc6ed0268ee89e5615, 0x3b056f100f96fb21e889527d41f4e39);
 
     let (state, output) = registry.run_air(air_fn, (), [x, y]);
     assert_eq!(

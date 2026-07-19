@@ -79,9 +79,5 @@ pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {
     }
     strs.truncate(strs.len() - i);
     let str = format!("[{}]", strs.join(", "));
-    if leading_zeros {
-        format!("zero_extend({str})")
-    } else {
-        str
-    }
+    if leading_zeros { format!("zero_extend({str})") } else { str }
 }

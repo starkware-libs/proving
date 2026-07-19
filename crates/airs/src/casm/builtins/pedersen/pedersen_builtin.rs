@@ -3,12 +3,10 @@ use std::array::from_fn;
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::public_params::PublicParam;
-use air_infra::felt252_id_memory::memory::CasmId;
-use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::felt252_id_memory::memory::{CasmId, Felt252IdMemory};
 use air_infra::felt252_id_memory::read_id::ReadId;
 use air_infra::seq::Seq;
 use serde::Serialize;
@@ -42,19 +40,12 @@ impl<const NUM_WINDOWS: usize> AirFn for PedersenBuiltin<NUM_WINDOWS> {
                 instance_addr.clone() + const_expr!(i),
                 &format!("input_state_{i}"),
             );
-            air_builder.call(
-                &ReadId {
-                    memory: self.memory.clone(),
-                },
-                address.clone(),
-            )
+            air_builder.call(&ReadId { memory: self.memory.clone() }, address.clone())
         });
 
         // Read the output id.
         let output_id = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
+            &ReadId { memory: self.memory.clone() },
             CasmAddress::new(instance_addr.clone() + const_expr!(2), "output_state"),
         );
 

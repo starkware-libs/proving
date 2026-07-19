@@ -1,9 +1,8 @@
 use air_common::{TraceType, UseOrYield};
-use air_infra::const_expr;
-use air_infra::const_u32_expr;
 use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
+use air_infra::{const_expr, const_u32_expr};
 use serde::Serialize;
 
 use crate::casm::opcodes::blake::triple_sum32::*;
@@ -27,29 +26,14 @@ impl AirFn for BlakeGGate {
     ) -> Self::Out {
         let a_tmp = ab.call(&TripleSum32 {}, [a.clone(), b.clone(), f0.clone()]);
         let d_tmp = ab.call(&XorRot32 { r: 16 }, [a_tmp.clone(), d.clone()]);
-        let c_tmp = ab.call(
-            &TripleSum32 {},
-            [c.clone(), d_tmp.clone(), const_u32_expr!(0)],
-        );
+        let c_tmp = ab.call(&TripleSum32 {}, [c.clone(), d_tmp.clone(), const_u32_expr!(0)]);
         let b_tmp = ab.call(&XorRot32 { r: 12 }, [b.clone(), c_tmp.clone()]);
 
         // Since the output is in the state, we use verification air-fn to save trace-cells.
-        ab.call(
-            &VerifyTripleSum32 {},
-            [a_tmp, b_tmp.clone(), f1.clone(), a_out.clone()],
-        );
-        ab.call(
-            &VerifyXorRot32 { r: 8 },
-            [a_out.clone(), d_tmp, d_out.clone()],
-        );
-        ab.call(
-            &VerifyTripleSum32 {},
-            [c_tmp, d_out.clone(), const_u32_expr!(0), c_out.clone()],
-        );
-        ab.call(
-            &VerifyXorRot32 { r: 7 },
-            [b_tmp, c_out.clone(), b_out.clone()],
-        );
+        ab.call(&VerifyTripleSum32 {}, [a_tmp, b_tmp.clone(), f1.clone(), a_out.clone()]);
+        ab.call(&VerifyXorRot32 { r: 8 }, [a_out.clone(), d_tmp, d_out.clone()]);
+        ab.call(&VerifyTripleSum32 {}, [c_tmp, d_out.clone(), const_u32_expr!(0), c_out.clone()]);
+        ab.call(&VerifyXorRot32 { r: 7 }, [b_tmp, c_out.clone(), b_out.clone()]);
 
         // Add the lookup constraints to the gate relation.
         let input_addr_a = ab.call_external_table(&BlakeGGateInputAddrA {});
@@ -99,44 +83,28 @@ impl AirFn for BlakeGGate {
         let output_addr_a = ab.call_external_table(&BlakeGGateOutputAddrA {});
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                output_addr_a.var,
-                a_out.low().as_felt(),
-                a_out.high().as_felt(),
-            ],
+            vec![output_addr_a.var, a_out.low().as_felt(), a_out.high().as_felt()],
             UseOrYield::Yield,
             mult.clone(),
         );
         let output_addr_b = ab.call_external_table(&BlakeGGateOutputAddrB {});
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                output_addr_b.var,
-                b_out.low().as_felt(),
-                b_out.high().as_felt(),
-            ],
+            vec![output_addr_b.var, b_out.low().as_felt(), b_out.high().as_felt()],
             UseOrYield::Yield,
             mult.clone(),
         );
         let output_addr_c = ab.call_external_table(&BlakeGGateOutputAddrC {});
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                output_addr_c.var,
-                c_out.low().as_felt(),
-                c_out.high().as_felt(),
-            ],
+            vec![output_addr_c.var, c_out.low().as_felt(), c_out.high().as_felt()],
             UseOrYield::Yield,
             mult.clone(),
         );
         let output_addr_d = ab.call_external_table(&BlakeGGateOutputAddrD {});
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                output_addr_d.var,
-                d_out.low().as_felt(),
-                d_out.high().as_felt(),
-            ],
+            vec![output_addr_d.var, d_out.low().as_felt(), d_out.high().as_felt()],
             UseOrYield::Yield,
             mult,
         );

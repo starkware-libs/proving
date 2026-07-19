@@ -55,10 +55,7 @@ where
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.fields
-            .iter_mut()
-            .flat_map(|(_, f)| f.as_felts_mut())
-            .collect()
+        self.fields.iter_mut().flat_map(|(_, f)| f.as_felts_mut()).collect()
     }
 }
 
@@ -88,18 +85,13 @@ impl<V: AirVar, D: Clone + Debug> From<VarWrapper<V, D>> for AirVarImpl {
 impl<V: AirVar, D: Clone + Debug> AirVar for VarWrapper<V, D> {
     fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
         let interm = Intermediate::new_for_deduction(&name, self);
-        let res = Self {
-            var: self.var.let_for_deduction(name).0,
-            extra_info: self.extra_info.clone(),
-        };
+        let res =
+            Self { var: self.var.let_for_deduction(name).0, extra_info: self.extra_info.clone() };
         (res, interm)
     }
 
     fn new(name: String, deg_in_state: Option<usize>) -> Self {
-        Self {
-            var: V::new(name.clone(), deg_in_state),
-            extra_info: None,
-        }
+        Self { var: V::new(name.clone(), deg_in_state), extra_info: None }
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {

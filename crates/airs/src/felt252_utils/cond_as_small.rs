@@ -2,15 +2,12 @@ use std::array::from_fn;
 
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::felt252_id_memory::memory::ADDRESS_BITS;
 use air_infra::felt252_id_memory::read_positive::CondRangeCheck2;
-use air_infra::felt252_id_memory::read_small::DecodeSmallSign;
-use air_infra::felt252_id_memory::read_small::LIMBS_IN_SMALL;
-use air_infra::felt252_id_memory::read_small::small_to_rel_imm;
+use air_infra::felt252_id_memory::read_small::{DecodeSmallSign, LIMBS_IN_SMALL, small_to_rel_imm};
 use air_infra::utils::felt252_to_m31;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
@@ -27,18 +24,14 @@ impl AirFn for CondFelt252AsAddr {
     type Out = CasmAddress;
 
     fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
-        let high_limbs_sum = ((LIMBS_IN_SMALL + 1)..FELT252_N_WORDS)
-            .map(|i| value.get_felt(i))
-            .sum();
+        let high_limbs_sum =
+            ((LIMBS_IN_SMALL + 1)..FELT252_N_WORDS).map(|i| value.get_felt(i)).sum();
         ab.constrain(
             condition.clone() * high_limbs_sum,
             "When the condition holds, the high limbs must be zero for an address",
         );
 
-        ab.call(
-            &CondRangeCheck2 {},
-            [value.get_felt(LIMBS_IN_SMALL), condition],
-        );
+        ab.call(&CondRangeCheck2 {}, [value.get_felt(LIMBS_IN_SMALL), condition]);
         CasmAddress::new(felt252_to_m31(value, ADDRESS_BITS), "")
     }
 }
@@ -58,24 +51,13 @@ impl AirFn for CondFelt252AsRelImm {
     fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
         // Compute the four values needed to construct the relative immediate other then the
         // low-limbs value.
-        let [
-            msb,
-            mid_limbs_set,
-            limb3_7_high_bits,
-            limbs4_to_20,
-            limb21,
-            limb27,
-        ] = ab.call(&DecodeSmallSign {}, value.clone());
+        let [msb, mid_limbs_set, limb3_7_high_bits, limbs4_to_20, limb21, limb27] =
+            ab.call(&DecodeSmallSign {}, value.clone());
 
         // Constrain the remainder bits.
-        let remainder_bits = ab.let_(
-            value.get_felt(LIMBS_IN_SMALL) - limb3_7_high_bits.clone(),
-            "remainder_bits",
-        );
-        ab.call(
-            &CondRangeCheck2 {},
-            [remainder_bits.clone(), condition.clone()],
-        );
+        let remainder_bits =
+            ab.let_(value.get_felt(LIMBS_IN_SMALL) - limb3_7_high_bits.clone(), "remainder_bits");
+        ab.call(&CondRangeCheck2 {}, [remainder_bits.clone(), condition.clone()]);
 
         // Constrain limbs 4-20.
         let limbs_4_to_20_sum: FeltExpr = (4..=20).map(|i| value.get_felt(i)).sum();

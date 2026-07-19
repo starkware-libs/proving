@@ -1,7 +1,6 @@
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
@@ -67,13 +66,8 @@ impl AirFn for VerifyInstruction {
         ]);
 
         ab.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(pc.var, "instruction"),
-                expected_instruction,
-            ),
+            &MemVerify { memory: self.memory.clone() },
+            (CasmAddress::new(pc.var, "instruction"), expected_instruction),
         );
     }
 

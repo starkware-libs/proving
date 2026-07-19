@@ -57,14 +57,8 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn get_type_name(&self) -> String {
         let mut name = type_name::<Self>().to_string();
-        name = name
-            .find('<')
-            .map(|i| name[..i].to_string())
-            .unwrap_or(name);
-        name = name
-            .rfind("::")
-            .map(|i| name[i + 2..].to_string())
-            .unwrap_or(name);
+        name = name.find('<').map(|i| name[..i].to_string()).unwrap_or(name);
+        name = name.rfind("::").map(|i| name[i + 2..].to_string()).unwrap_or(name);
         fix_str(name)
     }
 
@@ -141,11 +135,9 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
         match self.trace_type() {
-            TraceType::Opcode => Some(vec![
-                Some("pc".to_string()),
-                Some("ap".to_string()),
-                Some("fp".to_string()),
-            ]),
+            TraceType::Opcode => {
+                Some(vec![Some("pc".to_string()), Some("ap".to_string()), Some("fp".to_string())])
+            }
             _ => None,
         }
     }
@@ -264,18 +256,15 @@ pub trait AirFn: Debug + InstDefTrait {
         if self.trace_type() == TraceType::Memory {
             // Memory - Assume input & output are already in state (filled by Stwo)
             for felt in input.as_felts_mut() {
-                air_builder
-                    .component_context
-                    .state_mut()
-                    .add(felt, STATE_INPUT_VAR);
+                air_builder.component_context.state_mut().add(felt, STATE_INPUT_VAR);
             }
 
             let mut output = Self::Out::new("".to_string(), None);
             for felt in output.as_felts_mut() {
-                air_builder.component_context.state_mut().add(
-                    felt,
-                    &format!("{}_{}", self.name(), STATE_OUTPUT_VAR_SUFFIX),
-                );
+                air_builder
+                    .component_context
+                    .state_mut()
+                    .add(felt, &format!("{}_{}", self.name(), STATE_OUTPUT_VAR_SUFFIX));
             }
         } else {
             // Anything else - deduce input
@@ -301,11 +290,7 @@ pub trait AirFn: Debug + InstDefTrait {
             assert!(self.padding_type() == PaddingType::Enabler);
             air_builder.add_lookup_term(
                 &self.relation_name().expect("Relation name not set"),
-                ext_input
-                    .as_felts()
-                    .into_iter()
-                    .chain(input.as_felts())
-                    .collect(),
+                ext_input.as_felts().into_iter().chain(input.as_felts()).collect(),
                 UseOrYield::Use,
                 lookup_control_values[0].clone(),
             );
@@ -440,10 +425,8 @@ impl AirBuilder {
             )
         }
 
-        self.air_body.push(AirBodyComponent::Constraint(
-            expr,
-            (!desc.is_empty()).then(|| desc.to_string()),
-        ));
+        self.air_body
+            .push(AirBodyComponent::Constraint(expr, (!desc.is_empty()).then(|| desc.to_string())));
     }
 
     pub fn deduce(&mut self, expr: &mut FeltExpr, desc: &str) -> FeltExpr {
@@ -547,9 +530,8 @@ impl AirBuilder {
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        self.air_body.push(AirBodyComponent::Intermediate(
-            Intermediate::new_for_constraint(&name, &expr),
-        ));
+        self.air_body
+            .push(AirBodyComponent::Intermediate(Intermediate::new_for_constraint(&name, &expr)));
         expr.let_for_constraint(name);
         expr
     }
@@ -669,11 +651,8 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let relation_name = air_fn
-            .relation_names()
-            .get(variant)
-            .expect("Relation name not found")
-            .clone();
+        let relation_name =
+            air_fn.relation_names().get(variant).expect("Relation name not found").clone();
 
         let output_name = (!O::is_empty()).then(|| {
             self.get_intermediate_name(Some(AirFnEntry::output_name(
@@ -739,10 +718,7 @@ impl AirBuilder {
             air_fn.name()
         );
 
-        assert!(
-            !S::is_empty(),
-            "The input to a chain lookup call must not be empty."
-        );
+        assert!(!S::is_empty(), "The input to a chain lookup call must not be empty.");
 
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
@@ -778,11 +754,7 @@ impl AirBuilder {
             );
 
             // Prepare the input for the next round.
-            input = (
-                input.0.clone(),
-                input.1.clone() + const_expr!(1),
-                output.2.clone(),
-            );
+            input = (input.0.clone(), input.1.clone() + const_expr!(1), output.2.clone());
         }
 
         // Output already has name <output_name>, but in run mode it might not be a variable.
@@ -790,9 +762,8 @@ impl AirBuilder {
 
         // Deduce the output of the last round.
         let mut final_state = output.2;
-        let final_state_descriptions = air_fn
-            .output_expr_descriptions()
-            .map(|descrs| descrs.split_at(2).1.to_vec());
+        let final_state_descriptions =
+            air_fn.output_expr_descriptions().map(|descrs| descrs.split_at(2).1.to_vec());
         self.deduce_intermediate_var(
             &mut final_state,
             &format!("{}_{}", air_fn.name(), STATE_OUTPUT_VAR_SUFFIX),
@@ -802,12 +773,7 @@ impl AirBuilder {
         // Use the output of the last round.
         self.add_lookup_term(
             &air_fn.relation_name().expect("Relation name not set"),
-            (
-                chain_id,
-                const_expr!(first_round + num_of_rounds),
-                final_state.clone(),
-            )
-                .as_felts(),
+            (chain_id, const_expr!(first_round + num_of_rounds), final_state.clone()).as_felts(),
             UseOrYield::Use,
             self.component_context.enabler.clone(),
         );
@@ -827,25 +793,19 @@ impl AirBuilder {
         }
 
         let call_index = self.component_context.get_chain_call_index(air_fn);
-        let chain_tmp = self
-            .component_context
-            .get_chain_call_intermediate(air_fn)
-            .unwrap_or_else(|| {
+        let chain_tmp =
+            self.component_context.get_chain_call_intermediate(air_fn).unwrap_or_else(|| {
                 let mut chain_tmp =
                     self.call_external_table(&Seq {}) * const_expr!(air_fn.number_of_chains());
                 chain_tmp = self.let_(chain_tmp, &format!("{}_chain_tmp", air_fn.name()));
-                self.component_context
-                    .set_chain_call_intermediate(air_fn, chain_tmp.clone());
+                self.component_context.set_chain_call_intermediate(air_fn, chain_tmp.clone());
                 chain_tmp
             });
 
         if call_index == 0 {
             chain_tmp
         } else {
-            self.let_(
-                chain_tmp + const_expr!(call_index),
-                &format!("{}_chain_id", air_fn.name()),
-            )
+            self.let_(chain_tmp + const_expr!(call_index), &format!("{}_chain_id", air_fn.name()))
         }
     }
 
@@ -966,11 +926,7 @@ impl AirBuilder {
         #[cfg(any(test, feature = "test"))]
         if self.run {
             assert_eq!(
-                memory
-                    .mem()
-                    .get(key)
-                    .expect("Key doesn't exist in memory")
-                    .to_values(),
+                memory.mem().get(key).expect("Key doesn't exist in memory").to_values(),
                 value.to_values(),
                 "given value != value in memory"
             );
@@ -995,9 +951,7 @@ impl AirBuilder {
     where
         O: ExtTable,
     {
-        let air_fn = ExtTableAirFn {
-            ext_table: ext_table.clone(),
-        };
+        let air_fn = ExtTableAirFn { ext_table: ext_table.clone() };
 
         // Make sure the callee is in the registry
         self.registry.add_entry(&air_fn);

@@ -1,8 +1,7 @@
 use std::slice::from_ref;
 
 use air_common::UseOrYield;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::range_check::range_check;
@@ -23,9 +22,7 @@ impl AirFn for QM31IntoU32 {
     fn call(&self, ab: &mut AirBuilder, _: (), (message, message_id): Self::In) -> Self::Out {
         let mut res = vec![];
         let dummy_message = vec![const_u32_expr!(0); 16];
-        ab.registry.add_entry(&BlakeMessage {
-            message: dummy_message.try_into().unwrap(),
-        });
+        ab.registry.add_entry(&BlakeMessage { message: dummy_message.try_into().unwrap() });
 
         for (i, limbi) in message.into_iter().enumerate() {
             let limbi_u32 = UInt32Expr::from(limbi.clone());
@@ -64,12 +61,7 @@ impl AirFn for QM31IntoU32 {
 
             ab.add_lookup_term(
                 "BlakeMessage",
-                vec![
-                    message_id.clone(),
-                    const_expr!(i),
-                    limbi_low.clone(),
-                    limbi_high.clone(),
-                ],
+                vec![message_id.clone(), const_expr!(i), limbi_low.clone(), limbi_high.clone()],
                 UseOrYield::Yield,
                 const_expr!(BLAKE_NUM_ROUNDS),
             );

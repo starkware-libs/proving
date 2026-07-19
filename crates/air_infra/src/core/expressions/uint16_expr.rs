@@ -24,17 +24,13 @@ impl VarExprUpdate for VarExpr<UInt16> {
 
     fn update_children(&mut self) {
         let parent_var = &self.clone();
-        self.get_felt_mut(0)
-            .as_var_mut()
-            .set_parent(parent_var, None);
+        self.get_felt_mut(0).as_var_mut().set_parent(parent_var, None);
     }
 }
 
 #[macro_export]
 macro_rules! const_u16_expr {
     ($val:expr) => {
-        UInt16Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            $val.into(),
-        ))
+        UInt16Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const($val.into()))
     };
 }

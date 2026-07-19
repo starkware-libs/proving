@@ -2,8 +2,7 @@ use std::collections::BTreeSet;
 
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use serde::Serialize;
@@ -131,9 +130,8 @@ impl AirFn for DecodeGenericInstruction {
         // Push instruction size
         assert_eq!(generic_flags_vec.len(), INSTRUCTION_SIZE_INDEX);
         generic_flags_vec.push(const_expr!(1) + generic_flags_vec[FLAG_OP1_IMM_INDEX].clone());
-        let flags_array: [FeltExpr; GENERIC_FLAGS_SIZE] = generic_flags_vec
-            .try_into()
-            .expect("Invalid generic flags vector size");
+        let flags_array: [FeltExpr; GENERIC_FLAGS_SIZE] =
+            generic_flags_vec.try_into().expect("Invalid generic flags vector size");
         (flags_array, offsets)
     }
 }

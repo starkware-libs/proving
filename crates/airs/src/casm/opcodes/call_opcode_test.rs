@@ -17,38 +17,22 @@ fn build_and_test(
     op1_value: i64,
     [pc_value, ap_value, fp_value]: [u32; 3],
 ) -> State {
-    let [pc, ap, fp] = [
-        const_expr!(pc_value),
-        const_expr!(ap_value),
-        const_expr!(fp_value),
-    ];
+    let [pc, ap, fp] = [const_expr!(pc_value), const_expr!(ap_value), const_expr!(fp_value)];
 
     let rel_imm = offset2_option.is_none();
     let offset2 = offset2_option.unwrap_or(1);
 
-    assert!(
-        (!rel_imm) || (!op1_base_fp),
-        "Flag op1_base_fp cannot be set for relative calls."
-    );
+    assert!((!rel_imm) || (!op1_base_fp), "Flag op1_base_fp cannot be set for relative calls.");
 
-    let mut call_opcode = CallOpcode {
-        rel_imm,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut call_opcode = CallOpcode { rel_imm, memory: Felt252IdMemory::default() };
 
     // Fill memory
     let mut memory_values = vec![
         (
             pc.clone(),
-            const_felt252_expr!(
-                assemble_call(offset2, &call_opcode.get_flags(), op1_base_fp),
-                0
-            ),
+            const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags(), op1_base_fp), 0),
         ),
-        (
-            const_expr!(ap_value),
-            const_felt252_expr!(fp_value as u128, 0),
-        ),
+        (const_expr!(ap_value), const_felt252_expr!(fp_value as u128, 0)),
         (
             const_expr!(ap_value + 1),
             const_felt252_expr!((pc_value + (if rel_imm { 2 } else { 1 })) as u128, 0),
@@ -59,33 +43,21 @@ fn build_and_test(
     if rel_imm {
         memory_values.push((const_expr!(pc_value + 1), op1_value_252));
     } else if op1_base_fp {
-        memory_values.push((
-            const_expr!((fp_value as i16 + offset2) as u32),
-            op1_value_252,
-        ));
+        memory_values.push((const_expr!((fp_value as i16 + offset2) as u32), op1_value_252));
     } else {
-        memory_values.push((
-            const_expr!((ap_value as i16 + offset2) as u32),
-            op1_value_252,
-        ));
+        memory_values.push((const_expr!((ap_value as i16 + offset2) as u32), op1_value_252));
     }
 
     call_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let (registry, _) = AirFnRegistry::new(&call_opcode);
-    let (state, next_state) = registry.run_air(
-        &call_opcode,
-        (),
-        CasmStateVar::new(pc, ap.clone(), fp.clone()),
-    );
+    let (state, next_state) =
+        registry.run_air(&call_opcode, (), CasmStateVar::new(pc, ap.clone(), fp.clone()));
 
     // Check output
     if rel_imm {
-        assert_eq!(
-            next_state.pc().calc(),
-            (pc_value as i128 + op1_value as i128).to_string()
-        );
+        assert_eq!(next_state.pc().calc(), (pc_value as i128 + op1_value as i128).to_string());
     } else {
         assert_eq!(next_state.pc().calc(), op1_value.to_string());
     }
@@ -298,17 +270,12 @@ fn test_call_base_ap_negative_offset2() {
 }
 
 pub fn assemble_call(offset2: i16, flags: &Flags, op1_base_fp: bool) -> u128 {
-    let call_op1_off = flags
-        .pc_update_jump_rel
-        .map(|b| if b { 1 } else { offset2 })
-        .unwrap();
+    let call_op1_off = flags.pc_update_jump_rel.map(|b| if b { 1 } else { offset2 }).unwrap();
     assemble_instruction(
         0,
         1,
         call_op1_off,
-        flags
-            .clone()
-            .non_constants_to_arr(&[op1_base_fp, !op1_base_fp]),
+        flags.clone().non_constants_to_arr(&[op1_base_fp, !op1_base_fp]),
         OpcodeExtension::Stone,
     )
 }

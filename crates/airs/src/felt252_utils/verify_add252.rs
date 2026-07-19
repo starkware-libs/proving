@@ -1,10 +1,8 @@
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{
     FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_PACKED27_FELTS,
@@ -22,11 +20,7 @@ impl AirFn for VerifyAdd252 {
     type Out = ();
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("a".to_string()),
-            Some("b".to_string()),
-            Some("c".to_string()),
-        ])
+        Some(vec![Some("a".to_string()), Some("b".to_string()), Some("c".to_string())])
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {

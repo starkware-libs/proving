@@ -40,59 +40,40 @@ where
     T: ProverType,
 {
     pub fn new(op: Operation, children: Vec<AirVarImpl>, value: Option<T>) -> Self {
-        OpExpr {
-            value,
-            children,
-            op,
-        }
+        OpExpr { value, children, op }
     }
 
     pub fn as_felt(&self) -> Result<FeltExpr, String> {
         if !self.op.is_from_felts() {
-            return Err(format!(
-                "Operation {:?} does not allow extracting felts",
-                self.op
-            ));
+            return Err(format!("Operation {:?} does not allow extracting felts", self.op));
         }
         Ok(self.children[0].as_felt())
     }
 
     pub fn as_felt_mut(&mut self) -> Result<&mut FeltExpr, String> {
         if !self.op.is_from_felts() {
-            return Err(format!(
-                "Operation {:?} does not allow extracting felts",
-                self.op
-            ));
+            return Err(format!("Operation {:?} does not allow extracting felts", self.op));
         }
         Ok(self.children[0].as_felt_mut())
     }
 
     pub fn get_felt(&self, index: usize) -> Result<FeltExpr, String> {
         if !self.op.is_from_felts() {
-            return Err(format!(
-                "Operation {:?} does not allow extracting felts",
-                self.op
-            ));
+            return Err(format!("Operation {:?} does not allow extracting felts", self.op));
         }
         Ok(self.children[0].get_felt(index))
     }
 
     pub fn get_felt_mut(&mut self, index: usize) -> Result<&mut FeltExpr, String> {
         if !self.op.is_from_felts() {
-            return Err(format!(
-                "Operation {:?} does not allow extracting felts",
-                self.op
-            ));
+            return Err(format!("Operation {:?} does not allow extracting felts", self.op));
         }
         Ok(self.children[0].get_felt_mut(index))
     }
 
     pub fn as_felts_mut(&mut self) -> Result<Vec<&mut FeltExpr>, String> {
         if !self.op.is_from_felts() {
-            return Err(format!(
-                "Operation {:?} does not allow extracting felts",
-                self.op
-            ));
+            return Err(format!("Operation {:?} does not allow extracting felts", self.op));
         }
         match &mut self.children[0] {
             AirVarImpl::Expr(expr) => Ok(vec![expr.as_felt_mut()]),
@@ -116,10 +97,7 @@ where
     T: ProverType,
 {
     fn var_expr_infos(&self) -> HashSet<VarExprInfo> {
-        self.children
-            .iter()
-            .flat_map(|v| v.var_expr_infos())
-            .collect()
+        self.children.iter().flat_map(|v| v.var_expr_infos()).collect()
     }
 
     fn prover_type(&self) -> String {
@@ -153,10 +131,7 @@ where
 
     fn deg_in_state(&self) -> Option<usize> {
         if T::r#type() != Felt::r#type()
-            || self
-                .children
-                .iter()
-                .any(|c| c.prover_type() != Felt::r#type())
+            || self.children.iter().any(|c| c.prover_type() != Felt::r#type())
         {
             panic!("Only felt variables can have a degree in state");
         }
@@ -389,25 +364,16 @@ impl From<Vec<Felt252Expr>> for BigUIntExpr<384, 6, 32> {
     fn from(mod_words: Vec<Felt252Expr>) -> BigUIntExpr<384, 6, 32> {
         // only takes MOD_BUILTIN_WORD_BIT_LEN from each Felt252
         let needed_bits = mod_words.len() * MOD_BUILTIN_WORD_BIT_LEN;
-        assert!(
-            needed_bits <= 384,
-            "BigUIntExpr<384,6,32> can have at most 384 bits"
-        );
+        assert!(needed_bits <= 384, "BigUIntExpr<384,6,32> can have at most 384 bits");
 
-        let values = mod_words
-            .iter()
-            .filter_map(|n| n.value())
-            .collect::<Vec<Felt252>>();
+        let values = mod_words.iter().filter_map(|n| n.value()).collect::<Vec<Felt252>>();
         let value = if values.len() == mod_words.len() {
             Some(BigUInt::<384, 6, 32>::from_felt252_array(values))
         } else {
             None
         };
 
-        let arr = mod_words
-            .into_iter()
-            .map(|f| f.into())
-            .collect::<Vec<AirVarImpl>>();
+        let arr = mod_words.into_iter().map(|f| f.into()).collect::<Vec<AirVarImpl>>();
         BigUIntExpr::Op(OpExpr::new(
             Operation::BigUInt384FromFelt252Array,
             vec![AirVarImpl::Array(arr)],
@@ -424,10 +390,7 @@ impl<const B: usize, const L: usize, const F: usize> BigUIntExpr<B, L, F> {
     where
         BigUIntExpr<B, L, F>: Into<AirVarImpl>,
     {
-        let value = self
-            .value()
-            .zip(other.value())
-            .map(|(l, r)| l.widening_mul(r));
+        let value = self.value().zip(other.value()).map(|(l, r)| l.widening_mul(r));
         BigUIntExpr::Op(BigUIntOperation::new(
             Operation::WideningMul,
             vec![self.into(), other.into()],
@@ -439,17 +402,11 @@ impl<const B: usize, const L: usize, const F: usize> BigUIntExpr<B, L, F> {
 impl From<Vec<FeltExpr>> for UInt32Expr {
     fn from(felts: Vec<FeltExpr>) -> UInt32Expr {
         assert!(felts.len() == 2, "UInt32Expr must have exactly 2 felts");
-        let value = felts[0]
-            .value()
-            .zip(felts[1].value())
-            .map(|(l, h)| UInt32::from_limbs(l, h));
+        let value = felts[0].value().zip(felts[1].value()).map(|(l, h)| UInt32::from_limbs(l, h));
 
         UInt32Expr::Op(OpExpr::new(
             Operation::UInt32FromFeltsPair,
-            vec![AirVarImpl::Array(vec![
-                felts[0].clone().into(),
-                felts[1].clone().into(),
-            ])],
+            vec![AirVarImpl::Array(vec![felts[0].clone().into(), felts[1].clone().into()])],
             value,
         ))
     }
@@ -462,24 +419,12 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             "Felt252Expr can have at most {FELT252_N_WORDS} felts"
         );
 
-        let values = felts
-            .iter()
-            .filter_map(|f| f.value())
-            .collect::<Vec<Felt>>();
-        let value = if values.len() == felts.len() {
-            Some(Felt252::from_limbs(&values))
-        } else {
-            None
-        };
+        let values = felts.iter().filter_map(|f| f.value()).collect::<Vec<Felt>>();
+        let value =
+            if values.len() == felts.len() { Some(Felt252::from_limbs(&values)) } else { None };
 
-        felts.resize(
-            FELT252_N_WORDS,
-            FeltExpr::Var(VarExpr::new_const(Felt::from(0))),
-        );
-        let arr = felts
-            .into_iter()
-            .map(|f| f.into())
-            .collect::<Vec<AirVarImpl>>();
+        felts.resize(FELT252_N_WORDS, FeltExpr::Var(VarExpr::new_const(Felt::from(0))));
+        let arr = felts.into_iter().map(|f| f.into()).collect::<Vec<AirVarImpl>>();
         Felt252Expr::Op(OpExpr::new(
             Operation::Felt252FromFeltsArray,
             vec![AirVarImpl::Array(arr)],
@@ -495,24 +440,15 @@ impl From<Vec<FeltExpr>> for Felt252Width27Expr {
             "Felt252Width27Expr can have at most {FELT252WIDTH27_N_WORDS} felts"
         );
 
-        let values = felts
-            .iter()
-            .filter_map(|f| f.value())
-            .collect::<Vec<Felt>>();
+        let values = felts.iter().filter_map(|f| f.value()).collect::<Vec<Felt>>();
         let value = if values.len() == felts.len() {
             Some(Felt252Width27::from_limbs(&values))
         } else {
             None
         };
 
-        felts.resize(
-            FELT252WIDTH27_N_WORDS,
-            FeltExpr::Var(VarExpr::new_const(Felt::from(0))),
-        );
-        let arr = felts
-            .into_iter()
-            .map(|f| f.into())
-            .collect::<Vec<AirVarImpl>>();
+        felts.resize(FELT252WIDTH27_N_WORDS, FeltExpr::Var(VarExpr::new_const(Felt::from(0))));
+        let arr = felts.into_iter().map(|f| f.into()).collect::<Vec<AirVarImpl>>();
         Felt252Width27Expr::Op(OpExpr::new(
             Operation::Felt252Width27FromFeltsArray,
             vec![AirVarImpl::Array(arr)],
@@ -539,10 +475,7 @@ impl Div for FeltExpr {
                 vec![
                     self.into(),
                     FeltExpr::Var(VarExpr::new_const(
-                        other
-                            .value()
-                            .expect("Divisor is const yet its value is missing")
-                            .inverse(),
+                        other.value().expect("Divisor is const yet its value is missing").inverse(),
                     ))
                     .into(),
                 ],
@@ -550,11 +483,7 @@ impl Div for FeltExpr {
             ));
         }
 
-        FeltExpr::Op(FeltOperation::new(
-            Operation::Div,
-            vec![self.into(), other.into()],
-            value,
-        ))
+        FeltExpr::Op(FeltOperation::new(Operation::Div, vec![self.into(), other.into()], value))
     }
 }
 
@@ -579,11 +508,7 @@ impl Add for FeltExpr {
             return self;
         }
 
-        FeltExpr::Op(FeltOperation::new(
-            Operation::Add,
-            vec![self.into(), other.into()],
-            value,
-        ))
+        FeltExpr::Op(FeltOperation::new(Operation::Add, vec![self.into(), other.into()], value))
     }
 }
 
@@ -602,11 +527,7 @@ impl Sub for FeltExpr {
             return self;
         }
 
-        FeltExpr::Op(FeltOperation::new(
-            Operation::Sub,
-            vec![self.into(), other.into()],
-            value,
-        ))
+        FeltExpr::Op(FeltOperation::new(Operation::Sub, vec![self.into(), other.into()], value))
     }
 }
 
@@ -639,11 +560,7 @@ impl Mul for FeltExpr {
             }
         }
 
-        FeltExpr::Op(FeltOperation::new(
-            Operation::Mul,
-            vec![self.into(), other.into()],
-            value,
-        ))
+        FeltExpr::Op(FeltOperation::new(Operation::Mul, vec![self.into(), other.into()], value))
     }
 }
 
@@ -658,11 +575,7 @@ macro_rules! impl_binary_op {
                     return $t::Var(VarExpr::new_const(value.unwrap()));
                 }
 
-                $t::Op($b::new(
-                    Operation::$op,
-                    vec![self.into(), other.into()],
-                    value,
-                ))
+                $t::Op($b::new(Operation::$op, vec![self.into(), other.into()], value))
             }
         }
     };
@@ -670,15 +583,8 @@ macro_rules! impl_binary_op {
     ($op:ident, $op_lower:ident, $it:ident, $ot:ident, $b:ident) => {
         impl $it {
             pub fn $op_lower(self, other: $it) -> $ot {
-                let value = self
-                    .value()
-                    .zip(other.value())
-                    .map(|(l, r)| l.$op_lower(&r).into());
-                $ot::Op($b::new(
-                    Operation::$op,
-                    vec![self.into(), other.into()],
-                    value,
-                ))
+                let value = self.value().zip(other.value()).map(|(l, r)| l.$op_lower(&r).into());
+                $ot::Op($b::new(Operation::$op, vec![self.into(), other.into()], value))
             }
         }
     };

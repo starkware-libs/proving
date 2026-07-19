@@ -132,9 +132,7 @@ pub fn format_cairo_code(code_text: String) -> String {
     let scarb_workspace = scarb_workspace.path();
 
     let manifest_path = scarb_workspace.join("Scarb.toml");
-    let manifest_path = manifest_path
-        .to_str()
-        .expect("Invalid temporary manifest path");
+    let manifest_path = manifest_path.to_str().expect("Invalid temporary manifest path");
     fs::write(manifest_path, MINIMAL_SCARB_TOML).unwrap();
 
     let code_path = scarb_workspace.join("code.cairo");
@@ -158,9 +156,7 @@ pub fn format_cairo_code(code_text: String) -> String {
 }
 
 pub(super) fn get_numerators(air_fn: &CompiledAirFn) -> Vec<String> {
-    (0..air_fn.constraint_lookups.len())
-        .map(|idx| format!("numerator_{idx}"))
-        .collect()
+    (0..air_fn.constraint_lookups.len()).map(|idx| format!("numerator_{idx}")).collect()
 }
 
 pub(super) fn get_lookup_sums(air_fn: &CompiledAirFn) -> Vec<String> {

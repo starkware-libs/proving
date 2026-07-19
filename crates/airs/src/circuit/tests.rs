@@ -25,18 +25,8 @@ fn test_add_mul_gate() {
         &func,
         (),
         [
-            [
-                const_expr!(op0[0]),
-                const_expr!(op0[1]),
-                const_expr!(op0[2]),
-                const_expr!(op0[3]),
-            ],
-            [
-                const_expr!(op1[0]),
-                const_expr!(op1[1]),
-                const_expr!(op1[2]),
-                const_expr!(op1[3]),
-            ],
+            [const_expr!(op0[0]), const_expr!(op0[1]), const_expr!(op0[2]), const_expr!(op0[3])],
+            [const_expr!(op1[0]), const_expr!(op1[1]), const_expr!(op1[2]), const_expr!(op1[3])],
             [
                 const_expr!(dst[0].0),
                 const_expr!(dst[1].0),
@@ -69,16 +59,8 @@ fn test_blake_gate() {
         876098866, 6998120, 13470920, 26317257, 58954531, 212272678, 420334798, 840571289,
         1684353892, 13158510, 25742556, 26845577, 51783203, 116180710, 215583885, 429404441,
     ];
-    let state_before: [u32; 8] = [
-        IV[0] ^ 0x01010020,
-        IV[1],
-        IV[2],
-        IV[3],
-        IV[4],
-        IV[5],
-        IV[6],
-        IV[7],
-    ];
+    let state_before: [u32; 8] =
+        [IV[0] ^ 0x01010020, IV[1], IV[2], IV[3], IV[4], IV[5], IV[6], IV[7]];
     let state_after: [u32; 8] = [
         3425822922, 1886818505, 958016992, 1751539680, 2591581574, 923412807, 4068093030,
         1030609454,
@@ -90,10 +72,7 @@ fn test_blake_gate() {
         &func,
         (),
         (
-            [
-                state_before.map(|f| const_u32_expr!(f)),
-                state_after.map(|f| const_u32_expr!(f)),
-            ],
+            [state_before.map(|f| const_u32_expr!(f)), state_after.map(|f| const_u32_expr!(f))],
             message.map(|f| const_expr!(f)),
         ),
     );

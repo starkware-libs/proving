@@ -1,11 +1,10 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::add_ap_opcode::*;
@@ -14,9 +13,7 @@ use crate::casm::common::*;
 #[test]
 fn test_add_ap_negative_imm() {
     // Build the air function
-    let mut add_ap_opcode = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let mut add_ap_opcode = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc = 30;
@@ -35,9 +32,7 @@ fn test_add_ap_negative_imm() {
                     -1,
                     -1,
                     1,
-                    add_ap_opcode
-                        .get_flags()
-                        .non_constants_to_arr(&non_consts_flags),
+                    add_ap_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0
@@ -86,9 +81,7 @@ fn test_add_ap_negative_imm() {
 #[test]
 fn test_add_ap_deref_base_fp() {
     // Build the air function
-    let mut add_ap_opcode = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let mut add_ap_opcode = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc = 30;
@@ -109,18 +102,13 @@ fn test_add_ap_deref_base_fp() {
                     -1,
                     -1,
                     offset2,
-                    add_ap_opcode
-                        .get_flags()
-                        .non_constants_to_arr(&non_consts_flags),
+                    add_ap_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0
             ),
         ),
-        (
-            const_expr!((fp as i16 + offset2) as u32),
-            const_felt252_expr!(op1),
-        ),
+        (const_expr!((fp as i16 + offset2) as u32), const_felt252_expr!(op1)),
     ];
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -164,9 +152,7 @@ fn test_add_ap_deref_base_fp() {
 #[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_failed_op1_src() {
     // Build the air function
-    let mut add_ap_opcode = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let mut add_ap_opcode = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc = 30;
@@ -187,18 +173,13 @@ fn test_failed_op1_src() {
                     -1,
                     -1,
                     offset2,
-                    add_ap_opcode
-                        .get_flags()
-                        .non_constants_to_arr(&non_consts_flags),
+                    add_ap_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0
             ),
         ),
-        (
-            const_expr!((fp as i16 + offset2) as u32),
-            const_felt252_expr!(op1),
-        ),
+        (const_expr!((fp as i16 + offset2) as u32), const_felt252_expr!(op1)),
     ];
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -215,9 +196,7 @@ fn test_failed_op1_src() {
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 262144")]
 fn test_add_ap_too_big() {
     // Build the air function
-    let mut add_ap_opcode = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let mut add_ap_opcode = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc = 30;
@@ -236,9 +215,7 @@ fn test_add_ap_too_big() {
                     -1,
                     -1,
                     1,
-                    add_ap_opcode
-                        .get_flags()
-                        .non_constants_to_arr(&non_consts_flags),
+                    add_ap_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                     OpcodeExtension::Stone
                 ),
                 0

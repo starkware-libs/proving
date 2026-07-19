@@ -2,12 +2,10 @@ use std::array::from_fn;
 
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::variables::AirVar;
-use air_infra::felt252_id_memory::memory::CasmId;
-use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::felt252_id_memory::memory::{CasmId, Felt252IdMemory};
 use air_infra::felt252_id_memory::read_positive::ReadPositive;
 use air_infra::range_check::range_check;
 use serde::Serialize;
@@ -28,25 +26,15 @@ impl AirFn for QM31ReadReduced {
 
     fn call(&self, ab: &mut AirBuilder, _: (), addr: Self::In) -> Self::Out {
         // Read the 144-bit value from the memory.
-        let (value, id) = ab.call(
-            &ReadPositive {
-                num_bits: 4 * 4 * 9,
-                memory: self.memory.clone(),
-            },
-            addr.clone(),
-        );
+        let (value, id) = ab
+            .call(&ReadPositive { num_bits: 4 * 4 * 9, memory: self.memory.clone() }, addr.clone());
         let limbs = value.as_felts();
 
         // Constrain the coordinates to be in the range [0, 2**31 - 1].
         range_check(
             ab,
             &[4, 4, 4, 4],
-            &[
-                limbs[3].clone(),
-                limbs[7].clone(),
-                limbs[11].clone(),
-                limbs[15].clone(),
-            ],
+            &[limbs[3].clone(), limbs[7].clone(), limbs[11].clone(), limbs[15].clone()],
         );
 
         // Constrain the coordinates to not be PRIME = 2**31 - 1.
@@ -60,19 +48,12 @@ impl AirFn for QM31ReadReduced {
         });
         let delta_ab = deltas[0].clone() * deltas[1].clone();
         let delta_cd = deltas[2].clone() * deltas[3].clone();
-        let delta_prefix = addr
-            .extra_info
-            .clone()
-            .map(|s| format!("{s}_delta_"))
-            .unwrap_or("delta_".to_string());
-        let delta_ab_inv = ab.deduce(
-            &mut delta_ab.clone().inverse(),
-            &format!("{delta_prefix}ab_inv"),
-        );
-        let delta_cd_inv = ab.deduce(
-            &mut delta_cd.clone().inverse(),
-            &format!("{delta_prefix}cd_inv"),
-        );
+        let delta_prefix =
+            addr.extra_info.clone().map(|s| format!("{s}_delta_")).unwrap_or("delta_".to_string());
+        let delta_ab_inv =
+            ab.deduce(&mut delta_ab.clone().inverse(), &format!("{delta_prefix}ab_inv"));
+        let delta_cd_inv =
+            ab.deduce(&mut delta_cd.clone().inverse(), &format!("{delta_prefix}cd_inv"));
         ab.constrain(
             delta_ab * delta_ab_inv - const_expr!(1),
             &format!("{delta_prefix}ab doesn't equal 0"),

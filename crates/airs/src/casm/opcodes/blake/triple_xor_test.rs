@@ -13,11 +13,7 @@ fn test_xor() {
     let (state, new_state) = registry.run_air(
         &triple_xor,
         (),
-        [
-            const_u32_expr!(145646949),
-            const_u32_expr!(52416546),
-            const_u32_expr!(856468484),
-        ],
+        [const_u32_expr!(145646949), const_u32_expr!(52416546), const_u32_expr!(856468484)],
     );
     assert_eq!(new_state.calc(), "951916867");
 

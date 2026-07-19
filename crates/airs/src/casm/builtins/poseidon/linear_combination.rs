@@ -1,6 +1,5 @@
 // use core::range::Range;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
@@ -159,10 +158,8 @@ impl<const N: usize> AirFn for LinearCombination<N> {
             }
             limb_accumulator = limb_accumulator - p_coef.clone() * const_expr!(p_felt);
             if i < FELT252WIDTH27_N_WORDS - 1 {
-                limb_accumulator = air_builder.let_(
-                    limb_accumulator * shift_inverse.clone(),
-                    &format!("carry_{i}"),
-                );
+                limb_accumulator = air_builder
+                    .let_(limb_accumulator * shift_inverse.clone(), &format!("carry_{i}"));
                 carry_vec.push(limb_accumulator.clone());
             }
         }

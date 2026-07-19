@@ -2,8 +2,7 @@ use std::sync::LazyLock;
 
 use air_common::TraceType;
 use air_infra::casm_state::CasmStateVar;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use serde::Serialize;
 
@@ -23,14 +22,8 @@ pub const GENERIC_FLAGS_SIZE: usize = 20;
 pub static GENERIC_FLAG_NAMES: LazyLock<Vec<&str>> = LazyLock::new(|| {
     [
         FLAG_NAMES.as_slice(),
-        [
-            "op1_base_op0",
-            "res_op1",
-            "pc_update_regular",
-            "fp_update_regular",
-            "instruction_size",
-        ]
-        .as_slice(),
+        ["op1_base_op0", "res_op1", "pc_update_regular", "fp_update_regular", "instruction_size"]
+            .as_slice(),
     ]
     .concat()
 });
@@ -49,22 +42,16 @@ impl AirFn for GenericOpcode {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         let (flags_as_felts, offsets) = air_builder.call(
-            &DecodeGenericInstruction {
-                memory: self.memory.clone(),
-            },
+            &DecodeGenericInstruction { memory: self.memory.clone() },
             casm_state.pc().clone(),
         );
 
         let [dst, op0, op1, res] = air_builder.call(
-            &EvalOperands {
-                memory: self.memory.clone(),
-            },
+            &EvalOperands { memory: self.memory.clone() },
             (casm_state.clone(), flags_as_felts.clone(), offsets.clone()),
         );
         air_builder.call(
-            &HandleOpcodes {
-                memory: self.memory.clone(),
-            },
+            &HandleOpcodes { memory: self.memory.clone() },
             (
                 casm_state.clone(),
                 flags_as_felts.clone(),
@@ -75,11 +62,7 @@ impl AirFn for GenericOpcode {
 
         air_builder.call(
             &UpdateRegisters {},
-            (
-                casm_state,
-                flags_as_felts.clone(),
-                [dst.clone(), op1.clone(), res.clone()],
-            ),
+            (casm_state, flags_as_felts.clone(), [dst.clone(), op1.clone(), res.clone()]),
         )
     }
 

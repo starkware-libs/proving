@@ -1,6 +1,5 @@
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use serde::Serialize;
 
@@ -18,9 +17,7 @@ impl AirFn for WideFib {
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), mut input: Self::In) -> Self::Out {
-        let narrow_fn = NarrowFib {
-            num_steps: self.narrow_size,
-        };
+        let narrow_fn = NarrowFib { num_steps: self.narrow_size };
 
         air_builder.deduce(&mut input, "");
         let mut narrow_input = [const_expr!(1), input];

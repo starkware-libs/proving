@@ -1,15 +1,13 @@
 use air_common::TraceType;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::constraint_connectedness_test;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 use air_infra::core::variables::AirVar;
 use air_infra::felt252_id_memory::id_to_big::RangeCheckMemValue;
-use air_infra::range_check::range_check;
-use air_infra::range_check::range_check_variant;
+use air_infra::range_check::{range_check, range_check_variant};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{
     FELT252_BITS_PER_WORD, FELT252_N_WORDS, FELT252WIDTH27_N_WORDS,
@@ -34,12 +32,7 @@ impl AirFn for Felt252UnpackFrom27 {
         a = air_builder.let_for_deduction(a, "input_as_felt252");
         assert_eq!(FELT252_N_WORDS % 3, 1);
         let mut v = Vec::new();
-        for (i, a_limb) in a
-            .as_felts_mut()
-            .into_iter()
-            .enumerate()
-            .take(FELT252_N_WORDS - 1)
-        {
+        for (i, a_limb) in a.as_felts_mut().into_iter().enumerate().take(FELT252_N_WORDS - 1) {
             if i % 3 != 2 {
                 air_builder.deduce(a_limb, &format!("unpacked_limb_{i}"));
                 v.push(a_limb.clone());
@@ -125,19 +118,11 @@ impl AirFn for RangeCheck252Width27 {
             let low_high =
                 air_builder.deduce(a.get_felt_mut(3 * i + 2), &format!("limb_{i}_high_part"));
             let high_low = if i < FELT252WIDTH27_N_WORDS - 2 {
-                air_builder.deduce(
-                    a.get_felt_mut(3 * i + 3),
-                    &format!("limb_{}_low_part", i + 1),
-                )
+                air_builder.deduce(a.get_felt_mut(3 * i + 3), &format!("limb_{}_low_part", i + 1))
             } else {
                 packed.get_felt(i + 1)
             };
-            range_check_variant(
-                air_builder,
-                &[9, 9],
-                &[low_high.clone(), high_low.clone()],
-                j % 8,
-            );
+            range_check_variant(air_builder, &[9, 9], &[low_high.clone(), high_low.clone()], j % 8);
             range_check_variant(
                 air_builder,
                 &[18],

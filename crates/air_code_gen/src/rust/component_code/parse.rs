@@ -64,11 +64,7 @@ pub fn parse_eval_constraint(
 ) -> String {
     match expr {
         CompiledAirVar::Const(ty, val) => {
-            constant_names
-                .get(&(ty.to_owned(), val.to_owned()))
-                .unwrap()
-                .to_string()
-                + ".clone()"
+            constant_names.get(&(ty.to_owned(), val.to_owned())).unwrap().to_string() + ".clone()"
         }
         CompiledAirVar::State(name) => format!("{name}.clone()"),
         CompiledAirVar::StaticCall(id, args) => {
@@ -84,10 +80,7 @@ pub fn parse_eval_constraint(
             )
         }
         CompiledAirVar::UnaryOp(op, expr) => {
-            format!(
-                "({op}{})",
-                parse_eval_constraint(air_fn, expr, constant_names)
-            )
+            format!("({op}{})", parse_eval_constraint(air_fn, expr, constant_names))
         }
         CompiledAirVar::Tuple(vars) => {
             let vars_str = vars
@@ -184,10 +177,7 @@ pub fn parse_lookup_constraint(
     // TODO(AnatG): Assumes how parse_eval_constraint formats the output. Find a better way.
     let lookup_values_str = if lookup_values.len() == 1 {
         if lookup_values[0].ends_with(".clone()") {
-            format!(
-                "std::slice::from_ref(&{})",
-                lookup_values[0].replace(".clone()", "")
-            )
+            format!("std::slice::from_ref(&{})", lookup_values[0].replace(".clone()", ""))
         } else {
             format!("std::slice::from_ref(&{})", lookup_values[0])
         }

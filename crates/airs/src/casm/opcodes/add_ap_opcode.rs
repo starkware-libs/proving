@@ -1,16 +1,13 @@
 use std::collections::BTreeSet;
 
 use air_common::TraceType;
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_u32_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::range_check::range_check;
+use air_infra::{const_expr, const_u32_expr};
 use serde::Serialize;
 
 use super::super::decode_instruction::decode_inst::*;
@@ -87,9 +84,7 @@ impl AirFn for AddApOpcode {
             "mem1_base",
         );
 
-        let op1 = self
-            .memory
-            .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "op1"));
+        let op1 = self.memory.read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "op1"));
 
         let next_ap = ab.let_(casm_state.ap().var + op1, "next_ap");
 
@@ -120,15 +115,11 @@ impl AirFn for RangeCheck29 {
 
     fn call(&self, ab: &mut AirBuilder, _: (), x: Self::In) -> Self::Out {
         let x_u32 = UInt32Expr::from(x.clone());
-        let x_bot11bits_u32 = ab.let_for_deduction(
-            x_u32 & const_u32_expr!(0x7FF),
-            "range_check_29_bot11bits_u32",
-        );
+        let x_bot11bits_u32 =
+            ab.let_for_deduction(x_u32 & const_u32_expr!(0x7FF), "range_check_29_bot11bits_u32");
 
-        let x_bot11bits = ab.deduce(
-            &mut x_bot11bits_u32.low().as_felt(),
-            "range_check_29_bot11bits",
-        );
+        let x_bot11bits =
+            ab.deduce(&mut x_bot11bits_u32.low().as_felt(), "range_check_29_bot11bits");
         let x_top18bits = (x.clone() - x_bot11bits.clone()) / const_expr!(1 << 11);
 
         range_check(ab, &[18], &[x_top18bits]);

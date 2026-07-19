@@ -46,11 +46,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
     // TODO(AnatG): Improve implementation of this function. It should be possible to implement it
     // without clone of self.
     fn as_felts(&self) -> Vec<FeltExpr> {
-        self.clone()
-            .as_felts_mut()
-            .into_iter()
-            .map(|f| f.clone())
-            .collect()
+        self.clone().as_felts_mut().into_iter().map(|f| f.clone()).collect()
     }
 
     fn is_empty() -> bool {
@@ -59,10 +55,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
     #[cfg(any(test, feature = "test"))]
     fn to_values(&self) -> Option<Vec<Felt>> {
-        self.as_felts()
-            .iter()
-            .map(|f| f.value())
-            .collect::<Option<Vec<_>>>()
+        self.as_felts().iter().map(|f| f.value()).collect::<Option<Vec<_>>>()
     }
 
     // Defines a new variable for the top level variable, visible in deductions, and a variable for
@@ -90,10 +83,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
         for (i, (orig_felt, felt)) in orig_felts.iter_mut().zip(res.as_felts_mut()).enumerate() {
             if !orig_felt.is_directly_in_state() {
-                let felt_name = self
-                    .clone()
-                    .into()
-                    .get_limb_name(&name, i, &expr_descriptions);
+                let felt_name = self.clone().into().get_limb_name(&name, i, &expr_descriptions);
                 vars.push(Intermediate::new_for_constraint(&felt_name, orig_felt));
                 felt.let_for_constraint(felt_name);
             }
@@ -141,11 +131,8 @@ pub trait AirVarImplInfo {
     // in constraints and in deductions. Used to verify that variables are used in the correct
     // context.
     fn visibility(&self) -> Visibility {
-        let visibilities = self
-            .var_expr_infos()
-            .iter()
-            .map(|i| i.visibility)
-            .collect::<HashSet<_>>();
+        let visibilities =
+            self.var_expr_infos().iter().map(|i| i.visibility).collect::<HashSet<_>>();
         Visibility {
             in_constraints: visibilities.iter().all(|t| t.in_constraints),
             in_deductions: visibilities.iter().all(|t| t.in_deductions),
@@ -153,17 +140,11 @@ pub trait AirVarImplInfo {
     }
 
     fn public_params(&self) -> BTreeSet<PublicParam> {
-        self.var_expr_infos()
-            .iter()
-            .filter_map(|i| i.public_param.clone())
-            .collect()
+        self.var_expr_infos().iter().filter_map(|i| i.public_param.clone()).collect()
     }
 
     fn external_states(&self) -> BTreeSet<ExternalState> {
-        self.var_expr_infos()
-            .iter()
-            .filter_map(|i| i.external_state.clone())
-            .collect()
+        self.var_expr_infos().iter().filter_map(|i| i.external_state.clone()).collect()
     }
 }
 
@@ -183,10 +164,7 @@ pub struct Visibility {
 
 impl Visibility {
     pub fn new(in_deductions: bool, in_constraints: bool) -> Self {
-        Self {
-            in_constraints,
-            in_deductions,
-        }
+        Self { in_constraints, in_deductions }
     }
 }
 
@@ -263,9 +241,7 @@ pub trait ExtTable: Default + Debug + Clone {
 
     /// For const-size tables, return the log number of rows
     fn log_size() -> Option<u32> {
-        Self::preprocessed_columns()
-            .first()
-            .map(|ppc| ppc.log_size())
+        Self::preprocessed_columns().first().map(|ppc| ppc.log_size())
     }
 }
 
@@ -306,9 +282,7 @@ where
     // Used for testing.
     #[cfg(any(test, feature = "test"))]
     fn calc(&self) -> String {
-        self.value()
-            .expect("calc was called on a var without a value")
-            .calc()
+        self.value().expect("calc was called on a var without a value").calc()
     }
 }
 
@@ -319,11 +293,7 @@ pub enum AirVarImpl {
     Expr(ExprImpl),
     Tuple(Vec<AirVarImpl>),
     Array(Vec<AirVarImpl>),
-    Struct {
-        name: Option<String>,
-        r#type: String,
-        fields: Vec<(String, AirVarImpl)>,
-    },
+    Struct { name: Option<String>, r#type: String, fields: Vec<(String, AirVarImpl)> },
 }
 
 impl AirVarImpl {
@@ -368,11 +338,7 @@ impl AirVarImpl {
         expr_descriptions: &Option<Vec<Option<String>>>,
     ) -> String {
         if let Some(descriptions) = expr_descriptions {
-            assert_eq!(
-                self.as_exprs().len(),
-                descriptions.len(),
-                "Incorrect descriptions length"
-            );
+            assert_eq!(self.as_exprs().len(), descriptions.len(), "Incorrect descriptions length");
         }
         let (expr_i, expr_size, felt_in_expr_i) = self.expr_felt_index(index);
         let expr_desc = expr_descriptions
@@ -438,10 +404,7 @@ impl AirVarImpl {
             AirVarImpl::Tuple(vars) => {
                 format!(
                     "({})",
-                    vars.iter()
-                        .map(|v| v.packed_prover_type())
-                        .collect::<Vec<_>>()
-                        .join(", ")
+                    vars.iter().map(|v| v.packed_prover_type()).collect::<Vec<_>>().join(", ")
                 )
             }
             AirVarImpl::Array(vars) => {
@@ -463,14 +426,9 @@ impl AirVarImplInfo for AirVarImpl {
             AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => {
                 vars.iter().flat_map(|v| v.var_expr_infos()).collect()
             }
-            AirVarImpl::Struct {
-                name: _,
-                r#type: _,
-                fields,
-            } => fields
-                .iter()
-                .flat_map(|(_, v)| v.var_expr_infos())
-                .collect(),
+            AirVarImpl::Struct { name: _, r#type: _, fields } => {
+                fields.iter().flat_map(|(_, v)| v.var_expr_infos()).collect()
+            }
         }
     }
 
@@ -485,13 +443,7 @@ impl AirVarImplInfo for AirVarImpl {
         match self {
             AirVarImpl::Expr(expr) => expr.prover_type(),
             AirVarImpl::Tuple(vars) => {
-                format!(
-                    "({})",
-                    vars.iter()
-                        .map(|v| v.prover_type())
-                        .collect::<Vec<_>>()
-                        .join(", ")
-                )
+                format!("({})", vars.iter().map(|v| v.prover_type()).collect::<Vec<_>>().join(", "))
             }
             AirVarImpl::Array(vars) => {
                 if vars.is_empty() {
@@ -500,11 +452,7 @@ impl AirVarImplInfo for AirVarImpl {
 
                 format!("[{}; {}]", vars[0].prover_type(), vars.len())
             }
-            AirVarImpl::Struct {
-                name: _,
-                r#type,
-                fields: _,
-            } => r#type.to_string(),
+            AirVarImpl::Struct { name: _, r#type, fields: _ } => r#type.to_string(),
         }
     }
 
@@ -517,11 +465,7 @@ impl AirVarImplInfo for AirVarImpl {
             AirVarImpl::Array(v) => {
                 CompiledAirVar::Array(v.into_iter().map(|v| v.compile(compile_for)).collect())
             }
-            AirVarImpl::Struct {
-                name,
-                r#type,
-                fields,
-            } => {
+            AirVarImpl::Struct { name, r#type, fields } => {
                 if let Some(n) = name {
                     CompiledAirVar::Var(r#type, n)
                 } else {

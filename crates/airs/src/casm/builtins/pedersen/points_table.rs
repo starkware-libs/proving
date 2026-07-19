@@ -1,8 +1,7 @@
 use air_common::TraceType;
 #[cfg(test)]
 use air_infra::const_felt252_expr_from_felt252;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 #[cfg(test)]
 use air_infra::core::variables::AsProverType;
@@ -32,9 +31,7 @@ pub struct PedersenPoints<const WINDOW_BITS: usize> {
 impl<const WINDOW_BITS: usize> PedersenPoints<WINDOW_BITS> {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        Self {
-            window_bits: WINDOW_BITS,
-        }
+        Self { window_bits: WINDOW_BITS }
     }
 }
 
@@ -58,11 +55,8 @@ fn compute_section_row(
         row_in_section % rows_in_last_window
     };
     let minus_p_shift = ec_neg(&P_SHIFT);
-    let result = ec_add_mul(
-        &minus_p_shift,
-        &ec_shift(base_point, window_bits * block_num),
-        row_in_block,
-    );
+    let result =
+        ec_add_mul(&minus_p_shift, &ec_shift(base_point, window_bits * block_num), row_in_block);
     if block_num < num_windows - 1 {
         result
     } else {
@@ -108,11 +102,9 @@ impl<const WINDOW_BITS: usize> ExtTable for PedersenPoints<WINDOW_BITS> {
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
         (0..PEDERSEN_TABLE_N_COLUMNS)
             .map(|i| {
-                Box::new(
-                    stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::<
-                        WINDOW_BITS,
-                    >::new(i),
-                ) as Box<dyn PreProcessedColumn>
+                Box::new(stwo_cairo_common::preprocessed_columns::pedersen::PedersenPoints::<
+                    WINDOW_BITS,
+                >::new(i)) as Box<dyn PreProcessedColumn>
             })
             .collect()
     }

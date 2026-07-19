@@ -1,7 +1,6 @@
 use air_common::TraceType;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::constraint_connectedness_test;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
@@ -35,72 +34,20 @@ impl AirFn for TripleXor32 {
         let [cll, clh] = air_builder.call(&split, c.low());
         let [chl, chh] = air_builder.call(&split, c.high());
 
-        let tmp_rll = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 0,
-            },
-            [all, bll],
-        );
-        let rll = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 0,
-            },
-            [tmp_rll, cll],
-        );
+        let tmp_rll = air_builder.call(&BitwiseXor { num_bits: 8, variant: 0 }, [all, bll]);
+        let rll = air_builder.call(&BitwiseXor { num_bits: 8, variant: 0 }, [tmp_rll, cll]);
 
-        let tmp_rlh = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 0,
-            },
-            [alh, blh],
-        );
-        let rlh = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 0,
-            },
-            [tmp_rlh, clh],
-        );
+        let tmp_rlh = air_builder.call(&BitwiseXor { num_bits: 8, variant: 0 }, [alh, blh]);
+        let rlh = air_builder.call(&BitwiseXor { num_bits: 8, variant: 0 }, [tmp_rlh, clh]);
 
-        let tmp_rhl = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 1,
-            },
-            [ahl, bhl],
-        );
-        let rhl = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 1,
-            },
-            [tmp_rhl, chl],
-        );
+        let tmp_rhl = air_builder.call(&BitwiseXor { num_bits: 8, variant: 1 }, [ahl, bhl]);
+        let rhl = air_builder.call(&BitwiseXor { num_bits: 8, variant: 1 }, [tmp_rhl, chl]);
 
-        let tmp_rhh = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 1,
-            },
-            [ahh, bhh],
-        );
-        let rhh = air_builder.call(
-            &BitwiseXor {
-                num_bits: 8,
-                variant: 1,
-            },
-            [tmp_rhh, chh],
-        );
+        let tmp_rhh = air_builder.call(&BitwiseXor { num_bits: 8, variant: 1 }, [ahh, bhh]);
+        let rhh = air_builder.call(&BitwiseXor { num_bits: 8, variant: 1 }, [tmp_rhh, chh]);
 
         air_builder.let_(
-            vec![
-                rll + rlh * const_expr!(1 << 8),
-                rhl + rhh * const_expr!(1 << 8),
-            ]
-            .into(),
+            vec![rll + rlh * const_expr!(1 << 8), rhl + rhh * const_expr!(1 << 8)].into(),
             "triple_xor32_output",
         )
     }

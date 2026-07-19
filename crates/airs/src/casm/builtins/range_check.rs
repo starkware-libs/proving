@@ -1,7 +1,6 @@
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::public_params::PublicParam;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::felt252_id_memory::read_positive::ReadPositive;
@@ -27,10 +26,7 @@ impl AirFn for RangeCheckBuiltin {
         let segment_start = air_builder.get_public_param(self.segment_start.clone());
 
         air_builder.call(
-            &ReadPositive {
-                num_bits: self.bits,
-                memory: self.memory.clone(),
-            },
+            &ReadPositive { num_bits: self.bits, memory: self.memory.clone() },
             CasmAddress::new(segment_start + instance_number, "value"),
         );
     }

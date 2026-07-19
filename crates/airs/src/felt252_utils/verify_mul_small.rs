@@ -2,8 +2,7 @@ use std::cmp::{max, min};
 use std::slice::from_ref;
 
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::range_check::range_check;
@@ -26,11 +25,7 @@ impl AirFn for VerifyMulSmall {
     type Out = ();
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("a".to_string()),
-            Some("b".to_string()),
-            Some("c".to_string()),
-        ])
+        Some(vec![Some("a".to_string()), Some("b".to_string()), Some("c".to_string())])
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
@@ -41,11 +36,7 @@ impl AirFn for VerifyMulSmall {
         let mut limb_accumulator = const_expr!(0u32);
 
         for i in 0..(2 * NUM_LIMBS - 2) {
-            let conditional_shift = if i % 2 == 1 {
-                shift.clone()
-            } else {
-                const_expr!(1)
-            };
+            let conditional_shift = if i % 2 == 1 { shift.clone() } else { const_expr!(1) };
             let convolution_start = max(i, NUM_LIMBS - 1) - (NUM_LIMBS - 1);
             let convolution_end = min(i, NUM_LIMBS - 1);
             let mut convolution = const_expr!(0u32);

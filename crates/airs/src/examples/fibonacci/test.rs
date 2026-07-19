@@ -13,20 +13,14 @@ use crate::examples::TEST_JSONS_EXAMPLES_DIR;
 
 #[test]
 fn test_wide_fibonacci() {
-    let air_fn = WideFib {
-        num_narrow: 8,
-        narrow_size: 20,
-    };
+    let air_fn = WideFib { num_narrow: 8, narrow_size: 20 };
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (_, output) = registry.run_air(&air_fn, (), const_expr!(1));
     assert_eq!(output.calc(), *"1594392009");
 
     // Check entries
     for (name, entry) in registry.compile().iter() {
-        compare_json(
-            &entry,
-            &Path::new(TEST_JSONS_EXAMPLES_DIR).join(format!("{name}.json")),
-        );
+        compare_json(&entry, &Path::new(TEST_JSONS_EXAMPLES_DIR).join(format!("{name}.json")));
     }
 }
 

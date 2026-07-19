@@ -17,11 +17,7 @@ pub struct Scope {
 
 impl Scope {
     pub fn new(environment: Rc<Environment>, enabler: Option<QM31>) -> Scope {
-        Scope {
-            var_values: Default::default(),
-            enabler,
-            environment,
-        }
+        Scope { var_values: Default::default(), enabler, environment }
     }
 
     pub fn add_new_var(&mut self, name: String, value: QM31) {
@@ -38,15 +34,11 @@ impl Scope {
         match expr {
             CompiledAirVar::Const(r#type, value) => {
                 assert_eq!(r#type, "M31");
-                value
-                    .parse::<u32>()
-                    .expect("Const value is not a number")
-                    .into()
+                value.parse::<u32>().expect("Const value is not a number").into()
             }
-            CompiledAirVar::Var(_, name) | CompiledAirVar::State(name) => *self
-                .var_values
-                .get(name)
-                .unwrap_or_else(|| panic!("Unknown name {name}")),
+            CompiledAirVar::Var(_, name) | CompiledAirVar::State(name) => {
+                *self.var_values.get(name).unwrap_or_else(|| panic!("Unknown name {name}"))
+            }
             CompiledAirVar::BinaryOp(left, op, right) => match op.as_str() {
                 "+" => self.evaluate(left) + self.evaluate(right),
                 "-" => self.evaluate(left) - self.evaluate(right),
@@ -59,11 +51,7 @@ impl Scope {
                 .get(external_state)
                 .expect("External state not found"),
             CompiledAirVar::PublicParam(name) => <M31 as Into<QM31>>::into(
-                *self
-                    .environment
-                    .public_params
-                    .get(name)
-                    .expect("External state not found"),
+                *self.environment.public_params.get(name).expect("External state not found"),
             ),
             CompiledAirVar::Enabler => self.enabler.expect("Missing enabler value"),
             _ => panic!("Unexpected expression {expr}"),

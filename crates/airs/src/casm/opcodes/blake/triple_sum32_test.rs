@@ -29,11 +29,7 @@ fn test_triple_sum1() {
     let (state, output) = registry.run_air(
         &triple_sum,
         (),
-        [
-            const_u32_expr!(2724151460),
-            const_u32_expr!(102499851),
-            const_u32_expr!(1441071338),
-        ],
+        [const_u32_expr!(2724151460), const_u32_expr!(102499851), const_u32_expr!(1441071338)],
     );
     assert_eq!(output.calc(), "4267722649");
 
@@ -52,11 +48,7 @@ fn test_triple_sum2() {
     let (state, output) = registry.run_air(
         &triple_sum,
         (),
-        [
-            const_u32_expr!(2147516416),
-            const_u32_expr!(2147516416),
-            const_u32_expr!(2147516416),
-        ],
+        [const_u32_expr!(2147516416), const_u32_expr!(2147516416), const_u32_expr!(2147516416)],
     );
     assert_eq!(output.calc(), "2147581952");
 
@@ -75,11 +67,7 @@ fn test_triple_sum3() {
     let (state, output) = registry.run_air(
         &triple_sum,
         (),
-        [
-            const_u32_expr!(4294967295),
-            const_u32_expr!(4294967295),
-            const_u32_expr!(4294967295),
-        ],
+        [const_u32_expr!(4294967295), const_u32_expr!(4294967295), const_u32_expr!(4294967295)],
     );
     assert_eq!(output.calc(), "4294967293");
 
@@ -98,11 +86,7 @@ fn test_pair_sum() {
     let (state, output) = registry.run_air(
         &triple_sum,
         (),
-        [
-            const_u32_expr!(7945302),
-            const_u32_expr!(151796478),
-            const_u32_expr!(0),
-        ],
+        [const_u32_expr!(7945302), const_u32_expr!(151796478), const_u32_expr!(0)],
     );
     assert_eq!(output.calc(), "159741780");
 

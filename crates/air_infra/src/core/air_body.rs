@@ -117,12 +117,14 @@ impl AirBody {
             AirBodyComponent::Constraint(expr, desc) => {
                 assert!(
                     expr.visibility().in_constraints && expr.in_state(),
-                    "constraint must be in state and have only intermediate variables known in constraints"
+                    "constraint must be in state and have only intermediate variables known in \
+                     constraints"
                 );
                 let deg = expr.deg_in_state().unwrap();
                 assert!(
                     deg <= 3,
-                    "constraint must have degree <= 3, encountered degree {} in constraint named '{}' with expression\n{:#?}",
+                    "constraint must have degree <= 3, encountered degree {} in constraint named \
+                     '{}' with expression\n{:#?}",
                     deg,
                     desc.clone().unwrap_or_default(),
                     expr
@@ -134,25 +136,18 @@ impl AirBody {
                     "deduction must have only intermediate variables known in deductions"
                 );
             }
-            AirBodyComponent::Assignment {
-                constraint,
-                deduction,
-                desc: _,
-            } => {
+            AirBodyComponent::Assignment { constraint, deduction, desc: _ } => {
                 assert!(
                     constraint.visibility().in_constraints && constraint.in_state(),
-                    "constraint must be in state and have only intermediate variables known in constraints"
+                    "constraint must be in state and have only intermediate variables known in \
+                     constraints"
                 );
                 assert!(
                     deduction.visibility().in_deductions,
                     "deduction must have only intermediate variables known in deductions"
                 );
             }
-            AirBodyComponent::Intermediate(Intermediate {
-                name: _,
-                var,
-                visibility,
-            }) => {
+            AirBodyComponent::Intermediate(Intermediate { name: _, var, visibility }) => {
                 assert!(
                     visibility.in_deductions || visibility.in_constraints,
                     "visibility of intermediates must be set"
@@ -166,35 +161,29 @@ impl AirBody {
                     // variables for constraints before deduction.
                     assert!(
                         var.in_state() && var.visibility().in_constraints,
-                        "intermediate variable must be in state and have only intermediate variables known in constraints"
+                        "intermediate variable must be in state and have only intermediate \
+                         variables known in constraints"
                     );
                 }
                 if visibility.in_deductions {
                     assert!(
                         var.visibility().in_deductions,
-                        "intermediate variable must have only intermediate variables known in deductions"
+                        "intermediate variable must have only intermediate variables known in \
+                         deductions"
                     );
                 }
             }
             AirBodyComponent::Call(call) => {
                 assert!(
-                    call.entry
-                        .filter_input_limbs(call.input.clone())
-                        .visibility()
-                        .in_constraints,
+                    call.entry.filter_input_limbs(call.input.clone()).visibility().in_constraints,
                     "call input must have only intermediate variables known in constraints"
                 );
                 assert!(
-                    call.entry
-                        .filter_output_limbs(call.output.clone())
-                        .visibility()
-                        .in_deductions,
+                    call.entry.filter_output_limbs(call.output.clone()).visibility().in_deductions,
                     "call output must have only intermediate variables known in constraints"
                 );
             }
-            AirBodyComponent::LookupCall(LookupCall {
-                ext_input, input, ..
-            }) => {
+            AirBodyComponent::LookupCall(LookupCall { ext_input, input, .. }) => {
                 if let Some(ext_input) = ext_input {
                     assert!(
                         ext_input.visibility().in_deductions,
@@ -208,38 +197,36 @@ impl AirBody {
                     );
                 }
             }
-            AirBodyComponent::LookupAddInput {
-                ext_input, input, ..
-            } => {
+            AirBodyComponent::LookupAddInput { ext_input, input, .. } => {
                 if let Some(ext_input) = ext_input {
                     assert!(
                         ext_input.visibility().in_deductions,
-                        "lookup add input must have only intermediate variables known in deductions"
+                        "lookup add input must have only intermediate variables known in \
+                         deductions"
                     );
                 }
                 if let Some(input) = input {
                     assert!(
                         input.visibility().in_deductions,
-                        "lookup add input must have only intermediate variables known in deductions"
+                        "lookup add input must have only intermediate variables known in \
+                         deductions"
                     );
                 }
             }
-            AirBodyComponent::LookupTerm {
-                felts,
-                relation_name,
-                ..
-            } => {
+            AirBodyComponent::LookupTerm { felts, relation_name, .. } => {
                 for f in felts {
                     assert!(
                         f.visibility().in_deductions
                             && f.visibility().in_constraints
                             && f.in_state(),
-                        "lookup term must be in state and have only intermediate variables known in deductions and constraints"
+                        "lookup term must be in state and have only intermediate variables known \
+                         in deductions and constraints"
                     );
                     let deg = f.deg_in_state().unwrap();
                     assert!(
                         deg <= 1,
-                        "lookup term must have degree <= 1, encountered degree {deg} in term named '{relation_name}' with expression {f:#?}",
+                        "lookup term must have degree <= 1, encountered degree {deg} in term \
+                         named '{relation_name}' with expression {f:#?}",
                     );
                 }
             }
@@ -254,10 +241,7 @@ impl AirBody {
         for component in self.0.clone() {
             match component {
                 AirBodyComponent::Constraint(felt_expr, _)
-                | AirBodyComponent::Assignment {
-                    constraint: felt_expr,
-                    ..
-                }
+                | AirBodyComponent::Assignment { constraint: felt_expr, .. }
                 | AirBodyComponent::Deduction(felt_expr, _) => {
                     external_states.extend(felt_expr.external_states());
                 }
@@ -273,16 +257,9 @@ impl AirBody {
                         external_states.extend(input.external_states());
                     }
                 }
-                AirBodyComponent::LookupTerm {
-                    felts,
-                    multiplicity,
-                    ..
-                } => {
+                AirBodyComponent::LookupTerm { felts, multiplicity, .. } => {
                     external_states.extend(
-                        felts
-                            .iter()
-                            .chain(once(&multiplicity))
-                            .flat_map(|f| f.external_states()),
+                        felts.iter().chain(once(&multiplicity)).flat_map(|f| f.external_states()),
                     );
                 }
             }
@@ -297,10 +274,7 @@ impl AirBody {
         for component in self.0.clone() {
             match component {
                 AirBodyComponent::Constraint(felt_expr, _)
-                | AirBodyComponent::Assignment {
-                    constraint: felt_expr,
-                    ..
-                }
+                | AirBodyComponent::Assignment { constraint: felt_expr, .. }
                 | AirBodyComponent::Deduction(felt_expr, _) => {
                     public_params.extend(felt_expr.public_params());
                 }
@@ -316,16 +290,9 @@ impl AirBody {
                         public_params.extend(input.public_params());
                     }
                 }
-                AirBodyComponent::LookupTerm {
-                    felts,
-                    multiplicity,
-                    ..
-                } => {
+                AirBodyComponent::LookupTerm { felts, multiplicity, .. } => {
                     public_params.extend(
-                        felts
-                            .iter()
-                            .chain(once(&multiplicity))
-                            .flat_map(|f| f.public_params()),
+                        felts.iter().chain(once(&multiplicity)).flat_map(|f| f.public_params()),
                     );
                 }
             }
@@ -342,20 +309,14 @@ impl AirBody {
             match component {
                 AirBodyComponent::Constraint(..) => {}
                 AirBodyComponent::Assignment { deduction, .. } => {
-                    deductions.push(TraceGenStep::Deduction(
-                        deduction.compile(CompileFor::Deductions),
-                    ));
+                    deductions
+                        .push(TraceGenStep::Deduction(deduction.compile(CompileFor::Deductions)));
                 }
                 AirBodyComponent::Deduction(deduction, _) => {
-                    deductions.push(TraceGenStep::Deduction(
-                        deduction.compile(CompileFor::Deductions),
-                    ));
+                    deductions
+                        .push(TraceGenStep::Deduction(deduction.compile(CompileFor::Deductions)));
                 }
-                AirBodyComponent::Intermediate(Intermediate {
-                    name,
-                    var,
-                    visibility,
-                }) => {
+                AirBodyComponent::Intermediate(Intermediate { name, var, visibility }) => {
                     if visibility.in_deductions {
                         deductions.push(TraceGenStep::Intermediate(CompiledTraceGenIntermediate {
                             name,
@@ -431,20 +392,14 @@ impl AirBody {
                         desc,
                     ));
                 }
-                AirBodyComponent::Assignment {
-                    constraint, desc, ..
-                } => {
+                AirBodyComponent::Assignment { constraint, desc, .. } => {
                     constraints.push(ConstraintEvalStep::Constraint(
                         constraint.compile(CompileFor::Constraints),
                         desc,
                     ));
                 }
                 AirBodyComponent::Deduction(..) => {}
-                AirBodyComponent::Intermediate(Intermediate {
-                    name,
-                    var,
-                    visibility,
-                }) => {
+                AirBodyComponent::Intermediate(Intermediate { name, var, visibility }) => {
                     if visibility.in_constraints {
                         // These are only felt expressions (see assert in <push>).
                         constraints.push(ConstraintEvalStep::Intermediate(
@@ -517,11 +472,7 @@ impl AirBody {
                 AirBodyComponent::Call(f) => {
                     lookup_calls.extend(f.air_body.get_constraint_lookups());
                 }
-                AirBodyComponent::LookupTerm {
-                    relation_name,
-                    use_or_yield,
-                    ..
-                } => {
+                AirBodyComponent::LookupTerm { relation_name, use_or_yield, .. } => {
                     lookup_calls.push((relation_name.clone(), *use_or_yield));
                 }
                 _ => (),
@@ -563,25 +514,14 @@ impl AirBody {
     pub fn get_n_inputs_added_per_relation(&self) -> IndexMap<String, (String, usize)> {
         let mut lookup_rows = IndexMap::new();
         self.0.iter().for_each(|comp| {
-            if let AirBodyComponent::LookupAddInput {
-                relation_name,
-                air_fn_name,
-                ..
-            } = comp
-            {
-                lookup_rows
-                    .entry(relation_name.clone())
-                    .or_insert((air_fn_name.clone(), 0))
-                    .1 += 1;
+            if let AirBodyComponent::LookupAddInput { relation_name, air_fn_name, .. } = comp {
+                lookup_rows.entry(relation_name.clone()).or_insert((air_fn_name.clone(), 0)).1 += 1;
             }
             if let AirBodyComponent::Call(call) = comp {
                 for (relation_name, (air_fn_name, cnt)) in
                     call.air_body.get_n_inputs_added_per_relation()
                 {
-                    lookup_rows
-                        .entry(relation_name)
-                        .or_insert((air_fn_name, 0))
-                        .1 += cnt;
+                    lookup_rows.entry(relation_name).or_insert((air_fn_name, 0)).1 += cnt;
                 }
             }
         });
@@ -598,11 +538,7 @@ impl AirBody {
                 ConstraintComponent::Intermediate { value, .. } => {
                     result.extend(value.get_used_constraint_intermediates());
                 }
-                ConstraintComponent::LookupTerm {
-                    felts,
-                    multiplicity,
-                    ..
-                } => {
+                ConstraintComponent::LookupTerm { felts, multiplicity, .. } => {
                     for f in felts {
                         result.extend(f.get_used_constraint_intermediates());
                     }
@@ -620,9 +556,9 @@ impl AirBody {
         for component in self.0.iter() {
             match component {
                 AirBodyComponent::Constraint(expr, _)
-                | AirBodyComponent::Assignment {
-                    constraint: expr, ..
-                } => result.push(ConstraintComponent::Constraint(expr.clone())),
+                | AirBodyComponent::Assignment { constraint: expr, .. } => {
+                    result.push(ConstraintComponent::Constraint(expr.clone()))
+                }
                 AirBodyComponent::Intermediate(intermediate) => {
                     if intermediate.visibility.in_constraints {
                         result.push(ConstraintComponent::Intermediate {

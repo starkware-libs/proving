@@ -1,11 +1,9 @@
 use std::collections::BTreeSet;
 
 use air_common::TraceType;
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use serde::Serialize;
@@ -113,21 +111,15 @@ impl AirFn for QM31AddMulOpcode {
         );
 
         let (dst, _) = ab.call(
-            &QM31ReadReduced {
-                memory: self.memory.clone(),
-            },
+            &QM31ReadReduced { memory: self.memory.clone() },
             CasmAddress::new(mem_dst_base + offset0, "dst"),
         );
         let (op0, _) = ab.call(
-            &QM31ReadReduced {
-                memory: self.memory.clone(),
-            },
+            &QM31ReadReduced { memory: self.memory.clone() },
             CasmAddress::new(mem0_base + offset1, "op0"),
         );
         let (op1, _) = ab.call(
-            &QM31ReadReduced {
-                memory: self.memory.clone(),
-            },
+            &QM31ReadReduced { memory: self.memory.clone() },
             CasmAddress::new(mem1_base + offset2, "op1"),
         );
 

@@ -1,10 +1,8 @@
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
 use air_infra::range_check::range_check;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
@@ -75,11 +73,7 @@ impl AirFn for EncodeOffsets {
             + (high2.as_felt() * const_expr!(1 << 13));
         ab.constrain(new_off2_f - off2_f, "Reconstructed offset2 is correct");
 
-        range_check(
-            ab,
-            &[7, 2, 5],
-            &[mid0.as_felt(), low1.as_felt(), high1.as_felt()],
-        );
+        range_check(ab, &[7, 2, 5], &[mid0.as_felt(), low1.as_felt(), high1.as_felt()]);
         range_check(ab, &[4, 3], &[low2.as_felt(), high2.as_felt()]);
 
         let felt0 = low0.as_felt();

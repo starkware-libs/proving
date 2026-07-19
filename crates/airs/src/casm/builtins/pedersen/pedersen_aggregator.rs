@@ -1,10 +1,8 @@
 use air_common::TraceType;
 use air_infra::const_felt252_expr_from_felt252;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
-use air_infra::felt252_id_memory::memory::CasmId;
-use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::felt252_id_memory::memory::{CasmId, Felt252IdMemory};
 use air_infra::felt252_id_memory::read_positive::ReadPositiveKnownId;
 use serde::Serialize;
 
@@ -22,10 +20,7 @@ pub struct PedersenAggregator<const NUM_WINDOWS: usize> {
 impl<const NUM_WINDOWS: usize> PedersenAggregator<NUM_WINDOWS> {
     pub fn new(memory: Felt252IdMemory) -> Self {
         assert_eq!(252 % NUM_WINDOWS, 0);
-        Self {
-            memory,
-            window_bits: 252 / NUM_WINDOWS,
-        }
+        Self { memory, window_bits: 252 / NUM_WINDOWS }
     }
 }
 
@@ -44,21 +39,11 @@ impl<const NUM_WINDOWS: usize> AirFn for PedersenAggregator<NUM_WINDOWS> {
         _: (),
         ([a_id, b_id], output_id): Self::In,
     ) -> Self::Out {
-        let a_full = air_builder.call(
-            &ReadPositiveKnownId {
-                num_bits: 252,
-                memory: self.memory.clone(),
-            },
-            a_id,
-        );
+        let a_full = air_builder
+            .call(&ReadPositiveKnownId { num_bits: 252, memory: self.memory.clone() }, a_id);
 
-        let b_full = air_builder.call(
-            &ReadPositiveKnownId {
-                num_bits: 252,
-                memory: self.memory.clone(),
-            },
-            b_id,
-        );
+        let b_full = air_builder
+            .call(&ReadPositiveKnownId { num_bits: 252, memory: self.memory.clone() }, b_id);
 
         // Verify a, b < P
         air_builder.call(&VerifyReduced252 {}, a_full.clone());
@@ -86,7 +71,6 @@ impl<const NUM_WINDOWS: usize> AirFn for PedersenAggregator<NUM_WINDOWS> {
             NUM_WINDOWS,
         );
 
-        self.memory
-            .mem_verify_known_id(air_builder, &output_id, sum_2[0].clone());
+        self.memory.mem_verify_known_id(air_builder, &output_id, sum_2[0].clone());
     }
 }

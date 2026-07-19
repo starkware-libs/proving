@@ -5,14 +5,8 @@ use subroutines::read_positive_num_bits_128::ReadPositiveNumBits128;
 
 pub const N_TRACE_COLUMNS: usize = 17;
 pub const RELATION_USES_PER_ROW: [RelationUse; 2] = [
-    RelationUse {
-        relation_id: "MemoryAddressToId",
-        uses: 1,
-    },
-    RelationUse {
-        relation_id: "MemoryIdToBig",
-        uses: 1,
-    },
+    RelationUse { relation_id: "MemoryAddressToId", uses: 1 },
+    RelationUse { relation_id: "MemoryIdToBig", uses: 1 },
 ];
 
 pub struct Eval {

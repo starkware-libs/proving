@@ -23,12 +23,7 @@ impl AirFn for MemVerify {
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (address, value): Self::In) -> Self::Out {
-        let id = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
-            address.clone(),
-        );
+        let id = air_builder.call(&ReadId { memory: self.memory.clone() }, address.clone());
 
         air_builder.mem_verify(&self.memory.id_to_big, &id, value);
     }
@@ -54,12 +49,7 @@ impl<const N: usize> AirFn for MemVerifyAll<N> {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (addresses, value): Self::In) -> Self::Out {
-        let id = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
-            addresses[0].clone(),
-        );
+        let id = air_builder.call(&ReadId { memory: self.memory.clone() }, addresses[0].clone());
         air_builder.mem_verify(&self.memory.id_to_big, &id, value);
 
         for address in addresses.iter().skip(1) {

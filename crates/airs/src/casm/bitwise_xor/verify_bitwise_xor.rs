@@ -2,8 +2,7 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 
 use air_common::TraceType;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 #[cfg(test)]
 use air_infra::core::variables::AirVar;
@@ -20,39 +19,20 @@ pub trait VerifyBitwiseXorSize: ExtTable + Debug + Default {
 
 pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3], variant: usize) {
     if bits != 8 {
-        assert!(
-            variant == 0,
-            "Only variant 0 is supported for bits other than 8"
-        );
+        assert!(variant == 0, "Only variant 0 is supported for bits other than 8");
     }
 
     match bits {
-        4 => ab.lookup_call(
-            &VerifyBitwiseXor::<VerifyBitwiseXor_4_Const>::default(),
-            input,
-            (),
-        ),
-        7 => ab.lookup_call(
-            &VerifyBitwiseXor::<VerifyBitwiseXor_7_Const>::default(),
-            input,
-            (),
-        ),
+        4 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor_4_Const>::default(), input, ()),
+        7 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor_7_Const>::default(), input, ()),
         8 => ab.lookup_call_variant(
             &VerifyBitwiseXor::<VerifyBitwiseXor_8_Const>::default(),
             input,
             (),
             variant,
         ),
-        9 => ab.lookup_call(
-            &VerifyBitwiseXor::<VerifyBitwiseXor_9_Const>::default(),
-            input,
-            (),
-        ),
-        12 => ab.lookup_call(
-            &VerifyBitwiseXor::<VerifyBitwiseXor_12_Const>::default(),
-            input,
-            (),
-        ),
+        9 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor_9_Const>::default(), input, ()),
+        12 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor_12_Const>::default(), input, ()),
         _ => panic!("Unsupported verify bitwise xor bits: {bits:?}"),
     }
 }
@@ -100,11 +80,7 @@ impl<V: VerifyBitwiseXorSize> AirFn for VerifyBitwiseXor<V> {
     ) -> Self::Out {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
-            if let [a, b, c] = _const_input
-                .to_values()
-                .expect("input has no values")
-                .as_slice()
-            {
+            if let [a, b, c] = _const_input.to_values().expect("input has no values").as_slice() {
                 assert!(
                     a.0 < (1u32 << V::bits()),
                     "RangeCheck{} failed (input {})",
@@ -136,7 +112,7 @@ impl<V: VerifyBitwiseXorSize> AirFn for VerifyBitwiseXor<V> {
 
 #[macro_export]
 macro_rules! new_verify_bitwise_xor {
-    ( $b:literal, $name:ident ) => {
+    ($b:literal, $name:ident) => {
         #[derive(Debug, Default, Clone)]
         #[allow(non_camel_case_types)]
         pub struct $name {}

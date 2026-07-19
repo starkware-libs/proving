@@ -1,5 +1,4 @@
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AirVar;
@@ -39,10 +38,7 @@ impl AirFn for ECDouble {
         );
         air_builder.call(
             &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
-            slope
-                .as_felts()
-                .try_into()
-                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+            slope.as_felts().try_into().expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let numerator: Felt252Expr = (0..FELT252_N_WORDS)
             .map(|i| {
@@ -60,16 +56,11 @@ impl AirFn for ECDouble {
         air_builder.call(&VerifyMul252 {}, [slope.clone(), y_doubled, numerator]);
 
         // Deduce, range-check and constrain result_x = slope * slope - 2*x.
-        let result_x = air_builder.deduce_air_var(
-            (slope.clone() * slope.clone()) - x.clone() - x.clone(),
-            "result_x",
-        );
+        let result_x = air_builder
+            .deduce_air_var((slope.clone() * slope.clone()) - x.clone() - x.clone(), "result_x");
         air_builder.call(
             &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
-            result_x
-                .as_felts()
-                .try_into()
-                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+            result_x.as_felts().try_into().expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_sum: Felt252Expr = (0..FELT252_N_WORDS)
             .map(|i| {
@@ -83,16 +74,11 @@ impl AirFn for ECDouble {
         air_builder.call(&VerifyMul252 {}, [slope.clone(), slope.clone(), x_sum]);
 
         // Deduce, range-check and constrain result_y = slope * (x - result_x) - y.
-        let result_y = air_builder.deduce_air_var(
-            slope.clone() * (x.clone() - result_x.clone()) - y.clone(),
-            "result_y",
-        );
+        let result_y = air_builder
+            .deduce_air_var(slope.clone() * (x.clone() - result_x.clone()) - y.clone(), "result_y");
         air_builder.call(
             &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
-            result_y
-                .as_felts()
-                .try_into()
-                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+            result_y.as_felts().try_into().expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
         let x_diff: Felt252Expr = (0..FELT252_N_WORDS)
             .map(|i| air_builder.let_(x.get_felt(i) - result_x.get_felt(i), &format!("x_diff_{i}")))

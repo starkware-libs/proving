@@ -2,8 +2,7 @@ use std::slice::from_ref;
 
 use air_common::{TraceType, UseOrYield};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::range_check::range_check;
@@ -34,13 +33,12 @@ impl AirFn for M31ToU32 {
             &[(const_expr!(1 << 15) - const_expr!(1)) - u32_expr.high().as_felt()],
         );
 
-        // Constrain that if the  m31 input is zero mod P then the low limb and the high limb are zero.
-        // Without this constraint a zero can be represented with low limb = 0x7fff and high limb = 0xffff.
+        // Constrain that if the  m31 input is zero mod P then the low limb and the high limb are
+        // zero. Without this constraint a zero can be represented with low limb = 0x7fff
+        // and high limb = 0xffff.
         let is_zero = ab.let_for_deduction(const_expr!(0).eq(m31.clone()), "input_is_zero");
-        let inv_val = ab.deduce(
-            &mut (const_expr!(1) / (is_zero.as_felt() + m31.clone())),
-            "inv_or_one",
-        );
+        let inv_val =
+            ab.deduce(&mut (const_expr!(1) / (is_zero.as_felt() + m31.clone())), "inv_or_one");
         ab.constrain(
             (m31.clone() * inv_val - const_expr!(1)) * u32_expr.low().as_felt(),
             "input is zero then limb_low is zero",
@@ -66,11 +64,7 @@ impl AirFn for M31ToU32 {
 
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                output_addr.var.clone(),
-                u32_expr.low().as_felt(),
-                u32_expr.high().as_felt(),
-            ],
+            vec![output_addr.var.clone(), u32_expr.low().as_felt(), u32_expr.high().as_felt()],
             UseOrYield::Yield,
             mult,
         );

@@ -1,11 +1,10 @@
 use std::process::Command;
 
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AsProverType;
+use air_infra::{const_expr, const_felt252_expr};
 
 use super::round_keys::*;
 
@@ -39,9 +38,6 @@ fn test_round_keys() {
 #[test]
 fn test_key_generation_python_utils() {
     let py_test_filename = "src/casm/builtins/poseidon/poseidon_simulator.py";
-    let status = Command::new("python3")
-        .arg(py_test_filename)
-        .status()
-        .unwrap();
+    let status = Command::new("python3").arg(py_test_filename).status().unwrap();
     assert_eq!(status.code(), Some(0));
 }

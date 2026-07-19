@@ -91,43 +91,21 @@ where
     }
 
     pub(super) fn as_felt_mut(&mut self) -> &mut FeltExpr {
-        assert!(
-            self.complex_or_felt.as_complex().len() == 1,
-            "Expected single felt"
-        );
-        self.complex_or_felt
-            .as_complex_mut()
-            .get_mut(0)
-            .expect("Invalid index")
-            .as_felt_mut()
+        assert!(self.complex_or_felt.as_complex().len() == 1, "Expected single felt");
+        self.complex_or_felt.as_complex_mut().get_mut(0).expect("Invalid index").as_felt_mut()
     }
 
     pub(super) fn as_felt(&self) -> FeltExpr {
-        assert!(
-            self.complex_or_felt.as_complex().len() == 1,
-            "Expected single felt"
-        );
-        self.complex_or_felt
-            .as_complex()
-            .first()
-            .expect("Invalid index")
-            .as_felt()
+        assert!(self.complex_or_felt.as_complex().len() == 1, "Expected single felt");
+        self.complex_or_felt.as_complex().first().expect("Invalid index").as_felt()
     }
 
     pub(super) fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
-        self.complex_or_felt
-            .as_complex_mut()
-            .get_mut(index)
-            .expect("Invalid index")
-            .as_felt_mut()
+        self.complex_or_felt.as_complex_mut().get_mut(index).expect("Invalid index").as_felt_mut()
     }
 
     pub(super) fn get_felt(&self, index: usize) -> FeltExpr {
-        self.complex_or_felt
-            .as_complex()
-            .get(index)
-            .expect("Invalid index")
-            .as_felt()
+        self.complex_or_felt.as_complex().get(index).expect("Invalid index").as_felt()
     }
 
     fn is_const(&self) -> bool {

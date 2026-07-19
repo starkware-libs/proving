@@ -52,19 +52,16 @@ impl Felt252IdMemory {
             // If it is a new value, create a new ID
             if !value_to_id.contains_key(&limbs) {
                 value_to_id.insert(limbs.clone(), id);
-                result
-                    .id_to_big
-                    .mem_mut()
-                    .set(CasmId::new(const_expr!(id), ""), felt252);
+                result.id_to_big.mem_mut().set(CasmId::new(const_expr!(id), ""), felt252);
                 id += 1;
             }
 
             // Set ID in address_to_id memory
             let felt252_id = value_to_id.get(&limbs).unwrap();
-            result.address_to_id.mem_mut().set(
-                CasmAddress::new(addr.clone(), ""),
-                CasmId::new(const_expr!(*felt252_id), ""),
-            );
+            result
+                .address_to_id
+                .mem_mut()
+                .set(CasmAddress::new(addr.clone(), ""), CasmId::new(const_expr!(*felt252_id), ""));
         }
 
         result
@@ -89,38 +86,18 @@ impl Felt252IdMemory {
     }
 
     pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> FeltExpr {
-        air_builder
-            .call(
-                &ReadSmall {
-                    memory: self.clone(),
-                },
-                address,
-            )
-            .0
+        air_builder.call(&ReadSmall { memory: self.clone() }, address).0
     }
 
     pub fn read_address(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> CasmAddress {
-        let (address_f252, _) = air_builder.call(
-            &ReadPositive {
-                memory: self.clone(),
-                num_bits: ADDRESS_BITS,
-            },
-            address,
-        );
+        let (address_f252, _) = air_builder
+            .call(&ReadPositive { memory: self.clone(), num_bits: ADDRESS_BITS }, address);
 
         CasmAddress::new(felt252_to_m31(address_f252, ADDRESS_BITS), "")
     }
 
     pub fn read_felt252(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> Felt252Expr {
-        air_builder
-            .call(
-                &ReadPositive {
-                    num_bits: 252,
-                    memory: self.clone(),
-                },
-                address,
-            )
-            .0
+        air_builder.call(&ReadPositive { num_bits: 252, memory: self.clone() }, address).0
     }
 
     pub fn mem_verify_known_id(

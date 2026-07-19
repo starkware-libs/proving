@@ -1,11 +1,9 @@
 use std::collections::BTreeSet;
 
 use air_common::TraceType;
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use serde::Serialize;
@@ -61,10 +59,7 @@ impl AirFn for CallOpcode {
         let flag_sets_of_sum_1 = if self.rel_imm {
             BTreeSet::new()
         } else {
-            BTreeSet::from([BTreeSet::from([
-                FLAG_OP1_BASE_FP_INDEX,
-                FLAG_OP1_BASE_AP_INDEX,
-            ])])
+            BTreeSet::from([BTreeSet::from([FLAG_OP1_BASE_FP_INDEX, FLAG_OP1_BASE_AP_INDEX])])
         };
 
         // Check the instruction.
@@ -106,9 +101,7 @@ impl AirFn for CallOpcode {
                     + flag_op1_base_ap * casm_state.ap().var),
                 "mem1_base",
             );
-            self.memory
-                .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
-                .var
+            self.memory.read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc")).var
         };
 
         CasmStateVar::new(
@@ -123,9 +116,6 @@ impl AirFn for CallOpcode {
     }
 
     fn name(&self) -> String {
-        format!(
-            "call_opcode_{}",
-            if self.rel_imm { "rel_imm" } else { "abs" }
-        )
+        format!("call_opcode_{}", if self.rel_imm { "rel_imm" } else { "abs" })
     }
 }

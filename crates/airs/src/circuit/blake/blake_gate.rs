@@ -1,6 +1,5 @@
 use air_common::{PaddingType, TraceType, UseOrYield};
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::constraint_connectedness_test;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
@@ -36,28 +35,21 @@ impl AirFn for BlakeGate {
 
         let finalize_flag = ab.call_external_table(&FinalizeFlag {});
 
-        let state = ab.call(
-            &CreateBlakeRoundInput {},
-            (state_before.clone(), finalize_flag),
-        );
+        let state = ab.call(&CreateBlakeRoundInput {}, (state_before.clone(), finalize_flag));
 
         // Yields the message to the BlakeMessage relation.
         let message_id = ab.call_external_table(&Seq {});
         let new_message = ab.call(&QM31IntoU32 {}, (message.clone(), message_id.clone()));
 
         let (new_state, _) = ab.chain_lookup_call(
-            &CircuitBlakeRound {
-                message: new_message.clone(),
-            },
+            &CircuitBlakeRound { message: new_message.clone() },
             (state, message_id),
             0,
             BLAKE_NUM_ROUNDS,
         );
 
-        let expected_h_after = ab.call(
-            &CreateBlakeOutput {},
-            (state_before.clone(), new_state.clone()),
-        );
+        let expected_h_after =
+            ab.call(&CreateBlakeOutput {}, (state_before.clone(), new_state.clone()));
         for i in 0..8 {
             ab.constrain(
                 expected_h_after[i].low().as_felt() - state_after[i].low().as_felt(),
@@ -74,20 +66,14 @@ impl AirFn for BlakeGate {
         let state_before_addr = ab.call_external_table(&StateBeforeAddr {});
         ab.add_lookup_term(
             "BlakeOutput",
-            vec![state_before_addr.var]
-                .into_iter()
-                .chain(state_before.as_felts())
-                .collect(),
+            vec![state_before_addr.var].into_iter().chain(state_before.as_felts()).collect(),
             UseOrYield::Use,
             enabler.clone(),
         );
         let state_after_addr = ab.call_external_table(&StateAfterAddr {});
         ab.add_lookup_term(
             "BlakeOutput",
-            vec![state_after_addr.var]
-                .into_iter()
-                .chain(state_after.as_felts())
-                .collect(),
+            vec![state_after_addr.var].into_iter().chain(state_after.as_felts()).collect(),
             UseOrYield::Yield,
             enabler.clone(),
         );

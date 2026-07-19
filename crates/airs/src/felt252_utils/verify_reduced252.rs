@@ -1,6 +1,5 @@
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::range_check::range_check;
@@ -37,14 +36,9 @@ impl AirFn for VerifyReduced252 {
         let ms_max = ms_max.as_felt();
         let both_max = both_max.as_felt();
 
-        air_builder.constrain(
-            ms_max.clone() * (const_expr!(1) - ms_max.clone()),
-            "ms_max is bit",
-        );
-        air_builder.constrain(
-            both_max.clone() * (const_expr!(1) - both_max.clone()),
-            "both_max is bit",
-        );
+        air_builder.constrain(ms_max.clone() * (const_expr!(1) - ms_max.clone()), "ms_max is bit");
+        air_builder
+            .constrain(both_max.clone() * (const_expr!(1) - both_max.clone()), "both_max is bit");
 
         // TODO(DanC): Change the two range_check([8]) to range_check([8,8]).
 

@@ -1,11 +1,10 @@
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
-use air_infra::{const_expr, const_u32_expr};
+use air_infra::{const_expr, const_felt252_expr, const_u32_expr};
 use expect_test::expect;
 
 use crate::casm::opcodes::blake::verify_u32::*;
@@ -26,10 +25,7 @@ fn test_verify_u32() {
     let (state, _) = registry.run_air(
         &air_fn,
         (),
-        (
-            CasmAddress::new(const_expr!(127), "u32_1_addr"),
-            const_u32_expr!(1882757439),
-        ),
+        (CasmAddress::new(const_expr!(127), "u32_1_addr"), const_u32_expr!(1882757439)),
     );
 
     // Check state.
@@ -43,10 +39,7 @@ fn test_verify_u32() {
     registry.run_air(
         &air_fn,
         (),
-        (
-            CasmAddress::new(const_expr!(302), "u32_2_addr"),
-            const_u32_expr!(231161980),
-        ),
+        (CasmAddress::new(const_expr!(302), "u32_2_addr"), const_u32_expr!(231161980)),
     );
 }
 
@@ -64,9 +57,6 @@ fn test_fail_verify_u32() {
     registry.run_air(
         &air_fn,
         (),
-        (
-            CasmAddress::new(const_expr!(0), "u32_addr"),
-            const_u32_expr!(1344646847),
-        ),
+        (CasmAddress::new(const_expr!(0), "u32_addr"), const_u32_expr!(1344646847)),
     );
 }

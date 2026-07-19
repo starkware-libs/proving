@@ -8,10 +8,7 @@ pub type BoundedFeltExpr = VarWrapper<FeltExpr, (i32, i32)>;
 
 impl BoundedFeltExpr {
     pub fn new(expr: FeltExpr, max_bound: i32, min_bound: i32) -> Self {
-        Self {
-            var: expr,
-            extra_info: Some((min_bound, max_bound)),
-        }
+        Self { var: expr, extra_info: Some((min_bound, max_bound)) }
     }
 
     pub fn max_bound(&self) -> i32 {
@@ -33,10 +30,7 @@ impl BoundedFeltExpr {
 
 impl Default for BoundedFeltExpr {
     fn default() -> Self {
-        Self {
-            var: const_expr!(0),
-            extra_info: Some((0, 0)),
-        }
+        Self { var: const_expr!(0), extra_info: Some((0, 0)) }
     }
 }
 
@@ -96,9 +90,6 @@ impl Mul<u32> for BoundedFeltExpr {
 
 impl From<(FeltExpr, i32, i32)> for BoundedFeltExpr {
     fn from((expr, max_bound, min_bound): (FeltExpr, i32, i32)) -> Self {
-        Self {
-            var: expr,
-            extra_info: Some((min_bound, max_bound)),
-        }
+        Self { var: expr, extra_info: Some((min_bound, max_bound)) }
     }
 }

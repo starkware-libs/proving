@@ -38,17 +38,13 @@ impl VarExprUpdate for VarExpr<Felt252Width27> {
 // Default is implemented for Felt252Width27Expr because it is returned from an external table.
 impl Default for Felt252Width27Expr {
     fn default() -> Self {
-        Felt252Width27Expr::Var(VarExpr::new_const(Felt252Width27 {
-            limbs: [0, 0, 0, 0],
-        }))
+        Felt252Width27Expr::Var(VarExpr::new_const(Felt252Width27 { limbs: [0, 0, 0, 0] }))
     }
 }
 
 #[macro_export]
 macro_rules! const_felt252_width27 {
     ($value:expr) => {
-        Felt252Width27Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            $value,
-        ))
+        Felt252Width27Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const($value))
     };
 }

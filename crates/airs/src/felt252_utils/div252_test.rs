@@ -19,10 +19,7 @@ fn test_div252_no_overflow() {
             const_felt252_expr!(0x1ff8020001u128, 0u128),
         ],
     );
-    assert_eq!(
-        output.calc(),
-        const_felt252_expr!(0x1008020001u128, 0u128).calc()
-    );
+    assert_eq!(output.calc(), const_felt252_expr!(0x1008020001u128, 0u128).calc());
     expect![[r#"
         (1, "div_res_limb_0"),
         (256, "div_res_limb_1"),
@@ -99,10 +96,7 @@ fn test_div252_with_overflow() {
             const_felt252_expr!(0, 1u128 << (251 - 128)),
         ],
     );
-    assert_eq!(
-        output.calc(),
-        const_felt252_expr!(0, 1u128 << (251 - 128)).calc()
-    );
+    assert_eq!(output.calc(), const_felt252_expr!(0, 1u128 << (251 - 128)).calc());
     let (_, output) = registry.run_air(
         &air_fn,
         (),
@@ -157,10 +151,7 @@ fn test_div252_by_zero() {
     let (..) = registry.run_air(
         &air_fn,
         (),
-        [
-            const_felt252_expr!(0x2008020003400040001u128, 0u128),
-            const_felt252_expr!(0u128, 0u128),
-        ],
+        [const_felt252_expr!(0x2008020003400040001u128, 0u128), const_felt252_expr!(0u128, 0u128)],
     );
 }
 

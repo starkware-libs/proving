@@ -1,8 +1,5 @@
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
@@ -10,6 +7,7 @@ use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::felt252_id_memory::verify::MemVerify;
 use air_infra::range_check::range_check;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 
 #[derive(Debug, Serialize, Default)]
@@ -40,10 +38,8 @@ impl AirFn for VerifyU32 {
             word.high().as_felt() - high_14_ms_bits.as_felt() * const_expr!(1 << 2),
             "high_2_ls_bits",
         );
-        let high_5_ms_bits = air_builder.deduce_air_var(
-            high_14_ms_bits.clone() >> const_u16_expr!(9),
-            "high_5_ms_bits",
-        );
+        let high_5_ms_bits = air_builder
+            .deduce_air_var(high_14_ms_bits.clone() >> const_u16_expr!(9), "high_5_ms_bits");
         let high_9_mid_bits =
             high_14_ms_bits.as_felt() - high_5_ms_bits.as_felt() * const_expr!(1 << 9);
 
@@ -51,18 +47,12 @@ impl AirFn for VerifyU32 {
         range_check(
             air_builder,
             &[7, 2, 5],
-            &[
-                low_7_ms_bits.as_felt(),
-                high_2_ls_bits.clone(),
-                high_5_ms_bits.as_felt(),
-            ],
+            &[low_7_ms_bits.as_felt(), high_2_ls_bits.clone(), high_5_ms_bits.as_felt()],
         );
 
         // Verify that the expected value is stored at the given memory address.
         air_builder.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
+            &MemVerify { memory: self.memory.clone() },
             (
                 addr,
                 Felt252Expr::from(vec![

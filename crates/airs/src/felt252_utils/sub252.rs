@@ -1,5 +1,4 @@
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AirVar;
 use air_infra::felt252_id_memory::id_to_big::RangeCheckMemValue;
@@ -33,9 +32,7 @@ impl AirFn for Sub252 {
 
         air_builder.call(
             &RangeCheckMemValue::<FELT252_N_WORDS>::new(),
-            b.as_felts()
-                .try_into()
-                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+            b.as_felts().try_into().expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
         );
 
         air_builder.call(&VerifyAdd252 {}, [a, b.clone(), c]);

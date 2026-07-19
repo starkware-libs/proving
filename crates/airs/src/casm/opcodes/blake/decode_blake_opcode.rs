@@ -1,10 +1,8 @@
 use std::collections::BTreeSet;
 
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::bool_expr::BoolExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
@@ -62,19 +60,13 @@ impl AirFn for DecodeBlakeOpcode {
     type Out = (BlakePointers, UInt32Expr, BlakeFlags);
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("pc".to_string()),
-            Some("ap".to_string()),
-            Some("fp".to_string()),
-        ])
+        Some(vec![Some("pc".to_string()), Some("ap".to_string()), Some("fp".to_string())])
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Decode the instruction.
-        let flag_sets_of_sum_1 = BTreeSet::from([BTreeSet::from([
-            FLAG_OP1_BASE_FP_INDEX,
-            FLAG_OP1_BASE_AP_INDEX,
-        ])]);
+        let flag_sets_of_sum_1 =
+            BTreeSet::from([BTreeSet::from([FLAG_OP1_BASE_FP_INDEX, FLAG_OP1_BASE_AP_INDEX])]);
         let ([offset0, offset1, offset2], flags, opcode_extension) = air_builder.call(
             &DecodeInstruction {
                 const_offsets: [None, None, None],
@@ -105,26 +97,22 @@ impl AirFn for DecodeBlakeOpcode {
                 + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var),
             "mem0_base",
         );
-        let h_pointer = self
-            .memory
-            .read_address(air_builder, CasmAddress::new(mem0_base + offset1, "op0"));
+        let h_pointer =
+            self.memory.read_address(air_builder, CasmAddress::new(mem0_base + offset1, "op0"));
 
         // Read message pointer.
         let mem1_base = air_builder.assign(
             &mut (flag_op1_base_fp * casm_state.fp().var + flag_op1_base_ap * casm_state.ap().var),
             "mem1_base",
         );
-        let message_pointer = self
-            .memory
-            .read_address(air_builder, CasmAddress::new(mem1_base + offset2, "op1"));
+        let message_pointer =
+            self.memory.read_address(air_builder, CasmAddress::new(mem1_base + offset2, "op1"));
 
         // Read new state pointer.
         let new_state_pointer = self.memory.read_address(air_builder, casm_state.ap());
 
         // Read t.
-        let read_u32 = &ReadU32 {
-            memory: self.memory.clone(),
-        };
+        let read_u32 = &ReadU32 { memory: self.memory.clone() };
         let mem_dst_base = air_builder.assign(
             &mut (flag_dst_base_fp.clone() * casm_state.fp().var
                 + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap().var),

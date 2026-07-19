@@ -57,11 +57,7 @@ fn test_range_check_runtime_success() {
 fn test_range_check_vector() {
     let range_check_vector = RangeCheck::<RangeCheck_4_3_Const>::default();
     let (registry, _) = AirFnRegistry::new(&range_check_vector);
-    registry.run_air(
-        &range_check_vector,
-        [const_expr!(0b11), const_expr!(0b111)],
-        (),
-    );
+    registry.run_air(&range_check_vector, [const_expr!(0b11), const_expr!(0b111)], ());
 }
 
 #[test]
@@ -69,11 +65,7 @@ fn test_range_check_vector() {
 fn test_failed_range_check_first_element() {
     let range_check_vector = RangeCheck::<RangeCheck_4_3_Const>::default();
     let (registry, _) = AirFnRegistry::new(&range_check_vector);
-    registry.run_air(
-        &range_check_vector,
-        [const_expr!(0b11111), const_expr!(0b111)],
-        (),
-    );
+    registry.run_air(&range_check_vector, [const_expr!(0b11111), const_expr!(0b111)], ());
 }
 
 #[test]
@@ -81,9 +73,5 @@ fn test_failed_range_check_first_element() {
 fn test_failed_range_check_second_element() {
     let range_check_vector = RangeCheck::<RangeCheck_4_3_Const>::default();
     let (registry, _) = AirFnRegistry::new(&range_check_vector);
-    registry.run_air(
-        &range_check_vector,
-        [const_expr!(0b11), const_expr!(0b100000)],
-        (),
-    );
+    registry.run_air(&range_check_vector, [const_expr!(0b11), const_expr!(0b100000)], ());
 }

@@ -1,11 +1,9 @@
 use std::collections::BTreeSet;
 
 use air_common::TraceType;
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::felt252_id_memory::verify_equal::MemVerifyEqual;
@@ -40,16 +38,8 @@ impl AssertEqOpcode {
                 Some(true) // Default is fp based
             },
             op1_imm: Some(self.imm),
-            op1_base_fp: if !self.double_deref && !self.imm {
-                None
-            } else {
-                Some(false)
-            },
-            op1_base_ap: if !self.double_deref && !self.imm {
-                None
-            } else {
-                Some(false)
-            },
+            op1_base_fp: if !self.double_deref && !self.imm { None } else { Some(false) },
+            op1_base_ap: if !self.double_deref && !self.imm { None } else { Some(false) },
             res_add: Some(false),
             res_mul: Some(false),
             pc_update_jump: Some(false),
@@ -87,10 +77,7 @@ impl AirFn for AssertEqOpcode {
         let flag_sets_of_sum_1 = if self.imm || self.double_deref {
             BTreeSet::new()
         } else {
-            BTreeSet::from([BTreeSet::from([
-                FLAG_OP1_BASE_FP_INDEX,
-                FLAG_OP1_BASE_AP_INDEX,
-            ])])
+            BTreeSet::from([BTreeSet::from([FLAG_OP1_BASE_FP_INDEX, FLAG_OP1_BASE_AP_INDEX])])
         };
 
         // Check the instruction.
@@ -126,9 +113,7 @@ impl AirFn for AssertEqOpcode {
                     + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var),
                 "mem0_base",
             );
-            self.memory
-                .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
-                .var
+            self.memory.read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base")).var
         } else if self.imm {
             casm_state.pc().var
         } else {
@@ -141,9 +126,7 @@ impl AirFn for AssertEqOpcode {
 
         // Assert that dst == op1
         ab.call(
-            &MemVerifyEqual {
-                memory: self.memory.clone(),
-            },
+            &MemVerifyEqual { memory: self.memory.clone() },
             [
                 CasmAddress::new(mem_dst_base + offset0, "dst"),
                 CasmAddress::new(mem1_base + offset2, "op1"),

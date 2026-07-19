@@ -1,7 +1,6 @@
 use air_infra::casm_state::CasmStateVar;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AirVar;
@@ -22,20 +21,12 @@ pub struct HandleOpcodes {
 
 impl AirFn for HandleOpcodes {
     type ExtIn = ();
-    type In = (
-        CasmStateVar,
-        [FeltExpr; GENERIC_FLAGS_SIZE],
-        [FeltExpr; 3],
-        [Felt252Expr; 3],
-    );
+    type In = (CasmStateVar, [FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3], [Felt252Expr; 3]);
     type Out = ();
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        let mut result = vec![
-            Some("pc".to_string()),
-            Some("ap".to_string()),
-            Some("fp".to_string()),
-        ];
+        let mut result =
+            vec![Some("pc".to_string()), Some("ap".to_string()), Some("fp".to_string())];
         for name in GENERIC_FLAG_NAMES.iter() {
             result.push(Some(name.to_string()))
         }
@@ -103,20 +94,16 @@ impl AirFn for HandleOpcodes {
         );
 
         // Push fp
-        let dst_as_addr = air_builder.call(
-            &CondFelt252AsAddr {},
-            (dst, flags[FLAG_OPCODE_CALL_INDEX].clone()),
-        );
+        let dst_as_addr =
+            air_builder.call(&CondFelt252AsAddr {}, (dst, flags[FLAG_OPCODE_CALL_INDEX].clone()));
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone() * (dst_as_addr.var - casm_state.fp().var),
             "",
         );
 
         // Push next pc
-        let op0_as_addr = air_builder.call(
-            &CondFelt252AsAddr {},
-            (op0.clone(), flags[FLAG_OPCODE_CALL_INDEX].clone()),
-        );
+        let op0_as_addr = air_builder
+            .call(&CondFelt252AsAddr {}, (op0.clone(), flags[FLAG_OPCODE_CALL_INDEX].clone()));
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone()
                 * (op0_as_addr.var - (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone())),

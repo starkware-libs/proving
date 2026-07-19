@@ -27,10 +27,7 @@ fn test_casm_registry() {
     compare_registry_jsons(&reg, Path::new("../compiled_casm_air/"));
 
     let stat = reg.collect_stats();
-    compare_json(
-        &stat,
-        &Path::new("../compiled_casm_air/").join(REGISTRY_PROPERTIES_FILE_NAME),
-    );
+    compare_json(&stat, &Path::new("../compiled_casm_air/").join(REGISTRY_PROPERTIES_FILE_NAME));
 
     compare_json(
         &IndexMap::from([
@@ -68,13 +65,7 @@ fn get_non_component_stat(
     let max_num_instances_uses = PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
     let steps = values
         .iter()
-        .filter_map(|(k, v)| {
-            if !k.contains("builtin") {
-                Some(v)
-            } else {
-                None
-            }
-        })
+        .filter_map(|(k, v)| if !k.contains("builtin") { Some(v) } else { None })
         .sum::<usize>()
         / 3000;
     let max_num_instances_steps = 2_usize.pow(26) / steps;

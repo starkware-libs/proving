@@ -27,17 +27,10 @@ impl AirFn for XorRot32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b]: Self::In) -> Self::Out {
-        assert!(
-            self.r == 7 || self.r == 8 || self.r == 12 || self.r == 16,
-            "Invalid r value"
-        );
+        assert!(self.r == 7 || self.r == 8 || self.r == 12 || self.r == 16, "Invalid r value");
 
         // In the case where self.r is 16, we will perform lookups into a table of size 8.
-        let r = if self.r == BLAKE_NUM_BITS_PER_FELT || self.r == 0 {
-            8
-        } else {
-            self.r
-        };
+        let r = if self.r == BLAKE_NUM_BITS_PER_FELT || self.r == 0 { 8 } else { self.r };
         let variant = (r == 8 && BLAKE_NUM_BITS_PER_FELT == 16) as usize;
 
         // Split into 4 parts of sizes [r, 16-r, r, 16-r].
@@ -48,41 +41,16 @@ impl AirFn for XorRot32 {
         let [bhl, bhh] = air_builder.call(&split, b.high());
 
         // Calculate and deduce the bitwise xor of the parts.
-        let cll = air_builder.call(
-            &BitwiseXor {
-                num_bits: r,
-                variant: 0,
-            },
-            [all, bll],
-        );
-        let clh = air_builder.call(
-            &BitwiseXor {
-                num_bits: BLAKE_NUM_BITS_PER_FELT - r,
-                variant: 0,
-            },
-            [alh, blh],
-        );
-        let chl = air_builder.call(
-            &BitwiseXor {
-                num_bits: r,
-                variant,
-            },
-            [ahl, bhl],
-        );
-        let chh = air_builder.call(
-            &BitwiseXor {
-                num_bits: BLAKE_NUM_BITS_PER_FELT - r,
-                variant,
-            },
-            [ahh, bhh],
-        );
+        let cll = air_builder.call(&BitwiseXor { num_bits: r, variant: 0 }, [all, bll]);
+        let clh = air_builder
+            .call(&BitwiseXor { num_bits: BLAKE_NUM_BITS_PER_FELT - r, variant: 0 }, [alh, blh]);
+        let chl = air_builder.call(&BitwiseXor { num_bits: r, variant }, [ahl, bhl]);
+        let chh = air_builder
+            .call(&BitwiseXor { num_bits: BLAKE_NUM_BITS_PER_FELT - r, variant }, [ahh, bhh]);
 
         let output = if self.r == BLAKE_NUM_BITS_PER_FELT {
             // For the case self.r=16, we will build the new pair as [chl, chh, cll, clh]
-            vec![
-                chl + chh * const_expr!(1 << r),
-                cll + clh * const_expr!(1 << r),
-            ]
+            vec![chl + chh * const_expr!(1 << r), cll + clh * const_expr!(1 << r)]
         } else {
             // For the other cases, we will build the new pair as [clh, chl, chh, cll]
             vec![
@@ -111,29 +79,23 @@ impl AirFn for VerifyXorRot32 {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
-        assert!(
-            self.r == 7 || self.r == 8,
-            "VerifyXorRot32 currently supports r=7 and r=8"
-        );
+        assert!(self.r == 7 || self.r == 8, "VerifyXorRot32 currently supports r=7 and r=8");
 
         // Split a and b into 4 parts of sizes [r, 16-r, r, 16-r].
-        let split_ab = Split16 {
-            low_part_size: self.r,
-        };
+        let split_ab = Split16 { low_part_size: self.r };
         let [all, alh] = air_builder.call(&split_ab, a.low());
         let [ahl, ahh] = air_builder.call(&split_ab, a.high());
         let [bll, blh] = air_builder.call(&split_ab, b.low());
         let [bhl, bhh] = air_builder.call(&split_ab, b.high());
 
         // Split c with low parts of size (16-r).
-        let split_c = Split16 {
-            low_part_size: BLAKE_NUM_BITS_PER_FELT - self.r,
-        };
+        let split_c = Split16 { low_part_size: BLAKE_NUM_BITS_PER_FELT - self.r };
         let [cll, clh] = air_builder.call(&split_c, c.low());
         let [chl, chh] = air_builder.call(&split_c, c.high());
 
-        // Verify that c equals (a XOR b) right-rotated by r, by checking XOR on each pair of sub-limbs.
-        // For example, all ^ bll -> chh (low r bits of a^b wrap to high bits of c after right-rotation by r).
+        // Verify that c equals (a XOR b) right-rotated by r, by checking XOR on each pair of
+        // sub-limbs. For example, all ^ bll -> chh (low r bits of a^b wrap to high bits of
+        // c after right-rotation by r).
         verify_bitwise_xor(
             air_builder,
             (BLAKE_NUM_BITS_PER_FELT - self.r) as u16,

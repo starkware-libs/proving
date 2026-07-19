@@ -84,9 +84,8 @@ pub fn assert_constraint_graph_connected(entry: &AirFnEntry) {
 fn expr_vertices(expr: &FeltExpr) -> HashSet<String> {
     let var_infos = expr.var_infos();
     let state_cells = var_infos.iter().filter_map(|vi| vi.get_state_cell_name());
-    let intermediates = var_infos
-        .iter()
-        .filter_map(|vi| vi.get_used_constraint_intermediate_name());
+    let intermediates =
+        var_infos.iter().filter_map(|vi| vi.get_used_constraint_intermediate_name());
 
     state_cells.chain(intermediates).collect()
 }
@@ -145,10 +144,7 @@ fn build_constraint_graph(entry: &AirFnEntry) -> Graph {
     // Check consistency - all vertices are listed
     for edge in graph.edges.iter() {
         for v in edge {
-            assert!(
-                graph.vertices.contains(v),
-                "Edge {edge:?} contains unknown vertex {v}"
-            );
+            assert!(graph.vertices.contains(v), "Edge {edge:?} contains unknown vertex {v}");
         }
     }
 

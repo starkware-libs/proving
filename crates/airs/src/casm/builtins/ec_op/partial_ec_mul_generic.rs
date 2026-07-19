@@ -1,15 +1,12 @@
 use std::array::from_fn;
 
 use air_common::TraceType;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::air_fn::ChainRoundAirFn;
+use air_infra::core::air_fn::{AirFn, ChainRoundAirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
-use air_infra::core::variables::AirVar;
-use air_infra::core::variables::ChainIdVar;
-use air_infra::core::variables::RoundNumVar;
+use air_infra::core::variables::{AirVar, ChainIdVar, RoundNumVar};
 use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_N_WORDS, FELT252WIDTH27_N_WORDS};
@@ -101,14 +98,10 @@ impl AirFn for PartialECMulGeneric {
             air_builder.let_for_deduction(counter.clone().eq(const_expr!(0)), "is_special_round");
         let is_special_round =
             air_builder.deduce_air_var(is_special_round.as_felt(), "is_special_round");
-        let not_is_special_round = air_builder.let_(
-            const_expr!(1) - is_special_round.clone(),
-            "not_is_special_round",
-        );
-        let counter_inverse_inverse = air_builder.let_(
-            counter.clone() + is_special_round.clone(),
-            "counter_inverse_inverse",
-        );
+        let not_is_special_round =
+            air_builder.let_(const_expr!(1) - is_special_round.clone(), "not_is_special_round");
+        let counter_inverse_inverse =
+            air_builder.let_(counter.clone() + is_special_round.clone(), "counter_inverse_inverse");
         let counter_inverse = air_builder
             .deduce_air_var(counter_inverse_inverse.clone().inverse(), "counter_inverse");
         air_builder.constrain(
@@ -142,28 +135,22 @@ impl AirFn for PartialECMulGeneric {
         ));
         for i in 1..(FELT252WIDTH27_N_WORDS - 1) {
             next_m_vec.push(air_builder.assign(
-                &mut mux(
-                    not_is_special_round.clone(),
-                    m.get_felt(i + 1),
-                    m.get_felt(i),
-                ),
+                &mut mux(not_is_special_round.clone(), m.get_felt(i + 1), m.get_felt(i)),
                 &format!("next_m_{i}"),
             ));
         }
         let i = FELT252WIDTH27_N_WORDS - 1;
-        next_m_vec.push(air_builder.assign(
-            &mut (m.get_felt(i) * not_is_special_round.clone()),
-            &format!("next_m_{i}"),
-        ));
+        next_m_vec.push(
+            air_builder.assign(
+                &mut (m.get_felt(i) * not_is_special_round.clone()),
+                &format!("next_m_{i}"),
+            ),
+        );
         let next_m = next_m_vec.into();
 
         // Compute next_counter according to is_special_round.
         let next_counter = air_builder.assign(
-            &mut mux(
-                not_is_special_round,
-                const_expr!(26),
-                counter - const_expr!(1),
-            ),
+            &mut mux(not_is_special_round, const_expr!(26), counter - const_expr!(1)),
             "next_counter",
         );
 
@@ -181,10 +168,8 @@ impl AirFn for PartialECMulGeneric {
                 d.clone() * d
             })
             .sum();
-        let diff_sum_squares_inv = air_builder.deduce(
-            &mut diff_sum_squares.clone().inverse(),
-            "diff_sum_squares_inv",
-        );
+        let diff_sum_squares_inv =
+            air_builder.deduce(&mut diff_sum_squares.clone().inverse(), "diff_sum_squares_inv");
         air_builder.constrain(
             diff_sum_squares * diff_sum_squares_inv - const_expr!(1),
             "accumulator.x doesn't equal q.x",
@@ -193,12 +178,7 @@ impl AirFn for PartialECMulGeneric {
         // Compute new_accumulator and double_q.
         let accumulator_with_add = air_builder.call(
             &ECAdd {},
-            [
-                accumulator[0].clone(),
-                accumulator[1].clone(),
-                q[0].clone(),
-                q[1].clone(),
-            ],
+            [accumulator[0].clone(), accumulator[1].clone(), q[0].clone(), q[1].clone()],
         );
         let new_accumulator: ECPoint = from_fn(|j| {
             (0..FELT252_N_WORDS)

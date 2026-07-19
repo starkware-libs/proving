@@ -101,10 +101,7 @@ impl AirFn for AirFnWithUInt32 {
         let x0 = air_builder.deduce(x.low_mut().as_felt_mut(), "");
         let x1 = air_builder.deduce(x.high_mut().as_felt_mut(), "");
 
-        air_builder.constrain(
-            (x0 + (x1 * const_expr!(2_u32.pow(16)))) - const_expr!(9),
-            "",
-        );
+        air_builder.constrain((x0 + (x1 * const_expr!(2_u32.pow(16)))) - const_expr!(9), "");
 
         x
     }

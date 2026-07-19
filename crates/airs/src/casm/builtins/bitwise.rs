@@ -1,8 +1,7 @@
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::public_params::PublicParam;
 use air_infra::core::variables::AirVar;
@@ -39,32 +38,19 @@ impl AirFn for BitwiseBuiltin {
         let instance_num = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::BitwiseBuiltinSegmentStart);
 
-        let verify_felt252 = MemVerify {
-            memory: self.memory.clone(),
-        };
+        let verify_felt252 = MemVerify { memory: self.memory.clone() };
         let a = self.memory.read_felt252(
             air_builder,
-            CasmAddress::new(
-                get_addr(segment_start.clone(), instance_num.clone(), 0),
-                "op0",
-            ),
+            CasmAddress::new(get_addr(segment_start.clone(), instance_num.clone(), 0), "op0"),
         );
         let b = self.memory.read_felt252(
             air_builder,
-            CasmAddress::new(
-                get_addr(segment_start.clone(), instance_num.clone(), 1),
-                "op1",
-            ),
+            CasmAddress::new(get_addr(segment_start.clone(), instance_num.clone(), 1), "op1"),
         );
         let mut expected_xor = vec![];
         let mut expected_and = vec![];
         let mut expected_or = vec![];
-        for (i, (a, b)) in a
-            .as_felts()
-            .into_iter()
-            .zip(b.as_felts().into_iter())
-            .enumerate()
-        {
+        for (i, (a, b)) in a.as_felts().into_iter().zip(b.as_felts().into_iter()).enumerate() {
             let num_bits = if i == (FELT252_N_WORDS - 1) {
                 // The entries should each be 251 bits.
                 FELT252_BITS_PER_WORD - 1
@@ -72,10 +58,8 @@ impl AirFn for BitwiseBuiltin {
                 FELT252_BITS_PER_WORD
             };
             let a_xor_b = air_builder.call(&BitwiseXor::new(num_bits), [a.clone(), b.clone()]);
-            let a_and_b = air_builder.let_(
-                (const_expr!(2).inverse()) * (a + b - a_xor_b.clone()),
-                "and",
-            );
+            let a_and_b =
+                air_builder.let_((const_expr!(2).inverse()) * (a + b - a_xor_b.clone()), "and");
             expected_xor.push(a_xor_b.clone());
             expected_and.push(a_and_b.clone());
             expected_or.push(a_and_b + a_xor_b);
@@ -83,30 +67,21 @@ impl AirFn for BitwiseBuiltin {
         air_builder.call(
             &verify_felt252,
             (
-                CasmAddress::new(
-                    get_addr(segment_start.clone(), instance_num.clone(), 2),
-                    "and",
-                ),
+                CasmAddress::new(get_addr(segment_start.clone(), instance_num.clone(), 2), "and"),
                 expected_and.into(),
             ),
         );
         air_builder.call(
             &verify_felt252,
             (
-                CasmAddress::new(
-                    get_addr(segment_start.clone(), instance_num.clone(), 3),
-                    "xor",
-                ),
+                CasmAddress::new(get_addr(segment_start.clone(), instance_num.clone(), 3), "xor"),
                 expected_xor.into(),
             ),
         );
         air_builder.call(
             &verify_felt252,
             (
-                CasmAddress::new(
-                    get_addr(segment_start.clone(), instance_num.clone(), 4),
-                    "or",
-                ),
+                CasmAddress::new(get_addr(segment_start.clone(), instance_num.clone(), 4), "or"),
                 expected_or.into(),
             ),
         );

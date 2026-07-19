@@ -16,16 +16,22 @@ pub fn generate_all_components_file(
     for (name, _) in compiled_registry.iter() {
         if name == "memory_id_to_big" {
             body.push(
-                "(\"memory_id_to_big\", Box::new(components::memory_id_to_big::Component { index: 0 }) as Box<dyn CircuitEval<Value>>)".to_string()
+                "(\"memory_id_to_big\", Box::new(components::memory_id_to_big::Component { index: \
+                 0 }) as Box<dyn CircuitEval<Value>>)"
+                    .to_string(),
             );
             // TODO(AnatG): Get this constant from stwo-cairo-common.
             for i in 1..16 {
                 body.push(format!(
-                    "(\"memory_id_to_big_{i}\", Box::new(components::memory_id_to_big::Component {{ index: {i} }}) as Box<dyn CircuitEval<Value>>)"
+                    "(\"memory_id_to_big_{i}\", Box::new(components::memory_id_to_big::Component \
+                     {{ index: {i} }}) as Box<dyn CircuitEval<Value>>)"
                 ));
             }
         } else {
-            body.push(format!("(\"{name}\", Box::new(components::{name}::Component {{}}) as Box<dyn CircuitEval<Value>>)"));
+            body.push(format!(
+                "(\"{name}\", Box::new(components::{name}::Component {{}}) as Box<dyn \
+                 CircuitEval<Value>>)"
+            ));
         }
     }
 

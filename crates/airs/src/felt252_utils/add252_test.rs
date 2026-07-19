@@ -19,10 +19,7 @@ fn test_add252_no_overflow() {
             const_felt252_expr!(0x1ff8020001u128, 0u128),
         ],
     );
-    assert_eq!(
-        output.calc(),
-        const_felt252_expr!(0x3000040002u128, 0u128).calc()
-    );
+    assert_eq!(output.calc(), const_felt252_expr!(0x3000040002u128, 0u128).calc());
 
     expect![[r#"
         (2, "add_res_limb_0"),

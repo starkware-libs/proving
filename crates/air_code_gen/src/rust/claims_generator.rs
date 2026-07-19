@@ -96,15 +96,9 @@ fn generate_fill_components(compiled_registry: &IndexMap<String, CompiledAirFn>)
                     );
                 };
 
-                (
-                    quote! { n_instances.ilog2(), segment.begin_addr as u32 },
-                    init_code,
-                )
+                (quote! { n_instances.ilog2(), segment.begin_addr as u32 }, init_code)
             }
-            TraceType::Opcode => (
-                quote! { casm_states_by_opcode.$(name) },
-                rust::Tokens::new(),
-            ),
+            TraceType::Opcode => (quote! { casm_states_by_opcode.$(name) }, rust::Tokens::new()),
             _ => {
                 if is_const_size_component(compile_air_fn) {
                     (quote! { preprocessed_trace.clone() }, rust::Tokens::new())

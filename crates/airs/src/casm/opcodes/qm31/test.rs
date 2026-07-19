@@ -1,5 +1,4 @@
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
@@ -94,9 +93,7 @@ fn test_qm31_add_mul_opcode(
     }
 
     // Create the air function
-    let mut qm31_add_mul_opcode = QM31AddMulOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let mut qm31_add_mul_opcode = QM31AddMulOpcode { memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc_value = 10;
@@ -127,9 +124,7 @@ fn test_qm31_add_mul_opcode(
                 offset_dst_val,
                 offset0_val,
                 offset1_val,
-                qm31_add_mul_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&non_consts_flags),
+                qm31_add_mul_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                 OpcodeExtension::QM31Operation,
             ),
             0
@@ -310,11 +305,15 @@ fn test_qm31_add() {
 }
 
 #[test]
-#[should_panic(
-    expected = "assertion `left == right` failed: given value != value in memory
-  left: Some([M31(3), M31(192), M31(1), M31(240), M31(0), M31(76), M31(256), M31(3), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0)])
- right: Some([M31(3), M31(192), M31(1), M31(240), M31(0), M31(76), M31(257), M31(3), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0)])"
-)]
+#[should_panic(expected = "assertion `left == right` failed: given value != value in memory
+  left: Some([M31(3), M31(192), M31(1), M31(240), M31(0), M31(76), M31(256), M31(3), M31(0), \
+                           M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), \
+                           M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), \
+                           M31(0), M31(0), M31(0)])
+ right: Some([M31(3), M31(192), M31(1), M31(240), M31(0), M31(76), M31(257), M31(3), M31(0), \
+                           M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), \
+                           M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), \
+                           M31(0), M31(0), M31(0)])")]
 fn test_qm31_neither_add_res_nor_mul_res() {
     test_qm31_add_mul_opcode(
         [true, false, false, true, false, false, false, false],
