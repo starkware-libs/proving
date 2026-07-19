@@ -7,10 +7,10 @@ use std::marker::PhantomData;
 #[cfg(any(test, feature = "test"))]
 use std::rc::Rc;
 
-use super::air_fn::*;
-use super::variables::*;
 #[cfg(any(test, feature = "test"))]
 use super::Felt;
+use super::air_fn::*;
+use super::variables::*;
 
 /// Describes an AirFn that is a memory component. This means:
 /// 1. Each trace row contains a key (of type K), a value (of type V) and nothing else

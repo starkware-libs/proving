@@ -1,4 +1,4 @@
-use air_common::{TraceType, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType};
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };

@@ -3,16 +3,16 @@ use air_infra::const_expr;
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::air_fn::AirFn;
 use air_infra::core::constraint_connectedness_test;
+use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
-use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::variables::AirVar;
 use air_infra::felt252_id_memory::id_to_big::RangeCheckMemValue;
 use air_infra::range_check::range_check;
 use air_infra::range_check::range_check_variant;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{
-    FELT252WIDTH27_N_WORDS, FELT252_BITS_PER_WORD, FELT252_N_WORDS,
+    FELT252_BITS_PER_WORD, FELT252_N_WORDS, FELT252WIDTH27_N_WORDS,
 };
 
 /// Unpacks a Felt252Width27Expr into a Felt252Expr.

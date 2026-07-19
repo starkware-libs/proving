@@ -5,7 +5,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::cairo::utils::{get_lookup_sums, get_numerators, n_logup_columns, QM31_N_TRACE_CELLTS};
+use crate::cairo::utils::{QM31_N_TRACE_CELLTS, get_lookup_sums, get_numerators, n_logup_columns};
 
 pub const LOOKUP_RELATION_BATCH_SIZE: usize = 2;
 pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;

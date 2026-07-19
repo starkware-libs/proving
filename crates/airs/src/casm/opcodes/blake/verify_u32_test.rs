@@ -1,8 +1,8 @@
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::{const_expr, const_u32_expr};

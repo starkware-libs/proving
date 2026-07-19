@@ -5,7 +5,7 @@ use std::process::Command;
 use std::str::from_utf8;
 
 use air_common::utils::{project_root, read_json};
-use air_common::{TraceType, UseOrYield, SAMPLE_EVALUATIONS_FILE_NAME};
+use air_common::{SAMPLE_EVALUATIONS_FILE_NAME, TraceType, UseOrYield};
 use air_compile::compiled_structs::{CompiledAirFn, CompiledAirVar};
 use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
@@ -14,7 +14,7 @@ use genco::quote;
 use indexmap::{IndexMap, IndexSet};
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 use crate::cairo::utils::{format_cairo_code, generate_cairo_constraints_code};
 use crate::circuit::component::generate_circuit_constraints_code;

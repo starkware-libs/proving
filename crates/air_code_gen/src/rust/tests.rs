@@ -10,7 +10,7 @@ use crate::rust::components::generate_components_rust_file;
 use crate::rust::provers::generate_provers_rust_file;
 use crate::supported_components::{AutogenCodeFile, AutogenCodeType};
 use crate::test_utils::compare_contents_or_fix_with_path;
-use crate::utils::{load_air_fns, reformat_rust_code, STWO_CAIRO_AIR_CONFIG};
+use crate::utils::{STWO_CAIRO_AIR_CONFIG, load_air_fns, reformat_rust_code};
 
 #[test]
 fn code_gen_regression() {

@@ -1,4 +1,4 @@
-use stwo_cairo_common::prover_types::cpu::{Felt252, FELT252_N_WORDS};
+use stwo_cairo_common::prover_types::cpu::{FELT252_N_WORDS, Felt252};
 
 use super::expr::*;
 use super::felt_expr::*;

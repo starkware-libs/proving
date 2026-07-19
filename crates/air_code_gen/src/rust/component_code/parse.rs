@@ -2,7 +2,7 @@
 
 use std::collections::{BTreeSet, HashMap, HashSet};
 
-use air_common::{TraceType, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType, UseOrYield};
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };

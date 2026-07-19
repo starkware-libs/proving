@@ -13,8 +13,8 @@ use serde::Serialize;
 
 use super::super::decode_instruction::decode_inst::*;
 use crate::casm::common::*;
-use crate::felt252_utils::verify_mul252::*;
 use crate::felt252_utils::verify_mul_small::*;
+use crate::felt252_utils::verify_mul252::*;
 
 // The mul_small opcode.
 // Implements the Cairo0 instructions:

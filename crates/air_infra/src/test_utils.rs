@@ -4,7 +4,7 @@ use std::path::Path;
 use std::{fs, io};
 
 use air_common::utils::project_root;
-use air_common::{TraceType, SAMPLE_EVALUATIONS_FILE_NAME};
+use air_common::{SAMPLE_EVALUATIONS_FILE_NAME, TraceType};
 use eval_air_fn_constraints::create_sample_evaluation;
 use indexmap::IndexMap;
 use serde::Serialize;

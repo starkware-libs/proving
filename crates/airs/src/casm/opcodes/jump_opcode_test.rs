@@ -2,8 +2,8 @@ use air_infra::casm_state::CasmStateVar;
 use air_infra::const_expr;
 use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
@@ -18,7 +18,14 @@ fn test_jump_opcode(
     op1: i64,
     offsets_value: [Option<i16>; 2],
 ) -> State {
-    let [rel, imm, double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] = non_consts_flags;
+    let [
+        rel,
+        imm,
+        double_deref,
+        op0_base_fp,
+        op1_base_fp,
+        ap_update_add_1,
+    ] = non_consts_flags;
     // Create the air function
     let mut jump_opcode = JumpOpcode {
         rel,

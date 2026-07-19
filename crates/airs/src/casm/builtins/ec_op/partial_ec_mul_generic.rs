@@ -3,8 +3,8 @@ use std::array::from_fn;
 use air_common::TraceType;
 use air_infra::core::air_fn::AirFn;
 use air_infra::core::air_fn::ChainRoundAirFn;
-use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::core::variables::AirVar;
@@ -12,7 +12,7 @@ use air_infra::core::variables::ChainIdVar;
 use air_infra::core::variables::RoundNumVar;
 use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
-use stwo_cairo_common::prover_types::cpu::{FELT252WIDTH27_N_WORDS, FELT252_N_WORDS};
+use stwo_cairo_common::prover_types::cpu::{FELT252_N_WORDS, FELT252WIDTH27_N_WORDS};
 
 use crate::casm::builtins::ec_utils::ec_add::*;
 use crate::casm::builtins::ec_utils::ec_double::*;

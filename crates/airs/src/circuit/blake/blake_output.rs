@@ -1,4 +1,4 @@
-use air_common::{TraceType, UseOrYield, GATE_RELATION_NAME};
+use air_common::{GATE_RELATION_NAME, TraceType, UseOrYield};
 use air_infra::const_expr;
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::air_fn::AirFn;

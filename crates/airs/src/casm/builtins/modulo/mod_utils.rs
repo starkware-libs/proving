@@ -4,11 +4,11 @@ use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::air_fn::AirFn;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
+use air_infra::felt252_id_memory::memory::ADDRESS_BITS;
 use air_infra::felt252_id_memory::memory::CasmId;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
-use air_infra::felt252_id_memory::memory::ADDRESS_BITS;
 use air_infra::felt252_id_memory::read_positive::ReadPositive;
 use air_infra::felt252_id_memory::verify_equal::MemCondVerifyEqualKnownId;
 use air_infra::utils::felt252_to_m31;
@@ -99,14 +99,16 @@ impl AirFn for ModUtils {
             })
             .unzip();
 
-        let [(values_ptr_addr_prev, values_ptr_addr), (offsets_ptr_addr_prev, offsets_ptr_addr), (n_addr_prev, n_addr)] =
-            from_fn(|j| {
-                (
-                    input_var_addr_start_prev.clone()
-                        + const_expr!((j + MOD_BUILTIN_N_WORDS) as u32),
-                    input_var_addr_start.clone() + const_expr!((j + MOD_BUILTIN_N_WORDS) as u32),
-                )
-            });
+        let [
+            (values_ptr_addr_prev, values_ptr_addr),
+            (offsets_ptr_addr_prev, offsets_ptr_addr),
+            (n_addr_prev, n_addr),
+        ] = from_fn(|j| {
+            (
+                input_var_addr_start_prev.clone() + const_expr!((j + MOD_BUILTIN_N_WORDS) as u32),
+                input_var_addr_start.clone() + const_expr!((j + MOD_BUILTIN_N_WORDS) as u32),
+            )
+        });
 
         let (p_val, p_ids): (Vec<Felt252Expr>, Vec<CasmId>) = p_addr
             .into_iter()

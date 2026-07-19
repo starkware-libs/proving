@@ -2,11 +2,11 @@ use core::array::from_fn;
 
 use air_infra::const_expr;
 use air_infra::const_felt252_expr;
-use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
-use air_infra::core::expressions::felt_expr::FeltExpr;
-use air_infra::core::public_params::PublicParam;
 use air_infra::core::Felt;
+use air_infra::core::air_fn_registry::AirFnRegistry;
+use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
+use air_infra::core::public_params::PublicParam;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 
 use super::mod_utils::*;

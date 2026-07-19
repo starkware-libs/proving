@@ -1,8 +1,8 @@
 use num_traits::Zero;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use crate::assignment::*;
 use crate::EvaluatedLookupTerm;
+use crate::assignment::*;
 
 #[derive(Debug)]
 struct LogupTerm {

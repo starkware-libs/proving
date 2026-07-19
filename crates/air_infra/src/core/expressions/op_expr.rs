@@ -5,22 +5,22 @@ use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 use air_compile::compiled_structs::CompiledAirVar;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::prover_types::cpu::{
-    BigUInt, Bool, Felt252, Felt252Width27, ProverType, UInt16, UInt32, FELT252WIDTH27_N_WORDS,
-    FELT252_N_WORDS, MOD_BUILTIN_WORD_BIT_LEN,
+    BigUInt, Bool, FELT252_N_WORDS, FELT252WIDTH27_N_WORDS, Felt252, Felt252Width27,
+    MOD_BUILTIN_WORD_BIT_LEN, ProverType, UInt16, UInt32,
 };
 
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
+use super::felt_expr::*;
 use super::felt252_expr::*;
 use super::felt252width27_expr::*;
-use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 use super::var_expr::*;
-use crate::core::air_body::*;
 use crate::core::Felt;
+use crate::core::air_body::*;
 // Macros
 use crate::{const_expr, const_expr_from_m31, impl_binary_op, impl_unary_op};
 
@@ -179,11 +179,7 @@ where
             // Inverting or dividing a non-constant expression is not a low degree polynomial.
             Operation::Div => {
                 assert!(degs.len() == 2);
-                if degs[1] == Some(0) {
-                    degs[0]
-                } else {
-                    None
-                }
+                if degs[1] == Some(0) { degs[0] } else { None }
             }
             Operation::Inverse => {
                 if degs[0] == Some(0) {
@@ -571,16 +567,16 @@ impl Add for FeltExpr {
             return const_expr_from_m31!(value.unwrap());
         }
 
-        if let Some(val) = self.value() {
-            if val == 0.into() {
-                return other;
-            }
+        if let Some(val) = self.value()
+            && val == 0.into()
+        {
+            return other;
         }
 
-        if let Some(val) = other.value() {
-            if val == 0.into() {
-                return self;
-            }
+        if let Some(val) = other.value()
+            && val == 0.into()
+        {
+            return self;
         }
 
         FeltExpr::Op(FeltOperation::new(
@@ -600,10 +596,10 @@ impl Sub for FeltExpr {
             return const_expr_from_m31!(value.unwrap());
         }
 
-        if let Some(val) = other.value() {
-            if val == 0.into() {
-                return self;
-            }
+        if let Some(val) = other.value()
+            && val == 0.into()
+        {
+            return self;
         }
 
         FeltExpr::Op(FeltOperation::new(

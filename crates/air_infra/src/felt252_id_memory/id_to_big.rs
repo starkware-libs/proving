@@ -1,11 +1,11 @@
-use air_common::{TraceType, MEMORY_RELATION_NAME};
+use air_common::{MEMORY_RELATION_NAME, TraceType};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::core::air_fn::*;
 use crate::core::constraint_connectedness_test;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::felt252_expr::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 use crate::felt252_id_memory::memory::*;

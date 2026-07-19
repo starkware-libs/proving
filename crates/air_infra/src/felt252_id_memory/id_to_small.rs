@@ -1,4 +1,4 @@
-use air_common::{TraceType, MEMORY_RELATION_NAME};
+use air_common::{MEMORY_RELATION_NAME, TraceType};
 use serde::Serialize;
 
 use crate::core::air_fn::*;

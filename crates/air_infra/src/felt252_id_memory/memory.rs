@@ -9,16 +9,16 @@ use super::read_small::*;
 use crate::casm_state::*;
 #[cfg(any(test, feature = "test"))]
 use crate::const_expr;
+#[cfg(any(test, feature = "test"))]
+use crate::core::Felt;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::felt252_expr::*;
 #[cfg(any(test, feature = "test"))]
 use crate::core::memory::*;
 use crate::core::struct_var::*;
 #[cfg(any(test, feature = "test"))]
 use crate::core::variables::*;
-#[cfg(any(test, feature = "test"))]
-use crate::core::Felt;
 use crate::utils::*;
 
 pub const ADDRESS_BITS: usize = 29;

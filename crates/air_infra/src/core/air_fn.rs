@@ -5,7 +5,7 @@ use std::hash::{DefaultHasher, Hash, Hasher};
 use std::rc::Rc;
 
 use air_common::utils::fix_str;
-use air_common::{PaddingType, TraceType, UseOrYield, GATE_RELATION_NAME, OPCODES_RELATION_NAME};
+use air_common::{GATE_RELATION_NAME, OPCODES_RELATION_NAME, PaddingType, TraceType, UseOrYield};
 use convert_case::{Case, Casing};
 use regex::Regex;
 use serde::Serialize;
@@ -529,10 +529,10 @@ impl AirBuilder {
             return var;
         }
 
-        if let AirVarImpl::Expr(ExprImpl::Felt(f)) = var.clone().into() {
-            if f.is_directly_in_state() {
-                return var.clone();
-            }
+        if let AirVarImpl::Expr(ExprImpl::Felt(f)) = var.clone().into()
+            && f.is_directly_in_state()
+        {
+            return var.clone();
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
