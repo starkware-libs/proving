@@ -76,7 +76,7 @@ pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
 
                 let mut sum = QM31::zero();
                 for c in expr_eval.constraints {
-                    sum += c.assign(&assignment) * rng.r#gen::<QM31>();
+                    sum += c.assign(&assignment) * rng.random::<QM31>();
                 }
 
                 constraints_regression_test_values::$(air_fn.name.to_case(Case::UpperSnake)).assert_debug_eq(&sum);
@@ -89,7 +89,7 @@ fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     for param in &air_fn.public_params {
         code.append(quote! {
-         $(param): rng.r#gen::<u32>(),
+         $(param): rng.random::<u32>(),
         });
     }
     code
