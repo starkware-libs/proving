@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use std::iter::once;
 use std::rc::Rc;
 
-use air_common::{ExternalState, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, ExternalState, UseOrYield};
 use air_compile::compiled_structs::{
     CompiledAirVar, CompiledConstraintIntermediate, CompiledTraceGenIntermediate,
     ConstraintEvalStep, LookupTerm, TraceGenStep,
@@ -15,8 +15,8 @@ use stwo_cairo_common::prover_types::cpu::ProverType;
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
-use crate::core::public_params::PublicParam;
 use crate::core::Felt;
+use crate::core::public_params::PublicParam;
 
 // A Call is an air_body component that represents a call to another air function.
 // It contains the name of the air function, the input argument, the output of the call
@@ -231,7 +231,9 @@ impl AirBody {
             } => {
                 for f in felts {
                     assert!(
-                        f.visibility().in_deductions && f.visibility().in_constraints && f.in_state(),
+                        f.visibility().in_deductions
+                            && f.visibility().in_constraints
+                            && f.in_state(),
                         "lookup term must be in state and have only intermediate variables known in deductions and constraints"
                     );
                     let deg = f.deg_in_state().unwrap();
@@ -376,8 +378,10 @@ impl AirBody {
                         r#type: call.output.prover_type(),
                         var: CompiledAirVar::StaticCall(
                             call.method_name,
-                            vec![AirFnEntry::join_inputs(call.ext_input, call.input)
-                                .compile(CompileFor::Deductions)],
+                            vec![
+                                AirFnEntry::join_inputs(call.ext_input, call.input)
+                                    .compile(CompileFor::Deductions),
+                            ],
                         ),
                     }));
                 }

@@ -8,7 +8,7 @@ use genco::lang::rust;
 use genco::quote;
 use indexmap::IndexMap;
 use tempfile::tempdir;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 use super::component_code::component::generate_component_cairo_constraints_code;
 use super::component_code::iniline_evaluate::generate_inline_cairo_constraints_code;

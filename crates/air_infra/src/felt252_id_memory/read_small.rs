@@ -7,8 +7,8 @@ use crate::casm_state::*;
 use crate::const_expr;
 use crate::const_u16_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::felt252_id_memory::read_id::*;
 use crate::felt252_id_memory::read_positive::*;
@@ -151,8 +151,14 @@ impl AirFn for ReadSmall {
 
         // Compute the four values needed to construct the relative immediate other then the
         // low-limbs value.
-        let [msb, mid_limbs_set, limb3_7_high_bits, limbs4_to_20, limb21, limb27] =
-            air_builder.call(&DecodeSmallSign {}, value.clone());
+        let [
+            msb,
+            mid_limbs_set,
+            limb3_7_high_bits,
+            limbs4_to_20,
+            limb21,
+            limb27,
+        ] = air_builder.call(&DecodeSmallSign {}, value.clone());
 
         // Least significant three are deduced as-is
         let mut expected_value = vec![];

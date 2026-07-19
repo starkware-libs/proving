@@ -8,8 +8,8 @@ mod tests {
     use crate::casm::builtins::pedersen::pedersen_builtin::*;
 
     use air_infra::core::air_fn_registry::*;
-    use air_infra::core::expressions::felt252_expr::*;
     use air_infra::core::expressions::felt_expr::*;
+    use air_infra::core::expressions::felt252_expr::*;
     use air_infra::core::public_params::PublicParam;
     use air_infra::core::variables::*;
     use air_infra::core::*;
@@ -20,8 +20,10 @@ mod tests {
         let window_bits: usize = 252 / NUM_WINDOWS;
         let mask: u64 = (1 << window_bits) - 1;
         from_fn(|_| {
-            let double_limb = const_expr!(TryInto::<u32>::try_into(value & mask)
-                .expect("After masking the value should be small"));
+            let double_limb = const_expr!(
+                TryInto::<u32>::try_into(value & mask)
+                    .expect("After masking the value should be small")
+            );
             value >>= window_bits;
             double_limb
         })
@@ -66,11 +68,11 @@ mod tests {
         assert_eq!(output.1.calc(), const_expr!(NUM_WINDOWS + 1).calc());
 
         let expected_new_multiplier = pack_to_limbs::<NUM_WINDOWS>(multiplier >> window_bits);
-        for (output_elem, expected_elem) in output.2 .0.iter().zip(expected_new_multiplier.iter()) {
+        for (output_elem, expected_elem) in output.2.0.iter().zip(expected_new_multiplier.iter()) {
             assert_eq!(output_elem.calc(), expected_elem.calc());
         }
-        assert_eq!(output.2 .1[0].calc(), result_x.calc());
-        assert_eq!(output.2 .1[1].calc(), result_y.calc());
+        assert_eq!(output.2.1[0].calc(), result_x.calc());
+        assert_eq!(output.2.1[1].calc(), result_y.calc());
         let expected_trace_len = match NUM_WINDOWS {
             14 => 297,
             28 => 311,

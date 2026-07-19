@@ -10,8 +10,8 @@ use super::op_expr::*;
 use super::var_expr::*;
 // Macros
 use crate::const_expr;
-use crate::core::public_params::PublicParam;
 use crate::core::Felt;
+use crate::core::public_params::PublicParam;
 
 pub type FeltOperation = OpExpr<Felt>;
 pub type FeltExpr = Expr<Felt>;
@@ -30,10 +30,10 @@ impl FeltInfo {
     // 2. That the felt is not stored in a trace cell / public parameter, because in these cases the
     //    compilation will prefer to compile it directly as CompiledAirVar::State or ::PublicParam.
     pub fn get_used_constraint_intermediate_name(&self) -> Option<String> {
-        if let Some(ref name) = self.constraint_intermediate {
-            if matches!(self.value_info, ValueInfo::DegPolyOfState(_)) {
-                return Some(name.clone());
-            }
+        if let Some(ref name) = self.constraint_intermediate
+            && matches!(self.value_info, ValueInfo::DegPolyOfState(_))
+        {
+            return Some(name.clone());
         }
         None
     }

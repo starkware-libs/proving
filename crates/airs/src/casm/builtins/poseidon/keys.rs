@@ -6,7 +6,7 @@ use air_infra::const_felt252_width27;
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 use air_infra::core::variables::ExtTable;
-use stwo_cairo_common::preprocessed_columns::poseidon::{PoseidonRoundKeys, N_WORDS};
+use stwo_cairo_common::preprocessed_columns::poseidon::{N_WORDS, PoseidonRoundKeys};
 #[cfg(test)]
 use stwo_cairo_common::preprocessed_columns::poseidon_round_keys::round_keys;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedColumn;

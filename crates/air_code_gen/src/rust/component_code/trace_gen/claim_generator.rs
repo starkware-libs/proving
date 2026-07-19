@@ -3,13 +3,13 @@ use std::collections::HashMap;
 use air_common::PaddingType;
 use air_compile::compiled_structs::{CompiledAirVar, CompiledTraceGenIntermediate, TraceGenStep};
 use convert_case::{Case, Casing};
-use genco::lang::{rust, Rust};
+use genco::lang::{Rust, rust};
 use genco::quote;
 use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::{deduction_consts, packed_name};
-use crate::rust::component_code::trace_gen::{vec_of_type, Mode, MultiplicityMode, RustProverGen};
+use crate::rust::component_code::trace_gen::{Mode, MultiplicityMode, RustProverGen, vec_of_type};
 use crate::utils::{
     block_doc, get_variable_name, is_const_size_component, is_state_component_name,
     make_preprocessed_column_id, replace_generics_with_turbofish,

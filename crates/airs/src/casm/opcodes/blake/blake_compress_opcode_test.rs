@@ -2,8 +2,8 @@ use air_infra::casm_state::CasmStateVar;
 use air_infra::const_expr;
 use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
@@ -25,7 +25,16 @@ fn test_blake(
     flags: ([bool; 5], OpcodeExtension),
 ) -> (State, CasmStateVar) {
     let [pc_value, ap_value, fp_value] = casm_state;
-    let ([dst_base_fp, op0_base_fp, op1_base_fp, op1_base_ap, _ap_update_add_1], opcode) = flags;
+    let (
+        [
+            dst_base_fp,
+            op0_base_fp,
+            op1_base_fp,
+            op1_base_ap,
+            _ap_update_add_1,
+        ],
+        opcode,
+    ) = flags;
     let [state_pointer, new_state_pointer, message_pointer] = pointers;
     let pc = const_expr!(pc_value);
     let ap = const_expr!(ap_value);

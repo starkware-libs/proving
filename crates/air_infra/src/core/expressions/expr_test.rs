@@ -1,9 +1,9 @@
-use stwo_cairo_common::prover_types::cpu::{BigUInt, Bool, Felt252, UInt32, UInt64, PRIME};
+use stwo_cairo_common::prover_types::cpu::{BigUInt, Bool, Felt252, PRIME, UInt32, UInt64};
 
 use super::biguint_expr::*;
 use super::bool_expr::*;
-use super::felt252_expr::*;
 use super::felt_expr::*;
+use super::felt252_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;

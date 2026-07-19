@@ -1,14 +1,14 @@
 use std::collections::HashSet;
 
-use air_common::{TraceType, UseOrYield, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType, UseOrYield};
 use air_compile::compiled_structs::*;
 use convert_case::{Case, Casing};
-use eval_air_fn_constraints::assignment::Assignment;
 use eval_air_fn_constraints::SampleEvaluation;
-use genco::lang::{rust, Rust};
+use eval_air_fn_constraints::assignment::Assignment;
+use genco::lang::{Rust, rust};
 use genco::tokens::quoted;
-use genco::{quote, Tokens};
-use itertools::{chain, Itertools};
+use genco::{Tokens, quote};
+use itertools::{Itertools, chain};
 use stwo_cairo_common::prover_types::cpu::QM31;
 
 use crate::utils::*;
@@ -225,7 +225,11 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                         })
                     }
                 } else {
-                    assert_eq!(felt_names.len(), 1, "In constraints, only StaticCalls are allowed to produce multiple-felt outputs");
+                    assert_eq!(
+                        felt_names.len(),
+                        1,
+                        "In constraints, only StaticCalls are allowed to produce multiple-felt outputs"
+                    );
                     code.append(quote! {
                         let $(&felt_names[0]) = $(make_var_for_expr(var));
                     });

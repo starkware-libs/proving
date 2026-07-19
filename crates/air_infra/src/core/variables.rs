@@ -14,19 +14,19 @@ use super::air_fn::*;
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
+use super::expressions::felt_expr::*;
 use super::expressions::felt252_expr::*;
 use super::expressions::felt252width27_expr::*;
-use super::expressions::felt_expr::*;
 use super::expressions::op_expr::*;
 use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
 use crate::casm_state::*;
-use crate::core::public_params::*;
-use crate::core::struct_var::VarWrapper;
 #[cfg(any(test, feature = "test"))]
 use crate::core::Felt;
+use crate::core::public_params::*;
+use crate::core::struct_var::VarWrapper;
 use crate::felt252_id_memory::memory::*;
 // Macros
 use crate::impl_air_var;
@@ -76,10 +76,10 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
         // When the expression is a single felt that is directly in state, no intermediates
         // are necessary.
-        if let AirVarImpl::Expr(ExprImpl::Felt(f)) = self.clone().into() {
-            if f.is_directly_in_state() {
-                return (self.clone(), vec![]);
-            }
+        if let AirVarImpl::Expr(ExprImpl::Felt(f)) = self.clone().into()
+            && f.is_directly_in_state()
+        {
+            return (self.clone(), vec![]);
         }
 
         // We have to create the variable for <self> before its felts, because <let_> creates
@@ -612,7 +612,7 @@ impl_air_var!((CasmStateVar, GenericFlags, Offsets, Operands));
 // UpdateRegisters
 impl_air_var!((CasmStateVar, GenericFlags, Operands));
 type ModValue = [Felt252Expr; 4]; // MOD_BUILTIN_N_WORDS = 4
-                                  // ModUtils
+// ModUtils
 impl_air_var!([ModValue]);
 // ModUtils
 impl_air_var!((CasmAddress, FeltExpr));

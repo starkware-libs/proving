@@ -1,7 +1,7 @@
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::air_fn::AirFn;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AirVar;
 use air_infra::felt252_id_memory::id_to_big::RangeCheckMemValue;
 use air_infra::{const_expr, const_felt252_expr};

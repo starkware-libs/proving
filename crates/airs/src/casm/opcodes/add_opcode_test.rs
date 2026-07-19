@@ -2,8 +2,8 @@ use air_infra::casm_state::CasmStateVar;
 use air_infra::const_expr;
 use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
@@ -20,8 +20,15 @@ fn test_add_opcode(
     op1: Felt252Expr,
 ) -> State {
     // Read the non-constant flags
-    let [add_small, flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
-        non_consts_flags;
+    let [
+        add_small,
+        flag_dst_base_fp,
+        flag_op0_base_fp,
+        flag_op1_imm,
+        flag_op1_base_fp,
+        flag_op1_base_ap,
+        flag_ap_update_add_1,
+    ] = non_consts_flags;
 
     let [offset_dst_val, offset0_val, mut offset1_val] = offset_values;
     if flag_op1_imm {

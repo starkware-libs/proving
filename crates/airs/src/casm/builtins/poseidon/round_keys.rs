@@ -1,8 +1,8 @@
 use air_common::TraceType;
 use air_infra::core::air_fn::AirBuilder;
 use air_infra::core::air_fn::AirFn;
-use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
 #[cfg(test)]
 use air_infra::core::variables::AsProverType;
 use air_infra::seq::SeqConstLen;

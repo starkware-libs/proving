@@ -9,10 +9,10 @@ use air_code_gen::rust::claims::generate_claims_rust_file;
 use air_code_gen::rust::claims_generator::generate_claim_generator_file;
 use air_code_gen::rust::components::generate_components_rust_file;
 use air_code_gen::rust::provers::generate_provers_rust_file;
-use air_code_gen::supported_components::{is_supported, AutogenCodeFile, AutogenCodeType};
+use air_code_gen::supported_components::{AutogenCodeFile, AutogenCodeType, is_supported};
 use air_code_gen::utils::{
-    add_file_to_module, format_air_fn_code, generate_air_fn_code, generated_code_path, get_git_rev,
-    load_air_fns, STWO_CAIRO_AIR_CONFIG, STWO_CIRCUITS_AIR_CONFIG,
+    STWO_CAIRO_AIR_CONFIG, STWO_CIRCUITS_AIR_CONFIG, add_file_to_module, format_air_fn_code,
+    generate_air_fn_code, generated_code_path, get_git_rev, load_air_fns,
 };
 use air_common::REGISTRY_PROPERTIES_FILE_NAME;
 use air_compile::compiled_structs::CompiledAirFn;
@@ -24,7 +24,7 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 use serde::Serialize;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 const DEFAULT_SOURCE_DIR: &str = ".";
 const DEFAULT_STWO_CAIRO_PATH: &str = "../stwo-cairo/";
@@ -286,7 +286,9 @@ fn generate_single(args: SingleArgs) {
     } else if args.witness {
         AutogenCodeType::WITNESS
     } else {
-        panic!("Code type not specified. Use --cairo-constraints, --circuit-constraints, --rust-constraints or --witness")
+        panic!(
+            "Code type not specified. Use --cairo-constraints, --circuit-constraints, --rust-constraints or --witness"
+        )
     };
 
     let job = AutogenCodeFile {

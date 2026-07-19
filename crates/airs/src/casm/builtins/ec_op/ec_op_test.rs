@@ -1,10 +1,10 @@
+use air_infra::core::Felt;
 use air_infra::core::air_fn_registry::AirFnRegistry;
+use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
-use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::public_params::PublicParam;
 use air_infra::core::variables::AsProverType;
-use air_infra::core::Felt;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::{const_expr, const_felt252_expr, const_felt252_expr_from_felt252};
 
@@ -73,12 +73,12 @@ fn test_partial_mul_generic() {
     assert_eq!(output.0.calc(), call_id.calc());
     assert_eq!(output.1.calc(), const_expr!(1).calc());
 
-    assert_eq!(output.2 .0.calc(), m2.calc());
-    assert_eq!(output.2 .1[0].calc(), q2_x.calc());
-    assert_eq!(output.2 .1[1].calc(), q2_y.calc());
-    assert_eq!(output.2 .2[0].calc(), res_x.calc());
-    assert_eq!(output.2 .2[1].calc(), res_y.calc());
-    assert_eq!(output.2 .3.calc(), const_expr!(25).calc());
+    assert_eq!(output.2.0.calc(), m2.calc());
+    assert_eq!(output.2.1[0].calc(), q2_x.calc());
+    assert_eq!(output.2.1[1].calc(), q2_y.calc());
+    assert_eq!(output.2.2[0].calc(), res_x.calc());
+    assert_eq!(output.2.2[1].calc(), res_y.calc());
+    assert_eq!(output.2.3.calc(), const_expr!(25).calc());
 
     let (_, output2) = registry.run_air(air_fn, (), output);
 
@@ -97,12 +97,12 @@ fn test_partial_mul_generic() {
     assert_eq!(output2.0.calc(), call_id.calc());
     assert_eq!(output2.1.calc(), const_expr!(2).calc());
 
-    assert_eq!(output2.2 .0.calc(), m3.calc());
-    assert_eq!(output2.2 .1[0].calc(), q4_x.calc());
-    assert_eq!(output2.2 .1[1].calc(), q4_y.calc());
-    assert_eq!(output2.2 .2[0].calc(), res_x.calc());
-    assert_eq!(output2.2 .2[1].calc(), res_y.calc());
-    assert_eq!(output2.2 .3.calc(), const_expr!(24).calc());
+    assert_eq!(output2.2.0.calc(), m3.calc());
+    assert_eq!(output2.2.1[0].calc(), q4_x.calc());
+    assert_eq!(output2.2.1[1].calc(), q4_y.calc());
+    assert_eq!(output2.2.2[0].calc(), res_x.calc());
+    assert_eq!(output2.2.2[1].calc(), res_y.calc());
+    assert_eq!(output2.2.3.calc(), const_expr!(24).calc());
 
     let m_spec = const_felt252_expr!(
         0x01234567_89abcdef_fedcba98_78000001,
@@ -129,12 +129,12 @@ fn test_partial_mul_generic() {
     assert_eq!(output3.0.calc(), call_id.calc());
     assert_eq!(output3.1.calc(), const_expr!(27).calc());
 
-    assert_eq!(output3.2 .0.calc(), m_spec_2.calc());
-    assert_eq!(output3.2 .1[0].calc(), q2_x.calc());
-    assert_eq!(output3.2 .1[1].calc(), q2_y.calc());
-    assert_eq!(output3.2 .2[0].calc(), res_x.calc());
-    assert_eq!(output3.2 .2[1].calc(), res_y.calc());
-    assert_eq!(output3.2 .3.calc(), const_expr!(26).calc());
+    assert_eq!(output3.2.0.calc(), m_spec_2.calc());
+    assert_eq!(output3.2.1[0].calc(), q2_x.calc());
+    assert_eq!(output3.2.1[1].calc(), q2_y.calc());
+    assert_eq!(output3.2.2[0].calc(), res_x.calc());
+    assert_eq!(output3.2.2[1].calc(), res_y.calc());
+    assert_eq!(output3.2.3.calc(), const_expr!(26).calc());
 
     assert_eq!(state.get_felts().len(), 624);
 }

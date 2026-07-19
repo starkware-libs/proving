@@ -1,14 +1,14 @@
 use std::collections::HashMap;
 
-use air_common::{TraceType, CONSTRAINT_EVAL_FUNCTION_NAME};
+use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType};
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
-use itertools::chain;
 use itertools::Itertools;
+use itertools::chain;
 
 use super::parse::{
     constraint_consts, parse_eval_constraint, parse_lookup_constraint, seek_consts,
@@ -393,7 +393,11 @@ fn generate_evaluate(air_fn: &CompiledAirFn) -> rust::Tokens {
                         let [$(felt_names.join(", "))] = $(parse_eval_constraint(air_fn, var, &const_names));
                     });
                 } else {
-                    assert_eq!(felt_names.len(), 1, "In constraints, only StaticCalls are allowed to produce multiple-felt outputs");
+                    assert_eq!(
+                        felt_names.len(),
+                        1,
+                        "In constraints, only StaticCalls are allowed to produce multiple-felt outputs"
+                    );
                     code.extend(quote! {
                         let $(&felt_names[0]) = eval.add_intermediate($(parse_eval_constraint(air_fn, var, &const_names)));
                     });

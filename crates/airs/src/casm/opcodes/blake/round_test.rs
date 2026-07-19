@@ -2,8 +2,8 @@ use std::array::from_fn;
 
 use air_infra::casm_state::CasmAddress;
 use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
+use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
@@ -62,7 +62,7 @@ fn test_blake_round() {
         3193012524, 1657286418,
     ];
 
-    for (output, expected_output) in output.2 .0.into_iter().zip(expected_output) {
+    for (output, expected_output) in output.2.0.into_iter().zip(expected_output) {
         assert_eq!(output.calc(), const_u32_expr!(expected_output).calc());
     }
 
@@ -334,7 +334,7 @@ fn test_blake_round2() {
         4011799291, 2106633509,
     ];
 
-    for (output, expected_output) in output.2 .0.into_iter().zip(expected_output) {
+    for (output, expected_output) in output.2.0.into_iter().zip(expected_output) {
         assert_eq!(output.calc(), const_u32_expr!(expected_output).calc());
     }
 }
