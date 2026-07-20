@@ -2,10 +2,8 @@ use std::array::from_fn;
 
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::expressions::biguint_expr::BigUInt384Expr;
-use air_infra::core::expressions::biguint_expr::BigUIntExpr;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
+use air_infra::core::expressions::biguint_expr::{BigUInt384Expr, BigUIntExpr};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::public_params::PublicParam;
@@ -72,13 +70,8 @@ impl AirFn for AddModBuiltin {
         let segment_start = ab.get_public_param(PublicParam::AddModBuiltinSegmentStart);
         // Get p, a, b, c from the memory segment of add_mod
         let [p, a, b, c] = ab.call(
-            &ModUtils {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(segment_start, "add_mod_segment_start"),
-                instance_num,
-            ),
+            &ModUtils { memory: self.memory.clone() },
+            (CasmAddress::new(segment_start, "add_mod_segment_start"), instance_num),
         );
 
         // Compute and deduce sub_p_bit
@@ -86,10 +79,8 @@ impl AirFn for AddModBuiltin {
         let b_384: BigUInt384Expr = b.to_vec().into();
         let c_384: BigUInt384Expr = c.to_vec().into();
         let diff_384 = ab.let_for_deduction(a_384 + b_384 - c_384, "diff");
-        let is_diff_0 = ab.let_for_deduction(
-            diff_384.eq(const_bigu384_expr!(0, 0, 0, 0, 0, 0)),
-            "is_diff_0",
-        );
+        let is_diff_0 =
+            ab.let_for_deduction(diff_384.eq(const_bigu384_expr!(0, 0, 0, 0, 0, 0)), "is_diff_0");
         let sub_p_bit = ab.deduce(&mut (const_expr!(1) - is_diff_0.as_felt()), "sub_p_bit");
         ab.constrain(
             (sub_p_bit.clone() - const_expr!(1)) * sub_p_bit.clone(),

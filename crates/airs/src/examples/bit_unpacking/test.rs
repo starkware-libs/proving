@@ -1,15 +1,13 @@
 use std::path::Path;
 
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::bool_expr::BoolExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
 use air_infra::core::variables::AsProverType;
 use air_infra::test_utils::compare_json;
+use air_infra::{const_expr, const_u16_expr};
 use expect_test::expect;
 use serde::Serialize;
 

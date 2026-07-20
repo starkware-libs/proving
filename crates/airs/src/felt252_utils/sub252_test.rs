@@ -18,10 +18,7 @@ fn test_sub252_no_underflow() {
             const_felt252_expr!(0x1008020001u128, 0u128),
         ],
     );
-    assert_eq!(
-        output.calc(),
-        const_felt252_expr!(0x1ff8020001u128, 0u128).calc()
-    );
+    assert_eq!(output.calc(), const_felt252_expr!(0x1ff8020001u128, 0u128).calc());
     expect![[r#"
         (1, "sub_res_limb_0"),
         (256, "sub_res_limb_1"),
@@ -71,10 +68,7 @@ fn test_sub252_with_underflow() {
             const_felt252_expr!(0, 1u128 << (251 - 128)),
         ],
     );
-    assert_eq!(
-        output.calc(),
-        const_felt252_expr!(0, 1u128 << (251 - 128)).calc()
-    );
+    assert_eq!(output.calc(), const_felt252_expr!(0, 1u128 << (251 - 128)).calc());
     expect![[r#"
         (0, "sub_res_limb_0"),
         (0, "sub_res_limb_1"),

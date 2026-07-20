@@ -11,11 +11,8 @@ fn test_cube252_no_overflow() {
     let air_fn = Cube252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
-    let (state, output) = registry.run_air(
-        &air_fn,
-        (),
-        const_felt252_expr!(0x1008020001u128, 0u128).into(),
-    );
+    let (state, output) =
+        registry.run_air(&air_fn, (), const_felt252_expr!(0x1008020001u128, 0u128).into());
     assert_eq!(
         output.calc(),
         const_felt252_expr!(0x1018120805436188603c18060001u128, 0u128).calc()
@@ -170,11 +167,8 @@ fn test_cube252_no_overflow() {
 fn test_cube252_with_overflows() {
     let air_fn = Cube252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let (_, output) = registry.run_air(
-        &air_fn,
-        (),
-        const_felt252_expr!(0, 1u128 << (251 - 128)).into(),
-    );
+    let (_, output) =
+        registry.run_air(&air_fn, (), const_felt252_expr!(0, 1u128 << (251 - 128)).into());
     assert_eq!(
         output.calc(),
         const_felt252_expr!(

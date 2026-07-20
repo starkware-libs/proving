@@ -1,10 +1,9 @@
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::decode_inst::*;
@@ -91,13 +90,8 @@ fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 2], [i16; 3], [FeltExpr; 
         .try_into()
         .unwrap();
     let [felt5_high, felt6] = DecodeInstruction::flags_to_felts(flags);
-    let flags_b = named_flags
-        .to_arr()
-        .iter()
-        .map(|f| f.unwrap())
-        .collect::<Vec<_>>()
-        .try_into()
-        .unwrap();
+    let flags_b =
+        named_flags.to_arr().iter().map(|f| f.unwrap()).collect::<Vec<_>>().try_into().unwrap();
 
     let offsets_i16 = [1, -1, 2];
     let offsets = [

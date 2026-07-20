@@ -19,10 +19,7 @@ fn test_mul252_no_overflow() {
             const_felt252_expr!(0x1ff8020001u128, 0u128),
         ],
     );
-    assert_eq!(
-        output.calc(),
-        const_felt252_expr!(0x2008020003400040001u128, 0u128).calc()
-    );
+    assert_eq!(output.calc(), const_felt252_expr!(0x2008020003400040001u128, 0u128).calc());
     expect![[r#"
         (1, "mul_res_limb_0"),
         (0, "mul_res_limb_1"),
@@ -98,11 +95,8 @@ fn test_mul252_with_overflow() {
     );
     assert_eq!(
         output.calc(),
-        const_felt252_expr!(
-            0x4cc3ffffffffff5cdf8002u128,
-            0x7fffff52ad78032ffffffffffffdbe0u128
-        )
-        .calc()
+        const_felt252_expr!(0x4cc3ffffffffff5cdf8002u128, 0x7fffff52ad78032ffffffffffffdbe0u128)
+            .calc()
     );
     let (_, output) = registry.run_air(
         &air_fn,
@@ -120,11 +114,8 @@ fn test_mul252_with_overflow() {
     );
     assert_eq!(
         output.calc(),
-        const_felt252_expr!(
-            0x4cc3ffffffffff5cdf8005u128,
-            0x7fffff52ad78054ffffffffffffdbe0u128
-        )
-        .calc()
+        const_felt252_expr!(0x4cc3ffffffffff5cdf8005u128, 0x7fffff52ad78054ffffffffffffdbe0u128)
+            .calc()
     );
     let (_, output) = registry.run_air(
         &air_fn,

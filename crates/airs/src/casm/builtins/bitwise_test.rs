@@ -1,11 +1,10 @@
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::Felt;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::public_params::PublicParam;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 
 use super::bitwise::*;
 
@@ -37,14 +36,9 @@ fn simple_test_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);
@@ -79,14 +73,9 @@ fn simple_failed_test_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);
@@ -120,14 +109,9 @@ fn test_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);
@@ -162,14 +146,9 @@ fn test_failed_or_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 27);
@@ -204,14 +183,9 @@ fn test_failed_xor_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);
@@ -246,14 +220,9 @@ fn test_failed_and_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);
@@ -286,14 +255,9 @@ fn test_big_felt252_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);
@@ -331,14 +295,9 @@ fn test_too_big_felt252_bitwise_builtin() {
         ),
     ]);
 
-    let bitwise = BitwiseBuiltin {
-        memory: memory.clone(),
-    };
+    let bitwise = BitwiseBuiltin { memory: memory.clone() };
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::BitwiseBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::BitwiseBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), (), 10);

@@ -2,13 +2,10 @@ use std::array::from_fn;
 
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
-use air_infra::felt252_id_memory::memory::ADDRESS_BITS;
-use air_infra::felt252_id_memory::memory::CasmId;
-use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::felt252_id_memory::memory::{ADDRESS_BITS, CasmId, Felt252IdMemory};
 use air_infra::felt252_id_memory::read_positive::ReadPositive;
 use air_infra::felt252_id_memory::verify_equal::MemCondVerifyEqualKnownId;
 use air_infra::utils::felt252_to_m31;
@@ -44,10 +41,7 @@ impl AirFn for ModUtils {
     type Out = [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 4];
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("first_addr".to_string()),
-            Some("instance_num".to_string()),
-        ])
+        Some(vec![Some("first_addr".to_string()), Some("instance_num".to_string())])
     }
 
     fn call(&self, ab: &mut AirBuilder, _: (), (first_addr, instance_num): Self::In) -> Self::Out {
@@ -68,10 +62,8 @@ impl AirFn for ModUtils {
             is_instance_0.as_felt() * instance_num.clone(),
             "is_instance_0 is 0 when instance_num is not 0.",
         );
-        let is_instance_0_minus_1 = ab.let_(
-            is_instance_0.as_felt() - const_expr!(1),
-            "is_instance_0_minus_1",
-        );
+        let is_instance_0_minus_1 =
+            ab.let_(is_instance_0.as_felt() - const_expr!(1), "is_instance_0_minus_1");
 
         // Calculate the starting address of the current instance and the previous one.
         let input_var_addr_start = ab.let_(
@@ -110,17 +102,12 @@ impl AirFn for ModUtils {
             )
         });
 
-        let (p_val, p_ids): (Vec<Felt252Expr>, Vec<CasmId>) = p_addr
-            .into_iter()
-            .map(|addr| ab.call(&read_word, addr))
-            .unzip();
+        let (p_val, p_ids): (Vec<Felt252Expr>, Vec<CasmId>) =
+            p_addr.into_iter().map(|addr| ab.call(&read_word, addr)).unzip();
 
         // Read inputs from memory.
         let (values_ptr_val_felt252, values_ptr_id) = ab.call(
-            &ReadPositive {
-                memory: self.memory.clone(),
-                num_bits: ADDRESS_BITS,
-            },
+            &ReadPositive { memory: self.memory.clone(), num_bits: ADDRESS_BITS },
             CasmAddress::new(values_ptr_addr, "values_ptr"),
         );
         let [mut offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev] = [
@@ -131,11 +118,7 @@ impl AirFn for ModUtils {
             (n_addr_prev, "n_prev"),
         ]
         .into_iter()
-        .map(|(addr, name)| {
-            self.memory
-                .read_address(ab, CasmAddress::new(addr, name))
-                .var
-        })
+        .map(|(addr, name)| self.memory.read_address(ab, CasmAddress::new(addr, name)).var)
         .collect::<Vec<_>>()
         .try_into()
         .expect("Conversion to array failed.");
@@ -163,9 +146,7 @@ impl AirFn for ModUtils {
         );
 
         ab.call(
-            &MemCondVerifyEqualKnownId {
-                memory: self.memory.clone(),
-            },
+            &MemCondVerifyEqualKnownId { memory: self.memory.clone() },
             (
                 CasmAddress::new(values_ptr_addr_prev, "values_ptr_prev"),
                 values_ptr_id,
@@ -174,14 +155,8 @@ impl AirFn for ModUtils {
         );
         for i in 0..MOD_BUILTIN_N_WORDS {
             ab.call(
-                &MemCondVerifyEqualKnownId {
-                    memory: self.memory.clone(),
-                },
-                (
-                    p_addr_prev[i].clone(),
-                    p_ids[i].clone(),
-                    block_reset_condition.clone(),
-                ),
+                &MemCondVerifyEqualKnownId { memory: self.memory.clone() },
+                (p_addr_prev[i].clone(), p_ids[i].clone(), block_reset_condition.clone()),
             );
         }
 
@@ -196,10 +171,8 @@ impl AirFn for ModUtils {
             )
         });
 
-        let values_ptr_val = ab.let_(
-            felt252_to_m31(values_ptr_val_felt252, ADDRESS_BITS),
-            "values_ptr",
-        );
+        let values_ptr_val =
+            ab.let_(felt252_to_m31(values_ptr_val_felt252, ADDRESS_BITS), "values_ptr");
         let vars_val: [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 3] = from_fn(|j| {
             from_fn(|k| {
                 ab.call(
@@ -214,9 +187,7 @@ impl AirFn for ModUtils {
         });
 
         [
-            p_val
-                .try_into()
-                .expect("p_val should have MOD_BUILTIN_N_WORDS elements."),
+            p_val.try_into().expect("p_val should have MOD_BUILTIN_N_WORDS elements."),
             vars_val[0].clone(),
             vars_val[1].clone(),
             vars_val[2].clone(),

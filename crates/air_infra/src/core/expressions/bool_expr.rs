@@ -24,18 +24,14 @@ impl VarExprUpdate for VarExpr<Bool> {
 
     fn update_children(&mut self) {
         let parent_var = &self.clone();
-        self.get_felt_mut(0)
-            .as_var_mut()
-            .set_parent(parent_var, None);
+        self.get_felt_mut(0).as_var_mut().set_parent(parent_var, None);
     }
 }
 
 #[macro_export]
 macro_rules! const_bool_expr {
     ($val:expr) => {
-        BoolExpr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            $val.into(),
-        ))
+        BoolExpr::Var($crate::core::expressions::var_expr::VarExpr::new_const($val.into()))
     };
 }
 

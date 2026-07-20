@@ -56,9 +56,8 @@ impl Assignment {
             .map(|ext_state| (ext_state.clone(), random_qm31(&ext_state.to_owned())))
             .collect();
 
-        let base_trace: Vec<_> = (0..base_trace_len)
-            .map(|i| random_qm31(&format!("base_{i}")))
-            .collect();
+        let base_trace: Vec<_> =
+            (0..base_trace_len).map(|i| random_qm31(&format!("base_{i}"))).collect();
 
         Assignment {
             base_trace,
@@ -68,10 +67,7 @@ impl Assignment {
             random_coeff: random_qm31("random_coeff"),
             last_row_sum: random_qm31("last_row_sum"),
             common_lookup_elements,
-            environment: Rc::new(Environment {
-                public_params,
-                external_states,
-            }),
+            environment: Rc::new(Environment { public_params, external_states }),
             claimed_sum: random_qm31("claimed_sum"),
             log_height,
         }

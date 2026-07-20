@@ -13,10 +13,7 @@ pub struct BitwiseXor {
 
 impl BitwiseXor {
     pub fn new(num_bits: usize) -> Self {
-        Self {
-            num_bits,
-            variant: 0,
-        }
+        Self { num_bits, variant: 0 }
     }
 }
 
@@ -27,10 +24,8 @@ impl AirFn for BitwiseXor {
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b]: Self::In) -> Self::Out {
-        let a_xor_b = air_builder.deduce_air_var(
-            UInt16Expr::from(a.clone()) ^ UInt16Expr::from(b.clone()),
-            "xor",
-        );
+        let a_xor_b = air_builder
+            .deduce_air_var(UInt16Expr::from(a.clone()) ^ UInt16Expr::from(b.clone()), "xor");
         verify_bitwise_xor(
             air_builder,
             self.num_bits as u16,

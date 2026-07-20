@@ -1,12 +1,9 @@
 use air_common::TraceType;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::air_fn::ChainRoundAirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn, ChainRoundAirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
-use air_infra::core::variables::ChainIdVar;
-use air_infra::core::variables::RoundNumVar;
+use air_infra::core::variables::{ChainIdVar, RoundNumVar};
 use serde::Serialize;
 
 use super::blake_message::*;
@@ -47,9 +44,7 @@ impl AirFn for CircuitBlakeRound {
         let curr_sigma = ab.lookup_call(&BlakeRoundSigma {}, [rnd.clone()], ());
 
         // Read the current message according to the permutation.
-        let blake_message = BlakeMessage {
-            message: self.message.clone(),
-        };
+        let blake_message = BlakeMessage { message: self.message.clone() };
         let mut current_message = vec![];
         for i in curr_sigma.into_iter() {
             let message_limbi = ab.lookup_call(&blake_message, (), [message_id.clone(), i]);

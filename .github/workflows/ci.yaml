@@ -21,6 +21,7 @@ on:
 
 env:
   STABLE_VERSION: "1.94.0"
+  NIGHTLY_VERSION: "nightly-2026-01-15"
 
 jobs:
   format:
@@ -30,7 +31,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: ${{ env.STABLE_VERSION }}
+          toolchain: ${{ env.NIGHTLY_VERSION }}
       - uses: Swatinem/rust-cache@v2
       - run: scripts/rust_fmt.sh --check
 

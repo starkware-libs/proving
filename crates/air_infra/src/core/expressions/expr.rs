@@ -109,10 +109,8 @@ where
                 if let Expr::Var(orig_v) = &orig_felt {
                     *felt.as_var_mut() = orig_v.clone();
                 } else {
-                    felt.as_var_mut()
-                        .complex_or_felt
-                        .as_felt_info_mut()
-                        .value_info = ValueInfo::DegPolyOfState(orig_felt.deg_in_state());
+                    felt.as_var_mut().complex_or_felt.as_felt_info_mut().value_info =
+                        ValueInfo::DegPolyOfState(orig_felt.deg_in_state());
                 }
             }
         }

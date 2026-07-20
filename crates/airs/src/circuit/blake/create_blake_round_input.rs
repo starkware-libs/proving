@@ -1,5 +1,4 @@
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::bool_expr::BoolExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
@@ -47,10 +46,7 @@ impl AirFn for CreateBlakeRoundInput {
                     let [thl, thh] = ab.call(&split, UInt16Expr::from(t_high.clone()));
 
                     // Calculate and deduce the bitwise xor of the parts.
-                    let bitwise_xor = BitwiseXor {
-                        num_bits: 8,
-                        variant: 0,
-                    };
+                    let bitwise_xor = BitwiseXor { num_bits: 8, variant: 0 };
                     let cll = ab.call(&bitwise_xor, [tll, const_expr!(IV4[0] as u32)]);
                     let clh = ab.call(&bitwise_xor, [tlh, const_expr!(IV4[1] as u32)]);
                     let chl = ab.call(&bitwise_xor, [thl, const_expr!(IV4[2] as u32)]);

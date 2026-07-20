@@ -1,2 +1,2 @@
 #!/bin/bash
-cargo fmt --all -- "$@"
+cargo +nightly-2026-01-15 fmt --all -- "$@"

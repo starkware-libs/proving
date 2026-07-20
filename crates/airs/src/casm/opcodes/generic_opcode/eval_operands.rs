@@ -1,8 +1,6 @@
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
@@ -29,11 +27,8 @@ impl AirFn for EvalOperands {
     type Out = [Felt252Expr; 4];
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        let mut result = vec![
-            Some("pc".to_string()),
-            Some("ap".to_string()),
-            Some("fp".to_string()),
-        ];
+        let mut result =
+            vec![Some("pc".to_string()), Some("ap".to_string()), Some("fp".to_string())];
         for name in GENERIC_FLAG_NAMES.iter() {
             result.push(Some(name.to_string()))
         }
@@ -54,32 +49,24 @@ impl AirFn for EvalOperands {
         let mut dst_src = flags[FLAG_DST_BASE_FP_INDEX].clone() * casm_state.fp().var
             + (const_expr!(1) - flags[FLAG_DST_BASE_FP_INDEX].clone()) * casm_state.ap().var;
         air_builder.assign(&mut dst_src, "dst_src");
-        let dst = self
-            .memory
-            .read_felt252(air_builder, CasmAddress::new(dst_src + offset0, "dst"));
+        let dst = self.memory.read_felt252(air_builder, CasmAddress::new(dst_src + offset0, "dst"));
 
         // Read op0
         let mut op0_src = flags[FLAG_OP0_BASE_FP_INDEX].clone() * casm_state.fp().var
             + (const_expr!(1) - flags[FLAG_OP0_BASE_FP_INDEX].clone()) * casm_state.ap().var;
         air_builder.assign(&mut op0_src, "op0_src");
-        let op0 = self
-            .memory
-            .read_felt252(air_builder, CasmAddress::new(op0_src + offset1, "op0"));
+        let op0 = self.memory.read_felt252(air_builder, CasmAddress::new(op0_src + offset1, "op0"));
 
         // Read op1
-        let op0_as_addr = air_builder.call(
-            &CondFelt252AsAddr {},
-            (op0.clone(), flags[FLAG_OP1_BASE_OP0_INDEX].clone()),
-        );
+        let op0_as_addr = air_builder
+            .call(&CondFelt252AsAddr {}, (op0.clone(), flags[FLAG_OP1_BASE_OP0_INDEX].clone()));
 
         let mut op1_src = flags[FLAG_OP1_BASE_FP_INDEX].clone() * casm_state.fp().var
             + flags[FLAG_OP1_BASE_AP_INDEX].clone() * casm_state.ap().var
             + flags[FLAG_OP1_IMM_INDEX].clone() * casm_state.pc().var
             + flags[FLAG_OP1_BASE_OP0_INDEX].clone() * op0_as_addr.var;
         air_builder.assign(&mut op1_src, "op1_src");
-        let op1 = self
-            .memory
-            .read_felt252(air_builder, CasmAddress::new(op1_src + offset2, "op1"));
+        let op1 = self.memory.read_felt252(air_builder, CasmAddress::new(op1_src + offset2, "op1"));
 
         let sum = air_builder.call(&Add252 {}, [op0.clone(), op1.clone()]);
         let prod = air_builder.call(&Mul252 {}, [op0.clone(), op1.clone()]);

@@ -65,10 +65,7 @@ fn build_logup_terms(
             let denominator = assignment
                 .common_lookup_elements
                 .compute_logup_denominator(&lookup_term.felt_values);
-            LogupTerm {
-                numerator,
-                denominator,
-            }
+            LogupTerm { numerator, denominator }
         })
         .collect::<Vec<_>>()
 }

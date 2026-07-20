@@ -10,11 +10,8 @@ use super::xor_rot32::*;
 fn test_xor_rot7() {
     let xor_rot = XorRot32 { r: 7 };
     let (registry, _) = AirFnRegistry::new(&xor_rot);
-    let (state, new_state) = registry.run_air(
-        &xor_rot,
-        (),
-        [const_u32_expr!(95330889), const_u32_expr!(1741830375)],
-    );
+    let (state, new_state) =
+        registry.run_air(&xor_rot, (), [const_u32_expr!(95330889), const_u32_expr!(1741830375)]);
     assert_eq!(new_state.calc(), "1556412725");
 
     // Check state
@@ -35,11 +32,8 @@ fn test_xor_rot7() {
 fn test_xor_rot12() {
     let xor_rot = XorRot32 { r: 12 };
     let (registry, _) = AirFnRegistry::new(&xor_rot);
-    let (state, new_state) = registry.run_air(
-        &xor_rot,
-        (),
-        [const_u32_expr!(9510598), const_u32_expr!(8063093)],
-    );
+    let (state, new_state) =
+        registry.run_air(&xor_rot, (), [const_u32_expr!(9510598), const_u32_expr!(8063093)]);
     assert_eq!(new_state.calc(), "1798311585");
 
     // Check state
@@ -60,11 +54,8 @@ fn test_xor_rot12() {
 fn test_xor_rot8() {
     let xor_rot = XorRot32 { r: 8 };
     let (registry, _) = AirFnRegistry::new(&xor_rot);
-    let (state, new_state) = registry.run_air(
-        &xor_rot,
-        (),
-        [const_u32_expr!(2147516416), const_u32_expr!(33558528)],
-    );
+    let (state, new_state) =
+        registry.run_air(&xor_rot, (), [const_u32_expr!(2147516416), const_u32_expr!(33558528)]);
     assert_eq!(new_state.calc(), "8519824");
 
     // Check state
@@ -85,11 +76,8 @@ fn test_xor_rot8() {
 fn test_xor_rot16() {
     let xor_rot = XorRot32 { r: 16 };
     let (registry, _) = AirFnRegistry::new(&xor_rot);
-    let (state, new_state) = registry.run_air(
-        &xor_rot,
-        (),
-        [const_u32_expr!(3198041206), const_u32_expr!(423952538)],
-    );
+    let (state, new_state) =
+        registry.run_air(&xor_rot, (), [const_u32_expr!(3198041206), const_u32_expr!(423952538)]);
     assert_eq!(new_state.calc(), "1022142427");
 
     // Check state
@@ -113,11 +101,7 @@ fn test_verify_xor_rot7() {
     let (state, _) = registry.run_air(
         &verify,
         (),
-        [
-            const_u32_expr!(95330889),
-            const_u32_expr!(1741830375),
-            const_u32_expr!(1556412725),
-        ],
+        [const_u32_expr!(95330889), const_u32_expr!(1741830375), const_u32_expr!(1556412725)],
     );
     expect![[r#"
         (324, "ms_9_bits"),
@@ -137,11 +121,7 @@ fn test_verify_xor_rot8() {
     let (state, _) = registry.run_air(
         &verify,
         (),
-        [
-            const_u32_expr!(2147516416),
-            const_u32_expr!(33558528),
-            const_u32_expr!(8519824),
-        ],
+        [const_u32_expr!(2147516416), const_u32_expr!(33558528), const_u32_expr!(8519824)],
     );
     expect![[r#"
         (128, "ms_8_bits"),

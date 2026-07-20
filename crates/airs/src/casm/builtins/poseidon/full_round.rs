@@ -1,12 +1,9 @@
 use air_common::TraceType;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::air_fn::ChainRoundAirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn, ChainRoundAirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252width27_expr::Felt252Width27Expr;
-use air_infra::core::variables::ChainIdVar;
-use air_infra::core::variables::RoundNumVar;
+use air_infra::core::variables::{ChainIdVar, RoundNumVar};
 use serde::Serialize;
 
 use super::cube252::*;
@@ -38,14 +35,10 @@ impl AirFn for PoseidonFullRoundChain {
         let [x, y, z] = state.map(|a| air_builder.lookup_call(&Cube252 {}, (), a));
         let [key_x, key_y, key_z] =
             air_builder.lookup_call(&PoseidonRoundKeys {}, [round.clone()], ());
-        let x_new = air_builder.call(
-            &LinearCombination::new([3, 1, 1, 1]),
-            [x.clone(), y.clone(), z.clone(), key_x],
-        );
-        let y_new = air_builder.call(
-            &LinearCombination::new([1, -1, 1, 1]),
-            [x.clone(), y.clone(), z.clone(), key_y],
-        );
+        let x_new = air_builder
+            .call(&LinearCombination::new([3, 1, 1, 1]), [x.clone(), y.clone(), z.clone(), key_x]);
+        let y_new = air_builder
+            .call(&LinearCombination::new([1, -1, 1, 1]), [x.clone(), y.clone(), z.clone(), key_y]);
         let z_new = air_builder.call(&LinearCombination::new([1, 1, -2, 1]), [x, y, z, key_z]);
 
         let new_state = [x_new, y_new, z_new];

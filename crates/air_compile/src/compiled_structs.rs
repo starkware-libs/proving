@@ -48,14 +48,8 @@ pub struct CompiledAirFn {
     // The names of the air functions that are inlined into this one, with their lookup names,
     // public params, and external states.
     #[allow(clippy::type_complexity)]
-    pub inline_calls: IndexMap<
-        String,
-        (
-            Vec<(String, UseOrYield)>,
-            IndexSet<String>,
-            IndexSet<ExternalState>,
-        ),
-    >,
+    pub inline_calls:
+        IndexMap<String, (Vec<(String, UseOrYield)>, IndexSet<String>, IndexSet<ExternalState>)>,
 
     // The set of public parameters used in the air function.
     pub public_params: IndexSet<String>,
@@ -80,10 +74,7 @@ pub enum TraceGenStep {
     Intermediate(CompiledTraceGenIntermediate),
 
     // Adds the input to the lookup table or updates multiplicity.
-    LookupAddInput {
-        relation_name: String,
-        input: CompiledAirVar,
-    },
+    LookupAddInput { relation_name: String, input: CompiledAirVar },
 
     // Saves the information from the trace needed for the generation of the interaction trace.
     LookupTerm(LookupTerm),
@@ -123,10 +114,7 @@ pub enum CompiledAirVar {
     UnaryOp(String, Box<CompiledAirVar>),
     Tuple(Vec<CompiledAirVar>),
     Array(Vec<CompiledAirVar>),
-    Struct {
-        r#type: String,
-        fields: Vec<(String, CompiledAirVar)>,
-    },
+    Struct { r#type: String, fields: Vec<(String, CompiledAirVar)> },
     // A variable written to a preprocessed column.
     ExternalState(ExternalState),
     // A value passed to the verifier outside the trace. Can influence the constraints

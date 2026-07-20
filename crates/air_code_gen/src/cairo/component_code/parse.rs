@@ -97,10 +97,8 @@ pub fn parse_var(
             if vars.len() == 1 {
                 parse_var(air_fn, &vars[0], relation_offset)
             } else {
-                let vars = vars
-                    .iter()
-                    .map(|v| parse_var(air_fn, v, relation_offset))
-                    .collect::<Vec<_>>();
+                let vars =
+                    vars.iter().map(|v| parse_var(air_fn, v, relation_offset)).collect::<Vec<_>>();
                 format!("[{}]", vars.join(", "))
             }
         }
@@ -117,10 +115,8 @@ fn gen_evaluate_call(
     args: &[CompiledAirVar],
     relation_offset: &mut usize,
 ) -> String {
-    let mut arg_str = args
-        .iter()
-        .map(|arg| parse_var(air_fn, arg, relation_offset))
-        .collect::<Vec<_>>();
+    let mut arg_str =
+        args.iter().map(|arg| parse_var(air_fn, arg, relation_offset)).collect::<Vec<_>>();
 
     let inline_fn = id.trim_end_matches(&format!("::{CONSTRAINT_EVAL_FUNCTION_NAME}"));
     let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
@@ -144,11 +140,7 @@ fn gen_evaluate_call(
         ));
     }
     for (relation, _) in relations {
-        arg_str.push(format!(
-            "ref {}_sum_{}",
-            relation.to_case(Case::Snake),
-            *relation_offset
-        ));
+        arg_str.push(format!("ref {}_sum_{}", relation.to_case(Case::Snake), *relation_offset));
         arg_str.push(format!("ref numerator_{}", *relation_offset));
         *relation_offset += 1;
     }

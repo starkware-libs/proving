@@ -22,10 +22,9 @@ impl PublicParams {
 
     #[cfg(any(test, feature = "test"))]
     pub fn set(&mut self, param: PublicParam, value: M31) {
-        self.values.borrow_mut().insert(
-            param.clone(),
-            Self::create_public_param_expr(param, Some(value)),
-        );
+        self.values
+            .borrow_mut()
+            .insert(param.clone(), Self::create_public_param_expr(param, Some(value)));
     }
 
     pub fn get(&self, param: PublicParam) -> FeltExpr {

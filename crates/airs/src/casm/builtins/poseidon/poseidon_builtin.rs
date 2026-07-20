@@ -3,12 +3,10 @@ use std::array::from_fn;
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::public_params::PublicParam;
-use air_infra::felt252_id_memory::memory::CasmId;
-use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::felt252_id_memory::memory::{CasmId, Felt252IdMemory};
 use air_infra::felt252_id_memory::read_id::ReadId;
 use air_infra::seq::Seq;
 use serde::Serialize;
@@ -35,10 +33,8 @@ impl AirFn for PoseidonBuiltin {
     fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         let instance_num = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::PoseidonBuiltinSegmentStart);
-        let instance_addr = air_builder.let_(
-            instance_num * const_expr!(CELLS_PER_POSEIDON) + segment_start,
-            "instance_addr",
-        );
+        let instance_addr = air_builder
+            .let_(instance_num * const_expr!(CELLS_PER_POSEIDON) + segment_start, "instance_addr");
 
         // Read the input id's,
         let input_ids: [CasmId; 3] = from_fn(|i| {
@@ -46,12 +42,7 @@ impl AirFn for PoseidonBuiltin {
                 instance_addr.clone() + const_expr!(i),
                 &format!("input_state_{i}"),
             );
-            air_builder.call(
-                &ReadId {
-                    memory: self.memory.clone(),
-                },
-                address.clone(),
-            )
+            air_builder.call(&ReadId { memory: self.memory.clone() }, address.clone())
         });
 
         // Read the output id's,
@@ -60,18 +51,11 @@ impl AirFn for PoseidonBuiltin {
                 instance_addr.clone() + const_expr!(i + 3),
                 &format!("output_state_{i}"),
             );
-            air_builder.call(
-                &ReadId {
-                    memory: self.memory.clone(),
-                },
-                address.clone(),
-            )
+            air_builder.call(&ReadId { memory: self.memory.clone() }, address.clone())
         });
 
         air_builder.lookup_call(
-            &PoseidonAggregator {
-                memory: self.memory.clone(),
-            },
+            &PoseidonAggregator { memory: self.memory.clone() },
             (),
             (input_ids, output_ids),
         );

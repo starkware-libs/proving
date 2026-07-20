@@ -2,8 +2,7 @@ use std::array::from_fn;
 use std::cmp::{max, min};
 
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::bounded_felt::BoundedFeltExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use serde::Serialize;
@@ -21,11 +20,7 @@ pub struct DoubleKaratsuba<const N: usize> {
 
 impl<const N: usize> DoubleKaratsuba<N> {
     pub fn new(limb_max_bound: i32, limb_min_bound: i32) -> Self {
-        Self {
-            n: N,
-            limb_max_bound,
-            limb_min_bound,
-        }
+        Self { n: N, limb_max_bound, limb_min_bound }
     }
 }
 

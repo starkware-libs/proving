@@ -1,11 +1,9 @@
 use std::collections::BTreeSet;
 
 use air_common::TraceType;
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use serde::Serialize;
@@ -39,10 +37,7 @@ impl JumpOpcode {
             "Cannot set flags to support double deref and immediate at the same time.",
         );
         assert!(self.rel || !self.imm, "Immediate jump must be relative.",);
-        assert!(
-            !self.double_deref || !self.rel,
-            "Double deref jump must be absolute.",
-        );
+        assert!(!self.double_deref || !self.rel, "Double deref jump must be absolute.",);
         Flags {
             dst_base_fp: Some(true),
             op0_base_fp: (!self.double_deref).then_some(true),
@@ -74,10 +69,7 @@ impl AirFn for JumpOpcode {
         let offset2 = if self.imm { Some(1) } else { None };
 
         let flag_sets_of_sum_1 = if !self.imm && !self.double_deref {
-            BTreeSet::from([BTreeSet::from([
-                FLAG_OP1_BASE_FP_INDEX,
-                FLAG_OP1_BASE_AP_INDEX,
-            ])])
+            BTreeSet::from([BTreeSet::from([FLAG_OP1_BASE_FP_INDEX, FLAG_OP1_BASE_AP_INDEX])])
         } else {
             BTreeSet::new()
         };
@@ -109,9 +101,7 @@ impl AirFn for JumpOpcode {
                     + (const_expr!(1) - op0_base_fp) * casm_state.ap().var),
                 "mem0_base",
             );
-            self.memory
-                .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
-                .var
+            self.memory.read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base")).var
         } else {
             ab.assign(
                 &mut (op1_base_fp * casm_state.fp().var + op1_base_ap * casm_state.ap().var),
@@ -121,13 +111,9 @@ impl AirFn for JumpOpcode {
 
         let next_pc = if self.rel {
             casm_state.pc().var
-                + self
-                    .memory
-                    .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
+                + self.memory.read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
         } else {
-            self.memory
-                .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
-                .var
+            self.memory.read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc")).var
         };
 
         // Calculate the next ap

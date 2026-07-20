@@ -18,10 +18,7 @@ pub fn generate_circuit_constraints_code(
     sample_evaluation: Option<&SampleEvaluation>,
 ) -> Tokens<Rust> {
     let (return_type, prelude_use) = if air_fn.r#type == TraceType::Inline {
-        (
-            quote! { -> Vec<Var> },
-            quote! { use super::super::prelude::*; },
-        )
+        (quote! { -> Vec<Var> }, quote! { use super::super::prelude::*; })
     } else {
         (quote! {}, quote! { use super::prelude::*; })
     };
@@ -76,11 +73,8 @@ pub fn generate_circuit_constraints_code(
         // Gates have external states of known size, so we need to get the log size from the
         // preprocessed column log sizes.
         if air_fn.r#type == TraceType::Gate {
-            let col_id = air_fn
-                .external_states
-                .iter()
-                .next()
-                .expect("Expected at least one external state");
+            let col_id =
+                air_fn.external_states.iter().next().expect("Expected at least one external state");
             log_size = quote! {
                 preprocessed_column_log_sizes
                     .get(&PreProcessedColumnId { id: $(quoted(col_id)).to_string() })
@@ -156,11 +150,7 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let used_preprocessed_columns: HashSet<String> = atoms
         .iter()
         .filter_map(|a| {
-            if let CompiledAirVar::ExternalState(col_id) = a {
-                Some(col_id.clone())
-            } else {
-                None
-            }
+            if let CompiledAirVar::ExternalState(col_id) = a { Some(col_id.clone()) } else { None }
         })
         .collect();
 
@@ -181,11 +171,7 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
     let used_public_params: HashSet<String> = atoms
         .iter()
         .filter_map(|a| {
-            if let CompiledAirVar::PublicParam(param) = a {
-                Some(param.clone())
-            } else {
-                None
-            }
+            if let CompiledAirVar::PublicParam(param) = a { Some(param.clone()) } else { None }
         })
         .collect();
 
@@ -228,7 +214,8 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                     assert_eq!(
                         felt_names.len(),
                         1,
-                        "In constraints, only StaticCalls are allowed to produce multiple-felt outputs"
+                        "In constraints, only StaticCalls are allowed to produce multiple-felt \
+                         outputs"
                     );
                     code.append(quote! {
                         let $(&felt_names[0]) = $(make_var_for_expr(var));
@@ -242,9 +229,8 @@ fn generate_accumulate_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 multiplicity,
             }) => {
                 let felts = remove_trailing_zeroes(felts);
-                let mut felt_strings = felts
-                    .iter()
-                    .map(|f| make_var_for_expr(f).to_string().unwrap());
+                let mut felt_strings =
+                    felts.iter().map(|f| make_var_for_expr(f).to_string().unwrap());
 
                 let numerator = make_eval_body_for_expr(multiplicity);
 
@@ -296,10 +282,7 @@ fn make_var_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
         let called_air_fn_name =
             fn_name.trim_end_matches(&format!("::{CONSTRAINT_EVAL_FUNCTION_NAME}"));
         let CompiledAirVar::Array(first_arg_vars) = args[0].clone() else {
-            panic!(
-                "Expected an array as StaticCall first argument. Got {:?}",
-                args[0]
-            )
+            panic!("Expected an array as StaticCall first argument. Got {:?}", args[0])
         };
         let mut input_strings = first_arg_vars
             .iter()
@@ -307,9 +290,7 @@ fn make_var_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
             .map(|arg| make_var_for_expr(arg).to_string().unwrap());
         quote! { $(called_air_fn_name)::accumulate_constraints(&[$(input_strings.join(", "))], context, component_data, acc) }
     } else if let CompiledAirVar::Array(vars) = expr {
-        let mut var_strings = vars
-            .iter()
-            .map(|var| make_var_for_expr(var).to_string().unwrap());
+        let mut var_strings = vars.iter().map(|var| make_var_for_expr(var).to_string().unwrap());
         quote! { [$(var_strings.join(", "))] }
     } else {
         // All the rest generate an eval!(...) call
@@ -362,10 +343,7 @@ fn get_constraint_atoms(air_fn: &CompiledAirFn) -> HashSet<CompiledAirVar> {
                 expr_iterator(compiled_air_var, &mut insert)
             }
             ConstraintEvalStep::LookupTerm(lookup_term) => {
-                lookup_term
-                    .felts
-                    .iter()
-                    .for_each(|f| expr_iterator(f, &mut insert));
+                lookup_term.felts.iter().for_each(|f| expr_iterator(f, &mut insert));
                 expr_iterator(&lookup_term.multiplicity, &mut insert);
             }
             ConstraintEvalStep::Intermediate(compiled_constraint_intermediate) => {
@@ -377,11 +355,8 @@ fn get_constraint_atoms(air_fn: &CompiledAirFn) -> HashSet<CompiledAirVar> {
 }
 
 fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let trace_values = assignment
-        .base_trace
-        .iter()
-        .map(|v| make_qm31(*v).to_string().unwrap())
-        .collect_vec();
+    let trace_values =
+        assignment.base_trace.iter().map(|v| make_qm31(*v).to_string().unwrap()).collect_vec();
     let interaction_values = assignment
         .interaction_trace
         .iter()
@@ -410,11 +385,8 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             tokens.to_string().unwrap()
         })
         .join(",\n");
-    let expected_result_name = format!(
-        "{}{}",
-        air_fn.name.to_case(Case::UpperSnake),
-        SAMPLE_EVALUATION_RESULT_SUFFIX
-    );
+    let expected_result_name =
+        format!("{}{}", air_fn.name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX);
     quote! {
         #[cfg(test)]
         mod tests {

@@ -1,12 +1,11 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::add_opcode::*;
@@ -36,10 +35,7 @@ fn test_add_opcode(
     }
 
     // Create the air function
-    let mut add_small_opcode = AddOpcode {
-        small: add_small,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut add_small_opcode = AddOpcode { small: add_small, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc_value = 10;
@@ -68,9 +64,7 @@ fn test_add_opcode(
                 offset_dst_val,
                 offset0_val,
                 offset1_val,
-                add_small_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&non_consts_flags),
+                add_small_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                 OpcodeExtension::Stone,
             ),
             0

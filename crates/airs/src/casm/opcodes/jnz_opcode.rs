@@ -1,17 +1,14 @@
 use std::collections::BTreeSet;
 
 use air_common::TraceType;
-use air_infra::casm_state::CasmAddress;
-use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::casm_state::{CasmAddress, CasmStateVar};
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AirVar;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::felt252_id_memory::verify::MemVerify;
+use air_infra::{const_expr, const_felt252_expr};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::P_FELTS;
 
@@ -97,29 +94,18 @@ impl AirFn for JnzOpcode {
                 .read_felt252(ab, CasmAddress::new(mem_dst_base + offset_dst, "dst"))
                 .as_felts();
 
-            let (p_zero_zip_dst, p_nonzero_zip_dst) = P_FELTS
-                .iter()
-                .zip(dst)
-                .partition::<Vec<_>, _>(|&(&p_i, _)| p_i == 0);
+            let (p_zero_zip_dst, p_nonzero_zip_dst) =
+                P_FELTS.iter().zip(dst).partition::<Vec<_>, _>(|&(&p_i, _)| p_i == 0);
 
             // dst_sum_p_zero is the sum of dst[i] for i where P_FELTS[i] == 0
-            let dst_sum_p_zero: FeltExpr = ab.let_(
-                p_zero_zip_dst.into_iter().map(|(_, dst_i)| dst_i).sum(),
-                "dst_sum_p_zero",
-            );
+            let dst_sum_p_zero: FeltExpr =
+                ab.let_(p_zero_zip_dst.into_iter().map(|(_, dst_i)| dst_i).sum(), "dst_sum_p_zero");
 
             let dst_sum = dst_sum_p_zero.clone()
-                + p_nonzero_zip_dst
-                    .clone()
-                    .into_iter()
-                    .map(|(_, dst_i)| dst_i)
-                    .sum();
+                + p_nonzero_zip_dst.clone().into_iter().map(|(_, dst_i)| dst_i).sum();
 
             let dst_sum_inv = ab.deduce(&mut dst_sum.clone().inverse(), "dst_sum_inv");
-            ab.constrain(
-                dst_sum * dst_sum_inv - const_expr!(1),
-                "dst doesn't equal 0",
-            );
+            ab.constrain(dst_sum * dst_sum_inv - const_expr!(1), "dst doesn't equal 0");
 
             let dst_sum_squares = dst_sum_p_zero
                 + p_nonzero_zip_dst
@@ -130,10 +116,8 @@ impl AirFn for JnzOpcode {
                     })
                     .sum();
 
-            let dst_sum_squares_inv = ab.deduce(
-                &mut dst_sum_squares.clone().inverse(),
-                "dst_sum_squares_inv",
-            );
+            let dst_sum_squares_inv =
+                ab.deduce(&mut dst_sum_squares.clone().inverse(), "dst_sum_squares_inv");
             ab.constrain(
                 dst_sum_squares * dst_sum_squares_inv - const_expr!(1),
                 "dst doesn't equal P",
@@ -147,13 +131,8 @@ impl AirFn for JnzOpcode {
         } else {
             // constrain dst == 0
             ab.call(
-                &MemVerify {
-                    memory: self.memory.clone(),
-                },
-                (
-                    CasmAddress::new(mem_dst_base + offset_dst, "dst"),
-                    const_felt252_expr!(0),
-                ),
+                &MemVerify { memory: self.memory.clone() },
+                (CasmAddress::new(mem_dst_base + offset_dst, "dst"), const_felt252_expr!(0)),
             );
             casm_state.pc().var + const_expr!(2)
         };
@@ -169,9 +148,6 @@ impl AirFn for JnzOpcode {
     }
 
     fn name(&self) -> String {
-        format!(
-            "jnz_opcode_{}",
-            if self.taken { "taken" } else { "non_taken" }
-        )
+        format!("jnz_opcode_{}", if self.taken { "taken" } else { "non_taken" })
     }
 }

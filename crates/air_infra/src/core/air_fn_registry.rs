@@ -31,23 +31,25 @@ pub struct AirFnStat {
     pub log_height: Option<u32>,
     // The number of cells in each row, excluding interaction columns.
     pub num_state_cols: usize,
-    // How many use lookups each row does. A map of relation name -> number of lookups to this relation.
+    // How many use lookups each row does. A map of relation name -> number of lookups to this
+    // relation.
     pub use_lookup_cols: IndexMap<String, usize>,
-    // How many yield lookups each row does. A map of relation name -> number of lookups to this relation.
+    // How many yield lookups each row does. A map of relation name -> number of lookups to this
+    // relation.
     pub yield_lookup_cols: IndexMap<String, usize>,
     // How many rows each row in this component adds to other components, keyed by relation name.
     // This is higher than `use_lookup_cols` for calls to chain round components. For example,
-    // blake_compress_opcode adds 10 rows to blake_round, but does only one use lookup and one yield
-    // lookup to that component. Unlike `exact_rows`, this also counts the memory, verify_instruction
-    // and const-table relations.
+    // blake_compress_opcode adds 10 rows to blake_round, but does only one use lookup and one
+    // yield lookup to that component. Unlike `exact_rows`, this also counts the memory,
+    // verify_instruction and const-table relations.
     pub lookup_rows: IndexMap<String, usize>,
     // The exact number of rows this component adds to each lookup relation it depends on, directly
     // or transitively. Same as `rows_upper_bound` but without the power-of-two padding, so it has
     // the same keys and its values are at most the corresponding upper bounds. Like
     // `rows_upper_bound`, it excludes the memory, verify_instruction and const-table relations.
-    // Note that since intermediate component tables are padded to a power of two in the prover, the
-    // real number of rows is at least this value; i.e. this is a lower bound on the actual row
-    // counts.
+    // Note that since intermediate component tables are padded to a power of two in the prover,
+    // the real number of rows is at least this value; i.e. this is a lower bound on the actual
+    // row counts.
     pub exact_rows: IndexMap<String, usize>,
     pub padding_type: PaddingType,
     // The number of cells in each row, including interaction columns.
@@ -113,10 +115,7 @@ impl AirFnEntry {
         let joined_input = AirFnEntry::join_inputs(ext_input_option.clone(), input_option.clone());
         let mut constraint_intermediates = air_body.get_used_constraint_intermediates();
         constraint_intermediates.extend(
-            output
-                .as_felts()
-                .into_iter()
-                .flat_map(|f| f.get_used_constraint_intermediates()),
+            output.as_felts().into_iter().flat_map(|f| f.get_used_constraint_intermediates()),
         );
         let input_name = AirFnEntry::input_name(&air_fn.name());
         let input_limbs_mask = (0..joined_input.as_felts().len())
@@ -126,11 +125,8 @@ impl AirFnEntry {
                 constraint_intermediates.contains(&name)
             })
             .collect();
-        let output_limbs_mask = output
-            .as_felts()
-            .into_iter()
-            .map(|f| !f.is_directly_in_state())
-            .collect();
+        let output_limbs_mask =
+            output.as_felts().into_iter().map(|f| !f.is_directly_in_state()).collect();
 
         Self {
             name: air_fn.name(),
@@ -208,10 +204,7 @@ impl AirFnEntry {
                     .iter()
                     .position(|r| r == relation_name)
                     .expect("Relation name not found in air function relation names");
-                (
-                    relation_name.clone(),
-                    (component_name.clone(), relation_index, *max_inputs),
-                )
+                (relation_name.clone(), (component_name.clone(), relation_index, *max_inputs))
             })
             .collect::<IndexMap<_, _>>();
 
@@ -239,8 +232,7 @@ impl AirFnEntry {
                 self.output.packed_prover_type(),
             ),
             verifier_output: (
-                self.filter_output_limbs(self.output.clone())
-                    .compile(CompileFor::Constraints),
+                self.filter_output_limbs(self.output.clone()).compile(CompileFor::Constraints),
                 self.output_limb_names(Self::output_name(&self.name)),
             ),
             state_names: self.state.get_state_names(),
@@ -250,12 +242,7 @@ impl AirFnEntry {
             inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),
-            public_params: self
-                .air_body
-                .get_public_params()
-                .iter()
-                .map(|p| p.name())
-                .collect(),
+            public_params: self.air_body.get_public_params().iter().map(|p| p.name()).collect(),
             external_states: self.air_body.get_external_states(),
         }
     }
@@ -303,8 +290,7 @@ impl AirFnEntry {
     }
 
     pub fn input_limbs_type(&self) -> String {
-        self.filter_input_limbs(self.joined_input.clone())
-            .prover_type()
+        self.filter_input_limbs(self.joined_input.clone()).prover_type()
     }
 
     // Given the name of the output intermediate variable, uses the <output_expr_descriptions> and
@@ -314,10 +300,7 @@ impl AirFnEntry {
             .iter()
             .enumerate()
             .filter(|&(_, &b)| b)
-            .map(|(i, _)| {
-                self.output
-                    .get_limb_name(&name, i, &self.output_expr_descriptions)
-            })
+            .map(|(i, _)| self.output.get_limb_name(&name, i, &self.output_expr_descriptions))
             .collect::<Vec<_>>()
     }
 
@@ -330,10 +313,7 @@ impl AirFnEntry {
             .iter()
             .enumerate()
             .filter(|&(_, &b)| b)
-            .map(|(i, _)| {
-                self.joined_input
-                    .get_limb_name(&name, i, &self.input_expr_descriptions)
-            })
+            .map(|(i, _)| self.joined_input.get_limb_name(&name, i, &self.input_expr_descriptions))
             .collect::<Vec<_>>()
     }
 }
@@ -402,9 +382,7 @@ impl AirFnRegistry {
                     "Relation with the same ID already exists"
                 );
 
-                self.relation_ids
-                    .borrow_mut()
-                    .insert(relation_name.to_string(), id);
+                self.relation_ids.borrow_mut().insert(relation_name.to_string(), id);
             }
         }
 
@@ -419,9 +397,7 @@ impl AirFnRegistry {
         }
 
         let entry_rc = Rc::new(entry);
-        self.air_fns
-            .borrow_mut()
-            .insert(air_fn.name(), entry_rc.clone());
+        self.air_fns.borrow_mut().insert(air_fn.name(), entry_rc.clone());
 
         entry_rc
     }
@@ -480,10 +456,7 @@ impl AirFnRegistry {
             // output.
             TraceType::Const => {
                 let output = air_fn.call(&mut air_builder, ext_input, input);
-                assert!(
-                    output.clone().into().is_const(),
-                    "Output must be a constant"
-                );
+                assert!(output.clone().into().is_const(), "Output must be a constant");
                 output
             }
             TraceType::Gate => air_fn.gate_call(&mut air_builder, ext_input, input),
@@ -507,9 +480,7 @@ impl AirFnRegistry {
         let ext_input = E::new();
         let input_name = AirFnEntry::input_name(&air_fn.name());
         let input = I::new(input_name.clone(), Some(1));
-        let input = input
-            .rec_let(input_name, air_fn.input_expr_descriptions())
-            .0;
+        let input = input.rec_let(input_name, air_fn.input_expr_descriptions()).0;
 
         let mut air_builder = AirBuilder {
             component_context: Default::default(),
@@ -624,16 +595,14 @@ impl AirFnRegistry {
 
         // Calculate use and yield lookups.
         let mut use_lookup_cols: IndexMap<String, usize> = IndexMap::new();
-        for (name, _) in constraint_lookups
-            .iter()
-            .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Use)
+        for (name, _) in
+            constraint_lookups.iter().filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Use)
         {
             *use_lookup_cols.entry(name.clone()).or_default() += 1;
         }
         let mut yield_lookup_cols: IndexMap<String, usize> = IndexMap::new();
-        for (name, _) in constraint_lookups
-            .iter()
-            .filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Yield)
+        for (name, _) in
+            constraint_lookups.iter().filter(|(_, use_or_yield)| *use_or_yield == UseOrYield::Yield)
         {
             *yield_lookup_cols.entry(name.clone()).or_default() += 1;
         }
@@ -658,19 +627,11 @@ impl AirFnRegistry {
 
             // We round the number of times a lookup is called up to the next power of two, since
             // the statistics apply also to the padded rows.
-            let rounded_cnt = if *cnt == 0 {
-                0
-            } else {
-                cnt.next_power_of_two()
-            };
+            let rounded_cnt = if *cnt == 0 { 0 } else { cnt.next_power_of_two() };
 
-            let called_entry = reg
-                .get(air_fn_name)
-                .expect("Called entry not found in registry");
+            let called_entry = reg.get(air_fn_name).expect("Called entry not found in registry");
             let compiled_called_entry = called_entry.compile(&reg);
-            let entry_stats = stat
-                .get(air_fn_name)
-                .expect("Called entry not found in registry");
+            let entry_stats = stat.get(air_fn_name).expect("Called entry not found in registry");
 
             if (compiled_called_entry.r#type != TraceType::Memory
                 && compiled_called_entry.name != "verify_instruction")
@@ -681,27 +642,21 @@ impl AirFnRegistry {
 
                 // Record the exact number of rows added to `name` directly (`cnt`) plus the rows
                 // `name` adds transitively to its own dependencies (already exact in
-                // `entry_stats.exact_rows`). Unlike `rows_upper_bound`, the transitive term uses the
-                // raw `cnt` rather than `rounded_cnt`.
+                // `entry_stats.exact_rows`). Unlike `rows_upper_bound`, the transitive term uses
+                // the raw `cnt` rather than `rounded_cnt`.
                 *exact_rows.entry(name.clone()).or_default() += cnt;
-                entry_stats
-                    .exact_rows
-                    .iter()
-                    .for_each(|(row_name, row_bound)| {
-                        *exact_rows.entry(row_name.clone()).or_default() += cnt * row_bound;
-                    });
+                entry_stats.exact_rows.iter().for_each(|(row_name, row_bound)| {
+                    *exact_rows.entry(row_name.clone()).or_default() += cnt * row_bound;
+                });
 
                 // Update rows upper bound for all lookup components.
                 // The number of rows of each component is padded at the end, after adding all
                 // inputs from all calls to it.
                 *rows_upper_bound.entry(name.clone()).or_default() += cnt;
-                entry_stats
-                    .rows_upper_bound
-                    .iter()
-                    .for_each(|(row_name, row_bound)| {
-                        *rows_upper_bound.entry(row_name.clone()).or_default() +=
-                            rounded_cnt * row_bound;
-                    });
+                entry_stats.rows_upper_bound.iter().for_each(|(row_name, row_bound)| {
+                    *rows_upper_bound.entry(row_name.clone()).or_default() +=
+                        rounded_cnt * row_bound;
+                });
             }
 
             // Update uses upper bound for the lowest level lookup components (that have no
@@ -710,29 +665,23 @@ impl AirFnRegistry {
                 // The called AirFn is a leaf AirFn (doesn't use other AirFns)
                 assert!(
                     compiled_called_entry.padding_type == PaddingType::Multiplicity,
-                    "If the entry doesn't use any other components, it must be padded with multiplicity."
+                    "If the entry doesn't use any other components, it must be padded with \
+                     multiplicity."
                 );
                 *uses_upper_bound.entry(name.clone()).or_default() += cnt;
             } else {
                 // The called AirFn is not a leaf AirFn
-                entry_stats
-                    .uses_upper_bound
-                    .iter()
-                    .for_each(|(use_name, use_bound)| {
-                        *uses_upper_bound.entry(use_name.clone()).or_default() +=
-                            rounded_cnt * *use_bound;
-                    });
+                entry_stats.uses_upper_bound.iter().for_each(|(use_name, use_bound)| {
+                    *uses_upper_bound.entry(use_name.clone()).or_default() +=
+                        rounded_cnt * *use_bound;
+                });
             }
         }
 
         let max_instances_uses_limit =
             PRIME as usize / *uses_upper_bound.values().max().unwrap_or(&1);
-        let max_instances_rows_limit = MAX_ROWS_PER_TABLE
-            / rows_upper_bound
-                .values()
-                .max()
-                .unwrap_or(&1)
-                .next_power_of_two();
+        let max_instances_rows_limit =
+            MAX_ROWS_PER_TABLE / rows_upper_bound.values().max().unwrap_or(&1).next_power_of_two();
 
         stat.insert(
             entry.name.clone(),

@@ -93,15 +93,10 @@ pub fn compare_registry_jsons(registry: &AirFnRegistry, path: &Path) {
             // We don't support sampling inline AirFns because they don't have a trace
             // of their own. This is OK because they are called by AirFns that we do support,
             // so their polynomial is tested as part of their caller.
-            sample_evaluations.insert(
-                name.to_string(),
-                create_sample_evaluation(&compiled_reg, name),
-            );
+            sample_evaluations
+                .insert(name.to_string(), create_sample_evaluation(&compiled_reg, name));
         }
     }
 
-    compare_json(
-        &sample_evaluations,
-        &path.join(SAMPLE_EVALUATIONS_FILE_NAME),
-    );
+    compare_json(&sample_evaluations, &path.join(SAMPLE_EVALUATIONS_FILE_NAME));
 }

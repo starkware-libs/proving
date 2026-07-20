@@ -44,11 +44,9 @@ impl<const L: usize> ExtTable for SeqConstLen<L> {
     type T = [FeltExpr; 1];
 
     fn preprocessed_columns() -> Vec<Box<dyn PreProcessedColumn>> {
-        vec![Box::new(
-            stwo_cairo_common::preprocessed_columns::preprocessed_trace::Seq::new(
-                L.try_into().unwrap(),
-            ),
-        )]
+        vec![Box::new(stwo_cairo_common::preprocessed_columns::preprocessed_trace::Seq::new(
+            L.try_into().unwrap(),
+        ))]
     }
 }
 

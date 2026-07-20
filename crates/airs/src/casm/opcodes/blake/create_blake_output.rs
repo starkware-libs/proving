@@ -1,5 +1,4 @@
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use serde::Serialize;
 

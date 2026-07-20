@@ -18,16 +18,9 @@ fn build_and_test(
     op1_value: i64,
 ) -> State {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
-    let [pc, ap, fp] = [
-        const_expr!(pc_value),
-        const_expr!(ap_value),
-        const_expr!(fp_value),
-    ];
+    let [pc, ap, fp] = [const_expr!(pc_value), const_expr!(ap_value), const_expr!(fp_value)];
 
-    let mut jnz_opcode = JnzOpcode {
-        taken,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut jnz_opcode = JnzOpcode { taken, memory: Felt252IdMemory::default() };
 
     // Fill memory
     let mut memory_values = vec![(
@@ -37,9 +30,7 @@ fn build_and_test(
                 offset_dst,
                 -1,
                 1,
-                jnz_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&[dst_base_fp, ap_update_add_1]),
+                jnz_opcode.get_flags().non_constants_to_arr(&[dst_base_fp, ap_update_add_1]),
                 OpcodeExtension::Stone
             ),
             0
@@ -49,33 +40,21 @@ fn build_and_test(
     memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(op1_value)));
 
     if dst_base_fp {
-        memory_values.push((
-            const_expr!((fp_value as i16 + offset_dst) as u32),
-            dst_value.clone(),
-        ));
+        memory_values.push((const_expr!((fp_value as i16 + offset_dst) as u32), dst_value.clone()));
     } else {
-        memory_values.push((
-            const_expr!((ap_value as i16 + offset_dst) as u32),
-            dst_value.clone(),
-        ));
+        memory_values.push((const_expr!((ap_value as i16 + offset_dst) as u32), dst_value.clone()));
     }
 
     jnz_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let (registry, _) = AirFnRegistry::new(&jnz_opcode);
-    let (state, next_state) = registry.run_air(
-        &jnz_opcode,
-        (),
-        CasmStateVar::new(pc, ap.clone(), fp.clone()),
-    );
+    let (state, next_state) =
+        registry.run_air(&jnz_opcode, (), CasmStateVar::new(pc, ap.clone(), fp.clone()));
 
     // Check output
     if taken {
-        assert_eq!(
-            next_state.pc().calc(),
-            (pc_value as i128 + op1_value as i128).to_string()
-        );
+        assert_eq!(next_state.pc().calc(), (pc_value as i128 + op1_value as i128).to_string());
     } else {
         assert_eq!(next_state.pc().calc(), (pc_value + 2).to_string());
     }
@@ -174,12 +153,7 @@ fn test_taken_zero_mismatch_base_ap() {
 #[test]
 #[should_panic(expected = "assertion `left == right` failed: given value != value in memory")]
 fn test_not_taken_mismatch_base_ap() {
-    build_and_test(
-        [false, false, false],
-        -13,
-        const_felt252_expr!(123, 4567),
-        15,
-    );
+    build_and_test([false, false, false], -13, const_felt252_expr!(123, 4567), 15);
 }
 
 #[test]

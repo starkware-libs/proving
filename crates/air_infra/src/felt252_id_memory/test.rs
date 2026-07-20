@@ -157,22 +157,13 @@ fn test_read_small() {
     .assert_eq(&state.to_string());
 
     let (_state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(7), ""));
-    assert_eq!(
-        output.0.calc(),
-        ((1i64 << 31) - 1 - (1i64 << 27)).to_string()
-    );
+    assert_eq!(output.0.calc(), ((1i64 << 31) - 1 - (1i64 << 27)).to_string());
 
     let (_state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(8), ""));
-    assert_eq!(
-        output.0.calc(),
-        ((1i64 << 31) - 1 - (1i64 << 28)).to_string()
-    );
+    assert_eq!(output.0.calc(), ((1i64 << 31) - 1 - (1i64 << 28)).to_string());
 
     let (_state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(9), ""));
-    assert_eq!(
-        output.0.calc(),
-        ((1i64 << 31) - 1 - (1i64 << 29)).to_string()
-    );
+    assert_eq!(output.0.calc(), ((1i64 << 31) - 1 - (1i64 << 29)).to_string());
 
     let (_state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(10), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - (1i64 << 29)).to_string());
@@ -246,10 +237,7 @@ fn test_read_small_negative_edge() {
     let (registry, _) = AirFnRegistry::new(&read_small);
 
     let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(1), ""));
-    assert_eq!(
-        output.0.calc(),
-        ((1i64 << 31) - 2 - (1i64 << 29)).to_string()
-    );
+    assert_eq!(output.0.calc(), ((1i64 << 31) - 2 - (1i64 << 29)).to_string());
     expect![[r#"
         (0, "id"),
         (1, "msb"),

@@ -43,10 +43,7 @@ pub static STWO_CIRCUITS_AIR_CONFIG: AirAutogenConfig = AirAutogenConfig {
 pub fn load_air_fns(
     root_dir: &Path,
     jobs: &[AutogenCodeFile],
-) -> (
-    IndexMap<String, CompiledAirFn>,
-    IndexMap<String, SampleEvaluation>,
-) {
+) -> (IndexMap<String, CompiledAirFn>, IndexMap<String, SampleEvaluation>) {
     let mut air_fns = IndexMap::new();
     for job in jobs {
         if air_fns.contains_key(&job.air_fn_name) {
@@ -61,10 +58,7 @@ pub fn load_air_fns(
     }
 
     let sample_evaluations = serde_json::from_value(read_json(
-        root_dir
-            .join(SAMPLE_EVALUATIONS_FILE_NAME)
-            .to_str()
-            .expect("Invalid directory name"),
+        root_dir.join(SAMPLE_EVALUATIONS_FILE_NAME).to_str().expect("Invalid directory name"),
     ))
     .unwrap_or_else(|e| panic!("Invalid sample evaluations file: {e}"));
 
@@ -74,10 +68,8 @@ pub fn load_air_fns(
 pub fn reformat_rust_code(code_text: String) -> String {
     let shell = Shell::new().unwrap();
     let rustfmt_toml = project_root().join("../../rustfmt.toml");
-    let mut stdout = cmd!(shell, "rustfmt --config-path {rustfmt_toml}")
-        .stdin(code_text)
-        .read()
-        .unwrap();
+    let mut stdout =
+        cmd!(shell, "rustfmt --config-path {rustfmt_toml}").stdin(code_text).read().unwrap();
     if !stdout.ends_with('\n') {
         stdout.push('\n');
     }
@@ -88,9 +80,7 @@ pub fn get_git_rev(directory: &Path) -> String {
     let git_show_output = Command::new("git")
         .args([
             "-C",
-            directory
-                .to_str()
-                .expect("The directory should be valid UTF-8"),
+            directory.to_str().expect("The directory should be valid UTF-8"),
             "describe",
             "--always",
             "--dirty",
@@ -106,9 +96,7 @@ pub fn get_git_rev(directory: &Path) -> String {
 /// Create the file `file_path` with the given content, and update the relevant module file
 /// to include the new file.
 pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: &AutogenCodeType) {
-    let parent_dir = file_path
-        .parent()
-        .expect("path should include directory name");
+    let parent_dir = file_path.parent().expect("path should include directory name");
     let (mod_file_path, mod_file_name) = match code_type {
         AutogenCodeType::WITNESS | AutogenCodeType::AIR(_) | AutogenCodeType::CIRCUIT => {
             let mod_file_name = if parent_dir.join("lib.rs").exists() {
@@ -125,9 +113,7 @@ pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: &Au
                 .to_str()
                 .expect("Invalid directory name");
             (
-                parent_dir
-                    .parent()
-                    .expect("path should include parent directory name"),
+                parent_dir.parent().expect("path should include parent directory name"),
                 file_name.to_string() + ".cairo",
             )
         }
@@ -150,11 +136,7 @@ pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: &Au
     // Add mod file line for the new file
     let mod_file_line = &format!(
         "pub mod {};",
-        file_path
-            .file_stem()
-            .expect("Invalid filename")
-            .to_str()
-            .expect("Invalid filename")
+        file_path.file_stem().expect("Invalid filename").to_str().expect("Invalid filename")
     );
     if !mod_file_content.contains(mod_file_line) {
         mod_file_content.push_str(mod_file_line);
@@ -257,21 +239,14 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
 pub fn relations_used_or_yielded(air_fn: &CompiledAirFn) -> IndexSet<String> {
     // TODO(AnatG): Change the name of constraint_lookups in compiled air. This is used also in
     // trace_gen.
-    air_fn
-        .constraint_lookups
-        .iter()
-        .map(|(r, _)| r.clone())
-        .collect::<IndexSet<_>>()
+    air_fn.constraint_lookups.iter().map(|(r, _)| r.clone()).collect::<IndexSet<_>>()
 }
 
 /// Checks if the relation should be masked, meaning it's numerator should be altered.
 /// A relation is masked when the relation name matches one of the component's relation names (the
 /// component must contain an enabler/multiplicity columns).
 pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
-    air_fn
-        .relation_names
-        .iter()
-        .position(|n| n == relation_name)
+    air_fn.relation_names.iter().position(|n| n == relation_name)
 }
 
 pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {
@@ -296,10 +271,7 @@ pub fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 
     let mut code = rust::Tokens::new();
-    for (relation, uses) in relation_use_count
-        .iter()
-        .sorted_by_key(|(relation, _)| *relation)
-    {
+    for (relation, uses) in relation_use_count.iter().sorted_by_key(|(relation, _)| *relation) {
         code.append(quote! {
             RelationUse {
                 relation_id: $("\"")$(relation)$("\""),
@@ -348,11 +320,8 @@ pub fn sample_evaluations_consts(
     let mut constants_to_write = HashMap::new();
 
     for (fn_name, evaluation) in sample_evaluations {
-        let constant_name = format!(
-            "{}{}",
-            fn_name.to_case(Case::UpperSnake),
-            SAMPLE_EVALUATION_RESULT_SUFFIX
-        );
+        let constant_name =
+            format!("{}{}", fn_name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX);
 
         constants_to_write.insert(constant_name, evaluation.result);
     }

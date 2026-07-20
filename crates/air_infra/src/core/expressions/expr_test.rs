@@ -128,10 +128,7 @@ fn test_felt252() {
 fn test_felt252_ops() {
     let a = const_felt252_expr!(1, 2);
     let b = const_felt252_expr!(3, 4);
-    assert_eq!(
-        (a.clone() + b.clone()).calc(),
-        const_felt252_expr!(4, 6).calc()
-    );
+    assert_eq!((a.clone() + b.clone()).calc(), const_felt252_expr!(4, 6).calc());
     assert_eq!(
         (a.clone() - b.clone()).calc(),
         const_felt252_expr!(
@@ -261,9 +258,7 @@ fn test_in_state() {
     let mut x = u32_expr!("x".to_string(), 0xFFFF);
     assert!(!x.low().as_felt().in_state());
 
-    x.low_mut()
-        .as_felt_mut()
-        .set_value(ValueInfo::StateIndex(0, None));
+    x.low_mut().as_felt_mut().set_value(ValueInfo::StateIndex(0, None));
     assert!(x.low().as_felt().in_state());
     assert!(!x.high().as_felt().in_state());
 
@@ -271,9 +266,7 @@ fn test_in_state() {
     assert!(x.low().as_felt().in_state());
     assert!(!x.high().as_felt().in_state());
 
-    x.high_mut()
-        .as_felt_mut()
-        .set_value(ValueInfo::StateIndex(1, None));
+    x.high_mut().as_felt_mut().set_value(ValueInfo::StateIndex(1, None));
     assert!(x.low().as_felt().in_state());
     assert!(x.high().as_felt().in_state());
 
@@ -356,16 +349,11 @@ fn test_conversion_felts_to_felt252() {
     assert_eq!(&e.get_felt_mut(1).to_string(), "x2");
     assert_eq!(&e.to_string(), "Felt252::from_limbs(zero_extend([1, x2]))");
 
-    f2 = f2
-        .let_for_deduction(format!("{INTERMEDIATE_VAR_SUFFIX}0"))
-        .0;
+    f2 = f2.let_for_deduction(format!("{INTERMEDIATE_VAR_SUFFIX}0")).0;
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert_eq!(&e.as_felts_mut()[0].to_string(), "1");
     assert_eq!(&e.get_felt_mut(1).to_string(), "tmp0");
-    assert_eq!(
-        &e.to_string(),
-        "Felt252::from_limbs(zero_extend([1, tmp0]))"
-    );
+    assert_eq!(&e.to_string(), "Felt252::from_limbs(zero_extend([1, tmp0]))");
 
     f2.set_value(ValueInfo::StateIndex(1, None));
     let e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
@@ -392,20 +380,14 @@ fn test_biguint384() {
         "[1, 2, 0, 2, 0, 0]".to_string()
     );
 
-    assert_eq!(
-        (a.clone() - b.clone()).calc(),
-        "[1, 0, 0, 0, 0, 0]".to_string()
-    );
+    assert_eq!((a.clone() - b.clone()).calc(), "[1, 0, 0, 0, 0, 0]".to_string());
 
     assert_eq!(
         (a_768.clone() * b_768.clone()).calc(),
         "[0, 1, 1, 1, 2, 0, 1, 0, 0, 0, 0, 0]".to_string()
     );
     let c_768: BigUInt768Expr = a.clone().widening_mul(b.clone());
-    assert_eq!(
-        c_768.calc(),
-        "[0, 1, 1, 1, 2, 0, 1, 0, 0, 0, 0, 0]".to_string()
-    );
+    assert_eq!(c_768.calc(), "[0, 1, 1, 1, 2, 0, 1, 0, 0, 0, 0, 0]".to_string());
 
     assert_eq!(
         ((a_768.clone() * b_768.clone())
@@ -415,10 +397,7 @@ fn test_biguint384() {
     );
 
     let f = const_felt252_expr!(1, 1);
-    assert_eq!(
-        (BigUInt384Expr::from(f.clone())).calc(),
-        "[1, 0, 1, 0, 0, 0]".to_string()
-    );
+    assert_eq!((BigUInt384Expr::from(f.clone())).calc(), "[1, 0, 1, 0, 0, 0]".to_string());
     assert_eq!(
         BigUInt768Expr::from(f.clone()).calc(),
         "[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]".to_string()
@@ -427,10 +406,7 @@ fn test_biguint384() {
     assert_eq!(&BigUInt384Expr::from(f).to_string(), "[1, 0, 1, 0, 0, 0]");
 
     let f = felt252_expr!("x", 1, 1);
-    assert_eq!(
-        &BigUInt384Expr::from(f).to_string(),
-        "BigUInt::<384, 6, 32>::from_felt252(x)"
-    );
+    assert_eq!(&BigUInt384Expr::from(f).to_string(), "BigUInt::<384, 6, 32>::from_felt252(x)");
 
     assert_eq!(
         format!(
@@ -443,14 +419,8 @@ fn test_biguint384() {
     let h = const_felt252_expr!(1, 1);
     let g = BigUInt384Expr::from(h.clone());
     assert_eq!(g.calc(), "[1, 0, 1, 0, 0, 0]".to_string());
-    assert_eq!(
-        g.clone().eq(const_bigu384_expr!(1, 0, 1, 0, 0, 0)).calc(),
-        "true".to_string()
-    );
-    assert_eq!(
-        g.eq(const_bigu384_expr!(1, 0, 1, 0, 0, 1)).calc(),
-        "false".to_string()
-    );
+    assert_eq!(g.clone().eq(const_bigu384_expr!(1, 0, 1, 0, 0, 0)).calc(), "true".to_string());
+    assert_eq!(g.eq(const_bigu384_expr!(1, 0, 1, 0, 0, 1)).calc(), "false".to_string());
 
     let felt1 = bigu384_expr!("x", 1, 0, 1, 0, 0, 1).as_felts_mut()[0].clone();
     assert_eq!(&felt1.to_string(), "x.get_m31(0)");

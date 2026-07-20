@@ -70,13 +70,7 @@ impl RustProverGen {
         let lookup_terms = filter_lookup_terms(&air_fn.deductions);
         let multiplicity_indices = Self::assign_multiplicity_indices(&lookup_terms);
 
-        Self {
-            air_fn,
-            mode,
-            constants,
-            lookup_terms,
-            multiplicity_indices,
-        }
+        Self { air_fn, mode, constants, lookup_terms, multiplicity_indices }
     }
 
     fn assign_multiplicity_indices(lookup_terms: &[LookupTerm]) -> HashMap<CompiledAirVar, usize> {

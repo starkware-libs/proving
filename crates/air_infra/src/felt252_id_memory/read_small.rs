@@ -58,10 +58,7 @@ impl AirFn for DecodeSmallSign {
         );
 
         // Require case bits to be bits
-        air_builder.constrain(
-            msb.as_felt() * (msb.as_felt() - const_expr!(1)),
-            "msb is a bit",
-        );
+        air_builder.constrain(msb.as_felt() * (msb.as_felt() - const_expr!(1)), "msb is a bit");
         air_builder.constrain(
             mid_limbs_set.as_felt() * (mid_limbs_set.as_felt() - const_expr!(1)),
             "mid_limbs_set is a bit",
@@ -88,14 +85,7 @@ impl AirFn for DecodeSmallSign {
         // Limb 27 is either 0x0 or 0x100
         let limb27 = msb.as_felt() * const_expr!(0x100);
 
-        [
-            msb.as_felt(),
-            mid_limbs_set.as_felt(),
-            limb3_7_high_bits,
-            limbs4_to_20,
-            limb21,
-            limb27,
-        ]
+        [msb.as_felt(), mid_limbs_set.as_felt(), limb3_7_high_bits, limbs4_to_20, limb21, limb27]
     }
 
     fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
@@ -118,10 +108,7 @@ pub fn small_to_rel_imm(
     msb: FeltExpr,
     mid_limbs_set: FeltExpr,
 ) -> FeltExpr {
-    let limbs = low_limbs
-        .into_iter()
-        .chain([remainder_bits])
-        .collect::<Vec<_>>();
+    let limbs = low_limbs.into_iter().chain([remainder_bits]).collect::<Vec<_>>();
     let low_limbs_value = felt252_to_m31(limbs.into(), SMALL_BITS);
     low_limbs_value - msb - const_expr!(1 << SMALL_BITS) * mid_limbs_set
 }
@@ -141,24 +128,13 @@ impl AirFn for ReadSmall {
     type Out = (FeltExpr, CasmId);
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
-        let id = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
-            address.clone(),
-        );
+        let id = air_builder.call(&ReadId { memory: self.memory.clone() }, address.clone());
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_big, &id);
 
         // Compute the four values needed to construct the relative immediate other then the
         // low-limbs value.
-        let [
-            msb,
-            mid_limbs_set,
-            limb3_7_high_bits,
-            limbs4_to_20,
-            limb21,
-            limb27,
-        ] = air_builder.call(&DecodeSmallSign {}, value.clone());
+        let [msb, mid_limbs_set, limb3_7_high_bits, limbs4_to_20, limb21, limb27] =
+            air_builder.call(&DecodeSmallSign {}, value.clone());
 
         // Least significant three are deduced as-is
         let mut expected_value = vec![];
@@ -180,10 +156,7 @@ impl AirFn for ReadSmall {
             UInt16Expr::from(value.get_felt(LIMBS_IN_SMALL)) & const_u16_expr!(0b11),
             "remainder_bits",
         );
-        air_builder.call(
-            &CondRangeCheck2 {},
-            [remainder_bits.as_felt(), const_expr!(1)],
-        );
+        air_builder.call(&CondRangeCheck2 {}, [remainder_bits.as_felt(), const_expr!(1)]);
 
         // Push limb 3
         expected_value.push(remainder_bits.as_felt() + limb3_7_high_bits);

@@ -1,11 +1,10 @@
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::Felt;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::public_params::PublicParam;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 
 use super::range_check::*;
 
@@ -20,10 +19,9 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
     };
 
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::RangeCheckBuiltinSegmentStart,
-        Felt::from_u32_unchecked(segment_start),
-    );
+    registry
+        .public_params
+        .set(PublicParam::RangeCheckBuiltinSegmentStart, Felt::from_u32_unchecked(segment_start));
     registry.add_entry(&rc);
 
     registry.run_air_with_row_number(&rc, (), (), 0);

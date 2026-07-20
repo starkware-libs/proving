@@ -19,19 +19,11 @@ impl AirFn for MemVerifyEqual {
     type Out = ();
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("address1".to_string()),
-            Some("address2".to_string()),
-        ])
+        Some(vec![Some("address1".to_string()), Some("address2".to_string())])
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [addr1, addr2]: Self::In) -> Self::Out {
-        let id = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
-            addr1.clone(),
-        );
+        let id = air_builder.call(&ReadId { memory: self.memory.clone() }, addr1.clone());
         air_builder.mem_verify(&self.memory.address_to_id, &addr2, id);
     }
 }
@@ -51,16 +43,9 @@ impl AirFn for MemCondVerifyEqualKnownId {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (addr1, id2, cond): Self::In) -> Self::Out {
-        let id1 = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
-            addr1.clone(),
-        );
+        let id1 = air_builder.call(&ReadId { memory: self.memory.clone() }, addr1.clone());
 
-        air_builder.constrain(
-            (id1.var - id2.var) * cond,
-            "The two ids are equal if the condition is met",
-        );
+        air_builder
+            .constrain((id1.var - id2.var) * cond, "The two ids are equal if the condition is met");
     }
 }

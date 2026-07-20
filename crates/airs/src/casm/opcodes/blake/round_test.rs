@@ -32,12 +32,7 @@ fn test_blake_round() {
         1621381226, 1307057221,
     ];
     let memory_values: Vec<_> = (0..=15)
-        .map(|i| {
-            (
-                const_expr!(message_pointer + i),
-                const_felt252_expr!(message[i as usize]),
-            )
-        })
+        .map(|i| (const_expr!(message_pointer + i), const_felt252_expr!(message[i as usize])))
         .collect();
     air_fn.memory = Felt252IdMemory::new_with_data(memory_values);
     let (registry, _) = AirFnRegistry::new(&air_fn);
@@ -48,10 +43,7 @@ fn test_blake_round() {
         (
             const_expr!(0),
             const_expr!(5),
-            (
-                blake_state,
-                CasmAddress::new(const_expr!(message_pointer), "blake_message_pointer"),
-            ),
+            (blake_state, CasmAddress::new(const_expr!(message_pointer), "blake_message_pointer")),
         ),
     );
 
@@ -304,12 +296,7 @@ fn test_blake_round2() {
         2142515262, 4138014718,
     ];
     let memory_values: Vec<_> = (0..=15)
-        .map(|i| {
-            (
-                const_expr!(message_pointer + i),
-                const_felt252_expr!(message[i as usize]),
-            )
-        })
+        .map(|i| (const_expr!(message_pointer + i), const_felt252_expr!(message[i as usize])))
         .collect();
     air_fn.memory = Felt252IdMemory::new_with_data(memory_values);
     let (registry, _) = AirFnRegistry::new(&air_fn);
@@ -320,10 +307,7 @@ fn test_blake_round2() {
         (
             const_expr!(0),
             const_expr!(9),
-            (
-                blake_state,
-                CasmAddress::new(const_expr!(message_pointer), "blake_message_pointer"),
-            ),
+            (blake_state, CasmAddress::new(const_expr!(message_pointer), "blake_message_pointer")),
         ),
     );
 

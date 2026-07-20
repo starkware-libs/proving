@@ -1,12 +1,11 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::mul_opcode::*;
@@ -36,10 +35,7 @@ fn test_mul(
     }
 
     // Create the air function
-    let mut mul_small_opcode = MulOpcode {
-        small: mul_small,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut mul_small_opcode = MulOpcode { small: mul_small, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc_value = 10;
@@ -68,9 +64,7 @@ fn test_mul(
                 offset_dst_val,
                 offset0_val,
                 offset1_val,
-                mul_small_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&non_consts_flags),
+                mul_small_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                 OpcodeExtension::Stone
             ),
             0
@@ -398,10 +392,7 @@ fn test_mul_big_with_overflow() {
     let state = test_mul(
         [false, false, true, false, false, true, true],
         [-3, -5, 1],
-        const_felt252_expr!(
-            0x4cc3ffffffffff5cdf8002u128,
-            0x7fffff52ad78032ffffffffffffdbe0u128
-        ),
+        const_felt252_expr!(0x4cc3ffffffffff5cdf8002u128, 0x7fffff52ad78032ffffffffffffdbe0u128),
         const_felt252_expr!(0, 1u128 << (251 - 128)),
         const_felt252_expr!(0, 1u128 << (251 - 128)),
     );
@@ -547,10 +538,7 @@ fn test_mul_big_not_equal() {
     test_mul(
         [false, false, true, false, false, true, true],
         [-3, -5, 1],
-        const_felt252_expr!(
-            0x4cc3ffffffffff5cdf8002u128,
-            0x7fffff52ad8022ffffffffffffdae0u128
-        ),
+        const_felt252_expr!(0x4cc3ffffffffff5cdf8002u128, 0x7fffff52ad8022ffffffffffffdae0u128),
         const_felt252_expr!(0, 1u128 << (251 - 128)),
         const_felt252_expr!(0, 1u128 << (251 - 128)),
     );

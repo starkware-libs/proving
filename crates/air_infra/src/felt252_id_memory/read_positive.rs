@@ -29,18 +29,10 @@ impl AirFn for ReadPositive {
     type Out = (Felt252Expr, CasmId);
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
-        let id = air_builder.call(
-            &ReadId {
-                memory: self.memory.clone(),
-            },
-            address.clone(),
-        );
+        let id = air_builder.call(&ReadId { memory: self.memory.clone() }, address.clone());
 
         let expected_value_in_memory = air_builder.call(
-            &ReadPositiveKnownId {
-                num_bits: self.num_bits,
-                memory: self.memory.clone(),
-            },
+            &ReadPositiveKnownId { num_bits: self.num_bits, memory: self.memory.clone() },
             id.clone(),
         );
 
@@ -69,12 +61,7 @@ impl AirFn for ReadPositiveKnownId {
         let bits_in_ms_limb = self.num_bits % FELT252_BITS_PER_WORD;
 
         // Deduce the nonzero limbs
-        for (i, limb) in value
-            .as_felts_mut()
-            .into_iter()
-            .take(num_nonzero_limbs)
-            .enumerate()
-        {
+        for (i, limb) in value.as_felts_mut().into_iter().take(num_nonzero_limbs).enumerate() {
             air_builder.deduce(
                 limb,
                 &id.extra_info
@@ -91,20 +78,12 @@ impl AirFn for ReadPositiveKnownId {
         }
 
         let expected_value_in_memory = Felt252Expr::from(
-            value
-                .as_felts()
-                .into_iter()
-                .take(num_nonzero_limbs)
-                .collect::<Vec<_>>(),
+            value.as_felts().into_iter().take(num_nonzero_limbs).collect::<Vec<_>>(),
         );
 
         // Verify that the value in memory is the nonzero limbs we deduced, padded on
         // the left with zeros.
-        air_builder.mem_verify(
-            &self.memory.id_to_big,
-            &id,
-            expected_value_in_memory.clone(),
-        );
+        air_builder.mem_verify(&self.memory.id_to_big, &id, expected_value_in_memory.clone());
 
         expected_value_in_memory
     }

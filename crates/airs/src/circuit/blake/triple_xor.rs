@@ -23,9 +23,7 @@ impl AirFn for TripleXor {
 
     fn call(&self, ab: &mut AirBuilder, _: (), [a, b, c, d]: Self::In) -> Self::Out {
         // Split each limb into two 8-bit parts to look up into the bitwise xor table.
-        let split = Split16 {
-            low_part_size: N_BITS_IN_PART as usize,
-        };
+        let split = Split16 { low_part_size: N_BITS_IN_PART as usize };
         let [all, alh] = ab.call(&split, a.low().clone());
         let [ahl, ahh] = ab.call(&split, a.high().clone());
         let [bll, blh] = ab.call(&split, b.low().clone());
@@ -36,10 +34,7 @@ impl AirFn for TripleXor {
         let [dhl, dhh] = ab.call(&split, d.high().clone());
 
         // Xor a and b.
-        let bitwise_xor = BitwiseXor {
-            num_bits: N_BITS_IN_PART as usize,
-            variant: 0,
-        };
+        let bitwise_xor = BitwiseXor { num_bits: N_BITS_IN_PART as usize, variant: 0 };
         let a_xor_b_ll = ab.call(&bitwise_xor, [all, bll]);
         let a_xor_b_lh = ab.call(&bitwise_xor, [alh, blh]);
         let a_xor_b_hl = ab.call(&bitwise_xor, [ahl, bhl]);
@@ -60,41 +55,25 @@ impl AirFn for TripleXor {
 
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                input_addr_0.var.clone(),
-                a.low().as_felt(),
-                a.high().as_felt(),
-            ],
+            vec![input_addr_0.var.clone(), a.low().as_felt(), a.high().as_felt()],
             UseOrYield::Use,
             const_expr!(1),
         );
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                input_addr_1.var.clone(),
-                b.low().as_felt(),
-                b.high().as_felt(),
-            ],
+            vec![input_addr_1.var.clone(), b.low().as_felt(), b.high().as_felt()],
             UseOrYield::Use,
             const_expr!(1),
         );
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                input_addr_2.var.clone(),
-                c.low().as_felt(),
-                c.high().as_felt(),
-            ],
+            vec![input_addr_2.var.clone(), c.low().as_felt(), c.high().as_felt()],
             UseOrYield::Use,
             const_expr!(1),
         );
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![
-                output_addr.var.clone(),
-                d.low().as_felt(),
-                d.high().as_felt(),
-            ],
+            vec![output_addr.var.clone(), d.low().as_felt(), d.high().as_felt()],
             UseOrYield::Yield,
             mult,
         );

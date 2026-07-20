@@ -1,12 +1,10 @@
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 
 use super::verify_u32::*;
@@ -49,12 +47,7 @@ impl AirFn for ReadU32 {
         let expected_word: UInt32Expr =
             air_builder.let_(vec![low_16_bits, high_16_bits].into(), "expected_word");
 
-        air_builder.call(
-            &VerifyU32 {
-                memory: self.memory.clone(),
-            },
-            (addr, expected_word.clone()),
-        );
+        air_builder.call(&VerifyU32 { memory: self.memory.clone() }, (addr, expected_word.clone()));
         expected_word
     }
 }

@@ -1,15 +1,13 @@
 use std::array::from_fn;
 
-use air_infra::const_expr;
-use air_infra::const_u32_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::bounded_felt::BoundedFeltExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::core::variables::AirVar;
 use air_infra::range_check::range_check_variant;
+use air_infra::{const_expr, const_u32_expr};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
@@ -33,11 +31,7 @@ impl AirFn for VerifyMul252 {
     type Out = ();
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("a".to_string()),
-            Some("b".to_string()),
-            Some("c".to_string()),
-        ])
+        Some(vec![Some("a".to_string()), Some("b".to_string()), Some("c".to_string())])
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
@@ -187,9 +181,6 @@ impl AirFn for VerifyMul252 {
         }
 
         // For the final limb, the computation must yield zero with no further carry.
-        air_builder.constrain(
-            conv_mod_tmps[FELT252_N_WORDS - 1].var.clone() + carry.var,
-            "",
-        );
+        air_builder.constrain(conv_mod_tmps[FELT252_N_WORDS - 1].var.clone() + carry.var, "");
     }
 }

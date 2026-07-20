@@ -1,7 +1,6 @@
 use air_infra::casm_state::CasmStateVar;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AirVar;
@@ -19,19 +18,12 @@ pub struct UpdateRegisters {}
 
 impl AirFn for UpdateRegisters {
     type ExtIn = ();
-    type In = (
-        CasmStateVar,
-        [FeltExpr; GENERIC_FLAGS_SIZE],
-        [Felt252Expr; 3],
-    );
+    type In = (CasmStateVar, [FeltExpr; GENERIC_FLAGS_SIZE], [Felt252Expr; 3]);
     type Out = CasmStateVar;
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        let mut result = vec![
-            Some("pc".to_string()),
-            Some("ap".to_string()),
-            Some("fp".to_string()),
-        ];
+        let mut result =
+            vec![Some("pc".to_string()), Some("ap".to_string()), Some("fp".to_string())];
         for name in GENERIC_FLAG_NAMES.iter() {
             result.push(Some(name.to_string()))
         }
@@ -42,11 +34,7 @@ impl AirFn for UpdateRegisters {
     }
 
     fn output_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("pc".to_string()),
-            Some("ap".to_string()),
-            Some("fp".to_string()),
-        ])
+        Some(vec![Some("pc".to_string()), Some("ap".to_string()), Some("fp".to_string())])
     }
 
     fn call(
@@ -55,10 +43,8 @@ impl AirFn for UpdateRegisters {
         _: (),
         (casm_state, flags, [dst, op1, res]): Self::In,
     ) -> Self::Out {
-        let dst_as_addr = air_builder.call(
-            &CondFelt252AsAddr {},
-            (dst.clone(), flags[FLAG_OPCODE_RET_INDEX].clone()),
-        );
+        let dst_as_addr = air_builder
+            .call(&CondFelt252AsAddr {}, (dst.clone(), flags[FLAG_OPCODE_RET_INDEX].clone()));
 
         let res_as_rel_imm = air_builder.call(
             &CondFelt252AsRelImm {},
@@ -84,14 +70,9 @@ impl AirFn for UpdateRegisters {
                 }
             })
             .sum();
-        let sum_squares_inv = air_builder.deduce(
-            &mut (dst_sum_squares.clone().inverse()),
-            "dst_sum_squares_inv",
-        );
-        air_builder.constrain(
-            dst_sum_squares * sum_squares_inv - const_expr!(1),
-            "dst_not_p",
-        );
+        let sum_squares_inv =
+            air_builder.deduce(&mut (dst_sum_squares.clone().inverse()), "dst_sum_squares_inv");
+        air_builder.constrain(dst_sum_squares * sum_squares_inv - const_expr!(1), "dst_not_p");
 
         // Calculate npc for jnz
         let mut dst_sum: FeltExpr = dst.as_felts().clone().into_iter().sum();
@@ -100,10 +81,8 @@ impl AirFn for UpdateRegisters {
         let dst_is_zero =
             air_builder.let_for_deduction(dst_sum.clone().eq(const_expr!(0)), "dst_is_zero");
         // If dst_sum is 0, then sum_inv = 1
-        let sum_inv = air_builder.deduce(
-            &mut ((dst_sum.clone() + dst_is_zero.as_felt()).inverse()),
-            "dst_sum_inv",
-        );
+        let sum_inv = air_builder
+            .deduce(&mut ((dst_sum.clone() + dst_is_zero.as_felt()).inverse()), "dst_sum_inv");
 
         // We use op1 as rel imm only if flags[FLAG_PC_UPDATE_JNZ_INDEX] is set and dst!= 0
         let op1_as_rel_imm_condition = air_builder.assign(

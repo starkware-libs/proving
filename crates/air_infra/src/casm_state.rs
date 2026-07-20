@@ -15,19 +15,13 @@ pub type CasmStateVar = StructVar<CasmAddress, CasmState>;
 
 impl CasmAddress {
     pub fn new(expr: FeltExpr, extra_info: &str) -> Self {
-        Self {
-            var: expr,
-            extra_info: (!extra_info.is_empty()).then(|| extra_info.to_string()),
-        }
+        Self { var: expr, extra_info: (!extra_info.is_empty()).then(|| extra_info.to_string()) }
     }
 }
 
 impl Default for CasmAddress {
     fn default() -> Self {
-        Self {
-            var: const_expr!(0),
-            extra_info: None,
-        }
+        Self { var: const_expr!(0), extra_info: None }
     }
 }
 

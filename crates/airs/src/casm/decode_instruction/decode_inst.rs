@@ -1,14 +1,12 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 
 use super::verify_inst::*;
@@ -144,9 +142,9 @@ impl AirFn for DecodeInstruction {
         let mut flags_vec: Vec<FeltExpr> = vec![];
         for (i, flag) in self.const_flags.to_arr().iter().enumerate() {
             let flag_to_push = if last_to_rest.contains_key(&i) {
-                // Inferred flag - the last flag of each set is given the value of 1 minus the sum of
-                // the other flags. If there are more than 2 flags in the set, it needs to be
-                // constrained to be a bit.
+                // Inferred flag - the last flag of each set is given the value of 1 minus the sum
+                // of the other flags. If there are more than 2 flags in the set, it
+                // needs to be constrained to be a bit.
                 let mut inferred_flag = last_to_rest[&i]
                     .iter()
                     .map(|&j| flags_vec[j].clone())
@@ -194,9 +192,7 @@ impl AirFn for DecodeInstruction {
 
         // Verify the instruction
         ab.lookup_call(
-            &VerifyInstruction {
-                memory: self.memory.clone(),
-            },
+            &VerifyInstruction { memory: self.memory.clone() },
             (),
             (
                 pc.clone(),

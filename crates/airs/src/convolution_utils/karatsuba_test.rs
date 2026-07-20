@@ -63,10 +63,7 @@ fn test_single_karatsuba_input_len_16() {
 
     let (state, single_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
-    assert_eq!(
-        single_karatsuba_output.len(),
-        simple_convolution_output.len()
-    );
+    assert_eq!(single_karatsuba_output.len(), simple_convolution_output.len());
 
     for (i, z) in single_karatsuba_output.iter().enumerate() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
@@ -156,10 +153,7 @@ fn test_double_karatsuba_input_len_32() {
 
     let (state, double_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
-    assert_eq!(
-        double_karatsuba_output.len(),
-        simple_convolution_output.len()
-    );
+    assert_eq!(double_karatsuba_output.len(), simple_convolution_output.len());
 
     for (i, z) in double_karatsuba_output.iter().enumerate() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
@@ -212,10 +206,7 @@ fn test_single_karatsuba_input_len_14() {
 
     let (state, single_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
-    assert_eq!(
-        single_karatsuba_output.len(),
-        simple_convolution_output.len()
-    );
+    assert_eq!(single_karatsuba_output.len(), simple_convolution_output.len());
 
     for (i, z) in single_karatsuba_output.iter().enumerate() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());
@@ -299,10 +290,7 @@ fn test_double_karatsuba_input_len_28() {
 
     let (state, double_karatsuba_output) = registry.run_air(&air_fn, (), [x_array, y_array]);
 
-    assert_eq!(
-        double_karatsuba_output.len(),
-        simple_convolution_output.len()
-    );
+    assert_eq!(double_karatsuba_output.len(), simple_convolution_output.len());
 
     for (i, z) in double_karatsuba_output.iter().enumerate() {
         assert_eq!(z.calc(), simple_convolution_output[i].calc());

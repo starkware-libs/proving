@@ -10,30 +10,20 @@ fn test_verify_reduced252_valid_values() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     // P - 1
-    registry.run_air(
-        &air_fn,
-        (),
-        const_felt252_expr!(0, 0x8000000000000110000000000000000),
-    );
+    registry.run_air(&air_fn, (), const_felt252_expr!(0, 0x8000000000000110000000000000000));
 
     // P - 2
     registry.run_air(
         &air_fn,
         (),
-        const_felt252_expr!(
-            0xffffffffffffffffffffffffffffffff,
-            0x800000000000010ffffffffffffffff
-        ),
+        const_felt252_expr!(0xffffffffffffffffffffffffffffffff, 0x800000000000010ffffffffffffffff),
     );
 
     // 2 ** 251 - 1
     registry.run_air(
         &air_fn,
         (),
-        const_felt252_expr!(
-            0xffffffffffffffffffffffffffffffff,
-            0x7ffffffffffffffffffffffffffffff
-        ),
+        const_felt252_expr!(0xffffffffffffffffffffffffffffffff, 0x7ffffffffffffffffffffffffffffff),
     );
 
     // Zero
@@ -45,11 +35,7 @@ fn test_verify_reduced252_valid_values() {
 fn test_verify_reduced252_p() {
     let air_fn = VerifyReduced252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    registry.run_air(
-        &air_fn,
-        (),
-        const_felt252_expr!(1, 0x8000000000000110000000000000000),
-    );
+    registry.run_air(&air_fn, (), const_felt252_expr!(1, 0x8000000000000110000000000000000));
 }
 
 #[test]
@@ -57,11 +43,7 @@ fn test_verify_reduced252_p() {
 fn test_verify_reduced252_high_limbs() {
     let air_fn = VerifyReduced252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    registry.run_air(
-        &air_fn,
-        (),
-        const_felt252_expr!(0, 0x8000001000000110000000000000000),
-    );
+    registry.run_air(&air_fn, (), const_felt252_expr!(0, 0x8000001000000110000000000000000));
 }
 
 #[test]
@@ -74,9 +56,6 @@ fn test_verify_reduced252_max() {
     registry.run_air(
         &air_fn,
         (),
-        const_felt252_expr!(
-            0xffffffffffffffffffffffffffffffff,
-            0xfffffffffffffffffffffffffffffff
-        ),
+        const_felt252_expr!(0xffffffffffffffffffffffffffffffff, 0xfffffffffffffffffffffffffffffff),
     );
 }

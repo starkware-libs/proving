@@ -153,10 +153,7 @@ impl RustProverGen {
             Mode::Mults(MultiplicityMode::KnownInputs) => {
                 let column_ids_code = rust::Tokens::from_iter(
                     Itertools::intersperse(
-                        self.air_fn
-                            .input_const_columns
-                            .iter()
-                            .map(make_preprocessed_column_id),
+                        self.air_fn.input_const_columns.iter().map(make_preprocessed_column_id),
                         quote! { , },
                     )
                     .flatten(),
@@ -490,9 +487,7 @@ impl RustProverGen {
                 lambda_producer.0.extend(quote! {
                    inputs.into_par_iter(),
                 });
-                lambda_producer
-                    .1
-                    .extend(quote! { $(&self.air_fn.name)_input, });
+                lambda_producer.1.extend(quote! { $(&self.air_fn.name)_input, });
             }
         }
 
@@ -598,11 +593,7 @@ impl RustProverGen {
                     write_trace_body.extend(collect_felts);
                     lookup_data_offset += 1;
                 }
-                TraceGenStep::LookupAddInput {
-                    relation_name,
-                    input,
-                    ..
-                } => {
+                TraceGenStep::LookupAddInput { relation_name, input, .. } => {
                     let offset = add_inputs_offsets.get_mut(relation_name).unwrap();
                     if input != &CompiledAirVar::Tuple(vec![]) {
                         write_trace_body.extend(quote! {
@@ -616,11 +607,7 @@ impl RustProverGen {
             }
         }
 
-        for (multiplicity, index) in self
-            .multiplicity_indices
-            .iter()
-            .sorted_by_key(|(_m, i)| **i)
-        {
+        for (multiplicity, index) in self.multiplicity_indices.iter().sorted_by_key(|(_m, i)| **i) {
             write_trace_body.extend(quote! {
                 *lookup_data.mults_$(*index) = $(simd_parse_air_var(multiplicity, const_names));
             });
@@ -706,12 +693,7 @@ fn simd_parse_air_var(
                 }
                 arg_str.push_str(&simd_parse_air_var(arg, constant_names));
             }
-            format!(
-                "{}.{}({})",
-                simd_parse_air_var(id, constant_names),
-                func,
-                arg_str
-            )
+            format!("{}.{}({})", simd_parse_air_var(id, constant_names), func, arg_str)
         }
         CompiledAirVar::UnaryOp(op, expr) => {
             if op == "inverse" {
@@ -738,13 +720,7 @@ fn simd_parse_air_var(
             format!("({expr_str})")
         }
         CompiledAirVar::Array(exprs) => {
-            format!(
-                "[{}]",
-                exprs
-                    .iter()
-                    .map(|e| simd_parse_air_var(e, constant_names))
-                    .join(", ")
-            )
+            format!("[{}]", exprs.iter().map(|e| simd_parse_air_var(e, constant_names)).join(", "))
         }
         CompiledAirVar::Struct { r#type, fields } => {
             let members_code = fields

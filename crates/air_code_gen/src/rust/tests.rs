@@ -42,11 +42,8 @@ fn code_gen_regression() {
         .iter()
         .map(|path_str| {
             let path = Path::new(path_str);
-            let air_fn_name = path
-                .file_stem()
-                .expect("Invalid filename")
-                .to_str()
-                .expect("Invalid filename");
+            let air_fn_name =
+                path.file_stem().expect("Invalid filename").to_str().expect("Invalid filename");
 
             AutogenCodeFile {
                 air_fn_name: air_fn_name.to_string(),
@@ -63,11 +60,8 @@ fn code_gen_regression() {
         .chain(components_to_check.iter())
         .map(|path_str| {
             let path = Path::new(path_str);
-            let air_fn_name = path
-                .file_stem()
-                .expect("Invalid filename")
-                .to_str()
-                .expect("Invalid filename");
+            let air_fn_name =
+                path.file_stem().expect("Invalid filename").to_str().expect("Invalid filename");
             AutogenCodeFile {
                 air_fn_name: air_fn_name.to_string(),
                 source_path: path.into(),

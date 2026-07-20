@@ -1,12 +1,11 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::decode_blake_opcode::*;
@@ -25,16 +24,7 @@ fn test_blake(
     flags: ([bool; 5], OpcodeExtension),
 ) -> (State, CasmStateVar) {
     let [pc_value, ap_value, fp_value] = casm_state;
-    let (
-        [
-            dst_base_fp,
-            op0_base_fp,
-            op1_base_fp,
-            op1_base_ap,
-            _ap_update_add_1,
-        ],
-        opcode,
-    ) = flags;
+    let ([dst_base_fp, op0_base_fp, op1_base_fp, op1_base_ap, _ap_update_add_1], opcode) = flags;
     let [state_pointer, new_state_pointer, message_pointer] = pointers;
     let pc = const_expr!(pc_value);
     let ap = const_expr!(ap_value);
@@ -52,9 +42,7 @@ fn test_blake(
                 offsets[0],
                 offsets[1],
                 offsets[2],
-                DecodeBlakeOpcode::default()
-                    .get_flags()
-                    .non_constants_to_arr(&flags.0),
+                DecodeBlakeOpcode::default().get_flags().non_constants_to_arr(&flags.0),
                 opcode
             ),
             0
@@ -63,10 +51,8 @@ fn test_blake(
 
     // dst
     let dst_base = if dst_base_fp { fp_value } else { ap_value };
-    memory_values.push((
-        const_expr!((dst_base as i16 + offsets[0]) as u32),
-        const_felt252_expr!(t as i64),
-    ));
+    memory_values
+        .push((const_expr!((dst_base as i16 + offsets[0]) as u32), const_felt252_expr!(t as i64)));
 
     // op0
     let op0_base = if op0_base_fp { fp_value } else { ap_value };
@@ -95,10 +81,8 @@ fn test_blake(
             const_felt252_expr!(new_state[i as usize] as i64),
         ));
         // state
-        memory_values.push((
-            const_expr!(state_pointer + i),
-            const_felt252_expr!(state[i as usize] as i64),
-        ));
+        memory_values
+            .push((const_expr!(state_pointer + i), const_felt252_expr!(state[i as usize] as i64)));
     }
     for i in 0..16 {
         // message
@@ -109,17 +93,11 @@ fn test_blake(
     }
 
     // new state pointer
-    memory_values.push((
-        const_expr!(ap_value),
-        const_felt252_expr!(new_state_pointer as i64),
-    ));
+    memory_values.push((const_expr!(ap_value), const_felt252_expr!(new_state_pointer as i64)));
     blake_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
-    let (state, output) = registry.run_air(
-        &blake_opcode,
-        (),
-        CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
-    );
+    let (state, output) =
+        registry.run_air(&blake_opcode, (), CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()));
     (state, output)
 }
 
@@ -343,9 +321,8 @@ fn test_blake_last_block() {
     let new_state = [
         3682597515, 2216389235, 312988646, 2824139482, 287550524, 1393039850, 2625350416, 483117428,
     ];
-    let message = [
-        1730312174, 3506704347, 1997875835, 3947607044, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ];
+    let message =
+        [1730312174, 3506704347, 1997875835, 3947607044, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     let [pc, ap, fp] = [546, 5656, 886];
 
     let (_, output) = test_blake(
@@ -356,10 +333,7 @@ fn test_blake_last_block() {
         16,
         new_state,
         message,
-        (
-            [true, true, true, false, false],
-            OpcodeExtension::BlakeFinalize,
-        ),
+        ([true, true, true, false, false], OpcodeExtension::BlakeFinalize),
     );
 
     // Check the output
@@ -443,14 +417,9 @@ mod blake_rust_tests {
             [456, 1465, 432453],
             state,
             0,
-            new_state
-                .try_into()
-                .expect("Expected hash size of 8 u32 elements"),
+            new_state.try_into().expect("Expected hash size of 8 u32 elements"),
             message,
-            (
-                [false, true, true, false, true],
-                OpcodeExtension::BlakeFinalize,
-            ),
+            ([false, true, true, false, true], OpcodeExtension::BlakeFinalize),
         );
     }
 
@@ -481,9 +450,8 @@ mod blake_rust_tests {
             1393684787, 2988713546, 1902042253, 224103376, 992369913, 3965699322, 2296366438,
             863347823,
         ];
-        let message0 = input_as_u32[0..16]
-            .try_into()
-            .expect("Expected at least 16 u32 elements in input");
+        let message0 =
+            input_as_u32[0..16].try_into().expect("Expected at least 16 u32 elements in input");
 
         let (..) = test_blake(
             [45, 83, 112],
@@ -509,14 +477,9 @@ mod blake_rust_tests {
             [456, 1465, 432453],
             state,
             num_bytes as u32,
-            new_state
-                .try_into()
-                .expect("Expected hash size of 8 u32 elements"),
+            new_state.try_into().expect("Expected hash size of 8 u32 elements"),
             message1,
-            (
-                [false, true, true, false, true],
-                OpcodeExtension::BlakeFinalize,
-            ),
+            ([false, true, true, false, true], OpcodeExtension::BlakeFinalize),
         );
     }
 }

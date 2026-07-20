@@ -1,12 +1,10 @@
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_expr;
-use air_infra::const_u32_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::bool_expr::BoolExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_u32_expr};
 use serde::Serialize;
 
 use super::read_u32::*;
@@ -48,16 +46,12 @@ impl AirFn for CreateBlakeRoundInput {
         (h_pointer, t, is_last_block): Self::In,
     ) -> Self::Out {
         let mut state = vec![];
-        let read_u32 = &ReadU32 {
-            memory: self.memory.clone(),
-        };
+        let read_u32 = &ReadU32 { memory: self.memory.clone() };
 
         // The first 8 elements are exactly `h`.
         for i in 0..8 {
-            let current_addr = CasmAddress::new(
-                h_pointer.var.clone() + const_expr!(i),
-                &format!("state_{i}"),
-            );
+            let current_addr =
+                CasmAddress::new(h_pointer.var.clone() + const_expr!(i), &format!("state_{i}"));
             state.push(air_builder.call(read_u32, current_addr));
         }
 
@@ -70,10 +64,7 @@ impl AirFn for CreateBlakeRoundInput {
                     let [thl, thh] = air_builder.call(&split, t.high());
 
                     // Calculate and deduce the bitwise xor of the parts.
-                    let bitwise_xor = BitwiseXor {
-                        num_bits: 8,
-                        variant: 0,
-                    };
+                    let bitwise_xor = BitwiseXor { num_bits: 8, variant: 0 };
                     let cll = air_builder.call(&bitwise_xor, [tll, const_expr!(IV4[0] as u32)]);
                     let clh = air_builder.call(&bitwise_xor, [tlh, const_expr!(IV4[1] as u32)]);
                     let chl = air_builder.call(&bitwise_xor, [thl, const_expr!(IV4[2] as u32)]);

@@ -1,13 +1,10 @@
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::air_fn::ChainRoundAirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn, ChainRoundAirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
-use air_infra::core::variables::ChainIdVar;
-use air_infra::core::variables::RoundNumVar;
+use air_infra::core::variables::{ChainIdVar, RoundNumVar};
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use serde::Serialize;
 
@@ -52,9 +49,7 @@ impl AirFn for BlakeRound {
         let curr_sigma = air_builder.lookup_call(&BlakeRoundSigma {}, [rnd.clone()], ());
 
         // Read the current message according to the permutation.
-        let read_u32 = ReadU32 {
-            memory: self.memory.clone(),
-        };
+        let read_u32 = ReadU32 { memory: self.memory.clone() };
         let mut current_message = vec![];
         for (i, index) in curr_sigma.into_iter().enumerate() {
             let addr = CasmAddress::new(

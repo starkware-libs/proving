@@ -1,11 +1,10 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::generic_opcode::*;
@@ -22,10 +21,7 @@ use crate::casm::opcodes::ret_opcode_test::*;
 #[test]
 fn test_generic_consistency_rel_call() {
     let mut generic_opcode = GenericOpcode::default();
-    let mut call_opcode = CallOpcode {
-        rel_imm: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut call_opcode = CallOpcode { rel_imm: true, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -323,10 +319,7 @@ fn test_generic_consistency_rel_call() {
 #[test]
 fn test_generic_call_abs_imm() {
     let mut generic_opcode = GenericOpcode::default();
-    let call_opcode = CallOpcode {
-        rel_imm: false,
-        memory: Felt252IdMemory::default(),
-    };
+    let call_opcode = CallOpcode { rel_imm: false, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -372,10 +365,7 @@ fn test_generic_call_abs_imm() {
 #[test]
 fn test_generic_call_rel_deref() {
     let mut generic_opcode = GenericOpcode::default();
-    let call_opcode = CallOpcode {
-        rel_imm: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let call_opcode = CallOpcode { rel_imm: true, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -396,10 +386,7 @@ fn test_generic_call_rel_deref() {
                 0
             ),
         ),
-        (
-            const_expr!(ap + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
+        (const_expr!(ap + offset2 as u32), const_felt252_expr!(op1 as i128)),
         (const_expr!(ap), const_felt252_expr!(fp as i64)),
         (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 1)),
     ];
@@ -424,9 +411,7 @@ fn test_generic_call_rel_deref() {
 #[test]
 fn test_generic_consistency_ret() {
     let mut generic_opcode = GenericOpcode::default();
-    let mut ret_opcode = RetOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let mut ret_opcode = RetOpcode { memory: Felt252IdMemory::default() };
     // Register values at opcode start
     let [pc, ap, fp] = [3, 11, 6];
 
@@ -712,11 +697,8 @@ fn test_generic_consistency_ret() {
 #[test]
 fn test_generic_consistency_assert_equal() {
     let mut generic_opcode = GenericOpcode::default();
-    let mut assert_equal_opcode = AssertEqOpcode {
-        double_deref: false,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut assert_equal_opcode =
+        AssertEqOpcode { double_deref: false, imm: false, memory: Felt252IdMemory::default() };
     let [offset0, offset1, offset2] = [3, -1, 2];
     let dst = 3;
     let op1 = 3;
@@ -741,19 +723,10 @@ fn test_generic_consistency_assert_equal() {
                 0
             ),
         ),
-        (
-            const_expr!((ap as i16 + offset0) as u32),
-            const_felt252_expr!(dst as i128),
-        ),
-        (
-            const_expr!((fp as i16 + offset2) as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
+        (const_expr!((ap as i16 + offset0) as u32), const_felt252_expr!(dst as i128)),
+        (const_expr!((fp as i16 + offset2) as u32), const_felt252_expr!(op1 as i128)),
         // Not in use
-        (
-            const_expr!((fp as i16 + offset1) as u32),
-            const_felt252_expr!(0, 0),
-        ),
+        (const_expr!((fp as i16 + offset1) as u32), const_felt252_expr!(0, 0)),
     ];
 
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
@@ -1049,22 +1022,14 @@ fn test_generic_consistency_jump() {
                 assemble_jump(
                     None,
                     Some(offset_value),
-                    jump_opcode
-                        .get_flags()
-                        .non_constants_to_arr(&[true, false, false]),
+                    jump_opcode.get_flags().non_constants_to_arr(&[true, false, false]),
                 ),
                 0
             ),
         ),
-        (
-            const_expr!((fp as i16 + offset_value) as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
+        (const_expr!((fp as i16 + offset_value) as u32), const_felt252_expr!(op1 as i128)),
         // Not in use
-        (
-            const_expr!((fp as i64 - 1) as u32),
-            const_felt252_expr!(0, 0),
-        ),
+        (const_expr!((fp as i64 - 1) as u32), const_felt252_expr!(0, 0)),
     ];
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
     jump_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
@@ -1358,16 +1323,10 @@ fn test_generic_jump_abs_imm() {
 
     // Fill memory
     let memory_values = vec![
-        (
-            const_expr!(pc),
-            const_felt252_expr!(assemble_jump(None, None, flags.clone().into(),), 0),
-        ),
+        (const_expr!(pc), const_felt252_expr!(assemble_jump(None, None, flags.clone().into(),), 0)),
         (const_expr!(pc + 1), const_felt252_expr!(imm as i128)),
         // Not in use
-        (
-            const_expr!((fp as i64 - 1) as u32),
-            const_felt252_expr!(0, 0),
-        ),
+        (const_expr!((fp as i64 - 1) as u32), const_felt252_expr!(0, 0)),
     ];
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
 
@@ -1419,19 +1378,10 @@ fn test_generic_jump_rel_double_deref() {
                 0
             ),
         ),
-        (
-            const_expr!((op0 + offset2 as i32) as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((fp + offset1 as i32) as u32),
-            const_felt252_expr!(op0 as i128),
-        ),
+        (const_expr!((op0 + offset2 as i32) as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((fp + offset1 as i32) as u32), const_felt252_expr!(op0 as i128)),
         // Not in use
-        (
-            const_expr!((fp as i64 - 1) as u32),
-            const_felt252_expr!(0, 0),
-        ),
+        (const_expr!((fp as i64 - 1) as u32), const_felt252_expr!(0, 0)),
     ];
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
 
@@ -1452,10 +1402,7 @@ fn test_generic_jump_rel_double_deref() {
 #[test]
 fn test_generic_consistency_jnz_taken() {
     let mut generic_opcode = GenericOpcode::default();
-    let mut jnz_opcode = JnzOpcode {
-        taken: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut jnz_opcode = JnzOpcode { taken: true, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -1478,10 +1425,7 @@ fn test_generic_consistency_jnz_taken() {
             ),
         ),
         (const_expr!(pc + 1), const_felt252_expr!(op1 as i128)),
-        (
-            const_expr!((ap as i16 + offset_dst) as u32),
-            const_felt252_expr!(123, 456),
-        ),
+        (const_expr!((ap as i16 + offset_dst) as u32), const_felt252_expr!(123, 456)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -1758,10 +1702,7 @@ fn test_generic_consistency_jnz_taken() {
 #[test]
 fn test_generic_consistency_jnz_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
-    let mut jnz_opcode = JnzOpcode {
-        taken: false,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut jnz_opcode = JnzOpcode { taken: false, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -1784,10 +1725,7 @@ fn test_generic_consistency_jnz_not_taken() {
             ),
         ),
         (const_expr!(pc + 1), const_felt252_expr!(op1 as i128)),
-        (
-            const_expr!((ap as i16 + offset_dst) as u32),
-            const_felt252_expr!(0, 0),
-        ),
+        (const_expr!((ap as i16 + offset_dst) as u32), const_felt252_expr!(0, 0)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2064,10 +2002,7 @@ fn test_generic_consistency_jnz_not_taken() {
 #[test]
 fn test_generic_jnz_deref_taken() {
     let mut generic_opcode = GenericOpcode::default();
-    let jnz_opcode = JnzOpcode {
-        taken: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let jnz_opcode = JnzOpcode { taken: true, memory: Felt252IdMemory::default() };
 
     // Create flags
     let mut flags = jnz_opcode.get_flags();
@@ -2097,14 +2032,8 @@ fn test_generic_jnz_deref_taken() {
                 0
             ),
         ),
-        (
-            const_expr!(ap + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((ap as i16 + offset_dst) as u32),
-            const_felt252_expr!(123, 456),
-        ),
+        (const_expr!(ap + offset2 as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((ap as i16 + offset_dst) as u32), const_felt252_expr!(123, 456)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2120,10 +2049,7 @@ fn test_generic_jnz_deref_taken() {
     );
 
     // Check output
-    assert_eq!(
-        next_state.pc().calc(),
-        (pc as i128 + op1 as i128).to_string()
-    );
+    assert_eq!(next_state.pc().calc(), (pc as i128 + op1 as i128).to_string());
     assert_eq!(next_state.ap().calc(), (ap + 1).to_string());
     assert_eq!(next_state.fp().calc(), fp.to_string());
 }
@@ -2131,10 +2057,7 @@ fn test_generic_jnz_deref_taken() {
 #[test]
 fn test_generic_jnz_deref_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
-    let jnz_opcode = JnzOpcode {
-        taken: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let jnz_opcode = JnzOpcode { taken: true, memory: Felt252IdMemory::default() };
 
     // Create flags
     let mut flags = jnz_opcode.get_flags();
@@ -2164,14 +2087,8 @@ fn test_generic_jnz_deref_not_taken() {
                 0
             ),
         ),
-        (
-            const_expr!(fp + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((fp as i16 + offset_dst) as u32),
-            const_felt252_expr!(0, 0),
-        ),
+        (const_expr!(fp + offset2 as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((fp as i16 + offset_dst) as u32), const_felt252_expr!(0, 0)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2195,9 +2112,7 @@ fn test_generic_jnz_deref_not_taken() {
 #[test]
 fn test_generic_add_ap_double_deref() {
     let mut generic_opcode = GenericOpcode::default();
-    let add_ap = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let add_ap = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Create flags
     let non_consts_flags = vec![false, false, false];
@@ -2219,14 +2134,8 @@ fn test_generic_add_ap_double_deref() {
                 0
             ),
         ),
-        (
-            const_expr!((op0 + offset2 as i32) as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((fp + offset1 as i32) as u32),
-            const_felt252_expr!(op0 as i128),
-        ),
+        (const_expr!((op0 + offset2 as i32) as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((fp + offset1 as i32) as u32), const_felt252_expr!(op0 as i128)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2250,9 +2159,7 @@ fn test_generic_add_ap_double_deref() {
 #[test]
 fn test_generic_add_ap_res_mul() {
     let mut generic_opcode = GenericOpcode::default();
-    let add_ap = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let add_ap = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Create flags
     let non_consts_flags = vec![false, false, true];
@@ -2275,14 +2182,8 @@ fn test_generic_add_ap_res_mul() {
                 0
             ),
         ),
-        (
-            const_expr!(ap + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((fp as i32 + offset1 as i32) as u32),
-            const_felt252_expr!(op0 as i128),
-        ),
+        (const_expr!(ap + offset2 as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((fp as i32 + offset1 as i32) as u32), const_felt252_expr!(op0 as i128)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2307,9 +2208,7 @@ fn test_generic_add_ap_res_mul() {
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 262144")]
 fn test_generic_add_ap_res_mul_too_big() {
     let mut generic_opcode = GenericOpcode::default();
-    let add_ap = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let add_ap = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Create flags
     let non_consts_flags = vec![false, false, true];
@@ -2332,14 +2231,8 @@ fn test_generic_add_ap_res_mul_too_big() {
                 0
             ),
         ),
-        (
-            const_expr!(ap + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((fp as i32 + offset1 as i32) as u32),
-            const_felt252_expr!(op0 as i128),
-        ),
+        (const_expr!(ap + offset2 as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((fp as i32 + offset1 as i32) as u32), const_felt252_expr!(op0 as i128)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2359,9 +2252,7 @@ fn test_generic_add_ap_res_mul_too_big() {
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 1048575")]
 fn test_generic_add_ap_res_mul_negative() {
     let mut generic_opcode = GenericOpcode::default();
-    let add_ap = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let add_ap = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Create flags
     let non_consts_flags = vec![false, false, true];
@@ -2384,14 +2275,8 @@ fn test_generic_add_ap_res_mul_negative() {
                 0
             ),
         ),
-        (
-            const_expr!(ap + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((fp as i32 + offset1 as i32) as u32),
-            const_felt252_expr!(op0 as i128),
-        ),
+        (const_expr!(ap + offset2 as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((fp as i32 + offset1 as i32) as u32), const_felt252_expr!(op0 as i128)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2410,9 +2295,7 @@ fn test_generic_add_ap_res_mul_negative() {
 #[test]
 fn test_generic_add_ap_res_add() {
     let mut generic_opcode = GenericOpcode::default();
-    let add_ap = AddApOpcode {
-        memory: Felt252IdMemory::default(),
-    };
+    let add_ap = AddApOpcode { memory: Felt252IdMemory::default() };
 
     // Create flags
     let non_consts_flags = vec![false, true, false];
@@ -2436,14 +2319,8 @@ fn test_generic_add_ap_res_add() {
                 0
             ),
         ),
-        (
-            const_expr!(fp + offset2 as u32),
-            const_felt252_expr!(op1 as i128),
-        ),
-        (
-            const_expr!((ap as i32 + offset1 as i32) as u32),
-            const_felt252_expr!(op0 as i128),
-        ),
+        (const_expr!(fp + offset2 as u32), const_felt252_expr!(op1 as i128)),
+        (const_expr!((ap as i32 + offset1 as i32) as u32), const_felt252_expr!(op0 as i128)),
         // Not in use
         (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
     ];
@@ -2468,10 +2345,7 @@ fn test_generic_add_ap_res_add() {
 #[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_call_wrong_offset() {
     let mut generic_opcode = GenericOpcode::default();
-    let call_opcode = CallOpcode {
-        rel_imm: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let call_opcode = CallOpcode { rel_imm: true, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -2514,10 +2388,7 @@ fn test_generic_soundness_call_wrong_offset() {
 #[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_call_fp_not_pushed() {
     let mut generic_opcode = GenericOpcode::default();
-    let call_opcode = CallOpcode {
-        rel_imm: true,
-        memory: Felt252IdMemory::default(),
-    };
+    let call_opcode = CallOpcode { rel_imm: true, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -2560,10 +2431,7 @@ fn test_generic_soundness_call_fp_not_pushed() {
 #[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_call_wrong_next_pc() {
     let mut generic_opcode = GenericOpcode::default();
-    let call_opcode = CallOpcode {
-        rel_imm: false,
-        memory: Felt252IdMemory::default(),
-    };
+    let call_opcode = CallOpcode { rel_imm: false, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -2585,10 +2453,7 @@ fn test_generic_soundness_call_wrong_next_pc() {
                 0
             ),
         ),
-        (
-            const_expr!((fp as i16 + offset2) as u32),
-            const_felt252_expr!(op1),
-        ),
+        (const_expr!((fp as i16 + offset2) as u32), const_felt252_expr!(op1)),
         (const_expr!(ap), const_felt252_expr!(fp as i64)),
         // Set next pc to wrong value
         (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)),
@@ -2609,10 +2474,7 @@ fn test_generic_soundness_call_wrong_next_pc() {
 #[should_panic(expected = "0 has no inverse")]
 fn test_generic_soundness_jnz_dst_p() {
     let mut generic_opcode = GenericOpcode::default();
-    let jnz_opcode = JnzOpcode {
-        taken: false,
-        memory: Felt252IdMemory::default(),
-    };
+    let jnz_opcode = JnzOpcode { taken: false, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 200, 150];
@@ -2658,11 +2520,8 @@ fn test_generic_soundness_jnz_dst_p() {
 #[should_panic(expected = "Added incorrect constraint (does not evaluate to 0)")]
 fn test_generic_soundness_assert_eq() {
     let mut generic_opcode = GenericOpcode::default();
-    let assert_eq = AssertEqOpcode {
-        double_deref: false,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    };
+    let assert_eq =
+        AssertEqOpcode { double_deref: false, imm: false, memory: Felt252IdMemory::default() };
 
     // Create flags
     let mut flags = assert_eq.get_flags();
@@ -2697,18 +2556,9 @@ fn test_generic_soundness_assert_eq() {
                 0
             ),
         ),
-        (
-            const_expr!((ap as i16 + offset_dst) as u32),
-            const_felt252_expr!(dst),
-        ),
-        (
-            const_expr!((fp as i16 + offset1) as u32),
-            const_felt252_expr!(op0, 0),
-        ),
-        (
-            const_expr!((ap as i16 + offset2) as u32),
-            const_felt252_expr!(op1, 0),
-        ),
+        (const_expr!((ap as i16 + offset_dst) as u32), const_felt252_expr!(dst)),
+        (const_expr!((fp as i16 + offset1) as u32), const_felt252_expr!(op0, 0)),
+        (const_expr!((ap as i16 + offset2) as u32), const_felt252_expr!(op1, 0)),
     ];
 
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values);

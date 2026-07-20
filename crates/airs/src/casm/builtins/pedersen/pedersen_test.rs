@@ -2,11 +2,6 @@
 mod tests {
     use std::array::from_fn;
 
-    use crate::casm::builtins::ec_utils::utils::*;
-    use crate::casm::builtins::pedersen::partial_ec_mul::*;
-    use crate::casm::builtins::pedersen::pedersen_aggregator::*;
-    use crate::casm::builtins::pedersen::pedersen_builtin::*;
-
     use air_infra::core::air_fn_registry::*;
     use air_infra::core::expressions::felt_expr::*;
     use air_infra::core::expressions::felt252_expr::*;
@@ -15,6 +10,11 @@ mod tests {
     use air_infra::core::*;
     use air_infra::felt252_id_memory::memory::*;
     use air_infra::{const_expr, const_felt252_expr, const_felt252_expr_from_felt252};
+
+    use crate::casm::builtins::ec_utils::utils::*;
+    use crate::casm::builtins::pedersen::partial_ec_mul::*;
+    use crate::casm::builtins::pedersen::pedersen_aggregator::*;
+    use crate::casm::builtins::pedersen::pedersen_builtin::*;
 
     fn pack_to_limbs<const NUM_WINDOWS: usize>(mut value: u64) -> PackedECMultiplier<NUM_WINDOWS> {
         let window_bits: usize = 252 / NUM_WINDOWS;
@@ -41,10 +41,8 @@ mod tests {
 
         // The coordinates of the P_1 Pedersen point
         // let sum_0_pt = ec_mul(&P_SHIFT, 2 * NUM_WINDOWS + 1);
-        let [p1_x, p1_y] = [
-            const_felt252_expr_from_felt252!(P_1.x),
-            const_felt252_expr_from_felt252!(P_1.y),
-        ];
+        let [p1_x, p1_y] =
+            [const_felt252_expr_from_felt252!(P_1.x), const_felt252_expr_from_felt252!(P_1.y)];
 
         // The coordinates of 123*P_2 + P_1 - 2*P_shift
         let neg_p_shift = ec_neg(&P_SHIFT);
@@ -58,11 +56,7 @@ mod tests {
         let (state, output) = registry.run_air(
             air_fn,
             (),
-            (
-                call_id.clone(),
-                round_num,
-                (pack_to_limbs(multiplier), [p1_x, p1_y]),
-            ),
+            (call_id.clone(), round_num, (pack_to_limbs(multiplier), [p1_x, p1_y])),
         );
         assert_eq!(output.0.calc(), call_id.calc());
         assert_eq!(output.1.calc(), const_expr!(NUM_WINDOWS + 1).calc());
@@ -88,20 +82,14 @@ mod tests {
         let memory = Felt252IdMemory::new_with_data(vec![
             (const_expr!(segment_start), const_felt252_expr!(0, 0)),
             (const_expr!(segment_start + 1), const_felt252_expr!(0, 0)),
-            (
-                const_expr!(segment_start + 2),
-                const_felt252_expr_from_felt252!(P_SHIFT.x),
-            ),
+            (const_expr!(segment_start + 2), const_felt252_expr_from_felt252!(P_SHIFT.x)),
         ]);
 
-        let pedersen = PedersenBuiltin::<NUM_WINDOWS> {
-            memory: memory.clone(),
-        };
+        let pedersen = PedersenBuiltin::<NUM_WINDOWS> { memory: memory.clone() };
         let mut registry = AirFnRegistry::new_empty();
-        registry.public_params.set(
-            PublicParam::PedersenBuiltinSegmentStart,
-            Felt::from(segment_start),
-        );
+        registry
+            .public_params
+            .set(PublicParam::PedersenBuiltinSegmentStart, Felt::from(segment_start));
         registry.add_entry(&pedersen);
 
         let (state, _) = registry.run_air_with_row_number(&pedersen, (), (), 0);
@@ -111,10 +99,7 @@ mod tests {
             &PedersenAggregator::<NUM_WINDOWS>::new(memory),
             (),
             (
-                [
-                    CasmId::new(const_expr!(0), "a"),
-                    CasmId::new(const_expr!(0), "b"),
-                ],
+                [CasmId::new(const_expr!(0), "a"), CasmId::new(const_expr!(0), "b")],
                 CasmId::new(const_expr!(1), "output"),
             ),
         );
@@ -156,10 +141,9 @@ mod tests {
 
         let pedersen = PedersenBuiltin::<NUM_WINDOWS> { memory };
         let mut registry = AirFnRegistry::new_empty();
-        registry.public_params.set(
-            PublicParam::PedersenBuiltinSegmentStart,
-            Felt::from(segment_start),
-        );
+        registry
+            .public_params
+            .set(PublicParam::PedersenBuiltinSegmentStart, Felt::from(segment_start));
         registry.add_entry(&pedersen);
 
         registry.run_air_with_row_number(&pedersen, (), (), 0);
@@ -180,18 +164,14 @@ mod tests {
             // b = 0
             (const_expr!(segment_start + 1), const_felt252_expr!(0, 0)),
             // result = Pedersen(0,0)
-            (
-                const_expr!(segment_start + 2),
-                const_felt252_expr_from_felt252!(P_SHIFT.x),
-            ),
+            (const_expr!(segment_start + 2), const_felt252_expr_from_felt252!(P_SHIFT.x)),
         ]);
 
         let pedersen = PedersenBuiltin::<NUM_WINDOWS> { memory };
         let mut registry = AirFnRegistry::new_empty();
-        registry.public_params.set(
-            PublicParam::PedersenBuiltinSegmentStart,
-            Felt::from(segment_start),
-        );
+        registry
+            .public_params
+            .set(PublicParam::PedersenBuiltinSegmentStart, Felt::from(segment_start));
         registry.add_entry(&pedersen);
 
         registry.run_air_with_row_number(&pedersen, (), (), 0);
@@ -223,10 +203,9 @@ mod tests {
 
         let pedersen = PedersenBuiltin::<NUM_WINDOWS> { memory };
         let mut registry = AirFnRegistry::new_empty();
-        registry.public_params.set(
-            PublicParam::PedersenBuiltinSegmentStart,
-            Felt::from(segment_start),
-        );
+        registry
+            .public_params
+            .set(PublicParam::PedersenBuiltinSegmentStart, Felt::from(segment_start));
         registry.add_entry(&pedersen);
 
         registry.run_air_with_row_number(&pedersen, (), (), 0);

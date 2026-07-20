@@ -13,11 +13,8 @@ fn test_m31_to_u32() {
 
     let m31_to_u32 = M31ToU32 {};
     let (registry, _) = AirFnRegistry::new(&m31_to_u32);
-    let (state, _) = registry.run_air(
-        &m31_to_u32,
-        (),
-        (const_expr!(value), const_u32_expr!(value)),
-    );
+    let (state, _) =
+        registry.run_air(&m31_to_u32, (), (const_expr!(value), const_u32_expr!(value)));
 
     expect![[r#"
         (1567342098, "input_m31"),
@@ -33,9 +30,5 @@ fn test_m31_to_u32() {
 fn test_m31_to_u32_fails_on_p() {
     let m31_to_u32 = M31ToU32 {};
     let (registry, _) = AirFnRegistry::new(&m31_to_u32);
-    registry.run_air(
-        &m31_to_u32,
-        (),
-        (const_expr!(PRIME), const_u32_expr!(PRIME)),
-    );
+    registry.run_air(&m31_to_u32, (), (const_expr!(PRIME), const_u32_expr!(PRIME)));
 }

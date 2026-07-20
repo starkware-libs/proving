@@ -5,11 +5,10 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::rc::Rc;
 
-use crate::const_expr;
-
 use super::air_fn::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
+use crate::const_expr;
 
 /// The "context" that we carry while running / building a component
 /// This is passed to, and updated by, all inline AirFns called by the component
@@ -121,11 +120,7 @@ impl State {
     }
 
     pub fn get_state_names(&self) -> Vec<String> {
-        self.row
-            .iter()
-            .enumerate()
-            .map(|(i, cell)| Self::get_cell_name(i, &cell.1))
-            .collect()
+        self.row.iter().enumerate().map(|(i, cell)| Self::get_cell_name(i, &cell.1)).collect()
     }
 
     #[cfg(any(test, feature = "test"))]

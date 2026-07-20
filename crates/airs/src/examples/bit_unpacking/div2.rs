@@ -1,11 +1,10 @@
 use std::fmt::Debug;
 
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
 use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::bool_expr::BoolExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint16_expr::UInt16Expr;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 
 /// Divides a 16-bit unsigned integer by 2. Returns the quotient and the remainder.

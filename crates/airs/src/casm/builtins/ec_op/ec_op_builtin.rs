@@ -1,8 +1,7 @@
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::public_params::PublicParam;
@@ -40,10 +39,8 @@ impl AirFn for ECOpBuiltin {
     fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         let instance_num = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::ECOpBuiltinSegmentStart);
-        let instance_addr = air_builder.let_(
-            instance_num * const_expr!(ECOP_INSTANCE_SIZE) + segment_start,
-            "instance_addr",
-        );
+        let instance_addr = air_builder
+            .let_(instance_num * const_expr!(ECOP_INSTANCE_SIZE) + segment_start, "instance_addr");
 
         // Read the inputs.
         let [p_x, p_y, q_x, q_y, m] = ["p_x", "p_y", "q_x", "q_y", "m"]
@@ -73,22 +70,12 @@ impl AirFn for ECOpBuiltin {
         air_builder.constrain(res_m.get_felt(0), "final m is zero");
 
         air_builder.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(instance_addr.clone() + const_expr!(5), "res_x"),
-                res_x,
-            ),
+            &MemVerify { memory: self.memory.clone() },
+            (CasmAddress::new(instance_addr.clone() + const_expr!(5), "res_x"), res_x),
         );
         air_builder.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(instance_addr.clone() + const_expr!(6), "res_y"),
-                res_y,
-            ),
+            &MemVerify { memory: self.memory.clone() },
+            (CasmAddress::new(instance_addr.clone() + const_expr!(6), "res_y"), res_y),
         );
     }
 

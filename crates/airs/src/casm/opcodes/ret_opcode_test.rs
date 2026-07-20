@@ -14,13 +14,7 @@ pub fn assemble_ret() -> u128 {
     let ret_off_0 = -2;
     let ret_off_1 = -1;
     let ret_off_2 = -1;
-    assemble_instruction(
-        ret_off_0,
-        ret_off_1,
-        ret_off_2,
-        RET_FLAGS.into(),
-        OpcodeExtension::Stone,
-    )
+    assemble_instruction(ret_off_0, ret_off_1, ret_off_2, RET_FLAGS.into(), OpcodeExtension::Stone)
 }
 
 #[test]

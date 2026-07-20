@@ -62,14 +62,10 @@ impl AirFn for MemoryIdToSmall {
             value_in_state = self.memory.get(&_id).expect("ID not in memory").as_felts();
         }
 
-        let values_array: [FeltExpr; SMALL_MEM_VALUE_N_FELTS] = value_in_state
-            .clone()
-            .try_into()
-            .expect("Expected 8 limbs in small memory value");
-        air_builder.call(
-            &RangeCheckMemValue::<SMALL_MEM_VALUE_N_FELTS>::new(),
-            values_array.clone(),
-        );
+        let values_array: [FeltExpr; SMALL_MEM_VALUE_N_FELTS] =
+            value_in_state.clone().try_into().expect("Expected 8 limbs in small memory value");
+        air_builder
+            .call(&RangeCheckMemValue::<SMALL_MEM_VALUE_N_FELTS>::new(), values_array.clone());
 
         values_array
     }

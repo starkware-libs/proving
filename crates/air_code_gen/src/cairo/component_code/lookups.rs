@@ -42,10 +42,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         .enumerate()
     {
         code.append(quote! { $("\n") });
-        let trace = trace_chunk
-            .into_iter()
-            .map(|i| format!("trace_2_col{i}"))
-            .collect::<Vec<_>>();
+        let trace = trace_chunk.into_iter().map(|i| format!("trace_2_col{i}")).collect::<Vec<_>>();
         let prefix = get_lookup_constraints_prefix(i, n_chunks, &trace, &prev_trace);
         let sum_i = i * LOOKUP_RELATION_BATCH_SIZE;
         let (rel1, rel1_sign) = get_sum_name_and_sign(sum_i, &sum_chunk[0]);
@@ -129,9 +126,7 @@ fn get_sum_name_and_sign(i: usize, sum: &(String, UseOrYield)) -> (String, Strin
 
 fn get_interaction_trace_vars(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-    let names = (0..n_logup_columns(air_fn))
-        .map(|i| format!("trace_2_col{i}"))
-        .collect::<Vec<_>>();
+    let names = (0..n_logup_columns(air_fn)).map(|i| format!("trace_2_col{i}")).collect::<Vec<_>>();
     if names.is_empty() {
         return code;
     }

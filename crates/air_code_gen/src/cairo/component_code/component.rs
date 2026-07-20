@@ -9,9 +9,9 @@ use stwo_cairo_common::prover_types::cpu::QM31;
 use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
-use crate::cairo::utils::get_numerators;
 use crate::cairo::utils::{
-    gen_consts, gen_imports, get_log_size, get_lookup_sums, make_preprocessed_column,
+    gen_consts, gen_imports, get_log_size, get_lookup_sums, get_numerators,
+    make_preprocessed_column,
 };
 use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
@@ -146,11 +146,8 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         .flat_map(|value| quote! { $(make_qm31(value)), $("\n") })
         .collect();
 
-    let expected_result_name = format!(
-        "{}{}",
-        air_fn.name.to_case(Case::UpperSnake),
-        SAMPLE_EVALUATION_RESULT_SUFFIX
-    );
+    let expected_result_name =
+        format!("{}{}", air_fn.name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX);
 
     quote! {
         // Compiling for the "poseidon verifier", i.e. without the QM31 opcode, makes evaluate_constraints_at_point

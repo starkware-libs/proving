@@ -10,11 +10,7 @@ fn test_bitwise_xor() {
     let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
-        [
-            const_expr!(0b1100),
-            const_expr!(0b1010),
-            const_expr!(0b0110),
-        ],
+        [const_expr!(0b1100), const_expr!(0b1010), const_expr!(0b0110)],
         (),
     );
 }
@@ -26,11 +22,7 @@ fn test_failed_bitwise_xor() {
     let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
-        [
-            const_expr!(0b1111),
-            const_expr!(0b01101),
-            const_expr!(0b101),
-        ],
+        [const_expr!(0b1111), const_expr!(0b01101), const_expr!(0b101)],
         (),
     );
 }
@@ -42,11 +34,7 @@ fn test_failed_big_input_xor() {
     let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
-        [
-            const_expr!(0b11001),
-            const_expr!(0b1010),
-            const_expr!(0b101),
-        ],
+        [const_expr!(0b11001), const_expr!(0b1010), const_expr!(0b101)],
         (),
     );
 }

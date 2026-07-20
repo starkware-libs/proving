@@ -1,6 +1,5 @@
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use serde::Serialize;
@@ -17,11 +16,7 @@ impl AirFn for TripleSum32 {
     type Out = UInt32Expr;
 
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("a".to_string()),
-            Some("b".to_string()),
-            Some("c".to_string()),
-        ])
+        Some(vec![Some("a".to_string()), Some("b".to_string()), Some("c".to_string())])
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {

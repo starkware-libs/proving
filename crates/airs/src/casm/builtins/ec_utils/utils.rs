@@ -9,30 +9,17 @@ pub struct CurvePoint {
     pub y: Felt252,
 }
 
-const THREE: Felt252 = Felt252 {
-    limbs: [3, 0, 0, 0],
-};
-const TWO: Felt252 = Felt252 {
-    limbs: [2, 0, 0, 0],
-};
+const THREE: Felt252 = Felt252 { limbs: [3, 0, 0, 0] };
+const TWO: Felt252 = Felt252 { limbs: [2, 0, 0, 0] };
 #[cfg(test)]
-const ZERO: Felt252 = Felt252 {
-    limbs: [0, 0, 0, 0],
-};
+const ZERO: Felt252 = Felt252 { limbs: [0, 0, 0, 0] };
 
 // The alpha parameter in the STARK elliptic curve: y^2 = x^3 + alpha * x + beta (mod P_252)
-const CURVE_A: Felt252 = Felt252 {
-    limbs: [1, 0, 0, 0],
-};
+const CURVE_A: Felt252 = Felt252 { limbs: [1, 0, 0, 0] };
 
 pub const P_SHIFT: CurvePoint = CurvePoint {
     x: Felt252 {
-        limbs: [
-            6133865585316620292,
-            8172638112721434419,
-            67021315040190230,
-            332954023760060423,
-        ],
+        limbs: [6133865585316620292, 8172638112721434419, 67021315040190230, 332954023760060423],
     },
     y: Felt252 {
         limbs: [
@@ -55,12 +42,7 @@ pub const P_0: CurvePoint = CurvePoint {
         ],
     },
     y: Felt252 {
-        limbs: [
-            7984924534557791765,
-            10664864617948026060,
-            2200172416265571897,
-            265807971118313394,
-        ],
+        limbs: [7984924534557791765, 10664864617948026060, 2200172416265571897, 265807971118313394],
     },
 };
 
@@ -75,44 +57,24 @@ pub const P_1: CurvePoint = CurvePoint {
         ],
     },
     y: Felt252 {
-        limbs: [
-            5866207792187422029,
-            6208038334140916660,
-            9301024774522029057,
-            286551992207264227,
-        ],
+        limbs: [5866207792187422029, 6208038334140916660, 9301024774522029057, 286551992207264227],
     },
 };
 
 #[cfg(test)]
 pub const P_2: CurvePoint = CurvePoint {
     x: Felt252 {
-        limbs: [
-            4225347253695244695,
-            4667577249380821263,
-            8523362424349652811,
-            340669115356057068,
-        ],
+        limbs: [4225347253695244695, 4667577249380821263, 8523362424349652811, 340669115356057068],
     },
     y: Felt252 {
-        limbs: [
-            5194092000597189020,
-            14611301832847634044,
-            5446855563628374111,
-            18067299449795871,
-        ],
+        limbs: [5194092000597189020, 14611301832847634044, 5446855563628374111, 18067299449795871],
     },
 };
 
 #[cfg(test)]
 pub const P_3: CurvePoint = CurvePoint {
     x: Felt252 {
-        limbs: [
-            15235661236934115842,
-            3217347257548387109,
-            7945700668643894203,
-            379149940513229852,
-        ],
+        limbs: [15235661236934115842, 3217347257548387109, 7945700668643894203, 379149940513229852],
     },
     y: Felt252 {
         limbs: [
@@ -126,10 +88,7 @@ pub const P_3: CurvePoint = CurvePoint {
 
 #[cfg(test)]
 pub fn ec_neg(p: &CurvePoint) -> CurvePoint {
-    CurvePoint {
-        x: p.x,
-        y: ZERO - p.y,
-    }
+    CurvePoint { x: p.x, y: ZERO - p.y }
 }
 
 pub fn ec_add(a: &CurvePoint, b: &CurvePoint) -> CurvePoint {
@@ -144,10 +103,7 @@ pub fn ec_add(a: &CurvePoint, b: &CurvePoint) -> CurvePoint {
     };
     let result_x = slope * slope - a.x - b.x;
     let result_y = slope * (a.x - result_x) - a.y;
-    CurvePoint {
-        x: result_x,
-        y: result_y,
-    }
+    CurvePoint { x: result_x, y: result_y }
 }
 
 pub fn ec_mul(p: &CurvePoint, mut k: usize) -> CurvePoint {
@@ -173,11 +129,7 @@ pub fn ec_mul(p: &CurvePoint, mut k: usize) -> CurvePoint {
 // Combines an add and mul operations.
 #[cfg(test)]
 pub fn ec_add_mul(a: &CurvePoint, b: &CurvePoint, k: usize) -> CurvePoint {
-    if k == 0 {
-        a.clone()
-    } else {
-        ec_add(a, &ec_mul(b, k))
-    }
+    if k == 0 { a.clone() } else { ec_add(a, &ec_mul(b, k)) }
 }
 
 /// Compute `p` * (2 ** `amount`)

@@ -17,12 +17,7 @@ fn test_triple_xor() {
     let (state, _) = registry.run_air(
         &triple_xor,
         (),
-        [
-            const_u32_expr!(a),
-            const_u32_expr!(b),
-            const_u32_expr!(c),
-            const_u32_expr!(d),
-        ],
+        [const_u32_expr!(a), const_u32_expr!(b), const_u32_expr!(c), const_u32_expr!(d)],
     );
 
     expect![[r#"

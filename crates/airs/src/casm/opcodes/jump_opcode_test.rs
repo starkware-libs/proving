@@ -1,12 +1,11 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::jump_opcode::*;
@@ -18,21 +17,9 @@ fn test_jump_opcode(
     op1: i64,
     offsets_value: [Option<i16>; 2],
 ) -> State {
-    let [
-        rel,
-        imm,
-        double_deref,
-        op0_base_fp,
-        op1_base_fp,
-        ap_update_add_1,
-    ] = non_consts_flags;
+    let [rel, imm, double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] = non_consts_flags;
     // Create the air function
-    let mut jump_opcode = JumpOpcode {
-        rel,
-        imm,
-        double_deref,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut jump_opcode = JumpOpcode { rel, imm, double_deref, memory: Felt252IdMemory::default() };
 
     // Register values at opcode start
     let pc = 3;
@@ -55,9 +42,7 @@ fn test_jump_opcode(
             assemble_jump(
                 offsets_value[0],
                 offsets_value[1],
-                jump_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&non_consts_flags),
+                jump_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
             ),
             0
         ),
@@ -119,12 +104,8 @@ fn test_jump_opcode(
 
 #[test]
 fn test_abs_jump_base_ap() {
-    let state = test_jump_opcode(
-        [false, false, false, false, false, false],
-        125,
-        8,
-        [None, Some(2)],
-    );
+    let state =
+        test_jump_opcode([false, false, false, false, false, false], 125, 8, [None, Some(2)]);
 
     expect![[r#"
         (1, "enabler"),
@@ -147,12 +128,8 @@ fn test_abs_jump_base_ap() {
 
 #[test]
 fn test_abs_jump_base_fp() {
-    let state = test_jump_opcode(
-        [false, false, false, false, true, false],
-        125,
-        5,
-        [None, Some(10)],
-    );
+    let state =
+        test_jump_opcode([false, false, false, false, true, false], 125, 5, [None, Some(10)]);
 
     expect![[r#"
         (1, "enabler"),
@@ -175,12 +152,8 @@ fn test_abs_jump_base_fp() {
 
 #[test]
 fn test_abs_jump_base_ap_inc_ap() {
-    let state = test_jump_opcode(
-        [false, false, false, false, false, true],
-        125,
-        8,
-        [None, Some(2)],
-    );
+    let state =
+        test_jump_opcode([false, false, false, false, false, true], 125, 8, [None, Some(2)]);
 
     expect![[r#"
         (1, "enabler"),
@@ -203,12 +176,8 @@ fn test_abs_jump_base_ap_inc_ap() {
 
 #[test]
 fn test_abs_jump_base_fp_inc_ap() {
-    let state = test_jump_opcode(
-        [false, false, false, false, true, true],
-        125,
-        5,
-        [None, Some(10)],
-    );
+    let state =
+        test_jump_opcode([false, false, false, false, true, true], 125, 5, [None, Some(10)]);
 
     expect![[r#"
         (1, "enabler"),
@@ -259,12 +228,8 @@ fn test_abs_big_op1() {
 
 #[test]
 fn test_abs_jump_negative_offset() {
-    let state = test_jump_opcode(
-        [false, false, false, false, false, false],
-        125,
-        9,
-        [None, Some(-9)],
-    );
+    let state =
+        test_jump_opcode([false, false, false, false, false, false], 125, 9, [None, Some(-9)]);
 
     expect![[r#"
         (1, "enabler"),
@@ -287,12 +252,7 @@ fn test_abs_jump_negative_offset() {
 
 #[test]
 fn test_rel_jump() {
-    let state = test_jump_opcode(
-        [true, true, false, false, false, false],
-        125,
-        100,
-        [None, None],
-    );
+    let state = test_jump_opcode([true, true, false, false, false, false], 125, 100, [None, None]);
 
     expect![[r#"
         (1, "enabler"),
@@ -314,12 +274,7 @@ fn test_rel_jump() {
 
 #[test]
 fn test_rel_jump_inc_ap() {
-    let state = test_jump_opcode(
-        [true, true, false, false, false, true],
-        125,
-        3,
-        [None, None],
-    );
+    let state = test_jump_opcode([true, true, false, false, false, true], 125, 3, [None, None]);
 
     expect![[r#"
         (1, "enabler"),
@@ -341,12 +296,8 @@ fn test_rel_jump_inc_ap() {
 
 #[test]
 fn test_rel_big_op1() {
-    let state = test_jump_opcode(
-        [true, true, false, false, false, false],
-        125,
-        54687687,
-        [None, None],
-    );
+    let state =
+        test_jump_opcode([true, true, false, false, false, false], 125, 54687687, [None, None]);
 
     expect![[r#"
         (1, "enabler"),
@@ -368,12 +319,7 @@ fn test_rel_big_op1() {
 
 #[test]
 fn test_rel_negative_imm() {
-    let state = test_jump_opcode(
-        [true, true, false, false, false, false],
-        125,
-        -2,
-        [None, None],
-    );
+    let state = test_jump_opcode([true, true, false, false, false, false], 125, -2, [None, None]);
 
     expect![[r#"
         (1, "enabler"),
@@ -395,12 +341,8 @@ fn test_rel_negative_imm() {
 
 #[test]
 fn test_rel_negative_op1() {
-    let state = test_jump_opcode(
-        [true, false, false, false, false, false],
-        125,
-        -2,
-        [None, Some(333)],
-    );
+    let state =
+        test_jump_opcode([true, false, false, false, false, false], 125, -2, [None, Some(333)]);
 
     expect![[r#"
         (1, "enabler"),
@@ -425,12 +367,8 @@ fn test_rel_negative_op1() {
 
 #[test]
 fn test_rel_deref_base_fp() {
-    let state = test_jump_opcode(
-        [true, false, false, false, true, true],
-        125,
-        16584,
-        [None, Some(12345)],
-    );
+    let state =
+        test_jump_opcode([true, false, false, false, true, true], 125, 16584, [None, Some(12345)]);
 
     expect![[r#"
         (1, "enabler"),

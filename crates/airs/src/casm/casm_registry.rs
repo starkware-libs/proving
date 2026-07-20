@@ -176,10 +176,7 @@ pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, Compiled
         }
     }
 
-    assert!(
-        compiled_registry.is_empty(),
-        "Some components were not added to the ordered registry"
-    );
+    assert!(compiled_registry.is_empty(), "Some components were not added to the ordered registry");
     ordered
 }
 
@@ -189,18 +186,10 @@ pub fn get_all_opcodes() -> Vec<Box<dyn AirFn<ExtIn = (), In = CasmStateVar, Out
         // Generic opcode
         Box::new(GenericOpcode::default()),
         // AddAp opcode
-        Box::new(AddApOpcode {
-            memory: Felt252IdMemory::default(),
-        }),
+        Box::new(AddApOpcode { memory: Felt252IdMemory::default() }),
         // Add opcode
-        Box::new(AddOpcode {
-            small: true,
-            memory: Felt252IdMemory::default(),
-        }),
-        Box::new(AddOpcode {
-            small: false,
-            memory: Felt252IdMemory::default(),
-        }),
+        Box::new(AddOpcode { small: true, memory: Felt252IdMemory::default() }),
+        Box::new(AddOpcode { small: false, memory: Felt252IdMemory::default() }),
         // AssertEq opcode
         Box::new(AssertEqOpcode {
             double_deref: false,
@@ -218,23 +207,11 @@ pub fn get_all_opcodes() -> Vec<Box<dyn AirFn<ExtIn = (), In = CasmStateVar, Out
             memory: Felt252IdMemory::default(),
         }),
         // Call opcode
-        Box::new(CallOpcode {
-            rel_imm: false,
-            memory: Felt252IdMemory::default(),
-        }),
-        Box::new(CallOpcode {
-            rel_imm: true,
-            memory: Felt252IdMemory::default(),
-        }),
+        Box::new(CallOpcode { rel_imm: false, memory: Felt252IdMemory::default() }),
+        Box::new(CallOpcode { rel_imm: true, memory: Felt252IdMemory::default() }),
         // Jnz opcode
-        Box::new(JnzOpcode {
-            taken: true,
-            memory: Felt252IdMemory::default(),
-        }),
-        Box::new(JnzOpcode {
-            taken: false,
-            memory: Felt252IdMemory::default(),
-        }),
+        Box::new(JnzOpcode { taken: true, memory: Felt252IdMemory::default() }),
+        Box::new(JnzOpcode { taken: false, memory: Felt252IdMemory::default() }),
         // Jump opcode
         Box::new(JumpOpcode {
             rel: true,
@@ -261,20 +238,12 @@ pub fn get_all_opcodes() -> Vec<Box<dyn AirFn<ExtIn = (), In = CasmStateVar, Out
             memory: Felt252IdMemory::default(),
         }),
         // Mul opcode
-        Box::new(MulOpcode {
-            small: true,
-            memory: Felt252IdMemory::default(),
-        }),
-        Box::new(MulOpcode {
-            small: false,
-            memory: Felt252IdMemory::default(),
-        }),
+        Box::new(MulOpcode { small: true, memory: Felt252IdMemory::default() }),
+        Box::new(MulOpcode { small: false, memory: Felt252IdMemory::default() }),
         // Ret opcode
         Box::new(RetOpcode::default()),
         // QM31AddMul opcode
-        Box::new(QM31AddMulOpcode {
-            memory: Felt252IdMemory::default(),
-        }),
+        Box::new(QM31AddMulOpcode { memory: Felt252IdMemory::default() }),
         // Blake opcode
         Box::new(BlakeCompressOpcode::default()),
     ]

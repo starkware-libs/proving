@@ -53,9 +53,7 @@ where
         .to_vec()
         .try_into()
         .unwrap_or_else(|_| panic!("range check needs {} arguments", R::bits().len()));
-    let rc = RangeCheck::<R> {
-        _phantom: PhantomData,
-    };
+    let rc = RangeCheck::<R> { _phantom: PhantomData };
     ab.lookup_call_variant(&rc, input, (), variant)
 }
 
@@ -84,20 +82,12 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
     }
 
     fn name(&self) -> String {
-        let bits = R::bits()
-            .iter()
-            .map(|b| b.to_string())
-            .collect::<Vec<_>>()
-            .join("_");
+        let bits = R::bits().iter().map(|b| b.to_string()).collect::<Vec<_>>().join("_");
         format!("range_check_{bits}")
     }
 
     fn relation_names(&self) -> Vec<String> {
-        let bits = R::bits()
-            .iter()
-            .map(|b| b.to_string())
-            .collect::<Vec<_>>()
-            .join("_");
+        let bits = R::bits().iter().map(|b| b.to_string()).collect::<Vec<_>>().join("_");
         let relation_name = format!("RangeCheck_{bits}");
 
         match R::bits() {

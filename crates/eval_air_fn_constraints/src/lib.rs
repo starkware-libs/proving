@@ -57,10 +57,7 @@ pub fn create_sample_evaluation(
         &assignment.base_trace,
         assignment.environment.clone(),
     );
-    SampleEvaluation {
-        result: evaluate_composition_polynomial(steps, &assignment),
-        assignment,
-    }
+    SampleEvaluation { result: evaluate_composition_polynomial(steps, &assignment), assignment }
 }
 
 /// Run an AirFn with the given input, trace and environment. Return its output and
@@ -172,14 +169,8 @@ fn run_static_call_and_collect_steps(
     let CompiledAirVar::Array(input) = params[0].clone() else {
         panic!("Unexpected StaticCall input")
     };
-    let input_values = input
-        .iter()
-        .map(|input_var| scope.evaluate(input_var))
-        .collect::<Vec<_>>();
-    let state_values = params[1..]
-        .iter()
-        .map(|var| scope.evaluate(var))
-        .collect::<Vec<_>>();
+    let input_values = input.iter().map(|input_var| scope.evaluate(input_var)).collect::<Vec<_>>();
+    let state_values = params[1..].iter().map(|var| scope.evaluate(var)).collect::<Vec<_>>();
     run_component_and_collect_steps(
         compiled_registry,
         called_component,

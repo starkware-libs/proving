@@ -25,9 +25,7 @@ fn test_verify_felt252pack_into27() {
 
 #[test]
 fn test_verify_felt252unpack_from27() {
-    let air_fn = Felt252UnpackFrom27 {
-        range_check_output: true,
-    };
+    let air_fn = Felt252UnpackFrom27 { range_check_output: true };
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,

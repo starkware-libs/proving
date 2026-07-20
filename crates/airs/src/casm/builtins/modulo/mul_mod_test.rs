@@ -1,13 +1,12 @@
 use core::array::from_fn;
 
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::Felt;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::public_params::PublicParam;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 
 use super::mod_utils::*;
 use super::mul_mod::*;
@@ -493,20 +492,14 @@ fn run_mul_mod_builtin(instances: Vec<ModInstance>) {
         );
 
         memory_addr_to_vals.extend(offsets_addr.into_iter().zip(offsets_vals));
-        memory_addr_to_vals.extend(
-            data_unravel_2d(vars_addr)
-                .into_iter()
-                .zip(data_unravel_2d_252(vars_vals)),
-        );
+        memory_addr_to_vals
+            .extend(data_unravel_2d(vars_addr).into_iter().zip(data_unravel_2d_252(vars_vals)));
     }
     let memory = Felt252IdMemory::new_with_data(memory_addr_to_vals);
     let mul_mod = MulModBuiltin { memory };
 
     let mut registry = AirFnRegistry::new_empty();
-    registry.public_params.set(
-        PublicParam::MulModBuiltinSegmentStart,
-        Felt::from(segment_start),
-    );
+    registry.public_params.set(PublicParam::MulModBuiltinSegmentStart, Felt::from(segment_start));
     registry.add_entry(&mul_mod);
 
     for row in 0..instances.len() {

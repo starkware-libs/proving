@@ -1,12 +1,11 @@
 use air_infra::casm_state::CasmStateVar;
-use air_infra::const_expr;
-use air_infra::const_felt252_expr;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
 use air_infra::core::state::State;
 use air_infra::core::variables::AsProverType;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
+use air_infra::{const_expr, const_felt252_expr};
 use expect_test::expect;
 
 use super::assert_eq_opcode::*;
@@ -150,11 +149,8 @@ fn test_assert_equal(non_consts_flags: [bool; 6], dst: u128, op0: u128, op1: u12
 
     // Create the air function
     let double_deref = !flag_op1_imm && !flag_op1_base_fp && !flag_op1_base_ap;
-    let mut assert_equal_opcode = AssertEqOpcode {
-        double_deref,
-        imm: flag_op1_imm,
-        memory: Felt252IdMemory::default(),
-    };
+    let mut assert_equal_opcode =
+        AssertEqOpcode { double_deref, imm: flag_op1_imm, memory: Felt252IdMemory::default() };
 
     let offset0_value = 3;
     let offset1_value = if double_deref { 7 } else { -1 };
@@ -174,12 +170,7 @@ fn test_assert_equal(non_consts_flags: [bool; 6], dst: u128, op0: u128, op1: u12
     } else if double_deref {
         vec![flag_dst_base_fp, flag_op0_base_fp, flag_ap_update_add_1]
     } else {
-        vec![
-            flag_dst_base_fp,
-            flag_op1_base_fp,
-            flag_op1_base_ap,
-            flag_ap_update_add_1,
-        ]
+        vec![flag_dst_base_fp, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1]
     };
 
     // Fill memory
@@ -190,9 +181,7 @@ fn test_assert_equal(non_consts_flags: [bool; 6], dst: u128, op0: u128, op1: u12
                 offset0_value,
                 offset1_value,
                 offset2_value,
-                assert_equal_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&non_consts_flags),
+                assert_equal_opcode.get_flags().non_constants_to_arr(&non_consts_flags),
                 OpcodeExtension::Stone
             ),
             0

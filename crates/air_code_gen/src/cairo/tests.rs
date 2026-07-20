@@ -26,9 +26,9 @@ fn add_ap_cairo_code_gen() {
         },
         AutogenCodeFile {
             air_fn_name: "decode_instruction_d2a10".to_string(),
-            source_path:
-                "../compiled_casm_air/compiled_jsons/subroutines/decode_instruction_1af1f.json"
-                    .into(),
+            source_path: "../compiled_casm_air/compiled_jsons/subroutines/\
+                          decode_instruction_1af1f.json"
+                .into(),
             dest_dir: "../code_gen_regression/verifier/src/components".into(),
             code_type: AutogenCodeType::CAIRO,
         },

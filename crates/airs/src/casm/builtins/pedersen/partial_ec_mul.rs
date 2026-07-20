@@ -2,13 +2,10 @@ use std::array::from_fn;
 
 use air_common::TraceType;
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::air_fn::ChainRoundAirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn, ChainRoundAirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
-use air_infra::core::variables::ChainIdVar;
-use air_infra::core::variables::RoundNumVar;
+use air_infra::core::variables::{ChainIdVar, RoundNumVar};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
@@ -25,9 +22,7 @@ impl<const NUM_WINDOWS: usize> PartialECMul<NUM_WINDOWS> {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         assert_eq!(252 % NUM_WINDOWS, 0);
-        Self {
-            window_bits: 252 / NUM_WINDOWS,
-        }
+        Self { window_bits: 252 / NUM_WINDOWS }
     }
 }
 
@@ -137,11 +132,7 @@ impl<const NUM_WINDOWS: usize> AirFn for PartialECMul<NUM_WINDOWS> {
             .try_into()
             .expect("New m_shifted was built to have NUM_WINDOWS elements");
 
-        (
-            chain_index,
-            round_index + const_expr!(1),
-            (new_m_shifted, new_accumulator),
-        )
+        (chain_index, round_index + const_expr!(1), (new_m_shifted, new_accumulator))
     }
 }
 

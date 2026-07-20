@@ -107,10 +107,7 @@ impl FeltExpr {
                 *self = Expr::new_var_from(name, self);
             }
         }
-        self.as_var_mut()
-            .complex_or_felt
-            .as_felt_info_mut()
-            .value_info = new_value_info;
+        self.as_var_mut().complex_or_felt.as_felt_info_mut().value_info = new_value_info;
         self.as_var_mut().visibility.in_constraints = true;
         self.as_var_mut().visibility.in_deductions = true;
     }
@@ -165,10 +162,7 @@ impl FeltExpr {
             var.as_var_mut().visibility.in_deductions = false;
             *self = var;
         }
-        self.as_var_mut()
-            .complex_or_felt
-            .as_felt_info_mut()
-            .constraint_intermediate = Some(name);
+        self.as_var_mut().complex_or_felt.as_felt_info_mut().constraint_intermediate = Some(name);
         self.as_var_mut().visibility.in_constraints = true;
     }
 }
@@ -204,9 +198,7 @@ macro_rules! const_expr {
 #[macro_export]
 macro_rules! const_expr_from_m31 {
     ($val:expr) => {
-        FeltExpr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            $val,
-        ))
+        FeltExpr::Var($crate::core::expressions::var_expr::VarExpr::new_const($val))
     };
 }
 

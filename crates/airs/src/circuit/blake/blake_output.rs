@@ -1,7 +1,6 @@
 use air_common::{GATE_RELATION_NAME, TraceType, UseOrYield};
 use air_infra::const_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::uint32_expr::UInt32Expr;
 use air_infra::core::variables::AirVar;
@@ -33,29 +32,20 @@ impl AirFn for BlakeOutput {
 
         ab.add_lookup_term(
             &self.relation_name().expect("Relation name not set"),
-            vec![final_state_addr.var]
-                .into_iter()
-                .chain(final_state.as_felts())
-                .collect(),
+            vec![final_state_addr.var].into_iter().chain(final_state.as_felts()).collect(),
             UseOrYield::Use,
             const_expr!(1),
         );
 
         ab.add_lookup_term(
             GATE_RELATION_NAME,
-            vec![output0_addr.var]
-                .into_iter()
-                .chain(output[0..4].iter().cloned())
-                .collect(),
+            vec![output0_addr.var].into_iter().chain(output[0..4].iter().cloned()).collect(),
             UseOrYield::Yield,
             output0_mult,
         );
         ab.add_lookup_term(
             GATE_RELATION_NAME,
-            vec![output1_addr.var]
-                .into_iter()
-                .chain(output[4..8].iter().cloned())
-                .collect(),
+            vec![output1_addr.var].into_iter().chain(output[4..8].iter().cloned()).collect(),
             UseOrYield::Yield,
             output1_mult,
         );

@@ -83,10 +83,7 @@ fn get_jobs(
             .to_str()
             .expect("Invalid filename")
             .to_string();
-        let is_subroutine = json_path
-            .parent()
-            .expect("Invalid path")
-            .ends_with("subroutines");
+        let is_subroutine = json_path.parent().expect("Invalid path").ends_with("subroutines");
         if *code_type == AutogenCodeType::WITNESS && is_subroutine {
             // Skip witness generation for subroutines (in witness code, the subroutines are
             // inlined into their caller files).
@@ -146,10 +143,7 @@ fn format_rust(path: &Path) {
     let shell = Shell::new().unwrap();
     println!("Formatting Rust code...");
     shell.change_dir(path);
-    cmd!(shell, "env -u RUSTUP_TOOLCHAIN cargo fmt --all")
-        .quiet()
-        .run()
-        .unwrap();
+    cmd!(shell, "env -u RUSTUP_TOOLCHAIN cargo fmt --all").quiet().run().unwrap();
 }
 
 fn format_stwo_cairo(stwo_cairo_path: &Path) {
@@ -176,11 +170,8 @@ fn generate_registry_properties_file(src: &Path, dst: &Path) {
         air_fns: registry_src,
     };
 
-    fs::write(
-        dst,
-        serde_json::to_string_pretty(&registry_out).expect("Cannot serialize registry"),
-    )
-    .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dst.display()))
+    fs::write(dst, serde_json::to_string_pretty(&registry_out).expect("Cannot serialize registry"))
+        .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dst.display()))
 }
 
 #[derive(Debug, Parser)]
@@ -287,7 +278,8 @@ fn generate_single(args: SingleArgs) {
         AutogenCodeType::WITNESS
     } else {
         panic!(
-            "Code type not specified. Use --cairo-constraints, --circuit-constraints, --rust-constraints or --witness"
+            "Code type not specified. Use --cairo-constraints, --circuit-constraints, \
+             --rust-constraints or --witness"
         )
     };
 
@@ -342,12 +334,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
     for (src, dst, code) in jobs_desc {
         let jobs = get_jobs(&src.join("compiled_jsons"), dst, &code);
         let (compiled_air_fns, sample_evaluations) = load_air_fns(src, &jobs);
-        generate_files(
-            &args.stwo_cairo_path,
-            &compiled_air_fns,
-            &sample_evaluations,
-            &jobs,
-        );
+        generate_files(&args.stwo_cairo_path, &compiled_air_fns, &sample_evaluations, &jobs);
 
         if code == AutogenCodeType::CAIRO {
             cairo_sample_evaluations::generate_sample_evaluations_file(
@@ -360,9 +347,7 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
 
     generate_registry_properties_file(
         &compiled_casm_crate,
-        &args
-            .stwo_cairo_path
-            .join("stwo_cairo_prover/crates/common/casm_registry.json"),
+        &args.stwo_cairo_path.join("stwo_cairo_prover/crates/common/casm_registry.json"),
     );
 
     let compiled_registry = create_casm_registry_ordered_by_stwo_cairo();
@@ -443,12 +428,7 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
     for (src, dst, code) in jobs_desc {
         let jobs = get_jobs(&src.join("compiled_jsons"), dst, &code);
         let (compiled_air_fns, sample_evaluations) = load_air_fns(src, &jobs);
-        generate_files(
-            &args.stwo_circuits_path,
-            &compiled_air_fns,
-            &sample_evaluations,
-            &jobs,
-        );
+        generate_files(&args.stwo_circuits_path, &compiled_air_fns, &sample_evaluations, &jobs);
 
         if code == AutogenCodeType::CIRCUIT {
             circuit_sample_evaluations::generate_sample_evaluations_file(

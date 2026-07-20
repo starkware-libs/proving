@@ -23,10 +23,7 @@ impl AirFn for ReadId {
         // Deduce the ID as-is
         air_builder.deduce(
             &mut id.var,
-            &id.extra_info
-                .as_ref()
-                .map(|s| format!("{s}_id"))
-                .unwrap_or("id".to_string()),
+            &id.extra_info.as_ref().map(|s| format!("{s}_id")).unwrap_or("id".to_string()),
         );
 
         air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());

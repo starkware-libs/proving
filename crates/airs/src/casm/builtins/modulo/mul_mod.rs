@@ -2,12 +2,8 @@ use core::array::from_fn;
 
 use air_common::TraceType;
 use air_infra::casm_state::CasmAddress;
-use air_infra::const_expr;
-use air_infra::const_u16_expr;
-use air_infra::core::air_fn::AirBuilder;
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::expressions::biguint_expr::BigUInt384Expr;
-use air_infra::core::expressions::biguint_expr::BigUInt768Expr;
+use air_infra::core::air_fn::{AirBuilder, AirFn};
+use air_infra::core::expressions::biguint_expr::{BigUInt384Expr, BigUInt768Expr};
 use air_infra::core::expressions::bounded_felt::BoundedFeltExpr;
 use air_infra::core::expressions::felt_expr::FeltExpr;
 use air_infra::core::expressions::felt252_expr::Felt252Expr;
@@ -17,6 +13,7 @@ use air_infra::core::variables::AirVar;
 use air_infra::felt252_id_memory::memory::Felt252IdMemory;
 use air_infra::range_check::range_check;
 use air_infra::seq::Seq;
+use air_infra::{const_expr, const_u16_expr};
 use serde::Serialize;
 
 use super::mod_utils::*;
@@ -33,10 +30,7 @@ pub const MUL_MOD_NUM_LIMBS: usize = {
 pub const NUM_12BIT_LIMBS_PER_WORD: usize = MOD_BUILTIN_WORD_BIT_LEN.div_ceil(MUL_MOD_LIMB_SIZE);
 pub const MUL_MOD_MAX_LIMB: i32 = (1 << MUL_MOD_LIMB_SIZE) - 1;
 pub const MUL_MOD_KARATSUBA_N: usize = {
-    assert!(
-        MUL_MOD_NUM_LIMBS.is_multiple_of(4),
-        "Mul mod number of limbs must be divisible by 4"
-    );
+    assert!(MUL_MOD_NUM_LIMBS.is_multiple_of(4), "Mul mod number of limbs must be divisible by 4");
     MUL_MOD_NUM_LIMBS / 4
 };
 
@@ -55,13 +49,8 @@ impl AirFn for MulModBuiltin {
         let instance_num = ab.call_external_table(&Seq {});
         let segment_start = ab.get_public_param(PublicParam::MulModBuiltinSegmentStart);
         let [p, a, b, c] = ab.call(
-            &ModUtils {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(segment_start, "mul_mod_segment_start"),
-                instance_num,
-            ),
+            &ModUtils { memory: self.memory.clone() },
+            (CasmAddress::new(segment_start, "mul_mod_segment_start"), instance_num),
         );
 
         let shift = const_expr!(1 << MUL_MOD_LIMB_SIZE);
@@ -87,10 +76,7 @@ impl AirFn for MulModBuiltin {
             let res: [FeltExpr; MUL_MOD_NUM_LIMBS] = x
                 .chunks(2)
                 .flat_map(|chunk| {
-                    ab.call(
-                        &ModWordsTo12BitArray {},
-                        [chunk[0].clone(), chunk[1].clone()],
-                    )
+                    ab.call(&ModWordsTo12BitArray {}, [chunk[0].clone(), chunk[1].clone()])
                 })
                 .collect::<Vec<_>>()
                 .try_into()
