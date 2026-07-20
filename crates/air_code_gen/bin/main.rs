@@ -306,8 +306,8 @@ fn generate_stwo_cairo(args: GenerateStwoCairoArgs) {
         panic!("Source directory does not exist: {}", args.source.display());
     }
 
-    let compiled_casm_crate = args.source.join("crates/compiled_casm_air");
-    let compiled_circuit_crate = args.source.join("crates/compiled_circuit_air");
+    let compiled_casm_crate = args.source.join("outputs/compiled_casm_air");
+    let compiled_circuit_crate = args.source.join("outputs/compiled_circuit_air");
     let jobs_desc = [
         (
             &compiled_casm_crate,
@@ -403,8 +403,8 @@ fn generate_stwo_circuits(args: GenerateStwoCircuitsArgs) {
         panic!("Source directory does not exist: {}", args.source.display());
     }
 
-    let compiled_casm_crate = args.source.join("crates/compiled_casm_air");
-    let compiled_circuit_crate = args.source.join("crates/compiled_circuit_air");
+    let compiled_casm_crate = args.source.join("outputs/compiled_casm_air");
+    let compiled_circuit_crate = args.source.join("outputs/compiled_circuit_air");
     let jobs_desc = [
         (
             &compiled_casm_crate,
