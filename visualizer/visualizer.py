@@ -17,8 +17,8 @@ import json
 import argparse
 
 VISUALIZER_DIR = os.path.abspath(os.path.dirname(__file__))
-CASM_AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_casm_air/compiled_jsons")
-CIRCUITS_AIRS_DIR = os.path.join(VISUALIZER_DIR, "../crates/compiled_circuit_air/compiled_jsons")
+CASM_AIRS_DIR = os.path.join(VISUALIZER_DIR, "../outputs/compiled_casm_air/compiled_jsons")
+CIRCUITS_AIRS_DIR = os.path.join(VISUALIZER_DIR, "../outputs/compiled_circuit_air/compiled_jsons")
 AIR_DIRS = {"CASM AIRs": CASM_AIRS_DIR, "Circuit AIRs": CIRCUITS_AIRS_DIR}
 
 class MyTCPServer(socketserver.TCPServer):

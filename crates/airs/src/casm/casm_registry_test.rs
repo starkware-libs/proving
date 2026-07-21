@@ -24,10 +24,13 @@ fn test_casm_registry() {
     let reg = create_casm_registry();
 
     // TODO(AnatG): Remove jsons from git.
-    compare_registry_jsons(&reg, Path::new("../compiled_casm_air/"));
+    compare_registry_jsons(&reg, Path::new("../../outputs/compiled_casm_air/"));
 
     let stat = reg.collect_stats();
-    compare_json(&stat, &Path::new("../compiled_casm_air/").join(REGISTRY_PROPERTIES_FILE_NAME));
+    compare_json(
+        &stat,
+        &Path::new("../../outputs/compiled_casm_air/").join(REGISTRY_PROPERTIES_FILE_NAME),
+    );
 
     compare_json(
         &IndexMap::from([
@@ -35,7 +38,7 @@ fn test_casm_registry() {
             ("ec_op".to_string(), get_ec_op_stat(&stat)),
             ("ecdsa".to_string(), get_ecdsa_stat(&stat)),
         ]),
-        Path::new("../compiled_casm_air/non_components.json"),
+        Path::new("../../outputs/compiled_casm_air/non_components.json"),
     );
 }
 
