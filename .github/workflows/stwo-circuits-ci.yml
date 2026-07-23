@@ -1,0 +1,33 @@
+name: stwo-circuits CI
+
+env:
+  NIGHTLY_VERSION: "nightly-2026-01-15"
+
+on:
+  workflow_call:
+    inputs:
+      # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
+      crate_group:
+        description: "Cargo -p args for the group"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      crate_group:
+        description: "Cargo -p args for the group"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  run-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test ${{ inputs.crate_group }} -- --test-threads=1

@@ -1,0 +1,138 @@
+name: nightly CI 
+
+env:
+  NIGHTLY_VERSION: "nightly-2026-01-15"
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs at midnight UTC every day
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  stwo-cairo-prover-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - name: Install Scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.18.0"
+      - uses: Swatinem/rust-cache@v2
+      - name: Run tests
+        run: cargo test --release --features="nightly" -p stwo-cairo-prover
+
+  avx512-bench:
+    runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - name: Run benchmark
+        run: |
+          cargo install cargo-criterion
+          ./scripts/bench.sh |& tee output.txt
+      - name: Download previous benchmark data
+        uses: actions/cache@v4
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-benchmark
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "cargo"
+          output-file-path: output.txt
+          external-data-json-path: ./cache/benchmark-data.json
+          fail-on-alert: true
+          summary-always: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-alert: true
+          alert-comment-cc-users: "@leo-starkware"
+
+  avx512-bench-parallel:
+    runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - name: Run benchmark
+        run: |
+          cargo install cargo-criterion
+          ./scripts/bench.sh --features="parallel" |& tee output.txt
+      - name: Download previous benchmark data
+        uses: actions/cache@v4
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-benchmark
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "cargo"
+          output-file-path: output.txt
+          external-data-json-path: ./cache/benchmark-data.json
+          fail-on-alert: true
+          summary-always: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-alert: true
+          alert-comment-cc-users: "@leo-starkware"
+  
+  wide-clippy:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+          components: clippy
+      - name: Run clippy
+        run: ./scripts/clippy.sh
+
+  # Aggregates the result of every nightly job and posts a single Slack
+  # notification: green only if all jobs succeeded, red otherwise. Skipped jobs
+  # are treated as success (same convention as the main CI gatekeeper).
+  notify:
+    if: always()
+    needs:
+      - stwo-cairo-prover-tests
+      - avx512-bench
+      - avx512-bench-parallel
+      - wide-clippy
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - name: Determine overall status
+        id: status
+        run: |
+          results="${{ join(needs.*.result, ' ') }}"
+          overall="success"
+          for r in $results; do
+            if [ "$r" = "failure" ] || [ "$r" = "cancelled" ]; then
+              overall="failure"
+              break
+            fi
+          done
+          echo "overall=$overall" >> "$GITHUB_OUTPUT"
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "Nightly CI: ${{ steps.status.outputs.overall == 'success' && '✅ passed' || '❌ failed' }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Nightly CI* — ${{ steps.status.outputs.overall == 'success' && '✅ Passed' || '❌ Failed' }}\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
+                  }
+                }
+              ]
+            }

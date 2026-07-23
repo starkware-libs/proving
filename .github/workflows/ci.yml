@@ -1,0 +1,214 @@
+name: CI
+
+env:
+  NIGHTLY_VERSION: "nightly-2026-01-15"
+  STABLE_VERSION: "1.94.0"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  merge_group:
+    types:
+      - checks_requested
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}${{ github.event_name == 'workflow_dispatch' && format('-{0}', github.run_id) || '' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  format:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --check
+
+  clippy:
+    name: clippy
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: |
+          cargo clippy --all-targets --all-features -- -D warnings \
+          -D future-incompatible -D nonstandard-style -D rust-2018-idioms -D unused
+
+  docs:
+    name: docs
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      # TODO(Leo): run cargo doc with more restrictive flags, e.g.
+      #   `RUSTDOCFLAGS="-Dwarnings" cargo doc --document-private-items --no-deps --all-features`
+      - run: cargo doc --no-deps
+
+  typos:
+    name: typos
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: typos@1.48.0
+      - run: typos
+
+  machete:
+    name: machete
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Install Machete
+        run: cargo install --locked cargo-machete
+      - name: Run Machete (detect unused dependencies)
+        run: cargo machete crates
+
+  dispatcher:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    outputs:
+      # Booleans for whether to run or skip individual workflows.
+      run_stwo: ${{ steps.dispatch.outputs.run_stwo }}
+      run_stwo_cairo_prover: ${{ steps.dispatch.outputs.run_stwo_cairo_prover }}
+      run_stwo_circuits: ${{ steps.dispatch.outputs.run_stwo_circuits }}
+      run_proving_utils: ${{ steps.dispatch.outputs.run_proving_utils }}
+      run_stwo_cairo_verifier: ${{ steps.dispatch.outputs.run_stwo_cairo_verifier }}
+      run_stwo_air_infra: ${{ steps.dispatch.outputs.run_stwo_air_infra }}
+      # Packages to test, forwarded to the individual workflows. Single source of truth is
+      # scripts/ci_dispatch.py.
+      # Note that stwo's and stwo-cairo-verifier's CI workflows do not need to receive
+      # their workspace packages as input: stwo addresses its packages directly and
+      # stwo-cairo-verifier is a separate scarb workspace.
+      stwo_cairo_prover_packages: ${{ steps.dispatch.outputs.stwo_cairo_prover_packages }}
+      stwo_circuits_packages: ${{ steps.dispatch.outputs.stwo_circuits_packages }}
+      proving_utils_packages: ${{ steps.dispatch.outputs.proving_utils_packages }}
+      stwo_air_infra_packages: ${{ steps.dispatch.outputs.stwo_air_infra_packages }}
+      # Packages that should compile with stable toolchain.
+      stable_crates: ${{ steps.dispatch.outputs.stable_crates }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Full history so the dispatch script can diff a PR against its base SHA.
+          fetch-depth: 0
+      # Computes which sub-repo flows to run. See scripts/ci_dispatch.py.
+      - id: dispatch
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python3 scripts/ci_dispatch.py
+
+  stwo:
+    needs: dispatcher
+    if: needs.dispatcher.outputs.run_stwo == 'true'
+    uses: ./.github/workflows/stwo-ci.yml
+    secrets: inherit
+
+  stwo-cairo-prover:
+    needs: dispatcher
+    if: needs.dispatcher.outputs.run_stwo_cairo_prover == 'true'
+    uses: ./.github/workflows/stwo-cairo-prover-ci.yml
+    with:
+      crate_group: ${{ needs.dispatcher.outputs.stwo_cairo_prover_packages }}
+    secrets: inherit
+
+  stwo-cairo-verifier:
+    needs: dispatcher
+    if: needs.dispatcher.outputs.run_stwo_cairo_verifier == 'true'
+    uses: ./.github/workflows/stwo-cairo-verifier-ci.yml
+    secrets: inherit
+
+  stwo-circuits:
+    needs: dispatcher
+    if: needs.dispatcher.outputs.run_stwo_circuits == 'true'
+    uses: ./.github/workflows/stwo-circuits-ci.yml
+    with:
+      crate_group: ${{ needs.dispatcher.outputs.stwo_circuits_packages }}
+    secrets: inherit
+
+  proving-utils:
+    needs: dispatcher
+    if: needs.dispatcher.outputs.run_proving_utils == 'true'
+    uses: ./.github/workflows/proving-utils-ci.yml
+    with:
+      crate_group: ${{ needs.dispatcher.outputs.proving_utils_packages }}
+    secrets: inherit
+
+  stwo-air-infra:
+    needs: dispatcher
+    if: needs.dispatcher.outputs.run_stwo_air_infra == 'true'
+    uses: ./.github/workflows/stwo-air-infra-ci.yml
+    with:
+      crate_group: ${{ needs.dispatcher.outputs.stwo_air_infra_packages }}
+    secrets: inherit
+  
+  stable-crates:
+    needs: dispatcher
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.STABLE_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Check verifiers compile on stable
+        env:
+          RUSTUP_TOOLCHAIN: ${{ env.STABLE_VERSION }}
+        run: cargo check ${{ needs.dispatcher.outputs.stable_crates }}
+
+  cargo-lock:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - name: Check Cargo.lock is up-to-date
+        run: cargo fetch --locked
+      - name: Check ensure-verifier-no_std/Cargo.lock is up-to-date
+        run: cargo fetch --locked --manifest-path ensure-verifier-no_std/Cargo.toml
+
+  # Skipped jobs are treated as success.
+  gatekeeper:
+    if: always()
+    needs:
+      - format
+      - clippy
+      - docs
+      - typos
+      - machete
+      - dispatcher
+      - stwo
+      - stwo-cairo-prover
+      - stwo-cairo-verifier
+      - stwo-circuits
+      - proving-utils
+      - stwo-air-infra
+      - cargo-lock
+      - stable-crates
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - name: Verify no required job failed
+        run: |
+          results="${{ join(needs.*.result, ' ') }}"
+          for r in $results; do
+            if [ "$r" = "failure" ] || [ "$r" = "cancelled" ]; then
+              exit 1
+            fi
+          done

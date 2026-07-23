@@ -1,0 +1,55 @@
+name: stwo-air-infra CI
+
+on:
+  workflow_call:
+    inputs:
+      # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
+      crate_group:
+        description: "Cargo -p args for the group"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
+      crate_group:
+        description: "Cargo -p args for the group"
+        required: true
+        type: string
+
+env:
+  STABLE_VERSION: "1.94.0"
+
+jobs:
+  js-typecheck:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.2.10
+      - run: scripts/js_typecheck.sh
+
+  visualizer-webapp-test:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.2.10
+      - run: scripts/visualizer_webapp_test.sh
+
+  # TODO(Leo): add test for equality of generated files.
+  tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.18.0"
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          components: rustfmt
+          profile: minimal
+          toolchain: ${{ env.STABLE_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo +${{ env.STABLE_VERSION }} test --release ${{ inputs.crate_group }}

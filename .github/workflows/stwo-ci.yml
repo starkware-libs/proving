@@ -1,0 +1,142 @@
+name: stwo CI
+
+env:
+  STABLE_VERSION: "1.94.0"
+  NIGHTLY_VERSION: "nightly-2026-01-15"
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  wasm32-wasip1-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+          targets: wasm32-wasip1
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasmtime
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p stwo --target wasm32-wasip1
+        env:
+          CARGO_TARGET_WASM32_WASIP1_RUNNER: "wasmtime run --"
+          RUSTFLAGS: -C target-feature=+simd128
+
+  wasm32-unknown-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: jetli/wasm-pack-action@v0.4.0
+        with:
+          version: "v0.13.1"
+      - run: cd crates/stwo && wasm-pack test --node
+        env:
+          RUSTFLAGS: -C target-feature=+simd128
+
+  neon-tests:
+    runs-on: macos-latest-xlarge
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p stwo --features="prover"
+        env:
+          RUSTFLAGS: -C target-feature=+neon
+
+  avx-tests:
+    strategy:
+      matrix:
+        target-feature: [avx512f, avx2]
+    runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p stwo --features="prover"
+        env:
+          RUSTFLAGS: -C target-cpu=native -C target-feature=+${{ matrix.target-feature }}
+
+  tests-no-prover:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.STABLE_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --no-default-features -p stwo
+
+  tests-prover-no-parallel:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.STABLE_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --features prover -p stwo
+
+  framework-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.STABLE_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --no-default-features -p stwo-constraint-framework
+
+  tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p stwo --features="tracing, prover"
+
+  slow-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p stwo --release --features="slow-tests, prover"
+
+  tests-parallel:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p stwo --features="parallel, prover"
+
+  ensure-no-std-core:
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.STABLE_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ensure-verifier-no_std
+      - run: cd ensure-verifier-no_std && cargo build -r

@@ -1,0 +1,72 @@
+name: proving-utils CI
+
+env:
+  STABLE_VERSION: "1.94.0"
+  NIGHTLY_VERSION: "nightly-2026-01-15"
+
+on:
+  workflow_call:
+    inputs:
+      # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
+      crate_group:
+        description: "Cargo -p args for the group"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
+      crate_group:
+        description: "Cargo -p args for the group"
+        required: true
+        type: string
+
+jobs:
+  tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.STABLE_VERSION }}
+          profile: minimal
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          tool-cache: false
+      - name: "Unit tests"
+        run: |
+          cargo test --release ${{ inputs.crate_group }} --all-targets
+      - name: "Test examples"
+        run: |
+          cargo run -p cairo-program-runner-lib --example run_program_with_simple_bl
+          cargo run -p cairo-program-runner-lib --example run_pie_object_with_simple_bl
+
+  slow-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.NIGHTLY_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Install latest nextest release
+        uses: taiki-e/install-action@nextest
+      - name: "Slow tests"
+        run: |
+          cargo nextest run -p leaf-prover --features=slow-tests --cargo-profile witness-opt-1  -j 1 -P ci
+          cargo nextest run -p privacy-prove --features=slow-tests --cargo-profile witness-opt-1  -j 1 -P ci
+          cargo nextest run -p privacy-circuit-verify --features=slow-tests --cargo-profile witness-opt-1  -j 1 -P ci
+          cargo nextest run -p stwo-run-and-prove-recursive-tree --features=slow-tests --release -j 1 -P ci
+        env:
+          RUST_MIN_STACK: 4194304
+          RUSTFLAGS: -C target-cpu=native
+          RUST_LOG_SPAN_EVENTS: enter,close
+          RUST_LOG: info
