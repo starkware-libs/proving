@@ -31,8 +31,11 @@ runs:
     - name: Rename ${{ env.BINARY_NAME_ORIGINAL }} to ${{ env.BINARY_NAME_DEST }} (${{ env.ARCH_NAME }})
       shell: bash
       run: |
-        mv "target/x86_64-unknown-linux-gnu/release/${{ env.BINARY_NAME_ORIGINAL }}" \
-          "target/x86_64-unknown-linux-gnu/release/${{ env.BINARY_NAME_DEST }}"
+        src="target/x86_64-unknown-linux-gnu/release/${{ env.BINARY_NAME_ORIGINAL }}"
+        dest="target/x86_64-unknown-linux-gnu/release/${{ env.BINARY_NAME_DEST }}"
+        # Skip when the crate's bin target already matches the destination name (e.g.
+        # stwo_run_and_prove_recursive_tree); `mv X X` errors on GNU mv.
+        [ "$src" = "$dest" ] || mv "$src" "$dest"
 
     - name: Upload ${{ env.BINARY_NAME_DEST }} (${{ env.ARCH_NAME }}) to GCP
       uses: google-github-actions/upload-cloud-storage@v2
