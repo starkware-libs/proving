@@ -1,0 +1,944 @@
+{
+  "name": "mem_verify",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Mem Verify",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "mem_verify_input",
+    "(M31, Felt252)",
+    "(PackedM31, PackedFelt252)"
+  ],
+  "verifier_input_limbs": [
+    "mem_verify_input_address",
+    "mem_verify_input_value_limb_0",
+    "mem_verify_input_value_limb_1",
+    "mem_verify_input_value_limb_2",
+    "mem_verify_input_value_limb_3",
+    "mem_verify_input_value_limb_4",
+    "mem_verify_input_value_limb_5",
+    "mem_verify_input_value_limb_6",
+    "mem_verify_input_value_limb_7",
+    "mem_verify_input_value_limb_8",
+    "mem_verify_input_value_limb_9",
+    "mem_verify_input_value_limb_10",
+    "mem_verify_input_value_limb_11",
+    "mem_verify_input_value_limb_12",
+    "mem_verify_input_value_limb_13",
+    "mem_verify_input_value_limb_14",
+    "mem_verify_input_value_limb_15",
+    "mem_verify_input_value_limb_16",
+    "mem_verify_input_value_limb_17",
+    "mem_verify_input_value_limb_18",
+    "mem_verify_input_value_limb_19",
+    "mem_verify_input_value_limb_20",
+    "mem_verify_input_value_limb_21",
+    "mem_verify_input_value_limb_22",
+    "mem_verify_input_value_limb_23",
+    "mem_verify_input_value_limb_24",
+    "mem_verify_input_value_limb_25",
+    "mem_verify_input_value_limb_26",
+    "mem_verify_input_value_limb_27"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "mem_verify_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "id_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryIdToBig",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      1
+    ],
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {
+    "read_id": [
+      [
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "mem_verify_input_address"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "id_col0"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
+          {
+            "State": "id_col0"
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_1"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_2"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_3"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_4"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_5"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_6"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_7"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_8"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_9"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_10"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_11"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_12"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_13"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_14"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_15"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_16"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_17"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_18"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_19"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_20"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_21"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_22"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_23"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_24"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_25"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_26"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input_value_limb_27"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_84891_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "mem_verify_input.0"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_84891_0"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "Var": [
+            "M31",
+            "mem_verify_input.0"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_input.0"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryIdToBig",
+        "input": {
+          "State": "id_col0"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
+          {
+            "State": "id_col0"
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "0"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "1"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "2"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "3"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "4"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "5"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "6"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "7"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "8"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "9"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "10"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "11"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "12"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "13"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "14"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "15"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "16"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "17"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "18"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "19"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "20"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "21"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "22"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "23"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "24"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "25"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "26"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "mem_verify_input.1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "27"
+                  ]
+                }
+              ]
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

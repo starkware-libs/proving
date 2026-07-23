@@ -1,0 +1,132 @@
+{
+  "name": "range_check_3_3_3_3_3",
+  "relation_names": [
+    "RangeCheck_3_3_3_3_3"
+  ],
+  "relation_size": 5,
+  "log_height": 15,
+  "description": "Range Check 3 3 3 3 3",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "range_check_3_3_3_3_3_input",
+    "[M31; 5]",
+    "[PackedM31; 5]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "range_check_3_3_3_3_3_column_0",
+    "range_check_3_3_3_3_3_column_1",
+    "range_check_3_3_3_3_3_column_2",
+    "range_check_3_3_3_3_3_column_3",
+    "range_check_3_3_3_3_3_column_4"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_3_3_3_3_3_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_3_3_3_3_3",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "range_check_3_3_3_3_3_column_0",
+    "range_check_3_3_3_3_3_column_1",
+    "range_check_3_3_3_3_3_column_2",
+    "range_check_3_3_3_3_3_column_3",
+    "range_check_3_3_3_3_3_column_4"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_3_3_3_3",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "502259093"
+            ]
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_0"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_1"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_2"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_3"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_4"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_3_3_3_3",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "502259093"
+            ]
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_0"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_1"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_2"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_3"
+          },
+          {
+            "ExternalState": "range_check_3_3_3_3_3_column_4"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

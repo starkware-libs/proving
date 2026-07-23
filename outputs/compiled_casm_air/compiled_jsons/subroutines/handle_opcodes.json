@@ -1,0 +1,2175 @@
+{
+  "name": "handle_opcodes",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Handle Opcodes",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "handle_opcodes_input",
+    "(CasmState, [M31; 20], [M31; 3], [Felt252; 3])",
+    "(PackedCasmState, [PackedM31; 20], [PackedM31; 3], [PackedFelt252; 3])"
+  ],
+  "verifier_input_limbs": [
+    "handle_opcodes_input_pc",
+    "handle_opcodes_input_fp",
+    "handle_opcodes_input_dst_base_fp",
+    "handle_opcodes_input_op0_base_fp",
+    "handle_opcodes_input_op1_base_fp",
+    "handle_opcodes_input_pc_update_jump",
+    "handle_opcodes_input_opcode_call",
+    "handle_opcodes_input_opcode_ret",
+    "handle_opcodes_input_opcode_assert_eq",
+    "handle_opcodes_input_res_op1",
+    "handle_opcodes_input_instruction_size",
+    "handle_opcodes_input_offset0",
+    "handle_opcodes_input_offset1",
+    "handle_opcodes_input_offset2",
+    "handle_opcodes_input_dst_limb_0",
+    "handle_opcodes_input_dst_limb_1",
+    "handle_opcodes_input_dst_limb_2",
+    "handle_opcodes_input_dst_limb_3",
+    "handle_opcodes_input_dst_limb_4",
+    "handle_opcodes_input_dst_limb_5",
+    "handle_opcodes_input_dst_limb_6",
+    "handle_opcodes_input_dst_limb_7",
+    "handle_opcodes_input_dst_limb_8",
+    "handle_opcodes_input_dst_limb_9",
+    "handle_opcodes_input_dst_limb_10",
+    "handle_opcodes_input_dst_limb_11",
+    "handle_opcodes_input_dst_limb_12",
+    "handle_opcodes_input_dst_limb_13",
+    "handle_opcodes_input_dst_limb_14",
+    "handle_opcodes_input_dst_limb_15",
+    "handle_opcodes_input_dst_limb_16",
+    "handle_opcodes_input_dst_limb_17",
+    "handle_opcodes_input_dst_limb_18",
+    "handle_opcodes_input_dst_limb_19",
+    "handle_opcodes_input_dst_limb_20",
+    "handle_opcodes_input_dst_limb_21",
+    "handle_opcodes_input_dst_limb_22",
+    "handle_opcodes_input_dst_limb_23",
+    "handle_opcodes_input_dst_limb_24",
+    "handle_opcodes_input_dst_limb_25",
+    "handle_opcodes_input_dst_limb_26",
+    "handle_opcodes_input_dst_limb_27",
+    "handle_opcodes_input_op0_limb_0",
+    "handle_opcodes_input_op0_limb_1",
+    "handle_opcodes_input_op0_limb_2",
+    "handle_opcodes_input_op0_limb_3",
+    "handle_opcodes_input_op0_limb_4",
+    "handle_opcodes_input_op0_limb_5",
+    "handle_opcodes_input_op0_limb_6",
+    "handle_opcodes_input_op0_limb_7",
+    "handle_opcodes_input_op0_limb_8",
+    "handle_opcodes_input_op0_limb_9",
+    "handle_opcodes_input_op0_limb_10",
+    "handle_opcodes_input_op0_limb_11",
+    "handle_opcodes_input_op0_limb_12",
+    "handle_opcodes_input_op0_limb_13",
+    "handle_opcodes_input_op0_limb_14",
+    "handle_opcodes_input_op0_limb_15",
+    "handle_opcodes_input_op0_limb_16",
+    "handle_opcodes_input_op0_limb_17",
+    "handle_opcodes_input_op0_limb_18",
+    "handle_opcodes_input_op0_limb_19",
+    "handle_opcodes_input_op0_limb_20",
+    "handle_opcodes_input_op0_limb_21",
+    "handle_opcodes_input_op0_limb_22",
+    "handle_opcodes_input_op0_limb_23",
+    "handle_opcodes_input_op0_limb_24",
+    "handle_opcodes_input_op0_limb_25",
+    "handle_opcodes_input_op0_limb_26",
+    "handle_opcodes_input_op0_limb_27",
+    "handle_opcodes_input_res_limb_0",
+    "handle_opcodes_input_res_limb_1",
+    "handle_opcodes_input_res_limb_2",
+    "handle_opcodes_input_res_limb_3",
+    "handle_opcodes_input_res_limb_4",
+    "handle_opcodes_input_res_limb_5",
+    "handle_opcodes_input_res_limb_6",
+    "handle_opcodes_input_res_limb_7",
+    "handle_opcodes_input_res_limb_8",
+    "handle_opcodes_input_res_limb_9",
+    "handle_opcodes_input_res_limb_10",
+    "handle_opcodes_input_res_limb_11",
+    "handle_opcodes_input_res_limb_12",
+    "handle_opcodes_input_res_limb_13",
+    "handle_opcodes_input_res_limb_14",
+    "handle_opcodes_input_res_limb_15",
+    "handle_opcodes_input_res_limb_16",
+    "handle_opcodes_input_res_limb_17",
+    "handle_opcodes_input_res_limb_18",
+    "handle_opcodes_input_res_limb_19",
+    "handle_opcodes_input_res_limb_20",
+    "handle_opcodes_input_res_limb_21",
+    "handle_opcodes_input_res_limb_22",
+    "handle_opcodes_input_res_limb_23",
+    "handle_opcodes_input_res_limb_24",
+    "handle_opcodes_input_res_limb_25",
+    "handle_opcodes_input_res_limb_26",
+    "handle_opcodes_input_res_limb_27"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "handle_opcodes_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "partial_limb_msb_col0",
+    "partial_limb_msb_col1"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {
+    "cond_felt_252_as_addr": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_0"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_0"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_1"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_2"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_3"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_3"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_4"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_4"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_5"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_5"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_6"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_6"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_7"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_7"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_8"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_8"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_9"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_9"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_10"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_10"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_11"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_11"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_12"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_12"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_13"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_13"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_14"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_14"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_15"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_15"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_16"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_16"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_17"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_17"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_18"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_18"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_19"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_19"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_20"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_20"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_21"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_21"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_22"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_22"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_23"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_23"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_24"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_24"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_25"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_25"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_26"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_26"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_assert_eq"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_limb_27"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_limb_27"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_ret"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_offset0"
+                  ]
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ret opcode offset0 equals -2"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_ret"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_offset2"
+                  ]
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ret opcode offset2 equals -1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_ret"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "4"
+                              ]
+                            },
+                            "-",
+                            {
+                              "Var": [
+                                "M31",
+                                "handle_opcodes_input_pc_update_jump"
+                              ]
+                            }
+                          ]
+                        },
+                        "-",
+                        {
+                          "Var": [
+                            "M31",
+                            "handle_opcodes_input_dst_base_fp"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_op1_base_fp"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_res_op1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ret opcode flags pc_update_jump and dst_base_fp and op1_base_fp_and_res_op1 are on"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_call"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_offset0"
+              ]
+            }
+          ]
+        },
+        "call opcode offset0 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_call"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_offset1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "call opcode offset1 equals 1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_call"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_op0_base_fp"
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_dst_base_fp"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "call opcode flags op0_base_fp and dst_base_fp are off"
+      ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "cond_felt_252_as_addr_output_tmp_fe176_2"
+        ],
+        "var": {
+          "StaticCall": [
+            "cond_felt_252_as_addr::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_1"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_2"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_3"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_4"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_5"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_6"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_7"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_8"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_9"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_10"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_11"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_12"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_13"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_14"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_15"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_16"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_17"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_18"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_19"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_20"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_21"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_22"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_23"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_24"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_25"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_26"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_dst_limb_27"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_opcode_call"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "partial_limb_msb_col0"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_call"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_output_tmp_fe176_2"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_fp"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "cond_felt_252_as_addr_output_tmp_fe176_5"
+        ],
+        "var": {
+          "StaticCall": [
+            "cond_felt_252_as_addr::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_1"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_2"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_3"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_4"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_5"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_6"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_7"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_8"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_9"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_10"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_11"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_12"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_13"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_14"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_15"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_16"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_17"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_18"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_19"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_20"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_21"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_22"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_23"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_24"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_25"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_26"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_op0_limb_27"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "handle_opcodes_input_opcode_call"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "partial_limb_msb_col1"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_opcode_call"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_output_tmp_fe176_5"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_pc"
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_instruction_size"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Cond Felt 252 As Addr"
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_fe176_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "handle_opcodes_input.3[0]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_fe176_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_fe176_2",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "handle_opcodes_input.3[0]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "0"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252",
+                                "handle_opcodes_input.3[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "1"
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "handle_opcodes_input.3[0]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "2"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "262144"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "handle_opcodes_input.3[0]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "3"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "134217728"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Cond Felt 252 As Addr"
+    },
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_fe176_3",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "handle_opcodes_input.3[1]"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_fe176_3"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_fe176_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "handle_opcodes_input.3[1]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "0"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252",
+                                "handle_opcodes_input.3[1]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "1"
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "handle_opcodes_input.3[1]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "2"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "262144"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "handle_opcodes_input.3[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "3"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "134217728"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock"
+  ]
+}

@@ -1,0 +1,1107 @@
+{
+  "name": "poseidon_builtin",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Poseidon Builtin",
+  "instance_definition": "{}",
+  "type": "Builtin",
+  "padding_type": "None",
+  "prover_input": [
+    "poseidon_builtin_input",
+    "()",
+    "()"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "poseidon_builtin_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "input_state_0_id_col0",
+    "input_state_1_id_col1",
+    "input_state_2_id_col2",
+    "output_state_0_id_col3",
+    "output_state_1_id_col4",
+    "output_state_2_id_col5"
+  ],
+  "constraint_lookups": [
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "PoseidonAggregator",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity",
+    "poseidon_aggregator": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      6
+    ],
+    "PoseidonAggregator": [
+      "poseidon_aggregator",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {
+    "read_id": [
+      [
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ]
+  },
+  "public_params": [
+    "poseidon_builtin_segment_start"
+  ],
+  "external_states": [
+    "Seq"
+  ],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [
+          "instance_addr_tmp_a172e_0"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "ExternalState": "Seq"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "6"
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "PublicParam": "poseidon_builtin_segment_start"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_a172e_0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              {
+                "State": "input_state_0_id_col0"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "instance_addr_tmp_a172e_0"
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              {
+                "State": "input_state_1_id_col1"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "instance_addr_tmp_a172e_0"
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "2"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              {
+                "State": "input_state_2_id_col2"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "instance_addr_tmp_a172e_0"
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "3"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              {
+                "State": "output_state_0_id_col3"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "instance_addr_tmp_a172e_0"
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "4"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              {
+                "State": "output_state_1_id_col4"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "instance_addr_tmp_a172e_0"
+                        ]
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "5"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              {
+                "State": "output_state_2_id_col5"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonAggregator",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1551892206"
+            ]
+          },
+          {
+            "State": "input_state_0_id_col0"
+          },
+          {
+            "State": "input_state_1_id_col1"
+          },
+          {
+            "State": "input_state_2_id_col2"
+          },
+          {
+            "State": "output_state_0_id_col3"
+          },
+          {
+            "State": "output_state_1_id_col4"
+          },
+          {
+            "State": "output_state_2_id_col5"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "instance_addr_tmp_a172e_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "ExternalState": "Seq"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "6"
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "PublicParam": "poseidon_builtin_segment_start"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a172e_1",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_a172e_0"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_a172e_1"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "Var": [
+            "M31",
+            "instance_addr_tmp_a172e_0"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "instance_addr_tmp_a172e_0"
+            ]
+          },
+          {
+            "State": "input_state_0_id_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a172e_3",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_a172e_0"
+                    ]
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_a172e_3"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "instance_addr_tmp_a172e_0"
+              ]
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_a172e_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "input_state_1_id_col1"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a172e_5",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_a172e_0"
+                    ]
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "2"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_a172e_5"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "instance_addr_tmp_a172e_0"
+              ]
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "2"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_a172e_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "input_state_2_id_col2"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a172e_7",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_a172e_0"
+                    ]
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "3"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_a172e_7"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "instance_addr_tmp_a172e_0"
+              ]
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_a172e_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "3"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "output_state_0_id_col3"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a172e_9",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_a172e_0"
+                    ]
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_a172e_9"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "instance_addr_tmp_a172e_0"
+              ]
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "4"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_a172e_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "4"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "output_state_1_id_col4"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_a172e_11",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "instance_addr_tmp_a172e_0"
+                    ]
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "5"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_a172e_11"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "instance_addr_tmp_a172e_0"
+              ]
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "5"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_a172e_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "5"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "output_state_2_id_col5"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "LookupAddInput": {
+        "relation_name": "PoseidonAggregator",
+        "input": {
+          "Tuple": [
+            {
+              "Array": [
+                {
+                  "State": "input_state_0_id_col0"
+                },
+                {
+                  "State": "input_state_1_id_col1"
+                },
+                {
+                  "State": "input_state_2_id_col2"
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "State": "output_state_0_id_col3"
+                },
+                {
+                  "State": "output_state_1_id_col4"
+                },
+                {
+                  "State": "output_state_2_id_col5"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonAggregator",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1551892206"
+            ]
+          },
+          {
+            "State": "input_state_0_id_col0"
+          },
+          {
+            "State": "input_state_1_id_col1"
+          },
+          {
+            "State": "input_state_2_id_col2"
+          },
+          {
+            "State": "output_state_0_id_col3"
+          },
+          {
+            "State": "output_state_1_id_col4"
+          },
+          {
+            "State": "output_state_2_id_col5"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    }
+  ]
+}

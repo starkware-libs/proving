@@ -1,0 +1,226 @@
+{
+  "name": "mem_verify_equal",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Mem Verify Equal",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "mem_verify_equal_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_input_limbs": [
+    "mem_verify_equal_input_address1",
+    "mem_verify_equal_input_address2"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "mem_verify_equal_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "id_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "MemoryAddressToId",
+      "Use"
+    ],
+    [
+      "MemoryAddressToId",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      2
+    ]
+  },
+  "inline_calls": {
+    "read_id": [
+      [
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "mem_verify_equal_input_address1"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "id_col0"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_equal_input_address2"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_9e7fa_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "mem_verify_equal_input[0]"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_9e7fa_0"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "Var": [
+            "M31",
+            "mem_verify_equal_input[0]"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_equal_input[0]"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "Var": [
+            "M31",
+            "mem_verify_equal_input[1]"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_verify_equal_input[1]"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

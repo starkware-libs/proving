@@ -1,0 +1,100 @@
+{
+  "name": "range_check_8",
+  "relation_names": [
+    "RangeCheck_8"
+  ],
+  "relation_size": 1,
+  "log_height": 8,
+  "description": "Range Check 8",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "range_check_8_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "seq_8"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_8_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_8",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "seq_8"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1420243005"
+            ]
+          },
+          {
+            "ExternalState": "seq_8"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1420243005"
+            ]
+          },
+          {
+            "ExternalState": "seq_8"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "name": "range_check_last_limb_bits_in_ms_limb_6",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Range Check Last Limb Bits In Ms Limb 6",
+  "instance_definition": "{\"bits_in_ms_limb\":6}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "range_check_last_limb_bits_in_ms_limb_6_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "range_check_last_limb_bits_in_ms_limb_6_input"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_last_limb_bits_in_ms_limb_6_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [],
+  "constraint_lookups": [
+    [
+      "RangeCheck_6",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "range_check_6": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_6": [
+      "range_check_6",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_6",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1185356339"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_last_limb_bits_in_ms_limb_6_input"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_6",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_last_limb_bits_in_ms_limb_6_input"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_6",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1185356339"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_last_limb_bits_in_ms_limb_6_input"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

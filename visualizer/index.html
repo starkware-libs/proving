@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script lang="javascript" src="main.js" type="module"></script>
+        <title>Stwo AIR viewer</title>
+    </head>
+    <style>
+.template-range {
+    color: blue
+}
+
+.constraint {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.constraint-num-button {
+    border: 1px solid black;
+    padding: 3px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.constraint-num-button:hover {
+    background-color: yellow;
+}
+
+.constraint-comment {
+    color: green;
+    display: block;
+}
+
+.air-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.panel-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.code-font {
+    font-family: monospace;
+    font-size: 12pt;
+}
+
+.highlighted-full {
+    background: yellow;
+}
+
+.highlighted-half {
+    background: repeating-linear-gradient(45deg,
+                        yellow,
+                        yellow 7px,
+                        transparent 7px,
+                        transparent 14px);
+}
+
+.highlighted-none {
+    background: transparent;
+}
+
+.expanded-template {
+    background: rgb(230, 249, 255)
+}
+
+.side-panel {
+    position: fixed;
+    padding: 5px;
+    width: 25vw;
+    height: 50vh;
+    top: 50px;
+    border: 1px solid black;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-content {
+    overflow: auto;
+}
+
+.panel-teaser {
+    writing-mode: vertical-lr;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.panel-closed {
+    left: calc( 100vw - 30px );
+}
+
+.panel-open {
+    right: 0px;
+}
+
+.panel-toggle-button {
+    color: darkgray;
+    font-weight: bold;
+    font-size: large;
+    cursor: pointer;
+}
+
+.body-class {
+    margin-right: 30px; /* Leave space for the closed panel */
+}
+    </style>
+    <body class="body-class">
+        <select id="component_select">
+            <option value="">Choose a component</option>
+        </select>
+        <span style="color: red" id="error"></span>
+        <br/><br/>
+        <div class="panel-title">Instance definition (decode_instruction only)</div>
+        <div class="code-font" id="inst_def_panel"></div>
+        <br/>
+        <div class="panel-title">Inputs</div>
+        <div class="code-font" id="inputs_panel" style="display: flex;"></div>
+        <br/>
+        <div class="panel-title" id="cells_panel_title">State Cells</div>
+        <div class="code-font" id="cells_panel" style="display: flex;"></div>
+        <br/>
+        <div class="panel-title">Variables</div>
+        <div class="code-font" id="vars_panel" style="display: flex;"></div>
+        <br/>
+        <div class="panel-title">Constraints</div>
+        <div class="code-font constraint-comment" id="air_comment"></div>
+        <div class="code-font" id="constraints_panel"></div>
+        <br/>
+        <div class="panel-title">Output</div>
+        <div class="code-font" id="output_panel"></div>
+
+        <div class="side-panel panel-closed" id="xrefs_panel">
+            <div id="xrefs_panel_toggle" class="panel-toggle-button">&lt;</div>
+            <div id="xrefs_panel_content" style="display: none;" class="panel-content"></div>
+            <div id="xrefs_panel_teaser" class="panel-teaser">References</div>
+        </div>
+    </body>
+</html>

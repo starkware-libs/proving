@@ -1,0 +1,566 @@
+{
+  "name": "m_31_to_u_32",
+  "relation_names": [
+    "Gate"
+  ],
+  "relation_size": 3,
+  "log_height": null,
+  "description": "M 31 To U 32",
+  "instance_definition": "{}",
+  "type": "Gate",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "m_31_to_u_32_input",
+    "(M31, UInt32)",
+    "(PackedM31, PackedUInt32)"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "m_31_to_u_32_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "input_m31_col0",
+    "input_u32_limb_0_col1",
+    "input_u32_limb_1_col2",
+    "inv_or_one_col3"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_16",
+      "Use"
+    ],
+    [
+      "RangeCheck_16",
+      "Use"
+    ],
+    [
+      "RangeCheck_16",
+      "Use"
+    ],
+    [
+      "Gate",
+      "Use"
+    ],
+    [
+      "Gate",
+      "Yield"
+    ]
+  ],
+  "sub_components": {
+    "range_check_16": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_16": [
+      "range_check_16",
+      0,
+      3
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "m31_to_u32_input_addr",
+    "m31_to_u32_output_addr",
+    "m31_to_u32_multiplicity"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_16",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1008385708"
+            ]
+          },
+          {
+            "State": "input_u32_limb_0_col1"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_16",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1008385708"
+            ]
+          },
+          {
+            "State": "input_u32_limb_1_col2"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_16",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1008385708"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "32767"
+                ]
+              },
+              "-",
+              {
+                "State": "input_u32_limb_1_col2"
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_m31_col0"
+                    },
+                    "*",
+                    {
+                      "State": "inv_or_one_col3"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "State": "input_u32_limb_0_col1"
+            }
+          ]
+        },
+        "input is zero then limb_low is zero"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_m31_col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_u32_limb_0_col1"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_u32_limb_1_col2"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "65536"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "input reconstruction"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "m31_to_u32_input_addr"
+          },
+          {
+            "State": "input_m31_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "m31_to_u32_output_addr"
+          },
+          {
+            "State": "input_u32_limb_0_col1"
+          },
+          {
+            "State": "input_u32_limb_1_col2"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "m31_to_u32_multiplicity"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "m_31_to_u_32_input.0"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "m_31_to_u_32_input.1"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "m_31_to_u_32_input.1"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_16",
+        "input": {
+          "Array": [
+            {
+              "State": "input_u32_limb_0_col1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_16",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1008385708"
+            ]
+          },
+          {
+            "State": "input_u32_limb_0_col1"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_16",
+        "input": {
+          "Array": [
+            {
+              "State": "input_u32_limb_1_col2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_16",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1008385708"
+            ]
+          },
+          {
+            "State": "input_u32_limb_1_col2"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_16",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "32767"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_u32_limb_1_col2"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_16",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1008385708"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "32767"
+                ]
+              },
+              "-",
+              {
+                "State": "input_u32_limb_1_col2"
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "input_is_zero_tmp_dfae6_0",
+        "type": "Bool",
+        "var": {
+          "MethodCall": [
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            },
+            "eq",
+            [
+              {
+                "State": "input_m31_col0"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          "/",
+          {
+            "BinaryOp": [
+              {
+                "MethodCall": [
+                  {
+                    "Var": [
+                      "Bool",
+                      "input_is_zero_tmp_dfae6_0"
+                    ]
+                  },
+                  "as_m31",
+                  []
+                ]
+              },
+              "+",
+              {
+                "State": "input_m31_col0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "m31_to_u32_input_addr"
+          },
+          {
+            "State": "input_m31_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": {
+          "Const": [
+            "M31",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Gate",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "378353459"
+            ]
+          },
+          {
+            "ExternalState": "m31_to_u32_output_addr"
+          },
+          {
+            "State": "input_u32_limb_0_col1"
+          },
+          {
+            "State": "input_u32_limb_1_col2"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "ExternalState": "m31_to_u32_multiplicity"
+        }
+      }
+    }
+  ]
+}

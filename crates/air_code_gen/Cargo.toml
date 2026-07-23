@@ -1,0 +1,36 @@
+[package]
+name = "air_code_gen"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+air_infra = { path = "../air_infra" }
+airs = { path = "../airs" }
+air_compile = { path = "../air_compile" }
+air_common = { path = "../air_common" }
+eval_air_fn_constraints = { path = "../eval_air_fn_constraints" }
+
+genco.workspace = true
+itertools.workspace = true
+xshell.workspace = true
+tempfile = "3.10.1"
+pretty_assertions = "1.4.0"
+clap = { version = "4.5.9", features = ["derive"] }
+serde.workspace = true
+serde_json = "1.0.68"
+convert_case.workspace = true
+indexmap.workspace = true
+
+stwo-cairo-common.workspace = true
+
+[features]
+default = []
+fix_code = []
+
+[dev-dependencies]
+expect-test = "1.4"
+serde_json.workspace = true
+
+[[bin]]
+name = "air_code_gen"
+path = "bin/main.rs"

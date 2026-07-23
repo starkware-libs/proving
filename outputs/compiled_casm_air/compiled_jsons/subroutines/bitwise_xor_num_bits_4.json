@@ -1,0 +1,195 @@
+{
+  "name": "bitwise_xor_num_bits_4",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Bitwise Xor Num Bits 4",
+  "instance_definition": "{\"num_bits\":4,\"variant\":0}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "bitwise_xor_num_bits_4_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_input_limbs": [
+    "bitwise_xor_num_bits_4_input_limb_0",
+    "bitwise_xor_num_bits_4_input_limb_1"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "State": "xor_col0"
+    },
+    "bitwise_xor_num_bits_4_output",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "xor_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "VerifyBitwiseXor_4",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "verify_bitwise_xor_4": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "VerifyBitwiseXor_4": [
+      "verify_bitwise_xor_4",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_4",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "45448144"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_4_input_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_4_input_limb_1"
+            ]
+          },
+          {
+            "State": "xor_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "xor_tmp_8e65f_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "bitwise_xor_num_bits_4_input[0]"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "bitwise_xor_num_bits_4_input[1]"
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_8e65f_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "VerifyBitwiseXor_4",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "bitwise_xor_num_bits_4_input[0]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "bitwise_xor_num_bits_4_input[1]"
+              ]
+            },
+            {
+              "State": "xor_col0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_4",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "45448144"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_4_input[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_4_input[1]"
+            ]
+          },
+          {
+            "State": "xor_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

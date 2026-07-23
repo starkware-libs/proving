@@ -1,0 +1,382 @@
+{
+  "name": "decode_small_sign",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Decode Small Sign",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "decode_small_sign_input",
+    "Felt252",
+    "PackedFelt252"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "State": "msb_col0"
+        },
+        {
+          "State": "mid_limbs_set_col1"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "508"
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "511"
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "136"
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "mid_limbs_set_col1"
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col0"
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "256"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "decode_small_sign_output",
+    "[M31; 6]",
+    "[PackedM31; 6]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "508"
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "511"
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "136"
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "mid_limbs_set_col1"
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col0"
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "256"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    [
+      "decode_small_sign_output_limb3_7_high_bits",
+      "decode_small_sign_output_limbs4_to_20",
+      "decode_small_sign_output_limb21",
+      "decode_small_sign_output_limb27"
+    ]
+  ],
+  "state_names": [
+    "msb_col0",
+    "mid_limbs_set_col1"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col0"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col1"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "msb_tmp_5c680_0",
+        "type": "Bool",
+        "var": {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "decode_small_sign_input"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "27"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Bool",
+              "msb_tmp_5c680_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_5c680_1",
+        "type": "Bool",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "decode_small_sign_input"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "20"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "eq",
+                [
+                  {
+                    "Const": [
+                      "M31",
+                      "511"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Var": [
+                "Bool",
+                "msb_tmp_5c680_0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Bool",
+              "mid_limbs_set_tmp_5c680_1"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    }
+  ]
+}

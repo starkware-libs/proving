@@ -1,0 +1,260 @@
+{
+  "name": "air_fn_bit_mux",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Air Fn Bit Mux",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "air_fn_bit_mux_input",
+    "UInt16",
+    "PackedUInt16"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Var": [
+        "Bool",
+        "div_2_output_tmp_d2736_2.0"
+      ]
+    },
+    "air_fn_bit_mux_output",
+    "Bool",
+    "PackedBool"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_d2736_2_limb_0"
+          ]
+        }
+      ]
+    },
+    [
+      "air_fn_bit_mux_output"
+    ]
+  ],
+  "state_names": [
+    "col0",
+    "col1"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {
+    "div_2": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [
+          "div_2_output_tmp_d2736_2_limb_0"
+        ],
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col0"
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "col1"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "div_2_output_tmp_d2736_2_limb_0"
+                  ]
+                },
+                "*",
+                {
+                  "State": "col0"
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "div_2_output_tmp_d2736_2_limb_0"
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "col0"
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "2"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "air_fn_bit_mux_input"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_d2736_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "air_fn_bit_mux_input"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_d2736_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_d2736_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_d2736_2",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_d2736_1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_d2736_0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock"
+  ]
+}

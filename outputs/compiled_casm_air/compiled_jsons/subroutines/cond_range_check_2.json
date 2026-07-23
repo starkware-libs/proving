@@ -1,0 +1,216 @@
+{
+  "name": "cond_range_check_2",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Cond Range Check 2",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "cond_range_check_2_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_input_limbs": [
+    "cond_range_check_2_input_limb_0",
+    "cond_range_check_2_input_limb_1"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "cond_range_check_2_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "partial_limb_msb_col0"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "partial_limb_msb_col0"
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "partial_limb_msb_col0"
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_range_check_2_input_limb_1"
+              ]
+            }
+          ]
+        },
+        "msb is a bit or condition is 0"
+      ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "partial_limb_bit_before_msb_tmp_36c3a_1"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_range_check_2_input_limb_0"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "partial_limb_msb_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "partial_limb_bit_before_msb_tmp_36c3a_1"
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "partial_limb_bit_before_msb_tmp_36c3a_1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_range_check_2_input_limb_1"
+              ]
+            }
+          ]
+        },
+        "bit before msb is a bit or condition is 0"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_36c3a_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "Var": [
+                          "M31",
+                          "cond_range_check_2_input[0]"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_36c3a_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    }
+  ]
+}

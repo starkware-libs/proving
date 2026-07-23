@@ -1,0 +1,623 @@
+{
+  "name": "bit_unpack_n_4",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Bit Unpack N 4",
+  "instance_definition": "{\"n\":4}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "bit_unpack_n_4_input",
+    "UInt16",
+    "PackedUInt16"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_da763_2.0"
+          ]
+        },
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_da763_5.0"
+          ]
+        },
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_da763_8.0"
+          ]
+        },
+        {
+          "Var": [
+            "Bool",
+            "div_2_output_tmp_da763_11.0"
+          ]
+        }
+      ]
+    },
+    "bit_unpack_n_4_output",
+    "[Bool; 4]",
+    "[PackedBool; 4]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_da763_2_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_da763_5_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_da763_8_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "div_2_output_tmp_da763_11_limb_0"
+          ]
+        }
+      ]
+    },
+    [
+      "bit_unpack_n_4_output_limb_0",
+      "bit_unpack_n_4_output_limb_1",
+      "bit_unpack_n_4_output_limb_2",
+      "bit_unpack_n_4_output_limb_3"
+    ]
+  ],
+  "state_names": [
+    "col0",
+    "col1",
+    "col2",
+    "col3",
+    "col4"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {
+    "div_2": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [
+          "div_2_output_tmp_da763_2_limb_0"
+        ],
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col0"
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "col1"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "div_2_output_tmp_da763_5_limb_0"
+        ],
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col1"
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "col2"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "div_2_output_tmp_da763_8_limb_0"
+        ],
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col2"
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "col3"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "div_2_output_tmp_da763_11_limb_0"
+        ],
+        "var": {
+          "StaticCall": [
+            "div_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col3"
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "col4"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "State": "col4"
+        },
+        null
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "bit_unpack_n_4_input"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "bit_unpack_n_4_input"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_da763_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_da763_2",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_da763_1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_da763_0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_3",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "div_2_output_tmp_da763_2.1"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_da763_3"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_4",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col1"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_da763_5",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_da763_4"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_da763_3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_6",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "div_2_output_tmp_da763_5.1"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_da763_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col2"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_da763_8",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_da763_7"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_da763_6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Div 2"
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_9",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "div_2_output_tmp_da763_8.1"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_da763_9"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "tmp_da763_10",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "col3"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "col4"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "div_2_output_tmp_da763_11",
+        "type": "(Bool, UInt16)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Bool::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_da763_10"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "Var": [
+                "UInt16",
+                "tmp_da763_9"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock"
+  ]
+}

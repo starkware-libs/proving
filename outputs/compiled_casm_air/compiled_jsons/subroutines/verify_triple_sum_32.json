@@ -1,0 +1,285 @@
+{
+  "name": "verify_triple_sum_32",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Verify Triple Sum 32",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "verify_triple_sum_32_input",
+    "[UInt32; 4]",
+    "[PackedUInt32; 4]"
+  ],
+  "verifier_input_limbs": [
+    "verify_triple_sum_32_input_limb_0",
+    "verify_triple_sum_32_input_limb_1",
+    "verify_triple_sum_32_input_limb_2",
+    "verify_triple_sum_32_input_limb_3",
+    "verify_triple_sum_32_input_limb_4",
+    "verify_triple_sum_32_input_limb_5",
+    "verify_triple_sum_32_input_limb_6",
+    "verify_triple_sum_32_input_limb_7"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "verify_triple_sum_32_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [
+          "carry_low_tmp_a7b7a_0"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_triple_sum_32_input_limb_0"
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_triple_sum_32_input_limb_2"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "verify_triple_sum_32_input_limb_4"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "verify_triple_sum_32_input_limb_6"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "32768"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_low_tmp_a7b7a_0"
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_low_tmp_a7b7a_0"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_low_tmp_a7b7a_0"
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry low is 0 or 1 or 2"
+      ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [
+          "carry_high_tmp_a7b7a_1"
+        ],
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "verify_triple_sum_32_input_limb_1"
+                              ]
+                            },
+                            "+",
+                            {
+                              "Var": [
+                                "M31",
+                                "verify_triple_sum_32_input_limb_3"
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "verify_triple_sum_32_input_limb_5"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_low_tmp_a7b7a_0"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "verify_triple_sum_32_input_limb_7"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "32768"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_high_tmp_a7b7a_1"
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_high_tmp_a7b7a_1"
+                      ]
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "carry_high_tmp_a7b7a_1"
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry high is 0 or 1 or 2"
+      ]
+    }
+  ],
+  "deductions": []
+}

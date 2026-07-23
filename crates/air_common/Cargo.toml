@@ -1,0 +1,14 @@
+[package]
+name = "air_common"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive", "rc"] }
+serde_json.workspace = true
+convert_case.workspace = true
+
+stwo-cairo-common.workspace = true
+
+[dev-dependencies]
+air_infra = { path = "../air_infra" }

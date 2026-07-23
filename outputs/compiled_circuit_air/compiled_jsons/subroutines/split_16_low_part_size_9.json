@@ -1,0 +1,145 @@
+{
+  "name": "split_16_low_part_size_9",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Split 16 Low Part Size 9",
+  "instance_definition": "{\"low_part_size\":9}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "split_16_low_part_size_9_input",
+    "UInt16",
+    "PackedUInt16"
+  ],
+  "verifier_input_limbs": [
+    "split_16_low_part_size_9_input"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt16",
+                    "split_16_low_part_size_9_input"
+                  ]
+                },
+                "as_m31",
+                []
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_7_bits_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "State": "ms_7_bits_col0"
+        }
+      ]
+    },
+    "split_16_low_part_size_9_output",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "split_16_low_part_size_9_input"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_7_bits_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    [
+      "split_16_low_part_size_9_output_limb_0"
+    ]
+  ],
+  "state_names": [
+    "ms_7_bits_col0"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "ms_7_bits_tmp_3f1e2_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "UInt16",
+                "split_16_low_part_size_9_input"
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "9"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_7_bits_tmp_3f1e2_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    }
+  ]
+}

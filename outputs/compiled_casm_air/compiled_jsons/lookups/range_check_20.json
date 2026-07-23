@@ -1,0 +1,457 @@
+{
+  "name": "range_check_20",
+  "relation_names": [
+    "RangeCheck_20",
+    "RangeCheck_20_B",
+    "RangeCheck_20_C",
+    "RangeCheck_20_D",
+    "RangeCheck_20_E",
+    "RangeCheck_20_F",
+    "RangeCheck_20_G",
+    "RangeCheck_20_H"
+  ],
+  "relation_size": 1,
+  "log_height": 20,
+  "description": "Range Check 20",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "range_check_20_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "seq_20"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_20_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0",
+    "multiplicity_1_col1",
+    "multiplicity_2_col2",
+    "multiplicity_3_col3",
+    "multiplicity_4_col4",
+    "multiplicity_5_col5",
+    "multiplicity_6_col6",
+    "multiplicity_7_col7"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_20",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_B",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_C",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_D",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_E",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_F",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_G",
+      "Yield"
+    ],
+    [
+      "RangeCheck_20_H",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "seq_20"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1410849886"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_B",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "514232941"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_1_col1"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_C",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "531010560"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_2_col2"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_D",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "480677703"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_3_col3"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_E",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "497455322"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_4_col4"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_F",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "447122465"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_5_col5"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_G",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "463900084"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_6_col6"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_H",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "682009131"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_7_col7"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 1
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 2
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 3
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 4
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 5
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 6
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 7
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1410849886"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_B",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "514232941"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_1_col1"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_C",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "531010560"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_2_col2"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_D",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "480677703"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_3_col3"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_E",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "497455322"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_4_col4"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_F",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "447122465"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_5_col5"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_G",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "463900084"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_6_col6"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_20_H",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "682009131"
+            ]
+          },
+          {
+            "ExternalState": "seq_20"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_7_col7"
+        }
+      }
+    }
+  ]
+}

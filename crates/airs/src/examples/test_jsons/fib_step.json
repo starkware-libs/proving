@@ -1,0 +1,140 @@
+{
+  "name": "fib_step",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Fib Step",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "fib_step_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_input_limbs": [
+    "fib_step_input_limb_0",
+    "fib_step_input_limb_1"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "State": "col0"
+    },
+    "fib_step_output",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "col0"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "fib_step_input_limb_0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "fib_step_input_limb_0"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "fib_step_input_limb_1"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "fib_step_input_limb_1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "fib_step_input[0]"
+                ]
+              },
+              "*",
+              {
+                "Var": [
+                  "M31",
+                  "fib_step_input[0]"
+                ]
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "fib_step_input[1]"
+                ]
+              },
+              "*",
+              {
+                "Var": [
+                  "M31",
+                  "fib_step_input[1]"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

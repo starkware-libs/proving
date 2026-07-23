@@ -1,0 +1,107 @@
+{
+  "name": "memory_address_to_id",
+  "relation_names": [
+    "MemoryAddressToId"
+  ],
+  "relation_size": 2,
+  "log_height": null,
+  "description": "Memory Address To Id",
+  "instance_definition": "{}",
+  "type": "Memory",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "memory_address_to_id_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "Seq"
+  ],
+  "prover_output": [
+    {
+      "State": "memory_address_to_id_output_col1"
+    },
+    "memory_address_to_id_output",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0",
+    "memory_address_to_id_output_col1"
+  ],
+  "constraint_lookups": [
+    [
+      "MemoryAddressToId",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "Seq"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "ExternalState": "Seq"
+          },
+          {
+            "State": "memory_address_to_id_output_col1"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "ExternalState": "Seq"
+          },
+          {
+            "State": "memory_address_to_id_output_col1"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,785 @@
+{
+  "name": "read_positive_known_id_num_bits_99",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Read Positive Known Id Num Bits 99",
+  "instance_definition": "{\"num_bits\":99}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "read_positive_known_id_num_bits_99_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "read_positive_known_id_num_bits_99_input"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "StaticCall": [
+        "Felt252::from_limbs",
+        [
+          {
+            "Array": [
+              {
+                "State": "value_limb_0_col0"
+              },
+              {
+                "State": "value_limb_1_col1"
+              },
+              {
+                "State": "value_limb_2_col2"
+              },
+              {
+                "State": "value_limb_3_col3"
+              },
+              {
+                "State": "value_limb_4_col4"
+              },
+              {
+                "State": "value_limb_5_col5"
+              },
+              {
+                "State": "value_limb_6_col6"
+              },
+              {
+                "State": "value_limb_7_col7"
+              },
+              {
+                "State": "value_limb_8_col8"
+              },
+              {
+                "State": "value_limb_9_col9"
+              },
+              {
+                "State": "value_limb_10_col10"
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              },
+              {
+                "Const": [
+                  "M31",
+                  "0"
+                ]
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    "read_positive_known_id_num_bits_99_output",
+    "Felt252",
+    "PackedFelt252"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "value_limb_0_col0",
+    "value_limb_1_col1",
+    "value_limb_2_col2",
+    "value_limb_3_col3",
+    "value_limb_4_col4",
+    "value_limb_5_col5",
+    "value_limb_6_col6",
+    "value_limb_7_col7",
+    "value_limb_8_col8",
+    "value_limb_9_col9",
+    "value_limb_10_col10"
+  ],
+  "constraint_lookups": [
+    [
+      "MemoryIdToBig",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "memory_id_to_big": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryIdToBig": [
+      "memory_id_to_big",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "read_positive_known_id_num_bits_99_input"
+            ]
+          },
+          {
+            "State": "value_limb_0_col0"
+          },
+          {
+            "State": "value_limb_1_col1"
+          },
+          {
+            "State": "value_limb_2_col2"
+          },
+          {
+            "State": "value_limb_3_col3"
+          },
+          {
+            "State": "value_limb_4_col4"
+          },
+          {
+            "State": "value_limb_5_col5"
+          },
+          {
+            "State": "value_limb_6_col6"
+          },
+          {
+            "State": "value_limb_7_col7"
+          },
+          {
+            "State": "value_limb_8_col8"
+          },
+          {
+            "State": "value_limb_9_col9"
+          },
+          {
+            "State": "value_limb_10_col10"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_2b659_0",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "read_positive_known_id_num_bits_99_input"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "0"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "1"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "2"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "4"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "5"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "6"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "7"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "8"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "9"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "memory_id_to_big_value_tmp_2b659_0"
+            ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "10"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "read_positive_known_id_num_bits_99_input"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1662111297"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "read_positive_known_id_num_bits_99_input"
+            ]
+          },
+          {
+            "State": "value_limb_0_col0"
+          },
+          {
+            "State": "value_limb_1_col1"
+          },
+          {
+            "State": "value_limb_2_col2"
+          },
+          {
+            "State": "value_limb_3_col3"
+          },
+          {
+            "State": "value_limb_4_col4"
+          },
+          {
+            "State": "value_limb_5_col5"
+          },
+          {
+            "State": "value_limb_6_col6"
+          },
+          {
+            "State": "value_limb_7_col7"
+          },
+          {
+            "State": "value_limb_8_col8"
+          },
+          {
+            "State": "value_limb_9_col9"
+          },
+          {
+            "State": "value_limb_10_col10"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

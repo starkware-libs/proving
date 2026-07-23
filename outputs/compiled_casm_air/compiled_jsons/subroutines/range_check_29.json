@@ -1,0 +1,281 @@
+{
+  "name": "range_check_29",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Range Check 29",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "range_check_29_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "range_check_29_input"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_29_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "range_check_29_bot11bits_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_18",
+      "Use"
+    ],
+    [
+      "RangeCheck_11",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "range_check_18": "Multiplicity",
+    "range_check_11": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_18": [
+      "range_check_18",
+      0,
+      1
+    ],
+    "RangeCheck_11": [
+      "range_check_11",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1109051422"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_29_input"
+                    ]
+                  },
+                  "-",
+                  {
+                    "State": "range_check_29_bot11bits_col0"
+                  }
+                ]
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "1048576"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_11",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "991608089"
+            ]
+          },
+          {
+            "State": "range_check_29_bot11bits_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "range_check_29_bot11bits_u32_tmp_171e0_0",
+        "type": "UInt32",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt32::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_29_input"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt32",
+                "2047"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "range_check_29_bot11bits_u32_tmp_171e0_0"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_18",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "range_check_29_input"
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "range_check_29_bot11bits_col0"
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "1048576"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1109051422"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_29_input"
+                    ]
+                  },
+                  "-",
+                  {
+                    "State": "range_check_29_bot11bits_col0"
+                  }
+                ]
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "1048576"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_11",
+        "input": {
+          "Array": [
+            {
+              "State": "range_check_29_bot11bits_col0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_11",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "991608089"
+            ]
+          },
+          {
+            "State": "range_check_29_bot11bits_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

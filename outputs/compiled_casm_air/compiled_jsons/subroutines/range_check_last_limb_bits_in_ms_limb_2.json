@@ -1,0 +1,143 @@
+{
+  "name": "range_check_last_limb_bits_in_ms_limb_2",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Range Check Last Limb Bits In Ms Limb 2",
+  "instance_definition": "{\"bits_in_ms_limb\":2}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "range_check_last_limb_bits_in_ms_limb_2_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [
+    "range_check_last_limb_bits_in_ms_limb_2_input"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_last_limb_bits_in_ms_limb_2_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "partial_limb_msb_col0"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {
+    "cond_range_check_2": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "cond_range_check_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "range_check_last_limb_bits_in_ms_limb_2_input"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "partial_limb_msb_col0"
+              }
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_3dbe5_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "Var": [
+                          "M31",
+                          "range_check_last_limb_bits_in_ms_limb_2_input"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_3dbe5_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock"
+  ]
+}

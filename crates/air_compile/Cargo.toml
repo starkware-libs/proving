@@ -1,0 +1,10 @@
+[package]
+name = "air_compile"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive", "rc"] }
+indexmap = { workspace = true, features = ["serde"] }
+
+air_common = { path = "../air_common" }

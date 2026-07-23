@@ -1,0 +1,194 @@
+{
+  "name": "mem_cond_verify_equal_known_id",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Mem Cond Verify Equal Known Id",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "mem_cond_verify_equal_known_id_input",
+    "(M31, M31, M31)",
+    "(PackedM31, PackedM31, PackedM31)"
+  ],
+  "verifier_input_limbs": [
+    "mem_cond_verify_equal_known_id_input_limb_0",
+    "mem_cond_verify_equal_known_id_input_limb_1",
+    "mem_cond_verify_equal_known_id_input_limb_2"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "mem_cond_verify_equal_known_id_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "id_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "MemoryAddressToId",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "memory_address_to_id": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "MemoryAddressToId": [
+      "memory_address_to_id",
+      0,
+      1
+    ]
+  },
+  "inline_calls": {
+    "read_id": [
+      [
+        [
+          "MemoryAddressToId",
+          "Use"
+        ]
+      ],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "read_id::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "mem_cond_verify_equal_known_id_input_limb_0"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "id_col0"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "id_col0"
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "mem_cond_verify_equal_known_id_input_limb_1"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "mem_cond_verify_equal_known_id_input_limb_2"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Read Id"
+    },
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_3a540_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "mem_cond_verify_equal_known_id_input.0"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_3a540_0"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "MemoryAddressToId",
+        "input": {
+          "Var": [
+            "M31",
+            "mem_cond_verify_equal_known_id_input.0"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1444891767"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "mem_cond_verify_equal_known_id_input.0"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    "EndBlock"
+  ]
+}

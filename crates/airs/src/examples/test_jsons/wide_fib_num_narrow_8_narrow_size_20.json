@@ -1,0 +1,985 @@
+{
+  "name": "wide_fib_num_narrow_8_narrow_size_20",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Wide Fib Num Narrow 8 Narrow Size 20",
+  "instance_definition": "{\"num_narrow\":8,\"narrow_size\":20}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "wide_fib_num_narrow_8_narrow_size_20_input",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "State": "narrow_fib_num_steps_20_output_limb_1_col16"
+    },
+    "wide_fib_num_narrow_8_narrow_size_20_output",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "col0",
+    "narrow_fib_num_steps_20_output_limb_0_col1",
+    "narrow_fib_num_steps_20_output_limb_1_col2",
+    "narrow_fib_num_steps_20_output_limb_0_col3",
+    "narrow_fib_num_steps_20_output_limb_1_col4",
+    "narrow_fib_num_steps_20_output_limb_0_col5",
+    "narrow_fib_num_steps_20_output_limb_1_col6",
+    "narrow_fib_num_steps_20_output_limb_0_col7",
+    "narrow_fib_num_steps_20_output_limb_1_col8",
+    "narrow_fib_num_steps_20_output_limb_0_col9",
+    "narrow_fib_num_steps_20_output_limb_1_col10",
+    "narrow_fib_num_steps_20_output_limb_0_col11",
+    "narrow_fib_num_steps_20_output_limb_1_col12",
+    "narrow_fib_num_steps_20_output_limb_0_col13",
+    "narrow_fib_num_steps_20_output_limb_1_col14",
+    "narrow_fib_num_steps_20_output_limb_0_col15",
+    "narrow_fib_num_steps_20_output_limb_1_col16"
+  ],
+  "constraint_lookups": [
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ],
+    [
+      "NarrowFibNumSteps20",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "narrow_fib_num_steps_20": "Enabler"
+  },
+  "n_inputs_added_per_relation": {
+    "NarrowFibNumSteps20": [
+      "narrow_fib_num_steps_20",
+      0,
+      8
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "State": "col0"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col1"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col2"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col1"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col2"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col3"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col4"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col3"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col4"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col5"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col6"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col5"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col6"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col7"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col8"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col7"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col8"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col9"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col10"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col9"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col10"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col11"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col12"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col11"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col12"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col13"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col14"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col13"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col14"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col15"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col16"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "wide_fib_num_narrow_8_narrow_size_20_input"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "State": "col0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_0",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  },
+                  {
+                    "State": "col0"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_0[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_0[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "State": "col0"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col1"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col2"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col1"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_1",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col1"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col2"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_1[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_1[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col1"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col2"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col3"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col4"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col3"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col4"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_2",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col3"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col4"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_2[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_2[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col3"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col4"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col5"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col6"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col5"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_3",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col5"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col6"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_3[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_3[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col5"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col6"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col7"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col8"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col7"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col8"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_4",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col7"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col8"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_4[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_4[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col7"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col8"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col9"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col10"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col9"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_5",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col9"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col10"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_5[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_5[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col9"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col10"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col11"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col12"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col11"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col12"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_6",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col11"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col12"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_6[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_6[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col11"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col12"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col13"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col14"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "NarrowFibNumSteps20",
+        "input": {
+          "Array": [
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_0_col13"
+            },
+            {
+              "State": "narrow_fib_num_steps_20_output_limb_1_col14"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "narrow_fib_num_steps_20_output_tmp_c5b59_7",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "NarrowFibNumSteps20::deduce_output",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_0_col13"
+                  },
+                  {
+                    "State": "narrow_fib_num_steps_20_output_limb_1_col14"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_7[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "narrow_fib_num_steps_20_output_tmp_c5b59_7[1]"
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "NarrowFibNumSteps20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1296888527"
+            ]
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col13"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col14"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_0_col15"
+          },
+          {
+            "State": "narrow_fib_num_steps_20_output_limb_1_col16"
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}

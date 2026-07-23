@@ -1,0 +1,655 @@
+{
+  "name": "cond_felt_252_as_addr",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Cond Felt 252 As Addr",
+  "instance_definition": "{}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "cond_felt_252_as_addr_input",
+    "(Felt252, M31)",
+    "(PackedFelt252, PackedM31)"
+  ],
+  "verifier_input_limbs": [
+    "cond_felt_252_as_addr_input_limb_0",
+    "cond_felt_252_as_addr_input_limb_1",
+    "cond_felt_252_as_addr_input_limb_2",
+    "cond_felt_252_as_addr_input_limb_3",
+    "cond_felt_252_as_addr_input_limb_4",
+    "cond_felt_252_as_addr_input_limb_5",
+    "cond_felt_252_as_addr_input_limb_6",
+    "cond_felt_252_as_addr_input_limb_7",
+    "cond_felt_252_as_addr_input_limb_8",
+    "cond_felt_252_as_addr_input_limb_9",
+    "cond_felt_252_as_addr_input_limb_10",
+    "cond_felt_252_as_addr_input_limb_11",
+    "cond_felt_252_as_addr_input_limb_12",
+    "cond_felt_252_as_addr_input_limb_13",
+    "cond_felt_252_as_addr_input_limb_14",
+    "cond_felt_252_as_addr_input_limb_15",
+    "cond_felt_252_as_addr_input_limb_16",
+    "cond_felt_252_as_addr_input_limb_17",
+    "cond_felt_252_as_addr_input_limb_18",
+    "cond_felt_252_as_addr_input_limb_19",
+    "cond_felt_252_as_addr_input_limb_20",
+    "cond_felt_252_as_addr_input_limb_21",
+    "cond_felt_252_as_addr_input_limb_22",
+    "cond_felt_252_as_addr_input_limb_23",
+    "cond_felt_252_as_addr_input_limb_24",
+    "cond_felt_252_as_addr_input_limb_25",
+    "cond_felt_252_as_addr_input_limb_26",
+    "cond_felt_252_as_addr_input_limb_27",
+    "cond_felt_252_as_addr_input_limb_28"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "BinaryOp": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "cond_felt_252_as_addr_input.0"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "0"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "cond_felt_252_as_addr_input.0"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "1"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "cond_felt_252_as_addr_input.0"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "2"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "+",
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "cond_felt_252_as_addr_input.0"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "3"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "134217728"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "cond_felt_252_as_addr_output",
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_addr_input_limb_0"
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "cond_felt_252_as_addr_input_limb_1"
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_addr_input_limb_2"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "262144"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_input_limb_3"
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "134217728"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    [
+      "cond_felt_252_as_addr_output"
+    ]
+  ],
+  "state_names": [
+    "partial_limb_msb_col0"
+  ],
+  "constraint_lookups": [],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {
+    "cond_range_check_2": [
+      [],
+      [],
+      []
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_addr_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "BinaryOp": [
+                                                                {
+                                                                  "BinaryOp": [
+                                                                    {
+                                                                      "BinaryOp": [
+                                                                        {
+                                                                          "BinaryOp": [
+                                                                            {
+                                                                              "BinaryOp": [
+                                                                                {
+                                                                                  "BinaryOp": [
+                                                                                    {
+                                                                                      "BinaryOp": [
+                                                                                        {
+                                                                                          "BinaryOp": [
+                                                                                            {
+                                                                                              "BinaryOp": [
+                                                                                                {
+                                                                                                  "BinaryOp": [
+                                                                                                    {
+                                                                                                      "BinaryOp": [
+                                                                                                        {
+                                                                                                          "Var": [
+                                                                                                            "M31",
+                                                                                                            "cond_felt_252_as_addr_input_limb_4"
+                                                                                                          ]
+                                                                                                        },
+                                                                                                        "+",
+                                                                                                        {
+                                                                                                          "Var": [
+                                                                                                            "M31",
+                                                                                                            "cond_felt_252_as_addr_input_limb_5"
+                                                                                                          ]
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    },
+                                                                                                    "+",
+                                                                                                    {
+                                                                                                      "Var": [
+                                                                                                        "M31",
+                                                                                                        "cond_felt_252_as_addr_input_limb_6"
+                                                                                                      ]
+                                                                                                    }
+                                                                                                  ]
+                                                                                                },
+                                                                                                "+",
+                                                                                                {
+                                                                                                  "Var": [
+                                                                                                    "M31",
+                                                                                                    "cond_felt_252_as_addr_input_limb_7"
+                                                                                                  ]
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            "+",
+                                                                                            {
+                                                                                              "Var": [
+                                                                                                "M31",
+                                                                                                "cond_felt_252_as_addr_input_limb_8"
+                                                                                              ]
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        "+",
+                                                                                        {
+                                                                                          "Var": [
+                                                                                            "M31",
+                                                                                            "cond_felt_252_as_addr_input_limb_9"
+                                                                                          ]
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    "+",
+                                                                                    {
+                                                                                      "Var": [
+                                                                                        "M31",
+                                                                                        "cond_felt_252_as_addr_input_limb_10"
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                "+",
+                                                                                {
+                                                                                  "Var": [
+                                                                                    "M31",
+                                                                                    "cond_felt_252_as_addr_input_limb_11"
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            "+",
+                                                                            {
+                                                                              "Var": [
+                                                                                "M31",
+                                                                                "cond_felt_252_as_addr_input_limb_12"
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        "+",
+                                                                        {
+                                                                          "Var": [
+                                                                            "M31",
+                                                                            "cond_felt_252_as_addr_input_limb_13"
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    "+",
+                                                                    {
+                                                                      "Var": [
+                                                                        "M31",
+                                                                        "cond_felt_252_as_addr_input_limb_14"
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                "+",
+                                                                {
+                                                                  "Var": [
+                                                                    "M31",
+                                                                    "cond_felt_252_as_addr_input_limb_15"
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            "+",
+                                                            {
+                                                              "Var": [
+                                                                "M31",
+                                                                "cond_felt_252_as_addr_input_limb_16"
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "Var": [
+                                                            "M31",
+                                                            "cond_felt_252_as_addr_input_limb_17"
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    "+",
+                                                    {
+                                                      "Var": [
+                                                        "M31",
+                                                        "cond_felt_252_as_addr_input_limb_18"
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "Var": [
+                                                    "M31",
+                                                    "cond_felt_252_as_addr_input_limb_19"
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "cond_felt_252_as_addr_input_limb_20"
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "Var": [
+                                            "M31",
+                                            "cond_felt_252_as_addr_input_limb_21"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "Var": [
+                                        "M31",
+                                        "cond_felt_252_as_addr_input_limb_22"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "Var": [
+                                    "M31",
+                                    "cond_felt_252_as_addr_input_limb_23"
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "Var": [
+                                "M31",
+                                "cond_felt_252_as_addr_input_limb_24"
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "cond_felt_252_as_addr_input_limb_25"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_addr_input_limb_26"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_input_limb_27"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "When the condition holds, the high limbs must be zero for an address"
+      ]
+    },
+    {
+      "Intermediate": {
+        "felt_names": [],
+        "var": {
+          "StaticCall": [
+            "cond_range_check_2::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_addr_input_limb_3"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_addr_input_limb_28"
+                    ]
+                  }
+                ]
+              },
+              "Enabler",
+              {
+                "State": "partial_limb_msb_col0"
+              }
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Cond Range Check 2"
+    },
+    {
+      "Intermediate": {
+        "name": "partial_limb_msb_tmp_eca5a_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "MethodCall": [
+                          {
+                            "Var": [
+                              "Felt252",
+                              "cond_felt_252_as_addr_input.0"
+                            ]
+                          },
+                          "get_m31",
+                          [
+                            {
+                              "Const": [
+                                "usize",
+                                "3"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "partial_limb_msb_tmp_eca5a_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock"
+  ]
+}

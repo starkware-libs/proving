@@ -1,0 +1,151 @@
+{
+  "name": "range_check_18",
+  "relation_names": [
+    "RangeCheck_18",
+    "RangeCheck_18_B"
+  ],
+  "relation_size": 1,
+  "log_height": 18,
+  "description": "Range Check 18",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "range_check_18_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "seq_18"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_18_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0",
+    "multiplicity_1_col1"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_18",
+      "Yield"
+    ],
+    [
+      "RangeCheck_18_B",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "seq_18"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1109051422"
+            ]
+          },
+          {
+            "ExternalState": "seq_18"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18_B",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1424798916"
+            ]
+          },
+          {
+            "ExternalState": "seq_18"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_1_col1"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "Deduction": {
+        "Multiplicity": 1
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1109051422"
+            ]
+          },
+          {
+            "ExternalState": "seq_18"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_18_B",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1424798916"
+            ]
+          },
+          {
+            "ExternalState": "seq_18"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_1_col1"
+        }
+      }
+    }
+  ]
+}

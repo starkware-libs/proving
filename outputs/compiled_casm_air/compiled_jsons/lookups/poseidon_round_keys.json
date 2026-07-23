@@ -1,0 +1,329 @@
+{
+  "name": "poseidon_round_keys",
+  "relation_names": [
+    "PoseidonRoundKeys"
+  ],
+  "relation_size": 31,
+  "log_height": 6,
+  "description": "Poseidon Round Keys",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "poseidon_round_keys_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "seq_6"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "Var": [
+            "Felt252Width27",
+            "[0]"
+          ]
+        },
+        {
+          "Var": [
+            "Felt252Width27",
+            "[1]"
+          ]
+        },
+        {
+          "Var": [
+            "Felt252Width27",
+            "[2]"
+          ]
+        }
+      ]
+    },
+    "poseidon_round_keys_output",
+    "[Felt252Width27; 3]",
+    "[PackedFelt252Width27; 3]"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "PoseidonRoundKeys",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "seq_6",
+    "poseidon_round_keys_0",
+    "poseidon_round_keys_1",
+    "poseidon_round_keys_2",
+    "poseidon_round_keys_3",
+    "poseidon_round_keys_4",
+    "poseidon_round_keys_5",
+    "poseidon_round_keys_6",
+    "poseidon_round_keys_7",
+    "poseidon_round_keys_8",
+    "poseidon_round_keys_9",
+    "poseidon_round_keys_10",
+    "poseidon_round_keys_11",
+    "poseidon_round_keys_12",
+    "poseidon_round_keys_13",
+    "poseidon_round_keys_14",
+    "poseidon_round_keys_15",
+    "poseidon_round_keys_16",
+    "poseidon_round_keys_17",
+    "poseidon_round_keys_18",
+    "poseidon_round_keys_19",
+    "poseidon_round_keys_20",
+    "poseidon_round_keys_21",
+    "poseidon_round_keys_22",
+    "poseidon_round_keys_23",
+    "poseidon_round_keys_24",
+    "poseidon_round_keys_25",
+    "poseidon_round_keys_26",
+    "poseidon_round_keys_27",
+    "poseidon_round_keys_28",
+    "poseidon_round_keys_29"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonRoundKeys",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1024310512"
+            ]
+          },
+          {
+            "ExternalState": "seq_6"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_0"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_1"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_2"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_3"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_4"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_5"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_6"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_7"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_8"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_9"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_10"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_11"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_12"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_13"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_14"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_15"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_16"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_17"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_18"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_19"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_20"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_21"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_22"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_23"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_24"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_25"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_26"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_27"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_28"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_29"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonRoundKeys",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1024310512"
+            ]
+          },
+          {
+            "ExternalState": "seq_6"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_0"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_1"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_2"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_3"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_4"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_5"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_6"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_7"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_8"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_9"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_10"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_11"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_12"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_13"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_14"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_15"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_16"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_17"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_18"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_19"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_20"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_21"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_22"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_23"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_24"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_25"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_26"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_27"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_28"
+          },
+          {
+            "ExternalState": "poseidon_round_keys_29"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

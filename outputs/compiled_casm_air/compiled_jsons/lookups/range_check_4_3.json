@@ -1,0 +1,108 @@
+{
+  "name": "range_check_4_3",
+  "relation_names": [
+    "RangeCheck_4_3"
+  ],
+  "relation_size": 2,
+  "log_height": 7,
+  "description": "Range Check 4 3",
+  "instance_definition": "{}",
+  "type": "Component",
+  "padding_type": "Multiplicity",
+  "prover_input": [
+    "range_check_4_3_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_input_limbs": [],
+  "input_const_columns": [
+    "range_check_4_3_column_0",
+    "range_check_4_3_column_1"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_4_3_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [
+    "multiplicity_0_col0"
+  ],
+  "constraint_lookups": [
+    [
+      "RangeCheck_4_3",
+      "Yield"
+    ]
+  ],
+  "sub_components": {},
+  "n_inputs_added_per_relation": {},
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [
+    "range_check_4_3_column_0",
+    "range_check_4_3_column_1"
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_3",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1567323731"
+            ]
+          },
+          {
+            "ExternalState": "range_check_4_3_column_0"
+          },
+          {
+            "ExternalState": "range_check_4_3_column_1"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Multiplicity": 0
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_3",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1567323731"
+            ]
+          },
+          {
+            "ExternalState": "range_check_4_3_column_0"
+          },
+          {
+            "ExternalState": "range_check_4_3_column_1"
+          }
+        ],
+        "use_or_yield": "Yield",
+        "multiplicity": {
+          "State": "multiplicity_0_col0"
+        }
+      }
+    }
+  ]
+}

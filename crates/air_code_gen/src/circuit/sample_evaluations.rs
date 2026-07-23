@@ -1,0 +1,38 @@
+use std::path::Path;
+
+use eval_air_fn_constraints::SampleEvaluation;
+use genco::lang::rust;
+use genco::quote;
+use indexmap::IndexMap;
+
+use crate::supported_components::AutogenCodeType;
+use crate::utils::*;
+
+pub fn generate_sample_evaluations_file(
+    dest_dir: &Path,
+    source_repo_rev: &str,
+    sample_evaluations: &IndexMap<String, SampleEvaluation>,
+) {
+    let source_rev_comment = format!("// AIR version {source_repo_rev}\n");
+
+    let constants_to_write = sample_evaluations_consts(sample_evaluations);
+
+    let mut tokens: rust::Tokens =
+        quote! { use stwo::core::fields::{qm31::QM31, cm31::CM31, m31::M31}; $("\n") };
+
+    let mut constant_order = constants_to_write.keys().collect::<Vec<_>>();
+    constant_order.sort();
+    for name in constant_order {
+        let value = constants_to_write.get(name).unwrap();
+        let value_m31s = value.to_m31_array();
+        tokens.extend(quote! {
+            pub const $(name): QM31 = QM31(CM31(M31($(value_m31s[0].0)), M31($(value_m31s[1].0))), CM31(M31($(value_m31s[2].0)), M31($(value_m31s[3].0)))); $("\n") 
+        });
+    }
+
+    add_file_to_module(
+        &dest_dir.join("sample_evaluations.rs"),
+        source_rev_comment + &tokens.to_string().unwrap(),
+        &AutogenCodeType::CIRCUIT,
+    );
+}

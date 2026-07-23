@@ -1,0 +1,391 @@
+{
+  "name": "range_check_mem_value_n_8",
+  "relation_names": [],
+  "relation_size": null,
+  "log_height": null,
+  "description": "Range Check Mem Value N 8",
+  "instance_definition": "{\"n\":8}",
+  "type": "Inline",
+  "padding_type": "None",
+  "prover_input": [
+    "range_check_mem_value_n_8_input",
+    "[M31; 8]",
+    "[PackedM31; 8]"
+  ],
+  "verifier_input_limbs": [
+    "range_check_mem_value_n_8_input_limb_0",
+    "range_check_mem_value_n_8_input_limb_1",
+    "range_check_mem_value_n_8_input_limb_2",
+    "range_check_mem_value_n_8_input_limb_3",
+    "range_check_mem_value_n_8_input_limb_4",
+    "range_check_mem_value_n_8_input_limb_5",
+    "range_check_mem_value_n_8_input_limb_6",
+    "range_check_mem_value_n_8_input_limb_7"
+  ],
+  "input_const_columns": [],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "range_check_mem_value_n_8_output",
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Array": []
+    },
+    []
+  ],
+  "state_names": [],
+  "constraint_lookups": [
+    [
+      "RangeCheck_9_9",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_B",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_C",
+      "Use"
+    ],
+    [
+      "RangeCheck_9_9_D",
+      "Use"
+    ]
+  ],
+  "sub_components": {
+    "range_check_9_9": "Multiplicity"
+  },
+  "n_inputs_added_per_relation": {
+    "RangeCheck_9_9": [
+      "range_check_9_9",
+      0,
+      1
+    ],
+    "RangeCheck_9_9_B": [
+      "range_check_9_9",
+      1,
+      1
+    ],
+    "RangeCheck_9_9_C": [
+      "range_check_9_9",
+      2,
+      1
+    ],
+    "RangeCheck_9_9_D": [
+      "range_check_9_9",
+      3,
+      1
+    ]
+  },
+  "inline_calls": {},
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "517791011"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_1"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_B",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1897792095"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_2"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_3"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_C",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1881014476"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_4"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_5"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_D",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1864236857"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_6"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input_limb_7"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[0]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[1]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "517791011"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[1]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9_B",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[2]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[3]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_B",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1897792095"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[2]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[3]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9_C",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[4]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[5]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_C",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1881014476"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[4]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[5]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "relation_name": "RangeCheck_9_9_D",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[6]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_8_input[7]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9_D",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1864236857"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[6]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_8_input[7]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use",
+        "multiplicity": "Enabler"
+      }
+    }
+  ]
+}
