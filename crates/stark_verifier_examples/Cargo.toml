@@ -1,0 +1,18 @@
+[package]
+name = "circuits-stark-verifier-examples"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+circuits.workspace = true
+circuits-stark-verifier.workspace = true
+indexmap.workspace = true
+itertools.workspace = true
+num-traits.workspace = true
+stwo = { workspace = true, features = ["prover"] }
+stwo-constraint-framework = { workspace = true, features = ["prover"] }
+
+[dev-dependencies]
+circuit-serialize = { path = "../circuit_serialize" }
+circuits = { workspace = true, features = ["test-utils"] }
+rstest.workspace = true

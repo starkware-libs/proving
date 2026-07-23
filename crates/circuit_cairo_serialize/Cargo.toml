@@ -1,0 +1,19 @@
+[package]
+name = "circuit-cairo-serialize"
+version.workspace = true
+edition.workspace = true
+description = "Serializes circuit proofs into the Cairo verifier's input format."
+
+[dependencies]
+cairo-air.workspace = true
+circuit-verifier.workspace = true
+starknet-ff.workspace = true
+stwo.workspace = true
+stwo-cairo-serialize.workspace = true
+
+[dev-dependencies]
+circuit-common.workspace = true
+circuit-prover = { workspace = true, features = ["test-utils"] }
+circuits.workspace = true
+itertools.workspace = true
+num-traits.workspace = true

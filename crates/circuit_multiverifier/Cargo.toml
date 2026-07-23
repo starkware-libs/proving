@@ -1,0 +1,26 @@
+[package]
+name = "circuit-multiverifier"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+itertools.workspace = true
+stwo.workspace = true
+stwo-constraint-framework.workspace = true
+circuits.workspace = true
+circuits-stark-verifier.workspace = true
+circuit-verifier.workspace = true
+circuit-common.workspace = true
+
+[dev-dependencies]
+blake2.workspace = true
+serde_json.workspace = true
+stwo = { workspace = true, features = ["prover"] }
+stwo-constraint-framework = { workspace = true, features = ["prover"] }
+circuit-common = { workspace = true, features = ["prover"] }
+circuits-stark-verifier.workspace = true
+cairo-air.workspace = true
+circuit-prover.workspace = true
+circuit-cairo-verifier = { path = "../cairo_verifier" }
+circuit-serialize = { path = "../circuit_serialize" }
+circuit-cairo-serialize = { path = "../circuit_cairo_serialize" }

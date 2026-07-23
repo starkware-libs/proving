@@ -1,0 +1,11 @@
+[package]
+name = "circuits-unpacker"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+circuits.workspace = true
+itertools.workspace = true
+
+[dev-dependencies]
+stwo.workspace = true

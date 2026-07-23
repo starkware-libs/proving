@@ -1,0 +1,21 @@
+[package]
+name = "circuits-stark-verifier"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+indexmap = { workspace = true, features = ["serde"] }
+hashbrown.workspace = true
+itertools.workspace = true
+num-traits.workspace = true
+serde.workspace = true
+
+stwo.workspace = true
+stwo-constraint-framework.workspace = true
+circuits.workspace = true
+
+[dev-dependencies]
+circuits = { workspace = true, features = ["test-utils"] }
+indoc.workspace = true
+rstest.workspace = true
+expect-test.workspace = true

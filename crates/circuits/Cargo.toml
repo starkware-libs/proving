@@ -1,0 +1,23 @@
+[package]
+name = "circuits"
+version.workspace = true
+edition.workspace = true
+
+[features]
+# Exposes `test_utils` to other crates' test builds. Off by default, so the helpers
+# are excluded from normal/release builds. Consumers enable it via dev-dependencies.
+test-utils = []
+
+[dependencies]
+blake2.workspace = true
+hashbrown.workspace = true
+indexmap.workspace = true
+itertools.workspace = true
+num-traits.workspace = true
+stwo.workspace = true
+stwo_cairo_common.workspace = true
+
+[dev-dependencies]
+indoc.workspace = true
+rstest.workspace = true
+expect-test.workspace = true

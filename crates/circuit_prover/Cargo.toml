@@ -1,0 +1,29 @@
+[package]
+name = "circuit-prover"
+version.workspace = true
+edition.workspace = true
+
+[features]
+# Exposes `test_utils` to other crates' test builds. Off by default, so the helpers
+# are excluded from normal/release builds. Consumers enable it via dev-dependencies.
+test-utils = []
+
+[dependencies]
+itertools.workspace = true
+num-traits.workspace = true
+stwo = { workspace = true, features = ["prover"] }
+stwo-constraint-framework = { workspace = true, features = ["prover"] }
+stwo-air-utils-derive.workspace = true
+stwo-air-utils.workspace = true
+serde.workspace = true
+rayon.workspace = true
+stwo_cairo_prover.workspace = true
+stwo_cairo_common = { workspace = true, features = ["prover"] }
+circuits.workspace = true
+circuit-verifier.workspace = true
+circuit-common = { workspace = true, features = ["prover"] }
+circuits-stark-verifier.workspace = true
+rand = "0.9.4"
+
+[dev-dependencies]
+expect-test.workspace = true

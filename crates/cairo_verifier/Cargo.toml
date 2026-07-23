@@ -1,0 +1,27 @@
+[package]
+name = "circuit-cairo-verifier"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+hashbrown.workspace = true
+indexmap.workspace = true
+itertools.workspace = true
+num-traits.workspace = true
+stwo.workspace = true
+stwo-constraint-framework.workspace = true
+cairo-air.workspace = true
+stwo_cairo_common.workspace = true
+circuits.workspace = true
+circuit-common.workspace = true
+circuits-stark-verifier.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+cairo-vm = "3.2.0"
+stwo_cairo_prover.workspace = true
+stwo_cairo_dev_utils.workspace = true
+stwo_cairo_utils.workspace = true
+circuit-prover = { workspace = true, features = ["test-utils"] }
+circuit-verifier.workspace = true
+circuit-serialize.workspace = true

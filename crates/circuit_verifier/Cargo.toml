@@ -1,0 +1,21 @@
+[package]
+name = "circuit-verifier"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+indexmap.workspace = true
+itertools.workspace = true
+num-traits.workspace = true
+
+stwo.workspace = true
+stwo-constraint-framework.workspace = true
+circuits.workspace = true
+circuits-stark-verifier.workspace = true
+circuit-common.workspace = true
+
+[dev-dependencies]
+blake2.workspace = true
+indoc.workspace = true
+rstest.workspace = true
+expect-test.workspace = true
