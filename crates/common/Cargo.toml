@@ -6,6 +6,9 @@ license.workspace = true
 repository.workspace = true
 description = "Common types and utilities shared across Stwo Cairo crates"
 
+[package.metadata.cargo-machete]
+ignored = ["serde_arrays"]
+
 [features]
 prover = ["stwo/parallel", "stwo/prover", "stwo-constraint-framework/parallel", "stwo-constraint-framework/prover"]
 
