@@ -1,6 +1,30 @@
-# STWO Skill Registry
+# Skill & Rule Registry — Proving Monorepo
 
-## Tier 1 — Critical (Mathematical Foundations + Review)
+Agent context here comes in two forms:
+
+- **Domain guides** — orientation for each area of the monorepo (layout, commands,
+  architectural decisions). These are **path-scoped rules** in `.claude/rules/`, not skills:
+  each one auto-loads when you read a file in its area's crates, so there is nothing to load
+  by hand. See the Repository Map in the root `CLAUDE.md`.
+- **Math & review skills** — cross-cutting cryptographic foundations and review checklists,
+  loaded on demand from `.claude/skills/`. These apply to the **whole** proving stack (stwo,
+  stwo-cairo, stwo-circuits, proving-utils, stwo-air-infra), not just the core library —
+  every area proves or verifies over the same Circle STARK / M31 machinery.
+
+## Domain Guides (path-scoped rules in `.claude/rules/`)
+
+Auto-loaded by the `paths` frontmatter in each rule when you touch the matching crates — no
+manual loading required.
+
+| Guide | Rule file | Auto-loads when working on |
+|-------|-----------|----------------------------|
+| stwo (core) | `.claude/rules/stwo-core-guide.md` | The core prover/verifier library |
+| stwo-cairo | `.claude/rules/stwo-cairo-guide.md` | The Cairo CPU AIR, Rust prover, or Cairo verifier |
+| stwo-circuits | `.claude/rules/stwo-circuits-guide.md` | The circuit DSL or circuit-based prover/verifier |
+| proving-utils | `.claude/rules/proving-utils-guide.md` | Run-and-prove, recursive trees, or privacy CLIs |
+| stwo-air-infra | `.claude/rules/stwo-air-infra-guide.md` | AIR code generation, or regenerating AIR-generated code |
+
+## Math & Review — Tier 1 (Mathematical Foundations + Review)
 
 | Skill | File | Load When |
 |-------|------|-----------|
@@ -11,7 +35,7 @@
 | Soundness Review Checklist | `soundness-review-checklist.md` | Reviewing ANY soundness-critical change |
 | Security Review Checklist | `security-review-checklist.md` | Reviewing security-critical changes |
 
-## Tier 2 — Protocol Specifics
+## Math & Review — Tier 2 (Protocol Specifics)
 
 | Skill | File | Load When |
 |-------|------|-----------|
@@ -19,7 +43,7 @@
 | Performance Optimization | `performance-optimization.md` | Benchmarking, SIMD, memory, profiling |
 | Testing Strategy | `testing-strategy.md` | Adding tests, reviewing coverage, debugging failures |
 
-## Tier 3 — Operations
+## Math & Review — Tier 3 (Operations)
 
 | Skill | File | Load When |
 |-------|------|-----------|
@@ -37,15 +61,17 @@
 | Document | File | Purpose |
 |----------|------|---------|
 | Distillation Index | `.agents/papers/llm/INDEX.llm.md` | Entry point and notation map for theory references |
-| Circle STARK Distillation | `.agents/papers/llm/Circle_STARKs.llm.md` | Canonical Circle STARK definitions, algorithms, and invariants |
-| STWO Distillation | `.agents/papers/llm/Stwo_Whitepaper.llm.md` | Canonical STWO protocol model, soundness assumptions, and parameters |
+| Circle STARK Distillation | `.agents/papers/llm/Circle_STARKs.llm.md` | Canonical Circle STARK definitions, algorithms, invariants |
+| STWO Distillation | `.agents/papers/llm/Stwo_Whitepaper.llm.md` | Canonical STWO protocol model, soundness assumptions, parameters |
 
 ## Loading Protocol
 
-1. Load `.agents/papers/llm/INDEX.llm.md` to map concepts and anchors.
-2. Load the relevant distilled paper file(s) from `.agents/papers/llm/`.
-3. Always load `paper-implementation-divergence-log.md` before modifying any
+1. The **domain guide** for the area you are working in auto-loads (path-scoped rule in
+   `.claude/rules/`) — no action needed.
+2. Load `.agents/papers/llm/INDEX.llm.md` to map concepts and anchors.
+3. Load the relevant distilled paper file(s) from `.agents/papers/llm/`.
+4. Always load `paper-implementation-divergence-log.md` before modifying any
    theoretically-grounded component.
-4. Load the most specific relevant Tier 1 skill for the domain you're working in.
-5. For reviews, load the appropriate checklist skill.
-6. Tier 2 and 3 skills are loaded as needed for context.
+5. Load the most specific relevant Tier 1 skill for the domain you're working in.
+6. For reviews, load the appropriate checklist skill.
+7. Tier 2 and 3 skills are loaded as needed for context.
