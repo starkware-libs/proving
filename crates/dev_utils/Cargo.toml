@@ -12,13 +12,13 @@ required-features = ["stwo-cairo-adapter/extract-mem-trace"]
 
 [dependencies]
 anyhow.workspace = true
-cairo-air = { path = "../cairo-air", version = "~1.2.2" }
+cairo-air.workspace = true
 clap.workspace = true
 serde.workspace = true
 sonic-rs.workspace = true
-stwo-cairo-adapter = { path = "../adapter", version = "~1.2.2" }
+stwo-cairo-adapter.workspace = true
 stwo.workspace = true
-stwo-cairo-prover = { path = "../prover", version = "~1.2.2" }
+stwo-cairo-prover.workspace = true
 tracing-subscriber.workspace = true
 tracing.workspace = true
 log.workspace = true
