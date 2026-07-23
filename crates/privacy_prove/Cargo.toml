@@ -30,21 +30,21 @@ cairo-vm = { workspace = true, features = [
 ] }
 
 # stwo cairo
-cairo-air = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "82f21252" }
-stwo-cairo-adapter = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "82f21252" }
-stwo-cairo-prover = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "82f21252" }
-stwo-cairo-common = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "82f21252" }
+cairo-air.workspace = true
+stwo-cairo-adapter.workspace = true
+stwo-cairo-prover.workspace = true
+stwo-cairo-common.workspace = true
 
 # stwo circuits
-circuit-cairo-verifier = { git = "https://github.com/starkware-libs/stwo-circuits", rev = "7bbff4c9" }
-circuits-stark-verifier = { git = "https://github.com/starkware-libs/stwo-circuits", rev = "7bbff4c9" }
-circuit-serialize = { git = "https://github.com/starkware-libs/stwo-circuits", rev = "7bbff4c9" }
-circuit-prover = { git = "https://github.com/starkware-libs/stwo-circuits", rev = "7bbff4c9" }
-circuit-common = { git = "https://github.com/starkware-libs/stwo-circuits", rev = "7bbff4c9" }
-circuit-verifier = { git = "https://github.com/starkware-libs/stwo-circuits", rev = "7bbff4c9" }
+circuit-cairo-verifier.workspace = true
+circuits-stark-verifier.workspace = true
+circuit-serialize.workspace = true
+circuit-prover.workspace = true
+circuit-common.workspace = true
+circuit-verifier.workspace = true
 
 # stwo
-stwo = { git = "https://github.com/starkware-libs/stwo", rev = "7b211edd", features = ["parallel"] }
+stwo = { workspace = true, features = ["parallel"] }
 
 [dev-dependencies]
 ctor.workspace = true
