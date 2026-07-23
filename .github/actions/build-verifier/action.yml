@@ -1,0 +1,40 @@
+name: Build and upload stwo cairo verifier
+description: >
+  Compiles a stwo cairo verifier package with scarb (the 'proving' profile, as stwo-cairo's CI
+  does) and uploads the resulting executable JSON to GCS.
+
+inputs:
+  package:
+    description: Scarb package to compile (e.g. stwo_cairo_verifier).
+    required: true
+  features:
+    description: Comma-separated scarb features to enable.
+    required: true
+  out:
+    description: Output artifact file name (e.g. stwo_cairo_verifier.json).
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Compile ${{ inputs.out }}
+      shell: bash
+      env:
+        VERIFIER_PACKAGE: ${{ inputs.package }}
+        VERIFIER_FEATURES: ${{ inputs.features }}
+        VERIFIER_OUT: ${{ inputs.out }}
+      run: |
+        # Isolate each build in its own target dir so the shared `stwo_cairo_verifier` package
+        # (compiled with different feature sets) does not clobber the previous executable JSON.
+        export SCARB_TARGET_DIR="$(pwd)/verifier_target_${VERIFIER_OUT%.json}"
+        scarb --manifest-path stwo_cairo_verifier/Scarb.toml --profile proving \
+          build --package "${VERIFIER_PACKAGE}" --features "${VERIFIER_FEATURES}"
+        cp "${SCARB_TARGET_DIR}/proving/${VERIFIER_PACKAGE}.executable.json" "${VERIFIER_OUT}"
+        echo "VERIFIER_OUT=${VERIFIER_OUT}" >> "$GITHUB_ENV"
+        echo "VERIFIER_PRODUCT=${VERIFIER_OUT%.json}_artifacts" >> "$GITHUB_ENV"
+
+    - name: Upload ${{ inputs.out }} to GCP
+      uses: google-github-actions/upload-cloud-storage@v2
+      with:
+        path: "${{ env.VERIFIER_OUT }}"
+        destination: "sharp-binary-artifacts/${{ env.VERIFIER_PRODUCT }}/${{ env.SHORT_HASH }}/release"

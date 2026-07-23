@@ -17,14 +17,61 @@ jobs:
         run: |
           echo "SHORT_HASH=${COMMIT_SHA:0:7}" >> $GITHUB_ENV
 
-      - name: Build all generic binaries
-        run: |
-          cargo build --release
-
       - name: Authenticate with GCS
         uses: "google-github-actions/auth@v2"
         with:
           credentials_json: ${{ secrets.SHARP_BINARY_ARTIFACTS_WRITER_SA }}
+
+      - name: Setup scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.18.0"
+
+      - name: Build and upload stwo_cairo_verifier
+        uses: ./.github/actions/build-verifier
+        with:
+          package: stwo_cairo_verifier
+          features: qm31_opcode,poseidon_outputs_packing
+          out: stwo_cairo_verifier.json
+
+      - name: Build and upload stwo_cairo_poseidon_verifier
+        uses: ./.github/actions/build-verifier
+        with:
+          package: stwo_cairo_verifier
+          features: poseidon252_verifier,poseidon_outputs_packing
+          out: stwo_cairo_poseidon_verifier.json
+
+      - name: Build and upload stwo_cairo_verifier_with_blake_packing
+        uses: ./.github/actions/build-verifier
+        with:
+          package: stwo_cairo_verifier
+          features: qm31_opcode,blake_outputs_packing
+          out: stwo_cairo_verifier_with_blake_packing.json
+
+      - name: Build and upload mock_verifier
+        uses: ./.github/actions/build-verifier
+        with:
+          package: stwo_cairo_verifier_mock
+          features: qm31_opcode
+          out: mock_verifier.json
+
+      - name: Build and upload stwo_circuit_verifier
+        uses: ./.github/actions/build-verifier
+        with:
+          package: stwo_circuit_verifier
+          features: qm31_opcode
+          out: stwo_circuit_verifier.json
+
+      - name: Upload casm_registry.json to GCP
+        id: upload_casm_registry
+        uses: "google-github-actions/upload-cloud-storage@v2"
+        with:
+          path: "crates/common/casm_registry.json"
+          destination: "sharp-binary-artifacts/casm_registry_artifacts/${{ env.SHORT_HASH }}/release"
+
+      - name: Build all generic binaries
+        run: |
+          cargo build --release
 
       - name: Upload cairo_program_runner x86_64 binary to GCP
         id: upload_cairo_program_runner_x86
