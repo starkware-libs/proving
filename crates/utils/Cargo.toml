@@ -10,4 +10,4 @@ description = "Utility functions for Stwo Cairo prover"
 env_logger.workspace = true
 log.workspace = true
 tracing.workspace = true
-tracing-subscriber.workspace = true
+tracing-subscriber = { workspace = true, features = ["fmt"] }
