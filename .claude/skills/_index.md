@@ -28,27 +28,27 @@ manual loading required.
 
 | Skill | File | Load When |
 |-------|------|-----------|
-| ZK-STARK Foundations | `zk-stark-foundations.md` | Working on any proof system code |
-| Circle STARK Mathematics | `circle-stark-mathematics.md` | Modifying circle points, cosets, domains, FFT, polynomials |
-| AIR Constraint Engineering | `air-constraint-engineering.md` | Defining/reviewing constraints, logup, EvalAtRow |
-| Finite Field Arithmetic | `finite-field-arithmetic.md` | Modifying M31/CM31/QM31 ops, SIMD field code |
-| Soundness Review Checklist | `soundness-review-checklist.md` | Reviewing ANY soundness-critical change |
-| Security Review Checklist | `security-review-checklist.md` | Reviewing security-critical changes |
+| ZK-STARK Foundations | `zk-stark-foundations/SKILL.md` | Working on any proof system code |
+| Circle STARK Mathematics | `circle-stark-mathematics/SKILL.md` | Modifying circle points, cosets, domains, FFT, polynomials |
+| AIR Constraint Engineering | `air-constraint-engineering/SKILL.md` | Defining/reviewing constraints, logup, EvalAtRow |
+| Finite Field Arithmetic | `finite-field-arithmetic/SKILL.md` | Modifying M31/CM31/QM31 ops, SIMD field code |
+| Soundness Review Checklist | `soundness-review-checklist/SKILL.md` | Reviewing ANY soundness-critical change |
+| Security Review Checklist | `security-review-checklist/SKILL.md` | Reviewing security-critical changes |
 
 ## Math & Review — Tier 2 (Protocol Specifics)
 
 | Skill | File | Load When |
 |-------|------|-----------|
-| FRI Protocol | `fri-protocol.md` | Modifying FRI prover/verifier, parameters, folding |
-| Performance Optimization | `performance-optimization.md` | Benchmarking, SIMD, memory, profiling |
-| Testing Strategy | `testing-strategy.md` | Adding tests, reviewing coverage, debugging failures |
+| FRI Protocol | `fri-protocol/SKILL.md` | Modifying FRI prover/verifier, parameters, folding |
+| Performance Optimization | `performance-optimization/SKILL.md` | Benchmarking, SIMD, memory, profiling |
+| Testing Strategy | `testing-strategy/SKILL.md` | Adding tests, reviewing coverage, debugging failures |
 
 ## Math & Review — Tier 3 (Operations)
 
 | Skill | File | Load When |
 |-------|------|-----------|
-| Rust Codebase Conventions | `rust-codebase-conventions.md` | Contributing code, understanding patterns |
-| Debugging ZKP | `debugging-zkp.md` | Proof failures, constraint debugging |
+| Rust Codebase Conventions | `rust-codebase-conventions/SKILL.md` | Contributing code, understanding patterns |
+| Debugging ZKP | `debugging-zkp/SKILL.md` | Proof failures, constraint debugging |
 
 ## Living Documents
 
