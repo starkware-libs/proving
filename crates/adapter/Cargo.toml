@@ -26,7 +26,7 @@ crypto-bigint = "0.5.1"
 anyhow.workspace = true
 
 [dev-dependencies]
-cairo-lang-casm = "=2.15.0"
+cairo-lang-casm.workspace = true
 rand.workspace = true
 test-case.workspace = true
 stwo-cairo-dev-utils = { path = "../dev_utils" }
