@@ -1,0 +1,2810 @@
+{
+    "attributes": [],
+    "builtins": [
+        "output",
+        "range_check",
+        "ecdsa",
+        "poseidon"
+    ],
+    "compiler_version": "0.14.4",
+    "data": [
+        "0x40780017fff7fff",
+        "0x4",
+        "0x1104800180018000",
+        "0x1d",
+        "0x10780017fff7fff",
+        "0x0",
+        "0x40780017fff7fff",
+        "0x1",
+        "0x400380007ffd8000",
+        "0x482680017ffd8000",
+        "0x1",
+        "0x480a80007fff8000",
+        "0x1104800180018000",
+        "0x4",
+        "0x480a80007fff8000",
+        "0x208b7fff7fff7ffe",
+        "0x20780017fff7ffd",
+        "0x4",
+        "0x480a7ffc7fff8000",
+        "0x208b7fff7fff7ffe",
+        "0x482680017ffc8000",
+        "0x1",
+        "0x480280007ffc8000",
+        "0x482480017fff8000",
+        "0x800000000000011000000000000000000000000000000000000000000000000",
+        "0x48307fff7ffd8000",
+        "0x482680017ffd8000",
+        "0x800000000000011000000000000000000000000000000000000000000000000",
+        "0x1104800180018000",
+        "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffff5",
+        "0x208b7fff7fff7ffe",
+        "0x40780017fff7fff",
+        "0x1",
+        "0x480a7ffa7fff8000",
+        "0x1104800180018000",
+        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe5",
+        "0x40137ffe7fff8000",
+        "0x1104800180018000",
+        "0xe",
+        "0x480680017fff8000",
+        "0x3d60886c2353d93ec2862e91e23036cd9999a534481166e5a616a983070434d",
+        "0x400280007ffc7fff",
+        "0x480680017fff8000",
+        "0xa9e",
+        "0x400280017ffc7fff",
+        "0x48127ffd7fff8000",
+        "0x480a7ffb7fff8000",
+        "0x482680017ffc8000",
+        "0x2",
+        "0x480a7ffd7fff8000",
+        "0x208b7fff7fff7ffe",
+        "0x40780017fff7fff",
+        "0x1",
+        "0x20780017fff7ffd",
+        "0x4",
+        "0x480a7ffc7fff8000",
+        "0x208b7fff7fff7ffe",
+        "0x482a80007ffc8000",
+        "0x482680017ffd8000",
+        "0x800000000000011000000000000000000000000000000000000000000000000",
+        "0x1104800180018000",
+        "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffff8",
+        "0x208b7fff7fff7ffe"
+    ],
+    "debug_info": {
+        "file_contents": {
+            "/worker/build/5c5d099ffedeb2d9/root/bazel-out/k8-opt-exec-6F554238-ST-03cbce6a7308/bin/src/starkware/cairo/lang/compiler/cairo_compile_exe.runfiles/__main__/src/starkware/cairo/lang/compiler/lib/registers.cairo": "// Returns the contents of the fp and pc registers of the calling function.\n// The pc register's value is the address of the instruction that follows directly after the\n// invocation of get_fp_and_pc().\nfunc get_fp_and_pc() -> (fp_val: felt*, pc_val: felt*) {\n    // The call instruction itself already places the old fp and the return pc at\n    // [ap - 2], [ap - 1].\n    return (fp_val=cast([ap - 2], felt*), pc_val=cast([ap - 1], felt*));\n}\n\n// Returns the content of the ap register just before this function was invoked.\n@known_ap_change\nfunc get_ap() -> (ap_val: felt*) {\n    // Once get_ap() is invoked, fp points to ap + 2 (since the call instruction placed the old fp\n    // and pc in memory, advancing ap accordingly).\n    // Hence, the desired ap value is fp - 2.\n    let (fp_val, pc_val) = get_fp_and_pc();\n    return (ap_val=fp_val - 2);\n}\n",
+            "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo": "// Parses the task outputs from the bootloader output. Writes their outputs to the output_ptr.\n// Returns the number of tasks.\nfunc parse_tasks{output_ptr: felt*}() -> felt {\n    alloc_locals;\n\n    local n_tasks: felt;\n\n    %{ CONCAT_AGGREGATOR_PARSE_TASKS_OUTPUTS %}\n\n    assert [output_ptr] = n_tasks;\n    let output_ptr = output_ptr + 1;\n\n    // Output the task outputs as they are.\n    output_tasks(n_tasks=n_tasks);\n\n    return n_tasks;\n}\n\n// Outputs the task outputs, each with the size of the output (to match the bootloader output\n// format).\nfunc output_tasks{output_ptr: felt*}(n_tasks: felt) {\n    if (n_tasks == 0) {\n        return ();\n    }\n\n    let output_size = output_ptr[0];\n    let output_ptr = output_ptr + 1;\n\n    %{\n        task_index = len(tasks_outputs) - ids.n_tasks\n        segments.load_data(ptr=ids.output_ptr, data=tasks_outputs[task_index])\n        ids.output_size = len(tasks_outputs[task_index]) + 1\n    %}\n\n    let output_ptr = output_ptr + output_size - 1;\n\n    return output_tasks(n_tasks=n_tasks - 1);\n}\n",
+            "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/common/cairo_builtins.cairo": "from starkware.cairo.common.ec_point import EcPoint\nfrom starkware.cairo.common.keccak_state import KeccakBuiltinState\nfrom starkware.cairo.common.poseidon_state import PoseidonBuiltinState\n\n// Specifies the hash builtin memory structure.\nstruct HashBuiltin {\n    x: felt,\n    y: felt,\n    result: felt,\n}\n\n// Specifies the signature builtin memory structure.\nstruct SignatureBuiltin {\n    pub_key: felt,\n    message: felt,\n}\n\n// Specifies the bitwise builtin memory structure.\nstruct BitwiseBuiltin {\n    x: felt,\n    y: felt,\n    x_and_y: felt,\n    x_xor_y: felt,\n    x_or_y: felt,\n}\n\n// Specifies the EC operation builtin memory structure.\nstruct EcOpBuiltin {\n    p: EcPoint,\n    q: EcPoint,\n    m: felt,\n    r: EcPoint,\n}\n\n// Specifies the Keccak builtin memory structure.\nstruct KeccakBuiltin {\n    input: KeccakBuiltinState,\n    output: KeccakBuiltinState,\n}\n\n// Specifies the Poseidon builtin memory structure.\nstruct PoseidonBuiltin {\n    input: PoseidonBuiltinState,\n    output: PoseidonBuiltinState,\n}\n\n// Represents a 384-bit unsigned integer d0 + 2**96 * d1 + 2**192 * d2 + 2**288 * d3\n// where each di is in [0, 2**96).\nstruct UInt384 {\n    d0: felt,\n    d1: felt,\n    d2: felt,\n    d3: felt,\n}\n\n// Specifies the Add and Mul Mod builtins memory structure.\nstruct ModBuiltin {\n    // The modulus.\n    p: UInt384,\n    // A pointer to input values, the intermediate results and the output.\n    values_ptr: UInt384*,\n    // A pointer to offsets inside the values array, defining the circuit.\n    // The offsets array should contain 3 * n elements.\n    offsets_ptr: felt*,\n    // The number of operations to perform.\n    n: felt,\n}\n",
+            "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/common/ec_point.cairo": "// Represents a point on an elliptic curve.\nstruct EcPoint {\n    x: felt,\n    y: felt,\n}\n",
+            "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/common/keccak_state.cairo": "// Represents 1600 bits of a Keccak state (8 felts each containing 200 bits).\nstruct KeccakBuiltinState {\n    s0: felt,\n    s1: felt,\n    s2: felt,\n    s3: felt,\n    s4: felt,\n    s5: felt,\n    s6: felt,\n    s7: felt,\n}\n",
+            "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/common/poseidon_state.cairo": "// Represents a Poseidon state.\nstruct PoseidonBuiltinState {\n    s0: felt,\n    s1: felt,\n    s2: felt,\n}\n",
+            "<start>": "__start__:\nap += main.Args.SIZE + main.ImplicitArgs.SIZE;\ncall main;\n\n__end__:\njmp rel 0;\n",
+            "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo": "%builtins output range_check ecdsa poseidon\n\nfrom starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils import (\n    parse_tasks,\n)\nfrom starkware.cairo.common.cairo_builtins import PoseidonBuiltin, SignatureBuiltin\n\n// Simple aggregation program that concatenates task outputs. Used for tests. It is not sound.\n//\n// Hint arguments:\n// program_input - List of task outputs, in the format of the bootloader output.\nfunc main{\n    output_ptr: felt*, range_check_ptr, ecdsa_ptr: SignatureBuiltin*, poseidon_ptr: PoseidonBuiltin*\n}() {\n    alloc_locals;\n\n    let n_tasks = parse_tasks();\n    local output_start: felt* = output_ptr;\n\n    // Output the concatenated task outputs.\n    output_concatenated_output(n_tasks=n_tasks);\n\n    %{\n        from starkware.python.math_utils import div_ceil\n\n        output_length = ids.output_ptr - ids.output_start\n        page_size = 10\n        next_page_start = min(ids.output_start + page_size, ids.output_ptr)\n        next_page_id = 1\n        while next_page_start < ids.output_ptr:\n            output_builtin.add_page(\n                page_id=next_page_id,\n                page_start=next_page_start,\n                page_size=min(ids.output_ptr - next_page_start, page_size),\n            )\n            next_page_start += page_size\n            next_page_id += 1\n        if next_page_id == 1:\n            # Single page. Use trivial fact topology.\n            output_builtin.add_attribute('gps_fact_topology', [\n                1,\n                0,\n            ])\n        else:\n            output_builtin.add_attribute('gps_fact_topology', [\n                next_page_id,\n                next_page_id - 1,\n                0,\n                2,\n            ])\n    %}\n    // Call ECDSA builtin, so we have at least one instance of a builtin we need to simulate for\n    // STWO.\n    %{\n        ecdsa_builtin.add_signature(ids.ecdsa_ptr, (\n            3086480810278599376317923499561306189851900463386393948998357832163236918254,\n            598673427589502599949712887611119751108407514580626464031881322743364689811))\n    %}\n    assert ecdsa_ptr.pub_key = (\n        1735102664668487605176656616876767369909409133946409161569774794110049207117\n    );\n    assert ecdsa_ptr.message = 2718;\n    let ecdsa_ptr = ecdsa_ptr + SignatureBuiltin.SIZE;\n\n    return ();\n}\n\n// Outputs the task outputs, without the output sizes.\nfunc output_concatenated_output{output_ptr: felt*}(n_tasks: felt) {\n    alloc_locals;\n    if (n_tasks == 0) {\n        return ();\n    }\n\n    local output_size: felt;\n\n    %{\n        task_index = len(tasks_outputs) - ids.n_tasks\n        segments.load_data(ptr=ids.output_ptr, data=tasks_outputs[task_index])\n        ids.output_size = len(tasks_outputs[task_index])\n    %}\n\n    let output_ptr = output_ptr + output_size;\n\n    return output_concatenated_output(n_tasks=n_tasks - 1);\n}\n"
+        },
+        "instruction_locations": {
+            "0": {
+                "accessible_scopes": [
+                    "__main__"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 0,
+                        "offset": 0
+                    },
+                    "reference_ids": {}
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 46,
+                    "end_line": 2,
+                    "input_file": {
+                        "filename": "<start>"
+                    },
+                    "start_col": 1,
+                    "start_line": 2
+                }
+            },
+            "2": {
+                "accessible_scopes": [
+                    "__main__"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 0,
+                        "offset": 4
+                    },
+                    "reference_ids": {}
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 10,
+                    "end_line": 3,
+                    "input_file": {
+                        "filename": "<start>"
+                    },
+                    "start_col": 1,
+                    "start_line": 3
+                }
+            },
+            "4": {
+                "accessible_scopes": [
+                    "__main__"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 1,
+                        "offset": 0
+                    },
+                    "reference_ids": {}
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 10,
+                    "end_line": 6,
+                    "input_file": {
+                        "filename": "<start>"
+                    },
+                    "start_col": 1,
+                    "start_line": 6
+                }
+            },
+            "6": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 2,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 0
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 18,
+                    "end_line": 4,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 4
+                }
+            },
+            "8": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 2,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 0
+                    }
+                },
+                "hints": [
+                    {
+                        "location": {
+                            "end_col": 48,
+                            "end_line": 8,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "start_col": 5,
+                            "start_line": 8
+                        },
+                        "n_prefix_newlines": 0
+                    }
+                ],
+                "inst": {
+                    "end_col": 35,
+                    "end_line": 10,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 10
+                }
+            },
+            "9": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 2,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 2
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 36,
+                    "end_line": 11,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 36,
+                            "end_line": 21,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 34,
+                                    "end_line": 14,
+                                    "input_file": {
+                                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                    },
+                                    "start_col": 5,
+                                    "start_line": 14
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 19,
+                            "start_line": 21
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 22,
+                    "start_line": 11
+                }
+            },
+            "11": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 2,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 2
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 18,
+                    "end_line": 6,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 33,
+                            "end_line": 14,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "start_col": 26,
+                            "start_line": 14
+                        },
+                        "While expanding the reference 'n_tasks' in:"
+                    ],
+                    "start_col": 11,
+                    "start_line": 6
+                }
+            },
+            "12": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 2,
+                        "offset": 3
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 2
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 34,
+                    "end_line": 14,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 14
+                }
+            },
+            "14": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 3,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 3
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 18,
+                    "end_line": 6,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 19,
+                            "end_line": 16,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "start_col": 12,
+                            "start_line": 16
+                        },
+                        "While expanding the reference 'n_tasks' in:"
+                    ],
+                    "start_col": 11,
+                    "start_line": 6
+                }
+            },
+            "15": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 3,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 3
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 20,
+                    "end_line": 16,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 16
+                }
+            },
+            "16": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 5
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 7,
+                    "end_line": 22,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 22
+                }
+            },
+            "18": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 5
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 36,
+                    "end_line": 21,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 36,
+                            "end_line": 21,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 19,
+                                    "end_line": 23,
+                                    "input_file": {
+                                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                    },
+                                    "start_col": 9,
+                                    "start_line": 23
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 19,
+                            "start_line": 21
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 19,
+                    "start_line": 21
+                }
+            },
+            "19": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 5
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 19,
+                    "end_line": 23,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 9,
+                    "start_line": 23
+                }
+            },
+            "20": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 8,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [
+                    {
+                        "location": {
+                            "end_col": 7,
+                            "end_line": 33,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "start_col": 5,
+                            "start_line": 29
+                        },
+                        "n_prefix_newlines": 1
+                    }
+                ],
+                "inst": {
+                    "end_col": 36,
+                    "end_line": 27,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 32,
+                            "end_line": 35,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 36,
+                                    "end_line": 21,
+                                    "input_file": {
+                                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                    },
+                                    "parent_location": [
+                                        {
+                                            "end_col": 45,
+                                            "end_line": 37,
+                                            "input_file": {
+                                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                            },
+                                            "start_col": 12,
+                                            "start_line": 37
+                                        },
+                                        "While trying to retrieve the implicit argument 'output_ptr' in:"
+                                    ],
+                                    "start_col": 19,
+                                    "start_line": 21
+                                },
+                                "While expanding the reference 'output_ptr' in:"
+                            ],
+                            "start_col": 22,
+                            "start_line": 35
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 22,
+                    "start_line": 27
+                }
+            },
+            "22": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": 9,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 8,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 36,
+                    "end_line": 26,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 46,
+                            "end_line": 35,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 36,
+                                    "end_line": 21,
+                                    "input_file": {
+                                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                    },
+                                    "parent_location": [
+                                        {
+                                            "end_col": 45,
+                                            "end_line": 37,
+                                            "input_file": {
+                                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                            },
+                                            "start_col": 12,
+                                            "start_line": 37
+                                        },
+                                        "While trying to retrieve the implicit argument 'output_ptr' in:"
+                                    ],
+                                    "start_col": 19,
+                                    "start_line": 21
+                                },
+                                "While expanding the reference 'output_ptr' in:"
+                            ],
+                            "start_col": 35,
+                            "start_line": 35
+                        },
+                        "While expanding the reference 'output_size' in:"
+                    ],
+                    "start_col": 23,
+                    "start_line": 26
+                }
+            },
+            "23": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": 9,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1": 10,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 8,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 50,
+                    "end_line": 35,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 36,
+                            "end_line": 21,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 45,
+                                    "end_line": 37,
+                                    "input_file": {
+                                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                    },
+                                    "start_col": 12,
+                                    "start_line": 37
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 19,
+                            "start_line": 21
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 22,
+                    "start_line": 35
+                }
+            },
+            "25": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 3
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": 9,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1": 10,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp2": 11,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 8,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 50,
+                    "end_line": 35,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 36,
+                            "end_line": 21,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 45,
+                                    "end_line": 37,
+                                    "input_file": {
+                                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                                    },
+                                    "start_col": 12,
+                                    "start_line": 37
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 19,
+                            "start_line": 21
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 22,
+                    "start_line": 35
+                }
+            },
+            "26": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 4
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": 9,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1": 10,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp2": 11,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 8,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 44,
+                    "end_line": 37,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 33,
+                    "start_line": 37
+                }
+            },
+            "28": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 5
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": 9,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1": 10,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp2": 11,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 8,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 45,
+                    "end_line": 37,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 12,
+                    "start_line": 37
+                }
+            },
+            "30": {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 5,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": 9,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1": 10,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp2": 11,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 12,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 46,
+                    "end_line": 37,
+                    "input_file": {
+                        "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 37
+                }
+            },
+            "31": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 6,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.output_ptr": 13,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 18,
+                    "end_line": 15,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 15
+                }
+            },
+            "33": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 6,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.output_ptr": 13,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 22,
+                    "end_line": 13,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 35,
+                            "end_line": 3,
+                            "input_file": {
+                                "filename": "/worker/build/5c5d099ffedeb2d9/root/src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/aggregator_tasks_utils.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 32,
+                                    "end_line": 17,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "start_col": 19,
+                                    "start_line": 17
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 18,
+                            "start_line": 3
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 5,
+                    "start_line": 13
+                }
+            },
+            "34": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 6,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.output_ptr": 13,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 32,
+                    "end_line": 17,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 19,
+                    "start_line": 17
+                }
+            },
+            "36": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 7,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 17,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 44,
+                    "end_line": 18,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 18
+                }
+            },
+            "37": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 7,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 17,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 48,
+                    "end_line": 21,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 21
+                }
+            },
+            "39": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [
+                    {
+                        "location": {
+                            "end_col": 7,
+                            "end_line": 51,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "start_col": 5,
+                            "start_line": 23
+                        },
+                        "n_prefix_newlines": 1
+                    },
+                    {
+                        "location": {
+                            "end_col": 7,
+                            "end_line": 58,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "start_col": 5,
+                            "start_line": 54
+                        },
+                        "n_prefix_newlines": 1
+                    }
+                ],
+                "inst": {
+                    "end_col": 85,
+                    "end_line": 60,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 9,
+                    "start_line": 60
+                }
+            },
+            "41": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 7,
+                    "end_line": 61,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 59
+                }
+            },
+            "42": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 36,
+                    "end_line": 62,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 32,
+                    "start_line": 62
+                }
+            },
+            "44": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.__temp4": 22,
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 37,
+                    "end_line": 62,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 62
+                }
+            },
+            "45": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.__temp4": 22,
+                        "__main__.main.ecdsa_ptr": 23,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 50,
+                    "end_line": 69,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 48,
+                            "end_line": 21,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 22,
+                                    "end_line": 13,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "parent_location": [
+                                        {
+                                            "end_col": 15,
+                                            "end_line": 65,
+                                            "input_file": {
+                                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                            },
+                                            "start_col": 5,
+                                            "start_line": 65
+                                        },
+                                        "While trying to retrieve the implicit argument 'output_ptr' in:"
+                                    ],
+                                    "start_col": 5,
+                                    "start_line": 13
+                                },
+                                "While expanding the reference 'output_ptr' in:"
+                            ],
+                            "start_col": 5,
+                            "start_line": 21
+                        },
+                        "While trying to update the implicit return value 'output_ptr' in:"
+                    ],
+                    "start_col": 33,
+                    "start_line": 69
+                }
+            },
+            "46": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 3
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.__temp4": 22,
+                        "__main__.main.ecdsa_ptr": 23,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 39,
+                    "end_line": 13,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 39,
+                            "end_line": 13,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 15,
+                                    "end_line": 65,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "start_col": 5,
+                                    "start_line": 65
+                                },
+                                "While trying to retrieve the implicit argument 'range_check_ptr' in:"
+                            ],
+                            "start_col": 24,
+                            "start_line": 13
+                        },
+                        "While expanding the reference 'range_check_ptr' in:"
+                    ],
+                    "start_col": 24,
+                    "start_line": 13
+                }
+            },
+            "47": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 4
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.__temp4": 22,
+                        "__main__.main.ecdsa_ptr": 23,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 54,
+                    "end_line": 63,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 69,
+                            "end_line": 13,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 15,
+                                    "end_line": 65,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "start_col": 5,
+                                    "start_line": 65
+                                },
+                                "While trying to retrieve the implicit argument 'ecdsa_ptr' in:"
+                            ],
+                            "start_col": 41,
+                            "start_line": 13
+                        },
+                        "While expanding the reference 'ecdsa_ptr' in:"
+                    ],
+                    "start_col": 21,
+                    "start_line": 63
+                }
+            },
+            "49": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 5
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.__temp4": 22,
+                        "__main__.main.ecdsa_ptr": 23,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 101,
+                    "end_line": 13,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 101,
+                            "end_line": 13,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 15,
+                                    "end_line": 65,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "start_col": 5,
+                                    "start_line": 65
+                                },
+                                "While trying to retrieve the implicit argument 'poseidon_ptr' in:"
+                            ],
+                            "start_col": 71,
+                            "start_line": 13
+                        },
+                        "While expanding the reference 'poseidon_ptr' in:"
+                    ],
+                    "start_col": 71,
+                    "start_line": 13
+                }
+            },
+            "50": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 6
+                    },
+                    "reference_ids": {
+                        "__main__.main.__temp3": 21,
+                        "__main__.main.__temp4": 22,
+                        "__main__.main.ecdsa_ptr": 23,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 15,
+                    "end_line": 65,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 65
+                }
+            },
+            "51": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 25
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 18,
+                    "end_line": 70,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 70
+                }
+            },
+            "53": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 25
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 7,
+                    "end_line": 71,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 71
+                }
+            },
+            "55": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 25
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 50,
+                    "end_line": 69,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 50,
+                            "end_line": 69,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 19,
+                                    "end_line": 72,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "start_col": 9,
+                                    "start_line": 72
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 33,
+                            "start_line": 69
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 33,
+                    "start_line": 69
+                }
+            },
+            "56": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 25
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 19,
+                    "end_line": 72,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 9,
+                    "start_line": 72
+                }
+            },
+            "57": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 27,
+                        "__main__.output_concatenated_output.output_size": 26
+                    }
+                },
+                "hints": [
+                    {
+                        "location": {
+                            "end_col": 7,
+                            "end_line": 81,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "start_col": 5,
+                            "start_line": 77
+                        },
+                        "n_prefix_newlines": 1
+                    }
+                ],
+                "inst": {
+                    "end_col": 46,
+                    "end_line": 83,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "parent_location": [
+                        {
+                            "end_col": 50,
+                            "end_line": 69,
+                            "input_file": {
+                                "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                            },
+                            "parent_location": [
+                                {
+                                    "end_col": 59,
+                                    "end_line": 85,
+                                    "input_file": {
+                                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                                    },
+                                    "start_col": 12,
+                                    "start_line": 85
+                                },
+                                "While trying to retrieve the implicit argument 'output_ptr' in:"
+                            ],
+                            "start_col": 33,
+                            "start_line": 69
+                        },
+                        "While expanding the reference 'output_ptr' in:"
+                    ],
+                    "start_col": 22,
+                    "start_line": 83
+                }
+            },
+            "58": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 2
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 27,
+                        "__main__.output_concatenated_output.output_size": 26
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 58,
+                    "end_line": 85,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 47,
+                    "start_line": 85
+                }
+            },
+            "60": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 3
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 27,
+                        "__main__.output_concatenated_output.output_size": 26
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 59,
+                    "end_line": 85,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 12,
+                    "start_line": 85
+                }
+            },
+            "62": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 10,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 28,
+                        "__main__.output_concatenated_output.output_size": 26
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 60,
+                    "end_line": 85,
+                    "input_file": {
+                        "filename": "src/starkware/cairo/bootloaders/applicative_bootloader/test_utils/concat_aggregator.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 85
+                }
+            }
+        }
+    },
+    "hints": {
+        "8": [
+            {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks"
+                ],
+                "code": "CONCAT_AGGREGATOR_PARSE_TASKS_OUTPUTS",
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 2,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": 1,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": 0
+                    }
+                }
+            }
+        ],
+        "20": [
+            {
+                "accessible_scopes": [
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils",
+                    "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks"
+                ],
+                "code": "task_index = len(tasks_outputs) - ids.n_tasks\nsegments.load_data(ptr=ids.output_ptr, data=tasks_outputs[task_index])\nids.output_size = len(tasks_outputs[task_index]) + 1",
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": 4,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": 7,
+                        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": 6
+                    }
+                }
+            }
+        ],
+        "39": [
+            {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "code": "from starkware.python.math_utils import div_ceil\n\noutput_length = ids.output_ptr - ids.output_start\npage_size = 10\nnext_page_start = min(ids.output_start + page_size, ids.output_ptr)\nnext_page_id = 1\nwhile next_page_start < ids.output_ptr:\n    output_builtin.add_page(\n        page_id=next_page_id,\n        page_start=next_page_start,\n        page_size=min(ids.output_ptr - next_page_start, page_size),\n    )\n    next_page_start += page_size\n    next_page_id += 1\nif next_page_id == 1:\n    # Single page. Use trivial fact topology.\n    output_builtin.add_attribute('gps_fact_topology', [\n        1,\n        0,\n    ])\nelse:\n    output_builtin.add_attribute('gps_fact_topology', [\n        next_page_id,\n        next_page_id - 1,\n        0,\n        2,\n    ])",
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                }
+            },
+            {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "code": "ecdsa_builtin.add_signature(ids.ecdsa_ptr, (\n    3086480810278599376317923499561306189851900463386393948998357832163236918254,\n    598673427589502599949712887611119751108407514580626464031881322743364689811))",
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 8,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.ecdsa_ptr": 15,
+                        "__main__.main.n_tasks": 18,
+                        "__main__.main.output_ptr": 20,
+                        "__main__.main.output_start": 19,
+                        "__main__.main.poseidon_ptr": 16,
+                        "__main__.main.range_check_ptr": 14
+                    }
+                }
+            }
+        ],
+        "57": [
+            {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.output_concatenated_output"
+                ],
+                "code": "task_index = len(tasks_outputs) - ids.n_tasks\nsegments.load_data(ptr=ids.output_ptr, data=tasks_outputs[task_index])\nids.output_size = len(tasks_outputs[task_index])",
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 9,
+                        "offset": 1
+                    },
+                    "reference_ids": {
+                        "__main__.output_concatenated_output.n_tasks": 24,
+                        "__main__.output_concatenated_output.output_ptr": 25,
+                        "__main__.output_concatenated_output.output_size": 26
+                    }
+                }
+            }
+        ]
+    },
+    "identifiers": {
+        "__main__.PoseidonBuiltin": {
+            "destination": "starkware.cairo.common.cairo_builtins.PoseidonBuiltin",
+            "type": "alias"
+        },
+        "__main__.SignatureBuiltin": {
+            "destination": "starkware.cairo.common.cairo_builtins.SignatureBuiltin",
+            "type": "alias"
+        },
+        "__main__.__end__": {
+            "pc": 4,
+            "type": "label"
+        },
+        "__main__.__start__": {
+            "pc": 0,
+            "type": "label"
+        },
+        "__main__.main": {
+            "decorators": [],
+            "pc": 31,
+            "type": "function"
+        },
+        "__main__.main.Args": {
+            "full_name": "__main__.main.Args",
+            "members": {},
+            "size": 0,
+            "type": "struct"
+        },
+        "__main__.main.ImplicitArgs": {
+            "full_name": "__main__.main.ImplicitArgs",
+            "members": {
+                "ecdsa_ptr": {
+                    "cairo_type": "starkware.cairo.common.cairo_builtins.SignatureBuiltin*",
+                    "offset": 2
+                },
+                "output_ptr": {
+                    "cairo_type": "felt*",
+                    "offset": 0
+                },
+                "poseidon_ptr": {
+                    "cairo_type": "starkware.cairo.common.cairo_builtins.PoseidonBuiltin*",
+                    "offset": 3
+                },
+                "range_check_ptr": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                }
+            },
+            "size": 4,
+            "type": "struct"
+        },
+        "__main__.main.Return": {
+            "cairo_type": "()",
+            "type": "type_definition"
+        },
+        "__main__.main.SIZEOF_LOCALS": {
+            "type": "const",
+            "value": 1
+        },
+        "__main__.main.__temp3": {
+            "cairo_type": "felt",
+            "full_name": "__main__.main.__temp3",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 8,
+                        "offset": 1
+                    },
+                    "pc": 41,
+                    "value": "[cast(ap + (-1), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.__temp4": {
+            "cairo_type": "felt",
+            "full_name": "__main__.main.__temp4",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 8,
+                        "offset": 2
+                    },
+                    "pc": 44,
+                    "value": "[cast(ap + (-1), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.ecdsa_ptr": {
+            "cairo_type": "starkware.cairo.common.cairo_builtins.SignatureBuiltin*",
+            "full_name": "__main__.main.ecdsa_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 6,
+                        "offset": 0
+                    },
+                    "pc": 31,
+                    "value": "[cast(fp + (-4), starkware.cairo.common.cairo_builtins.SignatureBuiltin**)]"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 8,
+                        "offset": 2
+                    },
+                    "pc": 45,
+                    "value": "cast([fp + (-4)] + 2, starkware.cairo.common.cairo_builtins.SignatureBuiltin*)"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.n_tasks": {
+            "cairo_type": "felt",
+            "full_name": "__main__.main.n_tasks",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 7,
+                        "offset": 0
+                    },
+                    "pc": 36,
+                    "value": "[cast(ap + (-1), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.output_ptr": {
+            "cairo_type": "felt*",
+            "full_name": "__main__.main.output_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 6,
+                        "offset": 0
+                    },
+                    "pc": 31,
+                    "value": "[cast(fp + (-6), felt**)]"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 7,
+                        "offset": 0
+                    },
+                    "pc": 36,
+                    "value": "[cast(ap + (-2), felt**)]"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 8,
+                        "offset": 0
+                    },
+                    "pc": 39,
+                    "value": "[cast(ap + (-1), felt**)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.output_start": {
+            "cairo_type": "felt*",
+            "full_name": "__main__.main.output_start",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 7,
+                        "offset": 0
+                    },
+                    "pc": 37,
+                    "value": "[cast(fp, felt**)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.poseidon_ptr": {
+            "cairo_type": "starkware.cairo.common.cairo_builtins.PoseidonBuiltin*",
+            "full_name": "__main__.main.poseidon_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 6,
+                        "offset": 0
+                    },
+                    "pc": 31,
+                    "value": "[cast(fp + (-3), starkware.cairo.common.cairo_builtins.PoseidonBuiltin**)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.main.range_check_ptr": {
+            "cairo_type": "felt",
+            "full_name": "__main__.main.range_check_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 6,
+                        "offset": 0
+                    },
+                    "pc": 31,
+                    "value": "[cast(fp + (-5), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.output_concatenated_output": {
+            "decorators": [],
+            "pc": 51,
+            "type": "function"
+        },
+        "__main__.output_concatenated_output.Args": {
+            "full_name": "__main__.output_concatenated_output.Args",
+            "members": {
+                "n_tasks": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                }
+            },
+            "size": 1,
+            "type": "struct"
+        },
+        "__main__.output_concatenated_output.ImplicitArgs": {
+            "full_name": "__main__.output_concatenated_output.ImplicitArgs",
+            "members": {
+                "output_ptr": {
+                    "cairo_type": "felt*",
+                    "offset": 0
+                }
+            },
+            "size": 1,
+            "type": "struct"
+        },
+        "__main__.output_concatenated_output.Return": {
+            "cairo_type": "()",
+            "type": "type_definition"
+        },
+        "__main__.output_concatenated_output.SIZEOF_LOCALS": {
+            "type": "const",
+            "value": 1
+        },
+        "__main__.output_concatenated_output.n_tasks": {
+            "cairo_type": "felt",
+            "full_name": "__main__.output_concatenated_output.n_tasks",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 9,
+                        "offset": 0
+                    },
+                    "pc": 51,
+                    "value": "[cast(fp + (-3), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.output_concatenated_output.output_ptr": {
+            "cairo_type": "felt*",
+            "full_name": "__main__.output_concatenated_output.output_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 9,
+                        "offset": 0
+                    },
+                    "pc": 51,
+                    "value": "[cast(fp + (-4), felt**)]"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 9,
+                        "offset": 1
+                    },
+                    "pc": 57,
+                    "value": "cast([fp + (-4)] + [fp], felt*)"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 10,
+                        "offset": 0
+                    },
+                    "pc": 62,
+                    "value": "[cast(ap + (-1), felt**)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.output_concatenated_output.output_size": {
+            "cairo_type": "felt",
+            "full_name": "__main__.output_concatenated_output.output_size",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 9,
+                        "offset": 1
+                    },
+                    "pc": 57,
+                    "value": "[cast(fp, felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "__main__.parse_tasks": {
+            "destination": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks",
+            "type": "alias"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks": {
+            "decorators": [],
+            "pc": 16,
+            "type": "function"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.Args": {
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.Args",
+            "members": {
+                "n_tasks": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                }
+            },
+            "size": 1,
+            "type": "struct"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.ImplicitArgs": {
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.ImplicitArgs",
+            "members": {
+                "output_ptr": {
+                    "cairo_type": "felt*",
+                    "offset": 0
+                }
+            },
+            "size": 1,
+            "type": "struct"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.Return": {
+            "cairo_type": "()",
+            "type": "type_definition"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.SIZEOF_LOCALS": {
+            "type": "const",
+            "value": 0
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0": {
+            "cairo_type": "felt",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp0",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 1
+                    },
+                    "pc": 22,
+                    "value": "[cast(ap + (-1), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1": {
+            "cairo_type": "felt",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp1",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 2
+                    },
+                    "pc": 23,
+                    "value": "[cast(ap + (-1), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp2": {
+            "cairo_type": "felt",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.__temp2",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 3
+                    },
+                    "pc": 25,
+                    "value": "[cast(ap + (-1), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks": {
+            "cairo_type": "felt",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.n_tasks",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "pc": 16,
+                    "value": "[cast(fp + (-3), felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr": {
+            "cairo_type": "felt*",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "pc": 16,
+                    "value": "[cast(fp + (-4), felt**)]"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "pc": 20,
+                    "value": "cast([fp + (-4)] + 1, felt*)"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "pc": 20,
+                    "value": "cast([fp + (-4)] + 1 + [[fp + (-4)]] + (-1), felt*)"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 5,
+                        "offset": 0
+                    },
+                    "pc": 30,
+                    "value": "[cast(ap + (-1), felt**)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size": {
+            "cairo_type": "felt",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.output_tasks.output_size",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 4,
+                        "offset": 0
+                    },
+                    "pc": 20,
+                    "value": "[cast([fp + (-4)], felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks": {
+            "decorators": [],
+            "pc": 6,
+            "type": "function"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.Args": {
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.Args",
+            "members": {},
+            "size": 0,
+            "type": "struct"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.ImplicitArgs": {
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.ImplicitArgs",
+            "members": {
+                "output_ptr": {
+                    "cairo_type": "felt*",
+                    "offset": 0
+                }
+            },
+            "size": 1,
+            "type": "struct"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.Return": {
+            "cairo_type": "felt",
+            "type": "type_definition"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.SIZEOF_LOCALS": {
+            "type": "const",
+            "value": 1
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks": {
+            "cairo_type": "felt",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.n_tasks",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 2,
+                        "offset": 1
+                    },
+                    "pc": 8,
+                    "value": "[cast(fp, felt*)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr": {
+            "cairo_type": "felt*",
+            "full_name": "starkware.cairo.bootloaders.applicative_bootloader.test_utils.aggregator_tasks_utils.parse_tasks.output_ptr",
+            "references": [
+                {
+                    "ap_tracking_data": {
+                        "group": 2,
+                        "offset": 0
+                    },
+                    "pc": 6,
+                    "value": "[cast(fp + (-3), felt**)]"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 2,
+                        "offset": 1
+                    },
+                    "pc": 9,
+                    "value": "cast([fp + (-3)] + 1, felt*)"
+                },
+                {
+                    "ap_tracking_data": {
+                        "group": 3,
+                        "offset": 0
+                    },
+                    "pc": 14,
+                    "value": "[cast(ap + (-1), felt**)]"
+                }
+            ],
+            "type": "reference"
+        },
+        "starkware.cairo.common.cairo_builtins.BitwiseBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.BitwiseBuiltin",
+            "members": {
+                "x": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                },
+                "x_and_y": {
+                    "cairo_type": "felt",
+                    "offset": 2
+                },
+                "x_or_y": {
+                    "cairo_type": "felt",
+                    "offset": 4
+                },
+                "x_xor_y": {
+                    "cairo_type": "felt",
+                    "offset": 3
+                },
+                "y": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                }
+            },
+            "size": 5,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.EcOpBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.EcOpBuiltin",
+            "members": {
+                "m": {
+                    "cairo_type": "felt",
+                    "offset": 4
+                },
+                "p": {
+                    "cairo_type": "starkware.cairo.common.ec_point.EcPoint",
+                    "offset": 0
+                },
+                "q": {
+                    "cairo_type": "starkware.cairo.common.ec_point.EcPoint",
+                    "offset": 2
+                },
+                "r": {
+                    "cairo_type": "starkware.cairo.common.ec_point.EcPoint",
+                    "offset": 5
+                }
+            },
+            "size": 7,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.EcPoint": {
+            "destination": "starkware.cairo.common.ec_point.EcPoint",
+            "type": "alias"
+        },
+        "starkware.cairo.common.cairo_builtins.HashBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+            "members": {
+                "result": {
+                    "cairo_type": "felt",
+                    "offset": 2
+                },
+                "x": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                },
+                "y": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                }
+            },
+            "size": 3,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.KeccakBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.KeccakBuiltin",
+            "members": {
+                "input": {
+                    "cairo_type": "starkware.cairo.common.keccak_state.KeccakBuiltinState",
+                    "offset": 0
+                },
+                "output": {
+                    "cairo_type": "starkware.cairo.common.keccak_state.KeccakBuiltinState",
+                    "offset": 8
+                }
+            },
+            "size": 16,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.KeccakBuiltinState": {
+            "destination": "starkware.cairo.common.keccak_state.KeccakBuiltinState",
+            "type": "alias"
+        },
+        "starkware.cairo.common.cairo_builtins.ModBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.ModBuiltin",
+            "members": {
+                "n": {
+                    "cairo_type": "felt",
+                    "offset": 6
+                },
+                "offsets_ptr": {
+                    "cairo_type": "felt*",
+                    "offset": 5
+                },
+                "p": {
+                    "cairo_type": "starkware.cairo.common.cairo_builtins.UInt384",
+                    "offset": 0
+                },
+                "values_ptr": {
+                    "cairo_type": "starkware.cairo.common.cairo_builtins.UInt384*",
+                    "offset": 4
+                }
+            },
+            "size": 7,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.PoseidonBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.PoseidonBuiltin",
+            "members": {
+                "input": {
+                    "cairo_type": "starkware.cairo.common.poseidon_state.PoseidonBuiltinState",
+                    "offset": 0
+                },
+                "output": {
+                    "cairo_type": "starkware.cairo.common.poseidon_state.PoseidonBuiltinState",
+                    "offset": 3
+                }
+            },
+            "size": 6,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.PoseidonBuiltinState": {
+            "destination": "starkware.cairo.common.poseidon_state.PoseidonBuiltinState",
+            "type": "alias"
+        },
+        "starkware.cairo.common.cairo_builtins.SignatureBuiltin": {
+            "full_name": "starkware.cairo.common.cairo_builtins.SignatureBuiltin",
+            "members": {
+                "message": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                },
+                "pub_key": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                }
+            },
+            "size": 2,
+            "type": "struct"
+        },
+        "starkware.cairo.common.cairo_builtins.UInt384": {
+            "full_name": "starkware.cairo.common.cairo_builtins.UInt384",
+            "members": {
+                "d0": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                },
+                "d1": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                },
+                "d2": {
+                    "cairo_type": "felt",
+                    "offset": 2
+                },
+                "d3": {
+                    "cairo_type": "felt",
+                    "offset": 3
+                }
+            },
+            "size": 4,
+            "type": "struct"
+        },
+        "starkware.cairo.common.ec_point.EcPoint": {
+            "full_name": "starkware.cairo.common.ec_point.EcPoint",
+            "members": {
+                "x": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                },
+                "y": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                }
+            },
+            "size": 2,
+            "type": "struct"
+        },
+        "starkware.cairo.common.keccak_state.KeccakBuiltinState": {
+            "full_name": "starkware.cairo.common.keccak_state.KeccakBuiltinState",
+            "members": {
+                "s0": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                },
+                "s1": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                },
+                "s2": {
+                    "cairo_type": "felt",
+                    "offset": 2
+                },
+                "s3": {
+                    "cairo_type": "felt",
+                    "offset": 3
+                },
+                "s4": {
+                    "cairo_type": "felt",
+                    "offset": 4
+                },
+                "s5": {
+                    "cairo_type": "felt",
+                    "offset": 5
+                },
+                "s6": {
+                    "cairo_type": "felt",
+                    "offset": 6
+                },
+                "s7": {
+                    "cairo_type": "felt",
+                    "offset": 7
+                }
+            },
+            "size": 8,
+            "type": "struct"
+        },
+        "starkware.cairo.common.poseidon_state.PoseidonBuiltinState": {
+            "full_name": "starkware.cairo.common.poseidon_state.PoseidonBuiltinState",
+            "members": {
+                "s0": {
+                    "cairo_type": "felt",
+                    "offset": 0
+                },
+                "s1": {
+                    "cairo_type": "felt",
+                    "offset": 1
+                },
+                "s2": {
+                    "cairo_type": "felt",
+                    "offset": 2
+                }
+            },
+            "size": 3,
+            "type": "struct"
+        }
+    },
+    "main_scope": "__main__",
+    "prime": "0x800000000000011000000000000000000000000000000000000000000000001",
+    "reference_manager": {
+        "references": [
+            {
+                "ap_tracking_data": {
+                    "group": 2,
+                    "offset": 0
+                },
+                "pc": 6,
+                "value": "[cast(fp + (-3), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 2,
+                    "offset": 1
+                },
+                "pc": 8,
+                "value": "[cast(fp, felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 2,
+                    "offset": 1
+                },
+                "pc": 9,
+                "value": "cast([fp + (-3)] + 1, felt*)"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 3,
+                    "offset": 0
+                },
+                "pc": 14,
+                "value": "[cast(ap + (-1), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 0
+                },
+                "pc": 16,
+                "value": "[cast(fp + (-3), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 0
+                },
+                "pc": 16,
+                "value": "[cast(fp + (-4), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 0
+                },
+                "pc": 20,
+                "value": "[cast([fp + (-4)], felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 0
+                },
+                "pc": 20,
+                "value": "cast([fp + (-4)] + 1, felt*)"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 0
+                },
+                "pc": 20,
+                "value": "cast([fp + (-4)] + 1 + [[fp + (-4)]] + (-1), felt*)"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 1
+                },
+                "pc": 22,
+                "value": "[cast(ap + (-1), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 2
+                },
+                "pc": 23,
+                "value": "[cast(ap + (-1), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 4,
+                    "offset": 3
+                },
+                "pc": 25,
+                "value": "[cast(ap + (-1), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 5,
+                    "offset": 0
+                },
+                "pc": 30,
+                "value": "[cast(ap + (-1), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 6,
+                    "offset": 0
+                },
+                "pc": 31,
+                "value": "[cast(fp + (-6), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 6,
+                    "offset": 0
+                },
+                "pc": 31,
+                "value": "[cast(fp + (-5), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 6,
+                    "offset": 0
+                },
+                "pc": 31,
+                "value": "[cast(fp + (-4), starkware.cairo.common.cairo_builtins.SignatureBuiltin**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 6,
+                    "offset": 0
+                },
+                "pc": 31,
+                "value": "[cast(fp + (-3), starkware.cairo.common.cairo_builtins.PoseidonBuiltin**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 7,
+                    "offset": 0
+                },
+                "pc": 36,
+                "value": "[cast(ap + (-2), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 7,
+                    "offset": 0
+                },
+                "pc": 36,
+                "value": "[cast(ap + (-1), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 7,
+                    "offset": 0
+                },
+                "pc": 37,
+                "value": "[cast(fp, felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 8,
+                    "offset": 0
+                },
+                "pc": 39,
+                "value": "[cast(ap + (-1), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 8,
+                    "offset": 1
+                },
+                "pc": 41,
+                "value": "[cast(ap + (-1), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 8,
+                    "offset": 2
+                },
+                "pc": 44,
+                "value": "[cast(ap + (-1), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 8,
+                    "offset": 2
+                },
+                "pc": 45,
+                "value": "cast([fp + (-4)] + 2, starkware.cairo.common.cairo_builtins.SignatureBuiltin*)"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 9,
+                    "offset": 0
+                },
+                "pc": 51,
+                "value": "[cast(fp + (-3), felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 9,
+                    "offset": 0
+                },
+                "pc": 51,
+                "value": "[cast(fp + (-4), felt**)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 9,
+                    "offset": 1
+                },
+                "pc": 57,
+                "value": "[cast(fp, felt*)]"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 9,
+                    "offset": 1
+                },
+                "pc": 57,
+                "value": "cast([fp + (-4)] + [fp], felt*)"
+            },
+            {
+                "ap_tracking_data": {
+                    "group": 10,
+                    "offset": 0
+                },
+                "pc": 62,
+                "value": "[cast(ap + (-1), felt**)]"
+            }
+        ]
+    }
+}

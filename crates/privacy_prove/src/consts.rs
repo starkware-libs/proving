@@ -1,0 +1,32 @@
+use cairo_vm::cairo_run::CairoRunConfig;
+use cairo_vm::types::layout_name::LayoutName;
+use privacy_circuit_verify::consts::CAIRO_PCS_CONFIG;
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
+use stwo_cairo_prover::prover::{ChannelHash, ProverParameters};
+
+pub const CAIRO_RUN_CONFIG: CairoRunConfig<'_> = CairoRunConfig {
+    trace_enabled: true,
+    relocate_trace: false,
+    layout: LayoutName::stwo_no_ecop,
+    fill_holes: true,
+    proof_mode: true,
+    disable_trace_padding: true,
+    entrypoint: "main",
+    relocate_mem: false,
+    dynamic_layout_params: None,
+    secure_run: Some(false),
+    allow_missing_builtins: Some(true),
+};
+
+pub const CAIRO_PROVER_PARAMS: ProverParameters = ProverParameters {
+    channel_hash: ChannelHash::Blake2sM31,
+    pcs_config: CAIRO_PCS_CONFIG,
+    preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+    channel_salt: 0,
+    store_polynomials_coefficients: true,
+    include_all_preprocessed_columns: true,
+    opt_n_id_to_big_components: Some(1),
+    raise_min_lifting_to_max_column: false,
+};
+
+pub const CIRCUIT_STORE_POLYNOMIALS_COEFFICIENTS: bool = true;

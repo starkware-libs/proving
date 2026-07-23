@@ -1,0 +1,658 @@
+use std::collections::HashMap;
+use std::path::PathBuf;
+use std::rc::Rc;
+use std::str::FromStr;
+
+use cairo_lang_casm::hints::Hint;
+use cairo_lang_runner::Arg;
+use cairo_lang_utils::unordered_hash_map::UnorderedHashMap;
+use cairo_vm::Felt252;
+use cairo_vm::air_public_input::{MemorySegmentAddresses, PublicMemoryEntry};
+use cairo_vm::cairo_run::CairoRunConfig;
+use cairo_vm::serde::deserialize_program::Identifier;
+use cairo_vm::types::errors::program_errors::ProgramError;
+use cairo_vm::types::layout::CairoLayoutParams;
+use cairo_vm::types::layout_name::LayoutName;
+use cairo_vm::types::program::Program;
+use cairo_vm::vm::runners::cairo_pie::{CairoPie, StrippedProgram};
+use num_traits::ToPrimitive;
+use serde::de::Error as SerdeError;
+use serde::ser::{SerializeSeq, Serializer};
+use serde::{Deserialize, Deserializer, Serialize};
+use serde_json::{Number, Value};
+
+use super::fact_topologies::FactTopology;
+use crate::tasks::{create_cairo0_program_task, create_cairo1_program_task, create_pie_task};
+
+pub type BootloaderVersion = u64;
+
+pub(crate) type ProgramIdentifiers = HashMap<String, Identifier>;
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct BootloaderConfig {
+    pub supported_simple_bootloader_hash_list: Vec<Felt252>,
+    pub applicative_bootloader_program_hash: Felt252,
+    pub supported_cairo_verifier_program_hashes: Vec<Felt252>,
+}
+
+pub const BOOTLOADER_CONFIG_SIZE: usize = 1;
+#[derive(Deserialize, Serialize, Debug, Default, Clone, PartialEq)]
+/// Represents a composite packed output, which consists of a set of outputs,
+/// subtasks (which could be plain or composite themselves), and associated fact topologies of the
+/// plain subtasks.
+pub struct CompositePackedOutput {
+    #[serde(serialize_with = "felt_decimal_vec::serialize")]
+    pub outputs: Vec<Felt252>,
+    pub subtasks: Vec<PackedOutput>,
+    pub fact_topologies: Vec<FactTopology>,
+}
+
+impl CompositePackedOutput {
+    pub fn elements_for_hash(&self) -> &Vec<Felt252> {
+        &self.outputs
+    }
+
+    /// Generates a vector of `FactTopology` objects for plain subtasks, taking into account
+    /// the given `applicative_bootloader_program_hash`.
+    ///
+    /// # Arguments
+    ///
+    /// * `applicative_bootloader_program_hash` - The hash used to verify if the subtask matches the
+    ///   expected bootloader program.
+    ///
+    /// # Returns
+    ///
+    /// Returns a `Result` containing a vector of `FactTopology` objects if successful,
+    /// or an error message in case of any inconsistency or failure.
+    ///
+    /// # Errors
+    ///
+    /// * Returns an error if `outputs` is empty, meaning there are no tasks to process.
+    /// * Returns an error if the number of subtasks does not match the expected count.
+    /// * Returns an error if a subtask size or program hash is missing from `outputs`.
+    /// * Returns an error if the subtask type is unsupported.
+    /// * Returns an error if the sum of subtask sizes does not match the length of `outputs`.
+    pub fn get_plain_fact_topologies(
+        &self,
+        applicative_bootloader_program_hash: Felt252,
+    ) -> Result<Vec<FactTopology>, String> {
+        let mut subtasks_fact_topologies = Vec::new();
+
+        // Retrieve the number of tasks, ensuring that `outputs` is not empty
+        let n_tasks = self.outputs.first().ok_or("Outputs list is empty")?;
+
+        // Validate that the number of subtasks matches the number of tasks
+        if self.subtasks.len()
+            != n_tasks.to_usize().ok_or("Failed to convert number of tasks to usize")?
+        {
+            return Err(format!(
+                "Number of subtasks does not match the number of tasks in outputs. Expected: {} \
+                 in outputs, got: {} in subtasks.",
+                n_tasks,
+                self.subtasks.len()
+            ));
+        }
+
+        // Define constants and initial offset for processing subtasks
+        let applicative_bootloader_header_size = 1 + BOOTLOADER_CONFIG_SIZE;
+        let mut curr_subtask_offset = 1;
+
+        for (index, subtask) in self.subtasks.iter().enumerate() {
+            // Retrieve subtask size and program hash from outputs
+            let subtask_size =
+                self.outputs.get(curr_subtask_offset).ok_or("Subtask size not found in outputs")?;
+            let program_hash = self
+                .outputs
+                .get(curr_subtask_offset + 1)
+                .ok_or("Program hash not found in outputs")?;
+
+            // Handle subtask if it is of type `PackedOutput::Plain`
+            if let PackedOutput::Plain = subtask {
+                // If the program hash matches the app. bootloader hash, adjust the page sizes
+                if *program_hash == applicative_bootloader_program_hash {
+                    let mut page_sizes = self.fact_topologies[index].page_sizes.clone();
+                    if let Some(first_page_size) = page_sizes.get_mut(0) {
+                        *first_page_size -= applicative_bootloader_header_size;
+                    }
+                    subtasks_fact_topologies.push(FactTopology {
+                        page_sizes,
+                        tree_structure: self.fact_topologies[index].tree_structure.clone(),
+                    });
+                } else {
+                    // Otherwise, add the fact topology directly
+                    subtasks_fact_topologies.push(self.fact_topologies[index].clone());
+                }
+            }
+            // Handle subtask recursively if it is of type `PackedOutput::Composite`
+            else if let PackedOutput::Composite(composite) = subtask {
+                subtasks_fact_topologies.extend(
+                    composite.get_plain_fact_topologies(applicative_bootloader_program_hash)?,
+                );
+            } else {
+                return Err("Unsupported subtask type".to_string());
+            }
+
+            // Increment the subtask offset based on the subtask size
+            curr_subtask_offset += subtask_size
+                .to_bigint()
+                .to_usize()
+                .ok_or("Failed to convert subtask size to usize")?;
+        }
+
+        // Validate that the total offset matches the length of outputs
+        if curr_subtask_offset != self.outputs.len() {
+            return Err(format!(
+                "The sum of the subtask sizes does not match the size of the outputs. Expected: \
+                 {}, got: {}.",
+                self.outputs.len(),
+                curr_subtask_offset
+            ));
+        }
+
+        Ok(subtasks_fact_topologies)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+#[serde(tag = "type")]
+pub enum PackedOutput {
+    #[serde(rename = "PlainPackedOutput")]
+    Plain,
+    #[serde(rename = "CompositePackedOutput")]
+    Composite(CompositePackedOutput),
+}
+
+// Helper struct to handle deserialization
+#[derive(Deserialize)]
+struct PackedOutputHelper {
+    #[serde(rename = "type")]
+    output_type: String,
+    outputs: Option<Vec<Number>>,
+    subtasks: Option<Vec<PackedOutput>>,
+    fact_topologies: Option<Vec<FactTopology>>,
+}
+
+impl<'de> Deserialize<'de> for PackedOutput {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let helper = PackedOutputHelper::deserialize(deserializer)?;
+
+        match helper.output_type.as_str() {
+            "CompositePackedOutput" => {
+                // Ensure we have all the fields needed for CompositePackedOutput
+                let outputs = helper
+                    .outputs
+                    .ok_or_else(|| D::Error::missing_field("outputs"))?
+                    .into_iter()
+                    .map(|x| Felt252::from_str(x.to_string().as_str()).unwrap())
+                    .collect();
+                let subtasks =
+                    helper.subtasks.ok_or_else(|| D::Error::missing_field("subtasks"))?;
+                let fact_topologies = helper
+                    .fact_topologies
+                    .ok_or_else(|| D::Error::missing_field("fact_topologies"))?;
+                Ok(PackedOutput::Composite(CompositePackedOutput {
+                    outputs,
+                    subtasks,
+                    fact_topologies,
+                }))
+            }
+            "PlainPackedOutput" => Ok(PackedOutput::Plain),
+            _ => Err(D::Error::custom(format!("Unsupported type: {}", helper.output_type))),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum Task {
+    Cairo0Program(Cairo0Executable),
+    Pie(CairoPie),
+    Cairo1Program(Cairo1Executable),
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Cairo0Executable {
+    pub program: Program,
+    pub program_input: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Cairo1Executable {
+    pub program: Program,
+    pub user_args: Vec<Arg>,
+    pub string_to_hint: UnorderedHashMap<String, Hint>,
+}
+
+impl PartialEq for Cairo1Executable {
+    // This implementation ignores user_args for equality checks.
+    fn eq(&self, other: &Self) -> bool {
+        self.program == other.program && self.string_to_hint == other.string_to_hint
+    }
+}
+
+impl Task {
+    pub fn get_program(&self) -> Result<StrippedProgram, ProgramError> {
+        // TODO: consider whether declaring a struct similar to StrippedProgram
+        //       but that uses a reference to data to avoid copying is worth the effort.
+        match self {
+            Task::Cairo0Program(cairo0_executable) => {
+                cairo0_executable.program.get_stripped_program()
+            }
+            Task::Pie(cairo_pie) => Ok(cairo_pie.metadata.program.clone()),
+            Task::Cairo1Program(cairo1_executable) => {
+                cairo1_executable.program.get_stripped_program()
+            }
+        }
+    }
+}
+#[derive(Deserialize)]
+struct TaskSpecHelper {
+    #[serde(rename = "type")]
+    task_type: String,
+    program_hash_function: String,
+    path: Option<PathBuf>,
+    program: Option<Value>,
+    program_input: Option<Value>,
+    user_args_list: Option<Vec<Value>>,
+    user_args_file: Option<PathBuf>,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct TaskSpec {
+    /// Task wrapped in Rc to avoid expensive clones when reading it from execution scopes.
+    /// CairoPie tasks can be several GB in size.
+    pub task: Rc<Task>,
+    pub program_hash_function: HashFunc,
+}
+
+/// A hash function. These can be used e.g. for hashing a program within the bootloader.
+#[repr(u8)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HashFunc {
+    Pedersen = 0,
+    Poseidon = 1,
+    Blake = 2,
+}
+
+impl TryFrom<String> for HashFunc {
+    type Error = String;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        match value.to_lowercase().as_str() {
+            "pedersen" => Ok(HashFunc::Pedersen),
+            "poseidon" => Ok(HashFunc::Poseidon),
+            "blake" => Ok(HashFunc::Blake),
+            _ => Err(format!(
+                "Invalid program hash function: {value}.
+                Expected `pedersen`, `poseidon`, or `blake`."
+            )),
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for TaskSpec {
+    /// Custom deserialization for `TaskSpec`, which constructs a task based on its type
+    /// (either "CairoPiePath" or "RunProgramTask") and a file path.
+    ///
+    /// # Arguments
+    /// - `deserializer`: The deserializer used to parse the JSON into a `TaskSpec`.
+    ///
+    /// # Returns
+    /// - `Ok(TaskSpec)`: If successful, returns a `TaskSpec` with the appropriate task and Poseidon
+    ///   option.
+    /// - `Err(D::Error)`: If deserialization fails or the task type is unsupported.
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let helper = TaskSpecHelper::deserialize(deserializer)?;
+
+        // Parse program, if provided
+        let task = match helper.task_type.as_str() {
+            "CairoPiePath" => {
+                if let Some(path) = &helper.path {
+                    create_pie_task(path)
+                        .map_err(|e| D::Error::custom(format!("Error creating PIE task: {e:?}")))?
+                } else {
+                    return Err(D::Error::custom("CairoPiePath requires a path"));
+                }
+            }
+            "RunProgramTask" => {
+                // Parse program_input, if provided
+                let program_input = if let Some(program_input_data) = &helper.program_input {
+                    let program_input_json =
+                        serde_json::to_string(program_input_data).map_err(|e| {
+                            D::Error::custom(format!("Failed to serialize program input: {e:?}"))
+                        })?;
+                    Some(program_input_json)
+                } else {
+                    None
+                };
+                // Deserialize program if present
+                if let Some(program_data) = &helper.program {
+                    let program_bytes = serde_json::to_vec(program_data).map_err(|e| {
+                        D::Error::custom(format!("Failed to serialize program: {e:?}"))
+                    })?;
+                    let program =
+                        Program::from_bytes(&program_bytes, Some("main")).map_err(|e| {
+                            D::Error::custom(format!("Failed to deserialize program: {e:?}"))
+                        })?;
+                    Task::Cairo0Program(Cairo0Executable { program, program_input })
+                } else if let Some(path) = &helper.path {
+                    create_cairo0_program_task(path, program_input).map_err(|e| {
+                        D::Error::custom(format!("Error creating Program task: {e:?}"))
+                    })?
+                } else {
+                    return Err(D::Error::custom(
+                        "RunProgramTask requires either a program or path",
+                    ));
+                }
+            }
+            "Cairo1Executable" => {
+                if let Some(path) = &helper.path {
+                    create_cairo1_program_task(path, helper.user_args_list, helper.user_args_file)
+                        .map_err(|e| {
+                        D::Error::custom(format!("Error creating Cairo1 Program Task: {e:?}"))
+                    })?
+                } else {
+                    return Err(D::Error::custom("Cairo1Executable requires a path"));
+                }
+            }
+            _ => {
+                return Err(D::Error::custom(format!("Unsupported type: {}", helper.task_type)));
+            }
+        };
+
+        Ok(TaskSpec {
+            task: Rc::new(task),
+            program_hash_function: HashFunc::try_from(helper.program_hash_function)
+                .map_err(|e| D::Error::custom(format!("Invalid program hash function: {e:?}")))?,
+        })
+    }
+}
+
+impl TaskSpec {
+    /// Retrieves a reference to the `Rc<Task>` within the `TaskSpec`.
+    ///
+    /// # Returns
+    /// A reference to the `Rc<Task>` field, which wraps either a `Program` or `CairoPie`.
+    pub fn load_task(&self) -> &Rc<Task> {
+        &self.task
+    }
+}
+
+#[derive(Debug, Clone, Deserialize, PartialEq)]
+pub struct SimpleBootloaderInput {
+    pub fact_topologies_path: Option<PathBuf>,
+    pub single_page: bool,
+    pub tasks: Vec<TaskSpec>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct PrivacySimpleBootloaderInput {
+    #[serde(flatten)]
+    pub simple_bootloader_input: SimpleBootloaderInput,
+    pub output_preimage_dump_path: PathBuf,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BootloaderInput {
+    #[serde(flatten)]
+    pub simple_bootloader_input: SimpleBootloaderInput,
+    pub bootloader_config: BootloaderConfig,
+    pub packed_outputs: Vec<PackedOutput>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ApplicativeBootloaderInput {
+    #[serde(flatten)]
+    pub bootloader_input: BootloaderInput,
+    pub aggregator_task: TaskSpec,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct CairoVerifierInput {
+    pub proof: HashMap<String, serde_json::Value>,
+}
+
+pub struct ExtractedProofValues {
+    pub original_commitment_hash: Felt252,
+    pub interaction_commitment_hash: Felt252,
+    pub composition_commitment_hash: Felt252,
+    pub oods_values: Vec<Felt252>,
+    pub fri_layers_commitments: Vec<Felt252>,
+    pub fri_last_layer_coefficients: Vec<Felt252>,
+    pub proof_of_work_nonce: Felt252,
+    pub original_witness_leaves: Vec<Felt252>,
+    pub original_witness_authentications: Vec<Felt252>,
+    pub interaction_witness_leaves: Vec<Felt252>,
+    pub interaction_witness_authentications: Vec<Felt252>,
+    pub composition_witness_leaves: Vec<Felt252>,
+    pub composition_witness_authentications: Vec<Felt252>,
+    pub fri_step_list: Vec<u64>,
+    pub n_fri_layers: usize,
+    pub log_n_cosets: u64,
+    pub log_last_layer_degree_bound: u32,
+    pub n_verifier_friendly_commitment_layers: u64,
+    pub z: Felt252,
+    pub alpha: Felt252,
+    pub proof_of_work_bits: u64,
+    pub n_queries: u64,
+    pub fri_witnesses_leaves: Vec<Vec<Felt252>>,
+    pub fri_witnesses_authentications: Vec<Vec<Felt252>>,
+}
+
+#[derive(Debug)]
+pub struct ExtractedIDsAndInputValues {
+    pub log_trace_domain_size: Felt252,
+    pub log_eval_domain_size: Felt252,
+    pub layer_log_sizes: Vec<Felt252>,
+    pub num_columns_first: Felt252,
+    pub num_columns_second: Felt252,
+    pub constraint_degree: Felt252,
+}
+
+// Struct needed for deserialization of the public input. Owned version of PublicInput.
+#[derive(Serialize, Deserialize, Debug)]
+pub struct OwnedPublicInput {
+    pub layout: String,
+    pub rc_min: isize,
+    pub rc_max: isize,
+    pub n_steps: usize,
+    pub memory_segments: HashMap<String, MemorySegmentAddresses>,
+    pub public_memory: Vec<PublicMemoryEntry>,
+    pub dynamic_params: Option<HashMap<String, u128>>,
+}
+
+pub enum RunMode {
+    Proof {
+        layout: LayoutName,
+        dynamic_layout_params: Option<CairoLayoutParams>,
+        disable_trace_padding: bool,
+        relocate_mem: bool,
+    },
+    Validation {
+        layout: LayoutName,
+        allow_missing_builtins: bool,
+    },
+}
+
+impl RunMode {
+    pub fn create_config(self) -> CairoRunConfig<'static> {
+        match self {
+            RunMode::Proof {
+                layout,
+                dynamic_layout_params,
+                disable_trace_padding,
+                relocate_mem,
+            } => CairoRunConfig {
+                entrypoint: "main",
+                trace_enabled: true,
+                relocate_mem,
+                relocate_trace: relocate_mem,
+                layout,
+                proof_mode: true,
+                fill_holes: true,
+                secure_run: None,
+                disable_trace_padding,
+                allow_missing_builtins: None,
+                dynamic_layout_params,
+            },
+            RunMode::Validation { layout, allow_missing_builtins } => CairoRunConfig {
+                entrypoint: "main",
+                trace_enabled: false,
+                relocate_mem: false,
+                relocate_trace: false,
+                layout,
+                proof_mode: false,
+                fill_holes: false,
+                secure_run: None,
+                disable_trace_padding: false,
+                allow_missing_builtins: Some(allow_missing_builtins),
+                dynamic_layout_params: None,
+            },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct SimpleOutputInput {
+    pub output: Vec<Number>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ConcatAggregatorInput {
+    pub bootloader_output: Vec<Number>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct MockCairoVerifierInput {
+    pub n_steps: u128,
+    pub program_hash: Felt252,
+    pub program_output: Vec<Felt252>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct FlexibleBuiltinUsageInput {
+    #[serde(default)]
+    pub n_output: usize,
+    #[serde(default)]
+    pub n_pedersen: usize,
+    #[serde(default)]
+    pub n_range_check: usize,
+    #[serde(default)]
+    pub n_ecdsa: usize,
+    #[serde(default)]
+    pub n_bitwise: usize,
+    #[serde(default)]
+    pub n_ec_op: usize,
+    #[serde(default)]
+    pub n_keccak: usize,
+    #[serde(default)]
+    pub n_poseidon: usize,
+    #[serde(default)]
+    pub n_range_check96: usize,
+    #[serde(default)]
+    pub n_add_mod: usize,
+    #[serde(default)]
+    pub n_mul_mod: usize,
+    #[serde(default)]
+    pub n_memory_holes: usize,
+    #[serde(default)]
+    pub n_blake2s: usize,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct FibonacciInput {
+    pub fibonacci_claim_index: usize,
+    pub second_element: usize,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct PedersenMerkleInput {
+    pub height: usize,
+    pub node_index: u128,
+    pub path: Vec<Felt252>,
+    pub prev_leaf: Felt252,
+    pub new_leaf: Felt252,
+}
+
+/// Serde helper that serializes `Vec<Felt252>` as a JSON array of decimal-digit strings
+/// (e.g. `["10", "42", ...]`, not `[10, 42, ...]`).
+///
+/// Three constraints force this shape:
+///   1. `Felt252` values can reach ~2^252, far beyond JSON's safe-integer range of ±2^53. Emitting
+///      them as bare JSON numbers risks silent float64 coercion in any consumer that parses JSON
+///      numbers as IEEE-754 (the spec default and what most cross-language toolchains assume).
+///      Wrapping the digits in quotes turns them into a JSON string, which every parser preserves
+///      losslessly.
+///   2. The Python consumer (a `marshmallow.fields.Integer` field on the GPS scheduler side)
+///      deserializes the strings back into Python's arbitrary-precision `int`, so no precision is
+///      lost on the round-trip.
+///   3. Decimal specifically (not hex) because `marshmallow.fields.Integer` only parses base-10
+///      strings by default — hex would require a custom field on the Python side.
+///
+/// Used by `CompositePackedOutput.outputs` here, and by `RecursiveJobData.outputs` in
+/// `stwo_run_and_prove_recursive_tree`.
+pub mod felt_decimal_vec {
+    use super::*;
+
+    pub fn serialize<S>(values: &[Felt252], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(values.len()))?;
+        for value in values {
+            seq.serialize_element(&value.to_string())?;
+        }
+        seq.end()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Serialize)]
+    struct Wrapper {
+        #[serde(serialize_with = "felt_decimal_vec::serialize")]
+        xs: Vec<Felt252>,
+    }
+
+    #[test]
+    fn felt_decimal_vec_serializer_emits_decimal_strings() {
+        // The values below span the boundaries the module's doc-comment calls out: small ints,
+        // past JSON's ±2^53 safe-integer range (u64::MAX), past u64 into multi-limb territory
+        // (2^64), and the field's actual ceiling (Felt252::MAX ≈ 2^252).
+        let two_to_64 = Felt252::from_hex_unchecked("0x10000000000000000");
+        let felt_max = Felt252::MAX;
+        let wrapper = Wrapper {
+            xs: vec![
+                Felt252::from(0u64),
+                Felt252::from(1u64),
+                Felt252::from(u64::MAX),
+                two_to_64,
+                felt_max,
+            ],
+        };
+        let json = serde_json::to_value(&wrapper).expect("serialize Wrapper");
+        let xs = json["xs"].as_array().expect("xs is array");
+        assert_eq!(xs.len(), 5);
+        // The core invariant: every element is a JSON *string*, not a number. This is what dodges
+        // float64 coercion in downstream JSON parsers.
+        for v in xs {
+            assert!(v.is_string(), "expected JSON string, got {v:?}");
+        }
+        assert_eq!(xs[0], serde_json::json!("0"));
+        assert_eq!(xs[1], serde_json::json!("1"));
+        assert_eq!(xs[2], serde_json::json!(u64::MAX.to_string()));
+        assert_eq!(xs[3], serde_json::json!("18446744073709551616"));
+        // For Felt252::MAX, assert against `to_string()` so the test isn't brittle to a future
+        // field-of-definition change, then sanity-check the digit count to lock in the "≈2^252"
+        // promise from the doc (the Stark prime minus 1 is a 76-digit decimal number).
+        assert_eq!(xs[4], serde_json::json!(felt_max.to_string()));
+        assert_eq!(felt_max.to_string().len(), 76);
+    }
+}

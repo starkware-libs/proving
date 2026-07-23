@@ -1,0 +1,22 @@
+[package]
+name = "stwo-vm-runner"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "VM runner for executing Cairo programs with STWO proving support"
+
+[dependencies]
+clap.workspace = true
+log.workspace = true
+serde_json.workspace = true
+stwo-cairo-utils.workspace = true
+stwo-cairo-adapter.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+cairo-program-runner-lib.workspace = true
+cairo-vm.workspace = true
+anyhow.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
