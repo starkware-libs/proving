@@ -1,0 +1,87 @@
+// This file was created by the AIR team.
+
+use subroutines::mem_verify::MemVerify;
+
+use crate::components::prelude::*;
+
+#[derive(Copy, Clone)]
+pub struct VerifyU32 {}
+
+impl VerifyU32 {
+    #[allow(unused_parens)]
+    #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
+    #[allow(clippy::unused_unit)]
+    #[allow(unused_variables)]
+    #[allow(clippy::too_many_arguments)]
+    pub fn evaluate<E: EvalAtRow>(
+        [verify_u_32_input_limb_0, verify_u_32_input_limb_1, verify_u_32_input_limb_2]: [E::F; 3],
+        enabler: E::F,
+        low_7_ms_bits_col0: E::F,
+        high_14_ms_bits_col1: E::F,
+        high_5_ms_bits_col2: E::F,
+        id_col3: E::F,
+        common_lookup_elements: &relations::CommonLookupElements,
+        eval: &mut E,
+    ) -> [E::F; 0] {
+        let M31_0 = E::F::from(M31::from(0));
+        let M31_128 = E::F::from(M31::from(128));
+        let M31_371240602 = E::F::from(M31::from(371240602));
+        let M31_4 = E::F::from(M31::from(4));
+        let M31_512 = E::F::from(M31::from(512));
+
+        let high_2_ls_bits_tmp_1a63a_2 = eval.add_intermediate(
+            (verify_u_32_input_limb_2.clone() - (high_14_ms_bits_col1.clone() * M31_4.clone())),
+        );
+        eval.add_to_relation(RelationEntry::new(
+            common_lookup_elements,
+            E::EF::from(enabler.clone()),
+            &[
+                M31_371240602.clone(),
+                low_7_ms_bits_col0.clone(),
+                high_2_ls_bits_tmp_1a63a_2.clone(),
+                high_5_ms_bits_col2.clone(),
+            ],
+        ));
+
+        MemVerify::evaluate(
+            [
+                verify_u_32_input_limb_0.clone(),
+                (verify_u_32_input_limb_1.clone() - (low_7_ms_bits_col0.clone() * M31_512.clone())),
+                (low_7_ms_bits_col0.clone()
+                    + (high_2_ls_bits_tmp_1a63a_2.clone() * M31_128.clone())),
+                (high_14_ms_bits_col1.clone() - (high_5_ms_bits_col2.clone() * M31_512.clone())),
+                high_5_ms_bits_col2.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+            ],
+            enabler.clone(),
+            id_col3.clone(),
+            common_lookup_elements,
+            eval,
+        );
+        []
+    }
+}

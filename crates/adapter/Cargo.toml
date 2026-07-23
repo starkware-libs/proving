@@ -1,0 +1,32 @@
+[package]
+name = "stwo-cairo-adapter"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Adapter for converting Cairo VM execution traces to Stwo prover format"
+
+[features]
+default = []
+slow-tests = []
+extract-mem-trace = []
+
+[dependencies]
+bytemuck.workspace = true
+cairo-vm.workspace = true
+itertools.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+stwo-cairo-common = { path = "../common", version = "~1.2.2" }
+tracing.workspace = true
+stwo.workspace = true
+dashmap.workspace = true
+rayon.workspace = true
+crypto-bigint = "0.5.1"
+anyhow.workspace = true
+
+[dev-dependencies]
+cairo-lang-casm = "=2.15.0"
+rand.workspace = true
+test-case.workspace = true
+stwo-cairo-dev-utils = { path = "../dev_utils" }

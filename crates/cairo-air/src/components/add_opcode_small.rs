@@ -1,0 +1,254 @@
+// This file was created by the AIR team.
+
+use subroutines::decode_instruction_7785f::DecodeInstruction7785F;
+use subroutines::read_small::ReadSmall;
+
+use crate::components::prelude::*;
+
+pub const N_TRACE_COLUMNS: usize = 39;
+pub const RELATION_USES_PER_ROW: [RelationUse; 4] = [
+    RelationUse { relation_id: "MemoryAddressToId", uses: 3 },
+    RelationUse { relation_id: "MemoryIdToBig", uses: 3 },
+    RelationUse { relation_id: "Opcodes", uses: 1 },
+    RelationUse { relation_id: "VerifyInstruction", uses: 1 },
+];
+
+pub struct Eval {
+    pub claim: Claim,
+    pub common_lookup_elements: relations::CommonLookupElements,
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct Claim {
+    pub log_size: u32,
+}
+impl Claim {
+    pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
+        let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 5];
+        TreeVec::new(vec![trace_log_sizes, interaction_log_sizes])
+    }
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct InteractionClaim {
+    pub claimed_sum: SecureField,
+}
+
+pub type Component = FrameworkComponent<Eval>;
+
+impl FrameworkEval for Eval {
+    fn log_size(&self) -> u32 {
+        self.claim.log_size
+    }
+
+    fn max_constraint_log_degree_bound(&self) -> u32 {
+        self.log_size() + 1
+    }
+
+    #[allow(unused_parens)]
+    #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
+    fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let M31_1 = E::F::from(M31::from(1));
+        let M31_428564188 = E::F::from(M31::from(428564188));
+        let enabler_col0 = eval.next_trace_mask();
+        let input_pc_col1 = eval.next_trace_mask();
+        let input_ap_col2 = eval.next_trace_mask();
+        let input_fp_col3 = eval.next_trace_mask();
+        let offset0_col4 = eval.next_trace_mask();
+        let offset1_col5 = eval.next_trace_mask();
+        let offset2_col6 = eval.next_trace_mask();
+        let dst_base_fp_col7 = eval.next_trace_mask();
+        let op0_base_fp_col8 = eval.next_trace_mask();
+        let op1_imm_col9 = eval.next_trace_mask();
+        let op1_base_fp_col10 = eval.next_trace_mask();
+        let ap_update_add_1_col11 = eval.next_trace_mask();
+        let mem_dst_base_col12 = eval.next_trace_mask();
+        let mem0_base_col13 = eval.next_trace_mask();
+        let mem1_base_col14 = eval.next_trace_mask();
+        let dst_id_col15 = eval.next_trace_mask();
+        let msb_col16 = eval.next_trace_mask();
+        let mid_limbs_set_col17 = eval.next_trace_mask();
+        let dst_limb_0_col18 = eval.next_trace_mask();
+        let dst_limb_1_col19 = eval.next_trace_mask();
+        let dst_limb_2_col20 = eval.next_trace_mask();
+        let remainder_bits_col21 = eval.next_trace_mask();
+        let partial_limb_msb_col22 = eval.next_trace_mask();
+        let op0_id_col23 = eval.next_trace_mask();
+        let msb_col24 = eval.next_trace_mask();
+        let mid_limbs_set_col25 = eval.next_trace_mask();
+        let op0_limb_0_col26 = eval.next_trace_mask();
+        let op0_limb_1_col27 = eval.next_trace_mask();
+        let op0_limb_2_col28 = eval.next_trace_mask();
+        let remainder_bits_col29 = eval.next_trace_mask();
+        let partial_limb_msb_col30 = eval.next_trace_mask();
+        let op1_id_col31 = eval.next_trace_mask();
+        let msb_col32 = eval.next_trace_mask();
+        let mid_limbs_set_col33 = eval.next_trace_mask();
+        let op1_limb_0_col34 = eval.next_trace_mask();
+        let op1_limb_1_col35 = eval.next_trace_mask();
+        let op1_limb_2_col36 = eval.next_trace_mask();
+        let remainder_bits_col37 = eval.next_trace_mask();
+        let partial_limb_msb_col38 = eval.next_trace_mask();
+
+        // Enabler is a bit.
+        eval.add_constraint(((enabler_col0.clone() * enabler_col0.clone()) - enabler_col0.clone()));
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [
+            decode_instruction_7785f_output_tmp_e5099_11_offset0,
+            decode_instruction_7785f_output_tmp_e5099_11_offset1,
+            decode_instruction_7785f_output_tmp_e5099_11_offset2,
+            decode_instruction_7785f_output_tmp_e5099_11_op1_base_ap,
+        ] = DecodeInstruction7785F::evaluate(
+            [input_pc_col1.clone()],
+            enabler_col0.clone(),
+            offset0_col4.clone(),
+            offset1_col5.clone(),
+            offset2_col6.clone(),
+            dst_base_fp_col7.clone(),
+            op0_base_fp_col8.clone(),
+            op1_imm_col9.clone(),
+            op1_base_fp_col10.clone(),
+            ap_update_add_1_col11.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        // if imm then offset2 is 1.
+        eval.add_constraint(
+            (op1_imm_col9.clone()
+                * (M31_1.clone() - decode_instruction_7785f_output_tmp_e5099_11_offset2.clone())),
+        );
+        // mem_dst_base.
+        eval.add_constraint(
+            (mem_dst_base_col12.clone()
+                - ((dst_base_fp_col7.clone() * input_fp_col3.clone())
+                    + ((M31_1.clone() - dst_base_fp_col7.clone()) * input_ap_col2.clone()))),
+        );
+        // mem0_base.
+        eval.add_constraint(
+            (mem0_base_col13.clone()
+                - ((op0_base_fp_col8.clone() * input_fp_col3.clone())
+                    + ((M31_1.clone() - op0_base_fp_col8.clone()) * input_ap_col2.clone()))),
+        );
+        // mem1_base.
+        eval.add_constraint(
+            (mem1_base_col14.clone()
+                - (((op1_imm_col9.clone() * input_pc_col1.clone())
+                    + (op1_base_fp_col10.clone() * input_fp_col3.clone()))
+                    + (decode_instruction_7785f_output_tmp_e5099_11_op1_base_ap.clone()
+                        * input_ap_col2.clone()))),
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [read_small_output_tmp_e5099_21_limb_0] = ReadSmall::evaluate(
+            [(mem_dst_base_col12.clone()
+                + decode_instruction_7785f_output_tmp_e5099_11_offset0.clone())],
+            enabler_col0.clone(),
+            dst_id_col15.clone(),
+            msb_col16.clone(),
+            mid_limbs_set_col17.clone(),
+            dst_limb_0_col18.clone(),
+            dst_limb_1_col19.clone(),
+            dst_limb_2_col20.clone(),
+            remainder_bits_col21.clone(),
+            partial_limb_msb_col22.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [read_small_output_tmp_e5099_31_limb_0] = ReadSmall::evaluate(
+            [(mem0_base_col13.clone()
+                + decode_instruction_7785f_output_tmp_e5099_11_offset1.clone())],
+            enabler_col0.clone(),
+            op0_id_col23.clone(),
+            msb_col24.clone(),
+            mid_limbs_set_col25.clone(),
+            op0_limb_0_col26.clone(),
+            op0_limb_1_col27.clone(),
+            op0_limb_2_col28.clone(),
+            remainder_bits_col29.clone(),
+            partial_limb_msb_col30.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [read_small_output_tmp_e5099_41_limb_0] = ReadSmall::evaluate(
+            [(mem1_base_col14.clone()
+                + decode_instruction_7785f_output_tmp_e5099_11_offset2.clone())],
+            enabler_col0.clone(),
+            op1_id_col31.clone(),
+            msb_col32.clone(),
+            mid_limbs_set_col33.clone(),
+            op1_limb_0_col34.clone(),
+            op1_limb_1_col35.clone(),
+            op1_limb_2_col36.clone(),
+            remainder_bits_col37.clone(),
+            partial_limb_msb_col38.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        // dst equals op0 + op1.
+        eval.add_constraint(
+            (read_small_output_tmp_e5099_21_limb_0.clone()
+                - (read_small_output_tmp_e5099_31_limb_0.clone()
+                    + read_small_output_tmp_e5099_41_limb_0.clone())),
+        );
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            E::EF::from(enabler_col0.clone()),
+            &[
+                M31_428564188.clone(),
+                input_pc_col1.clone(),
+                input_ap_col2.clone(),
+                input_fp_col3.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(enabler_col0.clone()),
+            &[
+                M31_428564188.clone(),
+                ((input_pc_col1.clone() + M31_1.clone()) + op1_imm_col9.clone()),
+                (input_ap_col2.clone() + ap_update_add_1_col11.clone()),
+                input_fp_col3.clone(),
+            ],
+        ));
+
+        eval.finalize_logup_in_pairs();
+        eval
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use num_traits::Zero;
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
+    use stwo::core::fields::qm31::QM31;
+    use stwo_constraint_framework::expr::ExprEvaluator;
+
+    use super::*;
+
+    #[test]
+    fn add_opcode_small_constraints_regression() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let eval = Eval {
+            claim: Claim { log_size: 4 },
+            common_lookup_elements: relations::CommonLookupElements::dummy(),
+        };
+        let expr_eval = eval.evaluate(ExprEvaluator::new());
+        let assignment = expr_eval.random_assignment();
+
+        let mut sum = QM31::zero();
+        for c in expr_eval.constraints {
+            sum += c.assign(&assignment) * rng.random::<QM31>();
+        }
+
+        constraints_regression_test_values::ADD_OPCODE_SMALL.assert_debug_eq(&sum);
+    }
+}

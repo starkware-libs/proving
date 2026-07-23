@@ -1,0 +1,13 @@
+[package]
+name = "stwo-cairo-utils"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Utility functions for Stwo Cairo prover"
+
+[dependencies]
+env_logger.workspace = true
+log.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

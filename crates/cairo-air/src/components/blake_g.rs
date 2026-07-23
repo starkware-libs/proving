@@ -1,0 +1,328 @@
+// This file was created by the AIR team.
+
+use subroutines::triple_sum_32::TripleSum32;
+use subroutines::xor_rot_32_r_7::XorRot32R7;
+use subroutines::xor_rot_32_r_8::XorRot32R8;
+use subroutines::xor_rot_32_r_12::XorRot32R12;
+use subroutines::xor_rot_32_r_16::XorRot32R16;
+
+use crate::components::prelude::*;
+
+pub const N_TRACE_COLUMNS: usize = 53;
+pub const RELATION_USES_PER_ROW: [RelationUse; 6] = [
+    RelationUse { relation_id: "VerifyBitwiseXor_12", uses: 2 },
+    RelationUse { relation_id: "VerifyBitwiseXor_4", uses: 2 },
+    RelationUse { relation_id: "VerifyBitwiseXor_7", uses: 2 },
+    RelationUse { relation_id: "VerifyBitwiseXor_8", uses: 4 },
+    RelationUse { relation_id: "VerifyBitwiseXor_8_B", uses: 4 },
+    RelationUse { relation_id: "VerifyBitwiseXor_9", uses: 2 },
+];
+
+pub struct Eval {
+    pub claim: Claim,
+    pub common_lookup_elements: relations::CommonLookupElements,
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct Claim {
+    pub log_size: u32,
+}
+impl Claim {
+    pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
+        let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 9];
+        TreeVec::new(vec![trace_log_sizes, interaction_log_sizes])
+    }
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct InteractionClaim {
+    pub claimed_sum: SecureField,
+}
+
+pub type Component = FrameworkComponent<Eval>;
+
+impl FrameworkEval for Eval {
+    fn log_size(&self) -> u32 {
+        self.claim.log_size
+    }
+
+    fn max_constraint_log_degree_bound(&self) -> u32 {
+        self.log_size() + 1
+    }
+
+    #[allow(unused_parens)]
+    #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
+    fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let M31_0 = E::F::from(M31::from(0));
+        let M31_1139985212 = E::F::from(M31::from(1139985212));
+        let enabler_col0 = eval.next_trace_mask();
+        let input_limb_0_col1 = eval.next_trace_mask();
+        let input_limb_1_col2 = eval.next_trace_mask();
+        let input_limb_2_col3 = eval.next_trace_mask();
+        let input_limb_3_col4 = eval.next_trace_mask();
+        let input_limb_4_col5 = eval.next_trace_mask();
+        let input_limb_5_col6 = eval.next_trace_mask();
+        let input_limb_6_col7 = eval.next_trace_mask();
+        let input_limb_7_col8 = eval.next_trace_mask();
+        let input_limb_8_col9 = eval.next_trace_mask();
+        let input_limb_9_col10 = eval.next_trace_mask();
+        let input_limb_10_col11 = eval.next_trace_mask();
+        let input_limb_11_col12 = eval.next_trace_mask();
+        let triple_sum32_res_limb_0_col13 = eval.next_trace_mask();
+        let triple_sum32_res_limb_1_col14 = eval.next_trace_mask();
+        let ms_8_bits_col15 = eval.next_trace_mask();
+        let ms_8_bits_col16 = eval.next_trace_mask();
+        let ms_8_bits_col17 = eval.next_trace_mask();
+        let ms_8_bits_col18 = eval.next_trace_mask();
+        let xor_col19 = eval.next_trace_mask();
+        let xor_col20 = eval.next_trace_mask();
+        let xor_col21 = eval.next_trace_mask();
+        let xor_col22 = eval.next_trace_mask();
+        let triple_sum32_res_limb_0_col23 = eval.next_trace_mask();
+        let triple_sum32_res_limb_1_col24 = eval.next_trace_mask();
+        let ms_4_bits_col25 = eval.next_trace_mask();
+        let ms_4_bits_col26 = eval.next_trace_mask();
+        let ms_4_bits_col27 = eval.next_trace_mask();
+        let ms_4_bits_col28 = eval.next_trace_mask();
+        let xor_col29 = eval.next_trace_mask();
+        let xor_col30 = eval.next_trace_mask();
+        let xor_col31 = eval.next_trace_mask();
+        let xor_col32 = eval.next_trace_mask();
+        let triple_sum32_res_limb_0_col33 = eval.next_trace_mask();
+        let triple_sum32_res_limb_1_col34 = eval.next_trace_mask();
+        let ms_8_bits_col35 = eval.next_trace_mask();
+        let ms_8_bits_col36 = eval.next_trace_mask();
+        let ms_8_bits_col37 = eval.next_trace_mask();
+        let ms_8_bits_col38 = eval.next_trace_mask();
+        let xor_col39 = eval.next_trace_mask();
+        let xor_col40 = eval.next_trace_mask();
+        let xor_col41 = eval.next_trace_mask();
+        let xor_col42 = eval.next_trace_mask();
+        let triple_sum32_res_limb_0_col43 = eval.next_trace_mask();
+        let triple_sum32_res_limb_1_col44 = eval.next_trace_mask();
+        let ms_9_bits_col45 = eval.next_trace_mask();
+        let ms_9_bits_col46 = eval.next_trace_mask();
+        let ms_9_bits_col47 = eval.next_trace_mask();
+        let ms_9_bits_col48 = eval.next_trace_mask();
+        let xor_col49 = eval.next_trace_mask();
+        let xor_col50 = eval.next_trace_mask();
+        let xor_col51 = eval.next_trace_mask();
+        let xor_col52 = eval.next_trace_mask();
+
+        // Enabler is a bit.
+        eval.add_constraint(((enabler_col0.clone() * enabler_col0.clone()) - enabler_col0.clone()));
+        TripleSum32::evaluate(
+            [
+                input_limb_0_col1.clone(),
+                input_limb_1_col2.clone(),
+                input_limb_2_col3.clone(),
+                input_limb_3_col4.clone(),
+                input_limb_8_col9.clone(),
+                input_limb_9_col10.clone(),
+            ],
+            enabler_col0.clone(),
+            triple_sum32_res_limb_0_col13.clone(),
+            triple_sum32_res_limb_1_col14.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [
+            xor_rot_32_r_16_output_tmp_4da06_21_limb_0,
+            xor_rot_32_r_16_output_tmp_4da06_21_limb_1,
+        ] = XorRot32R16::evaluate(
+            [
+                triple_sum32_res_limb_0_col13.clone(),
+                triple_sum32_res_limb_1_col14.clone(),
+                input_limb_6_col7.clone(),
+                input_limb_7_col8.clone(),
+            ],
+            enabler_col0.clone(),
+            ms_8_bits_col15.clone(),
+            ms_8_bits_col16.clone(),
+            ms_8_bits_col17.clone(),
+            ms_8_bits_col18.clone(),
+            xor_col19.clone(),
+            xor_col20.clone(),
+            xor_col21.clone(),
+            xor_col22.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        TripleSum32::evaluate(
+            [
+                input_limb_4_col5.clone(),
+                input_limb_5_col6.clone(),
+                xor_rot_32_r_16_output_tmp_4da06_21_limb_0.clone(),
+                xor_rot_32_r_16_output_tmp_4da06_21_limb_1.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+            ],
+            enabler_col0.clone(),
+            triple_sum32_res_limb_0_col23.clone(),
+            triple_sum32_res_limb_1_col24.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [
+            xor_rot_32_r_12_output_tmp_4da06_43_limb_0,
+            xor_rot_32_r_12_output_tmp_4da06_43_limb_1,
+        ] = XorRot32R12::evaluate(
+            [
+                input_limb_2_col3.clone(),
+                input_limb_3_col4.clone(),
+                triple_sum32_res_limb_0_col23.clone(),
+                triple_sum32_res_limb_1_col24.clone(),
+            ],
+            enabler_col0.clone(),
+            ms_4_bits_col25.clone(),
+            ms_4_bits_col26.clone(),
+            ms_4_bits_col27.clone(),
+            ms_4_bits_col28.clone(),
+            xor_col29.clone(),
+            xor_col30.clone(),
+            xor_col31.clone(),
+            xor_col32.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        TripleSum32::evaluate(
+            [
+                triple_sum32_res_limb_0_col13.clone(),
+                triple_sum32_res_limb_1_col14.clone(),
+                xor_rot_32_r_12_output_tmp_4da06_43_limb_0.clone(),
+                xor_rot_32_r_12_output_tmp_4da06_43_limb_1.clone(),
+                input_limb_10_col11.clone(),
+                input_limb_11_col12.clone(),
+            ],
+            enabler_col0.clone(),
+            triple_sum32_res_limb_0_col33.clone(),
+            triple_sum32_res_limb_1_col34.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [xor_rot_32_r_8_output_tmp_4da06_65_limb_0, xor_rot_32_r_8_output_tmp_4da06_65_limb_1] =
+            XorRot32R8::evaluate(
+                [
+                    triple_sum32_res_limb_0_col33.clone(),
+                    triple_sum32_res_limb_1_col34.clone(),
+                    xor_rot_32_r_16_output_tmp_4da06_21_limb_0.clone(),
+                    xor_rot_32_r_16_output_tmp_4da06_21_limb_1.clone(),
+                ],
+                enabler_col0.clone(),
+                ms_8_bits_col35.clone(),
+                ms_8_bits_col36.clone(),
+                ms_8_bits_col37.clone(),
+                ms_8_bits_col38.clone(),
+                xor_col39.clone(),
+                xor_col40.clone(),
+                xor_col41.clone(),
+                xor_col42.clone(),
+                &self.common_lookup_elements,
+                &mut eval,
+            );
+        TripleSum32::evaluate(
+            [
+                triple_sum32_res_limb_0_col23.clone(),
+                triple_sum32_res_limb_1_col24.clone(),
+                xor_rot_32_r_8_output_tmp_4da06_65_limb_0.clone(),
+                xor_rot_32_r_8_output_tmp_4da06_65_limb_1.clone(),
+                M31_0.clone(),
+                M31_0.clone(),
+            ],
+            enabler_col0.clone(),
+            triple_sum32_res_limb_0_col43.clone(),
+            triple_sum32_res_limb_1_col44.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [xor_rot_32_r_7_output_tmp_4da06_87_limb_0, xor_rot_32_r_7_output_tmp_4da06_87_limb_1] =
+            XorRot32R7::evaluate(
+                [
+                    xor_rot_32_r_12_output_tmp_4da06_43_limb_0.clone(),
+                    xor_rot_32_r_12_output_tmp_4da06_43_limb_1.clone(),
+                    triple_sum32_res_limb_0_col43.clone(),
+                    triple_sum32_res_limb_1_col44.clone(),
+                ],
+                enabler_col0.clone(),
+                ms_9_bits_col45.clone(),
+                ms_9_bits_col46.clone(),
+                ms_9_bits_col47.clone(),
+                ms_9_bits_col48.clone(),
+                xor_col49.clone(),
+                xor_col50.clone(),
+                xor_col51.clone(),
+                xor_col52.clone(),
+                &self.common_lookup_elements,
+                &mut eval,
+            );
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(enabler_col0.clone()),
+            &[
+                M31_1139985212.clone(),
+                input_limb_0_col1.clone(),
+                input_limb_1_col2.clone(),
+                input_limb_2_col3.clone(),
+                input_limb_3_col4.clone(),
+                input_limb_4_col5.clone(),
+                input_limb_5_col6.clone(),
+                input_limb_6_col7.clone(),
+                input_limb_7_col8.clone(),
+                input_limb_8_col9.clone(),
+                input_limb_9_col10.clone(),
+                input_limb_10_col11.clone(),
+                input_limb_11_col12.clone(),
+                triple_sum32_res_limb_0_col33.clone(),
+                triple_sum32_res_limb_1_col34.clone(),
+                xor_rot_32_r_7_output_tmp_4da06_87_limb_0.clone(),
+                xor_rot_32_r_7_output_tmp_4da06_87_limb_1.clone(),
+                triple_sum32_res_limb_0_col43.clone(),
+                triple_sum32_res_limb_1_col44.clone(),
+                xor_rot_32_r_8_output_tmp_4da06_65_limb_0.clone(),
+                xor_rot_32_r_8_output_tmp_4da06_65_limb_1.clone(),
+            ],
+        ));
+
+        eval.finalize_logup_in_pairs();
+        eval
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use num_traits::Zero;
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
+    use stwo::core::fields::qm31::QM31;
+    use stwo_constraint_framework::expr::ExprEvaluator;
+
+    use super::*;
+
+    #[test]
+    fn blake_g_constraints_regression() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let eval = Eval {
+            claim: Claim { log_size: 4 },
+            common_lookup_elements: relations::CommonLookupElements::dummy(),
+        };
+        let expr_eval = eval.evaluate(ExprEvaluator::new());
+        let assignment = expr_eval.random_assignment();
+
+        let mut sum = QM31::zero();
+        for c in expr_eval.constraints {
+            sum += c.assign(&assignment) * rng.random::<QM31>();
+        }
+
+        constraints_regression_test_values::BLAKE_G.assert_debug_eq(&sum);
+    }
+}

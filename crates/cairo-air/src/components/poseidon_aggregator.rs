@@ -1,0 +1,1153 @@
+// This file was created by the AIR team.
+
+use subroutines::felt_252_unpack_from_27::Felt252UnpackFrom27;
+use subroutines::poseidon_hades_permutation::PoseidonHadesPermutation;
+use subroutines::read_positive_known_id_num_bits_252::ReadPositiveKnownIdNumBits252;
+
+use crate::components::prelude::*;
+
+pub const N_TRACE_COLUMNS: usize = 342;
+pub const RELATION_USES_PER_ROW: [RelationUse; 8] = [
+    RelationUse { relation_id: "Cube252", uses: 2 },
+    RelationUse { relation_id: "MemoryIdToBig", uses: 6 },
+    RelationUse { relation_id: "Poseidon3PartialRoundsChain", uses: 1 },
+    RelationUse { relation_id: "PoseidonFullRoundChain", uses: 2 },
+    RelationUse { relation_id: "RangeCheck252Width27", uses: 2 },
+    RelationUse { relation_id: "RangeCheck_3_3_3_3_3", uses: 2 },
+    RelationUse { relation_id: "RangeCheck_4_4", uses: 3 },
+    RelationUse { relation_id: "RangeCheck_4_4_4_4", uses: 6 },
+];
+
+pub struct Eval {
+    pub claim: Claim,
+    pub common_lookup_elements: relations::CommonLookupElements,
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct Claim {
+    pub log_size: u32,
+}
+impl Claim {
+    pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
+        let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 14];
+        TreeVec::new(vec![trace_log_sizes, interaction_log_sizes])
+    }
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct InteractionClaim {
+    pub claimed_sum: SecureField,
+}
+
+pub type Component = FrameworkComponent<Eval>;
+
+impl FrameworkEval for Eval {
+    fn log_size(&self) -> u32 {
+        self.claim.log_size
+    }
+
+    fn max_constraint_log_degree_bound(&self) -> u32 {
+        self.log_size() + 1
+    }
+
+    #[allow(unused_parens)]
+    #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
+    fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let M31_1 = E::F::from(M31::from(1));
+        let M31_1551892206 = E::F::from(M31::from(1551892206));
+        let M31_1662111297 = E::F::from(M31::from(1662111297));
+        let M31_262144 = E::F::from(M31::from(262144));
+        let M31_512 = E::F::from(M31::from(512));
+        let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
+        let multiplicity_0_col0 = eval.next_trace_mask();
+        let input_limb_0_col1 = eval.next_trace_mask();
+        let input_limb_1_col2 = eval.next_trace_mask();
+        let input_limb_2_col3 = eval.next_trace_mask();
+        let input_limb_3_col4 = eval.next_trace_mask();
+        let input_limb_4_col5 = eval.next_trace_mask();
+        let input_limb_5_col6 = eval.next_trace_mask();
+        let value_limb_0_col7 = eval.next_trace_mask();
+        let value_limb_1_col8 = eval.next_trace_mask();
+        let value_limb_2_col9 = eval.next_trace_mask();
+        let value_limb_3_col10 = eval.next_trace_mask();
+        let value_limb_4_col11 = eval.next_trace_mask();
+        let value_limb_5_col12 = eval.next_trace_mask();
+        let value_limb_6_col13 = eval.next_trace_mask();
+        let value_limb_7_col14 = eval.next_trace_mask();
+        let value_limb_8_col15 = eval.next_trace_mask();
+        let value_limb_9_col16 = eval.next_trace_mask();
+        let value_limb_10_col17 = eval.next_trace_mask();
+        let value_limb_11_col18 = eval.next_trace_mask();
+        let value_limb_12_col19 = eval.next_trace_mask();
+        let value_limb_13_col20 = eval.next_trace_mask();
+        let value_limb_14_col21 = eval.next_trace_mask();
+        let value_limb_15_col22 = eval.next_trace_mask();
+        let value_limb_16_col23 = eval.next_trace_mask();
+        let value_limb_17_col24 = eval.next_trace_mask();
+        let value_limb_18_col25 = eval.next_trace_mask();
+        let value_limb_19_col26 = eval.next_trace_mask();
+        let value_limb_20_col27 = eval.next_trace_mask();
+        let value_limb_21_col28 = eval.next_trace_mask();
+        let value_limb_22_col29 = eval.next_trace_mask();
+        let value_limb_23_col30 = eval.next_trace_mask();
+        let value_limb_24_col31 = eval.next_trace_mask();
+        let value_limb_25_col32 = eval.next_trace_mask();
+        let value_limb_26_col33 = eval.next_trace_mask();
+        let value_limb_27_col34 = eval.next_trace_mask();
+        let value_limb_0_col35 = eval.next_trace_mask();
+        let value_limb_1_col36 = eval.next_trace_mask();
+        let value_limb_2_col37 = eval.next_trace_mask();
+        let value_limb_3_col38 = eval.next_trace_mask();
+        let value_limb_4_col39 = eval.next_trace_mask();
+        let value_limb_5_col40 = eval.next_trace_mask();
+        let value_limb_6_col41 = eval.next_trace_mask();
+        let value_limb_7_col42 = eval.next_trace_mask();
+        let value_limb_8_col43 = eval.next_trace_mask();
+        let value_limb_9_col44 = eval.next_trace_mask();
+        let value_limb_10_col45 = eval.next_trace_mask();
+        let value_limb_11_col46 = eval.next_trace_mask();
+        let value_limb_12_col47 = eval.next_trace_mask();
+        let value_limb_13_col48 = eval.next_trace_mask();
+        let value_limb_14_col49 = eval.next_trace_mask();
+        let value_limb_15_col50 = eval.next_trace_mask();
+        let value_limb_16_col51 = eval.next_trace_mask();
+        let value_limb_17_col52 = eval.next_trace_mask();
+        let value_limb_18_col53 = eval.next_trace_mask();
+        let value_limb_19_col54 = eval.next_trace_mask();
+        let value_limb_20_col55 = eval.next_trace_mask();
+        let value_limb_21_col56 = eval.next_trace_mask();
+        let value_limb_22_col57 = eval.next_trace_mask();
+        let value_limb_23_col58 = eval.next_trace_mask();
+        let value_limb_24_col59 = eval.next_trace_mask();
+        let value_limb_25_col60 = eval.next_trace_mask();
+        let value_limb_26_col61 = eval.next_trace_mask();
+        let value_limb_27_col62 = eval.next_trace_mask();
+        let value_limb_0_col63 = eval.next_trace_mask();
+        let value_limb_1_col64 = eval.next_trace_mask();
+        let value_limb_2_col65 = eval.next_trace_mask();
+        let value_limb_3_col66 = eval.next_trace_mask();
+        let value_limb_4_col67 = eval.next_trace_mask();
+        let value_limb_5_col68 = eval.next_trace_mask();
+        let value_limb_6_col69 = eval.next_trace_mask();
+        let value_limb_7_col70 = eval.next_trace_mask();
+        let value_limb_8_col71 = eval.next_trace_mask();
+        let value_limb_9_col72 = eval.next_trace_mask();
+        let value_limb_10_col73 = eval.next_trace_mask();
+        let value_limb_11_col74 = eval.next_trace_mask();
+        let value_limb_12_col75 = eval.next_trace_mask();
+        let value_limb_13_col76 = eval.next_trace_mask();
+        let value_limb_14_col77 = eval.next_trace_mask();
+        let value_limb_15_col78 = eval.next_trace_mask();
+        let value_limb_16_col79 = eval.next_trace_mask();
+        let value_limb_17_col80 = eval.next_trace_mask();
+        let value_limb_18_col81 = eval.next_trace_mask();
+        let value_limb_19_col82 = eval.next_trace_mask();
+        let value_limb_20_col83 = eval.next_trace_mask();
+        let value_limb_21_col84 = eval.next_trace_mask();
+        let value_limb_22_col85 = eval.next_trace_mask();
+        let value_limb_23_col86 = eval.next_trace_mask();
+        let value_limb_24_col87 = eval.next_trace_mask();
+        let value_limb_25_col88 = eval.next_trace_mask();
+        let value_limb_26_col89 = eval.next_trace_mask();
+        let value_limb_27_col90 = eval.next_trace_mask();
+        let combination_limb_0_col91 = eval.next_trace_mask();
+        let combination_limb_1_col92 = eval.next_trace_mask();
+        let combination_limb_2_col93 = eval.next_trace_mask();
+        let combination_limb_3_col94 = eval.next_trace_mask();
+        let combination_limb_4_col95 = eval.next_trace_mask();
+        let combination_limb_5_col96 = eval.next_trace_mask();
+        let combination_limb_6_col97 = eval.next_trace_mask();
+        let combination_limb_7_col98 = eval.next_trace_mask();
+        let combination_limb_8_col99 = eval.next_trace_mask();
+        let combination_limb_9_col100 = eval.next_trace_mask();
+        let p_coef_col101 = eval.next_trace_mask();
+        let combination_limb_0_col102 = eval.next_trace_mask();
+        let combination_limb_1_col103 = eval.next_trace_mask();
+        let combination_limb_2_col104 = eval.next_trace_mask();
+        let combination_limb_3_col105 = eval.next_trace_mask();
+        let combination_limb_4_col106 = eval.next_trace_mask();
+        let combination_limb_5_col107 = eval.next_trace_mask();
+        let combination_limb_6_col108 = eval.next_trace_mask();
+        let combination_limb_7_col109 = eval.next_trace_mask();
+        let combination_limb_8_col110 = eval.next_trace_mask();
+        let combination_limb_9_col111 = eval.next_trace_mask();
+        let p_coef_col112 = eval.next_trace_mask();
+        let combination_limb_0_col113 = eval.next_trace_mask();
+        let combination_limb_1_col114 = eval.next_trace_mask();
+        let combination_limb_2_col115 = eval.next_trace_mask();
+        let combination_limb_3_col116 = eval.next_trace_mask();
+        let combination_limb_4_col117 = eval.next_trace_mask();
+        let combination_limb_5_col118 = eval.next_trace_mask();
+        let combination_limb_6_col119 = eval.next_trace_mask();
+        let combination_limb_7_col120 = eval.next_trace_mask();
+        let combination_limb_8_col121 = eval.next_trace_mask();
+        let combination_limb_9_col122 = eval.next_trace_mask();
+        let p_coef_col123 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_0_col124 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_1_col125 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_2_col126 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_3_col127 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_4_col128 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_5_col129 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_6_col130 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_7_col131 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_8_col132 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_9_col133 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_10_col134 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_11_col135 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_12_col136 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_13_col137 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_14_col138 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_15_col139 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_16_col140 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_17_col141 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_18_col142 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_19_col143 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_20_col144 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_21_col145 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_22_col146 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_23_col147 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_24_col148 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_25_col149 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_26_col150 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_27_col151 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_28_col152 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_29_col153 = eval.next_trace_mask();
+        let cube_252_output_limb_0_col154 = eval.next_trace_mask();
+        let cube_252_output_limb_1_col155 = eval.next_trace_mask();
+        let cube_252_output_limb_2_col156 = eval.next_trace_mask();
+        let cube_252_output_limb_3_col157 = eval.next_trace_mask();
+        let cube_252_output_limb_4_col158 = eval.next_trace_mask();
+        let cube_252_output_limb_5_col159 = eval.next_trace_mask();
+        let cube_252_output_limb_6_col160 = eval.next_trace_mask();
+        let cube_252_output_limb_7_col161 = eval.next_trace_mask();
+        let cube_252_output_limb_8_col162 = eval.next_trace_mask();
+        let cube_252_output_limb_9_col163 = eval.next_trace_mask();
+        let combination_limb_0_col164 = eval.next_trace_mask();
+        let combination_limb_1_col165 = eval.next_trace_mask();
+        let combination_limb_2_col166 = eval.next_trace_mask();
+        let combination_limb_3_col167 = eval.next_trace_mask();
+        let combination_limb_4_col168 = eval.next_trace_mask();
+        let combination_limb_5_col169 = eval.next_trace_mask();
+        let combination_limb_6_col170 = eval.next_trace_mask();
+        let combination_limb_7_col171 = eval.next_trace_mask();
+        let combination_limb_8_col172 = eval.next_trace_mask();
+        let combination_limb_9_col173 = eval.next_trace_mask();
+        let p_coef_col174 = eval.next_trace_mask();
+        let cube_252_output_limb_0_col175 = eval.next_trace_mask();
+        let cube_252_output_limb_1_col176 = eval.next_trace_mask();
+        let cube_252_output_limb_2_col177 = eval.next_trace_mask();
+        let cube_252_output_limb_3_col178 = eval.next_trace_mask();
+        let cube_252_output_limb_4_col179 = eval.next_trace_mask();
+        let cube_252_output_limb_5_col180 = eval.next_trace_mask();
+        let cube_252_output_limb_6_col181 = eval.next_trace_mask();
+        let cube_252_output_limb_7_col182 = eval.next_trace_mask();
+        let cube_252_output_limb_8_col183 = eval.next_trace_mask();
+        let cube_252_output_limb_9_col184 = eval.next_trace_mask();
+        let combination_limb_0_col185 = eval.next_trace_mask();
+        let combination_limb_1_col186 = eval.next_trace_mask();
+        let combination_limb_2_col187 = eval.next_trace_mask();
+        let combination_limb_3_col188 = eval.next_trace_mask();
+        let combination_limb_4_col189 = eval.next_trace_mask();
+        let combination_limb_5_col190 = eval.next_trace_mask();
+        let combination_limb_6_col191 = eval.next_trace_mask();
+        let combination_limb_7_col192 = eval.next_trace_mask();
+        let combination_limb_8_col193 = eval.next_trace_mask();
+        let combination_limb_9_col194 = eval.next_trace_mask();
+        let p_coef_col195 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_0_col196 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_1_col197 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_2_col198 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_3_col199 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_4_col200 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_5_col201 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_6_col202 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_7_col203 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_8_col204 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_9_col205 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_10_col206 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_11_col207 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_12_col208 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_13_col209 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_14_col210 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_15_col211 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_16_col212 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_17_col213 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_18_col214 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_19_col215 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_20_col216 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_21_col217 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_22_col218 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_23_col219 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_24_col220 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_25_col221 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_26_col222 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_27_col223 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_28_col224 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_29_col225 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_30_col226 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_31_col227 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_32_col228 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_33_col229 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_34_col230 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_35_col231 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_36_col232 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_37_col233 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_38_col234 = eval.next_trace_mask();
+        let poseidon_3_partial_rounds_chain_output_limb_39_col235 = eval.next_trace_mask();
+        let combination_limb_0_col236 = eval.next_trace_mask();
+        let combination_limb_1_col237 = eval.next_trace_mask();
+        let combination_limb_2_col238 = eval.next_trace_mask();
+        let combination_limb_3_col239 = eval.next_trace_mask();
+        let combination_limb_4_col240 = eval.next_trace_mask();
+        let combination_limb_5_col241 = eval.next_trace_mask();
+        let combination_limb_6_col242 = eval.next_trace_mask();
+        let combination_limb_7_col243 = eval.next_trace_mask();
+        let combination_limb_8_col244 = eval.next_trace_mask();
+        let combination_limb_9_col245 = eval.next_trace_mask();
+        let p_coef_col246 = eval.next_trace_mask();
+        let combination_limb_0_col247 = eval.next_trace_mask();
+        let combination_limb_1_col248 = eval.next_trace_mask();
+        let combination_limb_2_col249 = eval.next_trace_mask();
+        let combination_limb_3_col250 = eval.next_trace_mask();
+        let combination_limb_4_col251 = eval.next_trace_mask();
+        let combination_limb_5_col252 = eval.next_trace_mask();
+        let combination_limb_6_col253 = eval.next_trace_mask();
+        let combination_limb_7_col254 = eval.next_trace_mask();
+        let combination_limb_8_col255 = eval.next_trace_mask();
+        let combination_limb_9_col256 = eval.next_trace_mask();
+        let p_coef_col257 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_0_col258 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_1_col259 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_2_col260 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_3_col261 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_4_col262 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_5_col263 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_6_col264 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_7_col265 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_8_col266 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_9_col267 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_10_col268 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_11_col269 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_12_col270 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_13_col271 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_14_col272 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_15_col273 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_16_col274 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_17_col275 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_18_col276 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_19_col277 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_20_col278 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_21_col279 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_22_col280 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_23_col281 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_24_col282 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_25_col283 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_26_col284 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_27_col285 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_28_col286 = eval.next_trace_mask();
+        let poseidon_full_round_chain_output_limb_29_col287 = eval.next_trace_mask();
+        let unpacked_limb_0_col288 = eval.next_trace_mask();
+        let unpacked_limb_1_col289 = eval.next_trace_mask();
+        let unpacked_limb_3_col290 = eval.next_trace_mask();
+        let unpacked_limb_4_col291 = eval.next_trace_mask();
+        let unpacked_limb_6_col292 = eval.next_trace_mask();
+        let unpacked_limb_7_col293 = eval.next_trace_mask();
+        let unpacked_limb_9_col294 = eval.next_trace_mask();
+        let unpacked_limb_10_col295 = eval.next_trace_mask();
+        let unpacked_limb_12_col296 = eval.next_trace_mask();
+        let unpacked_limb_13_col297 = eval.next_trace_mask();
+        let unpacked_limb_15_col298 = eval.next_trace_mask();
+        let unpacked_limb_16_col299 = eval.next_trace_mask();
+        let unpacked_limb_18_col300 = eval.next_trace_mask();
+        let unpacked_limb_19_col301 = eval.next_trace_mask();
+        let unpacked_limb_21_col302 = eval.next_trace_mask();
+        let unpacked_limb_22_col303 = eval.next_trace_mask();
+        let unpacked_limb_24_col304 = eval.next_trace_mask();
+        let unpacked_limb_25_col305 = eval.next_trace_mask();
+        let unpacked_limb_0_col306 = eval.next_trace_mask();
+        let unpacked_limb_1_col307 = eval.next_trace_mask();
+        let unpacked_limb_3_col308 = eval.next_trace_mask();
+        let unpacked_limb_4_col309 = eval.next_trace_mask();
+        let unpacked_limb_6_col310 = eval.next_trace_mask();
+        let unpacked_limb_7_col311 = eval.next_trace_mask();
+        let unpacked_limb_9_col312 = eval.next_trace_mask();
+        let unpacked_limb_10_col313 = eval.next_trace_mask();
+        let unpacked_limb_12_col314 = eval.next_trace_mask();
+        let unpacked_limb_13_col315 = eval.next_trace_mask();
+        let unpacked_limb_15_col316 = eval.next_trace_mask();
+        let unpacked_limb_16_col317 = eval.next_trace_mask();
+        let unpacked_limb_18_col318 = eval.next_trace_mask();
+        let unpacked_limb_19_col319 = eval.next_trace_mask();
+        let unpacked_limb_21_col320 = eval.next_trace_mask();
+        let unpacked_limb_22_col321 = eval.next_trace_mask();
+        let unpacked_limb_24_col322 = eval.next_trace_mask();
+        let unpacked_limb_25_col323 = eval.next_trace_mask();
+        let unpacked_limb_0_col324 = eval.next_trace_mask();
+        let unpacked_limb_1_col325 = eval.next_trace_mask();
+        let unpacked_limb_3_col326 = eval.next_trace_mask();
+        let unpacked_limb_4_col327 = eval.next_trace_mask();
+        let unpacked_limb_6_col328 = eval.next_trace_mask();
+        let unpacked_limb_7_col329 = eval.next_trace_mask();
+        let unpacked_limb_9_col330 = eval.next_trace_mask();
+        let unpacked_limb_10_col331 = eval.next_trace_mask();
+        let unpacked_limb_12_col332 = eval.next_trace_mask();
+        let unpacked_limb_13_col333 = eval.next_trace_mask();
+        let unpacked_limb_15_col334 = eval.next_trace_mask();
+        let unpacked_limb_16_col335 = eval.next_trace_mask();
+        let unpacked_limb_18_col336 = eval.next_trace_mask();
+        let unpacked_limb_19_col337 = eval.next_trace_mask();
+        let unpacked_limb_21_col338 = eval.next_trace_mask();
+        let unpacked_limb_22_col339 = eval.next_trace_mask();
+        let unpacked_limb_24_col340 = eval.next_trace_mask();
+        let unpacked_limb_25_col341 = eval.next_trace_mask();
+
+        ReadPositiveKnownIdNumBits252::evaluate(
+            [input_limb_0_col1.clone()],
+            M31_1.clone(),
+            value_limb_0_col7.clone(),
+            value_limb_1_col8.clone(),
+            value_limb_2_col9.clone(),
+            value_limb_3_col10.clone(),
+            value_limb_4_col11.clone(),
+            value_limb_5_col12.clone(),
+            value_limb_6_col13.clone(),
+            value_limb_7_col14.clone(),
+            value_limb_8_col15.clone(),
+            value_limb_9_col16.clone(),
+            value_limb_10_col17.clone(),
+            value_limb_11_col18.clone(),
+            value_limb_12_col19.clone(),
+            value_limb_13_col20.clone(),
+            value_limb_14_col21.clone(),
+            value_limb_15_col22.clone(),
+            value_limb_16_col23.clone(),
+            value_limb_17_col24.clone(),
+            value_limb_18_col25.clone(),
+            value_limb_19_col26.clone(),
+            value_limb_20_col27.clone(),
+            value_limb_21_col28.clone(),
+            value_limb_22_col29.clone(),
+            value_limb_23_col30.clone(),
+            value_limb_24_col31.clone(),
+            value_limb_25_col32.clone(),
+            value_limb_26_col33.clone(),
+            value_limb_27_col34.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_0 = eval.add_intermediate(
+            ((value_limb_0_col7.clone() + (value_limb_1_col8.clone() * M31_512.clone()))
+                + (value_limb_2_col9.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_1 = eval.add_intermediate(
+            ((value_limb_3_col10.clone() + (value_limb_4_col11.clone() * M31_512.clone()))
+                + (value_limb_5_col12.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_2 = eval.add_intermediate(
+            ((value_limb_6_col13.clone() + (value_limb_7_col14.clone() * M31_512.clone()))
+                + (value_limb_8_col15.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_3 = eval.add_intermediate(
+            ((value_limb_9_col16.clone() + (value_limb_10_col17.clone() * M31_512.clone()))
+                + (value_limb_11_col18.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_4 = eval.add_intermediate(
+            ((value_limb_12_col19.clone() + (value_limb_13_col20.clone() * M31_512.clone()))
+                + (value_limb_14_col21.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_5 = eval.add_intermediate(
+            ((value_limb_15_col22.clone() + (value_limb_16_col23.clone() * M31_512.clone()))
+                + (value_limb_17_col24.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_6 = eval.add_intermediate(
+            ((value_limb_18_col25.clone() + (value_limb_19_col26.clone() * M31_512.clone()))
+                + (value_limb_20_col27.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_7 = eval.add_intermediate(
+            ((value_limb_21_col28.clone() + (value_limb_22_col29.clone() * M31_512.clone()))
+                + (value_limb_23_col30.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_0_tmp_3806f_2_limb_8 = eval.add_intermediate(
+            ((value_limb_24_col31.clone() + (value_limb_25_col32.clone() * M31_512.clone()))
+                + (value_limb_26_col33.clone() * M31_262144.clone())),
+        );
+        ReadPositiveKnownIdNumBits252::evaluate(
+            [input_limb_1_col2.clone()],
+            M31_1.clone(),
+            value_limb_0_col35.clone(),
+            value_limb_1_col36.clone(),
+            value_limb_2_col37.clone(),
+            value_limb_3_col38.clone(),
+            value_limb_4_col39.clone(),
+            value_limb_5_col40.clone(),
+            value_limb_6_col41.clone(),
+            value_limb_7_col42.clone(),
+            value_limb_8_col43.clone(),
+            value_limb_9_col44.clone(),
+            value_limb_10_col45.clone(),
+            value_limb_11_col46.clone(),
+            value_limb_12_col47.clone(),
+            value_limb_13_col48.clone(),
+            value_limb_14_col49.clone(),
+            value_limb_15_col50.clone(),
+            value_limb_16_col51.clone(),
+            value_limb_17_col52.clone(),
+            value_limb_18_col53.clone(),
+            value_limb_19_col54.clone(),
+            value_limb_20_col55.clone(),
+            value_limb_21_col56.clone(),
+            value_limb_22_col57.clone(),
+            value_limb_23_col58.clone(),
+            value_limb_24_col59.clone(),
+            value_limb_25_col60.clone(),
+            value_limb_26_col61.clone(),
+            value_limb_27_col62.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_0 = eval.add_intermediate(
+            ((value_limb_0_col35.clone() + (value_limb_1_col36.clone() * M31_512.clone()))
+                + (value_limb_2_col37.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_1 = eval.add_intermediate(
+            ((value_limb_3_col38.clone() + (value_limb_4_col39.clone() * M31_512.clone()))
+                + (value_limb_5_col40.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_2 = eval.add_intermediate(
+            ((value_limb_6_col41.clone() + (value_limb_7_col42.clone() * M31_512.clone()))
+                + (value_limb_8_col43.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_3 = eval.add_intermediate(
+            ((value_limb_9_col44.clone() + (value_limb_10_col45.clone() * M31_512.clone()))
+                + (value_limb_11_col46.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_4 = eval.add_intermediate(
+            ((value_limb_12_col47.clone() + (value_limb_13_col48.clone() * M31_512.clone()))
+                + (value_limb_14_col49.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_5 = eval.add_intermediate(
+            ((value_limb_15_col50.clone() + (value_limb_16_col51.clone() * M31_512.clone()))
+                + (value_limb_17_col52.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_6 = eval.add_intermediate(
+            ((value_limb_18_col53.clone() + (value_limb_19_col54.clone() * M31_512.clone()))
+                + (value_limb_20_col55.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_7 = eval.add_intermediate(
+            ((value_limb_21_col56.clone() + (value_limb_22_col57.clone() * M31_512.clone()))
+                + (value_limb_23_col58.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_1_tmp_3806f_5_limb_8 = eval.add_intermediate(
+            ((value_limb_24_col59.clone() + (value_limb_25_col60.clone() * M31_512.clone()))
+                + (value_limb_26_col61.clone() * M31_262144.clone())),
+        );
+        ReadPositiveKnownIdNumBits252::evaluate(
+            [input_limb_2_col3.clone()],
+            M31_1.clone(),
+            value_limb_0_col63.clone(),
+            value_limb_1_col64.clone(),
+            value_limb_2_col65.clone(),
+            value_limb_3_col66.clone(),
+            value_limb_4_col67.clone(),
+            value_limb_5_col68.clone(),
+            value_limb_6_col69.clone(),
+            value_limb_7_col70.clone(),
+            value_limb_8_col71.clone(),
+            value_limb_9_col72.clone(),
+            value_limb_10_col73.clone(),
+            value_limb_11_col74.clone(),
+            value_limb_12_col75.clone(),
+            value_limb_13_col76.clone(),
+            value_limb_14_col77.clone(),
+            value_limb_15_col78.clone(),
+            value_limb_16_col79.clone(),
+            value_limb_17_col80.clone(),
+            value_limb_18_col81.clone(),
+            value_limb_19_col82.clone(),
+            value_limb_20_col83.clone(),
+            value_limb_21_col84.clone(),
+            value_limb_22_col85.clone(),
+            value_limb_23_col86.clone(),
+            value_limb_24_col87.clone(),
+            value_limb_25_col88.clone(),
+            value_limb_26_col89.clone(),
+            value_limb_27_col90.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_0 = eval.add_intermediate(
+            ((value_limb_0_col63.clone() + (value_limb_1_col64.clone() * M31_512.clone()))
+                + (value_limb_2_col65.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_1 = eval.add_intermediate(
+            ((value_limb_3_col66.clone() + (value_limb_4_col67.clone() * M31_512.clone()))
+                + (value_limb_5_col68.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_2 = eval.add_intermediate(
+            ((value_limb_6_col69.clone() + (value_limb_7_col70.clone() * M31_512.clone()))
+                + (value_limb_8_col71.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_3 = eval.add_intermediate(
+            ((value_limb_9_col72.clone() + (value_limb_10_col73.clone() * M31_512.clone()))
+                + (value_limb_11_col74.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_4 = eval.add_intermediate(
+            ((value_limb_12_col75.clone() + (value_limb_13_col76.clone() * M31_512.clone()))
+                + (value_limb_14_col77.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_5 = eval.add_intermediate(
+            ((value_limb_15_col78.clone() + (value_limb_16_col79.clone() * M31_512.clone()))
+                + (value_limb_17_col80.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_6 = eval.add_intermediate(
+            ((value_limb_18_col81.clone() + (value_limb_19_col82.clone() * M31_512.clone()))
+                + (value_limb_20_col83.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_7 = eval.add_intermediate(
+            ((value_limb_21_col84.clone() + (value_limb_22_col85.clone() * M31_512.clone()))
+                + (value_limb_23_col86.clone() * M31_262144.clone())),
+        );
+        let packed_input_state_2_tmp_3806f_8_limb_8 = eval.add_intermediate(
+            ((value_limb_24_col87.clone() + (value_limb_25_col88.clone() * M31_512.clone()))
+                + (value_limb_26_col89.clone() * M31_262144.clone())),
+        );
+        PoseidonHadesPermutation::evaluate(
+            [
+                packed_input_state_0_tmp_3806f_2_limb_0.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_1.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_2.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_3.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_4.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_5.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_6.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_7.clone(),
+                packed_input_state_0_tmp_3806f_2_limb_8.clone(),
+                value_limb_27_col34.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_0.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_1.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_2.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_3.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_4.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_5.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_6.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_7.clone(),
+                packed_input_state_1_tmp_3806f_5_limb_8.clone(),
+                value_limb_27_col62.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_0.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_1.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_2.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_3.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_4.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_5.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_6.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_7.clone(),
+                packed_input_state_2_tmp_3806f_8_limb_8.clone(),
+                value_limb_27_col90.clone(),
+            ],
+            M31_1.clone(),
+            combination_limb_0_col91.clone(),
+            combination_limb_1_col92.clone(),
+            combination_limb_2_col93.clone(),
+            combination_limb_3_col94.clone(),
+            combination_limb_4_col95.clone(),
+            combination_limb_5_col96.clone(),
+            combination_limb_6_col97.clone(),
+            combination_limb_7_col98.clone(),
+            combination_limb_8_col99.clone(),
+            combination_limb_9_col100.clone(),
+            p_coef_col101.clone(),
+            combination_limb_0_col102.clone(),
+            combination_limb_1_col103.clone(),
+            combination_limb_2_col104.clone(),
+            combination_limb_3_col105.clone(),
+            combination_limb_4_col106.clone(),
+            combination_limb_5_col107.clone(),
+            combination_limb_6_col108.clone(),
+            combination_limb_7_col109.clone(),
+            combination_limb_8_col110.clone(),
+            combination_limb_9_col111.clone(),
+            p_coef_col112.clone(),
+            combination_limb_0_col113.clone(),
+            combination_limb_1_col114.clone(),
+            combination_limb_2_col115.clone(),
+            combination_limb_3_col116.clone(),
+            combination_limb_4_col117.clone(),
+            combination_limb_5_col118.clone(),
+            combination_limb_6_col119.clone(),
+            combination_limb_7_col120.clone(),
+            combination_limb_8_col121.clone(),
+            combination_limb_9_col122.clone(),
+            p_coef_col123.clone(),
+            poseidon_full_round_chain_output_limb_0_col124.clone(),
+            poseidon_full_round_chain_output_limb_1_col125.clone(),
+            poseidon_full_round_chain_output_limb_2_col126.clone(),
+            poseidon_full_round_chain_output_limb_3_col127.clone(),
+            poseidon_full_round_chain_output_limb_4_col128.clone(),
+            poseidon_full_round_chain_output_limb_5_col129.clone(),
+            poseidon_full_round_chain_output_limb_6_col130.clone(),
+            poseidon_full_round_chain_output_limb_7_col131.clone(),
+            poseidon_full_round_chain_output_limb_8_col132.clone(),
+            poseidon_full_round_chain_output_limb_9_col133.clone(),
+            poseidon_full_round_chain_output_limb_10_col134.clone(),
+            poseidon_full_round_chain_output_limb_11_col135.clone(),
+            poseidon_full_round_chain_output_limb_12_col136.clone(),
+            poseidon_full_round_chain_output_limb_13_col137.clone(),
+            poseidon_full_round_chain_output_limb_14_col138.clone(),
+            poseidon_full_round_chain_output_limb_15_col139.clone(),
+            poseidon_full_round_chain_output_limb_16_col140.clone(),
+            poseidon_full_round_chain_output_limb_17_col141.clone(),
+            poseidon_full_round_chain_output_limb_18_col142.clone(),
+            poseidon_full_round_chain_output_limb_19_col143.clone(),
+            poseidon_full_round_chain_output_limb_20_col144.clone(),
+            poseidon_full_round_chain_output_limb_21_col145.clone(),
+            poseidon_full_round_chain_output_limb_22_col146.clone(),
+            poseidon_full_round_chain_output_limb_23_col147.clone(),
+            poseidon_full_round_chain_output_limb_24_col148.clone(),
+            poseidon_full_round_chain_output_limb_25_col149.clone(),
+            poseidon_full_round_chain_output_limb_26_col150.clone(),
+            poseidon_full_round_chain_output_limb_27_col151.clone(),
+            poseidon_full_round_chain_output_limb_28_col152.clone(),
+            poseidon_full_round_chain_output_limb_29_col153.clone(),
+            cube_252_output_limb_0_col154.clone(),
+            cube_252_output_limb_1_col155.clone(),
+            cube_252_output_limb_2_col156.clone(),
+            cube_252_output_limb_3_col157.clone(),
+            cube_252_output_limb_4_col158.clone(),
+            cube_252_output_limb_5_col159.clone(),
+            cube_252_output_limb_6_col160.clone(),
+            cube_252_output_limb_7_col161.clone(),
+            cube_252_output_limb_8_col162.clone(),
+            cube_252_output_limb_9_col163.clone(),
+            combination_limb_0_col164.clone(),
+            combination_limb_1_col165.clone(),
+            combination_limb_2_col166.clone(),
+            combination_limb_3_col167.clone(),
+            combination_limb_4_col168.clone(),
+            combination_limb_5_col169.clone(),
+            combination_limb_6_col170.clone(),
+            combination_limb_7_col171.clone(),
+            combination_limb_8_col172.clone(),
+            combination_limb_9_col173.clone(),
+            p_coef_col174.clone(),
+            cube_252_output_limb_0_col175.clone(),
+            cube_252_output_limb_1_col176.clone(),
+            cube_252_output_limb_2_col177.clone(),
+            cube_252_output_limb_3_col178.clone(),
+            cube_252_output_limb_4_col179.clone(),
+            cube_252_output_limb_5_col180.clone(),
+            cube_252_output_limb_6_col181.clone(),
+            cube_252_output_limb_7_col182.clone(),
+            cube_252_output_limb_8_col183.clone(),
+            cube_252_output_limb_9_col184.clone(),
+            combination_limb_0_col185.clone(),
+            combination_limb_1_col186.clone(),
+            combination_limb_2_col187.clone(),
+            combination_limb_3_col188.clone(),
+            combination_limb_4_col189.clone(),
+            combination_limb_5_col190.clone(),
+            combination_limb_6_col191.clone(),
+            combination_limb_7_col192.clone(),
+            combination_limb_8_col193.clone(),
+            combination_limb_9_col194.clone(),
+            p_coef_col195.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_0_col196.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_1_col197.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_2_col198.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_3_col199.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_4_col200.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_5_col201.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_6_col202.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_7_col203.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_8_col204.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_9_col205.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_10_col206.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_11_col207.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_12_col208.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_13_col209.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_14_col210.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_15_col211.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_16_col212.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_17_col213.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_18_col214.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_19_col215.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_20_col216.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_21_col217.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_22_col218.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_23_col219.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_24_col220.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_25_col221.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_26_col222.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_27_col223.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_28_col224.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_29_col225.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_30_col226.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_31_col227.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_32_col228.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_33_col229.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_34_col230.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_35_col231.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_36_col232.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_37_col233.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_38_col234.clone(),
+            poseidon_3_partial_rounds_chain_output_limb_39_col235.clone(),
+            combination_limb_0_col236.clone(),
+            combination_limb_1_col237.clone(),
+            combination_limb_2_col238.clone(),
+            combination_limb_3_col239.clone(),
+            combination_limb_4_col240.clone(),
+            combination_limb_5_col241.clone(),
+            combination_limb_6_col242.clone(),
+            combination_limb_7_col243.clone(),
+            combination_limb_8_col244.clone(),
+            combination_limb_9_col245.clone(),
+            p_coef_col246.clone(),
+            combination_limb_0_col247.clone(),
+            combination_limb_1_col248.clone(),
+            combination_limb_2_col249.clone(),
+            combination_limb_3_col250.clone(),
+            combination_limb_4_col251.clone(),
+            combination_limb_5_col252.clone(),
+            combination_limb_6_col253.clone(),
+            combination_limb_7_col254.clone(),
+            combination_limb_8_col255.clone(),
+            combination_limb_9_col256.clone(),
+            p_coef_col257.clone(),
+            poseidon_full_round_chain_output_limb_0_col258.clone(),
+            poseidon_full_round_chain_output_limb_1_col259.clone(),
+            poseidon_full_round_chain_output_limb_2_col260.clone(),
+            poseidon_full_round_chain_output_limb_3_col261.clone(),
+            poseidon_full_round_chain_output_limb_4_col262.clone(),
+            poseidon_full_round_chain_output_limb_5_col263.clone(),
+            poseidon_full_round_chain_output_limb_6_col264.clone(),
+            poseidon_full_round_chain_output_limb_7_col265.clone(),
+            poseidon_full_round_chain_output_limb_8_col266.clone(),
+            poseidon_full_round_chain_output_limb_9_col267.clone(),
+            poseidon_full_round_chain_output_limb_10_col268.clone(),
+            poseidon_full_round_chain_output_limb_11_col269.clone(),
+            poseidon_full_round_chain_output_limb_12_col270.clone(),
+            poseidon_full_round_chain_output_limb_13_col271.clone(),
+            poseidon_full_round_chain_output_limb_14_col272.clone(),
+            poseidon_full_round_chain_output_limb_15_col273.clone(),
+            poseidon_full_round_chain_output_limb_16_col274.clone(),
+            poseidon_full_round_chain_output_limb_17_col275.clone(),
+            poseidon_full_round_chain_output_limb_18_col276.clone(),
+            poseidon_full_round_chain_output_limb_19_col277.clone(),
+            poseidon_full_round_chain_output_limb_20_col278.clone(),
+            poseidon_full_round_chain_output_limb_21_col279.clone(),
+            poseidon_full_round_chain_output_limb_22_col280.clone(),
+            poseidon_full_round_chain_output_limb_23_col281.clone(),
+            poseidon_full_round_chain_output_limb_24_col282.clone(),
+            poseidon_full_round_chain_output_limb_25_col283.clone(),
+            poseidon_full_round_chain_output_limb_26_col284.clone(),
+            poseidon_full_round_chain_output_limb_27_col285.clone(),
+            poseidon_full_round_chain_output_limb_28_col286.clone(),
+            poseidon_full_round_chain_output_limb_29_col287.clone(),
+            &self.common_lookup_elements,
+            seq.clone(),
+            &mut eval,
+        );
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_2,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_5,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_8,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_11,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_14,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_17,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_20,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_23,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_26,
+            felt_252_unpack_from_27_output_tmp_3806f_162_limb_27,
+        ] = Felt252UnpackFrom27::evaluate(
+            [
+                poseidon_full_round_chain_output_limb_0_col258.clone(),
+                poseidon_full_round_chain_output_limb_1_col259.clone(),
+                poseidon_full_round_chain_output_limb_2_col260.clone(),
+                poseidon_full_round_chain_output_limb_3_col261.clone(),
+                poseidon_full_round_chain_output_limb_4_col262.clone(),
+                poseidon_full_round_chain_output_limb_5_col263.clone(),
+                poseidon_full_round_chain_output_limb_6_col264.clone(),
+                poseidon_full_round_chain_output_limb_7_col265.clone(),
+                poseidon_full_round_chain_output_limb_8_col266.clone(),
+                poseidon_full_round_chain_output_limb_9_col267.clone(),
+            ],
+            M31_1.clone(),
+            unpacked_limb_0_col288.clone(),
+            unpacked_limb_1_col289.clone(),
+            unpacked_limb_3_col290.clone(),
+            unpacked_limb_4_col291.clone(),
+            unpacked_limb_6_col292.clone(),
+            unpacked_limb_7_col293.clone(),
+            unpacked_limb_9_col294.clone(),
+            unpacked_limb_10_col295.clone(),
+            unpacked_limb_12_col296.clone(),
+            unpacked_limb_13_col297.clone(),
+            unpacked_limb_15_col298.clone(),
+            unpacked_limb_16_col299.clone(),
+            unpacked_limb_18_col300.clone(),
+            unpacked_limb_19_col301.clone(),
+            unpacked_limb_21_col302.clone(),
+            unpacked_limb_22_col303.clone(),
+            unpacked_limb_24_col304.clone(),
+            unpacked_limb_25_col305.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            E::EF::from(M31_1.clone()),
+            &[
+                M31_1662111297.clone(),
+                input_limb_3_col4.clone(),
+                unpacked_limb_0_col288.clone(),
+                unpacked_limb_1_col289.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_2.clone(),
+                unpacked_limb_3_col290.clone(),
+                unpacked_limb_4_col291.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_5.clone(),
+                unpacked_limb_6_col292.clone(),
+                unpacked_limb_7_col293.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_8.clone(),
+                unpacked_limb_9_col294.clone(),
+                unpacked_limb_10_col295.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_11.clone(),
+                unpacked_limb_12_col296.clone(),
+                unpacked_limb_13_col297.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_14.clone(),
+                unpacked_limb_15_col298.clone(),
+                unpacked_limb_16_col299.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_17.clone(),
+                unpacked_limb_18_col300.clone(),
+                unpacked_limb_19_col301.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_20.clone(),
+                unpacked_limb_21_col302.clone(),
+                unpacked_limb_22_col303.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_23.clone(),
+                unpacked_limb_24_col304.clone(),
+                unpacked_limb_25_col305.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_162_limb_26.clone(),
+                poseidon_full_round_chain_output_limb_9_col267.clone(),
+            ],
+        ));
+
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_2,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_5,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_8,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_11,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_14,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_17,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_20,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_23,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_26,
+            felt_252_unpack_from_27_output_tmp_3806f_164_limb_27,
+        ] = Felt252UnpackFrom27::evaluate(
+            [
+                poseidon_full_round_chain_output_limb_10_col268.clone(),
+                poseidon_full_round_chain_output_limb_11_col269.clone(),
+                poseidon_full_round_chain_output_limb_12_col270.clone(),
+                poseidon_full_round_chain_output_limb_13_col271.clone(),
+                poseidon_full_round_chain_output_limb_14_col272.clone(),
+                poseidon_full_round_chain_output_limb_15_col273.clone(),
+                poseidon_full_round_chain_output_limb_16_col274.clone(),
+                poseidon_full_round_chain_output_limb_17_col275.clone(),
+                poseidon_full_round_chain_output_limb_18_col276.clone(),
+                poseidon_full_round_chain_output_limb_19_col277.clone(),
+            ],
+            M31_1.clone(),
+            unpacked_limb_0_col306.clone(),
+            unpacked_limb_1_col307.clone(),
+            unpacked_limb_3_col308.clone(),
+            unpacked_limb_4_col309.clone(),
+            unpacked_limb_6_col310.clone(),
+            unpacked_limb_7_col311.clone(),
+            unpacked_limb_9_col312.clone(),
+            unpacked_limb_10_col313.clone(),
+            unpacked_limb_12_col314.clone(),
+            unpacked_limb_13_col315.clone(),
+            unpacked_limb_15_col316.clone(),
+            unpacked_limb_16_col317.clone(),
+            unpacked_limb_18_col318.clone(),
+            unpacked_limb_19_col319.clone(),
+            unpacked_limb_21_col320.clone(),
+            unpacked_limb_22_col321.clone(),
+            unpacked_limb_24_col322.clone(),
+            unpacked_limb_25_col323.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            E::EF::from(M31_1.clone()),
+            &[
+                M31_1662111297.clone(),
+                input_limb_4_col5.clone(),
+                unpacked_limb_0_col306.clone(),
+                unpacked_limb_1_col307.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_2.clone(),
+                unpacked_limb_3_col308.clone(),
+                unpacked_limb_4_col309.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_5.clone(),
+                unpacked_limb_6_col310.clone(),
+                unpacked_limb_7_col311.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_8.clone(),
+                unpacked_limb_9_col312.clone(),
+                unpacked_limb_10_col313.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_11.clone(),
+                unpacked_limb_12_col314.clone(),
+                unpacked_limb_13_col315.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_14.clone(),
+                unpacked_limb_15_col316.clone(),
+                unpacked_limb_16_col317.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_17.clone(),
+                unpacked_limb_18_col318.clone(),
+                unpacked_limb_19_col319.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_20.clone(),
+                unpacked_limb_21_col320.clone(),
+                unpacked_limb_22_col321.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_23.clone(),
+                unpacked_limb_24_col322.clone(),
+                unpacked_limb_25_col323.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_164_limb_26.clone(),
+                poseidon_full_round_chain_output_limb_19_col277.clone(),
+            ],
+        ));
+
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_2,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_5,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_8,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_11,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_14,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_17,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_20,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_23,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_26,
+            felt_252_unpack_from_27_output_tmp_3806f_166_limb_27,
+        ] = Felt252UnpackFrom27::evaluate(
+            [
+                poseidon_full_round_chain_output_limb_20_col278.clone(),
+                poseidon_full_round_chain_output_limb_21_col279.clone(),
+                poseidon_full_round_chain_output_limb_22_col280.clone(),
+                poseidon_full_round_chain_output_limb_23_col281.clone(),
+                poseidon_full_round_chain_output_limb_24_col282.clone(),
+                poseidon_full_round_chain_output_limb_25_col283.clone(),
+                poseidon_full_round_chain_output_limb_26_col284.clone(),
+                poseidon_full_round_chain_output_limb_27_col285.clone(),
+                poseidon_full_round_chain_output_limb_28_col286.clone(),
+                poseidon_full_round_chain_output_limb_29_col287.clone(),
+            ],
+            M31_1.clone(),
+            unpacked_limb_0_col324.clone(),
+            unpacked_limb_1_col325.clone(),
+            unpacked_limb_3_col326.clone(),
+            unpacked_limb_4_col327.clone(),
+            unpacked_limb_6_col328.clone(),
+            unpacked_limb_7_col329.clone(),
+            unpacked_limb_9_col330.clone(),
+            unpacked_limb_10_col331.clone(),
+            unpacked_limb_12_col332.clone(),
+            unpacked_limb_13_col333.clone(),
+            unpacked_limb_15_col334.clone(),
+            unpacked_limb_16_col335.clone(),
+            unpacked_limb_18_col336.clone(),
+            unpacked_limb_19_col337.clone(),
+            unpacked_limb_21_col338.clone(),
+            unpacked_limb_22_col339.clone(),
+            unpacked_limb_24_col340.clone(),
+            unpacked_limb_25_col341.clone(),
+            &self.common_lookup_elements,
+            &mut eval,
+        );
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            E::EF::from(M31_1.clone()),
+            &[
+                M31_1662111297.clone(),
+                input_limb_5_col6.clone(),
+                unpacked_limb_0_col324.clone(),
+                unpacked_limb_1_col325.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_2.clone(),
+                unpacked_limb_3_col326.clone(),
+                unpacked_limb_4_col327.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_5.clone(),
+                unpacked_limb_6_col328.clone(),
+                unpacked_limb_7_col329.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_8.clone(),
+                unpacked_limb_9_col330.clone(),
+                unpacked_limb_10_col331.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_11.clone(),
+                unpacked_limb_12_col332.clone(),
+                unpacked_limb_13_col333.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_14.clone(),
+                unpacked_limb_15_col334.clone(),
+                unpacked_limb_16_col335.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_17.clone(),
+                unpacked_limb_18_col336.clone(),
+                unpacked_limb_19_col337.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_20.clone(),
+                unpacked_limb_21_col338.clone(),
+                unpacked_limb_22_col339.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_23.clone(),
+                unpacked_limb_24_col340.clone(),
+                unpacked_limb_25_col341.clone(),
+                felt_252_unpack_from_27_output_tmp_3806f_166_limb_26.clone(),
+                poseidon_full_round_chain_output_limb_29_col287.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_0_col0.clone()),
+            &[
+                M31_1551892206.clone(),
+                input_limb_0_col1.clone(),
+                input_limb_1_col2.clone(),
+                input_limb_2_col3.clone(),
+                input_limb_3_col4.clone(),
+                input_limb_4_col5.clone(),
+                input_limb_5_col6.clone(),
+            ],
+        ));
+
+        eval.finalize_logup_in_pairs();
+        eval
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use num_traits::Zero;
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
+    use stwo::core::fields::qm31::QM31;
+    use stwo_constraint_framework::expr::ExprEvaluator;
+
+    use super::*;
+
+    #[test]
+    fn poseidon_aggregator_constraints_regression() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let eval = Eval {
+            claim: Claim { log_size: 4 },
+            common_lookup_elements: relations::CommonLookupElements::dummy(),
+        };
+        let expr_eval = eval.evaluate(ExprEvaluator::new());
+        let assignment = expr_eval.random_assignment();
+
+        let mut sum = QM31::zero();
+        for c in expr_eval.constraints {
+            sum += c.assign(&assignment) * rng.random::<QM31>();
+        }
+
+        constraints_regression_test_values::POSEIDON_AGGREGATOR.assert_debug_eq(&sum);
+    }
+}

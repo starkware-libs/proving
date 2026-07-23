@@ -1,0 +1,48 @@
+// This file was created by the AIR team.
+
+use subroutines::read_id::ReadId;
+use subroutines::read_positive_known_id_num_bits_36::ReadPositiveKnownIdNumBits36;
+
+use crate::components::prelude::*;
+
+#[derive(Copy, Clone)]
+pub struct ReadPositiveNumBits36 {}
+
+impl ReadPositiveNumBits36 {
+    #[allow(unused_parens)]
+    #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
+    #[allow(clippy::unused_unit)]
+    #[allow(unused_variables)]
+    #[allow(clippy::too_many_arguments)]
+    pub fn evaluate<E: EvalAtRow>(
+        [read_positive_num_bits_36_input]: [E::F; 1],
+        enabler: E::F,
+        id_col0: E::F,
+        value_limb_0_col1: E::F,
+        value_limb_1_col2: E::F,
+        value_limb_2_col3: E::F,
+        value_limb_3_col4: E::F,
+        common_lookup_elements: &relations::CommonLookupElements,
+        eval: &mut E,
+    ) -> [E::F; 0] {
+        ReadId::evaluate(
+            [read_positive_num_bits_36_input.clone()],
+            enabler.clone(),
+            id_col0.clone(),
+            common_lookup_elements,
+            eval,
+        );
+        ReadPositiveKnownIdNumBits36::evaluate(
+            [id_col0.clone()],
+            enabler.clone(),
+            value_limb_0_col1.clone(),
+            value_limb_1_col2.clone(),
+            value_limb_2_col3.clone(),
+            value_limb_3_col4.clone(),
+            common_lookup_elements,
+            eval,
+        );
+        []
+    }
+}

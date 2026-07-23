@@ -1,0 +1,179 @@
+// This file was created by the AIR team.
+
+use crate::components::prelude::*;
+
+pub const N_TRACE_COLUMNS: usize = 8;
+pub const LOG_SIZE: u32 = 18;
+pub const RELATION_USES_PER_ROW: [RelationUse; 0] = [];
+
+pub struct Eval {
+    pub claim: Claim,
+    pub common_lookup_elements: relations::CommonLookupElements,
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct Claim {}
+impl Claim {
+    pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
+        let trace_log_sizes = vec![LOG_SIZE; N_TRACE_COLUMNS];
+        let interaction_log_sizes = vec![LOG_SIZE; SECURE_EXTENSION_DEGREE * 4];
+        TreeVec::new(vec![trace_log_sizes, interaction_log_sizes])
+    }
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize, CairoDeserialize)]
+pub struct InteractionClaim {
+    pub claimed_sum: SecureField,
+}
+
+pub type Component = FrameworkComponent<Eval>;
+
+impl FrameworkEval for Eval {
+    fn log_size(&self) -> u32 {
+        LOG_SIZE
+    }
+
+    fn max_constraint_log_degree_bound(&self) -> u32 {
+        self.log_size() + 1
+    }
+
+    #[allow(unused_parens)]
+    #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
+    fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let M31_1813904000 = E::F::from(M31::from(1813904000));
+        let M31_1830681619 = E::F::from(M31::from(1830681619));
+        let M31_1847459238 = E::F::from(M31::from(1847459238));
+        let M31_1864236857 = E::F::from(M31::from(1864236857));
+        let M31_1881014476 = E::F::from(M31::from(1881014476));
+        let M31_1897792095 = E::F::from(M31::from(1897792095));
+        let M31_2065568285 = E::F::from(M31::from(2065568285));
+        let M31_517791011 = E::F::from(M31::from(517791011));
+        let range_check_9_9_column_0 = eval.get_preprocessed_column(PreProcessedColumnId {
+            id: "range_check_9_9_column_0".to_owned(),
+        });
+        let range_check_9_9_column_1 = eval.get_preprocessed_column(PreProcessedColumnId {
+            id: "range_check_9_9_column_1".to_owned(),
+        });
+        let multiplicity_0_col0 = eval.next_trace_mask();
+        let multiplicity_1_col1 = eval.next_trace_mask();
+        let multiplicity_2_col2 = eval.next_trace_mask();
+        let multiplicity_3_col3 = eval.next_trace_mask();
+        let multiplicity_4_col4 = eval.next_trace_mask();
+        let multiplicity_5_col5 = eval.next_trace_mask();
+        let multiplicity_6_col6 = eval.next_trace_mask();
+        let multiplicity_7_col7 = eval.next_trace_mask();
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_0_col0.clone()),
+            &[
+                M31_517791011.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_1_col1.clone()),
+            &[
+                M31_1897792095.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_2_col2.clone()),
+            &[
+                M31_1881014476.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_3_col3.clone()),
+            &[
+                M31_1864236857.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_4_col4.clone()),
+            &[
+                M31_1847459238.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_5_col5.clone()),
+            &[
+                M31_1830681619.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_6_col6.clone()),
+            &[
+                M31_1813904000.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.add_to_relation(RelationEntry::new(
+            &self.common_lookup_elements,
+            -E::EF::from(multiplicity_7_col7.clone()),
+            &[
+                M31_2065568285.clone(),
+                range_check_9_9_column_0.clone(),
+                range_check_9_9_column_1.clone(),
+            ],
+        ));
+
+        eval.finalize_logup_in_pairs();
+        eval
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use num_traits::Zero;
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
+    use stwo::core::fields::qm31::QM31;
+    use stwo_constraint_framework::expr::ExprEvaluator;
+
+    use super::*;
+
+    #[test]
+    fn range_check_9_9_constraints_regression() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let eval = Eval {
+            claim: Claim {},
+            common_lookup_elements: relations::CommonLookupElements::dummy(),
+        };
+        let expr_eval = eval.evaluate(ExprEvaluator::new());
+        let assignment = expr_eval.random_assignment();
+
+        let mut sum = QM31::zero();
+        for c in expr_eval.constraints {
+            sum += c.assign(&assignment) * rng.random::<QM31>();
+        }
+
+        constraints_regression_test_values::RANGE_CHECK_9_9.assert_debug_eq(&sum);
+    }
+}

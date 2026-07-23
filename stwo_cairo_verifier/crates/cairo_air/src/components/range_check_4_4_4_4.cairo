@@ -1,0 +1,208 @@
+// This file was created by the AIR team.
+
+use crate::prelude::*;
+
+pub const N_TRACE_COLUMNS: usize = 1;
+pub const N_INTERACTION_COLUMNS: usize = 4;
+pub const LOG_SIZE: u32 = 16;
+
+#[derive(Drop, Serde, Copy)]
+pub struct Claim {}
+
+pub impl ClaimImpl of ClaimTrait<Claim> {
+    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
+        let log_size = LOG_SIZE;
+        let preprocessed_log_sizes = array![log_size].span();
+        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
+        let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
+        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
+    }
+
+    fn mix_into(self: @Claim, ref channel: Channel) {}
+
+    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {}
+}
+
+
+#[derive(Drop)]
+pub struct Component {
+    pub claim: Claim,
+    pub claimed_sum: QM31,
+    pub common_lookup_elements: CommonLookupElements,
+}
+
+pub impl NewComponentImpl of NewComponent<Component> {
+    type Claim = Claim;
+
+    fn new(
+        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
+    ) -> Component {
+        Component {
+            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
+        }
+    }
+}
+
+pub impl AirComponentImpl of AirComponent<Component> {
+    fn evaluate_constraints_at_point(
+        self: @Component,
+        ref sum: QM31,
+        ref preprocessed_mask_values: PreprocessedMaskValues,
+        ref trace_mask_values: ColumnSpan<Span<QM31>>,
+        ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
+        random_coeff: QM31,
+        public_params: Span<u32>,
+    ) {
+        let log_size = LOG_SIZE;
+        let claimed_sum = *self.claimed_sum;
+        let column_size = m31(pow2(log_size));
+        let mut range_check_4_4_4_4_sum_0: QM31 = Zero::zero();
+        let mut numerator_0: QM31 = Zero::zero();
+        let range_check_4_4_4_4_column_0 = preprocessed_mask_values
+            .get_and_mark_used(RANGE_CHECK_4_4_4_4_COLUMN_0_IDX);
+        let range_check_4_4_4_4_column_1 = preprocessed_mask_values
+            .get_and_mark_used(RANGE_CHECK_4_4_4_4_COLUMN_1_IDX);
+        let range_check_4_4_4_4_column_2 = preprocessed_mask_values
+            .get_and_mark_used(RANGE_CHECK_4_4_4_4_COLUMN_2_IDX);
+        let range_check_4_4_4_4_column_3 = preprocessed_mask_values
+            .get_and_mark_used(RANGE_CHECK_4_4_4_4_COLUMN_3_IDX);
+
+        let [multiplicity_0_col0]: [Span<QM31>; 1] = (*trace_mask_values.multi_pop_front().unwrap())
+            .unbox();
+        let [multiplicity_0_col0]: [QM31; 1] = (*multiplicity_0_col0.try_into().unwrap()).unbox();
+
+        core::internal::revoke_ap_tracking();
+
+        range_check_4_4_4_4_sum_0 = self
+            .common_lookup_elements
+            .combine_qm31(
+                [
+                    qm31_const::<1027333874, 0, 0, 0>(), range_check_4_4_4_4_column_0,
+                    range_check_4_4_4_4_column_1, range_check_4_4_4_4_column_2,
+                    range_check_4_4_4_4_column_3,
+                ]
+                    .span(),
+            );
+        numerator_0 = multiplicity_0_col0;
+
+        lookup_constraints(
+            ref sum,
+            random_coeff,
+            claimed_sum,
+            numerator_0,
+            column_size,
+            ref interaction_trace_mask_values,
+            range_check_4_4_4_4_sum_0,
+        );
+    }
+}
+
+
+fn lookup_constraints(
+    ref sum: QM31,
+    random_coeff: QM31,
+    claimed_sum: QM31,
+    numerator_0: QM31,
+    column_size: M31,
+    ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
+    range_check_4_4_4_4_sum_0: QM31,
+) {
+    let [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3]: [Span<QM31>; 4] =
+        (*interaction_trace_mask_values
+        .multi_pop_front()
+        .unwrap())
+        .unbox();
+
+    let [trace_2_col0_neg1, trace_2_col0]: [QM31; 2] = (*trace_2_col0.try_into().unwrap()).unbox();
+    let [trace_2_col1_neg1, trace_2_col1]: [QM31; 2] = (*trace_2_col1.try_into().unwrap()).unbox();
+    let [trace_2_col2_neg1, trace_2_col2]: [QM31; 2] = (*trace_2_col2.try_into().unwrap()).unbox();
+    let [trace_2_col3_neg1, trace_2_col3]: [QM31; 2] = (*trace_2_col3.try_into().unwrap()).unbox();
+
+    core::internal::revoke_ap_tracking();
+
+    let constraint_quotient = (((QM31Impl::from_partial_evals(
+        [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
+    )
+        - QM31Impl::from_partial_evals(
+            [trace_2_col0_neg1, trace_2_col1_neg1, trace_2_col2_neg1, trace_2_col3_neg1],
+        )
+        + (claimed_sum * (column_size.inverse().into())))
+        * range_check_4_4_4_4_sum_0)
+        + numerator_0);
+    sum = sum * random_coeff + constraint_quotient;
+}
+#[cfg(and(test, feature: "qm31_opcode"))]
+mod tests {
+    use core::array::ArrayImpl;
+    use core::num::traits::Zero;
+    use stwo_constraint_framework::AirComponent;
+    #[allow(unused_imports)]
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    #[allow(unused_imports)]
+    use stwo_constraint_framework::{
+        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+    };
+    use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
+    use crate::components::sample_evaluations::*;
+    #[allow(unused_imports)]
+    use crate::preprocessed_columns::*;
+    use super::{Claim, Component};
+
+    #[test]
+    fn test_evaluation_result() {
+        let component = Component {
+            claim: Claim {},
+            claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
+            common_lookup_elements: LookupElementsTrait::from_z_alpha(
+                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            ),
+        };
+        let public_params = [].span();
+        let mut sum: QM31 = Zero::zero();
+
+        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            RANGE_CHECK_4_4_4_4_COLUMN_0_IDX,
+            qm31_const::<1060746328, 1436216900, 828049526, 340185758>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            RANGE_CHECK_4_4_4_4_COLUMN_1_IDX,
+            qm31_const::<993637149, 1301999172, 760940662, 340185758>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            RANGE_CHECK_4_4_4_4_COLUMN_2_IDX,
+            qm31_const::<1194964686, 1704652356, 962267254, 340185758>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            RANGE_CHECK_4_4_4_4_COLUMN_3_IDX,
+            qm31_const::<1127855507, 1570434628, 895158390, 340185758>(),
+        );
+
+        let mut trace_columns = [
+            [qm31_const::<1659099300, 905558730, 651199673, 1375009625>()].span(),
+        ]
+            .span();
+        let interaction_values = array![
+            qm31_const::<1005168032, 79980996, 1847888101, 1941984119>(),
+        ];
+        let mut interaction_columns = make_interaction_trace(
+            interaction_values, qm31_const::<1115374022, 1127856551, 489657863, 643630026>(),
+        );
+        component
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_trace,
+                ref trace_columns,
+                ref interaction_columns,
+                qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
+                public_params,
+            );
+        preprocessed_trace.validate_usage();
+        assert_eq!(sum, QM31Trait::from_fixed_array(RANGE_CHECK_4_4_4_4_SAMPLE_EVAL_RESULT))
+    }
+}

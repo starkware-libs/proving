@@ -1,0 +1,93 @@
+// This file was created by the AIR team.
+
+use crate::components::subroutines::cond_range_check_2::cond_range_check_2_evaluate;
+use crate::components::subroutines::decode_small_sign::decode_small_sign_evaluate;
+use crate::components::subroutines::read_id::read_id_evaluate;
+use crate::prelude::*;
+
+
+pub fn read_small_evaluate(
+    input: QM31,
+    enabler: QM31,
+    id_col0: QM31,
+    msb_col1: QM31,
+    mid_limbs_set_col2: QM31,
+    value_limb_0_col3: QM31,
+    value_limb_1_col4: QM31,
+    value_limb_2_col5: QM31,
+    remainder_bits_col6: QM31,
+    partial_limb_msb_col7: QM31,
+    common_lookup_elements: @CommonLookupElements,
+    ref memory_address_to_id_sum_0: QM31,
+    ref numerator_0: QM31,
+    ref memory_id_to_big_sum_1: QM31,
+    ref numerator_1: QM31,
+    ref sum: QM31,
+    random_coeff: QM31,
+) -> QM31 {
+    let read_small_input = input;
+    read_id_evaluate(
+        read_small_input,
+        enabler,
+        id_col0,
+        common_lookup_elements,
+        ref memory_address_to_id_sum_0,
+        ref numerator_0,
+        ref sum,
+        random_coeff,
+    );
+    let [
+        decode_small_sign_output_tmp_c806d_5_limb3_7_high_bits,
+        decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+        decode_small_sign_output_tmp_c806d_5_limb21,
+        decode_small_sign_output_tmp_c806d_5_limb27,
+    ] =
+        decode_small_sign_evaluate(
+        [], enabler, msb_col1, mid_limbs_set_col2, common_lookup_elements, ref sum, random_coeff,
+    );
+    cond_range_check_2_evaluate(
+        [remainder_bits_col6, qm31_const::<1, 0, 0, 0>()],
+        enabler,
+        partial_limb_msb_col7,
+        common_lookup_elements,
+        ref sum,
+        random_coeff,
+    );
+
+    memory_id_to_big_sum_1 = common_lookup_elements
+        .combine_qm31(
+            [
+                qm31_const::<1662111297, 0, 0, 0>(), id_col0, value_limb_0_col3, value_limb_1_col4,
+                value_limb_2_col5,
+                (remainder_bits_col6 + decode_small_sign_output_tmp_c806d_5_limb3_7_high_bits),
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limbs4_to_20,
+                decode_small_sign_output_tmp_c806d_5_limb21, qm31_const::<0, 0, 0, 0>(),
+                qm31_const::<0, 0, 0, 0>(), qm31_const::<0, 0, 0, 0>(), qm31_const::<0, 0, 0, 0>(),
+                qm31_const::<0, 0, 0, 0>(), decode_small_sign_output_tmp_c806d_5_limb27,
+            ]
+                .span(),
+        );
+    numerator_1 = enabler;
+
+    (((((value_limb_0_col3 + (value_limb_1_col4 * qm31_const::<512, 0, 0, 0>()))
+        + (value_limb_2_col5 * qm31_const::<262144, 0, 0, 0>()))
+        + (remainder_bits_col6 * qm31_const::<134217728, 0, 0, 0>()))
+        - msb_col1)
+        - (qm31_const::<536870912, 0, 0, 0>() * mid_limbs_set_col2))
+}

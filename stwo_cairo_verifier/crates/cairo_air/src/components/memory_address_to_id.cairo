@@ -1,0 +1,95 @@
+use crate::prelude::*;
+
+mod constraints;
+
+/// Split the (ID , Multiplicity) columns to shorter chunks. This is done to improve the performance
+/// during The Merkle commitment and FRI, as this component is usually the tallest in the Cairo AIR.
+///
+/// 1. The ID and Multiplicity vectors are split to 'MEMORY_ADDRESS_TO_ID_SPLIT' chunks of size
+///    `ids.len()`/`MEMORY_ADDRESS_TO_ID_SPLIT`.
+/// 2. The chunks are padded with 0s to the next power of 2.
+///
+/// #  Example
+/// ID = [id0..id10], MEMORY_ADDRESS_TO_ID_SPLIT = 4:
+/// ID0 = [id0, id1, id2, 0]
+/// ID1 = [id3, id4, id5, 0]
+/// ID2 = [id6, id7, id8, 0]
+/// ID3 = [id9, id10, 0, 0]
+pub const LOG_MEMORY_ADDRESS_TO_ID_SPLIT: u32 = 4;
+pub const MEMORY_ADDRESS_TO_ID_SPLIT: usize = 16;
+pub const N_ID_AND_MULT_COLUMNS_PER_CHUNK: usize = 2;
+pub const N_TRACE_COLUMNS: usize = MEMORY_ADDRESS_TO_ID_SPLIT * N_ID_AND_MULT_COLUMNS_PER_CHUNK;
+
+// Number of QM31 columns in the interaction trace.
+// Each QM31 column is implemented as 4 M31 columns.
+pub const N_INTERACTION_TRACE_QM31_COLUMNS: usize = (MEMORY_ADDRESS_TO_ID_SPLIT / 2);
+
+pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
+
+#[derive(Drop, Serde, Copy)]
+pub struct Claim {
+    pub log_size: u32,
+}
+
+pub impl ClaimImpl of ClaimTrait<Claim> {
+    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
+        let log_size = *self.log_size;
+        let preprocessed_log_sizes = array![log_size].span();
+        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
+        let interaction_log_sizes = [log_size;
+            N_INTERACTION_TRACE_QM31_COLUMNS * QM31_EXTENSION_DEGREE]
+            .span();
+        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
+    }
+
+    fn mix_into(self: @Claim, ref channel: Channel) {
+        channel.mix_u64((*self.log_size).into());
+    }
+
+    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {}
+}
+
+#[derive(Drop)]
+pub struct Component {
+    pub claim: Claim,
+    pub claimed_sum: QM31,
+    pub common_lookup_elements: CommonLookupElements,
+}
+
+pub impl NewComponentImpl of NewComponent<Component> {
+    type Claim = Claim;
+
+    fn new(
+        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
+    ) -> Component {
+        Component {
+            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
+        }
+    }
+}
+
+pub impl AirComponentImpl of AirComponent<Component> {
+    fn evaluate_constraints_at_point(
+        self: @Component,
+        ref sum: QM31,
+        ref preprocessed_mask_values: PreprocessedMaskValues,
+        ref trace_mask_values: ColumnSpan<Span<QM31>>,
+        ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
+        random_coeff: QM31,
+        public_params: Span<u32>,
+    ) {
+        let log_size = *self.claim.log_size;
+
+        let params = constraints::ConstraintParams {
+            column_size: pow2(log_size).try_into().unwrap(),
+            common_lookup_elements: self.common_lookup_elements,
+            seq: preprocessed_mask_values
+                .get_and_mark_used(preprocessed_columns::seq_column_idx(log_size)),
+            claimed_sum: *self.claimed_sum,
+        };
+
+        constraints::evaluate_constraints_at_point(
+            ref sum, ref trace_mask_values, ref interaction_trace_mask_values, params, random_coeff,
+        );
+    }
+}
