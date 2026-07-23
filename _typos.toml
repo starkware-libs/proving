@@ -1,0 +1,7 @@
+[files]
+extend-exclude = [
+    "crates/cairo_verifier/src/components/",
+    "**/*_compiled.json",
+]
+[default]
+extend-ignore-re = ['excluder', '0x[0-9a-fA-F]{4,}', 'ba', 'Ba', 'daa', 'Daa', 'dbe', 'interm', 'ot', 'cll']
