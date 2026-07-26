@@ -1,6 +1,6 @@
 import { BinaryOpNode, ConstNode, EnablerNode, ExternalCellNode, PublicParamNode, VarNode } from "./expr.js"
 import { strings_maximal_template } from "./string_templates.js"
-import { create_var_span, html, intersperse } from "./utils.js"
+import { all_used_once, create_var_span, html, intersperse } from "./utils.js"
 
 class TemplateVarNode {
     /**
@@ -21,6 +21,11 @@ class TemplateVarNode {
     }
 
     get_html(air_view) {
+        if (this.vars.length == 1) {
+            // A single var needs no collapse/expand affordance
+            return create_var_span(this.vars[0], air_view)
+        }
+
         let highlight_task = null
         const var_ids = this.vars.map((v) => v.id)
         const collapsed_elem = this.template.get_html(air_view, var_ids)
@@ -33,40 +38,35 @@ class TemplateVarNode {
             }
         })
 
-        if (this.vars.length > 1) {
-            collapsed_elem.title = "Double-click to expand / collapse"
-
-            // For multiple-variable templates, expand / collapse on double-click
-            collapsed_elem.addEventListener('dblclick', (e) => {
-                if (highlight_task !== null) {
-                    clearTimeout(highlight_task)
-                    highlight_task = null
-                }
-                collapsed_elem.style.display = 'none'
-                expanded_elem.style.display = 'inline'
-            })
-            expanded_elem.addEventListener('dblclick', (e) => {
-                expanded_elem.style.display = 'none'
-                collapsed_elem.style.display = 'inline'
-            })
-        } else {
-            collapsed_elem.title = this.vars[0].id
+        collapsed_elem.title = "Double-click to expand / collapse"
+        if (all_used_once(this.vars, air_view)) {
+            collapsed_elem.classList.add('used-once')
         }
+
+        // For multiple-variable templates, expand / collapse on double-click
+        collapsed_elem.addEventListener('dblclick', (e) => {
+            if (highlight_task !== null) {
+                clearTimeout(highlight_task)
+                highlight_task = null
+            }
+            collapsed_elem.style.display = 'none'
+            expanded_elem.style.display = 'inline'
+        })
+        expanded_elem.addEventListener('dblclick', (e) => {
+            expanded_elem.style.display = 'none'
+            collapsed_elem.style.display = 'inline'
+        })
 
         collapsed_elem.addEventListener('click', (e) => {
             if (highlight_task !== null) {
                 clearTimeout(highlight_task)
             }
 
-            if (this.vars.length > 1) {
-                // If this is a template representing multiple vars, wait before highlighting. This
-                // click might be the first part of a double-click, which means "expand", not "highlight".
-                highlight_task = setTimeout(() => {
-                    air_view.select_vars(var_ids)
-                }, 300)
-            } else {
+            // Wait before highlighting. This click might be the first part of a double-click,
+            // which means "expand", not "highlight".
+            highlight_task = setTimeout(() => {
                 air_view.select_vars(var_ids)
-            }
+            }, 300)
         })
 
         // Start with the template collapsed

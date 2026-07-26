@@ -162,12 +162,26 @@ export class DefaultMap {
     }
 }
 
+/**
+ * Are every one of these vars individually single-use? Used to gray out a collapsed group's
+ * label when all the vars it summarizes would themselves be grayed out.
+ * @param {import("./air.js").Var[]} vars
+ */
+export function all_used_once(vars, air_view) {
+    return vars.every((v) => air_view.air.usage_counts.get(v.id) === 1)
+}
+
 export function create_var_span(var_obj, air_view) {
     const id = var_obj.id
     const result = html`
         <span title=${var_obj.id}>
             ${var_obj.display_name}
         </span>`
+
+    if (air_view.air.usage_counts.get(id) === 1) {
+        result.classList.add('used-once')
+    }
+
     result.addEventListener('click', (e) => air_view.select_vars([id]))
     air_view.var_select_listeners.push((selected_ids) => {
         result.classList.remove('highlighted-full')

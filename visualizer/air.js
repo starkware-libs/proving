@@ -2,7 +2,7 @@ import { VarNode, expr_from_json, expr_var_ids } from "./expr.js"
 import { exprs_maximal_template, exprs_to_templates_greedy } from "./expr_templates.js"
 import { AirView, goto_air } from "./main.js"
 import { strings_maximal_template } from "./string_templates.js"
-import { DefaultMap, create_var_span, html, intersperse, remove_prefix, remove_suffix, shorten_name } from "./utils.js"
+import { DefaultMap, all_used_once, create_var_span, html, intersperse, remove_prefix, remove_suffix, shorten_name } from "./utils.js"
 
 
 /** @interface */
@@ -192,6 +192,9 @@ class VarGroup {
         result.addEventListener('click', (e) => {
             air_view.select_vars(var_ids)
         })
+        if (all_used_once(this.var_objs, air_view)) {
+            result.classList.add('used-once')
+        }
         return result
     }
 }
@@ -236,6 +239,11 @@ export class Air {
     output_exprs
     output_names
 
+    // A map from var ID to the number of expressions that reference it. Used to gray out
+    // variables that are only referenced once.
+    /** @type {Map<string, number>} */
+    usage_counts
+
     constructor(json) {
         this.vars = new Map()
         this.vars_by_type = new DefaultMap(() => [])
@@ -260,6 +268,60 @@ export class Air {
         this.constraints = this.parse_steps(json);
 
         [this.output_exprs, this.output_names] = this.parse_verifier_output(json)
+
+        this.usage_counts = this.compute_usage_counts()
+    }
+
+    /**
+     * Count, for each var ID, how many expressions reference it. Used to gray out variables
+     * that are only referenced once.
+     *
+     * Inputs and call outputs are seeded with a baseline count of 1, since they're meaningful
+     * interface/call boundaries: being declared/produced already counts as "1", so they only
+     * show as referenced (count > 1, not grayed) once something actually uses them elsewhere.
+     * Other vars (state cells, plain arithmetic intermediates) start at 0, so a single downstream
+     * use is enough to gray them out.
+     * @returns {Map<string, number>}
+     */
+    compute_usage_counts() {
+        const counts = new Map()
+        for (const step of this.constraints) {
+            if (step instanceof CallStep) {
+                for (const var_id of step.output_var_ids) {
+                    counts.set(var_id, 1)
+                }
+            }
+        }
+        for (const var_id of this.vars_by_type.get("input")) {
+            counts.set(var_id, 1)
+        }
+
+        const add_usages = (expr) => {
+            for (const var_id of expr_var_ids(expr)) {
+                counts.set(var_id, (counts.get(var_id) ?? 0) + 1)
+            }
+        }
+
+        for (const step of this.constraints) {
+            if (step instanceof ConstraintStep) {
+                add_usages(step.expr)
+            } else if (step instanceof IntermediateStep) {
+                add_usages(step.expr)
+            } else if (step instanceof CallStep) {
+                for (const input_expr of step.input_exprs) {
+                    add_usages(input_expr)
+                }
+            } else if (step instanceof LookupTermStep) {
+                for (const felt of step.felts) {
+                    add_usages(felt)
+                }
+            }
+        }
+        for (const output_expr of this.output_exprs) {
+            add_usages(output_expr)
+        }
+
+        return counts
     }
 
     /**
