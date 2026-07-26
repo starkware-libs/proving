@@ -9,8 +9,15 @@ on:
   workflow_dispatch: # Allows manual triggering
 
 jobs:
-  stwo-cairo-prover-tests:
-    runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
+  stwo-cairo-prover-nightly-tests:
+    runs-on: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
+    env:
+      NEXTTEST_THREADS: "2"
+      RUST_MIN_STACK: 4194304
+      RUSTFLAGS: -C target-cpu=native
+      RUST_LOG_SPAN_EVENTS: enter,close
+      RUST_LOG: info
+      RUST_BACKTRACE: full
     steps:
       - uses: actions/checkout@v6
       - name: Install build dependencies
@@ -23,9 +30,15 @@ jobs:
         uses: software-mansion/setup-scarb@v1
         with:
           scarb-version: "2.18.0"
+      - name: Install latest nextest release
+        uses: taiki-e/install-action@nextest
       - uses: Swatinem/rust-cache@v2
       - name: Run tests
-        run: cargo test --release --features="nightly" -p stwo-cairo-prover
+        run: |
+          cargo nextest run -p stwo-cairo-prover \
+            --features="nightly" \
+            --release \
+            -j ${{ env.NEXTTEST_THREADS }}
 
   avx512-bench:
     runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
@@ -100,7 +113,7 @@ jobs:
   notify:
     if: always()
     needs:
-      - stwo-cairo-prover-tests
+      - stwo-cairo-prover-nightly-tests
       - avx512-bench
       - avx512-bench-parallel
       - wide-clippy
