@@ -114,7 +114,12 @@ RUST_GROUPS: dict[str, Group] = {
             Crate("crates/airs", "airs"),
             Crate("crates/eval_air_fn_constraints", "eval_air_fn_constraints"),
         ],
-        extra_paths=[".github/workflows/stwo-air-infra-ci.yml"],
+        extra_paths=[
+            ".github/workflows/stwo-air-infra-ci.yml",
+            "visualizer/",
+            "scripts/js_typecheck.sh",
+            "scripts/visualizer_webapp_test.sh",
+        ],
     ),
 }
 # fmt: on
