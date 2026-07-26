@@ -4,29 +4,9 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::wrappers::U32Wrapper;
 use itertools::zip_eq;
+pub use stwo::core::fri::FriConfig;
 
 use crate::merkle::{AuthPath, AuthPaths};
-
-/// Represents the structure of a FRI proof.
-#[derive(Debug, PartialEq, Clone)]
-pub struct FriConfig {
-    /// Log2 of the trace size.
-    pub log_trace_size: usize,
-    /// Log2 of the blowup factor.
-    pub log_blowup_factor: usize,
-    /// Number of queries.
-    pub n_queries: usize,
-    /// Log2 of the number of coefficients in the last layer of FRI.
-    pub log_n_last_layer_coefs: usize,
-    /// The step of the folds in FRI's layers.
-    pub fold_step: usize,
-}
-
-impl FriConfig {
-    pub fn log_evaluation_domain_size(&self) -> usize {
-        self.log_trace_size + self.log_blowup_factor
-    }
-}
 
 /// Represents the information for the FRI commitment phase of the proof.
 #[derive(Clone, Debug, PartialEq)]
@@ -39,10 +19,10 @@ impl<T> FriCommitProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
     pub fn validate_structure(&self, config: &FriConfig, all_fold_steps: &[usize]) {
         // The computation of `all_fold_step` guarantees also that
-        // `config.log_trace_size = log_n_last_layer_coefs + ∑ fold_step_for_layer`, where
+        // `log_trace_size = log_last_layer_degree_bound + ∑ fold_step_for_layer`, where
         // the sum runs over the FRI layers.
         assert_eq!(self.layer_commitments.len(), all_fold_steps.len());
-        assert_eq!(self.last_layer_coefs.len(), 1 << config.log_n_last_layer_coefs);
+        assert_eq!(self.last_layer_coefs.len(), 1 << config.log_last_layer_degree_bound);
     }
 }
 
@@ -96,11 +76,11 @@ pub struct FriProof<T> {
 
 impl<T> FriProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, config: &FriConfig) {
+    pub fn validate_structure(&self, log_trace_size: usize, config: &FriConfig) {
         let FriProof { commit, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
-            config.log_trace_size - config.log_n_last_layer_coefs,
-            config.fold_step,
+            log_trace_size - config.log_last_layer_degree_bound as usize,
+            config.fold_step as usize,
         );
         commit.validate_structure(config, &all_fold_steps);
 
@@ -110,7 +90,7 @@ impl<T> FriProof<T> {
         // starts, so a layer with `2^k` values has an auth path of length `k - fold_step`
         // (equivalently, the layer's log-size after folding).
         let mut tree_heights: Vec<usize> = Vec::with_capacity(all_fold_steps.len());
-        let mut layer_size = config.log_evaluation_domain_size();
+        let mut layer_size = log_trace_size + config.log_blowup_factor as usize;
         for fold_step in &all_fold_steps {
             layer_size -= *fold_step;
             tree_heights.push(layer_size);
@@ -134,12 +114,12 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
     }
 }
 
-pub fn empty_fri_proof(config: &FriConfig) -> FriProof<NoValue> {
+pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<NoValue> {
     let all_fold_steps = compute_all_fold_steps(
-        config.log_trace_size - config.log_n_last_layer_coefs,
-        config.fold_step,
+        log_trace_size - config.log_last_layer_degree_bound as usize,
+        config.fold_step as usize,
     );
-    let mut log_layer_size = config.log_evaluation_domain_size();
+    let mut log_layer_size = log_trace_size + config.log_blowup_factor as usize;
     let mut auth_paths = vec![];
 
     for step in &all_fold_steps {
@@ -163,7 +143,7 @@ pub fn empty_fri_proof(config: &FriConfig) -> FriProof<NoValue> {
                 HashValue([U32Wrapper::new_unsafe(NoValue); 8]);
                 all_fold_steps.len()
             ],
-            last_layer_coefs: vec![NoValue; 1 << config.log_n_last_layer_coefs],
+            last_layer_coefs: vec![NoValue; 1 << config.log_last_layer_degree_bound],
         },
         auth_paths,
         witness: FriWitness(witness_per_query_per_tree),

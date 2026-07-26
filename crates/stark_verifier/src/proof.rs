@@ -6,11 +6,12 @@ use circuits::wrappers::U32Wrapper;
 use indexmap::IndexMap;
 use itertools::{Itertools, zip_eq};
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 
 use crate::channel::Channel;
 use crate::constraint_eval::CircuitEval;
-use crate::fri_proof::{FriConfig, FriProof, compute_all_fold_steps, empty_fri_proof};
+use crate::fri_proof::{FriProof, compute_all_fold_steps, empty_fri_proof};
 use crate::merkle::{AuthPath, AuthPaths};
 use crate::oods::{EvalDomainSamples, N_COMPOSITION_COLUMNS, empty_eval_domain_samples};
 use crate::proof_from_stark_proof::pack_into_qm31s;
@@ -57,7 +58,7 @@ impl ProofInfo {
     /// Returns the proof size breakdown in u8s, computed from config alone.
     pub fn from_config(config: &ProofConfig) -> Self {
         let n_queries = config.fri.n_queries;
-        let log_eval_domain = config.fri.log_evaluation_domain_size();
+        let log_eval_domain = config.log_evaluation_domain_size();
 
         let fixed = (1 + 3 * 2 + 1 + 1) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
 
@@ -76,14 +77,16 @@ impl ProofInfo {
 
         let eval_auth_per_query = N_TRACES * log_eval_domain * hash_size;
 
-        let degree_log_ratio = config.fri.log_trace_size - config.fri.log_n_last_layer_coefs;
-        let all_fold_steps = compute_all_fold_steps(degree_log_ratio, config.fri.fold_step);
+        let degree_log_ratio =
+            config.log_trace_size - config.fri.log_last_layer_degree_bound as usize;
+        let all_fold_steps =
+            compute_all_fold_steps(degree_log_ratio, config.fri.fold_step as usize);
         let n_fri_layers = all_fold_steps.len();
 
         let fri_commitments = n_fri_layers * hash_size;
 
         let fri_last_layer =
-            (1 << config.fri.log_n_last_layer_coefs) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
+            (1 << config.fri.log_last_layer_degree_bound) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
 
         let mut log_layer_size = log_eval_domain;
         let fri_auth_per_query: usize = all_fold_steps
@@ -101,8 +104,8 @@ impl ProofInfo {
             .map(|step| (1 << step) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32)
             .sum();
 
-        let log_trace_size = config.fri.log_trace_size;
-        let log_blowup_factor = config.fri.log_blowup_factor;
+        let log_trace_size = config.log_trace_size;
+        let log_blowup_factor = config.fri.log_blowup_factor as usize;
 
         Self {
             log_trace_size,
@@ -240,6 +243,9 @@ pub struct ProofConfig {
     // OODS response.
     pub cumulative_sum_columns: Vec<bool>,
 
+    /// Log2 of the trace size.
+    pub log_trace_size: usize,
+
     pub fri: FriConfig,
 }
 impl ProofConfig {
@@ -273,18 +279,8 @@ impl ProofConfig {
             cumulative_sum_columns.extend(vec![true; SECURE_EXTENSION_DEGREE]);
         }
 
-        let PcsConfig {
-            pow_bits,
-            fri_config:
-                stwo::core::fri::FriConfig {
-                    log_blowup_factor,
-                    n_queries,
-                    log_last_layer_degree_bound,
-                    fold_step,
-                },
-            min_lifting_log_size,
-        } = pcs_config;
-        let log_trace_size = min_lifting_log_size.checked_sub(*log_blowup_factor).expect(
+        let PcsConfig { pow_bits, fri_config, min_lifting_log_size } = pcs_config;
+        let log_trace_size = min_lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
             "The circuit verifier expects min_lifting_log_size to be log_trace_size + \
              log_blowup_factor",
         ) as usize;
@@ -297,13 +293,8 @@ impl ProofConfig {
             n_interaction_columns,
             component_shapes,
             cumulative_sum_columns,
-            fri: FriConfig {
-                log_trace_size,
-                log_blowup_factor: *log_blowup_factor as usize,
-                n_queries: *n_queries,
-                log_n_last_layer_coefs: *log_last_layer_degree_bound as usize,
-                fold_step: *fold_step as usize,
-            },
+            log_trace_size,
+            fri: *fri_config,
         }
     }
 
@@ -314,12 +305,12 @@ impl ProofConfig {
 
     /// Returns the log2 of the size of the trace.
     pub fn log_trace_size(&self) -> usize {
-        self.fri.log_trace_size
+        self.log_trace_size
     }
 
     /// Returns the log2 of the size of the evaluation domain.
     pub fn log_evaluation_domain_size(&self) -> usize {
-        self.fri.log_evaluation_domain_size()
+        self.log_trace_size + self.fri.log_blowup_factor as usize
     }
 
     /// Returns the number of queries.
@@ -343,13 +334,13 @@ impl ProofConfig {
         context: &mut Context<Value>,
         channel: &mut Channel,
     ) {
-        let lifting_log_size = self.log_trace_size() + self.fri.log_blowup_factor;
+        let lifting_log_size = self.log_trace_size() + self.fri.log_blowup_factor as usize;
         let pcs_config_values = vec![
             self.n_pow_bits,
-            self.fri.log_blowup_factor as u32,
+            self.fri.log_blowup_factor,
             self.fri.n_queries as u32,
-            self.fri.log_n_last_layer_coefs as u32,
-            self.fri.fold_step as u32,
+            self.fri.log_last_layer_degree_bound,
+            self.fri.fold_step,
             lifting_log_size as u32,
         ];
 
@@ -454,7 +445,7 @@ impl<T> Proof<T> {
         eval_domain_auth_paths.validate_structure(&tree_heights, config.n_queries());
 
         // Validate FRI.
-        fri.validate_structure(&config.fri);
+        fri.validate_structure(config.log_trace_size, &config.fri);
     }
 
     /// Returns the 3 witness Merkle roots (trace, interaction, composition polynomial).
@@ -503,7 +494,7 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
         },
         pow_nonce: NoValue,
         interaction_pow_nonce: NoValue,
-        fri: empty_fri_proof(&config.fri),
+        fri: empty_fri_proof(config.log_trace_size, &config.fri),
         channel_salt: NoValue,
     }
 }

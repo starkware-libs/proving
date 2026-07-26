@@ -212,7 +212,16 @@ pub fn verify<Value: IValue>(
         oods_quotient_coef,
     );
 
-    fri_decommit(context, &proof.fri, &config.fri, fri_input, &bits, queries, &fri_alphas);
+    fri_decommit(
+        context,
+        &proof.fri,
+        config.log_trace_size,
+        &config.fri,
+        fri_input,
+        &bits,
+        queries,
+        &fri_alphas,
+    );
 }
 
 /// Verify that no relation is used more than P times.

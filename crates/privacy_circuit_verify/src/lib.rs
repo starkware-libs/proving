@@ -170,7 +170,7 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
         program_entries.push(Felt252::from(value).get_limbs());
     }
 
-    let cairo_lifting_log_size: u32 = cairo_proof_config.fri.log_evaluation_domain_size() as u32;
+    let cairo_lifting_log_size: u32 = cairo_proof_config.log_evaluation_domain_size() as u32;
     let preprocessed_trace_variant = PreProcessedTraceVariant::CanonicalSmall;
 
     Ok(CairoVerifierConfig {

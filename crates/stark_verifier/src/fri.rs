@@ -39,9 +39,11 @@ pub fn fri_commit(
 }
 
 /// Validates that the values in `fri_input` are consistent with the FRI commitment.
+#[allow(clippy::too_many_arguments)]
 pub fn fri_decommit<Value: IValue>(
     context: &mut Context<Value>,
     proof: &FriProof<Var>,
+    log_trace_size: usize,
     config: &FriConfig,
     fri_input: Vec<Var>,
     mut bits: &[Vec<Var>],
@@ -58,10 +60,10 @@ pub fn fri_decommit<Value: IValue>(
     let mut base_point = queries.points.clone();
     let mut packed_bits = queries.bits.as_slice();
 
-    let mut log_degree_bound = config.log_trace_size;
-    let mut step = config.fold_step;
-    assert!(config.log_trace_size >= step);
-    assert_eq!(config.log_n_last_layer_coefs, 0);
+    let mut log_degree_bound = log_trace_size;
+    let mut step = config.fold_step as usize;
+    assert!(log_trace_size >= step);
+    assert_eq!(config.log_last_layer_degree_bound, 0);
 
     // Translate base_point to the base of the current circle domain.
     let mut packed_lowest_bits = packed_bits.split_off(..step).unwrap();
@@ -172,8 +174,8 @@ pub fn fri_decommit<Value: IValue>(
         twiddles_per_fold = compute_twiddles_from_base_point(context, &base_point, step);
     }
     // The last fri layer log size is equal to the log blowup factor.
-    assert_eq!(bits.len(), config.log_blowup_factor);
-    assert_eq!(packed_bits.len(), config.log_blowup_factor);
+    assert_eq!(bits.len(), config.log_blowup_factor as usize);
+    assert_eq!(packed_bits.len(), config.log_blowup_factor as usize);
 
     // The last base point's y-coords hasn't been used by `compute_twiddles_from_base_point` if the
     // last step was = 1.
@@ -182,7 +184,6 @@ pub fn fri_decommit<Value: IValue>(
     }
 
     // Check last layer.
-    assert_eq!(config.log_n_last_layer_coefs, 0);
     let last_layer_val = last_layer_coefs[0];
     for value in layer_values {
         eq(context, value, last_layer_val);

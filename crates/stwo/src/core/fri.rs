@@ -29,9 +29,13 @@ use crate::core::vcs_lifted::verifier::{
 // TODO(andrew): Support different step sizes.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub struct FriConfig {
+    /// Log2 of the blowup factor.
     pub log_blowup_factor: u32,
+    /// Log2 of the number of coefficients in the last layer of FRI.
     pub log_last_layer_degree_bound: u32,
+    /// Number of queries.
     pub n_queries: usize,
+    /// The step of the folds in FRI's layers.
     pub fold_step: u32,
 }
 

@@ -35,8 +35,8 @@ pub fn proof_from_stark_proof(
     let interaction_pow_low = (interaction_pow_nonce & 0xFFFFFFFF) as u32;
 
     let all_fold_steps = compute_all_fold_steps(
-        config.fri.log_trace_size - config.fri.log_n_last_layer_coefs,
-        config.fri.fold_step,
+        config.log_trace_size - config.fri.log_last_layer_degree_bound as usize,
+        config.fri.fold_step as usize,
     );
 
     Proof {

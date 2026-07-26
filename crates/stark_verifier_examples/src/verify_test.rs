@@ -107,8 +107,8 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
             // coset. `validate_query_position_in_coset` selects the value at the query's
             // local index (`queried_pos`'s low `last_step` bits) in the last-layer coset.
             let fold_steps = compute_all_fold_steps(
-                config.fri.log_trace_size - config.fri.log_n_last_layer_coefs,
-                config.fri.fold_step,
+                config.log_trace_size - config.fri.log_last_layer_degree_bound as usize,
+                config.fri.fold_step as usize,
             );
             let last_step = *fold_steps.last().unwrap();
             let shift: usize = fold_steps.iter().sum::<usize>() - last_step;

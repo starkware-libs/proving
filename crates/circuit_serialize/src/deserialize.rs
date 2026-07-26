@@ -122,7 +122,7 @@ pub fn deserialize_proof_with_config(
     let eval_domain_auth_paths = deserialize_eval_domain_auth_paths(data, config)?;
     let pow_nonce = QM31::deserialize(data)?;
     let interaction_pow_nonce = QM31::deserialize(data)?;
-    let fri = deserialize_fri_proof(data, &config.fri)?;
+    let fri = deserialize_fri_proof(data, config.log_trace_size, &config.fri)?;
 
     Ok(Proof {
         channel_salt,
@@ -199,7 +199,7 @@ fn deserialize_fri_commit_proof(
     all_fold_steps: &[usize],
 ) -> DeserializeResult<FriCommitProof<QM31>> {
     let n_layers = all_fold_steps.len();
-    let n_last_layer_coefs = 1 << config.log_n_last_layer_coefs;
+    let n_last_layer_coefs = 1 << config.log_last_layer_degree_bound;
     Ok(FriCommitProof {
         layer_commitments: deserialize_vec(data, n_layers)?,
         last_layer_coefs: deserialize_vec(data, n_last_layer_coefs)?,
@@ -208,15 +208,16 @@ fn deserialize_fri_commit_proof(
 
 fn deserialize_fri_proof(
     data: &mut &[u8],
+    log_trace_size: usize,
     fri_config: &FriConfig,
 ) -> DeserializeResult<FriProof<QM31>> {
     let all_fold_steps = compute_all_fold_steps(
-        fri_config.log_trace_size - fri_config.log_n_last_layer_coefs,
-        fri_config.fold_step,
+        log_trace_size - fri_config.log_last_layer_degree_bound as usize,
+        fri_config.fold_step as usize,
     );
     let commit = deserialize_fri_commit_proof(data, fri_config, &all_fold_steps)?;
 
-    let mut path_len = fri_config.log_evaluation_domain_size();
+    let mut path_len = log_trace_size + fri_config.log_blowup_factor as usize;
     let mut auth_path_trees = Vec::with_capacity(all_fold_steps.len());
     for step in all_fold_steps.iter() {
         path_len -= step;

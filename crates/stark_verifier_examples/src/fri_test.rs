@@ -54,13 +54,8 @@ fn test_fri_decommit_with_jumps(
         n_interaction_columns: 0,
         component_shapes: vec![],
         cumulative_sum_columns: vec![],
-        fri: circuits_stark_verifier::fri_proof::FriConfig {
-            log_trace_size: log_trace_size as usize,
-            log_blowup_factor: log_blowup_factor as usize,
-            n_queries,
-            log_n_last_layer_coefs: 0,
-            fold_step,
-        },
+        log_trace_size: log_trace_size as usize,
+        fri: FriConfig::new(0, log_blowup_factor, n_queries, fold_step as u32),
     };
 
     // Compute FRI input.
@@ -108,7 +103,16 @@ fn test_fri_decommit_with_jumps(
     channel.mix_felts(&last_layer_coefficients);
     let alphas: Vec<_> = alpha_values.iter().map(|x| context.constant(*x)).collect();
 
-    fri_decommit(&mut context, &circuit_fri_proof, &config.fri, fri_input, &bits, queries, &alphas);
+    fri_decommit(
+        &mut context,
+        &circuit_fri_proof,
+        config.log_trace_size,
+        &config.fri,
+        fri_input,
+        &bits,
+        queries,
+        &alphas,
+    );
     context.validate_circuit();
     println!("Stats: {:?}", context.stats);
 }
