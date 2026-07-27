@@ -2,19 +2,14 @@ name: stwo-cairo-prover CI
 
 on:
   workflow_call:
-    inputs:
+    inputs: &crate_group_input
       # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
       crate_group:
         description: "Cargo -p args for the group"
         required: true
         type: string
   workflow_dispatch:
-    inputs:
-      # Cargo `-p` args for this group. Source of truth: scripts/ci_dispatch.py.
-      crate_group:
-        description: "Cargo -p args for the group"
-        required: true
-        type: string
+    inputs: *crate_group_input
 
 env:
   STABLE_VERSION: "1.94.0"
