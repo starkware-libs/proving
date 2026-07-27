@@ -4,9 +4,6 @@ on:
   workflow_call:
   workflow_dispatch:
 
-env:
-  SCARB_VERSION: "2.18.0"
-
 jobs:
   scarb-fmt:
     runs-on: namespace-profile-starkware-libs-proving-dev-medium-ubuntu-24-04-amd64
@@ -17,7 +14,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
-          scarb-version: ${{ env.SCARB_VERSION }}
+          tool-versions: .tool-versions
       - run: scarb fmt --check
 
   scarb-lint:
@@ -29,7 +26,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
-          scarb-version: ${{ env.SCARB_VERSION }}
+          tool-versions: .tool-versions
       - run: scarb lint --features=qm31_opcode --deny-warnings
 
   scarb-test:
@@ -117,7 +114,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
-          scarb-version: ${{ env.SCARB_VERSION }}
+          tool-versions: .tool-versions
       - run: scarb test --features=${{ matrix.feature }} -p ${{ matrix.package }}
 
   scarb-test-circuit:
@@ -135,7 +132,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
-          scarb-version: ${{ env.SCARB_VERSION }}
+          tool-versions: .tool-versions
       - run: scarb test --features=${{ matrix.feature }} -p ${{ matrix.package }}
       - if: matrix.package == 'stwo_circuit_verifier' && matrix.feature == 'qm31_opcode'
         run: scarb --profile proving execute -p stwo_circuit_verifier --features ${{ matrix.feature }} --print-resource-usage --output none --arguments-file crates/circuit_air/test_data/proof.json
@@ -167,5 +164,5 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
-          scarb-version: ${{ env.SCARB_VERSION }}
+          tool-versions: .tool-versions
       - run: scarb --profile proving execute -p stwo_cairo_verifier --features ${{ matrix.feature }} --print-resource-usage --output none --arguments-file ${{ matrix.proof_file }}

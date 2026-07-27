@@ -25,7 +25,7 @@ jobs:
       - name: Setup scarb
         uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
-          scarb-version: "2.18.0"
+          tool-versions: .tool-versions
 
       - name: Build and upload stwo_cairo_verifier
         uses: ./.github/actions/build-verifier
