@@ -193,6 +193,7 @@ fn stwo_verify(
         stark_proof: proof,
         interaction_pow_nonce,
         channel_salt,
+        circuit_hash: _,
     } = circuit_proof;
 
     let preprocessed_column_log_sizes = preprocessed_circuit.preprocessed_trace.log_sizes();

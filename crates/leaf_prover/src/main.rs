@@ -5,9 +5,10 @@
 //!     2. Uses a circuit to verify the proof from (1)
 //!     3. Proves the execution of the circuit from (2)
 //!
-//! Outputs a file with the final proof and the preprocessed root of the verifier
-//! circuit. It is assumed that the user knows the output of the program (required
-//! to verify the proof) by some other means.
+//! Outputs a file with the final proof, the preprocessed root of the verifier circuit,
+//! and the circuit hash identifying that circuit together with the config its root is
+//! interpreted under. It is assumed that the user knows the output of the program
+//! (required to verify the proof) by some other means.
 
 use std::fs::{self, read_to_string};
 use std::path::PathBuf;

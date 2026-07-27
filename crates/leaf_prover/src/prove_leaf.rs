@@ -191,7 +191,11 @@ pub fn prove_leaf(
     info!("Circuit proving done");
     let circuit_preprocessed_root =
         circuit_proof.stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX].0;
+    // The hash the prover mixed into the channel; identifies the circuit together with the config
+    // its preprocessed root is interpreted under.
+    let circuit_hash = circuit_proof.circuit_hash.0;
     info!("Circuit preprocessed root: {:?}", circuit_preprocessed_root);
+    info!("Circuit hash: {:?}", circuit_hash);
 
     // Convert the proof to our output format.
 
@@ -200,7 +204,11 @@ pub fn prove_leaf(
     let mut proof_bytes: Vec<u8> = vec![];
     proof_qm31s.serialize(&mut proof_bytes);
 
-    SerializedLeafProof { circuit_preprocessed_root, proof: proof_bytes }
+    SerializedLeafProof {
+        circuit_preprocessed_root: circuit_preprocessed_root.into(),
+        circuit_hash: circuit_hash.into(),
+        proof: proof_bytes,
+    }
 }
 
 /// The components of the circuit that verifies the Cairo proof.

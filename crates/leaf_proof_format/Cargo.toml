@@ -8,3 +8,6 @@ description = "Describes the format of the output of the leaf prover"
 [dependencies]
 serde.workspace = true
 serde_with.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

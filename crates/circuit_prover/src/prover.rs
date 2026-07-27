@@ -200,6 +200,7 @@ where
         interaction_claim,
         stark_proof,
         channel_salt,
+        circuit_hash,
     })
 }
 
@@ -213,6 +214,7 @@ pub fn prepare_circuit_proof_for_circuit_verifier(
         interaction_claim,
         stark_proof,
         channel_salt,
+        circuit_hash: _,
     } = circuit_proof;
 
     let public_data = CircuitPublicData { output_values: claim.output_values.clone() };
