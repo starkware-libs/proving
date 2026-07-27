@@ -33,17 +33,17 @@ pub const N_OUTPUTS: u32 = 8;
 
 /// Each component's log size.
 pub const COMPONENT_LOG_SIZES: PerComponent<u32> = PerComponent {
-    verify_bitwise_xor_4: 8,
-    verify_bitwise_xor_7: 14,
-    verify_bitwise_xor_8: 16,
-    range_check_16: 16,
     eq: 17,
+    qm31_ops: 21,
     triple_xor: 17,
     m_31_to_u_32: 18,
-    verify_bitwise_xor_9: 18,
     blake_g_gate: 20,
+    verify_bitwise_xor_8: 16,
     verify_bitwise_xor_12: 20,
-    qm31_ops: 21,
+    verify_bitwise_xor_4: 8,
+    verify_bitwise_xor_7: 14,
+    verify_bitwise_xor_9: 18,
+    range_check_16: 16,
 };
 
 /// Per-column log sizes of the multiverifier circuit's preprocessed trace,
@@ -111,39 +111,23 @@ mod tests {
     use super::{COMPONENT_LOG_SIZES, PREPROCESSED_COLUMN_LOG_SIZES};
 
     /// Derives each component's log size from the preprocessed column log sizes, in the committed
-    /// (size-sorted) order of `COMPONENT_LOG_SIZES`. Variable-size components read the log size of
-    /// one of their preprocessed columns (all columns of a component share its log size);
-    /// fixed-size components return their `LOG_SIZE` constant.
+    /// (`ComponentList` declaration) order of `COMPONENT_LOG_SIZES`. Variable-size components read
+    /// the log size of one of their preprocessed columns (all columns of a component share its log
+    /// size); fixed-size components return their `LOG_SIZE` constant.
     fn derive_component_log_sizes(preprocessed_column_log_sizes: Span<u32>) -> Array<u32> {
         array![
-            components::verify_bitwise_xor_4::LOG_SIZE, // verify_bitwise_xor_4
-            components::verify_bitwise_xor_7::LOG_SIZE, // verify_bitwise_xor_7
-            components::verify_bitwise_xor_8::LOG_SIZE, // verify_bitwise_xor_8
-            components::range_check_16::LOG_SIZE, // range_check_16
             *preprocessed_column_log_sizes.at(EQ_IN0_ADDRESS_IDX), // eq
+            *preprocessed_column_log_sizes.at(OP_0_ADDR_IDX), // qm31_ops
             *preprocessed_column_log_sizes.at(TRIPLE_XOR_INPUT_ADDR_0_IDX), // triple_xor
             *preprocessed_column_log_sizes.at(M_31_TO_U_32_INPUT_ADDR_IDX), // m_31_to_u_32
-            components::verify_bitwise_xor_9::LOG_SIZE, // verify_bitwise_xor_9
             *preprocessed_column_log_sizes.at(BLAKE_G_GATE_INPUT_ADDR_A_IDX), // blake_g_gate
+            components::verify_bitwise_xor_8::LOG_SIZE, // verify_bitwise_xor_8
             components::verify_bitwise_xor_12::LOG_SIZE, // verify_bitwise_xor_12
-            *preprocessed_column_log_sizes.at(OP_0_ADDR_IDX) // qm31_ops
+            components::verify_bitwise_xor_4::LOG_SIZE, // verify_bitwise_xor_4
+            components::verify_bitwise_xor_7::LOG_SIZE, // verify_bitwise_xor_7
+            components::verify_bitwise_xor_9::LOG_SIZE, // verify_bitwise_xor_9
+            components::range_check_16::LOG_SIZE // range_check_16
         ]
-    }
-
-    /// Returns whether `values` is in non-decreasing order.
-    fn is_sorted(values: Span<u32>) -> bool {
-        let mut values_iter = values.into_iter();
-        let Some(mut prev) = values_iter.next() else {
-            return true;
-        };
-
-        for value in values_iter {
-            if *prev > *value {
-                return false;
-            }
-            prev = value;
-        }
-        true
     }
 
     /// The hardcoded `COMPONENT_LOG_SIZES` must equal the values derived from the preprocessed
@@ -156,11 +140,5 @@ mod tests {
         ) {
             assert!(*expected == *actual);
         }
-    }
-
-    /// `COMPONENT_LOG_SIZES` is committed in size-sorted (ascending) order.
-    #[test]
-    fn component_log_sizes_are_sorted() {
-        assert!(is_sorted(COMPONENT_LOG_SIZES.to_fixed_array().span()));
     }
 }

@@ -47,9 +47,12 @@ const PRIVACY_CAIRO_VERIFIER_PROOF_PATH: &str =
 
 /// The same multiverifier proof, serialized as the felt252 `scarb execute --arguments-file` input
 /// consumed by the Cairo1 verifier program: a JSON array of hex-string felts produced via
-/// [`circuit_cairo_serialize`]. Regenerate with `FIX_PROOF=1`.
-const CAIRO1_PROOF_PATH: &str =
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/circuit_multiverifier/cairo1_proof.json");
+/// [`circuit_cairo_serialize`]. This is the exact fixture the `stwo_circuit_verifier` Cairo CI
+/// executes against. Regenerate with `FIX_PROOF=1`.
+const CAIRO1_PROOF_PATH: &str = concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../../stwo_cairo_verifier/crates/circuit_air/test_data/proof.json"
+);
 
 /// Extracts the eight raw 32-bit words from a `HashValue<QM31>` (each word held as
 /// `(low_u16, high_u16, 0, 0)`).
