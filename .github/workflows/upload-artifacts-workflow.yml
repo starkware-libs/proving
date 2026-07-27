@@ -9,7 +9,7 @@ jobs:
   artifacts-push:
     runs-on: namespace-profile-starkware-libs-proving-dev-medium-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Get commit hash prefix for PR update
         env:
@@ -18,12 +18,12 @@ jobs:
           echo "SHORT_HASH=${COMMIT_SHA:0:7}" >> $GITHUB_ENV
 
       - name: Authenticate with GCS
-        uses: "google-github-actions/auth@v2"
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2
         with:
           credentials_json: ${{ secrets.SHARP_BINARY_ARTIFACTS_WRITER_SA }}
 
       - name: Setup scarb
-        uses: software-mansion/setup-scarb@v1
+        uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: "2.18.0"
 
@@ -64,7 +64,7 @@ jobs:
 
       - name: Upload casm_registry.json to GCP
         id: upload_casm_registry
-        uses: "google-github-actions/upload-cloud-storage@v2"
+        uses: google-github-actions/upload-cloud-storage@c0f6160ff80057923ff50e5e567695cea181ec23 # v2
         with:
           path: "crates/common/casm_registry.json"
           destination: "sharp-binary-artifacts/casm_registry_artifacts/${{ env.SHORT_HASH }}/release"
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload cairo_program_runner x86_64 binary to GCP
         id: upload_cairo_program_runner_x86
-        uses: "google-github-actions/upload-cloud-storage@v2"
+        uses: google-github-actions/upload-cloud-storage@c0f6160ff80057923ff50e5e567695cea181ec23 # v2
         with:
           path: "target/release/cairo_program_runner"
           destination: "sharp-binary-artifacts/cairo_program_runner_artifacts/${{ env.SHORT_HASH }}/release"
@@ -85,7 +85,7 @@ jobs:
 
       - name: Upload stwo_vm_runner x86_64 binary to GCP
         id: upload_stwo_vm_runner_x86
-        uses: "google-github-actions/upload-cloud-storage@v2"
+        uses: google-github-actions/upload-cloud-storage@c0f6160ff80057923ff50e5e567695cea181ec23 # v2
         with:
           path: "target/release/stwo_vm_runner"
           destination: "sharp-binary-artifacts/stwo_vm_runner_artifacts/${{ env.SHORT_HASH }}/release"
@@ -95,7 +95,7 @@ jobs:
 
       - name: Upload stwo_run_and_prove binary to GCP
         id: upload_stwo_run_and_prove
-        uses: "google-github-actions/upload-cloud-storage@v2"
+        uses: google-github-actions/upload-cloud-storage@c0f6160ff80057923ff50e5e567695cea181ec23 # v2
         with:
           path: "target/release/stwo_run_and_prove"
           destination: "sharp-binary-artifacts/stwo_run_and_prove_artifacts/${{ env.SHORT_HASH }}/release"
@@ -105,14 +105,14 @@ jobs:
 
       - name: Upload leaf_prover x86_64 binary to GCP
         id: upload_leaf_prover
-        uses: "google-github-actions/upload-cloud-storage@v2"
+        uses: google-github-actions/upload-cloud-storage@c0f6160ff80057923ff50e5e567695cea181ec23 # v2
         with:
           path: "target/release/leaf_prover"
           destination: "sharp-binary-artifacts/leaf_prover_artifacts/${{ env.SHORT_HASH }}/release"
 
       - name: Upload stwo_run_and_prove_recursive_tree binary to GCP
         id: upload_stwo_run_and_prove_recursive_tree
-        uses: "google-github-actions/upload-cloud-storage@v2"
+        uses: google-github-actions/upload-cloud-storage@c0f6160ff80057923ff50e5e567695cea181ec23 # v2
         with:
           path: "target/release/stwo_run_and_prove_recursive_tree"
           destination: "sharp-binary-artifacts/stwo_run_and_prove_recursive_tree/${{ env.SHORT_HASH }}/release"

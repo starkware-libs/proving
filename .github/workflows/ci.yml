@@ -22,24 +22,24 @@ jobs:
   format:
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
           components: rustfmt
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - run: cargo fmt --check
 
   clippy:
     name: clippy
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
           components: clippy
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - run: |
           cargo clippy --all-targets --all-features -- -D warnings \
           -D future-incompatible -D nonstandard-style -D rust-2018-idioms -D unused
@@ -48,11 +48,11 @@ jobs:
     name: docs
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       # TODO(Leo): run cargo doc with more restrictive flags, e.g.
       #   `RUSTDOCFLAGS="-Dwarnings" cargo doc --document-private-items --no-deps --all-features`
       - run: cargo doc --no-deps
@@ -61,8 +61,8 @@ jobs:
     name: typos
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: taiki-e/install-action@v2
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2
         with:
           tool: typos@1.48.0
       - run: typos
@@ -71,11 +71,11 @@ jobs:
     name: machete
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - name: Install Machete
         run: cargo install --locked cargo-machete
       - name: Run Machete (detect unused dependencies)
@@ -103,7 +103,7 @@ jobs:
       # Packages that should compile with stable toolchain.
       stable_crates: ${{ steps.dispatch.outputs.stable_crates }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           # Full history so the dispatch script can diff a PR against its base SHA.
           fetch-depth: 0
@@ -162,11 +162,11 @@ jobs:
     needs: dispatcher
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.STABLE_VERSION }}
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - name: Check verifiers compile on stable
         env:
           RUSTUP_TOOLCHAIN: ${{ env.STABLE_VERSION }}
@@ -175,8 +175,8 @@ jobs:
   cargo-lock:
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
       - name: Check Cargo.lock is up-to-date

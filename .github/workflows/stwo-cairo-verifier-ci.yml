@@ -14,8 +14,8 @@ jobs:
       run:
         working-directory: stwo_cairo_verifier
     steps:
-      - uses: actions/checkout@v6
-      - uses: software-mansion/setup-scarb@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: ${{ env.SCARB_VERSION }}
       - run: scarb fmt --check
@@ -26,8 +26,8 @@ jobs:
       run:
         working-directory: stwo_cairo_verifier
     steps:
-      - uses: actions/checkout@v6
-      - uses: software-mansion/setup-scarb@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: ${{ env.SCARB_VERSION }}
       - run: scarb lint --features=qm31_opcode --deny-warnings
@@ -114,8 +114,8 @@ jobs:
             package: stwo_cairo_verifier
             runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: software-mansion/setup-scarb@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: ${{ env.SCARB_VERSION }}
       - run: scarb test --features=${{ matrix.feature }} -p ${{ matrix.package }}
@@ -132,8 +132,8 @@ jobs:
           - stwo_circuit_air
           - stwo_circuit_verifier
     steps:
-      - uses: actions/checkout@v6
-      - uses: software-mansion/setup-scarb@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: ${{ env.SCARB_VERSION }}
       - run: scarb test --features=${{ matrix.feature }} -p ${{ matrix.package }}
@@ -164,8 +164,8 @@ jobs:
             proof_file: ../test_data/test_prove_verify_all_opcode_components/proof.json
             runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: software-mansion/setup-scarb@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: ${{ env.SCARB_VERSION }}
       - run: scarb --profile proving execute -p stwo_cairo_verifier --features ${{ matrix.feature }} --print-resource-usage --output none --arguments-file ${{ matrix.proof_file }}

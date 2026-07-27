@@ -23,8 +23,8 @@ jobs:
   js-typecheck:
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: denoland/setup-deno@v2
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2
         with:
           deno-version: v2.2.10
       - run: scripts/js_typecheck.sh
@@ -32,8 +32,8 @@ jobs:
   visualizer-webapp-test:
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: denoland/setup-deno@v2
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2
         with:
           deno-version: v2.2.10
       - run: scripts/visualizer_webapp_test.sh
@@ -42,14 +42,14 @@ jobs:
   tests:
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
-      - uses: actions/checkout@v6
-      - uses: software-mansion/setup-scarb@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           scarb-version: "2.18.0"
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           components: rustfmt
           profile: minimal
           toolchain: ${{ env.STABLE_VERSION }}
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - run: cargo +${{ env.STABLE_VERSION }} test --release ${{ inputs.crate_group }}
