@@ -411,9 +411,9 @@ pub fn create_and_serialize_proof(
             channel_hash: ChannelHash::Blake2s,
             channel_salt: 0,
             pcs_config: PcsConfig {
-                // Stay within 500ms on M3.
-                pow_bits: 26,
                 fri_config: FriConfig {
+                    // Stay within 500ms on M3.
+                    pow_bits: 26,
                     log_last_layer_degree_bound: 0,
                     // Blowup factor > 1 significantly degrades proving speed.
                     // Can be in range [1, 16].
@@ -595,8 +595,7 @@ pub mod tests {
             let prover_params = ProverParameters {
                 channel_hash: ChannelHash::Poseidon252,
                 pcs_config: PcsConfig {
-                    pow_bits: 20,
-                    fri_config: FriConfig::new(0, 1, 90, 1),
+                    fri_config: FriConfig::new(20, 0, 1, 90, 1),
                     min_lifting_log_size: 0,
                 },
                 preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
@@ -783,8 +782,7 @@ pub mod tests {
                 let prover_params = ProverParameters {
                     channel_hash: ChannelHash::Blake2s,
                     pcs_config: PcsConfig {
-                        pow_bits: 10,
-                        fri_config: FriConfig::new(0, 1, 1000, 1),
+                        fri_config: FriConfig::new(10, 0, 1, 1000, 1),
                         min_lifting_log_size: 0,
                     },
                     preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
@@ -1142,8 +1140,7 @@ pub mod tests {
             let prover_params = ProverParameters {
                 channel_hash: ChannelHash::Blake2s,
                 pcs_config: PcsConfig {
-                    pow_bits: 26,
-                    fri_config: FriConfig::new(0, 1, 70, 3),
+                    fri_config: FriConfig::new(26, 0, 1, 70, 3),
                     min_lifting_log_size: 0,
                 },
                 preprocessed_trace: PreProcessedTraceVariant::Canonical,
@@ -1210,8 +1207,7 @@ pub mod tests {
             let prover_params = ProverParameters {
                 channel_hash: ChannelHash::Blake2s,
                 pcs_config: PcsConfig {
-                    pow_bits: 26,
-                    fri_config: FriConfig::new(0, 1, 70, 1),
+                    fri_config: FriConfig::new(26, 0, 1, 70, 1),
                     min_lifting_log_size: 0,
                 },
                 preprocessed_trace: PreProcessedTraceVariant::Canonical,

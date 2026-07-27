@@ -31,8 +31,8 @@ struct Args {
     ///         "channel_hash":"blake2s",
     ///         "channel_salt": 0,
     ///         "pcs_config": {
-    ///             "pow_bits": 26,
     ///             "fri_config": {
+    ///                 "pow_bits": 26,
     ///                 "log_last_layer_degree_bound": 0,
     ///                 "log_blowup_factor": 1,
     ///                 "n_queries": 70

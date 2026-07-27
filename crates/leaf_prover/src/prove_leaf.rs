@@ -172,7 +172,7 @@ pub fn prove_leaf(
         n_outputs,
         verifier_config.preprocessed_trace_variant,
         verifier_config.preprocessed_root,
-        verifier_config.proof_config.n_pow_bits,
+        verifier_config.proof_config.fri.pow_bits,
         verifier_config.proof_config.fri,
     );
     assert!(context.is_circuit_valid(), "The verifier circuit rejected the proof!");

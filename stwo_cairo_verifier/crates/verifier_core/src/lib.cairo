@@ -17,8 +17,6 @@ pub mod fri;
 mod fri_test;
 
 pub mod pcs;
-#[cfg(test)]
-mod pcs_test;
 
 pub mod poly;
 

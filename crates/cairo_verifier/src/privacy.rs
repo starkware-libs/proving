@@ -136,7 +136,12 @@ pub const fn get_pcs_config(trace_log_size: u32, log_blowup_factor: u32) -> PcsC
         "The config is not secure enough."
     );
     // Note that `fold_step` is hardcoded to 4.
-    let fri_config =
-        FriConfig { log_blowup_factor, log_last_layer_degree_bound: 0, n_queries, fold_step: 4 };
-    PcsConfig { pow_bits, fri_config, min_lifting_log_size: trace_log_size + log_blowup_factor }
+    let fri_config = FriConfig {
+        pow_bits,
+        log_blowup_factor,
+        log_last_layer_degree_bound: 0,
+        n_queries,
+        fold_step: 4,
+    };
+    PcsConfig { fri_config, min_lifting_log_size: trace_log_size + log_blowup_factor }
 }

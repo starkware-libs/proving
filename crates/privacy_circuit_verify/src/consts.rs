@@ -36,6 +36,7 @@ pub const CIRCUIT_LOG_BLOWUP_FACTOR: u32 = 2;
 pub const CIRCUIT_TRACE_LOG_SIZE: u32 = 21;
 
 pub const CAIRO_FRI_CONFIG: FriConfig = FriConfig {
+    pow_bits: 27,
     log_blowup_factor: CAIRO_LOG_BLOWUP_FACTOR,
     log_last_layer_degree_bound: 0,
     n_queries: 23,
@@ -43,12 +44,12 @@ pub const CAIRO_FRI_CONFIG: FriConfig = FriConfig {
 };
 
 pub const CAIRO_PCS_CONFIG: PcsConfig = PcsConfig {
-    pow_bits: 27,
     fri_config: CAIRO_FRI_CONFIG,
     min_lifting_log_size: CAIRO_TRACE_LOG_SIZE + CAIRO_LOG_BLOWUP_FACTOR,
 };
 
 pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
+    pow_bits: 26,
     log_blowup_factor: CIRCUIT_LOG_BLOWUP_FACTOR,
     log_last_layer_degree_bound: 0,
     n_queries: 35,
@@ -56,7 +57,6 @@ pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
 };
 
 pub const CIRCUIT_PCS_CONFIG: PcsConfig = PcsConfig {
-    pow_bits: 26,
     fri_config: CIRCUIT_FRI_CONFIG,
     min_lifting_log_size: CIRCUIT_TRACE_LOG_SIZE + CIRCUIT_LOG_BLOWUP_FACTOR,
 };

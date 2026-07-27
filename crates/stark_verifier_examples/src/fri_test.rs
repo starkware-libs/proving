@@ -47,7 +47,6 @@ fn test_fri_decommit_with_jumps(
     let mut context = TraceContext::default();
     // Make a dummy config.
     let config = ProofConfig {
-        n_pow_bits: 0,
         n_interaction_pow_bits: 0,
         n_preprocessed_columns: 0,
         n_trace_columns: 0,
@@ -55,7 +54,7 @@ fn test_fri_decommit_with_jumps(
         component_shapes: vec![],
         cumulative_sum_columns: vec![],
         log_trace_size: log_trace_size as usize,
-        fri: FriConfig::new(0, log_blowup_factor, n_queries, fold_step as u32),
+        fri: FriConfig::new(0, 0, log_blowup_factor, n_queries, fold_step as u32),
     };
 
     // Compute FRI input.
@@ -138,7 +137,7 @@ fn create_fri_proof(
     n_queries: usize,
     query_indices: &[usize],
 ) -> ExtendedFriProof<Blake2sMerkleHasher> {
-    let config = FriConfig::new(0, log_blowup_factor, n_queries, fold_step as u32);
+    let config = FriConfig::new(0, 0, log_blowup_factor, n_queries, fold_step as u32);
     let column = polynomial_evaluation(log_trace_size, log_blowup_factor);
     let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
     let prover = FriProver::<CpuBackend, Blake2sM31MerkleChannel>::commit(

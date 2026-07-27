@@ -222,8 +222,7 @@ pub struct ComponentShape {
 #[derive(Debug, PartialEq, Clone)]
 pub struct ProofConfig {
     // TODO(lior): Add a check on the total security bits of the protocol given parameters
-    //   such as `n_pow_bits`, `fri.n_queries`, etc.
-    pub n_pow_bits: u32,
+    //   such as `fri.pow_bits`, `fri.n_queries`, etc.
     pub n_interaction_pow_bits: u32,
 
     // AIR structure.
@@ -279,14 +278,13 @@ impl ProofConfig {
             cumulative_sum_columns.extend(vec![true; SECURE_EXTENSION_DEGREE]);
         }
 
-        let PcsConfig { pow_bits, fri_config, min_lifting_log_size } = pcs_config;
+        let PcsConfig { fri_config, min_lifting_log_size } = pcs_config;
         let log_trace_size = min_lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
             "The circuit verifier expects min_lifting_log_size to be log_trace_size + \
              log_blowup_factor",
         ) as usize;
 
         Self {
-            n_pow_bits: *pow_bits,
             n_interaction_pow_bits,
             n_preprocessed_columns,
             n_trace_columns,
@@ -336,7 +334,7 @@ impl ProofConfig {
     ) {
         let lifting_log_size = self.log_trace_size() + self.fri.log_blowup_factor as usize;
         let pcs_config_values = vec![
-            self.n_pow_bits,
+            self.fri.pow_bits,
             self.fri.log_blowup_factor,
             self.fri.n_queries as u32,
             self.fri.log_last_layer_degree_bound,

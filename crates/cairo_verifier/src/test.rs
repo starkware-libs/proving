@@ -110,9 +110,8 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2sM31,
             pcs_config: PcsConfig {
-                pow_bits: 26,
                 // Fold step = 4.
-                fri_config: FriConfig::new(0, low_blowup_factor, 70, 4),
+                fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
                 min_lifting_log_size: trace_log_size + low_blowup_factor,
             },
             preprocessed_trace: preprocessed_trace_variant,

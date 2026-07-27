@@ -19,16 +19,14 @@ mod verifier_test;
 
 #[derive(Drop, Serde, Copy, PartialEq)]
 pub struct PcsConfig {
-    pub pow_bits: u32,
     pub fri_config: FriConfig,
 }
 #[generate_trait]
 pub impl PcsConfigImpl of PcsConfigTrait {
     fn mix_into(self: @PcsConfig, ref channel: Channel) {
-        let PcsConfig { pow_bits, fri_config } = self;
         let FriConfig {
-            log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step,
-        } = fri_config;
+            pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step,
+        } = self.fri_config;
 
         let zero = M31Zero::zero();
         channel
@@ -48,14 +46,5 @@ pub impl PcsConfigImpl of PcsConfigTrait {
                 ]
                     .span(),
             );
-    }
-
-    fn security_bits(self: @PcsConfig) -> u32 {
-        let PcsConfig {
-            pow_bits, fri_config: FriConfig {
-                log_blowup_factor, log_last_layer_degree_bound: _, n_queries, fold_step: _,
-            },
-        } = self;
-        *pow_bits + *log_blowup_factor * *n_queries
     }
 }

@@ -123,21 +123,21 @@ impl CairoDeserialize for FieldElement {
 
 impl CairoDeserialize for FriConfig {
     fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+        let pow_bits = u32::deserialize(data);
         let log_blowup_factor = u32::deserialize(data);
         let log_last_layer_degree_bound = u32::deserialize(data);
         let n_queries = usize::deserialize(data);
         let fold_step = u32::deserialize(data);
-        FriConfig { log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step }
+        FriConfig { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step }
     }
 }
 
 impl CairoDeserialize for PcsConfig {
     fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
-        let pow_bits = u32::deserialize(data);
         let fri_config = FriConfig::deserialize(data);
         // `min_lifting_log_size` is not carried in the wire format (see the `CairoSerialize`
         // impl); it is always `0` for proofs in this format.
-        PcsConfig { pow_bits, fri_config, min_lifting_log_size: 0 }
+        PcsConfig { fri_config, min_lifting_log_size: 0 }
     }
 }
 

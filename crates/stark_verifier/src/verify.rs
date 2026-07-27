@@ -170,7 +170,7 @@ pub fn verify<Value: IValue>(
     let fri_alphas = fri_commit(context, &mut channel, &proof.fri.commit);
 
     // Proof of work before query selection.
-    channel.pow(context, config.n_pow_bits, proof.pow_nonce);
+    channel.pow(context, config.fri.pow_bits, proof.pow_nonce);
 
     // Select queries.
     let query_selection_input =

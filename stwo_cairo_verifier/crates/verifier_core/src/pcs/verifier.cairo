@@ -152,9 +152,9 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         );
 
         // Verify proof of work.
-        assert!(config.pow_bits >= MIN_POW_BITS);
+        assert!(config.fri_config.pow_bits >= MIN_POW_BITS);
         assert!(
-            channel.verify_pow_nonce(config.pow_bits, proof_of_work_nonce),
+            channel.verify_pow_nonce(config.fri_config.pow_bits, proof_of_work_nonce),
             "{}",
             VerificationError::QueriesProofOfWork,
         );

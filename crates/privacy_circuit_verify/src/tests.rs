@@ -113,7 +113,7 @@ fn check_circuit_verifier_configs() {
 
     // Check that the circuit pcs config is secure enough
     assert!(
-        CIRCUIT_PCS_CONFIG.pow_bits
+        CIRCUIT_PCS_CONFIG.fri_config.pow_bits
             + CIRCUIT_PCS_CONFIG.fri_config.n_queries as u32
                 * CIRCUIT_PCS_CONFIG.fri_config.log_blowup_factor
             >= CONJECTURED_SECURITY_BITS,
@@ -121,7 +121,7 @@ fn check_circuit_verifier_configs() {
     );
 
     assert!(
-        CAIRO_PCS_CONFIG.pow_bits
+        CAIRO_PCS_CONFIG.fri_config.pow_bits
             + CAIRO_PCS_CONFIG.fri_config.n_queries as u32
                 * CAIRO_PCS_CONFIG.fri_config.log_blowup_factor
             >= CONJECTURED_SECURITY_BITS,

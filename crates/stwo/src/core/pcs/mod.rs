@@ -29,8 +29,6 @@ pub struct TreeSubspan {
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 /// Configuration parameters for the commitment scheme prover.
 pub struct PcsConfig {
-    /// The number of proof of work bits before the FRI queries.
-    pub pow_bits: u32,
     pub fri_config: FriConfig,
     /// A lower bound on the size of the lifting domain (This size includes the
     /// `log_blowup_factor`). Each tree is committed with height
@@ -42,14 +40,15 @@ pub struct PcsConfig {
     pub min_lifting_log_size: u32,
 }
 impl PcsConfig {
-    pub const fn security_bits(&self) -> u32 {
-        self.pow_bits + self.fri_config.security_bits()
-    }
-
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        let PcsConfig { pow_bits, fri_config, min_lifting_log_size } = self;
-        let FriConfig { log_blowup_factor, n_queries, log_last_layer_degree_bound, fold_step } =
-            fri_config;
+        let PcsConfig { fri_config, min_lifting_log_size } = self;
+        let FriConfig {
+            pow_bits,
+            log_blowup_factor,
+            n_queries,
+            log_last_layer_degree_bound,
+            fold_step,
+        } = fri_config;
 
         channel.mix_felts(&[
             SecureField::from_u32_unchecked(
@@ -65,19 +64,6 @@ impl PcsConfig {
 
 impl Default for PcsConfig {
     fn default() -> Self {
-        Self { pow_bits: 10, fri_config: FriConfig::new(0, 1, 3, 1), min_lifting_log_size: 0 }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn test_security_bits() {
-        let config = super::PcsConfig {
-            pow_bits: 42,
-            fri_config: super::FriConfig::new(10, 10, 70, 1),
-            min_lifting_log_size: 0,
-        };
-        assert!(config.security_bits() == 10 * 70 + 42);
+        Self { fri_config: FriConfig::new(10, 0, 1, 3, 1), min_lifting_log_size: 0 }
     }
 }

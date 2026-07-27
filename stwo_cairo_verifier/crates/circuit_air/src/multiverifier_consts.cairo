@@ -14,9 +14,12 @@ use crate::per_component::PerComponent;
 /// Note `pow_bits + log_blowup_factor * n_queries = 27 + 3 * 23 = 96 = SECURITY_BITS`.
 pub fn circuit_pcs_config() -> PcsConfig {
     PcsConfig {
-        pow_bits: 27,
         fri_config: FriConfig {
-            log_blowup_factor: 3, log_last_layer_degree_bound: 0, n_queries: 23, fold_step: 4,
+            pow_bits: 27,
+            log_blowup_factor: 3,
+            log_last_layer_degree_bound: 0,
+            n_queries: 23,
+            fold_step: 4,
         },
     }
 }

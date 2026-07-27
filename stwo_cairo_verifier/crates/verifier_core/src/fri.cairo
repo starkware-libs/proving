@@ -21,10 +21,18 @@ pub const LOG_PACKED_LEAF_SIZE: u32 = 2;
 
 #[derive(Drop, Serde, Copy, PartialEq)]
 pub struct FriConfig {
+    pub pow_bits: u32,
     pub log_blowup_factor: u32,
     pub log_last_layer_degree_bound: u32,
     pub n_queries: usize,
     pub fold_step: u32,
+}
+
+#[generate_trait]
+pub impl FriConfigImpl of FriConfigTrait {
+    fn security_bits(self: @FriConfig) -> u32 {
+        *self.pow_bits + *self.log_blowup_factor * *self.n_queries
+    }
 }
 
 #[derive(Drop)]

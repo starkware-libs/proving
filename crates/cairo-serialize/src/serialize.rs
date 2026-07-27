@@ -96,7 +96,9 @@ impl CairoSerialize for FieldElement {
 
 impl CairoSerialize for FriConfig {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
-        let Self { log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step } = self;
+        let Self { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step } =
+            self;
+        pow_bits.serialize(output);
         log_blowup_factor.serialize(output);
         log_last_layer_degree_bound.serialize(output);
         n_queries.serialize(output);
@@ -106,14 +108,13 @@ impl CairoSerialize for FriConfig {
 
 impl CairoSerialize for PcsConfig {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
-        let Self { pow_bits, fri_config, min_lifting_log_size } = self;
+        let Self { fri_config, min_lifting_log_size } = self;
         // `min_lifting_log_size` is not carried in the wire format: the Cairo verifier only
         // accepts proofs created with `0` and mixes `0` into the channel.
         assert_eq!(
             *min_lifting_log_size, 0,
             "proofs for the Cairo verifier must be created with min_lifting_log_size = 0"
         );
-        pow_bits.serialize(output);
         fri_config.serialize(output);
     }
 }
