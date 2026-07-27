@@ -72,7 +72,7 @@ fn test_serialize_deserialize_cairo_proof() {
 
 #[test]
 fn test_serialize_deserialize_claim_and_interaction_claim() {
-    // Distinct values in `ComponentList` order so any ordering bug shows up.
+    // Use distinct claim sum values to detect ordering bugs.
     let claim = CairoCircuitClaim { output_values: vec![qm31(1, 2, 3, 4), qm31(5, 6, 7, 8)] };
     let interaction = CairoCircuitInteractionClaim {
         claimed_sums: [

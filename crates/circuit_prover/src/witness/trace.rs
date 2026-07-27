@@ -6,11 +6,8 @@ use circuit_common::preprocessed::PreProcessedTrace;
 use circuit_verifier::circuit_claim::{
     CircuitClaim, CircuitInteractionClaim, CircuitInteractionElements,
 };
-use circuit_verifier::circuit_components::{
-    COMPONENT_NAMES, ComponentList, PerComponent, sorted_component_order,
-};
+use circuit_verifier::circuit_components::PerComponent;
 use circuits::context::U_VAR_IDX;
-use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use itertools::Itertools;
 use rayon::scope;
 use stwo::core::channel::MerkleChannel;
@@ -37,7 +34,7 @@ pub fn write_trace<MC: MerkleChannel>(
     tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
     trace_generator: &TraceGenerator,
     twiddles: &TwiddleTree<SimdBackend>,
-) -> (CircuitClaim, OrderedHashMap<&'static str, u32>, CircuitInteractionClaimGenerator)
+) -> (CircuitClaim, PerComponent<u32>, CircuitInteractionClaimGenerator)
 where
     SimdBackend: BackendForChannel<MC>,
 {
@@ -246,27 +243,20 @@ where
         )
     };
 
-    // Per-component log sizes, in `COMPONENT_NAMES` (i.e. `ComponentList`) order.
-    let log_sizes: OrderedHashMap<&'static str, u32> = COMPONENT_NAMES
-        .into_iter()
-        .zip_eq([
-            eq_log_size,
-            qm31_ops_log_size,
-            triple_xor_claim.log_size,
-            m_31_to_u_32_claim.log_size,
-            blake_g_gate_claim.log_size,
-            crate::circuit_air::components::verify_bitwise_xor_8::LOG_SIZE,
-            crate::circuit_air::components::verify_bitwise_xor_12::LOG_SIZE,
-            crate::circuit_air::components::verify_bitwise_xor_4::LOG_SIZE,
-            crate::circuit_air::components::verify_bitwise_xor_7::LOG_SIZE,
-            crate::circuit_air::components::verify_bitwise_xor_9::LOG_SIZE,
-            crate::circuit_air::components::range_check_16::LOG_SIZE,
-        ])
-        .collect();
+    let log_sizes = PerComponent {
+        eq: eq_log_size,
+        qm31_ops: qm31_ops_log_size,
+        triple_xor: triple_xor_claim.log_size,
+        m_31_to_u_32: m_31_to_u_32_claim.log_size,
+        blake_g_gate: blake_g_gate_claim.log_size,
+        verify_bitwise_xor_8: crate::circuit_air::components::verify_bitwise_xor_8::LOG_SIZE,
+        verify_bitwise_xor_12: crate::circuit_air::components::verify_bitwise_xor_12::LOG_SIZE,
+        verify_bitwise_xor_4: crate::circuit_air::components::verify_bitwise_xor_4::LOG_SIZE,
+        verify_bitwise_xor_7: crate::circuit_air::components::verify_bitwise_xor_7::LOG_SIZE,
+        verify_bitwise_xor_9: crate::circuit_air::components::verify_bitwise_xor_9::LOG_SIZE,
+        range_check_16: crate::circuit_air::components::range_check_16::LOG_SIZE,
+    };
 
-    // Commit the component columns in size-sorted order (see `sorted_component_order`) so the
-    // committed column layout coincides with the natural component order, letting the verifier
-    // skip the in-circuit query-column sort during decommitment.
     let component_trace_polys = [
         eq_polys,
         qm31_ops_polys,
@@ -280,9 +270,8 @@ where
         verify_bitwise_xor_9_polys,
         range_check_16_polys,
     ];
-    let mut component_trace_polys = component_trace_polys.map(Some);
-    for &i in sorted_component_order(&log_sizes).iter() {
-        tree_builder.extend_polys(component_trace_polys[i].take().unwrap());
+    for polys in component_trace_polys {
+        tree_builder.extend_polys(polys);
     }
 
     let output_values = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + n_outputs))
@@ -323,7 +312,7 @@ pub struct CircuitInteractionClaimGenerator {
 }
 
 pub fn write_interaction_trace<MC: MerkleChannel>(
-    component_log_sizes: &OrderedHashMap<&'static str, u32>,
+    component_log_sizes: &PerComponent<u32>,
     circuit_interaction_claim_generator: CircuitInteractionClaimGenerator,
     tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
     interaction_elements: &CircuitInteractionElements,
@@ -333,8 +322,8 @@ where
     SimdBackend: BackendForChannel<MC>,
 {
     // Extract log sizes before parallel section.
-    let eq_log_size = component_log_sizes[ComponentList::Eq.name()];
-    let qm31_ops_log_size = component_log_sizes[ComponentList::Qm31Ops.name()];
+    let eq_log_size = component_log_sizes.eq;
+    let qm31_ops_log_size = component_log_sizes.qm31_ops;
 
     // Write all interaction traces in parallel, including interpolation. The slots below start
     // default-initialized; each spawned task writes into its own disjoint field. Destructuring
@@ -431,16 +420,10 @@ where
         });
     });
 
-    // Commit the interaction columns in the same size-sorted order as the base trace columns
-    // (see `sorted_component_order`), and reorder the claimed sums to match so that
-    // `CircuitInteractionClaim` stores them in committed (size-sorted) order.
-    let order = sorted_component_order(component_log_sizes);
-    let mut all_polys = all_polys.into_array();
-    for &i in &order {
-        tree_builder.extend_polys(std::mem::take(&mut all_polys[i]));
+    // Commit the interaction columns.
+    for polys in all_polys.into_array() {
+        tree_builder.extend_polys(polys);
     }
-    let claimed_sums = claimed_sums.into_array();
-    let sorted_claimed_sums = std::array::from_fn(|sorted_idx| claimed_sums[order[sorted_idx]]);
 
-    CircuitInteractionClaim { claimed_sums: sorted_claimed_sums }
+    CircuitInteractionClaim { claimed_sums }
 }

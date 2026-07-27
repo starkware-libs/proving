@@ -17,10 +17,7 @@ use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_multiverifier::verify::{
     MultiverifierInput, SharedConfig, build_multiverifier_circuit,
 };
-use circuit_verifier::statement::{
-    INTERACTION_POW_BITS as CIRCUIT_INTERACTION_POW_BITS, all_circuit_components,
-    circuit_component_log_sizes,
-};
+use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
@@ -136,17 +133,7 @@ fn build_multiverifier_context(
 ) -> FinalizedContext<NoValue> {
     let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
 
-    // `ProofConfig` expects the components in ascending log-size order.
-    let mut components = all_circuit_components::<NoValue>();
-    let log_sizes = circuit_component_log_sizes(&components, &preprocessed_column_log_sizes);
-    components.sort_by(|a, _, b, _| log_sizes[*a].cmp(&log_sizes[*b]));
-
-    let proof_config = ProofConfig::new(
-        &components,
-        preprocessed_leaf.preprocessed_trace.n_columns(),
-        &pcs_config,
-        CIRCUIT_INTERACTION_POW_BITS,
-    );
+    let proof_config = circuit_verifier_proof_config(&preprocessed_column_log_sizes, &pcs_config);
     let shared_config = SharedConfig {
         pcs_config,
         preprocessed_column_log_sizes,

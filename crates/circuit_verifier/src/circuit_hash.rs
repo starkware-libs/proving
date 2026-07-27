@@ -3,11 +3,10 @@ use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits::wrappers::U32Wrapper;
-use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use itertools::{Itertools, chain};
 use stwo::core::fields::qm31::QM31;
 
-use crate::circuit_components::{COMPONENT_NAMES, N_COMPONENTS};
+use crate::circuit_components::{N_COMPONENTS, PerComponent};
 
 #[cfg(test)]
 #[path = "circuit_hash_test.rs"]
@@ -23,15 +22,17 @@ const _: () =
 /// [`COMPONENT_NAMES`] order), one byte each, into little-endian u32 words.
 pub fn config_words(
     log_blowup_factor: u32,
-    component_log_sizes: &OrderedHashMap<&'static str, u32>,
+    component_log_sizes: &PerComponent<u32>,
 ) -> [u32; CONFIG_N_BYTES / 4] {
     let log_blowup_factor =
         u8::try_from(log_blowup_factor).expect("log_blowup_factor does not fit in a byte");
+    // Sizes in declaration (i.e. `COMPONENT_NAMES`) order, one byte each after the blowup byte.
+    let sizes = component_log_sizes.into_array();
     let config_bytes: [u8; CONFIG_N_BYTES] = std::array::from_fn(|i| {
         if i == 0 {
             return log_blowup_factor;
         }
-        let size = *component_log_sizes.get(COMPONENT_NAMES[i - 1]).unwrap();
+        let size = sizes[i - 1];
         u8::try_from(size).unwrap_or_else(|_| panic!("log_size {size} does not fit in a byte"))
     });
     le_u32s_from_bytes(config_bytes)
@@ -41,7 +42,7 @@ pub fn config_words(
 /// preprocessed_root)`
 pub fn compute_circuit_hash<Value: IValue>(
     context: &mut Context<Value>,
-    component_log_sizes: &OrderedHashMap<&'static str, u32>,
+    component_log_sizes: &PerComponent<u32>,
     log_blowup_factor: u32,
     preprocessed_root: &HashValue<Var>,
 ) -> HashValue<Var> {

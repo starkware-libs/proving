@@ -66,17 +66,9 @@ impl<Value: IValue> CircuitStatement<Value> {
         }))
         .guess(context);
 
-        // Order the components by ascending trace log size — the committed-column order. stwo
-        // commits the trace/interaction columns sorted by size (see
-        // `stwo::prover::vcs_lifted::prover::MerkleProverLifted::commit`), so iterating the
-        // components in this order makes the natural component order coincide with the
-        // committed column order. That lets `sorting_required` return `false`, skipping the
-        // in-circuit query-column sort during decommitment.
         let components = all_circuit_components::<Value>();
         let log_sizes = circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
 
-        // The circuit hash mixes component log sizes by `COMPONENT_NAMES` order, so it is
-        // independent of the sort below; compute it from the unsorted map.
         let circuit_hash = compute_circuit_hash(
             context,
             &log_sizes,
@@ -84,14 +76,9 @@ impl<Value: IValue> CircuitStatement<Value> {
             &preprocessed_root,
         );
 
-        let (sorted_components, sorted_log_sizes): (Vec<_>, Vec<_>) =
-            zip_eq(components, log_sizes.into_iter().map(|(_, log_size)| log_size))
-                .sorted_by_key(|(_, log_size)| *log_size)
-                .unzip();
-        let components = IndexMap::from_iter(sorted_components);
-
-        let n_components = sorted_log_sizes.len();
-        let packed_log_sizes = pack_into_qm31s(sorted_log_sizes.iter().cloned())
+        let component_log_sizes = log_sizes.into_array();
+        let n_components = component_log_sizes.len();
+        let packed_log_sizes = pack_into_qm31s(component_log_sizes.into_iter())
             .into_iter()
             .map(|qm31| context.constant(qm31))
             .collect_vec();
@@ -122,13 +109,6 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
 
     fn get_component_log_sizes(&self) -> &Simd {
         &self.component_log_sizes
-    }
-
-    /// The circuit components are committed and iterated in size-sorted order (see the sort in
-    /// `CircuitStatement::new`), so the trace and interaction query columns are already in
-    /// committed order and need no sorting during decommitment.
-    fn sorting_required(&self) -> bool {
-        false
     }
 
     fn public_logup_sum(
@@ -200,31 +180,40 @@ pub fn all_circuit_components<Value: IValue>() -> IndexMap<&'static str, Box<dyn
     IndexMap::from_iter(components.into_named_iter())
 }
 
-/// Resolves the (static) log size of every circuit component, keyed by component name.
+/// Resolves the (static) log size of every circuit component.
 pub fn circuit_component_log_sizes<Value: IValue>(
     components: &IndexMap<&'static str, Box<dyn CircuitEval<Value>>>,
     preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
-) -> OrderedHashMap<&'static str, u32> {
-    components
-        .iter()
-        .map(|(name, c)| {
-            let log_size = c
-                .log_size(preprocessed_column_log_sizes)
-                .expect("The circuit components can't have a dynamic log_size.");
-            (*name, log_size)
-        })
-        .collect()
+) -> PerComponent<u32> {
+    let log_size = |name: &str| {
+        components
+            .get(name)
+            .unwrap()
+            .log_size(preprocessed_column_log_sizes)
+            .expect("The circuit components can't have a dynamic log_size.")
+    };
+    PerComponent {
+        eq: log_size("eq"),
+        qm31_ops: log_size("qm31_ops"),
+        triple_xor: log_size("triple_xor"),
+        m_31_to_u_32: log_size("m_31_to_u_32"),
+        blake_g_gate: log_size("blake_g_gate"),
+        verify_bitwise_xor_8: log_size("verify_bitwise_xor_8"),
+        verify_bitwise_xor_12: log_size("verify_bitwise_xor_12"),
+        verify_bitwise_xor_4: log_size("verify_bitwise_xor_4"),
+        verify_bitwise_xor_7: log_size("verify_bitwise_xor_7"),
+        verify_bitwise_xor_9: log_size("verify_bitwise_xor_9"),
+        range_check_16: log_size("range_check_16"),
+    }
 }
 
-/// Builds the [`ProofConfig`] for the circuit verifier circuit, ordering the components by
-/// ascending trace log size (the column layout the circuit verifier expects).
+/// Builds the [`ProofConfig`] for the circuit verifier circuit, with the components in the order
+/// in which `CircuitStatement::new` iterates them.
 pub fn circuit_verifier_proof_config(
     preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
     pcs_config: &PcsConfig,
 ) -> ProofConfig {
-    let mut components = all_circuit_components::<QM31>();
-    let log_sizes = circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
-    components.sort_by_key(|a, _| log_sizes[*a]);
+    let components = all_circuit_components::<QM31>();
     ProofConfig::new(
         &components,
         preprocessed_column_log_sizes.len(),

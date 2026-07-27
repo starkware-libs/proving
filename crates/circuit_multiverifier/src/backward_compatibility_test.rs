@@ -13,13 +13,14 @@ use crate::test_utils::{
 };
 use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
 
-/// The preprocessed root of the old Cairo verifier circuit.
+/// The preprocessed root of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [695775592, 831947430, 3864682957, 1778749033, 1073148880, 3248306553, 1968525874, 3767461582];
-/// The output values of the old Cairo verifier circuit.
+    [3580131499, 853571055, 2474568565, 4285427874, 2791872500, 2472518950, 3377645711, 789025722];
+/// The output values of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_VALUES: [u32; 8] =
-    [3035180123, 3555538090, 587798257, 1881776298, 3385462846, 2102605012, 3369268656, 403460632];
-/// An older Cairo verifier proof (generated in #648).
+    [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
+/// A Cairo verifier proof used as the backward-compatibility baseline. Re-baselined to the current
+/// proof whenever a transcript-changing feature makes the previous fixture unverifiable.
 const BACKWARD_COMPATIBILITY_CAIRO_PROOF_PATH: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/../../test_data/circuit_multiverifier/backward_compatibility_cairo_proof.bin"

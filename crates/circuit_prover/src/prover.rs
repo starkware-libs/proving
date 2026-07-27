@@ -229,7 +229,7 @@ pub fn prepare_circuit_proof_for_circuit_verifier(
     let proof = proof_from_stark_proof(
         &stark_proof,
         &proof_config,
-        interaction_claim.claimed_sums.to_vec(),
+        interaction_claim.claimed_sums.into_array().to_vec(),
         interaction_pow_nonce,
         channel_salt,
     );

@@ -3,7 +3,7 @@ use std::iter::repeat_n;
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::context::{U_VALUE, U_VAR_IDX};
 use circuits::ivalue::NoValue;
-use circuits_stark_verifier::order_hash_map::OrderedHashMap;
+use itertools::Itertools;
 use num_traits::Zero;
 use stwo::core::channel::Channel;
 use stwo::core::fields::FieldExpOps;
@@ -12,7 +12,7 @@ use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_constraint_framework::Relation;
 
-use crate::circuit_components::{N_COMPONENTS, sorted_component_order};
+use crate::circuit_components::PerComponent;
 use crate::relations::{CommonLookupElements, GATE_RELATION_ID};
 use crate::statement::all_circuit_components;
 
@@ -42,17 +42,13 @@ pub fn mix_circuit_hash(channel: &mut impl Channel, circuit_hash: &Blake2sHash) 
 }
 
 /// Returns `[trace_log_sizes, interaction_log_sizes]` for `tree[1]` and `tree[2]`,
-/// in the order the prover commits columns, i.e. size-sorted component order (see
-/// `sorted_component_order`). Each component contributes its `log_size` repeated by its number of
-/// trace and interaction columns respectively.
-pub fn column_log_sizes_per_tree(log_sizes: &OrderedHashMap<&'static str, u32>) -> [Vec<u32>; 2] {
+/// in `ComponentList` order. Each component contributes its `log_size` repeated
+/// by its number of trace and interaction columns respectively.
+pub fn column_log_sizes_per_tree(log_sizes: &PerComponent<u32>) -> [Vec<u32>; 2] {
     let components = all_circuit_components::<NoValue>();
-    let order = sorted_component_order(log_sizes);
     let mut trace = Vec::new();
     let mut interaction = Vec::new();
-    for &i in &order {
-        let (&name, component) = components.get_index(i).unwrap();
-        let log_size = log_sizes[name];
+    for (component, log_size) in components.values().zip_eq(log_sizes.into_array()) {
         trace.extend(repeat_n(log_size, component.trace_columns()));
         interaction.extend(repeat_n(log_size, component.interaction_columns()));
     }
@@ -70,15 +66,14 @@ impl CircuitInteractionElements {
 
 #[derive(Debug, PartialEq)]
 pub struct CircuitInteractionClaim {
-    pub claimed_sums: [ClaimedSum; N_COMPONENTS],
+    pub claimed_sums: PerComponent<ClaimedSum>,
 }
 impl CircuitInteractionClaim {
-    /// Mixes the claimed sums into the channel. They are already stored in size-sorted component
-    /// order (see `sorted_component_order`), matching the order in which the components' columns
-    /// are committed and the order in which the verifier consumes the claimed sums.
+    /// Mixes the claimed sums into the channel, in `ComponentList` order,
+    /// matching the order in which the verifier consumes them.
     pub fn mix_into(&self, channel: &mut impl Channel) {
         let Self { claimed_sums } = self;
-        channel.mix_felts(claimed_sums);
+        channel.mix_felts(&claimed_sums.into_array());
     }
 }
 
@@ -88,7 +83,7 @@ pub fn lookup_sum(
     interaction_elements: &CircuitInteractionElements,
 ) -> QM31 {
     let CircuitInteractionClaim { claimed_sums } = interaction_claim;
-    let component_sum: QM31 = claimed_sums.iter().sum();
+    let component_sum: QM31 = claimed_sums.into_array().into_iter().sum();
 
     // Compute the public logup sum from output gates.
     let mut output_sum = QM31::zero();

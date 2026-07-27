@@ -1,14 +1,14 @@
+use circuit_verifier::circuit_components::PerComponent;
 use circuit_verifier::circuit_hash::config_words;
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::utils::le_u32s_from_bytes;
-use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 
 /// Computes the circuit hash. This is the non-circuit version of
 /// [`circuit_verifier::circuit_hash::compute_circuit_hash`]. Used by the prover to mix the circuit
 /// hash into the channel.
 pub fn compute_circuit_hash(
-    component_log_sizes: &OrderedHashMap<&'static str, u32>,
+    component_log_sizes: &PerComponent<u32>,
     log_blowup_factor: u32,
     preprocessed_root: Blake2sHash,
 ) -> Blake2sHash {
@@ -24,7 +24,6 @@ pub fn compute_circuit_hash(
 
 #[cfg(test)]
 mod tests {
-    use circuit_verifier::circuit_components::COMPONENT_NAMES;
     use circuit_verifier::circuit_hash::compute_circuit_hash as compute_circuit_hash_in_circuit;
     use circuits::blake::HashValue;
     use circuits::context::TraceContext;
@@ -39,8 +38,19 @@ mod tests {
     /// over the same config. A divergence would silently break the Fiat-Shamir transcript.
     #[test]
     fn host_matches_in_circuit() {
-        let component_log_sizes: OrderedHashMap<&'static str, u32> =
-            COMPONENT_NAMES.iter().enumerate().map(|(i, name)| (*name, (i % 20) as u32)).collect();
+        let component_log_sizes = PerComponent {
+            eq: 0,
+            qm31_ops: 1,
+            triple_xor: 2,
+            m_31_to_u_32: 3,
+            blake_g_gate: 4,
+            verify_bitwise_xor_8: 5,
+            verify_bitwise_xor_12: 6,
+            verify_bitwise_xor_4: 7,
+            verify_bitwise_xor_7: 8,
+            verify_bitwise_xor_9: 9,
+            range_check_16: 10,
+        };
         let log_blowup_factor = 3;
         let preprocessed_root = Blake2sHash(std::array::from_fn(|i| i as u8));
 

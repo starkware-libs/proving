@@ -2,8 +2,7 @@ use circuit_verifier::circuit_claim::{
     CircuitInteractionClaim, CircuitInteractionElements, ClaimedSum,
 };
 use circuit_verifier::circuit_components::PerComponent;
-use circuits_stark_verifier::order_hash_map::OrderedHashMap;
-use itertools::Itertools;
+use itertools::izip;
 use stwo::core::air::Component;
 use stwo::prover::ComponentProver;
 use stwo::prover::backend::simd::SimdBackend;
@@ -16,15 +15,14 @@ use crate::circuit_air::components::{
 };
 
 pub struct CircuitComponents {
-    /// The component provers, in ascending trace-log-size order (may differ from
-    /// `COMPONENT_NAMES`).
+    /// The component provers, in `ComponentList` order.
     components: Vec<Box<dyn ComponentProver<SimdBackend>>>,
 }
 impl CircuitComponents {
     pub fn new(
         interaction_elements: &CircuitInteractionElements,
         interaction_claim: &CircuitInteractionClaim,
-        component_log_sizes: &OrderedHashMap<&'static str, u32>,
+        component_log_sizes: &PerComponent<u32>,
         // Describes the structure of the preprocessed trace. Sensitive to order.
         preprocessed_column_ids: &[PreProcessedColumnId],
     ) -> Self {
@@ -34,6 +32,8 @@ impl CircuitComponents {
         let lookup_elements = &interaction_elements.common_lookup_elements;
         let claimed_sums = &interaction_claim.claimed_sums;
 
+        // Each component's constructor, keyed by component, so that the order in which the
+        // components are constructed is decided below rather than by the order of these fields.
         let constructors = PerComponent::<
             Box<
                 dyn FnMut(
@@ -152,17 +152,17 @@ impl CircuitComponents {
             }),
         };
 
-        // Each constructor is paired with its own component's name, so look up the log size by
-        // name rather than relying on the map's iteration order.
-        let components: Vec<Box<dyn ComponentProver<SimdBackend>>> = constructors
-            .into_named_iter()
-            .map(|(name, constructor)| (component_log_sizes[name], constructor))
-            .sorted_by_key(|(log_size, _)| *log_size)
-            .zip_eq(claimed_sums)
-            .map(|((log_size, mut constructor), claimed_sum)| {
-                constructor(&mut *tree_span_provider, log_size, *claimed_sum)
-            })
-            .collect();
+        // The `TraceLocationAllocator` assigns each component its committed columns in
+        // construction order, so the constructors are invoked in `ComponentList` order.
+        let components: Vec<Box<dyn ComponentProver<SimdBackend>>> = izip!(
+            constructors.into_array(),
+            component_log_sizes.into_array(),
+            claimed_sums.into_array()
+        )
+        .map(|(mut constructor, log_size, claimed_sum)| {
+            constructor(tree_span_provider, log_size, claimed_sum)
+        })
+        .collect();
 
         Self { components }
     }

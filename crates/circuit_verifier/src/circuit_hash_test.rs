@@ -7,7 +7,7 @@ use crate::circuit_components::PerComponent;
 /// Golden test for computing the circuit hash.
 #[test]
 fn compute_circuit_hash_matches_golden() {
-    let component_log_sizes: OrderedHashMap<&'static str, u32> = PerComponent {
+    let component_log_sizes = PerComponent {
         eq: 17,
         qm31_ops: 21,
         triple_xor: 17,
@@ -19,9 +19,7 @@ fn compute_circuit_hash_matches_golden() {
         verify_bitwise_xor_7: 14,
         verify_bitwise_xor_9: 18,
         range_check_16: 16,
-    }
-    .into_named_iter()
-    .collect();
+    };
 
     let log_blowup_factor = 3;
     let preprocessed_root: [u32; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|i| i as u32);
