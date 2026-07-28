@@ -45,7 +45,7 @@ pub const CAIRO_FRI_CONFIG: FriConfig = FriConfig {
 
 pub const CAIRO_PCS_CONFIG: PcsConfig = PcsConfig {
     fri_config: CAIRO_FRI_CONFIG,
-    min_lifting_log_size: CAIRO_TRACE_LOG_SIZE + CAIRO_LOG_BLOWUP_FACTOR,
+    lifting_log_size: CAIRO_TRACE_LOG_SIZE + CAIRO_LOG_BLOWUP_FACTOR,
 };
 
 pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
@@ -58,7 +58,7 @@ pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
 
 pub const CIRCUIT_PCS_CONFIG: PcsConfig = PcsConfig {
     fri_config: CIRCUIT_FRI_CONFIG,
-    min_lifting_log_size: CIRCUIT_TRACE_LOG_SIZE + CIRCUIT_LOG_BLOWUP_FACTOR,
+    lifting_log_size: CIRCUIT_TRACE_LOG_SIZE + CIRCUIT_LOG_BLOWUP_FACTOR,
 };
 
 // The set of components that are used to verify the privacy transaction.

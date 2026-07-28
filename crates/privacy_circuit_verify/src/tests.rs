@@ -50,7 +50,7 @@ fn check_privacy_recursion_circuit_preprocessed_root() {
     let cairo_verifier_config = get_cairo_verifier_config().unwrap();
     let preprocessed_circuit = get_cairo_preprocessed_circuit(&cairo_verifier_config);
     let preprocessed_trace = preprocessed_circuit.preprocessed_trace.get_trace::<SimdBackend>();
-    let max_domain_size = CIRCUIT_PCS_CONFIG.min_lifting_log_size;
+    let max_domain_size = CIRCUIT_PCS_CONFIG.lifting_log_size;
     let twiddles = SimdBackend::precompute_twiddles(
         CanonicCoset::new(max_domain_size).circle_domain().half_coset,
     );
@@ -62,7 +62,7 @@ fn check_privacy_recursion_circuit_preprocessed_root() {
         CIRCUIT_PCS_CONFIG.fri_config.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
-        CIRCUIT_PCS_CONFIG.min_lifting_log_size,
+        CIRCUIT_PCS_CONFIG.lifting_log_size,
         &base_column_pool,
     );
     let root_hash = preprocessed_tree.commitment.root();
@@ -82,7 +82,7 @@ fn check_circuit_verifier_configs() {
     // to the expected values
     assert_eq!(
         preprocessed_circuit.trace_log_size + CIRCUIT_LOG_BLOWUP_FACTOR,
-        CIRCUIT_PCS_CONFIG.min_lifting_log_size
+        CIRCUIT_PCS_CONFIG.lifting_log_size
     );
     // `params.n_outputs` counts the circuit output gates excluding the `u` constant wire, while
     // `CIRCUIT_OUTPUT_ADDRESSES` includes the `u` anchor address.
@@ -100,14 +100,12 @@ fn check_circuit_verifier_configs() {
 
     // Check that the lifting log sizes are correct
     const {
-        assert!(
-            CAIRO_TRACE_LOG_SIZE + CAIRO_LOG_BLOWUP_FACTOR == CAIRO_PCS_CONFIG.min_lifting_log_size
-        )
+        assert!(CAIRO_TRACE_LOG_SIZE + CAIRO_LOG_BLOWUP_FACTOR == CAIRO_PCS_CONFIG.lifting_log_size)
     };
     const {
         assert!(
             CIRCUIT_TRACE_LOG_SIZE + CIRCUIT_LOG_BLOWUP_FACTOR
-                == CIRCUIT_PCS_CONFIG.min_lifting_log_size
+                == CIRCUIT_PCS_CONFIG.lifting_log_size
         )
     };
 

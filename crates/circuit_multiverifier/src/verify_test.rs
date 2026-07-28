@@ -308,7 +308,7 @@ fn test_serialize_multiverifier_proof_for_cairo1_verifier() {
     let preprocessed_multiverifier =
         PreprocessedCircuit::preprocess_circuit(&mut multiverifier_context);
 
-    let cairo1_verifier_pcs_config = PcsConfig { min_lifting_log_size: 0, ..PCS_CONFIG };
+    let cairo1_verifier_pcs_config = PcsConfig { lifting_log_size: 0, ..PCS_CONFIG };
     let multi_circuit_proof = prove_circuit_assignment_with_channel::<Blake2sMerkleChannel>(
         multiverifier_context.values(),
         &preprocessed_multiverifier,

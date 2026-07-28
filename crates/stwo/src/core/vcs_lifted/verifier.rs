@@ -57,9 +57,9 @@ pub struct MerkleVerifierLifted<H: MerkleHasherLifted> {
 }
 
 impl<H: MerkleHasherLifted> MerkleVerifierLifted<H> {
-    pub fn new(root: H::Hash, column_log_sizes: Vec<u32>, min_lifting_log_size: u32) -> Self {
+    pub fn new(root: H::Hash, column_log_sizes: Vec<u32>, lifting_log_size: u32) -> Self {
         let max_column_log_size = column_log_sizes.iter().copied().max().unwrap_or_default();
-        let height = min_lifting_log_size.max(max_column_log_size);
+        let height = lifting_log_size.max(max_column_log_size);
         Self { root, column_log_sizes, height }
     }
 

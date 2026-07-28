@@ -237,7 +237,7 @@ fn test_privacy_proof_info() {
             n_queries: 35,
             fold_step: 4,
         },
-        min_lifting_log_size: lifting_log_size,
+        lifting_log_size,
     };
     let preprocessed_root = HashValue::from([0u32; 8]);
     let circuit_config = CircuitConfig {

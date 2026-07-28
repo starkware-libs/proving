@@ -30,18 +30,15 @@ pub struct TreeSubspan {
 /// Configuration parameters for the commitment scheme prover.
 pub struct PcsConfig {
     pub fri_config: FriConfig,
-    /// A lower bound on the size of the lifting domain (This size includes the
-    /// `log_blowup_factor`). Each tree is committed with height
-    /// `max(min_lifting_log_size, max_column_log_size)`, where `max_column_log_size` is the log
-    /// size of the largest (extended) domain within that tree.
-    /// In particular, `0` lifts each tree’s polynomials to the largest domain within that tree
-    /// (an implicit assumption here is that the largest domains are all of equal size across
-    /// trees, except possibly for the preprocessed tree).
-    pub min_lifting_log_size: u32,
+    /// The log size of the lifting domain (includes the `log_blowup_factor`). Each tree is
+    /// committed with height `lifting_log_size`, and every column within a tree is lifted to
+    /// this size regardless of its own domain. Must be at least the log size of the largest
+    /// (extended) domain committed across the trees.
+    pub lifting_log_size: u32,
 }
 impl PcsConfig {
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        let PcsConfig { fri_config, min_lifting_log_size } = self;
+        let PcsConfig { fri_config, lifting_log_size } = self;
         let FriConfig {
             pow_bits,
             log_blowup_factor,
@@ -57,13 +54,13 @@ impl PcsConfig {
                 *n_queries as u32,
                 *log_last_layer_degree_bound,
             ),
-            SecureField::from_u32_unchecked(*fold_step, *min_lifting_log_size, 0, 0),
+            SecureField::from_u32_unchecked(*fold_step, *lifting_log_size, 0, 0),
         ]);
     }
 }
 
 impl Default for PcsConfig {
     fn default() -> Self {
-        Self { fri_config: FriConfig::new(10, 0, 1, 3, 1), min_lifting_log_size: 0 }
+        Self { fri_config: FriConfig::new(10, 0, 1, 3, 1), lifting_log_size: 0 }
     }
 }

@@ -135,9 +135,9 @@ impl CairoDeserialize for FriConfig {
 impl CairoDeserialize for PcsConfig {
     fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
         let fri_config = FriConfig::deserialize(data);
-        // `min_lifting_log_size` is not carried in the wire format (see the `CairoSerialize`
+        // `lifting_log_size` is not carried in the wire format (see the `CairoSerialize`
         // impl); it is always `0` for proofs in this format.
-        PcsConfig { fri_config, min_lifting_log_size: 0 }
+        PcsConfig { fri_config, lifting_log_size: 0 }
     }
 }
 

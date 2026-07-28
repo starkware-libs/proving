@@ -51,7 +51,7 @@ pub fn privacy_cairo_verifier_config(log_blowup_factor: u32) -> CairoVerifierCon
     let program = load_program(&program_path);
 
     CairoVerifierConfig {
-        preprocessed_root: get_preprocessed_root(pcs_config.min_lifting_log_size),
+        preprocessed_root: get_preprocessed_root(pcs_config.lifting_log_size),
         proof_config,
         enabled_bits,
         program,
@@ -143,5 +143,5 @@ pub const fn get_pcs_config(trace_log_size: u32, log_blowup_factor: u32) -> PcsC
         n_queries,
         fold_step: 4,
     };
-    PcsConfig { fri_config, min_lifting_log_size: trace_log_size + log_blowup_factor }
+    PcsConfig { fri_config, lifting_log_size: trace_log_size + log_blowup_factor }
 }

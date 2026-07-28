@@ -204,10 +204,10 @@ pub fn prepare_preprocessed_query_positions(
 
 #[derive(Clone, Copy, Debug, Error)]
 #[error(
-    "Minimum lifting log size is too small ({min_lifting_log_size}). It must be at least the log \
-     size of the preprocessed trace ({preprocessed_log_size})."
+    "Lifting log size is too small ({lifting_log_size}). It must be at least the log size of the \
+     preprocessed trace ({preprocessed_log_size})."
 )]
-pub struct InvalidMinLiftingLogSizeError {
-    pub min_lifting_log_size: u32,
+pub struct InvalidLiftingLogSizeError {
+    pub lifting_log_size: u32,
     pub preprocessed_log_size: u32,
 }

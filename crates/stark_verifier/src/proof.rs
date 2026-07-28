@@ -278,9 +278,9 @@ impl ProofConfig {
             cumulative_sum_columns.extend(vec![true; SECURE_EXTENSION_DEGREE]);
         }
 
-        let PcsConfig { fri_config, min_lifting_log_size } = pcs_config;
-        let log_trace_size = min_lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
-            "The circuit verifier expects min_lifting_log_size to be log_trace_size + \
+        let PcsConfig { fri_config, lifting_log_size } = pcs_config;
+        let log_trace_size = lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
+            "The circuit verifier expects lifting_log_size to be log_trace_size + \
              log_blowup_factor",
         ) as usize;
 

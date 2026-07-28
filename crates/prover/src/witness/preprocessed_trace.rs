@@ -17,13 +17,13 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
 use crate::prover::warm_pedersen_pp_trace;
 
 /// Generates the root of the preprocessed trace commitment tree for a given `log_blowup_factor`
-/// and `min_lifting_log_size`.
+/// and `lifting_log_size`.
 // TODO(Shahars): remove allow.
 #[allow(unused)]
 pub fn generate_preprocessed_commitment_root<MC: MerkleChannel>(
     log_blowup_factor: u32,
     preprocessed_trace: PreProcessedTraceVariant,
-    min_lifting_log_size: u32,
+    lifting_log_size: u32,
 ) -> <<MC as MerkleChannel>::H as MerkleHasherLifted>::Hash
 where
     SimdBackend: BackendForChannel<MC>,
@@ -33,7 +33,7 @@ where
 
     // Precompute twiddles for the commitment scheme.
     let max_log_size =
-        preprocessed_trace.log_sizes().into_iter().max().unwrap().max(min_lifting_log_size);
+        preprocessed_trace.log_sizes().into_iter().max().unwrap().max(lifting_log_size);
     let twiddles = SimdBackend::precompute_twiddles(
         CanonicCoset::new(max_log_size + log_blowup_factor).circle_domain().half_coset,
     );
@@ -45,7 +45,7 @@ where
         log_blowup_factor,
         &twiddles,
         false,
-        min_lifting_log_size,
+        lifting_log_size,
         &BaseColumnPool::new(),
     );
 

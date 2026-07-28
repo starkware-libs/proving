@@ -43,23 +43,23 @@ pub fn verify_ex<MC: MerkleChannel>(
         split_composition_log_degree_bound
     );
 
-    let min_lifting_log_size = commitment_scheme.config.min_lifting_log_size;
+    let lifting_log_size = commitment_scheme.config.lifting_log_size;
     if include_all_preprocessed_columns {
         let preprocessed_log_size = commitment_scheme.trees[PREPROCESSED_TRACE_IDX].height;
-        if min_lifting_log_size < preprocessed_log_size {
-            Err(crate::core::pcs::utils::InvalidMinLiftingLogSizeError {
-                min_lifting_log_size,
+        if lifting_log_size < preprocessed_log_size {
+            Err(crate::core::pcs::utils::InvalidLiftingLogSizeError {
+                lifting_log_size,
                 preprocessed_log_size,
             })?;
         }
     }
     // The effective lifting size is at least the length of the split composition polynomials'
-    // domain (in particular, a `min_lifting_log_size` of 0 lifts each tree to its largest column).
-    let lifting_log_size = min_lifting_log_size.max(
+    // domain (in particular, a `lifting_log_size` of 0 lifts each tree to its largest column).
+    let lifting_log_size = lifting_log_size.max(
         split_composition_log_degree_bound + commitment_scheme.config.fri_config.log_blowup_factor,
     );
 
-    // The max degree of a committed polynomial. If `min_lifting_log_size` is 0 and
+    // The max degree of a committed polynomial. If `lifting_log_size` is 0 and
     // `include_all_preprocessed_columns` is false, the largest degree is attained by the splits
     // of the composition polynomial.
     let max_log_degree_bound =
@@ -124,7 +124,7 @@ pub enum VerificationError {
     #[error("Proof of work verification failed.")]
     ProofOfWork,
     #[error(transparent)]
-    InvalidLiftingLogSize(#[from] crate::core::pcs::utils::InvalidMinLiftingLogSizeError),
+    InvalidLiftingLogSize(#[from] crate::core::pcs::utils::InvalidLiftingLogSizeError),
     #[error(transparent)]
     InvalidCanonicCosetLogSize(#[from] crate::core::poly::circle::InvalidCanonicCosetLogSize),
 }

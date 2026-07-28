@@ -50,7 +50,7 @@ pub fn verify_cairo(
 fn test_verify() {
     let mut pcs_config = PcsConfig::default();
     pcs_config.fri_config.fold_step = 4;
-    pcs_config.min_lifting_log_size =
+    pcs_config.lifting_log_size =
         SMALL_MAX_SEQUENCE_LOG_SIZE + pcs_config.fri_config.log_blowup_factor;
 
     let mut novalue_context: Context<NoValue> = Context::new(N_RESERVED);
@@ -112,7 +112,7 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
             pcs_config: PcsConfig {
                 // Fold step = 4.
                 fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
-                min_lifting_log_size: trace_log_size + low_blowup_factor,
+                lifting_log_size: trace_log_size + low_blowup_factor,
             },
             preprocessed_trace: preprocessed_trace_variant,
             channel_salt: 0,

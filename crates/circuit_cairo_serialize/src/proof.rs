@@ -62,7 +62,7 @@ pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
 
 /// Builds the felt252 input stream for the Cairo circuit verifier from a live circuit proof.
 /// Only the proof is serialized — verifier-config constants (output addresses,
-/// preprocessed root, `min_lifting_log_size`, preprocessed column log sizes)
+/// preprocessed root, `lifting_log_size`, preprocessed column log sizes)
 /// are hardcoded inside the Cairo verifier binary for a specific circuit topology.
 pub fn prepare_circuit_proof_for_cairo_verifier<H: MerkleHasherLifted<Hash = Blake2sHash>>(
     circuit_proof: CircuitProof<H>,

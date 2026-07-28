@@ -16,7 +16,7 @@ use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
-use stwo::core::pcs::utils::InvalidMinLiftingLogSizeError;
+use stwo::core::pcs::utils::InvalidLiftingLogSizeError;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
@@ -138,15 +138,15 @@ where
         + std::cmp::max(cairo_air_log_degree_bound, pcs_config.fri_config.log_blowup_factor);
 
     if raise_min_lifting_to_max_column {
-        // Pin the lifting size: raise `min_lifting_log_size` to the maximal column log size, so
+        // Pin the lifting size: raise `lifting_log_size` to the maximal column log size, so
         // that the updated config lifts all trees to the same height.
-        pcs_config.min_lifting_log_size = pcs_config.min_lifting_log_size.max(max_domain_log_size);
+        pcs_config.lifting_log_size = pcs_config.lifting_log_size.max(max_domain_log_size);
     }
 
-    let lifting_log_size = pcs_config.min_lifting_log_size;
+    let lifting_log_size = pcs_config.lifting_log_size;
     if lifting_log_size > 0 && lifting_log_size < max_domain_log_size {
-        return Err(ProvingError::InvalidLiftingLogSize(InvalidMinLiftingLogSizeError {
-            min_lifting_log_size: lifting_log_size,
+        return Err(ProvingError::InvalidLiftingLogSize(InvalidLiftingLogSizeError {
+            lifting_log_size,
             preprocessed_log_size: max_domain_log_size,
         }));
     }
@@ -167,7 +167,7 @@ where
         pcs_config.fri_config.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
-        pcs_config.min_lifting_log_size,
+        pcs_config.lifting_log_size,
         &base_column_pool,
     ));
     span.exit();
@@ -369,10 +369,10 @@ pub struct ProverParameters {
     /// If not provided, the number of components will be inferred from the input.
     pub opt_n_id_to_big_components: Option<usize>,
 
-    /// If `true`, after writing the trace the prover raises `pcs_config.min_lifting_log_size` to
+    /// If `true`, after writing the trace the prover raises `pcs_config.lifting_log_size` to
     /// the maximal committed column log size over all trees (including the preprocessed tree).
     /// The updated config thus lifts all trees to the same height. Otherwise, the given
-    /// `min_lifting_log_size` is used as is. Default is `false`.
+    /// `lifting_log_size` is used as is. Default is `false`.
     #[serde(default)]
     pub raise_min_lifting_to_max_column: bool,
 }
@@ -423,7 +423,7 @@ pub fn create_and_serialize_proof(
                     n_queries: 70,
                     fold_step: 1,
                 },
-                min_lifting_log_size: 0,
+                lifting_log_size: 0,
             },
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             store_polynomials_coefficients: false,
@@ -596,7 +596,7 @@ pub mod tests {
                 channel_hash: ChannelHash::Poseidon252,
                 pcs_config: PcsConfig {
                     fri_config: FriConfig::new(20, 0, 1, 90, 1),
-                    min_lifting_log_size: 0,
+                    lifting_log_size: 0,
                 },
                 preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
                 channel_salt: 42,
@@ -744,7 +744,7 @@ pub mod tests {
                     opt_n_id_to_big_components: None,
                     raise_min_lifting_to_max_column: true,
                 };
-                assert_eq!(prover_params.pcs_config.min_lifting_log_size, 0);
+                assert_eq!(prover_params.pcs_config.lifting_log_size, 0);
                 let cairo_proof =
                     prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
 
@@ -755,7 +755,7 @@ pub mod tests {
                 );
                 let max_column_log_size =
                     max_log_trace_size + std::cmp::max(1, config.fri_config.log_blowup_factor);
-                assert_eq!(config.min_lifting_log_size, max_column_log_size);
+                assert_eq!(config.lifting_log_size, max_column_log_size);
 
                 verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();
             }
@@ -783,7 +783,7 @@ pub mod tests {
                     channel_hash: ChannelHash::Blake2s,
                     pcs_config: PcsConfig {
                         fri_config: FriConfig::new(10, 0, 1, 1000, 1),
-                        min_lifting_log_size: 0,
+                        lifting_log_size: 0,
                     },
                     preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
                     channel_salt: 17,
@@ -1141,7 +1141,7 @@ pub mod tests {
                 channel_hash: ChannelHash::Blake2s,
                 pcs_config: PcsConfig {
                     fri_config: FriConfig::new(26, 0, 1, 70, 3),
-                    min_lifting_log_size: 0,
+                    lifting_log_size: 0,
                 },
                 preprocessed_trace: PreProcessedTraceVariant::Canonical,
                 channel_salt: 0,
@@ -1208,7 +1208,7 @@ pub mod tests {
                 channel_hash: ChannelHash::Blake2s,
                 pcs_config: PcsConfig {
                     fri_config: FriConfig::new(26, 0, 1, 70, 1),
-                    min_lifting_log_size: 0,
+                    lifting_log_size: 0,
                 },
                 preprocessed_trace: PreProcessedTraceVariant::Canonical,
                 channel_salt: 0,

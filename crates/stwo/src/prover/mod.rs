@@ -4,7 +4,7 @@ use tracing::{Level, info, instrument, span};
 use crate::core::channel::{Channel, MerkleChannel};
 use crate::core::circle::CirclePoint;
 use crate::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
-use crate::core::pcs::utils::InvalidMinLiftingLogSizeError;
+use crate::core::pcs::utils::InvalidLiftingLogSizeError;
 use crate::core::proof::{ExtendedStarkProof, StarkProof};
 use crate::core::verifier::PREPROCESSED_TRACE_IDX;
 use crate::prover::backend::BackendForChannel;
@@ -78,19 +78,16 @@ pub fn prove_ex<B: BackendForChannel<MC>, MC: MerkleChannel>(
         commitment_scheme.trees.last().unwrap().commitment.layers.len() as u32 - 1;
 
     // The effective lifting size is at least the length of the split composition polynomials'
-    // domain (in particular, a `min_lifting_log_size` of 0 lifts each tree to its largest column).
+    // domain (in particular, a `lifting_log_size` of 0 lifts each tree to its largest column).
     let lifting_log_size =
-        commitment_scheme.config.min_lifting_log_size.max(split_composition_log_size);
+        commitment_scheme.config.lifting_log_size.max(split_composition_log_size);
     if include_all_preprocessed_columns {
         // If all the preprocessed columns are included, the lifting log size must be greater than
         // or equal to the preprocessed log size.
         let preprocessed_log_size =
             commitment_scheme.trees[PREPROCESSED_TRACE_IDX].commitment.layers.len() as u32 - 1;
         if lifting_log_size < preprocessed_log_size {
-            Err(InvalidMinLiftingLogSizeError {
-                min_lifting_log_size: lifting_log_size,
-                preprocessed_log_size,
-            })?;
+            Err(InvalidLiftingLogSizeError { lifting_log_size, preprocessed_log_size })?;
         }
     }
     let max_log_degree_bound =
@@ -132,7 +129,7 @@ pub enum ProvingError {
     #[error("Constraints not satisfied.")]
     ConstraintsNotSatisfied,
     #[error(transparent)]
-    InvalidLiftingLogSize(#[from] crate::core::pcs::utils::InvalidMinLiftingLogSizeError),
+    InvalidLiftingLogSize(#[from] crate::core::pcs::utils::InvalidLiftingLogSizeError),
     #[error(transparent)]
     InvalidCanonicCosetLogSize(#[from] crate::core::poly::circle::InvalidCanonicCosetLogSize),
 }

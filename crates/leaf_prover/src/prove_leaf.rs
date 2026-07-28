@@ -115,9 +115,9 @@ pub fn prove_leaf(
     let LeafVerifierComponents { components: cairo_components, enabled_bits } =
         leaf_verifier_components(disabled_components);
 
-    // Set min_lifting_log_size from the cairo proof.
+    // Set lifting_log_size from the cairo proof.
     let mut pcs_config = cairo_prover_parameters.pcs_config;
-    pcs_config.min_lifting_log_size = proof.extended_stark_proof.proof.config.min_lifting_log_size;
+    pcs_config.lifting_log_size = proof.extended_stark_proof.proof.config.lifting_log_size;
 
     let proof_config = ProofConfig::new(
         &cairo_components,
