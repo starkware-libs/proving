@@ -53,5 +53,6 @@ circuits-stark-verifier.workspace = true
 stwo.workspace = true
 
 [dev-dependencies]
-# Tests stage leaf-proof fixtures and collect outputs under a throwaway directory.
+tracing-subscriber.workspace = true
 tempfile.workspace = true
+num-bigint.workspace = true
