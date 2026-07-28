@@ -1686,14 +1686,18 @@ dependencies = [
  "circuit-cairo-verifier",
  "circuit-common",
  "circuit-multiverifier",
+ "circuit-prover",
+ "circuit-registry",
  "circuit-verifier",
  "circuits",
  "circuits-stark-verifier",
  "clap",
  "leaf-prover",
+ "serde_json",
  "stwo-cairo-common",
  "stwo-cairo-prover",
  "stwo-cairo-utils",
+ "tempfile",
 ]
 
 [[package]]
@@ -1716,6 +1720,15 @@ dependencies = [
  "stwo-cairo-common",
  "stwo-cairo-prover",
  "stwo-constraint-framework",
+]
+
+[[package]]
+name = "circuit-registry"
+version = "2.4.0"
+dependencies = [
+ "circuit-common",
+ "leaf-proof-format",
+ "serde",
 ]
 
 [[package]]

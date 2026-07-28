@@ -7,7 +7,7 @@ use serde_with::serde_as;
 ///
 /// This is the wire format of `circuit_registry::schema::RootHex`. Leaf-prover output is compared
 /// against registry entries, so both use the same representation.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DigestHex(pub [u32; 8]);
 
 impl From<[u8; 32]> for DigestHex {

@@ -32,6 +32,7 @@ members = [
     "crates/cairo-program-runner-lib",
     "crates/cairo-program-runner",
     "crates/circuit_params",
+    "crates/circuit_registry",
     "crates/leaf_proof_format",
     "crates/leaf_prover",
     "crates/privacy_circuit_verify",
@@ -162,6 +163,7 @@ circuits-stark-verifier-examples = { path = "crates/stark_verifier_examples" }
 circuits-unpacker = { path = "crates/unpacker" }
 
 cairo-program-runner-lib = { path = "crates/cairo-program-runner-lib" }
+circuit-registry = { path = "crates/circuit_registry" }
 privacy-circuit-verify = { path = "crates/privacy_circuit_verify" }
 stwo-run-and-prove-common = { path = "crates/stwo_run_and_prove_common" }
 leaf-proof-format = { path = "crates/leaf_proof_format" }

@@ -54,6 +54,9 @@ crates/
                                 (pkg: leaf-proof-format)
   circuit_params/               CLI: compute the leaf-prover verifier circuit's per-component
                                 sizes for a range of trace sizes.  (pkg: circuit-params)
+  circuit_registry/             The circuit registry JSON schema: the verifier circuits the
+                                system supports and their circuit hashes, emitted by
+                                circuit-params.  (pkg: circuit-registry)
 ```
 
 
