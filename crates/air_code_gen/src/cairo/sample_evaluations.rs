@@ -11,11 +11,8 @@ use crate::utils::*;
 
 pub fn generate_sample_evaluations_file(
     dest_dir: &Path,
-    source_repo_rev: &str,
     sample_evaluations: &IndexMap<String, SampleEvaluation>,
 ) {
-    let source_rev_comment = format!("// AIR version {source_repo_rev}\n");
-
     let constants_to_write = sample_evaluations_consts(sample_evaluations);
 
     let mut tokens: rust::Tokens = quote! { use stwo_verifier_core::fields::m31::M31; $("\n") };
@@ -30,7 +27,7 @@ pub fn generate_sample_evaluations_file(
 
     add_file_to_module(
         &dest_dir.join("sample_evaluations.cairo"),
-        format_cairo_code(source_rev_comment + &tokens.to_string().unwrap()),
+        format_cairo_code(tokens.to_string().unwrap()),
         &AutogenCodeType::CAIRO,
     );
 }

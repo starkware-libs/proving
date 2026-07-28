@@ -10,11 +10,8 @@ use crate::utils::*;
 
 pub fn generate_sample_evaluations_file(
     dest_dir: &Path,
-    source_repo_rev: &str,
     sample_evaluations: &IndexMap<String, SampleEvaluation>,
 ) {
-    let source_rev_comment = format!("// AIR version {source_repo_rev}\n");
-
     let constants_to_write = sample_evaluations_consts(sample_evaluations);
 
     let mut tokens: rust::Tokens =
@@ -32,7 +29,7 @@ pub fn generate_sample_evaluations_file(
 
     add_file_to_module(
         &dest_dir.join("sample_evaluations.rs"),
-        source_rev_comment + &tokens.to_string().unwrap(),
+        tokens.to_string().unwrap(),
         &AutogenCodeType::CIRCUIT,
     );
 }

@@ -1,8 +1,6 @@
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::str::from_utf8;
 
 use air_common::utils::{project_root, read_json};
 use air_common::{SAMPLE_EVALUATIONS_FILE_NAME, TraceType, UseOrYield};
@@ -74,23 +72,6 @@ pub fn reformat_rust_code(code_text: String) -> String {
         stdout.push('\n');
     }
     stdout
-}
-
-pub fn get_git_rev(directory: &Path) -> String {
-    let git_show_output = Command::new("git")
-        .args([
-            "-C",
-            directory.to_str().expect("The directory should be valid UTF-8"),
-            "describe",
-            "--always",
-            "--dirty",
-        ])
-        .output()
-        .unwrap();
-    from_utf8(git_show_output.stdout.as_slice())
-        .expect("Git output is valid UTF-8")
-        .trim()
-        .to_string()
 }
 
 /// Create the file `file_path` with the given content, and update the relevant module file
