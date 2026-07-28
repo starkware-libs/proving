@@ -7,7 +7,7 @@ use serde_with::serde_as;
 ///
 /// This is the wire format of `circuit_registry::schema::RootHex`. Leaf-prover output is compared
 /// against registry entries, so both use the same representation.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DigestHex(pub [u32; 8]);
 
 impl From<[u8; 32]> for DigestHex {
@@ -40,7 +40,7 @@ impl<'de> Deserialize<'de> for DigestHex {
 
 /// Describes the structure of the output JSON file of the leaf prover.
 #[serde_as]
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct SerializedLeafProof {
     /// The preprocessed root of the proof of the verifier circuit.
     pub circuit_preprocessed_root: DigestHex,

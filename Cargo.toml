@@ -153,6 +153,7 @@ stwo_cairo_utils = { package = "stwo-cairo-utils", path = "crates/utils" }
 
 circuits = { path = "crates/circuits" }
 circuit-verifier = { path = "crates/circuit_verifier" }
+circuit-cairo-serialize = { path = "crates/circuit_cairo_serialize" }
 circuit-cairo-verifier = { path = "crates/cairo_verifier" }
 circuit-common = { path = "crates/circuit_common" }
 circuit-multiverifier = { path = "crates/circuit_multiverifier" }
