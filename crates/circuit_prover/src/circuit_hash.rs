@@ -1,7 +1,10 @@
+use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_components::PerComponent;
 use circuit_verifier::circuit_hash::config_words;
+use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::utils::le_u32s_from_bytes;
+use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 
 /// Computes the circuit hash. This is the non-circuit version of
@@ -20,6 +23,22 @@ pub fn compute_circuit_hash(
         hasher.update(&word.to_le_bytes());
     }
     hasher.finalize()
+}
+
+/// The circuit hash identifying `preprocessed_circuit` when proven with `log_blowup_factor`.
+pub fn preprocessed_circuit_hash(
+    preprocessed_circuit: &PreprocessedCircuit,
+    log_blowup_factor: u32,
+) -> Blake2sHash {
+    let component_log_sizes = circuit_component_log_sizes(
+        &all_circuit_components::<QM31>(),
+        &preprocessed_circuit.preprocessed_trace.log_sizes(),
+    );
+    compute_circuit_hash(
+        &component_log_sizes,
+        log_blowup_factor,
+        preprocessed_circuit.preprocessed_root(log_blowup_factor),
+    )
 }
 
 #[cfg(test)]

@@ -24,6 +24,7 @@ use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::{IValue, NoValue};
+use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use itertools::chain;
 use stwo::core::fields::qm31::QM31;
@@ -36,7 +37,7 @@ use crate::test_utils::{
     CIRCUIT_N_PREPROCESSED_COLUMNS, LOG_BLOWUP_FACTOR, MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH,
     MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG, PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES,
     PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, TARGET_PADDING_SIZES,
-    get_preprocessed_multiverifier_from_circuit, get_preprocessed_root, leaf_circuit_hash,
+    get_preprocessed_multiverifier_from_circuit, leaf_circuit_hash,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
 };
 use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
@@ -53,12 +54,6 @@ const CAIRO1_PROOF_PATH: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/../../stwo_cairo_verifier/crates/circuit_air/test_data/proof.json"
 );
-
-/// Extracts the eight raw 32-bit words from a `HashValue<QM31>` (each word held as
-/// `(low_u16, high_u16, 0, 0)`).
-fn hash_value_to_u32s(hash: &HashValue<QM31>) -> [u32; 8] {
-    std::array::from_fn(|i| hash[i].get().unpack_u32())
-}
 
 /// Builds the `ProofConfig` for the proofs of the inner verifiers.
 fn inner_verifier_proof_config() -> ProofConfig {
@@ -149,12 +144,14 @@ fn test_regression_constants() {
         pcs_config,
         Some(target_padding),
     );
-    let cairo_verifier_root =
-        get_preprocessed_root(&pp_cairo_circuit, pcs_config.fri_config.log_blowup_factor);
-    let multiverifier_root =
-        get_preprocessed_root(&pp_multiverifier, pcs_config.fri_config.log_blowup_factor);
-    assert_eq!(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, hash_value_to_u32s(&cairo_verifier_root));
-    assert_eq!(MULTIVERIFIER_PREPROCESSED_ROOT, hash_value_to_u32s(&multiverifier_root));
+    let cairo_verifier_root: [u32; 8] = le_u32s_from_bytes(
+        pp_cairo_circuit.preprocessed_root(pcs_config.fri_config.log_blowup_factor).0,
+    );
+    let multiverifier_root: [u32; 8] = le_u32s_from_bytes(
+        pp_multiverifier.preprocessed_root(pcs_config.fri_config.log_blowup_factor).0,
+    );
+    assert_eq!(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, cairo_verifier_root);
+    assert_eq!(MULTIVERIFIER_PREPROCESSED_ROOT, multiverifier_root);
     assert_eq!(CIRCUIT_N_PREPROCESSED_COLUMNS, pp_multiverifier.preprocessed_trace.ids().len());
     assert_eq!(
         multiverifier_preprocessed_column_log_sizes(),
@@ -394,10 +391,8 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     // building the multiverifer on two cairo verifier proofs. The current test builds it on a
     // multiverifier proof and a cairo verifier proof.
     let preprocessed_multiverifier = PreprocessedCircuit::preprocess_circuit(&mut context);
-    let preprocessed_root_multiverifier =
-        get_preprocessed_root(&preprocessed_multiverifier, PCS_CONFIG.fri_config.log_blowup_factor);
-    assert_eq!(
-        hash_value_to_u32s(&preprocessed_root_multiverifier),
-        MULTIVERIFIER_PREPROCESSED_ROOT
+    let preprocessed_root_multiverifier: [u32; 8] = le_u32s_from_bytes(
+        preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_config.log_blowup_factor).0,
     );
+    assert_eq!(preprocessed_root_multiverifier, MULTIVERIFIER_PREPROCESSED_ROOT);
 }

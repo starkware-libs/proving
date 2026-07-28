@@ -102,7 +102,7 @@ RUST_GROUPS: dict[str, Group] = {
             Crate("crates/leaf_prover", "leaf-prover", stable_check=False),
             Crate("crates/leaf_proof_format", "leaf-proof-format", stable_check=False),
             Crate("crates/circuit_params", "circuit-params", stable_check=False),
-            Crate("crates/circuit_registry", "circuit-registry", stable_check=False),
+            Crate("crates/circuit_registry", "circuit-registry"),
         ],
         extra_paths=[".github/workflows/proving-utils-ci.yml"],
     ),

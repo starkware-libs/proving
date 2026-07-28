@@ -185,6 +185,36 @@ pub struct ComponentSizes {
     pub blake_g_gate: usize,
 }
 
+impl ComponentSizes {
+    /// Applies `f` to every component's size.
+    pub fn map(&self, f: impl Fn(usize) -> usize) -> ComponentSizes {
+        ComponentSizes {
+            eq: f(self.eq),
+            qm31_ops: f(self.qm31_ops),
+            m31_to_u32: f(self.m31_to_u32),
+            triple_xor: f(self.triple_xor),
+            blake_g_gate: f(self.blake_g_gate),
+        }
+    }
+
+    /// Combines two sets of sizes componentwise with `f`.
+    pub fn zip(&self, other: &ComponentSizes, f: impl Fn(usize, usize) -> usize) -> ComponentSizes {
+        ComponentSizes {
+            eq: f(self.eq, other.eq),
+            qm31_ops: f(self.qm31_ops, other.qm31_ops),
+            m31_to_u32: f(self.m31_to_u32, other.m31_to_u32),
+            triple_xor: f(self.triple_xor, other.triple_xor),
+            blake_g_gate: f(self.blake_g_gate, other.blake_g_gate),
+        }
+    }
+
+    /// The component-wise maximum of two sets of sizes. Padding several circuits to this shared
+    /// target is what lets a single AIR verify executions of any of them.
+    pub fn elementwise_max(&self, other: &ComponentSizes) -> ComponentSizes {
+        self.zip(other, std::cmp::max)
+    }
+}
+
 // Prints the sizes and the log base 2 rounded up.
 impl std::fmt::Display for ComponentSizes {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -205,16 +235,21 @@ impl std::fmt::Display for ComponentSizes {
     }
 }
 
-pub fn compute_padded_sizes(context: &FinalizedContext<impl IValue>) -> ComponentSizes {
+/// The raw (non-padded) row count of each AIR component, i.e. [`compute_padded_sizes`] before its
+/// power-of-two rounding.
+pub fn raw_component_sizes(context: &FinalizedContext<impl IValue>) -> ComponentSizes {
     let circuit = &context.context.circuit;
-    let qm31_ops_n_rows = qm31_ops_n_rows(circuit);
     ComponentSizes {
-        eq: padded_size(circuit.eq.len()),
-        qm31_ops: padded_size(qm31_ops_n_rows),
-        m31_to_u32: padded_size(circuit.m31_to_u32.len()),
-        triple_xor: padded_size(circuit.triple_xor.len()),
-        blake_g_gate: padded_size(circuit.blake_g_gate.len()),
+        eq: circuit.eq.len(),
+        qm31_ops: qm31_ops_n_rows(circuit),
+        m31_to_u32: circuit.m31_to_u32.len(),
+        triple_xor: circuit.triple_xor.len(),
+        blake_g_gate: circuit.blake_g_gate.len(),
     }
+}
+
+pub fn compute_padded_sizes(context: &FinalizedContext<impl IValue>) -> ComponentSizes {
+    raw_component_sizes(context).map(padded_size)
 }
 
 /// Computes the number of rows in the qm31_ops AIR component.

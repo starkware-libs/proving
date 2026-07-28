@@ -12,13 +12,23 @@ use stwo::core::fields::m31::BaseField;
 #[cfg(feature = "prover")]
 use stwo::core::poly::circle::CanonicCoset;
 #[cfg(feature = "prover")]
+use stwo::core::vcs::blake2_hash::Blake2sHash;
+#[cfg(feature = "prover")]
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
+#[cfg(feature = "prover")]
+use stwo::prover::CommitmentTreeProver;
+#[cfg(feature = "prover")]
+use stwo::prover::backend::simd::SimdBackend;
+#[cfg(feature = "prover")]
 use stwo::prover::backend::simd::m31::PackedM31;
 #[cfg(feature = "prover")]
 use stwo::prover::backend::{Backend, Col, Column};
 #[cfg(feature = "prover")]
+use stwo::prover::mempool::BaseColumnPool;
+#[cfg(feature = "prover")]
 use stwo::prover::poly::BitReversedOrder;
 #[cfg(feature = "prover")]
-use stwo::prover::poly::circle::CircleEvaluation;
+use stwo::prover::poly::circle::{CircleEvaluation, PolyOps};
 pub use stwo_cairo_common::preprocessed_columns::blake::BLAKE_SIGMA;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
@@ -476,6 +486,32 @@ impl PreprocessedCircuit {
     pub fn preprocess_circuit(context: &mut FinalizedContext<impl IValue>) -> Self {
         pad_context(context);
         Self::from_finalized_circuit(context.circuit())
+    }
+
+    /// The Merkle root of this circuit's preprocessed trace, committed exactly as
+    /// [`stwo::prover::CommitmentTreeProver`] does inside the circuit prover, so the result equals
+    /// tree 0's commitment in a proof of this circuit.
+    ///
+    /// `log_blowup_factor` is the circuit prover's blowup (the one in the proof's `PcsConfig`),
+    /// which also fixes the lifting log size at `trace_log_size + log_blowup_factor`.
+    #[cfg(feature = "prover")]
+    pub fn preprocessed_root(&self, log_blowup_factor: u32) -> Blake2sHash {
+        let lifting_log_size = self.trace_log_size + log_blowup_factor;
+        let twiddles = SimdBackend::precompute_twiddles(
+            CanonicCoset::new(lifting_log_size).circle_domain().half_coset,
+        );
+        let preprocessed_trace = self.preprocessed_trace.get_trace::<SimdBackend>();
+        let preprocessed_trace_polys =
+            SimdBackend::interpolate_columns(preprocessed_trace, &twiddles);
+        let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(
+            preprocessed_trace_polys,
+            log_blowup_factor,
+            &twiddles,
+            true,
+            lifting_log_size,
+            &BaseColumnPool::<SimdBackend>::new(),
+        );
+        preprocessed_tree.commitment.root()
     }
 
     /// Builds the preprocessed circuit data (trace + params) from a finalized circuit.

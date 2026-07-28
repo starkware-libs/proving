@@ -1,13 +1,14 @@
 use circuit_common::N_RESERVED;
-use circuit_verifier::statement::CircuitStatement;
+use circuit_common::preprocessed::PreprocessedCircuit;
+use circuit_verifier::statement::{CircuitStatement, circuit_verifier_proof_config};
 use circuit_verifier::verify::CircuitConfig;
 use circuits::blake::{HashValue, blake2s_u32s};
 use circuits::context::{Context, FinalizedContext};
-use circuits::ivalue::IValue;
+use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::wrappers::U32Wrapper;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
-use circuits_stark_verifier::proof::{Proof, ProofConfig};
+use circuits_stark_verifier::proof::{Proof, ProofConfig, empty_proof};
 use circuits_stark_verifier::verify::verify;
 use itertools::{Itertools, chain};
 use stwo::core::fields::qm31::QM31;
@@ -106,4 +107,29 @@ pub fn build_multiverifier_circuit<Value: IValue>(
     #[cfg(test)]
     context.circuit().check_yields();
     context
+}
+
+/// Builds the multiverifier circuit topology that verifies two proofs of `preprocessed_leaf`.
+pub fn build_multiverifier_context(
+    preprocessed_leaf: &PreprocessedCircuit,
+    pcs_config: PcsConfig,
+) -> FinalizedContext<NoValue> {
+    assert_eq!(
+        pcs_config.min_lifting_log_size,
+        preprocessed_leaf.trace_log_size + pcs_config.fri_config.log_blowup_factor,
+        "`pcs_config` must be the config of the proofs of the leaf circuit"
+    );
+    let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
+    let proof_config = circuit_verifier_proof_config(&preprocessed_column_log_sizes, &pcs_config);
+    let shared_config = SharedConfig {
+        pcs_config,
+        proof_config: proof_config.clone(),
+        preprocessed_column_log_sizes,
+    };
+    let empty_input = || MultiverifierInput {
+        proof: empty_proof(&proof_config),
+        preprocessed_root: HashValue::from([0u32; 8]),
+        output_values: [0u32; N_RESERVED],
+    };
+    build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), &shared_config)
 }

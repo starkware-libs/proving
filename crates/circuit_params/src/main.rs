@@ -7,9 +7,9 @@
 //! trace size. Each line gives every component's padded log size and usage.
 //!
 //! With `--registry`, instead writes a JSON circuit registry: it computes
-//! shared target component sizes (the elementwise max of the leaf and multiverifier circuits at the
-//! largest trace size), then the circuit hash of the leaf circuit for each trace size and of the
-//! multiverifier circuit once (for the largest trace size), all padded to those targets.
+//! shared target component sizes (the elementwise max over every leaf circuit in the range and the
+//! multiverifier circuit), then the circuit hash of the leaf circuit for each trace size and of
+//! the multiverifier circuit once (for the largest trace size), all padded to those targets.
 
 use std::collections::BTreeMap;
 use std::path::PathBuf;
@@ -20,38 +20,23 @@ use cairo_air::verifier::INTERACTION_POW_BITS;
 use circuit_cairo_verifier::privacy::get_pcs_config;
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
 use circuit_cairo_verifier::verify::{CairoVerifierConfig, build_cairo_verifier_circuit};
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::{
-    ComponentSizes, compute_padded_sizes, pad_to_targets, qm31_ops_n_rows,
+    ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
 use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_multiverifier::verify::{
-    MultiverifierInput, SharedConfig, build_multiverifier_circuit,
-};
-use circuit_prover::circuit_hash::compute_circuit_hash;
+use circuit_multiverifier::verify::build_multiverifier_context;
+use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_registry::{
     CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier,
 };
-use circuit_verifier::statement::{
-    all_circuit_components, circuit_component_log_sizes, circuit_verifier_proof_config,
-};
-use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
-use circuits_stark_verifier::proof::{ProofConfig, empty_proof};
+use circuits_stark_verifier::proof::ProofConfig;
 use clap::Parser;
 use leaf_prover::consts::DISABLED_COMPONENTS_CANONICAL_PREPROCESSED;
 use leaf_prover::prove_leaf::{LeafVerifierComponents, leaf_verifier_components};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::M31;
-use stwo_cairo_prover::stwo::core::pcs::PcsConfig;
-use stwo_cairo_prover::stwo::core::poly::circle::CanonicCoset;
-use stwo_cairo_prover::stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo_cairo_prover::stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
-use stwo_cairo_prover::stwo::prover::CommitmentTreeProver;
-use stwo_cairo_prover::stwo::prover::backend::simd::SimdBackend;
-use stwo_cairo_prover::stwo::prover::mempool::BaseColumnPool;
-use stwo_cairo_prover::stwo::prover::poly::circle::PolyOps;
 use stwo_cairo_utils::binary_utils::run_binary;
 
 #[derive(Parser)]
@@ -71,10 +56,10 @@ struct Args {
     /// passed to `get_pcs_config`.
     #[clap(long, default_value_t = 1)]
     log_blowup_factor: u32,
-    /// Output a JSON circuit registry: a circuit-config map, the leaf verifiers (one per trace
+    /// Output a JSON circuit registry: a proof-config map, the leaf verifiers (one per trace
     /// size) and the multiverifier, each with its circuit hash. All circuits are padded to the
-    /// shared target component sizes (the max of the leaf and multiverifier circuits at the
-    /// largest trace size). If omitted, prints human-readable per-component sizes.
+    /// shared target component sizes (the elementwise max over every leaf circuit in the range
+    /// and the multiverifier circuit). If omitted, prints human-readable per-component sizes.
     #[clap(long)]
     registry: bool,
 }
@@ -84,48 +69,14 @@ fn usage_percent(size: usize, padded_size: usize) -> f64 {
     100.0 * size as f64 / padded_size as f64
 }
 
-/// The raw (non-padded) row count of each AIR component.
-struct RawSizes {
-    eq: usize,
-    qm31_ops: usize,
-    m31_to_u32: usize,
-    triple_xor: usize,
-    blake_g_gate: usize,
-}
-
-/// The raw (non-padded) row counts of a circuit's AIR components, mirroring `compute_padded_sizes`
-/// before its power-of-two rounding.
-fn raw_sizes(context: &FinalizedContext<NoValue>) -> RawSizes {
-    let circuit = context.circuit();
-    let qm31_ops = qm31_ops_n_rows(circuit);
-    RawSizes {
-        eq: circuit.eq.len(),
-        qm31_ops,
-        m31_to_u32: circuit.m31_to_u32.len(),
-        triple_xor: circuit.triple_xor.len(),
-        blake_g_gate: circuit.blake_g_gate.len(),
-    }
-}
-
 /// Non-padded row counts and padded sizes of a circuit context's AIR components.
-fn component_sizes(context: &FinalizedContext<NoValue>) -> (RawSizes, ComponentSizes) {
-    (raw_sizes(context), compute_padded_sizes(context))
-}
-
-/// The elementwise maximum of two components' padded sizes.
-fn max_component_sizes(a: &ComponentSizes, b: &ComponentSizes) -> ComponentSizes {
-    ComponentSizes {
-        eq: a.eq.max(b.eq),
-        qm31_ops: a.qm31_ops.max(b.qm31_ops),
-        m31_to_u32: a.m31_to_u32.max(b.m31_to_u32),
-        triple_xor: a.triple_xor.max(b.triple_xor),
-        blake_g_gate: a.blake_g_gate.max(b.blake_g_gate),
-    }
+fn component_sizes(context: &FinalizedContext<NoValue>) -> (ComponentSizes, ComponentSizes) {
+    (raw_component_sizes(context), compute_padded_sizes(context))
 }
 
 /// One line with each component's padded log size and usage (fraction of the padded power-of-two
 /// that the non-padded rows fill).
-fn format_sizes(raw: &RawSizes, padded: &ComponentSizes) -> String {
+fn format_sizes(raw: &ComponentSizes, padded: &ComponentSizes) -> String {
     let component = |name: &str, raw_size: usize, padded_size: usize| {
         format!(
             "{name}:(log: {}, usage = {:.0}%)",
@@ -181,40 +132,6 @@ fn build_leaf_verifier_context(
     build_cairo_verifier_circuit(&verifier_config)
 }
 
-/// Builds the multiverifier circuit topology that verifies two proofs of `preprocessed_leaf`.
-///
-/// Mirrors `circuit_multiverifier`'s test-only `get_preprocessed_multiverifier_from_circuit`:
-/// the multiverifier is fed two empty (zero-valued) proofs of the leaf circuit, which is enough to
-/// build the `NoValue` topology and measure its component sizes. No target padding is applied so
-/// the reported sizes are the raw ones. `pcs_config` must be the leaf proof's config; its
-/// `min_lifting_log_size` must equal `preprocessed_leaf.trace_log_size + log_blowup_factor`.
-fn build_multiverifier_context(
-    preprocessed_leaf: &PreprocessedCircuit,
-    pcs_config: PcsConfig,
-) -> FinalizedContext<NoValue> {
-    let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
-
-    let proof_config = circuit_verifier_proof_config(&preprocessed_column_log_sizes, &pcs_config);
-    let shared_config = SharedConfig {
-        pcs_config,
-        preprocessed_column_log_sizes,
-        proof_config: proof_config.clone(),
-    };
-    let empty_input = || MultiverifierInput {
-        proof: empty_proof(&proof_config),
-        preprocessed_root: HashValue::from([0u32; 8]),
-        output_values: [0u32; N_RESERVED],
-    };
-    build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), &shared_config)
-}
-
-/// Builds the leaf verifier circuit for the given verified trace log size and returns its
-/// component sizes.
-fn leaf_component_sizes(trace_log_size: u32, log_blowup_factor: u32) -> (RawSizes, ComponentSizes) {
-    let context = build_leaf_verifier_context(trace_log_size, log_blowup_factor);
-    component_sizes(&context)
-}
-
 /// Builds the multiverifier circuit that verifies two proofs of the leaf verifier circuit for the
 /// given verified trace log size.
 fn build_multiverifier_context_for_trace(
@@ -231,67 +148,21 @@ fn build_multiverifier_context_for_trace(
     build_multiverifier_context(&preprocessed_leaf, multiverifier_pcs_config)
 }
 
-/// The multiverifier circuit's component sizes for the given verified trace log size.
-fn multiverifier_component_sizes(
-    trace_log_size: u32,
-    log_blowup_factor: u32,
-) -> (RawSizes, ComponentSizes) {
-    component_sizes(&build_multiverifier_context_for_trace(trace_log_size, log_blowup_factor))
+/// Pads `context` to the shared `target_sizes` and preprocesses it.
+fn padded_preprocessed_circuit(
+    mut context: FinalizedContext<NoValue>,
+    target_sizes: &ComponentSizes,
+) -> PreprocessedCircuit {
+    pad_to_targets(&mut context, target_sizes.clone());
+    PreprocessedCircuit::preprocess_circuit(&mut context)
 }
 
-/// Computes the Merkle root of a circuit's preprocessed trace.
-fn preprocessed_root(
-    preprocessed_circuit: &PreprocessedCircuit,
-    circuit_log_blowup_factor: u32,
-) -> Blake2sHash {
-    let min_lifting_log_size = preprocessed_circuit.trace_log_size + circuit_log_blowup_factor;
-    let preprocessed_trace = preprocessed_circuit.preprocessed_trace.get_trace::<SimdBackend>();
-    let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(min_lifting_log_size).circle_domain().half_coset,
-    );
-    let preprocessed_trace_polys = SimdBackend::interpolate_columns(preprocessed_trace, &twiddles);
-    let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(
-        preprocessed_trace_polys,
-        circuit_log_blowup_factor,
-        &twiddles,
-        true,
-        min_lifting_log_size,
-        &BaseColumnPool::<SimdBackend>::new(),
-    );
-    preprocessed_tree.commitment.root()
-}
-
-/// The circuit hash identifying `preprocessed_circuit` when proven with
-/// `circuit_log_blowup_factor`, as eight little-endian Blake2s words:
-/// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)`.
-///
-/// Equals the hash the circuit prover mixes into the channel for a proof of this circuit, and
-/// hence the value that identifies the circuit in a verifier's public output.
+/// The circuit hash of a padded, preprocessed circuit, as eight little-endian Blake2s words.
 fn circuit_hash_hex(
     preprocessed_circuit: &PreprocessedCircuit,
     circuit_log_blowup_factor: u32,
 ) -> DigestHex {
-    let component_log_sizes = circuit_component_log_sizes(
-        &all_circuit_components::<NoValue>(),
-        &preprocessed_circuit.preprocessed_trace.log_sizes(),
-    );
-    let hash = compute_circuit_hash(
-        &component_log_sizes,
-        circuit_log_blowup_factor,
-        preprocessed_root(preprocessed_circuit, circuit_log_blowup_factor),
-    );
-    DigestHex::from(hash.0)
-}
-
-/// Pads `context` to the shared `target_sizes`, preprocesses it, and returns its circuit hash.
-fn padded_circuit_hash(
-    mut context: FinalizedContext<NoValue>,
-    target_sizes: &ComponentSizes,
-    circuit_log_blowup_factor: u32,
-) -> DigestHex {
-    pad_to_targets(&mut context, target_sizes.clone());
-    let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut context);
-    circuit_hash_hex(&preprocessed_circuit, circuit_log_blowup_factor)
+    DigestHex::from(preprocessed_circuit_hash(preprocessed_circuit, circuit_log_blowup_factor).0)
 }
 
 fn main() -> ExitCode {
@@ -301,22 +172,32 @@ fn main() -> ExitCode {
 fn run() -> Result<(), String> {
     let args = Args::parse();
 
+    // Build every leaf circuit in the range once.
+    let leaf_contexts: Vec<(u32, FinalizedContext<NoValue>)> = (args.min_trace_log_size
+        ..=args.max_trace_log_size)
+        .map(|trace_log_size| {
+            (trace_log_size, build_leaf_verifier_context(trace_log_size, args.log_blowup_factor))
+        })
+        .collect();
+    // Build the mv context for the largest trace size.
+    let multiverifier_context =
+        build_multiverifier_context_for_trace(args.max_trace_log_size, args.log_blowup_factor);
+
     let output = if args.registry {
         // Currently a single log blowup factor is used across the system.
         let circuit_log_blowup_factor = args.log_blowup_factor;
 
-        // Target sizes: the elementwise max of the leaf (cairo verifier) and multiverifier
-        // component sizes at the largest trace size. Padding both circuits to this shared
-        // target lets a single multiverifier AIR verify executions of the cairo
-        // verifier and of itself (see `circuit_multiverifier`'s
-        // `test_padding_is_correct`).
-        let leaf_sizes = compute_padded_sizes(&build_leaf_verifier_context(
-            args.max_trace_log_size,
-            args.log_blowup_factor,
-        ));
-        let (_mv_raw, multiverifier_sizes) =
-            multiverifier_component_sizes(args.max_trace_log_size, args.log_blowup_factor);
-        let target_sizes = max_component_sizes(&leaf_sizes, &multiverifier_sizes);
+        // Target sizes: the elementwise max of the component sizes over every leaf (cairo
+        // verifier) circuit in the range and the multiverifier.
+        let target_sizes = leaf_contexts
+            .iter()
+            .map(|(_, context)| compute_padded_sizes(context))
+            .fold(compute_padded_sizes(&multiverifier_context), |max_sizes, sizes| {
+                max_sizes.elementwise_max(&sizes)
+            });
+
+        let preprocessed_multiverifier =
+            padded_preprocessed_circuit(multiverifier_context, &target_sizes);
 
         // All circuits are padded to `target_sizes` and proven with
         // `circuit_log_blowup_factor`, so they share a single config.
@@ -328,36 +209,25 @@ fn run() -> Result<(), String> {
                 component_log_sizes: (&target_sizes).into(),
             },
         )]);
-        let leaf_verifiers = (args.min_trace_log_size..=args.max_trace_log_size)
-            .map(|trace_log_size| {
-                let context = build_leaf_verifier_context(trace_log_size, args.log_blowup_factor);
-                LeafVerifier {
-                    config: CONFIG_ID.to_string(),
-                    trace_log_size,
-                    log_blowup_factor: args.log_blowup_factor,
-                    circuit_hash: padded_circuit_hash(
-                        context,
-                        &target_sizes,
-                        circuit_log_blowup_factor,
-                    ),
-                }
+        let leaf_verifiers = leaf_contexts
+            .into_iter()
+            .map(|(trace_log_size, context)| LeafVerifier {
+                config: CONFIG_ID.to_string(),
+                trace_log_size,
+                log_blowup_factor: args.log_blowup_factor,
+                circuit_hash: circuit_hash_hex(
+                    &padded_preprocessed_circuit(context, &target_sizes),
+                    circuit_log_blowup_factor,
+                ),
             })
             .collect::<Vec<_>>();
 
-        // The multiverifier is essentially the same across trace sizes, so a single instance
-        // (for the largest trace size) is reported. It verifies two proofs of the leaf circuit,
-        // hence `input_configs = [CONFIG_ID, CONFIG_ID]`.
+        // The multiverifier verifies two proofs of the leaf circuit, hence
+        // `input_configs = [CONFIG_ID, CONFIG_ID]`.
         let multiverifiers = vec![Multiverifier {
             config: CONFIG_ID.to_string(),
             input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
-            circuit_hash: padded_circuit_hash(
-                build_multiverifier_context_for_trace(
-                    args.max_trace_log_size,
-                    args.log_blowup_factor,
-                ),
-                &target_sizes,
-                circuit_log_blowup_factor,
-            ),
+            circuit_hash: circuit_hash_hex(&preprocessed_multiverifier, circuit_log_blowup_factor),
         }];
 
         let registry = CircuitRegistry { circuit_proof_configs, leaf_verifiers, multiverifiers };
@@ -367,18 +237,16 @@ fn run() -> Result<(), String> {
         // for every trace log size in the range. The multiverifier
         // verifies proofs of the leaf circuit; we only report it for the largest leaf
         // (`max_trace_log_size`), which bounds the multiverifier size across the range.
-        let leaf_lines: Vec<String> = (args.min_trace_log_size..=args.max_trace_log_size)
-            .map(|trace_log_size| {
-                let (raw, padded) = leaf_component_sizes(trace_log_size, args.log_blowup_factor);
+        let leaf_lines: Vec<String> = leaf_contexts
+            .iter()
+            .map(|(trace_log_size, context)| {
+                let (raw, padded) = component_sizes(context);
                 format!("{}: {}", trace_log_size, format_sizes(&raw, &padded))
             })
             .collect();
         let leaf_section = format!("leaf:\n{}", leaf_lines.join("\n"));
 
-        // We report a single multiverifier line, as the multiverifier is about the same for
-        // all trace log sizes.
-        let (mv_raw, mv_padded) =
-            multiverifier_component_sizes(args.max_trace_log_size, args.log_blowup_factor);
+        let (mv_raw, mv_padded) = component_sizes(&multiverifier_context);
         let multiverifier_line = format!("multiverifier:\n{}", format_sizes(&mv_raw, &mv_padded));
 
         format!("{leaf_section}\n\n{multiverifier_line}")
