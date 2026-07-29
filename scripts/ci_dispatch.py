@@ -8,6 +8,7 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 import tomllib
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -100,7 +101,7 @@ RUST_GROUPS: dict[str, Group] = {
             Crate("crates/privacy_prove", "privacy-prove", stable_check=False),
             Crate("crates/privacy_circuit_verify", "privacy-circuit-verify"),
             Crate("crates/leaf_prover", "leaf-prover", stable_check=False),
-            Crate("crates/leaf_proof_format", "leaf-proof-format", stable_check=False),
+            Crate("crates/leaf_proof_format", "leaf-proof-format"),
             Crate("crates/circuit_params", "circuit-params", stable_check=False),
             Crate("crates/circuit_registry", "circuit-registry"),
         ],
@@ -135,7 +136,7 @@ STWO_CAIRO_VERIFIER_GROUP: list[str] = [
 
 # Paths whose change forces every CI flow to run.
 FULL_CI_GROUP: list[str] = [
-    ".github/workflows/",
+    ".github/workflows/ci.yml",
     ".github/actions/",
     "Cargo.toml",
     "Cargo.lock",
@@ -170,22 +171,20 @@ def any_match(changed_paths: set[str], patterns: list[str]) -> bool:
     return any(matches(path, pattern) for path in changed_paths for pattern in patterns)
 
 
-def decide(changed_paths: set[str] | None, event_name: str) -> dict[str, bool]:
+def decide_flows_to_run(changed_paths: Optional[set[str]]) -> dict[str, bool]:
     """
-    Map changed paths and Github event to a run/skip decision per CI flow.
+    Given the changed paths, decide for each group whether to run/skip.
     """
 
-    trigger_full_ci = (
-        changed_paths is None
-        or event_name in ("merge_group", "workflow_dispatch")
-        or any_match(changed_paths, FULL_CI_GROUP)
+    trigger_full_ci = changed_paths is None or any_match(
+        changed_paths=changed_paths, patterns=FULL_CI_GROUP
     )
     if trigger_full_ci:
         return {name: True for name in DECISION_OUTPUTS}
 
     assert changed_paths is not None
     is_group_changed = {
-        name: any_match(changed_paths, group.trigger_paths())
+        name: any_match(changed_paths=changed_paths, patterns=group.trigger_paths())
         for name, group in RUST_GROUPS.items()
     }
 
@@ -197,7 +196,8 @@ def decide(changed_paths: set[str] | None, event_name: str) -> dict[str, bool]:
         run_stwo or run_stwo_air_infra or is_group_changed["stwo_cairo_prover"]
     )
     run_stwo_cairo_verifier = (
-        any_match(changed_paths, STWO_CAIRO_VERIFIER_GROUP) or run_stwo_air_infra
+        any_match(changed_paths=changed_paths, patterns=STWO_CAIRO_VERIFIER_GROUP)
+        or run_stwo_air_infra
     )
     run_stwo_circuits = run_stwo_cairo_prover or is_group_changed["stwo_circuits"]
     run_proving_utils = run_stwo_circuits or is_group_changed["proving_utils"]
@@ -212,7 +212,7 @@ def decide(changed_paths: set[str] | None, event_name: str) -> dict[str, bool]:
     }
 
 
-def changed_files(event_name: str) -> set[str] | None:
+def changed_files(event_name: str) -> Optional[set[str]]:
     """
     Compute changed files for the current event, or None to run everything.
     """
@@ -236,38 +236,49 @@ def changed_files(event_name: str) -> set[str] | None:
     return None
 
 
-def missing_crates(crate_paths: set[str]) -> set[str]:
+def assert_crates_match_workspace():
     """
-    Returns the paths of workspace crates that do not appear in `crate_paths`.
+    Checks whether the set of paths of the workspace crates is equal to the set of paths of
+    the crates hardcoded in `RUST_GROUPS`.
     """
 
     with open("Cargo.toml", "rb") as f:
         manifest = tomllib.load(f)
 
     manifest_crates = set(manifest["workspace"]["members"])
-    return manifest_crates.difference(crate_paths)
+    crate_paths = set(
+        crate.path for group in RUST_GROUPS.values() for crate in group.crates
+    )
+
+    # Check that `manifest_crates` and `crate_paths` are equal.
+    missing_crates = manifest_crates.difference(crate_paths)
+    stale_crates = crate_paths.difference(manifest_crates)
+    if missing_crates or stale_crates:
+        raise ValueError(
+            f"Crates not dispatched: {missing_crates}\n"
+            f"Crates that don't exist in the workspace: {stale_crates}"
+        )
 
 
 def main() -> int:
+    assert_crates_match_workspace()
     event = os.environ.get("EVENT_NAME", "")
-    changed = changed_files(event)
-    missing = missing_crates(
-        set(crate.path for group in RUST_GROUPS.values() for crate in group.crates)
-    )
-    assert not missing, f"Some crates are not dispatched by this script: {missing}"
-    dispatch_policy = decide(changed, event)
+    changed = changed_files(event_name=event)
+    decisions = decide_flows_to_run(changed_paths=changed)
 
     # Write to GITHUB_OUTPUT.
     gh_output = os.environ["GITHUB_OUTPUT"]
     with open(gh_output, "a") as f:
         # Write whether to run or skip individual workflows.
         for name in DECISION_OUTPUTS:
-            f.write(f"{name}={str(dispatch_policy[name]).lower()}\n")
+            f.write(f"{name}={str(decisions[name]).lower()}\n")
+
         # Write the packages belonging to each group. This step doesn't depend on
         # the decision to run or skip.
         for name, group in RUST_GROUPS.items():
             group_packages = " ".join(f"-p {crate.package}" for crate in group.crates)
             f.write(f"{name}_packages={group_packages}\n")
+
         # Write the packages to be checked with the stable toolchain. This step doesn't depend on
         # the decision to run or skip.
         stable_crates = " ".join(
@@ -284,11 +295,11 @@ def main() -> int:
         with open(summary, "a") as f:
             f.write("### CI dispatch\n\n")
             f.write(f"- event: `{event}`\n")
-            n = "ALL (no diff base)" if changed is None else str(len(changed))
-            f.write(f"- changed files: {n}\n\n")
+            n_changed_files = "ALL" if changed is None else str(len(changed))
+            f.write(f"- changed files: {n_changed_files}\n\n")
             f.write("| output | value |\n| --- | --- |\n")
             for name in DECISION_OUTPUTS:
-                f.write(f"| {name} | {str(dispatch_policy[name]).lower()} |\n")
+                f.write(f"| {name} | {str(decisions[name]).lower()} |\n")
 
     return 0
 
