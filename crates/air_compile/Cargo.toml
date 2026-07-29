@@ -5,6 +5,6 @@ edition.workspace = true
 
 [dependencies]
 serde = { workspace = true, features = ["derive", "rc"] }
-indexmap = { workspace = true, features = ["serde"] }
+indexmap = { workspace = true, features = ["serde", "std"] }
 
-air_common = { path = "../air_common" }
+air_common.workspace = true

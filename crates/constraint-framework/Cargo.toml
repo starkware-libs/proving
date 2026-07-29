@@ -19,7 +19,7 @@ tracing.workspace = true
 stwo = { path = "../stwo", version = "2.2.0", default-features = false }
 rand.workspace = true
 hashbrown.workspace = true
-stwo-std-shims = { version = "1.0.0", default-features = false }
+stwo-std-shims.workspace = true
 
 [package.metadata.cargo-machete]
 ignored = ["stwo-std-shims"]

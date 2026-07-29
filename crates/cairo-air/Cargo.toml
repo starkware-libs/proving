@@ -34,5 +34,5 @@ sonic-rs.workspace = true
 [dev-dependencies]
 rand.workspace = true
 tempfile.workspace = true
-stwo-cairo-dev-utils = { path = "../dev_utils"}
-expect-test = "1.4"
+stwo-cairo-dev-utils.workspace = true
+expect-test.workspace = true

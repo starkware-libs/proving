@@ -32,11 +32,11 @@ blake2.workspace = true
 blake3.workspace = true
 sha3.workspace = true
 bytemuck = { workspace = true, features = ["derive", "extern_crate_alloc"] }
-cfg-if = "1.0.0"
+cfg-if.workspace = true
 educe.workspace = true
 hex.workspace = true
-indexmap = { version = "2.10.0", default-features = false }
-fnv = { version = "1.0.7", default-features = false }
+indexmap.workspace = true
+fnv.workspace = true
 itertools.workspace = true
 num-traits.workspace = true
 rand.workspace = true
@@ -53,30 +53,27 @@ rayon = { workspace = true, optional = true }
 serde.workspace = true
 tracing-subscriber.workspace = true
 hashbrown.workspace = true
-stwo-std-shims = { version = "1.0.0", default-features = false }
-dashmap = "6.1.0"
+stwo-std-shims.workspace = true
+dashmap.workspace = true
 
 [dev-dependencies]
-aligned = "0.4.2"
+aligned.workspace = true
 keccak.workspace = true
-test-log = { version = "0.2.15", features = ["trace"] }
+test-log.workspace = true
 
 [package.metadata.cargo-machete]
 ignored = ["stwo-std-shims"]
 
 [target.'cfg(all(target_family = "wasm", not(target_os = "wasi")))'.dev-dependencies]
-wasm-bindgen-test = "0.3.43"
+wasm-bindgen-test.workspace = true
 
-[target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies.criterion]
-features = ["html_reports"]
-version = "0.5.1"
+[target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
+criterion = { workspace = true, default-features = true }
 
 # Default features cause compile error:
 # "Rayon cannot be used when targeting wasi32. Try disabling default features."
-[target.'cfg(target_arch = "wasm32")'.dev-dependencies.criterion]
-default-features = false
-features = ["html_reports"]
-version = "0.5.1"
+[target.'cfg(target_arch = "wasm32")'.dev-dependencies]
+criterion.workspace = true
 
 [lib]
 bench = false

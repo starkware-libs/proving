@@ -4,18 +4,18 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-air_common = { path = "../air_common" }
-air_compile = { path = "../air_compile" }
-air_infra = { path = "../air_infra" }
+air_common.workspace = true
+air_compile.workspace = true
+air_infra.workspace = true
 
 serde = { workspace = true, features = ["derive", "rc"] }
-indexmap = { workspace = true, features = ["serde"] }
+indexmap = { workspace = true, features = ["serde", "std"] }
 serde_arrays.workspace = true
 
 stwo-cairo-common.workspace = true
 
 [dev-dependencies]
-air_infra = { path = "../air_infra", features = ["test"] }
+air_infra = { workspace = true, features = ["test"] }
 generic-tests.workspace = true
-expect-test = "1.4"
-blake2 = "0.10.6"
+expect-test.workspace = true
+blake2.workspace = true

@@ -1458,7 +1458,7 @@ dependencies = [
  "cairo-program-runner-lib",
  "cairo-vm",
  "clap",
- "rstest 0.19.0",
+ "rstest",
  "serde_json",
  "stwo-cairo-utils",
  "tempfile",
@@ -1480,7 +1480,7 @@ dependencies = [
  "num-bigint",
  "num-traits",
  "regex",
- "rstest 0.19.0",
+ "rstest",
  "serde",
  "serde_json",
  "sonic-rs",
@@ -1738,7 +1738,7 @@ dependencies = [
  "circuits-stark-verifier-examples",
  "expect-test",
  "indoc",
- "rstest 0.26.1",
+ "rstest",
  "stwo",
 ]
 
@@ -1755,7 +1755,7 @@ dependencies = [
  "indoc",
  "itertools 0.12.1",
  "num-traits",
- "rstest 0.26.1",
+ "rstest",
  "stwo",
  "stwo-constraint-framework",
 ]
@@ -1771,7 +1771,7 @@ dependencies = [
  "indoc",
  "itertools 0.12.1",
  "num-traits",
- "rstest 0.26.1",
+ "rstest",
  "stwo",
  "stwo-cairo-common",
 ]
@@ -1787,7 +1787,7 @@ dependencies = [
  "indoc",
  "itertools 0.12.1",
  "num-traits",
- "rstest 0.26.1",
+ "rstest",
  "serde",
  "stwo",
  "stwo-constraint-framework",
@@ -1803,7 +1803,7 @@ dependencies = [
  "indexmap 2.14.0",
  "itertools 0.12.1",
  "num-traits",
- "rstest 0.26.1",
+ "rstest",
  "stwo",
  "stwo-constraint-framework",
 ]
@@ -2489,52 +2489,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6d5a32815ae3f33302d95fdcb2ce17862f8c65363dcfd29360480ba1001fc9c"
 
 [[package]]
-name = "futures"
-version = "0.3.33"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a88cf1f829d945f548cf8fec32c61b1f202b6d93b45848602fc02af4b12ad218"
-dependencies = [
- "futures-channel",
- "futures-core",
- "futures-executor",
- "futures-io",
- "futures-sink",
- "futures-task",
- "futures-util",
-]
-
-[[package]]
-name = "futures-channel"
-version = "0.3.33"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "262590f4fe6afeb0bc83be1daa64e52657fe185690a958af7f3ad0e92085c5ae"
-dependencies = [
- "futures-core",
- "futures-sink",
-]
-
-[[package]]
 name = "futures-core"
 version = "0.3.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2cd50c473c80f6d7c3670a752354b8e569b1a7cbfdc0419ec88e5edad85e0dc7"
-
-[[package]]
-name = "futures-executor"
-version = "0.3.33"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6754879cc9f2c66f88c6e5c35344bb0bdb0708b0352b1201815667c7eabc7458"
-dependencies = [
- "futures-core",
- "futures-task",
- "futures-util",
-]
-
-[[package]]
-name = "futures-io"
-version = "0.3.33"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4577ecaa3c4f96589d473f679a71b596316f6641bc350038b962a5daf0085d7a"
 
 [[package]]
 name = "futures-macro"
@@ -2546,12 +2504,6 @@ dependencies = [
  "quote",
  "syn 2.0.119",
 ]
-
-[[package]]
-name = "futures-sink"
-version = "0.3.33"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e34418ac499d6305c2fb5ad0ed2f6ac998c5f8ca209b4510f7f94242c647e307"
 
 [[package]]
 name = "futures-task"
@@ -2571,13 +2523,9 @@ version = "0.3.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a77a90a256fce34da66415271e30f94ee91c57b04b8a2c042d9cf3220179deaa"
 dependencies = [
- "futures-channel",
  "futures-core",
- "futures-io",
  "futures-macro",
- "futures-sink",
  "futures-task",
- "memchr",
  "pin-project-lite",
  "slab",
 ]
@@ -3735,7 +3683,7 @@ dependencies = [
  "itertools 0.12.1",
  "mockall",
  "privacy-prove",
- "rstest 0.26.1",
+ "rstest",
  "starknet-types-core",
  "stwo",
  "stwo-cairo-common",
@@ -3764,7 +3712,7 @@ dependencies = [
  "itertools 0.12.1",
  "mockall",
  "privacy-circuit-verify",
- "rstest 0.26.1",
+ "rstest",
  "serde_json",
  "starknet-types-core",
  "stwo",
@@ -4098,42 +4046,13 @@ dependencies = [
 
 [[package]]
 name = "rstest"
-version = "0.19.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d5316d2a1479eeef1ea21e7f9ddc67c191d497abc8fc3ba2467857abbb68330"
-dependencies = [
- "futures",
- "futures-timer",
- "rstest_macros 0.19.0",
- "rustc_version 0.4.1",
-]
-
-[[package]]
-name = "rstest"
 version = "0.26.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f5a3193c063baaa2a95a33f03035c8a72b83d97a54916055ba22d35ed3839d49"
 dependencies = [
  "futures-timer",
  "futures-util",
- "rstest_macros 0.26.1",
-]
-
-[[package]]
-name = "rstest_macros"
-version = "0.19.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04a9df72cc1f67020b0d63ad9bfe4a323e459ea7eb68e03bd9824db49f9a4c25"
-dependencies = [
- "cfg-if",
- "glob",
- "proc-macro2",
- "quote",
- "regex",
- "relative-path",
- "rustc_version 0.4.1",
- "syn 2.0.119",
- "unicode-ident",
+ "rstest_macros",
 ]
 
 [[package]]
@@ -4839,7 +4758,7 @@ dependencies = [
 name = "stwo-air-utils-derive"
 version = "2.4.0"
 dependencies = [
- "itertools 0.13.0",
+ "itertools 0.12.1",
  "proc-macro2",
  "quote",
  "syn 2.0.119",
@@ -5019,7 +4938,7 @@ dependencies = [
  "clap",
  "ctor",
  "log",
- "rstest 0.26.1",
+ "rstest",
  "serde_json",
  "sonic-rs",
  "stwo-cairo-adapter",

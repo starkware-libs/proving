@@ -20,10 +20,8 @@ itertools.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
 serde.workspace = true
-stwo = { path = "../stwo", version = "2.2.0", features = ["prover"] }
-stwo-constraint-framework = { path = "../constraint-framework", version = "2.2.0", features = [
-    "prover",
-] }
+stwo = { workspace = true, features = ["prover"] }
+stwo-constraint-framework = { workspace = true, features = ["prover"] }
 rand.workspace = true
 educe.workspace = true
 
@@ -31,16 +29,12 @@ educe.workspace = true
 # so the `parallel` feature (which pulls in rayon) is only enabled off-wasm. On wasm
 # the crates fall back to their sequential code paths.
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-stwo-constraint-framework = { path = "../constraint-framework", version = "2.2.0", features = [
-    "parallel",
-] }
+stwo-constraint-framework = { workspace = true, features = ["parallel"] }
 
 [dev-dependencies]
-criterion = { default-features = false, features = [
-    "html_reports",
-], version = "0.5.1" }
-ndarray = "0.16.1"
-test-log = { version = "0.2.15", features = ["trace"] }
+criterion.workspace = true
+ndarray.workspace = true
+test-log.workspace = true
 
 [[bench]]
 harness = false

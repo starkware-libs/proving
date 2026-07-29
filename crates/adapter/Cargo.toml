@@ -22,11 +22,11 @@ tracing.workspace = true
 stwo.workspace = true
 dashmap.workspace = true
 rayon.workspace = true
-crypto-bigint = "0.5.1"
+crypto-bigint.workspace = true
 anyhow.workspace = true
 
 [dev-dependencies]
 cairo-lang-casm.workspace = true
 rand.workspace = true
 test-case.workspace = true
-stwo-cairo-dev-utils = { path = "../dev_utils" }
+stwo-cairo-dev-utils.workspace = true

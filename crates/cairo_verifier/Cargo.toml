@@ -5,7 +5,7 @@ edition.workspace = true
 
 [dependencies]
 hashbrown.workspace = true
-indexmap.workspace = true
+indexmap = { workspace = true, features = ["std"] }
 itertools.workspace = true
 num-traits.workspace = true
 stwo.workspace = true
@@ -18,7 +18,7 @@ circuits-stark-verifier.workspace = true
 serde_json.workspace = true
 
 [dev-dependencies]
-cairo-vm = "3.2.0"
+cairo-vm = { workspace = true, default-features = true }
 stwo_cairo_prover.workspace = true
 stwo_cairo_dev_utils.workspace = true
 stwo_cairo_utils.workspace = true

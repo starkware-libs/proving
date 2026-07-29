@@ -23,7 +23,7 @@ circuits.workspace = true
 circuit-verifier.workspace = true
 circuit-common = { workspace = true, features = ["prover"] }
 circuits-stark-verifier.workspace = true
-rand = "0.9.4"
+rand.workspace = true
 
 [dev-dependencies]
 expect-test.workspace = true

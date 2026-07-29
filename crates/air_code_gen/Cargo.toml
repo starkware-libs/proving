@@ -4,22 +4,22 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-air_infra = { path = "../air_infra" }
-airs = { path = "../airs" }
-air_compile = { path = "../air_compile" }
-air_common = { path = "../air_common" }
-eval_air_fn_constraints = { path = "../eval_air_fn_constraints" }
+air_infra.workspace = true
+airs.workspace = true
+air_compile.workspace = true
+air_common.workspace = true
+eval_air_fn_constraints.workspace = true
 
 genco.workspace = true
 itertools.workspace = true
 xshell.workspace = true
-tempfile = "3.10.1"
-pretty_assertions = "1.4.0"
-clap = { version = "4.5.9", features = ["derive"] }
+tempfile.workspace = true
+pretty_assertions.workspace = true
+clap.workspace = true
 serde.workspace = true
-serde_json = "1.0.68"
+serde_json.workspace = true
 convert_case.workspace = true
-indexmap.workspace = true
+indexmap = { workspace = true, features = ["std"] }
 
 stwo-cairo-common.workspace = true
 
@@ -28,7 +28,7 @@ default = []
 fix_code = []
 
 [dev-dependencies]
-expect-test = "1.4"
+expect-test.workspace = true
 serde_json.workspace = true
 
 [[bin]]

@@ -7,21 +7,21 @@ edition.workspace = true
 test = ["dep:eval_air_fn_constraints"]
 
 [dependencies]
-eval_air_fn_constraints = { path = "../eval_air_fn_constraints", optional = true }
-air_common = { path = "../air_common" }
-air_compile = { path = "../air_compile" }
+eval_air_fn_constraints = { workspace = true, optional = true }
+air_common.workspace = true
+air_compile.workspace = true
 
 serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true
-enum_dispatch = "0.3.13"
-indexmap = { workspace = true, features = ["serde"] }
+enum_dispatch.workspace = true
+indexmap = { workspace = true, features = ["serde", "std"] }
 convert_case.workspace = true
-regex = "1.11.1"
+regex.workspace = true
 
 stwo-cairo-common.workspace = true
 
 [dev-dependencies]
-eval_air_fn_constraints = { path = "../eval_air_fn_constraints" }
+eval_air_fn_constraints.workspace = true
 generic-tests.workspace = true
-expect-test = "1.4"
-blake2 = "0.10.6"
+expect-test.workspace = true
+blake2.workspace = true

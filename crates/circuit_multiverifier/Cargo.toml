@@ -21,6 +21,6 @@ circuit-common = { workspace = true, features = ["prover"] }
 circuits-stark-verifier.workspace = true
 cairo-air.workspace = true
 circuit-prover.workspace = true
-circuit-cairo-verifier = { path = "../cairo_verifier" }
-circuit-serialize = { path = "../circuit_serialize" }
-circuit-cairo-serialize = { path = "../circuit_cairo_serialize" }
+circuit-cairo-verifier.workspace = true
+circuit-serialize.workspace = true
+circuit-cairo-serialize.workspace = true

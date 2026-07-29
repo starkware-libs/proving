@@ -15,7 +15,7 @@ clap.workspace = true
 serde_json.workspace = true
 sonic-rs.workspace = true
 tracing.workspace = true
-indexmap = { version = "2.10.0", default-features = false, features = ["std"] }
+indexmap = { workspace = true, features = ["std"] }
 
 leaf-proof-format.workspace = true
 
