@@ -16,10 +16,9 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 use std::sync::Arc;
 
-use cairo_air::verifier::INTERACTION_POW_BITS;
 use circuit_cairo_verifier::privacy::get_pcs_config;
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
-use circuit_cairo_verifier::verify::{CairoVerifierConfig, build_cairo_verifier_circuit};
+use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
@@ -31,10 +30,8 @@ use circuit_registry::{
 };
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
-use circuits_stark_verifier::proof::ProofConfig;
 use clap::Parser;
-use leaf_prover::consts::DISABLED_COMPONENTS_CANONICAL_PREPROCESSED;
-use leaf_prover::prove_leaf::{LeafVerifierComponents, leaf_verifier_components};
+use leaf_prover::prove_leaf::leaf_verifier_config;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::M31;
 use stwo_cairo_utils::binary_utils::run_binary;
@@ -101,33 +98,20 @@ fn build_leaf_verifier_context(
     trace_log_size: u32,
     log_blowup_factor: u32,
 ) -> FinalizedContext<NoValue> {
-    let preprocessed_trace_variant = PreProcessedTraceVariant::Canonical;
-
     // The Cairo-proof PCS config the leaf prover uses (canonical preprocessed).
     let pcs_config = get_pcs_config(trace_log_size, log_blowup_factor);
-
-    let LeafVerifierComponents { components: cairo_components, enabled_bits } =
-        leaf_verifier_components(&DISABLED_COMPONENTS_CANONICAL_PREPROCESSED);
-
-    let proof_config = ProofConfig::new(
-        &cairo_components,
-        preprocessed_trace_variant.n_columns(),
-        &pcs_config,
-        INTERACTION_POW_BITS,
-    );
 
     // TODO(ilya): Use a real program for the circuit construction.
     // Pass a dummy program for the circuit construction.
     let program: Arc<[[M31; MEMORY_VALUES_LIMBS]]> =
         std::iter::repeat_n([M31::from(0u32); MEMORY_VALUES_LIMBS], 128).collect();
 
-    let verifier_config = CairoVerifierConfig {
-        proof_config,
-        enabled_bits,
+    let verifier_config = leaf_verifier_config(
+        PreProcessedTraceVariant::Canonical,
+        &pcs_config,
         program,
-        preprocessed_root: [0u32; 8].into(),
-        preprocessed_trace_variant,
-    };
+        [0u32; 8].into(),
+    );
 
     build_cairo_verifier_circuit(&verifier_config)
 }

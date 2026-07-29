@@ -180,20 +180,9 @@ mod e2e {
     use std::path::{Path, PathBuf};
 
     use blake2::{Blake2s256, Digest};
-    use circuit_prover::circuit_hash::compute_circuit_hash;
-    use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
-    use circuits::blake::HashValue;
-    use circuits::ivalue::IValue;
+    use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use leaf_prover::prove_leaf::prove_leaf_from_files;
     use num_bigint::BigUint;
-    use stwo::core::fields::qm31::QM31;
-    use stwo::core::poly::circle::CanonicCoset;
-    use stwo::core::vcs::blake2_hash::Blake2sHash;
-    use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
-    use stwo::prover::CommitmentTreeProver;
-    use stwo::prover::backend::simd::SimdBackend;
-    use stwo::prover::mempool::BaseColumnPool;
-    use stwo::prover::poly::circle::PolyOps;
 
     use crate::canonical::{
         CanonicalCircuit, MULTIVERIFIER_LOG_BLOWUP_FACTOR, MULTIVERIFIER_PCS_CONFIG,
@@ -294,48 +283,13 @@ mod e2e {
         std::array::from_fn(|i| u32::from_le_bytes(hash[i * 4..i * 4 + 4].try_into().unwrap()))
     }
 
-    /// Merkle root of the canonical multiverifier's preprocessed trace — the `preprocessed_root`
-    /// every internal node carries. Returns the eight digest words (as `hash_value_to_u32s` does).
-    fn multiverifier_preprocessed_root(
-        canonical: &CanonicalCircuit,
-    ) -> [u32; circuit_common::N_RESERVED] {
-        let circuit = &canonical.preprocessed_multiverifier;
-        let lifting_log_size = circuit.trace_log_size + MULTIVERIFIER_LOG_BLOWUP_FACTOR;
-        let twiddles = SimdBackend::precompute_twiddles(
-            CanonicCoset::new(lifting_log_size).circle_domain().half_coset,
-        );
-        let trace = circuit.preprocessed_trace.get_trace::<SimdBackend>();
-        let polys = SimdBackend::interpolate_columns(trace, &twiddles);
-        let tree = CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(
-            polys,
-            MULTIVERIFIER_LOG_BLOWUP_FACTOR,
-            &twiddles,
-            true,
-            lifting_log_size,
-            &BaseColumnPool::<SimdBackend>::new(),
-        );
-        let root: HashValue<QM31> = tree.commitment.root().into();
-        std::array::from_fn(|i| root[i].get().unpack_u32())
-    }
-
     /// The canonical multiverifier's `circuit_hash` — the identity every internal node carries.
-    /// TODO(yairv): replace this local recomputation with
-    /// `circuit_prover::circuit_hash::preprocessed_circuit_hash` once the circuit-params-registry
-    /// stack lands.
     fn multiverifier_circuit_hash(
         canonical: &CanonicalCircuit,
     ) -> [u32; circuit_common::N_RESERVED] {
-        let root_words = multiverifier_preprocessed_root(canonical);
-        let preprocessed_root =
-            Blake2sHash(std::array::from_fn(|i| root_words[i / 4].to_le_bytes()[i % 4]));
-        let component_log_sizes = circuit_component_log_sizes(
-            &all_circuit_components::<QM31>(),
-            &canonical.preprocessed_multiverifier.preprocessed_trace.log_sizes(),
-        );
-        let hash = compute_circuit_hash(
-            &component_log_sizes,
+        let hash = preprocessed_circuit_hash(
+            &canonical.preprocessed_multiverifier,
             MULTIVERIFIER_LOG_BLOWUP_FACTOR,
-            preprocessed_root,
         );
         digest_bytes_to_words(&hash.0)
     }

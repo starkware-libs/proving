@@ -6,13 +6,9 @@
 //! leaf proofs (layer 1) and multiverifier proofs (every layer above), with one [`SharedConfig`]
 //! and one preprocessed root. This is what makes the reduction homogeneous and lets an unpaired
 //! entry be carried up to a higher layer unchanged.
-//!
-//! This module replicates the logic of `circuit_multiverifier::test_utils`'s
-//! `get_preprocessed_multiverifier_from_circuit`, which is test-only upstream.
 
 use std::path::PathBuf;
 
-use circuit_cairo_verifier::all_components::all_components;
 use circuit_cairo_verifier::privacy::get_pcs_config;
 use circuit_cairo_verifier::utils::load_program;
 use circuit_cairo_verifier::verify::{
@@ -20,20 +16,12 @@ use circuit_cairo_verifier::verify::{
 };
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_multiverifier::verify::{
-    MultiverifierInput, SharedConfig, build_multiverifier_circuit,
-};
+use circuit_multiverifier::verify::{SharedConfig, build_multiverifier_context};
 use circuit_prover::prover::{BaseColumnPool, SimdBackend};
-use circuit_verifier::statement::{INTERACTION_POW_BITS, all_circuit_components};
-use circuits::blake::HashValue;
+use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
-use circuits_stark_verifier::constraint_eval::CircuitEval;
-use circuits_stark_verifier::proof::{ProofConfig, empty_proof};
-use indexmap::IndexMap;
-use leaf_prover::consts::{
-    DISABLED_COMPONENTS_CANONICAL_PREPROCESSED, DISABLED_COMPONENTS_SMALL_PREPROCESSED,
-};
+use leaf_prover::prove_leaf::leaf_verifier_config;
 use stwo::core::pcs::PcsConfig;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use tracing::{Level, info, span};
@@ -91,28 +79,21 @@ impl CanonicalCircuit {
         //    the column count / log sizes that describe a *child* circuit proof.
         let preprocessed_leaf = build_preprocessed_leaf_circuit();
 
-        // 2. The proof config + shared config for verifying a child circuit proof.
-        let proof_config = ProofConfig::new(
-            &all_circuit_components::<NoValue>(),
-            preprocessed_leaf.preprocessed_trace.n_columns(),
+        // 2. The shared config for verifying a child circuit proof.
+        let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
+        let proof_config = circuit_verifier_proof_config(
+            &preprocessed_column_log_sizes,
             &MULTIVERIFIER_PCS_CONFIG,
-            INTERACTION_POW_BITS,
         );
         let shared_config = SharedConfig {
             pcs_config: MULTIVERIFIER_PCS_CONFIG,
-            proof_config: proof_config.clone(),
-            preprocessed_column_log_sizes: preprocessed_leaf.preprocessed_trace.log_sizes(),
+            proof_config,
+            preprocessed_column_log_sizes,
         };
 
-        // 3. The multiverifier circuit shape, built from two empty (structure-only) inputs and
-        //    padded to the same target as the leaf circuit.
-        let empty_input = || MultiverifierInput {
-            proof: empty_proof(&proof_config),
-            preprocessed_root: HashValue::from([0u32; circuits::blake::BLAKE2S_DIGEST_N_WORDS]),
-            output_values: [0; circuit_common::N_RESERVED],
-        };
+        // 3. The multiverifier circuit shape, padded to the same target as the leaf circuit.
         let mut multiverifier_context =
-            build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), &shared_config);
+            build_multiverifier_context(&preprocessed_leaf, MULTIVERIFIER_PCS_CONFIG);
         pad_to_targets(&mut multiverifier_context, TARGET_PADDING_SIZES);
         let preprocessed_multiverifier =
             PreprocessedCircuit::preprocess_circuit(&mut multiverifier_context);
@@ -182,52 +163,22 @@ fn leaf_cairo_prover_params() -> LeafCairoProverParams {
 /// `lifting_log_size` is this plus the log blowup factor.
 const LEAF_CAIRO_TRACE_LOG_SIZE: u32 = 20;
 
-/// Mirrors `circuit_cairo_verifier::privacy::privacy_cairo_verifier_config`, for the leaf simple
-/// bootloader under the canonical-small test setup instead of the privacy transaction.
-// TODO(yairv): Share a parameterized config builder with `privacy_cairo_verifier_config`
-// (upstream, in stwo-circuits) instead of mirroring its structure here.
+/// The [`CairoVerifierConfig`] of the leaf circuit (via `leaf_prover`'s shared builder), for the
+/// leaf simple bootloader under the canonical-small test setup.
 fn leaf_cairo_verifier_config() -> CairoVerifierConfig {
     let leaf_cairo_params = leaf_cairo_prover_params();
-    let preprocessed_trace_variant = leaf_cairo_params.preprocessed_trace;
     // The circuit verifier's `ProofConfig` requires the explicit
     // `lifting_log_size = trace_log_size + log_blowup_factor` (the params file stores `0`,
     // meaningful only to the prover); mirror `prove_leaf`, which overrides it from the proof.
     let mut pcs_config = leaf_cairo_params.pcs_config;
     pcs_config.lifting_log_size =
         LEAF_CAIRO_TRACE_LOG_SIZE + pcs_config.fri_config.log_blowup_factor;
-    // TODO(yairv): Centralize this variant->disabled-components mapping (currently duplicated
-    // between `leaf_prover::prove_leaf` and here).
-    let disabled_components: &[&str] = match preprocessed_trace_variant {
-        PreProcessedTraceVariant::Canonical => &DISABLED_COMPONENTS_CANONICAL_PREPROCESSED,
-        PreProcessedTraceVariant::CanonicalSmall => &DISABLED_COMPONENTS_SMALL_PREPROCESSED,
-        _ => panic!("Unsupported preprocessed trace {preprocessed_trace_variant:?}"),
-    };
-    // Build `enabled_bits` (one flag per component in the full list) and `components` (only the
-    // enabled entries, as expected by `ProofConfig::new`) in a single pass.
-    let (enabled_bits, components): (Vec<bool>, Vec<_>) = all_components::<NoValue>()
-        .into_iter()
-        .map(|(name, component)| {
-            let enabled = !disabled_components.contains(&name);
-            (enabled, enabled.then_some((name, component)))
-        })
-        .unzip();
-    let components: IndexMap<&'static str, Box<dyn CircuitEval<NoValue>>> =
-        components.into_iter().flatten().collect();
-
-    let proof_config = ProofConfig::new(
-        &components,
-        preprocessed_trace_variant.n_columns(),
+    leaf_verifier_config(
+        leaf_cairo_params.preprocessed_trace,
         &pcs_config,
-        cairo_air::verifier::INTERACTION_POW_BITS,
-    );
-
-    CairoVerifierConfig {
-        preprocessed_root: get_preprocessed_root(pcs_config.lifting_log_size),
-        proof_config,
-        enabled_bits,
-        program: load_program(&leaf_bootloader_program_path()),
-        preprocessed_trace_variant,
-    }
+        load_program(&leaf_bootloader_program_path()),
+        get_preprocessed_root(pcs_config.lifting_log_size),
+    )
 }
 
 /// Builds the multiverifier circuit topology (structure-only) from a leaf circuit padded only with
@@ -239,21 +190,5 @@ fn leaf_cairo_verifier_config() -> CairoVerifierConfig {
 pub fn build_unpadded_multiverifier_context() -> FinalizedContext<NoValue> {
     let mut leaf_context = build_unpadded_leaf_context();
     let preprocessed_leaf = PreprocessedCircuit::preprocess_circuit(&mut leaf_context);
-    let proof_config = ProofConfig::new(
-        &all_circuit_components::<NoValue>(),
-        preprocessed_leaf.preprocessed_trace.n_columns(),
-        &MULTIVERIFIER_PCS_CONFIG,
-        INTERACTION_POW_BITS,
-    );
-    let shared_config = SharedConfig {
-        pcs_config: MULTIVERIFIER_PCS_CONFIG,
-        proof_config: proof_config.clone(),
-        preprocessed_column_log_sizes: preprocessed_leaf.preprocessed_trace.log_sizes(),
-    };
-    let empty_input = || MultiverifierInput {
-        proof: empty_proof(&proof_config),
-        preprocessed_root: HashValue::from([0u32; circuits::blake::BLAKE2S_DIGEST_N_WORDS]),
-        output_values: [0; circuit_common::N_RESERVED],
-    };
-    build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), &shared_config)
+    build_multiverifier_context(&preprocessed_leaf, MULTIVERIFIER_PCS_CONFIG)
 }

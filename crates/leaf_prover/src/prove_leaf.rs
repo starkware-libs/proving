@@ -20,6 +20,7 @@ use circuit_prover::prover::{
     BaseColumnPool, prepare_circuit_proof_for_circuit_verifier, prove_circuit_assignment,
 };
 use circuit_serialize::serialize::CircuitSerialize;
+use circuits::blake::HashValue;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
@@ -139,32 +140,21 @@ pub fn prove_leaf(
 
     let preprocessed_root = proof.extended_stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];
 
-    let disabled_components: &[&str] = match cairo_prover_parameters.preprocessed_trace {
-        PreProcessedTraceVariant::Canonical => &DISABLED_COMPONENTS_CANONICAL_PREPROCESSED,
-        PreProcessedTraceVariant::CanonicalSmall => &DISABLED_COMPONENTS_SMALL_PREPROCESSED,
-        _ => panic!(
-            "Unsupported preprocessed trace {:?}",
-            cairo_prover_parameters.preprocessed_trace
-        ),
-    };
-    let LeafVerifierComponents { components: cairo_components, enabled_bits } =
-        leaf_verifier_components(disabled_components);
-
     // Set lifting_log_size from the cairo proof.
     let mut pcs_config = cairo_prover_parameters.pcs_config;
     pcs_config.lifting_log_size = proof.extended_stark_proof.proof.config.lifting_log_size;
 
-    let proof_config = ProofConfig::new(
-        &cairo_components,
-        cairo_prover_parameters.preprocessed_trace.n_columns(),
+    let verifier_config = leaf_verifier_config(
+        cairo_prover_parameters.preprocessed_trace,
         &pcs_config,
-        INTERACTION_POW_BITS,
+        Arc::from(program_felts(program)),
+        preprocessed_root.into(),
     );
 
     // Verify that the Cairo proof has the expected trace width (if not - this is an
     // indication that the program doesn't use all components).
     for (trace_idx, trace_name) in ["preprocessed", "base", "interaction"].iter().enumerate() {
-        let expected_columns = proof_config.n_columns_per_trace()[trace_idx];
+        let expected_columns = verifier_config.proof_config.n_columns_per_trace()[trace_idx];
         let columns_in_proof = proof.extended_stark_proof.proof.queried_values[trace_idx].len();
         assert!(
             columns_in_proof == expected_columns,
@@ -174,17 +164,7 @@ pub fn prove_leaf(
     }
 
     let (proof_for_circuit, serialized_aux_data) =
-        prepare_cairo_proof_for_circuit_verifier(&proof, &enabled_bits);
-
-    // Build the verifier circuit.
-
-    let verifier_config = CairoVerifierConfig {
-        program: Arc::from(program_felts(program)),
-        enabled_bits,
-        proof_config,
-        preprocessed_trace_variant: cairo_prover_parameters.preprocessed_trace,
-        preprocessed_root: preprocessed_root.into(),
-    };
+        prepare_cairo_proof_for_circuit_verifier(&proof, &verifier_config.enabled_bits);
 
     let mut context = build_and_fill_cairo_verifier_circuit(
         &verifier_config,
@@ -252,6 +232,46 @@ pub struct LeafVerifierComponents {
     pub components: IndexMap<&'static str, Box<dyn CircuitEval<QM31>>>,
     /// One bit per possible component: `true` if the component is enabled (present).
     pub enabled_bits: Vec<bool>,
+}
+
+/// Builds the [`CairoVerifierConfig`] of the leaf circuit that verifies a Cairo proof of the
+/// given preprocessed-trace variant: picks the disabled component set from the variant and
+/// assembles the component list, enabled bits and [`ProofConfig`].
+///
+/// `pcs_config` is the verified Cairo proof's PCS config with an explicit `lifting_log_size`
+/// (`trace_log_size + log_blowup_factor`), and `preprocessed_root` the expected root of that
+/// proof's preprocessed trace.
+/// The components a Cairo program proven with the given preprocessed-trace variant is expected NOT
+/// to use.
+fn disabled_components(variant: PreProcessedTraceVariant) -> &'static [&'static str] {
+    match variant {
+        PreProcessedTraceVariant::Canonical => &DISABLED_COMPONENTS_CANONICAL_PREPROCESSED,
+        PreProcessedTraceVariant::CanonicalSmall => &DISABLED_COMPONENTS_SMALL_PREPROCESSED,
+        _ => panic!("Unsupported preprocessed trace {variant:?}"),
+    }
+}
+
+pub fn leaf_verifier_config(
+    preprocessed_trace_variant: PreProcessedTraceVariant,
+    pcs_config: &PcsConfig,
+    program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
+    preprocessed_root: HashValue<QM31>,
+) -> CairoVerifierConfig {
+    let LeafVerifierComponents { components, enabled_bits } =
+        leaf_verifier_components(disabled_components(preprocessed_trace_variant));
+    let proof_config = ProofConfig::new(
+        &components,
+        preprocessed_trace_variant.n_columns(),
+        pcs_config,
+        INTERACTION_POW_BITS,
+    );
+    CairoVerifierConfig {
+        proof_config,
+        enabled_bits,
+        program,
+        preprocessed_root,
+        preprocessed_trace_variant,
+    }
 }
 
 /// Creates the component list and enabled bits for the circuit that verifies the Cairo proof.

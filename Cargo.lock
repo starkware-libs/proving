@@ -1682,14 +1682,12 @@ dependencies = [
 name = "circuit-params"
 version = "2.4.0"
 dependencies = [
- "cairo-air",
  "circuit-cairo-verifier",
  "circuit-common",
  "circuit-multiverifier",
  "circuit-prover",
  "circuit-registry",
  "circuits",
- "circuits-stark-verifier",
  "clap",
  "leaf-prover",
  "serde_json",
@@ -3106,6 +3104,7 @@ dependencies = [
  "circuit-common",
  "circuit-prover",
  "circuit-serialize",
+ "circuits",
  "circuits-stark-verifier",
  "clap",
  "indexmap 2.14.0",
@@ -4965,7 +4964,6 @@ name = "stwo-run-and-prove-recursive-tree"
 version = "2.4.0"
 dependencies = [
  "blake2",
- "cairo-air",
  "circuit-cairo-serialize",
  "circuit-cairo-verifier",
  "circuit-common",
@@ -4976,7 +4974,6 @@ dependencies = [
  "circuits",
  "circuits-stark-verifier",
  "clap",
- "indexmap 2.14.0",
  "leaf-proof-format",
  "leaf-prover",
  "num-bigint",
