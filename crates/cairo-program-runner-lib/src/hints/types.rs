@@ -534,6 +534,13 @@ pub struct MockCairoVerifierInput {
     pub program_output: Vec<Felt252>,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+pub struct MockCircuitVerifierInput {
+    pub n_steps: u128,
+    pub circuit_hash: Vec<u32>,
+    pub output_values: Vec<u32>,
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct FlexibleBuiltinUsageInput {
     #[serde(default)]
