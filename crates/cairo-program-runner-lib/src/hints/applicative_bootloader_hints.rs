@@ -23,14 +23,15 @@ use crate::hints::utils::get_program_input_value;
 
 /// Implements nondet %{ aggregator_program_hash_function %}
 /// Compiles to: memory[ap] = to_felt_or_relocatable(aggregator_program_hash_function)
+///
+/// The scope variable is set by the input-loading hint of whichever applicative bootloader is
+/// running (the applicative bootloader or the circuit-unpacking applicative bootloader).
 pub fn aggregator_program_hash_function_to_ap(
     vm: &mut VirtualMachine,
     exec_scopes: &mut ExecutionScopes,
 ) -> Result<(), HintError> {
-    let applicative_bootloader_input: &ApplicativeBootloaderInput =
-        exec_scopes.get_ref(vars::APPLICATIVE_BOOTLOADER_INPUT)?;
-    let program_hash_function = applicative_bootloader_input.aggregator_task.program_hash_function;
-    insert_value_into_ap(vm, program_hash_function as usize)
+    let program_hash_function: usize = exec_scopes.get(vars::AGGREGATOR_PROGRAM_HASH_FUNCTION)?;
+    insert_value_into_ap(vm, program_hash_function)
 }
 
 /// Implements
@@ -88,6 +89,11 @@ pub fn prepare_aggregator_simple_bootloader_output_segment(
         single_page: true,
     };
 
+    // Read back by the `nondet %{ aggregator_program_hash_function %}` hint.
+    exec_scopes.insert_value(
+        vars::AGGREGATOR_PROGRAM_HASH_FUNCTION,
+        applicative_bootloader_input.aggregator_task.program_hash_function as usize,
+    );
     exec_scopes.insert_value(APPLICATIVE_BOOTLOADER_INPUT, applicative_bootloader_input);
     exec_scopes.insert_value(vars::SIMPLE_BOOTLOADER_INPUT, simple_bootloader_input);
 
@@ -315,3 +321,7 @@ pub fn finalize_fact_topologies_and_pages(
 
     Ok(())
 }
+
+#[cfg(test)]
+#[path = "applicative_bootloader_hints_test.rs"]
+pub mod test;
