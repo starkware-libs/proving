@@ -56,7 +56,6 @@ pub fn adapt(runner: &CairoRunner) -> Result<ProverInput> {
 }
 
 #[cfg(test)]
-#[cfg(feature = "slow-tests")]
 mod tests {
     use std::fs::{File, read_to_string};
     use std::io::Write;

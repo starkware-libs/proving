@@ -79,7 +79,7 @@ jobs:
       - run: |
           cargo nextest run ${{ inputs.crate_group }} \
             --cargo-profile witness-opt-1 \
-            --features=stwo-cairo-prover/integration,stwo-cairo-prover/slow-tests,stwo-cairo-adapter/slow-tests,cairo-air/slow-tests \
+            --features=stwo-cairo-prover/integration,stwo-cairo-prover/slow-tests \
             -j ${{ env.NEXTTEST_THREADS }} \
             -P ci
       - run: |

@@ -6,9 +6,6 @@ license.workspace = true
 repository.workspace = true
 description = "AIR (Algebraic Intermediate Representation) definitions for Cairo programs"
 
-[features]
-slow-tests = []
-
 [dependencies]
 bincode.workspace = true
 bzip2.workspace = true
