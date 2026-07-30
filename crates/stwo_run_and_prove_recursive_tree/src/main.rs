@@ -1,8 +1,8 @@
 //! CLI entry point for the recursive circuit-proof tree binary.
 //!
-//! See `lib.rs` for the algorithm. The CLI takes the leaves list and the three root output paths;
-//! all proving configuration is fixed by the canonical circuit shape (see `canonical`), so there
-//! are no prover-params / verifier-program / bootloader-program arguments anymore.
+//! See `lib.rs` for the algorithm. The CLI takes the leaves list, the circuit prover params, and
+//! the three root output paths; the rest of the proving configuration is fixed by the canonical
+//! circuit shape (see `canonical`).
 
 use std::path::PathBuf;
 use std::process::ExitCode;
@@ -38,6 +38,12 @@ struct Args {
     /// Output path for the nested `PackedNode` JSON tree consumed by a future per-leaf unpacker.
     #[clap(long = "packed_output_path")]
     packed_output_path: PathBuf,
+
+    /// JSON file containing the circuit prover parameters (a `PcsConfig`) — the same file the
+    /// leaf prover ran with (its `circuit_prover_params_json`), so the tree uses the config the
+    /// leaf circuit proofs were produced with.
+    #[clap(long = "circuit_prover_params_json")]
+    circuit_prover_params_json: PathBuf,
 }
 
 fn main() -> ExitCode {
@@ -48,9 +54,18 @@ fn run() -> Result<(), RecursiveTreeError> {
     let _span = span!(Level::INFO, "stwo_run_and_prove_recursive_tree::run").entered();
     let args = Args::parse();
     let leaves = load_leaves(&args.program_input)?;
+    let params = std::fs::read_to_string(&args.circuit_prover_params_json).unwrap_or_else(|err| {
+        panic!(
+            "Cannot get circuit prover parameters from {}: {err}",
+            args.circuit_prover_params_json.display()
+        )
+    });
+    let circuit_pcs_config =
+        serde_json::from_str(&params).expect("Circuit prover parameters JSON does not parse");
     info!(n_leaves = leaves.len(), "Starting in-binary recursive circuit-proof tree reduction.");
     let stats = stwo_run_and_prove_recursive_tree(
         leaves,
+        circuit_pcs_config,
         &args.proof_path,
         &args.program_output,
         &args.packed_output_path,

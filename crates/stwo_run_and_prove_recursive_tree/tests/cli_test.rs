@@ -3,7 +3,13 @@
 //! The cheap error arm (malformed leaves file → non-zero exit) runs always. The single-leaf
 //! passthrough success arm builds the canonical circuit shape, so it is gated behind `slow-tests`.
 
+use std::path::PathBuf;
 use std::process::Command;
+
+/// The committed circuit prover params file — the same file the leaf prover runs with.
+fn circuit_prover_params_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_prover_params.json")
+}
 
 /// A malformed `--program_input` makes `load_leaves` fail (before any expensive setup); the binary
 /// must exit non-zero (the `run_binary` error arm) rather than panicking or silently succeeding.
@@ -13,7 +19,6 @@ fn test_invalid_program_input_exits_nonzero() {
     let dir = tmp.path();
     let leaves_path = dir.join("leaves.json");
     std::fs::write(&leaves_path, b"not valid json").expect("write bad leaves.json");
-
     let status = Command::new(env!("CARGO_BIN_EXE_stwo_run_and_prove_recursive_tree"))
         .arg("--program_input")
         .arg(&leaves_path)
@@ -23,6 +28,8 @@ fn test_invalid_program_input_exits_nonzero() {
         .arg(dir.join("po"))
         .arg("--packed_output_path")
         .arg(dir.join("pout"))
+        .arg("--circuit_prover_params_json")
+        .arg(circuit_prover_params_path())
         .status()
         .expect("spawn recursive-tree binary");
     assert!(!status.success(), "binary should exit non-zero on malformed input, got: {status:?}",);
@@ -65,6 +72,8 @@ fn test_single_leaf_passthrough_succeeds() {
         .arg(dir.join("root_outputs.json"))
         .arg("--packed_output_path")
         .arg(dir.join("root_packed.json"))
+        .arg("--circuit_prover_params_json")
+        .arg(circuit_prover_params_path())
         .status()
         .expect("spawn recursive-tree binary");
 

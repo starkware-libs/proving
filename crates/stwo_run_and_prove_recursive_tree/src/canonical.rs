@@ -9,7 +9,6 @@
 
 use std::path::PathBuf;
 
-use circuit_cairo_verifier::privacy::get_pcs_config;
 use circuit_cairo_verifier::utils::load_program;
 use circuit_cairo_verifier::verify::{
     CairoVerifierConfig, build_cairo_verifier_circuit, get_preprocessed_root,
@@ -27,22 +26,6 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTra
 use tracing::{Level, info, span};
 
 use crate::RecursiveTreeError;
-
-/// Log blowup factor of the outer circuit proof.
-pub const MULTIVERIFIER_LOG_BLOWUP_FACTOR: u32 = 1;
-
-/// The circuit trace log size every layer's proof reaches (see [`TARGET_PADDING_SIZES`]).
-pub const MULTIVERIFIER_TRACE_LOG_SIZE: u32 = 23;
-
-/// PCS config for proving each layer. MUST equal the config the leaf circuit proofs were produced
-/// with: this constant is the single source of truth for the tree's circuit PCS shape, and the
-/// backend must pass it (via the leaf prover's `circuit_prover_params_json`) when producing
-/// leaves.
-// TODO(yairv): Consider taking this from the backend via configuration (alongside the leaf
-// bootloader program), so the backend passes one config to both `leaf_prover` and the recursive
-// tree.
-pub const MULTIVERIFIER_PCS_CONFIG: PcsConfig =
-    get_pcs_config(MULTIVERIFIER_TRACE_LOG_SIZE, MULTIVERIFIER_LOG_BLOWUP_FACTOR);
 
 /// Common per-component padding target applied to BOTH the leaf cairo-verifier circuit and the
 /// multiverifier circuit, so they share one preprocessed-trace layout and a single proof shape
@@ -72,28 +55,37 @@ pub struct CanonicalCircuit {
 
 impl CanonicalCircuit {
     /// Builds the canonical circuit shape and all the configuration derived from it.
-    pub fn build() -> Result<Self, RecursiveTreeError> {
+    ///
+    /// `circuit_pcs_config` is the PCS config the leaf circuit proofs were produced with (the
+    /// leaf prover's `circuit_prover_params_json`). Its `lifting_log_size` is overridden to the
+    /// target-padded circuit's `trace_log_size + log_blowup_factor` — the only valid value for
+    /// the canonical circuit shape.
+    pub fn build(circuit_pcs_config: PcsConfig) -> Result<Self, RecursiveTreeError> {
         let _span = span!(Level::INFO, "CanonicalCircuit::build").entered();
 
         // 1. The leaf cairo-verifier circuit (padded + preprocessed). Its preprocessed trace gives
         //    the column count / log sizes that describe a *child* circuit proof.
         let preprocessed_leaf = build_preprocessed_leaf_circuit();
 
+        let circuit_pcs_config = PcsConfig {
+            lifting_log_size: preprocessed_leaf.trace_log_size
+                + circuit_pcs_config.fri_config.log_blowup_factor,
+            ..circuit_pcs_config
+        };
+
         // 2. The shared config for verifying a child circuit proof.
         let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
-        let proof_config = circuit_verifier_proof_config(
-            &preprocessed_column_log_sizes,
-            &MULTIVERIFIER_PCS_CONFIG,
-        );
+        let proof_config =
+            circuit_verifier_proof_config(&preprocessed_column_log_sizes, &circuit_pcs_config);
         let shared_config = SharedConfig {
-            pcs_config: MULTIVERIFIER_PCS_CONFIG,
+            pcs_config: circuit_pcs_config,
             proof_config,
             preprocessed_column_log_sizes,
         };
 
         // 3. The multiverifier circuit shape, padded to the same target as the leaf circuit.
         let mut multiverifier_context =
-            build_multiverifier_context(&preprocessed_leaf, MULTIVERIFIER_PCS_CONFIG);
+            build_multiverifier_context(&preprocessed_leaf, circuit_pcs_config);
         pad_to_targets(&mut multiverifier_context, TARGET_PADDING_SIZES);
         let preprocessed_multiverifier =
             PreprocessedCircuit::preprocess_circuit(&mut multiverifier_context);
@@ -151,7 +143,7 @@ struct LeafCairoProverParams {
 /// The Cairo prover parameters the leaf's inner proof is produced with — loaded from the same
 /// file the golden e2e proves leaves with, so the canonical circuit shape cannot drift from it.
 /// TEMPORARY: read from `leaf_prover`'s test data; production will receive it via configuration
-/// (see the TODO on [`MULTIVERIFIER_PCS_CONFIG`]).
+/// (like the circuit prover params file).
 fn leaf_cairo_prover_params() -> LeafCairoProverParams {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("../leaf_prover/tests/data/cairo_prover_params_canonical_small.json");
@@ -187,8 +179,15 @@ fn leaf_cairo_verifier_config() -> CairoVerifierConfig {
 /// [`TARGET_PADDING_SIZES`] — mirroring `circuit_multiverifier::verify_test`'s `None`-padding path,
 /// which must not depend on the very constant being derived.
 #[cfg(test)]
-pub fn build_unpadded_multiverifier_context() -> FinalizedContext<NoValue> {
+pub fn build_unpadded_multiverifier_context(
+    circuit_pcs_config: PcsConfig,
+) -> FinalizedContext<NoValue> {
     let mut leaf_context = build_unpadded_leaf_context();
     let preprocessed_leaf = PreprocessedCircuit::preprocess_circuit(&mut leaf_context);
-    build_multiverifier_context(&preprocessed_leaf, MULTIVERIFIER_PCS_CONFIG)
+    let circuit_pcs_config = PcsConfig {
+        lifting_log_size: preprocessed_leaf.trace_log_size
+            + circuit_pcs_config.fri_config.log_blowup_factor,
+        ..circuit_pcs_config
+    };
+    build_multiverifier_context(&preprocessed_leaf, circuit_pcs_config)
 }

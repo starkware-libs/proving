@@ -27,6 +27,7 @@
 
 use std::path::{Path, PathBuf};
 
+use stwo::core::pcs::PcsConfig;
 use thiserror::Error;
 use tracing::{Level, info, span};
 
@@ -80,8 +81,12 @@ pub struct RecursiveTreeStats {
 ///   multi-leaf tree, or the leaf's serialized proof unchanged for a single-leaf tree.
 /// - `program_output`: the root node's output values (flat JSON array of raw `u32` digest words).
 /// - `packed_output_path`: the nested `PackedNode` JSON tree.
+///
+/// - `circuit_pcs_config`: the circuit-proof PCS config, which MUST equal the one the leaf circuit
+///   proofs were produced with (the leaf prover's `circuit_prover_params_json`).
 pub fn stwo_run_and_prove_recursive_tree(
     leaves: Vec<LeafInput>,
+    circuit_pcs_config: PcsConfig,
     proof_path: &Path,
     program_output: &Path,
     packed_output_path: &Path,
@@ -94,7 +99,7 @@ pub fn stwo_run_and_prove_recursive_tree(
     let n_leaves = leaves.len();
     info!(n_leaves, "Folding leaf circuit proofs into a recursive tree.");
 
-    let canonical = CanonicalCircuit::build()?;
+    let canonical = CanonicalCircuit::build(circuit_pcs_config)?;
 
     // Intermediate proofs live in memory (on each `LayerEntry`) for the duration of the fold; the
     // only files this invocation writes are the root outputs.
