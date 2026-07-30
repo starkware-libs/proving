@@ -7,8 +7,6 @@ repository.workspace = true
 description = "STARK prover for Cairo programs using the Stwo proving system"
 
 [features]
-slow-tests = []
-integration = []
 relation-tracker = []
 
 # Define Nightly features in order to allow selective tests
@@ -48,6 +46,12 @@ sonic-rs.workspace = true
 [target.'cfg(any(target_arch = "wasm32", target_arch = "wasm64"))'.dependencies]
 getrandom_v2.workspace = true
 getrandom_v3.workspace = true
+
+[[test]]
+name = "slow_tests"
+path = "tests/slow_tests.rs"
+# Exclude from `cargo test` or `cargo nextest run`.
+test = false
 
 [dev-dependencies]
 stwo-cairo-dev-utils.workspace = true

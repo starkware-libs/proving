@@ -19,7 +19,6 @@ jobs:
   tests:
     runs-on: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
     env:
-      NEXTTEST_THREADS: "1"
       RUST_MIN_STACK: 4194304
       RUSTFLAGS: -C target-cpu=native
       RUST_LOG_SPAN_EVENTS: enter,close
@@ -43,11 +42,7 @@ jobs:
       - name: Fetch cache
         uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - run: |
-          cargo nextest run ${{ inputs.crate_group }} \
-            --cargo-profile witness-opt-1 \
-            --features=stwo-cairo-prover/integration \
-            -j ${{ env.NEXTTEST_THREADS }} \
-            -P ci
+          cargo nextest run ${{ inputs.crate_group }} -P ci
 
   slow-tests:
     if: ${{ github.event_name == 'merge_group' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
@@ -77,9 +72,9 @@ jobs:
       - name: Fetch cache
         uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - run: |
-          cargo nextest run ${{ inputs.crate_group }} \
+          cargo nextest run -p stwo-cairo-prover \
             --cargo-profile witness-opt-1 \
-            --features=stwo-cairo-prover/integration,stwo-cairo-prover/slow-tests \
+            --test slow_tests \
             -j ${{ env.NEXTTEST_THREADS }} \
             -P ci
       - run: |
