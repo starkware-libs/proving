@@ -4,8 +4,7 @@ use crate::canonical::{
     CanonicalCircuit, TARGET_PADDING_SIZES, build_unpadded_leaf_context,
     build_unpadded_multiverifier_context,
 };
-use crate::fold::PackedNode;
-use crate::{LeafInput, RecursiveTreeError, load_leaves};
+use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -200,8 +199,8 @@ mod e2e {
 
     use super::{circuit_prover_params, circuit_prover_params_path};
     use crate::canonical::CanonicalCircuit;
-    use crate::fold::{PackedNode, digest_bytes_to_words};
-    use crate::{LeafInput, stwo_run_and_prove_recursive_tree};
+    use crate::fold::digest_bytes_to_words;
+    use crate::{LeafInput, PackedNode, stwo_run_and_prove_recursive_tree};
 
     fn goldens_dir() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/goldens/four_leaves")

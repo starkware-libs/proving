@@ -16,6 +16,7 @@ use cairo_vm::types::relocatable::MaybeRelocatable;
 use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::runners::builtin_runner::OutputBuiltinState;
 use cairo_vm::vm::vm_core::VirtualMachine;
+use leaf_proof_format::N_DIGEST_WORDS;
 use num_traits::ToPrimitive;
 
 use super::fact_topologies::{
@@ -27,9 +28,6 @@ use super::{SimpleBootloaderInput, vars};
 
 /// Scope variable holding the current packed-output tree node (a [`PackedNode`]).
 const NODE: &str = "node";
-
-/// Number of u32 words in a blake2s digest (and hence in a circuit hash).
-const BLAKE2S_DIGEST_N_WORDS: usize = 8;
 
 fn felt_from_decimal_str(s: &str) -> Result<Felt252, HintError> {
     Felt252::from_dec_str(s)
@@ -166,10 +164,10 @@ pub fn circuit_applicative_setup_unpack(
     // supported_circuit_hashes: felt* }: the input's circuit hashes list, flattened.
     let n_supported_circuit_hashes = supported_circuit_hashes.len();
     for circuit_hash in &supported_circuit_hashes {
-        if circuit_hash.len() != BLAKE2S_DIGEST_N_WORDS {
+        if circuit_hash.len() != N_DIGEST_WORDS {
             return Err(HintError::CustomHint(
                 format!(
-                    "Supported circuit hash has {} words; expected {BLAKE2S_DIGEST_N_WORDS}.",
+                    "Supported circuit hash has {} words; expected {N_DIGEST_WORDS}.",
                     circuit_hash.len()
                 )
                 .into(),
@@ -264,18 +262,8 @@ pub fn circuit_unpack_set_circuit_hash_index(
     ids_data: &HashMap<String, HintReference>,
     ap_tracking: &ApTracking,
 ) -> Result<(), HintError> {
-    let node_circuit_hash: [u32; BLAKE2S_DIGEST_N_WORDS] = match get_node(exec_scopes)? {
-        PackedNode::Composite { circuit_hash, .. } => {
-            circuit_hash.clone().try_into().map_err(|circuit_hash: Vec<u32>| {
-                HintError::CustomHint(
-                    format!(
-                        "Packed node circuit hash has {} words; expected {BLAKE2S_DIGEST_N_WORDS}.",
-                        circuit_hash.len()
-                    )
-                    .into(),
-                )
-            })?
-        }
+    let node_circuit_hash: [u32; N_DIGEST_WORDS] = match get_node(exec_scopes)? {
+        PackedNode::Composite { circuit_hash, .. } => *circuit_hash,
         _ => {
             return Err(HintError::CustomHint(
                 "Packed node is not a Composite with a circuit hash.".into(),
@@ -294,8 +282,8 @@ pub fn circuit_unpack_set_circuit_hash_index(
 
     let mut circuit_hash_index = None;
     for index in 0..n_supported_circuit_hashes {
-        let circuit_hash_ptr = (supported_circuit_hashes_ptr + index * BLAKE2S_DIGEST_N_WORDS)?;
-        let words = vm.get_integer_range(circuit_hash_ptr, BLAKE2S_DIGEST_N_WORDS)?;
+        let circuit_hash_ptr = (supported_circuit_hashes_ptr + index * N_DIGEST_WORDS)?;
+        let words = vm.get_integer_range(circuit_hash_ptr, N_DIGEST_WORDS)?;
         if words
             .iter()
             .zip(&node_circuit_hash_felts)
@@ -499,8 +487,13 @@ mod tests {
         exec_scopes
     }
 
-    fn sample_digest(seed: u32) -> Vec<u32> {
-        (0..BLAKE2S_DIGEST_N_WORDS as u32).map(|i| seed + i).collect()
+    fn sample_digest(seed: u32) -> [u32; N_DIGEST_WORDS] {
+        std::array::from_fn(|i| seed + i as u32)
+    }
+
+    /// A supported-circuit-hashes list entry (the input carries them as plain word lists).
+    fn sample_digest_words(seed: u32) -> Vec<u32> {
+        sample_digest(seed).to_vec()
     }
 
     fn leaf_node(circuit_hash_seed: u32) -> PackedNode {
@@ -534,7 +527,7 @@ mod tests {
             aggregator_task: dummy_task(),
             verifier_task: dummy_task(),
             packed_output: internal_node(10, leaf_node(20), leaf_node(20)),
-            supported_circuit_hashes: vec![sample_digest(10), sample_digest(20)],
+            supported_circuit_hashes: vec![sample_digest_words(10), sample_digest_words(20)],
             fact_topologies_path: None,
         }
     }
@@ -622,7 +615,12 @@ mod tests {
     #[test]
     fn test_set_circuit_hash_index_matches_full_hash() {
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
-        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10), sample_digest(20)]);
+        load_config(
+            &mut vm,
+            &ids_data,
+            &ap_tracking,
+            &[sample_digest_words(10), sample_digest_words(20)],
+        );
         let mut exec_scopes = scopes_with_node(leaf_node(20));
         circuit_unpack_set_circuit_hash_index(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
             .unwrap();
@@ -633,34 +631,13 @@ mod tests {
     }
 
     #[test]
-    fn test_set_circuit_hash_index_rejects_malformed_node_hash() {
-        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
-        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10)]);
-        // A short node circuit hash must be rejected, not prefix-matched against the supported
-        // list.
-        let mut exec_scopes = scopes_with_node(PackedNode::Composite {
-            circuit_hash: sample_digest(10)[..3].to_vec(),
-            subtasks: vec![leaf_node(10)],
-        });
-        assert!(
-            circuit_unpack_set_circuit_hash_index(
-                &mut vm,
-                &mut exec_scopes,
-                &ids_data,
-                &ap_tracking
-            )
-            .is_err()
-        );
-    }
-
-    #[test]
     fn test_set_circuit_hash_index_rejects_unsupported_hash() {
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
         // The second supported circuit hash shares its first word with the node's but differs in
         // the rest; matching is across all eight words, so the lookup must fail.
-        let mut almost = sample_digest(20);
+        let mut almost = sample_digest_words(20);
         almost[7] += 1;
-        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10), almost]);
+        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest_words(10), almost]);
         let mut exec_scopes = scopes_with_node(leaf_node(20));
         assert!(
             circuit_unpack_set_circuit_hash_index(
@@ -741,7 +718,7 @@ mod tests {
         for (name, seed) in [("circuit_hash", 10u32), ("output_values", 20)] {
             let ptr = get_ptr_from_var_name(name, &vm, &ids_data, &ap_tracking).unwrap();
             let words: Vec<Felt252> = vm
-                .get_integer_range(ptr, BLAKE2S_DIGEST_N_WORDS)
+                .get_integer_range(ptr, N_DIGEST_WORDS)
                 .unwrap()
                 .into_iter()
                 .map(|f| *f.as_ref())
@@ -911,7 +888,7 @@ mod tests {
         assert_eq!(*vm.get_integer(config_ptr).unwrap().as_ref(), Felt252::from(2));
         let circuit_hashes_ptr = vm.get_relocatable((config_ptr + 1u32).unwrap()).unwrap();
         let words: Vec<Felt252> = vm
-            .get_integer_range(circuit_hashes_ptr, 2 * BLAKE2S_DIGEST_N_WORDS)
+            .get_integer_range(circuit_hashes_ptr, 2 * N_DIGEST_WORDS)
             .unwrap()
             .into_iter()
             .map(|f| *f.as_ref())
@@ -1019,7 +996,7 @@ mod tests {
     #[test]
     fn test_set_circuit_hash_index_rejects_non_composite_node() {
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
-        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10)]);
+        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest_words(10)]);
         let mut exec_scopes = scopes_with_node(PackedNode::Plain { output_preimage: vec![] });
         assert!(
             circuit_unpack_set_circuit_hash_index(

@@ -16,7 +16,7 @@ use circuit_verifier::statement::{all_circuit_components, circuit_component_log_
 use circuits::blake::HashValue;
 use circuits::ivalue::{IValue, NoValue};
 use circuits_stark_verifier::proof::ProofConfig;
-use serde::{Deserialize, Serialize};
+use leaf_proof_format::PackedNode;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
@@ -193,40 +193,4 @@ fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>>(
 /// root everywhere outside the circuits (matching `HashValue`'s `From<Blake2sHash>`).
 pub fn digest_bytes_to_words(bytes: &[u8; 32]) -> [u32; N_RESERVED] {
     std::array::from_fn(|i| u32::from_le_bytes(bytes[i * 4..i * 4 + 4].try_into().unwrap()))
-}
-
-/// Nested packed-output tree:
-///
-/// ```text
-/// Composite { subtasks: [left, right] }   // a fold: the multiverifier over two children
-///   ...
-///     Composite { subtasks: [plain] }     // a leaf: the cairo-verifier circuit over one task run
-///       └─ Plain { output_preimage }      // terminal: the leaf task's revealed output
-/// ```
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub enum PackedNode {
-    /// A leaf's hashed-output preimage — the task's program hash followed by the task's raw output
-    /// (each felt a decimal string; see `LeafInput::output_preimage`).
-    Plain { output_preimage: Vec<String> },
-    /// A verifier node — a fold over two children, or the leaf circuit over its single `Plain`
-    /// child. Carries the `circuit_hash` of this node's proof (eight little-endian u32 words) — the
-    /// full circuit identity (`blake2s(log_blowup ‖ component_log_sizes ‖ preprocessed_root)`) that
-    /// the unpacker mixes into this node's fold contribution and looks up in its supported trust
-    /// list.
-    Composite { circuit_hash: [u32; N_RESERVED], subtasks: Vec<PackedNode> },
-}
-
-impl PackedNode {
-    /// A leaf entry: the leaf circuit node over the `Plain` preimage reveal.
-    pub fn leaf(circuit_hash: [u32; N_RESERVED], output_preimage: Vec<String>) -> Self {
-        PackedNode::Composite {
-            circuit_hash,
-            subtasks: vec![PackedNode::Plain { output_preimage }],
-        }
-    }
-
-    /// An internal fold node over its two children.
-    pub fn internal(circuit_hash: [u32; N_RESERVED], left: PackedNode, right: PackedNode) -> Self {
-        PackedNode::Composite { circuit_hash, subtasks: vec![left, right] }
-    }
 }

@@ -15,6 +15,7 @@ use cairo_vm::types::layout::CairoLayoutParams;
 use cairo_vm::types::layout_name::LayoutName;
 use cairo_vm::types::program::Program;
 use cairo_vm::vm::runners::cairo_pie::{CairoPie, StrippedProgram};
+pub use leaf_proof_format::PackedNode;
 use num_traits::ToPrimitive;
 use serde::de::Error as SerdeError;
 use serde::ser::{SerializeSeq, Serializer};
@@ -539,29 +540,6 @@ pub struct MockCircuitVerifierInput {
     pub n_steps: u128,
     pub circuit_hash: Vec<u32>,
     pub output_values: Vec<u32>,
-}
-
-/// The recursive tree prover's nested packed-output tree, one `Composite` per verifier node
-/// (mirrors `PackedNode` in the prover's `stwo_run_and_prove_recursive_tree` crate; externally
-/// tagged, as serde derives for both):
-///   Composite { circuit_hash, subtasks }   // a fold over two children, or the leaf circuit
-///     -> Plain { output_preimage }         // the raw [program hash, task output...]
-///
-/// The tree carries only data that cannot be recomputed — the unpacker rederives every digest
-/// (the leaf's hashed output and each fold's circuit output) bottom-up from the preimages.
-#[derive(Debug, Clone, PartialEq, Deserialize)]
-pub enum PackedNode {
-    Plain {
-        /// The leaf's hashed-output preimage, each felt a decimal string.
-        output_preimage: Vec<String>,
-    },
-    Composite {
-        /// The circuit hash of this node's proof (eight little-endian u32 words) — the circuit
-        /// identity the unpacker uses in this node's fold contribution, after checking it is
-        /// supported.
-        circuit_hash: Vec<u32>,
-        subtasks: Vec<PackedNode>,
-    },
 }
 
 /// Input of the circuit-unpacking applicative bootloader (see

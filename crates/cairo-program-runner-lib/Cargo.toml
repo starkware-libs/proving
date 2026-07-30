@@ -8,6 +8,7 @@ description = "Library for running Cairo programs on the Cairo VM with hint supp
 
 
 [dependencies]
+leaf-proof-format.workspace = true
 anyhow.workspace = true
 cairo-vm.workspace = true
 cairo-lang-executable.workspace = true

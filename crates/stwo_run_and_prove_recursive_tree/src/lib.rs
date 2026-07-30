@@ -39,7 +39,7 @@ pub mod output;
 use canonical::CanonicalCircuit;
 use fold::{LayerEntry, reduce_pair};
 pub use leaf_io::{LeafInput, LeafProofExt, load_leaves};
-pub use leaf_proof_format::SerializedLeafProof;
+pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
 #[derive(Debug, Error)]
 pub enum RecursiveTreeError {
