@@ -35,12 +35,19 @@ jobs:
         with:
           tool: nextest
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
-      - name: Run tests
+      - name: Run nightly builtin test
         run: |
           cargo nextest run -p stwo-cairo-prover \
             --features="nightly" \
             --release \
             -j ${{ env.NEXTTEST_THREADS }}
+      - name: Run mem-trace test
+        run: |
+          cargo nextest run \
+            --cargo-profile witness-opt-1 \
+            --features=extract-mem-trace test_serialize_deserialize_mem_trace \
+            -j ${{ env.NEXTTEST_THREADS }} \
+            -P ci
 
   avx512-bench:
     runs-on: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64

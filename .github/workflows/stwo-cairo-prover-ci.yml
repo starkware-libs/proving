@@ -45,8 +45,14 @@ jobs:
           cargo nextest run ${{ inputs.crate_group }} -P ci
 
   slow-tests:
+    # TODO(Leo): consider running it also on PRs if cheap enough.
     if: ${{ github.event_name == 'merge_group' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     runs-on: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
+    strategy:
+      # A failing shard must not cancel its siblings.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     env:
       NEXTTEST_THREADS: "1"
       RUST_MIN_STACK: 4194304
@@ -71,17 +77,19 @@ jobs:
           tool: nextest
       - name: Fetch cache
         uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          # All shards build exactly the same artifacts, so they must share one cache
+          # entry instead of getting a per-shard key.
+          shared-key: slow-tests
+          # Only one shard should write the cache back.
+          save-if: ${{ matrix.shard == 1 }}
+      # TODO(Leo): change `release` to `ci` after we get rid of profile `witness-opt-1`
       - run: |
           cargo nextest run -p stwo-cairo-prover \
-            --cargo-profile witness-opt-1 \
             --test slow_tests \
+            --release \
             -j ${{ env.NEXTTEST_THREADS }} \
-            -P ci
-      - run: |
-          cargo nextest run \
-            --cargo-profile witness-opt-1 \
-            --features=extract-mem-trace test_serialize_deserialize_mem_trace \
-            -j ${{ env.NEXTTEST_THREADS }} \
+            --partition count:${{ matrix.shard }}/${{ strategy.job-total }} \
             -P ci
 
   cairo-prover-wasm:
