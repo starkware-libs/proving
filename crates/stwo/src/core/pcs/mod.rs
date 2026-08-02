@@ -26,7 +26,7 @@ pub struct TreeSubspan {
     pub col_end: usize,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 /// Configuration parameters for the commitment scheme prover.
 pub struct PcsConfig {
     pub fri_config: FriConfig,
@@ -56,11 +56,5 @@ impl PcsConfig {
             ),
             SecureField::from_u32_unchecked(*fold_step, *lifting_log_size, 0, 0),
         ]);
-    }
-}
-
-impl Default for PcsConfig {
-    fn default() -> Self {
-        Self { fri_config: FriConfig::new(10, 0, 1, 3, 1), lifting_log_size: 0 }
     }
 }

@@ -81,6 +81,12 @@ impl FriConfig {
     }
 }
 
+impl Default for FriConfig {
+    fn default() -> Self {
+        FriConfig::new(10, 0, 1, 3, 1)
+    }
+}
+
 #[cfg(test)]
 mod config_tests {
     use super::FriConfig;

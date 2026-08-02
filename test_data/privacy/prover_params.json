@@ -1,17 +1,15 @@
 {
     "channel_hash": "blake2s_m31",
-    "pcs_config": {
-        "fri_config": {
-            "pow_bits": 27,
-            "log_blowup_factor": 3,
-            "log_last_layer_degree_bound": 0,
-            "n_queries": 23,
-            "fold_step": 4
-        },
-        "lifting_log_size": 23
+    "fri_config": {
+        "pow_bits": 27,
+        "log_blowup_factor": 3,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 23,
+        "fold_step": 4
     },
     "preprocessed_trace": "canonical_small",
     "store_polynomials_coefficients": true,
     "include_all_preprocessed_columns": true,
-    "channel_salt": 0
+    "channel_salt": 0,
+    "lifting_log_size": 23
 }

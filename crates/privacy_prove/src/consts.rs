@@ -20,12 +20,13 @@ pub const CAIRO_RUN_CONFIG: CairoRunConfig<'_> = CairoRunConfig {
 
 pub const CAIRO_PROVER_PARAMS: ProverParameters = ProverParameters {
     channel_hash: ChannelHash::Blake2sM31,
-    pcs_config: CAIRO_PCS_CONFIG,
+    fri_config: CAIRO_PCS_CONFIG.fri_config,
     preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
     channel_salt: 0,
     store_polynomials_coefficients: true,
     include_all_preprocessed_columns: true,
     opt_n_id_to_big_components: Some(1),
+    lifting_log_size: CAIRO_PCS_CONFIG.lifting_log_size,
     raise_min_lifting_to_max_column: false,
 };
 

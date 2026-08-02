@@ -141,8 +141,10 @@ pub fn prove_leaf(
     let preprocessed_root = proof.extended_stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];
 
     // Set lifting_log_size from the cairo proof.
-    let mut pcs_config = cairo_prover_parameters.pcs_config;
-    pcs_config.lifting_log_size = proof.extended_stark_proof.proof.config.lifting_log_size;
+    let pcs_config = PcsConfig {
+        fri_config: cairo_prover_parameters.fri_config,
+        lifting_log_size: proof.extended_stark_proof.proof.config.lifting_log_size,
+    };
 
     let verifier_config = leaf_verifier_config(
         cairo_prover_parameters.preprocessed_trace,

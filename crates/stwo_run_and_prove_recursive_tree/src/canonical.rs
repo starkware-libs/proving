@@ -21,6 +21,7 @@ use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use leaf_prover::prove_leaf::leaf_verifier_config;
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use tracing::{Level, info, span};
@@ -135,8 +136,8 @@ fn leaf_bootloader_program_path() -> PathBuf {
 /// The slice of the leaf's Cairo prover parameters the canonical circuit shape depends on.
 #[derive(serde::Deserialize)]
 struct LeafCairoProverParams {
-    /// PCS config of the *inner* Cairo proof the leaf circuit verifies.
-    pcs_config: PcsConfig,
+    /// FRI config of the *inner* Cairo proof the leaf circuit verifies.
+    fri_config: FriConfig,
     preprocessed_trace: PreProcessedTraceVariant,
 }
 
@@ -162,14 +163,13 @@ fn leaf_cairo_verifier_config() -> CairoVerifierConfig {
     // The circuit verifier's `ProofConfig` requires the explicit
     // `lifting_log_size = trace_log_size + log_blowup_factor` (the params file stores `0`,
     // meaningful only to the prover); mirror `prove_leaf`, which overrides it from the proof.
-    let mut pcs_config = leaf_cairo_params.pcs_config;
-    pcs_config.lifting_log_size =
-        LEAF_CAIRO_TRACE_LOG_SIZE + pcs_config.fri_config.log_blowup_factor;
+    let lifting_log_size =
+        LEAF_CAIRO_TRACE_LOG_SIZE + leaf_cairo_params.fri_config.log_blowup_factor;
     leaf_verifier_config(
         leaf_cairo_params.preprocessed_trace,
-        &pcs_config,
+        &PcsConfig { fri_config: leaf_cairo_params.fri_config, lifting_log_size },
         load_program(&leaf_bootloader_program_path()),
-        get_preprocessed_root(pcs_config.lifting_log_size),
+        get_preprocessed_root(lifting_log_size),
     )
 }
 

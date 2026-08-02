@@ -78,12 +78,13 @@ fn test_proof_stability(path: &str, n_proofs_to_compare: usize) {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        pcs_config: PcsConfig::default(),
+        fri_config: FriConfig::default(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
+        lifting_log_size: 0,
         raise_min_lifting_to_max_column: false,
     };
     let proofs = (0..n_proofs_to_compare)
@@ -127,15 +128,15 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            pcs_config: PcsConfig::default(),
+            fri_config: FriConfig::default(),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
+            lifting_log_size: 0,
             raise_min_lifting_to_max_column: true,
         };
-        assert_eq!(prover_params.pcs_config.lifting_log_size, 0);
         let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
 
         let config = cairo_proof.extended_stark_proof.proof.config;
@@ -166,15 +167,13 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            pcs_config: PcsConfig {
-                fri_config: FriConfig::new(10, 0, 1, 1000, 1),
-                lifting_log_size: 0,
-            },
+            fri_config: FriConfig::new(10, 0, 1, 1000, 1),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 17,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
+            lifting_log_size: 0,
             raise_min_lifting_to_max_column: false,
         };
         let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
@@ -260,12 +259,13 @@ pub mod builtin_tests {
     fn test_poseidon_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            pcs_config: PcsConfig::default(),
+            fri_config: FriConfig::default(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
+            lifting_log_size: 0,
             raise_min_lifting_to_max_column: false,
         };
 
@@ -331,12 +331,13 @@ pub mod builtin_tests {
     fn test_pedersen_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            pcs_config: PcsConfig::default(),
+            fri_config: FriConfig::default(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
+            lifting_log_size: 0,
             raise_min_lifting_to_max_column: false,
         };
 
@@ -427,12 +428,13 @@ fn test_prove_verify_all_opcode_components() {
     }
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        pcs_config: PcsConfig::default(),
+        fri_config: FriConfig::default(),
         preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
         channel_salt: 0,
         store_polynomials_coefficients: true,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
+        lifting_log_size: 0,
         raise_min_lifting_to_max_column: false,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
@@ -448,12 +450,13 @@ fn test_e2e_prove_cairo_verify_all_opcode_components() {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        pcs_config: PcsConfig { fri_config: FriConfig::new(26, 0, 1, 70, 3), lifting_log_size: 0 },
+        fri_config: FriConfig::new(26, 0, 1, 70, 3),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
+        lifting_log_size: 0,
         raise_min_lifting_to_max_column: false,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
@@ -502,12 +505,13 @@ fn test_e2e_prove_cairo_verify_all_builtins() {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        pcs_config: PcsConfig { fri_config: FriConfig::new(26, 0, 1, 70, 1), lifting_log_size: 0 },
+        fri_config: FriConfig::new(26, 0, 1, 70, 1),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
+        lifting_log_size: 0,
         raise_min_lifting_to_max_column: false,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
@@ -621,12 +625,13 @@ fn test_prove_verify_all_builtins() {
     assert_all_builtins_in_input(&input);
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        pcs_config: PcsConfig::default(),
+        fri_config: FriConfig::default(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
+        lifting_log_size: 0,
         raise_min_lifting_to_max_column: false,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
