@@ -18,8 +18,6 @@ use crate::prover::warm_pedersen_pp_trace;
 
 /// Generates the root of the preprocessed trace commitment tree for a given `log_blowup_factor`
 /// and `lifting_log_size`.
-// TODO(Shahars): remove allow.
-#[allow(unused)]
 pub fn generate_preprocessed_commitment_root<MC: MerkleChannel>(
     log_blowup_factor: u32,
     preprocessed_trace: PreProcessedTraceVariant,
