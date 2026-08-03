@@ -1,6 +1,6 @@
 [package]
 name = "std-shims"
-version = "1.0.0"
+version.workspace = true
 edition.workspace = true
 license.workspace = true
 description = "Standard library shims for `no_std` compatibility"
