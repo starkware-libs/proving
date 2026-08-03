@@ -14,6 +14,7 @@ tempfile.workspace = true
 
 [dependencies]
 clap.workspace = true
+serde.workspace = true
 serde_json.workspace = true
 
 circuit-registry.workspace = true
@@ -24,5 +25,7 @@ circuit-common = { workspace = true, features = ["prover"] }
 circuit-prover.workspace = true
 circuit-multiverifier.workspace = true
 circuits.workspace = true
+stwo.workspace = true
 stwo-cairo-common.workspace = true
+stwo-cairo-prover.workspace = true
 stwo-cairo-utils.workspace = true

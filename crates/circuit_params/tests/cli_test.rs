@@ -1,16 +1,39 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
-/// Runs the `circuit-params` binary for a single trace log size, asserting success. With
-/// `registry`, passes `--registry` (JSON output); otherwise emits the human-readable report.
+/// The trace log size the committed canonical-small family's leaves are proven at.
+const TRACE_LOG_SIZE: &str = "20";
+
+fn crates_dir() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..")
+}
+
+/// Runs the `circuit-params` binary, asserting success; `registry` passes `--registry`.
 ///
-/// `output_path`, when given, is passed as `--output-path` and the file's contents are returned;
-/// otherwise the binary's stdout is returned. Note that `run_binary` writes tracing output to
-/// stdout, so anything that must be parsed has to go through `--output-path`.
+/// The family is the committed canonical-small one: the files the recursive tree's golden e2e
+/// (`test_golden_four_leaves_e2e`) proves its circuits with, so the hashes match its goldens.
+///
+/// Returns the `--output-path` file's contents when `output_path` is given, the binary's stdout
+/// otherwise (`run_binary` mixes tracing into stdout, so parsed output must go through a file).
 fn run(registry: bool, output_path: Option<&Path>) -> String {
     let binary = env!("CARGO_BIN_EXE_circuit-params");
     let mut command = Command::new(binary);
-    command.args(["--min-trace-log-size", "25", "--max-trace-log-size", "25"]);
+    command
+        .arg("--min-trace-log-size")
+        .arg(TRACE_LOG_SIZE)
+        .arg("--max-trace-log-size")
+        .arg(TRACE_LOG_SIZE)
+        .arg("--cairo-prover-params-json")
+        .arg(crates_dir().join("leaf_prover/tests/data/cairo_prover_params_canonical_small.json"))
+        .arg("--circuit-prover-params-json")
+        .arg(
+            crates_dir()
+                .join("stwo_run_and_prove_recursive_tree/test_data/circuit_prover_params.json"),
+        )
+        .arg("--program")
+        .arg(crates_dir().join(
+            "stwo_run_and_prove_recursive_tree/test_data/leaf_simple_bootloader_compiled.json",
+        ));
     if registry {
         command.arg("--registry");
     }
@@ -37,7 +60,7 @@ fn run_circuit_params_binary_info() {
     run(false, None);
 }
 
-// Slow: builds and Merkle-commits a ~2^24 preprocessed trace.
+// Slow: commits the verified Cairo proofs' preprocessed trace (lifted to trace + blowup).
 #[test]
 #[cfg(feature = "slow-tests")]
 fn run_circuit_params_binary_json() {
@@ -49,7 +72,7 @@ fn run_circuit_params_binary_json() {
         serde_json::from_str(&json).unwrap_or_else(|err| panic!("invalid json: {err}\n{json}"));
 
     assert_eq!(registry.leaf_verifiers.len(), 1);
-    assert_eq!(registry.leaf_verifiers[0].trace_log_size, 25);
+    assert_eq!(registry.leaf_verifiers[0].trace_log_size, 20);
     assert_eq!(registry.multiverifiers.len(), 1);
     assert!(registry.circuit_proof_configs.contains_key(&registry.leaf_verifiers[0].config));
     // The circuit hash commits to the config, so distinct circuits must not collide.

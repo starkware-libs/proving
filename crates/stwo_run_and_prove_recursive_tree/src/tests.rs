@@ -365,9 +365,8 @@ mod e2e {
 
     /// Folds `n` identical copies of `leaf` with the binary entry point, and asserts the fold's
     /// shape stats plus the produced root proof, root outputs, and full `packed_output` tree match
-    /// what we recompute independently (topology + values) from the identical leaves. Returns the
-    /// multiverifier preprocessed root used by the recompute (every internal node's root).
-    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path) -> [u32; circuit_common::N_RESERVED] {
+    /// what we recompute independently (topology + values) from the identical leaves.
+    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path) {
         init_tracing();
         let leaves: Vec<LeafInput> = vec![leaf.clone(); n];
         let stats = stwo_run_and_prove_recursive_tree(
@@ -412,8 +411,6 @@ mod e2e {
             actual_packed, expected.packed,
             "packed output tree (topology + values) mismatch"
         );
-
-        multiverifier_circuit_hash
     }
 
     /// Parses the same JSON file from two directories and asserts value equality (formatting- and
@@ -449,14 +446,19 @@ mod e2e {
     /// True end-to-end: `leaf_prover` over the leaf simple bootloader (running the simple-output
     /// task), backend-style preimage injection, 4-leaf fold, and comparison against the committed
     /// goldens at `test_data/goldens/four_leaves/`. When run with the `FIX` env var set, it
-    /// regenerates the goldens (including the derived `supported_preprocessed_roots.json` trust
-    /// list and the machine-specific manual-CLI-repro inputs) instead of asserting.
+    /// regenerates the goldens (including the machine-specific manual-CLI-repro inputs) instead
+    /// of asserting.
+    ///
+    /// Note the circuit hashes have no dedicated trust-list golden: the trust anchors are the
+    /// `circuit_params --registry` artifacts published to the artifacts bucket per commit, and
+    /// hash drift is still caught here via the `root_packed.json` golden (every `Composite` node
+    /// carries its `circuit_hash`).
     #[test]
     fn test_golden_four_leaves_e2e() {
         let tmp = tempfile::tempdir().unwrap();
         let dir = tmp.path();
         let leaf = generate_leaf(dir);
-        let multiverifier_root = dupe_and_fold(&leaf, 4, dir);
+        dupe_and_fold(&leaf, 4, dir);
 
         let goldens = goldens_dir();
         if std::env::var("FIX").is_ok() {
@@ -482,23 +484,6 @@ mod e2e {
                 .unwrap(),
             )
             .unwrap();
-            // The unpacker's trust-anchor list, derived from the freshly generated circuits — the
-            // circuit-world analogue of the bootloader config's `supported_program_hashes.json`:
-            // role-named lists of allowed circuit hashes (each as 8 little-endian u32 words).
-            // Internal-node contributions must use a supported multiverifier circuit hash; leaf
-            // contributions a supported leaf-circuit hash (the leaf list grows if leaves of other
-            // circuit types are admitted).
-            // TODO(yairv): source these from the `circuit_registry` (`circuit_params --registry`)
-            // once the circuit-params-registry stack lands, instead of writing our own golden.
-            std::fs::write(
-                goldens.join("supported_circuit_hashes.json"),
-                serde_json::to_string_pretty(&serde_json::json!({
-                    "supported_multiverifier_circuit_hashes": [multiverifier_root],
-                    "supported_leaf_circuit_hashes": [leaf_circuit_hash(&leaf)],
-                }))
-                .unwrap(),
-            )
-            .unwrap();
             return;
         }
 
@@ -512,19 +497,5 @@ mod e2e {
         assert_same_json::<Vec<String>>(dir, &goldens, "root.proof");
         assert_same_json::<Vec<u32>>(dir, &goldens, "root_outputs.json");
         assert_same_json::<PackedNode>(dir, &goldens, "root_packed.json");
-        let hashes: serde_json::Value = serde_json::from_str(
-            &std::fs::read_to_string(goldens.join("supported_circuit_hashes.json")).unwrap(),
-        )
-        .unwrap();
-        assert_eq!(
-            hashes["supported_multiverifier_circuit_hashes"][0],
-            serde_json::json!(multiverifier_root),
-            "multiverifier circuit hash drifted from supported_circuit_hashes.json; run with FIX=1"
-        );
-        assert_eq!(
-            hashes["supported_leaf_circuit_hashes"][0],
-            serde_json::json!(leaf_circuit_hash(&leaf)),
-            "leaf circuit hash drifted from supported_circuit_hashes.json; run with FIX=1"
-        );
     }
 }
