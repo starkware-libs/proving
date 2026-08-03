@@ -25,14 +25,14 @@ use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
 use leaf_proof_format::SerializedLeafProof;
+use stwo::core::pcs::PcsConfig;
+use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
+use stwo::core::verifier::PREPROCESSED_TRACE_IDX;
 use stwo_cairo_adapter::adapter::adapt;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::M31;
 use stwo_cairo_prover::prover::{ProverParameters, prove_cairo};
-use stwo_cairo_prover::stwo::core::pcs::PcsConfig;
-use stwo_cairo_prover::stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo_cairo_prover::stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
-use stwo_cairo_prover::stwo::core::verifier::PREPROCESSED_TRACE_IDX;
 use stwo_cairo_prover::witness::prelude::{Felt252, QM31};
 use tracing::info;
 
