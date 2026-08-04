@@ -60,6 +60,13 @@ fn run_circuit_params_binary_info() {
     run(false, None);
 }
 
+/// The committed registry of the canonical-small family (the recursive tree's goldens' family).
+/// This test is its fix target (`FIX=1` regenerates).
+#[cfg(feature = "slow-tests")]
+fn committed_registry_path() -> PathBuf {
+    crates_dir().join("stwo_run_and_prove_recursive_tree/test_data/circuit_registry.json")
+}
+
 // Slow: commits the verified Cairo proofs' preprocessed trace (lifted to trace + blowup).
 #[test]
 #[cfg(feature = "slow-tests")]
@@ -77,4 +84,19 @@ fn run_circuit_params_binary_json() {
     assert!(registry.circuit_proof_configs.contains_key(&registry.leaf_verifiers[0].config));
     // The circuit hash commits to the config, so distinct circuits must not collide.
     assert_ne!(registry.leaf_verifiers[0].circuit_hash, registry.multiverifiers[0].circuit_hash);
+
+    let committed_path = committed_registry_path();
+    if std::env::var("FIX").is_ok() {
+        std::fs::write(&committed_path, &json)
+            .unwrap_or_else(|err| panic!("Cannot write to {}: {err}", committed_path.display()));
+        return;
+    }
+    let committed: circuit_registry::CircuitRegistry =
+        serde_json::from_str(&std::fs::read_to_string(&committed_path).unwrap()).unwrap();
+    assert_eq!(
+        registry,
+        committed,
+        "{} does not match this run's output; run with FIX=1 to regenerate",
+        committed_path.display()
+    );
 }

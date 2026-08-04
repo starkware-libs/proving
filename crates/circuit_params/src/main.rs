@@ -39,6 +39,7 @@ use circuit_registry::{
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
+use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use clap::Parser;
 use leaf_prover::prove_leaf::leaf_verifier_config;
 use stwo::core::fri::FriConfig;
@@ -49,6 +50,7 @@ use stwo_cairo_common::prover_types::cpu::M31;
 use stwo_cairo_prover::witness::prelude::QM31;
 use stwo_cairo_prover::witness::preprocessed_trace::generate_preprocessed_commitment_root;
 use stwo_cairo_utils::binary_utils::run_binary;
+use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
 #[derive(Parser)]
 struct Args {
@@ -126,47 +128,77 @@ struct CairoProverParams {
     preprocessed_trace: PreProcessedTraceVariant,
 }
 
-/// Builds the leaf-prover verifier circuit topology (with the given preprocessed trace and its
-/// component set) for a verified Cairo proof of `program` with the given PCS config. The result
-/// is a `NoValue` context (topology only; no witness values).
-fn build_leaf_verifier_context(
+/// Builds one family's circuits: everything their construction needs, so that a leaf verifier
+/// circuit is built from its verified Cairo proof's trace log size alone.
+struct CircuitBuilder {
     preprocessed_trace: PreProcessedTraceVariant,
+    /// The program every leaf proof of the family attests to.
     program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
-    preprocessed_root: HashValue<QM31>,
-    cairo_pcs_config: &PcsConfig,
-) -> FinalizedContext<NoValue> {
-    let verifier_config =
-        leaf_verifier_config(preprocessed_trace, cairo_pcs_config, program, preprocessed_root);
-
-    build_cairo_verifier_circuit(&verifier_config)
+    /// FRI config of the verified Cairo proofs.
+    cairo_fri_config: FriConfig,
+    /// The Cairo preprocessed root baked into the leaf circuit at each trace size.
+    preprocessed_roots: BTreeMap<u32, HashValue<QM31>>,
 }
 
-/// Builds the multiverifier circuit that verifies two proofs of the leaf verifier circuit for the
-/// given verified Cairo PCS config.
-fn build_multiverifier_context_for_trace(
-    preprocessed_trace: PreProcessedTraceVariant,
-    program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
-    preprocessed_root: HashValue<QM31>,
-    cairo_pcs_config: &PcsConfig,
-    circuit_pcs_config: &PcsConfig,
-) -> FinalizedContext<NoValue> {
-    let mut leaf_context = build_leaf_verifier_context(
-        preprocessed_trace,
-        program,
-        preprocessed_root,
-        cairo_pcs_config,
-    );
+impl CircuitBuilder {
+    /// The verified proofs' PCS config at `trace_log_size`: `cairo_fri_config`, lifted to that
+    /// trace.
+    fn cairo_pcs_config(&self, trace_log_size: u32) -> PcsConfig {
+        PcsConfig {
+            fri_config: self.cairo_fri_config,
+            lifting_log_size: trace_log_size + self.cairo_fri_config.log_blowup_factor,
+        }
+    }
 
-    // The multiverifier verifies proofs of the (preprocessed) leaf circuit, proven at the leaf
-    // circuit's own trace log size — mirroring `CanonicalCircuit::build`, which derives the
-    // circuit proofs' lifting size the same way.
-    let preprocessed_leaf = PreprocessedCircuit::preprocess_circuit(&mut leaf_context);
-    let multiverifier_pcs_config = PcsConfig {
+    /// Builds the leaf verifier circuit topology for a verified Cairo proof of `trace_log_size`.
+    fn build_context(&self, trace_log_size: u32) -> FinalizedContext<NoValue> {
+        let verifier_config = leaf_verifier_config(
+            self.preprocessed_trace,
+            &self.cairo_pcs_config(trace_log_size),
+            self.program.clone(),
+            self.preprocessed_roots[&trace_log_size].clone(),
+        );
+
+        build_cairo_verifier_circuit(&verifier_config)
+    }
+
+    /// Builds the multiverifier over the *default-padded* leaf circuit for `trace_log_size` —
+    /// only for the sizes report; the registry pads the leaf to the family's target first (see
+    /// [`shared_target_fixpoint`]).
+    fn build_multiverifier_context_for_trace(
+        &self,
+        trace_log_size: u32,
+        circuit_pcs_config: &PcsConfig,
+    ) -> FinalizedContext<NoValue> {
+        let mut leaf_context = self.build_context(trace_log_size);
+
+        let preprocessed_leaf = PreprocessedCircuit::preprocess_circuit(&mut leaf_context);
+        build_multiverifier_context(
+            &preprocessed_leaf,
+            multiverifier_pcs_config(&preprocessed_leaf, circuit_pcs_config),
+        )
+    }
+}
+
+/// The PCS config of the circuit proofs the multiverifier verifies: the circuit prover's config,
+/// lifted to the verified circuit's own trace log size.
+fn multiverifier_pcs_config(
+    preprocessed_leaf: &PreprocessedCircuit,
+    circuit_pcs_config: &PcsConfig,
+) -> PcsConfig {
+    PcsConfig {
         lifting_log_size: preprocessed_leaf.trace_log_size
             + circuit_pcs_config.fri_config.log_blowup_factor,
         ..*circuit_pcs_config
-    };
-    build_multiverifier_context(&preprocessed_leaf, multiverifier_pcs_config)
+    }
+}
+
+/// A circuit's preprocessed-trace layout: its `trace_log_size` and every preprocessed column's log
+/// size. Circuits verified by one verifier circuit must share it.
+fn preprocessed_layout(
+    circuit: &PreprocessedCircuit,
+) -> (u32, OrderedHashMap<PreProcessedColumnId, u32>) {
+    (circuit.trace_log_size, circuit.preprocessed_trace.log_sizes())
 }
 
 /// Pads `context` to the shared `target_sizes` and preprocesses it.
@@ -176,6 +208,40 @@ fn padded_preprocessed_circuit(
 ) -> PreprocessedCircuit {
     pad_to_targets(&mut context, target_sizes.clone());
     PreprocessedCircuit::preprocess_circuit(&mut context)
+}
+
+/// The family's shared target sizes, with the multiverifier padded to them.
+///
+/// The target and the multiverifier's sizes are a fixpoint of each other: the multiverifier
+/// verifies proofs of the TARGET-PADDED leaf circuit, and the target is the elementwise max over
+/// every leaf circuit and that very multiverifier. Starts from the leaves' max (`target_sizes`)
+/// and iterates — a larger target can grow the multiverifier, growing the target again.
+///
+/// The multiverifier is built over the largest leaf (arbitrarily — it depends only on the
+/// target-padded shape, identical for all leaves), rebuilt each iteration: padding is destructive
+/// (it allocates variable indices), so a padded context cannot be padded further.
+fn shared_target_fixpoint(
+    circuit_builder: &CircuitBuilder,
+    max_trace_log_size: u32,
+    mut target_sizes: ComponentSizes,
+    circuit_pcs_config: &PcsConfig,
+) -> (ComponentSizes, PreprocessedCircuit) {
+    loop {
+        let leaf_context = circuit_builder.build_context(max_trace_log_size);
+        let preprocessed_leaf = padded_preprocessed_circuit(leaf_context, &target_sizes);
+        let multiverifier_context = build_multiverifier_context(
+            &preprocessed_leaf,
+            multiverifier_pcs_config(&preprocessed_leaf, circuit_pcs_config),
+        );
+        let grown_sizes =
+            target_sizes.elementwise_max(&compute_padded_sizes(&multiverifier_context));
+        if grown_sizes == target_sizes {
+            let preprocessed_multiverifier =
+                padded_preprocessed_circuit(multiverifier_context, &target_sizes);
+            return (target_sizes, preprocessed_multiverifier);
+        }
+        target_sizes = grown_sizes;
+    }
 }
 
 /// The circuit hash of a padded, preprocessed circuit, as eight little-endian Blake2s words.
@@ -199,14 +265,7 @@ fn run() -> Result<(), String> {
     // binaries run with.
     let cairo_params: CairoProverParams = read_params(&args.cairo_prover_params_json);
     let circuit_pcs_config: PcsConfig = read_params(&args.circuit_prover_params_json);
-    let preprocessed_trace = cairo_params.preprocessed_trace;
     let cairo_log_blowup_factor = cairo_params.fri_config.log_blowup_factor;
-    // The verified proofs' PCS config at a given trace size: the file's FRI shape, lifted to that
-    // trace.
-    let cairo_pcs_config = |trace_log_size: u32| PcsConfig {
-        fri_config: cairo_params.fri_config,
-        lifting_log_size: trace_log_size + cairo_log_blowup_factor,
-    };
 
     // The Cairo preprocessed root baked into the leaf circuit at each trace size. The root only
     // affects constant VALUES (hence the circuit hash), not component sizes, so the expensive
@@ -217,7 +276,7 @@ fn run() -> Result<(), String> {
             let root = if args.registry {
                 generate_preprocessed_commitment_root::<Blake2sM31MerkleChannel>(
                     cairo_log_blowup_factor,
-                    preprocessed_trace,
+                    cairo_params.preprocessed_trace,
                     trace_log_size + cairo_log_blowup_factor,
                 )
                 .into()
@@ -227,45 +286,37 @@ fn run() -> Result<(), String> {
             (trace_log_size, root)
         })
         .collect();
+    let circuit_builder = CircuitBuilder {
+        preprocessed_trace: cairo_params.preprocessed_trace,
+        program,
+        cairo_fri_config: cairo_params.fri_config,
+        preprocessed_roots,
+    };
 
     // Build every leaf circuit in the range once.
-    let leaf_contexts: Vec<(u32, FinalizedContext<NoValue>)> = (args.min_trace_log_size
+    let leaf_contexts: BTreeMap<u32, FinalizedContext<NoValue>> = (args.min_trace_log_size
         ..=args.max_trace_log_size)
-        .map(|trace_log_size| {
-            (
-                trace_log_size,
-                build_leaf_verifier_context(
-                    preprocessed_trace,
-                    program.clone(),
-                    preprocessed_roots[&trace_log_size].clone(),
-                    &cairo_pcs_config(trace_log_size),
-                ),
-            )
-        })
+        .map(|trace_log_size| (trace_log_size, circuit_builder.build_context(trace_log_size)))
         .collect();
-    // Build the mv context for the largest trace size.
-    let multiverifier_context = build_multiverifier_context_for_trace(
-        preprocessed_trace,
-        program,
-        preprocessed_roots[&args.max_trace_log_size].clone(),
-        &cairo_pcs_config(args.max_trace_log_size),
-        &circuit_pcs_config,
-    );
-
     let output = if args.registry {
         let circuit_log_blowup_factor = circuit_pcs_config.fri_config.log_blowup_factor;
 
-        // Target sizes: the elementwise max of the component sizes over every leaf (cairo
-        // verifier) circuit in the range and the multiverifier.
-        let target_sizes = leaf_contexts
-            .iter()
-            .map(|(_, context)| compute_padded_sizes(context))
-            .fold(compute_padded_sizes(&multiverifier_context), |max_sizes, sizes| {
-                max_sizes.elementwise_max(&sizes)
-            });
+        let leaves_max_sizes = leaf_contexts
+            .values()
+            .map(compute_padded_sizes)
+            .reduce(|max_sizes, sizes| max_sizes.elementwise_max(&sizes))
+            .expect("the trace range is non-empty");
+        let (target_sizes, preprocessed_multiverifier) = shared_target_fixpoint(
+            &circuit_builder,
+            args.max_trace_log_size,
+            leaves_max_sizes,
+            &circuit_pcs_config,
+        );
 
-        let preprocessed_multiverifier =
-            padded_preprocessed_circuit(multiverifier_context, &target_sizes);
+        // Homogeneity: padded to the shared target, every circuit of the family must have the
+        // multiverifier's preprocessed-trace layout — the layout it verifies (each leaf is
+        // asserted below).
+        let family_layout = preprocessed_layout(&preprocessed_multiverifier);
 
         // All circuits are padded to `target_sizes` and proven with
         // `circuit_log_blowup_factor`, so they share a single config.
@@ -277,16 +328,24 @@ fn run() -> Result<(), String> {
                 component_log_sizes: (&target_sizes).into(),
             },
         )]);
-        let leaf_verifiers = leaf_contexts
-            .into_iter()
-            .map(|(trace_log_size, context)| LeafVerifier {
+        let leaf_verifier = |trace_log_size: u32, padded_leaf: &PreprocessedCircuit| {
+            assert_eq!(
+                preprocessed_layout(padded_leaf),
+                family_layout,
+                "the leaf circuit for trace log size {trace_log_size} does not have the family's \
+                 preprocessed layout"
+            );
+            LeafVerifier {
                 config: CONFIG_ID.to_string(),
                 trace_log_size,
                 log_blowup_factor: cairo_log_blowup_factor,
-                circuit_hash: circuit_hash_hex(
-                    &padded_preprocessed_circuit(context, &target_sizes),
-                    circuit_log_blowup_factor,
-                ),
+                circuit_hash: circuit_hash_hex(padded_leaf, circuit_log_blowup_factor),
+            }
+        };
+        let leaf_verifiers = leaf_contexts
+            .into_iter()
+            .map(|(trace_log_size, context)| {
+                leaf_verifier(trace_log_size, &padded_preprocessed_circuit(context, &target_sizes))
             })
             .collect::<Vec<_>>();
 
@@ -314,6 +373,8 @@ fn run() -> Result<(), String> {
             .collect();
         let leaf_section = format!("leaf:\n{}", leaf_lines.join("\n"));
 
+        let multiverifier_context = circuit_builder
+            .build_multiverifier_context_for_trace(args.max_trace_log_size, &circuit_pcs_config);
         let (mv_raw, mv_padded) = component_sizes(&multiverifier_context);
         let multiverifier_line = format!("multiverifier:\n{}", format_sizes(&mv_raw, &mv_padded));
 
