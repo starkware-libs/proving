@@ -20,21 +20,27 @@ use stwo_cairo_utils::binary_utils::run_binary;
 
 #[derive(Parser)]
 struct Args {
-    #[clap(long, help = "Absolute path to the compiled program.")]
+    #[clap(long = "program", help = "Absolute path to the compiled program.")]
     program: PathBuf,
-    #[clap(long, help = "Absolute path to the program input file.")]
+    #[clap(long = "program_input", help = "Absolute path to the program input file.")]
     program_input: Option<PathBuf>,
-    #[clap(long, help = "JSON file containing the Cairo prover parameters.")]
+    #[clap(
+        long = "cairo_prover_params_json",
+        help = "JSON file containing the Cairo prover parameters."
+    )]
     cairo_prover_params_json: PathBuf,
-    #[clap(long, help = "JSON file containing the circuit prover parameters.")]
+    #[clap(
+        long = "circuit_prover_params_json",
+        help = "JSON file containing the circuit prover parameters."
+    )]
     circuit_prover_params_json: PathBuf,
     #[clap(
-        long,
+        long = "circuit_registry_json",
         help = "JSON file containing the circuit registry. Used to get the padding target for the \
                 verifier circuit."
     )]
     circuit_registry_json: PathBuf,
-    #[clap(long, help = "Path to write the output file")]
+    #[clap(long = "output_path", help = "Path to write the output file")]
     output_path: PathBuf,
 }
 
