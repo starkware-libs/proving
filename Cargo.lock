@@ -1731,6 +1731,8 @@ dependencies = [
  "circuit-common",
  "leaf-proof-format",
  "serde",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]
@@ -3109,6 +3111,7 @@ dependencies = [
  "circuit-cairo-verifier",
  "circuit-common",
  "circuit-prover",
+ "circuit-registry",
  "circuit-serialize",
  "circuits",
  "circuits-stark-verifier",
@@ -4976,6 +4979,7 @@ dependencies = [
  "circuit-common",
  "circuit-multiverifier",
  "circuit-prover",
+ "circuit-registry",
  "circuit-serialize",
  "circuit-verifier",
  "circuits",

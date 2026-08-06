@@ -11,6 +11,11 @@ fn circuit_prover_params_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_prover_params.json")
 }
 
+/// The committed circuit registry of the canonical-small family.
+fn circuit_registry_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
+}
+
 /// A malformed `--program_input` makes `load_leaves` fail (before any expensive setup); the binary
 /// must exit non-zero (the `run_binary` error arm) rather than panicking or silently succeeding.
 #[test]
@@ -30,6 +35,8 @@ fn test_invalid_program_input_exits_nonzero() {
         .arg(dir.join("pout"))
         .arg("--circuit_prover_params_json")
         .arg(circuit_prover_params_path())
+        .arg("--circuit_registry_json")
+        .arg(circuit_registry_path())
         .status()
         .expect("spawn recursive-tree binary");
     assert!(!status.success(), "binary should exit non-zero on malformed input, got: {status:?}",);
@@ -74,6 +81,8 @@ fn test_single_leaf_passthrough_succeeds() {
         .arg(dir.join("root_packed.json"))
         .arg("--circuit_prover_params_json")
         .arg(circuit_prover_params_path())
+        .arg("--circuit_registry_json")
+        .arg(circuit_registry_path())
         .status()
         .expect("spawn recursive-tree binary");
 

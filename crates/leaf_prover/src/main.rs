@@ -28,6 +28,12 @@ struct Args {
     cairo_prover_params_json: PathBuf,
     #[clap(long, help = "JSON file containing the circuit prover parameters.")]
     circuit_prover_params_json: PathBuf,
+    #[clap(
+        long,
+        help = "JSON file containing the circuit registry. Used to get the padding target for the \
+                verifier circuit."
+    )]
+    circuit_registry_json: PathBuf,
     #[clap(long, help = "Path to write the output file")]
     output_path: PathBuf,
 }
@@ -43,6 +49,7 @@ fn run() -> Result<(), String> {
         &args.program_input,
         &args.cairo_prover_params_json,
         &args.circuit_prover_params_json,
+        &args.circuit_registry_json,
     );
 
     fs::write(&args.output_path, serde_json::to_string_pretty(&output).unwrap()).unwrap_or_else(

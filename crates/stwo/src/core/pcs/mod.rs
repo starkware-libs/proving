@@ -37,6 +37,12 @@ pub struct PcsConfig {
     pub lifting_log_size: u32,
 }
 impl PcsConfig {
+    /// The config for proving a trace of `trace_log_size` under `fri_config`: the lifting domain is
+    /// the trace's extended domain.
+    pub const fn from_fri_and_trace_size(fri_config: FriConfig, trace_log_size: u32) -> Self {
+        Self { fri_config, lifting_log_size: trace_log_size + fri_config.log_blowup_factor }
+    }
+
     pub fn mix_into(&self, channel: &mut impl Channel) {
         let PcsConfig { fri_config, lifting_log_size } = self;
         let FriConfig {

@@ -62,12 +62,12 @@ fn pad_blake_g_gate(context: &mut Context<impl IValue>, target: usize) {
 pub fn pad_context(context: &mut FinalizedContext<impl IValue>) {
     // Padding the components to a power of two.
     let padded_sizes = compute_padded_sizes(context);
-    pad_to_targets(context, padded_sizes);
+    pad_to_targets(context, &padded_sizes);
 }
 
 /// Pads each component to its target size by appending trivial gates. The target sizes are passed
 /// in parameter `targets`.
-pub fn pad_to_targets(context: &mut FinalizedContext<impl IValue>, targets: ComponentSizes) {
+pub fn pad_to_targets(context: &mut FinalizedContext<impl IValue>, targets: &ComponentSizes) {
     let inner_context = &mut context.context;
     pad_eq(inner_context, targets.eq);
     pad_qm31_ops(inner_context, targets.qm31_ops);

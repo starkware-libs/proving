@@ -7,6 +7,7 @@
 use std::path::PathBuf;
 use std::process::ExitCode;
 
+use circuit_registry::CircuitRegistry;
 use clap::Parser;
 use stwo_cairo_utils::binary_utils::run_binary;
 use stwo_run_and_prove_recursive_tree::{
@@ -44,6 +45,12 @@ struct Args {
     /// leaf circuit proofs were produced with.
     #[clap(long = "circuit_prover_params_json")]
     circuit_prover_params_json: PathBuf,
+
+    /// The circuit registry of the family being folded — the same file the leaf prover ran with.
+    /// Supplies the family's padding target and the multiverifier hash the canonical circuit is
+    /// checked against.
+    #[clap(long = "circuit_registry_json")]
+    circuit_registry_json: PathBuf,
 }
 
 fn main() -> ExitCode {
@@ -62,10 +69,12 @@ fn run() -> Result<(), RecursiveTreeError> {
     });
     let circuit_pcs_config =
         serde_json::from_str(&params).expect("Circuit prover parameters JSON does not parse");
+    let registry = CircuitRegistry::from_path(&args.circuit_registry_json)?;
     info!(n_leaves = leaves.len(), "Starting in-binary recursive circuit-proof tree reduction.");
     let stats = stwo_run_and_prove_recursive_tree(
         leaves,
         circuit_pcs_config,
+        &registry,
         &args.proof_path,
         &args.program_output,
         &args.packed_output_path,

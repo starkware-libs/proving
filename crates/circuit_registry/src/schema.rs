@@ -29,6 +29,18 @@ impl From<&ComponentSizes> for LogSizes {
     }
 }
 
+impl From<&LogSizes> for ComponentSizes {
+    fn from(log_sizes: &LogSizes) -> Self {
+        ComponentSizes {
+            eq: 1 << log_sizes.eq,
+            qm31_ops: 1 << log_sizes.qm31_ops,
+            m31_to_u32: 1 << log_sizes.m31_to_u32,
+            triple_xor: 1 << log_sizes.triple_xor,
+            blake_g_gate: 1 << log_sizes.blake_g_gate,
+        }
+    }
+}
+
 fn log_size(size: usize) -> u32 {
     size.next_power_of_two().ilog2()
 }
@@ -40,6 +52,13 @@ fn log_size(size: usize) -> u32 {
 pub struct CircuitProofConfig {
     pub log_blowup_factor: u32,
     pub component_log_sizes: LogSizes,
+}
+
+impl CircuitProofConfig {
+    /// The shared padding target every circuit proven under this config is padded to.
+    pub fn target_sizes(&self) -> ComponentSizes {
+        (&self.component_log_sizes).into()
+    }
 }
 
 /// A leaf verifier circuit (verifying one Cairo proof of the given trace size and log blowup

@@ -1,9 +1,6 @@
-use circuit_common::finalize::{ComponentSizes, compute_padded_sizes};
+use circuit_registry::CircuitRegistry;
 
-use crate::canonical::{
-    CanonicalCircuit, TARGET_PADDING_SIZES, build_unpadded_leaf_context,
-    build_unpadded_multiverifier_context,
-};
+use crate::canonical::CanonicalCircuit;
 use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
@@ -117,38 +114,13 @@ fn test_packed_node_serializes_leaf_and_internal() {
     assert_eq!(back, internal);
 }
 
-// ------------------------------------------------------------------------------------------------
-// B-0: lock TARGET_PADDING_SIZES and the homogeneity (padding parity) invariant.
-// ------------------------------------------------------------------------------------------------
-
-/// The pinned [`TARGET_PADDING_SIZES`] must be exactly the per-component max (each already rounded
-/// up to a power of two by `compute_padded_sizes`) of the unpadded leaf and multiverifier circuits.
-/// If this fails, the assertion prints the value the constant should be updated to.
-#[test]
-fn test_target_padding_sizes_are_consistent() {
-    let leaf = compute_padded_sizes(&build_unpadded_leaf_context());
-    let multiverifier =
-        compute_padded_sizes(&build_unpadded_multiverifier_context(circuit_prover_params()));
-    let derived = ComponentSizes {
-        eq: leaf.eq.max(multiverifier.eq),
-        qm31_ops: leaf.qm31_ops.max(multiverifier.qm31_ops),
-        m31_to_u32: leaf.m31_to_u32.max(multiverifier.m31_to_u32),
-        triple_xor: leaf.triple_xor.max(multiverifier.triple_xor),
-        blake_g_gate: leaf.blake_g_gate.max(multiverifier.blake_g_gate),
-    };
-    assert_eq!(
-        derived, TARGET_PADDING_SIZES,
-        "leaf sizes: {leaf}\nmultiverifier sizes: {multiverifier}\nupdate \
-         crate::canonical::TARGET_PADDING_SIZES to the derived value above"
-    );
-}
-
 /// Building the canonical circuit must succeed; in particular the leaf and multiverifier circuits,
-/// padded to [`TARGET_PADDING_SIZES`], must share a preprocessed root (checked inside `build`).
+/// padded to the registry's target sizes, must share a preprocessed root, and the multiverifier
+/// must hash to the registry's entry (both checked inside `build`).
 #[test]
 fn test_canonical_circuit_builds_with_matching_preprocessed_root() {
-    CanonicalCircuit::build(circuit_prover_params())
-        .expect("canonical circuit should build with matching preprocessed root");
+    CanonicalCircuit::build(circuit_prover_params(), &circuit_registry())
+        .expect("canonical circuit should build and match the registry");
 }
 
 /// The committed circuit prover params file — the `PcsConfig` the tree's tests and goldens are
@@ -162,6 +134,17 @@ fn circuit_prover_params_path() -> std::path::PathBuf {
 /// The committed circuit prover params, deserialized.
 fn circuit_prover_params() -> stwo::core::pcs::PcsConfig {
     serde_json::from_str(&std::fs::read_to_string(circuit_prover_params_path()).unwrap()).unwrap()
+}
+
+/// The circuit registry file used for tests. Output of `circuit_params --registry` (see
+/// `circuit_params`' cli test, which regenerates it).
+fn circuit_registry_path() -> std::path::PathBuf {
+    std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
+}
+
+/// The committed circuit registry, deserialized.
+fn circuit_registry() -> CircuitRegistry {
+    CircuitRegistry::from_path(&circuit_registry_path()).unwrap()
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -197,7 +180,9 @@ mod e2e {
     use leaf_prover::prove_leaf::prove_leaf_from_files;
     use num_bigint::BigUint;
 
-    use super::{circuit_prover_params, circuit_prover_params_path};
+    use super::{
+        circuit_prover_params, circuit_prover_params_path, circuit_registry, circuit_registry_path,
+    };
     use crate::canonical::CanonicalCircuit;
     use crate::fold::digest_bytes_to_words;
     use crate::{LeafInput, PackedNode, stwo_run_and_prove_recursive_tree};
@@ -255,6 +240,7 @@ mod e2e {
             &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                 .join("../leaf_prover/tests/data/cairo_prover_params_canonical_small.json"),
             &circuit_prover_params_path(),
+            &circuit_registry_path(),
         );
         let dumped: Vec<String> =
             serde_json::from_str(&std::fs::read_to_string(&dump_path).unwrap()).unwrap();
@@ -372,6 +358,7 @@ mod e2e {
         let stats = stwo_run_and_prove_recursive_tree(
             leaves,
             circuit_prover_params(),
+            &circuit_registry(),
             &dir.join("root.proof"),
             &dir.join("root_outputs.json"),
             &dir.join("root_packed.json"),
@@ -395,7 +382,8 @@ mod e2e {
         );
 
         // Independently recompute the whole tree (topology + hashed output values) from the leaves.
-        let canonical = CanonicalCircuit::build(circuit_prover_params()).unwrap();
+        let canonical =
+            CanonicalCircuit::build(circuit_prover_params(), &circuit_registry()).unwrap();
         let multiverifier_circuit_hash = multiverifier_circuit_hash(&canonical);
         let expected = expected_root(leaf, n, multiverifier_circuit_hash);
 

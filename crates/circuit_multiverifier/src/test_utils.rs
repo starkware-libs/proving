@@ -137,7 +137,7 @@ pub fn get_preprocessed_multiverifier_from_circuit(
     let mut multiverifier_context =
         build_multiverifier_context(preprocessed_leaf_circuit, pcs_config);
     if let Some(target_padding) = target_padding {
-        pad_to_targets(&mut multiverifier_context, target_padding);
+        pad_to_targets(&mut multiverifier_context, &target_padding);
     }
     let preprocessed_multiverifier_circuit =
         PreprocessedCircuit::preprocess_circuit(&mut multiverifier_context);

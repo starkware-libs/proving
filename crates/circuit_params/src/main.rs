@@ -144,10 +144,7 @@ impl CircuitBuilder {
     /// The verified proofs' PCS config at `trace_log_size`: `cairo_fri_config`, lifted to that
     /// trace.
     fn cairo_pcs_config(&self, trace_log_size: u32) -> PcsConfig {
-        PcsConfig {
-            fri_config: self.cairo_fri_config,
-            lifting_log_size: trace_log_size + self.cairo_fri_config.log_blowup_factor,
-        }
+        PcsConfig::from_fri_and_trace_size(self.cairo_fri_config, trace_log_size)
     }
 
     /// Builds the leaf verifier circuit topology for a verified Cairo proof of `trace_log_size`.
@@ -186,11 +183,10 @@ fn multiverifier_pcs_config(
     preprocessed_leaf: &PreprocessedCircuit,
     circuit_pcs_config: &PcsConfig,
 ) -> PcsConfig {
-    PcsConfig {
-        lifting_log_size: preprocessed_leaf.trace_log_size
-            + circuit_pcs_config.fri_config.log_blowup_factor,
-        ..*circuit_pcs_config
-    }
+    PcsConfig::from_fri_and_trace_size(
+        circuit_pcs_config.fri_config,
+        preprocessed_leaf.trace_log_size,
+    )
 }
 
 /// A circuit's preprocessed-trace layout: its `trace_log_size` and every preprocessed column's log
@@ -206,7 +202,7 @@ fn padded_preprocessed_circuit(
     mut context: FinalizedContext<NoValue>,
     target_sizes: &ComponentSizes,
 ) -> PreprocessedCircuit {
-    pad_to_targets(&mut context, target_sizes.clone());
+    pad_to_targets(&mut context, target_sizes);
     PreprocessedCircuit::preprocess_circuit(&mut context)
 }
 

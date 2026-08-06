@@ -71,7 +71,7 @@ fn get_preprocessed_cairo_verifier(
     let const_config = privacy_cairo_verifier_config(pcs_config.fri_config.log_blowup_factor);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     if let Some(target_padding) = target_padding {
-        pad_to_targets(&mut novalue_context, target_padding);
+        pad_to_targets(&mut novalue_context, &target_padding);
     }
     let preprocessed_cairo_verifier = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
     (preprocessed_cairo_verifier, novalue_context)
@@ -177,12 +177,12 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
 
     let const_config = privacy_cairo_verifier_config(LOG_BLOWUP_FACTOR);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
-    pad_to_targets(&mut novalue_context, TARGET_PADDING_SIZES.clone());
+    pad_to_targets(&mut novalue_context, &TARGET_PADDING_SIZES);
     let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
 
     // QM31 context with values from the proof.
     let mut context = verify_cairo_with_component_set(&cairo_proof, privacy_components()).unwrap();
-    pad_to_targets(&mut context, TARGET_PADDING_SIZES.clone());
+    pad_to_targets(&mut context, &TARGET_PADDING_SIZES);
 
     let circuit_proof = prove_circuit_assignment(
         context.values(),
@@ -247,7 +247,7 @@ fn test_prove_multiverifier_of_two_cairo_subcircuits() {
         build_cairo_input(&proof),
         &shared_config,
     );
-    pad_to_targets(&mut multiverifier_context, TARGET_PADDING_SIZES.clone());
+    pad_to_targets(&mut multiverifier_context, &TARGET_PADDING_SIZES);
     multiverifier_context.validate_circuit();
 
     if std::env::var("FIX_PROOF").is_ok() {
@@ -298,7 +298,7 @@ fn test_serialize_multiverifier_proof_for_cairo1_verifier() {
         build_cairo_input(&proof),
         &shared_config,
     );
-    pad_to_targets(&mut multiverifier_context, TARGET_PADDING_SIZES.clone());
+    pad_to_targets(&mut multiverifier_context, &TARGET_PADDING_SIZES);
     multiverifier_context.validate_circuit();
 
     // Prove the multiverifier and serialize the proof for the Cairo1 verifier program. The Cairo1
@@ -384,7 +384,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
         build_cairo_input(&proof),
         &shared_config,
     );
-    pad_to_targets(&mut context, TARGET_PADDING_SIZES);
+    pad_to_targets(&mut context, &TARGET_PADDING_SIZES);
     context.validate_circuit();
 
     // Check that the circuit hasn't changed. The `MULTIVERIFIER_PREPROCESSED_ROOT` is computed by

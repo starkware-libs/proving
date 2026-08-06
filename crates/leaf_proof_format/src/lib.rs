@@ -11,7 +11,7 @@ pub const N_DIGEST_WORDS: usize = 8;
 /// A Blake2s digest: eight little-endian u32 words, serialized as an array of `0x`-prefixed hex
 /// strings.
 ///
-/// This is the wire format of `circuit_registry::schema::RootHex`. Leaf-prover output is compared
+/// This is also the wire format of the circuit registry's digests: leaf-prover output is compared
 /// against registry entries, so both use the same representation.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DigestHex(pub [u32; N_DIGEST_WORDS]);

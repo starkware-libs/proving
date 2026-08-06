@@ -26,7 +26,7 @@ use stwo::core::verifier::PREPROCESSED_TRACE_IDX;
 use tracing::{Level, span};
 
 use crate::RecursiveTreeError;
-use crate::canonical::{CanonicalCircuit, TARGET_PADDING_SIZES};
+use crate::canonical::CanonicalCircuit;
 use crate::leaf_io::{LeafInput, LeafProofExt};
 
 /// In-memory representation of a single tree node during reduction. At layer 0 these wrap the leaf
@@ -103,7 +103,7 @@ pub fn reduce_pair(
     let input1 = right.to_multiverifier_input(&canonical.shared_config.proof_config)?;
 
     let mut context = build_multiverifier_circuit::<QM31>(input0, input1, &canonical.shared_config);
-    pad_to_targets(&mut context, TARGET_PADDING_SIZES);
+    pad_to_targets(&mut context, &canonical.target_sizes);
     debug_assert!(
         context.is_circuit_valid(),
         "multiverifier circuit rejected its inputs at layer {layer_idx} pair {pair_idx}"

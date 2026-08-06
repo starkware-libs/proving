@@ -13,9 +13,8 @@ from pathlib import Path
 # - `min_trace_log_size` is bounded below by the preprocessed-trace variant's sequence-column log
 #   height (20 for canonical_small, 25 for canonical).
 # - Changing the range changes every circuit hash (all of a family's circuits are padded to the
-#   elementwise max over it). The binaries pad to the fixed `TARGET_PADDING_SIZES`, so a family
-#   currently holds the single matching trace size.
-#   TODO(yairv): widen the ranges once the binaries take their padding target from this registry.
+#   elementwise max over it), so it requires regenerating the recursive tree's goldens and the
+#   committed registry. Widening also costs proving every leaf at the largest member's shape.
 # TODO(yairv): add the production configs here.
 FAMILIES = [
     {

@@ -27,6 +27,7 @@
 
 use std::path::{Path, PathBuf};
 
+use circuit_registry::{CircuitRegistry, DigestHex, RegistryError};
 use stwo::core::pcs::PcsConfig;
 use thiserror::Error;
 use tracing::{Level, info, span};
@@ -59,10 +60,17 @@ pub enum RecursiveTreeError {
     BadOutputArity { expected: usize, got: usize },
     #[error(
         "Padding parity broken: the leaf and multiverifier circuits do not share the same \
-         preprocessed-trace layout (column log sizes / trace_log_size). TARGET_PADDING_SIZES is \
-         likely inconsistent with the circuit configuration."
+         preprocessed-trace layout (column log sizes / trace_log_size). The registry's target \
+         component sizes are likely inconsistent with the circuit configuration."
     )]
     PaddingParity,
+    #[error(
+        "The multiverifier circuit built here hashes to {got:?}, but the circuit registry \
+         describes {expected:?}; the registry does not match the circuits this binary builds."
+    )]
+    MultiverifierCircuitHash { expected: DigestHex, got: DigestHex },
+    #[error(transparent)]
+    Registry(#[from] RegistryError),
     #[error("Could not parse leaf circuit output values: {reason}")]
     BadLeafOutputs { reason: String },
 }
@@ -84,9 +92,12 @@ pub struct RecursiveTreeStats {
 ///
 /// - `circuit_pcs_config`: the circuit-proof PCS config, which MUST equal the one the leaf circuit
 ///   proofs were produced with (the leaf prover's `circuit_prover_params_json`).
+/// - `registry`: the family's circuit registry, which MUST be the one the leaves were proven
+///   against.
 pub fn stwo_run_and_prove_recursive_tree(
     leaves: Vec<LeafInput>,
     circuit_pcs_config: PcsConfig,
+    registry: &CircuitRegistry,
     proof_path: &Path,
     program_output: &Path,
     packed_output_path: &Path,
@@ -99,7 +110,7 @@ pub fn stwo_run_and_prove_recursive_tree(
     let n_leaves = leaves.len();
     info!(n_leaves, "Folding leaf circuit proofs into a recursive tree.");
 
-    let canonical = CanonicalCircuit::build(circuit_pcs_config)?;
+    let canonical = CanonicalCircuit::build(circuit_pcs_config, registry)?;
 
     // Intermediate proofs live in memory (on each `LayerEntry`) for the duration of the fold; the
     // only files this invocation writes are the root outputs.
