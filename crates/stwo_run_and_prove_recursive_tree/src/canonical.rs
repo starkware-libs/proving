@@ -7,25 +7,15 @@
 //! above), with one [`SharedConfig`] and one preprocessed root. This is what makes the reduction
 //! homogeneous and lets an unpaired entry be carried up to a higher layer unchanged.
 
-use std::path::PathBuf;
-
-use circuit_cairo_verifier::utils::load_program;
-use circuit_cairo_verifier::verify::{
-    CairoVerifierConfig, build_cairo_verifier_circuit, get_preprocessed_root,
-};
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
-use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_multiverifier::verify::{SharedConfig, build_multiverifier_context};
+use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
+use circuit_multiverifier::verify::{
+    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
+};
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend};
 use circuit_registry::{CircuitRegistry, DigestHex};
-use circuit_verifier::statement::circuit_verifier_proof_config;
-use circuits::context::FinalizedContext;
-use circuits::ivalue::NoValue;
-use leaf_prover::prove_leaf::leaf_verifier_config;
-use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
-use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use tracing::{Level, info, span};
 
 use crate::RecursiveTreeError;
@@ -65,48 +55,34 @@ impl CanonicalCircuit {
         let multiverifier_entry = registry.multiverifier()?;
         let target_sizes = registry.config(&multiverifier_entry.config)?.target_sizes();
 
-        // 1. The leaf cairo-verifier circuit (padded + preprocessed). Its preprocessed trace gives
-        //    the column count / log sizes of the circuit proofs the multiverifier verifies — its
-        //    children in the tree, a leaf proof at layer 1 and a multiverifier proof above. Built
-        //    at the largest trace size the registry covers, but any other would have done: every
-        //    leaf of the family shares that layout.
-        let preprocessed_leaf =
-            build_preprocessed_leaf_circuit(registry.max_leaf_trace_log_size()?, &target_sizes);
+        // 1. The shared config for verifying a child circuit proof — a proof the multiverifier
+        //    verifies, a leaf proof at layer 1 and a multiverifier proof above: the layout every
+        //    circuit of the family has, derived from the shared target.
+        let preprocessed_column_log_sizes = layout_from_component_sizes(&target_sizes);
+        let trace_log_size =
+            *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
+        let circuit_pcs_config =
+            PcsConfig::from_fri_and_trace_size(circuit_pcs_config.fri_config, trace_log_size);
+        let shared_config = shared_config(preprocessed_column_log_sizes, circuit_pcs_config);
 
-        let circuit_pcs_config = PcsConfig::from_fri_and_trace_size(
-            circuit_pcs_config.fri_config,
-            preprocessed_leaf.trace_log_size,
-        );
-
-        // 2. The shared config for verifying a child circuit proof.
-        let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
-        let proof_config =
-            circuit_verifier_proof_config(&preprocessed_column_log_sizes, &circuit_pcs_config);
-        let shared_config = SharedConfig {
-            pcs_config: circuit_pcs_config,
-            proof_config,
-            preprocessed_column_log_sizes,
-        };
-
-        // 3. The multiverifier circuit shape, padded to the same target as the leaf circuit.
+        // 2. The multiverifier circuit shape, padded to the family's target.
         let mut multiverifier_context =
-            build_multiverifier_context(&preprocessed_leaf, circuit_pcs_config);
+            build_multiverifier_context_from_shared_config(&shared_config);
         pad_to_targets(&mut multiverifier_context, &target_sizes);
         let preprocessed_multiverifier =
             PreprocessedCircuit::preprocess_circuit(&mut multiverifier_context);
 
-        // 4. Homogeneity check: the leaf and multiverifier circuits must share the SAME
-        //    preprocessed trace layout (column ids + per-column log sizes + overall trace_log_size)
-        //    so that one `proof_config` / `preprocessed_column_log_sizes` verifies BOTH a leaf
-        //    child proof and a multiverifier child proof.
-        if preprocessed_leaf.preprocessed_trace.log_sizes()
-            != preprocessed_multiverifier.preprocessed_trace.log_sizes()
-            || preprocessed_leaf.trace_log_size != preprocessed_multiverifier.trace_log_size
+        // 3. Homogeneity check: the multiverifier must itself have the layout it was built to
+        //    verify — otherwise one `proof_config` / `preprocessed_column_log_sizes` cannot verify
+        //    BOTH a leaf child proof (layer 1) and a multiverifier child proof (every layer above).
+        if preprocessed_multiverifier.preprocessed_trace.log_sizes()
+            != shared_config.preprocessed_column_log_sizes
+            || preprocessed_multiverifier.trace_log_size != trace_log_size
         {
             return Err(RecursiveTreeError::PaddingParity);
         }
 
-        // 5. The built multiverifier must hash to the registry's entry — the trust anchor every
+        // 4. The built multiverifier must hash to the registry's entry — the trust anchor every
         //    internal node is held to. Catches registry/circuit drift before any proving.
         // TODO(yairv): consider reading the hash off the first fold's proof instead (the prover
         // computes it anyway), trading this preprocessed-trace commitment for a later failure.
@@ -135,63 +111,4 @@ impl CanonicalCircuit {
             base_column_pool: BaseColumnPool::new(),
         })
     }
-}
-
-/// The cairo-verifier (leaf) circuit for a Cairo proof of `trace_log_size`, padded to
-/// `target_sizes` and preprocessed.
-fn build_preprocessed_leaf_circuit(
-    trace_log_size: u32,
-    target_sizes: &ComponentSizes,
-) -> PreprocessedCircuit {
-    let mut leaf_context = build_unpadded_leaf_context(trace_log_size);
-    pad_to_targets(&mut leaf_context, target_sizes);
-    PreprocessedCircuit::preprocess_circuit(&mut leaf_context)
-}
-
-/// The unpadded cairo-verifier (leaf) circuit context for a Cairo proof of `trace_log_size`, shaped
-/// exactly as `leaf_prover` shapes it when proving the leaf simple bootloader (see
-/// `leaf_prover::prove_leaf`).
-pub fn build_unpadded_leaf_context(trace_log_size: u32) -> FinalizedContext<NoValue> {
-    build_cairo_verifier_circuit(&leaf_cairo_verifier_config(trace_log_size))
-}
-
-/// Path of the compiled leaf simple bootloader — the program every leaf proof attests to.
-/// TEMPORARY: read from this crate's `test_data`; production will receive it via configuration.
-fn leaf_bootloader_program_path() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/leaf_simple_bootloader_compiled.json")
-}
-
-/// The slice of the leaf's Cairo prover parameters the canonical circuit shape depends on.
-#[derive(serde::Deserialize)]
-struct LeafCairoProverParams {
-    /// FRI config of the *inner* Cairo proof the leaf circuit verifies.
-    fri_config: FriConfig,
-    preprocessed_trace: PreProcessedTraceVariant,
-}
-
-/// The Cairo prover parameters the leaf's inner proof is produced with — loaded from the same
-/// file the golden e2e proves leaves with, so the canonical circuit shape cannot drift from it.
-/// TEMPORARY: read from `leaf_prover`'s test data; production will receive it via configuration
-/// (like the circuit prover params file).
-fn leaf_cairo_prover_params() -> LeafCairoProverParams {
-    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../leaf_prover/tests/data/cairo_prover_params_canonical_small.json");
-    serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap()
-}
-
-/// The [`CairoVerifierConfig`] of the leaf circuit that verifies a Cairo proof of `trace_log_size`
-/// (via `leaf_prover`'s shared builder), for the leaf simple bootloader under the canonical-small
-/// test setup.
-fn leaf_cairo_verifier_config(trace_log_size: u32) -> CairoVerifierConfig {
-    let leaf_cairo_params = leaf_cairo_prover_params();
-    // The circuit verifier's `ProofConfig` requires the explicit
-    // `lifting_log_size = trace_log_size + log_blowup_factor` (the params file stores `0`,
-    // meaningful only to the prover); mirror `prove_leaf`, which overrides it from the proof.
-    let lifting_log_size = trace_log_size + leaf_cairo_params.fri_config.log_blowup_factor;
-    leaf_verifier_config(
-        leaf_cairo_params.preprocessed_trace,
-        &PcsConfig { fri_config: leaf_cairo_params.fri_config, lifting_log_size },
-        load_program(&leaf_bootloader_program_path()),
-        get_preprocessed_root(lifting_log_size),
-    )
 }

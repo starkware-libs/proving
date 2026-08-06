@@ -35,15 +35,168 @@ use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 #[cfg(feature = "prover")]
 use crate::N_LANES;
 use crate::Qm31OpsTraceGenerator;
-use crate::finalize::pad_context;
+use crate::finalize::{ComponentSizes, pad_context};
 
 #[cfg(feature = "prover")]
 #[cfg(test)]
 #[path = "preprocessed_test.rs"]
 pub mod test;
 
-const N_QM31_OPS_PP_COLUMNS: usize = 8;
 const N_OP_CODES: usize = 4;
+
+/// Declares one padded AIR component's preprocessed columns, in commitment order: one column per
+/// field, under the field's name as the column id.
+///
+/// The ids and the fields holding the values they label are one list, so no edit can pair a
+/// column with the wrong id.
+macro_rules! define_preprocessed_columns {
+    ($struct_name:ident, $column_ids_array_name:ident, [$($field:ident),+ $(,)?]) => {
+        const $column_ids_array_name: &[&str] = &[$(stringify!($field)),+];
+
+        /// Defaults to every column empty, to be filled by the component's gates.
+        #[derive(Default)]
+        struct $struct_name {
+            $($field: Vec<usize>),+
+        }
+
+        impl From<[Vec<usize>; $column_ids_array_name.len()]> for $struct_name {
+            /// For components whose columns are filled by index rather than by name.
+            fn from(columns: [Vec<usize>; $column_ids_array_name.len()]) -> Self {
+                let [$($field),+] = columns;
+                Self { $($field),+ }
+            }
+        }
+
+        impl $struct_name {
+            /// Pushes every column under its id, in commitment order.
+            fn push_to(self, pp_trace: &mut PreProcessedTrace) {
+                for (id, column) in
+                    zip_eq($column_ids_array_name.iter().copied(), [$(self.$field),+])
+                {
+                    pp_trace.push_column(PreProcessedColumnId { id: id.to_owned() }, column);
+                }
+            }
+        }
+    };
+}
+
+define_preprocessed_columns!(EqColumns, EQ_COLUMN_IDS, [eq_in0_address, eq_in1_address]);
+define_preprocessed_columns!(
+    Qm31OpsColumns,
+    QM31_OPS_COLUMN_IDS,
+    [
+        qm31_ops_add_flag,
+        qm31_ops_sub_flag,
+        qm31_ops_mul_flag,
+        qm31_ops_pointwise_mul_flag,
+        qm31_ops_in0_address,
+        qm31_ops_in1_address,
+        qm31_ops_out_address,
+        qm31_ops_mults
+    ]
+);
+define_preprocessed_columns!(
+    TripleXorColumns,
+    TRIPLE_XOR_COLUMN_IDS,
+    [
+        triple_xor_input_addr_0,
+        triple_xor_input_addr_1,
+        triple_xor_input_addr_2,
+        triple_xor_output_addr,
+        triple_xor_multiplicity
+    ]
+);
+define_preprocessed_columns!(
+    M31ToU32Columns,
+    M31_TO_U32_COLUMN_IDS,
+    [m31_to_u32_input_addr, m31_to_u32_output_addr, m31_to_u32_multiplicity]
+);
+define_preprocessed_columns!(
+    BlakeGGateColumns,
+    BLAKE_G_GATE_COLUMN_IDS,
+    [
+        blake_g_gate_input_addr_a,
+        blake_g_gate_input_addr_b,
+        blake_g_gate_input_addr_c,
+        blake_g_gate_input_addr_d,
+        blake_g_gate_input_addr_f0,
+        blake_g_gate_input_addr_f1,
+        blake_g_gate_output_addr_a,
+        blake_g_gate_output_addr_b,
+        blake_g_gate_output_addr_c,
+        blake_g_gate_output_addr_d,
+        blake_g_gate_multiplicity
+    ]
+);
+
+// The two components that fill their columns by index rather than by name.
+const N_QM31_OPS_PP_COLUMNS: usize = QM31_OPS_COLUMN_IDS.len();
+const N_M31_TO_U32_PP_COLUMNS: usize = M31_TO_U32_COLUMN_IDS.len();
+
+/// Bit widths of the bitwise-XOR lookup tables (three columns each; a table of `n` bits has
+/// `2^(2n)` rows).
+const XOR_TABLE_N_BITS: [u32; 5] = [4, 7, 8, 9, 10];
+/// Log size of the sequence column (`0..2^n`, used by `range_check_16`).
+const SEQ_LOG_SIZE: u32 = 16;
+
+/// A fixed column's per-row value, as a function of the column's log size.
+type ColumnFn = fn(u32, usize) -> usize;
+
+fn seq(_log_size: u32, row: usize) -> usize {
+    row
+}
+// Row `i` of a `bitwise_xor_{n}` table (`2^(2n)` rows, so `n` is half the log size) pairs
+// `rhs = i >> n` with `lhs = i & (2^n - 1)`.
+fn xor_rhs(log_size: u32, row: usize) -> usize {
+    row >> (log_size / 2)
+}
+fn xor_lhs(log_size: u32, row: usize) -> usize {
+    row & ((1 << (log_size / 2)) - 1)
+}
+fn xor_result(log_size: u32, row: usize) -> usize {
+    xor_lhs(log_size, row) ^ xor_rhs(log_size, row)
+}
+
+/// The fixed lookup-table columns, in commitment order: the sequence column, then the three
+/// columns of the bitwise-XOR table of each bit width.
+///
+/// Each entry pairs an id and log size with the per-row value function of the column it labels.
+fn fixed_columns() -> impl Iterator<Item = (String, u32, ColumnFn)> {
+    let xor_columns: [ColumnFn; 3] = [xor_rhs, xor_lhs, xor_result];
+    std::iter::once((format!("seq_{SEQ_LOG_SIZE}"), SEQ_LOG_SIZE, seq as ColumnFn)).chain(
+        XOR_TABLE_N_BITS.into_iter().flat_map(move |n_bits| {
+            xor_columns
+                .into_iter()
+                .enumerate()
+                .map(move |(i, value)| (format!("bitwise_xor_{n_bits}_{i}"), 2 * n_bits, value))
+        }),
+    )
+}
+
+/// The preprocessed-trace layout of a circuit whose components are padded to `sizes` (powers of
+/// two), without building it: each column's log size, in commitment order. Matches what
+/// [`PreprocessedCircuit::preprocess_circuit`] produces for such a circuit — both take the ids and
+/// their order from the same generated lists, and each component's columns are as long as the
+/// component.
+pub fn layout_from_component_sizes(
+    sizes: &ComponentSizes,
+) -> OrderedHashMap<PreProcessedColumnId, u32> {
+    let mut entries: Vec<(String, u32)> = vec![];
+    let mut push = |ids: &[&str], size: usize| {
+        assert!(size.is_power_of_two());
+        entries.extend(ids.iter().map(|id| (id.to_string(), size.ilog2())));
+    };
+    // Order of components here must match `PreprocessedCircuit::from_finalized_circuit`.
+    push(EQ_COLUMN_IDS, sizes.eq);
+    push(QM31_OPS_COLUMN_IDS, sizes.qm31_ops);
+    push(TRIPLE_XOR_COLUMN_IDS, sizes.triple_xor);
+    push(M31_TO_U32_COLUMN_IDS, sizes.m31_to_u32);
+    push(BLAKE_G_GATE_COLUMN_IDS, sizes.blake_g_gate);
+    entries.extend(fixed_columns().map(|(id, log_size, _)| (id, log_size)));
+    // The same order as `PreProcessedTrace::sort_by_size` (stable, so ties keep insertion order).
+    entries.sort_by_key(|(_, log_size)| *log_size);
+    entries.into_iter().map(|(id, log_size)| (PreProcessedColumnId { id }, log_size)).collect()
+}
 
 #[derive(Copy, Clone)]
 enum OpCode {
@@ -161,19 +314,7 @@ fn add_qm31_ops_to_preprocessed_trace(
 
     fill_permutation_columns(permutation, multiplicities, &mut qm31_ops_columns, n_vars);
 
-    let ids = [
-        "qm31_ops_add_flag",
-        "qm31_ops_sub_flag",
-        "qm31_ops_mul_flag",
-        "qm31_ops_pointwise_mul_flag",
-        "qm31_ops_in0_address",
-        "qm31_ops_in1_address",
-        "qm31_ops_out_address",
-        "qm31_ops_mults",
-    ];
-    for (id, column) in zip_eq(ids, qm31_ops_columns) {
-        pp_trace.push_column(PreProcessedColumnId { id: id.to_owned() }, column);
-    }
+    Qm31OpsColumns::from(qm31_ops_columns).push_to(pp_trace);
     qm31_ops_trace_generator
 }
 
@@ -181,15 +322,13 @@ fn add_qm31_ops_to_preprocessed_trace(
 /// is empty, no columns are added. Preprocessed columns are in the following format:
 /// | in0_address | in1_address |
 fn add_eq_to_preprocessed_trace(eq: &[Eq], pp_trace: &mut PreProcessedTrace) {
-    let mut eq_in0_address = vec![];
-    let mut eq_in1_address = vec![];
+    let mut columns = EqColumns::default();
     for Eq { in0, in1 } in eq {
-        eq_in0_address.push(*in0);
-        eq_in1_address.push(*in1);
+        columns.eq_in0_address.push(*in0);
+        columns.eq_in1_address.push(*in1);
     }
 
-    pp_trace.push_column(PreProcessedColumnId { id: "eq_in0_address".to_owned() }, eq_in0_address);
-    pp_trace.push_column(PreProcessedColumnId { id: "eq_in1_address".to_owned() }, eq_in1_address);
+    columns.push_to(pp_trace);
 }
 
 /// Adds TripleXor gates to the preprocessed trace. Preprocessed columns are in the format:
@@ -199,42 +338,17 @@ fn add_triple_xor_to_preprocessed_trace(
     multiplicities: &[usize],
     pp_trace: &mut PreProcessedTrace,
 ) {
-    let mut triple_xor_input_addr_0 = vec![];
-    let mut triple_xor_input_addr_1 = vec![];
-    let mut triple_xor_input_addr_2 = vec![];
-    let mut triple_xor_output_addr = vec![];
-    let mut triple_xor_multiplicity = vec![];
+    let mut columns = TripleXorColumns::default();
     for TripleXor { input_a, input_b, input_c, out } in triple_xor.iter() {
-        triple_xor_input_addr_0.push(*input_a);
-        triple_xor_input_addr_1.push(*input_b);
-        triple_xor_input_addr_2.push(*input_c);
-        triple_xor_output_addr.push(*out);
-        triple_xor_multiplicity.push(multiplicities[*out]);
+        columns.triple_xor_input_addr_0.push(*input_a);
+        columns.triple_xor_input_addr_1.push(*input_b);
+        columns.triple_xor_input_addr_2.push(*input_c);
+        columns.triple_xor_output_addr.push(*out);
+        columns.triple_xor_multiplicity.push(multiplicities[*out]);
     }
 
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "triple_xor_input_addr_0".to_owned() },
-        triple_xor_input_addr_0,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "triple_xor_input_addr_1".to_owned() },
-        triple_xor_input_addr_1,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "triple_xor_input_addr_2".to_owned() },
-        triple_xor_input_addr_2,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "triple_xor_output_addr".to_owned() },
-        triple_xor_output_addr,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "triple_xor_multiplicity".to_owned() },
-        triple_xor_multiplicity,
-    );
+    columns.push_to(pp_trace);
 }
-
-const N_M31_TO_U32_PP_COLUMNS: usize = 3;
 
 /// Adds M31ToU32 gates to preprocessed trace columns.
 /// | input_address | output_address | multiplicity |
@@ -258,10 +372,7 @@ fn add_m31_to_u32_to_preprocessed_trace(
     let mut columns: [_; N_M31_TO_U32_PP_COLUMNS] = std::array::from_fn(|_| vec![]);
     fill_m31_to_u32_columns(m31_to_u32, multiplicities, &mut columns);
 
-    let ids = ["m31_to_u32_input_addr", "m31_to_u32_output_addr", "m31_to_u32_multiplicity"];
-    for (id, column) in zip_eq(ids, columns) {
-        pp_trace.push_column(PreProcessedColumnId { id: id.to_owned() }, column);
-    }
+    M31ToU32Columns::from(columns).push_to(pp_trace);
 }
 
 /// Adds BlakeGGate gates to the preprocessed trace. Preprocessed columns are in the format:
@@ -272,17 +383,7 @@ fn add_blake_g_gate_to_preprocessed_trace(
     multiplicities: &[usize],
     pp_trace: &mut PreProcessedTrace,
 ) {
-    let mut blake_g_gate_input_addr_a = vec![];
-    let mut blake_g_gate_input_addr_b = vec![];
-    let mut blake_g_gate_input_addr_c = vec![];
-    let mut blake_g_gate_input_addr_d = vec![];
-    let mut blake_g_gate_input_addr_f0 = vec![];
-    let mut blake_g_gate_input_addr_f1 = vec![];
-    let mut blake_g_gate_output_addr_a = vec![];
-    let mut blake_g_gate_output_addr_b = vec![];
-    let mut blake_g_gate_output_addr_c = vec![];
-    let mut blake_g_gate_output_addr_d = vec![];
-    let mut blake_g_gate_multiplicity = vec![];
+    let mut columns = BlakeGGateColumns::default();
     for BlakeGGate {
         input_a,
         input_b,
@@ -296,16 +397,16 @@ fn add_blake_g_gate_to_preprocessed_trace(
         out_d,
     } in blake_g_gate.iter()
     {
-        blake_g_gate_input_addr_a.push(*input_a);
-        blake_g_gate_input_addr_b.push(*input_b);
-        blake_g_gate_input_addr_c.push(*input_c);
-        blake_g_gate_input_addr_d.push(*input_d);
-        blake_g_gate_input_addr_f0.push(*input_f0);
-        blake_g_gate_input_addr_f1.push(*input_f1);
-        blake_g_gate_output_addr_a.push(*out_a);
-        blake_g_gate_output_addr_b.push(*out_b);
-        blake_g_gate_output_addr_c.push(*out_c);
-        blake_g_gate_output_addr_d.push(*out_d);
+        columns.blake_g_gate_input_addr_a.push(*input_a);
+        columns.blake_g_gate_input_addr_b.push(*input_b);
+        columns.blake_g_gate_input_addr_c.push(*input_c);
+        columns.blake_g_gate_input_addr_d.push(*input_d);
+        columns.blake_g_gate_input_addr_f0.push(*input_f0);
+        columns.blake_g_gate_input_addr_f1.push(*input_f1);
+        columns.blake_g_gate_output_addr_a.push(*out_a);
+        columns.blake_g_gate_output_addr_b.push(*out_b);
+        columns.blake_g_gate_output_addr_c.push(*out_c);
+        columns.blake_g_gate_output_addr_d.push(*out_d);
 
         // All four outputs of a Blake G gate share one multiplicity column. In the Blake
         // construction, each G output is consumed exactly once (by another G step or by the
@@ -317,53 +418,10 @@ fn add_blake_g_gate_to_preprocessed_trace(
                 "BlakeGGate output multiplicities must be identical"
             );
         }
-        blake_g_gate_multiplicity.push(mult);
+        columns.blake_g_gate_multiplicity.push(mult);
     }
 
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_input_addr_a".to_owned() },
-        blake_g_gate_input_addr_a,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_input_addr_b".to_owned() },
-        blake_g_gate_input_addr_b,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_input_addr_c".to_owned() },
-        blake_g_gate_input_addr_c,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_input_addr_d".to_owned() },
-        blake_g_gate_input_addr_d,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_input_addr_f0".to_owned() },
-        blake_g_gate_input_addr_f0,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_input_addr_f1".to_owned() },
-        blake_g_gate_input_addr_f1,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_output_addr_a".to_owned() },
-        blake_g_gate_output_addr_a,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_output_addr_b".to_owned() },
-        blake_g_gate_output_addr_b,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_output_addr_c".to_owned() },
-        blake_g_gate_output_addr_c,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_output_addr_d".to_owned() },
-        blake_g_gate_output_addr_d,
-    );
-    pp_trace.push_column(
-        PreProcessedColumnId { id: "blake_g_gate_multiplicity".to_owned() },
-        blake_g_gate_multiplicity,
-    );
+    columns.push_to(pp_trace);
 }
 
 /// A collection of preprocessed columns, whose values are publicly acknowledged, and independent of
@@ -392,40 +450,13 @@ impl PreProcessedTrace {
     /// depend on the circuit gates or their multiplicities. They provide constant lookup
     /// infrastructure referenced by certain components:
     /// - `seq_16`: the sequence `0..2^16`, used by `range_check_16`.
-    /// - `bitwise_xor_{n}_{0,1,2}`: for each bit-width n in {4, 7, 8, 9, 10}, three columns holding
-    ///   all ordered pairs of n-bit values (`lhs`, `rhs`) and their XOR, used by the
+    /// - `bitwise_xor_{n}_{0,1,2}`: three columns per bit width n, where `_0` and `_1` run over
+    ///   every ordered pair of n-bit values (`rhs`, `lhs`) and `_2` holds their XOR, used by the
     ///   `VerifyBitwiseXor` components.
     fn add_fixed_preprocessed_columns(pp_trace: &mut PreProcessedTrace) {
-        // Seq column of size 2^16, needed by range_check_16.
-        pp_trace.push_column(
-            PreProcessedColumnId { id: "seq_16".to_owned() },
-            (0..1_usize << 16).collect(),
-        );
-
-        // Bitwise XOR columns of sizes 2^4, 2^7, 2^8, 2^9, 2^10.
-        let bitwise_xor: Vec<Vec<usize>> = [4, 7, 8, 9, 10]
-            .into_iter()
-            .flat_map(|n_bits| gen_xor_columns(n_bits).into_iter())
-            .collect();
-        let xor_col_ids = [
-            "bitwise_xor_4_0",
-            "bitwise_xor_4_1",
-            "bitwise_xor_4_2",
-            "bitwise_xor_7_0",
-            "bitwise_xor_7_1",
-            "bitwise_xor_7_2",
-            "bitwise_xor_8_0",
-            "bitwise_xor_8_1",
-            "bitwise_xor_8_2",
-            "bitwise_xor_9_0",
-            "bitwise_xor_9_1",
-            "bitwise_xor_9_2",
-            "bitwise_xor_10_0",
-            "bitwise_xor_10_1",
-            "bitwise_xor_10_2",
-        ];
-        for (id, column) in zip_eq(xor_col_ids, bitwise_xor) {
-            pp_trace.push_column(PreProcessedColumnId { id: id.to_owned() }, column);
+        for (id, log_size, value) in fixed_columns() {
+            let column = (0..1_usize << log_size).map(|row| value(log_size, row)).collect();
+            pp_trace.push_column(PreProcessedColumnId { id }, column);
         }
     }
 
@@ -569,22 +600,4 @@ impl PreprocessedCircuit {
             n_outputs: output.len() - 1,
         }
     }
-}
-
-/// Generates three columns of size (2^n_bits)^2. The first two columns are all ordered pairs of
-/// n-bit values, and the third column contains the bitwise XOR of each pair.
-fn gen_xor_columns(n_bits: usize) -> [Vec<usize>; 3] {
-    let size = 1_usize << (2 * n_bits);
-    let mask = (1_usize << n_bits) - 1;
-    let mut columns: [Vec<usize>; 3] = std::array::from_fn(|_| vec![0; size]);
-    // `i` is used for bit arithmetic (lhs/rhs), not merely to index the columns.
-    #[allow(clippy::needless_range_loop)]
-    for i in 0..size {
-        let lhs = i & mask;
-        let rhs = i >> n_bits;
-        columns[0][i] = rhs;
-        columns[1][i] = lhs;
-        columns[2][i] = lhs ^ rhs;
-    }
-    columns
 }

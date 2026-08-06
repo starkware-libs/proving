@@ -27,20 +27,17 @@ slow-tests = []
 blake2 = "0.10"
 clap.workspace = true
 leaf-proof-format.workspace = true
-leaf-prover.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sonic-rs.workspace = true
 # The Cairo `encode_felt252_data_and_calc_blake2s` felt-to-u32-words encoding.
 starknet-types-core.workspace = true
-stwo-cairo-common.workspace = true
 stwo-cairo-utils.workspace = true
 
 thiserror.workspace = true
 tracing.workspace = true
 
 circuit-cairo-serialize.workspace = true
-circuit-cairo-verifier.workspace = true
 circuit-multiverifier.workspace = true
 circuit-registry.workspace = true
 circuit-verifier.workspace = true
@@ -55,3 +52,4 @@ stwo.workspace = true
 tracing-subscriber.workspace = true
 tempfile.workspace = true
 num-bigint.workspace = true
+leaf-prover.workspace = true

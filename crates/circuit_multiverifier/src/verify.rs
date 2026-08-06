@@ -117,19 +117,30 @@ pub fn build_multiverifier_context(
     assert_eq!(
         pcs_config.lifting_log_size,
         preprocessed_leaf.trace_log_size + pcs_config.fri_config.log_blowup_factor,
-        "`pcs_config` must be the config of the proofs of the leaf circuit"
+        "`pcs_config` must be the config of the proofs of the verified circuit"
     );
-    let preprocessed_column_log_sizes = preprocessed_leaf.preprocessed_trace.log_sizes();
+    let shared_config = shared_config(preprocessed_leaf.preprocessed_trace.log_sizes(), pcs_config);
+    build_multiverifier_context_from_shared_config(&shared_config)
+}
+
+/// The [`SharedConfig`] for verifying proofs of a circuit with the given preprocessed-trace
+/// layout — everything a multiverifier needs to know about the circuits it verifies.
+pub fn shared_config(
+    preprocessed_column_log_sizes: OrderedHashMap<PreProcessedColumnId, u32>,
+    pcs_config: PcsConfig,
+) -> SharedConfig {
     let proof_config = circuit_verifier_proof_config(&preprocessed_column_log_sizes, &pcs_config);
-    let shared_config = SharedConfig {
-        pcs_config,
-        proof_config: proof_config.clone(),
-        preprocessed_column_log_sizes,
-    };
+    SharedConfig { pcs_config, proof_config, preprocessed_column_log_sizes }
+}
+
+/// Builds the multiverifier circuit topology that verifies two proofs described by `shared_config`.
+pub fn build_multiverifier_context_from_shared_config(
+    shared_config: &SharedConfig,
+) -> FinalizedContext<NoValue> {
     let empty_input = || MultiverifierInput {
-        proof: empty_proof(&proof_config),
+        proof: empty_proof(&shared_config.proof_config),
         preprocessed_root: HashValue::from([0u32; 8]),
         output_values: [0u32; N_RESERVED],
     };
-    build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), &shared_config)
+    build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), shared_config)
 }

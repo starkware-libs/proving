@@ -6,10 +6,12 @@ use itertools::Itertools;
 use stwo::prover::backend::Column;
 use stwo::prover::backend::simd::SimdBackend;
 
-use crate::preprocessed::PreprocessedCircuit;
+use crate::finalize::{ComponentSizes, qm31_ops_n_rows};
+use crate::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
 
-#[test]
-fn test_preprocess_circuit() {
+/// A small circuit with power-of-two row counts in every component: 2 eq, 8 qm31_ops (binary
+/// only), and 16 each of triple_xor, m31_to_u32 and blake_g_gate.
+fn sample_circuit() -> Circuit {
     let mut circuit = Circuit::default();
     circuit.add.push(Add { in0: 0, in1: 1, out: 2 });
     circuit.add.push(Add { in0: 3, in1: 4, out: 5 });
@@ -45,7 +47,12 @@ fn test_preprocess_circuit() {
     circuit.n_vars = 152;
     // A circuit must always have at least one output.
     circuit.output.push(Output { in0: 0 });
-    let preprocessed_trace = PreprocessedCircuit::from_finalized_circuit(&circuit)
+    circuit
+}
+
+#[test]
+fn test_preprocess_circuit() {
+    let preprocessed_trace = PreprocessedCircuit::from_finalized_circuit(&sample_circuit())
         .preprocessed_trace
         .get_trace::<SimdBackend>();
 
@@ -101,4 +108,21 @@ fn test_preprocess_circuit() {
         ]
     "#]]
     .assert_debug_eq(&lengths);
+}
+
+/// [`layout_from_component_sizes`] must reproduce a real preprocessed trace's layout — ids, log
+/// sizes and commitment order (`OrderedHashMap` equality is order-sensitive) — for a circuit
+/// whose components have exactly those sizes.
+#[test]
+fn test_layout_from_component_sizes_matches_preprocessed_trace() {
+    let circuit = sample_circuit();
+    let sizes = ComponentSizes {
+        eq: circuit.eq.len(),
+        qm31_ops: qm31_ops_n_rows(&circuit),
+        m31_to_u32: circuit.m31_to_u32.len(),
+        triple_xor: circuit.triple_xor.len(),
+        blake_g_gate: circuit.blake_g_gate.len(),
+    };
+    let real = PreprocessedCircuit::from_finalized_circuit(&circuit).preprocessed_trace;
+    assert_eq!(real.log_sizes(), layout_from_component_sizes(&sizes));
 }

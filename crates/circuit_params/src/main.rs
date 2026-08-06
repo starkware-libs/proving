@@ -30,8 +30,10 @@ use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
-use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_multiverifier::verify::build_multiverifier_context;
+use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
+use circuit_multiverifier::verify::{
+    build_multiverifier_context, build_multiverifier_context_from_shared_config, shared_config,
+};
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_registry::{
     CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier,
@@ -213,22 +215,20 @@ fn padded_preprocessed_circuit(
 /// every leaf circuit and that very multiverifier. Starts from the leaves' max (`target_sizes`)
 /// and iterates — a larger target can grow the multiverifier, growing the target again.
 ///
-/// The multiverifier is built over the largest leaf (arbitrarily — it depends only on the
-/// target-padded shape, identical for all leaves), rebuilt each iteration: padding is destructive
-/// (it allocates variable indices), so a padded context cannot be padded further.
+/// The verified proofs' layout is derived from the target alone (`layout_from_component_sizes`),
+/// exactly as the recursive tree builds its multiverifier.
 fn shared_target_fixpoint(
-    circuit_builder: &CircuitBuilder,
-    max_trace_log_size: u32,
     mut target_sizes: ComponentSizes,
     circuit_pcs_config: &PcsConfig,
 ) -> (ComponentSizes, PreprocessedCircuit) {
     loop {
-        let leaf_context = circuit_builder.build_context(max_trace_log_size);
-        let preprocessed_leaf = padded_preprocessed_circuit(leaf_context, &target_sizes);
-        let multiverifier_context = build_multiverifier_context(
-            &preprocessed_leaf,
-            multiverifier_pcs_config(&preprocessed_leaf, circuit_pcs_config),
-        );
+        let preprocessed_column_log_sizes = layout_from_component_sizes(&target_sizes);
+        let trace_log_size =
+            *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
+        let multiverifier_context = build_multiverifier_context_from_shared_config(&shared_config(
+            preprocessed_column_log_sizes,
+            PcsConfig::from_fri_and_trace_size(circuit_pcs_config.fri_config, trace_log_size),
+        ));
         let grown_sizes =
             target_sizes.elementwise_max(&compute_padded_sizes(&multiverifier_context));
         if grown_sizes == target_sizes {
@@ -302,12 +302,8 @@ fn run() -> Result<(), String> {
             .map(compute_padded_sizes)
             .reduce(|max_sizes, sizes| max_sizes.elementwise_max(&sizes))
             .expect("the trace range is non-empty");
-        let (target_sizes, preprocessed_multiverifier) = shared_target_fixpoint(
-            &circuit_builder,
-            args.max_trace_log_size,
-            leaves_max_sizes,
-            &circuit_pcs_config,
-        );
+        let (target_sizes, preprocessed_multiverifier) =
+            shared_target_fixpoint(leaves_max_sizes, &circuit_pcs_config);
 
         // Homogeneity: padded to the shared target, every circuit of the family must have the
         // multiverifier's preprocessed-trace layout — the layout it verifies (each leaf is

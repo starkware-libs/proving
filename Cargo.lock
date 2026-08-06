@@ -4975,7 +4975,6 @@ version = "2.4.0"
 dependencies = [
  "blake2",
  "circuit-cairo-serialize",
- "circuit-cairo-verifier",
  "circuit-common",
  "circuit-multiverifier",
  "circuit-prover",
@@ -4993,7 +4992,6 @@ dependencies = [
  "sonic-rs",
  "starknet-types-core",
  "stwo",
- "stwo-cairo-common",
  "stwo-cairo-utils",
  "tempfile",
  "thiserror",
