@@ -157,11 +157,7 @@ pub fn prove_leaf(
 
     let preprocessed_root = proof.extended_stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];
 
-    // Set lifting_log_size from the cairo proof.
-    let pcs_config = PcsConfig {
-        fri_config: cairo_prover_parameters.fri_config,
-        lifting_log_size: proof.extended_stark_proof.proof.config.lifting_log_size,
-    };
+    let pcs_config = proof.extended_stark_proof.proof.config;
 
     // Get the registry entry for this proof's trace size.
     let cairo_log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
