@@ -214,13 +214,6 @@ impl<Value: IValue> Context<Value> {
     /// This is `pub(crate)` and only called internally by [`Self::finalize`]. Tests that need to
     /// run this step in isolation go through [`crate::test_utils::finalize_guessed_vars`].
     pub(crate) fn finalize_guessed_vars(&mut self) {
-        // TODO(Leo): move the assertion to a new finalize method which calls finalize_constants and
-        // finalize_guessed_vars.
-        assert!(
-            self.reserved_vars.is_empty(),
-            "Some reserved variables were never assigned (idxs: {:?})",
-            self.reserved_vars,
-        );
         for guessed_var in self.guessed_vars.take().unwrap() {
             match guessed_var {
                 // An M31 guess must be constrained to the base field. Pointwise-multiplying by
@@ -243,6 +236,11 @@ impl<Value: IValue> Context<Value> {
     }
 
     pub fn finalize(mut self, check_vars_used: bool) -> FinalizedContext<Value> {
+        assert!(
+            self.reserved_vars.is_empty(),
+            "Some reserved variables were never assigned (idxs: {:?})",
+            self.reserved_vars,
+        );
         finalize_constants(&mut self);
         if check_vars_used {
             self.check_vars_used();
