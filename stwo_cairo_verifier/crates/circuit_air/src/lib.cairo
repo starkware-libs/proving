@@ -54,15 +54,19 @@ pub struct CircuitProof {
     pub channel_salt: u32,
 }
 
-/// The output of a circuit verification: `blake2s(preprocessed_root || output_values)`,
-/// where `preprocessed_root` is the proof's preprocessed-trace (tree 0) commitment.
+/// The output of a circuit verification: `blake2s(circuit_hash || output_words)` (see
+/// `get_verification_output`).
 #[derive(Drop, Serde)]
 pub struct VerificationOutput {
     pub output_hash: Hash,
 }
 
-/// Returns the output of the verifier: `blake2s(preprocessed_root || output_values)`, where
-/// `preprocessed_root` is the proof's preprocessed-trace (tree 0) commitment.
+/// The u32 wire encoding's limb bound and shift: each limb is a u16.
+const U16_SHIFT: u32 = 0x10000;
+
+/// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`, where each
+/// output value is the circuit's wire encoding `(low_u16, high_u16, 0, 0)` of one u32 word and
+/// contributes the recombined word.
 #[cfg(not(feature: "poseidon252_verifier"))]
 pub fn get_verification_output(
     circuit_hash: Hash, output_values: Span<QM31>,
@@ -70,11 +74,16 @@ pub fn get_verification_output(
     let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
     let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
     for value in output_values {
-        let [c0, c1, c2, c3] = (*value).to_fixed_array();
-        words.append(c0.into());
-        words.append(c1.into());
-        words.append(c2.into());
-        words.append(c3.into());
+        let [lo, hi, c2, c3] = (*value).to_fixed_array();
+        let lo: u32 = lo.into();
+        let hi: u32 = hi.into();
+        let c2: u32 = c2.into();
+        let c3: u32 = c3.into();
+        assert!(
+            lo < U16_SHIFT && hi < U16_SHIFT && c2 == 0 && c3 == 0,
+            "circuit output value is not a packed u32",
+        );
+        words.append(lo + hi * U16_SHIFT);
     }
     VerificationOutput { output_hash: Hash { hash: hash_u32s(words.span()) } }
 }
