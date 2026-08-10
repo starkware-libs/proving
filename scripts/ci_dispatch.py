@@ -121,6 +121,7 @@ RUST_GROUPS: dict[str, Group] = {
             "visualizer/",
             "scripts/js_typecheck.sh",
             "scripts/visualizer_webapp_test.sh",
+            "scripts/test_generated_code.py",
         ],
     ),
 }
