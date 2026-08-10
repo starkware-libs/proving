@@ -40,15 +40,9 @@ struct Args {
     #[clap(long = "packed_output_path")]
     packed_output_path: PathBuf,
 
-    /// JSON file containing the circuit prover parameters (a `PcsConfig`) — the same file the
-    /// leaf prover ran with (its `circuit_prover_params_json`), so the tree uses the config the
-    /// leaf circuit proofs were produced with.
-    #[clap(long = "circuit_prover_params_json")]
-    circuit_prover_params_json: PathBuf,
-
     /// The circuit registry of the family being folded — the same file the leaf prover ran with.
-    /// Supplies the family's padding target and the multiverifier hash the canonical circuit is
-    /// checked against.
+    /// Supplies the circuit proofs' prover params, the family's padding target and the
+    /// multiverifier hash the canonical circuit is checked against.
     #[clap(long = "circuit_registry_json")]
     circuit_registry_json: PathBuf,
 }
@@ -61,19 +55,10 @@ fn run() -> Result<(), RecursiveTreeError> {
     let _span = span!(Level::INFO, "stwo_run_and_prove_recursive_tree::run").entered();
     let args = Args::parse();
     let leaves = load_leaves(&args.program_input)?;
-    let params = std::fs::read_to_string(&args.circuit_prover_params_json).unwrap_or_else(|err| {
-        panic!(
-            "Cannot get circuit prover parameters from {}: {err}",
-            args.circuit_prover_params_json.display()
-        )
-    });
-    let circuit_pcs_config =
-        serde_json::from_str(&params).expect("Circuit prover parameters JSON does not parse");
     let registry = CircuitRegistry::from_path(&args.circuit_registry_json)?;
     info!(n_leaves = leaves.len(), "Starting in-binary recursive circuit-proof tree reduction.");
     let stats = stwo_run_and_prove_recursive_tree(
         leaves,
-        circuit_pcs_config,
         &registry,
         &args.proof_path,
         &args.program_output,

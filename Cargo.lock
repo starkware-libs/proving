@@ -1732,6 +1732,8 @@ dependencies = [
  "leaf-proof-format",
  "serde",
  "serde_json",
+ "stwo",
+ "stwo-cairo-common",
  "thiserror",
 ]
 
@@ -3119,7 +3121,6 @@ dependencies = [
  "indexmap 2.14.0",
  "leaf-proof-format",
  "serde_json",
- "sonic-rs",
  "stwo",
  "stwo-cairo-adapter",
  "stwo-cairo-common",

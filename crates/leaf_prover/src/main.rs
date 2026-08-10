@@ -25,19 +25,10 @@ struct Args {
     #[clap(long = "program_input", help = "Absolute path to the program input file.")]
     program_input: Option<PathBuf>,
     #[clap(
-        long = "cairo_prover_params_json",
-        help = "JSON file containing the Cairo prover parameters."
-    )]
-    cairo_prover_params_json: PathBuf,
-    #[clap(
-        long = "circuit_prover_params_json",
-        help = "JSON file containing the circuit prover parameters."
-    )]
-    circuit_prover_params_json: PathBuf,
-    #[clap(
         long = "circuit_registry_json",
-        help = "JSON file containing the circuit registry. Used to get the padding target for the \
-                verifier circuit."
+        help = "JSON file containing the circuit registry of the family this leaf belongs to. \
+                Supplies the prover params of both proofs, the padding target for the verifier \
+                circuit, and the hash that circuit must come out with."
     )]
     circuit_registry_json: PathBuf,
     #[clap(long = "output_path", help = "Path to write the output file")]
@@ -50,13 +41,8 @@ fn main() -> ExitCode {
 
 fn run() -> Result<(), String> {
     let args = Args::parse();
-    let output = prove_leaf_from_files(
-        &args.program,
-        &args.program_input,
-        &args.cairo_prover_params_json,
-        &args.circuit_prover_params_json,
-        &args.circuit_registry_json,
-    );
+    let output =
+        prove_leaf_from_files(&args.program, &args.program_input, &args.circuit_registry_json);
 
     fs::write(&args.output_path, serde_json::to_string_pretty(&output).unwrap()).unwrap_or_else(
         |err| panic!("Cannot write output to {}: {err}", args.output_path.display()),

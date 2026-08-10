@@ -1,4 +1,3 @@
-use std::fs::read_to_string;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
@@ -27,7 +26,6 @@ use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
 use leaf_proof_format::{DigestHex, SerializedLeafProof};
-use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
@@ -35,7 +33,7 @@ use stwo::core::verifier::PREPROCESSED_TRACE_IDX;
 use stwo_cairo_adapter::adapter::adapt;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::M31;
-use stwo_cairo_prover::prover::{ProverParameters, prove_cairo};
+use stwo_cairo_prover::prover::prove_cairo;
 use stwo_cairo_prover::witness::prelude::{Felt252, QM31};
 use tracing::info;
 
@@ -43,57 +41,32 @@ use crate::consts::{
     DISABLED_COMPONENTS_CANONICAL_PREPROCESSED, DISABLED_COMPONENTS_SMALL_PREPROCESSED,
 };
 
-/// File-path front end of [`prove_leaf`]: loads the program, program input, prover params and
-/// circuit registry from disk.
+/// File-path front end of [`prove_leaf`]: loads the program, program input and circuit registry
+/// from disk.
 pub fn prove_leaf_from_files(
     program_path: &Path,
     program_input: &Option<PathBuf>,
-    cairo_prover_params_json: &Path,
-    circuit_prover_params_json: &Path,
     circuit_registry_json: &Path,
 ) -> SerializedLeafProof {
     let program = get_program(program_path)
         .unwrap_or_else(|err| panic!("Cannot get program from {}: {err}", program_path.display()));
     // Infallible: the input file is only wrapped here, not read (that happens inside the run).
     let program_input = get_program_input_from_path(program_input).unwrap();
-    let cairo_prover_parameters = read_to_string(cairo_prover_params_json).unwrap_or_else(|err| {
-        panic!(
-            "Cannot get Cairo prover parameters from {}: {err}",
-            cairo_prover_params_json.display()
-        )
-    });
-    let cairo_prover_parameters = sonic_rs::from_str(&cairo_prover_parameters).unwrap();
-    let circuit_prover_params = read_to_string(circuit_prover_params_json).unwrap_or_else(|err| {
-        panic!(
-            "Cannot get circuit prover parameters from {}: {err}",
-            circuit_prover_params_json.display()
-        )
-    });
-    // The params file holds a `PcsConfig`, but its lifting size is fixed by the padded circuit.
-    let circuit_prover_params: PcsConfig = sonic_rs::from_str(&circuit_prover_params).unwrap();
     let circuit_registry =
         CircuitRegistry::from_path(circuit_registry_json).unwrap_or_else(|err| panic!("{err}"));
-    prove_leaf(
-        &program,
-        program_input,
-        cairo_prover_parameters,
-        circuit_prover_params.fri_config,
-        &circuit_registry,
-    )
+    prove_leaf(&program, program_input, &circuit_registry)
 }
 
 /// Proves `program`'s run, verifies that proof with the cairo-verifier circuit, and proves that
 /// circuit's execution.
 ///
-/// `circuit_registry` fixes the family's shared padding target and the hash the built circuit
-/// must come out with; a Cairo proof whose trace size it does not cover is rejected.
+/// A Cairo proof whose trace size the family does not cover is rejected.
 pub fn prove_leaf(
     program: &Program,
     program_input: Option<ProgramInput>,
-    cairo_prover_parameters: ProverParameters,
-    circuit_fri_config: FriConfig,
     circuit_registry: &CircuitRegistry,
 ) -> SerializedLeafProof {
+    let cairo_prover_parameters = circuit_registry.cairo_prover_params;
     assert!(
         cairo_prover_parameters.include_all_preprocessed_columns,
         "The prover parameters must set include_all_preprocessed_columns=true because the \
@@ -159,19 +132,13 @@ pub fn prove_leaf(
 
     let pcs_config = proof.extended_stark_proof.proof.config;
 
-    // Get the registry entry for this proof's trace size.
-    let cairo_log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
-    let trace_log_size = pcs_config.lifting_log_size - cairo_log_blowup_factor;
-    let registry_entry = circuit_registry
-        .leaf_verifier(trace_log_size, cairo_log_blowup_factor)
-        .unwrap_or_else(|err| panic!("{err}"));
+    // The subtraction recovers the trace size because the prover lifts to the height of the
+    // largest column after blowup.
+    let trace_log_size = pcs_config.lifting_log_size - pcs_config.fri_config.log_blowup_factor;
+    let registry_entry =
+        circuit_registry.leaf_verifier(trace_log_size).unwrap_or_else(|err| panic!("{err}"));
     let circuit_proof_config =
         circuit_registry.config(&registry_entry.config).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(
-        circuit_proof_config.log_blowup_factor, circuit_fri_config.log_blowup_factor,
-        "The circuit prover params' log blowup factor differs from the one the registry's circuit \
-         hashes commit to."
-    );
 
     let verifier_config = leaf_verifier_config(
         cairo_prover_parameters.preprocessed_trace,
@@ -227,8 +194,10 @@ pub fn prove_leaf(
     // Prove the execution of the verifier circuit.
 
     // The padded circuit fixes the circuit proof's lifting size.
-    let circuit_prover_pcs_config =
-        PcsConfig::from_fri_and_trace_size(circuit_fri_config, preprocessed_circuit.trace_log_size);
+    let circuit_prover_pcs_config = PcsConfig::from_fri_and_trace_size(
+        circuit_proof_config.fri_config,
+        preprocessed_circuit.trace_log_size,
+    );
     let base_column_pool = BaseColumnPool::new();
     let circuit_proof = prove_circuit_assignment(
         context.values(),

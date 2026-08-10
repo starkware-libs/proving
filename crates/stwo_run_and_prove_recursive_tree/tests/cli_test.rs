@@ -6,11 +6,6 @@
 use std::path::PathBuf;
 use std::process::Command;
 
-/// The committed circuit prover params file — the same file the leaf prover runs with.
-fn circuit_prover_params_path() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_prover_params.json")
-}
-
 /// The committed circuit registry of the canonical-small family.
 fn circuit_registry_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
@@ -33,8 +28,6 @@ fn test_invalid_program_input_exits_nonzero() {
         .arg(dir.join("po"))
         .arg("--packed_output_path")
         .arg(dir.join("pout"))
-        .arg("--circuit_prover_params_json")
-        .arg(circuit_prover_params_path())
         .arg("--circuit_registry_json")
         .arg(circuit_registry_path())
         .status()
@@ -79,8 +72,6 @@ fn test_single_leaf_passthrough_succeeds() {
         .arg(dir.join("root_outputs.json"))
         .arg("--packed_output_path")
         .arg(dir.join("root_packed.json"))
-        .arg("--circuit_prover_params_json")
-        .arg(circuit_prover_params_path())
         .arg("--circuit_registry_json")
         .arg(circuit_registry_path())
         .status()

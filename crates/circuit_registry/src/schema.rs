@@ -1,11 +1,14 @@
-//! The JSON schema for the circuit registry: a map of proof configs, the leaf verifiers (one per
-//! trace size), and the multiverifiers, each identified by its circuit hash.
+//! The JSON schema for the circuit registry: the prover params the family's proofs are produced
+//! with, a map of proof configs, the leaf verifiers (one per trace size), and the multiverifiers,
+//! each identified by its circuit hash.
 
 use std::collections::BTreeMap;
 
 use circuit_common::finalize::ComponentSizes;
 use leaf_proof_format::DigestHex;
 use serde::{Deserialize, Serialize};
+use stwo::core::fri::FriConfig;
+use stwo_cairo_common::prover_params::ProverParameters;
 
 /// The padded log sizes of the components that circuits are padded to a shared target on.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -45,12 +48,12 @@ fn log_size(size: usize) -> u32 {
     size.next_power_of_two().ilog2()
 }
 
-/// A proof configuration: the (circuit-prover) log blowup factor and padded component log sizes a
-/// circuit is proven with. Circuits proven using the same config can be verified using the same
-/// verifier circuit.
+/// A proof configuration: the (circuit-prover) FRI config and padded component log sizes a circuit
+/// is proven with. Circuits proven using the same config can be verified using the same verifier
+/// circuit.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct CircuitProofConfig {
-    pub log_blowup_factor: u32,
+    pub fri_config: FriConfig,
     pub component_log_sizes: LogSizes,
 }
 
@@ -61,15 +64,13 @@ impl CircuitProofConfig {
     }
 }
 
-/// A leaf verifier circuit (verifying one Cairo proof of the given trace size and log blowup
-/// factor), padded to its config's component sizes.
+/// A leaf verifier circuit (verifying one Cairo proof of the given trace size), padded to its
+/// config's component sizes.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct LeafVerifier {
     /// Key into `CircuitRegistry::circuit_proof_configs`.
     pub config: String,
     pub trace_log_size: u32,
-    /// Log blowup factor of the Cairo proof this leaf verifies.
-    pub log_blowup_factor: u32,
     /// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)` — the value that
     /// identifies this circuit in a verifier's public output.
     pub circuit_hash: DigestHex,
@@ -87,12 +88,18 @@ pub struct Multiverifier {
     pub circuit_hash: DigestHex,
 }
 
-/// The json output: a map of proof configs, the leaf verifiers (one per trace size), and the
-/// multiverifiers. All circuits are padded to the shared target sizes and proven with the same
-/// blowup, so they share a single config; the multiverifier verifies proofs of the leaf circuit and
-/// is essentially the same across trace sizes, so a single multiverifier is reported.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+/// The json output: the prover params of the verified Cairo proofs, a map of proof configs, the
+/// leaf verifiers (one per trace size), and the multiverifiers. All circuits are padded to the
+/// shared target sizes and proven with the same blowup, so they share a single config; the
+/// multiverifier verifies proofs of the leaf circuit and is essentially the same across trace
+/// sizes, so a single multiverifier is reported.
+///
+/// The params are part of the registry because the circuits — hence every hash here — are functions
+/// of them, and so that a proving binary of this family needs no configuration beyond the registry.
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CircuitRegistry {
+    /// The prover params the family's verified Cairo proofs are produced with.
+    pub cairo_prover_params: ProverParameters,
     pub circuit_proof_configs: BTreeMap<String, CircuitProofConfig>,
     pub leaf_verifiers: Vec<LeafVerifier>,
     pub multiverifiers: Vec<Multiverifier>,

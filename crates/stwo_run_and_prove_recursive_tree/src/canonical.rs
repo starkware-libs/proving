@@ -39,21 +39,15 @@ pub struct CanonicalCircuit {
 impl CanonicalCircuit {
     /// Builds the canonical circuit shape and all the configuration derived from it.
     ///
-    /// `circuit_pcs_config` is the PCS config the leaf circuit proofs were produced with (the
-    /// leaf prover's `circuit_prover_params_json`). Its `lifting_log_size` is overridden to the
-    /// target-padded circuit's `trace_log_size + log_blowup_factor` — the only valid value for
-    /// the canonical circuit shape.
-    ///
-    /// `registry` supplies the padding target every circuit here is built to, and the hash the
-    /// built multiverifier is checked against.
-    pub fn build(
-        circuit_pcs_config: PcsConfig,
-        registry: &CircuitRegistry,
-    ) -> Result<Self, RecursiveTreeError> {
+    /// `registry` is the only input: its multiverifier's config supplies the FRI config the leaf
+    /// circuit proofs were produced with and the padding target every circuit here is built to,
+    /// and its entry supplies the hash the built multiverifier is checked against.
+    pub fn build(registry: &CircuitRegistry) -> Result<Self, RecursiveTreeError> {
         let _span = span!(Level::INFO, "CanonicalCircuit::build").entered();
 
         let multiverifier_entry = registry.multiverifier()?;
-        let target_sizes = registry.config(&multiverifier_entry.config)?.target_sizes();
+        let circuit_proof_config = registry.config(&multiverifier_entry.config)?;
+        let target_sizes = circuit_proof_config.target_sizes();
 
         // 1. The shared config for verifying a child circuit proof — a proof the multiverifier
         //    verifies, a leaf proof at layer 1 and a multiverifier proof above: the layout every
@@ -62,7 +56,7 @@ impl CanonicalCircuit {
         let trace_log_size =
             *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
         let circuit_pcs_config =
-            PcsConfig::from_fri_and_trace_size(circuit_pcs_config.fri_config, trace_log_size);
+            PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_config, trace_log_size);
         let shared_config = shared_config(preprocessed_column_log_sizes, circuit_pcs_config);
 
         // 2. The multiverifier circuit shape, padded to the family's target.

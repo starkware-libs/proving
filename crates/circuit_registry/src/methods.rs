@@ -18,10 +18,9 @@ pub enum RegistryError {
     Parse(serde_json::Error, PathBuf),
     #[error(
         "The circuit registry has no leaf verifier for a Cairo proof of trace log size \
-         {trace_log_size} with log blowup factor {log_blowup_factor}. Supported (trace log size, \
-         log blowup factor): {supported:?}."
+         {trace_log_size}. Supported trace log sizes: {supported:?}."
     )]
-    UnsupportedLeaf { trace_log_size: u32, log_blowup_factor: u32, supported: Vec<(u32, u32)> },
+    UnsupportedLeaf { trace_log_size: u32, supported: Vec<u32> },
     #[error("The circuit registry has no circuit proof config named {0:?}.")]
     UnknownConfig(String),
     #[error("The circuit registry describes {0} multiverifier circuits; expected exactly one.")]
@@ -47,27 +46,14 @@ impl CircuitRegistry {
             .ok_or_else(|| RegistryError::UnknownConfig(id.to_string()))
     }
 
-    /// The leaf verifier circuit that verifies a Cairo proof of the given trace log size and log
-    /// blowup factor.
-    pub fn leaf_verifier(
-        &self,
-        trace_log_size: u32,
-        log_blowup_factor: u32,
-    ) -> Result<&LeafVerifier, RegistryError> {
-        self.leaf_verifiers
-            .iter()
-            .find(|leaf| {
-                leaf.trace_log_size == trace_log_size && leaf.log_blowup_factor == log_blowup_factor
-            })
-            .ok_or_else(|| RegistryError::UnsupportedLeaf {
+    /// The leaf verifier circuit that verifies a Cairo proof of the given trace log size.
+    pub fn leaf_verifier(&self, trace_log_size: u32) -> Result<&LeafVerifier, RegistryError> {
+        self.leaf_verifiers.iter().find(|leaf| leaf.trace_log_size == trace_log_size).ok_or_else(
+            || RegistryError::UnsupportedLeaf {
                 trace_log_size,
-                log_blowup_factor,
-                supported: self
-                    .leaf_verifiers
-                    .iter()
-                    .map(|leaf| (leaf.trace_log_size, leaf.log_blowup_factor))
-                    .collect(),
-            })
+                supported: self.leaf_verifiers.iter().map(|leaf| leaf.trace_log_size).collect(),
+            },
+        )
     }
 
     /// The largest verified Cairo trace log size the family covers — the leaf circuit that bounds

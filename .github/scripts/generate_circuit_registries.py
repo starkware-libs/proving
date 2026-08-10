@@ -20,10 +20,10 @@ FAMILIES = [
     {
         "name": "canonical_small",
         "cairo_prover_params_json": (
-            "crates/leaf_prover/tests/data/cairo_prover_params_canonical_small.json"
+            "crates/stwo_run_and_prove_recursive_tree/test_data/cairo_prover_params.json"
         ),
-        "circuit_prover_params_json": (
-            "crates/stwo_run_and_prove_recursive_tree/test_data/circuit_prover_params.json"
+        "circuit_fri_config_json": (
+            "crates/stwo_run_and_prove_recursive_tree/test_data/circuit_fri_config.json"
         ),
         "program": (
             "crates/stwo_run_and_prove_recursive_tree/test_data/"
@@ -58,8 +58,8 @@ def main():
                 "--registry",
                 "--cairo-prover-params-json",
                 family["cairo_prover_params_json"],
-                "--circuit-prover-params-json",
-                family["circuit_prover_params_json"],
+                "--circuit-fri-config-json",
+                family["circuit_fri_config_json"],
                 "--program",
                 family["program"],
                 "--min-trace-log-size",

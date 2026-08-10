@@ -1,7 +1,30 @@
 {
+  "cairo_prover_params": {
+    "channel_hash": "blake2s",
+    "channel_salt": 0,
+    "fri_config": {
+      "pow_bits": 16,
+      "log_blowup_factor": 1,
+      "log_last_layer_degree_bound": 0,
+      "n_queries": 70,
+      "fold_step": 1
+    },
+    "preprocessed_trace": "canonical_small",
+    "store_polynomials_coefficients": false,
+    "include_all_preprocessed_columns": true,
+    "opt_n_id_to_big_components": 16,
+    "lifting_log_size": 0,
+    "raise_min_lifting_to_max_column": true
+  },
   "circuit_proof_configs": {
     "default": {
-      "log_blowup_factor": 1,
+      "fri_config": {
+        "pow_bits": 26,
+        "log_blowup_factor": 1,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 35,
+        "fold_step": 4
+      },
       "component_log_sizes": {
         "eq": 20,
         "qm31_ops": 23,
@@ -15,7 +38,6 @@
     {
       "config": "default",
       "trace_log_size": 20,
-      "log_blowup_factor": 1,
       "circuit_hash": [
         "0x240b095e",
         "0xe940910c",

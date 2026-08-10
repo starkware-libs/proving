@@ -12,44 +12,15 @@ fn test_missing_program_panics() {
     prove_leaf_from_files(
         &test_data_dir().join("no_such_program.json"),
         &None,
-        &test_data_dir().join("cairo_prover_params_canonical_small.json"),
-        &test_data_dir().join("circuit_prover_params_canonical_small.json"),
         &test_data_dir().join("circuit_registry_canonical_small.json"),
     );
 }
-
-#[test]
-#[should_panic(expected = "Cannot get Cairo prover parameters from")]
-fn test_missing_cairo_prover_params_panics() {
-    prove_leaf_from_files(
-        &test_data_dir().join("use_all_opcodes_and_builtins_compiled.json"),
-        &None,
-        &test_data_dir().join("no_such_params.json"),
-        &test_data_dir().join("circuit_prover_params_canonical_small.json"),
-        &test_data_dir().join("circuit_registry_canonical_small.json"),
-    );
-}
-
-#[test]
-#[should_panic(expected = "Cannot get circuit prover parameters from")]
-fn test_missing_circuit_prover_params_panics() {
-    prove_leaf_from_files(
-        &test_data_dir().join("use_all_opcodes_and_builtins_compiled.json"),
-        &None,
-        &test_data_dir().join("cairo_prover_params_canonical_small.json"),
-        &test_data_dir().join("no_such_params.json"),
-        &test_data_dir().join("circuit_registry_canonical_small.json"),
-    );
-}
-
 #[test]
 #[should_panic(expected = "Cannot read the circuit registry from")]
 fn test_missing_circuit_registry_panics() {
     prove_leaf_from_files(
         &test_data_dir().join("use_all_opcodes_and_builtins_compiled.json"),
         &None,
-        &test_data_dir().join("cairo_prover_params_canonical_small.json"),
-        &test_data_dir().join("circuit_prover_params_canonical_small.json"),
         &test_data_dir().join("no_such_registry.json"),
     );
 }
