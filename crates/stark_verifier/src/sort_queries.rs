@@ -67,19 +67,16 @@ impl QuerySorter {
     /// Verifies that `sorted_keys` is sorted. The `key_bits <= 30` bound asserted in
     /// `new` ensures the range-check soundness argument below.
     fn verify_sorted_keys<Value: IValue>(&self, context: &mut Context<Value>, sorted_keys: &[Var]) {
-        let Some(mut prev) = sorted_keys.first() else {
-            // if there are no sorted keys, return.
+        if sorted_keys.is_empty() {
             return;
-        };
+        }
 
         let u_inverse = context.constant(qm31_from_u32s(0, 0, 1, 0).inverse());
         let diffs = sorted_keys
             .iter()
-            .skip(1)
-            .map(|curr| {
-                let u_diff = eval!(context, (*curr) - (*prev));
-                prev = curr;
-
+            .tuple_windows()
+            .map(|(curr, next)| {
+                let u_diff = eval!(context, (*next) - (*curr));
                 // extract diff from u * diff.
                 let diff = eval!(context, (u_diff) * (u_inverse));
                 M31Wrapper::new_unsafe(diff)
