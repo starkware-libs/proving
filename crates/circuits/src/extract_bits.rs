@@ -3,6 +3,7 @@ use stwo::core::fields::m31::M31;
 use crate::context::Context;
 use crate::ivalue::IValue;
 use crate::simd::Simd;
+use crate::wrappers::M31Wrapper;
 
 #[cfg(test)]
 #[path = "extract_bits_test.rs"]
@@ -14,7 +15,7 @@ pub mod test;
 /// If any input exceeds `2^n_bits - 1`, a circuit constraints is going to be violated and
 /// `context.is_circuit_valid()` will return `false`.
 pub fn extract_bits(context: &mut Context<impl IValue>, input: &Simd, n_bits: u32) -> Vec<Simd> {
-    let inv_two = Simd::repeat(context, M31::from(2).inverse(), input.len());
+    let inv_two = M31Wrapper::new_unsafe(context.constant(M31::from(2).inverse().into()));
 
     let mut value = input.clone();
     let mut bits = Vec::new();
@@ -22,7 +23,7 @@ pub fn extract_bits(context: &mut Context<impl IValue>, input: &Simd, n_bits: u3
         let lsb = value.guess_lsb(context);
         bits.push(lsb.clone());
         value = Simd::sub(context, &value, &lsb);
-        value = Simd::mul(context, &value, &inv_two);
+        value = Simd::scalar_mul(context, &value, &inv_two);
     }
 
     // `value` is now the MSB. Check that it is 0 or 1.

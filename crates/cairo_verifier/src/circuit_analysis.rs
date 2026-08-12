@@ -14,11 +14,6 @@ fn qm(a: u32, b: u32, c: u32, d: u32) -> QM31 {
     qm31_from_u32s(a, b, c, d)
 }
 
-/// Simd constants for 1/2.
-fn simd_half() -> QM31 {
-    qm(1 << 30, 1 << 30, 1 << 30, 1 << 30)
-}
-
 #[derive(Clone, Copy, PartialEq)]
 enum Op {
     Add,
@@ -274,6 +269,8 @@ fn detect_bits(
     const_values: &HashMap<usize, QM31>,
     idiom: &mut HashMap<usize, Idiom>,
 ) {
+    // The value 1/2.
+    let half = qm(1 << 30, 0, 0, 0);
     let bits = find_bits(c, const_values);
 
     // chain: r -> (b, (r - b) x (1/2)).
@@ -281,7 +278,7 @@ fn detect_bits(
     let mut chain: HashMap<usize, (usize, usize)> = HashMap::new();
     let mut is_next: HashSet<usize> = HashSet::new();
     for g in &c.arith {
-        if !(g.op == Op::Pointwise && const_values.get(&g.b) == Some(&simd_half())) {
+        if !(g.op == Op::Mul && const_values.get(&g.b) == Some(&half)) {
             continue;
         }
         let diff = g.a;
