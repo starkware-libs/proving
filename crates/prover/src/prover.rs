@@ -435,11 +435,42 @@ pub mod tests {
     use cairo_vm::types::layout_name::LayoutName;
     use stwo::core::fri::FriConfig;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+    use stwo_cairo_adapter::ExecutionResources;
     use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTrace;
     use stwo_cairo_dev_utils::utils::get_compiled_cairo_program_path;
     use stwo_cairo_dev_utils::vm_utils::{ProgramType, run_and_adapt};
 
     use crate::debug_tools::assert_constraints::assert_cairo_constraints;
+
+    /// The adapter counts the distinct aggregator inputs straight from the builtin segment, with no
+    /// trace generation. All four programs hash 15 distinct inputs, a different count means the
+    /// adapter and the generated builtin component disagree on what an aggregator input is.
+    #[test]
+    fn test_unique_aggregator_inputs_count_distinct_hash_inputs() {
+        for (program, builtin) in [
+            ("test_prove_verify_pedersen_builtin", "pedersen_builtin"),
+            ("test_pedersen_aggregator", "pedersen_builtin"),
+            ("test_prove_verify_poseidon_builtin", "poseidon_builtin"),
+            ("test_poseidon_aggregator", "poseidon_builtin"),
+        ] {
+            let input = run_and_adapt(
+                &get_compiled_cairo_program_path(program),
+                ProgramType::Json,
+                LayoutName::all_cairo_stwo,
+                None,
+            )
+            .unwrap();
+
+            let execution_resources = ExecutionResources::from_prover_input(&input);
+
+            assert_eq!(
+                execution_resources.unique_aggregator_inputs[builtin], 15,
+                "{program}: unexpected number of unique {builtin} aggregator inputs, out of {} \
+                 instances",
+                execution_resources.builtin_instance_counter[builtin]
+            );
+        }
+    }
     use crate::prover::{ChannelHash, PreProcessedTraceVariant, ProverParameters, prove_cairo};
 
     #[test]

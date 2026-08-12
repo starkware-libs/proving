@@ -104,6 +104,9 @@ pub struct ExecutionResources {
     pub memory_tables_sizes: MemoryTablesSizes,
     /// Number of verify instructions, corresponds to the number of unique pc values.
     pub verify_instruction: usize,
+    /// Number of unique aggregator inputs per aggregator-backed builtin.
+    #[serde(default)]
+    pub unique_aggregator_inputs: HashMap<String, usize>,
 }
 
 impl ExecutionResources {
@@ -128,6 +131,12 @@ impl ExecutionResources {
                 memory_id_to_small: input.memory.small_values.len(),
             },
             verify_instruction: input.pc_count,
+            unique_aggregator_inputs: input
+                .builtin_segments
+                .count_unique_aggregator_inputs(&input.memory)
+                .into_iter()
+                .map(|(builtin, count)| (builtin.to_str_with_suffix().to_string(), count))
+                .collect(),
         }
     }
 }

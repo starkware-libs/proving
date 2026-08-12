@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 use cairo_vm::air_public_input::MemorySegmentAddresses as VMMemorySegmentAddresses;
 use cairo_vm::types::builtin_name::BuiltinName;
@@ -11,6 +11,8 @@ use stwo_cairo_common::builtins::{
     RANGE_CHECK_96_BUILTIN_MEMORY_CELLS, RANGE_CHECK_BUILTIN_MEMORY_CELLS,
 };
 use tracing::{Level, info, span};
+
+use crate::memory::Memory;
 
 // Minimal builtins instances per segment, chosen to fit SIMD requirements.
 pub const MIN_SEGMENT_SIZE: usize = 16;
@@ -48,10 +50,7 @@ impl BuiltinSegments {
     pub fn get_counts(&self) -> HashMap<BuiltinName, usize> {
         let mut counts = HashMap::new();
         let mut insert_builtin = |builtin_name, segment: &Option<_>, n_cells_per_instance| {
-            counts.insert(
-                builtin_name,
-                segment.as_ref().map(get_memory_segment_size).unwrap_or(0) / n_cells_per_instance,
-            );
+            counts.insert(builtin_name, count_instances(segment, n_cells_per_instance));
         };
 
         insert_builtin(BuiltinName::add_mod, &self.add_mod_builtin, ADD_MOD_BUILTIN_MEMORY_CELLS);
@@ -79,6 +78,22 @@ impl BuiltinSegments {
         );
         insert_builtin(BuiltinName::ec_op, &self.ec_op_builtin, EC_OP_BUILTIN_MEMORY_CELLS);
         insert_builtin(BuiltinName::output, &self.output, OUTPUT_MEMORY_CELLS);
+        counts
+    }
+
+    /// Counts the number of unique inputs to the poseidon and pedersen builtins.
+    pub fn count_unique_aggregator_inputs(&self, memory: &Memory) -> HashMap<BuiltinName, usize> {
+        let _span = span!(Level::INFO, "count_unique_aggregator_inputs").entered();
+        let mut counts = HashMap::new();
+
+        let unique =
+            count_unique_instances::<PEDERSEN_BUILTIN_MEMORY_CELLS>(memory, &self.pedersen_builtin);
+        counts.insert(BuiltinName::pedersen, unique);
+
+        let unique =
+            count_unique_instances::<POSEIDON_BUILTIN_MEMORY_CELLS>(memory, &self.poseidon_builtin);
+        counts.insert(BuiltinName::poseidon, unique);
+
         counts
     }
 
@@ -186,10 +201,121 @@ fn get_memory_segment_size(segment: &MemorySegmentAddresses) -> usize {
     segment.stop_ptr - segment.begin_addr
 }
 
+/// Counts the number of instances of a builtin inside `segment`, given the number of memory cells
+/// per instance.
+fn count_instances(segment: &Option<MemorySegmentAddresses>, n_cells_per_instance: usize) -> usize {
+    segment.as_ref().map(get_memory_segment_size).unwrap_or(0) / n_cells_per_instance
+}
+
+/// Counts the distinct tuples of memory ids over the `N`-cell instances of `segment`.
+fn count_unique_instances<const N: usize>(
+    memory: &Memory,
+    segment: &Option<MemorySegmentAddresses>,
+) -> usize {
+    let n_instances = count_instances(segment, N);
+    let Some(segment) = segment else {
+        return 0;
+    };
+    let begin = segment.begin_addr as u32;
+    let unique: HashSet<[u32; N]> = (0..n_instances as u32)
+        .map(|i| {
+            let addr = begin + i * N as u32;
+            std::array::from_fn(|cell| memory.get_raw_id(addr + cell as u32))
+        })
+        .collect();
+    unique.len()
+}
+
 #[cfg(test)]
 mod test_builtin_segments {
     use super::*;
     use crate::builtins::BITWISE_BUILTIN_MEMORY_CELLS;
+    use crate::memory::{MemoryBuilder, MemoryConfig, MemoryEntry, P_MIN_1};
+
+    const A: [u32; 8] = [1, 0, 0, 0, 0, 0, 0, 0];
+    const B: [u32; 8] = [2, 0, 0, 0, 0, 0, 0, 0];
+    const C: [u32; 8] = [3, 0, 0, 0, 0, 0, 0, 0];
+    const BIG: [u32; 8] = P_MIN_1;
+
+    /// 4 pedersen instances of 3 cells, of which #0 and #1 are equal: 3 unique inputs.
+    const PEDERSEN_CELLS: [[u32; 8]; 12] = [A, B, C, A, B, C, A, B, BIG, C, A, B];
+    /// 2 poseidon instances of 6 cells, both equal: 1 unique input.
+    const POSEIDON_CELLS: [[u32; 8]; 12] = [A, B, C, BIG, B, A, A, B, C, BIG, B, A];
+
+    const FIRST_ADDR: usize = 1;
+
+    /// Builds a memory holding `values` at consecutive addresses starting from `begin_addr`.
+    fn memory_from_values(begin_addr: u32, values: &[[u32; 8]]) -> Memory {
+        let entries = values
+            .iter()
+            .enumerate()
+            .map(|(i, &value)| MemoryEntry { address: (begin_addr + i as u32) as u64, value });
+        MemoryBuilder::from_iter(MemoryConfig::default(), entries).build().0
+    }
+
+    fn segment_of(begin_addr: usize, n_cells: usize) -> Option<MemorySegmentAddresses> {
+        Some(MemorySegmentAddresses { begin_addr, stop_ptr: begin_addr + n_cells })
+    }
+
+    #[test]
+    fn test_count_unique_aggregator_inputs() {
+        let poseidon_begin = FIRST_ADDR + PEDERSEN_CELLS.len();
+        let memory = memory_from_values(
+            FIRST_ADDR as u32,
+            &[PEDERSEN_CELLS.as_slice(), POSEIDON_CELLS.as_slice()].concat(),
+        );
+        let segments = BuiltinSegments {
+            pedersen_builtin: segment_of(FIRST_ADDR, PEDERSEN_CELLS.len()),
+            poseidon_builtin: segment_of(poseidon_begin, POSEIDON_CELLS.len()),
+            ..Default::default()
+        };
+
+        let unique_inputs = segments.count_unique_aggregator_inputs(&memory);
+
+        assert_eq!(
+            unique_inputs,
+            HashMap::from([(BuiltinName::pedersen, 3), (BuiltinName::poseidon, 1)])
+        );
+    }
+
+    #[test]
+    fn test_count_unique_aggregator_inputs_of_absent_builtins() {
+        let pedersen_memory = memory_from_values(FIRST_ADDR as u32, &PEDERSEN_CELLS);
+        let poseidon_memory = memory_from_values(FIRST_ADDR as u32, &POSEIDON_CELLS);
+        let runs = [
+            (
+                &pedersen_memory,
+                BuiltinSegments {
+                    pedersen_builtin: segment_of(FIRST_ADDR, PEDERSEN_CELLS.len()),
+                    ..Default::default()
+                },
+                [(BuiltinName::pedersen, 3), (BuiltinName::poseidon, 0)],
+            ),
+            (
+                &poseidon_memory,
+                BuiltinSegments {
+                    poseidon_builtin: segment_of(FIRST_ADDR, POSEIDON_CELLS.len()),
+                    ..Default::default()
+                },
+                [(BuiltinName::pedersen, 0), (BuiltinName::poseidon, 1)],
+            ),
+            (
+                &pedersen_memory,
+                BuiltinSegments {
+                    bitwise_builtin: segment_of(FIRST_ADDR, BITWISE_BUILTIN_MEMORY_CELLS),
+                    ..Default::default()
+                },
+                [(BuiltinName::pedersen, 0), (BuiltinName::poseidon, 0)],
+            ),
+        ];
+
+        for (memory, segments, expected_counts) in runs {
+            assert_eq!(
+                segments.count_unique_aggregator_inputs(memory),
+                HashMap::from(expected_counts)
+            );
+        }
+    }
 
     #[test]
     fn test_pad_relocatble_builtin_segments() {
