@@ -29,11 +29,12 @@ where
     warm_pedersen_pp_trace(preprocessed_trace);
     let preprocessed_trace = Arc::new(preprocessed_trace.to_preprocessed_trace());
 
-    // Precompute twiddles for the commitment scheme.
-    let max_log_size =
-        preprocessed_trace.log_sizes().into_iter().max().unwrap().max(lifting_log_size);
+    // Precompute twiddles covering the largest evaluation domain in use: the biggest column's
+    // extended domain log size, or the `lifting_log_size`.
+    let max_column_log_size = preprocessed_trace.log_sizes().into_iter().max().unwrap();
+    let max_log_size = (max_column_log_size + log_blowup_factor).max(lifting_log_size);
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(max_log_size + log_blowup_factor).circle_domain().half_coset,
+        CanonicCoset::new(max_log_size).circle_domain().half_coset,
     );
 
     // Generate the commitment tree.
