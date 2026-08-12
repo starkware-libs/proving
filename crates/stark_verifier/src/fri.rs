@@ -260,10 +260,13 @@ fn circle_compute_twiddles_from_base_point<Value: IValue>(
 
     // The first fold uses y-coordinate twiddles (one per pair of conjugate points).
     let zero = Simd::zero(context, n_queries);
-    let y_coords: Vec<Simd> =
-        coset_points.iter().flat_map(|p| [p.y.clone(), Simd::sub(context, &zero, &p.y)]).collect();
-    let mut twiddles_per_fold: Vec<Vec<Simd>> =
-        vec![y_coords.iter().map(|y| y.inv(context)).collect()];
+    let y_coords_inv: Vec<Simd> = coset_points.iter().map(|p| p.y.inv(context)).collect();
+    let mut twiddles_per_fold: Vec<Vec<Simd>> = vec![
+        y_coords_inv
+            .into_iter()
+            .flat_map(|y_inv| [y_inv.clone(), Simd::sub(context, &zero, &y_inv)])
+            .collect(),
+    ];
 
     // The remaining folds use x-coordinate twiddles, reusing the same coset points.
     let x_coords: Vec<Simd> = coset_points.into_iter().map(|p| p.x).collect();
