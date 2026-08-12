@@ -44,7 +44,7 @@ jobs:
       - name: Run mem-trace test
         run: |
           cargo nextest run \
-            --cargo-profile witness-opt-1 \
+            --cargo-profile ci \
             --features=extract-mem-trace test_serialize_deserialize_mem_trace \
             -j ${{ env.NEXTTEST_THREADS }} \
             -P ci

@@ -58,9 +58,9 @@ jobs:
           tool: nextest
       - name: "Slow tests"
         run: |
-          cargo nextest run -p leaf-prover --features=slow-tests --release  -j 1 -P ci
-          cargo nextest run -p circuit-params --features=slow-tests --release  -j 1 -P ci
-          cargo nextest run -p stwo-run-and-prove-recursive-tree --features=slow-tests --release -j 1 -P ci
+          cargo nextest run -p leaf-prover --features=slow-tests --cargo-profile ci  -j 1 -P ci
+          cargo nextest run -p circuit-params --features=slow-tests --cargo-profile ci  -j 1 -P ci
+          cargo nextest run -p stwo-run-and-prove-recursive-tree --features=slow-tests --cargo-profile ci -j 1 -P ci
         env:
           RUST_MIN_STACK: 4194304
           RUSTFLAGS: -C target-cpu=native
@@ -81,8 +81,8 @@ jobs:
           tool: nextest
       - name: "Slow tests"
         run: |
-          cargo nextest run -p privacy-prove --features=slow-tests --release -j 1 -P ci
-          cargo nextest run -p privacy-circuit-verify --features=slow-tests --release -j 1 -P ci
+          cargo nextest run -p privacy-prove --features=slow-tests --cargo-profile ci -j 1 -P ci
+          cargo nextest run -p privacy-circuit-verify --features=slow-tests --cargo-profile ci -j 1 -P ci
         env:
           RUST_MIN_STACK: 4194304
           RUSTFLAGS: -C target-cpu=native

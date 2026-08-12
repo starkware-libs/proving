@@ -85,7 +85,7 @@ Prover (Rust), from the repo root / prover crates:
 ```bash
 cargo build --release
 # Tests need: RUST_MIN_STACK=4194304  RUSTFLAGS="-C target-cpu=native"
-cargo nextest run --cargo-profile witness-opt-1 --features=slow-tests -j 1
+cargo nextest run --cargo-profile ci --features=slow-tests -j 1
 # Wasm (prover, wasm64)
 RUSTFLAGS='--cfg getrandom_backend="custom"' cargo check \
   --target wasm64-unknown-unknown -Z build-std=std,panic_abort \
@@ -120,5 +120,5 @@ scarb --profile proving execute --package stwo_cairo_verifier \
    enforced by CI.
 5. **Stable Rust compatibility** — all crates except `stwo-cairo-prover` and
    `stwo-cairo-dev-utils` must compile on stable.
-6. **Optimization profiles** — `witness-opt-1` balances compile time vs runtime for testing;
-   `adapter-release` optimizes the adapter.
+6. **Optimization profiles** — `ci` profile optimizes all crates for testing, but keeps debug asserts
+    and has `lto = false`; `adapter-release` optimizes the adapter.

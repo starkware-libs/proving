@@ -201,13 +201,12 @@ eval_air_fn_constraints = { path = "crates/eval_air_fn_constraints" }
 codegen-units = 1
 lto = true
 
-# Optimize witness generation and FFTs. This is usually enough to run the tests without stack overflows,
-# while maintaining a reasonable compile time.
-# In the cases where it's not enough, try to manually increase the stack size,
-# See cairo-ci.yaml for an example command.
-[profile.witness-opt-1]
-inherits = "dev"
-package = { "stwo-cairo-prover" = { opt-level = 1 }, "stwo" = { opt-level = 1 }, "circuit-prover" = { opt-level = 1 }, "privacy-prove" = { opt-level = 1 } }
+# Profile used in slow tests which involve proving.
+[profile.ci]
+inherits = "release"
+# Skip the optimizations at link time in order to reduce build time in CI.
+lto = false
+debug-assertions = true
 
 [profile.adapter-release]
 inherits = "dev"

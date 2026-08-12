@@ -83,11 +83,10 @@ jobs:
           shared-key: slow-tests
           # Only one shard should write the cache back.
           save-if: ${{ matrix.shard == 1 }}
-      # TODO(Leo): change `release` to `ci` after we get rid of profile `witness-opt-1`
       - run: |
           cargo nextest run -p stwo-cairo-prover \
             --test slow_tests \
-            --release \
+            --cargo-profile ci \
             -j ${{ env.NEXTTEST_THREADS }} \
             --partition count:${{ matrix.shard }}/${{ strategy.job-total }} \
             -P ci
