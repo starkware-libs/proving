@@ -88,6 +88,21 @@ pub fn add_points_simd(
     CirclePoint { x, y }
 }
 
+/// Computes `point0 - point1` on the circle, where the points are [Simd].
+pub fn sub_points_simd(
+    context: &mut Context<impl IValue>,
+    point0: &CirclePoint<Simd>,
+    point1: &CirclePoint<Simd>,
+) -> CirclePoint<Simd> {
+    let x0x1 = Simd::mul(context, &point0.x, &point1.x);
+    let x0y1 = Simd::mul(context, &point0.x, &point1.y);
+    let y0x1 = Simd::mul(context, &point0.y, &point1.x);
+    let y0y1 = Simd::mul(context, &point0.y, &point1.y);
+    let x = Simd::add(context, &x0x1, &y0y1);
+    let y = Simd::sub(context, &y0x1, &x0y1);
+    CirclePoint { x, y }
+}
+
 /// Computes the generator point of the subgroup of size `2^log_domain_size`.
 pub fn generator_point(log_domain_size: usize) -> CirclePoint<M31> {
     M31_CIRCLE_GEN.repeated_double(31.checked_sub(&log_domain_size).unwrap() as u32)
@@ -101,17 +116,6 @@ pub fn generator_point_simd(
 ) -> CirclePoint<Simd> {
     let pt = generator_point(log_domain_size);
     CirclePoint { x: Simd::repeat(context, pt.x, size), y: Simd::repeat(context, pt.y, size) }
-}
-
-/// Computes the group inverse of the generator point of the subgroup of size `2^log_domain_size`,
-/// repeated `size` times.
-pub fn minus_generator_point_simd(
-    context: &mut Context<impl IValue>,
-    log_domain_size: usize,
-    size: usize,
-) -> CirclePoint<Simd> {
-    let pt = generator_point(log_domain_size);
-    CirclePoint { x: Simd::repeat(context, pt.x, size), y: Simd::repeat(context, -pt.y, size) }
 }
 
 /// Computes the polynomial that vanishes on the canonical coset of size `2^log_trace_size`.

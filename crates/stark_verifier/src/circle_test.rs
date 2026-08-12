@@ -12,6 +12,7 @@ use stwo::core::fields::qm31::QM31;
 
 use crate::circle::{
     add_points, add_points_simd, double_point, double_point_simd, double_x, double_x_simd,
+    sub_points_simd,
 };
 
 #[test]
@@ -86,6 +87,40 @@ fn test_add_points_simd() {
     assert_eq!(
         packed_values(&context, &res.y),
         vec![QM31(CM31(pt0_plus_pt2.y, pt1_plus_pt3.y), CM31::zero())]
+    );
+
+    context.validate_circuit();
+}
+
+#[test]
+fn test_sub_points_simd() {
+    let pt0 = CirclePoint::<M31> { x: 102767539.into(), y: 739428083.into() };
+    let pt1 = CirclePoint::<M31> { x: 1562688784.into(), y: 946400219.into() };
+
+    let pt2 = CirclePoint::<M31> { x: 946122697.into(), y: 337868966.into() };
+    let pt3 = CirclePoint::<M31> { x: 2104020285.into(), y: 511427956.into() };
+    let mut context = TraceContext::default();
+
+    let first_points = CirclePoint {
+        x: simd_from_u32s(&mut context, vec![pt0.x.0, pt1.x.0]),
+        y: simd_from_u32s(&mut context, vec![pt0.y.0, pt1.y.0]),
+    };
+    let second_points = CirclePoint {
+        x: simd_from_u32s(&mut context, vec![pt2.x.0, pt3.x.0]),
+        y: simd_from_u32s(&mut context, vec![pt2.y.0, pt3.y.0]),
+    };
+    let res = sub_points_simd(&mut context, &first_points, &second_points);
+
+    let pt0_minus_pt2 = pt0 - pt2;
+    let pt1_minus_pt3 = pt1 - pt3;
+
+    assert_eq!(
+        packed_values(&context, &res.x),
+        vec![QM31(CM31(pt0_minus_pt2.x, pt1_minus_pt3.x), CM31::zero())]
+    );
+    assert_eq!(
+        packed_values(&context, &res.y),
+        vec![QM31(CM31(pt0_minus_pt2.y, pt1_minus_pt3.y), CM31::zero())]
     );
 
     context.validate_circuit();

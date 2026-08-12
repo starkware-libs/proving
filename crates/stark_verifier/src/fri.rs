@@ -11,8 +11,8 @@ use stwo::core::vcs_lifted::verifier::{LOG_PACKED_LEAF_SIZE, PACKED_LEAF_SIZE};
 
 use crate::channel::Channel;
 use crate::circle::{
-    add_points_simd, compute_half_coset_points, double_x_simd, minus_generator_point_simd,
-    repeated_double_point_simd,
+    compute_half_coset_points, double_x_simd, generator_point_simd, repeated_double_point_simd,
+    sub_points_simd,
 };
 use crate::fri_proof::{FriCommitProof, FriConfig, FriProof, FriWitness};
 use crate::merkle::{hash_leaf_qm31, hash_node, hash_packed_leaf_qm31s, verify_merkle_path};
@@ -369,9 +369,9 @@ fn translate_to_base_point<Value: IValue>(
 
     for (i, bit) in packed_bits.iter().enumerate() {
         // The group inverse of the generator of the subgroup of size 2^(i+1).
-        let minus_cur_gen_pt = minus_generator_point_simd(context, i + 1, n_queries);
+        let cur_gen_pt = generator_point_simd(context, i + 1, n_queries);
         // Select between `point` and `point - cur_gen_pt`.
-        let point_if_bit = add_points_simd(context, &base_point, &minus_cur_gen_pt);
+        let point_if_bit = sub_points_simd(context, &base_point, &cur_gen_pt);
         base_point = CirclePoint {
             x: Simd::select(context, bit, &base_point.x, &point_if_bit.x),
             y: Simd::select(context, bit, &base_point.y, &point_if_bit.y),
