@@ -1,9 +1,10 @@
-//! Describes the leaf verifier and multiverifier circuits of one *circuit family*.
+//! Builds the circuits a registry definition determines, and reports or records them.
 //!
-//! A circuit family is the set of verifier circuits one recursive proof tree folds together: a
-//! leaf (cairo-verifier) circuit per verified Cairo trace log size in a range, plus the
-//! multiverifier that verifies their proofs — all padded to a shared component-size target (the
-//! elementwise max over the family), so one circuit shape verifies proofs of any of them.
+//! A circuit registry specifies which circuits may appear in a recursive proof tree. Currently
+//! this utility generates a leaf (cairo-verifier) circuit per verified Cairo trace log size in the
+//! definition's range, plus the multiverifier that verifies their proofs — all padded to a shared
+//! component-size target (the elementwise max over them), so one circuit shape verifies proofs of
+//! any of them.
 //!
 //! The circuits, hence their identities, are functions of the verified Cairo proofs' prover params,
 //! the circuit proofs' prover params, and the verified program. The params are taken from files
@@ -13,13 +14,10 @@
 //! By default, writes a human-readable report: each component's padded log size and usage, per
 //! trace size for the leaf circuit and once (at the largest size) for the multiverifier.
 //!
-//! With `--registry`, instead writes the registry JSON: the params below, the shared target sizes
-//! and every circuit's hash — everything a proving binary of the family needs. Only this mode
+//! With `--registry`, instead writes the registry JSON: the params above, the shared target sizes
+//! and every circuit's hash — everything a binary proving these circuits needs. Only this mode
 //! commits the real Cairo preprocessed root per trace size (it is baked into the leaf circuit, so
 //! the hashes depend on it).
-//!
-//! The trace range is part of the family's identity: widening it grows the shared target, which
-//! changes every hash.
 
 use std::collections::BTreeMap;
 use std::path::PathBuf;
@@ -126,11 +124,12 @@ fn read_params<T: serde::de::DeserializeOwned>(path: &std::path::Path) -> T {
         .unwrap_or_else(|err| panic!("Cannot parse prover params from {}: {err}", path.display()))
 }
 
-/// Builds one family's circuits: everything their construction needs, so that a leaf verifier
-/// circuit is built from its verified Cairo proof's trace log size alone.
+/// Builds the circuits of one registry definition: holds the definition's inputs (program, prover
+/// params), so that a leaf verifier circuit can be specified and built from just the trace log
+/// size of the Cairo proof it verifies.
 struct CircuitBuilder {
     preprocessed_trace: PreProcessedTraceVariant,
-    /// The program every leaf proof of the family attests to.
+    /// The program every leaf proof of these circuits attests to.
     program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
     /// FRI config of the verified Cairo proofs.
     cairo_fri_config: FriConfig,
@@ -158,7 +157,7 @@ impl CircuitBuilder {
     }
 
     /// Builds the multiverifier over the *default-padded* leaf circuit for `trace_log_size` —
-    /// only for the sizes report; the registry pads the leaf to the family's target first (see
+    /// only for the sizes report; the registry pads the leaf to the shared target first (see
     /// [`shared_target_fixpoint`]).
     fn build_multiverifier_context_for_trace(
         &self,
@@ -195,7 +194,7 @@ fn padded_preprocessed_circuit(
     PreprocessedCircuit::preprocess_circuit(&mut context)
 }
 
-/// The family's shared target sizes, with the multiverifier padded to them.
+/// Shared target sizes for a set of circuits, with the multiverifier padded to them.
 ///
 /// The target and the multiverifier's sizes are a fixpoint of each other: the multiverifier
 /// verifies proofs of the TARGET-PADDED leaf circuit, and the target is the elementwise max over
@@ -244,8 +243,8 @@ fn run() -> Result<(), String> {
 
     let program = load_program(&args.program);
 
-    // The three inputs the family's circuits are built from, each read from the file the proving
-    // binaries run with.
+    // The three inputs the definition names, each read from the file the proving binaries run
+    // with.
     let cairo_params: ProverParameters = read_params(&args.cairo_prover_params_json);
     let circuit_fri_config: FriConfig = read_params(&args.circuit_fri_config_json);
     let cairo_log_blowup_factor = cairo_params.fri_config.log_blowup_factor;
@@ -292,10 +291,10 @@ fn run() -> Result<(), String> {
         let (target_sizes, preprocessed_multiverifier) =
             shared_target_fixpoint(leaves_max_sizes, circuit_fri_config);
 
-        // Homogeneity: padded to the shared target, every circuit of the family must have the
+        // Homogeneity: padded to the shared target, every circuit in the registry must have the
         // multiverifier's preprocessed-trace layout — the layout it verifies (each leaf is
         // asserted below).
-        let family_layout = preprocessed_layout(&preprocessed_multiverifier);
+        let shared_layout = preprocessed_layout(&preprocessed_multiverifier);
 
         // All circuits are padded to `target_sizes` and proven with
         // `circuit_log_blowup_factor`, so they share a single config.
@@ -310,8 +309,8 @@ fn run() -> Result<(), String> {
         let leaf_verifier = |trace_log_size: u32, padded_leaf: &PreprocessedCircuit| {
             assert_eq!(
                 preprocessed_layout(padded_leaf),
-                family_layout,
-                "the leaf circuit for trace log size {trace_log_size} does not have the family's \
+                shared_layout,
+                "the leaf circuit for trace log size {trace_log_size} does not have the shared \
                  preprocessed layout"
             );
             LeafVerifier {

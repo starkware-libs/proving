@@ -35,8 +35,8 @@ jobs:
           echo "$out"
           grep -q "matched no objects" <<< "$out" && echo "no marker to clear"
 
-  # Publishes the supported-circuits trust anchors: per circuit family, the `circuit_params
-  # --registry` JSON, at supported_circuits_registry/<commit>/<family>/registry.json.
+  # Publishes the supported-circuits trust anchors: one `circuit_params --registry` JSON per
+  # circuit registry, at supported_circuits_registry/<commit>/<name>/registry.json.
   supported-circuits-registry-push:
     needs: clear-published-marker
     runs-on: namespace-profile-starkware-libs-proving-dev-medium-ubuntu-24-04-amd64
@@ -57,7 +57,7 @@ jobs:
       - name: Build circuit-params
         run: cargo build --release -p circuit-params
 
-      # The circuit families (params/program files and trace ranges) are defined in the script.
+      # The registries (params/program files and trace ranges) are defined in the script.
       - name: Generate the supported circuits registries
         run: |
           python3 .github/scripts/generate_circuit_registries.py \

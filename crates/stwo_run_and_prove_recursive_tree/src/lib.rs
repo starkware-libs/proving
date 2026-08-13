@@ -89,8 +89,7 @@ pub struct RecursiveTreeStats {
 /// - `program_output`: the root node's output values (flat JSON array of raw `u32` digest words).
 /// - `packed_output_path`: the nested `PackedNode` JSON tree.
 ///
-/// - `registry`: the family's circuit registry, which MUST be the one the leaves were proven
-///   against.
+/// - `registry`: the circuit registry, which MUST be the one the leaves were proven against.
 pub fn stwo_run_and_prove_recursive_tree(
     leaves: Vec<LeafInput>,
     registry: &CircuitRegistry,

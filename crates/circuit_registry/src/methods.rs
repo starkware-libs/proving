@@ -1,8 +1,8 @@
 //! Registry queries.
 //!
-//! The proving binaries build their circuits from the registry: it holds the family's shared
+//! The proving binaries build their circuits from the registry: it holds the shared
 //! padding target and the circuit hash each built circuit must come out with. A missing entry is
-//! a hard error — the circuit is outside the family.
+//! a hard error — the circuit is not one the registry lists.
 
 use std::path::{Path, PathBuf};
 
@@ -56,8 +56,8 @@ impl CircuitRegistry {
         )
     }
 
-    /// The largest verified Cairo trace log size the family covers — the leaf circuit that bounds
-    /// the sizes of every other circuit of the family.
+    /// The largest verified Cairo trace log size the registry covers — the leaf circuit that bounds
+    /// the sizes of every other circuit it lists.
     pub fn max_leaf_trace_log_size(&self) -> Result<u32, RegistryError> {
         self.leaf_verifiers
             .iter()
@@ -66,8 +66,8 @@ impl CircuitRegistry {
             .ok_or(RegistryError::NoLeafVerifiers)
     }
 
-    /// The family's single multiverifier circuit — the shape every layer of a recursive tree above
-    /// the leaves is proven against.
+    /// The registry's single multiverifier circuit — the shape every layer of a recursive tree
+    /// above the leaves is proven against.
     pub fn multiverifier(&self) -> Result<&Multiverifier, RegistryError> {
         match self.multiverifiers.as_slice() {
             [multiverifier] => Ok(multiverifier),

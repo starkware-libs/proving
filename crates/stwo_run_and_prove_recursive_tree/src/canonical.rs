@@ -29,7 +29,7 @@ pub struct CanonicalCircuit {
     /// Config shared by all proofs being verified by the multiverifier. Its `proof_config` is also
     /// used to deserialize leaf / intermediate proofs from disk.
     pub shared_config: SharedConfig,
-    /// The family's padding target, applied to both the leaf and multiverifier circuits so one
+    /// The registry's padding target, applied to both the leaf and multiverifier circuits so one
     /// proof shape verifies every layer.
     pub target_sizes: ComponentSizes,
     /// Reused across all `prove_circuit_assignment` calls.
@@ -51,7 +51,7 @@ impl CanonicalCircuit {
 
         // 1. The shared config for verifying a child circuit proof — a proof the multiverifier
         //    verifies, a leaf proof at layer 1 and a multiverifier proof above: the layout every
-        //    circuit of the family has, derived from the shared target.
+        //    circuit in the registry has, derived from the shared target.
         let preprocessed_column_log_sizes = layout_from_component_sizes(&target_sizes);
         let trace_log_size =
             *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
@@ -59,7 +59,7 @@ impl CanonicalCircuit {
             PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_config, trace_log_size);
         let shared_config = shared_config(preprocessed_column_log_sizes, circuit_pcs_config);
 
-        // 2. The multiverifier circuit shape, padded to the family's target.
+        // 2. The multiverifier circuit shape, padded to the registry's target.
         let mut multiverifier_context =
             build_multiverifier_context_from_shared_config(&shared_config);
         pad_to_targets(&mut multiverifier_context, &target_sizes);

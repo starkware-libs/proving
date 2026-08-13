@@ -26,7 +26,7 @@ struct Args {
     program_input: Option<PathBuf>,
     #[clap(
         long = "circuit_registry_json",
-        help = "JSON file containing the circuit registry of the family this leaf belongs to. \
+        help = "JSON file containing the circuit registry this leaf's circuit belongs to. \
                 Supplies the prover params of both proofs, the padding target for the verifier \
                 circuit, and the hash that circuit must come out with."
     )]

@@ -1,4 +1,4 @@
-//! The JSON schema for the circuit registry: the prover params the family's proofs are produced
+//! The JSON schema for the circuit registry: the prover params its proofs are produced
 //! with, a map of proof configs, the leaf verifiers (one per trace size), and the multiverifiers,
 //! each identified by its circuit hash.
 
@@ -95,10 +95,11 @@ pub struct Multiverifier {
 /// sizes, so a single multiverifier is reported.
 ///
 /// The params are part of the registry because the circuits — hence every hash here — are functions
-/// of them, and so that a proving binary of this family needs no configuration beyond the registry.
+/// of them, and so that a proving binary of these circuits needs no configuration beyond the
+/// registry.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CircuitRegistry {
-    /// The prover params the family's verified Cairo proofs are produced with.
+    /// The prover params the verified Cairo proofs are produced with.
     pub cairo_prover_params: ProverParameters,
     pub circuit_proof_configs: BTreeMap<String, CircuitProofConfig>,
     pub leaf_verifiers: Vec<LeafVerifier>,

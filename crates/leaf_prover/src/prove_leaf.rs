@@ -60,7 +60,7 @@ pub fn prove_leaf_from_files(
 /// Proves `program`'s run, verifies that proof with the cairo-verifier circuit, and proves that
 /// circuit's execution.
 ///
-/// A Cairo proof whose trace size the family does not cover is rejected.
+/// A Cairo proof whose trace size the registry does not cover is rejected.
 pub fn prove_leaf(
     program: &Program,
     program_input: Option<ProgramInput>,
@@ -172,7 +172,7 @@ pub fn prove_leaf(
         output_hash,
     );
 
-    // Pad to the family's shared target, giving every circuit of the family one shape — what lets
+    // Pad to the registry's shared target, giving every circuit it lists one shape — what lets
     // a single multiverifier circuit verify any of them.
     pad_to_targets(&mut context, &circuit_proof_config.target_sizes());
 
@@ -218,8 +218,8 @@ pub fn prove_leaf(
     info!("Circuit preprocessed root: {:?}", circuit_preprocessed_root);
     info!("Circuit hash: {:?}", circuit_hash);
 
-    // The proven circuit must be the one the registry describes; no verifier of the family trusts
-    // an unrecognized circuit.
+    // The proven circuit must be the one the registry describes; no verifier of these circuits
+    // trusts an unrecognized circuit.
     assert_eq!(
         circuit_hash, registry_entry.circuit_hash,
         "The proven circuit's hash differs from the registry's leaf verifier for trace log size \

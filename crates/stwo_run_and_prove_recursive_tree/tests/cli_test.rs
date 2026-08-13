@@ -6,7 +6,7 @@
 use std::path::PathBuf;
 use std::process::Command;
 
-/// The committed circuit registry of the canonical-small family.
+/// The committed canonical_small circuit registry.
 fn circuit_registry_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
 }

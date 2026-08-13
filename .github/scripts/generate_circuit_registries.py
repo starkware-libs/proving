@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 """
-Generates each circuit family's supported-circuits registry (the `circuit_params --registry`
-JSON), at `<output dir>/<family>/registry.json`.
+Generates each supported-circuits registry (the `circuit_params --registry` JSON), at
+`<output dir>/<name>/registry.json`.
 """
 
 import argparse
 import subprocess
 from pathlib import Path
 
-# Each family names the files the proving binaries run with, and its (inclusive) range of verified
-# Cairo trace log sizes:
+# Each registry definition names the files the proving binaries run with, and the (inclusive)
+# range of verified Cairo trace log sizes its registry covers:
 # - `min_trace_log_size` is bounded below by the preprocessed-trace variant's sequence-column log
 #   height (20 for canonical_small, 25 for canonical).
-# - Changing the range changes every circuit hash (all of a family's circuits are padded to the
+# - Changing the range changes every circuit hash (all of a registry's circuits are padded to the
 #   elementwise max over it), so it requires regenerating the recursive tree's goldens and the
 #   committed registry. Widening also costs proving every leaf at the largest member's shape.
 # TODO(yairv): add the production configs here.
-FAMILIES = [
+REGISTRY_DEFINITIONS = [
     {
         "name": "canonical_small",
         "cairo_prover_params_json": (
@@ -45,29 +45,29 @@ def main():
     parser.add_argument(
         "--output-dir",
         required=True,
-        help="Directory to write the registries under, one <family>/registry.json each.",
+        help="Directory to write the registries under, one <name>/registry.json each.",
     )
     args = parser.parse_args()
 
-    for family in FAMILIES:
-        family_dir = Path(args.output_dir) / family["name"]
-        family_dir.mkdir(parents=True, exist_ok=True)
+    for definition in REGISTRY_DEFINITIONS:
+        registry_dir = Path(args.output_dir) / definition["name"]
+        registry_dir.mkdir(parents=True, exist_ok=True)
         subprocess.run(
             [
                 args.circuit_params_binary,
                 "--registry",
                 "--cairo-prover-params-json",
-                family["cairo_prover_params_json"],
+                definition["cairo_prover_params_json"],
                 "--circuit-fri-config-json",
-                family["circuit_fri_config_json"],
+                definition["circuit_fri_config_json"],
                 "--program",
-                family["program"],
+                definition["program"],
                 "--min-trace-log-size",
-                str(family["min_trace_log_size"]),
+                str(definition["min_trace_log_size"]),
                 "--max-trace-log-size",
-                str(family["max_trace_log_size"]),
+                str(definition["max_trace_log_size"]),
                 "--output-path",
-                str(family_dir / "registry.json"),
+                str(registry_dir / "registry.json"),
             ],
             check=True,
         )

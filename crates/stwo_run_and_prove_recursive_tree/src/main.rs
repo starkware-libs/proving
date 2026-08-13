@@ -40,8 +40,8 @@ struct Args {
     #[clap(long = "packed_output_path")]
     packed_output_path: PathBuf,
 
-    /// The circuit registry of the family being folded — the same file the leaf prover ran with.
-    /// Supplies the circuit proofs' prover params, the family's padding target and the
+    /// The circuit registry of the circuits being folded — the same file the leaf prover ran with.
+    /// Supplies the circuit proofs' prover params, the registry's padding target and the
     /// multiverifier hash the canonical circuit is checked against.
     #[clap(long = "circuit_registry_json")]
     circuit_registry_json: PathBuf,
