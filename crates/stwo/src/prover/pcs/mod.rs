@@ -1,3 +1,5 @@
+use std::array;
+
 use hashbrown::HashMap;
 use itertools::Itertools;
 #[cfg(feature = "parallel")]
@@ -19,13 +21,14 @@ use crate::core::utils::MaybeOwned;
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use crate::core::vcs_lifted::verifier::ExtendedMerkleDecommitmentLifted;
 use crate::prover::air::component_prover::{Poly, Trace, WeightsHashMap};
-use crate::prover::backend::{BackendForChannel, Col};
+use crate::prover::backend::BackendForChannel;
 use crate::prover::fri::{FriDecommitResult, FriProver};
 use crate::prover::mempool::BaseColumnPool;
 use crate::prover::pcs::quotient_ops::compute_fri_quotients;
 use crate::prover::poly::BitReversedOrder;
 use crate::prover::poly::circle::{CircleCoefficients, CircleEvaluation};
 use crate::prover::poly::twiddles::TwiddleTree;
+use crate::prover::secure_column::SecureColumnByCoords;
 use crate::prover::vcs_lifted::prover::MerkleProverLifted;
 
 pub mod quotient_ops;
@@ -122,22 +125,26 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         Trace { polys }
     }
 
+    /// Computes the barycentric weights for every (column size, sampled point) pair, on buffers
+    /// taken from [`Self::base_column_pool`]. The buffers are returned to the pool by
+    /// [`Self::compute_samples()`].
     pub fn build_weights_hash_map(
         &self,
         sampled_points: &TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>>,
         max_log_size: u32,
-    ) -> WeightsHashMap<B>
-    where
-        Col<B, SecureField>: Send + Sync,
-    {
+    ) -> WeightsHashMap<B> {
         let weights_dashmap = WeightsHashMap::<B>::new();
 
         self.polynomials().zip_cols(sampled_points).map_cols(|(poly, points)| {
             let compute_weights = |(log_size, point): (u32, CirclePoint<SecureField>)| {
                 weights_dashmap.entry((log_size, point)).or_insert_with(|| {
-                    CircleEvaluation::<B, BaseField, BitReversedOrder>::barycentric_weights(
+                    let buffer = SecureColumnByCoords {
+                        columns: array::from_fn(|_| self.base_column_pool.take_or_alloc(log_size)),
+                    };
+                    CircleEvaluation::<B, BaseField, BitReversedOrder>::barycentric_weights_into(
                         CanonicCoset::new(log_size),
                         point,
+                        buffer,
                     )
                 });
             };
@@ -162,21 +169,20 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         weights_dashmap
     }
 
-    pub fn prove_values(
-        mut self,
-        sampled_points: TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>>,
-        channel: &mut MC::C,
-    ) -> ExtendedCommitmentSchemeProof<MC::H> {
-        // Evaluate polynomials on open points.
-        let span =
+    /// Evaluates the committed polynomials on the sampled points.
+    fn compute_samples(
+        &self,
+        sampled_points: &TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>>,
+        lifting_log_size: u32,
+    ) -> TreeVec<Vec<Vec<PointSample>>> {
+        let _span =
             span!(Level::INFO, "Evaluate columns out of domain", class = "EvaluateOutOfDomain")
                 .entered();
 
-        let lifting_log_size = self.trees.last().unwrap().commitment.layers.len() as u32 - 1;
         let weights_hash_map = if self.store_polynomials_coefficients {
             None
         } else {
-            Some(self.build_weights_hash_map(&sampled_points, lifting_log_size))
+            Some(self.build_weights_hash_map(sampled_points, lifting_log_size))
         };
 
         // Lambda that evaluates a polynomial on a collection of circle points and returns a vector
@@ -195,13 +201,32 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         };
 
         #[cfg(not(feature = "parallel"))]
-        let samples: TreeVec<Vec<Vec<PointSample>>> =
-            self.polynomials().zip_cols(&sampled_points).map_cols(eval_at_points);
+        let samples = self.polynomials().zip_cols(sampled_points).map_cols(eval_at_points);
         #[cfg(feature = "parallel")]
-        let samples: TreeVec<Vec<Vec<PointSample>>> =
-            self.polynomials().zip_cols(&sampled_points).par_map_cols(eval_at_points);
+        let samples = self.polynomials().zip_cols(sampled_points).par_map_cols(eval_at_points);
 
-        span.exit();
+        // Return the weights buffers to the memory pool for reuse.
+        if let Some(weights_hash_map) = weights_hash_map {
+            for ((log_size, _), weights) in weights_hash_map {
+                for column in weights.columns {
+                    self.base_column_pool.give_back(log_size, column);
+                }
+            }
+        }
+
+        samples
+    }
+
+    pub fn prove_values(
+        mut self,
+        sampled_points: TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>>,
+        channel: &mut MC::C,
+    ) -> ExtendedCommitmentSchemeProof<MC::H> {
+        let lifting_log_size = self.trees.last().unwrap().commitment.layers.len() as u32 - 1;
+
+        // Evaluate polynomials on open points.
+        let samples = self.compute_samples(&sampled_points, lifting_log_size);
+
         let sampled_values =
             samples.as_cols_ref().map_cols(|x| x.iter().map(|o| o.value).collect());
         channel.mix_felts(&sampled_values.clone().flatten_cols());

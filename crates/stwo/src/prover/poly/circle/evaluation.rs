@@ -13,6 +13,7 @@ use crate::prover::backend::simd::SimdBackend;
 use crate::prover::backend::{Col, Column, ColumnOps, CpuBackend};
 use crate::prover::poly::twiddles::TwiddleTree;
 use crate::prover::poly::{BitReversedOrder, NaturalOrder};
+use crate::prover::secure_column::SecureColumnByCoords;
 
 /// An evaluation defined on a [CircleDomain].
 /// The values are ordered according to the [CircleDomain] ordering.
@@ -74,13 +75,23 @@ impl<B: PolyOps + ColumnOps<SecureField>> CircleEvaluation<B, BaseField, BitReve
     pub fn barycentric_weights(
         coset: CanonicCoset,
         p: CirclePoint<SecureField>,
-    ) -> Col<B, SecureField> {
+    ) -> SecureColumnByCoords<B> {
         B::barycentric_weights(coset, p)
+    }
+
+    /// Same as [`Self::barycentric_weights()`], writing the weights into `buffer` instead of
+    /// allocating. The buffer's columns must have size `coset.size()`.
+    pub fn barycentric_weights_into(
+        coset: CanonicCoset,
+        p: CirclePoint<SecureField>,
+        buffer: SecureColumnByCoords<B>,
+    ) -> SecureColumnByCoords<B> {
+        B::barycentric_weights_into(coset, p, buffer)
     }
 
     /// Evaluation = Σ W_i * Poly(i) for all i in the evaluation domain.
     /// For more information on barycentric weights calculation see [`barycentric_weights`].
-    pub fn barycentric_eval_at_point(&self, weights: &Col<B, SecureField>) -> SecureField {
+    pub fn barycentric_eval_at_point(&self, weights: &SecureColumnByCoords<B>) -> SecureField {
         B::barycentric_eval_at_point(self, weights)
     }
 

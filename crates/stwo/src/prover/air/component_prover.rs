@@ -9,13 +9,14 @@ use crate::core::pcs::TreeVec;
 use crate::core::poly::circle::CircleDomain;
 use crate::prover::CirclePoint;
 use crate::prover::air::accumulation::{DomainEvaluationAccumulator, EvaluationMode};
-use crate::prover::backend::{Backend, Col};
+use crate::prover::backend::Backend;
 use crate::prover::poly::BitReversedOrder;
 use crate::prover::poly::circle::{CircleCoefficients, CircleEvaluation, SecureCirclePoly};
 use crate::prover::poly::twiddles::TwiddleTree;
+use crate::prover::secure_column::SecureColumnByCoords;
 
 /// Type alias for the weights hash map used in barycentric eval_at_point.
-pub type WeightsHashMap<B> = DashMap<(u32, CirclePoint<SecureField>), Col<B, SecureField>>;
+pub type WeightsHashMap<B> = DashMap<(u32, CirclePoint<SecureField>), SecureColumnByCoords<B>>;
 
 pub trait ComponentProver<B: Backend>: Component {
     /// Evaluates the constraint quotients of the component on the evaluation domain.

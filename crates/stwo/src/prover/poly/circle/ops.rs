@@ -12,6 +12,7 @@ use crate::prover::backend::{Col, ColumnOps};
 use crate::prover::mempool::BaseColumnPool;
 use crate::prover::poly::BitReversedOrder;
 use crate::prover::poly::twiddles::{TwiddleBuffer, TwiddleTree};
+use crate::prover::secure_column::SecureColumnByCoords;
 
 /// Operations on BaseField polynomials.
 pub trait PolyOps: ColumnOps<BaseField> + ColumnOps<SecureField> + Sized {
@@ -45,13 +46,27 @@ pub trait PolyOps: ColumnOps<BaseField> + ColumnOps<SecureField> + Sized {
         point: CirclePoint<SecureField>,
     ) -> SecureField;
 
-    /// Computes the weights for Barycentric Lagrange interpolation for point `p` on `coset`.
+    /// Computes the weights for Barycentric Lagrange interpolation for point `p` on `coset`,
+    /// writing them into the provided buffer instead of allocating a new one. The buffer's columns
+    /// must have size `coset.size()`, and are fully overwritten.
     /// `p` must not be in the domain.
+    /// Used by the [`CircleEvaluation::barycentric_weights_into()`] function.
+    fn barycentric_weights_into(
+        coset: CanonicCoset,
+        p: CirclePoint<SecureField>,
+        buffer: SecureColumnByCoords<Self>,
+    ) -> SecureColumnByCoords<Self>;
+
+    /// Same as [`Self::barycentric_weights_into()`], allocating the weights column.
     /// Used by the [`CircleEvaluation::barycentric_weights()`] function.
     fn barycentric_weights(
         coset: CanonicCoset,
         p: CirclePoint<SecureField>,
-    ) -> Col<Self, SecureField>;
+    ) -> SecureColumnByCoords<Self> {
+        // Safety: `barycentric_weights_into()` overwrites every element of the buffer.
+        let buffer = unsafe { SecureColumnByCoords::<Self>::uninitialized(coset.size()) };
+        Self::barycentric_weights_into(coset, p, buffer)
+    }
 
     /// Evaluates a polynomial at a point using the barycentric interpolation formula,
     /// given its evaluations on a circle domain and precomputed barycentric weights for the domain
@@ -59,7 +74,7 @@ pub trait PolyOps: ColumnOps<BaseField> + ColumnOps<SecureField> + Sized {
     /// Used by the [`CircleEvaluation::barycentric_eval_at_point()`] function.
     fn barycentric_eval_at_point(
         evals: &CircleEvaluation<Self, BaseField, BitReversedOrder>,
-        weights: &Col<Self, SecureField>,
+        weights: &SecureColumnByCoords<Self>,
     ) -> SecureField;
 
     /// Evaluates a polynomial, represented by it's evaluations, at a point using folding.

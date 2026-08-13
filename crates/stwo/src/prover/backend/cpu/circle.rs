@@ -97,11 +97,13 @@ impl PolyOps for CpuBackend {
         fold(&poly.coeffs, &mappings)
     }
 
-    fn barycentric_weights(
+    fn barycentric_weights_into(
         coset: CanonicCoset,
         p: CirclePoint<SecureField>,
-    ) -> Col<CpuBackend, SecureField> {
+        mut buffer: SecureColumnByCoords<CpuBackend>,
+    ) -> SecureColumnByCoords<CpuBackend> {
         let domain = coset.circle_domain();
+        assert_eq!(buffer.len(), domain.size());
 
         let (si_i, vi_p): (Vec<_>, Vec<_>) = (0..domain.size())
             .map(|i| {
@@ -122,15 +124,19 @@ impl PolyOps for CpuBackend {
         let vn_p: SecureField =
             coset_vanishing(CanonicCoset::new(domain.log_size()).coset, p.into_ef::<SecureField>());
 
-        (0..domain.size()).map(|i| vn_p / (si_i[i] * vi_p[i])).collect_vec()
+        for i in 0..domain.size() {
+            buffer.set(i, vn_p / (si_i[i] * vi_p[i]));
+        }
+
+        buffer
     }
 
     fn barycentric_eval_at_point(
         evals: &CircleEvaluation<CpuBackend, BaseField, BitReversedOrder>,
-        weights: &Col<CpuBackend, SecureField>,
+        weights: &SecureColumnByCoords<CpuBackend>,
     ) -> SecureField {
         (0..evals.domain.size())
-            .fold(SecureField::zero(), |acc, i| acc + (evals.values[i] * weights[i]))
+            .fold(SecureField::zero(), |acc, i| acc + (weights.at(i) * evals.values[i]))
     }
 
     fn eval_at_point_by_folding(

@@ -32,6 +32,7 @@ use crate::prover::fri::FriOps;
 use crate::prover::poly::BitReversedOrder;
 use crate::prover::poly::circle::{CircleCoefficients, CircleEvaluation, PolyOps};
 use crate::prover::poly::twiddles::TwiddleTree;
+use crate::prover::secure_column::SecureColumnByCoords;
 
 impl SimdBackend {
     // TODO(Ohad): optimize.
@@ -228,21 +229,27 @@ impl PolyOps for SimdBackend {
         (sum * twiddle_lows).pointwise_sum()
     }
 
-    fn barycentric_weights(
+    fn barycentric_weights_into(
         coset: CanonicCoset,
         p: CirclePoint<SecureField>,
-    ) -> Col<SimdBackend, SecureField> {
+        mut buffer: SecureColumnByCoords<SimdBackend>,
+    ) -> SecureColumnByCoords<SimdBackend> {
         let domain = coset.circle_domain();
         let log_size = domain.log_size();
+        assert_eq!(buffer.len(), domain.size());
         let weights_vec_len = domain.size().div_ceil(N_LANES);
         if weights_vec_len == 1 {
-            return Col::<SimdBackend, SecureField>::from_iter(CircleEvaluation::<
-                CpuBackend,
-                BaseField,
-                BitReversedOrder,
-            >::barycentric_weights(
-                coset, p
-            ));
+            // The domain fits in a single packed element, whose unused lanes are zeroed.
+            let weights =
+                CircleEvaluation::<CpuBackend, BaseField, BitReversedOrder>::barycentric_weights(
+                    coset, p,
+                )
+                .to_vec();
+            let mut lanes = [SecureField::zero(); N_LANES];
+            lanes[..weights.len()].copy_from_slice(&weights);
+            // Safety: the buffer holds exactly one packed element.
+            unsafe { buffer.set_packed(0, PackedSecureField::from_array(lanes)) };
+            return buffer;
         }
 
         let p = p.into_ef::<SecureField>();
@@ -297,31 +304,47 @@ impl PolyOps for SimdBackend {
         }));
 
         #[cfg(not(feature = "parallel"))]
-        let weights = (0..weights_vec_len).map(|i| vi_p_inverse[i] * si_i_vn_p).collect_vec();
+        for (i, vi_p_inverse) in vi_p_inverse.iter().enumerate() {
+            // Safety: the buffer holds `weights_vec_len` packed elements.
+            unsafe { buffer.set_packed(i, *vi_p_inverse * si_i_vn_p) };
+        }
 
         #[cfg(feature = "parallel")]
-        let weights: Vec<PackedSecureField> =
-            (0..weights_vec_len).into_par_iter().map(|i| vi_p_inverse[i] * si_i_vn_p).collect();
+        {
+            const CHUNK_SIZE: usize = 1 << 10;
+            buffer.par_chunks_mut(CHUNK_SIZE).zip(vi_p_inverse.par_chunks(CHUNK_SIZE)).for_each(
+                |(mut chunk, vi_p_inverse_chunk)| {
+                    for (i, vi_p_inverse) in vi_p_inverse_chunk.iter().enumerate() {
+                        // Safety: the chunks are of equal length.
+                        unsafe { chunk.set_packed(i, *vi_p_inverse * si_i_vn_p) };
+                    }
+                },
+            );
+        }
 
-        Col::<Self, SecureField> { data: weights, length: domain.size() }
+        buffer
     }
 
     fn barycentric_eval_at_point(
         evals: &CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>,
-        weights: &Col<SimdBackend, SecureField>,
+        weights: &SecureColumnByCoords<SimdBackend>,
     ) -> SecureField {
+        // The weights are held by coordinates, so the product with a base field value is the
+        // coordinate-wise product, and the sum is accumulated coordinate-wise as well.
+        let weight_at = |i: usize| {
+            PackedSecureField::from_packed_m31s(std::array::from_fn(|j| weights.columns[j].data[i]))
+        };
+
         #[cfg(not(feature = "parallel"))]
         return (0..evals.domain.size().div_ceil(N_LANES))
-            .fold(PackedSecureField::zero(), |acc, i| {
-                acc + (weights.data[i] * evals.values.data[i])
-            })
+            .fold(PackedSecureField::zero(), |acc, i| acc + (weight_at(i) * evals.values.data[i]))
             .pointwise_sum();
 
         #[cfg(feature = "parallel")]
         return (0..evals.domain.size().div_ceil(N_LANES))
             .into_par_iter()
             .fold(PackedSecureField::zero, |acc: PackedSecureField, i: usize| {
-                acc + (weights.data[i] * evals.values.data[i])
+                acc + (weight_at(i) * evals.values.data[i])
             })
             .sum::<PackedSecureField>()
             .to_array()
@@ -837,7 +860,28 @@ mod tests {
             .collect_vec();
 
         cpu_weights.iter().zip(simd_weights.iter()).for_each(|(cpu_weights, simd_weights)| {
-            assert_eq!(*cpu_weights, simd_weights.to_cpu());
+            assert_eq!(cpu_weights.to_vec(), simd_weights.to_vec());
         });
+    }
+
+    #[test]
+    fn test_simd_barycentric_weights_small_domain() {
+        // Domains of at most `N_LANES` elements take a dedicated path, that pads the unused lanes
+        // of the single packed element.
+        for log_size in 1..=LOG_N_LANES {
+            let s = CanonicCoset::new(log_size);
+            let point = CirclePoint::get_point(9736524);
+
+            let cpu_weights =
+                CircleEvaluation::<CpuBackend, BaseField, BitReversedOrder>::barycentric_weights(
+                    s, point,
+                );
+            let simd_weights =
+                CircleEvaluation::<SimdBackend, BaseField, BitReversedOrder>::barycentric_weights(
+                    s, point,
+                );
+
+            assert_eq!(cpu_weights.to_vec(), simd_weights.to_vec(), "log_size = {log_size}");
+        }
     }
 }
