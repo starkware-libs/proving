@@ -132,7 +132,7 @@ pub mod builtin_tests {
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_size_policy: LiftingSizePolicy::Auto,
+            lifting_size_policy: LiftingSizePolicy::AtLeastPreprocessed,
         };
         let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
 

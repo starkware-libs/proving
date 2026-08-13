@@ -129,7 +129,6 @@ where
 
     // Calculate max trace and preprocessed trace log size.
     let cairo_air_log_degree_bound = 1;
-    // The code currently assumes that the constraint degree is less than the blowup.
     assert!(cairo_air_log_degree_bound <= fri_config.log_blowup_factor);
     let trace_domain_log_size =
         claim.log_sizes().iter().flatten().copied().max().unwrap() + fri_config.log_blowup_factor;
@@ -145,11 +144,6 @@ where
             min_lifting_log_size: trace_domain_log_size,
         }));
     }
-    // The verifier auto-raises each tree's height to `max(lifting_log_size, max_column_log_size)`
-    // (see `MerkleVerifierLifted::new`); the prover must match. When `lifting_log_size` is smaller
-    // than the preprocessed trace's max column extended domain (e.g. under `Auto` on a small
-    // program with the `Canonical` preprocessed trace), both twiddles and the preprocessed tree
-    // must be sized to that larger domain instead.
     let preprocessed_lifting_log_size = lifting_log_size.max(preprocessed_trace_domain_log_size);
     let span = span!(Level::INFO, "Precompute Twiddles").entered();
     let twiddles = SimdBackend::precompute_twiddles(
