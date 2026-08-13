@@ -37,7 +37,7 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
 use stwo_cairo_common::preprocessed_columns::simd_prelude::CircleEvaluation;
 // TODO(yairv): drop this re-export of the params' historical home and have users import them
 // from `stwo_cairo_common::prover_params` directly.
-pub use stwo_cairo_common::prover_params::{ChannelHash, ProverParameters};
+pub use stwo_cairo_common::prover_params::{ChannelHash, LiftingSizePolicy, ProverParameters};
 use stwo_cairo_serialize::CairoSerialize;
 use tracing::{Level, event, span};
 
@@ -110,8 +110,7 @@ where
         store_polynomials_coefficients,
         include_all_preprocessed_columns: _,
         opt_n_id_to_big_components,
-        mut lifting_log_size,
-        raise_min_lifting_to_max_column,
+        lifting_size_policy,
     } = prover_params;
 
     let span = span!(Level::INFO, "Write Preprocessed trace").entered();
@@ -128,35 +127,33 @@ where
         cairo_claim_generator.write_trace(opt_n_id_to_big_components);
     span.exit();
 
-    // The maximal log trace size (without blowup factor) is the maximum over preprocessed trace
-    // column log sizes and the components log sizes.
-    let max_log_trace_size = claim
-        .log_sizes()
-        .iter()
-        .flatten()
-        .fold(preprocessed_trace_variant.max_log_trace_size(), |max, &size| max.max(size));
-
+    // Calculate max trace and preprocessed trace log size.
     let cairo_air_log_degree_bound = 1;
-    // The maximal committed column log size over all trees (including the preprocessed tree).
-    let mut max_domain_log_size = max_log_trace_size
-        + std::cmp::max(cairo_air_log_degree_bound, fri_config.log_blowup_factor);
+    // The code currently assumes that the constraint degree is less than the blowup.
+    assert!(cairo_air_log_degree_bound <= fri_config.log_blowup_factor);
+    let trace_domain_log_size =
+        claim.log_sizes().iter().flatten().copied().max().unwrap() + fri_config.log_blowup_factor;
+    let preprocessed_trace_domain_log_size =
+        preprocessed_trace_variant.max_log_trace_size() + fri_config.log_blowup_factor;
 
-    if raise_min_lifting_to_max_column {
-        // Pin the lifting size: raise `lifting_log_size` to the maximal column log size, so
-        // that the updated config lifts all trees to the same height.
-        lifting_log_size = lifting_log_size.max(max_domain_log_size);
-    }
+    let lifting_log_size = lifting_size_policy
+        .resolve(Some(trace_domain_log_size), Some(preprocessed_trace_domain_log_size));
 
-    if lifting_log_size > 0 && lifting_log_size < max_domain_log_size {
+    if lifting_log_size < trace_domain_log_size {
         return Err(ProvingError::InvalidLiftingLogSize(InvalidLiftingLogSizeError {
             lifting_log_size,
-            preprocessed_log_size: max_domain_log_size,
+            min_lifting_log_size: trace_domain_log_size,
         }));
     }
-    max_domain_log_size = max_domain_log_size.max(lifting_log_size);
+    // The verifier auto-raises each tree's height to `max(lifting_log_size, max_column_log_size)`
+    // (see `MerkleVerifierLifted::new`); the prover must match. When `lifting_log_size` is smaller
+    // than the preprocessed trace's max column extended domain (e.g. under `Auto` on a small
+    // program with the `Canonical` preprocessed trace), both twiddles and the preprocessed tree
+    // must be sized to that larger domain instead.
+    let preprocessed_lifting_log_size = lifting_log_size.max(preprocessed_trace_domain_log_size);
     let span = span!(Level::INFO, "Precompute Twiddles").entered();
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::try_new(max_domain_log_size)?.circle_domain().half_coset,
+        CanonicCoset::try_new(preprocessed_lifting_log_size)?.circle_domain().half_coset,
     );
     span.exit();
 
@@ -170,7 +167,7 @@ where
         fri_config.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
-        lifting_log_size,
+        preprocessed_lifting_log_size,
         &base_column_pool,
     ));
     span.exit();
@@ -183,7 +180,8 @@ where
         trace_evals,
         claim,
         interaction_generator,
-        ProverParameters { lifting_log_size, ..prover_params },
+        prover_params,
+        lifting_log_size,
     )
 }
 
@@ -203,9 +201,10 @@ where
     // The preprocessed tree and twiddles are already computed, so the lifting size can no longer
     // be adjusted to the trace.
     assert!(
-        !prover_params.raise_min_lifting_to_max_column,
-        "raise_min_lifting_to_max_column is not supported with a precomputed preprocessed tree"
+        matches!(prover_params.lifting_size_policy, LiftingSizePolicy::Fixed(_)),
+        "Only LiftingSizePolicy::Fixed is supported with a precomputed preprocessed tree"
     );
+    let lifting_log_size = prover_params.lifting_size_policy.resolve(None, None);
 
     // Run Cairo.
     let cairo_claim_generator = create_cairo_claim_generator(input, preprocessed_trace.clone());
@@ -224,6 +223,7 @@ where
         claim,
         interaction_generator,
         prover_params,
+        lifting_log_size,
     )
 }
 
@@ -236,6 +236,7 @@ fn prove_cairo_common<'a, MC: MerkleChannel>(
     claim: CairoClaim,
     interaction_generator: CairoInteractionClaimGenerator,
     prover_params: ProverParameters,
+    lifting_log_size: u32,
 ) -> Result<CairoProof<MC::H>, ProvingError>
 where
     SimdBackend: BackendForChannel<MC>,
@@ -248,8 +249,7 @@ where
         store_polynomials_coefficients,
         include_all_preprocessed_columns,
         opt_n_id_to_big_components: _,
-        lifting_log_size,
-        raise_min_lifting_to_max_column: _,
+        lifting_size_policy: _,
     } = prover_params;
 
     // Setup protocol.
@@ -383,8 +383,7 @@ pub fn create_and_serialize_proof(
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_log_size: 0,
-            raise_min_lifting_to_max_column: false,
+            lifting_size_policy: LiftingSizePolicy::Auto,
         }
     };
 
@@ -471,7 +470,10 @@ pub mod tests {
             );
         }
     }
-    use crate::prover::{ChannelHash, PreProcessedTraceVariant, ProverParameters, prove_cairo};
+
+    use crate::prover::{
+        ChannelHash, LiftingSizePolicy, PreProcessedTraceVariant, ProverParameters, prove_cairo,
+    };
 
     #[test]
     fn test_all_cairo_constraints_small_ppt() {
@@ -529,8 +531,7 @@ pub mod tests {
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_log_size: 0,
-            raise_min_lifting_to_max_column: false,
+            lifting_size_policy: LiftingSizePolicy::Auto,
         };
         let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
         verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();
@@ -552,7 +553,7 @@ pub mod tests {
         use test_log::test;
 
         use super::*;
-        use crate::prover::{ChannelHash, ProverParameters, prove_cairo};
+        use crate::prover::{ChannelHash, LiftingSizePolicy, ProverParameters, prove_cairo};
 
         #[test]
         fn test_poseidon_e2e_prove_cairo_verify_ret_opcode_components() {
@@ -572,8 +573,7 @@ pub mod tests {
                 store_polynomials_coefficients: false,
                 include_all_preprocessed_columns: false,
                 opt_n_id_to_big_components: None,
-                lifting_log_size: 0,
-                raise_min_lifting_to_max_column: false,
+                lifting_size_policy: LiftingSizePolicy::Auto,
             };
             let cairo_proof =
                 prove_cairo::<Poseidon252MerkleChannel>(input, prover_params).unwrap();

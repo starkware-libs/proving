@@ -42,11 +42,14 @@ fn test_serialize_deserialize_cairo_proof() {
     let mut ctx = build_minimal_context().finalize(false);
     ctx.validate_circuit();
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut ctx);
+    let mut pcs_config = PcsConfig::default();
+    pcs_config.lifting_log_size =
+        preprocessed_circuit.trace_log_size + pcs_config.fri_config.log_blowup_factor;
     let circuit_proof = prove_circuit_assignment(
         ctx.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        PcsConfig::default(),
+        pcs_config,
     )
     .unwrap();
 

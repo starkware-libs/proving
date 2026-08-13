@@ -44,7 +44,7 @@ where
         log_blowup_factor,
         &twiddles,
         false,
-        lifting_log_size,
+        max_log_size,
         &BaseColumnPool::new(),
     );
 

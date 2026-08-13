@@ -351,9 +351,6 @@ impl<B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentTreeProver<B, MC> {
         span.exit();
 
         let _span = span!(Level::INFO, "Merkle").entered();
-        let max_log_domain_size =
-            polynomials.iter().map(|poly| poly.evals.domain.log_size()).max().unwrap_or_default();
-        let lifting_log_size = lifting_log_size.max(max_log_domain_size);
         let tree = MerkleProverLifted::commit(
             polynomials.iter().map(|poly: &Poly<B>| &poly.evals.values).collect(),
             lifting_log_size,

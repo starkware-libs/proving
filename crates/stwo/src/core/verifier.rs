@@ -49,7 +49,7 @@ pub fn verify_ex<MC: MerkleChannel>(
         if lifting_log_size < preprocessed_log_size {
             Err(crate::core::pcs::utils::InvalidLiftingLogSizeError {
                 lifting_log_size,
-                preprocessed_log_size,
+                min_lifting_log_size: preprocessed_log_size,
             })?;
         }
     }

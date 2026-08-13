@@ -2,7 +2,7 @@ use cairo_vm::cairo_run::CairoRunConfig;
 use cairo_vm::types::layout_name::LayoutName;
 use privacy_circuit_verify::consts::CAIRO_PCS_CONFIG;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
-use stwo_cairo_prover::prover::{ChannelHash, ProverParameters};
+use stwo_cairo_prover::prover::{ChannelHash, LiftingSizePolicy, ProverParameters};
 
 pub const CAIRO_RUN_CONFIG: CairoRunConfig<'_> = CairoRunConfig {
     trace_enabled: true,
@@ -26,8 +26,7 @@ pub const CAIRO_PROVER_PARAMS: ProverParameters = ProverParameters {
     store_polynomials_coefficients: true,
     include_all_preprocessed_columns: true,
     opt_n_id_to_big_components: Some(1),
-    lifting_log_size: CAIRO_PCS_CONFIG.lifting_log_size,
-    raise_min_lifting_to_max_column: false,
+    lifting_size_policy: LiftingSizePolicy::Fixed(CAIRO_PCS_CONFIG.lifting_log_size),
 };
 
 pub const CIRCUIT_STORE_POLYNOMIALS_COEFFICIENTS: bool = true;

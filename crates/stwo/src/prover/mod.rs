@@ -87,7 +87,10 @@ pub fn prove_ex<B: BackendForChannel<MC>, MC: MerkleChannel>(
         let preprocessed_log_size =
             commitment_scheme.trees[PREPROCESSED_TRACE_IDX].commitment.layers.len() as u32 - 1;
         if lifting_log_size < preprocessed_log_size {
-            Err(InvalidLiftingLogSizeError { lifting_log_size, preprocessed_log_size })?;
+            Err(InvalidLiftingLogSizeError {
+                lifting_log_size,
+                min_lifting_log_size: preprocessed_log_size,
+            })?;
         }
     }
     let max_log_degree_bound =

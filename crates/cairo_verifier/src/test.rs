@@ -26,7 +26,7 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
 };
 use stwo_cairo_dev_utils::utils::get_compiled_cairo_program_path;
 use stwo_cairo_dev_utils::vm_utils::{ProgramType, run_and_adapt};
-use stwo_cairo_prover::prover::{ChannelHash, ProverParameters, prove_cairo};
+use stwo_cairo_prover::prover::{ChannelHash, LiftingSizePolicy, ProverParameters, prove_cairo};
 
 use crate::all_components::all_components;
 use crate::statement::{AUX_DATA_FIXED_LEN, CairoStatement, MEMORY_VALUES_LIMBS};
@@ -116,8 +116,7 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
             store_polynomials_coefficients: true,
             include_all_preprocessed_columns: true,
             opt_n_id_to_big_components: None,
-            lifting_log_size: trace_log_size + low_blowup_factor,
-            raise_min_lifting_to_max_column: false,
+            lifting_size_policy: LiftingSizePolicy::Fixed(trace_log_size + low_blowup_factor),
         };
         let cairo_proof = prove_cairo::<Blake2sM31MerkleChannel>(input, prover_params).unwrap();
 

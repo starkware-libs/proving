@@ -33,7 +33,7 @@ use stwo::core::verifier::PREPROCESSED_TRACE_IDX;
 use stwo_cairo_adapter::adapter::adapt;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::M31;
-use stwo_cairo_prover::prover::prove_cairo;
+use stwo_cairo_prover::prover::{LiftingSizePolicy, prove_cairo};
 use stwo_cairo_prover::witness::prelude::{Felt252, QM31};
 use tracing::info;
 
@@ -73,8 +73,11 @@ pub fn prove_leaf(
          verifier circuit expects a constant number of preprocessed columns"
     );
     assert!(
-        cairo_prover_parameters.raise_min_lifting_to_max_column,
-        "The prover parameters must set raise_min_lifting_to_max_column=true because the \
+        matches!(
+            cairo_prover_parameters.lifting_size_policy,
+            LiftingSizePolicy::AtLeastPreprocessed
+        ),
+        "The prover parameters must set lifting_size_policy=AtLeastPreprocessed because the \
          circuit-cairo-verifier only supports verifying proofs where the lifting size is >= the \
          preprocessed trace height"
     );

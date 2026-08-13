@@ -44,23 +44,25 @@ impl PcsConfig {
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        let PcsConfig { fri_config, lifting_log_size } = self;
+        // `lifting_log_size` is intentionally not mixed in: the verifier recomputes it
+        // from `fri_config.log_blowup_factor` and the committed columns' log sizes, so
+        // mixing it here would be redundant.
         let FriConfig {
             pow_bits,
             log_blowup_factor,
             n_queries,
             log_last_layer_degree_bound,
             fold_step,
-        } = fri_config;
+        } = self.fri_config;
 
         channel.mix_felts(&[
             SecureField::from_u32_unchecked(
-                *pow_bits,
-                *log_blowup_factor,
-                *n_queries as u32,
-                *log_last_layer_degree_bound,
+                pow_bits,
+                log_blowup_factor,
+                n_queries as u32,
+                log_last_layer_degree_bound,
             ),
-            SecureField::from_u32_unchecked(*fold_step, *lifting_log_size, 0, 0),
+            SecureField::from_u32_unchecked(fold_step, 0, 0, 0),
         ]);
     }
 }

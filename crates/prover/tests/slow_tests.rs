@@ -10,7 +10,6 @@ use cairo_air::verifier::verify_cairo;
 use cairo_vm::types::layout_name::LayoutName;
 use itertools::Itertools;
 use stwo::core::fri::FriConfig;
-use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo_cairo_adapter::ProverInput;
@@ -20,7 +19,7 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
 use stwo_cairo_dev_utils::utils::{get_compiled_cairo_program_path, get_proof_file_path};
 use stwo_cairo_dev_utils::vm_utils::{ProgramType, run_and_adapt};
 use stwo_cairo_prover::debug_tools::assert_constraints::assert_cairo_constraints;
-use stwo_cairo_prover::prover::{ChannelHash, ProverParameters, prove_cairo};
+use stwo_cairo_prover::prover::{ChannelHash, LiftingSizePolicy, ProverParameters, prove_cairo};
 use stwo_cairo_prover::witness::preprocessed_trace::generate_preprocessed_commitment_root;
 use stwo_cairo_serialize::CairoSerialize;
 use tempfile::NamedTempFile;
@@ -84,8 +83,7 @@ fn test_proof_stability(path: &str, n_proofs_to_compare: usize) {
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
-        lifting_log_size: 0,
-        raise_min_lifting_to_max_column: false,
+        lifting_size_policy: LiftingSizePolicy::Auto,
     };
     let proofs = (0..n_proofs_to_compare)
         .map(|_| {
@@ -116,7 +114,7 @@ pub mod builtin_tests {
 
     use super::*;
 
-    /// Exercises `raise_min_lifting_to_max_column`: the mixed config must record the
+    /// Exercises `LiftingSizePolicy::AtLeastPreprocessed`: the mixed config must record the
     /// maximal committed column log size, and all trees are lifted to that (uniform)
     /// height.
     #[test]
@@ -134,8 +132,7 @@ pub mod builtin_tests {
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_log_size: 0,
-            raise_min_lifting_to_max_column: true,
+            lifting_size_policy: LiftingSizePolicy::Auto,
         };
         let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
 
@@ -156,7 +153,7 @@ pub mod builtin_tests {
     /// *unsorted* preprocessed query positions that the Merkle verifier must
     /// sort.
     ///
-    /// `channel_salt = 17` with `n_queries = 1000` is a seed where the folded positions
+    /// `channel_salt = 1` with `n_queries = 1000` is a seed where the folded positions
     /// come out unsorted.
     #[test]
     fn test_prove_verify_large_trace_canonical_small() {
@@ -169,12 +166,11 @@ pub mod builtin_tests {
             channel_hash: ChannelHash::Blake2s,
             fri_config: FriConfig::new(10, 0, 1, 1000, 1),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
-            channel_salt: 17,
+            channel_salt: 1,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_log_size: 0,
-            raise_min_lifting_to_max_column: false,
+            lifting_size_policy: LiftingSizePolicy::Auto,
         };
         let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
         // Check that this seed produces unsorted preprocessed query positions.
@@ -265,8 +261,7 @@ pub mod builtin_tests {
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_log_size: 0,
-            raise_min_lifting_to_max_column: false,
+            lifting_size_policy: LiftingSizePolicy::Auto,
         };
 
         // Run poseidon builtin with 15 different instances.
@@ -337,8 +332,7 @@ pub mod builtin_tests {
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
-            lifting_log_size: 0,
-            raise_min_lifting_to_max_column: false,
+            lifting_size_policy: LiftingSizePolicy::Auto,
         };
 
         // Run pedersen builtin with 15 different instances.
@@ -434,8 +428,7 @@ fn test_prove_verify_all_opcode_components() {
         store_polynomials_coefficients: true,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
-        lifting_log_size: 0,
-        raise_min_lifting_to_max_column: false,
+        lifting_size_policy: LiftingSizePolicy::Auto,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
     verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();
@@ -456,8 +449,7 @@ fn test_e2e_prove_cairo_verify_all_opcode_components() {
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
-        lifting_log_size: 0,
-        raise_min_lifting_to_max_column: false,
+        lifting_size_policy: LiftingSizePolicy::Auto,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
     let mut proof_file = NamedTempFile::new().unwrap();
@@ -511,8 +503,7 @@ fn test_e2e_prove_cairo_verify_all_builtins() {
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
-        lifting_log_size: 0,
-        raise_min_lifting_to_max_column: false,
+        lifting_size_policy: LiftingSizePolicy::Auto,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
     let mut proof_file = NamedTempFile::new().unwrap();
@@ -631,8 +622,7 @@ fn test_prove_verify_all_builtins() {
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
         opt_n_id_to_big_components: None,
-        lifting_log_size: 0,
-        raise_min_lifting_to_max_column: false,
+        lifting_size_policy: LiftingSizePolicy::Auto,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
     verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();

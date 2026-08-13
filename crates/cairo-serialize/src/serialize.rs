@@ -108,13 +108,10 @@ impl CairoSerialize for FriConfig {
 
 impl CairoSerialize for PcsConfig {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
-        let Self { fri_config, lifting_log_size } = self;
-        // `lifting_log_size` is not carried in the wire format: the Cairo verifier only
-        // accepts proofs created with `0` and mixes `0` into the channel.
-        assert_eq!(
-            *lifting_log_size, 0,
-            "proofs for the Cairo verifier must be created with lifting_log_size = 0"
-        );
+        // `lifting_log_size` is intentionally not serialized: the Cairo verifier
+        // recomputes it from `fri_config.log_blowup_factor` and the committed columns'
+        // log sizes (see `pcs/verifier.cairo`), so shipping it would be redundant.
+        let Self { fri_config, lifting_log_size: _ } = self;
         fri_config.serialize(output);
     }
 }

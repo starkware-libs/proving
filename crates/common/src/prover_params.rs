@@ -32,16 +32,10 @@ pub struct ProverParameters {
     /// If not provided, the number of components will be inferred from the input.
     pub opt_n_id_to_big_components: Option<usize>,
 
-    // TODO(Omri) - Replace lifting_log_size and raise_min_lifting_to_max_column with
-    // 'LiftingSizePolicy' enum.
-    /// The log size of the lifting domain (includes the `log_blowup_factor`).
-    pub lifting_log_size: u32,
-    /// If `true`, after writing the trace the prover raises `lifting_log_size` to
-    /// the maximal committed column log size over all trees (including the preprocessed tree).
-    /// The updated config thus lifts all trees to the same height. Otherwise, the given
-    /// `lifting_log_size` is used as is. Default is `false`.
-    #[serde(default)]
-    pub raise_min_lifting_to_max_column: bool,
+    /// Policy for choosing the `lifting_log_size` — the common height to which all committed
+    /// trees are lifted. The right choice depends on the downstream verifier; see the
+    /// [`LiftingSizePolicy`] variants.
+    pub lifting_size_policy: LiftingSizePolicy,
 }
 
 /// The hash function used for commitments, for the prover-verifier channel,
@@ -57,4 +51,48 @@ pub enum ChannelHash {
     /// Note that using `Poseidon252` results in a significant decrease in proving speed compared
     /// to `Blake2s` (because of the large field emulation)
     Poseidon252,
+}
+
+/// Policy for choosing the `lifting_log_size` used to lift all committed trees to a common
+/// height.
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LiftingSizePolicy {
+    /// Use the trace height ignoring preprocessed trace size.
+    /// Intended for proofs targeted at the cairo verifier.
+    Auto,
+    /// Use the given lifting log size.
+    /// Intended for proofs targeted at the circuit-2-to-1 verifier.
+    Fixed(u32),
+    /// Use the trace height including preprocessed trace size.
+    /// Intended for proofs targeted at the circuit-cairo verifier.
+    AtLeastPreprocessed,
+}
+
+impl LiftingSizePolicy {
+    /// Resolves the policy to a concrete `lifting_log_size`.
+    ///
+    /// - `max_trace_log_size` — the trace-only max committed column log size.
+    /// - `preprocessed_trace_log_size` — the preprocessed trace log size.
+    ///
+    /// Pass `None` for a parameter when it isn't known.
+    pub fn resolve(
+        &self,
+        max_trace_log_size: Option<u32>,
+        preprocessed_trace_log_size: Option<u32>,
+    ) -> u32 {
+        match self {
+            Self::Auto => max_trace_log_size
+                .expect("LiftingSizePolicy::Auto cannot be resolved without max_trace_log_size"),
+            Self::Fixed(size) => *size,
+            Self::AtLeastPreprocessed => {
+                let preprocessed = preprocessed_trace_log_size.expect(
+                    "LiftingSizePolicy::AtLeastPreprocessed requires preprocessed_trace_log_size",
+                );
+                let max_trace = max_trace_log_size
+                    .expect("LiftingSizePolicy::AtLeastPreprocessed requires max_trace_log_size");
+                std::cmp::max(preprocessed, max_trace)
+            }
+        }
+    }
 }

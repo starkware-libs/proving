@@ -84,10 +84,10 @@ fn test_verify_privacy() {
 fn test_verify_privacy_with_recursion() {
     // The proof file was generated from the proving-utils repo using:
     // cargo run -r --bin stwo-run-and-prove -- \
-    //     --prover_params_json ../stwo-circuits/test_data/privacy/prover_params.json \
-    //     --program ../stwo-circuits/test_data/privacy/privacy_simple_bootloader_compiled.json \
-    //     --program_input ../stwo-circuits/test_data/privacy/program_input.json \
-    //     --proof_path ../stwo-circuits/test_data/privacy/proof.bin --proof-format extended-binary
+    //     --prover_params_json ./test_data/privacy/prover_params.json \
+    //     --program ./test_data/privacy/privacy_simple_bootloader_compiled.json \
+    //     --program_input ./test_data/privacy/program_input.json \
+    //     --proof_path ./test_data/privacy/proof.bin --proof-format extended-binary
     let proof_path = get_proof_file_path("privacy");
     let proof_file = File::open(proof_path).unwrap();
     let cairo_proof: CairoProof<Blake2sMerkleHasher> =

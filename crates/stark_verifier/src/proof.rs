@@ -332,14 +332,13 @@ impl ProofConfig {
         context: &mut Context<Value>,
         channel: &mut Channel,
     ) {
-        let lifting_log_size = self.log_trace_size() + self.fri.log_blowup_factor as usize;
         let pcs_config_values = vec![
             self.fri.pow_bits,
             self.fri.log_blowup_factor,
             self.fri.n_queries as u32,
             self.fri.log_last_layer_degree_bound,
             self.fri.fold_step,
-            lifting_log_size as u32,
+            0,
         ];
 
         let pcs_config_vars = pack_into_qm31s(pcs_config_values.into_iter())

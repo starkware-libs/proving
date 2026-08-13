@@ -18,7 +18,6 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits_stark_verifier::proof::ProofConfig;
 use leaf_proof_format::PackedNode;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
@@ -110,16 +109,11 @@ pub fn reduce_pair(
     );
 
     let (proof_bytes, extracted) = if is_root {
-        // The Cairo verifier does not carry `lifting_log_size` on the wire and mixes 0 into
-        // its channel, so the root proof must be created with 0 (`CairoSerialize for PcsConfig`
-        // asserts it).
-        let root_pcs_config =
-            PcsConfig { lifting_log_size: 0, ..canonical.shared_config.pcs_config };
         let circuit_proof = prove_circuit_assignment_with_channel::<Blake2sMerkleChannel>(
             context.values(),
             &canonical.preprocessed_multiverifier,
             &canonical.base_column_pool,
-            root_pcs_config,
+            canonical.shared_config.pcs_config,
         )
         .map_err(|e| RecursiveTreeError::Proving(format!("{e:?}")))?;
         let extracted = extract_root_and_outputs(&circuit_proof)?;

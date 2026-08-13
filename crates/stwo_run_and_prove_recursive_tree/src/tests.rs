@@ -413,8 +413,7 @@ mod e2e {
     /// True end-to-end: `leaf_prover` over the leaf simple bootloader (running the simple-output
     /// task), backend-style preimage injection, 4-leaf fold, and comparison against the committed
     /// goldens at `test_data/goldens/four_leaves/`. When run with the `FIX` env var set, it
-    /// regenerates the goldens (including the machine-specific manual-CLI-repro inputs) instead
-    /// of asserting.
+    /// regenerates the goldens instead of asserting.
     ///
     /// Note the circuit hashes have no dedicated trust-list golden: the trust anchors are the
     /// `circuit_params --registry` artifacts published to the artifacts bucket per commit, and
@@ -436,21 +435,6 @@ mod e2e {
             {
                 std::fs::copy(dir.join(file), goldens.join(file)).unwrap();
             }
-            // Manual-CLI-repro inputs (machine-specific absolute paths).
-            std::fs::write(
-                goldens.join("leaf_bl_input.json"),
-                leaf_bl_input_json(&goldens.join("leaf_preimage.json")),
-            )
-            .unwrap();
-            let leaf_path = goldens.join("leaf.json");
-            std::fs::write(
-                goldens.join("manifest.json"),
-                serde_json::to_string_pretty(
-                    &serde_json::json!({"leaves": vec![leaf_path.to_str().unwrap(); 4]}),
-                )
-                .unwrap(),
-            )
-            .unwrap();
             return;
         }
 

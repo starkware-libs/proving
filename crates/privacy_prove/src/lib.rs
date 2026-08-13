@@ -118,7 +118,7 @@ pub fn prepare_recursive_prover_precomputes()
 
     info!("Prepare the twiddles");
     let base_column_pool = BaseColumnPool::<SimdBackend>::new();
-    let cairo_lifting_log_size = CAIRO_PROVER_PARAMS.lifting_log_size;
+    let cairo_lifting_log_size = CAIRO_PROVER_PARAMS.lifting_size_policy.resolve(None, None);
     let circuit_lifting_log_size = CIRCUIT_PCS_CONFIG.lifting_log_size;
 
     // Precompute twiddles.

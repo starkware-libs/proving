@@ -13,8 +13,7 @@
     "store_polynomials_coefficients": false,
     "include_all_preprocessed_columns": true,
     "opt_n_id_to_big_components": 16,
-    "lifting_log_size": 0,
-    "raise_min_lifting_to_max_column": true
+    "lifting_size_policy": "at_least_preprocessed"
   },
   "circuit_proof_configs": {
     "default": {
@@ -39,14 +38,14 @@
       "config": "default",
       "trace_log_size": 20,
       "circuit_hash": [
-        "0x3c16b865",
-        "0xf73ee5d7",
-        "0x9c5999b4",
-        "0x51ac4be3",
-        "0x95795420",
-        "0x5819b320",
-        "0x9d16ad22",
-        "0x2fe2d94c"
+        "0x6e08cf9c",
+        "0xfaf994be",
+        "0xdda1e939",
+        "0xe73886e7",
+        "0x275e7506",
+        "0x0e8fc978",
+        "0x950c5757",
+        "0x7c257a31"
       ]
     }
   ],
@@ -58,14 +57,14 @@
         "default"
       ],
       "circuit_hash": [
-        "0xe27a76ef",
-        "0xeaa2664c",
-        "0x12c89906",
-        "0xfe8d0841",
-        "0x35ffc1d9",
-        "0x643b609e",
-        "0xa663aa74",
-        "0xa333f0be"
+        "0xf58f3d67",
+        "0x804ad71d",
+        "0x8f9d7b21",
+        "0xbe826df6",
+        "0x455a292a",
+        "0x6077690f",
+        "0x5dbb7eef",
+        "0xa89ab54c"
       ]
     }
   ]

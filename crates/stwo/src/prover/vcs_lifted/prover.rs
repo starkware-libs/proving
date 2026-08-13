@@ -59,7 +59,7 @@ impl<B: MerkleOpsLifted<H>, H: MerkleHasherLifted> MerkleProverLifted<B, H> {
         } else {
             let sorted_columns = columns.into_iter().sorted_by_key(|c| c.len()).collect_vec();
             let max_log_size = sorted_columns.last().unwrap().len().ilog2();
-            assert!(lifting_log_size >= max_log_size);
+            assert!(lifting_log_size >= max_log_size, "{lifting_log_size} < {max_log_size}");
             layers.push(B::build_leaves(&sorted_columns, lifting_log_size));
         }
 

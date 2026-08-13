@@ -246,7 +246,8 @@ mod tests {
 
         // Setup the prover side of the pcs.
         let mut channel = Blake2sChannel::default();
-        let config = PcsConfig::default();
+        let mut config = PcsConfig::default();
+        config.lifting_log_size = LIFTING_LOG_SIZE + config.fri_config.log_blowup_factor;
         let twiddles = B::precompute_twiddles(
             CanonicCoset::new(LIFTING_LOG_SIZE + config.fri_config.log_blowup_factor).half_coset(),
         );
