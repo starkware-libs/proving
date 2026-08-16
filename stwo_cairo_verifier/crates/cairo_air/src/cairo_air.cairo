@@ -126,8 +126,7 @@ pub impl CairoAirNewImpl of CairoAirNewTrait {
         let claim_memory_id_to_big = cairo_claim.memory_id_to_big.as_snap().unwrap();
         let mut memory_id_to_value_components = array![];
         let mut offset: u32 = LARGE_MEMORY_VALUE_ID_BASE;
-        for i in 0..claim_memory_id_to_big.big_log_sizes.len() {
-            let log_size = claim_memory_id_to_big.big_log_sizes[i];
+        for log_size in claim_memory_id_to_big.big_log_sizes {
             let claimed_sum = *claimed_sums.pop_front().unwrap();
             memory_id_to_value_components
                 .append(
@@ -442,8 +441,7 @@ pub impl CairoAirNewImpl of CairoAirNewTrait {
         let claim_memory_id_to_big = cairo_claim.memory_id_to_big.as_snap().unwrap();
         let mut memory_id_to_value_components = array![];
         let mut offset: u32 = LARGE_MEMORY_VALUE_ID_BASE;
-        for i in 0..claim_memory_id_to_big.big_log_sizes.len() {
-            let log_size = claim_memory_id_to_big.big_log_sizes[i];
+        for log_size in claim_memory_id_to_big.big_log_sizes {
             let claimed_sum = *claimed_sums.pop_front().unwrap();
             memory_id_to_value_components
                 .append(
@@ -730,8 +728,7 @@ pub impl CairoAirNewImpl of CairoAirNewTrait {
         let claim_memory_id_to_big = cairo_claim.memory_id_to_big.as_snap().unwrap();
         let mut memory_id_to_value_components = array![];
         let mut offset: u32 = LARGE_MEMORY_VALUE_ID_BASE;
-        for i in 0..claim_memory_id_to_big.big_log_sizes.len() {
-            let log_size = claim_memory_id_to_big.big_log_sizes[i];
+        for log_size in claim_memory_id_to_big.big_log_sizes {
             let claimed_sum = *claimed_sums.pop_front().unwrap();
             memory_id_to_value_components
                 .append(
