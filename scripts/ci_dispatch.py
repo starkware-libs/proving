@@ -105,7 +105,10 @@ RUST_GROUPS: dict[str, Group] = {
             Crate("crates/circuit_params", "circuit-params", stable_check=False),
             Crate("crates/circuit_registry", "circuit-registry"),
         ],
-        extra_paths=[".github/workflows/proving-utils-ci.yml"],
+        extra_paths=[
+            ".github/workflows/proving-utils-ci.yml",
+            "circuit_registry_definitions/",
+        ],
     ),
     "stwo_air_infra": Group(
         crates=[

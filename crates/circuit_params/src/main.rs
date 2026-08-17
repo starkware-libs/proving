@@ -28,11 +28,11 @@ use circuit_common::finalize::ComponentSizes;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_params::{
     CircuitBuilder, DUMMY_PREPROCESSED_ROOT, component_sizes, padded_preprocessed_circuit,
-    read_params, shared_target_fixpoint,
+    padded_shared_target, read_params,
 };
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_registry::{
-    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier,
+    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, LogSizes, Multiverifier,
 };
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use clap::Parser;
@@ -70,6 +70,10 @@ struct Args {
     /// Write the registry JSON instead of the human-readable sizes report.
     #[clap(long)]
     registry: bool,
+    /// Optional component log sizes (an inline JSON object) to pad the shared target to — another
+    /// registry's shape (see `padded_shared_target`). Must be the exact final target.
+    #[clap(long)]
+    pad_to_component_log_sizes: Option<String>,
 }
 
 /// The fraction (as a percentage) of the padded (power-of-two) component that is actually used.
@@ -153,8 +157,11 @@ fn run() -> Result<(), String> {
             .map(|(_, padded)| padded.clone())
             .reduce(|max_sizes, sizes| max_sizes.elementwise_max(&sizes))
             .expect("the trace range is non-empty");
+        let pad_to: Option<LogSizes> = args.pad_to_component_log_sizes.as_ref().map(|json| {
+            serde_json::from_str(json).expect("--pad-to-component-log-sizes is not a valid JSON")
+        });
         let (target_sizes, preprocessed_multiverifier) =
-            shared_target_fixpoint(leaves_max_sizes, circuit_fri_config);
+            padded_shared_target(leaves_max_sizes, circuit_fri_config, pad_to.as_ref());
 
         // Homogeneity: padded to the shared target, every circuit in the registry must have the
         // multiverifier's preprocessed-trace layout — the layout it verifies (each leaf is

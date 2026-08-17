@@ -17,6 +17,7 @@ use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_si
 use circuit_multiverifier::verify::{
     build_multiverifier_context, build_multiverifier_context_from_shared_config, shared_config,
 };
+use circuit_registry::LogSizes;
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
@@ -125,6 +126,32 @@ pub fn padded_preprocessed_circuit(
     PreprocessedCircuit::preprocess_circuit(&mut context)
 }
 
+/// Runs [`shared_target_fixpoint`] from the leaves' max, raised to `pad_to` when given: that lets
+/// a cheap registry adopt a larger one's circuit shape (e.g. small Cairo proofs padded to the
+/// production target, so the multiverifier — a function of the target and FRI config alone — is
+/// the production one). `pad_to` must then be the exact final target: a fixpoint dominating the
+/// registry's own leaf circuits (asserted, so the shape cannot silently diverge).
+pub fn padded_shared_target(
+    leaves_max_sizes: ComponentSizes,
+    circuit_fri_config: FriConfig,
+    pad_to: Option<&LogSizes>,
+) -> (ComponentSizes, PreprocessedCircuit) {
+    let start = match pad_to {
+        Some(pad_to) => leaves_max_sizes.elementwise_max(&pad_to.into()),
+        None => leaves_max_sizes,
+    };
+    let (target_sizes, preprocessed_multiverifier) =
+        shared_target_fixpoint(start, circuit_fri_config);
+    if let Some(pad_to) = pad_to {
+        assert_eq!(
+            &LogSizes::from(&target_sizes),
+            pad_to,
+            "the pad-to target must be a fixpoint dominating the registry's leaf circuits"
+        );
+    }
+    (target_sizes, preprocessed_multiverifier)
+}
+
 /// Shared target sizes for a set of circuits, with the multiverifier padded to them.
 ///
 /// The target and the multiverifier's sizes are a fixpoint of each other: the multiverifier
@@ -154,5 +181,35 @@ pub fn shared_target_fixpoint(
             return (target_sizes, preprocessed_multiverifier);
         }
         target_sizes = grown_sizes;
+    }
+}
+
+/// Inputs for the supported-circuits registry generator.
+#[derive(serde::Deserialize)]
+pub struct RegistryDefinition {
+    pub cairo_prover_params_json: std::path::PathBuf,
+    pub circuit_fri_config_json: std::path::PathBuf,
+    pub program: std::path::PathBuf,
+    pub min_trace_log_size: u32,
+    pub max_trace_log_size: u32,
+    /// Pads the shared target to another registry's shape (see [`padded_shared_target`]).
+    pub pad_to_component_log_sizes: Option<LogSizes>,
+}
+
+impl RegistryDefinition {
+    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its paths against
+    /// `repo_root`.
+    pub fn load(repo_root: &Path, name: &str) -> Self {
+        let mut definition: RegistryDefinition = read_params(
+            &repo_root.join(format!("circuit_registry_definitions/{name}/definition.json")),
+        );
+        for path in [
+            &mut definition.cairo_prover_params_json,
+            &mut definition.circuit_fri_config_json,
+            &mut definition.program,
+        ] {
+            *path = repo_root.join(&*path);
+        }
+        definition
     }
 }

@@ -1,19 +1,17 @@
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-/// The trace log size both definitions' leaves are proven at.
-const TRACE_LOG_SIZE: &str = "20";
+use circuit_params::RegistryDefinition;
 
 fn crates_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..")
 }
 
-/// One registry to exercise: the definition inputs `circuit-params` runs over, and the in-repo
-/// path its expected output is committed at (the fix target of the tests below).
+/// One registry to exercise: the definition `circuit-params` runs over, and the in-repo path its
+/// expected output is committed at (the fix target of the tests below). That path is not part of
+/// the definition: the upload publishes to the bucket.
 struct RegistryTestFixture {
-    cairo_prover_params_json: PathBuf,
-    circuit_fri_config_json: PathBuf,
-    program: PathBuf,
+    definition: RegistryDefinition,
     /// Read only by the fix-target tests, which are the slow ones.
     #[cfg(feature = "slow-tests")]
     committed_path: PathBuf,
@@ -21,51 +19,60 @@ struct RegistryTestFixture {
 
 impl RegistryTestFixture {
     /// The registry the recursive tree's golden e2e (`test_golden_four_leaves_e2e`) proves with;
-    /// its leaves attest to the leaf simple bootloader.
+    /// its
+    /// leaves attest to the leaf simple bootloader. Its committed definition is the same one the
+    /// registry upload generates from.
     fn recursive_tree() -> Self {
-        let tree = crates_dir().join("stwo_run_and_prove_recursive_tree/test_data");
         Self {
-            cairo_prover_params_json: tree.join("cairo_prover_params.json"),
-            circuit_fri_config_json: tree.join("circuit_fri_config.json"),
-            program: tree.join("leaf_simple_bootloader_compiled.json"),
+            definition: RegistryDefinition::load(&crates_dir().join(".."), "canonical_small"),
             #[cfg(feature = "slow-tests")]
-            committed_path: tree.join("circuit_registry.json"),
+            committed_path: crates_dir()
+                .join("stwo_run_and_prove_recursive_tree/test_data/circuit_registry.json"),
         }
     }
 
-    /// Builds a registry to test the leaf prover.
+    /// Builds a registry to test the leaf prover. Not a committed definition — it exists only
+    /// for that test, so it is spelled out here.
     #[cfg(feature = "slow-tests")]
     fn leaf_prover() -> Self {
         let data = crates_dir().join("leaf_prover/tests/data");
         Self {
-            cairo_prover_params_json: data.join("cairo_prover_params_canonical_small.json"),
-            circuit_fri_config_json: data.join("circuit_fri_config_canonical_small.json"),
-            program: data.join("use_all_opcodes_and_builtins_compiled.json"),
+            definition: RegistryDefinition {
+                cairo_prover_params_json: data.join("cairo_prover_params_canonical_small.json"),
+                circuit_fri_config_json: data.join("circuit_fri_config_canonical_small.json"),
+                program: data.join("use_all_opcodes_and_builtins_compiled.json"),
+                min_trace_log_size: 20,
+                max_trace_log_size: 20,
+                pad_to_component_log_sizes: None,
+            },
             committed_path: data.join("circuit_registry_canonical_small.json"),
         }
     }
 }
 
 /// Runs the `circuit-params` binary over `fixture`'s definition, asserting success; `as_registry`
-/// passes
-/// `--registry`.
+/// passes `--registry`.
 ///
 /// Returns the `--output-path` file's contents when `output_path` is given, the binary's stdout
 /// otherwise (`run_binary` mixes tracing into stdout, so parsed output must go through a file).
 fn run(fixture: &RegistryTestFixture, as_registry: bool, output_path: Option<&Path>) -> String {
+    let definition = &fixture.definition;
     let binary = env!("CARGO_BIN_EXE_circuit-params");
     let mut command = Command::new(binary);
     command
         .arg("--min-trace-log-size")
-        .arg(TRACE_LOG_SIZE)
+        .arg(definition.min_trace_log_size.to_string())
         .arg("--max-trace-log-size")
-        .arg(TRACE_LOG_SIZE)
+        .arg(definition.max_trace_log_size.to_string())
         .arg("--cairo-prover-params-json")
-        .arg(&fixture.cairo_prover_params_json)
+        .arg(&definition.cairo_prover_params_json)
         .arg("--circuit-fri-config-json")
-        .arg(&fixture.circuit_fri_config_json)
+        .arg(&definition.circuit_fri_config_json)
         .arg("--program")
-        .arg(&fixture.program);
+        .arg(&definition.program);
+    if let Some(pad_to) = &definition.pad_to_component_log_sizes {
+        command.arg("--pad-to-component-log-sizes").arg(serde_json::to_string(pad_to).unwrap());
+    }
     if as_registry {
         command.arg("--registry");
     }
