@@ -148,7 +148,7 @@ impl From<WriteFactTopologiesError> for HintError {
 pub fn compute_fact_topologies(
     packed_outputs: &Vec<PackedOutput>,
     fact_topologies: &Vec<FactTopology>,
-    applicative_bootloader_program_hash: Felt252,
+    circuit_applicative_bootloader_program_hash: Felt252,
 ) -> Result<Vec<FactTopology>, FactTopologyError> {
     if packed_outputs.len() != fact_topologies.len() {
         return Err(FactTopologyError::WrongNumberOfFactTopologies(
@@ -166,7 +166,7 @@ pub fn compute_fact_topologies(
             }
             PackedOutput::Composite(composite_packed_output) => {
                 let subtask_plain_fact_topologies = composite_packed_output
-                    .get_plain_fact_topologies(applicative_bootloader_program_hash)
+                    .get_plain_fact_topologies(circuit_applicative_bootloader_program_hash)
                     .map_err(|e| {
                         FactTopologyError::CompositePackedParsingFailed(
                             format!("{e:?}").into_boxed_str(),
@@ -465,11 +465,11 @@ mod tests {
         packed_outputs: Vec<PackedOutput>,
         fact_topologies: Vec<FactTopology>,
     ) {
-        let applicative_bootloader_program_hash = Felt252::from(1234);
+        let circuit_applicative_bootloader_program_hash = Felt252::from(1234);
         let plain_fact_topologies = compute_fact_topologies(
             &packed_outputs,
             &fact_topologies,
-            applicative_bootloader_program_hash,
+            circuit_applicative_bootloader_program_hash,
         )
         .expect("Failed to compute fact topologies");
         for (topology, plain_topology) in std::iter::zip(&fact_topologies, plain_fact_topologies) {
@@ -502,11 +502,11 @@ mod tests {
             tree_structure: vec![], // Not used for composite, but required by API
             page_sizes: vec![],
         }];
-        let applicative_bootloader_program_hash = Felt252::from(1234);
+        let circuit_applicative_bootloader_program_hash = Felt252::from(1234);
         let result = compute_fact_topologies(
             &packed_outputs,
             &fact_topologies,
-            applicative_bootloader_program_hash,
+            circuit_applicative_bootloader_program_hash,
         )
         .expect("Composite packed output should be supported and return subtask fact topologies");
         let expected_subtask_fact_topologies = vec![
@@ -521,11 +521,11 @@ mod tests {
     fn test_compute_fact_topologies_arg_len_mismatch() {
         let packed_outputs = vec![PackedOutput::Plain];
         let fact_topologies = vec![];
-        let applicative_bootloader_program_hash = Felt252::from(1234);
+        let circuit_applicative_bootloader_program_hash = Felt252::from(1234);
         let result = compute_fact_topologies(
             &packed_outputs,
             &fact_topologies,
-            applicative_bootloader_program_hash,
+            circuit_applicative_bootloader_program_hash,
         );
         assert!(
             matches!(result, Err(FactTopologyError::WrongNumberOfFactTopologies(n_outputs, n_topologies)) if n_outputs == packed_outputs.len() && n_topologies == fact_topologies.len())

@@ -32,7 +32,10 @@ pub(crate) type ProgramIdentifiers = HashMap<String, Identifier>;
 #[derive(Deserialize, Debug, Clone)]
 pub struct BootloaderConfig {
     pub supported_simple_bootloader_hash_list: Vec<Felt252>,
-    pub applicative_bootloader_program_hash: Felt252,
+    pub circuit_applicative_bootloader_program_hash: Felt252,
+    /// The commitment to the circuit applicative bootloader's trusted config (its circuit verifier
+    /// program hash and supported circuit hashes), as the single felt that bootloader outputs.
+    pub circuit_applicative_config_commitment: Felt252,
     pub supported_cairo_verifier_program_hashes: Vec<Felt252>,
 }
 
@@ -54,12 +57,12 @@ impl CompositePackedOutput {
     }
 
     /// Generates a vector of `FactTopology` objects for plain subtasks, taking into account
-    /// the given `applicative_bootloader_program_hash`.
+    /// the given `circuit_applicative_bootloader_program_hash`.
     ///
     /// # Arguments
     ///
-    /// * `applicative_bootloader_program_hash` - The hash used to verify if the subtask matches the
-    ///   expected bootloader program.
+    /// * `circuit_applicative_bootloader_program_hash` - The hash used to verify if the subtask
+    ///   matches the expected bootloader program.
     ///
     /// # Returns
     ///
@@ -75,7 +78,7 @@ impl CompositePackedOutput {
     /// * Returns an error if the sum of subtask sizes does not match the length of `outputs`.
     pub fn get_plain_fact_topologies(
         &self,
-        applicative_bootloader_program_hash: Felt252,
+        circuit_applicative_bootloader_program_hash: Felt252,
     ) -> Result<Vec<FactTopology>, String> {
         let mut subtasks_fact_topologies = Vec::new();
 
@@ -94,8 +97,9 @@ impl CompositePackedOutput {
             ));
         }
 
-        // Define constants and initial offset for processing subtasks
-        let applicative_bootloader_header_size = 1 + BOOTLOADER_CONFIG_SIZE;
+        // The modified aggregator program hash and the config commitment, which the bootloader
+        // strips from a circuit applicative bootloader task's output.
+        let circuit_applicative_output_prefix_size = 2;
         let mut curr_subtask_offset = 1;
 
         for (index, subtask) in self.subtasks.iter().enumerate() {
@@ -109,11 +113,12 @@ impl CompositePackedOutput {
 
             // Handle subtask if it is of type `PackedOutput::Plain`
             if let PackedOutput::Plain = subtask {
-                // If the program hash matches the app. bootloader hash, adjust the page sizes
-                if *program_hash == applicative_bootloader_program_hash {
+                // If the program hash matches the circuit applicative bootloader hash, adjust the
+                // page sizes.
+                if *program_hash == circuit_applicative_bootloader_program_hash {
                     let mut page_sizes = self.fact_topologies[index].page_sizes.clone();
                     if let Some(first_page_size) = page_sizes.get_mut(0) {
-                        *first_page_size -= applicative_bootloader_header_size;
+                        *first_page_size -= circuit_applicative_output_prefix_size;
                     }
                     subtasks_fact_topologies.push(FactTopology {
                         page_sizes,
@@ -127,7 +132,8 @@ impl CompositePackedOutput {
             // Handle subtask recursively if it is of type `PackedOutput::Composite`
             else if let PackedOutput::Composite(composite) = subtask {
                 subtasks_fact_topologies.extend(
-                    composite.get_plain_fact_topologies(applicative_bootloader_program_hash)?,
+                    composite
+                        .get_plain_fact_topologies(circuit_applicative_bootloader_program_hash)?,
                 );
             } else {
                 return Err("Unsupported subtask type".to_string());

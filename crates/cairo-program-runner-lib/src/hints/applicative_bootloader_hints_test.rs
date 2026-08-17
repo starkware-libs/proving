@@ -70,8 +70,9 @@ fn test_prepare_aggregator_simple_bootloader_output_segment() {
                 "single_page": false,
                 "bootloader_config": {
                     "supported_simple_bootloader_hash_list": ["0x1", "0x2"],
-                    "applicative_bootloader_program_hash": "0x3",
-                    "supported_cairo_verifier_program_hashes": ["0x4"],
+                    "circuit_applicative_bootloader_program_hash": "0x3",
+                    "circuit_applicative_config_commitment": "0x4",
+                    "supported_cairo_verifier_program_hashes": ["0x5"],
                 },
                 "packed_outputs": [],
                 "aggregator_task": task,

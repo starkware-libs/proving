@@ -36,7 +36,8 @@ ids.bootloader_config = segments.gen_arg(
         bootloader_config.supported_simple_bootloader_hash_list,
         len(bootloader_config.supported_cairo_verifier_program_hashes),
         bootloader_config.supported_cairo_verifier_program_hashes,
-        bootloader_config.applicative_bootloader_program_hash,
+        bootloader_config.circuit_applicative_bootloader_program_hash,
+        bootloader_config.circuit_applicative_config_commitment,
     ],
 )";
 
