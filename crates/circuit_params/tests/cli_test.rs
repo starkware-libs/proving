@@ -19,9 +19,9 @@ struct RegistryTestFixture {
 
 impl RegistryTestFixture {
     /// The registry the recursive tree's golden e2e (`test_golden_four_leaves_e2e`) proves with;
-    /// its
-    /// leaves attest to the leaf simple bootloader. Its committed definition is the same one the
-    /// registry upload generates from.
+    /// its leaves attest to the leaf simple bootloader, and its circuits are padded to the
+    /// production shape (so the goldens' root proof is what the Cairo circuit verifier consumes).
+    /// Its committed definition is the same one the registry upload generates from.
     fn recursive_tree() -> Self {
         Self {
             definition: RegistryDefinition::load(&crates_dir().join(".."), "canonical_small"),
