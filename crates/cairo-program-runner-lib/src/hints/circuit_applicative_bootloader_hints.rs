@@ -210,12 +210,12 @@ fn composite_subtasks(node: &PackedNode) -> Result<&Vec<PackedNode>, HintError> 
 }
 
 /// A leaf `Composite` holds its single `Plain` preimage reveal; an internal fold node holds its
-/// two child `Composite`s.
+/// two child `Composite`s, or one for a self-fold (the single-leaf tree's root pass).
 fn node_is_leaf(node: &PackedNode) -> Result<bool, HintError> {
     let subtasks = composite_subtasks(node)?;
     match subtasks.as_slice() {
         [PackedNode::Plain { .. }] => Ok(true),
-        [_, _] => Ok(false),
+        [PackedNode::Composite { .. }] | [_, _] => Ok(false),
         subtasks => Err(HintError::CustomHint(
             format!(
                 "Packed Composite node with unsupported number of subtasks: {}.",
@@ -235,6 +235,26 @@ pub fn circuit_unpack_set_is_leaf(
 ) -> Result<(), HintError> {
     let is_leaf = node_is_leaf(get_node(exec_scopes)?)?;
     insert_value_from_var_name("is_leaf", Felt252::from(is_leaf as u64), vm, ids_data, ap_tracking)
+}
+
+/// Implements hint: %{ CIRCUIT_UNPACK_SET_IS_SELF_FOLD %}
+pub fn circuit_unpack_set_is_self_fold(
+    vm: &mut VirtualMachine,
+    exec_scopes: &mut ExecutionScopes,
+    ids_data: &HashMap<String, HintReference>,
+    ap_tracking: &ApTracking,
+) -> Result<(), HintError> {
+    let is_self_fold = matches!(
+        composite_subtasks(get_node(exec_scopes)?)?.as_slice(),
+        [PackedNode::Composite { .. }]
+    );
+    insert_value_from_var_name(
+        "is_self_fold",
+        Felt252::from(is_self_fold as u64),
+        vm,
+        ids_data,
+        ap_tracking,
+    )
 }
 
 fn enter_subtask_scope(exec_scopes: &mut ExecutionScopes, index: usize) -> Result<(), HintError> {

@@ -17,8 +17,9 @@
 //! The tree's final reduction is special: its proof is consumed by the Cairo circuit verifier (as
 //! the applicative root task), not by another fold, so it is proven with the standard Blake2s
 //! Merkle channel and written as the verifier's felt252 arguments stream (internal folds use the
-//! M31 channel the multiverifier circuit verifies). A single-leaf tree performs no reduction, so
-//! its root proof is the untouched leaf proof.
+//! M31 channel the multiverifier circuit verifies). A single-leaf tree folds its leaf with
+//! itself (the multiverifier verifies the same proof in both slots), so the root is always a
+//! multiverifier proof of that final form.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
 //! root node's circuit output values, and a nested `packed_output` JSON tree mirroring the fold —
@@ -37,7 +38,7 @@ pub mod leaf_io;
 pub mod output;
 
 use canonical::CanonicalCircuit;
-use fold::{LayerEntry, reduce_pair};
+use fold::{LayerEntry, reduce_pair, reduce_root_single};
 pub use leaf_io::{LeafInput, LeafProofExt, load_leaves};
 pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
@@ -84,8 +85,7 @@ pub struct RecursiveTreeStats {
 
 /// Entry point: folds the entire recursive tree above `leaves` (consumed in order by the layer-0
 /// entry list) and writes the three root-layer output files:
-/// - `proof_path`: the root proof — the Cairo circuit verifier's felt252 arguments stream for a
-///   multi-leaf tree, or the leaf's serialized proof unchanged for a single-leaf tree.
+/// - `proof_path`: the root proof — the Cairo circuit verifier's felt252 arguments stream.
 /// - `program_output`: the root node's output values (flat JSON array of raw `u32` digest words).
 /// - `packed_output_path`: the nested `PackedNode` JSON tree.
 ///
@@ -132,6 +132,14 @@ pub(crate) fn fold_entries(
     let mut current_layer = entries;
     let mut stats =
         RecursiveTreeStats { n_leaves: current_layer.len(), n_layers: 0, n_pair_reductions: 0 };
+
+    if current_layer.len() == 1 {
+        info!("Single-leaf tree: folding the leaf with itself for the root pass.");
+        let root = reduce_root_single(current_layer.pop().expect("exactly one entry"), canonical)?;
+        stats.n_layers = 1;
+        stats.n_pair_reductions = 1;
+        return Ok((root, stats));
+    }
 
     let mut layer_idx: usize = 0;
     while current_layer.len() > 1 {

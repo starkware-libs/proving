@@ -96,10 +96,41 @@ pub fn reduce_pair(
     canonical: &CanonicalCircuit,
     is_root: bool,
 ) -> Result<LayerEntry, RecursiveTreeError> {
-    let _span = span!(Level::INFO, "reduce_pair", layer_idx, pair_idx, is_root).entered();
-
     let input0 = left.to_multiverifier_input(&canonical.shared_config.proof_config)?;
     let input1 = right.to_multiverifier_input(&canonical.shared_config.proof_config)?;
+    reduce(
+        input0,
+        input1,
+        vec![left.packed_output, right.packed_output],
+        layer_idx,
+        pair_idx,
+        canonical,
+        is_root,
+    )
+}
+
+/// The single-leaf tree's root pass: folds the lone leaf with itself, so the root is an ordinary
+/// multiverifier proof.
+pub fn reduce_root_single(
+    entry: LayerEntry,
+    canonical: &CanonicalCircuit,
+) -> Result<LayerEntry, RecursiveTreeError> {
+    let input = entry.to_multiverifier_input(&canonical.shared_config.proof_config)?;
+    reduce(input.clone(), input, vec![entry.packed_output], 1, 0, canonical, true)
+}
+
+/// Shared reduction body: proves a multiverifier over the two inputs and wraps the result in the
+/// parent entry, with `subtasks` as its packed children.
+fn reduce(
+    input0: MultiverifierInput<QM31>,
+    input1: MultiverifierInput<QM31>,
+    subtasks: Vec<PackedNode>,
+    layer_idx: usize,
+    pair_idx: usize,
+    canonical: &CanonicalCircuit,
+    is_root: bool,
+) -> Result<LayerEntry, RecursiveTreeError> {
+    let _span = span!(Level::INFO, "reduce", layer_idx, pair_idx, is_root).entered();
 
     let mut context = build_multiverifier_circuit::<QM31>(input0, input1, &canonical.shared_config);
     pad_to_targets(&mut context, &canonical.target_sizes);
@@ -148,11 +179,10 @@ pub fn reduce_pair(
         proof_bytes,
         preprocessed_root: extracted.preprocessed_root,
         output_values: extracted.output_values,
-        packed_output: PackedNode::internal(
-            extracted.circuit_hash_words,
-            left.packed_output,
-            right.packed_output,
-        ),
+        packed_output: PackedNode::Composite {
+            circuit_hash: extracted.circuit_hash_words,
+            subtasks,
+        },
     })
 }
 

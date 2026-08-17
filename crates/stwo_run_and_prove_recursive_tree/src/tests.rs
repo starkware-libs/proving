@@ -106,7 +106,10 @@ fn test_packed_node_serializes_leaf_and_internal() {
 
     // Internal: a `Composite` over two child subtasks.
     let leaf_b = PackedNode::leaf(std::array::from_fn(|i| i as u32 + 40), vec![]);
-    let internal = PackedNode::internal(std::array::from_fn(|i| i as u32 + 50), leaf_a, leaf_b);
+    let internal = PackedNode::Composite {
+        circuit_hash: std::array::from_fn(|i| i as u32 + 50),
+        subtasks: vec![leaf_a, leaf_b],
+    };
 
     // Round-trips exactly (the recursive-tree reads back its own `root_packed.json`).
     let back: PackedNode =
@@ -301,18 +304,45 @@ mod e2e {
         ExpectedNode {
             output_words,
             circuit_hash: multiverifier_circuit_hash,
-            packed: PackedNode::internal(multiverifier_circuit_hash, left.packed, right.packed),
+            packed: PackedNode::Composite {
+                circuit_hash: multiverifier_circuit_hash,
+                subtasks: vec![left.packed, right.packed],
+            },
         }
     }
 
-    /// Folds `n` identical leaves exactly as the binary does (pair adjacent, carry the odd one up)
-    /// and returns the expected root node. `multiverifier_circuit_hash` is the `circuit_hash` every
-    /// internal node carries (see [`multiverifier_circuit_hash`]).
+    /// Mirrors `reduce_root_single`: the child's contribution enters the fold preimage twice,
+    /// and the packed node carries the child once.
+    fn expected_self_fold(
+        child: ExpectedNode,
+        multiverifier_circuit_hash: [u32; circuit_common::N_RESERVED],
+    ) -> ExpectedNode {
+        let mut preimage = Vec::new();
+        for _ in 0..2 {
+            preimage.extend_from_slice(&child.circuit_hash);
+            preimage.extend_from_slice(&child.output_words);
+        }
+        ExpectedNode {
+            output_words: blake2s_u32s_host(&preimage),
+            circuit_hash: multiverifier_circuit_hash,
+            packed: PackedNode::Composite {
+                circuit_hash: multiverifier_circuit_hash,
+                subtasks: vec![child.packed],
+            },
+        }
+    }
+
+    /// Folds `n` identical leaves exactly as the binary does (pair adjacent, carry the odd one up;
+    /// a single leaf self-folds) and returns the expected root node. `multiverifier_circuit_hash`
+    /// is the `circuit_hash` every internal node carries (see [`multiverifier_circuit_hash`]).
     fn expected_root(
         leaf: &LeafInput,
         n: usize,
         multiverifier_circuit_hash: [u32; circuit_common::N_RESERVED],
     ) -> ExpectedNode {
+        if n == 1 {
+            return expected_self_fold(expected_leaf(leaf), multiverifier_circuit_hash);
+        }
         let mut layer: Vec<ExpectedNode> = (0..n).map(|_| expected_leaf(leaf)).collect();
         while layer.len() > 1 {
             let mut next = Vec::with_capacity(layer.len().div_ceil(2));
@@ -345,10 +375,13 @@ mod e2e {
         )
         .unwrap();
 
-        // A balanced two-to-one tree with odd-carry: depth = ceil(log2 n), reductions = n - 1.
+        // A balanced two-to-one tree with odd-carry: depth = ceil(log2 n), reductions = n - 1 —
+        // except a single-leaf tree, which still runs one reduction (the root self-fold).
+        let (expected_layers, expected_reductions) =
+            if n == 1 { (1, 1) } else { (n.next_power_of_two().ilog2() as usize, n - 1) };
         assert_eq!(stats.n_leaves, n, "leaf count mismatch");
-        assert_eq!(stats.n_layers, n.next_power_of_two().ilog2() as usize, "layer count mismatch");
-        assert_eq!(stats.n_pair_reductions, n - 1, "reduction count mismatch");
+        assert_eq!(stats.n_layers, expected_layers, "layer count mismatch");
+        assert_eq!(stats.n_pair_reductions, expected_reductions, "reduction count mismatch");
 
         // The root proof is the Cairo circuit verifier's `--arguments-file` stream: a JSON array
         // of hex-string felts (the final fold is proven with the standard Blake2s channel and
@@ -396,6 +429,13 @@ mod e2e {
             parse(golden_dir),
             "{file} does not match the committed golden; run with FIX=1 to regenerate"
         );
+    }
+
+    /// The single-leaf edge case: the root self-fold.
+    #[test]
+    fn test_fold_one_leaf() {
+        let tmp = tempfile::tempdir().unwrap();
+        dupe_and_fold(&golden_leaf(), 1, tmp.path());
     }
 
     #[test]

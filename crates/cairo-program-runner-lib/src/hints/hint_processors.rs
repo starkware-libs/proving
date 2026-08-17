@@ -27,8 +27,8 @@ use super::circuit_applicative_bootloader_hints::{
     circuit_applicative_write_fact_topology, circuit_unpack_enter_subtask_0,
     circuit_unpack_enter_subtask_1, circuit_unpack_exit_scope,
     circuit_unpack_set_circuit_hash_index, circuit_unpack_set_is_leaf,
-    circuit_unpack_set_leaf_data, load_circuit_applicative_bootloader_input,
-    load_mock_circuit_verifier_input,
+    circuit_unpack_set_is_self_fold, circuit_unpack_set_leaf_data,
+    load_circuit_applicative_bootloader_input, load_mock_circuit_verifier_input,
 };
 use super::concat_aggregator_hints::{
     concat_aggregator_get_handle_task_output, concat_aggregator_parse_task,
@@ -242,6 +242,9 @@ impl HintProcessorLogic for MinimalBootloaderHintProcessor {
             }
             CIRCUIT_UNPACK_SET_IS_LEAF => {
                 circuit_unpack_set_is_leaf(vm, exec_scopes, ids_data, ap_tracking)
+            }
+            CIRCUIT_UNPACK_SET_IS_SELF_FOLD => {
+                circuit_unpack_set_is_self_fold(vm, exec_scopes, ids_data, ap_tracking)
             }
             CIRCUIT_UNPACK_SET_CIRCUIT_HASH_INDEX => {
                 circuit_unpack_set_circuit_hash_index(vm, exec_scopes, ids_data, ap_tracking)

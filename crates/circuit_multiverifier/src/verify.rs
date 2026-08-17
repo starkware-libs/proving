@@ -28,6 +28,7 @@ mod backward_compatibility_test;
 /// consist of `N_RESERVED` QM31 (the unreduced output hash) + 1 QM31 equal to
 /// [`circuits::context::U_VALUE`] coming from the constant finalization mechanism (see
 /// [`circuits::finalize_constants`]).
+#[derive(Clone)]
 pub struct MultiverifierInput<Value: IValue> {
     /// A circuit proof.
     pub proof: Proof<Value>,

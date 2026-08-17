@@ -75,11 +75,12 @@ pub enum PackedNode {
     /// A leaf's hashed-output preimage — the task's program hash followed by the task's raw output
     /// (each felt a decimal string; see the recursive tree's `LeafInput::output_preimage`).
     Plain { output_preimage: Vec<String> },
-    /// A verifier node — a fold over two children, or the leaf circuit over its single `Plain`
-    /// child. Carries the `circuit_hash` of this node's proof (eight little-endian u32 words) — the
-    /// full circuit identity (`blake2s(log_blowup ‖ component_log_sizes ‖ preprocessed_root)`) that
-    /// the unpacker mixes into this node's fold contribution and looks up in its supported trust
-    /// list.
+    /// A verifier node — a fold over two children, a self-fold over one `Composite` child (the
+    /// single-leaf tree's root pass, where the multiverifier verifies the same proof in both
+    /// slots), or the leaf circuit over its single `Plain` child. Carries the `circuit_hash` of
+    /// this node's proof (eight little-endian u32 words) — the full circuit identity
+    /// (`blake2s(log_blowup ‖ component_log_sizes ‖ preprocessed_root)`) that the unpacker mixes
+    /// into this node's fold contribution and looks up in its supported trust list.
     Composite { circuit_hash: [u32; N_DIGEST_WORDS], subtasks: Vec<PackedNode> },
 }
 
@@ -90,15 +91,6 @@ impl PackedNode {
             circuit_hash,
             subtasks: vec![PackedNode::Plain { output_preimage }],
         }
-    }
-
-    /// An internal fold node over its two children.
-    pub fn internal(
-        circuit_hash: [u32; N_DIGEST_WORDS],
-        left: PackedNode,
-        right: PackedNode,
-    ) -> Self {
-        PackedNode::Composite { circuit_hash, subtasks: vec![left, right] }
     }
 }
 
@@ -123,7 +115,10 @@ mod tests {
     #[test]
     fn test_packed_node_round_trips() {
         let leaf = PackedNode::leaf([1, 2, 3, 4, 5, 6, 7, 8], vec!["11".to_string()]);
-        let tree = PackedNode::internal([9; N_DIGEST_WORDS], leaf.clone(), leaf);
+        let tree = PackedNode::Composite {
+            circuit_hash: [9; N_DIGEST_WORDS],
+            subtasks: vec![leaf.clone(), leaf],
+        };
 
         let json: serde_json::Value =
             serde_json::from_str(&serde_json::to_string(&tree).unwrap()).unwrap();
