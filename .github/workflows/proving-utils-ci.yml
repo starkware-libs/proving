@@ -56,6 +56,10 @@ jobs:
         uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2
         with:
           tool: nextest
+      # The recursive tree's golden e2e ends with a `scarb execute` of the Cairo circuit verifier.
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
+        with:
+          tool-versions: .tool-versions
       - name: "Slow tests"
         run: |
           cargo nextest run -p leaf-prover --features=slow-tests --cargo-profile ci  -j 1 -P ci

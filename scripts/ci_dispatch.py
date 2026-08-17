@@ -136,6 +136,8 @@ STWO_CAIRO_VERIFIER_GROUP: list[str] = [
     ".github/workflows/stwo-cairo-verifier-ci.yml",
     "test_data/test_prove_verify_ret_opcode/proof.json",
     "test_data/test_prove_verify_all_opcode_components/proof.json",
+    # The circuit verifier's execution fixture (see stwo-cairo-verifier-ci.yml).
+    "crates/stwo_run_and_prove_recursive_tree/test_data/goldens/four_leaves/root.proof",
 ]
 
 # Paths whose change forces every CI flow to run.

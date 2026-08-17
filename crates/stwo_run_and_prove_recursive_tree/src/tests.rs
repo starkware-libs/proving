@@ -411,9 +411,12 @@ mod e2e {
     }
 
     /// True end-to-end: `leaf_prover` over the leaf simple bootloader (running the simple-output
-    /// task), backend-style preimage injection, 4-leaf fold, and comparison against the committed
-    /// goldens at `test_data/goldens/four_leaves/`. When run with the `FIX` env var set, it
-    /// regenerates the goldens instead of asserting.
+    /// task), backend-style preimage injection, 4-leaf fold, comparison against the committed
+    /// goldens at `test_data/goldens/four_leaves/`, and finally `scarb execute` of the Cairo
+    /// circuit verifier on the fresh root proof (needs `scarb` on PATH, see `.tool-versions`) —
+    /// so a circuit change whose proofs the committed verifier cannot verify fails here, whatever
+    /// paths the change touched. When run with the `FIX` env var set, it regenerates the goldens
+    /// instead of asserting.
     ///
     /// Note the circuit hashes have no dedicated trust-list golden: the trust anchors are the
     /// `circuit_params --registry` artifacts published to the artifacts bucket per commit, and
@@ -425,6 +428,16 @@ mod e2e {
         let dir = tmp.path();
         let leaf = generate_leaf(dir);
         dupe_and_fold(&leaf, 4, dir);
+
+        // The root proof is the Cairo circuit verifier's input: execute the verifier on it.
+        let status = std::process::Command::new("scarb")
+            .args(["--profile", "proving", "execute", "-p", "stwo_circuit_verifier"])
+            .args(["--features", "qm31_opcode", "--output", "none", "--arguments-file"])
+            .arg(dir.join("root.proof"))
+            .current_dir(concat!(env!("CARGO_MANIFEST_DIR"), "/../../stwo_cairo_verifier"))
+            .status()
+            .unwrap();
+        assert!(status.success(), "the Cairo circuit verifier rejected the root proof");
 
         let goldens = goldens_dir();
         if std::env::var("FIX").is_ok() {

@@ -3,12 +3,15 @@
 //! all padded to a shared component-size target (the elementwise max over them), so one
 //! circuit shape verifies proofs of any of them.
 //!
-//! The `circuit-params` binary uses these to emit the registry (see `main.rs`).
+//! The `circuit-params` binary uses these to emit the registry (see `main.rs`); tests use them to
+//! derive its circuits' shape (e.g. [`RegistryDefinition::shared_target`]) without committing
+//! anything.
 
 use std::path::Path;
 use std::sync::Arc;
 
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
+use circuit_cairo_verifier::utils::load_program;
 use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
@@ -27,6 +30,7 @@ use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::M31;
+use stwo_cairo_prover::prover::ProverParameters;
 use stwo_cairo_prover::witness::prelude::QM31;
 use stwo_cairo_prover::witness::preprocessed_trace::generate_preprocessed_commitment_root;
 
@@ -211,5 +215,40 @@ impl RegistryDefinition {
             *path = repo_root.join(&*path);
         }
         definition
+    }
+
+    pub fn cairo_params(&self) -> ProverParameters {
+        read_params(&self.cairo_prover_params_json)
+    }
+
+    pub fn circuit_fri_config(&self) -> FriConfig {
+        read_params(&self.circuit_fri_config_json)
+    }
+
+    /// The registry's shared padding target and the multiverifier padded to it, from the
+    /// definition alone: the elementwise max over the leaf circuits of the trace range, closed
+    /// under the multiverifier fixpoint. Builds circuit topologies with a dummy Cairo root (sizes
+    /// are root-independent), one at a time — no commitment, so this is the cheap part of registry
+    /// generation.
+    pub fn shared_target(&self) -> (ComponentSizes, PreprocessedCircuit) {
+        let cairo_params = self.cairo_params();
+        let circuit_builder = CircuitBuilder {
+            preprocessed_trace: cairo_params.preprocessed_trace,
+            program: load_program(&self.program),
+            cairo_fri_config: cairo_params.fri_config,
+        };
+        let leaves_max_sizes = (self.min_trace_log_size..=self.max_trace_log_size)
+            .map(|trace_log_size| {
+                let context =
+                    circuit_builder.build_context(trace_log_size, DUMMY_PREPROCESSED_ROOT.into());
+                compute_padded_sizes(&context)
+            })
+            .reduce(|a, b| a.elementwise_max(&b))
+            .expect("the trace range is non-empty");
+        padded_shared_target(
+            leaves_max_sizes,
+            self.circuit_fri_config(),
+            self.pad_to_component_log_sizes.as_ref(),
+        )
     }
 }
