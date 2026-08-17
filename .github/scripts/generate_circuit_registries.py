@@ -8,15 +8,34 @@ import argparse
 import subprocess
 from pathlib import Path
 
-# Each registry definition names the files the proving binaries run with, and the (inclusive)
-# range of verified Cairo trace log sizes its registry covers:
+# Each registry definition names the params its proofs are produced with (recorded in the registry,
+# so they are also what the proving binaries then run with), the program its leaves attest to, and
+# the (inclusive) range of verified Cairo trace log sizes its registry covers:
 # - `min_trace_log_size` is bounded below by the preprocessed-trace variant's sequence-column log
 #   height (20 for canonical_small, 25 for canonical).
-# - Changing the range changes every circuit hash (all of a registry's circuits are padded to the
-#   elementwise max over it), so it requires regenerating the recursive tree's goldens and the
-#   committed registry. Widening also costs proving every leaf at the largest member's shape.
-# TODO(yairv): add the production configs here.
+# - Changing the range, either params file or the program changes every circuit hash (all of a
+#   registry's circuits are padded to the elementwise max over the range), so it requires
+#   regenerating the recursive tree's goldens and the committed registry. Widening also costs
+#   proving every leaf at the largest member's shape.
+#
+# `production` is what the backend proves with; `canonical_small` is the cheap one the tests and
+# goldens use, so its inputs live next to them.
 REGISTRY_DEFINITIONS = [
+    {
+        "name": "production",
+        "cairo_prover_params_json": (
+            "circuit_registry_definitions/production/cairo_prover_params.json"
+        ),
+        "circuit_fri_config_json": (
+            "circuit_registry_definitions/production/circuit_fri_config.json"
+        ),
+        "program": (
+            "crates/stwo_run_and_prove_recursive_tree/test_data/"
+            "leaf_simple_bootloader_compiled.json"
+        ),
+        "min_trace_log_size": 25,
+        "max_trace_log_size": 29,
+    },
     {
         "name": "canonical_small",
         "cairo_prover_params_json": (

@@ -39,7 +39,8 @@ jobs:
   # circuit registry, at supported_circuits_registry/<commit>/<name>/registry.json.
   supported-circuits-registry-push:
     needs: clear-published-marker
-    runs-on: namespace-profile-starkware-libs-proving-dev-medium-ubuntu-24-04-amd64
+    # Generating the largest production circuit needs more memory than the standard profiles have.
+    runs-on: namespace-profile-starkware-libs-proving-dev-32-128-ubuntu-24-04-amd64
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
