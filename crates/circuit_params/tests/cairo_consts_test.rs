@@ -56,9 +56,9 @@ fn cairo_component(id: &str) -> &'static str {
     }
 }
 
-/// The Cairo `*_IDX` constant name of a preprocessed column id. The auto-generated component code
+/// The Cairo `*_IDX` constant name of a preprocessed column id. The component code
 /// references some columns under legacy names, aliased here (`qm31_ops_*` without the prefix and
-/// with `in0/in1/out` as `OP_0/OP_1/DST`; `bitwise_xor_10_*` as `BITWISE_XOR_12_*`).
+/// with `in0/in1/out` as `OP_0/OP_1/DST`).
 fn idx_const_name(id: &str) -> String {
     let renamed = match id {
         "qm31_ops_add_flag" => "add_flag",
@@ -73,9 +73,6 @@ fn idx_const_name(id: &str) -> String {
         "blake_g_gate_input_addr_f1" => "blake_g_gate_input_addr_f_1",
         _ if id.starts_with("m31_to_u32_") => {
             return format!("M_31_TO_U_32_{}_IDX", id["m31_to_u32_".len()..].to_uppercase());
-        }
-        _ if id.starts_with("bitwise_xor_10_") => {
-            return format!("BITWISE_XOR_12_{}_IDX", id["bitwise_xor_10_".len()..].to_uppercase());
         }
         _ => id,
     };
@@ -185,22 +182,10 @@ fn render_preprocessed_columns(target_sizes: &ComponentSizes) -> String {
             .map(|len| idx + len)
             .unwrap_or(layout.len());
         writeln!(w).unwrap();
-        if component == "verify_bitwise_xor_12" {
+        if component == "qm31_ops" {
             writeln!(
                 w,
-                "// bitwise_xor_10_* (log_size={log_size}) — the auto-generated component code \
-                 references the"
-            )
-            .unwrap();
-            writeln!(
-                w,
-                "// legacy `BITWISE_XOR_12_*_IDX` names, kept here as the constants' names."
-            )
-            .unwrap();
-        } else if component == "qm31_ops" {
-            writeln!(
-                w,
-                "// qm31_ops_* (log_size={log_size}). Auto-generated components reference these \
+                "// qm31_ops_* (log_size={log_size}). Hand-ported components reference these \
                  without the"
             )
             .unwrap();

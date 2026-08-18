@@ -5,10 +5,9 @@
 // FIX=1 to regenerate). Columns are sorted by size (ascending, stable on insertion order), so
 // these indices change whenever the registry's component sizes change.
 //
-// The auto-generated component files reference some IDX symbols whose names differ from
-// the prover-side column names (e.g. `ADD_FLAG_IDX` corresponds to the prover-side column
-// `qm31_ops_add_flag`). These are aliased here so the auto-generated code keeps working
-// without rewriting every call site.
+// The component files reference some IDX symbols under legacy names (e.g.
+// `ADD_FLAG_IDX` corresponds to the prover-side column `qm31_ops_add_flag`); the constants
+// keep those names to match the ported code.
 
 use stwo_constraint_framework::{INVALID_COLUMN_IDX, PreprocessedColumnIdx};
 
@@ -43,17 +42,15 @@ pub const TRIPLE_XOR_INPUT_ADDR_2_IDX: PreprocessedColumnIdx = 17;
 pub const TRIPLE_XOR_OUTPUT_ADDR_IDX: PreprocessedColumnIdx = 18;
 pub const TRIPLE_XOR_MULTIPLICITY_IDX: PreprocessedColumnIdx = 19;
 
-// bitwise_xor_10_* (log_size=20) — the auto-generated component code references the
-// legacy `BITWISE_XOR_12_*_IDX` names, kept here as the constants' names.
-pub const BITWISE_XOR_12_0_IDX: PreprocessedColumnIdx = 20;
-pub const BITWISE_XOR_12_1_IDX: PreprocessedColumnIdx = 21;
-pub const BITWISE_XOR_12_2_IDX: PreprocessedColumnIdx = 22;
+pub const BITWISE_XOR_10_0_IDX: PreprocessedColumnIdx = 20;
+pub const BITWISE_XOR_10_1_IDX: PreprocessedColumnIdx = 21;
+pub const BITWISE_XOR_10_2_IDX: PreprocessedColumnIdx = 22;
 
 pub const M_31_TO_U_32_INPUT_ADDR_IDX: PreprocessedColumnIdx = 23;
 pub const M_31_TO_U_32_OUTPUT_ADDR_IDX: PreprocessedColumnIdx = 24;
 pub const M_31_TO_U_32_MULTIPLICITY_IDX: PreprocessedColumnIdx = 25;
 
-// qm31_ops_* (log_size=23). Auto-generated components reference these without the
+// qm31_ops_* (log_size=23). Hand-ported components reference these without the
 // `qm31_ops_` prefix and with legacy names (`OP_0/OP_1/DST` for `in0/in1/out`).
 pub const ADD_FLAG_IDX: PreprocessedColumnIdx = 26;
 pub const SUB_FLAG_IDX: PreprocessedColumnIdx = 27;
