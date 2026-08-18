@@ -2,7 +2,6 @@
 //! Run it explicitly with `--test slow_tests`.
 
 use std::io::Write;
-use std::process::Command;
 use std::sync::Arc;
 
 use cairo_air::CairoProofForRustVerifier;
@@ -435,7 +434,7 @@ fn test_prove_verify_all_opcode_components() {
 }
 
 #[test]
-fn test_e2e_prove_cairo_verify_all_opcode_components() {
+fn test_prove_all_opcode_components_proof_regression() {
     let compiled_program =
         get_compiled_cairo_program_path("test_prove_verify_all_opcode_components");
     let input =
@@ -474,23 +473,11 @@ fn test_e2e_prove_cairo_verify_all_opcode_components() {
         "Generated proof file does not match the expected proof file"
     );
 
-    let status = Command::new("bash")
-        .arg("-c")
-        .arg(format!(
-            "(cd ../../stwo_cairo_verifier; scarb execute --package stwo_cairo_verifier \
-             --arguments-file {} --output standard --target standalone --features qm31_opcode
-            )",
-            proof_file.path().to_str().unwrap()
-        ))
-        .current_dir(env!("CARGO_MANIFEST_DIR"))
-        .status()
-        .unwrap();
-
-    assert!(status.success());
+    verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();
 }
 
 #[test]
-fn test_e2e_prove_cairo_verify_all_builtins() {
+fn test_prove_verify_all_builtins_non_default_fri_config() {
     let compiled_program = get_compiled_cairo_program_path("test_prove_verify_all_builtins");
     let input =
         run_and_adapt(&compiled_program, ProgramType::Json, LayoutName::all_cairo_stwo, None)
@@ -506,25 +493,7 @@ fn test_e2e_prove_cairo_verify_all_builtins() {
         lifting_size_policy: LiftingSizePolicy::Auto,
     };
     let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
-    let mut proof_file = NamedTempFile::new().unwrap();
-    let mut serialized: Vec<starknet_ff::FieldElement> = Vec::new();
-    CairoSerialize::serialize(&cairo_proof, &mut serialized);
-    let proof_hex: Vec<String> = serialized.into_iter().map(|felt| format!("0x{felt:x}")).collect();
-    proof_file.write_all(sonic_rs::to_string_pretty(&proof_hex).unwrap().as_bytes()).unwrap();
-
-    let status = Command::new("bash")
-        .arg("-c")
-        .arg(format!(
-            "(cd ../../stwo_cairo_verifier; scarb execute --package stwo_cairo_verifier \
-             --arguments-file {} --output standard --target standalone --features qm31_opcode
-            )",
-            proof_file.path().to_str().unwrap()
-        ))
-        .current_dir(env!("CARGO_MANIFEST_DIR"))
-        .status()
-        .unwrap();
-
-    assert!(status.success());
+    verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();
 }
 
 /// Tests for the Pedersen `PartialEcMul` fast deduction.

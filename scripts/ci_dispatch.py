@@ -72,7 +72,12 @@ RUST_GROUPS: dict[str, Group] = {
             Crate("crates/prover", "stwo-cairo-prover", stable_check=False),
             Crate("crates/dev_utils", "stwo-cairo-dev-utils", stable_check=False),
         ],
-        extra_paths=[".github/workflows/stwo-cairo-prover-ci.yml"],
+        extra_paths=[
+            ".github/workflows/stwo-cairo-prover-ci.yml",
+            # Changing this expected-proof fixture must re-run the slow-tests proof regression
+            # that compares against it.
+            "test_data/test_prove_verify_all_opcode_components/proof.json",
+        ],
     ),
     "stwo_circuits": Group(
         crates=[
@@ -130,12 +135,11 @@ RUST_GROUPS: dict[str, Group] = {
 }
 # fmt: on
 
-# Paths that trigger the stwo-cairo-verifier CI (scarb).
+# Paths that trigger the stwo-cairo-verifier CI (scarb), which covers the circuit Cairo
+# verifier and the shared Cairo verifier libraries.
 STWO_CAIRO_VERIFIER_GROUP: list[str] = [
     "stwo_cairo_verifier/",
     ".github/workflows/stwo-cairo-verifier-ci.yml",
-    "test_data/test_prove_verify_ret_opcode/proof.json",
-    "test_data/test_prove_verify_all_opcode_components/proof.json",
     # The circuit verifier's execution fixture (see stwo-cairo-verifier-ci.yml).
     "crates/stwo_run_and_prove_recursive_tree/test_data/goldens/four_leaves/root.proof",
 ]

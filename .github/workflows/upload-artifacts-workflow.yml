@@ -79,18 +79,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - package: stwo_cairo_verifier
-            features: qm31_opcode,poseidon_outputs_packing
-            out: stwo_cairo_verifier.json
-          - package: stwo_cairo_verifier
-            features: poseidon252_verifier,poseidon_outputs_packing
-            out: stwo_cairo_poseidon_verifier.json
-          - package: stwo_cairo_verifier
-            features: qm31_opcode,blake_outputs_packing
-            out: stwo_cairo_verifier_with_blake_packing.json
-          - package: stwo_cairo_verifier_mock
-            features: qm31_opcode
-            out: mock_verifier.json
           - package: stwo_circuit_verifier
             features: qm31_opcode
             out: stwo_circuit_verifier.json

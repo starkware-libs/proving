@@ -52,8 +52,6 @@ Cairo verifier side (repo root, a separate Cairo/Scarb workspace — recursive p
 ```
 stwo_cairo_verifier/
   crates/
-    cairo_verifier/            Main verifier entry point  (pkg: stwo_cairo_verifier)
-    cairo_air/                 [SOUNDNESS-CRITICAL] Generated AIR-specific logic in Cairo  (pkg: stwo_cairo_air)
     circuit_verifier/          [SOUNDNESS-CRITICAL] Cairo verifier for circuit-based STARK proofs  (pkg: stwo_circuit_verifier)
     circuit_air/               [SOUNDNESS-CRITICAL] Generated circuit-AIR logic in Cairo  (pkg: stwo_circuit_air)
     verifier_core/             [SOUNDNESS-CRITICAL] Core verification logic
@@ -64,8 +62,12 @@ stwo_cairo_verifier/
     constraint_framework/      Constraint framework in Cairo
     bounded_int/               Bounded integer operations
     verifier_utils/            Verifier utility functions
-    cairo_verifier_mock/       Mock verifier for testing
 ```
+
+The Cairo CPU-AIR verifiers (`cairo_verifier`, `cairo_air`, `cairo_verifier_mock`) are
+frozen: no longer developed on main, they are kept on the `cairo-verifier-frozen` branch
+(base tagged `cairo-verifier-frozen-base`), cut from the last main commit containing them
+once this removal lands. Their compiled artifacts are built and uploaded from that branch.
 
 ## Stack
 
@@ -101,9 +103,8 @@ Cairo verifier, from `stwo_cairo_verifier/`:
 scarb fmt --check
 scarb lint --features=<feature> --deny-warnings
 scarb test --features=<feature> --package <package>
-# Feature flags: poseidon252_verifier, qm31_opcode, blake_outputs_packing,
-#                poseidon_outputs_packing
-scarb --profile proving execute --package stwo_cairo_verifier \
+# Feature flags: poseidon252_verifier, qm31_opcode
+scarb --profile proving execute --package stwo_circuit_verifier \
   --features <feature> --print-resource-usage --output none --arguments-file <proof_file>
 ```
 

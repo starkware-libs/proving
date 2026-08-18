@@ -30,86 +30,16 @@ jobs:
       - run: scarb lint --features=qm31_opcode --deny-warnings
 
   scarb-test:
-    runs-on: ${{ matrix.runner }}
+    runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     defaults:
       run:
         working-directory: stwo_cairo_verifier
     strategy:
       matrix:
-        feature: [poseidon252_verifier, "poseidon252_verifier,poseidon_outputs_packing", qm31_opcode, "qm31_opcode,blake_outputs_packing", "qm31_opcode,poseidon_outputs_packing"]
+        feature: [poseidon252_verifier, qm31_opcode]
         package:
           - stwo_verifier_core
-          - stwo_cairo_air
-          - stwo_cairo_verifier
           - stwo_verifier_utils
-        include:
-          # ==========================================
-          # Explicit Runner Size Mapping (20 combinations)
-          # ==========================================
-          # 1. stwo_verifier_utils (All small)
-          - feature: poseidon252_verifier
-            package: stwo_verifier_utils
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "poseidon252_verifier,poseidon_outputs_packing"
-            package: stwo_verifier_utils
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: qm31_opcode
-            package: stwo_verifier_utils
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,blake_outputs_packing"
-            package: stwo_verifier_utils
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,poseidon_outputs_packing"
-            package: stwo_verifier_utils
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          # 2. stwo_verifier_core (All small)
-          - feature: poseidon252_verifier
-            package: stwo_verifier_core
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "poseidon252_verifier,poseidon_outputs_packing"
-            package: stwo_verifier_core
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: qm31_opcode
-            package: stwo_verifier_core
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,blake_outputs_packing"
-            package: stwo_verifier_core
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,poseidon_outputs_packing"
-            package: stwo_verifier_core
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          # 3. stwo_cairo_air (poseidon = small, qm31 = xlarge)
-          - feature: poseidon252_verifier
-            package: stwo_cairo_air
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: "poseidon252_verifier,poseidon_outputs_packing"
-            package: stwo_cairo_air
-            runner: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
-          - feature: qm31_opcode
-            package: stwo_cairo_air
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,blake_outputs_packing"
-            package: stwo_cairo_air
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,poseidon_outputs_packing"
-            package: stwo_cairo_air
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          # 4. stwo_cairo_verifier (poseidon252 = medium, poseidon_packing = large, qm31 = xlarge)
-          - feature: poseidon252_verifier
-            package: stwo_cairo_verifier
-            runner: namespace-profile-starkware-libs-proving-dev-medium-ubuntu-24-04-amd64
-          - feature: "poseidon252_verifier,poseidon_outputs_packing"
-            package: stwo_cairo_verifier
-            runner: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
-          - feature: qm31_opcode
-            package: stwo_cairo_verifier
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,blake_outputs_packing"
-            package: stwo_cairo_verifier
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,poseidon_outputs_packing"
-            package: stwo_cairo_verifier
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
@@ -139,33 +69,3 @@ jobs:
       # in production (see cairo_consts_test.rs).
       - if: matrix.package == 'stwo_circuit_verifier' && matrix.feature == 'qm31_opcode'
         run: scarb --profile proving execute -p stwo_circuit_verifier --features ${{ matrix.feature }} --print-resource-usage --output none --arguments-file ../crates/stwo_run_and_prove_recursive_tree/test_data/goldens/four_leaves/root.proof
-
-  scarb-execute:
-    runs-on: ${{ matrix.runner }}
-    defaults:
-      run:
-        working-directory: stwo_cairo_verifier
-    strategy:
-      matrix:
-        include:
-          - feature: poseidon252_verifier
-            proof_file: ../test_data/test_prove_verify_ret_opcode/proof.json
-            runner: namespace-profile-starkware-libs-proving-dev-medium-ubuntu-24-04-amd64
-          - feature: "poseidon252_verifier,poseidon_outputs_packing"
-            proof_file: ../test_data/test_prove_verify_ret_opcode/proof.json
-            runner: namespace-profile-starkware-libs-proving-dev-large-ubuntu-24-04-amd64
-          - feature: qm31_opcode
-            proof_file: ../test_data/test_prove_verify_all_opcode_components/proof.json
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,blake_outputs_packing"
-            proof_file: ../test_data/test_prove_verify_all_opcode_components/proof.json
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-          - feature: "qm31_opcode,poseidon_outputs_packing"
-            proof_file: ../test_data/test_prove_verify_all_opcode_components/proof.json
-            runner: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
-    steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
-        with:
-          tool-versions: .tool-versions
-      - run: scarb --profile proving execute -p stwo_cairo_verifier --features ${{ matrix.feature }} --print-resource-usage --output none --arguments-file ${{ matrix.proof_file }}

@@ -1,7 +1,6 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use air_code_gen::cairo::claims::generate_claims_cairo_file;
 use air_code_gen::cairo::sample_evaluations as cairo_sample_evaluations;
 use air_code_gen::circuit::all_components::generate_all_components_file;
 use air_code_gen::circuit::sample_evaluations as circuit_sample_evaluations;
@@ -29,7 +28,6 @@ use xshell::{Shell, cmd};
 const DEFAULT_ROOT_DIR: &str = ".";
 pub const CLAIM_GENERATOR_FILE_PATH: &str = "crates/prover/src/witness/cairo_claim_generator.rs";
 pub const CLAIMS_RUST_FILE_PATH: &str = "crates/cairo-air/src/claims.rs";
-pub const CLAIMS_CAIRO_FILE_PATH: &str = "stwo_cairo_verifier/crates/cairo_air/src/claims.cairo";
 pub const COMPONENTS_RUST_FILE_PATH: &str = "crates/cairo-air/src/cairo_components.rs";
 pub const PROVERS_UTILS_FILE_PATH: &str = "crates/prover/src/utils.rs";
 
@@ -294,11 +292,6 @@ fn generate_stwo_cairo(args: GenerateArgs) {
         ),
         (
             &compiled_casm_dir,
-            Path::new("stwo_cairo_verifier/crates/cairo_air/src/components"),
-            AutogenCodeType::CAIRO,
-        ),
-        (
-            &compiled_casm_dir,
             Path::new("crates/prover/src/witness/components"),
             AutogenCodeType::WITNESS,
         ),
@@ -350,10 +343,6 @@ fn generate_stwo_cairo(args: GenerateArgs) {
     let provers_utils_code = generate_provers_rust_file(&compiled_registry.keys().collect_vec());
     fs::write(args.root_dir.join(PROVERS_UTILS_FILE_PATH), provers_utils_code.to_string().unwrap())
         .expect("Failed to write provers utils code");
-
-    let claims_cairo_code = generate_claims_cairo_file(&compiled_registry);
-    fs::write(args.root_dir.join(CLAIMS_CAIRO_FILE_PATH), claims_cairo_code.to_string().unwrap())
-        .expect("Failed to write claims cairo code");
 
     if !args.skip_format {
         format_rust(&args.root_dir);
