@@ -6,12 +6,14 @@ use bytemuck::{Pod, Zeroable};
 use num_traits::{One, Zero};
 use rand::distr::{Distribution, StandardUniform};
 
-use super::PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE;
-use super::cm31::PackedCM31;
+use super::batch_inverse::{
+    BatchInverseScratch, PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE, batch_inverse_via_base_norms,
+};
+use super::cm31::{self, PackedCM31};
 use super::m31::{N_LANES, PackedM31};
 use crate::core::fields::m31::M31;
 use crate::core::fields::qm31::QM31;
-use crate::core::fields::{FieldExpOps, batch_inverse_chunked};
+use crate::core::fields::{FieldExpOps, batch_inverse_in_place};
 use crate::core::utils;
 
 pub type PackedSecureField = PackedQM31;
@@ -165,23 +167,76 @@ impl FieldExpOps for PackedQM31 {
     fn inverse(&self) -> Self {
         assert!(!self.is_zero(), "0 has no inverse");
         // (a + bu)^-1 = (a - bu) / (a^2 - (2+i)b^2).
-        let b2 = self.b().square();
-        let ib2 = PackedCM31([-b2.b(), b2.a()]);
-        let denom = self.a().square() - (b2 + b2 + ib2);
-        let denom_inverse = denom.inverse();
+        let denom_inverse = norm(*self).inverse();
         Self([self.a() * denom_inverse, -self.b() * denom_inverse])
     }
 
     fn batch_inverse(column: &[Self]) -> Vec<Self> {
         let mut result = unsafe { utils::uninit_vec(column.len()) };
-        batch_inverse_chunked(column, &mut result, PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE);
+        batch_inverse_packed_qm31(column, &mut result);
         result
     }
 }
 
+/// The lane-wise norm of `x` over `CM31`: `N(a + bu) = (a + bu)(a - bu) = a^2 - (2+i)b^2`.
+#[inline(always)]
+fn norm(x: PackedQM31) -> PackedCM31 {
+    let b2 = x.b().square();
+    let i_b2 = PackedCM31([-b2.b(), b2.a()]);
+    x.a().square() - (b2 + b2 + i_b2)
+}
+
+/// Inverts a single chunk.
+///
+/// For a `QM31` element `x = a + bu`, with `n = N(x)` its norm over `CM31` and `m = N(n)` the
+/// norm of `n` over `M31`, the inverse is
+///
+/// ```text
+/// x^-1 = (a - bu) * n^-1 = (a - bu) * conj(n) * m^-1.
+/// ```
+///
+/// Only the norms `m`, which are base field elements, are batch inverted. That keeps the
+/// serial dependency chain on [`PackedM31`] and leaves every other operation pointwise, at
+/// ~17 base field multiplications per element against ~27 for Montgomery's batch inverse over
+/// `QM31`.
+fn batch_inverse_chunk(
+    column: &[PackedQM31],
+    dst: &mut [PackedQM31],
+    scratch: &mut BatchInverseScratch,
+) {
+    let (base_norms, base_norm_invs) = scratch.buffers(column.len());
+
+    // Park the `CM31` norms in `dst`'s `a` coordinate, saving a third scratch buffer.
+    for ((&x, base_norm), dst) in column.iter().zip(&mut *base_norms).zip(&mut *dst) {
+        let x_norm = norm(x);
+        *base_norm = cm31::norm(x_norm);
+        dst.0[0] = x_norm;
+    }
+
+    batch_inverse_in_place(base_norms, base_norm_invs);
+
+    for ((&x, base_norm_inv), dst) in column.iter().zip(base_norm_invs).zip(&mut *dst) {
+        // x_norm = n
+        let x_norm = dst.0[0];
+        // n^-1 = conj(n) * m^-1
+        let norm_inv = PackedCM31([x_norm.a() * *base_norm_inv, -(x_norm.b() * *base_norm_inv)]);
+        let [a, b] = x.0;
+        // x^-1 = conj(x) * n^-1
+        *dst = PackedQM31([a * norm_inv, -(b * norm_inv)]);
+    }
+}
+
+/// Inverts every element of `column` into `dst`.
+///
+/// As with any batch inversion, a zero in any lane makes the whole batch's output for that
+/// lane meaningless.
 pub fn batch_inverse_packed_qm31(column: &[PackedQM31], dst: &mut [PackedQM31]) {
-    assert!(column.len() <= dst.len());
-    batch_inverse_chunked(column, dst, PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE);
+    batch_inverse_via_base_norms(
+        column,
+        dst,
+        PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE,
+        batch_inverse_chunk,
+    );
 }
 
 impl Add<PackedM31> for PackedQM31 {
@@ -330,10 +385,15 @@ impl From<QM31> for PackedQM31 {
 mod tests {
     use std::array;
 
+    use num_traits::One;
     use rand::rngs::SmallRng;
     use rand::{Rng, SeedableRng};
 
-    use crate::prover::backend::simd::qm31::PackedQM31;
+    use super::PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE;
+    use crate::core::fields::FieldExpOps;
+    use crate::core::fields::qm31::QM31;
+    use crate::prover::backend::simd::m31::N_LANES;
+    use crate::prover::backend::simd::qm31::{PackedQM31, batch_inverse_packed_qm31};
 
     #[test]
     fn addition_works() {
@@ -383,5 +443,67 @@ mod tests {
         let res = -packed_values;
 
         assert_eq!(res.to_array(), values.map(|v| -v));
+    }
+
+    #[test]
+    fn inverse_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let values: [QM31; N_LANES] = rng.random();
+
+        let res = PackedQM31::from_array(values).inverse();
+
+        assert_eq!(res.to_array(), values.map(|v| v.inverse()));
+    }
+
+    #[test]
+    fn batch_inverse_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        // Cover a partial chunk, an exact chunk, several chunks with a partial tail, and the
+        // lengths `batch_inverse_in_place` falls back to the classic algorithm for.
+        for len in [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            7,
+            8,
+            PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE - 1,
+            PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE,
+            2 * PACKED_QM31_BATCH_INVERSE_CHUNK_SIZE + 3,
+        ] {
+            let column: Vec<PackedQM31> =
+                (0..len).map(|_| PackedQM31::from_array(rng.random())).collect();
+
+            let res = PackedQM31::batch_inverse(&column);
+
+            assert_eq!(res.len(), len, "len = {len}");
+            for (i, (x, x_inv)) in column.iter().zip(&res).enumerate() {
+                assert_eq!(
+                    (*x * *x_inv).to_array(),
+                    [QM31::one(); N_LANES],
+                    "len = {len}, index = {i}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn batch_inverse_into_longer_dst_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let column: Vec<PackedQM31> =
+            (0..5).map(|_| PackedQM31::from_array(rng.random())).collect();
+        let mut dst = vec![PackedQM31::one(); 8];
+
+        batch_inverse_packed_qm31(&column, &mut dst);
+
+        for (x, x_inv) in column.iter().zip(&dst) {
+            assert_eq!((*x * *x_inv).to_array(), [QM31::one(); N_LANES]);
+        }
+        // The tail of `dst` is left untouched.
+        for x in &dst[5..] {
+            assert_eq!(x.to_array(), [QM31::one(); N_LANES]);
+        }
     }
 }

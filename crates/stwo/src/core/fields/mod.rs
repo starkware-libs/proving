@@ -67,7 +67,8 @@ fn batch_inverse_classic<T: FieldExpOps>(column: &[T], dst: &mut [T]) {
     dst[0] = curr_inverse;
 }
 
-/// Inverts a batch of elements using Montgomery's trick.
+/// Inverts a batch of elements using Montgomery's batch inverse: one inversion of the whole
+/// product, unwound into the individual inverses with cumulative products.
 pub fn batch_inverse_in_place<F: FieldExpOps>(column: &[F], dst: &mut [F]) {
     const WIDTH: usize = 4;
     let n = column.len();

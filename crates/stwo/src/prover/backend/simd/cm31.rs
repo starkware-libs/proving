@@ -4,10 +4,12 @@ use std::ops::{Add, Mul, MulAssign, Neg, Sub};
 use bytemuck::{Pod, Zeroable};
 use num_traits::{One, Zero};
 
-use super::PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE;
+use super::batch_inverse::{
+    BatchInverseScratch, PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE, batch_inverse_via_base_norms,
+};
 use super::m31::{N_LANES, PackedM31};
 use crate::core::fields::cm31::CM31;
-use crate::core::fields::{FieldExpOps, batch_inverse_chunked};
+use crate::core::fields::{FieldExpOps, batch_inverse_in_place};
 use crate::core::utils;
 
 /// SIMD implementation of [`CM31`].
@@ -132,16 +134,67 @@ impl MulAssign for PackedCM31 {
 }
 
 impl FieldExpOps for PackedCM31 {
+    fn square(&self) -> Self {
+        // (a + bi)^2 = (a + b)(a - b) + 2ab*i. Two base field multiplications instead of the
+        // three that the Karatsuba `Mul` takes.
+        let Self([a, b]) = *self;
+        Self([(a + b) * (a - b), (a * b).double()])
+    }
+
     fn inverse(&self) -> Self {
         assert!(!self.is_zero(), "0 has no inverse");
         // 1 / (a + bi) = (a - bi) / (a^2 + b^2).
-        Self([self.a(), -self.b()]) * (self.a().square() + self.b().square()).inverse()
+        Self([self.a(), -self.b()]) * norm(*self).inverse()
     }
 
     fn batch_inverse(column: &[Self]) -> Vec<Self> {
         let mut result = unsafe { utils::uninit_vec(column.len()) };
-        batch_inverse_chunked(column, &mut result, PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE);
+        batch_inverse_via_base_norms(
+            column,
+            &mut result,
+            PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE,
+            batch_inverse_chunk,
+        );
         result
+    }
+}
+
+/// The lane-wise norm of `x` over `M31`: `N(a + bi) = (a + bi)(a - bi) = a^2 + b^2`.
+#[inline(always)]
+pub(super) fn norm(x: PackedCM31) -> PackedM31 {
+    x.a().square() + x.b().square()
+}
+
+/// Inverts a single chunk.
+///
+/// For a `CM31` element `x`, the inverse is
+///
+/// ```text
+/// x^-1 = conj(x) * N(x)^-1.
+/// ```
+///
+/// Only the norms `N(x)`, which are base field elements, are batch inverted. That keeps the
+/// serial dependency chain on [`PackedM31`] and leaves every other operation pointwise, at
+/// ~7 base field multiplications per element against ~9 for Montgomery's batch inverse over
+/// `CM31`.
+///
+/// As with any batch inversion, a zero in any lane makes the whole batch's output for that
+/// lane meaningless.
+fn batch_inverse_chunk(
+    column: &[PackedCM31],
+    dst: &mut [PackedCM31],
+    scratch: &mut BatchInverseScratch,
+) {
+    let (base_norms, base_norm_invs) = scratch.buffers(column.len());
+
+    for (&x, base_norm) in column.iter().zip(&mut *base_norms) {
+        *base_norm = norm(x);
+    }
+
+    batch_inverse_in_place(base_norms, base_norm_invs);
+
+    for ((&x, base_norm_inv), dst) in column.iter().zip(base_norm_invs).zip(dst) {
+        *dst = PackedCM31([x.a() * *base_norm_inv, -(x.b() * *base_norm_inv)]);
     }
 }
 
@@ -184,10 +237,15 @@ impl Neg for PackedCM31 {
 mod tests {
     use std::array;
 
+    use num_traits::One;
     use rand::rngs::SmallRng;
     use rand::{Rng, SeedableRng};
 
+    use super::PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE;
+    use crate::core::fields::FieldExpOps;
+    use crate::core::fields::cm31::CM31;
     use crate::prover::backend::simd::cm31::PackedCM31;
+    use crate::prover::backend::simd::m31::N_LANES;
 
     #[test]
     fn addition_works() {
@@ -237,5 +295,59 @@ mod tests {
         let res = -packed_values;
 
         assert_eq!(res.to_array(), values.map(|v| -v));
+    }
+
+    #[test]
+    fn square_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let values: [CM31; N_LANES] = rng.random();
+
+        let res = PackedCM31::from_array(values).square();
+
+        assert_eq!(res.to_array(), values.map(|v| v * v));
+    }
+
+    #[test]
+    fn inverse_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let values: [CM31; N_LANES] = rng.random();
+
+        let res = PackedCM31::from_array(values).inverse();
+
+        assert_eq!(res.to_array(), values.map(|v| v.inverse()));
+    }
+
+    #[test]
+    fn batch_inverse_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        // Cover a partial chunk, an exact chunk, several chunks with a partial tail, and the
+        // lengths `batch_inverse_in_place` falls back to the classic algorithm for.
+        for len in [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            7,
+            8,
+            PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE - 1,
+            PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE,
+            2 * PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE + 3,
+        ] {
+            let column: Vec<PackedCM31> =
+                (0..len).map(|_| PackedCM31::from_array(rng.random())).collect();
+
+            let res = PackedCM31::batch_inverse(&column);
+
+            assert_eq!(res.len(), len, "len = {len}");
+            for (i, (x, x_inv)) in column.iter().zip(&res).enumerate() {
+                assert_eq!(
+                    (*x * *x_inv).to_array(),
+                    [CM31::one(); N_LANES],
+                    "len = {len}, index = {i}"
+                );
+            }
+        }
     }
 }

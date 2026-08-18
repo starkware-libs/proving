@@ -8,7 +8,7 @@ use bytemuck::{Pod, Zeroable};
 use num_traits::{One, Zero};
 use rand::distr::{Distribution, StandardUniform};
 
-use super::PACKED_M31_BATCH_INVERSE_CHUNK_SIZE;
+use super::batch_inverse::PACKED_M31_BATCH_INVERSE_CHUNK_SIZE;
 use super::qm31::PackedQM31;
 use crate::core::fields::m31::{BaseField, M31, MODULUS_BITS, P, pow2147483645};
 use crate::core::fields::qm31::QM31;
