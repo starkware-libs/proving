@@ -191,10 +191,20 @@ pub fn shared_target_fixpoint(
 /// Inputs for the supported-circuits registry generator.
 #[derive(serde::Deserialize)]
 pub struct RegistryDefinition {
+    /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI config and
+    /// preprocessed trace variant) and are recorded in the registry for the leaf prover to run
+    /// with.
     pub cairo_prover_params_json: std::path::PathBuf,
+    /// The circuit proofs' FRI config, recorded in the registry for the leaf prover and the
+    /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
+    /// as if lifted to `trace_size + blowup`.
     pub circuit_fri_config_json: std::path::PathBuf,
+    /// The compiled program the leaf circuit verifies (the leaf prover's `--program`).
     pub program: std::path::PathBuf,
+    /// Smallest verified trace log size (inclusive). Bounded below by the preprocessed-trace
+    /// variant's sequence-column log height (20 for canonical_small, 25 for canonical).
     pub min_trace_log_size: u32,
+    /// Largest verified trace log size (inclusive).
     pub max_trace_log_size: u32,
     /// Pads the shared target to another registry's shape (see [`padded_shared_target`]).
     pub pad_to_component_log_sizes: Option<LogSizes>,

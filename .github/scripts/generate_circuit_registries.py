@@ -5,7 +5,6 @@ Generates each supported-circuits registry (the `circuit_params --registry` JSON
 """
 
 import argparse
-import json
 import subprocess
 from pathlib import Path
 
@@ -41,31 +40,19 @@ def main():
     args = parser.parse_args()
 
     for name in REGISTRY_NAMES:
-        definition = json.loads(
-            Path(f"circuit_registry_definitions/{name}/definition.json").read_text()
-        )
         registry_dir = Path(args.output_dir) / name
         registry_dir.mkdir(parents=True, exist_ok=True)
-        command = [
-            args.circuit_params_binary,
-            "--registry",
-            "--cairo-prover-params-json",
-            definition["cairo_prover_params_json"],
-            "--circuit-fri-config-json",
-            definition["circuit_fri_config_json"],
-            "--program",
-            definition["program"],
-            "--min-trace-log-size",
-            str(definition["min_trace_log_size"]),
-            "--max-trace-log-size",
-            str(definition["max_trace_log_size"]),
-            "--output-path",
-            str(registry_dir / "registry.json"),
-        ]
-        pad_to = definition.get("pad_to_component_log_sizes")
-        if pad_to is not None:
-            command += ["--pad-to-component-log-sizes", json.dumps(pad_to)]
-        subprocess.run(command, check=True)
+        subprocess.run(
+            [
+                args.circuit_params_binary,
+                "--registry",
+                "--definition",
+                f"circuit_registry_definitions/{name}/definition.json",
+                "--output-path",
+                str(registry_dir / "registry.json"),
+            ],
+            check=True,
+        )
 
 
 if __name__ == "__main__":

@@ -1,54 +1,39 @@
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-use circuit_params::RegistryDefinition;
-
-fn crates_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..")
+fn repo_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
 
 /// One registry to exercise: the definition `circuit-params` runs over, and the in-repo path its
 /// expected output is committed at (the fix target of the tests below). That path is not part of
 /// the definition: the upload publishes to the bucket.
 struct RegistryTestFixture {
-    definition: RegistryDefinition,
+    /// Repo-root-relative, like the paths inside it.
+    definition_path: &'static str,
     /// Read only by the fix-target tests, which are the slow ones.
     #[cfg(feature = "slow-tests")]
-    committed_path: PathBuf,
+    committed_path: &'static str,
 }
 
-impl RegistryTestFixture {
-    /// The registry the recursive tree's golden e2e (`test_golden_four_leaves_e2e`) proves with;
-    /// its leaves attest to the leaf simple bootloader, and its circuits are padded to the
-    /// production shape (so the goldens' root proof is what the Cairo circuit verifier consumes).
-    /// Its committed definition is the same one the registry upload generates from.
-    fn recursive_tree() -> Self {
-        Self {
-            definition: RegistryDefinition::load(&crates_dir().join(".."), "canonical_small"),
-            #[cfg(feature = "slow-tests")]
-            committed_path: crates_dir()
-                .join("stwo_run_and_prove_recursive_tree/test_data/circuit_registry.json"),
-        }
-    }
-
-    /// Builds a registry to test the leaf prover. Not a committed definition — it exists only
-    /// for that test, so it is spelled out here.
+/// The registry the recursive tree's golden e2e (`test_golden_four_leaves_e2e`) proves with; its
+/// leaves attest to the leaf simple bootloader, and its circuits are padded to the production
+/// shape (so the goldens' root proof is what the Cairo circuit verifier consumes). Its committed
+/// definition is the same one the registry upload generates from.
+const RECURSIVE_TREE: RegistryTestFixture = RegistryTestFixture {
+    definition_path: "circuit_registry_definitions/canonical_small/definition.json",
     #[cfg(feature = "slow-tests")]
-    fn leaf_prover() -> Self {
-        let data = crates_dir().join("leaf_prover/tests/data");
-        Self {
-            definition: RegistryDefinition {
-                cairo_prover_params_json: data.join("cairo_prover_params_canonical_small.json"),
-                circuit_fri_config_json: data.join("circuit_fri_config_canonical_small.json"),
-                program: data.join("use_all_opcodes_and_builtins_compiled.json"),
-                min_trace_log_size: 20,
-                max_trace_log_size: 20,
-                pad_to_component_log_sizes: None,
-            },
-            committed_path: data.join("circuit_registry_canonical_small.json"),
-        }
-    }
-}
+    committed_path: "crates/stwo_run_and_prove_recursive_tree/test_data/circuit_registry.json",
+};
+
+/// A registry over the leaf prover's own test data; only its committed registry is checked, by a
+/// slow test.
+#[cfg(feature = "slow-tests")]
+const LEAF_PROVER: RegistryTestFixture = RegistryTestFixture {
+    definition_path: "crates/leaf_prover/tests/data/circuit_registry_definition_canonical_small.\
+                      json",
+    committed_path: "crates/leaf_prover/tests/data/circuit_registry_canonical_small.json",
+};
 
 /// Runs the `circuit-params` binary over `fixture`'s definition, asserting success; `as_registry`
 /// passes `--registry`.
@@ -56,23 +41,10 @@ impl RegistryTestFixture {
 /// Returns the `--output-path` file's contents when `output_path` is given, the binary's stdout
 /// otherwise (`run_binary` mixes tracing into stdout, so parsed output must go through a file).
 fn run(fixture: &RegistryTestFixture, as_registry: bool, output_path: Option<&Path>) -> String {
-    let definition = &fixture.definition;
     let binary = env!("CARGO_BIN_EXE_circuit-params");
     let mut command = Command::new(binary);
-    command
-        .arg("--min-trace-log-size")
-        .arg(definition.min_trace_log_size.to_string())
-        .arg("--max-trace-log-size")
-        .arg(definition.max_trace_log_size.to_string())
-        .arg("--cairo-prover-params-json")
-        .arg(&definition.cairo_prover_params_json)
-        .arg("--circuit-fri-config-json")
-        .arg(&definition.circuit_fri_config_json)
-        .arg("--program")
-        .arg(&definition.program);
-    if let Some(pad_to) = &definition.pad_to_component_log_sizes {
-        command.arg("--pad-to-component-log-sizes").arg(serde_json::to_string(pad_to).unwrap());
-    }
+    // The definitions' paths are repo-root-relative.
+    command.current_dir(repo_root()).arg("--definition").arg(fixture.definition_path);
     if as_registry {
         command.arg("--registry");
     }
@@ -96,7 +68,7 @@ fn run(fixture: &RegistryTestFixture, as_registry: bool, output_path: Option<&Pa
 /// Run the human-readable report path; only a successful run is checked.
 #[test]
 fn run_circuit_params_binary_info() {
-    run(&RegistryTestFixture::recursive_tree(), false, None);
+    run(&RECURSIVE_TREE, false, None);
 }
 
 /// Regenerates `fixture`'s registry and asserts it matches the committed one, so a change to the
@@ -118,15 +90,15 @@ fn assert_committed_registry_is_up_to_date(fixture: &RegistryTestFixture) {
     // The circuit hash commits to the config, so distinct circuits must not collide.
     assert_ne!(generated.leaf_verifiers[0].circuit_hash, generated.multiverifiers[0].circuit_hash);
 
-    let committed_path = &fixture.committed_path;
+    let committed_path = repo_root().join(fixture.committed_path);
     if std::env::var("FIX").is_ok() {
-        std::fs::write(committed_path, &json)
+        std::fs::write(&committed_path, &json)
             .unwrap_or_else(|err| panic!("Cannot write to {}: {err}", committed_path.display()));
         return;
     }
     // Compared as JSON: `CircuitRegistry` holds the prover params, whose type is not `PartialEq`.
     let committed: serde_json::Value =
-        serde_json::from_str(&std::fs::read_to_string(committed_path).unwrap()).unwrap();
+        serde_json::from_str(&std::fs::read_to_string(&committed_path).unwrap()).unwrap();
     assert_eq!(
         serde_json::from_str::<serde_json::Value>(&json).unwrap(),
         committed,
@@ -139,12 +111,12 @@ fn assert_committed_registry_is_up_to_date(fixture: &RegistryTestFixture) {
 #[test]
 #[cfg(feature = "slow-tests")]
 fn test_recursive_tree_registry_is_up_to_date() {
-    assert_committed_registry_is_up_to_date(&RegistryTestFixture::recursive_tree());
+    assert_committed_registry_is_up_to_date(&RECURSIVE_TREE);
 }
 
 // Slow: as above. This registry is used by `leaf_prover`'s CLI test.
 #[test]
 #[cfg(feature = "slow-tests")]
 fn test_leaf_prover_registry_is_up_to_date() {
-    assert_committed_registry_is_up_to_date(&RegistryTestFixture::leaf_prover());
+    assert_committed_registry_is_up_to_date(&LEAF_PROVER);
 }

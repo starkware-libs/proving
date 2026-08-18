@@ -27,12 +27,12 @@ use circuit_cairo_verifier::utils::load_program;
 use circuit_common::finalize::ComponentSizes;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_params::{
-    CircuitBuilder, DUMMY_PREPROCESSED_ROOT, component_sizes, padded_preprocessed_circuit,
-    padded_shared_target, read_params,
+    CircuitBuilder, DUMMY_PREPROCESSED_ROOT, RegistryDefinition, component_sizes,
+    padded_preprocessed_circuit, padded_shared_target, read_params,
 };
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_registry::{
-    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, LogSizes, Multiverifier,
+    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier,
 };
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use clap::Parser;
@@ -43,37 +43,16 @@ use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
 #[derive(Parser)]
 struct Args {
-    /// Path to write the output to. If omitted, prints to stdout.
+    /// The registry definition JSON (see [`RegistryDefinition`]); the paths inside are resolved
+    /// against the working directory, so run from the repo root for the committed definitions.
     #[clap(long)]
-    output_path: Option<PathBuf>,
-    /// Smallest verified trace log size to measure (inclusive). Bounded below by the
-    /// preprocessed-trace variant's sequence-column log height (20 for canonical_small, 25 for
-    /// canonical).
-    #[clap(long)]
-    min_trace_log_size: u32,
-    /// Largest verified trace log size to measure (inclusive).
-    #[clap(long)]
-    max_trace_log_size: u32,
-    /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI config and
-    /// preprocessed trace variant) and are recorded in the registry for the leaf prover to run
-    /// with.
-    #[clap(long)]
-    cairo_prover_params_json: PathBuf,
-    /// The circuit proofs' FRI config, recorded in the registry for the leaf prover and the
-    /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
-    /// as if lifted to `trace_size + blowup`.
-    #[clap(long)]
-    circuit_fri_config_json: PathBuf,
-    /// The compiled program the leaf circuit verifies (the leaf prover's `--program`).
-    #[clap(long)]
-    program: PathBuf,
+    definition: PathBuf,
     /// Write the registry JSON instead of the human-readable sizes report.
     #[clap(long)]
     registry: bool,
-    /// Optional component log sizes (an inline JSON object) to pad the shared target to — another
-    /// registry's shape (see `padded_shared_target`). Must be the exact final target.
+    /// Path to write the output to. If omitted, prints to stdout.
     #[clap(long)]
-    pad_to_component_log_sizes: Option<String>,
+    output_path: Option<PathBuf>,
 }
 
 /// The fraction (as a percentage) of the padded (power-of-two) component that is actually used.
@@ -124,19 +103,19 @@ fn main() -> ExitCode {
 fn run() -> Result<(), String> {
     let args = Args::parse();
 
-    let program = load_program(&args.program);
+    let definition: RegistryDefinition = read_params(&args.definition);
+    let program = load_program(&definition.program);
 
-    // The three inputs the definition names, each read from the file the proving binaries run
-    // with.
-    let cairo_params: ProverParameters = read_params(&args.cairo_prover_params_json);
-    let circuit_fri_config: FriConfig = read_params(&args.circuit_fri_config_json);
+    // The definition's params, each read from the file the proving binaries run with.
+    let cairo_params: ProverParameters = definition.cairo_params();
+    let circuit_fri_config: FriConfig = definition.circuit_fri_config();
 
     let circuit_builder = CircuitBuilder {
         preprocessed_trace: cairo_params.preprocessed_trace,
         program,
         cairo_fri_config: cairo_params.fri_config,
     };
-    let trace_log_sizes = args.min_trace_log_size..=args.max_trace_log_size;
+    let trace_log_sizes = definition.min_trace_log_size..=definition.max_trace_log_size;
 
     // Pass 1: every leaf circuit's component sizes. Built with a dummy Cairo root and dropped as
     // soon as its sizes are read, so only one leaf circuit is ever in memory.
@@ -157,11 +136,11 @@ fn run() -> Result<(), String> {
             .map(|(_, padded)| padded.clone())
             .reduce(|max_sizes, sizes| max_sizes.elementwise_max(&sizes))
             .expect("the trace range is non-empty");
-        let pad_to: Option<LogSizes> = args.pad_to_component_log_sizes.as_ref().map(|json| {
-            serde_json::from_str(json).expect("--pad-to-component-log-sizes is not a valid JSON")
-        });
-        let (target_sizes, preprocessed_multiverifier) =
-            padded_shared_target(leaves_max_sizes, circuit_fri_config, pad_to.as_ref());
+        let (target_sizes, preprocessed_multiverifier) = padded_shared_target(
+            leaves_max_sizes,
+            circuit_fri_config,
+            definition.pad_to_component_log_sizes.as_ref(),
+        );
 
         // Homogeneity: padded to the shared target, every circuit in the registry must have the
         // multiverifier's preprocessed-trace layout — the layout it verifies (each leaf is
@@ -232,8 +211,10 @@ fn run() -> Result<(), String> {
             .collect();
         let leaf_section = format!("leaf:\n{}", leaf_lines.join("\n"));
 
-        let multiverifier_context = circuit_builder
-            .build_multiverifier_context_for_trace(args.max_trace_log_size, circuit_fri_config);
+        let multiverifier_context = circuit_builder.build_multiverifier_context_for_trace(
+            definition.max_trace_log_size,
+            circuit_fri_config,
+        );
         let (mv_raw, mv_padded) = component_sizes(&multiverifier_context);
         let multiverifier_line = format!("multiverifier:\n{}", format_sizes(&mv_raw, &mv_padded));
 
