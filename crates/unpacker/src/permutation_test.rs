@@ -37,7 +37,7 @@ fn test_permute_hash_values() {
 /// `outputs` that is not a permutation of `inputs` (a hash absent from the inputs) has no source
 /// index, so witness generation panics.
 #[test]
-#[should_panic(expected = "output hash is not a permutation of the inputs")]
+#[should_panic(expected = "output tuple is not a permutation of the inputs")]
 fn test_permute_hash_values_panics_on_non_permutation() {
     let mut context = TraceContext::default();
 
@@ -55,7 +55,7 @@ fn test_permute_hash_values_panics_on_non_permutation() {
 /// individually a valid permutation, but the mixed hash is not one of the inputs) is not a
 /// permutation, so witness generation panics.
 #[test]
-#[should_panic(expected = "output hash is not a permutation of the inputs")]
+#[should_panic(expected = "output tuple is not a permutation of the inputs")]
 fn test_permute_hash_values_panics_on_column_mixing() {
     let mut context = TraceContext::default();
 
