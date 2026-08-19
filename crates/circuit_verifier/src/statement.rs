@@ -28,6 +28,10 @@ use crate::components::{
 use crate::relations::GATE_RELATION_ID;
 use crate::verify::CircuitConfig;
 
+#[cfg(test)]
+#[path = "statement_test.rs"]
+mod test;
+
 // TODO(ilya): Update this to the correct values.
 pub const INTERACTION_POW_BITS: u32 = 20;
 

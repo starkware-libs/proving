@@ -49,7 +49,7 @@ impl<Value: IValue> CircuitEval<Value> for CircuitEqComponent {
     }
 
     fn relation_uses_per_row(&self) -> &[RelationUse] {
-        &[RelationUse { relation_id: "gate", uses: 2 }]
+        &[RelationUse { relation_id: "Gate", uses: 2 }]
     }
 
     fn log_size(
