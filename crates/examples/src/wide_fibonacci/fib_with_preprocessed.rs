@@ -85,6 +85,7 @@ mod tests {
     use stwo::core::channel::Blake2sM31Channel;
     use stwo::core::fields::m31::BaseField;
     use stwo::core::fields::qm31::SecureField;
+    use stwo::core::fri::FriConfig;
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
@@ -170,7 +171,14 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_with_unused_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
-            let config = PcsConfig::default();
+            let log_size_unused_pp = log_n_instances + 1;
+            let fri_config = FriConfig::default();
+            let config = PcsConfig {
+                fri_config,
+                trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+                // The preprocessed tree holds the longer unused column.
+                preprocessed_lifting_log_size: log_size_unused_pp + fri_config.log_blowup_factor,
+            };
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
                 CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
@@ -189,7 +197,6 @@ mod tests {
             let mut tree_builder = commitment_scheme.tree_builder();
             let mut preprocessed_trace = vec![generate_preprocessed_trace(log_n_instances)];
             // Build a long unused preprocessed column.
-            let log_size_unused_pp = log_n_instances + 1;
             let domain = CanonicCoset::new(log_size_unused_pp).circle_domain();
             preprocessed_trace
                 .push(CircleEvaluation::new(domain, BaseColumn::zeros(1 << log_size_unused_pp)));

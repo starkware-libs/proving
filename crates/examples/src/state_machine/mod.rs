@@ -167,6 +167,7 @@ mod tests {
     use stwo::core::fields::FieldExpOps;
     use stwo::core::fields::m31::M31;
     use stwo::core::fields::qm31::QM31;
+    use stwo::core::fri::FriConfig;
     use stwo::core::pcs::{PcsConfig, TreeVec};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo_constraint_framework::expr::ExprEvaluator;
@@ -213,7 +214,13 @@ mod tests {
     #[test]
     fn test_state_machine_claimed_sum() {
         let log_n_rows = 8;
-        let config = PcsConfig::default();
+        let fri_config = FriConfig::default();
+        let config = PcsConfig {
+            fri_config,
+            trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
 
         // Initial and last state.
         let initial_state = [M31::zero(); STATE_SIZE];
@@ -240,7 +247,13 @@ mod tests {
     #[test]
     fn test_relation_tracker() {
         let log_n_rows = 8;
-        let config = PcsConfig::default();
+        let fri_config = FriConfig::default();
+        let config = PcsConfig {
+            fri_config,
+            trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
         let initial_state = [M31::zero(); STATE_SIZE];
         let final_state = [
             M31::from_u32_unchecked(1 << log_n_rows),
@@ -279,7 +292,13 @@ mod tests {
     #[test]
     fn test_state_machine_prove() {
         let log_n_rows = 8;
-        let config = PcsConfig::default();
+        let fri_config = FriConfig::default();
+        let config = PcsConfig {
+            fri_config,
+            trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
         let initial_state = [M31::zero(); STATE_SIZE];
         let prover_channel = &mut Blake2sChannel::default();
         let verifier_channel = &mut Blake2sChannel::default();
@@ -331,10 +350,16 @@ let constraint_0 = (QM31Impl::from_partial_evals([trace_2_column_2_offset_0, \
     fn test_logup_counts() {
         let log_n_rows = 8;
         let initial_state = [M31::zero(); STATE_SIZE];
+        let fri_config = FriConfig::default();
         let (components, ..) = prove_state_machine(
             log_n_rows,
             initial_state,
-            PcsConfig::default(),
+            PcsConfig {
+                fri_config,
+                trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+                // The preprocessed tree is empty, so it is not lifted.
+                preprocessed_lifting_log_size: 0,
+            },
             &mut Blake2sChannel::default(),
             false,
         );

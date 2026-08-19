@@ -744,6 +744,7 @@ mod tests {
     use stwo::core::circle::SECURE_FIELD_CIRCLE_GEN;
     use stwo::core::fields::m31::BaseField;
     use stwo::core::fields::qm31::SecureField;
+    use stwo::core::fri::FriConfig;
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig, TreeVec};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo::core::utils::{bit_reverse, coset_order_to_circle_domain_order};
@@ -792,7 +793,13 @@ mod tests {
                 .circle_domain()
                 .half_coset,
         );
-        let config = PcsConfig::default();
+        let fri_config = FriConfig::default();
+        let config = PcsConfig {
+            fri_config,
+            trace_lifting_log_size: log_size + fri_config.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
         let mut commitment_scheme =
             CommitmentSchemeProver::<_, Blake2sMerkleChannel>::new(config, &twiddles);
         let channel = &mut Blake2sChannel::default();
@@ -868,7 +875,13 @@ mod tests {
                 .circle_domain()
                 .half_coset,
         );
-        let config = PcsConfig::default();
+        let fri_config = FriConfig::default();
+        let config = PcsConfig {
+            fri_config,
+            trace_lifting_log_size: log_size + fri_config.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
         let mut commitment_scheme =
             CommitmentSchemeProver::<_, Blake2sMerkleChannel>::new(config, &twiddles);
         let channel = &mut Blake2sChannel::default();
