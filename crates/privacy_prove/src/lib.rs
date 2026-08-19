@@ -47,7 +47,9 @@ use stwo::prover::poly::twiddles::TwiddleTree;
 use stwo_cairo_adapter::ProverInput;
 use stwo_cairo_adapter::adapter::adapt;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTrace;
-use stwo_cairo_prover::prover::{prove_cairo, prove_cairo_with_precompute, warm_pedersen_pp_trace};
+use stwo_cairo_prover::prover::{
+    LiftingSizePolicy, prove_cairo, prove_cairo_with_precompute, warm_pedersen_pp_trace,
+};
 use stwo_cairo_prover::witness::preprocessed_trace::gen_trace;
 use tempfile::NamedTempFile;
 use tracing::{Level, info, span};
@@ -118,8 +120,11 @@ pub fn prepare_recursive_prover_precomputes()
 
     info!("Prepare the twiddles");
     let base_column_pool = BaseColumnPool::<SimdBackend>::new();
-    let cairo_lifting_log_size = CAIRO_PROVER_PARAMS.lifting_size_policy.resolve(None, None);
-    let circuit_lifting_log_size = CIRCUIT_PCS_CONFIG.lifting_log_size;
+    let LiftingSizePolicy::Fixed(cairo_lifting_log_size) = CAIRO_PROVER_PARAMS.lifting_size_policy
+    else {
+        panic!("Only LiftingSizePolicy::Fixed is supported with a precomputed preprocessed tree");
+    };
+    let circuit_lifting_log_size = CIRCUIT_PCS_CONFIG.trace_lifting_log_size;
 
     // Precompute twiddles.
     let max_domain_size = max(cairo_lifting_log_size, circuit_lifting_log_size);
@@ -154,7 +159,7 @@ pub fn prepare_recursive_prover_precomputes()
             CIRCUIT_FRI_CONFIG.log_blowup_factor,
             &twiddles,
             CIRCUIT_STORE_POLYNOMIALS_COEFFICIENTS,
-            circuit_config.config.lifting_log_size,
+            circuit_config.config.preprocessed_lifting_log_size,
             &base_column_pool,
         );
 

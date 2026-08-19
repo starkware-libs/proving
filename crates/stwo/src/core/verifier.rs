@@ -43,7 +43,7 @@ pub fn verify_ex<MC: MerkleChannel>(
         split_composition_log_degree_bound
     );
 
-    let lifting_log_size = commitment_scheme.config.lifting_log_size;
+    let lifting_log_size = commitment_scheme.config.trace_lifting_log_size;
     if include_all_preprocessed_columns {
         let preprocessed_log_size = commitment_scheme.trees[PREPROCESSED_TRACE_IDX].height;
         if lifting_log_size < preprocessed_log_size {
@@ -53,15 +53,17 @@ pub fn verify_ex<MC: MerkleChannel>(
             })?;
         }
     }
-    // The effective lifting size is at least the length of the split composition polynomials'
-    // domain (in particular, a `lifting_log_size` of 0 lifts each tree to its largest column).
+    // The composition tree is committed like any other trace tree, at
+    // `trace_lifting_log_size` (see `CommitmentSchemeVerifier::commit`), so that height already
+    // covers the split composition polynomials' domain and this `max` is a no-op. It only bites
+    // for an AIR whose constraint degree pushes the composition past the trace's own domain,
+    // which the lifted protocol does not support yet — there the commit below rejects the
+    // oversized columns.
     let lifting_log_size = lifting_log_size.max(
         split_composition_log_degree_bound + commitment_scheme.config.fri_config.log_blowup_factor,
     );
 
-    // The max degree of a committed polynomial. If `lifting_log_size` is 0 and
-    // `include_all_preprocessed_columns` is false, the largest degree is attained by the splits
-    // of the composition polynomial.
+    // The max degree of a committed polynomial.
     let max_log_degree_bound =
         lifting_log_size - commitment_scheme.config.fri_config.log_blowup_factor;
 

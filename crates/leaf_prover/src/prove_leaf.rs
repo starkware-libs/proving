@@ -135,9 +135,15 @@ pub fn prove_leaf(
 
     let pcs_config = proof.extended_stark_proof.proof.config;
 
-    // The subtraction recovers the trace size because the prover lifts to the height of the
-    // largest column after blowup.
-    let trace_log_size = pcs_config.lifting_log_size - pcs_config.fri_config.log_blowup_factor;
+    // `AtLeastPreprocessed`, asserted above, lifts every tree to a single, shared height, which the
+    // circuit verifier requires and which the trace size is then read off of.
+    assert_eq!(
+        pcs_config.trace_lifting_log_size, pcs_config.preprocessed_lifting_log_size,
+        "The verifier circuit expects every tree, the preprocessed one included, lifted to the \
+         same size"
+    );
+    let trace_log_size =
+        pcs_config.trace_lifting_log_size - pcs_config.fri_config.log_blowup_factor;
     let registry_entry =
         circuit_registry.leaf_verifier(trace_log_size).unwrap_or_else(|err| panic!("{err}"));
     let circuit_proof_config =

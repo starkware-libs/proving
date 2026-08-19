@@ -1,14 +1,10 @@
 use std::array;
 
 use starknet_ff::FieldElement;
-use stwo::core::ColumnVec;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
 use stwo::core::fri::{FriConfig, FriLayerProof, FriProof};
-use stwo::core::pcs::quotients::CommitmentSchemeProof;
-use stwo::core::pcs::{PcsConfig, TreeVec};
 use stwo::core::poly::line::LinePoly;
-use stwo::core::proof::StarkProof;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo::core::vcs_lifted::verifier::MerkleDecommitmentLifted;
@@ -129,49 +125,6 @@ impl CairoDeserialize for FriConfig {
         let n_queries = usize::deserialize(data);
         let fold_step = u32::deserialize(data);
         FriConfig { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step }
-    }
-}
-
-impl CairoDeserialize for PcsConfig {
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
-        let fri_config = FriConfig::deserialize(data);
-        // `lifting_log_size` is not carried in the wire format (see the `CairoSerialize`
-        // impl); it is always `0` for proofs in this format.
-        PcsConfig { fri_config, lifting_log_size: 0 }
-    }
-}
-
-impl<H: MerkleHasherLifted> CairoDeserialize for CommitmentSchemeProof<H>
-where
-    H::Hash: CairoDeserialize,
-{
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
-        let config = PcsConfig::deserialize(data);
-        let commitments = TreeVec(Vec::<H::Hash>::deserialize(data));
-        let sampled_values = TreeVec(Vec::<ColumnVec<Vec<SecureField>>>::deserialize(data));
-        let decommitments = TreeVec(Vec::<MerkleDecommitmentLifted<H>>::deserialize(data));
-        let queried_values = TreeVec(Vec::<Vec<Vec<BaseField>>>::deserialize(data));
-        let proof_of_work: u64 = u64::deserialize(data);
-        let fri_proof = FriProof::deserialize(data);
-        CommitmentSchemeProof {
-            config,
-            commitments,
-            sampled_values,
-            decommitments,
-            queried_values,
-            proof_of_work,
-            fri_proof,
-        }
-    }
-}
-
-impl<H: MerkleHasherLifted> CairoDeserialize for StarkProof<H>
-where
-    H::Hash: CairoDeserialize,
-{
-    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
-        let commitment_scheme_proof = CommitmentSchemeProof::deserialize(data);
-        StarkProof(commitment_scheme_proof)
     }
 }
 

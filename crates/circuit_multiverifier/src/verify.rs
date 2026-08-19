@@ -116,7 +116,7 @@ pub fn build_multiverifier_context(
     pcs_config: PcsConfig,
 ) -> FinalizedContext<NoValue> {
     assert_eq!(
-        pcs_config.lifting_log_size,
+        pcs_config.trace_lifting_log_size,
         preprocessed_leaf.trace_log_size + pcs_config.fri_config.log_blowup_factor,
         "`pcs_config` must be the config of the proofs of the verified circuit"
     );

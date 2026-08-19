@@ -50,8 +50,9 @@ pub fn verify_cairo(
 fn test_verify() {
     let mut pcs_config = PcsConfig::default();
     pcs_config.fri_config.fold_step = 4;
-    pcs_config.lifting_log_size =
+    pcs_config.trace_lifting_log_size =
         SMALL_MAX_SEQUENCE_LOG_SIZE + pcs_config.fri_config.log_blowup_factor;
+    pcs_config.preprocessed_lifting_log_size = pcs_config.trace_lifting_log_size;
 
     let mut novalue_context: Context<NoValue> = Context::new(N_RESERVED);
     let program_len = 128;

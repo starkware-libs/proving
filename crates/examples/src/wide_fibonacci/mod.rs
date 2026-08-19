@@ -241,8 +241,7 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_prove_with_larger_blowup() {
         for log_n_instances in 4..=7 {
-            let config =
-                PcsConfig { fri_config: FriConfig::new(10, 0, 2, 3, 1), lifting_log_size: 0 };
+            let config = PcsConfig::from_fri_and_lifting_size(FriConfig::new(10, 0, 2, 3, 1), 0);
             // Precompute twiddles for the larger committed domain.
             let twiddles = SimdBackend::precompute_twiddles(
                 CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)

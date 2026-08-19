@@ -113,9 +113,9 @@ pub mod builtin_tests {
 
     use super::*;
 
-    /// Exercises `LiftingSizePolicy::AtLeastPreprocessed`: the mixed config must record the
-    /// maximal committed column log size, and all trees are lifted to that (uniform)
-    /// height.
+    /// Exercises `LiftingSizePolicy::AtLeastPreprocessed`: every tree, the preprocessed one
+    /// included, is lifted to the maximal committed column log size — taken over the
+    /// preprocessed trace's columns too.
     #[test]
     fn test_prove_verify_raise_min_lifting_to_max_column() {
         let compiled_program =
@@ -143,7 +143,8 @@ pub mod builtin_tests {
             );
         let max_column_log_size =
             max_log_trace_size + std::cmp::max(1, config.fri_config.log_blowup_factor);
-        assert_eq!(config.lifting_log_size, max_column_log_size);
+        assert_eq!(config.trace_lifting_log_size, max_column_log_size);
+        assert_eq!(config.preprocessed_lifting_log_size, max_column_log_size);
 
         verify_cairo::<Blake2sMerkleChannel>(cairo_proof.into()).unwrap();
     }
@@ -152,7 +153,7 @@ pub mod builtin_tests {
     /// *unsorted* preprocessed query positions that the Merkle verifier must
     /// sort.
     ///
-    /// `channel_salt = 1` with `n_queries = 1000` is a seed where the folded positions
+    /// `channel_salt = 12` with `n_queries = 1000` is a seed where the folded positions
     /// come out unsorted.
     #[test]
     fn test_prove_verify_large_trace_canonical_small() {
@@ -165,7 +166,7 @@ pub mod builtin_tests {
             channel_hash: ChannelHash::Blake2s,
             fri_config: FriConfig::new(10, 0, 1, 1000, 1),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
-            channel_salt: 1,
+            channel_salt: 12,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,

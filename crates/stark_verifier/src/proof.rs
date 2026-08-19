@@ -278,11 +278,21 @@ impl ProofConfig {
             cumulative_sum_columns.extend(vec![true; SECURE_EXTENSION_DEGREE]);
         }
 
-        let PcsConfig { fri_config, lifting_log_size } = pcs_config;
-        let log_trace_size = lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
-            "The circuit verifier expects lifting_log_size to be log_trace_size + \
-             log_blowup_factor",
-        ) as usize;
+        // The circuit verifier verifies every tree against a single evaluation domain, so it
+        // only accepts proofs whose trees — the preprocessed one included — were lifted to the
+        // same height.
+        let PcsConfig { fri_config, trace_lifting_log_size, preprocessed_lifting_log_size } =
+            pcs_config;
+        assert_eq!(
+            trace_lifting_log_size, preprocessed_lifting_log_size,
+            "The circuit verifier expects every tree, the preprocessed one included, to be lifted \
+             to the same size"
+        );
+        let log_trace_size =
+            trace_lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
+                "The circuit verifier expects trace_lifting_log_size to be log_trace_size + \
+                 log_blowup_factor",
+            ) as usize;
 
         Self {
             n_interaction_pow_bits,

@@ -32,9 +32,8 @@ pub struct ProverParameters {
     /// If not provided, the number of components will be inferred from the input.
     pub opt_n_id_to_big_components: Option<usize>,
 
-    /// Policy for choosing the `lifting_log_size` — the common height to which all committed
-    /// trees are lifted. The right choice depends on the downstream verifier; see the
-    /// [`LiftingSizePolicy`] variants.
+    /// Policy for choosing the heights the committed trees are lifted to. The right choice
+    /// depends on the downstream verifier; see the [`LiftingSizePolicy`] variants.
     pub lifting_size_policy: LiftingSizePolicy,
 }
 
@@ -53,46 +52,32 @@ pub enum ChannelHash {
     Poseidon252,
 }
 
-/// Policy for choosing the `lifting_log_size` used to lift all committed trees to a common
-/// height.
+/// Policy for choosing the heights the committed trees are lifted to.
+///
+/// Each variant fixes a pair: the height the trace trees are lifted to and the height the
+/// preprocessed tree is lifted to — the proof's `PcsConfig::trace_lifting_log_size` and
+/// `PcsConfig::preprocessed_lifting_log_size`, which the verifier commits with.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum LiftingSizePolicy {
     /// Use the trace height ignoring preprocessed trace size.
     /// Intended for proofs targeted at the cairo verifier.
+    ///
+    /// The trace trees are lifted to the trace's own domain and the preprocessed tree to its
+    /// own, so the two heights differ whenever the preprocessed trace is not the tallest.
     Auto,
     /// Use the given lifting log size.
     /// Intended for proofs targeted at the circuit-2-to-1 verifier.
+    ///
+    /// Every tree, the preprocessed one included, is lifted to the given size, so the two
+    /// heights coincide.
     Fixed(u32),
     /// Use the trace height including preprocessed trace size.
     /// Intended for proofs targeted at the circuit-cairo verifier.
+    ///
+    /// Every tree, the preprocessed one included, is lifted to the taller of the two domains, so
+    /// the two heights coincide as they do under [`Self::Fixed`] — the circuit verifies all
+    /// trees against a single evaluation domain. Unlike `Fixed` the height follows the trace
+    /// rather than being named up front, so it needs no precomputed preprocessed tree.
     AtLeastPreprocessed,
-}
-
-impl LiftingSizePolicy {
-    /// Resolves the policy to a concrete `lifting_log_size`.
-    ///
-    /// - `max_trace_log_size` — the trace-only max committed column log size.
-    /// - `preprocessed_trace_log_size` — the preprocessed trace log size.
-    ///
-    /// Pass `None` for a parameter when it isn't known.
-    pub fn resolve(
-        &self,
-        max_trace_log_size: Option<u32>,
-        preprocessed_trace_log_size: Option<u32>,
-    ) -> u32 {
-        match self {
-            Self::Auto => max_trace_log_size
-                .expect("LiftingSizePolicy::Auto cannot be resolved without max_trace_log_size"),
-            Self::Fixed(size) => *size,
-            Self::AtLeastPreprocessed => {
-                let preprocessed = preprocessed_trace_log_size.expect(
-                    "LiftingSizePolicy::AtLeastPreprocessed requires preprocessed_trace_log_size",
-                );
-                let max_trace = max_trace_log_size
-                    .expect("LiftingSizePolicy::AtLeastPreprocessed requires max_trace_log_size");
-                std::cmp::max(preprocessed, max_trace)
-            }
-        }
-    }
 }

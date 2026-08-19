@@ -123,7 +123,9 @@ cross-domain Merkle commitments (`s:cross:domain:merkle`, `alg:merkle`).
 Code: `crates/stwo/src/core/vcs_lifted/` — Uses a "lifted" Merkle tree
 variant where multiple polynomials of different sizes are committed in a
 single tree by lifting smaller polynomials to the largest domain size.
-The `lifting_log_size` parameter in `PcsConfig` controls this.
+The `trace_lifting_log_size` and `preprocessed_lifting_log_size` parameters in
+`PcsConfig` control this — the preprocessed tree (tree 0) may be lifted to a
+height of its own.
 
 Type: Intentional deviation (efficiency)
 Risk: NEUTRAL (reduces number of Merkle trees and proof size)

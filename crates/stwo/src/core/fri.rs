@@ -481,13 +481,11 @@ impl<H: MerkleHasherLifted> FriFirstLayerVerifier<H> {
             return Err(FriVerificationError::FirstLayerEvaluationsInvalid);
         }
 
+        let log_column_size = self.column_commitment_domain.log_size() - leaf_log_size;
         let merkle_verifier = MerkleVerifierLifted::new(
             self.proof.commitment,
-            vec![
-                self.column_commitment_domain.log_size() - leaf_log_size;
-                SECURE_EXTENSION_DEGREE * (1 << leaf_log_size)
-            ],
-            0,
+            vec![log_column_size; SECURE_EXTENSION_DEGREE * (1 << leaf_log_size)],
+            log_column_size,
         );
 
         merkle_verifier
@@ -560,13 +558,11 @@ impl<H: MerkleHasherLifted> FriInnerLayerVerifier<H> {
             leaf_log_size,
         );
 
+        let log_column_size = self.domain.log_size() - leaf_log_size;
         let merkle_verifier = MerkleVerifierLifted::new(
             self.proof.commitment,
-            vec![
-                self.domain.log_size() - leaf_log_size;
-                SECURE_EXTENSION_DEGREE * (1 << leaf_log_size)
-            ],
-            0,
+            vec![log_column_size; SECURE_EXTENSION_DEGREE * (1 << leaf_log_size)],
+            log_column_size,
         );
 
         merkle_verifier

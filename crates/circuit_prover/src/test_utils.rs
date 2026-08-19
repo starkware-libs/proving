@@ -1,9 +1,7 @@
 use stwo::core::pcs::PcsConfig;
 
-/// Builds a default `PcsConfig` that lifts the preprocessed trace to
+/// Builds a default `PcsConfig` that lifts every tree, the preprocessed one included, to
 /// `trace_log_size + log_blowup_factor`.
 pub fn default_circuit_pcs_config(trace_log_size: u32) -> PcsConfig {
-    let mut pcs_config = PcsConfig::default();
-    pcs_config.lifting_log_size = trace_log_size + pcs_config.fri_config.log_blowup_factor;
-    pcs_config
+    PcsConfig::from_fri_and_trace_size(PcsConfig::default().fri_config, trace_log_size)
 }

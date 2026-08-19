@@ -51,16 +51,29 @@ pub struct MerkleVerifierLifted<H: MerkleHasherLifted> {
     /// A vector containing the log sizes of the columns that were committed, in the order they
     /// were sent to the MerkleProver (i.e. before sorting).
     pub column_log_sizes: Vec<u32>,
-    /// The height of the Merkle tree. Note that it can be different than the largest committed
-    /// column if the verifier has set a larger lifting size.
+    /// The height of the Merkle tree: the lifting log size, which must be at least the largest
+    /// committed column's log size, and 0 when no columns were committed — the prover commits an
+    /// empty tree as a single hash of no data.
     pub height: u32,
 }
 
 impl<H: MerkleHasherLifted> MerkleVerifierLifted<H> {
     pub fn new(root: H::Hash, column_log_sizes: Vec<u32>, lifting_log_size: u32) -> Self {
-        let max_column_log_size = column_log_sizes.iter().copied().max().unwrap_or_default();
-        let height = lifting_log_size.max(max_column_log_size);
-        Self { root, column_log_sizes, height }
+        match column_log_sizes.iter().copied().max() {
+            Some(max_column_log_size) => {
+                assert!(
+                    lifting_log_size >= max_column_log_size,
+                    "lifting_log_size (= {lifting_log_size}) < max_column_log_size (= \
+                     {max_column_log_size})"
+                );
+            }
+            None => assert!(
+                lifting_log_size == 0,
+                "lifting_log_size must be 0 when no columns are committed"
+            ),
+        };
+
+        Self { root, column_log_sizes, height: lifting_log_size }
     }
 
     /// Verifies the decommitment of the columns.
@@ -304,7 +317,7 @@ mod tests {
         // Queries given out of order with a duplicate.
         let queries = vec![13, 3, 7, 3, 1];
         let (values, decommitment) = merkle.decommit(&queries, cols.iter().collect());
-        let verifier = MerkleVerifierLifted::new(merkle.root(), log_sizes, 0);
+        let verifier = MerkleVerifierLifted::new(merkle.root(), log_sizes, max_log_size);
         verifier.verify(&queries, values, decommitment.decommitment).unwrap();
     }
 }

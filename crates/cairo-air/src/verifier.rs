@@ -288,7 +288,8 @@ pub fn verify_cairo_ex<MC: MerkleChannel>(
         preprocessed_trace_variant.to_preprocessed_trace().log_sizes(),
     );
 
-    // Preproccessed trace.
+    // Preproccessed trace. The commitment scheme lifts it to
+    // `pcs_config.preprocessed_lifting_log_size`, the height the prover committed it at.
     commitment_scheme_verifier.commit(stark_proof.commitments[0], &log_sizes[0], channel);
 
     claim.mix_into::<MC>(channel);

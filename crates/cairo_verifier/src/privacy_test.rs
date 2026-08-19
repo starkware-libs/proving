@@ -229,8 +229,8 @@ fn test_privacy_proof_info() {
 
     let log_blowup_factor = 2;
     let lifting_log_size = preprocessed_circuit.trace_log_size + log_blowup_factor;
-    let pcs_config = PcsConfig {
-        fri_config: FriConfig {
+    let pcs_config = PcsConfig::from_fri_and_lifting_size(
+        FriConfig {
             pow_bits: 26,
             log_blowup_factor,
             log_last_layer_degree_bound: 0,
@@ -238,7 +238,7 @@ fn test_privacy_proof_info() {
             fold_step: 4,
         },
         lifting_log_size,
-    };
+    );
     let preprocessed_root = HashValue::from([0u32; 8]);
     let circuit_config = CircuitConfig {
         config: pcs_config,

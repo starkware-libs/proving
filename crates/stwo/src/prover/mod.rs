@@ -74,13 +74,11 @@ pub fn prove_ex<B: BackendForChannel<MC>, MC: MerkleChannel>(
     // Draw OODS point.
     let oods_point = CirclePoint::<SecureField>::get_random_point(channel);
 
-    let split_composition_log_size =
-        commitment_scheme.trees.last().unwrap().commitment.layers.len() as u32 - 1;
-
-    // The effective lifting size is at least the length of the split composition polynomials'
-    // domain (in particular, a `lifting_log_size` of 0 lifts each tree to its largest column).
+    // The composition tree was just committed like any other trace tree, so its height is
+    // `trace_lifting_log_size` (see `CommitmentSchemeProver::commit`) — the height every tree
+    // the queries are answered on was lifted to.
     let lifting_log_size =
-        commitment_scheme.config.lifting_log_size.max(split_composition_log_size);
+        commitment_scheme.trees.last().unwrap().commitment.layers.len() as u32 - 1;
     if include_all_preprocessed_columns {
         // If all the preprocessed columns are included, the lifting log size must be greater than
         // or equal to the preprocessed log size.

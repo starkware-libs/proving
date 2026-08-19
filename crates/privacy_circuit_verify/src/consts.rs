@@ -44,10 +44,8 @@ pub const CAIRO_FRI_CONFIG: FriConfig = FriConfig {
     fold_step: 4,
 };
 
-pub const CAIRO_PCS_CONFIG: PcsConfig = PcsConfig {
-    fri_config: CAIRO_FRI_CONFIG,
-    lifting_log_size: CAIRO_TRACE_LOG_SIZE + CAIRO_LOG_BLOWUP_FACTOR,
-};
+pub const CAIRO_PCS_CONFIG: PcsConfig =
+    PcsConfig::from_fri_and_trace_size(CAIRO_FRI_CONFIG, CAIRO_TRACE_LOG_SIZE);
 
 pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
     pow_bits: 26,
@@ -57,10 +55,8 @@ pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
     fold_step: 4,
 };
 
-pub const CIRCUIT_PCS_CONFIG: PcsConfig = PcsConfig {
-    fri_config: CIRCUIT_FRI_CONFIG,
-    lifting_log_size: CIRCUIT_TRACE_LOG_SIZE + CIRCUIT_LOG_BLOWUP_FACTOR,
-};
+pub const CIRCUIT_PCS_CONFIG: PcsConfig =
+    PcsConfig::from_fri_and_trace_size(CIRCUIT_FRI_CONFIG, CIRCUIT_TRACE_LOG_SIZE);
 
 // The set of components that are used to verify the privacy transaction.
 // The order of the components is determend by the order in circuit_cairo_air::all_components()

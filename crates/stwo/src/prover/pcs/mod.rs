@@ -77,14 +77,18 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
 
     /// Evaluates the given polynomials, commits them into a Merkle tree, mixes the root into
     /// the channel, and appends the resulting tree to the scheme.
+    ///
+    /// [`PcsConfig::lifting_log_size`] gives the tree its height by index: the first tree
+    /// committed is the preprocessed one, every later one a trace tree.
     fn commit(&mut self, polynomials: ColumnVec<CircleCoefficients<B>>, channel: &mut MC::C) {
         let _span = span!(Level::INFO, "Commitment").entered();
+        let lifting_log_size = self.config.lifting_log_size(self.trees.len());
         let tree = CommitmentTreeProver::new(
             polynomials,
             self.config.fri_config.log_blowup_factor,
             self.twiddles,
             self.store_polynomials_coefficients,
-            self.config.lifting_log_size,
+            lifting_log_size,
             &self.base_column_pool,
         );
         MC::mix_root(channel, tree.commitment.root());

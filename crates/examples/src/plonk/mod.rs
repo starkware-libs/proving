@@ -293,7 +293,7 @@ mod tests {
             .unwrap_or_else(|_| "10".to_string())
             .parse::<u32>()
             .unwrap();
-        let config = PcsConfig { fri_config: FriConfig::new(10, 5, 4, 64, 1), lifting_log_size: 0 };
+        let config = PcsConfig::from_fri_and_lifting_size(FriConfig::new(10, 5, 4, 64, 1), 0);
 
         // Prove.
         let (component, proof) = prove_fibonacci_plonk(log_n_instances, config);

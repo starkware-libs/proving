@@ -281,9 +281,10 @@ impl<'a, B: FriOps + MerkleOpsLifted<H>, H: MerkleHasherLifted> FriFirstLayerPro
         let pack_leaves =
             first_layer_column.values.len().ilog2() >= LOG_PACKED_LEAF_SIZE && fold_step > 1;
         let log_rows_per_leaf = if pack_leaves { LOG_PACKED_LEAF_SIZE } else { 0 };
+        let log_column_size = first_layer_column.values.len().ilog2() - log_rows_per_leaf;
         let merkle_tree = MerkleProverLifted::commit(
             first_layer_column.values.columns.iter().collect_vec(),
-            first_layer_column.values.len().ilog2() - log_rows_per_leaf,
+            log_column_size,
             log_rows_per_leaf,
         );
 
@@ -345,9 +346,10 @@ impl<B: FriOps + MerkleOpsLifted<H>, H: MerkleHasherLifted> FriInnerLayerProver<
     fn new(evaluation: LineEvaluation<B>, fold_step: u32) -> Self {
         let pack_leaves = evaluation.values.len().ilog2() >= LOG_PACKED_LEAF_SIZE && fold_step > 1;
         let log_rows_per_leaf = if pack_leaves { LOG_PACKED_LEAF_SIZE } else { 0 };
+        let log_column_size = evaluation.values.len().ilog2() - log_rows_per_leaf;
         let merkle_tree = MerkleProverLifted::commit(
             evaluation.values.columns.iter().collect_vec(),
-            evaluation.values.len().ilog2() - log_rows_per_leaf,
+            log_column_size,
             log_rows_per_leaf,
         );
 

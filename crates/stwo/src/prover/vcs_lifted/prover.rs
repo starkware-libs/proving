@@ -38,6 +38,13 @@ impl<B: MerkleOpsLifted<H>, H: MerkleHasherLifted> MerkleProverLifted<B, H> {
     ) -> Self {
         let _span = span!(Level::TRACE, "Merkle", class = "MerkleCommitment").entered();
         if columns.is_empty() {
+            // An empty tree is not lifted: it is committed as a single hash of no data, so its
+            // height is 0 and the caller has to name that height. `MerkleVerifierLifted::new`
+            // asserts the same, so a nonzero size here would be a tree the verifier rejects.
+            assert!(
+                lifting_log_size == 0,
+                "lifting_log_size must be 0 when no columns are committed"
+            );
             return Self { layers: vec![B::build_leaves(&[], lifting_log_size)] };
         }
 

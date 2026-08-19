@@ -35,19 +35,22 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
     }
 
     /// Reads a commitment from the prover.
+    ///
+    /// [`PcsConfig::lifting_log_size`] gives the tree its height by index: the first tree
+    /// committed is the preprocessed one, every later one a trace tree.
     pub fn commit(
         &mut self,
         commitment: <MC::H as MerkleHasherLifted>::Hash,
         log_sizes: &[u32],
         channel: &mut MC::C,
     ) {
+        let lifting_log_size = self.config.lifting_log_size(self.trees.len());
         MC::mix_root(channel, commitment);
         let extended_log_sizes = log_sizes
             .iter()
             .map(|&log_size| log_size + self.config.fri_config.log_blowup_factor)
             .collect();
-        let verifier =
-            MerkleVerifierLifted::new(commitment, extended_log_sizes, self.config.lifting_log_size);
+        let verifier = MerkleVerifierLifted::new(commitment, extended_log_sizes, lifting_log_size);
         self.trees.push(verifier);
     }
 

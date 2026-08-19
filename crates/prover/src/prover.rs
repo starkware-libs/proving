@@ -135,19 +135,39 @@ where
     let preprocessed_trace_domain_log_size =
         preprocessed_trace_variant.max_log_trace_size() + fri_config.log_blowup_factor;
 
-    let lifting_log_size = lifting_size_policy
-        .resolve(Some(trace_domain_log_size), Some(preprocessed_trace_domain_log_size));
-
-    if lifting_log_size < trace_domain_log_size {
-        return Err(ProvingError::InvalidLiftingLogSize(InvalidLiftingLogSizeError {
-            lifting_log_size,
-            min_lifting_log_size: trace_domain_log_size,
-        }));
+    // The heights the trace trees and the preprocessed tree are lifted to, per
+    // `LiftingSizePolicy`. The pair goes into the proof's `PcsConfig`, which is what the verifier
+    // commits with.
+    let (trace_lifting_log_size, preprocessed_lifting_log_size) = match lifting_size_policy {
+        LiftingSizePolicy::Auto => (trace_domain_log_size, preprocessed_trace_domain_log_size),
+        LiftingSizePolicy::Fixed(size) => (size, size),
+        LiftingSizePolicy::AtLeastPreprocessed => {
+            let size = trace_domain_log_size.max(preprocessed_trace_domain_log_size);
+            (size, size)
+        }
+    };
+    // Each tree is lifted to a height that must dominate its own columns, which
+    // `MerkleVerifierLifted::new` asserts on the verifier side.
+    for (lifting_log_size, min_lifting_log_size) in [
+        (trace_lifting_log_size, trace_domain_log_size),
+        (preprocessed_lifting_log_size, preprocessed_trace_domain_log_size),
+    ] {
+        if lifting_log_size < min_lifting_log_size {
+            return Err(ProvingError::InvalidLiftingLogSize(InvalidLiftingLogSizeError {
+                lifting_log_size,
+                min_lifting_log_size,
+            }));
+        }
     }
-    let preprocessed_lifting_log_size = lifting_log_size.max(preprocessed_trace_domain_log_size);
+
+    let pcs_config =
+        PcsConfig { fri_config, trace_lifting_log_size, preprocessed_lifting_log_size };
+    // The twiddles must cover the tallest tree, whichever of the two it is.
+    let max_lifting_log_size = trace_lifting_log_size.max(preprocessed_lifting_log_size);
+
     let span = span!(Level::INFO, "Precompute Twiddles").entered();
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::try_new(preprocessed_lifting_log_size)?.circle_domain().half_coset,
+        CanonicCoset::try_new(max_lifting_log_size)?.circle_domain().half_coset,
     );
     span.exit();
 
@@ -175,7 +195,7 @@ where
         claim,
         interaction_generator,
         prover_params,
-        lifting_log_size,
+        pcs_config,
     )
 }
 
@@ -193,12 +213,13 @@ where
     let _span = span!(Level::INFO, "prove_cairo").entered();
 
     // The preprocessed tree and twiddles are already computed, so the lifting size can no longer
-    // be adjusted to the trace.
-    assert!(
-        matches!(prover_params.lifting_size_policy, LiftingSizePolicy::Fixed(_)),
-        "Only LiftingSizePolicy::Fixed is supported with a precomputed preprocessed tree"
-    );
-    let lifting_log_size = prover_params.lifting_size_policy.resolve(None, None);
+    // be adjusted to the trace. `Fixed` lifts every tree, the preprocessed one included, to the
+    // same height.
+    let LiftingSizePolicy::Fixed(lifting_log_size) = prover_params.lifting_size_policy else {
+        panic!("Only LiftingSizePolicy::Fixed is supported with a precomputed preprocessed tree");
+    };
+    let pcs_config =
+        PcsConfig::from_fri_and_lifting_size(prover_params.fri_config, lifting_log_size);
 
     // Run Cairo.
     let cairo_claim_generator = create_cairo_claim_generator(input, preprocessed_trace.clone());
@@ -217,7 +238,7 @@ where
         claim,
         interaction_generator,
         prover_params,
-        lifting_log_size,
+        pcs_config,
     )
 }
 
@@ -230,7 +251,7 @@ fn prove_cairo_common<'a, MC: MerkleChannel>(
     claim: CairoClaim,
     interaction_generator: CairoInteractionClaimGenerator,
     prover_params: ProverParameters,
-    lifting_log_size: u32,
+    pcs_config: PcsConfig,
 ) -> Result<CairoProof<MC::H>, ProvingError>
 where
     SimdBackend: BackendForChannel<MC>,
@@ -238,7 +259,7 @@ where
     let ProverParameters {
         channel_hash: _,
         channel_salt,
-        fri_config,
+        fri_config: _,
         preprocessed_trace: preprocessed_trace_variant,
         store_polynomials_coefficients,
         include_all_preprocessed_columns,
@@ -252,7 +273,6 @@ where
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     channel.mix_felts(&[channel_salt.into()]);
     // Mix PCS config.
-    let pcs_config = PcsConfig { fri_config, lifting_log_size };
     pcs_config.mix_into(channel);
     let mut commitment_scheme = CommitmentSchemeProver::<SimdBackend, MC>::with_memory_pool(
         pcs_config,

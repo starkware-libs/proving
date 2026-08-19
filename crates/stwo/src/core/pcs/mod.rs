@@ -18,6 +18,7 @@ pub use self::verifier::CommitmentSchemeVerifier;
 use super::channel::Channel;
 use super::fields::qm31::SecureField;
 use super::fri::FriConfig;
+use super::verifier::PREPROCESSED_TRACE_IDX;
 
 #[derive(Copy, Debug, Clone, PartialEq, Eq)]
 pub struct TreeSubspan {
@@ -28,25 +29,50 @@ pub struct TreeSubspan {
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 /// Configuration parameters for the commitment scheme prover.
+///
+/// The lifting log sizes are the heights the trees are committed at: every column in a tree is
+/// lifted to its tree's height, which includes `fri_config.log_blowup_factor` and must dominate
+/// that tree's extended columns.
 pub struct PcsConfig {
     pub fri_config: FriConfig,
-    /// The log size of the lifting domain (includes the `log_blowup_factor`). Each tree is
-    /// committed with height `lifting_log_size`, and every column within a tree is lifted to
-    /// this size regardless of its own domain. Must be at least the log size of the largest
-    /// (extended) domain committed across the trees.
-    pub lifting_log_size: u32,
+    /// The height of every committed tree but the preprocessed one.
+    pub trace_lifting_log_size: u32,
+    /// The height of the preprocessed tree, tree [`PREPROCESSED_TRACE_IDX`].
+    pub preprocessed_lifting_log_size: u32,
 }
 impl PcsConfig {
-    /// The config for proving a trace of `trace_log_size` under `fri_config`: the lifting domain is
-    /// the trace's extended domain.
+    /// The config for proving a trace of `trace_log_size` under `fri_config`: every tree, the
+    /// preprocessed one included, is lifted to the trace's extended domain.
     pub const fn from_fri_and_trace_size(fri_config: FriConfig, trace_log_size: u32) -> Self {
-        Self { fri_config, lifting_log_size: trace_log_size + fri_config.log_blowup_factor }
+        Self::from_fri_and_lifting_size(fri_config, trace_log_size + fri_config.log_blowup_factor)
+    }
+
+    /// The config lifting every tree, the preprocessed one included, to `lifting_log_size`
+    /// (which already includes the `log_blowup_factor`).
+    pub const fn from_fri_and_lifting_size(fri_config: FriConfig, lifting_log_size: u32) -> Self {
+        Self {
+            fri_config,
+            trace_lifting_log_size: lifting_log_size,
+            preprocessed_lifting_log_size: lifting_log_size,
+        }
+    }
+
+    /// The height the `tree_index`-th committed tree is lifted to: the preprocessed tree —
+    /// tree [`PREPROCESSED_TRACE_IDX`] — to [`Self::preprocessed_lifting_log_size`], every other
+    /// tree to [`Self::trace_lifting_log_size`].
+    pub const fn lifting_log_size(&self, tree_index: usize) -> u32 {
+        if tree_index == PREPROCESSED_TRACE_IDX {
+            self.preprocessed_lifting_log_size
+        } else {
+            self.trace_lifting_log_size
+        }
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        // `lifting_log_size` is intentionally not mixed in: the verifier recomputes it
-        // from `fri_config.log_blowup_factor` and the committed columns' log sizes, so
-        // mixing it here would be redundant.
+        // The lifting log sizes are intentionally not mixed in: no verifier reads them off the
+        // proof. The Cairo verifier recomputes each tree's height from
+        // `fri_config.log_blowup_factor` and the committed columns' log sizes, and the circuit
+        // verifier has them hardcoded for its topology.
         let FriConfig {
             pow_bits,
             log_blowup_factor,
