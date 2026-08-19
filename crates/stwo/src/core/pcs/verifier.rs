@@ -18,7 +18,6 @@ use crate::core::vcs_lifted::verifier::MerkleVerifierLifted;
 use crate::core::verifier::VerificationError;
 
 /// The verifier side of a FRI polynomial commitment scheme. See [super].
-#[derive(Default)]
 pub struct CommitmentSchemeVerifier<MC: MerkleChannel> {
     pub trees: TreeVec<MerkleVerifierLifted<MC::H>>,
     pub config: PcsConfig,

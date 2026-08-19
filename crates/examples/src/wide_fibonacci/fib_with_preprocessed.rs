@@ -113,7 +113,7 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_with_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
-            let config = PcsConfig::default();
+            let config = PcsConfig::from_fri_and_trace_size(FriConfig::default(), log_n_instances);
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
                 CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
@@ -249,12 +249,10 @@ mod tests {
     /// This test is equal to the previous one except it tests the hardcoding of lifting size.
     fn test_wide_fib_with_unused_pp_and_hardcoded_lifting() {
         for log_n_instances in 4..=8 {
-            let mut config = PcsConfig::default();
             let log_size_unused_pp = log_n_instances + 3;
-            // Set lifting log size to the largest preprocessed column (after LDE).
-            config.trace_lifting_log_size =
-                log_size_unused_pp + config.fri_config.log_blowup_factor;
-            config.preprocessed_lifting_log_size = config.trace_lifting_log_size;
+            // Lift every tree to the largest preprocessed column (after LDE).
+            let config =
+                PcsConfig::from_fri_and_trace_size(FriConfig::default(), log_size_unused_pp);
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
                 CanonicCoset::new(log_size_unused_pp + 1 + config.fri_config.log_blowup_factor)

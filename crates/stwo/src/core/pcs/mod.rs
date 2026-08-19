@@ -27,8 +27,12 @@ pub struct TreeSubspan {
     pub col_end: usize,
 }
 
-#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 /// Configuration parameters for the commitment scheme prover.
+///
+/// Deliberately not [`Default`]: the lifting log sizes depend on the trees being committed, so
+/// there is no sane default for them. Build one with [`PcsConfig::from_fri_and_trace_size`],
+/// [`PcsConfig::from_fri_and_lifting_size`], or a struct literal.
 ///
 /// The lifting log sizes are the heights the trees are committed at: every column in a tree is
 /// lifted to its tree's height, which includes `fri_config.log_blowup_factor` and must dominate

@@ -11,10 +11,12 @@ use stwo::core::channel::Blake2sChannel;
 use stwo::core::fields::FieldExpOps;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof::StarkProof;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
+use stwo::core::verifier::COMPOSITION_LOG_SPLIT;
 use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::backend::simd::column::BaseColumn;
 use stwo::prover::backend::simd::m31::{LOG_N_LANES, PackedBaseField};
@@ -300,6 +302,21 @@ pub fn gen_interaction_trace(
     logup_gen.finalize_last()
 }
 
+/// The [`PcsConfig`] to prove `2^log_n_instances` Poseidon instances with, under `fri_config`.
+///
+/// [`prove_poseidon`] commits an empty preprocessed tree, which is never lifted, and its largest
+/// trace-side domain is the split composition polynomial's — `LOG_EXPAND - COMPOSITION_LOG_SPLIT`
+/// above the trace itself.
+pub const fn poseidon_pcs_config(log_n_instances: u32, fri_config: FriConfig) -> PcsConfig {
+    let log_n_rows = log_n_instances - N_LOG_INSTANCES_PER_ROW as u32;
+    PcsConfig {
+        fri_config,
+        trace_lifting_log_size: log_n_rows + LOG_EXPAND - COMPOSITION_LOG_SPLIT
+            + fri_config.log_blowup_factor,
+        preprocessed_lifting_log_size: 0,
+    }
+}
+
 pub fn prove_poseidon(
     log_n_instances: u32,
     config: PcsConfig,
@@ -370,7 +387,7 @@ mod tests {
     use stwo::core::channel::Blake2sChannel;
     use stwo::core::fields::m31::M31;
     use stwo::core::fri::FriConfig;
-    use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig, TreeVec};
+    use stwo::core::pcs::{CommitmentSchemeVerifier, TreeVec};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo::core::verifier::verify;
@@ -378,14 +395,14 @@ mod tests {
 
     use crate::poseidon::{
         PoseidonElements, apply_internal_round_matrix, apply_m4, eval_poseidon_constraints,
-        gen_interaction_trace, gen_trace, prove_poseidon,
+        gen_interaction_trace, gen_trace, poseidon_pcs_config, prove_poseidon,
     };
 
     #[cfg(all(target_family = "wasm", not(target_os = "wasi")))]
     #[wasm_bindgen_test::wasm_bindgen_test]
     fn test_poseidon_prove_wasm() {
         const LOG_N_INSTANCES: u32 = 10;
-        let config = PcsConfig { fri_config: FriConfig::new(10, 5, 1, 64, 1) };
+        let config = poseidon_pcs_config(LOG_N_INSTANCES, FriConfig::new(10, 5, 1, 64, 1));
 
         // Prove.
         prove_poseidon(LOG_N_INSTANCES, config);
@@ -460,7 +477,7 @@ mod tests {
             .unwrap_or_else(|_| "10".to_string())
             .parse::<u32>()
             .unwrap();
-        let config = PcsConfig::from_fri_and_lifting_size(FriConfig::new(10, 5, 1, 64, 1), 0);
+        let config = poseidon_pcs_config(log_n_instances, FriConfig::new(10, 5, 1, 64, 1));
 
         // Prove.
         let (component, proof) = prove_poseidon(log_n_instances, config);
@@ -505,7 +522,7 @@ mod tests {
             .unwrap_or_else(|_| "10".to_string())
             .parse::<u32>()
             .unwrap();
-        let config = PcsConfig::from_fri_and_lifting_size(FriConfig::new(10, 5, 1, 64, 1), 0);
+        let config = poseidon_pcs_config(log_n_instances, FriConfig::new(10, 5, 1, 64, 1));
 
         // Prove.
         let _ = prove_poseidon(log_n_instances, config);

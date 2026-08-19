@@ -12,6 +12,7 @@ use circuits::ivalue::{NoValue, qm31_from_u32s};
 use circuits::ops::guess;
 use num_traits::{One, Zero};
 use stwo::core::fields::qm31::QM31;
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
@@ -42,10 +43,10 @@ fn test_serialize_deserialize_cairo_proof() {
     let mut ctx = build_minimal_context().finalize(false);
     ctx.validate_circuit();
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut ctx);
-    let mut pcs_config = PcsConfig::default();
-    pcs_config.trace_lifting_log_size =
-        preprocessed_circuit.trace_log_size + pcs_config.fri_config.log_blowup_factor;
-    pcs_config.preprocessed_lifting_log_size = pcs_config.trace_lifting_log_size;
+    let pcs_config = PcsConfig::from_fri_and_trace_size(
+        FriConfig::default(),
+        preprocessed_circuit.trace_log_size,
+    );
     let circuit_proof = prove_circuit_assignment(
         ctx.values(),
         &preprocessed_circuit,

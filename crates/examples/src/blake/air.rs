@@ -261,6 +261,14 @@ impl BlakeComponents {
     }
 }
 
+const XOR_TABLE_MAX_LOG_SIZE: u32 = 16;
+
+/// The log size of the largest trace committed by [`prove_blake`], over all its components. The
+/// XOR tables set a floor on it, independently of `log_size`.
+fn blake_log_max_rows(log_size: u32) -> u32 {
+    (log_size + *ROUND_LOG_SPLIT.iter().max().unwrap()).max(XOR_TABLE_MAX_LOG_SIZE)
+}
+
 #[allow(unused)]
 pub fn prove_blake<MC: MerkleChannel>(log_size: u32, config: PcsConfig) -> (BlakeProof<MC::H>)
 where
@@ -271,9 +279,7 @@ where
 
     // Precompute twiddles.
     let span = span!(Level::INFO, "Precompute twiddles").entered();
-    const XOR_TABLE_MAX_LOG_SIZE: u32 = 16;
-    let log_max_rows =
-        (log_size + *ROUND_LOG_SPLIT.iter().max().unwrap()).max(XOR_TABLE_MAX_LOG_SIZE);
+    let log_max_rows = blake_log_max_rows(log_size);
     let twiddles = SimdBackend::precompute_twiddles(
         CanonicCoset::new(log_max_rows + 1 + config.fri_config.log_blowup_factor)
             .circle_domain()
@@ -489,10 +495,11 @@ pub fn verify_blake<MC: MerkleChannel>(
 mod tests {
     use std::env;
 
+    use stwo::core::fri::FriConfig;
     use stwo::core::pcs::PcsConfig;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 
-    use crate::blake::air::{prove_blake, verify_blake};
+    use crate::blake::air::{blake_log_max_rows, prove_blake, verify_blake};
 
     // Note: this test is slow. Only run in release.
     #[cfg_attr(not(feature = "slow-tests"), ignore)]
@@ -506,7 +513,11 @@ mod tests {
         // Get from environment variable:
         let log_n_instances =
             env::var("LOG_N_INSTANCES").unwrap_or_else(|_| "6".to_string()).parse::<u32>().unwrap();
-        let config = PcsConfig::default();
+        // Blake's preprocessed tree holds the XOR tables, so every tree lifts alike.
+        let config = PcsConfig::from_fri_and_trace_size(
+            FriConfig::default(),
+            blake_log_max_rows(log_n_instances),
+        );
 
         // Prove.
         let proof = prove_blake::<Blake2sMerkleChannel>(log_n_instances, config);

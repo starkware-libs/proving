@@ -1,13 +1,18 @@
 use criterion::{Criterion, Throughput, criterion_group, criterion_main};
-use stwo::core::pcs::PcsConfig;
-use stwo_examples::poseidon::prove_poseidon;
+use stwo::core::fri::FriConfig;
+use stwo_examples::poseidon::{poseidon_pcs_config, prove_poseidon};
 
 pub fn simd_poseidon(c: &mut Criterion) {
     const LOG_N_INSTANCES: u32 = 18;
     let mut group = c.benchmark_group("poseidon2");
     group.throughput(Throughput::Elements(1u64 << LOG_N_INSTANCES));
     group.bench_function(format!("poseidon2 2^{LOG_N_INSTANCES} instances"), |b| {
-        b.iter(|| prove_poseidon(LOG_N_INSTANCES, PcsConfig::default()));
+        b.iter(|| {
+            prove_poseidon(
+                LOG_N_INSTANCES,
+                poseidon_pcs_config(LOG_N_INSTANCES, FriConfig::default()),
+            )
+        });
     });
 }
 
