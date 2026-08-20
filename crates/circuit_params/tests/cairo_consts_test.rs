@@ -236,14 +236,12 @@ fn assert_generated_section(file_name: &str, rendered: &str) {
 
 /// The Cairo verifier's pinned PCS config, component sizes and column layout must match the
 /// production registry — the root proof it verifies is produced under its config. Derives the
-/// shared target by building the circuit topologies (traces 25-29; no commitments, so this is
-/// fast).
+/// shared target by building the circuit topologies (traces 25-29; no commitments and no
+/// preprocessed-trace values, so this is fast).
 #[test]
 fn test_cairo_verifier_consts_match_production_registry() {
     let production = RegistryDefinition::load(&repo_root(), "production");
-    // TODO(yair): Add a sizes-only shared-target variant; the discarded multiverifier's
-    // preprocessed trace is the bulk of this test's memory.
-    let (target_sizes, _preprocessed_multiverifier) = production.shared_target();
+    let target_sizes = production.shared_target_sizes();
     let fri_config = production.circuit_fri_config();
     assert_generated_section(
         "multiverifier_consts.cairo",

@@ -4,7 +4,8 @@
 //! circuit shape verifies proofs of any of them.
 //!
 //! The `circuit-params` binary uses these to emit the registry (see `main.rs`); tests use them to
-//! derive its circuits' shape (e.g. [`RegistryDefinition::shared_target`]) without committing
+//! derive its circuits' shape (e.g. [`RegistryDefinition::shared_target_sizes`]) without
+//! committing
 //! anything.
 
 use std::path::Path;
@@ -140,12 +141,34 @@ pub fn padded_shared_target(
     circuit_fri_config: FriConfig,
     pad_to: Option<&LogSizes>,
 ) -> (ComponentSizes, PreprocessedCircuit) {
+    let (target_sizes, multiverifier_context) =
+        padded_shared_target_context(leaves_max_sizes, circuit_fri_config, pad_to);
+    let preprocessed_multiverifier =
+        padded_preprocessed_circuit(multiverifier_context, &target_sizes);
+    (target_sizes, preprocessed_multiverifier)
+}
+
+/// [`padded_shared_target`] without materializing the multiverifier's preprocessed trace — for
+/// consumers that need only the target sizes.
+pub fn padded_shared_target_sizes(
+    leaves_max_sizes: ComponentSizes,
+    circuit_fri_config: FriConfig,
+    pad_to: Option<&LogSizes>,
+) -> ComponentSizes {
+    padded_shared_target_context(leaves_max_sizes, circuit_fri_config, pad_to).0
+}
+
+/// The converged target sizes and the multiverifier context built at them (not yet padded).
+fn padded_shared_target_context(
+    leaves_max_sizes: ComponentSizes,
+    circuit_fri_config: FriConfig,
+    pad_to: Option<&LogSizes>,
+) -> (ComponentSizes, FinalizedContext<NoValue>) {
     let start = match pad_to {
         Some(pad_to) => leaves_max_sizes.elementwise_max(&pad_to.into()),
         None => leaves_max_sizes,
     };
-    let (target_sizes, preprocessed_multiverifier) =
-        shared_target_fixpoint(start, circuit_fri_config);
+    let (target_sizes, multiverifier_context) = shared_target_fixpoint(start, circuit_fri_config);
     if let Some(pad_to) = pad_to {
         assert_eq!(
             &LogSizes::from(&target_sizes),
@@ -153,10 +176,12 @@ pub fn padded_shared_target(
             "the pad-to target must be a fixpoint dominating the registry's leaf circuits"
         );
     }
-    (target_sizes, preprocessed_multiverifier)
+    (target_sizes, multiverifier_context)
 }
 
-/// Shared target sizes for a set of circuits, with the multiverifier padded to them.
+/// Shared target sizes for a set of circuits, and the corresponding multiverifier — returned raw
+/// so the caller chooses whether to pad and preprocess it ([`padded_preprocessed_circuit`]) or
+/// only read its sizes.
 ///
 /// The target and the multiverifier's sizes are a fixpoint of each other: the multiverifier
 /// verifies proofs of the TARGET-PADDED leaf circuit, and the target is the elementwise max over
@@ -168,7 +193,7 @@ pub fn padded_shared_target(
 pub fn shared_target_fixpoint(
     mut target_sizes: ComponentSizes,
     circuit_fri_config: FriConfig,
-) -> (ComponentSizes, PreprocessedCircuit) {
+) -> (ComponentSizes, FinalizedContext<NoValue>) {
     loop {
         let preprocessed_column_log_sizes = layout_from_component_sizes(&target_sizes);
         let trace_log_size =
@@ -180,9 +205,7 @@ pub fn shared_target_fixpoint(
         let grown_sizes =
             target_sizes.elementwise_max(&compute_padded_sizes(&multiverifier_context));
         if grown_sizes == target_sizes {
-            let preprocessed_multiverifier =
-                padded_preprocessed_circuit(multiverifier_context, &target_sizes);
-            return (target_sizes, preprocessed_multiverifier);
+            return (target_sizes, multiverifier_context);
         }
         target_sizes = grown_sizes;
     }
@@ -238,9 +261,9 @@ impl RegistryDefinition {
     /// The registry's shared padding target and the multiverifier padded to it, from the
     /// definition alone: the elementwise max over the leaf circuits of the trace range, closed
     /// under the multiverifier fixpoint. Builds circuit topologies with a dummy Cairo root (sizes
-    /// are root-independent), one at a time — no commitment, so this is the cheap part of registry
-    /// generation.
-    pub fn shared_target(&self) -> (ComponentSizes, PreprocessedCircuit) {
+    /// are root-independent), one at a time — no commitment and no preprocessed-trace values, so
+    /// this is the cheap part of registry generation.
+    pub fn shared_target_sizes(&self) -> ComponentSizes {
         let cairo_params = self.cairo_params();
         let circuit_builder = CircuitBuilder {
             preprocessed_trace: cairo_params.preprocessed_trace,
@@ -255,7 +278,7 @@ impl RegistryDefinition {
             })
             .reduce(|a, b| a.elementwise_max(&b))
             .expect("the trace range is non-empty");
-        padded_shared_target(
+        padded_shared_target_sizes(
             leaves_max_sizes,
             self.circuit_fri_config(),
             self.pad_to_component_log_sizes.as_ref(),
