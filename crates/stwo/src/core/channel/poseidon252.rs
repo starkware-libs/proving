@@ -1,6 +1,5 @@
 use core::{array, iter};
 
-use itertools::Itertools;
 use starknet_crypto::{poseidon_hash, poseidon_hash_many, poseidon_permute_comp};
 use starknet_ff::FieldElement as FieldElement252;
 use std_shims::{Vec, vec};
@@ -8,7 +7,7 @@ use std_shims::{Vec, vec};
 use super::Channel;
 use crate::core::fields::m31::BaseField;
 use crate::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
-use crate::core::vcs::utils::add_length_padding;
+use crate::core::vcs::poseidon252_merkle::construct_felt252s_from_u32s;
 
 // Number of bytes that fit into a felt252.
 pub const BYTES_PER_FELT252: usize = 252 / 8;
@@ -86,21 +85,7 @@ impl Channel for Poseidon252Channel {
 
     /// Mix a slice of u32s in chunks of 7 representing big endian felt252s.
     fn mix_u32s(&mut self, data: &[u32]) {
-        let shift = (1u64 << 32).into();
-        let padding_len = 6 - ((data.len() + 6) % 7);
-        let mut felts = data
-            .iter()
-            .chain(iter::repeat_n(&0, padding_len))
-            .chunks(7)
-            .into_iter()
-            .map(|chunk| chunk.fold(FieldElement252::default(), |cur, y| cur * shift + (*y).into()))
-            .collect_vec();
-        // If `data.len() % 7 != 0`, inject it into the bits [248:251] of the last
-        // felt252.
-        if padding_len != 0 {
-            let last = felts.last_mut().unwrap();
-            add_length_padding(last, 7 - padding_len);
-        }
+        let felts = construct_felt252s_from_u32s(data);
         self.update_digest(poseidon_hash_many(&[vec![self.digest], felts].concat()));
     }
 

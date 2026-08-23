@@ -1,4 +1,5 @@
 #![allow(unused)]
+use itertools::Itertools;
 use num_traits::Zero;
 use serde::{Deserialize, Serialize};
 use starknet_crypto::{poseidon_hash, poseidon_hash_many};
@@ -12,6 +13,8 @@ use crate::core::vcs::hash::Hash;
 use crate::core::vcs::utils::add_length_padding;
 
 pub const ELEMENTS_IN_BLOCK: usize = 8;
+/// Number of u32s that fit into a felt252.
+pub const U32S_IN_BLOCK: usize = 7;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Default, Deserialize, Serialize)]
 pub struct Poseidon252MerkleHasher;
@@ -65,6 +68,27 @@ pub fn construct_felt252_from_m31s(word: &[M31]) -> FieldElement252 {
         add_length_padding(&mut felt, word.len());
     }
     felt
+}
+
+/// Packs a slice of u32s into big endian felt252s, [`U32S_IN_BLOCK`] u32s per felt.
+///
+/// The last felt is zero-padded, and its number of u32s is injected into its most significant bits
+/// so that different-length inputs cannot pack to the same felts.
+pub fn construct_felt252s_from_u32s(words: &[u32]) -> Vec<FieldElement252> {
+    let shift: FieldElement252 = (1u64 << 32).into();
+    let append_u32 = |cur: FieldElement252, word: u32| cur * shift + word.into();
+    let mut felts = words
+        .chunks(U32S_IN_BLOCK)
+        .map(|chunk| chunk.iter().copied().fold(FieldElement252::default(), append_u32))
+        .collect_vec();
+    let n_last_words = words.len() % U32S_IN_BLOCK;
+    if n_last_words != 0 {
+        let last = felts.last_mut().unwrap();
+        // Zero-pad the last felt to a full block.
+        *last = (n_last_words..U32S_IN_BLOCK).fold(*last, |cur, _| append_u32(cur, 0));
+        add_length_padding(last, n_last_words);
+    }
+    felts
 }
 
 impl Hash for FieldElement252 {}
