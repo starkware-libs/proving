@@ -6,6 +6,7 @@ use bytemuck::{Pod, Zeroable};
 use dashmap::DashMap;
 use serde::{Deserialize, Serialize};
 use stwo_cairo_common::memory::{LARGE_MEMORY_VALUE_ID_BASE, N_M31_IN_SMALL_FELT252};
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::MAX_SEQUENCE_LOG_SIZE;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 use tracing::{Level, span};
 
@@ -108,6 +109,8 @@ pub struct MemoryBuilder {
 }
 impl MemoryBuilder {
     pub fn new(config: MemoryConfig) -> Self {
+        // Small value IDs are `Seq` values, so the table must fit the largest seq column.
+        assert!(config.log_small_value_capacity <= MAX_SEQUENCE_LOG_SIZE);
         Self {
             memory: Memory {
                 config,

@@ -30,6 +30,7 @@ use stwo_cairo_common::builtins::{
     PEDERSEN_BUILTIN_MEMORY_CELLS, POSEIDON_BUILTIN_MEMORY_CELLS,
     RANGE_CHECK_96_BUILTIN_MEMORY_CELLS, RANGE_CHECK_BUILTIN_MEMORY_CELLS,
 };
+use stwo_cairo_common::memory::LARGE_MEMORY_VALUE_ID_BASE;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
     MAX_SEQUENCE_LOG_SIZE, PreProcessedTraceVariant,
 };
@@ -617,13 +618,18 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         );
         extract_bits(context, &rc_simd, MEMORY_ADDRESS_BITS);
 
-        // Sanity check: ensure that the maximum address in the address_to_id is at most 2**29.
-        // Assumes that there is only one ADDRESS_TO_ID component and that it uses Seq.
         const {
+            // Sanity check: ensure that the maximum address in the address_to_id is at most 2**29.
+            // Assumes that there is only one ADDRESS_TO_ID component and that it uses Seq.
             assert!(
                 MEMORY_ADDRESS_TO_ID_SPLIT * (1 << MAX_SEQUENCE_LOG_SIZE)
                     <= (1 << MEMORY_ADDRESS_BITS)
-            )
+            );
+
+            // Sanity check: ensure that the maximum small value ID is less than
+            // LARGE_MEMORY_VALUE_ID_BASE. Assumes that there is only one ID_TO_SMALL
+            // component and that it uses Seq.
+            assert!((1 << MAX_SEQUENCE_LOG_SIZE) <= LARGE_MEMORY_VALUE_ID_BASE);
         };
 
         let shifted_opcode_relation_uses =
