@@ -4,7 +4,7 @@ use stwo::core::circle::CirclePoint;
 use crate::circuit::{Add, Eq, Mul, Output, Permutation, PointwiseMul, Sub};
 use crate::context::{Context, GuessVar, Var};
 use crate::ivalue::{IValue, qm31_from_u32s};
-use crate::wrappers::M31Wrapper;
+use crate::wrappers::{M31Wrapper, U32Wrapper};
 
 #[cfg(test)]
 #[path = "ops_test.rs"]
@@ -201,6 +201,17 @@ pub fn cond_flip(context: &mut Context<impl IValue>, selector: Var, a: Var, b: V
     let res_a = eval!(context, (a) + (diff));
     let res_b = eval!(context, (b) - (diff));
     (res_a, res_b)
+}
+
+/// Same as [cond_flip], but for [U32Wrapper]s.
+pub fn cond_flip_u32(
+    context: &mut Context<impl IValue>,
+    selector: Var,
+    a: U32Wrapper<Var>,
+    b: U32Wrapper<Var>,
+) -> (U32Wrapper<Var>, U32Wrapper<Var>) {
+    let (res_a, res_b) = cond_flip(context, selector, *a.get(), *b.get());
+    (U32Wrapper::new_unsafe(res_a), U32Wrapper::new_unsafe(res_b))
 }
 
 /// Computes the conjugate (with respect to `CM31`) of a `QM31` value:

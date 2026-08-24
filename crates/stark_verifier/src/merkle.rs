@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use circuits::blake::{HashValue, blake2s, blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
-use circuits::ops::{Guess, cond_flip, eq};
+use circuits::ops::{Guess, cond_flip_u32, eq};
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use itertools::{Itertools, zip_eq};
 use stwo::core::vcs_lifted::verifier::PACKED_LEAF_SIZE;
@@ -142,12 +142,12 @@ pub fn merkle_node<Value: IValue>(
 ) -> HashValue<Var> {
     // Conditionally flip each word of `node` and `sibling` into the (left, right) children
     // according to `bit`, then split the pairs into the two children.
-    let flipped: [(Var, Var); 8] =
-        std::array::from_fn(|i| cond_flip(context, bit, *node[i].get(), *sibling[i].get()));
+    let flipped: [(U32Wrapper<Var>, U32Wrapper<Var>); 8] =
+        std::array::from_fn(|i| cond_flip_u32(context, bit, node[i], sibling[i]));
     // `cond_flip` selects between two already-encoded `(low_u16, high_u16, 0, 0)` words,
     // so the U32 encoding invariant is preserved — `new_unsafe` is safe here.
-    let left = HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(flipped[i].0)));
-    let right = HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(flipped[i].1)));
+    let left = HashValue(std::array::from_fn(|i| flipped[i].0));
+    let right = HashValue(std::array::from_fn(|i| flipped[i].1));
 
     // Compute the next layer's node.
     hash_node(context, &left, &right)
