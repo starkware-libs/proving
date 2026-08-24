@@ -72,10 +72,7 @@ fn hash_leaf_m31s(
 ) -> HashValue<Var> {
     // Convert each `M31` directly into a single Blake2s message word. `m31_to_u32` already emits a
     // valid `(low_u16, high_u16, 0, 0)` u32 encoding, so `new_unsafe` (no range check) is safe.
-    let message_u32s = values
-        .iter()
-        .map(|value| U32Wrapper::new_unsafe(m31_to_u32(context, *value.get())))
-        .collect();
+    let message_u32s = values.iter().map(|value| m31_to_u32(context, *value.get())).collect();
     blake2s_u32s(context, message_u32s, values.len() * 4)
 }
 

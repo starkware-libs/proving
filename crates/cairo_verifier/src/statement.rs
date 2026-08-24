@@ -460,7 +460,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // was generated with. Each returned list is mixed into the channel as one `mix_u32s` call.
         let to_padded_u32_words = |ctx: &mut Context<Value>, vars: Vec<Var>| {
             let mut words: Vec<U32Wrapper<Var>> =
-                vars.into_iter().map(|v| U32Wrapper::new_unsafe(m31_to_u32(ctx, v))).collect();
+                vars.into_iter().map(|v| m31_to_u32(ctx, v)).collect();
             let pad = (4 - words.len() % 4) % 4;
             for _ in 0..pad {
                 words.push(U32Wrapper::new_unsafe(ctx.zero()));

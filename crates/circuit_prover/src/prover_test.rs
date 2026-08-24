@@ -127,21 +127,21 @@ pub fn build_m31_to_u32_context() -> Context<QM31> {
     expect![[r#"
         (42 + 0i) + (0 + 0i)u
     "#]]
-    .assert_debug_eq(&context.get(out_a));
+    .assert_debug_eq(&context.get(*out_a.get()));
 
     let b = guess(&mut context, QM31::from(100_000));
     let out_b = m31_to_u32(&mut context, b);
     expect![[r#"
         (34464 + 1i) + (0 + 0i)u
     "#]]
-    .assert_debug_eq(&context.get(out_b));
+    .assert_debug_eq(&context.get(*out_b.get()));
 
     let c = guess(&mut context, QM31::from(2_000_042));
     let out_c = m31_to_u32(&mut context, c);
     expect![[r#"
         (33962 + 30i) + (0 + 0i)u
     "#]]
-    .assert_debug_eq(&context.get(out_c));
+    .assert_debug_eq(&context.get(*out_c.get()));
 
     context
 }
