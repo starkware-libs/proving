@@ -13,7 +13,6 @@ use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 pub use stwo::prover::backend::simd::SimdBackend;
@@ -56,7 +55,7 @@ pub fn prove_circuit_assignment_with_channel<MC>(
 where
     MC: MerkleChannel,
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
-    <MC::H as MerkleHasherLifted>::Hash: Into<Blake2sHash>,
+    <MC::H as MerkleHasherLifted>::Hash: Into<[u8; 32]>,
 {
     // Precompute twiddles.
     // Account for blowup factor and for composition polynomial calculation (taking the max since
@@ -107,7 +106,7 @@ pub fn prove_circuit_with_precompute<'a, MC>(
 where
     MC: MerkleChannel,
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
-    <MC::H as MerkleHasherLifted>::Hash: Into<Blake2sHash>,
+    <MC::H as MerkleHasherLifted>::Hash: Into<[u8; 32]>,
 {
     let PreprocessedCircuit {
         preprocessed_trace,
@@ -137,7 +136,7 @@ where
     commitment_scheme.set_store_polynomials_coefficients();
 
     // Grab the preprocessed root for the circuit hash before it is consumed by `commit_tree` below.
-    let preprocessed_root: Blake2sHash = preprocessed_tree.commitment.root().into();
+    let preprocessed_root = preprocessed_tree.commitment.root();
 
     // Preprocessed trace.
     commitment_scheme.commit_tree(preprocessed_tree, channel);
@@ -153,12 +152,12 @@ where
         twiddles,
     );
 
-    let circuit_hash = compute_circuit_hash(
+    let circuit_hash = compute_circuit_hash::<MC::H>(
         &component_log_sizes,
         pcs_config.fri_config.log_blowup_factor,
         preprocessed_root,
     );
-    mix_circuit_hash(channel, &circuit_hash);
+    mix_circuit_hash(channel, circuit_hash);
     claim.mix_into(channel);
     tree_builder.commit(channel);
 

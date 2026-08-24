@@ -11,6 +11,7 @@ use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
 use crate::verify::{SharedConfig, build_multiverifier_context};
@@ -66,7 +67,7 @@ pub fn leaf_circuit_hash(preprocessed_root: Blake2sHash, shared_config: &SharedC
         &all_circuit_components::<QM31>(),
         &shared_config.preprocessed_column_log_sizes,
     );
-    let hash = compute_circuit_hash(
+    let hash = compute_circuit_hash::<Blake2sMerkleHasher>(
         &component_log_sizes,
         shared_config.pcs_config.fri_config.log_blowup_factor,
         preprocessed_root,

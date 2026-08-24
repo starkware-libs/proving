@@ -4,28 +4,35 @@ use circuit_verifier::circuit_hash::config_words;
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::utils::le_u32s_from_bytes;
+use itertools::Itertools;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
+use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo::core::vcs_lifted::MerkleHasherLifted;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 
-/// Computes the circuit hash. This is the non-circuit version of
-/// [`circuit_verifier::circuit_hash::compute_circuit_hash`]. Used by the prover to mix the circuit
-/// hash into the channel.
-pub fn compute_circuit_hash(
+/// Computes the circuit hash: `H(log_blowup_factor || component_log_sizes || preprocessed_root)`,
+/// where `H` is the hash function the circuit is proven with, so that the circuit's identity is
+/// committed to under the same hash function as the rest of the transcript.
+///
+/// This is the non-circuit version of [`circuit_verifier::circuit_hash::compute_circuit_hash`],
+/// used by the prover to mix the circuit hash into the channel.
+pub fn compute_circuit_hash<H: MerkleHasherLifted>(
     component_log_sizes: &PerComponent<u32>,
     log_blowup_factor: u32,
-    preprocessed_root: Blake2sHash,
-) -> Blake2sHash {
+    preprocessed_root: H::Hash,
+) -> H::Hash
+where
+    H::Hash: Into<[u8; 32]>,
+{
     let config_words = config_words(log_blowup_factor, component_log_sizes);
-    let root_words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(preprocessed_root.0);
+    let root_words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(preprocessed_root.into());
 
-    let mut hasher = Blake2sHasher::new();
-    for word in config_words.into_iter().chain(root_words) {
-        hasher.update(&word.to_le_bytes());
-    }
-    hasher.finalize()
+    H::hash_u32s(&config_words.into_iter().chain(root_words).collect_vec())
 }
 
 /// The circuit hash identifying `preprocessed_circuit` when proven with `log_blowup_factor`.
+///
+/// Currently hardcoded to use Blake2s.
 pub fn preprocessed_circuit_hash(
     preprocessed_circuit: &PreprocessedCircuit,
     log_blowup_factor: u32,
@@ -34,7 +41,7 @@ pub fn preprocessed_circuit_hash(
         &all_circuit_components::<QM31>(),
         &preprocessed_circuit.preprocessed_trace.log_sizes(),
     );
-    compute_circuit_hash(
+    compute_circuit_hash::<Blake2sMerkleHasher>(
         &component_log_sizes,
         log_blowup_factor,
         preprocessed_circuit.preprocessed_root(log_blowup_factor),
@@ -75,7 +82,12 @@ mod tests {
 
         // Host version, unpacked into eight little-endian u32 words.
         let host: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(
-            compute_circuit_hash(&component_log_sizes, log_blowup_factor, preprocessed_root).0,
+            compute_circuit_hash::<Blake2sMerkleHasher>(
+                &component_log_sizes,
+                log_blowup_factor,
+                preprocessed_root,
+            )
+            .into(),
         );
 
         // In-circuit version: build in a fresh context and read back the output words.

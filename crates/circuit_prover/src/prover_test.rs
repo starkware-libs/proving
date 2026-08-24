@@ -217,8 +217,12 @@ fn stwo_verify(
         verifier_channel,
     );
     let preprocessed_root = proof.proof.commitments[0];
-    let circuit_hash = compute_circuit_hash(&log_sizes, log_blowup_factor, preprocessed_root);
-    mix_circuit_hash(verifier_channel, &circuit_hash);
+    let circuit_hash = compute_circuit_hash::<Blake2sMerkleHasher>(
+        &log_sizes,
+        log_blowup_factor,
+        preprocessed_root,
+    );
+    mix_circuit_hash(verifier_channel, circuit_hash);
     claim.mix_into(verifier_channel);
     commitment_scheme.commit(proof.proof.commitments[1], &trace_log_sizes, verifier_channel);
 
