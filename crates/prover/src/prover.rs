@@ -21,6 +21,7 @@ use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleChannel};
+use stwo::core::vcs_lifted::hasher::Hasher;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use stwo::prover::backend::BackendForChannel;
 use stwo::prover::backend::simd::SimdBackend;
@@ -64,7 +65,7 @@ fn prove_verify_serialize<MC: MerkleChannel>(
 where
     SimdBackend: BackendForChannel<MC>,
     MC::H: MerkleHasherLifted + Serialize,
-    <MC::H as MerkleHasherLifted>::Hash: CairoSerialize,
+    <MC::H as Hasher>::Hash: CairoSerialize,
 {
     let cairo_proof = prove_cairo::<MC>(input, proof_params)?;
     if verify {

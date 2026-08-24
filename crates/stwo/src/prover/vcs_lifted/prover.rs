@@ -6,6 +6,7 @@ use super::ops::MerkleOpsLifted;
 use crate::core::ColumnVec;
 use crate::core::fields::m31::BaseField;
 use crate::core::fields::qm31::SECURE_EXTENSION_DEGREE;
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use crate::core::vcs_lifted::verifier::{
     ExtendedMerkleDecommitmentLifted, MerkleDecommitmentLifted, MerkleDecommitmentLiftedAux,
@@ -101,7 +102,7 @@ impl<B: MerkleOpsLifted<H>, H: MerkleHasherLifted> MerkleProverLifted<B, H> {
         // Prepare output buffers.
         let mut queried_values: ColumnVec<Vec<BaseField>> = vec![];
         let mut decommitment = MerkleDecommitmentLifted::<H>::default();
-        let mut all_node_values: Vec<HashMap<usize, <H as MerkleHasherLifted>::Hash>> = vec![];
+        let mut all_node_values: Vec<HashMap<usize, <H as Hasher>::Hash>> = vec![];
 
         // Compute the queried values.
         let max_log_size = self.layers.len() - 1;
@@ -121,8 +122,7 @@ impl<B: MerkleOpsLifted<H>, H: MerkleHasherLifted> MerkleProverLifted<B, H> {
         // from the layer of log size `self.layers.len() - 2` so that we always have a previous
         // layer available for the computation.
         for layer_log_size in (0..self.layers.len() - 1).rev() {
-            let mut all_node_values_for_layer =
-                HashMap::<usize, <H as MerkleHasherLifted>::Hash>::new();
+            let mut all_node_values_for_layer = HashMap::<usize, <H as Hasher>::Hash>::new();
             // Prepare write buffer for queries to the current layer. This will propagate to the
             // next layer.
             let mut curr_layer_queries: Vec<usize> = vec![];

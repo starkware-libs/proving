@@ -3,7 +3,7 @@ use std::sync::Arc;
 use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::poly::circle::CanonicCoset;
-use stwo::core::vcs_lifted::MerkleHasherLifted;
+use stwo::core::vcs_lifted::Hasher;
 use stwo::prover::CommitmentTreeProver;
 use stwo::prover::backend::BackendForChannel;
 use stwo::prover::backend::simd::SimdBackend;
@@ -22,7 +22,7 @@ pub fn generate_preprocessed_commitment_root<MC: MerkleChannel>(
     log_blowup_factor: u32,
     preprocessed_trace: PreProcessedTraceVariant,
     lifting_log_size: u32,
-) -> <<MC as MerkleChannel>::H as MerkleHasherLifted>::Hash
+) -> <<MC as MerkleChannel>::H as Hasher>::Hash
 where
     SimdBackend: BackendForChannel<MC>,
 {

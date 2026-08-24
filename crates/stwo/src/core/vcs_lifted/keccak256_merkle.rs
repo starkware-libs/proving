@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use super::hasher::Hasher;
 use super::merkle_hasher::MerkleHasherLifted;
 use crate::core::channel::{Keccak256Channel, MerkleChannel};
 use crate::core::fields::m31::BaseField;
@@ -7,20 +8,22 @@ use crate::core::vcs::keccak256_hash::{Keccak256Hash, Keccak256Hasher};
 
 pub type Keccak256MerkleHasher = Keccak256Hasher;
 
-impl MerkleHasherLifted for Keccak256Hasher {
+impl Hasher for Keccak256Hasher {
     type Hash = Keccak256Hash;
 
+    fn hash_u32s(words: &[u32]) -> Self::Hash {
+        let mut hasher = Self::default();
+        words.iter().for_each(|word| hasher.update(&word.to_be_bytes()));
+        hasher.finalize()
+    }
+}
+
+impl MerkleHasherLifted for Keccak256Hasher {
     fn hash_children(children_hashes: (Self::Hash, Self::Hash)) -> Self::Hash {
         let mut hasher = Self::default();
         let (left_child, right_child) = children_hashes;
         hasher.update(&left_child.0);
         hasher.update(&right_child.0);
-        hasher.finalize()
-    }
-
-    fn hash_u32s(words: &[u32]) -> Self::Hash {
-        let mut hasher = Self::default();
-        words.iter().for_each(|word| hasher.update(&word.to_be_bytes()));
         hasher.finalize()
     }
 
@@ -40,7 +43,7 @@ impl MerkleChannel for Keccak256MerkleChannel {
     type C = Keccak256Channel;
     type H = Keccak256MerkleHasher;
 
-    fn mix_root(channel: &mut Self::C, root: <Self::H as MerkleHasherLifted>::Hash) {
+    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash) {
         channel.update_digest(Keccak256Hasher::concat_and_hash(&channel.digest(), &root));
     }
 }

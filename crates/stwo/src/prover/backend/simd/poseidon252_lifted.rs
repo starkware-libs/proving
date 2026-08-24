@@ -6,7 +6,7 @@ use starknet_ff::FieldElement as FieldElement252;
 use crate::core::fields::m31::{BaseField, M31};
 use crate::core::utils::uninit_vec;
 use crate::core::vcs::poseidon252_merkle::{ELEMENTS_IN_BLOCK, construct_felt252_from_m31s};
-use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::poseidon252_merkle::{
     ELEMENTS_IN_BUFFER, Poseidon252MerkleHasher, poseidon_finalize, poseidon_update,
 };
@@ -21,9 +21,9 @@ impl MerkleOpsLifted<Poseidon252MerkleHasher> for SimdBackend {
     fn build_leaves(
         columns: &[&Col<Self, BaseField>],
         lifting_log_size: u32,
-    ) -> Col<Self, <Poseidon252MerkleHasher as MerkleHasherLifted>::Hash> {
+    ) -> Col<Self, <Poseidon252MerkleHasher as Hasher>::Hash> {
         if columns.is_empty() {
-            return vec![<Poseidon252MerkleHasher as MerkleHasherLifted>::Hash::default()];
+            return vec![<Poseidon252MerkleHasher as Hasher>::Hash::default()];
         }
         if columns.first().unwrap().len() < N_LANES {
             let cpu_cols = columns.iter().map(|column| column.to_cpu()).collect_vec();
@@ -107,8 +107,8 @@ impl MerkleOpsLifted<Poseidon252MerkleHasher> for SimdBackend {
     }
 
     fn build_next_layer(
-        prev_layer: &Col<Self, <Poseidon252MerkleHasher as MerkleHasherLifted>::Hash>,
-    ) -> Col<Self, <Poseidon252MerkleHasher as MerkleHasherLifted>::Hash> {
+        prev_layer: &Col<Self, <Poseidon252MerkleHasher as Hasher>::Hash>,
+    ) -> Col<Self, <Poseidon252MerkleHasher as Hasher>::Hash> {
         <CpuBackend as MerkleOpsLifted<Poseidon252MerkleHasher>>::build_next_layer(prev_layer)
     }
 }

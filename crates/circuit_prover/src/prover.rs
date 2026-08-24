@@ -13,7 +13,7 @@ use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-use stwo::core::vcs_lifted::MerkleHasherLifted;
+use stwo::core::vcs_lifted::Hasher;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 pub use stwo::prover::backend::simd::SimdBackend;
 pub use stwo::prover::mempool::BaseColumnPool;
@@ -55,7 +55,7 @@ pub fn prove_circuit_assignment_with_channel<MC>(
 where
     MC: MerkleChannel,
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
-    <MC::H as MerkleHasherLifted>::Hash: Into<[u8; 32]>,
+    <MC::H as Hasher>::Hash: Into<[u8; 32]>,
 {
     // Precompute twiddles.
     // Account for blowup factor and for composition polynomial calculation (taking the max since
@@ -106,7 +106,7 @@ pub fn prove_circuit_with_precompute<'a, MC>(
 where
     MC: MerkleChannel,
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
-    <MC::H as MerkleHasherLifted>::Hash: Into<[u8; 32]>,
+    <MC::H as Hasher>::Hash: Into<[u8; 32]>,
 {
     let PreprocessedCircuit {
         preprocessed_trace,

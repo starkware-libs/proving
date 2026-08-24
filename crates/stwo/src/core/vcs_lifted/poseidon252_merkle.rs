@@ -9,6 +9,7 @@ use crate::core::fields::m31::BaseField;
 use crate::core::vcs::poseidon252_merkle::{
     ELEMENTS_IN_BLOCK, construct_felt252_from_m31s, construct_felt252s_from_u32s,
 };
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 
 pub const ELEMENTS_IN_BUFFER: usize = 2 * ELEMENTS_IN_BLOCK;
@@ -24,15 +25,17 @@ pub struct Poseidon252MerkleHasher {
     buffer: Vec<BaseField>,
 }
 
-impl MerkleHasherLifted for Poseidon252MerkleHasher {
+impl Hasher for Poseidon252MerkleHasher {
     type Hash = FieldElement252;
-
-    fn hash_children((left, right): (Self::Hash, Self::Hash)) -> Self::Hash {
-        poseidon_hash(left, right)
-    }
 
     fn hash_u32s(words: &[u32]) -> Self::Hash {
         poseidon_hash_many(&construct_felt252s_from_u32s(words))
+    }
+}
+
+impl MerkleHasherLifted for Poseidon252MerkleHasher {
+    fn hash_children((left, right): (Self::Hash, Self::Hash)) -> Self::Hash {
+        poseidon_hash(left, right)
     }
 
     fn update_leaf(&mut self, column_values: &[BaseField]) {
@@ -99,7 +102,7 @@ impl MerkleChannel for Poseidon252MerkleChannel {
     type C = Poseidon252Channel;
     type H = Poseidon252MerkleHasher;
 
-    fn mix_root(channel: &mut Self::C, root: <Self::H as MerkleHasherLifted>::Hash) {
+    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash) {
         channel.update_digest(poseidon_hash(channel.digest(), root));
     }
 }

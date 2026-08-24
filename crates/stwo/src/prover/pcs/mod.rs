@@ -18,7 +18,7 @@ use crate::core::pcs::utils::prepare_preprocessed_query_positions;
 use crate::core::pcs::{PcsConfig, TreeSubspan, TreeVec};
 use crate::core::poly::circle::CanonicCoset;
 use crate::core::utils::MaybeOwned;
-use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::verifier::ExtendedMerkleDecommitmentLifted;
 use crate::prover::air::component_prover::{Poly, Trace, WeightsHashMap};
 use crate::prover::backend::BackendForChannel;
@@ -110,7 +110,7 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         TreeBuilder { tree_index: self.trees.len(), commitment_scheme: self, polys: Vec::default() }
     }
 
-    pub fn roots(&self) -> TreeVec<<MC::H as MerkleHasherLifted>::Hash> {
+    pub fn roots(&self) -> TreeVec<<MC::H as Hasher>::Hash> {
         self.trees.as_ref().map(|tree| tree.commitment.root())
     }
 

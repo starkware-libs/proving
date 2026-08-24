@@ -7,7 +7,7 @@ use circuits::utils::le_u32s_from_bytes;
 use itertools::Itertools;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo::core::vcs_lifted::MerkleHasherLifted;
+use stwo::core::vcs_lifted::Hasher;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 
 /// Computes the circuit hash: `H(log_blowup_factor || component_log_sizes || preprocessed_root)`,
@@ -16,7 +16,7 @@ use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 ///
 /// This is the non-circuit version of [`circuit_verifier::circuit_hash::compute_circuit_hash`],
 /// used by the prover to mix the circuit hash into the channel.
-pub fn compute_circuit_hash<H: MerkleHasherLifted>(
+pub fn compute_circuit_hash<H: Hasher>(
     component_log_sizes: &PerComponent<u32>,
     log_blowup_factor: u32,
     preprocessed_root: H::Hash,

@@ -13,7 +13,7 @@ use crate::core::ColumnVec;
 use crate::core::channel::{Channel, MerkleChannel};
 use crate::core::pcs::quotients::CommitmentSchemeProof;
 use crate::core::pcs::utils::prepare_preprocessed_query_positions;
-use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::verifier::MerkleVerifierLifted;
 use crate::core::verifier::VerificationError;
 
@@ -39,7 +39,7 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
     /// committed is the preprocessed one, every later one a trace tree.
     pub fn commit(
         &mut self,
-        commitment: <MC::H as MerkleHasherLifted>::Hash,
+        commitment: <MC::H as Hasher>::Hash,
         log_sizes: &[u32],
         channel: &mut MC::C,
     ) {

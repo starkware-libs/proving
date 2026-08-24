@@ -3,6 +3,7 @@ use core::fmt::Debug;
 use std_shims::Vec;
 
 use super::fields::qm31::SecureField;
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -43,5 +44,5 @@ pub trait Channel: Default + Clone + Debug {
 pub trait MerkleChannel: Default {
     type C: Channel;
     type H: MerkleHasherLifted;
-    fn mix_root(channel: &mut Self::C, root: <Self::H as MerkleHasherLifted>::Hash);
+    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash);
 }

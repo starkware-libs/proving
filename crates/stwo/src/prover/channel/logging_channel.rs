@@ -5,7 +5,7 @@ use tracing::{debug, debug_span};
 use crate::core::channel::{Channel, MerkleChannel};
 use crate::core::fields::qm31::SecureField;
 use crate::core::proof_of_work::GrindOps;
-use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
+use crate::core::vcs_lifted::hasher::Hasher;
 use crate::prover::backend::BackendForChannel;
 use crate::prover::backend::simd::SimdBackend;
 use crate::prover::vcs_lifted::ops::MerkleOpsLifted;
@@ -85,7 +85,7 @@ impl<MC: MerkleChannel> MerkleChannel for LoggingMerkleChannel<MC> {
 
     type H = MC::H;
 
-    fn mix_root(channel: &mut Self::C, root: <Self::H as MerkleHasherLifted>::Hash) {
+    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash) {
         let _ = debug_span!("Channel mix_root");
         log_mix(MC::mix_root, &mut channel.channel, root)
     }
