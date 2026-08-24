@@ -75,14 +75,15 @@ pub struct CasmState<T> {
     pub ap: T,
     pub fp: T,
 }
-impl CasmState<Var> {
+impl CasmState<M31Wrapper<Var>> {
     pub fn logup_term(
         &self,
         context: &mut Context<impl IValue>,
         interaction_elements: [Var; 2],
     ) -> Var {
         let Self { pc, ap, fp } = self;
-        let elements = [context.constant(OPCODES_RELATION_ID.into()), *pc, *ap, *fp];
+        let elements =
+            [context.constant(OPCODES_RELATION_ID.into()), *pc.get(), *ap.get(), *fp.get()];
         logup_use_term(context, &elements, interaction_elements)
     }
 }
@@ -111,45 +112,48 @@ pub struct SegmentRange<T> {
 
 // Auxiliary data that is used for verifying an execution of a Cairo program.
 pub struct AuxData {
-    // TODO(ilya): Use `M31Wrapper<Var>` for all fields.
-    pub initial_state: CasmState<Var>,
-    pub final_state: CasmState<Var>,
-    pub segment_ranges: [SegmentRange<Var>; N_SEGMENTS],
-    pub safe_call_ids: [Var; 2],
-    pub output_ids: Vec<Var>,
-    pub program_ids: Vec<Var>,
+    pub initial_state: CasmState<M31Wrapper<Var>>,
+    pub final_state: CasmState<M31Wrapper<Var>>,
+    pub segment_ranges: [SegmentRange<M31Wrapper<Var>>; N_SEGMENTS],
+    pub safe_call_ids: [M31Wrapper<Var>; 2],
+    pub output_ids: Vec<M31Wrapper<Var>>,
+    pub program_ids: Vec<M31Wrapper<Var>>,
     pub component_log_sizes: Vec<M31Wrapper<Var>>,
 }
 
 impl AuxData {
-    /// Parses the auxiliary data from a slice of variables.
+    /// Parses the auxiliary data from a slice of base-field variables.
     ///
     /// `data` is laid out as the concatenation of, in order: the fixed-size fields
     /// (initial state, final state, segment ranges and safe-call ids), then
     /// `output_ids`, `program_ids` and `component_log_sizes`.
-    pub fn parse_from_vars(data: &[Var], program_len: usize, n_components: usize) -> Self {
-        let mut iter = data.iter();
+    pub fn parse_from_vars(
+        data: &[M31Wrapper<Var>],
+        program_len: usize,
+        n_components: usize,
+    ) -> Self {
+        let mut iter = data.iter().cloned();
 
         let initial_state = CasmState {
-            pc: *iter.next().unwrap(),
-            ap: *iter.next().unwrap(),
-            fp: *iter.next().unwrap(),
+            pc: iter.next().unwrap(),
+            ap: iter.next().unwrap(),
+            fp: iter.next().unwrap(),
         };
         let final_state = CasmState {
-            pc: *iter.next().unwrap(),
-            ap: *iter.next().unwrap(),
-            fp: *iter.next().unwrap(),
+            pc: iter.next().unwrap(),
+            ap: iter.next().unwrap(),
+            fp: iter.next().unwrap(),
         };
 
         let segment_ranges = array::from_fn(|_| SegmentRange {
-            start: PubMemoryAddress { id: *iter.next().unwrap(), value: *iter.next().unwrap() },
-            end: PubMemoryAddress { id: *iter.next().unwrap(), value: *iter.next().unwrap() },
+            start: PubMemoryAddress { id: iter.next().unwrap(), value: iter.next().unwrap() },
+            end: PubMemoryAddress { id: iter.next().unwrap(), value: iter.next().unwrap() },
         });
 
-        let safe_call_ids = [*iter.next().unwrap(), *iter.next().unwrap()];
-        let output_ids = iter.by_ref().take(N_OUTPUTS).cloned().collect_vec();
-        let program_ids = iter.by_ref().take(program_len).cloned().collect_vec();
-        let component_log_sizes = iter.map(|v| M31Wrapper::new_unsafe(*v)).collect_vec();
+        let safe_call_ids = [iter.next().unwrap(), iter.next().unwrap()];
+        let output_ids = iter.by_ref().take(N_OUTPUTS).collect_vec();
+        let program_ids = iter.by_ref().take(program_len).collect_vec();
+        let component_log_sizes = iter.collect_vec();
         assert_eq!(component_log_sizes.len(), n_components);
 
         Self {
@@ -227,8 +231,10 @@ impl<Value: IValue> CairoStatement<Value> {
         ] = &self.aux_data.segment_ranges;
 
         // Validate the output segment range.
-        let diff =
-            eval!(context, (output_segment_range.end.value) - (output_segment_range.start.value));
+        let diff = eval!(
+            context,
+            (*output_segment_range.end.value.get()) - (*output_segment_range.start.value.get())
+        );
         let n_outputs = context.constant(self.outputs.len().into());
         eq(context, diff, n_outputs);
 
@@ -248,14 +254,14 @@ impl<Value: IValue> CairoStatement<Value> {
             context,
             &builtin_segment_ranges
                 .iter()
-                .map(|segment_range| M31Wrapper::new_unsafe(segment_range.start.value))
+                .map(|segment_range| segment_range.start.value.clone())
                 .collect_vec(),
         );
         let end_addresses = Simd::pack(
             context,
             &builtin_segment_ranges
                 .iter()
-                .map(|segment_range| M31Wrapper::new_unsafe(segment_range.end.value))
+                .map(|segment_range| segment_range.end.value.clone())
                 .collect_vec(),
         );
         let diff = Simd::sub(context, &end_addresses, &start_addresses);
@@ -406,9 +412,9 @@ impl<Value: IValue> CairoStatement<Value> {
         let aux_data_len = AUX_DATA_FIXED_LEN + program.len() + n_components;
         assert_eq!(serialized_aux_data.len(), aux_data_len);
 
-        let aux_data_vars: Vec<Var> = serialized_aux_data
+        let aux_data_vars: Vec<M31Wrapper<Var>> = serialized_aux_data
             .iter()
-            .map(|&m31| *M31Wrapper::new_unsafe(Value::from_qm31(m31.into())).guess(context).get())
+            .map(|&m31| M31Wrapper::new_unsafe(Value::from_qm31(m31.into())).guess(context))
             .collect_vec();
 
         let aux_data = AuxData::parse_from_vars(&aux_data_vars, program.len(), n_components);
@@ -480,20 +486,19 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         let program_len_words = to_padded_u32_words(context, vec![program_len]);
         let aux_data_vars = chain!(
             [
-                aux_data.initial_state.pc,
-                aux_data.initial_state.ap,
-                aux_data.initial_state.fp,
-                aux_data.final_state.pc,
-                aux_data.final_state.ap,
-                aux_data.final_state.fp
+                *aux_data.initial_state.pc.get(),
+                *aux_data.initial_state.ap.get(),
+                *aux_data.initial_state.fp.get(),
+                *aux_data.final_state.pc.get(),
+                *aux_data.final_state.ap.get(),
+                *aux_data.final_state.fp.get()
             ],
-            aux_data
-                .segment_ranges
-                .iter()
-                .flat_map(|r| { [r.start.id, r.start.value, r.end.id, r.end.value] }),
-            aux_data.safe_call_ids.iter().copied(),
-            aux_data.output_ids.iter().copied(),
-            aux_data.program_ids.iter().copied(),
+            aux_data.segment_ranges.iter().flat_map(|r| {
+                [*r.start.id.get(), *r.start.value.get(), *r.end.id.get(), *r.end.value.get()]
+            }),
+            aux_data.safe_call_ids.iter().map(|id| *id.get()),
+            aux_data.output_ids.iter().map(|id| *id.get()),
+            aux_data.program_ids.iter().map(|id| *id.get()),
         )
         .collect_vec();
         let aux_data_words = to_padded_u32_words(context, aux_data_vars);
@@ -567,7 +572,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
                 ("mul_mod_builtin_segment_start", &segment_ranges[10]),
             ]
             .into_iter()
-            .map(|(k, v)| (k.to_string(), v.start.value)),
+            .map(|(k, v)| (k.to_string(), *v.start.value.get())),
         );
         public_params
     }
@@ -597,20 +602,20 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // A vector of values that are going to be range checked to 29 bits.
         let mut range_checks = vec![];
 
-        eq(context, *initial_pc, context.one());
+        eq(context, *initial_pc.get(), context.one());
         // Check that initial_pc (== 1) + 2 < initial_ap.
         // i.e. 3 < initial_ap < 2**29 + 4.
         // At this point we actually know that `initial_ap < 2**29` because we enforced it when
         // computing the safe_call logup sum.
-        range_checks.push(eval!(context, (*initial_ap) - (context.constant(4.into()))));
+        range_checks.push(eval!(context, (*initial_ap.get()) - (context.constant(4.into()))));
 
-        eq(context, *initial_fp, *final_fp);
-        eq(context, *initial_fp, *initial_ap);
+        eq(context, *initial_fp.get(), *final_fp.get());
+        eq(context, *initial_fp.get(), *initial_ap.get());
         let expected_final_pc = context.constant(5.into());
-        eq(context, *final_pc, expected_final_pc);
+        eq(context, *final_pc.get(), expected_final_pc);
         // Check that the initial_ap <= final_ap.
         // i.e. 0 <= final_ap - initial_ap < 2**29.
-        range_checks.push(eval!(context, (*final_ap) - (*initial_ap)));
+        range_checks.push(eval!(context, (*final_ap.get()) - (*initial_ap.get())));
 
         let rc_simd = Simd::pack(
             context,
@@ -651,7 +656,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
 pub fn segment_ranges_logup_sum(
     context: &mut Context<impl IValue>,
     interaction_elements: [Var; 2],
-    segment_ranges: &[SegmentRange<Var>; N_SEGMENTS],
+    segment_ranges: &[SegmentRange<M31Wrapper<Var>>; N_SEGMENTS],
     mut argument_address: Var,
     mut return_value_address: Var,
 ) -> Var {
@@ -663,21 +668,22 @@ pub fn segment_ranges_logup_sum(
             return_value_address = eval!(context, (return_value_address) + (one));
         }
 
-        let start_value_limbs = split_address_to_9bit_limbs(context, segment_range.start.value);
+        let start_value_limbs =
+            split_address_to_9bit_limbs(context, *segment_range.start.value.get());
         let segment_start_logup_term = public_memory_logup_terms(
             context,
             interaction_elements,
             argument_address,
-            segment_range.start.id,
+            *segment_range.start.id.get(),
             &start_value_limbs,
         );
         sum = eval!(context, (sum) + (segment_start_logup_term));
-        let end_value_limbs = split_address_to_9bit_limbs(context, segment_range.end.value);
+        let end_value_limbs = split_address_to_9bit_limbs(context, *segment_range.end.value.get());
         let segment_end_logup_term = public_memory_logup_terms(
             context,
             interaction_elements,
             return_value_address,
-            segment_range.end.id,
+            *segment_range.end.id.get(),
             &end_value_limbs,
         );
         sum = eval!(context, (sum) + (segment_end_logup_term));
@@ -714,14 +720,14 @@ pub fn memory_segment_logup_sum(
     context: &mut Context<impl IValue>,
     interaction_elements: [Var; 2],
     start_address: Var,
-    ids: &[Var],
+    ids: &[M31Wrapper<Var>],
     memory_values: &[[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]],
 ) -> Var {
     let one = context.one();
     let mut sum = context.zero();
 
     let mut address = start_address;
-    for (i, (&id, value_limbs)) in zip_eq(ids, memory_values).enumerate() {
+    for (i, (id, value_limbs)) in zip_eq(ids, memory_values).enumerate() {
         if i != 0 {
             address = eval!(context, (address) + (one));
         }
@@ -730,7 +736,7 @@ pub fn memory_segment_logup_sum(
             context,
             interaction_elements,
             address,
-            id,
+            *id.get(),
             value_limbs.iter().map(|limb| limb.get()),
         );
         sum = eval!(context, (sum) + (logup_term));
@@ -755,8 +761,8 @@ pub fn public_logup_sum(
         program_ids,
         component_log_sizes: _,
     } = aux_data;
-    let initial_ap = initial_state.ap;
-    let final_ap = final_state.ap;
+    let initial_ap = *initial_state.ap.get();
+    let final_ap = *final_state.ap.get();
     let final_state_logup_term = aux_data.final_state.logup_term(context, interaction_elements);
     let initial_state_logup_term = aux_data.initial_state.logup_term(context, interaction_elements);
     let mut sum = eval!(context, (final_state_logup_term) - (initial_state_logup_term));
@@ -778,8 +784,13 @@ pub fn public_logup_sum(
     for ((address, id), value_limbs) in
         zip_eq(zip_eq(safe_call_addresses, safe_call_ids), safe_call_values)
     {
-        let logup_term =
-            public_memory_logup_terms(context, interaction_elements, address, *id, value_limbs);
+        let logup_term = public_memory_logup_terms(
+            context,
+            interaction_elements,
+            address,
+            *id.get(),
+            value_limbs,
+        );
         sum = eval!(context, (sum) + (logup_term));
     }
 
@@ -798,7 +809,7 @@ pub fn public_logup_sum(
     let output_logup_sum = memory_segment_logup_sum(
         context,
         interaction_elements,
-        segment_ranges[0].start.value,
+        *segment_ranges[0].start.value.get(),
         output_ids,
         outputs,
     );
@@ -807,7 +818,7 @@ pub fn public_logup_sum(
     let program_logup_sum = memory_segment_logup_sum(
         context,
         interaction_elements,
-        initial_state.pc,
+        *initial_state.pc.get(),
         program_ids,
         program,
     );
