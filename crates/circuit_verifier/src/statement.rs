@@ -126,10 +126,10 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
         let gate_relation_id = context.constant(GATE_RELATION_ID.into());
         // Construct the output addresses. They are located at addresses `[3, 3 + n_outputs)`.
         let output_addresses = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + self.n_outputs))
-            .map(|addr| M31Wrapper::new_unsafe(context.constant(addr.into())))
+            .map(|addr| M31Wrapper::const_m31(context, addr.into()))
             .collect_vec();
         // Add the pair `(U_VAR_IDX, U_VALUE)` to the addresses and values, respectively.
-        let u_addr = M31Wrapper::new_unsafe(context.constant(U_VAR_IDX.into()));
+        let u_addr = M31Wrapper::const_m31(context, U_VAR_IDX.into());
         let u_val = context.u();
         let output_addresses = chain!(&output_addresses, [&u_addr]);
         let output_values = chain!(&self.output_values, [&u_val]);

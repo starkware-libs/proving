@@ -22,6 +22,7 @@ use circuits_stark_verifier::statement::Statement;
 use circuits_stark_verifier::verify::RELATION_USES_NUM_ROWS_SHIFT;
 use indexmap::IndexMap;
 use itertools::{Itertools, chain, zip_eq};
+use num_traits::Zero;
 use stwo::core::fields::m31::{M31, P as M31_P};
 use stwo::core::fields::qm31::QM31;
 use stwo_cairo_common::builtins::{
@@ -354,7 +355,7 @@ fn output_limbs_from_hash<Value: IValue>(
     context: &mut Context<Value>,
     hash: &HashValue<Var>,
 ) -> Vec<[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]> {
-    let zero = M31Wrapper::new_unsafe(context.zero());
+    let zero = M31Wrapper::const_m31(context, Zero::zero());
     let mut outputs = Vec::with_capacity(N_OUTPUTS);
     for half in hash.chunks(N_WORDS_PER_OUTPUT_CELL) {
         // Little-endian bit stream of the cell's 128-bit value (LSB first).
@@ -413,7 +414,7 @@ impl<Value: IValue> CairoStatement<Value> {
 
         let aux_data_vars: Vec<M31Wrapper<Var>> = serialized_aux_data
             .iter()
-            .map(|&m31| M31Wrapper::new_unsafe(Value::from_qm31(m31.into())).guess(context))
+            .map(|&m31| M31Wrapper::from_m31(m31).guess(context))
             .collect_vec();
 
         let aux_data = AuxData::parse_from_vars(&aux_data_vars, program.len(), n_components);
@@ -536,9 +537,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         let program_as_constants = self
             .program
             .iter()
-            .map(|value_limbs| {
-                value_limbs.map(|limb| M31Wrapper::new_unsafe(context.constant(limb.into())))
-            })
+            .map(|value_limbs| value_limbs.map(|limb| M31Wrapper::const_m31(context, limb)))
             .collect_vec();
 
         public_logup_sum(

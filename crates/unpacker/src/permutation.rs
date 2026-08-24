@@ -88,13 +88,8 @@ pub fn permute_tuples<Value: IValue>(
             .get_mut(&key_from_tuple(ctx, out_tuple))
             .and_then(|idxs| idxs.pop())
             .expect("output tuple is not a permutation of the inputs");
-        let index_var = M31Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(
-            index_in_inputs as u32,
-            0,
-            0,
-            0,
-        )))
-        .guess(ctx);
+        let index_var =
+            M31Wrapper::from_m31(u32::try_from(index_in_inputs).unwrap().into()).guess(ctx);
         let tag_u = eval!(ctx, (*index_var.get()) * (u));
 
         // Tag each word of this tuple and add it to its word-column as one permutation output.

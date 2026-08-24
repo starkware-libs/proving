@@ -66,6 +66,9 @@ impl QuerySorter {
 
     /// Verifies that `sorted_keys` is sorted. The `key_bits <= 30` bound asserted in
     /// `new` ensures the range-check soundness argument below.
+    ///
+    /// Assumption: `sorted_keys` is a vector of values of the form `x * u`, where `x` is an M31
+    /// value.
     fn verify_sorted_keys<Value: IValue>(&self, context: &mut Context<Value>, sorted_keys: &[Var]) {
         if sorted_keys.is_empty() {
             return;

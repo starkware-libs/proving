@@ -36,6 +36,11 @@ impl From<M31> for M31Wrapper<QM31> {
 }
 
 impl M31Wrapper<Var> {
+    /// Creates a constant `Var` with the given `M31` value.
+    pub fn const_m31(context: &mut Context<impl IValue>, value: M31) -> M31Wrapper<Var> {
+        M31Wrapper::new_unsafe(context.constant(value.into()))
+    }
+
     /// Adds a multiplication gate to the circuit, and returns the output variable.
     pub fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
         Self(eval!(context, (*a.get()) * (*b.get())))
@@ -45,6 +50,13 @@ impl M31Wrapper<Var> {
 impl From<NoValue> for M31Wrapper<NoValue> {
     fn from(_: NoValue) -> Self {
         M31Wrapper(NoValue)
+    }
+}
+
+impl<Value: IValue> M31Wrapper<Value> {
+    /// Embeds a base-field element into a wrapped value (returns `M31Wrapper<impl IValue>`).
+    pub fn from_m31(value: M31) -> Self {
+        Self(Value::from_qm31(value.into()))
     }
 }
 

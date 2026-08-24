@@ -15,7 +15,7 @@ pub mod test;
 /// If any input exceeds `2^n_bits - 1`, a circuit constraints is going to be violated and
 /// `context.is_circuit_valid()` will return `false`.
 pub fn extract_bits(context: &mut Context<impl IValue>, input: &Simd, n_bits: u32) -> Vec<Simd> {
-    let inv_two = M31Wrapper::new_unsafe(context.constant(M31::from(2).inverse().into()));
+    let inv_two = M31Wrapper::const_m31(context, M31::from(2).inverse());
 
     let mut value = input.clone();
     let mut bits = Vec::new();
