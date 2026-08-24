@@ -173,7 +173,7 @@ impl IValue for NoValue {
     }
 
     fn blake2s(_: &[Self], _: usize) -> HashValue<Self> {
-        HashValue([U32Wrapper::new_unsafe(Self); BLAKE2S_DIGEST_N_WORDS])
+        HashValue([U32Wrapper::no_value(); BLAKE2S_DIGEST_N_WORDS])
     }
 
     fn sort_by_u_coordinate(input: &[Self]) -> Vec<Self> {

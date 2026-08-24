@@ -474,9 +474,9 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
 
     let n_components = config.n_components();
     Proof {
-        trace_root: HashValue([U32Wrapper::new_unsafe(NoValue); 8]),
-        interaction_root: HashValue([U32Wrapper::new_unsafe(NoValue); 8]),
-        composition_polynomial_root: HashValue([U32Wrapper::new_unsafe(NoValue); 8]),
+        trace_root: HashValue([U32Wrapper::no_value(); 8]),
+        interaction_root: HashValue([U32Wrapper::no_value(); 8]),
+        composition_polynomial_root: HashValue([U32Wrapper::no_value(); 8]),
         preprocessed_columns_at_oods: vec![NoValue; config.n_preprocessed_columns],
         trace_at_oods: vec![NoValue; config.n_trace_columns],
         interaction_at_oods: config

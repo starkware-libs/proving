@@ -53,7 +53,7 @@ impl HashValue<NoValue> {
     /// Creates a [`HashValue`] with [`NoValue`] elements, used when building the circuit topology
     /// without concrete witness values.
     pub fn no_value() -> Self {
-        Self(std::array::from_fn(|_| U32Wrapper::new_unsafe(NoValue)))
+        Self(std::array::from_fn(|_| U32Wrapper::no_value()))
     }
 }
 

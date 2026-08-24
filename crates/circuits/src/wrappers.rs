@@ -144,6 +144,12 @@ impl<T> U32Wrapper<T> {
     }
 }
 
+impl U32Wrapper<NoValue> {
+    pub fn no_value() -> Self {
+        U32Wrapper(NoValue)
+    }
+}
+
 impl From<u32> for U32Wrapper<QM31> {
     fn from(value: u32) -> Self {
         U32Wrapper(QM31::pack_u32(value))
