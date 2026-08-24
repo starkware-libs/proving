@@ -35,13 +35,24 @@ pub trait FieldExpOps: Mul<Output = Self> + MulAssign + Sized + One + Clone {
 
     fn inverse(&self) -> Self;
 
+    /// Inverts every element of `column`.
+    ///
+    /// Resolves to the fastest strategy the concrete type has: the default implementation
+    /// inverts the whole slice in one pass, while the packed types chunk the work and the packed
+    /// extension fields use `batch_inverse_via_base_norms`.
     fn batch_inverse(column: &[Self]) -> Vec<Self> {
         batch_inverse(column)
     }
 }
 
-/// Assumes dst is initialized and of the same length as column.
-fn batch_inverse_classic<T: FieldExpOps>(column: &[T], dst: &mut [T]) {
+/// Inverts `column` into `dst` with Montgomery's batch inverse.
+///
+/// Trades `n` inversions for one inversion and ~`3n` multiplications: build the cumulative
+/// products of `column`, invert the total, then unwind that back into the individual inverses.
+///
+/// Prefer [`batch_inverse_interleaved`]: it is faster, and it accepts any length by falling
+/// back to this single-chain form.
+fn montgomery_batch_inverse<T: FieldExpOps>(column: &[T], dst: &mut [T]) {
     let n = column.len();
     debug_assert!(dst.len() >= n);
 
@@ -67,31 +78,29 @@ fn batch_inverse_classic<T: FieldExpOps>(column: &[T], dst: &mut [T]) {
     dst[0] = curr_inverse;
 }
 
-/// Inverts a batch of elements using Montgomery's batch inverse: one inversion of the whole
-/// product, unwound into the individual inverses with cumulative products.
-pub fn batch_inverse_in_place<F: FieldExpOps>(column: &[F], dst: &mut [F]) {
+/// Inverts `column` into `dst` with Montgomery's batch inverse, as `WIDTH` interleaved chains
+/// for instruction-level parallelism.
+pub(crate) fn batch_inverse_interleaved<F: FieldExpOps>(column: &[F], dst: &mut [F]) {
     const WIDTH: usize = 4;
     let n = column.len();
     debug_assert!(dst.len() >= n);
 
     if n <= WIDTH || !n.is_multiple_of(WIDTH) {
-        batch_inverse_classic(column, dst);
+        montgomery_batch_inverse(column, dst);
         return;
     }
 
     // First pass. Compute 'WIDTH' cumulative products in an interleaving fashion, reducing
     // instruction dependency and allowing better pipelining.
     let mut cum_prod: [F; WIDTH] = array::from_fn(|_| F::one());
-    dst[..WIDTH].clone_from_slice(&cum_prod);
     for i in 0..n {
         cum_prod[i % WIDTH] *= column[i].clone();
         dst[i] = cum_prod[i % WIDTH].clone();
     }
 
-    // Inverse cumulative products.
-    // Use classic batch inversion.
+    // Invert each chain's total product.
     let mut tail_inverses: [F; WIDTH] = array::from_fn(|_| F::one());
-    batch_inverse_classic(&dst[n - WIDTH..], &mut tail_inverses);
+    montgomery_batch_inverse(&dst[n - WIDTH..], &mut tail_inverses);
 
     // Second pass.
     for i in (WIDTH..n).rev() {
@@ -101,13 +110,20 @@ pub fn batch_inverse_in_place<F: FieldExpOps>(column: &[F], dst: &mut [F]) {
     dst[0..WIDTH].clone_from_slice(&tail_inverses);
 }
 
+/// Inverts every element of `column` into a fresh [`Vec`].
 pub fn batch_inverse<F: FieldExpOps>(column: &[F]) -> Vec<F> {
     let mut dst = unsafe { utils::uninit_vec(column.len()) };
-    batch_inverse_in_place(column, &mut dst);
+    batch_inverse_interleaved(column, &mut dst);
     dst
 }
 
-pub fn batch_inverse_chunked<T: FieldExpOps + Send + Sync>(
+/// Inverts `column` into `dst` in independent chunks of `chunk_size`, in parallel when the
+/// `parallel` feature is on.
+///
+/// Chunking bounds the working set to cache and is what makes the otherwise serial batch
+/// parallelizable. Callers pick `chunk_size` per type.
+#[cfg(feature = "prover")]
+pub(crate) fn batch_inverse_chunked<T: FieldExpOps + Send + Sync>(
     column: &[T],
     dst: &mut [T],
     chunk_size: usize,
@@ -121,7 +137,7 @@ pub fn batch_inverse_chunked<T: FieldExpOps + Send + Sync>(
     let iter = dst.par_chunks_mut(chunk_size).zip(column.par_chunks(chunk_size));
 
     iter.for_each(|(dst, column)| {
-        batch_inverse_in_place(column, dst);
+        batch_inverse_interleaved(column, dst);
     });
 }
 
@@ -462,9 +478,12 @@ mod tests {
     use rand::{Rng, SeedableRng};
     use std_shims::Vec;
 
-    use super::batch_inverse_in_place;
+    use super::batch_inverse_interleaved;
+    use crate::core::fields::batch_inverse;
+    #[cfg(feature = "prover")]
+    use crate::core::fields::batch_inverse_chunked;
     use crate::core::fields::m31::M31;
-    use crate::core::fields::{batch_inverse, batch_inverse_chunked};
+    #[cfg(feature = "prover")]
     use crate::core::utils;
 
     #[test]
@@ -485,10 +504,11 @@ mod tests {
         let elements: [M31; 16] = rng.random();
         let mut dst = [M31::zero(); 15];
 
-        batch_inverse_in_place(&elements, &mut dst);
+        batch_inverse_interleaved(&elements, &mut dst);
     }
 
     #[test]
+    #[cfg(feature = "prover")]
     fn test_batch_inverse_chunked() {
         let mut rng = SmallRng::seed_from_u64(0);
         let elements: [M31; 16] = rng.random();

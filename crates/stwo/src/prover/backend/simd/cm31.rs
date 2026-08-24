@@ -9,7 +9,7 @@ use super::batch_inverse::{
 };
 use super::m31::{N_LANES, PackedM31};
 use crate::core::fields::cm31::CM31;
-use crate::core::fields::{FieldExpOps, batch_inverse_in_place};
+use crate::core::fields::{FieldExpOps, batch_inverse_interleaved};
 use crate::core::utils;
 
 /// SIMD implementation of [`CM31`].
@@ -191,7 +191,7 @@ fn batch_inverse_chunk(
         *base_norm = norm(x);
     }
 
-    batch_inverse_in_place(base_norms, base_norm_invs);
+    batch_inverse_interleaved(base_norms, base_norm_invs);
 
     for ((&x, base_norm_inv), dst) in column.iter().zip(base_norm_invs).zip(dst) {
         *dst = PackedCM31([x.a() * *base_norm_inv, -(x.b() * *base_norm_inv)]);
@@ -321,7 +321,7 @@ mod tests {
     fn batch_inverse_works() {
         let mut rng = SmallRng::seed_from_u64(0);
         // Cover a partial chunk, an exact chunk, several chunks with a partial tail, and the
-        // lengths `batch_inverse_in_place` falls back to the classic algorithm for.
+        // lengths `batch_inverse_interleaved` falls back to the single-chain algorithm for.
         for len in [
             0,
             1,

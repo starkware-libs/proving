@@ -2,10 +2,10 @@ use criterion::{Criterion, criterion_group, criterion_main};
 use num_traits::{One, Zero};
 use rand::rngs::SmallRng;
 use rand::{Rng, SeedableRng};
+use stwo::core::fields::FieldExpOps;
 use stwo::core::fields::cm31::CM31;
 use stwo::core::fields::m31::{BaseField, M31};
 use stwo::core::fields::qm31::SecureField;
-use stwo::core::fields::{FieldExpOps, batch_inverse_in_place};
 use stwo::prover::backend::simd::cm31::PackedCM31;
 use stwo::prover::backend::simd::m31::{N_LANES, PackedBaseField, PackedM31};
 use stwo::prover::backend::simd::qm31::{PackedQM31, batch_inverse_packed_qm31};
@@ -151,10 +151,7 @@ pub fn simd_batch_inverse_bench(c: &mut Criterion) {
 
     // The base field reference point: Montgomery's batch inverse with nothing to descend to.
     let m31s: Vec<PackedM31> = (0..N_PACKED_ELEMENTS).map(|_| rng.random()).collect();
-    let mut m31_dst = vec![PackedM31::zero(); N_PACKED_ELEMENTS];
-    c.bench_function("PackedM31 batch_inverse", |b| {
-        b.iter(|| batch_inverse_in_place(&m31s, &mut m31_dst))
-    });
+    c.bench_function("PackedM31 batch_inverse", |b| b.iter(|| PackedM31::batch_inverse(&m31s)));
 
     let cm31s: Vec<PackedCM31> =
         (0..N_PACKED_ELEMENTS).map(|_| PackedCM31::from_array(rng.random())).collect();

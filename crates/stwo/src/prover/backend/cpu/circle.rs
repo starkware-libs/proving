@@ -7,7 +7,7 @@ use crate::core::constraints::{coset_vanishing, coset_vanishing_derivative, poin
 use crate::core::fft::{butterfly, ibutterfly};
 use crate::core::fields::m31::BaseField;
 use crate::core::fields::qm31::SecureField;
-use crate::core::fields::{ExtensionOf, batch_inverse_in_place};
+use crate::core::fields::{ExtensionOf, batch_inverse_interleaved};
 use crate::core::poly::circle::{CanonicCoset, CircleDomain};
 use crate::core::poly::utils::{domain_line_twiddles_from_tree, fold, get_folding_alphas};
 use crate::core::utils::{SliceExt, bit_reverse, bit_reverse_index};
@@ -257,7 +257,7 @@ impl PolyOps for CpuBackend {
             .iter()
             .zip(itwiddles.checked_as_chunks_mut::<CHUNK_SIZE>().iter_mut())
             .for_each(|(src, dst)| {
-                batch_inverse_in_place(src, dst);
+                batch_inverse_interleaved(src, dst);
             });
 
         TwiddleTree { root_coset, twiddles, itwiddles }

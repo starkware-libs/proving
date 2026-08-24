@@ -80,7 +80,7 @@ mod tests {
     use rand::rngs::SmallRng;
 
     use crate::core::fields::qm31::QM31;
-    use crate::core::fields::{FieldExpOps, batch_inverse_in_place};
+    use crate::core::fields::{FieldExpOps, batch_inverse_interleaved};
     use crate::prover::backend::Column;
     use crate::prover::backend::cpu::bit_reverse;
 
@@ -100,13 +100,13 @@ mod tests {
 
     // TODO(Ohad): remove.
     #[test]
-    fn batch_inverse_in_place_test() {
+    fn batch_inverse_interleaved_test() {
         let mut rng = SmallRng::seed_from_u64(0);
         let column = rng.random::<[QM31; 16]>().to_vec();
         let expected = column.iter().map(|e| e.inverse()).collect_vec();
         let mut dst = Vec::zeros(column.len());
 
-        batch_inverse_in_place(&column, &mut dst);
+        batch_inverse_interleaved(&column, &mut dst);
 
         assert_eq!(expected, dst);
     }
