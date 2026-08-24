@@ -1,12 +1,14 @@
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
-use starknet_crypto::{poseidon_hash, poseidon_permute_comp};
+use starknet_crypto::{poseidon_hash, poseidon_hash_many, poseidon_permute_comp};
 use starknet_ff::FieldElement as FieldElement252;
 use std_shims::Vec;
 
 use crate::core::channel::{MerkleChannel, Poseidon252Channel};
 use crate::core::fields::m31::BaseField;
-use crate::core::vcs::poseidon252_merkle::{ELEMENTS_IN_BLOCK, construct_felt252_from_m31s};
+use crate::core::vcs::poseidon252_merkle::{
+    ELEMENTS_IN_BLOCK, construct_felt252_from_m31s, construct_felt252s_from_u32s,
+};
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 
 pub const ELEMENTS_IN_BUFFER: usize = 2 * ELEMENTS_IN_BLOCK;
@@ -27,6 +29,10 @@ impl MerkleHasherLifted for Poseidon252MerkleHasher {
 
     fn hash_children((left, right): (Self::Hash, Self::Hash)) -> Self::Hash {
         poseidon_hash(left, right)
+    }
+
+    fn hash_u32s(words: &[u32]) -> Self::Hash {
+        poseidon_hash_many(&construct_felt252s_from_u32s(words))
     }
 
     fn update_leaf(&mut self, column_values: &[BaseField]) {

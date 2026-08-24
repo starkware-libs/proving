@@ -19,6 +19,12 @@ impl MerkleHasherLifted for Blake2sMerkleHasher {
         hasher.finalize()
     }
 
+    fn hash_u32s(words: &[u32]) -> Self::Hash {
+        let mut hasher = Self::default();
+        words.iter().for_each(|word| hasher.update(&word.to_le_bytes()));
+        hasher.finalize()
+    }
+
     fn update_leaf(&mut self, column_values: &[BaseField]) {
         column_values.iter().for_each(|x| self.update(&x.0.to_le_bytes()));
     }
