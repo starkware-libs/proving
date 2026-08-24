@@ -129,7 +129,7 @@ impl<MC: MerkleChannel> FriVerifier<MC> {
         proof: FriProof<MC::H>,
         column_bound: CirclePolyDegreeBound,
     ) -> Result<Self, FriVerificationError> {
-        MC::mix_root(channel, proof.first_layer.commitment);
+        MC::mix_hash(channel, proof.first_layer.commitment);
 
         let column_commitment_domain =
             CanonicCoset::new(column_bound.log_degree_bound + config.log_blowup_factor)
@@ -156,7 +156,7 @@ impl<MC: MerkleChannel> FriVerifier<MC> {
 
         let n_inner_layers = proof.inner_layers.len();
         for (layer_index, proof) in proof.inner_layers.into_iter().enumerate() {
-            MC::mix_root(channel, proof.commitment);
+            MC::mix_hash(channel, proof.commitment);
 
             // Compute the folding step.
             let is_last = layer_index == n_inner_layers - 1;

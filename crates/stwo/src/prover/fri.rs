@@ -132,7 +132,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B,
         // The circle-to-line fold is always equal to the config.fold_step.
         // TODO(Leo): consider support for smaller steps.
         let layer = FriFirstLayerProver::new(column, config.fold_step);
-        MC::mix_root(channel, layer.merkle_tree.root());
+        MC::mix_hash(channel, layer.merkle_tree.root());
         layer
     }
 
@@ -172,7 +172,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B,
         // While we can, skip `config.fold_step` layers.
         while line_log_size > last_layer_log_domain_size + config.fold_step {
             let layer = FriInnerLayerProver::new(layer_evaluation, config.fold_step);
-            MC::mix_root(channel, layer.merkle_tree.root());
+            MC::mix_hash(channel, layer.merkle_tree.root());
             let folding_alpha = channel.draw_secure_felt();
             let alpha_sq_powers = squared_alpha_powers(folding_alpha, config.fold_step);
             layer_evaluation = B::fold_line(&layer.evaluation, &alpha_sq_powers, twiddles);
@@ -183,7 +183,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B,
         // Do one last fold (of size 0 < k <= config.fold_step) to reach the correct size.
         let last_fold_step = line_log_size - last_layer_log_domain_size;
         let layer = FriInnerLayerProver::new(layer_evaluation, last_fold_step);
-        MC::mix_root(channel, layer.merkle_tree.root());
+        MC::mix_hash(channel, layer.merkle_tree.root());
         let folding_alpha = channel.draw_secure_felt();
         let alpha_sq_powers = squared_alpha_powers(folding_alpha, last_fold_step);
         layer_evaluation = B::fold_line(&layer.evaluation, &alpha_sq_powers, twiddles);

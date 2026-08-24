@@ -44,5 +44,6 @@ pub trait Channel: Default + Clone + Debug {
 pub trait MerkleChannel: Default {
     type C: Channel;
     type H: MerkleHasherLifted;
-    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash);
+    /// Absorbs a digest of `Self::H` into the channel.
+    fn mix_hash(channel: &mut Self::C, hash: <Self::H as Hasher>::Hash);
 }

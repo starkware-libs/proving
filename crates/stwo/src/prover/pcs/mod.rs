@@ -91,7 +91,7 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
             lifting_log_size,
             &self.base_column_pool,
         );
-        MC::mix_root(channel, tree.commitment.root());
+        MC::mix_hash(channel, tree.commitment.root());
         self.trees.push(MaybeOwned::Owned(tree));
     }
 
@@ -102,7 +102,7 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         tree: MaybeOwned<'a, CommitmentTreeProver<B, MC>>,
         channel: &mut MC::C,
     ) {
-        MC::mix_root(channel, tree.commitment.root());
+        MC::mix_hash(channel, tree.commitment.root());
         self.trees.push(tree);
     }
 

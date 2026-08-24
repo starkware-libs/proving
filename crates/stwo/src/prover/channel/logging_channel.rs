@@ -85,9 +85,9 @@ impl<MC: MerkleChannel> MerkleChannel for LoggingMerkleChannel<MC> {
 
     type H = MC::H;
 
-    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash) {
-        let _ = debug_span!("Channel mix_root");
-        log_mix(MC::mix_root, &mut channel.channel, root)
+    fn mix_hash(channel: &mut Self::C, hash: <Self::H as Hasher>::Hash) {
+        let _ = debug_span!("Channel mix_hash");
+        log_mix(MC::mix_hash, &mut channel.channel, hash)
     }
 }
 

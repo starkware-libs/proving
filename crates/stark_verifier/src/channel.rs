@@ -59,7 +59,7 @@ impl Channel {
 
     /// Mixes the given (unreduced) Merkle root into the channel's digest.
     ///
-    /// Mirrors the out-of-circuit `Blake2sM31MerkleChannel::mix_root`: the current
+    /// Mirrors the out-of-circuit `Blake2sM31MerkleChannel::mix_hash`: the current
     /// (`M31`-reduced) digest and the full, *unreduced* 32-byte root are concatenated as sixteen
     /// 32-bit words and hashed with the standard Blake2s, then the eight output words are reduced
     /// mod `M31::P` so the channel digest stays in the `M31` field for challenge/query derivation.

@@ -102,7 +102,7 @@ impl MerkleChannel for Poseidon252MerkleChannel {
     type C = Poseidon252Channel;
     type H = Poseidon252MerkleHasher;
 
-    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash) {
-        channel.update_digest(poseidon_hash(channel.digest(), root));
+    fn mix_hash(channel: &mut Self::C, hash: <Self::H as Hasher>::Hash) {
+        channel.update_digest(poseidon_hash(channel.digest(), hash));
     }
 }

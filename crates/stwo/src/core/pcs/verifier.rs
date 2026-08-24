@@ -44,7 +44,7 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
         channel: &mut MC::C,
     ) {
         let lifting_log_size = self.config.lifting_log_size(self.trees.len());
-        MC::mix_root(channel, commitment);
+        MC::mix_hash(channel, commitment);
         let extended_log_sizes = log_sizes
             .iter()
             .map(|&log_size| log_size + self.config.fri_config.log_blowup_factor)

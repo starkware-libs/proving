@@ -147,7 +147,7 @@ impl PublicData {
         hasher.update_leaf(
             output_claim.iter().map(|x| M31::from_u32_unchecked(*x)).collect::<Vec<_>>().as_slice(),
         );
-        MC::mix_root(channel, hasher.finalize());
+        MC::mix_hash(channel, hasher.finalize());
 
         let mut hasher = MC::H::default();
         hasher.update_leaf(
@@ -157,7 +157,7 @@ impl PublicData {
                 .collect::<Vec<_>>()
                 .as_slice(),
         );
-        MC::mix_root(channel, hasher.finalize());
+        MC::mix_hash(channel, hasher.finalize());
     }
 
     /// Converts public data to [u32], where each u32 is at most 2^31 - 1.

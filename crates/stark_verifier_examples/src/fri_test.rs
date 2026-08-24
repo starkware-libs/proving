@@ -95,7 +95,7 @@ fn test_fri_decommit_with_jumps(
     );
     let alpha_values: Vec<_> = proof_layer_commitments
         .map(|commitment| {
-            Blake2sM31MerkleChannel::mix_root(&mut channel, commitment);
+            Blake2sM31MerkleChannel::mix_hash(&mut channel, commitment);
             channel.draw_secure_felt()
         })
         .collect();

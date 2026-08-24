@@ -43,8 +43,8 @@ impl MerkleChannel for Keccak256MerkleChannel {
     type C = Keccak256Channel;
     type H = Keccak256MerkleHasher;
 
-    fn mix_root(channel: &mut Self::C, root: <Self::H as Hasher>::Hash) {
-        channel.update_digest(Keccak256Hasher::concat_and_hash(&channel.digest(), &root));
+    fn mix_hash(channel: &mut Self::C, hash: <Self::H as Hasher>::Hash) {
+        channel.update_digest(Keccak256Hasher::concat_and_hash(&channel.digest(), &hash));
     }
 }
 

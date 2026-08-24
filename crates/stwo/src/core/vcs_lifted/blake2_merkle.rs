@@ -46,10 +46,10 @@ impl MerkleChannel for Blake2sMerkleChannel {
     type C = Blake2sChannel;
     type H = Blake2sMerkleHasher;
 
-    fn mix_root(channel: &mut Self::C, root: Blake2sHash) {
+    fn mix_hash(channel: &mut Self::C, hash: Blake2sHash) {
         channel.update_digest(Blake2sHasherGeneric::<false>::concat_and_hash(
             &channel.digest(),
-            &root,
+            &hash,
         ));
     }
 }
@@ -67,10 +67,10 @@ impl MerkleChannel for Blake2sM31MerkleChannel {
     type C = Blake2sM31Channel;
     type H = Blake2sMerkleHasher;
 
-    fn mix_root(channel: &mut Self::C, root: Blake2sHash) {
-        // Mix the *unreduced* Merkle root into the channel.
+    fn mix_hash(channel: &mut Self::C, hash: Blake2sHash) {
+        // Mix the *unreduced* digest into the channel.
         channel
-            .update_digest(Blake2sHasherGeneric::<true>::concat_and_hash(&channel.digest(), &root));
+            .update_digest(Blake2sHasherGeneric::<true>::concat_and_hash(&channel.digest(), &hash));
     }
 }
 
