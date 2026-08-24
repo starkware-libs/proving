@@ -2,7 +2,7 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
-use circuits::ops::{Guess, inv, mul};
+use circuits::ops::{Constant, Guess, inv, mul};
 use circuits::simd::Simd;
 use circuits::wrappers::U32Wrapper;
 use circuits_stark_verifier::constraint_eval::{
@@ -188,8 +188,6 @@ impl<Value: IValue> Statement<Value> for SimpleStatement<Value> {
             306213366,
         ]
         .into();
-        HashValue(std::array::from_fn(|i| {
-            U32Wrapper::new_unsafe(context.constant(*root.0[i].get()))
-        }))
+        root.constant(context)
     }
 }

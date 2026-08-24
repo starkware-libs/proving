@@ -12,7 +12,7 @@ use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::IValue;
-use circuits::ops::{Guess, eq};
+use circuits::ops::{Constant, Guess, eq};
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::constraint_eval::CircuitEval;
@@ -512,11 +512,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // Compute the program hash at circuit construction time.
         let flat_program = pack_into_qm31s(program.iter().flatten().cloned());
         let program_hash = IValue::blake2s(&flat_program, flat_program.len() * 16);
-        let program_hash_words = program_hash
-            .0
-            .iter()
-            .map(|word| U32Wrapper::new_unsafe(context.constant(*word.get())))
-            .collect_vec();
+        let program_hash_words = program_hash.constant(context).into_iter().collect_vec();
 
         vec![
             enable_count_words,
@@ -640,9 +636,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
     }
 
     fn get_preprocessed_root(&self, context: &mut Context<Value>) -> HashValue<Var> {
-        HashValue(std::array::from_fn(|i| {
-            U32Wrapper::new_unsafe(context.constant(*self.preprocessed_root[i].get()))
-        }))
+        self.preprocessed_root.constant(context)
     }
 }
 

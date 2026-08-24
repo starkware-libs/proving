@@ -7,7 +7,7 @@ use crate::circuit::{BlakeGGate, M31ToU32, TripleXor};
 use crate::context::{Context, Var};
 use crate::eval;
 use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
-use crate::ops::{Guess, from_partial_evals};
+use crate::ops::{Constant, Guess, from_partial_evals};
 use crate::simd::Simd;
 use crate::utils::le_u32s_from_bytes;
 use crate::wrappers::U32Wrapper;
@@ -46,6 +46,14 @@ impl<Value: IValue> Guess<Value> for HashValue<Value> {
     /// element.
     fn guess(&self, context: &mut Context<Value>) -> Self::Target {
         HashValue(self.0.guess(context))
+    }
+}
+
+impl<Value: IValue> Constant<Value> for HashValue<QM31> {
+    type Target = HashValue<Var>;
+
+    fn constant(&self, context: &mut Context<Value>) -> HashValue<Var> {
+        HashValue(self.0.constant(context))
     }
 }
 

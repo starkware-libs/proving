@@ -6,7 +6,7 @@ use stwo::core::fields::qm31::QM31;
 use crate::context::{Context, GuessVar, Var};
 use crate::eval;
 use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
-use crate::ops::{Guess, guess_m31};
+use crate::ops::{Constant, Guess, guess_m31};
 
 #[cfg(test)]
 #[path = "wrappers_test.rs"]
@@ -67,6 +67,14 @@ impl<Value: IValue> Guess<Value> for M31Wrapper<Value> {
         // `guess_m31` constrains the guessed variable to the base field `M31` during
         // finalization, so no further masking is required here.
         guess_m31(context, self.clone())
+    }
+}
+
+impl<Value: IValue> Constant<Value> for M31Wrapper<QM31> {
+    type Target = M31Wrapper<Var>;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        M31Wrapper::new_unsafe(context.constant(self.0))
     }
 }
 
@@ -176,6 +184,14 @@ impl<Value: IValue> Guess<Value> for U32Wrapper<Value> {
             .guess(context);
         let i = context.constant(qm31_from_u32s(0, 1, 0, 0));
         U32Wrapper(eval!(context, (*low.get()) + ((*high.get()) * (i))))
+    }
+}
+
+impl<Value: IValue> Constant<Value> for U32Wrapper<QM31> {
+    type Target = U32Wrapper<Var>;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        U32Wrapper::new_unsafe(context.constant(self.0))
     }
 }
 

@@ -312,3 +312,28 @@ impl<Value: IValue, T: Guess<Value>> Guess<Value> for CirclePoint<T> {
         CirclePoint { x: self.x.guess(context), y: self.y.guess(context) }
     }
 }
+
+/// A trait for creating constant [Var]s from values in a recursive structure.
+///
+/// For example, given a `Vec<Vec<QM31>>` we can create a `Vec<Vec<Var>>` of constants.
+pub trait Constant<Value: IValue> {
+    type Target;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target;
+}
+
+impl<Value: IValue, T: Constant<Value>, const N: usize> Constant<Value> for [T; N] {
+    type Target = [T::Target; N];
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        self.each_ref().map(|value| value.constant(context))
+    }
+}
+
+impl<Value: IValue, T: Constant<Value>> Constant<Value> for Vec<T> {
+    type Target = Vec<T::Target>;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        self.iter().map(|value| value.constant(context)).collect()
+    }
+}
