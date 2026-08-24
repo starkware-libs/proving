@@ -6,6 +6,7 @@ edition.workspace = true
 [dependencies]
 circuits.workspace = true
 itertools.workspace = true
+stwo.workspace = true
 
 [dev-dependencies]
-stwo.workspace = true
+rstest.workspace = true
