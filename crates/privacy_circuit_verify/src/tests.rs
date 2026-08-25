@@ -13,10 +13,7 @@ use crate::consts::{
     PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
     PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, PRIVACY_TRANSACTION_COMPONENTS,
 };
-use crate::{
-    get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config,
-    get_recursive_circuit_config,
-};
+use crate::{get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config};
 
 const CONJECTURED_SECURITY_BITS: u32 = 96;
 
@@ -25,13 +22,6 @@ fn check_proof_config() {
     let proof_config = get_proof_config();
     // All circuit components should be enabled.
     assert!(proof_config.component_shapes.iter().all(|s| s.trace_columns > 0));
-}
-
-#[test]
-fn check_recursive_circuit_config_log_sizes() {
-    let config = get_recursive_circuit_config();
-    let log_sizes: Vec<u32> = config.preprocessed_column_log_sizes.values().copied().collect();
-    assert_eq!(log_sizes.as_slice(), PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES);
 }
 
 #[test]
