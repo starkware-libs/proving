@@ -229,8 +229,7 @@ fn test_prove_multiverifier_of_two_cairo_subcircuits() {
     let proof =
         deserialize_proof_with_config(&mut bytes.as_slice(), &shared_config.proof_config).unwrap();
     let mut multiverifier_context = build_multiverifier_circuit::<QM31>(
-        build_cairo_input(&proof),
-        build_cairo_input(&proof),
+        vec![build_cairo_input(&proof), build_cairo_input(&proof)],
         &shared_config,
     );
     pad_to_targets(&mut multiverifier_context, &TARGET_PADDING_SIZES);
@@ -297,8 +296,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     // Build the multiverifier circuit that verifies a proof of itself and a proof of the cairo
     // verifier.
     let mut context = build_multiverifier_circuit::<QM31>(
-        multiverifier_of_two_cairo_input,
-        build_cairo_input(&proof),
+        vec![multiverifier_of_two_cairo_input, build_cairo_input(&proof)],
         &shared_config,
     );
     pad_to_targets(&mut context, &TARGET_PADDING_SIZES);

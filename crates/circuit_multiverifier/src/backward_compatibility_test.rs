@@ -76,7 +76,8 @@ fn test_backward_compatibility() {
 
     // Verifying both the old Cairo verifier proof and the current multiverifier proof inside a
     // current multiverifier must succeed.
-    let mut context = build_multiverifier_circuit::<QM31>(old_input, current_input, &shared_config);
+    let mut context =
+        build_multiverifier_circuit::<QM31>(vec![old_input, current_input], &shared_config);
     pad_to_targets(&mut context, &TARGET_PADDING_SIZES);
     context.validate_circuit();
 }
