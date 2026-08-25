@@ -21,7 +21,7 @@ use starknet_types_core::felt::NonZeroFelt;
 
 use super::types::HashFunc;
 use super::utils::get_program_from_task;
-use crate::hints::fact_topologies::FactTopology;
+use crate::hints::fact_topologies::{FactTopology, write_to_fact_topologies_file};
 use crate::hints::types::SimpleBootloaderInput;
 use crate::hints::vars;
 
@@ -362,6 +362,100 @@ pub fn simulate_ecdsa_fill_mem_with_felt_96_bit_limbs(
     })?;
 
     Ok(())
+}
+
+/// Implements hint: DUMP_INNER_TASK_FACT_TOPOLOGY
+///
+/// Writes the inner task's fact topology to `fact_topologies_path`, when set. For the hashing
+/// simple-bootloader variants (the leaf simple bootloader), which run exactly one task into a
+/// hashed local segment and write only the output digest to the output builtin: the topology
+/// describes the hashed segment, so - unlike the plain simple bootloader's dump hint - there is
+/// no page-configuration branch, and `single_page` must be set.
+pub fn dump_inner_task_fact_topology(exec_scopes: &mut ExecutionScopes) -> Result<(), HintError> {
+    let simple_bootloader_input: &SimpleBootloaderInput =
+        exec_scopes.get_ref(vars::SIMPLE_BOOTLOADER_INPUT)?;
+    if !simple_bootloader_input.single_page {
+        return Err(HintError::CustomHint(
+            "The output builtin holds only the output digest, so page configuration is \
+             meaningless: single_page must be set."
+                .to_string()
+                .into_boxed_str(),
+        ));
+    }
+    let fact_topologies: Vec<FactTopology> = exec_scopes.get(vars::FACT_TOPOLOGIES)?;
+    if fact_topologies.len() != 1 {
+        return Err(HintError::CustomHint(
+            format!(
+                "Expected exactly one inner-task fact topology; got {}.",
+                fact_topologies.len()
+            )
+            .into_boxed_str(),
+        ));
+    }
+    if let Some(path) = &simple_bootloader_input.fact_topologies_path {
+        write_to_fact_topologies_file(path.as_path(), &fact_topologies)
+            .map_err(Into::<HintError>::into)?;
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod dump_inner_task_fact_topology_tests {
+    use std::path::PathBuf;
+
+    use super::*;
+
+    fn scopes(
+        single_page: bool,
+        fact_topologies_path: Option<PathBuf>,
+        fact_topologies: Vec<FactTopology>,
+    ) -> ExecutionScopes {
+        let mut exec_scopes = ExecutionScopes::new();
+        exec_scopes.insert_value(
+            vars::SIMPLE_BOOTLOADER_INPUT,
+            SimpleBootloaderInput { fact_topologies_path, single_page, tasks: vec![] },
+        );
+        exec_scopes.insert_value(vars::FACT_TOPOLOGIES, fact_topologies);
+        exec_scopes
+    }
+
+    #[test]
+    fn test_dumps_the_inner_task_topology() {
+        let dump_file = tempfile::NamedTempFile::new().expect("Failed to create temp file");
+        let topology = FactTopology::trivial(5);
+        let mut exec_scopes =
+            scopes(true, Some(dump_file.path().to_path_buf()), vec![topology.clone()]);
+
+        dump_inner_task_fact_topology(&mut exec_scopes).expect("Hint failed");
+
+        let dumped: serde_json::Value =
+            serde_json::from_reader(dump_file.reopen().expect("Failed to reopen temp file"))
+                .expect("Failed to parse dumped file");
+        let expected =
+            serde_json::json!({ "fact_topologies": [serde_json::to_value(&topology).unwrap()] });
+        assert_eq!(dumped, expected);
+    }
+
+    #[test]
+    fn test_no_path_is_a_no_op() {
+        let mut exec_scopes = scopes(true, None, vec![FactTopology::trivial(5)]);
+        dump_inner_task_fact_topology(&mut exec_scopes).expect("Hint failed");
+    }
+
+    #[test]
+    fn test_multiple_pages_are_rejected() {
+        let mut exec_scopes = scopes(false, None, vec![FactTopology::trivial(5)]);
+        let err = dump_inner_task_fact_topology(&mut exec_scopes).unwrap_err();
+        assert!(err.to_string().contains("single_page"));
+    }
+
+    #[test]
+    fn test_multiple_topologies_are_rejected() {
+        let topologies = vec![FactTopology::trivial(5), FactTopology::trivial(7)];
+        let mut exec_scopes = scopes(true, None, topologies);
+        let err = dump_inner_task_fact_topology(&mut exec_scopes).unwrap_err();
+        assert!(err.to_string().contains("exactly one"));
+    }
 }
 
 // TODO(Idan): Understand and fix these tests. some unavailable macros and files are used.

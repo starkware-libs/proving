@@ -74,8 +74,8 @@ use crate::hints::execute_task_hints::{
 use crate::hints::inner_select_builtins::select_builtin;
 use crate::hints::select_builtins::select_builtins_enter_scope;
 use crate::hints::simple_bootloader_hints::{
-    divide_num_by_2, program_hash_function_to_ap, set_ap_to_zero, set_current_task,
-    setup_run_simple_bootloader_before_task_execution,
+    divide_num_by_2, dump_inner_task_fact_topology, program_hash_function_to_ap, set_ap_to_zero,
+    set_current_task, setup_run_simple_bootloader_before_task_execution,
 };
 use crate::hints::utils::output_builtin_set_pages_by_size_and_fact_topology;
 use crate::hints::verifier_hints::load_and_parse_proof;
@@ -119,6 +119,7 @@ impl HintProcessorLogic for MinimalBootloaderHintProcessor {
             LOAD_PRIVACY_SIMPLE_BOOTLOADER_INPUT => {
                 load_privacy_simple_bootloader_input(exec_scopes)
             }
+            DUMP_INNER_TASK_FACT_TOPOLOGY => dump_inner_task_fact_topology(exec_scopes),
             DUMP_PRIVACY_SIMPLE_BOOTLOADER_OUTPUT_PREIMAGE => {
                 dump_privacy_simple_bootloader_output_preimage(
                     vm,
