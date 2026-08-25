@@ -192,7 +192,10 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
 #[test]
 fn test_cairo_proof_regression() {
     let (proof, public_data) = prove_privacy_with_recursion_and_prepare();
-    assert_eq!(public_data.output_values, PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES.map(QM31::pack_u32));
+    assert_eq!(
+        public_data.output_values,
+        PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES.map(|value| *QM31::pack_u32(value).get())
+    );
     if std::env::var("FIX_PROOF").is_err() {
         let proof_config = inner_verifier_proof_config();
         let bytes = std::fs::read(PRIVACY_CAIRO_VERIFIER_PROOF_PATH).unwrap();

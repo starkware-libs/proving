@@ -6,7 +6,6 @@ use circuits::blake::{HashValue, blake2s_u32s};
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
-use circuits::wrappers::U32Wrapper;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use circuits_stark_verifier::proof::{Proof, ProofConfig, empty_proof};
 use circuits_stark_verifier::verify::verify;
@@ -81,7 +80,7 @@ pub fn build_multiverifier_circuit<Value: IValue>(
         };
         let output_values = output_values
             .iter()
-            .map(|value| U32Wrapper::new_unsafe(Value::pack_u32(*value)).guess(&mut context))
+            .map(|value| Value::pack_u32(*value).guess(&mut context))
             .collect_vec();
         let output_value_vars = output_values.iter().map(|w| *w.get()).collect_vec();
         let statement = CircuitStatement::new(&mut context, &circuit_config, &output_value_vars);

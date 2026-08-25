@@ -105,7 +105,8 @@ fn test_mix_u32s_matches_stwo() {
 
     // Mixing twice also exercises the non-zero-digest path on the second call.
     for _ in 0..2 {
-        let words = data.map(|word| U32Wrapper::new_unsafe(context.new_var(QM31::pack_u32(word))));
+        let words =
+            data.map(|word| U32Wrapper::new_unsafe(context.new_var(*QM31::pack_u32(word).get())));
         channel.mix_u32s(&mut context, words.into_iter());
         stwo_channel.mix_u32s(&data);
 

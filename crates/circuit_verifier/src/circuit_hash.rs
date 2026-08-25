@@ -1,6 +1,7 @@
 use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s};
 use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
+use circuits::ops::Constant;
 use circuits::utils::le_u32s_from_bytes;
 use circuits::wrappers::U32Wrapper;
 use itertools::{Itertools, chain};
@@ -49,7 +50,7 @@ pub fn compute_circuit_hash<Value: IValue>(
     // Materialize the packed config words as circuit constants.
     let config_words: Vec<U32Wrapper<Var>> = config_words(log_blowup_factor, component_log_sizes)
         .into_iter()
-        .map(|word| U32Wrapper::new_unsafe(context.constant(QM31::pack_u32(word))))
+        .map(|word| QM31::pack_u32(word).constant(context))
         .collect();
     let config_and_root =
         chain!(config_words.iter().copied(), preprocessed_root.iter().copied()).collect_vec();

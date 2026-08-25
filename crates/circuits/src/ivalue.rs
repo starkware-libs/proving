@@ -62,7 +62,7 @@ pub trait IValue:
     fn m31_to_u32(&self) -> Self;
 
     /// Packs a `u32` value into a QM31 limb representation `(low_u16, high_u16, 0, 0)`.
-    fn pack_u32(value: u32) -> Self;
+    fn pack_u32(value: u32) -> U32Wrapper<Self>;
 
     /// Unpacks a QM31 limb representation `(low_u16, high_u16, 0, 0)` back into a `u32`.
     fn unpack_u32(&self) -> u32;
@@ -123,8 +123,8 @@ impl IValue for QM31 {
         qm31_from_u32s(x & 0xFFFF, x >> 16, 0, 0)
     }
 
-    fn pack_u32(value: u32) -> Self {
-        qm31_from_u32s(value & 0xFFFF, value >> 16, 0, 0)
+    fn pack_u32(value: u32) -> U32Wrapper<Self> {
+        U32Wrapper::new_unsafe(qm31_from_u32s(value & 0xFFFF, value >> 16, 0, 0))
     }
 
     fn unpack_u32(&self) -> u32 {
@@ -164,8 +164,8 @@ impl IValue for NoValue {
         Self
     }
 
-    fn pack_u32(_value: u32) -> Self {
-        Self
+    fn pack_u32(_value: u32) -> U32Wrapper<Self> {
+        U32Wrapper::no_value()
     }
 
     fn unpack_u32(&self) -> u32 {
