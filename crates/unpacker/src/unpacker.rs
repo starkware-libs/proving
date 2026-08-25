@@ -20,6 +20,10 @@
 //! A node's own `circuit_hash` is witness, bound when its parent consumes it; the root's is bound
 //! by the caller. So the root commits transitively to every hash in the tree.
 //!
+//! Every `circuit_hash` is also checked at the slot that produces it, against a caller-supplied
+//! whitelist — one for leaves, another for internal nodes. Padding slots are no exception: they
+//! carry a real set member, since padding is marked by a zero `subtree_hash` alone.
+//!
 //! # Design (wiring-by-multiset)
 //!
 //! Built for a fixed **leaf-slot capacity** `L` (a power of two), handling any `1 ≤ n ≤ L` by
@@ -52,6 +56,7 @@ use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{Guess, add, eq, guess, mul};
 use circuits::wrappers::U32Wrapper;
+use itertools::zip_eq;
 use stwo::core::fields::qm31::QM31;
 
 use crate::permutation::permute_tuples;
@@ -86,6 +91,52 @@ impl Node<Var> {
     /// by [`permute_tuples`] and hashed by [`hash_node`].
     fn words(&self) -> Vec<U32Wrapper<Var>> {
         self.circuit_hash.iter().chain(self.subtree_hash.iter()).copied().collect()
+    }
+}
+
+/// The leaf-slot capacity and the two whitelists `circuit_hash`es are checked against.
+///
+/// All three fix the emitted circuit: two trees built with equal `RecursionTreeParams` emit
+/// byte-identical circuits, and any change here changes the circuit. Both set lengths are
+/// gate-count parameters.
+///
+/// The fields are private and validated in [`RecursionTreeParams::new`], so holding an instance
+/// already guarantees a power-of-two capacity and two non-empty whitelists.
+pub struct RecursionTreeParams<'a> {
+    capacity: usize,
+    leaf_set: &'a [HashValue<QM31>],
+    internal_node_set: &'a [HashValue<QM31>],
+}
+
+impl<'a> RecursionTreeParams<'a> {
+    /// Panics unless `capacity` is a power of two and both whitelists are non-empty.
+    pub fn new(
+        capacity: usize,
+        leaf_set: &'a [HashValue<QM31>],
+        internal_node_set: &'a [HashValue<QM31>],
+    ) -> Self {
+        assert!(capacity.is_power_of_two(), "capacity must be a power of two, got {capacity}");
+        assert!(!leaf_set.is_empty(), "the allowed leaf circuit-hash set must be non-empty");
+        assert!(
+            !internal_node_set.is_empty(),
+            "the allowed internal-node circuit-hash set must be non-empty"
+        );
+        Self { capacity, leaf_set, internal_node_set }
+    }
+
+    /// Leaf-slot capacity `L`, a power of two and an upper bound on the leaf count.
+    pub fn capacity(&self) -> usize {
+        self.capacity
+    }
+
+    /// Whitelist of circuit hashes for leaf slots.
+    pub fn leaf_set(&self) -> &'a [HashValue<QM31>] {
+        self.leaf_set
+    }
+
+    /// Whitelist of circuit hashes for internal node slots — one per registry multiverifier.
+    pub fn internal_node_set(&self) -> &'a [HashValue<QM31>] {
+        self.internal_node_set
     }
 }
 
@@ -132,21 +183,17 @@ fn node_value_of<Value: IValue>(context: &Context<Value>, node: &Node<Var>) -> N
 /// [`add`]/[`mul`] constant-fold the canonical zero away, so padding built from it would emit fewer
 /// gates than a real slot and leak `n` into the gate count.
 ///
-/// Soundness is unaffected — padding is unconstrained witness, but any non-zero value a prover puts
-/// here is a produced node the multiset must consume, so it is hashed in and changes the root.
+/// Soundness is unaffected — this `subtree_hash` is unconstrained witness, but any non-zero value a
+/// prover puts here makes the slot a produced node the multiset must consume, so it is hashed in
+/// and changes the root. (The padding slot's `circuit_hash` is *not* free: like every other slot's,
+/// it is checked against the whitelist.)
 fn guess_zero_hash<Value: IValue>(context: &mut Context<Value>) -> HashValue<Var> {
     guess_hash_value(context, &zero_hash())
 }
 
-/// The all-zero hash `Z`: padding for unused leaf slots, and the unused `circuit_hash` of copy-up
-/// nodes.
+/// The all-zero `subtree_hash` that marks a padding leaf slot.
 fn zero_hash() -> HashValue<QM31> {
     HashValue::from([0u32; BLAKE2S_DIGEST_N_WORDS])
-}
-
-/// Guesses a fresh all-zero [`Node`] — see [`guess_zero_hash`] for why it is guessed, not constant.
-fn guess_zero_node<Value: IValue>(context: &mut Context<Value>) -> Node<Var> {
-    Node { circuit_hash: guess_zero_hash(context), subtree_hash: guess_zero_hash(context) }
 }
 
 /// Guesses a concrete [`HashValue<QM31>`] as witness, lifting each word through
@@ -169,22 +216,28 @@ fn guess_node<Value: IValue>(context: &mut Context<Value>, node: &Node<QM31>) ->
     }
 }
 
-/// Returns a `0/1` selector that is `1` iff `node` is the all-zero node `Z`.
+/// Returns a `0/1` selector that is `1` iff `node`'s `subtree_hash` is all-zero — the padding
+/// marker. The `circuit_hash` is deliberately *not* read: padding slots carry a real whitelist
+/// member there, so that a slot's membership check needs no exemption.
 ///
-/// The sixteen words are summed into `acc`. Every word is range-constrained to a `u32` packing
-/// `(low_u16, high_u16, 0, 0)` (see [`HashValue::guess`]), so each coordinate of the sum stays
-/// below `16 · 2^16 < M31::P` and cannot wrap: `acc == 0` iff every word is zero.
+/// The eight `subtree_hash` words are summed into `acc`. Every word is range-constrained to a
+/// `u32` packing `(low_u16, high_u16, 0, 0)` (see [`HashValue::guess`]), so each coordinate of the
+/// sum stays below `8 · 2^16 < M31::P` and cannot wrap: `acc == 0` iff every word is zero.
 ///
 /// `is_zero` is pinned to `[acc == 0]` by the standard gadget with witness `inv_or_zero`:
 /// * `acc * is_zero == 0` forces it false whenever `acc != 0`;
 /// * `acc * inv_or_zero + is_zero == 1` forces it true whenever `acc == 0`.
 ///
 /// That makes it a deterministic function of `node`, so a prover cannot steer the copy-up rule.
+///
+/// Note the guarantee this gives up against summing all sixteen words: a *whitelisted* leaf whose
+/// `subtree_hash` a prover sets to zero is still dropped, and still appears in the returned
+/// `leaves`. Callers must treat a zero `subtree_hash` as padding.
 fn is_zero_node<Value: IValue>(context: &mut Context<Value>, node: &Node<Var>) -> Var {
     let zero = context.zero();
     let one = context.one();
 
-    let words = node.words();
+    let words = &node.subtree_hash;
     let acc = words.iter().skip(1).fold(*words[0].get(), |acc, w| add(context, acc, *w.get()));
 
     let acc_val = context.get(acc);
@@ -211,6 +264,91 @@ fn is_zero_node<Value: IValue>(context: &mut Context<Value>, node: &Node<Var>) -
     is_zero
 }
 
+/// Guesses `len` flags that are `1` at `hot` and `0` elsewhere, constrained to be genuinely
+/// one-hot: `flag² == flag` pins each to `{0, 1}` and `Σ flags == 1` admits exactly one (`len < P`,
+/// so the sum cannot wrap).
+fn guess_one_hot<Value: IValue>(context: &mut Context<Value>, len: usize, hot: usize) -> Vec<Var> {
+    let one = context.one();
+    let zero_value = Value::from_qm31(qm31_from_u32s(0, 0, 0, 0));
+    let one_value = Value::from_qm31(qm31_from_u32s(1, 0, 0, 0));
+
+    let flags: Vec<Var> = (0..len)
+        .map(|i| {
+            let flag = guess(context, if i == hot { one_value } else { zero_value });
+            let squared = mul(context, flag, flag);
+            eq(context, squared, flag);
+            flag
+        })
+        .collect();
+
+    // The fold starts at the canonical zero, which `add` folds away.
+    let zero = context.zero();
+    let total = flags.iter().fold(zero, |acc, &flag| add(context, acc, flag));
+    eq(context, total, one);
+
+    flags
+}
+
+/// A [`guess_one_hot`] flag per candidate selects the match, and word-wise
+/// `hash[j] == Σ_i is_match[i] * allowed[i][j]` collapses to that candidate's word.
+///
+/// The comparison is per word, never a summed difference: word differences can be negative and
+/// cancel across words, so [`is_zero_node`]'s no-wrap argument does not survive a subtraction.
+///
+/// The gates do not depend on *which* candidate matches, so the circuit stays fixed across
+/// witnesses. A single-candidate set takes the cheaper [`constrain_hash_eq`] path.
+fn constrain_hash_in_set<Value: IValue>(
+    context: &mut Context<Value>,
+    hash: &HashValue<Var>,
+    allowed: &[HashValue<QM31>],
+) {
+    assert!(!allowed.is_empty(), "the allowed circuit-hash set must be non-empty");
+    if let [only] = allowed {
+        return constrain_hash_eq(context, hash, only);
+    }
+    // Witness only: the index of the matching candidate.
+    let matching = allowed
+        .iter()
+        .position(|candidate| {
+            candidate
+                .iter()
+                .enumerate()
+                .all(|(j, word)| context.get(*hash[j].get()) == Value::from_qm31(*word.get()))
+        })
+        .expect("circuit hash is not in the allowed set");
+
+    let is_match = guess_one_hot(context, allowed.len(), matching);
+
+    // Bind each word to the matched candidate's word.
+    for j in 0..BLAKE2S_DIGEST_N_WORDS {
+        let mut selected = {
+            let word = context.constant(*allowed[0][j].get());
+            mul(context, is_match[0], word)
+        };
+        for (&flag, candidate) in zip_eq(&is_match, allowed).skip(1) {
+            let word = context.constant(*candidate[j].get());
+            let term = mul(context, flag, word);
+            selected = add(context, selected, term);
+        }
+        eq(context, *hash[j].get(), selected);
+    }
+}
+
+/// Constrains `hash` to equal the single constant `expected`.
+///
+/// The one-candidate specialization of [`constrain_hash_in_set`]: with nothing to select between,
+/// the one-hot flags and their booleanity constraints all vanish, leaving one equality per word.
+fn constrain_hash_eq<Value: IValue>(
+    context: &mut Context<Value>,
+    hash: &HashValue<Var>,
+    expected: &HashValue<QM31>,
+) {
+    for j in 0..BLAKE2S_DIGEST_N_WORDS {
+        let word = context.constant(*expected[j].get());
+        eq(context, *hash[j].get(), word);
+    }
+}
+
 /// Hashes `left.circuit_hash ‖ left.subtree_hash ‖ right.circuit_hash ‖ right.subtree_hash` — four
 /// eight-word hashes, 128 bytes. Each word is already a Blake2s output, so the 32 words feed
 /// straight in as message words with no unpacking.
@@ -230,14 +368,20 @@ fn hash_node<Value: IValue>(
 ///
 /// [`hash_node`] is always emitted — the topology is fixed — and [`is_zero_node`] selects the
 /// copied-up `left` (both fields) on padding edges.
+///
+/// The supplied `circuit_hash` must lie in `internal_node_set` unconditionally: a copy-up slot
+/// discards it (the select takes `left.circuit_hash`), so padding can simply carry a real set
+/// member.
 fn handle_node<Value: IValue>(
     context: &mut Context<Value>,
     circuit_hash: &HashValue<Var>,
     left: &Node<Var>,
     right: &Node<Var>,
+    internal_node_set: &[HashValue<QM31>],
 ) -> Node<Var> {
     let hashed = hash_node(context, left, right);
     let right_is_zero = is_zero_node(context, right);
+    constrain_hash_in_set(context, circuit_hash, internal_node_set);
     // selector = 1 -> copy `left` (both fields); selector = 0 -> use the supplied `circuit_hash`
     // and the genuine hash.
     Node {
@@ -246,7 +390,8 @@ fn handle_node<Value: IValue>(
     }
 }
 
-/// One emitted node slot: the two child nodes it consumes and the node it produces.
+/// One emitted node slot: the two child nodes it consumes and the node it produces. Across all
+/// slots these are the two sides of the multiset identity.
 struct NodeSlot {
     left: Node<Var>,
     right: Node<Var>,
@@ -261,12 +406,13 @@ fn push_node<Value: IValue>(
     circuit_hash: &HashValue<QM31>,
     left: &Node<Var>,
     right: &Node<Var>,
+    internal_node_set: &[HashValue<QM31>],
     slots: &mut Vec<NodeSlot>,
 ) -> Node<Var> {
     let left = node_value_of(context, left).guess(context);
     let right = node_value_of(context, right).guess(context);
     let circuit_hash = guess_hash_value(context, circuit_hash);
-    let out = handle_node(context, &circuit_hash, &left, &right);
+    let out = handle_node(context, &circuit_hash, &left, &right, internal_node_set);
     slots.push(NodeSlot { left, right, out: out.clone() });
     out
 }
@@ -281,54 +427,78 @@ fn build_tree<Value: IValue>(
     context: &mut Context<Value>,
     tree: &BinaryTree<Node<QM31>, HashValue<QM31>>,
     leaves: &mut impl Iterator<Item = Node<Var>>,
+    internal_node_set: &[HashValue<QM31>],
     slots: &mut Vec<NodeSlot>,
 ) -> Node<Var> {
     match tree {
         BinaryTree::Leaf(_) => leaves.next().expect("fewer guessed leaves than the tree holds"),
         BinaryTree::Internal(circuit_hash, children) => {
-            let left = build_tree(context, &children[0], leaves, slots);
-            let right = build_tree(context, &children[1], leaves, slots);
-            push_node(context, circuit_hash, &left, &right, slots)
+            let left = build_tree(context, &children[0], leaves, internal_node_set, slots);
+            let right = build_tree(context, &children[1], leaves, internal_node_set, slots);
+            push_node(context, circuit_hash, &left, &right, internal_node_set, slots)
         }
     }
 }
 
 /// Proves that [`UnpackedRecursionTree::leaves`] are — as a multiset — the leaves of a recursion
-/// tree whose Merkle root is [`UnpackedRecursionTree::root`]. Their order and the padding positions
-/// are *not* bound; see the module docs.
+/// tree whose Merkle root is [`UnpackedRecursionTree::root`], and that every `circuit_hash` in it
+/// names a circuit the caller allows. Their order and the padding positions are *not* bound; see
+/// the module docs.
 ///
 /// `tree` supplies the leaf values, each internal node's `circuit_hash`, and the shape; the emitted
-/// circuit depends only on `capacity`.
-// TODO(ilya): Verify that all the circuit hashes in the recursion tree are valid.
+/// circuit depends only on [`RecursionTreeParams`].
+///
+/// Each `circuit_hash` is checked at the slot that *produces* it — a leaf's against
+/// [`RecursionTreeParams::leaf_set`], an internal node's against
+/// [`RecursionTreeParams::internal_node_set`]. Padding slots are checked too, against an arbitrary
+/// set member.
+///
+/// That marker is the caller's obligation: a slot whose `subtree_hash` is zero is dropped by
+/// copy-up yet still appears in the returned `leaves`, so a prover can place a whitelisted
+/// `circuit_hash` beside a zero `subtree_hash` and have that entry show up uncommitted. **Callers
+/// must treat a zero `subtree_hash` in `leaves` as padding** rather than as a committed leaf.
 pub fn unpack_recursion_tree<Value: IValue>(
     context: &mut Context<Value>,
     tree: &BinaryTree<Node<QM31>, HashValue<QM31>>,
-    capacity: usize,
+    params: &RecursionTreeParams<'_>,
 ) -> UnpackedRecursionTree {
+    let (capacity, leaf_set, internal_node_set) =
+        (params.capacity(), params.leaf_set(), params.internal_node_set());
     let leaf_values = tree.leaves();
     let n = leaf_values.len();
     assert!(n >= 1, "a Merkle tree must have at least one leaf");
-    assert!(capacity.is_power_of_two(), "capacity must be a power of two, got {capacity}");
     assert!(n <= capacity, "got {n} leaves but capacity is only {capacity}");
 
     // Guess all `capacity` leaf nodes up front (real then padding) — see `build_tree` for why.
     let real_leaves: Vec<Node<Var>> =
         leaf_values.iter().map(|node| guess_node(context, node)).collect();
-    let pads: Vec<Node<Var>> = (n..capacity).map(|_| guess_zero_node(context)).collect();
+    let pads: Vec<Node<Var>> = (n..capacity)
+        .map(|_| Node {
+            circuit_hash: guess_hash_value(context, &leaf_set[0]),
+            subtree_hash: guess_zero_hash(context),
+        })
+        .collect();
     let leaf_slots: Vec<Node<Var>> = real_leaves.iter().chain(pads.iter()).cloned().collect();
+
+    // Every leaf slot names an allowed circuit, padding included — padding is marked by a zero
+    // `subtree_hash`, not by a zero `circuit_hash`. Checking all `capacity` slots in fixed order
+    // keeps the emitted gates independent of `n`.
+    for leaf in &leaf_slots {
+        constrain_hash_in_set(context, &leaf.circuit_hash, leaf_set);
+    }
 
     let mut slots: Vec<NodeSlot> = Vec::new();
 
     // Emit the tree's `n - 1` internal nodes, then drop each padding `Z` with a copy-up node
     // (`right = Z`, so `out = left`), chaining the real root up: `capacity - 1` uniform slots
-    // either way. A copy-up node's `circuit_hash` is unused, so a zero hash keeps it
-    // structurally identical to a real slot.
-    let zero_circuit_hash = zero_hash();
+    // either way. A copy-up node discards its `circuit_hash`, so any `internal_node_set` member
+    // does.
+    let pad_circuit_hash = &internal_node_set[0];
     let mut leaves = real_leaves.iter().cloned();
-    let mut chain = build_tree(context, tree, &mut leaves, &mut slots);
+    let mut chain = build_tree(context, tree, &mut leaves, internal_node_set, &mut slots);
     assert!(leaves.next().is_none(), "the tree walk did not consume every guessed leaf");
     for pad in &pads {
-        chain = push_node(context, &zero_circuit_hash, &chain, pad, &mut slots);
+        chain = push_node(context, pad_circuit_hash, &chain, pad, internal_node_set, &mut slots);
     }
 
     // The consumed children must equal, as a multiset, the leaves plus the outputs — minus the
