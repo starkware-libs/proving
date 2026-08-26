@@ -218,6 +218,13 @@ debug-assertions = false
 opt-level = 3
 [profile.test.package.stwo]
 opt-level = 3
+# Poseidon252 hashing lives entirely in these two: the field arithmetic in `starknet-ff` and the
+# permutation in `starknet-crypto`. Unoptimized they dominate any test that hashes with Poseidon,
+# and no override on our own packages reaches them.
+[profile.test.package.starknet-ff]
+opt-level = 3
+[profile.test.package.starknet-crypto]
+opt-level = 3
 
 [profile.samply]
 inherits = "release"
