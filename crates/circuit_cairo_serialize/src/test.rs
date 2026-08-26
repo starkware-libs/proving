@@ -5,16 +5,19 @@
 //! and asserts the result equals the original.
 
 use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment};
+use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment_with_channel};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::context::Context;
 use circuits::ivalue::{NoValue, qm31_from_u32s};
 use circuits::ops::guess;
 use num_traits::{One, Zero};
+use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
+use stwo::core::vcs_lifted::Hasher;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
+use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
 use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
 
 use crate::claim::{CairoCircuitClaim, CairoCircuitInteractionClaim};
@@ -40,6 +43,21 @@ fn build_minimal_context() -> Context<QM31> {
 
 #[test]
 fn test_serialize_deserialize_cairo_proof() {
+    assert_cairo_proof_round_trips::<Blake2sM31MerkleChannel>();
+}
+
+#[test]
+fn test_serialize_deserialize_cairo_proof_poseidon252() {
+    assert_cairo_proof_round_trips::<Poseidon252MerkleChannel>();
+}
+
+/// Proves the minimal context with `MC` and asserts the Cairo felt stream round-trips: the
+/// deserializer must be the inverse of the serializer.
+fn assert_cairo_proof_round_trips<MC: MerkleChannel>()
+where
+    SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
+    <MC::H as Hasher>::Hash: CairoSerialize + CairoDeserialize,
+{
     let mut ctx = build_minimal_context().finalize(false);
     ctx.validate_circuit();
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut ctx);
@@ -47,7 +65,7 @@ fn test_serialize_deserialize_cairo_proof() {
         FriConfig::default(),
         preprocessed_circuit.trace_log_size,
     );
-    let circuit_proof = prove_circuit_assignment(
+    let circuit_proof = prove_circuit_assignment_with_channel::<MC>(
         ctx.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
@@ -69,7 +87,7 @@ fn test_serialize_deserialize_cairo_proof() {
     let mut iter = felts.iter();
     // The format carries no lifting log sizes, so they are passed in; see
     // `CairoCircuitProof::deserialize`.
-    let deserialized: CairoCircuitProof<Blake2sMerkleHasher> = CairoCircuitProof::deserialize(
+    let deserialized: CairoCircuitProof<MC::H> = CairoCircuitProof::deserialize(
         &mut iter,
         pcs_config.trace_lifting_log_size,
         pcs_config.preprocessed_lifting_log_size,

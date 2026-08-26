@@ -22,7 +22,6 @@ use stwo::core::fri::FriProof;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::pcs::quotients::CommitmentSchemeProof;
 use stwo::core::proof::StarkProof;
-use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use stwo::core::vcs_lifted::verifier::MerkleDecommitmentLifted;
 use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
@@ -38,7 +37,10 @@ use crate::claim::{CairoCircuitClaim, CairoCircuitInteractionClaim};
 // Note: cannot derive `PartialEq`/`Eq` because `FriProof`/`MerkleDecommitmentLifted` do
 // not implement them. Roundtrip tests compare serialized felts instead.
 #[derive(Clone, Debug, CairoSerialize)]
-pub struct CairoCircuitProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
+pub struct CairoCircuitProof<H: MerkleHasherLifted>
+where
+    H::Hash: CairoSerialize + CairoDeserialize,
+{
     pub claim: CairoCircuitClaim,
     pub interaction_pow: u64,
     pub interaction_claim: CairoCircuitInteractionClaim,
@@ -50,9 +52,12 @@ pub struct CairoCircuitProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
 /// 2D sorted-and-transposed layout (one `Vec<BaseField>` per tree, concatenated across
 /// queries) that the Cairo verifier deserializes.
 #[derive(Clone, Debug, CairoSerialize)]
-pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
+pub struct CairoStarkProof<H: MerkleHasherLifted>
+where
+    H::Hash: CairoSerialize + CairoDeserialize,
+{
     pub config: PcsConfig,
-    pub commitments: Vec<Blake2sHash>,
+    pub commitments: Vec<H::Hash>,
     pub sampled_values: Vec<ColumnVec<Vec<QM31>>>,
     pub decommitments: Vec<MerkleDecommitmentLifted<H>>,
     /// Sorted+transposed queried values (per tree).
@@ -65,10 +70,13 @@ pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
 /// Only the proof is serialized — verifier-config constants (output addresses,
 /// preprocessed root, `lifting_log_size`, preprocessed column log sizes)
 /// are hardcoded inside the Cairo verifier binary for a specific circuit topology.
-pub fn prepare_circuit_proof_for_cairo_verifier<H: MerkleHasherLifted<Hash = Blake2sHash>>(
+pub fn prepare_circuit_proof_for_cairo_verifier<H: MerkleHasherLifted>(
     circuit_proof: CircuitProof<H>,
     component_log_sizes: &PerComponent<u32>,
-) -> Vec<FieldElement> {
+) -> Vec<FieldElement>
+where
+    H::Hash: CairoSerialize + CairoDeserialize,
+{
     let [trace_log_sizes, interaction_log_sizes] = column_log_sizes_per_tree(component_log_sizes);
     let stark_proof = CairoStarkProof::<H>::from_stark_proof(
         circuit_proof.stark_proof.proof,
@@ -86,7 +94,10 @@ pub fn prepare_circuit_proof_for_cairo_verifier<H: MerkleHasherLifted<Hash = Bla
     felts
 }
 
-impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoCircuitProof<H> {
+impl<H: MerkleHasherLifted> CairoCircuitProof<H>
+where
+    H::Hash: CairoSerialize + CairoDeserialize,
+{
     /// Reads a proof back from the felt stream written by its `CairoSerialize` impl.
     ///
     /// `trace_lifting_log_size` and `preprocessed_lifting_log_size` are the heights the proof's
@@ -112,7 +123,10 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoCircuitProof<H> {
     }
 }
 
-impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
+impl<H: MerkleHasherLifted> CairoStarkProof<H>
+where
+    H::Hash: CairoSerialize + CairoDeserialize,
+{
     /// Reads a stark proof back, with the lifting log sizes the format omits supplied by the
     /// caller. See [`CairoCircuitProof::deserialize`].
     pub fn deserialize<'a>(
