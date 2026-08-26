@@ -1,6 +1,6 @@
 use circuit_common::Qm31OpsTraceGenerator;
 use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_verifier::circuit_claim::{CircuitInteractionElements, lookup_sum, mix_circuit_hash};
+use circuit_verifier::circuit_claim::{CircuitInteractionElements, lookup_sum};
 pub use circuit_verifier::circuit_proof::CircuitProof;
 use circuit_verifier::statement::{INTERACTION_POW_BITS, all_circuit_components};
 use circuit_verifier::verify::CircuitPublicData;
@@ -13,7 +13,6 @@ use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-use stwo::core::vcs_lifted::Hasher;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 pub use stwo::prover::backend::simd::SimdBackend;
 pub use stwo::prover::mempool::BaseColumnPool;
@@ -55,7 +54,6 @@ pub fn prove_circuit_assignment_with_channel<MC>(
 where
     MC: MerkleChannel,
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
-    <MC::H as Hasher>::Hash: Into<[u8; 32]>,
 {
     // Precompute twiddles.
     // Account for blowup factor and for composition polynomial calculation (taking the max since
@@ -106,7 +104,6 @@ pub fn prove_circuit_with_precompute<'a, MC>(
 where
     MC: MerkleChannel,
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
-    <MC::H as Hasher>::Hash: Into<[u8; 32]>,
 {
     let PreprocessedCircuit {
         preprocessed_trace,
@@ -157,7 +154,7 @@ where
         pcs_config.fri_config.log_blowup_factor,
         preprocessed_root,
     );
-    mix_circuit_hash(channel, circuit_hash);
+    MC::mix_hash(channel, circuit_hash);
     claim.mix_into(channel);
     tree_builder.commit(channel);
 

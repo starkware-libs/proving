@@ -2,7 +2,8 @@ use std_shims::{ToString, Vec};
 
 use super::Hasher;
 use crate::core::channel::{Blake2sChannelGeneric, Channel, Keccak256Channel};
-use crate::core::vcs::blake2_hash::Blake2sM31Hasher;
+use crate::core::vcs::blake2_hash::{Blake2sHash, Blake2sM31Hasher};
+use crate::core::vcs::keccak256_hash::Keccak256Hash;
 use crate::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 use crate::core::vcs_lifted::keccak256_merkle::Keccak256MerkleHasher;
 
@@ -40,6 +41,74 @@ fn poseidon252_hash_u32s() {
             "0x0172b6763ef45133e1d1d1a507f14fe24702c221cdbbc7ca7c0e5d654b008d27"
         )
         .unwrap()
+    );
+}
+
+/// A non-trivial digest to absorb after the words.
+const DIGEST: &str = "efee1538e0216d3a09ce742ce768c44a7db004d801c40f66040994353f55fe85";
+
+fn hex_bytes(hex: &str) -> [u8; 32] {
+    core::array::from_fn(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16).unwrap())
+}
+
+#[test]
+fn blake2s_hash_u32s_followed_by_digest() {
+    let digest = Blake2sHash(hex_bytes(DIGEST));
+
+    // `blake2s(little endian words || the digest's bytes)`.
+    assert_eq!(
+        Blake2sMerkleHasher::hash_u32s_followed_by_digest(&WORDS, digest).to_string(),
+        "18a60268d189dccf5065ddd361d280474fbc2b08d75a7e4e1c20e57a67f2f7fa"
+    );
+}
+
+#[test]
+fn keccak256_hash_u32s_followed_by_digest() {
+    let digest = Keccak256Hash(hex_bytes(DIGEST));
+
+    // `keccak256(big endian words || the digest's bytes)`.
+    assert_eq!(
+        Keccak256MerkleHasher::hash_u32s_followed_by_digest(&WORDS, digest).to_string(),
+        "f7aa8c249a7fc55c3911a96e56f13528eef537fc71c9a23eeb3923e2375a952f"
+    );
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[test]
+fn poseidon252_hash_u32s_followed_by_digest() {
+    use starknet_ff::FieldElement as FieldElement252;
+
+    use crate::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleHasher;
+
+    let digest = FieldElement252::from_hex_be(
+        "0x0172b6763ef45133e1d1d1a507f14fe24702c221cdbbc7ca7c0e5d654b008d27",
+    )
+    .unwrap();
+
+    // The felt252 digest is absorbed as one more element after the packed words, never
+    // decomposed into `u32`s.
+    assert_eq!(
+        Poseidon252MerkleHasher::hash_u32s_followed_by_digest(&WORDS, digest),
+        FieldElement252::from_hex_be(
+            "0x037ca7a4626aa8c89673f4d524492432a2234d024746a28e861328a79b9301a0"
+        )
+        .unwrap()
+    );
+}
+
+/// For the byte-digest hashers, absorbing the digest is absorbing its eight words — the
+/// decomposition callers used to do themselves. Pins that they can stop without changing a
+/// single transcript.
+#[test]
+fn hash_u32s_followed_by_digest_absorbs_the_digest_words() {
+    let digest = Blake2sHash(hex_bytes(DIGEST));
+    let words: [u32; 8] = core::array::from_fn(|i| {
+        u32::from_le_bytes(digest.0[i * 4..(i + 1) * 4].try_into().unwrap())
+    });
+
+    assert_eq!(
+        Blake2sMerkleHasher::hash_u32s_followed_by_digest(&WORDS, digest),
+        Blake2sMerkleHasher::hash_u32s(&[WORDS.as_slice(), words.as_slice()].concat())
     );
 }
 

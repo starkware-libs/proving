@@ -16,6 +16,13 @@ impl Hasher for Keccak256Hasher {
         words.iter().for_each(|word| hasher.update(&word.to_be_bytes()));
         hasher.finalize()
     }
+
+    fn hash_u32s_followed_by_digest(words: &[u32], digest: Self::Hash) -> Self::Hash {
+        let mut hasher = Self::default();
+        words.iter().for_each(|word| hasher.update(&word.to_be_bytes()));
+        hasher.update(&digest.0);
+        hasher.finalize()
+    }
 }
 
 impl MerkleHasherLifted for Keccak256Hasher {

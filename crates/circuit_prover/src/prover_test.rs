@@ -1,7 +1,7 @@
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
-    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum, mix_circuit_hash,
+    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum,
 };
 use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
@@ -15,17 +15,18 @@ use circuits::ops::{guess, permute};
 use circuits::utils::le_u32s_from_bytes;
 use expect_test::expect;
 use num_traits::{One, Zero};
-use stwo::core::channel::{Blake2sM31Channel, Channel};
+use stwo::core::channel::{Channel, MerkleChannel};
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::CommitmentSchemeVerifier;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
+use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
 
 use crate::circuit_air::circuit_components::CircuitComponents;
 use crate::circuit_hash::compute_circuit_hash;
 use crate::prover::{
     BaseColumnPool, CircuitProof, SimdBackend, prepare_circuit_proof_for_circuit_verifier,
-    prove_circuit_assignment,
+    prove_circuit_assignment, prove_circuit_assignment_with_channel,
 };
 use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
@@ -182,8 +183,8 @@ pub fn build_blake_g_gate_context() -> Context<QM31> {
 
 /// Verifies a [`CircuitProof`] using the stwo verifier. Asserts that the proof is valid
 /// and that the logup sum is zero.
-fn stwo_verify(
-    circuit_proof: CircuitProof<Blake2sMerkleHasher>,
+fn stwo_verify<MC: MerkleChannel>(
+    circuit_proof: CircuitProof<MC::H>,
     preprocessed_circuit: &PreprocessedCircuit,
 ) {
     let CircuitProof {
@@ -203,11 +204,10 @@ fn stwo_verify(
     );
 
     let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
-    let verifier_channel = &mut Blake2sM31Channel::default();
+    let verifier_channel = &mut MC::C::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
     pcs_config.mix_into(verifier_channel);
-    let commitment_scheme =
-        &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(pcs_config);
+    let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
 
     let [trace_log_sizes, interaction_log_sizes] = column_log_sizes_per_tree(&log_sizes);
 
@@ -217,12 +217,9 @@ fn stwo_verify(
         verifier_channel,
     );
     let preprocessed_root = proof.proof.commitments[0];
-    let circuit_hash = compute_circuit_hash::<Blake2sMerkleHasher>(
-        &log_sizes,
-        log_blowup_factor,
-        preprocessed_root,
-    );
-    mix_circuit_hash(verifier_channel, circuit_hash);
+    let circuit_hash =
+        compute_circuit_hash::<MC::H>(&log_sizes, log_blowup_factor, preprocessed_root);
+    MC::mix_hash(verifier_channel, circuit_hash);
     claim.mix_into(verifier_channel);
     commitment_scheme.commit(proof.proof.commitments[1], &trace_log_sizes, verifier_channel);
 
@@ -255,6 +252,22 @@ fn stwo_verify(
 }
 
 #[test]
+fn test_prove_and_stark_verify_poseidon252_channel() {
+    let mut fibonacci_context = build_fibonacci_context().finalize(false);
+    fibonacci_context.validate_circuit();
+
+    let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut fibonacci_context);
+    let circuit_proof = prove_circuit_assignment_with_channel::<Poseidon252MerkleChannel>(
+        fibonacci_context.values(),
+        &preprocessed_circuit,
+        &BaseColumnPool::<SimdBackend>::new(),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+    )
+    .unwrap();
+    stwo_verify::<Poseidon252MerkleChannel>(circuit_proof, &preprocessed_circuit);
+}
+
+#[test]
 fn test_prove_and_stark_verify_blake_gate_context() {
     let mut blake_context = build_blake_context().finalize(false);
     blake_context.validate_circuit();
@@ -267,7 +280,7 @@ fn test_prove_and_stark_verify_blake_gate_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
     )
     .unwrap();
-    stwo_verify(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -283,7 +296,7 @@ fn test_prove_and_stark_verify_permutation_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
     )
     .unwrap();
-    stwo_verify(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -299,7 +312,7 @@ fn test_prove_and_stark_verify_fibonacci_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
     )
     .unwrap();
-    stwo_verify(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -315,7 +328,7 @@ fn test_prove_and_stark_verify_triple_xor_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
     )
     .unwrap();
-    stwo_verify(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -331,7 +344,7 @@ fn test_prove_and_stark_verify_m31_to_u32_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
     )
     .unwrap();
-    stwo_verify(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -347,7 +360,7 @@ fn test_prove_and_stark_verify_blake_g_gate_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
     )
     .unwrap();
-    stwo_verify(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 /// Verifies a [`CircuitProof`] using the circuit verifier. Requires the expected

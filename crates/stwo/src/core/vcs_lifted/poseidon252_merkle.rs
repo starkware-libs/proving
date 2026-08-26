@@ -31,6 +31,11 @@ impl Hasher for Poseidon252MerkleHasher {
     fn hash_u32s(words: &[u32]) -> Self::Hash {
         poseidon_hash_many(&construct_felt252s_from_u32s(words))
     }
+
+    fn hash_u32s_followed_by_digest(words: &[u32], digest: Self::Hash) -> Self::Hash {
+        let felts = construct_felt252s_from_u32s(words);
+        poseidon_hash_many(&felts.iter().chain(&[digest]).copied().collect_vec())
+    }
 }
 
 impl MerkleHasherLifted for Poseidon252MerkleHasher {

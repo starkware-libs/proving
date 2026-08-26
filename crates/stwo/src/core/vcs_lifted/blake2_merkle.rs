@@ -16,6 +16,13 @@ impl<const IS_M31_OUTPUT: bool> Hasher for Blake2sHasherGeneric<IS_M31_OUTPUT> {
         words.iter().for_each(|word| hasher.update(&word.to_le_bytes()));
         hasher.finalize()
     }
+
+    fn hash_u32s_followed_by_digest(words: &[u32], digest: Self::Hash) -> Self::Hash {
+        let mut hasher = Self::default();
+        words.iter().for_each(|word| hasher.update(&word.to_le_bytes()));
+        hasher.update(&digest.0);
+        hasher.finalize()
+    }
 }
 
 impl MerkleHasherLifted for Blake2sMerkleHasher {

@@ -1,9 +1,7 @@
 use std::iter::repeat_n;
 
-use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::context::{U_VALUE, U_VAR_IDX};
 use circuits::ivalue::NoValue;
-use circuits::utils::le_u32s_from_bytes;
 use itertools::Itertools;
 use num_traits::Zero;
 use stwo::core::channel::Channel;
@@ -30,13 +28,6 @@ impl CircuitClaim {
         // mix the output values into the channel.
         channel.mix_felts(output_values);
     }
-}
-
-/// Mixes the circuit hash into the channel as eight little-endian `u32` words.
-pub fn mix_circuit_hash(channel: &mut impl Channel, circuit_hash: impl Into<[u8; 32]>) {
-    let circuit_hash_words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(circuit_hash.into());
-
-    channel.mix_u32s(&circuit_hash_words);
 }
 
 /// Returns `[trace_log_sizes, interaction_log_sizes]` for `tree[1]` and `tree[2]`,

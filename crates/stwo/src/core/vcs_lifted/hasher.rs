@@ -15,4 +15,8 @@ pub trait Hasher {
 
     /// Hashes a slice of `u32`s, each converted into the underlying hasher's data format.
     fn hash_u32s(words: &[u32]) -> Self::Hash;
+
+    /// Hashes `H(words || digest)` in one pass — a hash of the concatenation, not `H(H(words),
+    /// digest)`.
+    fn hash_u32s_followed_by_digest(words: &[u32], digest: Self::Hash) -> Self::Hash;
 }
