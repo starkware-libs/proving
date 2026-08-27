@@ -4977,6 +4977,8 @@ name = "stwo-run-and-prove-recursive-tree"
 version = "2.4.0"
 dependencies = [
  "blake2",
+ "cairo-program-runner-lib",
+ "cairo-vm",
  "circuit-cairo-serialize",
  "circuit-common",
  "circuit-multiverifier",
@@ -4987,6 +4989,7 @@ dependencies = [
  "circuits",
  "circuits-stark-verifier",
  "clap",
+ "expect-test",
  "leaf-proof-format",
  "leaf-prover",
  "num-bigint",

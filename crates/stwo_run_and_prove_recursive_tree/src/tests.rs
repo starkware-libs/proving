@@ -138,6 +138,57 @@ fn circuit_registry() -> CircuitRegistry {
 }
 
 // ------------------------------------------------------------------------------------------------
+// Program-hash snapshots of the compiled-program fixtures in `test_data/`. A snapshot pins the
+// exact program a fixture holds; regenerating a fixture must reproduce the hash (or knowingly
+// change it here).
+//
+// Each fixture is built (with debug info) via its standard BUILD target in
+// https://github.com/starkware-industries/starkware (see the per-test comments), then stripped of
+// debug info to keep the checked-in file small — from the starkware repo root:
+//   bazel build <target>
+//   jq --indent 4 '.debug_info = null' "$(bazel info bazel-bin)/<artifact>.json" > <fixture>.json
+// ------------------------------------------------------------------------------------------------
+
+/// The Blake program-hash chain of a compiled-program fixture in `test_data/`, as the decimal
+/// string the snapshots pin.
+fn fixture_program_hash(file_name: &str) -> String {
+    use cairo_program_runner_lib::compute_program_hash_chain;
+    use cairo_program_runner_lib::types::HashFunc;
+    use cairo_vm::types::program::Program;
+
+    let program_bytes = std::fs::read(
+        std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data").join(file_name),
+    )
+    .expect("Failed to read the compiled fixture.");
+    let program =
+        Program::from_bytes(&program_bytes, Some("main")).expect("Failed to load the program.");
+    let stripped_program = program.get_stripped_program().unwrap();
+    compute_program_hash_chain(&stripped_program, 0, HashFunc::Blake)
+        .expect("Failed to compute program hash.")
+        .to_string()
+}
+
+// Built at dev commit "c9180c2c9d9dd6df31fcdafcb86ede8a44402a73" from
+// //src/starkware/cairo/bootloaders/simple_bootloader:leaf_simple_bootloader_program.
+#[test]
+fn test_leaf_simple_bootloader_program_hash_snapshot() {
+    let expected = expect_test::expect![
+        "1295276242458012971975387023502514236353931151874237036512262876792126013758"
+    ];
+    expected.assert_eq(&fixture_program_hash("leaf_simple_bootloader_compiled.json"));
+}
+
+// Built at dev commit "c9180c2c9d9dd6df31fcdafcb86ede8a44402a73" from
+// //src/starkware/cairo/bootloaders/bootloader:simple_output_program.
+#[test]
+fn test_simple_output_program_hash_snapshot() {
+    let expected = expect_test::expect![
+        "1433852663250257978909904594223798547176815246431631498282706690602142197827"
+    ];
+    expected.assert_eq(&fixture_program_hash("simple_output_compiled.json"));
+}
+
+// ------------------------------------------------------------------------------------------------
 // End-to-end folds (gated behind the `slow-tests` feature; run in RELEASE mode, one test at a
 // time: `cargo test --release --features slow-tests -- --test-threads=1`).
 //
@@ -156,9 +207,8 @@ fn circuit_registry() -> CircuitRegistry {
 //     --lib -- test_golden_four_leaves_e2e --test-threads=1
 //
 // The two compiled programs in `test_data/` (`leaf_simple_bootloader_compiled.json`,
-// `simple_output_compiled.json`) are inputs, not goldens; they are compiled from the main starkware
-// repo via `bazel run
-// //src/services/gps/bin/rust/test:compile_cairo_run_programs_with_rust_hints_script`.
+// `simple_output_compiled.json`) are inputs, not goldens; their provenance and pinned program
+// hashes live in the program-hash snapshot section above.
 // ------------------------------------------------------------------------------------------------
 
 #[cfg(feature = "slow-tests")]
