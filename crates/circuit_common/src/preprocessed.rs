@@ -57,14 +57,6 @@ macro_rules! define_preprocessed_columns {
             $($field: Vec<usize>),+
         }
 
-        impl From<[Vec<usize>; $struct_name::IDS.len()]> for $struct_name {
-            /// For components whose columns are filled by index rather than by name.
-            fn from(columns: [Vec<usize>; $struct_name::IDS.len()]) -> Self {
-                let [$($field),+] = columns;
-                Self { $($field),+ }
-            }
-        }
-
         impl $struct_name {
             /// The component's column ids, in commitment order.
             const IDS: &'static [&'static str] = &[$(stringify!($field)),+];
@@ -123,10 +115,6 @@ define_preprocessed_columns!(
         blake_g_gate_multiplicity
     ]
 );
-
-// The two components that fill their columns by index rather than by name.
-const N_QM31_OPS_PP_COLUMNS: usize = Qm31OpsColumns::IDS.len();
-const N_M31_TO_U32_PP_COLUMNS: usize = M31ToU32Columns::IDS.len();
 
 /// Bit widths of the bitwise-XOR lookup tables (three columns each; a table of `n` bits has
 /// `2^(2n)` rows).
@@ -198,7 +186,7 @@ pub fn layout_from_component_sizes(
     entries.into_iter().map(|(id, log_size)| (PreProcessedColumnId { id }, log_size)).collect()
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 enum OpCode {
     Add,
     Sub,
@@ -206,25 +194,45 @@ enum OpCode {
     PointwiseMul,
 }
 
+impl OpCode {
+    const ALL: [OpCode; N_OP_CODES] = [OpCode::Add, OpCode::Sub, OpCode::Mul, OpCode::PointwiseMul];
+}
+
+impl Qm31OpsColumns {
+    /// The one-hot flag column of `op_code`.
+    fn flag_column(&mut self, op_code: OpCode) -> &mut Vec<usize> {
+        match op_code {
+            OpCode::Add => &mut self.qm31_ops_add_flag,
+            OpCode::Sub => &mut self.qm31_ops_sub_flag,
+            OpCode::Mul => &mut self.qm31_ops_mul_flag,
+            OpCode::PointwiseMul => &mut self.qm31_ops_pointwise_mul_flag,
+        }
+    }
+
+    /// Appends `n_rows` rows of the one-hot op-code flags, set for `op_code` and clear elsewhere.
+    fn push_op_code_flags(&mut self, op_code: OpCode, n_rows: usize) {
+        for op in OpCode::ALL {
+            self.flag_column(op).extend(std::iter::repeat_n((op == op_code) as usize, n_rows));
+        }
+    }
+}
+
 /// Adds the binary operation gates to the qm31 ops preprocessed trace.
 fn fill_binary_op_columns<G: Gate>(
     gates: &[G],
     op_code: OpCode,
     multiplicities: &[usize],
-    columns: &mut [Vec<usize>; N_QM31_OPS_PP_COLUMNS],
+    columns: &mut Qm31OpsColumns,
 ) {
-    let op_code_idx = op_code as usize;
     for gate in gates.iter() {
         let [in0, in1] = gate.uses()[..] else { panic!("Expected 2 uses for gate") };
         let [out] = gate.yields()[..] else { panic!("Expected 1 yield for gate") };
-        (0..N_OP_CODES).for_each(|i| {
-            columns[i].push(if i == op_code_idx { 1 } else { 0 });
-        });
-        columns[4].push(in0);
-        columns[5].push(in1);
-        columns[6].push(out);
+        columns.push_op_code_flags(op_code, 1);
+        columns.qm31_ops_in0_address.push(in0);
+        columns.qm31_ops_in1_address.push(in1);
+        columns.qm31_ops_out_address.push(out);
         // TODO(Gali): Consider negating the multiplicities.
-        columns[7].push(multiplicities[out]);
+        columns.qm31_ops_mults.push(multiplicities[out]);
     }
 }
 
@@ -241,36 +249,29 @@ fn fill_binary_op_columns<G: Gate>(
 fn fill_permutation_columns(
     gates: &[Permutation],
     multiplicities: &[usize],
-    columns: &mut [Vec<usize>; N_QM31_OPS_PP_COLUMNS],
+    columns: &mut Qm31OpsColumns,
     first_unused_address: usize,
 ) {
-    let add_op_code_idx = OpCode::Add as usize;
     let mut permutation_address = first_unused_address;
     for gate in gates.iter() {
         let inputs = gate.uses();
         let outputs = gate.yields();
 
-        // Set flag to Add opcode.
-        (0..N_OP_CODES).for_each(|i| {
-            columns[i].extend(std::iter::repeat_n(
-                (i == add_op_code_idx) as usize,
-                inputs.len() + outputs.len(),
-            ));
-        });
+        columns.push_op_code_flags(OpCode::Add, inputs.len() + outputs.len());
 
         // TODO(alonf): Parallelize, and insert the above loop inside.
         for (input, output) in zip_eq(inputs, outputs) {
             // Input row.
-            columns[4].push(0);
-            columns[5].push(input);
-            columns[6].push(permutation_address);
-            columns[7].push(1);
+            columns.qm31_ops_in0_address.push(0);
+            columns.qm31_ops_in1_address.push(input);
+            columns.qm31_ops_out_address.push(permutation_address);
+            columns.qm31_ops_mults.push(1);
 
             // Output row.
-            columns[4].push(0);
-            columns[5].push(permutation_address);
-            columns[6].push(output);
-            columns[7].push(multiplicities[output]);
+            columns.qm31_ops_in0_address.push(0);
+            columns.qm31_ops_in1_address.push(permutation_address);
+            columns.qm31_ops_out_address.push(output);
+            columns.qm31_ops_mults.push(multiplicities[output]);
         }
 
         permutation_address += 1;
@@ -299,22 +300,18 @@ fn add_qm31_ops_to_preprocessed_trace(
     pp_trace: &mut PreProcessedTrace,
 ) -> Qm31OpsTraceGenerator {
     let Qm31OpsGates { add, sub, mul, pointwise_mul, permutation } = gates;
-    let mut qm31_ops_columns: [_; N_QM31_OPS_PP_COLUMNS] = std::array::from_fn(|_| vec![]);
-    fill_binary_op_columns(add, OpCode::Add, multiplicities, &mut qm31_ops_columns);
-    fill_binary_op_columns(sub, OpCode::Sub, multiplicities, &mut qm31_ops_columns);
-    fill_binary_op_columns(mul, OpCode::Mul, multiplicities, &mut qm31_ops_columns);
-    fill_binary_op_columns(
-        pointwise_mul,
-        OpCode::PointwiseMul,
-        multiplicities,
-        &mut qm31_ops_columns,
-    );
+    let mut columns = Qm31OpsColumns::default();
+    fill_binary_op_columns(add, OpCode::Add, multiplicities, &mut columns);
+    fill_binary_op_columns(sub, OpCode::Sub, multiplicities, &mut columns);
+    fill_binary_op_columns(mul, OpCode::Mul, multiplicities, &mut columns);
+    fill_binary_op_columns(pointwise_mul, OpCode::PointwiseMul, multiplicities, &mut columns);
+    // Every column is as long as the binary-op rows written so far; the flags are one such column.
     let qm31_ops_trace_generator =
-        Qm31OpsTraceGenerator { first_permutation_row: qm31_ops_columns[0].len() };
+        Qm31OpsTraceGenerator { first_permutation_row: columns.qm31_ops_add_flag.len() };
 
-    fill_permutation_columns(permutation, multiplicities, &mut qm31_ops_columns, n_vars);
+    fill_permutation_columns(permutation, multiplicities, &mut columns, n_vars);
 
-    Qm31OpsColumns::from(qm31_ops_columns).push_to(pp_trace);
+    columns.push_to(pp_trace);
     qm31_ops_trace_generator
 }
 
@@ -350,29 +347,21 @@ fn add_triple_xor_to_preprocessed_trace(
     columns.push_to(pp_trace);
 }
 
-/// Adds M31ToU32 gates to preprocessed trace columns.
+/// Adds M31ToU32 gates to the preprocessed trace. Preprocessed columns are in the format:
 /// | input_address | output_address | multiplicity |
-fn fill_m31_to_u32_columns(
-    gates: &[M31ToU32],
-    multiplicities: &[usize],
-    columns: &mut [Vec<usize>; N_M31_TO_U32_PP_COLUMNS],
-) {
-    for M31ToU32 { input, out } in gates.iter() {
-        columns[0].push(*input);
-        columns[1].push(*out);
-        columns[2].push(multiplicities[*out]);
-    }
-}
-
 fn add_m31_to_u32_to_preprocessed_trace(
     m31_to_u32: &[M31ToU32],
     multiplicities: &[usize],
     pp_trace: &mut PreProcessedTrace,
 ) {
-    let mut columns: [_; N_M31_TO_U32_PP_COLUMNS] = std::array::from_fn(|_| vec![]);
-    fill_m31_to_u32_columns(m31_to_u32, multiplicities, &mut columns);
+    let mut columns = M31ToU32Columns::default();
+    for M31ToU32 { input, out } in m31_to_u32.iter() {
+        columns.m31_to_u32_input_addr.push(*input);
+        columns.m31_to_u32_output_addr.push(*out);
+        columns.m31_to_u32_multiplicity.push(multiplicities[*out]);
+    }
 
-    M31ToU32Columns::from(columns).push_to(pp_trace);
+    columns.push_to(pp_trace);
 }
 
 /// Adds BlakeGGate gates to the preprocessed trace. Preprocessed columns are in the format:
