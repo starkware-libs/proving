@@ -5,10 +5,12 @@ use cairo_air::CairoProof;
 use cairo_air::air::PubMemoryValue;
 use cairo_air::flat_claims::FlatClaim;
 use circuit_common::N_RESERVED;
+use circuit_common::finalize::add_zk_blinding;
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
+use circuits::utils::bytes_from_le_u32s;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::{Proof, ProofConfig, empty_proof};
 use circuits_stark_verifier::proof_from_stark_proof::proof_from_stark_proof;
@@ -83,6 +85,10 @@ pub struct CairoVerifierConfig {
     pub preprocessed_root: HashValue<QM31>,
     /// Which preprocessed trace variant to use (e.g. small canonical vs lifted).
     pub preprocessed_trace_variant: PreProcessedTraceVariant,
+    /// Amount of ZK blinding to add to the verifier circuit. To be effective, should be >= the
+    /// number of queries used when proving the execution of this verifier. None disables ZK
+    /// blinding.
+    pub zk_blinding_amount: Option<usize>,
 }
 
 /// Verifies a [Proof] for a fixed [CairoVerifierConfig].
@@ -149,7 +155,13 @@ pub fn build_and_fill_cairo_verifier_circuit(
     let proof_vars = proof.guess(&mut context);
     verify(&mut context, &proof_vars, config, &statement);
 
-    context.finalize(false)
+    let mut finalized_context = context.finalize(false);
+
+    if let Some(zk_blinding_size) = verifier_config.zk_blinding_amount {
+        let zk_blinding_seed = bytes_from_le_u32s(proof.trace_root.0.map(|w| w.get().unpack_u32()));
+        add_zk_blinding(&mut finalized_context, zk_blinding_seed, zk_blinding_size);
+    }
+    finalized_context
 }
 
 /// Builds the Cairo verifier circuit topology without needing a proof.
@@ -178,7 +190,14 @@ pub fn build_cairo_verifier_circuit(
 
     let proof_vars = empty_proof(config).guess(&mut context);
     verify(&mut context, &proof_vars, config, &statement);
-    context.finalize(false)
+
+    let mut finalized_context = context.finalize(false);
+
+    if let Some(zk_blinding_amount) = verifier_config.zk_blinding_amount {
+        let zk_blinding_seed = [0; 32];
+        add_zk_blinding(&mut finalized_context, zk_blinding_seed, zk_blinding_amount);
+    }
+    finalized_context
 }
 
 /// Converts a [CairoProof] to a [Proof] and serialized aux data for the circuit verifier.
@@ -265,7 +284,7 @@ fn output_hash_from_output_cells(output: &[PubMemoryValue]) -> Result<Blake2sHas
     Ok(Blake2sHash(output_hash_bytes))
 }
 
-/// Verifies a [CairoProof] with a given set of components.
+/// Verifies a [CairoProof] with a given set of components. Doesn't add ZK blinding.
 pub fn verify_cairo_with_component_set(
     cairo_proof: &CairoProof<Blake2sMerkleHasher>,
     component_set: HashSet<&str>,
@@ -310,6 +329,7 @@ pub fn verify_cairo_with_component_set(
         enabled_bits: component_enable_bits,
         program,
         preprocessed_trace_variant: cairo_proof.preprocessed_trace_variant,
+        zk_blinding_amount: None,
     };
 
     verify_fixed_cairo_circuit(&verifier_config, proof, serialized_aux_data, output_hash)

@@ -148,12 +148,15 @@ pub fn prove_leaf(
         circuit_registry.leaf_verifier(trace_log_size).unwrap_or_else(|err| panic!("{err}"));
     let circuit_proof_config =
         circuit_registry.config(&registry_entry.config).unwrap_or_else(|err| panic!("{err}"));
+    let zk_blinding_size =
+        registry_entry.zk_blinding.then_some(circuit_proof_config.fri_config.n_queries);
 
     let verifier_config = leaf_verifier_config(
         cairo_prover_parameters.preprocessed_trace,
         &pcs_config,
         Arc::from(program_felts(program)),
         preprocessed_root.into(),
+        zk_blinding_size,
     );
 
     // Verify that the Cairo proof has the expected trace width (if not - this is an
@@ -224,8 +227,7 @@ pub fn prove_leaf(
     info!("Circuit preprocessed root: {:?}", circuit_preprocessed_root);
     info!("Circuit hash: {:?}", circuit_hash);
 
-    // The proven circuit must be the one the registry describes; no verifier of these circuits
-    // trusts an unrecognized circuit.
+    // The proven circuit must be the one the registry describes.
     assert_eq!(
         circuit_hash, registry_entry.circuit_hash,
         "The proven circuit's hash differs from the registry's leaf verifier for trace log size \
@@ -276,6 +278,7 @@ pub fn leaf_verifier_config(
     pcs_config: &PcsConfig,
     program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
     preprocessed_root: HashValue<QM31>,
+    zk_blinding_amount: Option<usize>,
 ) -> CairoVerifierConfig {
     let LeafVerifierComponents { components, enabled_bits } =
         leaf_verifier_components(disabled_components(preprocessed_trace_variant));
@@ -291,6 +294,7 @@ pub fn leaf_verifier_config(
         program,
         preprocessed_root,
         preprocessed_trace_variant,
+        zk_blinding_amount,
     }
 }
 

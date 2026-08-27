@@ -15,7 +15,6 @@ use circuit_cairo_verifier::verify::{
     CairoVerifierConfig, build_cairo_verifier_circuit, get_preprocessed_root,
     verify_fixed_cairo_circuit,
 };
-use circuit_common::finalize::add_zk_blinding;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_verifier::components::prelude::PreProcessedColumnId;
@@ -24,7 +23,6 @@ use circuit_verifier::statement::{
 };
 use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
 use circuits::blake::HashValue;
-use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use circuits_stark_verifier::proof::ProofConfig;
 use itertools::Itertools;
@@ -178,6 +176,7 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
         program: Arc::from(program_entries.as_slice()),
         preprocessed_root: get_preprocessed_root(cairo_lifting_log_size),
         preprocessed_trace_variant,
+        zk_blinding_amount: Some(CIRCUIT_FRI_CONFIG.n_queries),
     })
 }
 
@@ -227,16 +226,6 @@ pub fn get_proof_config() -> ProofConfig {
 pub fn get_cairo_preprocessed_circuit(
     cairo_verifier_config: &CairoVerifierConfig,
 ) -> PreprocessedCircuit {
-    let mut novalue_context = get_cairo_novalue_context(cairo_verifier_config);
-    PreprocessedCircuit::preprocess_circuit(&mut novalue_context)
-}
-
-fn get_cairo_novalue_context(
-    cairo_verifier_config: &CairoVerifierConfig,
-) -> FinalizedContext<NoValue> {
     let mut novalue_context = build_cairo_verifier_circuit(cairo_verifier_config);
-    // [0; 32] is a stub seed to get the correct circuit structure. In practice, we will use a
-    // random seed.
-    add_zk_blinding(&mut novalue_context, [0; 32], CIRCUIT_FRI_CONFIG.n_queries);
-    novalue_context
+    PreprocessedCircuit::preprocess_circuit(&mut novalue_context)
 }

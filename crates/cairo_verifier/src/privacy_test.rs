@@ -3,7 +3,7 @@ use std::fs::File;
 use cairo_air::CairoProof;
 use cairo_air::utils::binary_deserialize_from_file;
 use circuit_common::N_RESERVED;
-use circuit_common::finalize::{add_zk_blinding, pad_context};
+use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
     BaseColumnPool, CircuitProof, SimdBackend, prepare_circuit_proof_for_circuit_verifier,
@@ -73,7 +73,7 @@ fn test_verify_privacy() {
 
     // Build the verifier circuit via NoValue.
     let log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(log_blowup_factor, None);
     let novalue_context = build_cairo_verifier_circuit(&const_config);
 
     // Check that building the verifier circuit via NoValue produces the same topology.
@@ -95,7 +95,7 @@ fn test_verify_privacy_with_recursion() {
 
     // Build the preprocessed circuit from the NoValue topology (matching the real proving flow).
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
     assert_eq!(
         const_config.preprocessed_root,
         cairo_proof.extended_stark_proof.proof.commitments.0[0].into(),
@@ -150,7 +150,7 @@ fn test_verify_privacy_with_recursion() {
 fn test_privacy_recursion_with_preprocessed_context() {
     // Build the verifier circuit via NoValue and preprocess it.
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
 
@@ -200,29 +200,9 @@ fn test_privacy_recursion_with_preprocessed_context() {
 }
 
 #[test]
-fn test_zk_padding() {
-    // Build the verifier circuit via NoValue and preprocess it.
-    for log_blowup_factor in 1..=3 {
-        let const_config = privacy_cairo_verifier_config(log_blowup_factor);
-        let mut context = build_cairo_verifier_circuit(&const_config);
-
-        let eq_before = context.circuit().eq.len();
-        let qm31_ops_before = context.circuit().n_qm31_ops_rows();
-
-        add_zk_blinding(&mut context, [0; 32], const_config.proof_config.fri.n_queries);
-
-        let eq_after = context.circuit().eq.len();
-        let qm31_ops_after = context.circuit().n_qm31_ops_rows();
-
-        assert_eq!(eq_after.next_power_of_two(), eq_before.next_power_of_two());
-        assert_eq!(qm31_ops_after.next_power_of_two(), qm31_ops_before.next_power_of_two());
-    }
-}
-
-#[test]
 fn test_privacy_proof_info() {
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
 
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);

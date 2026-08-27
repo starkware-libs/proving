@@ -61,6 +61,9 @@ pub struct CircuitBuilder {
     pub program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
     /// FRI config of the verified Cairo proofs.
     pub cairo_fri_config: FriConfig,
+    /// FRI config used to prove the leaf circuits
+    pub circuit_fri_config: FriConfig,
+    pub add_zk_blinding: bool,
 }
 
 impl CircuitBuilder {
@@ -95,6 +98,7 @@ impl CircuitBuilder {
             &self.cairo_pcs_config(trace_log_size),
             self.program.clone(),
             preprocessed_root,
+            self.add_zk_blinding.then_some(self.circuit_fri_config.n_queries),
         );
 
         build_cairo_verifier_circuit(&verifier_config)
@@ -208,6 +212,8 @@ pub struct RegistryDefinition {
     pub max_trace_log_size: u32,
     /// Pads the shared target to another registry's shape (see [`padded_shared_target`]).
     pub pad_to_component_log_sizes: Option<LogSizes>,
+    /// Whether to add ZK blinding to the leaf circuits
+    pub add_zk_blinding: bool,
 }
 
 impl RegistryDefinition {
@@ -246,6 +252,8 @@ impl RegistryDefinition {
             preprocessed_trace: cairo_params.preprocessed_trace,
             program: load_program(&self.program),
             cairo_fri_config: cairo_params.fri_config,
+            circuit_fri_config: self.circuit_fri_config(),
+            add_zk_blinding: self.add_zk_blinding,
         };
         let leaves_max_sizes = (self.min_trace_log_size..=self.max_trace_log_size)
             .map(|trace_log_size| {

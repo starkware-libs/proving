@@ -37,6 +37,16 @@
     {
       "config": "default",
       "trace_log_size": 20,
+      "preprocessed_root": [
+        "0xadaf43d6",
+        "0xbee39095",
+        "0x90ceb891",
+        "0x73c8a22d",
+        "0x4c06753c",
+        "0xd5469618",
+        "0x6cb5a946",
+        "0x5425c597"
+      ],
       "circuit_hash": [
         "0xf2c6d668",
         "0xd27ddadb",
@@ -46,7 +56,8 @@
         "0x859543da",
         "0x468f3d35",
         "0xb6f8071f"
-      ]
+      ],
+      "zk_blinding": false
     }
   ],
   "multiverifiers": [
@@ -55,6 +66,16 @@
       "input_configs": [
         "default",
         "default"
+      ],
+      "preprocessed_root": [
+        "0xd13953cf",
+        "0x661ccf76",
+        "0x7be6fe0a",
+        "0x0a3db569",
+        "0x4eba4e91",
+        "0xc2a21617",
+        "0xba2e43b6",
+        "0x9da87a91"
       ],
       "circuit_hash": [
         "0x4d013787",

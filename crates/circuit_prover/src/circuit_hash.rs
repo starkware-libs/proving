@@ -41,6 +41,24 @@ pub fn preprocessed_circuit_hash(
     )
 }
 
+/// Compute the circuit hash and preprocessed root together.
+///
+/// More efficient than computing each one separately since computing the circuit
+/// hash requires computing the preprocessed root.
+pub fn circuit_hash_and_preprocessed_root(
+    circuit: &PreprocessedCircuit,
+    log_blowup_factor: u32,
+) -> (Blake2sHash, Blake2sHash) {
+    let component_log_sizes = circuit_component_log_sizes(
+        &all_circuit_components::<QM31>(),
+        &circuit.preprocessed_trace.log_sizes(),
+    );
+    let preprocessed_root = circuit.preprocessed_root(log_blowup_factor);
+    let circuit_hash =
+        compute_circuit_hash(&component_log_sizes, log_blowup_factor, preprocessed_root);
+    (circuit_hash, preprocessed_root)
+}
+
 #[cfg(test)]
 mod tests {
     use circuit_verifier::circuit_hash::compute_circuit_hash as compute_circuit_hash_in_circuit;

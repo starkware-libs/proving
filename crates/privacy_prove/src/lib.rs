@@ -19,7 +19,7 @@ use circuit_cairo_verifier::verify::{
     CairoVerifierConfig, build_and_fill_cairo_verifier_circuit,
     prepare_cairo_proof_for_circuit_verifier,
 };
-use circuit_common::finalize::{add_zk_blinding, pad_context};
+use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
     prepare_circuit_proof_for_circuit_verifier, prove_circuit_with_precompute,
@@ -211,12 +211,6 @@ pub fn privacy_recursive_prove(
     if !context.is_circuit_valid() {
         return Err("Circuit is not valid".into());
     };
-    let zk_blinding_seed = cairo_proof.extended_stark_proof.proof.commitments.0[1].0;
-    add_zk_blinding(
-        &mut context,
-        zk_blinding_seed,
-        precomputes.circuit_config.config.fri_config.n_queries,
-    );
     pad_context(&mut context);
     let context_values = context.values();
 
