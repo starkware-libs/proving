@@ -2,12 +2,14 @@ use circuits::circuit::{
     Add, BlakeGGate, Circuit, Eq, M31ToU32, Mul, Output, PointwiseMul, Sub, TripleXor,
 };
 use expect_test::expect;
-use itertools::Itertools;
+use itertools::{Itertools, zip_eq};
 use stwo::prover::backend::Column;
 use stwo::prover::backend::simd::SimdBackend;
 
 use crate::finalize::{ComponentSizes, qm31_ops_n_rows};
-use crate::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
+use crate::preprocessed::{
+    PreprocessedCircuit, fixed_column_layout, fixed_column_values, layout_from_component_sizes,
+};
 
 /// A small circuit with power-of-two row counts in every component: 2 eq, 8 qm31_ops (binary
 /// only), and 16 each of triple_xor, m31_to_u32 and blake_g_gate.
@@ -125,4 +127,17 @@ fn test_layout_from_component_sizes_matches_preprocessed_trace() {
     };
     let real = PreprocessedCircuit::from_finalized_circuit(&circuit).preprocessed_trace;
     assert_eq!(real.log_sizes(), layout_from_component_sizes(&sizes));
+}
+
+/// The two halves of the fixed-column definition must agree: one column of values per layout
+/// entry, each as long as the log size the layout declares — the layout is what
+/// [`layout_from_component_sizes`] promises about columns it never builds.
+#[test]
+fn test_fixed_column_values_match_layout() {
+    let layout = fixed_column_layout().collect_vec();
+    let values = fixed_column_values().collect_vec();
+    assert_eq!(layout.len(), values.len(), "one column of values per layout entry");
+    for ((id, log_size), column) in zip_eq(layout, values) {
+        assert_eq!(column.len(), 1 << log_size, "length of column {id}");
+    }
 }

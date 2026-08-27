@@ -6,7 +6,7 @@ use circuits::circuit::{
 use circuits::context::FinalizedContext;
 use circuits::ivalue::IValue;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
-use itertools::zip_eq;
+use itertools::{chain, zip_eq};
 #[cfg(feature = "prover")]
 use stwo::core::fields::m31::BaseField;
 #[cfg(feature = "prover")]
@@ -133,39 +133,44 @@ const N_M31_TO_U32_PP_COLUMNS: usize = M31ToU32Columns::IDS.len();
 const XOR_TABLE_N_BITS: [u32; 5] = [4, 7, 8, 9, 10];
 /// Log size of the sequence column (`0..2^n`, used by `range_check_16`).
 const SEQ_LOG_SIZE: u32 = 16;
+/// Columns per bitwise-XOR table: `rhs`, `lhs`, and their XOR.
+const N_XOR_TABLE_COLUMNS: usize = 3;
 
-/// A fixed column's per-row value, as a function of the column's log size.
-type ColumnFn = fn(u32, usize) -> usize;
-
-fn seq(_log_size: u32, row: usize) -> usize {
-    row
-}
-// Row `i` of a `bitwise_xor_{n}` table (`2^(2n)` rows, so `n` is half the log size) pairs
-// `rhs = i >> n` with `lhs = i & (2^n - 1)`.
-fn xor_rhs(log_size: u32, row: usize) -> usize {
-    row >> (log_size / 2)
-}
-fn xor_lhs(log_size: u32, row: usize) -> usize {
-    row & ((1 << (log_size / 2)) - 1)
-}
-fn xor_result(log_size: u32, row: usize) -> usize {
-    xor_lhs(log_size, row) ^ xor_rhs(log_size, row)
-}
-
-/// The fixed lookup-table columns, in commitment order: the sequence column, then the three
-/// columns of the bitwise-XOR table of each bit width.
-///
-/// Each entry pairs an id and log size with the per-row value function of the column it labels.
-fn fixed_columns() -> impl Iterator<Item = (String, u32, ColumnFn)> {
-    let xor_columns: [ColumnFn; 3] = [xor_rhs, xor_lhs, xor_result];
-    std::iter::once((format!("seq_{SEQ_LOG_SIZE}"), SEQ_LOG_SIZE, seq as ColumnFn)).chain(
-        XOR_TABLE_N_BITS.into_iter().flat_map(move |n_bits| {
-            xor_columns
-                .into_iter()
-                .enumerate()
-                .map(move |(i, value)| (format!("bitwise_xor_{n_bits}_{i}"), 2 * n_bits, value))
+/// The ids and log sizes of the fixed lookup-table columns, in commitment order: the sequence
+/// column, then the three columns of the bitwise-XOR table of each bit width. The sole source of
+/// those ids.
+fn fixed_column_layout() -> impl Iterator<Item = (String, u32)> {
+    chain!(
+        [(format!("seq_{SEQ_LOG_SIZE}"), SEQ_LOG_SIZE)],
+        XOR_TABLE_N_BITS.into_iter().flat_map(|n_bits| {
+            (0..N_XOR_TABLE_COLUMNS).map(move |i| (format!("bitwise_xor_{n_bits}_{i}"), 2 * n_bits))
         }),
     )
+}
+
+/// The values of the fixed lookup-table columns, in the same order as [`fixed_column_layout`].
+fn fixed_column_values() -> impl Iterator<Item = Vec<usize>> {
+    chain!(
+        [(0..1_usize << SEQ_LOG_SIZE).collect()],
+        XOR_TABLE_N_BITS.into_iter().flat_map(xor_table_columns),
+    )
+}
+
+/// The three columns of the `bitwise_xor_{n_bits}` table, over its `2^(2 * n_bits)` rows: row `i`
+/// holds `rhs = i >> n_bits`, `lhs = i & (2^n_bits - 1)`, and their XOR — every ordered pair of
+/// `n_bits`-bit values.
+fn xor_table_columns(n_bits: u32) -> [Vec<usize>; N_XOR_TABLE_COLUMNS] {
+    let size = 1_usize << (2 * n_bits);
+    let mask = (1_usize << n_bits) - 1;
+    let mut columns: [Vec<usize>; N_XOR_TABLE_COLUMNS] =
+        std::array::from_fn(|_| Vec::with_capacity(size));
+    for row in 0..size {
+        let (rhs, lhs) = (row >> n_bits, row & mask);
+        columns[0].push(rhs);
+        columns[1].push(lhs);
+        columns[2].push(rhs ^ lhs);
+    }
+    columns
 }
 
 /// The preprocessed-trace layout of a circuit whose components are padded to `sizes` (powers of
@@ -187,7 +192,7 @@ pub fn layout_from_component_sizes(
     push(TripleXorColumns::IDS, sizes.triple_xor);
     push(M31ToU32Columns::IDS, sizes.m31_to_u32);
     push(BlakeGGateColumns::IDS, sizes.blake_g_gate);
-    entries.extend(fixed_columns().map(|(id, log_size, _)| (id, log_size)));
+    entries.extend(fixed_column_layout());
     // The same order as `PreProcessedTrace::sort_by_size` (stable, so ties keep insertion order).
     entries.sort_by_key(|(_, log_size)| *log_size);
     entries.into_iter().map(|(id, log_size)| (PreProcessedColumnId { id }, log_size)).collect()
@@ -449,8 +454,7 @@ impl PreProcessedTrace {
     ///   every ordered pair of n-bit values (`rhs`, `lhs`) and `_2` holds their XOR, used by the
     ///   `VerifyBitwiseXor` components.
     fn add_fixed_preprocessed_columns(pp_trace: &mut PreProcessedTrace) {
-        for (id, log_size, value) in fixed_columns() {
-            let column = (0..1_usize << log_size).map(|row| value(log_size, row)).collect();
+        for ((id, _log_size), column) in zip_eq(fixed_column_layout(), fixed_column_values()) {
             pp_trace.push_column(PreProcessedColumnId { id }, column);
         }
     }
