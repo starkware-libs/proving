@@ -66,7 +66,7 @@ impl<Value: IValue> CircuitStatement<Value> {
         // this verifier. To ensure soundness in a recursive setup, it is *critical* that this hash
         // is reconstructed by the last verifier, which we can assume honest.
         let preprocessed_root = HashValue(std::array::from_fn(|i| {
-            U32Wrapper::new_unsafe(Value::from_qm31(*preprocessed_root[i].get()))
+            U32Wrapper::from_u32wrapper_qm31(preprocessed_root[i])
         }))
         .guess(context);
 

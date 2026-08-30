@@ -158,6 +158,13 @@ impl U32Wrapper<NoValue> {
     }
 }
 
+impl<Value: IValue> U32Wrapper<Value> {
+    /// Converts a [U32Wrapper<QM31>] into a [U32Wrapper<impl IValue>].
+    pub fn from_u32wrapper_qm31(value: U32Wrapper<QM31>) -> Self {
+        Self(Value::from_qm31(*value.get()))
+    }
+}
+
 impl From<u32> for U32Wrapper<QM31> {
     fn from(value: u32) -> Self {
         QM31::pack_u32(value)
