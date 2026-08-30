@@ -358,7 +358,7 @@ fn output_limbs_from_hash<Value: IValue>(
 ) -> Vec<[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]> {
     let zero = M31Wrapper::const_m31(context, Zero::zero());
     let mut outputs = Vec::with_capacity(N_OUTPUTS);
-    for half in hash.chunks(N_WORDS_PER_OUTPUT_CELL) {
+    for half in hash.as_array().chunks(N_WORDS_PER_OUTPUT_CELL) {
         // Little-endian bit stream of the cell's 128-bit value (LSB first).
         let mut bits = Vec::with_capacity(N_WORDS_PER_OUTPUT_CELL * 32);
         for word in half {
@@ -513,7 +513,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // Compute the program hash at circuit construction time.
         let flat_program = pack_into_qm31s(program.iter().flatten().cloned());
         let program_hash = IValue::blake2s(&flat_program, flat_program.len() * 16);
-        let program_hash_words = program_hash.constant(context).into_iter().collect_vec();
+        let program_hash_words = program_hash.constant(context).to_vec();
 
         vec![
             enable_count_words,

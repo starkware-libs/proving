@@ -67,7 +67,8 @@ pub fn build_verification_circuit<Value: IValue>(
     // last one). This is fine for soundness because `u` is checked as part of the logup sum.
     let preprocessed_root = statement.get_preprocessed_root(&mut context);
     let output_preimage: Vec<_> = preprocessed_root
-        .into_iter()
+        .iter()
+        .copied()
         .chain(unpack_qm31s_to_u32_words(&mut context, output_values))
         .collect();
     let n_bytes = 4 * output_preimage.len();

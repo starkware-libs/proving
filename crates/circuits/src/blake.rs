@@ -31,14 +31,6 @@ pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
 #[derive(Clone, Debug, PartialEq)]
 pub struct HashValue<T>(pub [U32Wrapper<T>; BLAKE2S_DIGEST_N_WORDS]);
 
-impl<T> std::ops::Deref for HashValue<T> {
-    type Target = [U32Wrapper<T>; BLAKE2S_DIGEST_N_WORDS];
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
 impl<Value: IValue> Guess<Value> for HashValue<Value> {
     type Target = HashValue<Var>;
     /// Guesses the eight words via [`U32Wrapper`]'s guess, so each is range-constrained to a valid
@@ -62,6 +54,30 @@ impl HashValue<NoValue> {
     /// without concrete witness values.
     pub fn no_value() -> Self {
         Self(std::array::from_fn(|_| U32Wrapper::no_value()))
+    }
+}
+
+impl<Value: Copy> HashValue<Value> {
+    /// Returns an iterator over the 8 u32 elements of the hash value.
+    pub fn iter(&self) -> impl Iterator<Item = &U32Wrapper<Value>> {
+        self.0.iter()
+    }
+
+    /// Returns the 8 u32 elements of the hash value as an array.
+    pub fn as_array(&self) -> &[U32Wrapper<Value>; BLAKE2S_DIGEST_N_WORDS] {
+        &self.0
+    }
+
+    /// Returns the 8 u32 elements of the hash value as a vector.
+    pub fn to_vec(&self) -> Vec<U32Wrapper<Value>> {
+        self.0.to_vec()
+    }
+}
+
+impl<Value: Copy> std::ops::Index<usize> for HashValue<Value> {
+    type Output = U32Wrapper<Value>;
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.0[index]
     }
 }
 

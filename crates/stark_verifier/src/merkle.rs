@@ -5,7 +5,7 @@ use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
 use circuits::ops::{Guess, cond_flip_u32, eq};
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
-use itertools::{Itertools, zip_eq};
+use itertools::{Itertools, chain, zip_eq};
 use stwo::core::vcs_lifted::verifier::PACKED_LEAF_SIZE;
 
 use crate::oods::EvalDomainSamples;
@@ -99,8 +99,7 @@ pub fn hash_node(
     left: &HashValue<Var>,
     right: &HashValue<Var>,
 ) -> HashValue<Var> {
-    let mut words = left.to_vec();
-    words.extend_from_slice(right.as_slice());
+    let words = chain![left.iter(), right.iter()].copied().collect_vec();
 
     // The words are already in `blake2s_u32s` message-word form (the result of a previous
     // `blake2s_u32s`), so they are fed directly as the 16 message words.
