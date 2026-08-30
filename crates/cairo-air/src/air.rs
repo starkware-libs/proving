@@ -4,7 +4,7 @@ use std::iter::once;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use stwo::core::channel::{Channel, MerkleChannel};
-use stwo::core::fields::FieldExpOps;
+use stwo::core::fields::batch_inverse;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::proof::{ExtendedStarkProof, StarkProof};
@@ -136,7 +136,7 @@ impl PublicData {
             &initial_state_tuple,
         ));
 
-        let inverted_values = QM31::batch_inverse(&values_to_inverse);
+        let inverted_values = batch_inverse(&values_to_inverse);
         inverted_values.iter().sum::<QM31>()
     }
 

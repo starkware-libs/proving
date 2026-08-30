@@ -10,7 +10,6 @@ use super::batch_inverse::{
 use super::m31::{N_LANES, PackedM31};
 use crate::core::fields::cm31::CM31;
 use crate::core::fields::{FieldExpOps, batch_inverse_interleaved};
-use crate::core::utils;
 
 /// SIMD implementation of [`CM31`].
 #[derive(Copy, Clone, Debug)]
@@ -147,15 +146,13 @@ impl FieldExpOps for PackedCM31 {
         Self([self.a(), -self.b()]) * norm(*self).inverse()
     }
 
-    fn batch_inverse(column: &[Self]) -> Vec<Self> {
-        let mut result = unsafe { utils::uninit_vec(column.len()) };
+    fn batch_inverse(column: &[Self], dst: &mut [Self]) {
         batch_inverse_via_base_norms(
             column,
-            &mut result,
+            dst,
             PACKED_CM31_BATCH_INVERSE_CHUNK_SIZE,
             batch_inverse_chunk,
         );
-        result
     }
 }
 
@@ -337,16 +334,20 @@ mod tests {
         ] {
             let column: Vec<PackedCM31> =
                 (0..len).map(|_| PackedCM31::from_array(rng.random())).collect();
+            // Deliberately longer than `column`: only the first `len` elements may be written.
+            let mut res = vec![PackedCM31::one(); len + 2];
 
-            let res = PackedCM31::batch_inverse(&column);
+            PackedCM31::batch_inverse(&column, &mut res);
 
-            assert_eq!(res.len(), len, "len = {len}");
             for (i, (x, x_inv)) in column.iter().zip(&res).enumerate() {
                 assert_eq!(
                     (*x * *x_inv).to_array(),
                     [CM31::one(); N_LANES],
                     "len = {len}, index = {i}"
                 );
+            }
+            for x in &res[len..] {
+                assert_eq!(x.to_array(), [CM31::one(); N_LANES], "tail, len = {len}");
             }
         }
     }

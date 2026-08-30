@@ -13,7 +13,7 @@ use stwo::core::circle::{CirclePoint, Coset};
 use stwo::core::constraints::{coset_vanishing, point_vanishing};
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
-use stwo::core::fields::{Field, FieldExpOps};
+use stwo::core::fields::{Field, FieldExpOps, batch_inverse};
 use stwo::core::pcs::{TreeSubspan, TreeVec};
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::utils::{bit_reverse, bit_reverse_index, coset_index_to_circle_domain_index};
@@ -694,7 +694,7 @@ fn eval_step_selector(coset: Coset, log_step: u32, p: CirclePoint<SecureField>) 
     vanish_at_log_step.reverse();
     // We only need the first `log_step` many values.
     vanish_at_log_step.truncate(log_step as usize);
-    let vanish_at_log_step_inv = SecureField::batch_inverse(&vanish_at_log_step);
+    let vanish_at_log_step_inv = batch_inverse(&vanish_at_log_step);
 
     let half_coset_selector_dbl = (vanish_at_log_step[0] * vanish_at_log_step_inv[1]).square();
     let vanish_substep_inv_sum = vanish_at_log_step_inv[1..].iter().sum::<SecureField>();

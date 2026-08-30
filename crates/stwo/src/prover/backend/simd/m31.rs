@@ -13,7 +13,6 @@ use super::qm31::PackedQM31;
 use crate::core::fields::m31::{BaseField, M31, MODULUS_BITS, P, pow2147483645};
 use crate::core::fields::qm31::QM31;
 use crate::core::fields::{FieldExpOps, batch_inverse_chunked};
-use crate::core::utils;
 
 pub const LOG_N_LANES: u32 = 4;
 
@@ -292,10 +291,8 @@ impl FieldExpOps for PackedM31 {
         pow2147483645(*self)
     }
 
-    fn batch_inverse(column: &[Self]) -> Vec<Self> {
-        let mut result = unsafe { utils::uninit_vec(column.len()) };
-        batch_inverse_chunked(column, &mut result, PACKED_M31_BATCH_INVERSE_CHUNK_SIZE);
-        result
+    fn batch_inverse(column: &[Self], dst: &mut [Self]) {
+        batch_inverse_chunked(column, dst, PACKED_M31_BATCH_INVERSE_CHUNK_SIZE);
     }
 }
 
@@ -644,6 +641,24 @@ mod tests {
     use crate::core::fields::FieldExpOps;
     use crate::core::fields::m31::{BaseField, M31};
     use crate::prover::backend::simd::m31::reduce_to_m31_simd;
+
+    #[test]
+    fn batch_inverse_into_longer_dst_works() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        // `batch_inverse_chunked` hands the interleaved pass a `dst` chunk that can outrun its
+        // `column` chunk, so the destination being longer has to be safe here too.
+        let column: Vec<PackedM31> = (0..8).map(|_| rng.random()).collect();
+        let mut dst = vec![PackedM31::broadcast(M31::from(1)); 10];
+
+        PackedM31::batch_inverse(&column, &mut dst);
+
+        for (x, x_inv) in column.iter().zip(&dst) {
+            assert_eq!((*x * *x_inv).to_array(), [M31::from(1); 16]);
+        }
+        for x in &dst[8..] {
+            assert_eq!(x.to_array(), [M31::from(1); 16], "the tail of dst must be untouched");
+        }
+    }
 
     #[test]
     fn addition_works() {

@@ -11,7 +11,7 @@ use super::domain::CircleDomainBitRevIterator;
 use super::m31::{LOG_N_LANES, PackedBaseField};
 use super::qm31::PackedSecureField;
 use crate::core::circle::CirclePoint;
-use crate::core::fields::FieldExpOps;
+use crate::core::fields::batch_inverse;
 use crate::core::fields::m31::BaseField;
 use crate::core::fields::qm31::SecureField;
 use crate::core::pcs::quotients::{ColumnSampleBatch, quotient_constants};
@@ -277,7 +277,7 @@ fn denominator_inverses(
                 .clone()
                 .map(|points| (prx - points.x) * piy - (pry - points.y) * pix)
                 .collect::<Vec<_>>();
-            PackedCM31::batch_inverse(&denominators)
+            batch_inverse(&denominators)
         })
         .collect()
 }

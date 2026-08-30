@@ -9,7 +9,7 @@ use super::TreeVec;
 use crate::core::ColumnVec;
 use crate::core::circle::CirclePoint;
 use crate::core::constraints::complex_conjugate_line_coeffs;
-use crate::core::fields::FieldExpOps;
+use crate::core::fields::batch_inverse;
 use crate::core::fields::cm31::CM31;
 use crate::core::fields::m31::{BaseField, M31};
 use crate::core::fields::qm31::SecureField;
@@ -251,7 +251,7 @@ pub fn denominator_inverses(
         denominators.push((prx - domain_point.x) * piy - (pry - domain_point.y) * pix);
     }
 
-    CM31::batch_inverse(&denominators)
+    batch_inverse(&denominators)
 }
 
 pub fn quotient_constants(sample_batches: &[ColumnSampleBatch]) -> QuotientConstants {

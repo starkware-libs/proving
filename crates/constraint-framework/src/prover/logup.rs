@@ -3,6 +3,7 @@ use num_traits::Zero;
 #[cfg(feature = "parallel")]
 use rayon::prelude::*;
 use stwo::core::ColumnVec;
+use stwo::core::fields::FieldExpOps;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
 use stwo::core::poly::circle::CanonicCoset;
@@ -12,7 +13,7 @@ use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::backend::simd::column::SecureColumn;
 use stwo::prover::backend::simd::m31::{LOG_N_LANES, N_LANES, PackedBaseField};
 use stwo::prover::backend::simd::prefix_sum::inclusive_prefix_sum;
-use stwo::prover::backend::simd::qm31::{PackedSecureField, batch_inverse_packed_qm31};
+use stwo::prover::backend::simd::qm31::PackedSecureField;
 use stwo::prover::poly::BitReversedOrder;
 use stwo::prover::poly::circle::CircleEvaluation;
 use stwo::prover::secure_column::SecureColumnByCoords;
@@ -153,7 +154,7 @@ impl LogupColGenerator<'_> {
     pub fn finalize_col(mut self) {
         // Column size is a power of 2.
         let chunk_size = std::cmp::min(4, self.trace_gen.denom.data.len());
-        batch_inverse_packed_qm31(
+        PackedSecureField::batch_inverse(
             &self.trace_gen.denom.data,
             &mut self.trace_gen.batch_inverse_buffer,
         );
