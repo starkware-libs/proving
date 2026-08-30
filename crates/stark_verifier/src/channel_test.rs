@@ -3,7 +3,6 @@ use circuits::context::TraceContext;
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::Guess;
 use circuits::stats::Stats;
-use circuits::wrappers::U32Wrapper;
 use rstest::rstest;
 use stwo::core::channel::{Blake2sM31Channel, Channel as StwoChannel};
 use stwo::core::fields::qm31::QM31;
@@ -105,8 +104,7 @@ fn test_mix_u32s_matches_stwo() {
 
     // Mixing twice also exercises the non-zero-digest path on the second call.
     for _ in 0..2 {
-        let words =
-            data.map(|word| U32Wrapper::new_unsafe(context.new_var(*QM31::pack_u32(word).get())));
+        let words = data.map(|word| QM31::pack_u32(word).guess(&mut context));
         channel.mix_u32s(&mut context, words.into_iter());
         stwo_channel.mix_u32s(&data);
 

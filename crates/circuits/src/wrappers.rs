@@ -38,7 +38,7 @@ impl From<M31> for M31Wrapper<QM31> {
 impl M31Wrapper<Var> {
     /// Creates a constant `Var` with the given `M31` value.
     pub fn const_m31(context: &mut Context<impl IValue>, value: M31) -> M31Wrapper<Var> {
-        M31Wrapper::new_unsafe(context.constant(value.into()))
+        Self(context.constant(value.into()))
     }
 
     /// Adds a multiplication gate to the circuit, and returns the output variable.
@@ -177,6 +177,13 @@ impl From<NoValue> for U32Wrapper<NoValue> {
     }
 }
 
+impl U32Wrapper<Var> {
+    /// Creates a constant [Var] with the given `u32` value (represented as `low + i * high`).
+    pub fn const_u32(context: &mut Context<impl IValue>, value: u32) -> U32Wrapper<Var> {
+        U32Wrapper::<QM31>::from(value).constant(context)
+    }
+}
+
 impl<Value: IValue> Guess<Value> for U32Wrapper<Value> {
     type Target = U32Wrapper<Var>;
 
@@ -198,7 +205,7 @@ impl<Value: IValue> Constant<Value> for U32Wrapper<QM31> {
     type Target = U32Wrapper<Var>;
 
     fn constant(&self, context: &mut Context<Value>) -> Self::Target {
-        U32Wrapper::new_unsafe(context.constant(self.0))
+        U32Wrapper(context.constant(self.0))
     }
 }
 
