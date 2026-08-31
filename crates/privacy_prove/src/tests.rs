@@ -12,8 +12,7 @@ fn test_privacy_bootloader_program_hash_snapshot() {
 
     // Source code for this compiled privacy bootloader can be found at:
     // repo: https://github.com/starkware-industries/starkware
-    // branch: "dev"
-    // commit: "7e08556cbf0bf75dc9651d297c3246be5871eeae"
+    // commit: "77340066c5423ac928d7b4225eb028d180fe2507"
     // Built (with debug info) via the standard BUILD target, then stripped of debug info to keep
     // the checked-in file small, from the starkware repo root:
     //   bazel build
@@ -24,7 +23,7 @@ fn test_privacy_bootloader_program_hash_snapshot() {
     // privacy_simple_bootloader_compiled.json" \
     //     > privacy_simple_bootloader_compiled.json
     let expected_hash_str =
-        expect!["73747894710436589082477846004984361876990600795917652715762276452157777094"];
+        expect!["1815558786189423208589526876773695194008500234469980328976606589050360585751"];
     expected_hash_str.assert_eq(&program_hash.to_string());
 }
 
