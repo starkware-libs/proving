@@ -12,7 +12,7 @@ use cairo_vm::types::program::Program;
 use circuit_cairo_verifier::all_components::all_components;
 use circuit_cairo_verifier::statement::AUX_DATA_FIXED_LEN;
 use circuit_cairo_verifier::verify::{
-    CairoVerifierConfig, build_cairo_verifier_circuit, get_preprocessed_root,
+    CairoVerifierConfig, NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit, get_preprocessed_root,
     verify_fixed_cairo_circuit,
 };
 use circuit_common::preprocessed::PreprocessedCircuit;
@@ -176,7 +176,7 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
         program: Arc::from(program_entries.as_slice()),
         preprocessed_root: get_preprocessed_root(cairo_lifting_log_size),
         preprocessed_trace_variant,
-        zk_blinding_amount: Some(CIRCUIT_FRI_CONFIG.n_queries),
+        zk_blinding_amount: Some(CIRCUIT_FRI_CONFIG.n_queries + NON_QUERY_INFO_LEAK),
     })
 }
 

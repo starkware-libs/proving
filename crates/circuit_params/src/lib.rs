@@ -12,7 +12,7 @@ use std::sync::Arc;
 
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
 use circuit_cairo_verifier::utils::load_program;
-use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
+use circuit_cairo_verifier::verify::{NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit};
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
@@ -63,6 +63,7 @@ pub struct CircuitBuilder {
     pub cairo_fri_config: FriConfig,
     /// FRI config used to prove the leaf circuits
     pub circuit_fri_config: FriConfig,
+    /// Whether to add zk blinding to the circuit.
     pub add_zk_blinding: bool,
 }
 
@@ -98,7 +99,7 @@ impl CircuitBuilder {
             &self.cairo_pcs_config(trace_log_size),
             self.program.clone(),
             preprocessed_root,
-            self.add_zk_blinding.then_some(self.circuit_fri_config.n_queries),
+            self.add_zk_blinding.then_some(self.circuit_fri_config.n_queries + NON_QUERY_INFO_LEAK),
         );
 
         build_cairo_verifier_circuit(&verifier_config)

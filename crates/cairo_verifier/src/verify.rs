@@ -68,6 +68,11 @@ pub fn get_preprocessed_root(lifting_log_size: u32) -> HashValue<QM31> {
     root.into()
 }
 
+/// How many M31s of information about the trace are present in the proof, excluding query
+/// answers. This accounts for 2 OODS queries (4 each since their answers are in QM31) +
+/// 2 M31s extra for safety.
+pub const NON_QUERY_INFO_LEAK: usize = 10;
+
 /// Configuration for the circuit that verifies the Cairo AIR.
 ///
 /// Bundles everything the verifier needs that is fixed for a given Cairo program and proof
@@ -86,8 +91,8 @@ pub struct CairoVerifierConfig {
     /// Which preprocessed trace variant to use (e.g. small canonical vs lifted).
     pub preprocessed_trace_variant: PreProcessedTraceVariant,
     /// Amount of ZK blinding to add to the verifier circuit. To be effective, should be >= the
-    /// number of queries used when proving the execution of this verifier. None disables ZK
-    /// blinding.
+    /// number of zk blinding rows added to the circuit verifier components.
+    /// None disables ZK blinding.
     pub zk_blinding_amount: Option<usize>,
 }
 

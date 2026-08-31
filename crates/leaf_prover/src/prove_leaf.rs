@@ -11,7 +11,7 @@ use cairo_vm::types::program::Program;
 use circuit_cairo_verifier::all_components::all_components;
 use circuit_cairo_verifier::statement::{MEMORY_VALUES_LIMBS, N_OUTPUTS, N_WORDS_PER_OUTPUT_CELL};
 use circuit_cairo_verifier::verify::{
-    CairoVerifierConfig, build_and_fill_cairo_verifier_circuit,
+    CairoVerifierConfig, NON_QUERY_INFO_LEAK, build_and_fill_cairo_verifier_circuit,
     prepare_cairo_proof_for_circuit_verifier,
 };
 use circuit_common::finalize::pad_to_targets;
@@ -148,8 +148,9 @@ pub fn prove_leaf(
         circuit_registry.leaf_verifier(trace_log_size).unwrap_or_else(|err| panic!("{err}"));
     let circuit_proof_config =
         circuit_registry.config(&registry_entry.config).unwrap_or_else(|err| panic!("{err}"));
-    let zk_blinding_size =
-        registry_entry.zk_blinding.then_some(circuit_proof_config.fri_config.n_queries);
+    let zk_blinding_size = registry_entry
+        .zk_blinding
+        .then_some(circuit_proof_config.fri_config.n_queries + NON_QUERY_INFO_LEAK);
 
     let verifier_config = leaf_verifier_config(
         cairo_prover_parameters.preprocessed_trace,
