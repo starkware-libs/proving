@@ -21,12 +21,21 @@ pub const MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES: usize =
 pub const MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize =
     RECURSIVE_PROOF_UNCOMPRESSED_BYTES * PROOF_MAX_DECOMPRESSED_RATIO;
 
-// See comment in privacy_prove::tests::test_privacy_bootloader_program_hash_snapshot for more
-// details on how this file was compiled.
+// See comment in privacy_prove::tests::test_{privacy,leaf}_bootloader_program_hash_snapshot
+// for more details on how these files were compiled.
 pub const PRIVACY_BOOTLOADER_JSON: &[u8] = include_bytes!(
     "../../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
      privacy_simple_bootloader_compiled.json"
 );
+pub const LEAF_BOOTLOADER_JSON: &[u8] = include_bytes!(
+    "../../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
+     leaf_simple_bootloader_compiled.json"
+);
+// Registry that defines the circuits used for large privacy proofs. Generated using
+// `cargo run -r --bin circuit-params -- --definition
+// circuit_registry_definitions/privacy_large_proofs/definition.json --registry`
+pub const LARGE_PROOFS_CIRCUIT_REGISTRY_JSON: &str =
+    include_str!("../../privacy_circuit_verify/large_proofs_circuit_registry.json");
 pub const CIRCUIT_OUTPUT_ADDRESSES: [usize; 9] = [3, 4, 5, 6, 7, 8, 9, 10, 2];
 pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] =
     [552561082, 3850594143, 1975781122, 4259162619, 2966411534, 4022459599, 3160226094, 1928147739];

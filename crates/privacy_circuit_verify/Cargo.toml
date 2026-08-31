@@ -12,9 +12,12 @@ slow-tests = []
 [dependencies]
 anyhow.workspace = true
 itertools.workspace = true
+serde_json.workspace = true
 starknet-types-core.workspace = true
 tracing.workspace = true
 zstd.workspace = true
+
+circuit-registry.workspace = true
 
 # cairo-vm
 cairo-vm = { workspace = true, features = [

@@ -5,6 +5,7 @@ mod tests;
 use std::cmp::max;
 use std::error::Error;
 use std::fs::read_to_string;
+use std::path::Path;
 use std::rc::Rc;
 use std::sync::Arc;
 
@@ -26,13 +27,21 @@ use circuit_prover::prover::{
 };
 use circuit_serialize::serialize::CircuitSerialize;
 use circuit_verifier::verify::CircuitConfig;
+use circuits::utils::bytes_from_le_u32s;
 use circuits_stark_verifier::proof::ProofConfig;
 use itertools::chain;
-use privacy_circuit_verify::consts::{CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG};
+use leaf_proof_format::{DigestHex, SerializedLeafProof};
+use leaf_prover::prove_leaf::prove_leaf;
+use privacy_circuit_verify::consts::{
+    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
+};
+use privacy_circuit_verify::utils::ProofHeader;
 use privacy_circuit_verify::{
     PrivacyProofOutput, Version, compute_privacy_bootloader_output_hash,
-    get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_privacy_bootloader_program,
-    get_proof_config, get_recursive_circuit_config,
+    get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_large_proofs_circuit_registry,
+    get_leaf_bootloader_program, get_privacy_bootloader_program, get_proof_config,
+    get_recursive_circuit_config,
 };
 use serde_json::from_str;
 use starknet_types_core::felt::Felt;
@@ -74,10 +83,21 @@ fn compress_proof(proof_bytes: &[u8]) -> Result<Vec<u8>, Box<dyn Error>> {
     Ok(zstd::encode_all(proof_bytes, 3)?)
 }
 
-/// Prepends the serialized current [`Version`] to the compressed proof bytes. The verifier strips
-/// this prefix before decompressing (see `split_proof_version`).
-fn prepend_version(compressed_proof: Vec<u8>) -> Vec<u8> {
-    chain!(Version::current().serialize(), compressed_proof).collect()
+/// Compresses the proof and prepends the serialized current [`Version`] to the compressed proof
+/// bytes. The verifier strips this prefix before decompressing (see `split_proof_version`).
+fn build_privacy_proof_output(
+    uncompressed_bytes: Vec<u8>,
+    preprocessed_root: &[u32; 8],
+    output_preimage: Vec<Felt>,
+) -> Result<PrivacyProofOutput, Box<dyn Error>> {
+    let compressed_proof = compress_proof(&uncompressed_bytes)?;
+    let header = ProofHeader {
+        version: Version::current(),
+        preprocessed_root: bytes_from_le_u32s(*preprocessed_root),
+    };
+    let proof = chain!(header.serialize(), compressed_proof).collect();
+
+    Ok(PrivacyProofOutput { proof, output_preimage })
 }
 
 /// Runs the program and generates a proof for it with params, bootloader and output format suitable
@@ -103,10 +123,11 @@ pub fn privacy_prove(pie: CairoPie) -> Result<PrivacyProofOutput, Box<dyn Error>
     let serialized_aux_bytes: Vec<u8> =
         serialized_aux_data.iter().flat_map(|x| x.0.to_le_bytes()).collect();
     let combined_bytes: Vec<u8> = chain!(serialized_aux_bytes, proof_bytes).collect();
-    let compressed = compress_proof(&combined_bytes)?;
-    let proof = prepend_version(compressed);
-
-    Ok(PrivacyProofOutput { proof, output_preimage })
+    build_privacy_proof_output(
+        combined_bytes,
+        &PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
+        output_preimage,
+    )
 }
 
 pub fn prepare_recursive_prover_precomputes()
@@ -115,8 +136,9 @@ pub fn prepare_recursive_prover_precomputes()
 
     let cairo_verifier_config = get_cairo_verifier_config()?;
     let preprocessed_circuit = get_cairo_preprocessed_circuit(&cairo_verifier_config);
-    let circuit_config = get_recursive_circuit_config();
-    let proof_config = get_proof_config();
+    let circuit_config =
+        get_recursive_circuit_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT)?;
+    let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT)?;
 
     info!("Prepare the twiddles");
     let base_column_pool = BaseColumnPool::<SimdBackend>::new();
@@ -176,6 +198,32 @@ pub fn prepare_recursive_prover_precomputes()
     }))
 }
 
+pub fn privacy_recursive_prove_large(pie: CairoPie) -> Result<PrivacyProofOutput, Box<dyn Error>> {
+    let leaf_bootloader = get_leaf_bootloader_program()?;
+    let circuit_registry = get_large_proofs_circuit_registry();
+    let output_preimage_file = NamedTempFile::new()?;
+    let output_preimage_path = output_preimage_file.path();
+
+    // The leaf bootloader and the privacy bootloader have the same input format
+    let leaf_bootloader_input = build_privacy_bootloader_input(pie, output_preimage_path);
+
+    // Prove
+    let SerializedLeafProof {
+        circuit_preprocessed_root: DigestHex(preprocessed_root),
+        circuit_hash: _,
+        proof,
+    }: SerializedLeafProof = prove_leaf(
+        &leaf_bootloader,
+        Some(ProgramInput::Value(Box::new(leaf_bootloader_input))),
+        &circuit_registry,
+    );
+    // Read the output preimage
+    let output_preimage_content = read_to_string(output_preimage_path)?;
+    let output_preimage: Vec<Felt> = from_str(&output_preimage_content)?;
+
+    build_privacy_proof_output(proof, &preprocessed_root, output_preimage)
+}
+
 pub fn privacy_recursive_prove(
     pie: CairoPie,
     precomputes: Arc<RecursiveProverPrecomputes>,
@@ -230,27 +278,36 @@ pub fn privacy_recursive_prove(
     info!("Serialize and compress the proof");
     let mut proof_bytes: Vec<u8> = vec![];
     proof_qm31s.serialize(&mut proof_bytes);
-    let compressed = compress_proof(&proof_bytes)?;
-    let proof = prepend_version(compressed);
 
-    Ok(PrivacyProofOutput { proof, output_preimage })
+    build_privacy_proof_output(
+        proof_bytes,
+        &PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
+        output_preimage,
+    )
+}
+
+fn build_privacy_bootloader_input(
+    pie: CairoPie,
+    output_preimage_path: &Path,
+) -> PrivacySimpleBootloaderInput {
+    let pie_task_spec =
+        TaskSpec { task: Rc::new(Task::Pie(pie)), program_hash_function: HashFunc::Blake };
+    PrivacySimpleBootloaderInput {
+        simple_bootloader_input: SimpleBootloaderInput {
+            fact_topologies_path: None,
+            single_page: true,
+            tasks: vec![pie_task_spec],
+        },
+        output_preimage_dump_path: output_preimage_path.to_path_buf(),
+    }
 }
 
 fn run_privacy_bootloader(pie: CairoPie) -> Result<(ProverInput, Vec<Felt>), Box<dyn Error>> {
     let _span = span!(Level::INFO, "get_prover_input").entered();
 
     let output_preimage_file = NamedTempFile::new()?;
-    let output_preimage_path = output_preimage_file.path().to_path_buf();
-    let pie_task_spec =
-        TaskSpec { task: Rc::new(Task::Pie(pie)), program_hash_function: HashFunc::Blake };
-    let bootloader_input = PrivacySimpleBootloaderInput {
-        simple_bootloader_input: SimpleBootloaderInput {
-            fact_topologies_path: None,
-            single_page: true,
-            tasks: vec![pie_task_spec],
-        },
-        output_preimage_dump_path: output_preimage_path.clone(),
-    };
+    let output_preimage_path = output_preimage_file.path();
+    let bootloader_input = build_privacy_bootloader_input(pie, output_preimage_path);
     let bootloader_program = get_privacy_bootloader_program()?;
 
     info!("Running the program");
@@ -262,7 +319,7 @@ fn run_privacy_bootloader(pie: CairoPie) -> Result<(ProverInput, Vec<Felt>), Box
     )?;
 
     info!("Reading the bootloader output preimage");
-    let output_preimage_content = read_to_string(&output_preimage_path)?;
+    let output_preimage_content = read_to_string(output_preimage_path)?;
     let output_preimage: Vec<Felt> = from_str(&output_preimage_content)?;
 
     info!("Adapting the runner output for the prover");
