@@ -7,13 +7,11 @@ use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
 };
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
-use circuits::blake::{
-    blake_g_gate as blake_g_gate_, blake2s_m31, m31_to_u32, triple_xor as triple_xor_,
-};
+use circuits::blake::{blake_g_gate, blake2s_m31, m31_to_u32, triple_xor};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
-use circuits::ops::{guess, permute};
+use circuits::ops::{Guess, guess, permute};
 use circuits::utils::le_u32s_from_bytes;
 use circuits::wrappers::U32Wrapper;
 use expect_test::expect;
@@ -34,43 +32,6 @@ use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
 const N: usize = 1030;
 
-/// A version of the real `triple_xor` that gets and returns `Var`s instead of `U32Wrapper<Var>`s.
-// TODO(lior): Remove this function and use U32Wrapper::from(...).guess(&mut context) to create the
-//   inputs.
-fn triple_xor(context: &mut Context<QM31>, a: Var, b: Var, c: Var) -> Var {
-    *triple_xor_(
-        context,
-        U32Wrapper::new_unsafe(a),
-        U32Wrapper::new_unsafe(b),
-        U32Wrapper::new_unsafe(c),
-    )
-    .get()
-}
-
-/// A version of the real `blake_g_gate` that gets and returns `Var`s instead of `U32Wrapper<Var>`s.
-// TODO(lior): Remove this function and use U32Wrapper::from(...).guess(&mut context) to create the
-//   inputs.
-fn blake_g_gate(
-    context: &mut Context<QM31>,
-    a: Var,
-    b: Var,
-    c: Var,
-    d: Var,
-    f0: Var,
-    f1: Var,
-) -> (Var, Var, Var, Var) {
-    let [out_a, out_b, out_c, out_d] = blake_g_gate_(
-        context,
-        U32Wrapper::new_unsafe(a),
-        U32Wrapper::new_unsafe(b),
-        U32Wrapper::new_unsafe(c),
-        U32Wrapper::new_unsafe(d),
-        U32Wrapper::new_unsafe(f0),
-        U32Wrapper::new_unsafe(f1),
-    );
-    (*out_a.get(), *out_b.get(), *out_c.get(), *out_d.get())
-}
-
 pub fn build_fibonacci_context() -> Context<QM31> {
     let mut context = Context::<QM31>::new(1);
 
@@ -79,9 +40,9 @@ pub fn build_fibonacci_context() -> Context<QM31> {
         (a, b) = (b, eval!(&mut context, (a) + (b)));
     }
 
-    expect![[r#"
+    expect![["
         (809871181 + 0i) + (0 + 0i)u
-    "#]]
+    "]]
     .assert_debug_eq(&context.get(b));
     context.set_outputs(&[b]);
 
@@ -127,34 +88,34 @@ pub fn build_triple_xor_context() -> Context<QM31> {
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // 42 ^ 17 ^ 55 = 12
-    let a = guess(&mut context, qm31_from_u32s(42, 0, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(17, 0, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(55, 0, 0, 0));
+    let a = U32Wrapper::from(42).guess(&mut context);
+    let b = U32Wrapper::from(17).guess(&mut context);
+    let c = U32Wrapper::from(55).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
-    expect![[r#"
-        (12 + 0i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out));
+    expect![["
+        U32((12 + 0i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out.get_value(&context));
 
     // 0x10000 ^ 0x20000 ^ 0x30001 = 1
-    let a = guess(&mut context, qm31_from_u32s(0, 1, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(0, 2, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(1, 3, 0, 0));
+    let a = U32Wrapper::from(0x10000).guess(&mut context);
+    let b = U32Wrapper::from(0x20000).guess(&mut context);
+    let c = U32Wrapper::from(0x30001).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
-    expect![[r#"
-        (1 + 0i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out));
+    expect![["
+        U32((1 + 0i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out.get_value(&context));
 
     // 0x30005 ^ 0x10007 ^ 0x4000b = 0x60009
-    let a = guess(&mut context, qm31_from_u32s(5, 3, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(7, 1, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(11, 4, 0, 0));
+    let a = U32Wrapper::from(0x30005).guess(&mut context);
+    let b = U32Wrapper::from(0x10007).guess(&mut context);
+    let c = U32Wrapper::from(0x4000b).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
-    expect![[r#"
-        (9 + 6i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out));
+    expect![["
+        U32((9 + 6i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out.get_value(&context));
 
     context
 }
@@ -164,24 +125,24 @@ pub fn build_m31_to_u32_context() -> Context<QM31> {
 
     let a = guess(&mut context, QM31::from(42));
     let out_a = m31_to_u32(&mut context, a);
-    expect![[r#"
-        (42 + 0i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(*out_a.get()));
+    expect![["
+        U32((42 + 0i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_a.get_value(&context));
 
     let b = guess(&mut context, QM31::from(100_000));
     let out_b = m31_to_u32(&mut context, b);
-    expect![[r#"
-        (34464 + 1i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(*out_b.get()));
+    expect![["
+        U32((34464 + 1i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_b.get_value(&context));
 
     let c = guess(&mut context, QM31::from(2_000_042));
     let out_c = m31_to_u32(&mut context, c);
-    expect![[r#"
-        (33962 + 30i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(*out_c.get()));
+    expect![["
+        U32((33962 + 30i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_c.get_value(&context));
 
     context
 }
@@ -192,30 +153,30 @@ pub fn build_blake_g_gate_context() -> Context<QM31> {
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // G(305419896, 4294967295, 2147483647, 123456789, 987654321, 468798)
     //   => (2827666065, 4146123195, 3407348176, 3638212488)
-    let a = guess(&mut context, qm31_from_u32s(22136, 4660, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(65535, 65535, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(65535, 32767, 0, 0));
-    let d = guess(&mut context, qm31_from_u32s(52501, 1883, 0, 0));
-    let f0 = guess(&mut context, qm31_from_u32s(26801, 15070, 0, 0));
-    let f1 = guess(&mut context, qm31_from_u32s(10046, 7, 0, 0));
+    let a = U32Wrapper::from(305419896).guess(&mut context);
+    let b = U32Wrapper::from(4294967295).guess(&mut context);
+    let c = U32Wrapper::from(2147483647).guess(&mut context);
+    let d = U32Wrapper::from(123456789).guess(&mut context);
+    let f0 = U32Wrapper::from(987654321).guess(&mut context);
+    let f1 = U32Wrapper::from(468798).guess(&mut context);
 
-    let (out_a, out_b, out_c, out_d) = blake_g_gate(&mut context, a, b, c, d, f0, f1);
-    expect![[r#"
-        (49809 + 43146i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_a));
-    expect![[r#"
-        (53691 + 63264i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_b));
-    expect![[r#"
-        (464 + 51992i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_c));
-    expect![[r#"
-        (46984 + 55514i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_d));
+    let [out_a, out_b, out_c, out_d] = blake_g_gate(&mut context, a, b, c, d, f0, f1);
+    expect![["
+        U32((49809 + 43146i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_a.get_value(&context));
+    expect![["
+        U32((53691 + 63264i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_b.get_value(&context));
+    expect![["
+        U32((464 + 51992i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_c.get_value(&context));
+    expect![["
+        U32((46984 + 55514i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_d.get_value(&context));
 
     context
 }
@@ -418,8 +379,8 @@ fn test_prove_and_circuit_verify_triple_xor_context() {
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[559383118, 1255857488, 1344354401, 2360263672, 3046958987, 2092103241, 1295830770, \
-         660589166]"
+        "[975308199, 1477227831, 656207450, 1107639409, 4290412986, 3677648178, 516458056, \
+         1265865711]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -491,8 +452,8 @@ fn test_prove_and_circuit_verify_blake_g_gate_context() {
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[3717424067, 4197539191, 3778294694, 2399208116, 4267247572, 1361721549, 951663472, \
-         1298806664]"
+        "[3530521409, 3130464395, 2146320570, 2669261259, 2154330194, 637627870, 3981384222, \
+         4078960982]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
