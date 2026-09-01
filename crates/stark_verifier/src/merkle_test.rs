@@ -183,7 +183,7 @@ fn test_decommit_eval_domain_samples(#[case] wrong_root: Option<usize>, #[case] 
         &eval_domain_samples_vars,
         &auth_paths_vars,
         &bits_vars,
-        &roots_vars,
+        &roots_vars.each_ref(),
     );
 
     let success = wrong_root.is_none() && !wrong_bit;

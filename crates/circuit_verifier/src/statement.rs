@@ -2,7 +2,7 @@ use circuits::blake::{HashValue, unpack_qm31s_to_u32_words};
 use circuits::context::{Context, U_VAR_IDX, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
-use circuits::ops::Guess;
+use circuits::ops::{Constant, Guess};
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::constraint_eval::CircuitEval;
@@ -82,10 +82,7 @@ impl<Value: IValue> CircuitStatement<Value> {
 
         let component_log_sizes = log_sizes.into_array();
         let n_components = component_log_sizes.len();
-        let packed_log_sizes = pack_into_qm31s(component_log_sizes.into_iter())
-            .into_iter()
-            .map(|qm31| context.constant(qm31))
-            .collect_vec();
+        let packed_log_sizes = pack_into_qm31s(component_log_sizes.into_iter()).constant(context);
         let component_log_sizes = Simd::from_packed(packed_log_sizes, n_components);
 
         Self {
@@ -125,8 +122,8 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
         // Output gates public logup sum contribution.
         let gate_relation_id = context.constant(GATE_RELATION_ID.into());
         // Construct the output addresses. They are located at addresses `[3, 3 + n_outputs)`.
-        let output_addresses = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + self.n_outputs))
-            .map(|addr| M31Wrapper::const_m31(context, addr.into()))
+        let output_addresses = (0..self.n_outputs)
+            .map(|addr| M31Wrapper::const_m31(context, (U_VAR_IDX + 1 + addr).into()))
             .collect_vec();
         // Add the pair `(U_VAR_IDX, U_VALUE)` to the addresses and values, respectively.
         let u_addr = M31Wrapper::const_m31(context, U_VAR_IDX.into());

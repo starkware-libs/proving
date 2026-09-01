@@ -1,10 +1,9 @@
 use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, NoValue};
-use circuits::ops::Guess;
-use circuits::wrappers::U32Wrapper;
+use circuits::ops::{Constant, Guess};
 use indexmap::IndexMap;
-use itertools::{Itertools, zip_eq};
+use itertools::zip_eq;
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
@@ -351,10 +350,7 @@ impl ProofConfig {
             0,
         ];
 
-        let pcs_config_vars = pack_into_qm31s(pcs_config_values.into_iter())
-            .into_iter()
-            .map(|qm31| context.constant(qm31))
-            .collect_vec();
+        let pcs_config_vars = pack_into_qm31s(pcs_config_values.into_iter()).constant(context);
         channel.mix_qm31s(context, pcs_config_vars);
     }
 }
@@ -457,15 +453,8 @@ impl<T> Proof<T> {
 
     /// Returns the 3 witness Merkle roots (trace, interaction, composition polynomial).
     /// The preprocessed root is excluded since it is not stored in the proof.
-    pub fn merkle_roots(&self) -> [HashValue<T>; N_TRACES - 1]
-    where
-        T: Clone,
-    {
-        [
-            self.trace_root.clone(),
-            self.interaction_root.clone(),
-            self.composition_polynomial_root.clone(),
-        ]
+    pub fn merkle_roots(&self) -> [&HashValue<T>; N_TRACES - 1] {
+        [&self.trace_root, &self.interaction_root, &self.composition_polynomial_root]
     }
 }
 
@@ -474,9 +463,9 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
 
     let n_components = config.n_components();
     Proof {
-        trace_root: HashValue([U32Wrapper::no_value(); 8]),
-        interaction_root: HashValue([U32Wrapper::no_value(); 8]),
-        composition_polynomial_root: HashValue([U32Wrapper::no_value(); 8]),
+        trace_root: HashValue::no_value(),
+        interaction_root: HashValue::no_value(),
+        composition_polynomial_root: HashValue::no_value(),
         preprocessed_columns_at_oods: vec![NoValue; config.n_preprocessed_columns],
         trace_at_oods: vec![NoValue; config.n_trace_columns],
         interaction_at_oods: config

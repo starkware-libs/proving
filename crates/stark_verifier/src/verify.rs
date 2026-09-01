@@ -197,7 +197,7 @@ pub fn verify<Value: IValue>(
         &bits,
         &{
             let [trace, interaction, composition] = proof.merkle_roots();
-            [preprocessed_root, trace, interaction, composition]
+            [&preprocessed_root, trace, interaction, composition]
         },
     );
 

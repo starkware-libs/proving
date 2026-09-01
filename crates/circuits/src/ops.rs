@@ -1,5 +1,6 @@
 use itertools::Itertools;
 use stwo::core::circle::CirclePoint;
+use stwo::core::fields::qm31::QM31;
 
 use crate::circuit::{Add, Eq, Mul, Output, Permutation, PointwiseMul, Sub};
 use crate::context::{Context, GuessVar, Var};
@@ -320,6 +321,14 @@ pub trait Constant<Value: IValue> {
     type Target;
 
     fn constant(&self, context: &mut Context<Value>) -> Self::Target;
+}
+
+impl<Value: IValue> Constant<Value> for QM31 {
+    type Target = Var;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        context.constant(*self)
+    }
 }
 
 impl<Value: IValue, T: Constant<Value>, const N: usize> Constant<Value> for [T; N] {

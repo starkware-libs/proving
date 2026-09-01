@@ -166,7 +166,7 @@ pub fn decommit_eval_domain_samples<Value: IValue>(
     eval_domain_samples: &EvalDomainSamples<Var>,
     auth_paths: &AuthPaths<Var>,
     bits: &[Vec<Var>],
-    roots: &[HashValue<Var>; N_TRACES],
+    roots: &[&HashValue<Var>; N_TRACES],
 ) {
     assert_eq!(eval_domain_samples.n_traces(), roots.len());
     assert_eq!(auth_paths.n_trees(), roots.len());
