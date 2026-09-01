@@ -4,6 +4,7 @@ use circuits::context::{Context, FinalizedContext, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{add_into, eq};
+use circuits::wrappers::U32Wrapper;
 use rand_chacha::rand_core::{RngCore, SeedableRng};
 
 use crate::N_LANES;
@@ -30,7 +31,7 @@ fn pad_eq(context: &mut Context<impl IValue>, target: usize) {
 fn pad_triple_xor(context: &mut Context<impl IValue>, target: usize) {
     let n_rows = context.circuit.triple_xor.len();
     assert!(n_rows <= target);
-    let zero = context.zero();
+    let zero = U32Wrapper::const_u32(context, 0);
     for _ in n_rows..target {
         circuits::blake::triple_xor(context, zero, zero, zero);
     }
@@ -48,7 +49,7 @@ fn pad_m31_to_u32(context: &mut Context<impl IValue>, target: usize) {
 fn pad_blake_g_gate(context: &mut Context<impl IValue>, target: usize) {
     let n_rows = context.circuit.blake_g_gate.len();
     assert!(n_rows <= target);
-    let zero = context.zero();
+    let zero = U32Wrapper::const_u32(context, 0);
     for _ in n_rows..target {
         blake_g_gate(context, zero, zero, zero, zero, zero, zero);
     }
@@ -112,11 +113,11 @@ fn eq_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl RngCore) {
 ///
 /// Note that we don't use the guess function here because we want to be able to run this after
 /// finalize_guessed_vars.
-fn random_u32_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> Var {
+fn random_u32_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> U32Wrapper<Var> {
     let zero = context.zero();
     let x = context.new_var(*IValue::pack_u32(rng.next_u32()).get());
     add_into(context, x, zero, x);
-    x
+    U32Wrapper::new_unsafe(x)
 }
 
 /// Creates a fresh variable holding a random `M31` value, encoded as `(x, 0, 0, 0)`, and yields it

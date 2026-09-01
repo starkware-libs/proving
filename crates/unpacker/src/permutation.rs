@@ -57,7 +57,7 @@ pub fn permute_tuples<Value: IValue>(
 
     // The `arity` u32 words of a tuple, used as the lookup key for matching outputs to inputs.
     let key_from_tuple = |ctx: &Context<Value>, tuple: &[U32Wrapper<Var>]| -> Vec<u32> {
-        tuple.iter().map(|w| ctx.get(*w.get()).unpack_u32()).collect()
+        tuple.iter().map(|w| w.get_value(ctx).get().unpack_u32()).collect()
     };
 
     // Tag each input word with its tuple index `j`: `(low, high, 0, 0) + (0, 0, j, 0)`, and map

@@ -182,6 +182,10 @@ impl U32Wrapper<Var> {
     pub fn const_u32(context: &mut Context<impl IValue>, value: u32) -> U32Wrapper<Var> {
         U32Wrapper::<QM31>::from(value).constant(context)
     }
+
+    pub fn get_value<Value: IValue>(self, context: &Context<Value>) -> U32Wrapper<Value> {
+        U32Wrapper::new_unsafe(context.get(self.0))
+    }
 }
 
 impl<Value: IValue> Guess<Value> for U32Wrapper<Value> {

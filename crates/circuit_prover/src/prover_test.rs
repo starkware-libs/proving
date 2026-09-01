@@ -7,12 +7,15 @@ use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
 };
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
-use circuits::blake::{blake_g_gate, blake2s_m31, m31_to_u32, triple_xor};
+use circuits::blake::{
+    blake_g_gate as blake_g_gate_, blake2s_m31, m31_to_u32, triple_xor as triple_xor_,
+};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
 use circuits::ops::{guess, permute};
 use circuits::utils::le_u32s_from_bytes;
+use circuits::wrappers::U32Wrapper;
 use expect_test::expect;
 use num_traits::{One, Zero};
 use stwo::core::channel::{Blake2sM31Channel, Channel};
@@ -30,6 +33,43 @@ use crate::prover::{
 use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
 const N: usize = 1030;
+
+/// A version of the real `triple_xor` that gets and returns `Var`s instead of `U32Wrapper<Var>`s.
+// TODO(lior): Remove this function and use U32Wrapper::from(...).guess(&mut context) to create the
+//   inputs.
+fn triple_xor(context: &mut Context<QM31>, a: Var, b: Var, c: Var) -> Var {
+    *triple_xor_(
+        context,
+        U32Wrapper::new_unsafe(a),
+        U32Wrapper::new_unsafe(b),
+        U32Wrapper::new_unsafe(c),
+    )
+    .get()
+}
+
+/// A version of the real `blake_g_gate` that gets and returns `Var`s instead of `U32Wrapper<Var>`s.
+// TODO(lior): Remove this function and use U32Wrapper::from(...).guess(&mut context) to create the
+//   inputs.
+fn blake_g_gate(
+    context: &mut Context<QM31>,
+    a: Var,
+    b: Var,
+    c: Var,
+    d: Var,
+    f0: Var,
+    f1: Var,
+) -> (Var, Var, Var, Var) {
+    let [out_a, out_b, out_c, out_d] = blake_g_gate_(
+        context,
+        U32Wrapper::new_unsafe(a),
+        U32Wrapper::new_unsafe(b),
+        U32Wrapper::new_unsafe(c),
+        U32Wrapper::new_unsafe(d),
+        U32Wrapper::new_unsafe(f0),
+        U32Wrapper::new_unsafe(f1),
+    );
+    (*out_a.get(), *out_b.get(), *out_c.get(), *out_d.get())
+}
 
 pub fn build_fibonacci_context() -> Context<QM31> {
     let mut context = Context::<QM31>::new(1);

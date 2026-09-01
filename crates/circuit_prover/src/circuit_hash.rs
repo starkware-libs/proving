@@ -88,7 +88,7 @@ mod tests {
             &root,
         );
         let in_circuit: [u32; BLAKE2S_DIGEST_N_WORDS] =
-            std::array::from_fn(|i| context.get(*hash[i].get()).unpack_u32());
+            std::array::from_fn(|i| hash[i].get_value(&context).get().unpack_u32());
 
         assert_eq!(host, in_circuit);
     }
