@@ -1,3 +1,4 @@
+use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
@@ -32,8 +33,16 @@ use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
 const N: usize = 1030;
 
+/// Copies `words` into the context's [`N_RESERVED`] reserved output wires, cycling through them to
+/// fill the digest width. A circuit verified by the circuit verifier outputs a Blake2s digest;
+/// these test circuits have no digest of their own, so any `u32`-encoded wires will do.
+fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
+    let outputs: Vec<Var> = words.iter().cycle().take(N_RESERVED).map(|w| *w.get()).collect();
+    context.set_outputs(&outputs);
+}
+
 pub fn build_fibonacci_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(1);
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     let (mut a, mut b) = (guess(&mut context, QM31::zero()), guess(&mut context, QM31::one()));
     for _ in 2..N {
@@ -44,7 +53,8 @@ pub fn build_fibonacci_context() -> Context<QM31> {
         (809871181 + 0i) + (0 + 0i)u
     "]]
     .assert_debug_eq(&context.get(b));
-    context.set_outputs(&[b]);
+    let out = m31_to_u32(&mut context, b);
+    set_digest_outputs(&mut context, &[out]);
 
     context
 }
@@ -84,7 +94,7 @@ pub fn build_blake_context() -> Context<QM31> {
 }
 
 pub fn build_triple_xor_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // 42 ^ 17 ^ 55 = 12
@@ -116,12 +126,13 @@ pub fn build_triple_xor_context() -> Context<QM31> {
         U32((9 + 6i) + (0 + 0i)u)
     "]]
     .assert_debug_eq(&out.get_value(&context));
+    set_digest_outputs(&mut context, &[out]);
 
     context
 }
 
 pub fn build_m31_to_u32_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     let a = guess(&mut context, QM31::from(42));
     let out_a = m31_to_u32(&mut context, a);
@@ -143,12 +154,13 @@ pub fn build_m31_to_u32_context() -> Context<QM31> {
         U32((33962 + 30i) + (0 + 0i)u)
     "]]
     .assert_debug_eq(&out_c.get_value(&context));
+    set_digest_outputs(&mut context, &[out_a, out_b, out_c]);
 
     context
 }
 
 pub fn build_blake_g_gate_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // G(305419896, 4294967295, 2147483647, 123456789, 987654321, 468798)
@@ -177,6 +189,7 @@ pub fn build_blake_g_gate_context() -> Context<QM31> {
         U32((46984 + 55514i) + (0 + 0i)u)
     "]]
     .assert_debug_eq(&out_d.get_value(&context));
+    set_digest_outputs(&mut context, &[out_a, out_b, out_c, out_d]);
 
     context
 }
@@ -378,8 +391,8 @@ fn test_prove_and_circuit_verify_triple_xor_context() {
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[975308199, 1477227831, 656207450, 1107639409, 4290412986, 3677648178, 516458056, \
-         1265865711]"
+        "[3108580124, 1195472639, 406742981, 4043963605, 410011815, 3851714429, 3026550905, \
+         53533403]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -407,8 +420,8 @@ fn test_prove_and_circuit_verify_fibonacci_context() {
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[834735002, 594172773, 1583316646, 3249196940, 741016670, 2295728685, 4109491583, \
-         2430221502]"
+        "[3839694203, 1426645878, 544260312, 942396420, 1308763733, 2376548999, 3794595096, \
+         1471736858]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -429,8 +442,8 @@ fn test_prove_and_circuit_verify_m31_to_u32_context() {
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[3771636404, 3055692813, 1894577333, 698197554, 2504506842, 900992605, 91068715, \
-         318976758]"
+        "[600625078, 2147083019, 3436167066, 2746062012, 2124652205, 863849368, 4013760731, \
+         1715700551]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -451,8 +464,8 @@ fn test_prove_and_circuit_verify_blake_g_gate_context() {
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[3530521409, 3130464395, 2146320570, 2669261259, 2154330194, 637627870, 3981384222, \
-         4078960982]"
+        "[2845429778, 2218835085, 1205125096, 2501607039, 240595925, 1726247725, 2770929447, \
+         238604015]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
