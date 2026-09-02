@@ -40,10 +40,9 @@ fn verify_circuit_proof(
         config: circuit_proof.pcs_config,
         n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
-        preprocessed_root,
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
-    verify_circuit(circuit_config, proof, public_data).unwrap()
+    verify_circuit(circuit_config, preprocessed_root, proof, public_data).unwrap()
 }
 
 /// Compares the topology of two contexts.
@@ -125,7 +124,6 @@ fn test_verify_privacy_with_recursion() {
         config: circuit_proof.pcs_config,
         n_outputs: preprocessed.n_outputs,
         preprocessed_column_log_sizes: preprocessed.preprocessed_trace.log_sizes(),
-        preprocessed_root,
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
     let mut proof_bytes = Vec::new();
@@ -143,7 +141,7 @@ fn test_verify_privacy_with_recursion() {
     );
 
     // Verify the recursion proof with the circuit verifier.
-    verify_circuit(circuit_config, proof, public_data).unwrap();
+    verify_circuit(circuit_config, preprocessed_root, proof, public_data).unwrap();
 }
 
 #[test]
@@ -239,12 +237,10 @@ fn test_privacy_proof_info() {
         },
         lifting_log_size,
     );
-    let preprocessed_root = HashValue::from([0u32; 8]);
     let circuit_config = CircuitConfig {
         config: pcs_config,
         n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
-        preprocessed_root,
     };
     let public_data =
         CircuitPublicData { output_values: vec![QM31::zero(); preprocessed_circuit.n_outputs] };
@@ -254,7 +250,9 @@ fn test_privacy_proof_info() {
         .iter()
         .map(|value| NoValue::from_qm31(*value).guess(&mut context))
         .collect_vec();
-    let statement = CircuitStatement::new(&mut context, &circuit_config, &output_values);
+    let preprocessed_root = HashValue::no_value().guess(&mut context);
+    let statement =
+        CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, &output_values);
 
     let proof_config = ProofConfig::new(
         statement.get_components(),

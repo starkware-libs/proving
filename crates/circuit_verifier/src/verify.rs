@@ -25,7 +25,6 @@ pub struct CircuitConfig {
     /// (at address [`circuits::context::U_VAR_IDX`]).
     pub n_outputs: usize,
     pub preprocessed_column_log_sizes: OrderedHashMap<PreProcessedColumnId, u32>,
-    pub preprocessed_root: HashValue<QM31>,
 }
 
 /// Builds the circuit that verifies a proof of execution of another circuit.
@@ -42,6 +41,7 @@ pub struct CircuitConfig {
 /// 4. Finalizes constants and guessed variables.
 pub fn build_verification_circuit<Value: IValue>(
     circuit_config: CircuitConfig,
+    preprocessed_root: HashValue<Value>,
     proof: Proof<Value>,
     public_data: CircuitPublicData,
 ) -> Result<FinalizedContext<Value>, String> {
@@ -51,7 +51,12 @@ pub fn build_verification_circuit<Value: IValue>(
         .iter()
         .map(|value| Value::from_qm31(*value).guess(&mut context))
         .collect_vec();
-    let statement = CircuitStatement::new(&mut context, &circuit_config, &output_values);
+    // Guess the preprocessed root. The guessed wires enter the hash that will be output by this
+    // verifier. To ensure soundness in a recursive setup, it is *critical* that this hash is
+    // reconstructed by the last verifier, which we can assume honest.
+    let preprocessed_root = preprocessed_root.guess(&mut context);
+    let statement =
+        CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, &output_values);
 
     let proof_config = ProofConfig::new(
         statement.get_components(),
@@ -84,10 +89,12 @@ pub fn build_verification_circuit<Value: IValue>(
 
 pub fn verify_circuit(
     circuit_config: CircuitConfig,
+    preprocessed_root: HashValue<QM31>,
     proof: Proof<QM31>,
     public_data: CircuitPublicData,
 ) -> Result<FinalizedContext<QM31>, String> {
-    let context = build_verification_circuit(circuit_config, proof, public_data)?;
+    let context =
+        build_verification_circuit(circuit_config, preprocessed_root, proof, public_data)?;
     #[cfg(test)]
     context.check_vars_used();
 

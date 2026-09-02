@@ -358,10 +358,9 @@ fn circuit_verify(
         config: circuit_proof.pcs_config,
         n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
-        preprocessed_root: preprocessed_root.into(),
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
-    verify_circuit(circuit_config, proof, public_data).unwrap();
+    verify_circuit(circuit_config, preprocessed_root.into(), proof, public_data).unwrap();
 }
 
 #[test]

@@ -10,7 +10,6 @@ use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use circuits_stark_verifier::proof::{Proof, ProofConfig, empty_proof};
 use circuits_stark_verifier::verify::verify;
 use itertools::{Itertools, chain};
-use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
@@ -32,7 +31,7 @@ pub struct MultiverifierInput<Value: IValue> {
     /// A circuit proof.
     pub proof: Proof<Value>,
     /// The preprocessed root of the circuit associated to `proof`.
-    pub preprocessed_root: HashValue<QM31>,
+    pub preprocessed_root: HashValue<Value>,
     /// The output values of the circuit (excluding the value of the `u` wire at address
     /// [`circuits::context::U_VAR_IDX`]). The multiverifier only supports verification of circuits
     /// whose output is the unreduced Blake2s digest (`N_RESERVED` words).
@@ -76,14 +75,19 @@ pub fn build_multiverifier_circuit<Value: IValue>(
             config: shared_config.pcs_config,
             n_outputs: N_RESERVED,
             preprocessed_column_log_sizes: shared_config.preprocessed_column_log_sizes.clone(),
-            preprocessed_root,
         };
         let output_values = output_values
             .iter()
             .map(|value| Value::pack_u32(*value).guess(&mut context))
             .collect_vec();
         let output_value_vars = output_values.iter().map(|w| *w.get()).collect_vec();
-        let statement = CircuitStatement::new(&mut context, &circuit_config, &output_value_vars);
+        let preprocessed_root = preprocessed_root.guess(&mut context);
+        let statement = CircuitStatement::new(
+            &mut context,
+            &circuit_config,
+            preprocessed_root,
+            &output_value_vars,
+        );
         let proof_vars = proof.guess(&mut context);
 
         verify(&mut context, &proof_vars, &shared_config.proof_config, &statement);
@@ -139,7 +143,7 @@ pub fn build_multiverifier_context_from_shared_config(
 ) -> FinalizedContext<NoValue> {
     let empty_input = || MultiverifierInput {
         proof: empty_proof(&shared_config.proof_config),
-        preprocessed_root: HashValue::from([0u32; 8]),
+        preprocessed_root: HashValue::no_value(),
         output_values: [0u32; N_RESERVED],
     };
     build_multiverifier_circuit::<NoValue>(empty_input(), empty_input(), shared_config)

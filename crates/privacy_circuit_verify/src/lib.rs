@@ -130,7 +130,12 @@ pub fn verify_recursive_circuit(proof_output: &PrivacyProofOutput) -> Result<(),
         HashValue::<QM31>::from(output_hash).iter().map(|w| *w.get()).collect();
 
     info!("Call the verifier");
-    verify_circuit(circuit_config, proof, CircuitPublicData { output_values })?;
+    verify_circuit(
+        circuit_config,
+        PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT.into(),
+        proof,
+        CircuitPublicData { output_values },
+    )?;
 
     Ok(())
 }
@@ -210,7 +215,6 @@ pub fn get_recursive_circuit_config() -> CircuitConfig {
         // anchor wire (address 2, also in `CIRCUIT_OUTPUT_ADDRESSES`) is appended by the verifier.
         n_outputs: CIRCUIT_OUTPUT_ADDRESSES.len() - 1,
         preprocessed_column_log_sizes,
-        preprocessed_root: PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT.into(),
     }
 }
 

@@ -2,7 +2,7 @@ use circuits::blake::{HashValue, unpack_qm31s_to_u32_words};
 use circuits::context::{Context, U_VAR_IDX, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
-use circuits::ops::{Constant, Guess};
+use circuits::ops::Constant;
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::constraint_eval::CircuitEval;
@@ -56,19 +56,12 @@ impl<Value: IValue> CircuitStatement<Value> {
     pub fn new(
         context: &mut Context<Value>,
         circuit_config: &CircuitConfig,
+        preprocessed_root: HashValue<Var>,
         output_values: &[Var],
     ) -> Self {
-        let CircuitConfig { config, n_outputs, preprocessed_column_log_sizes, preprocessed_root } =
-            circuit_config;
+        let CircuitConfig { config, n_outputs, preprocessed_column_log_sizes } = circuit_config;
         assert_eq!(output_values.len(), *n_outputs);
         let output_values = output_values.to_vec();
-        // Guess the preprocessed root. The guessed wires enter the hash that will be output by
-        // this verifier. To ensure soundness in a recursive setup, it is *critical* that this hash
-        // is reconstructed by the last verifier, which we can assume honest.
-        let preprocessed_root = HashValue(std::array::from_fn(|i| {
-            U32Wrapper::from_u32wrapper_qm31(preprocessed_root[i])
-        }))
-        .guess(context);
 
         let components = all_circuit_components::<Value>();
         let log_sizes = circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
