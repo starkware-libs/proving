@@ -12,7 +12,7 @@ use circuit_prover::prover::{
 use circuit_prover::test_utils::default_circuit_pcs_config;
 use circuit_serialize::serialize::CircuitSerialize;
 use circuit_verifier::statement::CircuitStatement;
-use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
+use circuit_verifier::verify::{CircuitConfig, verify_circuit};
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};
@@ -20,7 +20,6 @@ use circuits::ops::Guess;
 use circuits_stark_verifier::proof::{ProofConfig, ProofInfo};
 use circuits_stark_verifier::statement::Statement;
 use itertools::Itertools;
-use num_traits::Zero;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
@@ -38,7 +37,6 @@ fn verify_circuit_proof(
 ) -> FinalizedContext<QM31> {
     let circuit_config = CircuitConfig {
         config: circuit_proof.pcs_config,
-        n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
@@ -122,7 +120,6 @@ fn test_verify_privacy_with_recursion() {
     // compression are applied. Assert it matches the committed fixture.
     let circuit_config = CircuitConfig {
         config: circuit_proof.pcs_config,
-        n_outputs: preprocessed.n_outputs,
         preprocessed_column_log_sizes: preprocessed.preprocessed_trace.log_sizes(),
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
@@ -239,20 +236,13 @@ fn test_privacy_proof_info() {
     );
     let circuit_config = CircuitConfig {
         config: pcs_config,
-        n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
     };
-    let public_data =
-        CircuitPublicData { output_values: vec![QM31::zero(); preprocessed_circuit.n_outputs] };
     let mut context: Context<NoValue> = Context::new(N_RESERVED);
-    let output_values = public_data
-        .output_values
-        .iter()
-        .map(|value| NoValue::from_qm31(*value).guess(&mut context))
-        .collect_vec();
+    let output_digest = HashValue::<NoValue>::no_value().guess(&mut context);
     let preprocessed_root = HashValue::no_value().guess(&mut context);
     let statement =
-        CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, &output_values);
+        CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
 
     let proof_config = ProofConfig::new(
         statement.get_components(),

@@ -74,6 +74,15 @@ impl<Value: Copy> HashValue<Value> {
     }
 }
 
+impl<T> IntoIterator for HashValue<T> {
+    type Item = U32Wrapper<T>;
+    type IntoIter = std::array::IntoIter<U32Wrapper<T>, BLAKE2S_DIGEST_N_WORDS>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
 impl<Value: Copy> std::ops::Index<usize> for HashValue<Value> {
     type Output = U32Wrapper<Value>;
     fn index(&self, index: usize) -> &Self::Output {

@@ -369,7 +369,6 @@ fn circuit_verify(
 ) {
     let circuit_config = CircuitConfig {
         config: circuit_proof.pcs_config,
-        n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);

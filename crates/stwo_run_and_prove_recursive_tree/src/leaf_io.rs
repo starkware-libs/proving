@@ -36,12 +36,12 @@ pub struct LeafInput {
 }
 
 impl LeafInput {
-    /// Recomputes this leaf circuit's `N_RESERVED` output words from `output_preimage`: the leaf
-    /// simple bootloader's Blake2s output digest
+    /// Recomputes this leaf circuit's `N_RESERVED`-word output digest from `output_preimage`: the
+    /// leaf simple bootloader's Blake2s output digest
     /// `H1 = blake2s(cairo0-encode(output_preimage))` — a Uint256 (low, high) written to its output
     /// segment — which the leaf cairo-verifier circuit emits verbatim as its public output (see
     /// `CairoStatement::new`'s `set_outputs(output_hash)`). Eight little-endian u32 words.
-    pub fn output_values(&self) -> Result<[u32; N_RESERVED], RecursiveTreeError> {
+    pub fn output_digest(&self) -> Result<[u32; N_RESERVED], RecursiveTreeError> {
         let preimage: Vec<Felt> = self
             .output_preimage
             .iter()

@@ -39,11 +39,10 @@ use tracing::{Level, info, span};
 pub use utils::{VERSION_BYTES, Version};
 
 use crate::consts::{
-    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_OUTPUT_ADDRESSES, CIRCUIT_PCS_CONFIG,
-    MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES, MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES,
-    PRIVACY_BOOTLOADER_JSON, PRIVACY_CIRCUIT_PREPROCESSED_IDS,
-    PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
-    PRIVACY_TRANSACTION_COMPONENTS,
+    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG, MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES,
+    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_BOOTLOADER_JSON,
+    PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, PRIVACY_TRANSACTION_COMPONENTS,
 };
 
 pub struct PrivacyProofOutput {
@@ -120,21 +119,19 @@ pub fn verify_recursive_circuit(proof_output: &PrivacyProofOutput) -> Result<(),
         return Err("Proof deserialization failed".into());
     }
 
-    info!("Compute the output values");
+    info!("Compute the output digest");
     // The cairo-verifier circuit outputs the program's Blake2s digest words directly at the
     // reserved output wires (see its `set_outputs`), so reproduce them via the same
-    // `HashValue::<QM31>::from(_)` conversion the circuit uses on the digest. The `u` anchor wire
-    // is appended internally by the verifier, so it must not be part of `output_values`.
+    // `HashValue::<QM31>::from(_)` conversion the circuit uses on the digest.
     let output_hash = compute_privacy_bootloader_output_hash(&proof_output.output_preimage);
-    let output_values: Vec<QM31> =
-        HashValue::<QM31>::from(output_hash).iter().map(|w| *w.get()).collect();
+    let output_digest = HashValue::<QM31>::from(output_hash);
 
     info!("Call the verifier");
     verify_circuit(
         circuit_config,
         PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT.into(),
         proof,
-        CircuitPublicData { output_values },
+        CircuitPublicData { output_digest },
     )?;
 
     Ok(())
@@ -209,13 +206,7 @@ pub fn get_recursive_circuit_config() -> CircuitConfig {
         .zip_eq(PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES.iter())
         .map(|(&id, &log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))
         .collect();
-    CircuitConfig {
-        config: CIRCUIT_PCS_CONFIG,
-        // `n_outputs` counts only the real output gates (the hash at addresses 3 and 4); the `u`
-        // anchor wire (address 2, also in `CIRCUIT_OUTPUT_ADDRESSES`) is appended by the verifier.
-        n_outputs: CIRCUIT_OUTPUT_ADDRESSES.len() - 1,
-        preprocessed_column_log_sizes,
-    }
+    CircuitConfig { config: CIRCUIT_PCS_CONFIG, preprocessed_column_log_sizes }
 }
 
 pub fn get_proof_config() -> ProofConfig {

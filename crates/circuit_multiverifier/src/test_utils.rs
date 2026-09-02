@@ -31,10 +31,10 @@ pub const TARGET_PADDING_SIZES: ComponentSizes = ComponentSizes {
 };
 /// The number of preprocessed columns in a trace of a circuit.
 pub const CIRCUIT_N_PREPROCESSED_COLUMNS: usize = 45;
-/// The Cairo verifier circuit's public output for the privacy proof fixture
+/// The Cairo verifier circuit's output digest for the privacy proof fixture
 /// (`test_data/circuit_multiverifier/proof_cairo.bin`): the eight words of the program's output
 /// Blake2s digest, exposed directly (the output memory cells encode this digest).
-pub const PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES: [u32; 8] =
+pub const PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
 
 /// The preprocessed root of the privacy Cairo verifier circuit.

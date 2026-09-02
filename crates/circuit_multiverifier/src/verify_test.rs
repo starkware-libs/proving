@@ -19,7 +19,7 @@ use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
-use circuits::ivalue::{IValue, NoValue};
+use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use itertools::chain;
@@ -30,7 +30,7 @@ use stwo::prover::mempool::BaseColumnPool;
 
 use crate::test_utils::{
     CIRCUIT_N_PREPROCESSED_COLUMNS, LOG_BLOWUP_FACTOR, MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH,
-    MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG, PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES,
+    MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG, PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST,
     PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, TARGET_PADDING_SIZES,
     get_preprocessed_multiverifier_from_circuit, leaf_circuit_hash,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
@@ -151,12 +151,12 @@ fn build_cairo_input(proof: &Proof<QM31>) -> MultiverifierInput<QM31> {
     MultiverifierInput {
         proof: proof.clone(),
         preprocessed_root: HashValue::<QM31>::from(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT),
-        output_values: PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES,
+        output_digest: HashValue::from(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST),
     }
 }
 
 /// Builds and proves the Cairo verifier circuit on a privacy proof.
-fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData) {
+fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData<QM31>) {
     let proof_path = get_proof_file_path("privacy");
     let proof_file = File::open(proof_path).expect("test_data/privacy/proof.bin must exist");
     let cairo_proof = binary_deserialize_from_file(&proof_file).expect("read cairo proof");
@@ -185,17 +185,14 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
 ///
 /// Builds and proves the Cairo verifier circuit on the privacy proof (via
 /// [`prove_privacy_with_recursion_and_prepare`]) and asserts its public outputs match
-/// [`PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES`]. If `FIX_PROOF` env var is not set it deserializes the
+/// [`PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST`]. If `FIX_PROOF` env var is not set it deserializes the
 /// proof stored at [`PRIVACY_CAIRO_VERIFIER_PROOF_PATH`] and asserts equality with the freshly
 /// produced proof. When run with the `FIX_PROOF` env var set, it regenerates and overwrites the
 /// proof.
 #[test]
 fn test_cairo_proof_regression() {
     let (proof, public_data) = prove_privacy_with_recursion_and_prepare();
-    assert_eq!(
-        public_data.output_values,
-        PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES.map(|value| *QM31::pack_u32(value).get())
-    );
+    assert_eq!(public_data.output_digest, HashValue::from(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST));
     if std::env::var("FIX_PROOF").is_err() {
         let proof_config = inner_verifier_proof_config();
         let bytes = std::fs::read(PRIVACY_CAIRO_VERIFIER_PROOF_PATH).unwrap();
@@ -278,7 +275,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     let cairo_input_preimage_words: Vec<u32> =
         leaf_circuit_hash(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(), &shared_config)
             .into_iter()
-            .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES)
+            .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST)
             .collect();
     // The proven multiverifier verified two identical Cairo verifier inputs.
     let payload_words: Vec<u32> =
@@ -288,7 +285,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
 
     let multiverifier_of_two_cairo_input = MultiverifierInput {
         proof: multiverifier_proof,
-        output_values: hash_of_payload,
+        output_digest: hash_of_payload.into(),
         preprocessed_root: MULTIVERIFIER_PREPROCESSED_ROOT.into(),
     };
 

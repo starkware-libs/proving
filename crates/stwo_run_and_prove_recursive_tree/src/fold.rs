@@ -41,10 +41,10 @@ pub struct LayerEntry {
     /// declared; for an internal/carried node it's the multiverifier root read from the freshly
     /// proved proof.
     pub preprocessed_root: HashValue<QM31>,
-    /// This node's circuit output words (the unreduced Blake2s digest the circuit outputs):
+    /// This node's circuit output digest (the unreduced Blake2s digest the circuit outputs):
     /// derived from the leaf's `output_preimage` at layer 0, read from the fresh proof's claim at
-    /// internal nodes. The multiverifier needs them to verify this node at the next layer.
-    pub output_values: [u32; N_RESERVED],
+    /// internal nodes. The multiverifier needs it to verify this node at the next layer.
+    pub output_digest: [u32; N_RESERVED],
     /// Nested packed-output subtree rooted at this node.
     pub packed_output: PackedNode,
 }
@@ -52,12 +52,12 @@ pub struct LayerEntry {
 impl LayerEntry {
     /// Builds the layer-0 entry for a leaf from its [`LeafInput`]: the proof and preprocessed root
     /// travel inline in the flattened [`leaf_proof_format::SerializedLeafProof`], and the output
-    /// values are recomputed from the hashed-output preimage next to it.
+    /// digest is recomputed from the hashed-output preimage next to it.
     pub fn from_leaf(leaf: &LeafInput) -> Result<Self, RecursiveTreeError> {
         Ok(Self {
             proof_bytes: leaf.proof.proof.clone(),
             preprocessed_root: leaf.proof.preprocessed_root(),
-            output_values: leaf.output_values()?,
+            output_digest: leaf.output_digest()?,
             packed_output: PackedNode::leaf(
                 leaf.proof.circuit_hash.0,
                 leaf.output_preimage.clone(),
@@ -75,7 +75,7 @@ impl LayerEntry {
         Ok(MultiverifierInput {
             proof,
             preprocessed_root: self.preprocessed_root.clone(),
-            output_values: self.output_values,
+            output_digest: self.output_digest.into(),
         })
     }
 }
@@ -178,7 +178,7 @@ fn reduce(
     Ok(LayerEntry {
         proof_bytes,
         preprocessed_root: extracted.preprocessed_root,
-        output_values: extracted.output_values,
+        output_digest: extracted.output_digest,
         packed_output: PackedNode::Composite {
             circuit_hash: extracted.circuit_hash_words,
             subtasks,
@@ -188,14 +188,14 @@ fn reduce(
 
 /// The parent-entry data extracted from a freshly proven circuit proof: its preprocessed root (for
 /// the multiverifier input that re-verifies this node), the `circuit_hash` identifying the circuit
-/// (the unpacker's trust anchor, carried in `PackedNode`), and its circuit output values.
+/// (the unpacker's trust anchor, carried in `PackedNode`), and its circuit output digest.
 struct ExtractedProofData {
     preprocessed_root: HashValue<QM31>,
     circuit_hash_words: [u32; N_RESERVED],
-    output_values: [u32; N_RESERVED],
+    output_digest: [u32; N_RESERVED],
 }
 
-/// Extracts the parent entry's preprocessed root and output values from a freshly proven circuit
+/// Extracts the parent entry's preprocessed root and output digest from a freshly proven circuit
 /// proof. The claim's outputs are packed-`u32` `QM31`s; they are unpacked back to the raw digest
 /// words.
 fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>>(
@@ -207,10 +207,10 @@ fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>>(
     let circuit_hash_words = digest_bytes_to_words(&circuit_proof.circuit_hash.0);
     let outputs: Vec<u32> =
         circuit_proof.claim.output_values.iter().map(|qm31| qm31.unpack_u32()).collect();
-    let output_values: [u32; N_RESERVED] = outputs.try_into().map_err(|v: Vec<u32>| {
+    let output_digest: [u32; N_RESERVED] = outputs.try_into().map_err(|v: Vec<u32>| {
         RecursiveTreeError::BadOutputArity { expected: N_RESERVED, got: v.len() }
     })?;
-    Ok(ExtractedProofData { preprocessed_root, circuit_hash_words, output_values })
+    Ok(ExtractedProofData { preprocessed_root, circuit_hash_words, output_digest })
 }
 
 /// Reads a 32-byte digest as eight little-endian u32 words — the wire encoding of a preprocessed
