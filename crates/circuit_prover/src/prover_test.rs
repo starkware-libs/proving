@@ -206,7 +206,7 @@ fn stwo_verify(
     let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
     let verifier_channel = &mut Blake2sM31Channel::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.mix_into(verifier_channel);
+    pcs_config.fri_config.mix_into(verifier_channel);
     let commitment_scheme =
         &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(pcs_config);
 

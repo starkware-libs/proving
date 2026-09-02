@@ -14,7 +14,7 @@ use stwo_constraint_framework::{INTERACTION_TRACE_IDX, ORIGINAL_TRACE_IDX};
 
 use crate::channel::Channel;
 use crate::constraint_eval::compute_composition_polynomial;
-use crate::fri::{fri_commit, fri_decommit};
+use crate::fri::{fri_commit, fri_decommit, mix_fri_config};
 use crate::merkle::decommit_eval_domain_samples;
 use crate::oods::{collect_oods_responses, compute_fri_input, extract_expected_composition_eval};
 use crate::proof::{Proof, ProofConfig};
@@ -60,8 +60,8 @@ pub fn verify<Value: IValue>(
     // Mix the channel salt.
     channel.mix_qm31s(context, [proof.channel_salt]);
 
-    // Mix the pcs config.
-    config.mix_pcs_config(context, &mut channel);
+    // Mix the FRI config.
+    mix_fri_config(context, &mut channel, &config.fri);
 
     // Mix the preprocessed root (known from the statement) into the channel.
     let preprocessed_root = statement.get_preprocessed_root(context);

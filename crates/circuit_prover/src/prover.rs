@@ -127,7 +127,7 @@ where
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     let channel_salt = 0_u32;
     channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.mix_into(channel);
+    pcs_config.fri_config.mix_into(channel);
     let mut commitment_scheme = CommitmentSchemeProver::<SimdBackend, MC>::with_memory_pool(
         pcs_config,
         twiddles,

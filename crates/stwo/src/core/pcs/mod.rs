@@ -15,8 +15,6 @@ use serde::{Deserialize, Serialize};
 
 pub use self::utils::TreeVec;
 pub use self::verifier::CommitmentSchemeVerifier;
-use super::channel::Channel;
-use super::fields::qm31::SecureField;
 use super::fri::FriConfig;
 use super::verifier::PREPROCESSED_TRACE_IDX;
 
@@ -37,6 +35,11 @@ pub struct TreeSubspan {
 /// The lifting log sizes are the heights the trees are committed at: every column in a tree is
 /// lifted to its tree's height, which includes `fri_config.log_blowup_factor` and must dominate
 /// that tree's extended columns.
+///
+/// Only `fri_config` is mixed into the channel (see [`FriConfig::mix_into`]): the lifting log
+/// sizes are intentionally left out, as no verifier reads them off the proof. The Cairo verifier
+/// recomputes each tree's height from `fri_config.log_blowup_factor` and the committed columns'
+/// log sizes, and the circuit verifier has them hardcoded for its topology.
 pub struct PcsConfig {
     pub fri_config: FriConfig,
     /// The height of every committed tree but the preprocessed one.
@@ -70,29 +73,5 @@ impl PcsConfig {
         } else {
             self.trace_lifting_log_size
         }
-    }
-
-    pub fn mix_into(&self, channel: &mut impl Channel) {
-        // The lifting log sizes are intentionally not mixed in: no verifier reads them off the
-        // proof. The Cairo verifier recomputes each tree's height from
-        // `fri_config.log_blowup_factor` and the committed columns' log sizes, and the circuit
-        // verifier has them hardcoded for its topology.
-        let FriConfig {
-            pow_bits,
-            log_blowup_factor,
-            n_queries,
-            log_last_layer_degree_bound,
-            fold_step,
-        } = self.fri_config;
-
-        channel.mix_felts(&[
-            SecureField::from_u32_unchecked(
-                pow_bits,
-                log_blowup_factor,
-                n_queries as u32,
-                log_last_layer_degree_bound,
-            ),
-            SecureField::from_u32_unchecked(fold_step, 0, 0, 0),
-        ]);
     }
 }

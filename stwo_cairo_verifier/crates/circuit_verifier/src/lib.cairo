@@ -17,8 +17,7 @@ fn main(proof: CircuitProof) -> VerificationOutput {
     // Compute the circuit hash.
     let [preprocessed_commitment, _, _, _] = commitments.unbox();
     let circuit_hash = compute_circuit_hash(
-        proof.stark_proof.commitment_scheme_proof.config.fri_config.log_blowup_factor,
-        preprocessed_commitment,
+        proof.stark_proof.commitment_scheme_proof.config.log_blowup_factor, preprocessed_commitment,
     );
 
     // Verify the circuit proof; panics on an invalid proof.

@@ -14,7 +14,7 @@ fn verify_simple_proof() {
     // Verify.
     let verifier_channel = &mut Blake2sM31Channel::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
-    config.mix_into(verifier_channel);
+    config.fri_config.mix_into(verifier_channel);
     let commitment_scheme = &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(config);
 
     // Retrieve the expected column sizes in each commitment interaction, from the AIR.

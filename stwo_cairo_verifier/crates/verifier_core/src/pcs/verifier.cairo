@@ -4,7 +4,7 @@ use crate::channel::{Channel, ChannelTrait};
 use crate::circle::CirclePoint;
 use crate::fields::m31::M31;
 use crate::fields::qm31::{QM31, QM31Serde};
-use crate::fri::{FriProof, FriVerifierTrait};
+use crate::fri::{FriConfig, FriProof, FriVerifierTrait};
 use crate::pcs::quotients::fri_answers;
 use crate::utils::{
     ArrayImpl, ColumnsIndicesPerTreeByLogDegreeBound, DictImpl, SpanExTrait,
@@ -14,7 +14,6 @@ use crate::vcs::MerkleHasher;
 use crate::vcs::verifier::{MerkleDecommitment, MerkleVerifier, MerkleVerifierTrait};
 use crate::verifier::VerificationError;
 use crate::{ColumnSpan, Hash, TreeArray, TreeSpan, queries};
-use super::PcsConfig;
 
 /// Sanity check that the proof of work is not negligible.
 pub const MIN_POW_BITS: u32 = 20;
@@ -55,7 +54,7 @@ pub type QueriedValues = TreeArray<Span<M31>>;
 
 #[derive(Drop, Serde)]
 pub struct CommitmentSchemeProof {
-    pub config: PcsConfig,
+    pub config: FriConfig,
     pub commitments: TreeSpan<Hash>,
     pub sampled_values: SampledValues,
     pub decommitments: TreeArray<MerkleDecommitment<MerkleHasher>>,
@@ -132,7 +131,7 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         max_log_degree_bound: u32,
     ) {
         let CommitmentSchemeProof {
-            config,
+            config: fri_config,
             commitments: _,
             sampled_values,
             decommitments,
@@ -144,7 +143,6 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         mix_sampled_values(sampled_values, ref channel);
 
         let random_coeff = channel.draw_secure_felt();
-        let fri_config = config.fri_config;
 
         // FRI commitment phase on OODS quotients.
         let mut fri_verifier = FriVerifierTrait::commit(
@@ -152,9 +150,9 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         );
 
         // Verify proof of work.
-        assert!(config.fri_config.pow_bits >= MIN_POW_BITS);
+        assert!(fri_config.pow_bits >= MIN_POW_BITS);
         assert!(
-            channel.verify_pow_nonce(config.fri_config.pow_bits, proof_of_work_nonce),
+            channel.verify_pow_nonce(fri_config.pow_bits, proof_of_work_nonce),
             "{}",
             VerificationError::QueriesProofOfWork,
         );

@@ -72,6 +72,21 @@ impl FriConfig {
         Self { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step }
     }
 
+    pub fn mix_into(&self, channel: &mut impl Channel) {
+        let Self { pow_bits, log_blowup_factor, n_queries, log_last_layer_degree_bound, fold_step } =
+            self;
+
+        channel.mix_felts(&[
+            SecureField::from_u32_unchecked(
+                *pow_bits,
+                *log_blowup_factor,
+                (*n_queries).try_into().unwrap(),
+                *log_last_layer_degree_bound,
+            ),
+            SecureField::from_u32_unchecked(*fold_step, 0, 0, 0),
+        ]);
+    }
+
     pub const fn last_layer_domain_size(&self) -> usize {
         1 << (self.log_last_layer_degree_bound + self.log_blowup_factor)
     }

@@ -4,7 +4,7 @@ use circuit_air::CircuitAirNewImpl;
 use core::dict::{Felt252DictTrait, SquashedFelt252DictTrait};
 use core::num::traits::Zero;
 use multiverifier_consts::{
-    COMPONENT_LOG_SIZES, N_OUTPUTS, PREPROCESSED_COLUMN_LOG_SIZES, circuit_pcs_config,
+    COMPONENT_LOG_SIZES, N_OUTPUTS, PREPROCESSED_COLUMN_LOG_SIZES, circuit_fri_config,
 };
 use stwo_constraint_framework::LookupElementsImpl;
 pub use stwo_constraint_framework::{RelationUse, RelationUsesDict, accumulate_relation_uses};
@@ -14,7 +14,7 @@ use stwo_verifier_core::fields::m31::{M31Trait, P_U32};
 #[cfg(not(feature: "poseidon252_verifier"))]
 use stwo_verifier_core::fields::qm31::QM31Trait;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
-use stwo_verifier_core::pcs::PcsConfigTrait;
+use stwo_verifier_core::fri::FriConfigTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
 use stwo_verifier_core::utils::SpanExTrait;
 use stwo_verifier_core::verifier::{StarkProof, VerificationError, verify};
@@ -108,8 +108,8 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
 
     // Pin the proof's PCS config to the circuit's hardcoded canonical config. This rejects any
     // proof produced with weaker/mismatched FRI parameters.
-    let pcs_config = stark_proof.commitment_scheme_proof.config;
-    assert!(pcs_config == circuit_pcs_config(), "unexpected proof pcs config");
+    let fri_config = stark_proof.commitment_scheme_proof.config;
+    assert!(fri_config == circuit_fri_config(), "unexpected proof fri config");
 
     let component_log_sizes = COMPONENT_LOG_SIZES;
     verify_claim(component_log_sizes);
@@ -119,7 +119,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let channel_salt_as_felt: QM31 = M31Trait::reduce_u32(channel_salt).into();
     channel.mix_felts([channel_salt_as_felt].span());
 
-    pcs_config.mix_into(ref channel);
+    fri_config.mix_into(ref channel);
     let mut commitment_scheme = CommitmentSchemeVerifierImpl::new();
 
     // Unpack commitments.
@@ -141,7 +141,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let log_sizes_box: @Box<[Span<u32>; 3]> = log_sizes.span().try_into().unwrap();
     let [_, trace_log_sizes, interaction_trace_log_sizes] = log_sizes_box.unbox();
 
-    let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
+    let log_blowup_factor = fri_config.log_blowup_factor;
 
     // Preprocessed trace. The preprocessed column log sizes are the hardcoded ones rather than
     // the values derived from `component_log_sizes`. The preprocessed-trace commitment itself is

@@ -217,7 +217,7 @@ pub fn create_proof_with_fold_step(
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     let channel_salt = 0_u32;
     prover_channel.mix_felts(&[channel_salt.into()]);
-    config.mix_into(prover_channel);
+    config.fri_config.mix_into(prover_channel);
 
     let mut commitment_scheme =
         CommitmentSchemeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(config, &twiddles);
