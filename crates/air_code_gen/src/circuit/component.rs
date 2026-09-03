@@ -76,9 +76,11 @@ pub fn generate_circuit_constraints_code(
             let col_id =
                 air_fn.external_states.iter().next().expect("Expected at least one external state");
             log_size = quote! {
-                preprocessed_column_log_sizes
-                    .get(&PreProcessedColumnId { id: $(quoted(col_id)).to_string() })
-                    .cloned()
+                Some(
+                    *preprocessed_column_log_sizes
+                        .get(&PreProcessedColumnId { id: $(quoted(col_id)).to_string() })
+                        .unwrap()
+                )
             };
             preprocessed_column_log_sizes = quote! { preprocessed_column_log_sizes };
         }

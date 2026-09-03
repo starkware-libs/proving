@@ -85,7 +85,7 @@ impl<Value: IValue> CircuitEval<Value> for SquaredFibonacciComponent {
         &self,
         preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
     ) -> Option<u32> {
-        preprocessed_column_log_sizes.get(&self.preprocessed_column_id).cloned()
+        Some(*preprocessed_column_log_sizes.get(&self.preprocessed_column_id).unwrap())
     }
 
     fn evaluate(
