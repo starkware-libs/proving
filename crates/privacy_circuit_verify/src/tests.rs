@@ -13,25 +13,15 @@ use crate::consts::{
     PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
     PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, PRIVACY_TRANSACTION_COMPONENTS,
 };
-use crate::{
-    get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config,
-    get_recursive_circuit_config,
-};
+use crate::{get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config};
 
 const CONJECTURED_SECURITY_BITS: u32 = 96;
 
 #[test]
 fn check_proof_config() {
-    let proof_config = get_proof_config();
+    let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
     // All circuit components should be enabled.
     assert!(proof_config.component_shapes.iter().all(|s| s.trace_columns > 0));
-}
-
-#[test]
-fn check_recursive_circuit_config_log_sizes() {
-    let config = get_recursive_circuit_config();
-    let log_sizes: Vec<u32> = config.preprocessed_column_log_sizes.values().copied().collect();
-    assert_eq!(log_sizes.as_slice(), PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES);
 }
 
 #[test]
@@ -139,7 +129,7 @@ pub mod slow_tests {
     use tracing_subscriber::fmt;
 
     use crate::consts::{CAIRO_PROOF_UNCOMPRESSED_BYTES, RECURSIVE_PROOF_UNCOMPRESSED_BYTES};
-    use crate::get_proof_config;
+    use crate::{PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, get_proof_config};
 
     #[test]
     fn check_recursive_circuit_proof_deserializes() {
@@ -151,8 +141,8 @@ pub mod slow_tests {
         let precomputes = prepare_recursive_prover_precomputes().unwrap();
         let proof_output = privacy_recursive_prove(pie, precomputes).unwrap();
 
-        let proof_config = get_proof_config();
-        let (_version, compressed_proof) = crate::split_proof_version(&proof_output.proof).unwrap();
+        let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
+        let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
         let proof_bytes = crate::decompress_proof(
             compressed_proof,
             crate::consts::MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES,
@@ -176,7 +166,7 @@ pub mod slow_tests {
         let pie = CairoPie::read_zip_file(&pie_path).unwrap();
         let proof_output = privacy_prove::privacy_prove(pie).unwrap();
 
-        let (_version, compressed_proof) = crate::split_proof_version(&proof_output.proof).unwrap();
+        let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
         let proof_bytes = zstd::decode_all(compressed_proof).unwrap();
         assert_eq!(
             proof_bytes.len(),
@@ -196,7 +186,7 @@ pub mod slow_tests {
         let precomputes = prepare_recursive_prover_precomputes().unwrap();
         let proof_output = privacy_recursive_prove(pie, precomputes).unwrap();
 
-        let (_version, compressed_proof) = crate::split_proof_version(&proof_output.proof).unwrap();
+        let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
         let proof_bytes = zstd::decode_all(compressed_proof).unwrap();
         assert_eq!(
             proof_bytes.len(),

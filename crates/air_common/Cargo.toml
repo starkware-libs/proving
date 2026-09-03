@@ -5,7 +5,8 @@ edition.workspace = true
 
 [dependencies]
 serde = { workspace = true, features = ["derive", "rc"] }
-serde_json.workspace = true
+# `preserve_order`: see the note in `air_infra/Cargo.toml`.
+serde_json = { workspace = true, features = ["preserve_order"] }
 convert_case.workspace = true
 
 stwo-cairo-common.workspace = true

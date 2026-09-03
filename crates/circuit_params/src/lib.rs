@@ -12,7 +12,7 @@ use std::sync::Arc;
 
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
 use circuit_cairo_verifier::utils::load_program;
-use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
+use circuit_cairo_verifier::verify::{NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit};
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
@@ -61,6 +61,10 @@ pub struct CircuitBuilder {
     pub program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
     /// FRI config of the verified Cairo proofs.
     pub cairo_fri_config: FriConfig,
+    /// FRI config used to prove the leaf circuits
+    pub circuit_fri_config: FriConfig,
+    /// Whether to add zk blinding to the circuit.
+    pub add_zk_blinding: bool,
 }
 
 impl CircuitBuilder {
@@ -95,6 +99,7 @@ impl CircuitBuilder {
             &self.cairo_pcs_config(trace_log_size),
             self.program.clone(),
             preprocessed_root,
+            self.add_zk_blinding.then_some(self.circuit_fri_config.n_queries + NON_QUERY_INFO_LEAK),
         );
 
         build_cairo_verifier_circuit(&verifier_config)
@@ -208,6 +213,8 @@ pub struct RegistryDefinition {
     pub max_trace_log_size: u32,
     /// Pads the shared target to another registry's shape (see [`padded_shared_target`]).
     pub pad_to_component_log_sizes: Option<LogSizes>,
+    /// Whether to add ZK blinding to the leaf circuits
+    pub add_zk_blinding: bool,
 }
 
 impl RegistryDefinition {
@@ -246,6 +253,8 @@ impl RegistryDefinition {
             preprocessed_trace: cairo_params.preprocessed_trace,
             program: load_program(&self.program),
             cairo_fri_config: cairo_params.fri_config,
+            circuit_fri_config: self.circuit_fri_config(),
+            add_zk_blinding: self.add_zk_blinding,
         };
         let leaves_max_sizes = (self.min_trace_log_size..=self.max_trace_log_size)
             .map(|trace_log_size| {

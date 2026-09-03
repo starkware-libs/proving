@@ -54,7 +54,9 @@ fn get_preprocessed_cairo_verifier(
     pcs_config: PcsConfig,
     target_padding: Option<ComponentSizes>,
 ) -> (PreprocessedCircuit, FinalizedContext<NoValue>) {
-    let const_config = privacy_cairo_verifier_config(pcs_config.fri_config.log_blowup_factor);
+    // TODO(az-starkware): Use same ZK blinding as the production flow
+    // (Some(PCS_CONFIG.fri_config.n_queries))
+    let const_config = privacy_cairo_verifier_config(pcs_config.fri_config.log_blowup_factor, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     if let Some(target_padding) = target_padding {
         pad_to_targets(&mut novalue_context, &target_padding);
@@ -161,7 +163,9 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
     let proof_file = File::open(proof_path).expect("test_data/privacy/proof.bin must exist");
     let cairo_proof = binary_deserialize_from_file(&proof_file).expect("read cairo proof");
 
-    let const_config = privacy_cairo_verifier_config(LOG_BLOWUP_FACTOR);
+    // TODO(az-starkware): Use same ZK blinding as the production flow
+    // (Some(PCS_CONFIG.fri_config.n_queries))
+    let const_config = privacy_cairo_verifier_config(LOG_BLOWUP_FACTOR, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     pad_to_targets(&mut novalue_context, &TARGET_PADDING_SIZES);
     let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
@@ -181,7 +185,7 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
     prepare_circuit_proof_for_circuit_verifier(circuit_proof)
 }
 
-/// Regression test on the Cairo verifier proof.
+/// Make sure that the cairo verifier proof is up-to-date.
 ///
 /// Builds and proves the Cairo verifier circuit on the privacy proof (via
 /// [`prove_privacy_with_recursion_and_prepare`]) and asserts its public outputs match

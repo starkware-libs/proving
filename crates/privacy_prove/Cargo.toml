@@ -21,6 +21,8 @@ zstd.workspace = true
 # local crates
 cairo-program-runner-lib.workspace = true
 privacy-circuit-verify.workspace = true
+leaf-proof-format.workspace = true
+leaf-prover.workspace = true
 
 # cairo-vm
 cairo-vm = { workspace = true, features = [
@@ -42,6 +44,7 @@ circuit-serialize.workspace = true
 circuit-prover.workspace = true
 circuit-common.workspace = true
 circuit-verifier.workspace = true
+circuits.workspace = true
 
 # stwo
 stwo = { workspace = true, features = ["parallel"] }

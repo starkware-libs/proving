@@ -30,7 +30,7 @@ use circuit_params::{
     CircuitBuilder, DUMMY_PREPROCESSED_ROOT, RegistryDefinition, component_sizes,
     padded_preprocessed_circuit, padded_shared_target, read_params,
 };
-use circuit_prover::circuit_hash::preprocessed_circuit_hash;
+use circuit_prover::circuit_hash::circuit_hash_and_preprocessed_root;
 use circuit_registry::{
     CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier,
 };
@@ -88,14 +88,6 @@ fn preprocessed_layout(
     (circuit.trace_log_size, circuit.preprocessed_trace.log_sizes())
 }
 
-/// The circuit hash of a padded, preprocessed circuit, as eight little-endian Blake2s words.
-fn circuit_hash_hex(
-    preprocessed_circuit: &PreprocessedCircuit,
-    circuit_log_blowup_factor: u32,
-) -> DigestHex {
-    DigestHex::from(preprocessed_circuit_hash(preprocessed_circuit, circuit_log_blowup_factor).0)
-}
-
 fn main() -> ExitCode {
     run_binary(run, "circuit_params")
 }
@@ -114,6 +106,8 @@ fn run() -> Result<(), String> {
         preprocessed_trace: cairo_params.preprocessed_trace,
         program,
         cairo_fri_config: cairo_params.fri_config,
+        circuit_fri_config,
+        add_zk_blinding: definition.add_zk_blinding,
     };
     let trace_log_sizes = definition.min_trace_log_size..=definition.max_trace_log_size;
 
@@ -164,10 +158,14 @@ fn run() -> Result<(), String> {
                 "the leaf circuit for trace log size {trace_log_size} does not have the shared \
                  preprocessed layout"
             );
+            let (circuit_hash, preprocessed_root) =
+                circuit_hash_and_preprocessed_root(padded_leaf, circuit_log_blowup_factor);
             LeafVerifier {
                 config: CONFIG_ID.to_string(),
                 trace_log_size,
-                circuit_hash: circuit_hash_hex(padded_leaf, circuit_log_blowup_factor),
+                circuit_hash: DigestHex::from(circuit_hash.0),
+                preprocessed_root: DigestHex::from(preprocessed_root.0),
+                zk_blinding: definition.add_zk_blinding,
             }
         };
         // Pass 2: each leaf's identity — its circuit hash, which needs the real Cairo root. Both
@@ -185,10 +183,15 @@ fn run() -> Result<(), String> {
 
         // The multiverifier verifies two proofs of the leaf circuit, hence
         // `input_configs = [CONFIG_ID, CONFIG_ID]`.
+        let (mv_circuit_hash, mv_preprocessed_root) = circuit_hash_and_preprocessed_root(
+            &preprocessed_multiverifier,
+            circuit_log_blowup_factor,
+        );
         let multiverifiers = vec![Multiverifier {
             config: CONFIG_ID.to_string(),
             input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
-            circuit_hash: circuit_hash_hex(&preprocessed_multiverifier, circuit_log_blowup_factor),
+            circuit_hash: DigestHex::from(mv_circuit_hash.0),
+            preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
         }];
 
         let registry = CircuitRegistry {

@@ -1,0 +1,8 @@
+{
+    "cairo_prover_params_json": "circuit_registry_definitions/privacy_large_proofs/cairo_prover_params.json",
+    "circuit_fri_config_json": "circuit_registry_definitions/privacy_large_proofs/circuit_fri_config.json",
+    "program": "crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/leaf_simple_bootloader_compiled.json",
+    "min_trace_log_size": 25,
+    "max_trace_log_size": 29,
+    "add_zk_blinding": true
+}
