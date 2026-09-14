@@ -26,13 +26,8 @@ use super::types::{CircuitApplicativeBootloaderInput, MockCircuitVerifierInput, 
 use super::utils::get_program_input_value;
 use super::{SimpleBootloaderInput, vars};
 
-/// Scope variable holding the current packed-output tree node (a [`PackedNode`]).
+/// Scope variable holding the current node of the `PackedNode` tree.
 const NODE: &str = "node";
-
-fn felt_from_decimal_str(s: &str) -> Result<Felt252, HintError> {
-    Felt252::from_dec_str(s)
-        .map_err(|e| HintError::CustomHint(format!("Invalid decimal felt '{s}': {e:?}").into()))
-}
 
 /// Loads a list of u32 words into a fresh memory segment and returns its base.
 fn load_words_segment(
@@ -133,9 +128,8 @@ pub fn circuit_applicative_setup_verifier_run(
 ///
 /// The hint is used to:
 /// 1. Restore the applicative output builtin state.
-/// 2. Allocate the bootloader-tasks-output segment (ids.bootloader_tasks_output_ptr).
-/// 3. Build the unpacker config from the input's supported circuit hashes (ids.config).
-/// 4. Set the packed-output root as the current `node` scope variable.
+/// 2. Build the unpacker config from the input's supported circuit hashes (ids.config).
+/// 3. Enter a scope with a `NODE` variable set to the relevant `PackedNode` object.
 pub fn circuit_applicative_setup_unpack(
     vm: &mut VirtualMachine,
     exec_scopes: &mut ExecutionScopes,
@@ -145,15 +139,6 @@ pub fn circuit_applicative_setup_unpack(
     let output_builtin_state: OutputBuiltinState =
         exec_scopes.get(vars::APPLICATIVE_OUTPUT_BUILTIN_STATE)?;
     vm.get_output_builtin_mut()?.set_state(output_builtin_state);
-
-    let tasks_output_base = vm.add_memory_segment();
-    insert_value_from_var_name(
-        "bootloader_tasks_output_ptr",
-        tasks_output_base,
-        vm,
-        ids_data,
-        ap_tracking,
-    )?;
 
     let input: &CircuitApplicativeBootloaderInput =
         exec_scopes.get_ref(vars::CIRCUIT_APPLICATIVE_BOOTLOADER_INPUT)?;
@@ -346,39 +331,6 @@ pub fn circuit_unpack_exit_scope(exec_scopes: &mut ExecutionScopes) -> Result<()
     exec_scopes.exit_scope().map_err(HintError::FromScopeError)
 }
 
-/// Implements hint: %{ CIRCUIT_UNPACK_SET_LEAF_DATA %}
-///
-/// Sets ids.preimage / ids.preimage_len to the current leaf's raw `Plain.output_preimage` felts
-/// (loaded into a fresh segment).
-pub fn circuit_unpack_set_leaf_data(
-    vm: &mut VirtualMachine,
-    exec_scopes: &mut ExecutionScopes,
-    ids_data: &HashMap<String, HintReference>,
-    ap_tracking: &ApTracking,
-) -> Result<(), HintError> {
-    let node = get_node(exec_scopes)?;
-    let PackedNode::Plain { output_preimage } = &composite_subtasks(node)?[0] else {
-        return Err(HintError::CustomHint("Leaf subtask is not a Plain preimage reveal.".into()));
-    };
-
-    let preimage: Vec<Felt252> =
-        output_preimage.iter().map(|s| felt_from_decimal_str(s)).collect::<Result<_, _>>()?;
-
-    let preimage_base = vm.add_memory_segment();
-    let data: Vec<MaybeRelocatable> = preimage.iter().map(|f| MaybeRelocatable::from(*f)).collect();
-    vm.load_data(preimage_base, &data).map_err(HintError::Memory)?;
-    insert_value_from_var_name("preimage", preimage_base, vm, ids_data, ap_tracking)?;
-    insert_value_from_var_name(
-        "preimage_len",
-        Felt252::from(preimage.len() as u64),
-        vm,
-        ids_data,
-        ap_tracking,
-    )?;
-
-    Ok(())
-}
-
 /// Implements hint: %{ CIRCUIT_APPLICATIVE_WRITE_FACT_TOPOLOGY %}
 ///
 /// The hint is used to:
@@ -387,7 +339,7 @@ pub fn circuit_unpack_set_leaf_data(
 /// 2. Configure the output builtin pages.
 /// 3. Dump the topologies file.
 ///
-/// It reads ids.output_start, ids.bootloader_tasks_output_ptr and ids.tasks_output_end.
+/// It reads ids.output_start, ids.aggregator_input_ptr and ids.tasks_output_end.
 pub fn circuit_applicative_write_fact_topology(
     vm: &mut VirtualMachine,
     exec_scopes: &mut ExecutionScopes,
@@ -408,7 +360,7 @@ pub fn circuit_applicative_write_fact_topology(
 
     let tasks_output_end = get_ptr_from_var_name("tasks_output_end", vm, ids_data, ap_tracking)?;
     let tasks_output_start =
-        get_ptr_from_var_name("bootloader_tasks_output_ptr", vm, ids_data, ap_tracking)?;
+        get_ptr_from_var_name("aggregator_input_ptr", vm, ids_data, ap_tracking)?;
     let bootloader_tasks_output_length = tasks_output_end.offset - tasks_output_start.offset;
 
     let first_page_length =
@@ -671,48 +623,6 @@ mod tests {
     }
 
     #[test]
-    fn test_set_leaf_data() {
-        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["preimage", "preimage_len"]);
-        let mut exec_scopes = scopes_with_node(leaf_node(20));
-        circuit_unpack_set_leaf_data(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking).unwrap();
-
-        assert_eq!(
-            get_integer_from_var_name("preimage_len", &vm, &ids_data, &ap_tracking).unwrap(),
-            Felt252::from(3)
-        );
-        let preimage_ptr = get_ptr_from_var_name("preimage", &vm, &ids_data, &ap_tracking).unwrap();
-        let preimage: Vec<Felt252> = vm
-            .get_integer_range(preimage_ptr, 3)
-            .unwrap()
-            .into_iter()
-            .map(|f| *f.as_ref())
-            .collect();
-        assert_eq!(preimage, vec![Felt252::from(7), Felt252::from(11), Felt252::from(13)]);
-    }
-
-    #[test]
-    fn test_set_leaf_data_rejects_malformed_leaves() {
-        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["preimage", "preimage_len"]);
-
-        // The leaf's subtask is not a Plain preimage reveal.
-        let mut exec_scopes = scopes_with_node(internal_node(10, leaf_node(20), leaf_node(20)));
-        assert!(
-            circuit_unpack_set_leaf_data(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
-                .is_err()
-        );
-
-        // A non-decimal felt in the preimage.
-        let mut exec_scopes = scopes_with_node(PackedNode::Composite {
-            circuit_hash: sample_digest(20),
-            subtasks: vec![PackedNode::Plain { output_preimage: vec!["0xabc".to_string()] }],
-        });
-        assert!(
-            circuit_unpack_set_leaf_data(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
-                .is_err()
-        );
-    }
-
-    #[test]
     fn test_load_mock_circuit_verifier_input() {
         let (mut vm, ids_data, ap_tracking) =
             vm_with_ids(&["circuit_hash", "output_values", "n_steps"]);
@@ -877,8 +787,7 @@ mod tests {
 
     #[test]
     fn test_setup_unpack() {
-        let (mut vm, ids_data, ap_tracking) =
-            vm_with_ids(&["bootloader_tasks_output_ptr", "config"]);
+        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config"]);
         add_output_builtin(&mut vm);
         let applicative_segment = vm.add_memory_segment();
         let input = sample_input();
@@ -920,14 +829,12 @@ mod tests {
             .collect();
         assert_eq!(words, expected);
 
-        // The packed-output root node scope was entered.
         assert_eq!(*get_node(&exec_scopes).unwrap(), input.packed_output);
     }
 
     #[test]
     fn test_setup_unpack_rejects_malformed_circuit_hashes() {
-        let (mut vm, ids_data, ap_tracking) =
-            vm_with_ids(&["bootloader_tasks_output_ptr", "config"]);
+        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config"]);
         add_output_builtin(&mut vm);
         let mut input = sample_input();
         input.supported_circuit_hashes = vec![vec![1, 2, 3]];
@@ -946,10 +853,10 @@ mod tests {
     #[test]
     fn test_write_fact_topology() {
         let (mut vm, ids_data, ap_tracking) =
-            vm_with_ids(&["output_start", "bootloader_tasks_output_ptr", "tasks_output_end"]);
+            vm_with_ids(&["output_start", "aggregator_input_ptr", "tasks_output_end"]);
         let output_segment = add_output_builtin(&mut vm);
 
-        // The unpacked tasks output spans 4 cells; the aggregator's single-page topology gets its
+        // The tasks output spans 4 cells; the aggregator's single-page topology gets its
         // first page resized by -4 (removed tasks output) + 2 (added header).
         let tasks_segment = vm.add_memory_segment();
         insert_value_from_var_name(
@@ -961,7 +868,7 @@ mod tests {
         )
         .unwrap();
         insert_value_from_var_name(
-            "bootloader_tasks_output_ptr",
+            "aggregator_input_ptr",
             tasks_segment,
             &mut vm,
             &ids_data,
@@ -999,7 +906,7 @@ mod tests {
     #[test]
     fn test_write_fact_topology_requires_single_aggregator_topology() {
         let (mut vm, ids_data, ap_tracking) =
-            vm_with_ids(&["output_start", "bootloader_tasks_output_ptr", "tasks_output_end"]);
+            vm_with_ids(&["output_start", "aggregator_input_ptr", "tasks_output_end"]);
         let mut exec_scopes = ExecutionScopes::new();
         exec_scopes.insert_value(vars::AGGREGATOR_FACT_TOPOLOGIES, Vec::<FactTopology>::new());
         assert!(
@@ -1026,20 +933,6 @@ mod tests {
                 &ap_tracking
             )
             .is_err()
-        );
-    }
-
-    #[test]
-    fn test_set_leaf_data_rejects_non_plain_reveal() {
-        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["preimage", "preimage_len"]);
-        // A single-subtask Composite whose subtask is not the Plain preimage reveal.
-        let mut exec_scopes = scopes_with_node(PackedNode::Composite {
-            circuit_hash: sample_digest(20),
-            subtasks: vec![leaf_node(10)],
-        });
-        assert!(
-            circuit_unpack_set_leaf_data(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
-                .is_err()
         );
     }
 
@@ -1088,20 +981,9 @@ mod tests {
     }
 
     #[test]
-    fn test_set_leaf_data_requires_ids() {
-        // The last insert (preimage_len) fails when its ids variable is absent.
-        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["preimage"]);
-        let mut exec_scopes = scopes_with_node(leaf_node(20));
-        assert!(
-            circuit_unpack_set_leaf_data(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
-                .is_err()
-        );
-    }
-
-    #[test]
     fn test_write_fact_topology_unwritable_path_fails() {
         let (mut vm, ids_data, ap_tracking) =
-            vm_with_ids(&["output_start", "bootloader_tasks_output_ptr", "tasks_output_end"]);
+            vm_with_ids(&["output_start", "aggregator_input_ptr", "tasks_output_end"]);
         let output_segment = add_output_builtin(&mut vm);
         let tasks_segment = vm.add_memory_segment();
         insert_value_from_var_name(
@@ -1113,7 +995,7 @@ mod tests {
         )
         .unwrap();
         insert_value_from_var_name(
-            "bootloader_tasks_output_ptr",
+            "aggregator_input_ptr",
             tasks_segment,
             &mut vm,
             &ids_data,

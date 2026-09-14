@@ -554,7 +554,9 @@ pub struct MockCircuitVerifierInput {
 pub struct CircuitApplicativeBootloaderInput {
     pub aggregator_task: TaskSpec,
     pub verifier_task: TaskSpec,
-    /// The recursive tree prover's packed-output tree (its `root_packed.json` content).
+    /// The recursive tree's node tree (its `root_packed.json` content).
+    // TODO(yairv): rename this field (renaming requires changing the field name in the Python
+    // input object too).
     pub packed_output: PackedNode,
     /// Supported circuit hashes (eight little-endian u32 words each) — the unpacking's trust
     /// anchors. Role-agnostic: each packed node carries its own circuit hash, which must appear

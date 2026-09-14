@@ -27,8 +27,8 @@ use super::circuit_applicative_bootloader_hints::{
     circuit_applicative_write_fact_topology, circuit_unpack_enter_subtask_0,
     circuit_unpack_enter_subtask_1, circuit_unpack_exit_scope,
     circuit_unpack_set_circuit_hash_index, circuit_unpack_set_is_leaf,
-    circuit_unpack_set_is_self_fold, circuit_unpack_set_leaf_data,
-    load_circuit_applicative_bootloader_input, load_mock_circuit_verifier_input,
+    circuit_unpack_set_is_self_fold, load_circuit_applicative_bootloader_input,
+    load_mock_circuit_verifier_input,
 };
 use super::concat_aggregator_hints::{
     concat_aggregator_get_handle_task_output, concat_aggregator_parse_task,
@@ -252,9 +252,6 @@ impl HintProcessorLogic for MinimalBootloaderHintProcessor {
             CIRCUIT_UNPACK_ENTER_SUBTASK_0 => circuit_unpack_enter_subtask_0(exec_scopes),
             CIRCUIT_UNPACK_ENTER_SUBTASK_1 => circuit_unpack_enter_subtask_1(exec_scopes),
             CIRCUIT_UNPACK_EXIT_SCOPE => circuit_unpack_exit_scope(exec_scopes),
-            CIRCUIT_UNPACK_SET_LEAF_DATA => {
-                circuit_unpack_set_leaf_data(vm, exec_scopes, ids_data, ap_tracking)
-            }
             MOCK_CIRCUIT_VERIFIER_LOAD_INPUT => {
                 load_mock_circuit_verifier_input(vm, exec_scopes, ids_data, ap_tracking)
             }
