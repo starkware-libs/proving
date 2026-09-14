@@ -3,7 +3,7 @@ use bounded_int::impls::*;
 use core::array::SpanTrait;
 use core::poseidon::{hades_permutation, poseidon_hash_span};
 use core::traits::DivRem;
-use stwo_verifier_utils::{MemorySection, deconstruct_f252, hash_u32s_with_state};
+use stwo_verifier_utils::{MemorySection, deconstruct_f252, hash_state_with_u32s};
 use crate::SecureField;
 use crate::fields::m31::{M31, M31Trait};
 use crate::fields::qm31::QM31Trait;
@@ -82,8 +82,8 @@ pub impl Poseidon252ChannelImpl of ChannelTrait {
             ids.append(*id);
             flat_values.append_span((*val).span());
         }
-        let ids_hash = hash_u32s_with_state(self.digest, ids.span());
-        let values_hash = hash_u32s_with_state(ids_hash, flat_values.span());
+        let ids_hash = hash_state_with_u32s(self.digest, ids.span());
+        let values_hash = hash_state_with_u32s(ids_hash, flat_values.span());
 
         update_digest(ref self, values_hash);
     }

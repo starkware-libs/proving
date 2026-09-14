@@ -100,6 +100,15 @@ pub fn encode_felt_in_limbs_to_array(felt: [u32; 8], ref array: Array<u32>) {
     }
 }
 
+/// `blake2s(data || digest)` in one pass: the digest's words follow `data` in the same word
+/// stream, not a hash of a hash.
+pub fn hash_u32s_followed_by_digest(data: Span<u32>, digest: Box<[u32; 8]>) -> Box<[u32; 8]> {
+    let mut words = array![];
+    words.append_span(data);
+    words.append_span(digest.unbox().span());
+    hash_u32s(words.span())
+}
+
 pub fn hash_u32s(mut values: Span<u32>) -> Box<[u32; 8]> {
     let mut state = BoxTrait::new(BLAKE2S_256_INITIAL_STATE);
     let mut byte_count = 0;

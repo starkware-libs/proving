@@ -35,12 +35,10 @@ pub fn hash_memory_section(section: MemorySection) -> Box<[u32; 8]> {
     deconstruct_f252(poseidon_hash_span(felts.span()))
 }
 
-/// Returns the hash of the given state and data.
-pub fn hash_u32s_with_state(state: felt252, data: Span<u32>) -> felt252 {
-    let mut res = array![state];
-
-    let mut data = data;
-
+/// Appends `data` to `res` as felt252s, seven big-endian u32s each. The last felt is zero-padded
+/// and carries its real word count in its high bits, so inputs of different lengths cannot pack
+/// to the same felts — the encoding `construct_felt252s_from_u32s` uses on the Rust side.
+fn append_packed_u32s(mut data: Span<u32>, ref res: Array<felt252>) {
     while let Some(chunk) = data.multi_pop_front::<7>() {
         res.append(construct_f252_be(*chunk));
     }
@@ -58,6 +56,21 @@ pub fn hash_u32s_with_state(state: felt252, data: Span<u32>) -> felt252 {
         // See also the docstring of [`crate::utils::add_length_padding`].
         res.append(add_length_padding(chunk_as_f252, data.len()));
     }
+}
 
+/// Returns `poseidon(state || data)`: the state absorbed first, then the words packed seven to a
+/// felt252.
+pub fn hash_state_with_u32s(state: felt252, data: Span<u32>) -> felt252 {
+    let mut res = array![state];
+    append_packed_u32s(data, ref res);
+    poseidon_hash_span(res.span())
+}
+
+/// `poseidon(data || hash)` in one pass: the words packed seven to a felt252, then the digest as
+/// the final element.
+pub fn hash_u32s_followed_by_digest(data: Span<u32>, hash: felt252) -> felt252 {
+    let mut res = array![];
+    append_packed_u32s(data, ref res);
+    res.append(hash);
     poseidon_hash_span(res.span())
 }

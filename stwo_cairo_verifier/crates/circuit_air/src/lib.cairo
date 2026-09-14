@@ -11,15 +11,15 @@ pub use stwo_constraint_framework::{RelationUse, RelationUsesDict, accumulate_re
 use stwo_verifier_core::Hash;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::m31::{M31Trait, P_U32};
-#[cfg(not(feature: "poseidon252_verifier"))]
-use stwo_verifier_core::fields::qm31::QM31Trait;
-use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
+use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
 use stwo_verifier_core::pcs::PcsConfigTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
 use stwo_verifier_core::utils::SpanExTrait;
 use stwo_verifier_core::verifier::{StarkProof, VerificationError, verify};
 #[cfg(not(feature: "poseidon252_verifier"))]
 use stwo_verifier_utils::blake2s::hash_u32s;
+#[cfg(feature: "poseidon252_verifier")]
+use stwo_verifier_utils::poseidon252::hash_state_with_u32s;
 
 pub mod circuit_air;
 
@@ -64,15 +64,9 @@ pub struct VerificationOutput {
 /// The u32 wire encoding's limb bound and shift: each limb is a u16.
 const U16_SHIFT: u32 = 0x10000;
 
-/// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`, where each
-/// output value is the circuit's wire encoding `(low_u16, high_u16, 0, 0)` of one u32 word and
-/// contributes the recombined word.
-#[cfg(not(feature: "poseidon252_verifier"))]
-pub fn get_verification_output(
-    circuit_hash: Hash, output_values: Span<QM31>,
-) -> VerificationOutput {
-    let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
-    let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
+/// Recombines each output value from the circuit's wire encoding `(low_u16, high_u16, 0, 0)` into
+/// one u32 word and appends it to `words`.
+fn append_output_words(output_values: Span<QM31>, ref words: Array<u32>) {
     for value in output_values {
         let [lo, hi, c2, c3] = (*value).to_fixed_array();
         let lo: u32 = lo.into();
@@ -85,14 +79,29 @@ pub fn get_verification_output(
         );
         words.append(lo + hi * U16_SHIFT);
     }
+}
+
+/// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`, where each
+/// output value is the circuit's wire encoding `(low_u16, high_u16, 0, 0)` of one u32 word and
+/// contributes the recombined word.
+#[cfg(not(feature: "poseidon252_verifier"))]
+pub fn get_verification_output(
+    circuit_hash: Hash, output_values: Span<QM31>,
+) -> VerificationOutput {
+    let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
+    let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
+    append_output_words(output_values, ref words);
     VerificationOutput { output_hash: Hash { hash: hash_u32s(words.span()) } }
 }
 
+/// Returns `poseidon(circuit_hash || output_words).`
 #[cfg(feature: "poseidon252_verifier")]
 pub fn get_verification_output(
     circuit_hash: Hash, output_values: Span<QM31>,
 ) -> VerificationOutput {
-    panic!("the privacy recursive circuit verifier only supports the blake2s hasher")
+    let mut words = array![];
+    append_output_words(output_values, ref words);
+    VerificationOutput { output_hash: hash_state_with_u32s(circuit_hash, words.span()) }
 }
 
 pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
