@@ -65,7 +65,7 @@ where
     // the composition polynomial is split prior to LDE).
     let twiddles = SimdBackend::precompute_twiddles(
         CanonicCoset::new(
-            preprocessed_circuit.trace_log_size
+            preprocessed_circuit.trace_log_size()
                 + std::cmp::max(
                     pcs_config.fri_config.log_blowup_factor,
                     COMPOSITION_POLYNOMIAL_LOG_DEGREE_BOUND,
@@ -111,12 +111,8 @@ where
     SimdBackend: stwo::prover::backend::BackendForChannel<MC>,
     <MC::H as MerkleHasherLifted>::Hash: Into<Blake2sHash>,
 {
-    let PreprocessedCircuit {
-        preprocessed_trace,
-        first_permutation_row,
-        n_outputs,
-        trace_log_size: _,
-    } = preprocessed_circuit;
+    let PreprocessedCircuit { preprocessed_trace, first_permutation_row, n_outputs } =
+        preprocessed_circuit;
     let trace_generator = TraceGenerator {
         qm31_ops_trace_generator: Qm31OpsTraceGenerator {
             first_permutation_row: *first_permutation_row,

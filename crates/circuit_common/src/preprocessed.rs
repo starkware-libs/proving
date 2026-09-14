@@ -464,6 +464,15 @@ impl PreProcessedTrace {
         self.columns.iter().map(|(id, column)| (id.clone(), column.len().ilog2())).collect()
     }
 
+    /// Log2 of the trace size: the largest column's log size.
+    pub fn trace_log_size(&self) -> u32 {
+        self.columns
+            .values()
+            .map(|column| column.len().ilog2())
+            .max()
+            .expect("the preprocessed trace is non-empty")
+    }
+
     pub fn ids(&self) -> Vec<PreProcessedColumnId> {
         self.columns.keys().cloned().collect()
     }
@@ -503,8 +512,6 @@ pub struct PreprocessedCircuit {
     /// The fixed preprocessed trace columns, shared (via `Arc`) between the prover and the
     /// components that read them during witness generation.
     pub preprocessed_trace: Arc<PreProcessedTrace>,
-    /// Log2 of the circuit's base trace size, this is the largest preprocessed column log size.
-    pub trace_log_size: u32,
     /// Index of the first permutation row in the qm31_ops component, i.e. the number of
     /// (non-permutation) binary-op rows that precede the permutation rows.
     pub first_permutation_row: usize,
@@ -519,6 +526,11 @@ impl PreprocessedCircuit {
         Self::from_finalized_circuit(context.circuit())
     }
 
+    /// Log2 of the circuit's base trace size: the largest preprocessed column's log size.
+    pub fn trace_log_size(&self) -> u32 {
+        self.preprocessed_trace.trace_log_size()
+    }
+
     /// The Merkle root of this circuit's preprocessed trace, committed exactly as
     /// [`stwo::prover::CommitmentTreeProver`] does inside the circuit prover, so the result equals
     /// tree 0's commitment in a proof of this circuit.
@@ -527,7 +539,7 @@ impl PreprocessedCircuit {
     /// which also fixes the lifting log size at `trace_log_size + log_blowup_factor`.
     #[cfg(feature = "prover")]
     pub fn preprocessed_root(&self, log_blowup_factor: u32) -> Blake2sHash {
-        let lifting_log_size = self.trace_log_size + log_blowup_factor;
+        let lifting_log_size = self.trace_log_size() + log_blowup_factor;
         let twiddles = SimdBackend::precompute_twiddles(
             CanonicCoset::new(lifting_log_size).circle_domain().half_coset,
         );
@@ -589,12 +601,8 @@ impl PreprocessedCircuit {
         PreProcessedTrace::add_fixed_preprocessed_columns(&mut pp_trace);
         pp_trace.sort_by_size();
 
-        // The log trace size is The largest preprocessed column log size.
-        let trace_log_size = pp_trace.log_sizes().values().copied().max().unwrap();
-
         Self {
             preprocessed_trace: Arc::new(pp_trace),
-            trace_log_size,
             first_permutation_row: qm31_ops_trace_generator.first_permutation_row,
             // Discard the output gate of the `u` wire.
             n_outputs: output.len() - 1,

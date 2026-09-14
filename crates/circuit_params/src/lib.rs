@@ -120,7 +120,7 @@ impl CircuitBuilder {
             &preprocessed_leaf,
             PcsConfig::from_fri_and_trace_size(
                 circuit_fri_config,
-                preprocessed_leaf.trace_log_size,
+                preprocessed_leaf.trace_log_size(),
             ),
         )
     }

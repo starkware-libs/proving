@@ -117,7 +117,7 @@ fn test_padding_is_correct() {
         pp_multiverifier_circuit.preprocessed_trace.ids(),
         pp_cairo_circuit.preprocessed_trace.ids()
     );
-    assert_eq!(pp_multiverifier_circuit.trace_log_size, pp_cairo_circuit.trace_log_size);
+    assert_eq!(pp_multiverifier_circuit.trace_log_size(), pp_cairo_circuit.trace_log_size());
 }
 
 #[test]

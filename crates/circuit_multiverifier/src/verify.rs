@@ -109,7 +109,7 @@ pub fn build_multiverifier_context(
 ) -> FinalizedContext<NoValue> {
     assert_eq!(
         pcs_config.trace_lifting_log_size,
-        preprocessed_leaf.trace_log_size + pcs_config.fri_config.log_blowup_factor,
+        preprocessed_leaf.trace_log_size() + pcs_config.fri_config.log_blowup_factor,
         "`pcs_config` must be the config of the proofs of the verified circuit"
     );
     let shared_config = shared_config(preprocessed_leaf.preprocessed_trace.log_sizes(), pcs_config);

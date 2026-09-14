@@ -4,7 +4,7 @@ use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::IValue;
 use circuits::ops::Guess;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
-use circuits_stark_verifier::proof::{Proof, ProofConfig};
+use circuits_stark_verifier::proof::Proof;
 use circuits_stark_verifier::statement::Statement;
 use circuits_stark_verifier::verify::verify;
 use itertools::Itertools;
@@ -12,7 +12,7 @@ use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
-use crate::statement::{CircuitStatement, INTERACTION_POW_BITS};
+use crate::statement::{CircuitStatement, circuit_verifier_proof_config};
 
 pub struct CircuitPublicData<Value: IValue> {
     /// The verified circuit's output: the unreduced Blake2s digest held at its [`N_RESERVED`]
@@ -54,11 +54,9 @@ pub fn build_verification_circuit<Value: IValue>(
     let statement =
         CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
 
-    let proof_config = ProofConfig::new(
-        statement.get_components(),
-        circuit_config.preprocessed_column_log_sizes.len(),
+    let proof_config = circuit_verifier_proof_config(
+        &circuit_config.preprocessed_column_log_sizes,
         &circuit_config.config,
-        INTERACTION_POW_BITS,
     );
     let proof_vars = proof.guess(&mut context);
 

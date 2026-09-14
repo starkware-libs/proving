@@ -274,7 +274,7 @@ fn test_prove_and_stark_verify_blake_gate_context() {
         blake_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify(circuit_proof, &preprocessed_circuit);
@@ -290,7 +290,7 @@ fn test_prove_and_stark_verify_permutation_context() {
         permutation_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify(circuit_proof, &preprocessed_circuit);
@@ -306,7 +306,7 @@ fn test_prove_and_stark_verify_fibonacci_context() {
         fibonacci_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify(circuit_proof, &preprocessed_circuit);
@@ -322,7 +322,7 @@ fn test_prove_and_stark_verify_triple_xor_context() {
         triple_xor_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify(circuit_proof, &preprocessed_circuit);
@@ -338,7 +338,7 @@ fn test_prove_and_stark_verify_m31_to_u32_context() {
         m31_to_u32_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify(circuit_proof, &preprocessed_circuit);
@@ -354,7 +354,7 @@ fn test_prove_and_stark_verify_blake_g_gate_context() {
         blake_g_gate_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify(circuit_proof, &preprocessed_circuit);
@@ -385,7 +385,7 @@ fn test_prove_and_circuit_verify_triple_xor_context() {
         triple_xor_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
@@ -414,7 +414,7 @@ fn test_prove_and_circuit_verify_fibonacci_context() {
         fibonacci_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
@@ -436,7 +436,7 @@ fn test_prove_and_circuit_verify_m31_to_u32_context() {
         m31_to_u32_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
@@ -458,7 +458,7 @@ fn test_prove_and_circuit_verify_blake_g_gate_context() {
         blake_g_gate_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);

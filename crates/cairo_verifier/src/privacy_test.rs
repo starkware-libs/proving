@@ -108,7 +108,7 @@ fn test_verify_privacy_with_recursion() {
         context.values(),
         &preprocessed,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed.trace_log_size),
+        default_circuit_pcs_config(preprocessed.trace_log_size()),
     )
     .unwrap();
 
@@ -163,7 +163,7 @@ fn test_privacy_recursion_with_preprocessed_context() {
         assignment_context.values(),
         &preprocessed,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed.trace_log_size),
+        default_circuit_pcs_config(preprocessed.trace_log_size()),
     )
     .unwrap();
 
@@ -175,7 +175,7 @@ fn test_privacy_recursion_with_preprocessed_context() {
         full_prove_context.values(),
         &full_preprocessed,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(full_preprocessed.trace_log_size),
+        default_circuit_pcs_config(full_preprocessed.trace_log_size()),
     )
     .unwrap();
 
@@ -203,7 +203,7 @@ fn test_privacy_proof_info() {
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
 
     let log_blowup_factor = 2;
-    let lifting_log_size = preprocessed_circuit.trace_log_size + log_blowup_factor;
+    let lifting_log_size = preprocessed_circuit.trace_log_size() + log_blowup_factor;
     let pcs_config = PcsConfig::from_fri_and_lifting_size(
         FriConfig {
             pow_bits: 26,

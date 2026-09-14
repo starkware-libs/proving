@@ -209,7 +209,7 @@ pub fn prove_leaf(
     // The padded circuit fixes the circuit proof's lifting size.
     let circuit_prover_pcs_config = PcsConfig::from_fri_and_trace_size(
         circuit_proof_config.fri_config,
-        preprocessed_circuit.trace_log_size,
+        preprocessed_circuit.trace_log_size(),
     );
     let base_column_pool = BaseColumnPool::new();
     let circuit_proof = prove_circuit_assignment(

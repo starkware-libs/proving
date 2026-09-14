@@ -85,7 +85,7 @@ fn format_sizes(raw: &ComponentSizes, padded: &ComponentSizes) -> String {
 fn preprocessed_layout(
     circuit: &PreprocessedCircuit,
 ) -> (u32, OrderedHashMap<PreProcessedColumnId, u32>) {
-    (circuit.trace_log_size, circuit.preprocessed_trace.log_sizes())
+    (circuit.trace_log_size(), circuit.preprocessed_trace.log_sizes())
 }
 
 fn main() -> ExitCode {
