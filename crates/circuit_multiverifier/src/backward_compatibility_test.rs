@@ -7,7 +7,7 @@ use stwo::core::fields::qm31::QM31;
 
 use crate::test_utils::{
     MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH, MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG,
-    PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES, PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT,
+    PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST, PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT,
     TARGET_PADDING_SIZES, leaf_circuit_hash, multiverifier_preprocessed_column_log_sizes,
     native_blake_u32s,
 };
@@ -17,8 +17,8 @@ use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circui
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] = [
     3723325097, 1977199549, 2100239779, 1533535996, 4223492323, 4210860643, 1319181925, 3363107974,
 ];
-/// The output values of the backward-compatibility Cairo verifier circuit.
-const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_VALUES: [u32; 8] =
+/// The output digest of the backward-compatibility Cairo verifier circuit.
+const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
 /// A Cairo verifier proof used as the backward-compatibility baseline. Re-baselined to the current
 /// proof whenever a transcript-changing feature makes the previous fixture unverifiable.
@@ -49,20 +49,20 @@ fn test_backward_compatibility() {
             .unwrap();
     let old_input = MultiverifierInput {
         proof: old_cairo_proof,
-        output_values: BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_VALUES,
+        output_digest: BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST.into(),
         preprocessed_root: BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(),
     };
 
     // Slot 1: the current multiverifier proof. Its inputs are hashed as
-    // `circuit_hash(preprocessed_root) || output_values`.
+    // `circuit_hash(preprocessed_root) || output_digest`.
     let cairo_input_preimage_words: Vec<u32> =
         leaf_circuit_hash(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(), &shared_config)
             .into_iter()
-            .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_VALUES)
+            .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST)
             .collect();
     let payload_words: Vec<u32> =
         chain!(&cairo_input_preimage_words, &cairo_input_preimage_words).copied().collect();
-    let current_output_values: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
+    let current_output_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
 
     let current_bytes = std::fs::read(MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH).unwrap();
     let current_proof =
@@ -70,7 +70,7 @@ fn test_backward_compatibility() {
             .unwrap();
     let current_input = MultiverifierInput {
         proof: current_proof,
-        output_values: current_output_values,
+        output_digest: current_output_digest.into(),
         preprocessed_root: MULTIVERIFIER_PREPROCESSED_ROOT.into(),
     };
 

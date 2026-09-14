@@ -6,7 +6,7 @@ use stwo::core::fields::qm31::QM31;
 use crate::context::{Context, GuessVar, Var};
 use crate::eval;
 use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
-use crate::ops::{Guess, guess_m31};
+use crate::ops::{Constant, Guess, guess_m31};
 
 #[cfg(test)]
 #[path = "wrappers_test.rs"]
@@ -36,6 +36,11 @@ impl From<M31> for M31Wrapper<QM31> {
 }
 
 impl M31Wrapper<Var> {
+    /// Creates a constant `Var` with the given `M31` value.
+    pub fn const_m31(context: &mut Context<impl IValue>, value: M31) -> M31Wrapper<Var> {
+        Self(context.constant(value.into()))
+    }
+
     /// Adds a multiplication gate to the circuit, and returns the output variable.
     pub fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
         Self(eval!(context, (*a.get()) * (*b.get())))
@@ -48,6 +53,13 @@ impl From<NoValue> for M31Wrapper<NoValue> {
     }
 }
 
+impl<Value: IValue> M31Wrapper<Value> {
+    /// Embeds a base-field element into a wrapped value (returns `M31Wrapper<impl IValue>`).
+    pub fn from_m31(value: M31) -> Self {
+        Self(Value::from_qm31(value.into()))
+    }
+}
+
 impl<Value: IValue> Guess<Value> for M31Wrapper<Value> {
     type Target = M31Wrapper<Var>;
 
@@ -55,6 +67,14 @@ impl<Value: IValue> Guess<Value> for M31Wrapper<Value> {
         // `guess_m31` constrains the guessed variable to the base field `M31` during
         // finalization, so no further masking is required here.
         guess_m31(context, self.clone())
+    }
+}
+
+impl<Value: IValue> Constant<Value> for M31Wrapper<QM31> {
+    type Target = M31Wrapper<Var>;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        M31Wrapper::new_unsafe(context.constant(self.0))
     }
 }
 
@@ -132,15 +152,39 @@ impl<T> U32Wrapper<T> {
     }
 }
 
+impl U32Wrapper<NoValue> {
+    pub fn no_value() -> Self {
+        U32Wrapper(NoValue)
+    }
+}
+
+impl<Value: IValue> U32Wrapper<Value> {
+    /// Converts a [U32Wrapper<QM31>] into a [U32Wrapper<impl IValue>].
+    pub fn from_u32wrapper_qm31(value: U32Wrapper<QM31>) -> Self {
+        Self(Value::from_qm31(*value.get()))
+    }
+}
+
 impl From<u32> for U32Wrapper<QM31> {
     fn from(value: u32) -> Self {
-        U32Wrapper(QM31::pack_u32(value))
+        QM31::pack_u32(value)
     }
 }
 
 impl From<NoValue> for U32Wrapper<NoValue> {
     fn from(_: NoValue) -> Self {
         U32Wrapper(NoValue)
+    }
+}
+
+impl U32Wrapper<Var> {
+    /// Creates a constant [Var] with the given `u32` value (represented as `low + i * high`).
+    pub fn const_u32(context: &mut Context<impl IValue>, value: u32) -> U32Wrapper<Var> {
+        U32Wrapper::<QM31>::from(value).constant(context)
+    }
+
+    pub fn get_value<Value: IValue>(self, context: &Context<Value>) -> U32Wrapper<Value> {
+        U32Wrapper::new_unsafe(context.get(self.0))
     }
 }
 
@@ -158,6 +202,14 @@ impl<Value: IValue> Guess<Value> for U32Wrapper<Value> {
             .guess(context);
         let i = context.constant(qm31_from_u32s(0, 1, 0, 0));
         U32Wrapper(eval!(context, (*low.get()) + ((*high.get()) * (i))))
+    }
+}
+
+impl<Value: IValue> Constant<Value> for U32Wrapper<QM31> {
+    type Target = U32Wrapper<Var>;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        U32Wrapper(context.constant(self.0))
     }
 }
 

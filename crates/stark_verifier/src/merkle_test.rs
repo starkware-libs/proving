@@ -2,7 +2,7 @@ use circuits::blake::HashValue;
 use circuits::context::{TraceContext, Var};
 use circuits::ivalue::qm31_from_u32s;
 use circuits::ops::Guess;
-use circuits::wrappers::{M31Wrapper, U32Wrapper};
+use circuits::wrappers::M31Wrapper;
 use rstest::rstest;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
@@ -16,7 +16,7 @@ use crate::oods::EvalDomainSamples;
 
 /// Reads the circuit's value of a [`HashValue<Var>`] back as a [`HashValue<QM31>`].
 fn get_hash(context: &TraceContext, hash: HashValue<Var>) -> HashValue<QM31> {
-    HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(context.get(*hash[i].get()))))
+    HashValue(std::array::from_fn(|i| hash[i].get_value(context)))
 }
 
 /// Standard Blake2s hash of the little-endian bytes of `values`, matching `hash_leaf_m31s`.
@@ -183,7 +183,7 @@ fn test_decommit_eval_domain_samples(#[case] wrong_root: Option<usize>, #[case] 
         &eval_domain_samples_vars,
         &auth_paths_vars,
         &bits_vars,
-        &roots_vars,
+        &roots_vars.each_ref(),
     );
 
     let success = wrong_root.is_none() && !wrong_bit;

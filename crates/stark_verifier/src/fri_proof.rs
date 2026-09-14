@@ -139,10 +139,7 @@ pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<No
         .collect();
     FriProof {
         commit: FriCommitProof {
-            layer_commitments: vec![
-                HashValue([U32Wrapper::new_unsafe(NoValue); 8]);
-                all_fold_steps.len()
-            ],
+            layer_commitments: vec![HashValue([U32Wrapper::no_value(); 8]); all_fold_steps.len()],
             last_layer_coefs: vec![NoValue; 1 << config.log_last_layer_degree_bound],
         },
         auth_paths,

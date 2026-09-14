@@ -63,7 +63,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
 
     // Check that there are enough security bits.
     assert!(
-        commitment_scheme_proof.config.fri_config.security_bits() >= min_security_bits,
+        commitment_scheme_proof.config.security_bits() >= min_security_bits,
         "{}",
         VerificationError::SecurityBitsTooLow,
     );
@@ -79,7 +79,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
             composition_commitment,
             [log_trace_degree_bound; COMPOSITION_SPLIT_FACTOR * QM31_EXTENSION_DEGREE].span(),
             ref channel,
-            commitment_scheme_proof.config.fri_config.log_blowup_factor,
+            commitment_scheme_proof.config.log_blowup_factor,
         );
 
     // Draw OOD point.

@@ -3,9 +3,9 @@ use std::collections::HashMap;
 use circuits::blake::{HashValue, blake2s, blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
-use circuits::ops::{Guess, cond_flip, eq};
+use circuits::ops::{Guess, cond_flip_u32, eq};
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
-use itertools::{Itertools, zip_eq};
+use itertools::{Itertools, chain, zip_eq};
 use stwo::core::vcs_lifted::verifier::PACKED_LEAF_SIZE;
 
 use crate::oods::EvalDomainSamples;
@@ -72,10 +72,7 @@ fn hash_leaf_m31s(
 ) -> HashValue<Var> {
     // Convert each `M31` directly into a single Blake2s message word. `m31_to_u32` already emits a
     // valid `(low_u16, high_u16, 0, 0)` u32 encoding, so `new_unsafe` (no range check) is safe.
-    let message_u32s = values
-        .iter()
-        .map(|value| U32Wrapper::new_unsafe(m31_to_u32(context, *value.get())))
-        .collect();
+    let message_u32s = values.iter().map(|value| m31_to_u32(context, *value.get())).collect();
     blake2s_u32s(context, message_u32s, values.len() * 4)
 }
 
@@ -102,8 +99,7 @@ pub fn hash_node(
     left: &HashValue<Var>,
     right: &HashValue<Var>,
 ) -> HashValue<Var> {
-    let mut words = left.to_vec();
-    words.extend_from_slice(right.as_slice());
+    let words = chain![left.iter(), right.iter()].copied().collect_vec();
 
     // The words are already in `blake2s_u32s` message-word form (the result of a previous
     // `blake2s_u32s`), so they are fed directly as the 16 message words.
@@ -145,12 +141,12 @@ pub fn merkle_node<Value: IValue>(
 ) -> HashValue<Var> {
     // Conditionally flip each word of `node` and `sibling` into the (left, right) children
     // according to `bit`, then split the pairs into the two children.
-    let flipped: [(Var, Var); 8] =
-        std::array::from_fn(|i| cond_flip(context, bit, *node[i].get(), *sibling[i].get()));
+    let flipped: [(U32Wrapper<Var>, U32Wrapper<Var>); 8] =
+        std::array::from_fn(|i| cond_flip_u32(context, bit, node[i], sibling[i]));
     // `cond_flip` selects between two already-encoded `(low_u16, high_u16, 0, 0)` words,
     // so the U32 encoding invariant is preserved — `new_unsafe` is safe here.
-    let left = HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(flipped[i].0)));
-    let right = HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(flipped[i].1)));
+    let left = HashValue(std::array::from_fn(|i| flipped[i].0));
+    let right = HashValue(std::array::from_fn(|i| flipped[i].1));
 
     // Compute the next layer's node.
     hash_node(context, &left, &right)
@@ -170,7 +166,7 @@ pub fn decommit_eval_domain_samples<Value: IValue>(
     eval_domain_samples: &EvalDomainSamples<Var>,
     auth_paths: &AuthPaths<Var>,
     bits: &[Vec<Var>],
-    roots: &[HashValue<Var>; N_TRACES],
+    roots: &[&HashValue<Var>; N_TRACES],
 ) {
     assert_eq!(eval_domain_samples.n_traces(), roots.len());
     assert_eq!(auth_paths.n_trees(), roots.len());

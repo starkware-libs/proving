@@ -63,7 +63,7 @@ where
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut ctx);
     let pcs_config = PcsConfig::from_fri_and_trace_size(
         FriConfig::default(),
-        preprocessed_circuit.trace_log_size,
+        preprocessed_circuit.trace_log_size(),
     );
     let circuit_proof = prove_circuit_assignment_with_channel::<MC>(
         ctx.values(),

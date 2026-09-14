@@ -253,7 +253,7 @@ impl Simd {
     pub fn pow2(context: &mut Context<impl IValue>, bits: &[Simd]) -> Simd {
         let len = bits[0].len();
         let mut res = Simd::one(context, len);
-        let mut pow2 = M31Wrapper::new_unsafe(context.constant(2.into()));
+        let mut pow2 = M31Wrapper::const_m31(context, 2.into());
         for (bit_idx, bit) in bits.iter().enumerate() {
             let res_if_bit_is_one = Simd::scalar_mul(context, &res, &pow2);
             // Select between `res` and `res_if_bit_is_one` based on the value of the bit.
@@ -277,7 +277,7 @@ impl Simd {
     pub fn combine_bits(context: &mut Context<impl IValue>, bits: &[Simd]) -> Simd {
         let mut iter = bits.iter().rev();
         let mut res = iter.next().unwrap().clone();
-        let two = M31Wrapper::new_unsafe(context.constant(2.into()));
+        let two = M31Wrapper::const_m31(context, 2.into());
         for bit in iter {
             res = Simd::scalar_mul(context, &res, &two);
             res = Simd::add(context, &res, bit);

@@ -98,7 +98,7 @@ fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSi
     let w = &mut out;
     writeln!(w, "{BEGIN_MARKER}").unwrap();
     writeln!(w).unwrap();
-    writeln!(w, "/// Expected PCS config of the multiverifier circuit's proof.").unwrap();
+    writeln!(w, "/// Expected FRI config of the multiverifier circuit's proof.").unwrap();
     writeln!(w, "///").unwrap();
     writeln!(w, "/// Pinned to the production registry's proof config, so the verifier accepts")
         .unwrap();
@@ -115,15 +115,13 @@ fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSi
         pow_bits as usize + log_blowup_factor as usize * n_queries
     )
     .unwrap();
-    writeln!(w, "pub fn circuit_pcs_config() -> PcsConfig {{").unwrap();
-    writeln!(w, "    PcsConfig {{").unwrap();
-    writeln!(w, "        fri_config: FriConfig {{").unwrap();
-    writeln!(w, "            pow_bits: {pow_bits},").unwrap();
-    writeln!(w, "            log_blowup_factor: {log_blowup_factor},").unwrap();
-    writeln!(w, "            log_last_layer_degree_bound: {log_last_layer_degree_bound},").unwrap();
-    writeln!(w, "            n_queries: {n_queries},").unwrap();
-    writeln!(w, "            fold_step: {fold_step},").unwrap();
-    writeln!(w, "        }},").unwrap();
+    writeln!(w, "pub fn circuit_fri_config() -> FriConfig {{").unwrap();
+    writeln!(w, "    FriConfig {{").unwrap();
+    writeln!(w, "        pow_bits: {pow_bits},").unwrap();
+    writeln!(w, "        log_blowup_factor: {log_blowup_factor},").unwrap();
+    writeln!(w, "        log_last_layer_degree_bound: {log_last_layer_degree_bound},").unwrap();
+    writeln!(w, "        n_queries: {n_queries},").unwrap();
+    writeln!(w, "        fold_step: {fold_step},").unwrap();
     writeln!(w, "    }}").unwrap();
     writeln!(w, "}}").unwrap();
     writeln!(w).unwrap();

@@ -7,44 +7,7 @@
 //! the existence of such polynomials, and are ok with having a small decoding list.
 //! Note: Opened points cannot come from the commitment domain.
 
-use crate::channel::{Channel, ChannelTrait};
-use crate::fields::m31::M31Zero;
-use crate::fields::qm31::QM31Trait;
-use crate::fri::FriConfig;
-
 mod quotients;
 pub mod verifier;
 #[cfg(test)]
 mod verifier_test;
-
-#[derive(Drop, Serde, Copy, PartialEq)]
-pub struct PcsConfig {
-    pub fri_config: FriConfig,
-}
-#[generate_trait]
-pub impl PcsConfigImpl of PcsConfigTrait {
-    fn mix_into(self: @PcsConfig, ref channel: Channel) {
-        let FriConfig {
-            pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step,
-        } = self.fri_config;
-
-        let zero = M31Zero::zero();
-        channel
-            .mix_felts(
-                array![
-                    QM31Trait::from_fixed_array(
-                        [
-                            (*pow_bits).try_into().unwrap(),
-                            (*log_blowup_factor).try_into().unwrap(),
-                            (*n_queries).try_into().unwrap(),
-                            (*log_last_layer_degree_bound).try_into().unwrap(),
-                        ],
-                    ),
-                    QM31Trait::from_fixed_array(
-                        [(*fold_step).try_into().unwrap(), zero, zero, zero],
-                    ),
-                ]
-                    .span(),
-            );
-    }
-}

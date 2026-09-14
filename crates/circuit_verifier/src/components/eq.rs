@@ -56,8 +56,10 @@ impl<Value: IValue> CircuitEval<Value> for CircuitEqComponent {
         &self,
         preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
     ) -> Option<u32> {
-        preprocessed_column_log_sizes
-            .get(&PreProcessedColumnId { id: "eq_in0_address".to_string() })
-            .cloned()
+        Some(
+            *preprocessed_column_log_sizes
+                .get(&PreProcessedColumnId { id: "eq_in0_address".to_string() })
+                .unwrap(),
+        )
     }
 }

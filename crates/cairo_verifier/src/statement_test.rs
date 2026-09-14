@@ -6,7 +6,7 @@ use crate::statement::{AuxData, CasmState, PubMemoryAddress, SegmentRange, publi
 
 /// Returns a constant base-field variable holding `value`.
 fn m31_const(context: &mut TraceContext, value: u32) -> M31Wrapper<Var> {
-    M31Wrapper::new_unsafe(context.constant(qm31_from_u32s(value, 0, 0, 0)))
+    M31Wrapper::const_m31(context, value.into())
 }
 
 #[test]
@@ -236,7 +236,7 @@ fn test_public_logup_sum() {
         ],
     ]
     .iter()
-    .map(|limbs| limbs.map(|limb| M31Wrapper::new_unsafe(context.constant(limb.into()))))
+    .map(|limbs| limbs.map(|limb| M31Wrapper::const_m31(&mut context, limb.into())))
     .collect::<Vec<_>>();
 
     let program_ids =

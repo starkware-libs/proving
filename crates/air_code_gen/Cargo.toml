@@ -17,7 +17,8 @@ tempfile.workspace = true
 pretty_assertions.workspace = true
 clap.workspace = true
 serde.workspace = true
-serde_json.workspace = true
+# `preserve_order`: see the note in `air_infra/Cargo.toml`.
+serde_json = { workspace = true, features = ["preserve_order"] }
 convert_case.workspace = true
 indexmap = { workspace = true, features = ["std"] }
 
@@ -29,7 +30,7 @@ fix_code = []
 
 [dev-dependencies]
 expect-test.workspace = true
-serde_json.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
 
 [[bin]]
 name = "air_code_gen"

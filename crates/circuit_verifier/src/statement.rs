@@ -1,8 +1,9 @@
+use circuit_common::N_RESERVED;
 use circuits::blake::{HashValue, unpack_qm31s_to_u32_words};
 use circuits::context::{Context, U_VAR_IDX, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
-use circuits::ops::Guess;
+use circuits::ops::Constant;
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::constraint_eval::CircuitEval;
@@ -37,10 +38,9 @@ pub const INTERACTION_POW_BITS: u32 = 20;
 
 pub struct CircuitStatement<Value: IValue> {
     pub components: IndexMap<&'static str, Box<dyn CircuitEval<Value>>>,
-    /// The number of output gates, excluding the wire of `u` (index 2).
-    n_outputs: usize,
-    /// The values of the output gates.
-    pub output_values: Vec<Var>,
+    /// The verified circuit's output digest, held at the output gates, excluding the wire of `u`
+    /// (index 2).
+    pub output_digest: HashValue<Var>,
     /// Per-component trace log sizes packed as a [`Simd`].
     pub component_log_sizes: Simd,
     /// Maps preprocessed column ids to their log sizes.
@@ -56,19 +56,10 @@ impl<Value: IValue> CircuitStatement<Value> {
     pub fn new(
         context: &mut Context<Value>,
         circuit_config: &CircuitConfig,
-        output_values: &[Var],
+        preprocessed_root: HashValue<Var>,
+        output_digest: HashValue<Var>,
     ) -> Self {
-        let CircuitConfig { config, n_outputs, preprocessed_column_log_sizes, preprocessed_root } =
-            circuit_config;
-        assert_eq!(output_values.len(), *n_outputs);
-        let output_values = output_values.to_vec();
-        // Guess the preprocessed root. The guessed wires enter the hash that will be output by
-        // this verifier. To ensure soundness in a recursive setup, it is *critical* that this hash
-        // is reconstructed by the last verifier, which we can assume honest.
-        let preprocessed_root = HashValue(std::array::from_fn(|i| {
-            U32Wrapper::new_unsafe(Value::from_qm31(*preprocessed_root[i].get()))
-        }))
-        .guess(context);
+        let CircuitConfig { config, preprocessed_column_log_sizes } = circuit_config;
 
         let components = all_circuit_components::<Value>();
         let log_sizes = circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
@@ -82,16 +73,12 @@ impl<Value: IValue> CircuitStatement<Value> {
 
         let component_log_sizes = log_sizes.into_array();
         let n_components = component_log_sizes.len();
-        let packed_log_sizes = pack_into_qm31s(component_log_sizes.into_iter())
-            .into_iter()
-            .map(|qm31| context.constant(qm31))
-            .collect_vec();
+        let packed_log_sizes = pack_into_qm31s(component_log_sizes.into_iter()).constant(context);
         let component_log_sizes = Simd::from_packed(packed_log_sizes, n_components);
 
         Self {
             components,
-            n_outputs: *n_outputs,
-            output_values,
+            output_digest,
             component_log_sizes,
             preprocessed_column_log_sizes: preprocessed_column_log_sizes.clone(),
             preprocessed_root,
@@ -103,7 +90,8 @@ impl<Value: IValue> CircuitStatement<Value> {
 impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
     fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
         let circuit_hash_words = self.circuit_hash.iter().copied().collect_vec();
-        let output_words = unpack_qm31s_to_u32_words(context, self.output_values.iter().copied());
+        let output_words =
+            unpack_qm31s_to_u32_words(context, self.output_digest.iter().map(|word| *word.get()));
         vec![circuit_hash_words, output_words]
     }
 
@@ -124,15 +112,16 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
 
         // Output gates public logup sum contribution.
         let gate_relation_id = context.constant(GATE_RELATION_ID.into());
-        // Construct the output addresses. They are located at addresses `[3, 3 + n_outputs)`.
-        let output_addresses = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + self.n_outputs))
-            .map(|addr| M31Wrapper::new_unsafe(context.constant(addr.into())))
+        // Construct the output addresses. They are located at addresses `[3, 3 + N_RESERVED)`.
+        let output_addresses = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + N_RESERVED))
+            .map(|addr| M31Wrapper::const_m31(context, addr.into()))
             .collect_vec();
         // Add the pair `(U_VAR_IDX, U_VALUE)` to the addresses and values, respectively.
-        let u_addr = M31Wrapper::new_unsafe(context.constant(U_VAR_IDX.into()));
+        let u_addr = M31Wrapper::const_m31(context, U_VAR_IDX.into());
         let u_val = context.u();
         let output_addresses = chain!(&output_addresses, [&u_addr]);
-        let output_values = chain!(&self.output_values, [&u_val]);
+        let output_value_vars = self.output_digest.iter().map(|word| *word.get()).collect_vec();
+        let output_values = chain!(&output_value_vars, [&u_val]);
 
         for (output_address, output_value) in zip_eq(output_addresses, output_values) {
             let [output_value_0, output_value_1, output_value_2, output_value_3] =

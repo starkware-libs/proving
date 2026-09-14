@@ -7,7 +7,7 @@ use crate::circuit::{BlakeGGate, M31ToU32, TripleXor};
 use crate::context::{Context, Var};
 use crate::eval;
 use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
-use crate::ops::{Guess, from_partial_evals};
+use crate::ops::{Constant, Guess, from_partial_evals};
 use crate::simd::Simd;
 use crate::utils::le_u32s_from_bytes;
 use crate::wrappers::U32Wrapper;
@@ -31,14 +31,6 @@ pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
 #[derive(Clone, Debug, PartialEq)]
 pub struct HashValue<T>(pub [U32Wrapper<T>; BLAKE2S_DIGEST_N_WORDS]);
 
-impl<T> std::ops::Deref for HashValue<T> {
-    type Target = [U32Wrapper<T>; BLAKE2S_DIGEST_N_WORDS];
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
 impl<Value: IValue> Guess<Value> for HashValue<Value> {
     type Target = HashValue<Var>;
     /// Guesses the eight words via [`U32Wrapper`]'s guess, so each is range-constrained to a valid
@@ -49,11 +41,52 @@ impl<Value: IValue> Guess<Value> for HashValue<Value> {
     }
 }
 
+impl<Value: IValue> Constant<Value> for HashValue<QM31> {
+    type Target = HashValue<Var>;
+
+    fn constant(&self, context: &mut Context<Value>) -> HashValue<Var> {
+        HashValue(self.0.constant(context))
+    }
+}
+
 impl HashValue<NoValue> {
     /// Creates a [`HashValue`] with [`NoValue`] elements, used when building the circuit topology
     /// without concrete witness values.
     pub fn no_value() -> Self {
-        Self(std::array::from_fn(|_| U32Wrapper::new_unsafe(NoValue)))
+        Self(std::array::from_fn(|_| U32Wrapper::no_value()))
+    }
+}
+
+impl<Value: Copy> HashValue<Value> {
+    /// Returns an iterator over the 8 u32 elements of the hash value.
+    pub fn iter(&self) -> impl Iterator<Item = &U32Wrapper<Value>> {
+        self.0.iter()
+    }
+
+    /// Returns the 8 u32 elements of the hash value as an array.
+    pub fn as_array(&self) -> &[U32Wrapper<Value>; BLAKE2S_DIGEST_N_WORDS] {
+        &self.0
+    }
+
+    /// Returns the 8 u32 elements of the hash value as a vector.
+    pub fn to_vec(&self) -> Vec<U32Wrapper<Value>> {
+        self.0.to_vec()
+    }
+}
+
+impl<T> IntoIterator for HashValue<T> {
+    type Item = U32Wrapper<T>;
+    type IntoIter = std::array::IntoIter<U32Wrapper<T>, BLAKE2S_DIGEST_N_WORDS>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<Value: Copy> std::ops::Index<usize> for HashValue<Value> {
+    type Output = U32Wrapper<Value>;
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.0[index]
     }
 }
 
@@ -109,7 +142,7 @@ impl From<[u32; BLAKE2S_DIGEST_N_WORDS]> for HashValue<QM31> {
     /// `(low_u16, high_u16, 0, 0)`. Unlike [`ReducedHashValue`], the words are *not* reduced
     /// mod `M31::P`.
     fn from(value: [u32; BLAKE2S_DIGEST_N_WORDS]) -> Self {
-        HashValue(value.map(|word| U32Wrapper::new_unsafe(IValue::pack_u32(word))))
+        HashValue(value.map(IValue::pack_u32))
     }
 }
 
@@ -189,7 +222,7 @@ pub fn unpack_qm31s_to_u32_words<Value: IValue>(
         let simd = Simd::from_packed(vec![var], 4);
         for coord in 0..4 {
             let comp = Simd::unpack_idx(ctx, &simd, coord);
-            words.push(U32Wrapper::new_unsafe(m31_to_u32(ctx, comp)));
+            words.push(m31_to_u32(ctx, comp));
         }
     }
     words
@@ -237,27 +270,27 @@ pub fn blake2s_u32s<Value: IValue>(
 
     let n_blocks = std::cmp::max(1, n_bytes.div_ceil(BLOCK_BYTES));
     let total_words = n_blocks * WORDS_PER_BLOCK;
-    let zero_u32 = ctx.constant(QM31::pack_u32(0));
+    let zero_u32 = QM31::pack_u32(0).constant(ctx);
     while message_u32s.len() < total_words {
-        message_u32s.push(U32Wrapper::new_unsafe(zero_u32));
+        message_u32s.push(zero_u32);
     }
 
     // `h`: IV XORed with the parameter block (depth 1, fanout 1, digest length 32, key length 0).
-    let mut h: [Var; 8] = std::array::from_fn(|i| {
+    let mut h: [U32Wrapper<Var>; 8] = std::array::from_fn(|i| {
         let iv_val = if i == 0 { BLAKE2S_IV[0] ^ 0x01010020 } else { BLAKE2S_IV[i] };
-        ctx.constant(QM31::pack_u32(iv_val))
+        QM31::pack_u32(iv_val).constant(ctx)
     });
 
     for block_idx in 0..n_blocks {
-        let block: [Var; WORDS_PER_BLOCK] =
-            std::array::from_fn(|i| *message_u32s[block_idx * WORDS_PER_BLOCK + i].get());
+        let block: [U32Wrapper<Var>; WORDS_PER_BLOCK] =
+            std::array::from_fn(|i| message_u32s[block_idx * WORDS_PER_BLOCK + i]);
         let t0 = std::cmp::min(n_bytes, (block_idx + 1) * BLOCK_BYTES) as u32;
         let t1 = 0u32;
         let last = block_idx == n_blocks - 1;
 
         let prev_h = h;
 
-        let mut v: [Var; 16] = std::array::from_fn(|i| {
+        let mut v: [U32Wrapper<Var>; 16] = std::array::from_fn(|i| {
             if i < 8 {
                 h[i]
             } else {
@@ -271,13 +304,13 @@ pub fn blake2s_u32s<Value: IValue>(
                 if i == 14 && last {
                     iv ^= 0xFFFF_FFFF;
                 }
-                ctx.constant(QM31::pack_u32(iv))
+                QM31::pack_u32(iv).constant(ctx)
             }
         });
 
         for permutation in BLAKE_SIGMA.iter() {
             for (g_idx, &(ai, bi, ci, di)) in G_STATE_INDICES.iter().enumerate() {
-                let (new_a, new_b, new_c, new_d) = blake_g_gate(
+                let [new_a, new_b, new_c, new_d] = blake_g_gate(
                     ctx,
                     v[ai],
                     v[bi],
@@ -299,29 +332,29 @@ pub fn blake2s_u32s<Value: IValue>(
     }
 
     ctx.stats.blake_updates += n_blocks;
-    HashValue(h.map(U32Wrapper::new_unsafe))
+    HashValue(h)
 }
 
 /// Adds a TripleXor gate to the circuit: XOR three u32 values encoded as QM31 `(u16, u16, 0, 0)`
 /// and return the result in the same encoding.
 pub fn triple_xor<Value: IValue>(
     ctx: &mut Context<Value>,
-    input_a: Var,
-    input_b: Var,
-    input_c: Var,
-) -> Var {
-    let a = ctx.get(input_a).unpack_u32();
-    let b = ctx.get(input_b).unpack_u32();
-    let c = ctx.get(input_c).unpack_u32();
-    let out = ctx.new_var(Value::pack_u32(a ^ b ^ c));
+    input_a: U32Wrapper<Var>,
+    input_b: U32Wrapper<Var>,
+    input_c: U32Wrapper<Var>,
+) -> U32Wrapper<Var> {
+    let a = input_a.get_value(ctx).get().unpack_u32();
+    let b = input_b.get_value(ctx).get().unpack_u32();
+    let c = input_c.get_value(ctx).get().unpack_u32();
+    let out = ctx.new_var(*Value::pack_u32(a ^ b ^ c).get());
     ctx.stats.triple_xor += 1;
     ctx.circuit.triple_xor.push(TripleXor {
-        input_a: input_a.idx,
-        input_b: input_b.idx,
-        input_c: input_c.idx,
+        input_a: input_a.get().idx,
+        input_b: input_b.get().idx,
+        input_c: input_c.get().idx,
         out: out.idx,
     });
-    out
+    U32Wrapper::new_unsafe(out)
 }
 
 /// Blake2s mixing function *G* on four state words `(a, b, c, d)` with message words `f0`, `f1`.
@@ -340,10 +373,10 @@ pub fn blake2s_g(a: u32, b: u32, c: u32, d: u32, f0: u32, f1: u32) -> (u32, u32,
 
 /// Adds an M31ToU32 gate to the circuit: convert an `M31` value into its `u32` representation, i.e
 /// `(x, 0, 0, 0)` into `(x & 0xFFFF, x >> 16, 0, 0)`.
-pub fn m31_to_u32<Value: IValue>(ctx: &mut Context<Value>, input: Var) -> Var {
+pub fn m31_to_u32<Value: IValue>(ctx: &mut Context<Value>, input: Var) -> U32Wrapper<Var> {
     let out = ctx.new_var(ctx.get(input).m31_to_u32());
     m31_to_u32_into(ctx, input, out);
-    out
+    U32Wrapper::new_unsafe(out)
 }
 
 pub fn m31_to_u32_into<Value: IValue>(ctx: &mut Context<Value>, input: Var, out: Var) {
@@ -355,39 +388,39 @@ pub fn m31_to_u32_into<Value: IValue>(ctx: &mut Context<Value>, input: Var, out:
 /// Inputs and outputs are all encoded as `(low_u16, high_u16, 0, 0)` in QM31.
 pub fn blake_g_gate<Value: IValue>(
     ctx: &mut Context<Value>,
-    input_a: Var,
-    input_b: Var,
-    input_c: Var,
-    input_d: Var,
-    input_f0: Var,
-    input_f1: Var,
-) -> (Var, Var, Var, Var) {
-    let a = ctx.get(input_a).unpack_u32();
-    let b = ctx.get(input_b).unpack_u32();
-    let c = ctx.get(input_c).unpack_u32();
-    let d = ctx.get(input_d).unpack_u32();
-    let f0 = ctx.get(input_f0).unpack_u32();
-    let f1 = ctx.get(input_f1).unpack_u32();
+    input_a: U32Wrapper<Var>,
+    input_b: U32Wrapper<Var>,
+    input_c: U32Wrapper<Var>,
+    input_d: U32Wrapper<Var>,
+    input_f0: U32Wrapper<Var>,
+    input_f1: U32Wrapper<Var>,
+) -> [U32Wrapper<Var>; 4] {
+    let a = input_a.get_value(ctx).get().unpack_u32();
+    let b = input_b.get_value(ctx).get().unpack_u32();
+    let c = input_c.get_value(ctx).get().unpack_u32();
+    let d = input_d.get_value(ctx).get().unpack_u32();
+    let f0 = input_f0.get_value(ctx).get().unpack_u32();
+    let f1 = input_f1.get_value(ctx).get().unpack_u32();
 
     let (a_out, b_out, c_out, d_out) = blake2s_g(a, b, c, d, f0, f1);
 
-    let out_a = ctx.new_var(Value::pack_u32(a_out));
-    let out_b = ctx.new_var(Value::pack_u32(b_out));
-    let out_c = ctx.new_var(Value::pack_u32(c_out));
-    let out_d = ctx.new_var(Value::pack_u32(d_out));
+    let out_a = ctx.new_var(*Value::pack_u32(a_out).get());
+    let out_b = ctx.new_var(*Value::pack_u32(b_out).get());
+    let out_c = ctx.new_var(*Value::pack_u32(c_out).get());
+    let out_d = ctx.new_var(*Value::pack_u32(d_out).get());
 
     ctx.circuit.blake_g_gate.push(BlakeGGate {
-        input_a: input_a.idx,
-        input_b: input_b.idx,
-        input_c: input_c.idx,
-        input_d: input_d.idx,
-        input_f0: input_f0.idx,
-        input_f1: input_f1.idx,
+        input_a: input_a.get().idx,
+        input_b: input_b.get().idx,
+        input_c: input_c.get().idx,
+        input_d: input_d.get().idx,
+        input_f0: input_f0.get().idx,
+        input_f1: input_f1.get().idx,
         out_a: out_a.idx,
         out_b: out_b.idx,
         out_c: out_c.idx,
         out_d: out_d.idx,
     });
 
-    (out_a, out_b, out_c, out_d)
+    [out_a, out_b, out_c, out_d].map(U32Wrapper::new_unsafe)
 }

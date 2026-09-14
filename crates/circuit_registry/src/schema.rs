@@ -70,10 +70,14 @@ impl CircuitProofConfig {
 pub struct LeafVerifier {
     /// Key into `CircuitRegistry::circuit_proof_configs`.
     pub config: String,
+    /// The trace size of the Cairo program this verifier verifies
     pub trace_log_size: u32,
+    pub preprocessed_root: DigestHex,
     /// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)` — the value that
     /// identifies this circuit in a verifier's public output.
     pub circuit_hash: DigestHex,
+    /// Whether this leaf verifier includes ZK blinding
+    pub zk_blinding: bool,
 }
 
 /// The multiverifier circuit, padded to its config's component sizes.
@@ -83,6 +87,7 @@ pub struct Multiverifier {
     pub config: String,
     /// Configs of the two circuits whose proofs the multiverifier verifies.
     pub input_configs: [String; 2],
+    pub preprocessed_root: DigestHex,
     /// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)` — the value that
     /// identifies this circuit in a verifier's public output.
     pub circuit_hash: DigestHex,
