@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - sharp-8.0
 
 # One publish at a time per commit: a re-dispatch cancels the running publish and starts over.
 # Safe because the marker comes down first and is only rewritten on full success, so a cancelled

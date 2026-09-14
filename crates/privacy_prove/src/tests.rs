@@ -41,7 +41,7 @@ fn test_leaf_bootloader_program_hash_snapshot() {
 
     // Source code for this compiled privacy bootloader can be found at:
     // repo: https://github.com/starkware-industries/starkware
-    // commit: "77340066c5423ac928d7b4225eb028d180fe2507"
+    // PR: starkware-industries/starkware#41232 (update to the merged commit once it lands)
     // Built (with debug info) via the standard BUILD target, then stripped of debug info to keep
     // the checked-in file small, from the starkware repo root:
     //   bazel build
@@ -52,7 +52,7 @@ fn test_leaf_bootloader_program_hash_snapshot() {
     // json" \
     //     > leaf_simple_bootloader_compiled.json
     let expected_hash_str =
-        expect!["1295276242458012971975387023502514236353931151874237036512262876792126013758"];
+        expect!["182007537687310579697542984331198756973092309284201401073437552481857403195"];
     expected_hash_str.assert_eq(&program_hash.to_string());
 }
 
