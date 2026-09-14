@@ -12,7 +12,7 @@ use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::IValue;
-use circuits::ops::{Guess, eq};
+use circuits::ops::{Constant, Guess, eq};
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::constraint_eval::CircuitEval;
@@ -22,6 +22,7 @@ use circuits_stark_verifier::statement::Statement;
 use circuits_stark_verifier::verify::RELATION_USES_NUM_ROWS_SHIFT;
 use indexmap::IndexMap;
 use itertools::{Itertools, chain, zip_eq};
+use num_traits::Zero;
 use stwo::core::fields::m31::{M31, P as M31_P};
 use stwo::core::fields::qm31::QM31;
 use stwo_cairo_common::builtins::{
@@ -355,9 +356,9 @@ fn output_limbs_from_hash<Value: IValue>(
     context: &mut Context<Value>,
     hash: &HashValue<Var>,
 ) -> Vec<[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]> {
-    let zero = M31Wrapper::new_unsafe(context.zero());
+    let zero = M31Wrapper::const_m31(context, Zero::zero());
     let mut outputs = Vec::with_capacity(N_OUTPUTS);
-    for half in hash.chunks(N_WORDS_PER_OUTPUT_CELL) {
+    for half in hash.as_array().chunks(N_WORDS_PER_OUTPUT_CELL) {
         // Little-endian bit stream of the cell's 128-bit value (LSB first).
         let mut bits = Vec::with_capacity(N_WORDS_PER_OUTPUT_CELL * 32);
         for word in half {
@@ -414,7 +415,7 @@ impl<Value: IValue> CairoStatement<Value> {
 
         let aux_data_vars: Vec<M31Wrapper<Var>> = serialized_aux_data
             .iter()
-            .map(|&m31| M31Wrapper::new_unsafe(Value::from_qm31(m31.into())).guess(context))
+            .map(|&m31| M31Wrapper::from_m31(m31).guess(context))
             .collect_vec();
 
         let aux_data = AuxData::parse_from_vars(&aux_data_vars, program.len(), n_components);
@@ -460,10 +461,10 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // was generated with. Each returned list is mixed into the channel as one `mix_u32s` call.
         let to_padded_u32_words = |ctx: &mut Context<Value>, vars: Vec<Var>| {
             let mut words: Vec<U32Wrapper<Var>> =
-                vars.into_iter().map(|v| U32Wrapper::new_unsafe(m31_to_u32(ctx, v))).collect();
+                vars.into_iter().map(|v| m31_to_u32(ctx, v)).collect();
             let pad = (4 - words.len() % 4) % 4;
             for _ in 0..pad {
-                words.push(U32Wrapper::new_unsafe(ctx.zero()));
+                words.push(U32Wrapper::const_u32(ctx, 0));
             }
             words
         };
@@ -512,11 +513,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // Compute the program hash at circuit construction time.
         let flat_program = pack_into_qm31s(program.iter().flatten().cloned());
         let program_hash = IValue::blake2s(&flat_program, flat_program.len() * 16);
-        let program_hash_words = program_hash
-            .0
-            .iter()
-            .map(|word| U32Wrapper::new_unsafe(context.constant(*word.get())))
-            .collect_vec();
+        let program_hash_words = program_hash.constant(context).to_vec();
 
         vec![
             enable_count_words,
@@ -537,9 +534,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         let program_as_constants = self
             .program
             .iter()
-            .map(|value_limbs| {
-                value_limbs.map(|limb| M31Wrapper::new_unsafe(context.constant(limb.into())))
-            })
+            .map(|value_limbs| value_limbs.map(|limb| M31Wrapper::const_m31(context, limb)))
             .collect_vec();
 
         public_logup_sum(
@@ -647,9 +642,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
     }
 
     fn get_preprocessed_root(&self, context: &mut Context<Value>) -> HashValue<Var> {
-        HashValue(std::array::from_fn(|i| {
-            U32Wrapper::new_unsafe(context.constant(*self.preprocessed_root[i].get()))
-        }))
+        self.preprocessed_root.constant(context)
     }
 }
 

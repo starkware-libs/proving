@@ -3,7 +3,6 @@ use circuits::circuit::Circuit;
 use circuits::context::{Context, TraceContext, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
-use circuits::wrappers::U32Wrapper;
 use stwo::core::fields::qm31::QM31;
 
 use crate::permutation::permute_hash_values;
@@ -98,7 +97,7 @@ fn test_permute_hash_values_with_duplicates() {
 /// Builds a `HashValue<Value>` from raw words for any `Value` (witness or witness-less), so the
 /// same circuit-building code can run under `QM31` and `NoValue`.
 fn hash_from<Value: IValue>(words: [u32; 8]) -> HashValue<Value> {
-    HashValue(words.map(|w| U32Wrapper::new_unsafe(Value::pack_u32(w))))
+    HashValue(words.map(|w| Value::pack_u32(w)))
 }
 
 /// Runs `permute_hash_values` in a fresh `Context<Value>` and returns the finalized circuit

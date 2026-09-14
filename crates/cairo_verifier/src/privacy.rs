@@ -22,7 +22,11 @@ pub mod test;
 const PRIVACY_CAIRO_TRACE_LOG_SIZE: u32 = 20;
 
 /// Returns a [CairoVerifierConfig] for the privacy proof setup with the given log blowup factor.
-pub fn privacy_cairo_verifier_config(log_blowup_factor: u32) -> CairoVerifierConfig {
+/// See [CairoVerifierConfig] for the meaning of zk_blinding_amount.
+pub fn privacy_cairo_verifier_config(
+    log_blowup_factor: u32,
+    zk_blinding_amount: Option<usize>,
+) -> CairoVerifierConfig {
     let preprocessed_trace_variant = PreProcessedTraceVariant::CanonicalSmall;
     let privacy_set = privacy_components();
     // Build `enabled_bits` (one flag per component in the full list) and `components` (only the
@@ -56,6 +60,7 @@ pub fn privacy_cairo_verifier_config(log_blowup_factor: u32) -> CairoVerifierCon
         enabled_bits,
         program,
         preprocessed_trace_variant,
+        zk_blinding_amount,
     }
 }
 

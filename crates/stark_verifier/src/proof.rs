@@ -2,19 +2,16 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
-use circuits::wrappers::U32Wrapper;
 use indexmap::IndexMap;
-use itertools::{Itertools, zip_eq};
+use itertools::zip_eq;
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 
-use crate::channel::Channel;
 use crate::constraint_eval::CircuitEval;
 use crate::fri_proof::{FriProof, compute_all_fold_steps, empty_fri_proof};
 use crate::merkle::{AuthPath, AuthPaths};
 use crate::oods::{EvalDomainSamples, N_COMPOSITION_COLUMNS, empty_eval_domain_samples};
-use crate::proof_from_stark_proof::pack_into_qm31s;
 
 pub const N_TRACES: usize = 4;
 const N_U8S_PER_U32: usize = 4;
@@ -335,28 +332,6 @@ impl ProofConfig {
             N_COMPOSITION_COLUMNS,
         ]
     }
-
-    /// Mixes the pcs config into the channel.
-    pub fn mix_pcs_config<Value: IValue>(
-        &self,
-        context: &mut Context<Value>,
-        channel: &mut Channel,
-    ) {
-        let pcs_config_values = vec![
-            self.fri.pow_bits,
-            self.fri.log_blowup_factor,
-            self.fri.n_queries as u32,
-            self.fri.log_last_layer_degree_bound,
-            self.fri.fold_step,
-            0,
-        ];
-
-        let pcs_config_vars = pack_into_qm31s(pcs_config_values.into_iter())
-            .into_iter()
-            .map(|qm31| context.constant(qm31))
-            .collect_vec();
-        channel.mix_qm31s(context, pcs_config_vars);
-    }
 }
 
 /// The values of an interaction column at the OODS point and the previous point.
@@ -457,15 +432,8 @@ impl<T> Proof<T> {
 
     /// Returns the 3 witness Merkle roots (trace, interaction, composition polynomial).
     /// The preprocessed root is excluded since it is not stored in the proof.
-    pub fn merkle_roots(&self) -> [HashValue<T>; N_TRACES - 1]
-    where
-        T: Clone,
-    {
-        [
-            self.trace_root.clone(),
-            self.interaction_root.clone(),
-            self.composition_polynomial_root.clone(),
-        ]
+    pub fn merkle_roots(&self) -> [&HashValue<T>; N_TRACES - 1] {
+        [&self.trace_root, &self.interaction_root, &self.composition_polynomial_root]
     }
 }
 
@@ -474,9 +442,9 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
 
     let n_components = config.n_components();
     Proof {
-        trace_root: HashValue([U32Wrapper::new_unsafe(NoValue); 8]),
-        interaction_root: HashValue([U32Wrapper::new_unsafe(NoValue); 8]),
-        composition_polynomial_root: HashValue([U32Wrapper::new_unsafe(NoValue); 8]),
+        trace_root: HashValue::no_value(),
+        interaction_root: HashValue::no_value(),
+        composition_polynomial_root: HashValue::no_value(),
         preprocessed_columns_at_oods: vec![NoValue; config.n_preprocessed_columns],
         trace_at_oods: vec![NoValue; config.n_trace_columns],
         interaction_at_oods: config

@@ -71,7 +71,7 @@ impl CanonicalCircuit {
         //    BOTH a leaf child proof (layer 1) and a multiverifier child proof (every layer above).
         if preprocessed_multiverifier.preprocessed_trace.log_sizes()
             != shared_config.preprocessed_column_log_sizes
-            || preprocessed_multiverifier.trace_log_size != trace_log_size
+            || preprocessed_multiverifier.trace_log_size() != trace_log_size
         {
             return Err(RecursiveTreeError::PaddingParity);
         }
@@ -95,7 +95,7 @@ impl CanonicalCircuit {
         }
 
         info!(
-            trace_log_size = preprocessed_multiverifier.trace_log_size,
+            trace_log_size = preprocessed_multiverifier.trace_log_size(),
             "Canonical multiverifier circuit ready."
         );
         Ok(Self {

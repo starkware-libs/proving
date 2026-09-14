@@ -1,10 +1,11 @@
 use itertools::Itertools;
 use stwo::core::circle::CirclePoint;
+use stwo::core::fields::qm31::QM31;
 
 use crate::circuit::{Add, Eq, Mul, Output, Permutation, PointwiseMul, Sub};
 use crate::context::{Context, GuessVar, Var};
 use crate::ivalue::{IValue, qm31_from_u32s};
-use crate::wrappers::M31Wrapper;
+use crate::wrappers::{M31Wrapper, U32Wrapper};
 
 #[cfg(test)]
 #[path = "ops_test.rs"]
@@ -203,6 +204,17 @@ pub fn cond_flip(context: &mut Context<impl IValue>, selector: Var, a: Var, b: V
     (res_a, res_b)
 }
 
+/// Same as [cond_flip], but for [U32Wrapper]s.
+pub fn cond_flip_u32(
+    context: &mut Context<impl IValue>,
+    selector: Var,
+    a: U32Wrapper<Var>,
+    b: U32Wrapper<Var>,
+) -> (U32Wrapper<Var>, U32Wrapper<Var>) {
+    let (res_a, res_b) = cond_flip(context, selector, *a.get(), *b.get());
+    (U32Wrapper::new_unsafe(res_a), U32Wrapper::new_unsafe(res_b))
+}
+
 /// Computes the conjugate (with respect to `CM31`) of a `QM31` value:
 ///   `a + b * i + c * u + d * iu -> a + b * i - c * u - d * iu`.
 pub fn conj(c: &mut Context<impl IValue>, a: Var) -> Var {
@@ -299,5 +311,38 @@ impl<Value: IValue, T: Guess<Value>> Guess<Value> for CirclePoint<T> {
 
     fn guess(&self, context: &mut Context<Value>) -> Self::Target {
         CirclePoint { x: self.x.guess(context), y: self.y.guess(context) }
+    }
+}
+
+/// A trait for creating constant [Var]s from values in a recursive structure.
+///
+/// For example, given a `Vec<Vec<QM31>>` we can create a `Vec<Vec<Var>>` of constants.
+pub trait Constant<Value: IValue> {
+    type Target;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target;
+}
+
+impl<Value: IValue> Constant<Value> for QM31 {
+    type Target = Var;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        context.constant(*self)
+    }
+}
+
+impl<Value: IValue, T: Constant<Value>, const N: usize> Constant<Value> for [T; N] {
+    type Target = [T::Target; N];
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        self.each_ref().map(|value| value.constant(context))
+    }
+}
+
+impl<Value: IValue, T: Constant<Value>> Constant<Value> for Vec<T> {
+    type Target = Vec<T::Target>;
+
+    fn constant(&self, context: &mut Context<Value>) -> Self::Target {
+        self.iter().map(|value| value.constant(context)).collect()
     }
 }

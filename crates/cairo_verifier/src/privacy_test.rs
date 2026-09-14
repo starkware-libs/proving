@@ -3,7 +3,7 @@ use std::fs::File;
 use cairo_air::CairoProof;
 use cairo_air::utils::binary_deserialize_from_file;
 use circuit_common::N_RESERVED;
-use circuit_common::finalize::{add_zk_blinding, pad_context};
+use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
     BaseColumnPool, CircuitProof, SimdBackend, prepare_circuit_proof_for_circuit_verifier,
@@ -12,7 +12,7 @@ use circuit_prover::prover::{
 use circuit_prover::test_utils::default_circuit_pcs_config;
 use circuit_serialize::serialize::CircuitSerialize;
 use circuit_verifier::statement::CircuitStatement;
-use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
+use circuit_verifier::verify::{CircuitConfig, verify_circuit};
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};
@@ -20,7 +20,6 @@ use circuits::ops::Guess;
 use circuits_stark_verifier::proof::{ProofConfig, ProofInfo};
 use circuits_stark_verifier::statement::Statement;
 use itertools::Itertools;
-use num_traits::Zero;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
@@ -38,12 +37,10 @@ fn verify_circuit_proof(
 ) -> FinalizedContext<QM31> {
     let circuit_config = CircuitConfig {
         config: circuit_proof.pcs_config,
-        n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
-        preprocessed_root,
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
-    verify_circuit(circuit_config, proof, public_data).unwrap()
+    verify_circuit(circuit_config, preprocessed_root, proof, public_data).unwrap()
 }
 
 /// Compares the topology of two contexts.
@@ -73,7 +70,7 @@ fn test_verify_privacy() {
 
     // Build the verifier circuit via NoValue.
     let log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(log_blowup_factor, None);
     let novalue_context = build_cairo_verifier_circuit(&const_config);
 
     // Check that building the verifier circuit via NoValue produces the same topology.
@@ -95,7 +92,7 @@ fn test_verify_privacy_with_recursion() {
 
     // Build the preprocessed circuit from the NoValue topology (matching the real proving flow).
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
     assert_eq!(
         const_config.preprocessed_root,
         cairo_proof.extended_stark_proof.proof.commitments.0[0].into(),
@@ -111,7 +108,7 @@ fn test_verify_privacy_with_recursion() {
         context.values(),
         &preprocessed,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed.trace_log_size),
+        default_circuit_pcs_config(preprocessed.trace_log_size()),
     )
     .unwrap();
 
@@ -123,9 +120,7 @@ fn test_verify_privacy_with_recursion() {
     // compression are applied. Assert it matches the committed fixture.
     let circuit_config = CircuitConfig {
         config: circuit_proof.pcs_config,
-        n_outputs: preprocessed.n_outputs,
         preprocessed_column_log_sizes: preprocessed.preprocessed_trace.log_sizes(),
-        preprocessed_root,
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
     let mut proof_bytes = Vec::new();
@@ -143,14 +138,14 @@ fn test_verify_privacy_with_recursion() {
     );
 
     // Verify the recursion proof with the circuit verifier.
-    verify_circuit(circuit_config, proof, public_data).unwrap();
+    verify_circuit(circuit_config, preprocessed_root, proof, public_data).unwrap();
 }
 
 #[test]
 fn test_privacy_recursion_with_preprocessed_context() {
     // Build the verifier circuit via NoValue and preprocess it.
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
 
@@ -168,7 +163,7 @@ fn test_privacy_recursion_with_preprocessed_context() {
         assignment_context.values(),
         &preprocessed,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed.trace_log_size),
+        default_circuit_pcs_config(preprocessed.trace_log_size()),
     )
     .unwrap();
 
@@ -180,7 +175,7 @@ fn test_privacy_recursion_with_preprocessed_context() {
         full_prove_context.values(),
         &full_preprocessed,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(full_preprocessed.trace_log_size),
+        default_circuit_pcs_config(full_preprocessed.trace_log_size()),
     )
     .unwrap();
 
@@ -200,35 +195,15 @@ fn test_privacy_recursion_with_preprocessed_context() {
 }
 
 #[test]
-fn test_zk_padding() {
-    // Build the verifier circuit via NoValue and preprocess it.
-    for log_blowup_factor in 1..=3 {
-        let const_config = privacy_cairo_verifier_config(log_blowup_factor);
-        let mut context = build_cairo_verifier_circuit(&const_config);
-
-        let eq_before = context.circuit().eq.len();
-        let qm31_ops_before = context.circuit().n_qm31_ops_rows();
-
-        add_zk_blinding(&mut context, [0; 32], const_config.proof_config.fri.n_queries);
-
-        let eq_after = context.circuit().eq.len();
-        let qm31_ops_after = context.circuit().n_qm31_ops_rows();
-
-        assert_eq!(eq_after.next_power_of_two(), eq_before.next_power_of_two());
-        assert_eq!(qm31_ops_after.next_power_of_two(), qm31_ops_before.next_power_of_two());
-    }
-}
-
-#[test]
 fn test_privacy_proof_info() {
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor);
+    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
 
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
 
     let log_blowup_factor = 2;
-    let lifting_log_size = preprocessed_circuit.trace_log_size + log_blowup_factor;
+    let lifting_log_size = preprocessed_circuit.trace_log_size() + log_blowup_factor;
     let pcs_config = PcsConfig::from_fri_and_lifting_size(
         FriConfig {
             pow_bits: 26,
@@ -239,22 +214,15 @@ fn test_privacy_proof_info() {
         },
         lifting_log_size,
     );
-    let preprocessed_root = HashValue::from([0u32; 8]);
     let circuit_config = CircuitConfig {
         config: pcs_config,
-        n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
-        preprocessed_root,
     };
-    let public_data =
-        CircuitPublicData { output_values: vec![QM31::zero(); preprocessed_circuit.n_outputs] };
     let mut context: Context<NoValue> = Context::new(N_RESERVED);
-    let output_values = public_data
-        .output_values
-        .iter()
-        .map(|value| NoValue::from_qm31(*value).guess(&mut context))
-        .collect_vec();
-    let statement = CircuitStatement::new(&mut context, &circuit_config, &output_values);
+    let output_digest = HashValue::<NoValue>::no_value().guess(&mut context);
+    let preprocessed_root = HashValue::no_value().guess(&mut context);
+    let statement =
+        CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
 
     let proof_config = ProofConfig::new(
         statement.get_components(),

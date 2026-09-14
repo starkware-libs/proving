@@ -326,9 +326,11 @@ impl<Value: IValue> CircuitEval<Value> for Component {
         &self,
         preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
     ) -> Option<u32> {
-        preprocessed_column_log_sizes
-            .get(&PreProcessedColumnId { id: "triple_xor_input_addr_0".to_string() })
-            .cloned()
+        Some(
+            *preprocessed_column_log_sizes
+                .get(&PreProcessedColumnId { id: "triple_xor_input_addr_0".to_string() })
+                .unwrap(),
+        )
     }
 }
 #[cfg(test)]

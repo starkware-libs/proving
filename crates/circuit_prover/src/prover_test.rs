@@ -1,3 +1,4 @@
+use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
@@ -11,8 +12,9 @@ use circuits::blake::{blake_g_gate, blake2s_m31, m31_to_u32, triple_xor};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
-use circuits::ops::{guess, permute};
+use circuits::ops::{Guess, guess, permute};
 use circuits::utils::le_u32s_from_bytes;
+use circuits::wrappers::U32Wrapper;
 use expect_test::expect;
 use num_traits::{One, Zero};
 use stwo::core::channel::{Channel, MerkleChannel};
@@ -32,19 +34,28 @@ use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
 const N: usize = 1030;
 
+/// Copies `words` into the context's [`N_RESERVED`] reserved output wires, cycling through them to
+/// fill the digest width. A circuit verified by the circuit verifier outputs a Blake2s digest;
+/// these test circuits have no digest of their own, so any `u32`-encoded wires will do.
+fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
+    let outputs: Vec<Var> = words.iter().cycle().take(N_RESERVED).map(|w| *w.get()).collect();
+    context.set_outputs(&outputs);
+}
+
 pub fn build_fibonacci_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(1);
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     let (mut a, mut b) = (guess(&mut context, QM31::zero()), guess(&mut context, QM31::one()));
     for _ in 2..N {
         (a, b) = (b, eval!(&mut context, (a) + (b)));
     }
 
-    expect![[r#"
+    expect![["
         (809871181 + 0i) + (0 + 0i)u
-    "#]]
+    "]]
     .assert_debug_eq(&context.get(b));
-    context.set_outputs(&[b]);
+    let out = m31_to_u32(&mut context, b);
+    set_digest_outputs(&mut context, &[out]);
 
     context
 }
@@ -84,99 +95,102 @@ pub fn build_blake_context() -> Context<QM31> {
 }
 
 pub fn build_triple_xor_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // 42 ^ 17 ^ 55 = 12
-    let a = guess(&mut context, qm31_from_u32s(42, 0, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(17, 0, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(55, 0, 0, 0));
+    let a = U32Wrapper::from(42).guess(&mut context);
+    let b = U32Wrapper::from(17).guess(&mut context);
+    let c = U32Wrapper::from(55).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
-    expect![[r#"
-        (12 + 0i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out));
+    expect![["
+        U32((12 + 0i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out.get_value(&context));
 
     // 0x10000 ^ 0x20000 ^ 0x30001 = 1
-    let a = guess(&mut context, qm31_from_u32s(0, 1, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(0, 2, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(1, 3, 0, 0));
+    let a = U32Wrapper::from(0x10000).guess(&mut context);
+    let b = U32Wrapper::from(0x20000).guess(&mut context);
+    let c = U32Wrapper::from(0x30001).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
-    expect![[r#"
-        (1 + 0i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out));
+    expect![["
+        U32((1 + 0i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out.get_value(&context));
 
     // 0x30005 ^ 0x10007 ^ 0x4000b = 0x60009
-    let a = guess(&mut context, qm31_from_u32s(5, 3, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(7, 1, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(11, 4, 0, 0));
+    let a = U32Wrapper::from(0x30005).guess(&mut context);
+    let b = U32Wrapper::from(0x10007).guess(&mut context);
+    let c = U32Wrapper::from(0x4000b).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
-    expect![[r#"
-        (9 + 6i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out));
+    expect![["
+        U32((9 + 6i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out.get_value(&context));
+    set_digest_outputs(&mut context, &[out]);
 
     context
 }
 
 pub fn build_m31_to_u32_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     let a = guess(&mut context, QM31::from(42));
     let out_a = m31_to_u32(&mut context, a);
-    expect![[r#"
-        (42 + 0i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_a));
+    expect![["
+        U32((42 + 0i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_a.get_value(&context));
 
     let b = guess(&mut context, QM31::from(100_000));
     let out_b = m31_to_u32(&mut context, b);
-    expect![[r#"
-        (34464 + 1i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_b));
+    expect![["
+        U32((34464 + 1i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_b.get_value(&context));
 
     let c = guess(&mut context, QM31::from(2_000_042));
     let out_c = m31_to_u32(&mut context, c);
-    expect![[r#"
-        (33962 + 30i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_c));
+    expect![["
+        U32((33962 + 30i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_c.get_value(&context));
+    set_digest_outputs(&mut context, &[out_a, out_b, out_c]);
 
     context
 }
 
 pub fn build_blake_g_gate_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // G(305419896, 4294967295, 2147483647, 123456789, 987654321, 468798)
     //   => (2827666065, 4146123195, 3407348176, 3638212488)
-    let a = guess(&mut context, qm31_from_u32s(22136, 4660, 0, 0));
-    let b = guess(&mut context, qm31_from_u32s(65535, 65535, 0, 0));
-    let c = guess(&mut context, qm31_from_u32s(65535, 32767, 0, 0));
-    let d = guess(&mut context, qm31_from_u32s(52501, 1883, 0, 0));
-    let f0 = guess(&mut context, qm31_from_u32s(26801, 15070, 0, 0));
-    let f1 = guess(&mut context, qm31_from_u32s(10046, 7, 0, 0));
+    let a = U32Wrapper::from(305419896).guess(&mut context);
+    let b = U32Wrapper::from(4294967295).guess(&mut context);
+    let c = U32Wrapper::from(2147483647).guess(&mut context);
+    let d = U32Wrapper::from(123456789).guess(&mut context);
+    let f0 = U32Wrapper::from(987654321).guess(&mut context);
+    let f1 = U32Wrapper::from(468798).guess(&mut context);
 
-    let (out_a, out_b, out_c, out_d) = blake_g_gate(&mut context, a, b, c, d, f0, f1);
-    expect![[r#"
-        (49809 + 43146i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_a));
-    expect![[r#"
-        (53691 + 63264i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_b));
-    expect![[r#"
-        (464 + 51992i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_c));
-    expect![[r#"
-        (46984 + 55514i) + (0 + 0i)u
-    "#]]
-    .assert_debug_eq(&context.get(out_d));
+    let [out_a, out_b, out_c, out_d] = blake_g_gate(&mut context, a, b, c, d, f0, f1);
+    expect![["
+        U32((49809 + 43146i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_a.get_value(&context));
+    expect![["
+        U32((53691 + 63264i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_b.get_value(&context));
+    expect![["
+        U32((464 + 51992i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_c.get_value(&context));
+    expect![["
+        U32((46984 + 55514i) + (0 + 0i)u)
+    "]]
+    .assert_debug_eq(&out_d.get_value(&context));
+    set_digest_outputs(&mut context, &[out_a, out_b, out_c, out_d]);
 
     context
 }
@@ -206,7 +220,7 @@ fn stwo_verify<MC: MerkleChannel>(
     let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
     let verifier_channel = &mut MC::C::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.mix_into(verifier_channel);
+    pcs_config.fri_config.mix_into(verifier_channel);
     let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
 
     let [trace_log_sizes, interaction_log_sizes] = column_log_sizes_per_tree(&log_sizes);
@@ -261,7 +275,7 @@ fn test_prove_and_stark_verify_poseidon252_channel() {
         fibonacci_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Poseidon252MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -277,7 +291,7 @@ fn test_prove_and_stark_verify_blake_gate_context() {
         blake_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -293,7 +307,7 @@ fn test_prove_and_stark_verify_permutation_context() {
         permutation_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -309,7 +323,7 @@ fn test_prove_and_stark_verify_fibonacci_context() {
         fibonacci_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -325,7 +339,7 @@ fn test_prove_and_stark_verify_triple_xor_context() {
         triple_xor_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -341,7 +355,7 @@ fn test_prove_and_stark_verify_m31_to_u32_context() {
         m31_to_u32_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -357,7 +371,7 @@ fn test_prove_and_stark_verify_blake_g_gate_context() {
         blake_g_gate_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
@@ -372,12 +386,10 @@ fn circuit_verify(
 ) {
     let circuit_config = CircuitConfig {
         config: circuit_proof.pcs_config,
-        n_outputs: preprocessed_circuit.n_outputs,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
-        preprocessed_root: preprocessed_root.into(),
     };
     let (proof, public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
-    verify_circuit(circuit_config, proof, public_data).unwrap();
+    verify_circuit(circuit_config, preprocessed_root.into(), proof, public_data).unwrap();
 }
 
 #[test]
@@ -390,13 +402,13 @@ fn test_prove_and_circuit_verify_triple_xor_context() {
         triple_xor_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[559383118, 1255857488, 1344354401, 2360263672, 3046958987, 2092103241, 1295830770, \
-         660589166]"
+        "[3108580124, 1195472639, 406742981, 4043963605, 410011815, 3851714429, 3026550905, \
+         53533403]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -419,13 +431,13 @@ fn test_prove_and_circuit_verify_fibonacci_context() {
         fibonacci_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[834735002, 594172773, 1583316646, 3249196940, 741016670, 2295728685, 4109491583, \
-         2430221502]"
+        "[3839694203, 1426645878, 544260312, 942396420, 1308763733, 2376548999, 3794595096, \
+         1471736858]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -441,13 +453,13 @@ fn test_prove_and_circuit_verify_m31_to_u32_context() {
         m31_to_u32_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[3771636404, 3055692813, 1894577333, 698197554, 2504506842, 900992605, 91068715, \
-         318976758]"
+        "[600625078, 2147083019, 3436167066, 2746062012, 2124652205, 863849368, 4013760731, \
+         1715700551]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);
@@ -463,13 +475,13 @@ fn test_prove_and_circuit_verify_blake_g_gate_context() {
         blake_g_gate_context.values(),
         &preprocessed_circuit,
         &BaseColumnPool::<SimdBackend>::new(),
-        default_circuit_pcs_config(preprocessed_circuit.trace_log_size),
+        default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
     let preprocessed_root = preprocessed_root_from_proof(&circuit_proof);
     expect![
-        "[3717424067, 4197539191, 3778294694, 2399208116, 4267247572, 1361721549, 951663472, \
-         1298806664]"
+        "[2845429778, 2218835085, 1205125096, 2501607039, 240595925, 1726247725, 2770929447, \
+         238604015]"
     ]
     .assert_eq(&format!("{preprocessed_root:?}"));
     circuit_verify(circuit_proof, &preprocessed_circuit, preprocessed_root);

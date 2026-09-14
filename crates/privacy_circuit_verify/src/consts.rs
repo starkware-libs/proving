@@ -2,7 +2,7 @@ use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 
 /// Uncompressed size in bytes of the serialized cairo proof (including public claim prefix).
-pub const CAIRO_PROOF_UNCOMPRESSED_BYTES: usize = 627_280;
+pub const CAIRO_PROOF_UNCOMPRESSED_BYTES: usize = 627_196;
 
 /// Uncompressed size in bytes of the serialized recursive circuit proof.
 pub const RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize = 263_796;
@@ -21,15 +21,24 @@ pub const MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES: usize =
 pub const MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize =
     RECURSIVE_PROOF_UNCOMPRESSED_BYTES * PROOF_MAX_DECOMPRESSED_RATIO;
 
-// See comment in privacy_prove::tests::test_privacy_bootloader_program_hash_snapshot for more
-// details on how this file was compiled.
+// See comment in privacy_prove::tests::test_{privacy,leaf}_bootloader_program_hash_snapshot
+// for more details on how these files were compiled.
 pub const PRIVACY_BOOTLOADER_JSON: &[u8] = include_bytes!(
     "../../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
      privacy_simple_bootloader_compiled.json"
 );
+pub const LEAF_BOOTLOADER_JSON: &[u8] = include_bytes!(
+    "../../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
+     leaf_simple_bootloader_compiled.json"
+);
+// Registry that defines the circuits used for large privacy proofs. Generated using
+// `cargo run -r --bin circuit-params -- --definition
+// circuit_registry_definitions/privacy_large_proofs/definition.json --registry`
+pub const LARGE_PROOFS_CIRCUIT_REGISTRY_JSON: &str =
+    include_str!("../../privacy_circuit_verify/large_proofs_circuit_registry.json");
 pub const CIRCUIT_OUTPUT_ADDRESSES: [usize; 9] = [3, 4, 5, 6, 7, 8, 9, 10, 2];
 pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] = [
-    2494562375, 3772725602, 2295983387, 4265055971, 2941924325, 1473327272, 3310095663, 2157173037,
+    1280965865, 2337615567, 2537515902, 4021305312, 2554363259, 1256505429, 1378993872, 1161403003,
 ];
 pub const CAIRO_LOG_BLOWUP_FACTOR: u32 = 3;
 pub const CAIRO_TRACE_LOG_SIZE: u32 = 20;

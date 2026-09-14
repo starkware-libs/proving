@@ -6,7 +6,6 @@ use circuits::wrappers::M31Wrapper;
 use circuits::{EXTENSION_DEGREE, eval};
 use indexmap::IndexMap;
 use itertools::{Itertools, chain, zip_eq};
-use num_traits::zero;
 use stwo::core::circle::CirclePoint;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
@@ -101,18 +100,8 @@ pub fn period_generators(
     component_sizes_bits: &[Simd],
 ) -> Vec<CirclePoint<Var>> {
     let mut period_gen = CirclePoint {
-        x: M31Wrapper::new_unsafe(context.constant(QM31::from_m31(
-            trace_gen.x,
-            zero(),
-            zero(),
-            zero(),
-        ))),
-        y: M31Wrapper::new_unsafe(context.constant(QM31::from_m31(
-            trace_gen.y,
-            zero(),
-            zero(),
-            zero(),
-        ))),
+        x: M31Wrapper::const_m31(context, trace_gen.x),
+        y: M31Wrapper::const_m31(context, trace_gen.y),
     };
 
     let bits_0 = &component_sizes_bits[0];

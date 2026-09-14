@@ -279,7 +279,7 @@ pub fn verify_cairo_ex<MC: MerkleChannel>(
     channel.mix_felts(&[channel_salt.into()]);
 
     let pcs_config = stark_proof.config;
-    pcs_config.mix_into(channel);
+    pcs_config.fri_config.mix_into(channel);
     let commitment_scheme_verifier = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
 
     let mut log_sizes = claim.log_sizes();
