@@ -1,8 +1,8 @@
-use circuits::EXTENSION_DEGREE;
 use circuits::context::Context;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::IValue;
 use circuits::simd::Simd;
+use circuits::{EXTENSION_DEGREE, eval};
 use stwo::core::circle::CirclePoint;
 
 use crate::channel::Channel;
@@ -69,8 +69,7 @@ pub fn select_queries(
     }
 
     // Handle the first bit, which may negate the sign of `y`.
-    let zero = Simd::zero(context, input.len());
-    let neg_y = Simd::sub(context, &zero, &point.y);
+    let neg_y = eval!(context, -(point.y));
     point.y = Simd::select(context, &bits[0], &point.y, &neg_y);
 
     Queries { bits, points: point }

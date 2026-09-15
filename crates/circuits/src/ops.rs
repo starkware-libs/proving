@@ -26,25 +26,25 @@ macro_rules! eval {
     ($ctx:expr, ($($a:tt)+) + ($($b:tt)+)) => {{
         let __tmp0 = $crate::eval!($ctx, $($a)+);
         let __tmp1 = $crate::eval!($ctx, $($b)+);
-        $crate::ops::add($ctx, __tmp0, __tmp1)
+        $crate::ops::CircuitOps::add($ctx, __tmp0, __tmp1)
     }};
 
     ($ctx:expr, ($($a:tt)+) - ($($b:tt)+)) => {{
         let __tmp0 = $crate::eval!($ctx, $($a)+);
         let __tmp1 = $crate::eval!($ctx, $($b)+);
-        $crate::ops::sub($ctx, __tmp0, __tmp1)
+        $crate::ops::CircuitOps::sub($ctx, __tmp0, __tmp1)
     }};
 
     ($ctx:expr, - ($($a:tt)+)) => {{
-        let __tmp0 = $ctx.zero();
         let __tmp1 = $crate::eval!($ctx, $($a)+);
-        $crate::ops::sub($ctx, __tmp0, __tmp1)
+        let __tmp0 = $crate::ops::CircuitOps::zero($ctx, &__tmp1);
+        $crate::ops::CircuitOps::sub($ctx, __tmp0, __tmp1)
     }};
 
     ($ctx:expr, ($($a:tt)+) * ($($b:tt)+)) => {{
         let __tmp0 = $crate::eval!($ctx, $($a)+);
         let __tmp1 = $crate::eval!($ctx, $($b)+);
-        $crate::ops::mul($ctx, __tmp0, __tmp1)
+        $crate::ops::CircuitOps::mul($ctx, __tmp0, __tmp1)
     }};
 
     ($ctx:expr, $lit:literal) => {
@@ -52,7 +52,7 @@ macro_rules! eval {
     };
 
     ($ctx:expr, $id:expr) => {
-        $id
+        ::core::clone::Clone::clone(&$id)
     };
 }
 
@@ -63,6 +63,40 @@ pub fn eq<Value: IValue>(context: &mut Context<Value>, a: Var, b: Var) {
         assert_eq!(context.get(a), context.get(b), "Eq failed: Vars {a:?} and {b:?}");
     }
     context.circuit.eq.push(Eq { in0: a.idx, in1: b.idx });
+}
+
+/// Arithmetic on circuit values. Used by the [eval] macro.
+pub trait CircuitOps {
+    /// Returns the sum of `a` and `b`.
+    fn add(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self;
+
+    /// Returns the difference of `a` and `b`.
+    fn sub(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self;
+
+    /// Returns the product of `a` and `b`.
+    fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self;
+
+    /// Returns a constant zero with the same shape as `like` (e.g., for [crate::simd::Simd]).
+    /// The actual value of `like` is unused.
+    fn zero(context: &mut Context<impl IValue>, like: &Self) -> Self;
+}
+
+impl CircuitOps for Var {
+    fn add(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
+        add(context, a, b)
+    }
+
+    fn sub(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
+        sub(context, a, b)
+    }
+
+    fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
+        mul(context, a, b)
+    }
+
+    fn zero(context: &mut Context<impl IValue>, _like: &Self) -> Self {
+        context.zero()
+    }
 }
 
 /// Returns a variable constrained to hold the result of `a + b`.

@@ -259,7 +259,7 @@ fn check_relation_uses<Value: IValue>(
         Some(high_bits) => {
             let one = Simd::one(context, components.len());
             let shifted_component_sizes = Simd::combine_bits(context, high_bits);
-            let res = Simd::add(context, &shifted_component_sizes, &one);
+            let res = eval!(context, (shifted_component_sizes) + (one));
             // A variable in the Simd vector might be unused in the case where all the corresponding
             // components don't use any relations.
             Simd::mark_partly_used(context, &res);
@@ -354,7 +354,7 @@ fn validate_and_compute_component_sizes(
     let component_log_size_bits = extract_bits(context, component_log_sizes, LOG_SIZE_BITS);
     let log_trace_size =
         Simd::repeat(context, M31::from(log_trace_size), component_log_sizes.len());
-    let diff = Simd::sub(context, &log_trace_size, component_log_sizes);
+    let diff = eval!(context, (log_trace_size) - (*component_log_sizes));
     extract_bits(context, &diff, LOG_SIZE_BITS);
 
     Simd::pow2(context, &component_log_size_bits)

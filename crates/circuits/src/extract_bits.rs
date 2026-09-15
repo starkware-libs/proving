@@ -1,6 +1,7 @@
 use stwo::core::fields::m31::M31;
 
 use crate::context::Context;
+use crate::eval;
 use crate::ivalue::IValue;
 use crate::simd::Simd;
 use crate::wrappers::M31Wrapper;
@@ -22,7 +23,7 @@ pub fn extract_bits(context: &mut Context<impl IValue>, input: &Simd, n_bits: u3
     for _ in 0..(n_bits - 1) {
         let lsb = value.guess_lsb(context);
         bits.push(lsb.clone());
-        value = Simd::sub(context, &value, &lsb);
+        value = eval!(context, (value) - (lsb));
         value = Simd::scalar_mul(context, &value, &inv_two);
     }
 
@@ -50,8 +51,6 @@ fn validate_extract_bits(context: &mut Context<impl IValue>, input: &Simd, lsb: 
     let one = Simd::one(context, input.len());
 
     let aux = input.guess_inv_or_zero(context);
-    let input_times_aux = Simd::mul(context, input, &aux);
-    let input_times_aux_minus_one = Simd::sub(context, &input_times_aux, &one);
-    let constraint_val = Simd::mul(context, &input_times_aux_minus_one, lsb);
+    let constraint_val = eval!(context, (((*input) * (aux)) - (one)) * (*lsb));
     Simd::eq(context, &constraint_val, &zero);
 }

@@ -264,7 +264,6 @@ fn circle_compute_twiddles_from_base_point<Value: IValue>(
     fold_step: usize,
 ) -> Vec<Vec<Simd>> {
     assert!(fold_step > 0);
-    let n_queries = base_point.x.len();
 
     if fold_step == 1 {
         return vec![vec![base_point.y.inv(context)]];
@@ -278,12 +277,11 @@ fn circle_compute_twiddles_from_base_point<Value: IValue>(
     }
 
     // The first fold uses y-coordinate twiddles (one per pair of conjugate points).
-    let zero = Simd::zero(context, n_queries);
     let y_coords_inv: Vec<Simd> = coset_points.iter().map(|p| p.y.inv(context)).collect();
     let mut twiddles_per_fold: Vec<Vec<Simd>> = vec![
         y_coords_inv
             .into_iter()
-            .flat_map(|y_inv| [y_inv.clone(), Simd::sub(context, &zero, &y_inv)])
+            .flat_map(|y_inv| [y_inv.clone(), eval!(context, -(y_inv))])
             .collect(),
     ];
 
@@ -354,14 +352,11 @@ fn circle_translate_to_base_point<Value: IValue>(
     mut base_point: CirclePoint<Simd>,
     packed_bits: &[Simd],
 ) -> CirclePoint<Simd> {
-    let n_queries = base_point.x.len();
-    let zero = Simd::zero(context, n_queries);
-    let minus_y_coord = Simd::sub(context, &zero, &base_point.y);
-    let minus_y_point = CirclePoint { x: base_point.x.clone(), y: minus_y_coord };
+    let minus_y_coord = eval!(context, -(base_point.y));
     // Select between `point` and `point - g_0` (implemented by negating `y`).
     base_point = CirclePoint {
         x: base_point.x.clone(),
-        y: Simd::select(context, &packed_bits[0], &base_point.y, &minus_y_point.y),
+        y: Simd::select(context, &packed_bits[0], &base_point.y, &minus_y_coord),
     };
     translate_to_base_point(context, base_point, &packed_bits[1..])
 }

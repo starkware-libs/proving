@@ -116,8 +116,8 @@ pub fn period_generators(
         let zero_or_x = Simd::scalar_mul(context, bit, &period_gen.x);
         let zero_or_y = Simd::scalar_mul(context, bit, &period_gen.y);
         res = CirclePoint {
-            x: Simd::add(context, &res.x, &zero_or_x),
-            y: Simd::add(context, &res.y, &zero_or_y),
+            x: eval!(context, (res.x) + (zero_or_x)),
+            y: eval!(context, (res.y) + (zero_or_y)),
         };
     }
 

@@ -9,7 +9,7 @@ use stwo::core::fields::qm31::QM31;
 
 use crate::context::{Context, Var};
 use crate::ivalue::{IValue, qm31_from_u32s};
-use crate::ops::{Guess, add, eq, mul, pointwise_mul, sub};
+use crate::ops::{CircuitOps, Guess, add, eq, mul, pointwise_mul, sub};
 use crate::wrappers::M31Wrapper;
 use crate::{EXTENSION_DEGREE, eval};
 
@@ -155,7 +155,7 @@ impl Simd {
     pub fn assert_bits(&self, context: &mut Context<impl IValue>) {
         // TODO(lior): Consider doing it more efficiently, by adding a constraint of the form:
         //   `input * input = input`.
-        let input_sqr = Simd::mul(context, self, self);
+        let input_sqr = eval!(context, (*self) * (*self));
         Simd::eq(context, self, &input_sqr);
     }
 
@@ -164,7 +164,7 @@ impl Simd {
     /// In particular, guarantees that all values are non-zero.
     pub fn inv(&self, context: &mut Context<impl IValue>) -> Simd {
         let res = self.guess_inv_or_zero(context);
-        let prod = Simd::mul(context, &res, self);
+        let prod = eval!(context, (res) * (*self));
         let one = Simd::one(context, self.len);
 
         // Note that `Simd::eq` applies only to the first `self.len` values.
@@ -194,12 +194,7 @@ impl Simd {
         if_zero: &Simd,
         if_one: &Simd,
     ) -> Simd {
-        // Compute: `if_one - if_zero`.
-        let x = Simd::sub(context, if_one, if_zero);
-        // Compute: `selector * (if_one - if_zero)`.
-        let y = Simd::mul(context, selector, &x);
-        // Compute `if_zero + selector * (if_one - if_zero)`.
-        Simd::add(context, if_zero, &y)
+        eval!(context, (*if_zero) + ((*selector) * ((*if_one) - (*if_zero))))
     }
 
     /// Unpacks a [Simd] into a vector of [Var]s, where each [Var] represents a single [M31] value.
@@ -280,7 +275,7 @@ impl Simd {
         let two = M31Wrapper::const_m31(context, 2.into());
         for bit in iter {
             res = Simd::scalar_mul(context, &res, &two);
-            res = Simd::add(context, &res, bit);
+            res = eval!(context, (res) + (*bit));
         }
         res
     }
@@ -291,6 +286,25 @@ impl Simd {
         for chunk in &simd.data {
             context.mark_as_maybe_unused(chunk);
         }
+    }
+}
+
+impl CircuitOps for Simd {
+    fn add(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
+        Simd::add(context, &a, &b)
+    }
+
+    fn sub(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
+        Simd::sub(context, &a, &b)
+    }
+
+    /// Computes the pointwise product of two [Simd]s.
+    fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
+        Simd::mul(context, &a, &b)
+    }
+
+    fn zero(context: &mut Context<impl IValue>, like: &Self) -> Self {
+        Simd::zero(context, like.len())
     }
 }
 
