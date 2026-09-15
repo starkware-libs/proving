@@ -27,6 +27,9 @@ pub use feature_dependent_uses::*;
 pub trait ChannelTrait {
     fn mix_felts(ref self: Channel, felts: Span<SecureField>);
 
+    /// Mixes a sequence of `u32` words into the channel.
+    fn mix_u32s(ref self: Channel, words: Span<u32>);
+
     fn mix_u64(ref self: Channel, nonce: u64);
 
     /// Mixes a memory section (id-value pairs) into the channel.

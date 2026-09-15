@@ -69,6 +69,11 @@ pub impl Poseidon252ChannelImpl of ChannelTrait {
         update_digest(ref self, next_digest);
     }
 
+    fn mix_u32s(ref self: Poseidon252Channel, words: Span<u32>) {
+        let next_digest = hash_u32s_with_state(self.digest, words);
+        update_digest(ref self, next_digest);
+    }
+
     fn mix_u64(ref self: Poseidon252Channel, nonce: u64) {
         self.mix_felt252(nonce.into());
     }

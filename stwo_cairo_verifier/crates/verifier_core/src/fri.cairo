@@ -6,7 +6,7 @@ use crate::Hash;
 use crate::channel::{Channel, ChannelTrait};
 use crate::circle::{CirclePointM31Impl, CosetImpl};
 use crate::fields::Invertible;
-use crate::fields::m31::{M31, M31Zero};
+use crate::fields::m31::M31;
 use crate::fields::qm31::{QM31, QM31Serde, QM31Trait, QM31_EXTENSION_DEGREE};
 use crate::poly::circle::{CanonicCosetImpl, CircleDomain, CircleDomainImpl};
 use crate::poly::line::{LineDomain, LineDomainImpl, LineDomainTrait, LineEvaluationImpl, LinePoly};
@@ -39,21 +39,11 @@ pub impl FriConfigImpl of FriConfigTrait {
             pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step,
         } = self;
 
-        let zero = M31Zero::zero();
         channel
-            .mix_felts(
-                array![
-                    QM31Trait::from_fixed_array(
-                        [
-                            (*pow_bits).try_into().unwrap(),
-                            (*log_blowup_factor).try_into().unwrap(),
-                            (*n_queries).try_into().unwrap(),
-                            (*log_last_layer_degree_bound).try_into().unwrap(),
-                        ],
-                    ),
-                    QM31Trait::from_fixed_array(
-                        [(*fold_step).try_into().unwrap(), zero, zero, zero],
-                    ),
+            .mix_u32s(
+                [
+                    *pow_bits, *log_blowup_factor, *n_queries, *log_last_layer_degree_bound,
+                    *fold_step,
                 ]
                     .span(),
             );

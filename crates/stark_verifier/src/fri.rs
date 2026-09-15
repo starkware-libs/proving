@@ -2,9 +2,10 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
-use circuits::ops::{Constant, eq, mul};
+use circuits::ops::{eq, mul};
 use circuits::simd::Simd;
 use circuits::utils::select_by_index;
+use circuits::wrappers::U32Wrapper;
 use itertools::{Itertools, zip_eq};
 use stwo::core::circle::CirclePoint;
 use stwo::core::vcs_lifted::verifier::{LOG_PACKED_LEAF_SIZE, PACKED_LEAF_SIZE};
@@ -16,7 +17,6 @@ use crate::circle::{
 };
 use crate::fri_proof::{FriCommitProof, FriConfig, FriProof, FriWitness};
 use crate::merkle::{hash_leaf_qm31, hash_node, hash_packed_leaf_qm31s, verify_merkle_path};
-use crate::proof_from_stark_proof::pack_into_qm31s;
 use crate::select_queries::Queries;
 
 #[cfg(test)]
@@ -29,16 +29,15 @@ pub fn mix_fri_config<Value: IValue>(
     channel: &mut Channel,
     config: &FriConfig,
 ) {
-    let fri_config_values = vec![
+    let words = [
         config.pow_bits,
         config.log_blowup_factor,
         config.n_queries as u32,
         config.log_last_layer_degree_bound,
         config.fold_step,
-    ];
-
-    let fri_config_vars = pack_into_qm31s(fri_config_values.into_iter()).constant(context);
-    channel.mix_qm31s(context, fri_config_vars);
+    ]
+    .map(|value| U32Wrapper::const_u32(context, value));
+    channel.mix_u32s(context, words.into_iter());
 }
 
 /// Commits to the FRI layers and returns the random alphas.

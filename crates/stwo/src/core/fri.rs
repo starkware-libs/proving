@@ -76,14 +76,12 @@ impl FriConfig {
         let Self { pow_bits, log_blowup_factor, n_queries, log_last_layer_degree_bound, fold_step } =
             self;
 
-        channel.mix_felts(&[
-            SecureField::from_u32_unchecked(
-                *pow_bits,
-                *log_blowup_factor,
-                (*n_queries).try_into().unwrap(),
-                *log_last_layer_degree_bound,
-            ),
-            SecureField::from_u32_unchecked(*fold_step, 0, 0, 0),
+        channel.mix_u32s(&[
+            *pow_bits,
+            *log_blowup_factor,
+            (*n_queries).try_into().unwrap(),
+            *log_last_layer_degree_bound,
+            *fold_step,
         ]);
     }
 

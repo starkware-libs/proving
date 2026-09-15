@@ -86,6 +86,48 @@ pub impl Blake2sChannelImpl of ChannelTrait {
         update_digest(ref self, Blake2sHash { hash: res });
     }
 
+    fn mix_u32s(ref self: Blake2sChannel, mut words: Span<u32>) {
+        let [d0, d1, d2, d3, d4, d5, d6, d7] = self.digest.hash.unbox();
+        let mut state = BoxImpl::new(BLAKE2S_256_INITIAL_STATE);
+        let mut buffer = array![d0, d1, d2, d3, d4, d5, d6, d7];
+        let mut byte_count: u32 = 32;
+
+        // Consume full 8-word chunks. Each pair of chunks fills a 16-word block.
+        while let Some(chunk) = words.multi_pop_front::<8>() {
+            // Compress the previous block if it's ready. Deferring the compress by one iteration
+            // ensures the last full block reaches `blake2s_finalize` intact.
+            let msg_opt: Option<@Box<[u32; 16]>> = buffer.span().try_into();
+            if let Some(msg) = msg_opt {
+                state = blake2s_compress(state, byte_count, *msg);
+                buffer = array![];
+            }
+            buffer.append_span(chunk.unbox().span());
+            byte_count += 32;
+        }
+
+        // Handle 0..7 remaining tail words. If the buffer is currently full, the last chunk
+        // completed a block that still needs compressing before the tail joins the next block.
+        if !words.is_empty() {
+            let msg_opt: Option<@Box<[u32; 16]>> = buffer.span().try_into();
+            if let Some(msg) = msg_opt {
+                state = blake2s_compress(state, byte_count, *msg);
+                buffer = array![];
+            }
+            byte_count += 4 * words.len();
+            for word in words {
+                buffer.append(*word);
+            }
+        }
+
+        // Pad the last (partial) block with zeros to 16 words and finalize.
+        for _ in buffer.len()..16 {
+            buffer.append(0);
+        }
+
+        let res = blake2s_finalize(state, byte_count, *buffer.span().try_into().unwrap());
+        update_digest(ref self, Blake2sHash { hash: res });
+    }
+
     fn mix_u64(ref self: Blake2sChannel, nonce: u64) {
         let (q, r) = div_rem(nonce, NZ_U32_SHIFT);
         let nonce_hi = upcast(q);
