@@ -2,6 +2,7 @@ use std::ops::Deref;
 
 use starknet_ff::FieldElement;
 use stwo::core::pcs::quotients::CommitmentSchemeProof;
+use stwo::core::proof::{ExtendedStarkProof, StarkProof};
 use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo_cairo_serialize::CairoSerialize;
 
@@ -21,15 +22,21 @@ where
             channel_salt,
             preprocessed_trace_variant: _,
         } = self;
+
+        let ExtendedStarkProof { proof: StarkProof(commitment_scheme_proof), aux: _ } =
+            extended_stark_proof;
+
         let CommitmentSchemeProof {
             config,
             commitments,
+            oods_proof_of_work,
             sampled_values,
             decommitments,
             queried_values,
             proof_of_work,
             fri_proof,
-        } = &extended_stark_proof.proof.0;
+        } = commitment_scheme_proof;
+
         // Change the layout of the queried values to match the one expected by the Cairo verifier.
         let trace_and_interaction_trace_log_sizes = claim.log_sizes();
         let sorted_queried_values = sort_and_transpose_queried_values(
@@ -43,6 +50,7 @@ where
         // Serialize the commitment scheme proof.
         CairoSerialize::serialize(config, output);
         CairoSerialize::serialize(commitments.deref(), output);
+        CairoSerialize::serialize(oods_proof_of_work, output);
         CairoSerialize::serialize(sampled_values.deref(), output);
         CairoSerialize::serialize(decommitments.deref(), output);
         CairoSerialize::serialize(sorted_queried_values.deref(), output);

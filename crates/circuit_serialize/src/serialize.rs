@@ -25,6 +25,7 @@ impl CircuitSerialize for Proof<QM31> {
             interaction_at_oods,
             eval_domain_samples,
             eval_domain_auth_paths,
+            oods_pow_nonce,
             pow_nonce,
             interaction_pow_nonce,
             fri,
@@ -41,6 +42,7 @@ impl CircuitSerialize for Proof<QM31> {
         composition_eval_at_oods.serialize(output);
         eval_domain_samples.serialize(output);
         eval_domain_auth_paths.serialize(output);
+        oods_pow_nonce.serialize(output);
         pow_nonce.serialize(output);
         interaction_pow_nonce.serialize(output);
         fri.serialize(output);

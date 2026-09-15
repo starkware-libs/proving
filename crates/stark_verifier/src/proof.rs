@@ -28,8 +28,8 @@ pub struct ProofInfo {
     pub log_blowup_factor: usize,
     pub n_queries: usize,
     pub n_columns_per_trace: [usize; N_TRACES],
-    // Fixed scalars: channel_salt (QM31) + 3 roots (HashValue, 32 bytes each) + pow_nonce (QM31) +
-    // interaction_pow_nonce (QM31).
+    // Fixed scalars: channel_salt (QM31) + 3 roots (HashValue, 32 bytes each) +
+    // oods_pow_nonce (QM31) + pow_nonce (QM31) + interaction_pow_nonce (QM31).
     pub fixed: usize,
     // Claim (serialized in packed format): enable bits + log sizes + claimed sums.
     pub claim: usize,
@@ -57,7 +57,7 @@ impl ProofInfo {
         let n_queries = config.fri.n_queries;
         let log_eval_domain = config.log_evaluation_domain_size();
 
-        let fixed = (1 + 3 * 2 + 1 + 1) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
+        let fixed = (1 + 3 * 2 + 1 + 1 + 1) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
 
         let claim = config.n_components() * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
 
@@ -376,6 +376,7 @@ pub struct Proof<T> {
     pub eval_domain_samples: EvalDomainSamples<T>,
     pub eval_domain_auth_paths: AuthPaths<T>,
 
+    pub oods_pow_nonce: T,
     pub pow_nonce: T,
     pub interaction_pow_nonce: T,
     pub fri: FriProof<T>,
@@ -395,6 +396,7 @@ impl<T> Proof<T> {
             composition_eval_at_oods,
             eval_domain_samples,
             eval_domain_auth_paths,
+            oods_pow_nonce: _,
             pow_nonce: _,
             interaction_pow_nonce: _,
             fri,
@@ -467,6 +469,7 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
         eval_domain_auth_paths: AuthPaths {
             data: vec![vec![auth_path; config.n_queries()]; N_TRACES],
         },
+        oods_pow_nonce: NoValue,
         pow_nonce: NoValue,
         interaction_pow_nonce: NoValue,
         fri: empty_fri_proof(config.log_trace_size, &config.fri),
@@ -489,6 +492,7 @@ impl<Value: IValue> Guess<Value> for Proof<Value> {
             composition_eval_at_oods: self.composition_eval_at_oods.guess(context),
             eval_domain_samples: self.eval_domain_samples.guess(context),
             eval_domain_auth_paths: self.eval_domain_auth_paths.guess(context),
+            oods_pow_nonce: self.oods_pow_nonce.guess(context),
             pow_nonce: self.pow_nonce.guess(context),
             interaction_pow_nonce: self.interaction_pow_nonce.guess(context),
             fri: self.fri.guess(context),

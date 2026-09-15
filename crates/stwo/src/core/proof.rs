@@ -67,10 +67,11 @@ impl<H: MerkleHasherLifted> StarkProof<H> {
 
         let CommitmentSchemeProof {
             commitments,
+            oods_proof_of_work,
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work: _,
+            proof_of_work,
             fri_proof,
             config: _,
         } = commitment_scheme_proof;
@@ -95,6 +96,7 @@ impl<H: MerkleHasherLifted> StarkProof<H> {
                 + first_layer.decommitment.size_estimate()
                 + first_layer.commitment.size_estimate(),
             trace_decommitments: commitments.size_estimate() + decommitments.size_estimate(),
+            proof_of_work: mem::size_of_val(oods_proof_of_work) + mem::size_of_val(proof_of_work),
         }
     }
 }
@@ -115,6 +117,8 @@ pub struct StarkProofSizeBreakdown {
     pub fri_samples: usize,
     pub fri_decommitments: usize,
     pub trace_decommitments: usize,
+    /// Both grinding nonces: the one before the OODS point and the one before the FRI queries.
+    pub proof_of_work: usize,
 }
 
 trait SizeEstimate {
@@ -176,6 +180,7 @@ impl<H: MerkleHasherLifted> SizeEstimate for CommitmentSchemeProof<H> {
     fn size_estimate(&self) -> usize {
         let Self {
             commitments,
+            oods_proof_of_work,
             sampled_values,
             decommitments,
             queried_values,
@@ -184,6 +189,7 @@ impl<H: MerkleHasherLifted> SizeEstimate for CommitmentSchemeProof<H> {
             config,
         } = self;
         commitments.size_estimate()
+            + mem::size_of_val(oods_proof_of_work)
             + sampled_values.size_estimate()
             + decommitments.size_estimate()
             + queried_values.size_estimate()

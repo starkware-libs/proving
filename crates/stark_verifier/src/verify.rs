@@ -9,6 +9,7 @@ use circuits::simd::Simd;
 use circuits::wrappers::M31Wrapper;
 use itertools::{Itertools, chain, zip_eq};
 use stwo::core::fields::m31::{M31, P};
+use stwo::core::proof_of_work::OODS_POW_BITS;
 use stwo::core::verifier::COMPOSITION_LOG_SPLIT;
 use stwo_constraint_framework::{INTERACTION_TRACE_IDX, ORIGINAL_TRACE_IDX};
 
@@ -103,6 +104,9 @@ pub fn verify<Value: IValue>(
     context.debug_info.insert("composition_polynomial_coeff".into(), composition_polynomial_coeff);
 
     channel.mix_commitment(context, &proof.composition_polynomial_root);
+
+    // Proof of work before drawing the OODS point.
+    channel.pow(context, OODS_POW_BITS, proof.oods_pow_nonce);
 
     // Draw a random point for the OODS.
     let oods_point = channel.draw_point(context);

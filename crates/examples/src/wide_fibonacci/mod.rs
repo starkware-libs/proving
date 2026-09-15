@@ -113,7 +113,7 @@ mod tests {
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
     #[cfg(not(target_arch = "wasm32"))]
     use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
-    use stwo::core::verifier::verify;
+    use stwo::core::verifier::{VerificationError, verify};
     use stwo::prover::backend::simd::SimdBackend;
     use stwo::prover::backend::{Column, CpuBackend};
     use stwo::prover::poly::circle::PolyOps;
@@ -240,6 +240,74 @@ mod tests {
             commitment_scheme.commit(proof.commitments[1], &sizes[1], verifier_channel);
             verify(&[&component], verifier_channel, commitment_scheme, proof).unwrap();
         }
+    }
+
+    /// A bad OODS proof of work nonce must be rejected by the grind check (`ProofOfWork`): the
+    /// nonce is verified before the OODS point is drawn.
+    #[test]
+    fn test_wide_fib_bad_oods_pow_nonce_rejected() {
+        let log_n_instances = 6;
+        let fri_config = FriConfig::default();
+        let config = PcsConfig {
+            fri_config,
+            trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+            // The preprocessed tree is empty, so it is not lifted.
+            preprocessed_lifting_log_size: 0,
+        };
+        let twiddles = SimdBackend::precompute_twiddles(
+            CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+                .circle_domain()
+                .half_coset,
+        );
+
+        let prover_channel = &mut Blake2sM31Channel::default();
+        let mut commitment_scheme =
+            CommitmentSchemeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(config, &twiddles);
+
+        let mut tree_builder = commitment_scheme.tree_builder();
+        tree_builder.extend_evals(vec![]);
+        tree_builder.commit(prover_channel);
+
+        let trace =
+            generate_trace::<FIB_SEQUENCE_LENGTH, _>(&generate_test_inputs(log_n_instances));
+        let mut tree_builder = commitment_scheme.tree_builder();
+        tree_builder.extend_evals(trace);
+        tree_builder.commit(prover_channel);
+
+        let component = WideFibonacciComponent::new(
+            &mut TraceLocationAllocator::default(),
+            WideFibonacciEval::<FIB_SEQUENCE_LENGTH> { log_n_rows: log_n_instances },
+            SecureField::zero(),
+        );
+
+        let proof = prove::<SimdBackend, Blake2sM31MerkleChannel>(
+            &[&component],
+            prover_channel,
+            commitment_scheme,
+        )
+        .unwrap();
+
+        let sizes = component.trace_log_degree_bounds();
+        let verify_with_oods_nonce = |nonce: u64| {
+            let mut proof = proof.clone();
+            proof.0.oods_proof_of_work = nonce;
+            let channel = &mut Blake2sM31Channel::default();
+            let scheme = &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(config);
+            scheme.commit(proof.commitments[0], &sizes[0], channel);
+            scheme.commit(proof.commitments[1], &sizes[1], channel);
+            verify(&[&component], channel, scheme, proof)
+        };
+
+        // A bad nonce is rejected by the proof of work check, before the OODS point is drawn.
+        let valid_nonce = proof.oods_proof_of_work;
+        assert!(matches!(
+            verify_with_oods_nonce(valid_nonce ^ 1),
+            Err(VerificationError::OodsProofOfWork)
+        ));
+
+        // The genuine nonce still verifies, so the rejection above is due to the nonce alone and
+        // `verify_with_oods_nonce` leaves no channel state behind.
+        verify_with_oods_nonce(valid_nonce).unwrap();
     }
 
     /// Tests the subdomain evaluation path (log_expansion > 0) by using log_blowup_factor = 2

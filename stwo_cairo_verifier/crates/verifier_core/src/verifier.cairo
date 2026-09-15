@@ -18,6 +18,9 @@ use crate::{ColumnSpan, Hash, TreeSpan};
 // The composition polynomial is split into 2 polynomials, so it will have the same degree bound as
 // the largest trace column.
 const LOG_COMPOSITION_SPLIT_FACTOR: u32 = 1;
+
+/// Number of proof of work bits ground into the channel before the OODS point is drawn.
+pub const OODS_POW_BITS: u32 = 16;
 const COMPOSITION_SPLIT_FACTOR: u32 = 2_u32.pow(LOG_COMPOSITION_SPLIT_FACTOR);
 
 /// Arithmetic Intermediate Representation (AIR).
@@ -60,6 +63,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
     min_security_bits: u32,
 ) {
     let StarkProof { commitment_scheme_proof } = proof;
+    let oods_proof_of_work = commitment_scheme_proof.oods_proof_of_work;
 
     // Check that there are enough security bits.
     assert!(
@@ -81,6 +85,14 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
             ref channel,
             commitment_scheme_proof.config.log_blowup_factor,
         );
+
+    // Verify the proof of work ground before the OODS point.
+    assert!(
+        channel.verify_pow_nonce(OODS_POW_BITS, oods_proof_of_work),
+        "{}",
+        VerificationError::OodsProofOfWork,
+    );
+    channel.mix_u64(oods_proof_of_work);
 
     // Draw OOD point.
     let ood_point = channel.get_random_point();
@@ -158,8 +170,10 @@ pub struct StarkProof {
 pub enum VerificationError {
     /// Proof has invalid structure.
     InvalidStructure: felt252,
-    /// Proof of work verification failed.
+    /// Proof of work verification failed (queries).
     QueriesProofOfWork,
+    /// OODS proof of work verification failed.
+    OodsProofOfWork,
     /// Invalid OODS eval.
     OodsNotMatching,
     /// Security bits are too low.
@@ -177,6 +191,9 @@ impl VerificationErrorDisplay of core::fmt::Display<VerificationError> {
                 f, "Proof has invalid structure: {}", error,
             ),
             VerificationError::QueriesProofOfWork => write!(f, "Proof Of Work verification failed"),
+            VerificationError::OodsProofOfWork => write!(
+                f, "OODS Proof Of Work verification failed",
+            ),
             VerificationError::OodsNotMatching => write!(f, "Invalid OODS eval"),
             VerificationError::SecurityBitsTooLow => write!(f, "Security bits are too low"),
             VerificationError::InteractionProofOfWork => write!(

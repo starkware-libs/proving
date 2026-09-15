@@ -2,10 +2,10 @@ use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 
 /// Uncompressed size in bytes of the serialized cairo proof (including public claim prefix).
-pub const CAIRO_PROOF_UNCOMPRESSED_BYTES: usize = 627_196;
+pub const CAIRO_PROOF_UNCOMPRESSED_BYTES: usize = 627_212;
 
 /// Uncompressed size in bytes of the serialized recursive circuit proof.
-pub const RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize = 263_796;
+pub const RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize = 263_812;
 
 /// Multiplicative safety factor applied to the proof size constants to derive decompression limits
 /// used in `verify_cairo` and `verify_recursive_circuit` as zip-bomb protection.
@@ -37,9 +37,8 @@ pub const LEAF_BOOTLOADER_JSON: &[u8] = include_bytes!(
 pub const LARGE_PROOFS_CIRCUIT_REGISTRY_JSON: &str =
     include_str!("../../privacy_circuit_verify/large_proofs_circuit_registry.json");
 pub const CIRCUIT_OUTPUT_ADDRESSES: [usize; 9] = [3, 4, 5, 6, 7, 8, 9, 10, 2];
-pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] = [
-    1280965865, 2337615567, 2537515902, 4021305312, 2554363259, 1256505429, 1378993872, 1161403003,
-];
+pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] =
+    [210130814, 2921699937, 2084874032, 2880055961, 3593229286, 1277078209, 3293880986, 1668368435];
 pub const CAIRO_LOG_BLOWUP_FACTOR: u32 = 3;
 pub const CAIRO_TRACE_LOG_SIZE: u32 = 20;
 pub const CIRCUIT_LOG_BLOWUP_FACTOR: u32 = 2;

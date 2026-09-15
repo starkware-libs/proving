@@ -53,10 +53,13 @@ pub struct CairoCircuitProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
 pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
     pub config: PcsConfig,
     pub commitments: Vec<Blake2sHash>,
+    /// Ground before drawing the OODS point.
+    pub oods_proof_of_work: u64,
     pub sampled_values: Vec<ColumnVec<Vec<QM31>>>,
     pub decommitments: Vec<MerkleDecommitmentLifted<H>>,
     /// Sorted+transposed queried values (per tree).
     pub queried_values: Vec<Vec<M31>>,
+    /// Ground before drawing the FRI query positions.
     pub proof_of_work: u64,
     pub fri_proof: FriProof<H>,
 }
@@ -128,6 +131,7 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
                 preprocessed_lifting_log_size,
             },
             commitments: CairoDeserialize::deserialize(data),
+            oods_proof_of_work: CairoDeserialize::deserialize(data),
             sampled_values: CairoDeserialize::deserialize(data),
             decommitments: CairoDeserialize::deserialize(data),
             queried_values: CairoDeserialize::deserialize(data),
@@ -142,7 +146,9 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
         proof: StarkProof<H>,
         trace_and_interaction_trace_log_sizes: &[&[u32]; 2],
     ) -> Self {
+        let StarkProof(commitment_scheme_proof) = proof;
         let CommitmentSchemeProof {
+            oods_proof_of_work,
             config,
             commitments,
             sampled_values,
@@ -150,7 +156,7 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
             queried_values,
             proof_of_work,
             fri_proof,
-        } = proof.0;
+        } = commitment_scheme_proof;
 
         let sorted = sort_and_transpose_queried_values(
             &queried_values,
@@ -158,6 +164,7 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
         );
 
         Self {
+            oods_proof_of_work,
             config,
             commitments: commitments.0,
             sampled_values: sampled_values.0,

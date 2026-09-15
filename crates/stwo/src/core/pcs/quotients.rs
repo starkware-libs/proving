@@ -27,9 +27,12 @@ pub type IndexMap<K, V> = indexmap::IndexMap<K, V, core::hash::BuildHasherDefaul
 pub struct CommitmentSchemeProof<H: MerkleHasherLifted> {
     pub config: PcsConfig,
     pub commitments: TreeVec<H::Hash>,
+    /// Proof of work nonce ground before the OODS point is drawn.
+    pub oods_proof_of_work: u64,
     pub sampled_values: TreeVec<ColumnVec<Vec<SecureField>>>,
     pub decommitments: TreeVec<MerkleDecommitmentLifted<H>>,
     pub queried_values: TreeVec<ColumnVec<Vec<BaseField>>>,
+    /// Proof of work nonce ground before the FRI query positions are drawn.
     pub proof_of_work: u64,
     pub fri_proof: FriProof<H>,
 }

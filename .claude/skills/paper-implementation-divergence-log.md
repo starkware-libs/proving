@@ -189,6 +189,35 @@ Risk: SOUNDNESS (for Blake example only — constraints may be under-specified)
 Status: OPEN
 Notes: Example code only, but users may copy patterns from examples.
 
+### DIVERGENCE-011: Proof of Work Before the OODS Point Draw
+
+Paper: `.agents/papers/llm/Circle_STARKs.llm.md` (`prot:IOP:proximity`, DEEP/OODS
+sampling) and `.agents/papers/llm/Stwo_Whitepaper.llm.md` Section "6. Parameter
+Rules" (`s:example:params`) describe a single grinding step, in the FRI query
+phase. Neither describes a grind before the OODS (DEEP) point is drawn.
+
+Code: `crates/stwo/src/core/proof_of_work.rs` — `OODS_POW_BITS = 16`, ground in
+`prove_ex` and checked in `verify_ex` (`crates/stwo/src/prover/mod.rs`,
+`crates/stwo/src/core/verifier.rs`), mirrored in
+`stwo_cairo_verifier/crates/verifier_core/src/verifier.cairo` and in the
+in-circuit verifier (`crates/stark_verifier/src/verify.rs`). The nonce travels
+in `CommitmentSchemeProof::oods_proof_of_work`, declared last so the serialized
+layout stays append-only.
+
+Type: Intentional deviation (defense in depth)
+Risk: NEUTRAL for completeness (an honest prover always finds a nonce);
+strictly raises the cost of re-rolling the OODS challenge to search for a
+favorable point.
+Status: OPEN
+Notes: The grind is *not* counted in `FriConfig::security_bits()`, so claimed
+security is unchanged and the accounting stays conservative. Prover and all
+three verifiers mix the nonce at the same transcript position (immediately after
+the composition commitment, before the point is drawn), so the transcript stays
+byte-identical across implementations; a mismatch in that position or in
+`OODS_POW_BITS` between any two of them would desync Fiat-Shamir. The 16-bit
+difficulty is a global constant, independent of `FriConfig::pow_bits`, and is
+therefore not mixed into the channel.
+
 ## Resolved Divergences
 
 ### DIVERGENCE-005 (see above)

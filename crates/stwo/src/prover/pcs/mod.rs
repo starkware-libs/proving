@@ -225,6 +225,8 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         mut self,
         sampled_points: TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>>,
         channel: &mut MC::C,
+        // Ground before the OODS point was drawn, so it cannot be produced here.
+        oods_proof_of_work: u64,
     ) -> ExtendedCommitmentSchemeProof<MC::H> {
         let lifting_log_size = self.trees.last().unwrap().commitment.layers.len() as u32 - 1;
 
@@ -309,6 +311,7 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
                 proof_of_work,
                 fri_proof: fri_proof.proof,
                 config: self.config,
+                oods_proof_of_work,
             },
             aux: CommitmentSchemeProofAux {
                 unsorted_query_locations,

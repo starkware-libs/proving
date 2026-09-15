@@ -276,7 +276,8 @@ mod tests {
                 .collect_vec(),
         ];
 
-        let proof = commitment_scheme.prove_values(TreeVec(sampled_points.clone()), &mut channel);
+        let proof =
+            commitment_scheme.prove_values(TreeVec(sampled_points.clone()), &mut channel, 0);
 
         // Verifier side of the pcs.
         let mut channel = Blake2sChannel::default();

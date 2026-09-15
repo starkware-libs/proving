@@ -124,6 +124,7 @@ where
         let Self {
             config,
             commitments,
+            oods_proof_of_work,
             sampled_values,
             decommitments,
             queried_values,
@@ -132,10 +133,11 @@ where
         } = self;
         config.serialize(output);
         commitments.serialize(output);
+        oods_proof_of_work.serialize(output);
         sampled_values.serialize(output);
         decommitments.serialize(output);
         queried_values.serialize(output);
-        output.push((*proof_of_work).into());
+        proof_of_work.serialize(output);
         fri_proof.serialize(output);
     }
 }
