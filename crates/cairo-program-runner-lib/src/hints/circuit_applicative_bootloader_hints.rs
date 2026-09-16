@@ -124,6 +124,15 @@ pub fn circuit_applicative_setup_verifier_run(
     Ok(())
 }
 
+/// Loads the flattened circuit hash list into a fresh memory segment, returning its base.
+fn load_circuit_hashes_segment(
+    vm: &mut VirtualMachine,
+    circuit_hashes: &[[u32; N_DIGEST_WORDS]],
+) -> Result<MaybeRelocatable, HintError> {
+    let flat: Vec<u32> = circuit_hashes.iter().flatten().copied().collect();
+    load_words_segment(vm, &flat)
+}
+
 /// Implements hint: %{ CIRCUIT_APPLICATIVE_SETUP_UNPACK %}
 ///
 /// The hint is used to:
@@ -142,32 +151,23 @@ pub fn circuit_applicative_setup_unpack(
 
     let input: &CircuitApplicativeBootloaderInput =
         exec_scopes.get_ref(vars::CIRCUIT_APPLICATIVE_BOOTLOADER_INPUT)?;
-    let supported_circuit_hashes = input.supported_circuit_hashes.clone();
+    let multiverifier_hashes = input.multiverifier_hashes.clone();
+    let leaf_verifier_hashes = input.leaf_verifier_hashes.clone();
     let packed_output = input.packed_output.clone();
 
-    // ids.config = CircuitUnpackerConfig { n_supported_circuit_hashes: felt,
-    // supported_circuit_hashes: felt* }: the input's circuit hashes list, flattened.
-    let n_supported_circuit_hashes = supported_circuit_hashes.len();
-    for circuit_hash in &supported_circuit_hashes {
-        if circuit_hash.len() != N_DIGEST_WORDS {
-            return Err(HintError::CustomHint(
-                format!(
-                    "Supported circuit hash has {} words; expected {N_DIGEST_WORDS}.",
-                    circuit_hash.len()
-                )
-                .into(),
-            ));
-        }
-    }
-    let flat_circuit_hashes: Vec<u32> =
-        supported_circuit_hashes.iter().flatten().copied().collect();
-    let supported_circuit_hashes_ptr = load_words_segment(vm, &flat_circuit_hashes)?;
+    // ids.config = CircuitUnpackerConfig { n_multiverifier_hashes: felt,
+    // multiverifier_hashes: felt*, n_leaf_verifier_hashes: felt, leaf_verifier_hashes: felt* }:
+    // the input's circuit hash lists, flattened.
+    let multiverifier_hashes_ptr = load_circuit_hashes_segment(vm, &multiverifier_hashes)?;
+    let leaf_verifier_hashes_ptr = load_circuit_hashes_segment(vm, &leaf_verifier_hashes)?;
     let config_base = vm.add_memory_segment();
     vm.load_data(
         config_base,
         &[
-            MaybeRelocatable::from(Felt252::from(n_supported_circuit_hashes)),
-            supported_circuit_hashes_ptr,
+            MaybeRelocatable::from(Felt252::from(multiverifier_hashes.len())),
+            multiverifier_hashes_ptr,
+            MaybeRelocatable::from(Felt252::from(leaf_verifier_hashes.len())),
+            leaf_verifier_hashes_ptr,
         ],
     )
     .map_err(HintError::Memory)?;
@@ -255,17 +255,18 @@ fn enter_subtask_scope(exec_scopes: &mut ExecutionScopes, index: usize) -> Resul
     Ok(())
 }
 
-/// Implements hint: %{ CIRCUIT_UNPACK_SET_CIRCUIT_HASH_INDEX %}
-///
-/// Sets ids.circuit_hash_index to the index, in the config's supported-circuit-hashes list, of
-/// the circuit hash the current node carries (`Composite::circuit_hash`). The list is read from
-/// Cairo memory through ids.config (no hint-scope state), and hashes are matched across all eight
-/// words.
-pub fn circuit_unpack_set_circuit_hash_index(
+/// Shared implementation of the CIRCUIT_UNPACK_SET_*_HASH_INDEX hints: sets
+/// ids.circuit_hash_index to the index, in one of the config's circuit hash lists — its
+/// (len, ptr) fields start at `config_offset` — of the circuit hash the current node carries
+/// (`Composite::circuit_hash`). The list is read from Cairo memory through ids.config (no
+/// hint-scope state), and hashes are matched across all eight words.
+fn set_circuit_hash_index_in_list(
     vm: &mut VirtualMachine,
     exec_scopes: &mut ExecutionScopes,
     ids_data: &HashMap<String, HintReference>,
     ap_tracking: &ApTracking,
+    config_offset: usize,
+    list_name: &str,
 ) -> Result<(), HintError> {
     let node_circuit_hash: [u32; N_DIGEST_WORDS] = match get_node(exec_scopes)? {
         PackedNode::Composite { circuit_hash, .. } => *circuit_hash,
@@ -277,17 +278,20 @@ pub fn circuit_unpack_set_circuit_hash_index(
     };
     let node_circuit_hash_felts = node_circuit_hash.map(Felt252::from);
 
-    // ids.config = CircuitUnpackerConfig { n_supported_circuit_hashes: felt,
-    // supported_circuit_hashes: felt* }.
+    // ids.config = CircuitUnpackerConfig { n_multiverifier_hashes: felt,
+    // multiverifier_hashes: felt*, n_leaf_verifier_hashes: felt, leaf_verifier_hashes: felt* }.
     let config_ptr = get_ptr_from_var_name("config", vm, ids_data, ap_tracking)?;
-    let n_supported_circuit_hashes = vm.get_integer(config_ptr)?.to_usize().ok_or_else(|| {
-        HintError::CustomHint("n_supported_circuit_hashes does not fit a usize.".into())
-    })?;
-    let supported_circuit_hashes_ptr = vm.get_relocatable((config_ptr + 1)?)?;
+    let n_circuit_hashes =
+        vm.get_integer((config_ptr + config_offset)?)?.to_usize().ok_or_else(|| {
+            HintError::CustomHint(
+                format!("The {list_name} hashes length does not fit a usize.").into(),
+            )
+        })?;
+    let circuit_hashes_ptr = vm.get_relocatable((config_ptr + (config_offset + 1))?)?;
 
     let mut circuit_hash_index = None;
-    for index in 0..n_supported_circuit_hashes {
-        let circuit_hash_ptr = (supported_circuit_hashes_ptr + index * N_DIGEST_WORDS)?;
+    for index in 0..n_circuit_hashes {
+        let circuit_hash_ptr = (circuit_hashes_ptr + index * N_DIGEST_WORDS)?;
         let words = vm.get_integer_range(circuit_hash_ptr, N_DIGEST_WORDS)?;
         if words
             .iter()
@@ -301,8 +305,8 @@ pub fn circuit_unpack_set_circuit_hash_index(
     let circuit_hash_index = circuit_hash_index.ok_or_else(|| {
         HintError::CustomHint(
             format!(
-                "Packed node circuit hash {node_circuit_hash:?} is not in the supported circuit \
-                 hashes list."
+                "Packed node circuit hash {node_circuit_hash:?} is not in the supported \
+                 {list_name} hashes list."
             )
             .into(),
         )
@@ -314,6 +318,28 @@ pub fn circuit_unpack_set_circuit_hash_index(
         ids_data,
         ap_tracking,
     )
+}
+
+/// Implements hint: %{ CIRCUIT_UNPACK_SET_MULTIVERIFIER_HASH_INDEX %}
+pub fn circuit_unpack_set_multiverifier_hash_index(
+    vm: &mut VirtualMachine,
+    exec_scopes: &mut ExecutionScopes,
+    ids_data: &HashMap<String, HintReference>,
+    ap_tracking: &ApTracking,
+) -> Result<(), HintError> {
+    // Offset 0: the config's first (len, ptr) pair.
+    set_circuit_hash_index_in_list(vm, exec_scopes, ids_data, ap_tracking, 0, "multiverifier")
+}
+
+/// Implements hint: %{ CIRCUIT_UNPACK_SET_LEAF_VERIFIER_HASH_INDEX %}
+pub fn circuit_unpack_set_leaf_verifier_hash_index(
+    vm: &mut VirtualMachine,
+    exec_scopes: &mut ExecutionScopes,
+    ids_data: &HashMap<String, HintReference>,
+    ap_tracking: &ApTracking,
+) -> Result<(), HintError> {
+    // Offset 2: the config's second (len, ptr) pair.
+    set_circuit_hash_index_in_list(vm, exec_scopes, ids_data, ap_tracking, 2, "leaf verifier")
 }
 
 /// Implements hint: %{ CIRCUIT_UNPACK_ENTER_SUBTASK_0 %}
@@ -463,11 +489,6 @@ mod tests {
         std::array::from_fn(|i| seed + i as u32)
     }
 
-    /// A supported-circuit-hashes list entry (the input carries them as plain word lists).
-    fn sample_digest_words(seed: u32) -> Vec<u32> {
-        sample_digest(seed).to_vec()
-    }
-
     fn leaf_node(circuit_hash_seed: u32) -> PackedNode {
         PackedNode::Composite {
             circuit_hash: sample_digest(circuit_hash_seed),
@@ -499,7 +520,8 @@ mod tests {
             aggregator_task: dummy_task(),
             verifier_task: dummy_task(),
             packed_output: internal_node(10, leaf_node(20), leaf_node(20)),
-            supported_circuit_hashes: vec![sample_digest_words(10), sample_digest_words(20)],
+            multiverifier_hashes: vec![sample_digest(10)],
+            leaf_verifier_hashes: vec![sample_digest(20)],
             fact_topologies_path: None,
         }
     }
@@ -562,22 +584,27 @@ mod tests {
         assert!(circuit_unpack_enter_subtask_1(&mut exec_scopes).is_err());
     }
 
-    /// Sets up ids.config -> { n_supported_circuit_hashes, supported_circuit_hashes } in VM
-    /// memory.
+    /// Sets up ids.config -> { n_multiverifier_hashes, multiverifier_hashes,
+    /// n_leaf_verifier_hashes, leaf_verifier_hashes } in VM memory.
     fn load_config(
         vm: &mut VirtualMachine,
         ids_data: &HashMap<String, HintReference>,
         ap_tracking: &ApTracking,
-        supported_circuit_hashes: &[Vec<u32>],
+        multiverifier_hashes: &[[u32; N_DIGEST_WORDS]],
+        leaf_verifier_hashes: &[[u32; N_DIGEST_WORDS]],
     ) {
-        let flat: Vec<u32> = supported_circuit_hashes.iter().flatten().copied().collect();
-        let circuit_hashes_ptr = load_words_segment(vm, &flat).unwrap();
+        let multiverifier_hashes_ptr =
+            load_circuit_hashes_segment(vm, multiverifier_hashes).unwrap();
+        let leaf_verifier_hashes_ptr =
+            load_circuit_hashes_segment(vm, leaf_verifier_hashes).unwrap();
         let config_base = vm.add_memory_segment();
         vm.load_data(
             config_base,
             &[
-                MaybeRelocatable::from(Felt252::from(supported_circuit_hashes.len())),
-                circuit_hashes_ptr,
+                MaybeRelocatable::from(Felt252::from(multiverifier_hashes.len())),
+                multiverifier_hashes_ptr,
+                MaybeRelocatable::from(Felt252::from(leaf_verifier_hashes.len())),
+                leaf_verifier_hashes_ptr,
             ],
         )
         .unwrap();
@@ -586,33 +613,99 @@ mod tests {
 
     #[test]
     fn test_set_circuit_hash_index_matches_full_hash() {
+        // Each domain hint searches its own list: the leaf hint finds the leaf node's hash at
+        // index 1 of the leaf list, the multiverifier hint finds the fold node's at index 0.
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
         load_config(
             &mut vm,
             &ids_data,
             &ap_tracking,
-            &[sample_digest_words(10), sample_digest_words(20)],
+            &[sample_digest(10)],
+            &[sample_digest(30), sample_digest(20)],
         );
         let mut exec_scopes = scopes_with_node(leaf_node(20));
-        circuit_unpack_set_circuit_hash_index(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
-            .unwrap();
+        circuit_unpack_set_leaf_verifier_hash_index(
+            &mut vm,
+            &mut exec_scopes,
+            &ids_data,
+            &ap_tracking,
+        )
+        .unwrap();
         assert_eq!(
             get_integer_from_var_name("circuit_hash_index", &vm, &ids_data, &ap_tracking).unwrap(),
             Felt252::from(1)
+        );
+
+        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
+        load_config(
+            &mut vm,
+            &ids_data,
+            &ap_tracking,
+            &[sample_digest(10)],
+            &[sample_digest(30), sample_digest(20)],
+        );
+        let mut exec_scopes = scopes_with_node(internal_node(10, leaf_node(20), leaf_node(20)));
+        circuit_unpack_set_multiverifier_hash_index(
+            &mut vm,
+            &mut exec_scopes,
+            &ids_data,
+            &ap_tracking,
+        )
+        .unwrap();
+        assert_eq!(
+            get_integer_from_var_name("circuit_hash_index", &vm, &ids_data, &ap_tracking).unwrap(),
+            Felt252::from(0)
         );
     }
 
     #[test]
     fn test_set_circuit_hash_index_rejects_unsupported_hash() {
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
-        // The second supported circuit hash shares its first word with the node's but differs in
+        // The second leaf verifier hash shares its first word with the node's but differs in
         // the rest; matching is across all eight words, so the lookup must fail.
-        let mut almost = sample_digest_words(20);
+        let mut almost = sample_digest(20);
         almost[7] += 1;
-        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest_words(10), almost]);
+        load_config(
+            &mut vm,
+            &ids_data,
+            &ap_tracking,
+            &[sample_digest(10)],
+            &[sample_digest(10), almost],
+        );
         let mut exec_scopes = scopes_with_node(leaf_node(20));
         assert!(
-            circuit_unpack_set_circuit_hash_index(
+            circuit_unpack_set_leaf_verifier_hash_index(
+                &mut vm,
+                &mut exec_scopes,
+                &ids_data,
+                &ap_tracking
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn test_set_circuit_hash_index_respects_domains() {
+        // A hash present only in the other domain's list is not found: the leaf hint must not
+        // match a multiverifier hash, and vice versa.
+        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
+        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10)], &[sample_digest(20)]);
+        let mut exec_scopes = scopes_with_node(leaf_node(10));
+        assert!(
+            circuit_unpack_set_leaf_verifier_hash_index(
+                &mut vm,
+                &mut exec_scopes,
+                &ids_data,
+                &ap_tracking
+            )
+            .is_err()
+        );
+
+        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
+        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10)], &[sample_digest(20)]);
+        let mut exec_scopes = scopes_with_node(internal_node(20, leaf_node(10), leaf_node(10)));
+        assert!(
+            circuit_unpack_set_multiverifier_hash_index(
                 &mut vm,
                 &mut exec_scopes,
                 &ids_data,
@@ -715,7 +808,8 @@ mod tests {
                         "circuit_hash": sample_digest(20),
                         "subtasks": [{"Plain": {"output_preimage": ["7"]}}],
                     }},
-                    "supported_circuit_hashes": [sample_digest(10), sample_digest(20)],
+                    "multiverifier_hashes": [sample_digest(10)],
+                    "leaf_verifier_hashes": [sample_digest(20)],
                 })
                 .to_string(),
             ),
@@ -812,41 +906,51 @@ mod tests {
             applicative_segment.segment_index as usize
         );
 
-        // ids.config = { n_supported_circuit_hashes, supported_circuit_hashes (flattened) }.
+        // ids.config = { n_multiverifier_hashes, multiverifier_hashes, n_leaf_verifier_hashes,
+        // leaf_verifier_hashes } (each list flattened).
         let config_ptr = get_ptr_from_var_name("config", &vm, &ids_data, &ap_tracking).unwrap();
-        assert_eq!(*vm.get_integer(config_ptr).unwrap().as_ref(), Felt252::from(2));
-        let circuit_hashes_ptr = vm.get_relocatable((config_ptr + 1u32).unwrap()).unwrap();
-        let words: Vec<Felt252> = vm
-            .get_integer_range(circuit_hashes_ptr, 2 * N_DIGEST_WORDS)
-            .unwrap()
-            .into_iter()
-            .map(|f| *f.as_ref())
-            .collect();
-        let expected: Vec<Felt252> = [sample_digest(10), sample_digest(20)]
-            .iter()
-            .flatten()
-            .map(|&w| Felt252::from(w))
-            .collect();
-        assert_eq!(words, expected);
+        for (offset, seed) in [(0u32, 10u32), (2, 20)] {
+            assert_eq!(
+                *vm.get_integer((config_ptr + offset).unwrap()).unwrap().as_ref(),
+                Felt252::from(1)
+            );
+            let circuit_hashes_ptr =
+                vm.get_relocatable((config_ptr + (offset + 1)).unwrap()).unwrap();
+            let words: Vec<Felt252> = vm
+                .get_integer_range(circuit_hashes_ptr, N_DIGEST_WORDS)
+                .unwrap()
+                .into_iter()
+                .map(|f| *f.as_ref())
+                .collect();
+            let expected: Vec<Felt252> =
+                sample_digest(seed).iter().map(|&w| Felt252::from(w)).collect();
+            assert_eq!(words, expected, "list at config offset {offset} mismatch");
+        }
 
         assert_eq!(*get_node(&exec_scopes).unwrap(), input.packed_output);
     }
 
     #[test]
-    fn test_setup_unpack_rejects_malformed_circuit_hashes() {
-        let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config"]);
-        add_output_builtin(&mut vm);
-        let mut input = sample_input();
-        input.supported_circuit_hashes = vec![vec![1, 2, 3]];
-        let mut exec_scopes = ExecutionScopes::new();
-        exec_scopes.insert_value(
-            vars::APPLICATIVE_OUTPUT_BUILTIN_STATE,
-            vm.get_output_builtin_mut().unwrap().get_state(),
-        );
-        exec_scopes.insert_value(vars::CIRCUIT_APPLICATIVE_BOOTLOADER_INPUT, input);
+    fn test_input_rejects_malformed_circuit_hashes() {
+        // The circuit hash lists are fixed-size arrays, so a wrong-length hash is rejected when
+        // the input is deserialized.
+        let task = serde_json::json!({
+            "type": "RunProgramTask",
+            "path": "unused",
+            "program_hash_function": "blake",
+        });
+        let input = serde_json::json!({
+            "aggregator_task": task,
+            "verifier_task": task,
+            "packed_output": {"Composite": {
+                "circuit_hash": sample_digest(20),
+                "subtasks": [{"Plain": {"output_preimage": ["7"]}}],
+            }},
+            "multiverifier_hashes": [sample_digest(10)],
+            "leaf_verifier_hashes": [[1, 2, 3]],
+        });
         assert!(
-            circuit_applicative_setup_unpack(&mut vm, &mut exec_scopes, &ids_data, &ap_tracking)
-                .is_err()
+            serde_json::from_str::<CircuitApplicativeBootloaderInput>(&input.to_string()).is_err()
         );
     }
 
@@ -923,10 +1027,10 @@ mod tests {
     #[test]
     fn test_set_circuit_hash_index_rejects_non_composite_node() {
         let (mut vm, ids_data, ap_tracking) = vm_with_ids(&["config", "circuit_hash_index"]);
-        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest_words(10)]);
+        load_config(&mut vm, &ids_data, &ap_tracking, &[sample_digest(10)], &[]);
         let mut exec_scopes = scopes_with_node(PackedNode::Plain { output_preimage: vec![] });
         assert!(
-            circuit_unpack_set_circuit_hash_index(
+            circuit_unpack_set_multiverifier_hash_index(
                 &mut vm,
                 &mut exec_scopes,
                 &ids_data,

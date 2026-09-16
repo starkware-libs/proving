@@ -15,6 +15,7 @@ use cairo_vm::types::layout::CairoLayoutParams;
 use cairo_vm::types::layout_name::LayoutName;
 use cairo_vm::types::program::Program;
 use cairo_vm::vm::runners::cairo_pie::{CairoPie, StrippedProgram};
+use leaf_proof_format::N_DIGEST_WORDS;
 pub use leaf_proof_format::PackedNode;
 use num_traits::ToPrimitive;
 use serde::de::Error as SerdeError;
@@ -559,9 +560,10 @@ pub struct CircuitApplicativeBootloaderInput {
     // input object too).
     pub packed_output: PackedNode,
     /// Supported circuit hashes (eight little-endian u32 words each) — the unpacking's trust
-    /// anchors. Role-agnostic: each packed node carries its own circuit hash, which must appear
-    /// in this list.
-    pub supported_circuit_hashes: Vec<Vec<u32>>,
+    /// anchors, split by role: each packed fold node's circuit hash must appear in the
+    /// multiverifier list, each leaf's in the leaf verifier list.
+    pub multiverifier_hashes: Vec<[u32; N_DIGEST_WORDS]>,
+    pub leaf_verifier_hashes: Vec<[u32; N_DIGEST_WORDS]>,
     #[serde(default)]
     pub fact_topologies_path: Option<PathBuf>,
 }

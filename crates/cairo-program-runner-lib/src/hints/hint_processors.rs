@@ -25,9 +25,9 @@ use super::builtin_usage_hints::{
 use super::circuit_applicative_bootloader_hints::{
     circuit_applicative_setup_unpack, circuit_applicative_setup_verifier_run,
     circuit_applicative_write_fact_topology, circuit_unpack_enter_subtask_0,
-    circuit_unpack_enter_subtask_1, circuit_unpack_exit_scope,
-    circuit_unpack_set_circuit_hash_index, circuit_unpack_set_is_leaf,
-    circuit_unpack_set_is_self_fold, load_circuit_applicative_bootloader_input,
+    circuit_unpack_enter_subtask_1, circuit_unpack_exit_scope, circuit_unpack_set_is_leaf,
+    circuit_unpack_set_is_self_fold, circuit_unpack_set_leaf_verifier_hash_index,
+    circuit_unpack_set_multiverifier_hash_index, load_circuit_applicative_bootloader_input,
     load_mock_circuit_verifier_input,
 };
 use super::concat_aggregator_hints::{
@@ -246,8 +246,11 @@ impl HintProcessorLogic for MinimalBootloaderHintProcessor {
             CIRCUIT_UNPACK_SET_IS_SELF_FOLD => {
                 circuit_unpack_set_is_self_fold(vm, exec_scopes, ids_data, ap_tracking)
             }
-            CIRCUIT_UNPACK_SET_CIRCUIT_HASH_INDEX => {
-                circuit_unpack_set_circuit_hash_index(vm, exec_scopes, ids_data, ap_tracking)
+            CIRCUIT_UNPACK_SET_MULTIVERIFIER_HASH_INDEX => {
+                circuit_unpack_set_multiverifier_hash_index(vm, exec_scopes, ids_data, ap_tracking)
+            }
+            CIRCUIT_UNPACK_SET_LEAF_VERIFIER_HASH_INDEX => {
+                circuit_unpack_set_leaf_verifier_hash_index(vm, exec_scopes, ids_data, ap_tracking)
             }
             CIRCUIT_UNPACK_ENTER_SUBTASK_0 => circuit_unpack_enter_subtask_0(exec_scopes),
             CIRCUIT_UNPACK_ENTER_SUBTASK_1 => circuit_unpack_enter_subtask_1(exec_scopes),
