@@ -174,6 +174,9 @@ impl MerkleOpsLifted<Blake2sMerkleHasher> for SimdBackend {
             *state = compress_finalize(prev_state, msgs, byte_count);
         });
 
+        // Drop the previous layer states before allocating the res.
+        drop(prev_layer_states);
+
         // let additional_lifting_ratio = (lifting_log_size - LOG_N_LANES) - max_log_size;
         let lifting_log_size_packed = lifting_log_size - LOG_N_LANES;
         // Prepare the output buffer.
