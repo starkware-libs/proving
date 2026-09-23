@@ -113,11 +113,14 @@ fn eq_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl RngCore) {
 ///
 /// Note that we don't use the guess function here because we want to be able to run this after
 /// finalize_guessed_vars.
-fn random_u32_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> U32Wrapper<Var> {
+///
+/// Safety: this function is unsafe as it creates a new unconstrained variable (in particular, it
+/// is not guaranteed to hold a value of the form (low_u16, high_u16, 0, 0)).
+fn random_u32_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> Var {
     let zero = context.zero();
     let x = context.new_var(*IValue::pack_u32(rng.next_u32()).get());
     add_into(context, x, zero, x);
-    U32Wrapper::new_unsafe(x)
+    x
 }
 
 /// Creates a fresh variable holding a random `M31` value, encoded as `(x, 0, 0, 0)`, and yields it
@@ -134,9 +137,16 @@ fn random_m31_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) ->
 
 /// Adds a random row to the triple_xor component, blinding its trace.
 fn triple_xor_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl RngCore) {
-    let a = random_u32_var(context, rng);
-    let b = random_u32_var(context, rng);
-    let c = random_u32_var(context, rng);
+    // Safety:
+    // - none of the inputs to triple_xor is used anywhere else other than the gates x + 0 = x that
+    //   yield them.
+    // - the output of triple_xor is unused.
+    // Note that the constraints of triple_xor actually enforce that its inputs are of the form
+    // (low, high, 0, 0) with low, high in `[0, 2^16)` so the use of [`U32Wrapper::new_unsafe`] is
+    // fine.
+    let a = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let b = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let c = U32Wrapper::new_unsafe(random_u32_var(context, rng));
     triple_xor(context, a, b, c);
 }
 
@@ -148,12 +158,19 @@ fn m31_to_u32_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl Rng
 
 /// Adds a random row to the blake_g_gate component, blinding its trace.
 fn blake_g_gate_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl RngCore) {
-    let a = random_u32_var(context, rng);
-    let b = random_u32_var(context, rng);
-    let c = random_u32_var(context, rng);
-    let d = random_u32_var(context, rng);
-    let f0 = random_u32_var(context, rng);
-    let f1 = random_u32_var(context, rng);
+    // Safety: the variables returned by [`random_u32_var`] are not guaranteed to be of the form
+    // (low, high, 0, 0) with low, high in `[0, 2^16)`. The blake_g_gate constraints do not enforce
+    // all of its 6 inputs to have this form either. However, the usage in this function is fine
+    // because:
+    // - none of the inputs to blake_g_gate is used anywhere else other than the gates x + 0 = x
+    //   that yield them.
+    // - the output of blake_g_gate is unused.
+    let a = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let b = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let c = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let d = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let f0 = U32Wrapper::new_unsafe(random_u32_var(context, rng));
+    let f1 = U32Wrapper::new_unsafe(random_u32_var(context, rng));
     blake_g_gate(context, a, b, c, d, f0, f1);
 }
 
