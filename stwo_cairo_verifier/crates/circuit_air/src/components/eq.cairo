@@ -12,6 +12,7 @@
 // interaction columns.
 
 use crate::prelude::*;
+use crate::relations::GATE_RELATION_ID;
 
 pub const N_TRACE_COLUMNS: usize = 4;
 pub const N_INTERACTION_COLUMNS: usize = 4;
@@ -88,8 +89,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
-        // GATE_RELATION_ID = 378353459 (see stwo-circuits/crates/circuit_air/src/relations.rs).
-        let gate_relation_id = qm31_const::<378353459, 0, 0, 0>();
+        let gate_relation_id = GATE_RELATION_ID.into();
         // The two yields differ only in the address slot.
         let eq_sum_0 = self
             .common_lookup_elements
