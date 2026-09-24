@@ -3,9 +3,7 @@
 use circuit_air::CircuitAirNewImpl;
 use core::dict::{Felt252DictTrait, SquashedFelt252DictTrait};
 use core::num::traits::Zero;
-use multiverifier_consts::{
-    COMPONENT_LOG_SIZES, N_OUTPUTS, PREPROCESSED_COLUMN_LOG_SIZES, circuit_fri_config,
-};
+use multiverifier_consts::{N_OUTPUTS, PREPROCESSED_COLUMN_LOG_SIZES, circuit_fri_config};
 use stwo_constraint_framework::LookupElementsImpl;
 pub use stwo_constraint_framework::{RelationUse, RelationUsesDict, accumulate_relation_uses};
 use stwo_verifier_core::Hash;
@@ -29,7 +27,6 @@ use claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
     accumulate_circuit_relation_uses, column_log_sizes_per_tree, lookup_sum,
 };
-use per_component::PerComponent;
 pub mod circuit_hash;
 pub use circuit_hash::compute_circuit_hash;
 pub mod components;
@@ -100,8 +97,6 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
         claim, interaction_pow, interaction_claim, stark_proof, channel_salt,
     } = proof;
 
-    let preprocessed_column_log_sizes = PREPROCESSED_COLUMN_LOG_SIZES;
-
     // The circuit produces a fixed number of public outputs (its topology); the claim must
     // provide exactly that many.
     assert!(claim.public_data.output_values.len() == N_OUTPUTS);
@@ -111,8 +106,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let fri_config = stark_proof.commitment_scheme_proof.config;
     assert!(fri_config == circuit_fri_config(), "unexpected proof fri config");
 
-    let component_log_sizes = COMPONENT_LOG_SIZES;
-    verify_claim(component_log_sizes);
+    verify_claim();
 
     let mut channel: Channel = Default::default();
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
@@ -137,20 +131,19 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
         commitments
         .unbox();
 
-    let log_sizes = column_log_sizes_per_tree(component_log_sizes);
+    let log_sizes = column_log_sizes_per_tree();
     let log_sizes_box: @Box<[Span<u32>; 3]> = log_sizes.span().try_into().unwrap();
     let [_, trace_log_sizes, interaction_trace_log_sizes] = log_sizes_box.unbox();
 
     let log_blowup_factor = fri_config.log_blowup_factor;
 
-    // Preprocessed trace. The preprocessed column log sizes are the hardcoded ones rather than
-    // the values derived from `component_log_sizes`. The preprocessed-trace commitment itself is
-    // taken from the proof and exposed in the verification output; binding it to the expected
-    // circuit topology is the responsibility of whoever consumes that output.
+    // Preprocessed trace. The preprocessed column log sizes are hardcoded. The preprocessed-trace
+    // commitment itself is taken from the proof and exposed in the verification output; binding it
+    // to the expected circuit topology is the responsibility of whoever consumes that output.
     commitment_scheme
         .commit(
             preprocessed_commitment,
-            preprocessed_column_log_sizes.span(),
+            PREPROCESSED_COLUMN_LOG_SIZES.span(),
             ref channel,
             log_blowup_factor,
         );
@@ -193,10 +186,8 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // bound (`trace_log_size = lifting - blowup`); the composition polynomial's raw degree bound is
     // one higher (degree-2 constraints) but it is split into 2 polynomials before LDE, bringing its
     // per-column degree bound back down to the trace's.
-    let trace_log_degree_bound = *preprocessed_column_log_sizes.span().max().unwrap();
-    let circuit_air = CircuitAirNewImpl::new(
-        component_log_sizes, @common_lookup_elements, @interaction_claim,
-    );
+    let trace_log_degree_bound = *PREPROCESSED_COLUMN_LOG_SIZES.span().max().unwrap();
+    let circuit_air = CircuitAirNewImpl::new(@common_lookup_elements, @interaction_claim);
 
     verify(
         stark_proof,
@@ -219,9 +210,9 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
 /// In Cairo we have native `u64` arithmetic, so the accumulator in
 /// `stwo_constraint_framework::accumulate_relation_uses` already sums directly — the check
 /// here is the plain `< P` bound on that accumulated `u64`.
-fn verify_claim(component_log_sizes: PerComponent<u32>) {
+fn verify_claim() {
     let mut relation_uses: RelationUsesDict = Default::default();
-    accumulate_circuit_relation_uses(component_log_sizes, ref relation_uses);
+    accumulate_circuit_relation_uses(ref relation_uses);
 
     let squashed = relation_uses.squash();
     let entries = squashed.into_entries();

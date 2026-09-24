@@ -9,6 +9,7 @@ use stwo_verifier_core::verifier::Air;
 use stwo_verifier_core::{ColumnSpan, TreeSpan};
 use crate::claims::CircuitInteractionClaim;
 use crate::components;
+use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
 use crate::per_component::*;
 
 /// Circuit components, in `crate::per_component` (committed) order.
@@ -29,16 +30,14 @@ pub struct CircuitAir {
 
 #[generate_trait]
 pub impl CircuitAirNewImpl of CircuitAirNewTrait {
-    /// Builds the circuit components. Component log sizes are derived verifier-side (they are
-    /// not part of the claim); `component_log_sizes` holds one entry per component. The circuit
-    /// is fixed-size, so every component is present.
+    /// Builds the circuit components. Component log sizes are not part of the claim; they are
+    /// the hardcoded `COMPONENT_LOG_SIZES`, one entry per component. The circuit is fixed-size,
+    /// so every component is present.
     fn new(
-        component_log_sizes: PerComponent<u32>,
-        common_lookup_elements: @CommonLookupElements,
-        interaction_claim: @CircuitInteractionClaim,
+        common_lookup_elements: @CommonLookupElements, interaction_claim: @CircuitInteractionClaim,
     ) -> CircuitAir {
         // Each component's interaction claim is its single `claimed_sum`, and its log size is the
-        // matching field of `component_log_sizes`.
+        // matching field of `COMPONENT_LOG_SIZES`.
         let CircuitInteractionClaim { claimed_sum } = interaction_claim;
         let PerComponent {
             eq: eq_claimed_sum,
@@ -65,7 +64,7 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
             verify_bitwise_xor_7: _,
             verify_bitwise_xor_9: _,
             range_check_16: _,
-        } = component_log_sizes;
+        } = COMPONENT_LOG_SIZES;
 
         CircuitAir {
             eq: components::eq::NewComponentImpl::new(
