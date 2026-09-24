@@ -3,7 +3,6 @@ use core::num::traits::Zero;
 use stwo_constraint_framework::{
     AirComponent, CommonLookupElements, PreprocessedMaskValuesImpl, validate_mask_usage,
 };
-use stwo_verifier_core::circle::CirclePoint;
 use stwo_verifier_core::fields::qm31::{QM31, QM31_EXTENSION_DEGREE};
 use stwo_verifier_core::verifier::Air;
 use stwo_verifier_core::{ColumnSpan, TreeSpan};
@@ -128,12 +127,8 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
 
 pub impl CircuitAirImpl of Air<CircuitAir> {
     fn eval_composition_polynomial_at_point(
-        self: @CircuitAir,
-        point: CirclePoint<QM31>,
-        mask_values: TreeSpan<ColumnSpan<Span<QM31>>>,
-        random_coeff: QM31,
+        self: @CircuitAir, mask_values: TreeSpan<ColumnSpan<Span<QM31>>>, random_coeff: QM31,
     ) -> QM31 {
-        let _ = point;
         let mut sum = Zero::zero();
 
         let [

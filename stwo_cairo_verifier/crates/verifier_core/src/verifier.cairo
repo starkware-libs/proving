@@ -29,12 +29,10 @@ const COMPOSITION_SPLIT_FACTOR: u32 = 2_u32.pow(LOG_COMPOSITION_SPLIT_FACTOR);
 /// constraints. For instance, all interaction elements are assumed to be present in it. Therefore,
 /// an AIR is generated only after the initial trace commitment phase.
 pub trait Air<T> {
-    /// Evaluates the constraint quotients combination of the AIR at `point`.
+    /// Evaluates the linear combination of the constraint numerators at the point at which
+    /// `mask_values` were sampled.
     fn eval_composition_polynomial_at_point(
-        self: @T,
-        point: CirclePoint<QM31>,
-        mask_values: TreeSpan<ColumnSpan<Span<QM31>>>,
-        random_coeff: QM31,
+        self: @T, mask_values: TreeSpan<ColumnSpan<Span<QM31>>>, random_coeff: QM31,
     ) -> QM31;
 }
 
@@ -108,9 +106,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
 
     // Evaluate composition polynomial at OOD point and check that it matches the trace OOD values.
     let numerator = air
-        .eval_composition_polynomial_at_point(
-            ood_point, sampled_oods_values, composition_random_coeff,
-        );
+        .eval_composition_polynomial_at_point(sampled_oods_values, composition_random_coeff);
     // `max_trace_domain` is the largest domain of a trace polynomial (before LDE).
     let max_trace_domain = CanonicCosetImpl::new(log_trace_degree_bound);
     let denominator_inv = max_trace_domain.eval_vanishing(ood_point).inverse();
