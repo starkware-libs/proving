@@ -4,9 +4,7 @@
 //! The component log sizes are taken in `ComponentList` (canonical) order, so this must match the
 //! packing there byte-for-byte for the Fiat-Shamir transcript to agree.
 use stwo_verifier_core::Hash;
-#[cfg(not(feature: "poseidon252_verifier"))]
 use stwo_verifier_utils::blake2s::hash_u32s;
-#[cfg(not(feature: "poseidon252_verifier"))]
 use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
 
 /// Number of 32-bit words in a Blake2s-256 digest.
@@ -15,7 +13,6 @@ pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
 /// Packs `log_blowup_factor` (byte 0) followed by each component's preprocessed log size (one byte
 /// each, in canonical order) into little-endian u32 words. The total byte count `1 + N_COMPONENTS`
 /// must be a multiple of 4.
-#[cfg(not(feature: "poseidon252_verifier"))]
 fn config_words(log_blowup_factor: u32) -> Array<u32> {
     let mut config_bytes = [
         log_blowup_factor, COMPONENT_LOG_SIZES.eq, COMPONENT_LOG_SIZES.qm31_ops,
@@ -39,20 +36,13 @@ fn config_words(log_blowup_factor: u32) -> Array<u32> {
 /// Computes the circuit hash: `blake2s(log_blowup_factor || component_log_sizes ||
 /// preprocessed_root)`, packing each value as little-endian bytes. The log blowup factor and
 /// component log sizes are the circuit's hardcoded constants; only the preprocessed root varies.
-#[cfg(not(feature: "poseidon252_verifier"))]
 pub fn compute_circuit_hash(log_blowup_factor: u32, preprocessed_root: Hash) -> Hash {
     let mut words = config_words(log_blowup_factor);
     words.append_span(preprocessed_root.hash.unbox().span());
     Hash { hash: hash_u32s(words.span()) }
 }
 
-#[cfg(feature: "poseidon252_verifier")]
-pub fn compute_circuit_hash(_log_blowup_factor: u32, _preprocessed_root: Hash) -> Hash {
-    panic!("the privacy recursive circuit verifier only supports the blake2s hasher")
-}
-
 #[cfg(test)]
-#[cfg(not(feature: "poseidon252_verifier"))]
 mod tests {
     use core::box::BoxImpl;
     use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
