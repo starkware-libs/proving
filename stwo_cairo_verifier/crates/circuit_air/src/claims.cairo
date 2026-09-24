@@ -79,9 +79,8 @@ pub fn lookup_sum(
     }
 
     // u_sum = the `u` input is yielded at `U_VAR_IDX` with value `U_VALUE = (0, 0, 1, 0)`.
-    let gate_relation_id = GATE_RELATION_ID;
     let u_denom = common_lookup_elements
-        .combine([gate_relation_id, m31(U_VAR_IDX), m31(0), m31(0), m31(1), m31(0)].span());
+        .combine([GATE_RELATION_ID, m31(U_VAR_IDX), m31(0), m31(0), m31(1), m31(0)].span());
     let u_sum = u_denom.inverse();
 
     // output_sum = Σ (1 / combine([GATE_RELATION_ID, addr, a, b, c, d])).
@@ -91,7 +90,7 @@ pub fn lookup_sum(
     let mut addr: M31 = m31(U_VAR_IDX + 1);
     for value in claim.public_data.output_values.span() {
         let [a, b, c, d] = QM31Trait::to_fixed_array(*value);
-        let denom = common_lookup_elements.combine([gate_relation_id, addr, a, b, c, d].span());
+        let denom = common_lookup_elements.combine([GATE_RELATION_ID, addr, a, b, c, d].span());
         output_sum = output_sum + denom.inverse();
         addr += m31(1);
     }
