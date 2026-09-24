@@ -55,7 +55,6 @@ pub fn generate_component_cairo_constraints_code(
                 ref trace_mask_values: ColumnSpan<Span<QM31>>,
                 ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
                 random_coeff: QM31,
-                public_params: Span<u32>,
             ) {
                 let log_size = $(get_log_size(air_fn, false));
                 let claimed_sum = *self.claimed_sum;
@@ -109,16 +108,6 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
 }
 
 fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let mut values = air_fn.public_params.iter().map(|param| {
-        assignment
-            .environment
-            .public_params
-            .get(param)
-            .unwrap_or_else(|| panic!("Missing public param {param:?} in assignment"))
-            .0
-    });
-    let public_params = quote! { [$(values.join(", "))].span() };
-
     let mut preprocessed_values = quote! {};
 
     for external_state in air_fn.external_states.iter() {
@@ -171,7 +160,6 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             #[test]
             fn test_evaluation_result() {
                 let component = $(gen_component_for_assignment(air_fn, assignment));
-                let public_params = $(public_params);
                 let mut sum: QM31 = Zero::zero();
 
                 let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
@@ -180,7 +168,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                 let mut trace_columns = [ $(trace_values) ].span();
                 let interaction_values = array![ $(interaction_values) ];
                 let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
-                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), public_params);
+                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)));
                 preprocessed_trace.validate_usage();
                 assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
             }
@@ -197,13 +185,6 @@ fn make_qm31(value: &QM31) -> rust::Tokens {
 
 fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
-
-    // Public params
-    for (i, param) in air_fn.public_params.iter().enumerate() {
-        code.append(quote!{
-            let $(param): QM31 = (TryInto::<u32, M31>::try_into((*public_params[$(i)])).unwrap()).into();
-        });
-    }
 
     // Relation sums and numerators
     for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {

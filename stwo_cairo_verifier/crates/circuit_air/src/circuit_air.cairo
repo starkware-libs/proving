@@ -170,7 +170,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         qm31_ops
             .evaluate_constraints_at_point(
@@ -179,7 +178,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         triple_xor
             .evaluate_constraints_at_point(
@@ -188,7 +186,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         m_31_to_u_32
             .evaluate_constraints_at_point(
@@ -197,7 +194,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         blake_g_gate
             .evaluate_constraints_at_point(
@@ -206,7 +202,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         verify_bitwise_xor_8
             .evaluate_constraints_at_point(
@@ -215,7 +210,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         verify_bitwise_xor_12
             .evaluate_constraints_at_point(
@@ -224,7 +218,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         verify_bitwise_xor_4
             .evaluate_constraints_at_point(
@@ -233,7 +226,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         verify_bitwise_xor_7
             .evaluate_constraints_at_point(
@@ -242,7 +234,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         verify_bitwise_xor_9
             .evaluate_constraints_at_point(
@@ -251,7 +242,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
         range_check_16
             .evaluate_constraints_at_point(
@@ -260,7 +250,6 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
-                [].span(),
             );
 
         validate_mask_usage(
