@@ -22,7 +22,7 @@ pub mod claims;
 pub mod per_component;
 use claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
-    accumulate_circuit_relation_uses, column_log_sizes_per_tree, lookup_sum,
+    accumulate_circuit_relation_uses, column_log_sizes_per_tree, logup_sum,
 };
 pub mod circuit_hash;
 pub use circuit_hash::compute_circuit_hash;
@@ -155,7 +155,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // Pick the interaction elements.
     let common_lookup_elements = LookupElementsImpl::draw(ref channel);
     assert!(
-        lookup_sum(@claim, @common_lookup_elements, @interaction_claim).is_zero(),
+        logup_sum(@claim, @common_lookup_elements, @interaction_claim).is_zero(),
         "{}",
         VerificationError::InvalidLogupSum,
     );

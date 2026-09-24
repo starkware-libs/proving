@@ -67,7 +67,7 @@ pub impl CircuitInteractionClaimImpl of CircuitInteractionClaimTrait {
 /// Assumes that the circuit lays out its variables in a fixed order:`var[0] = 0`, `var[1] = 1`,
 /// `var[2] = u`, with the public output values placed in the variable slots immediately after `u`.
 /// A proof is valid only when this value equals zero.
-pub fn lookup_sum(
+pub fn logup_sum(
     claim: @CircuitClaim,
     common_lookup_elements: @CommonLookupElements,
     interaction_claim: @CircuitInteractionClaim,
