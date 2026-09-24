@@ -73,10 +73,13 @@ pub fn lookup_sum(
     interaction_claim: @CircuitInteractionClaim,
 ) -> QM31 {
     // component_sum = Σ claimed_sums.
-    let mut component_sum: QM31 = Zero::zero();
-    for claimed_sum in interaction_claim.claimed_sum.to_fixed_array().span() {
-        component_sum = component_sum + *claimed_sum;
-    }
+    let component_sum: QM31 = interaction_claim
+        .claimed_sum
+        .to_fixed_array()
+        .span()
+        .into_iter()
+        .map(|claimed_sum| *claimed_sum)
+        .sum();
 
     // u_sum = the `u` input is yielded at `U_VAR_IDX` with value `U_VALUE = (0, 0, 1, 0)`.
     let u_denom = common_lookup_elements
