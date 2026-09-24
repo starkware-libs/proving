@@ -106,17 +106,17 @@ pub fn lookup_sum(
 pub fn column_log_sizes_per_tree() -> TreeArray<Span<u32>> {
     let mut trace_log_sizes = array![];
     let mut interaction_log_sizes = array![];
-    for (log_size, (n_trace, n_interaction)) in zip_eq(
+    for (log_size, (n_trace_cols, n_interaction_cols)) in zip_eq(
         COMPONENT_LOG_SIZES.to_fixed_array().span(),
         zip_eq(
             N_TRACE_COLUMNS_PER_COMPONENT.to_fixed_array().span(),
             N_INTERACTION_COLUMNS_PER_COMPONENT.to_fixed_array().span(),
         ),
     ) {
-        for _ in 0..*n_trace {
+        for _ in 0..*n_trace_cols {
             trace_log_sizes.append(*log_size);
         }
-        for _ in 0..*n_interaction {
+        for _ in 0..*n_interaction_cols {
             interaction_log_sizes.append(*log_size);
         }
     }
