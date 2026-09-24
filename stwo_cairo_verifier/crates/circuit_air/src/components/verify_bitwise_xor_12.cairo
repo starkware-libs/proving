@@ -126,26 +126,22 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let limb_off_3: QM31 = m31(LIMB_OFFSET * 3).into();
 
         // Precompute the 4 a-side values (one per `i`) and 4 b-side values (one per `j`).
-        let a_offs = [
+        let [a0, a1, a2, a3] = [
             bitwise_xor_10_0, bitwise_xor_10_0 + limb_off, bitwise_xor_10_0 + limb_off_2,
             bitwise_xor_10_0 + limb_off_3,
         ];
-        let b_offs = [
+        let [b0, b1, b2, b3] = [
             bitwise_xor_10_1, bitwise_xor_10_1 + limb_off, bitwise_xor_10_1 + limb_off_2,
             bitwise_xor_10_1 + limb_off_3,
         ];
         // c offsets — XOR of i and j folded in.
-        let c_offs = [
+        let [c0, c1, c2, c3] = [
             bitwise_xor_10_2, bitwise_xor_10_2 + limb_off, bitwise_xor_10_2 + limb_off_2,
             bitwise_xor_10_2 + limb_off_3,
         ];
 
-        // Build sum_n = combine(relation_id, a_offs[i], b_offs[j], c_offs[i^j]) for each
-        // lookup n = 4*i + j.
+        // Build sum_n = combine(relation_id, a_i, b_j, c_{i^j} for each lookup n = 4*i + j.
         let common = self.common_lookup_elements;
-        let [a0, a1, a2, a3] = a_offs;
-        let [b0, b1, b2, b3] = b_offs;
-        let [c0, c1, c2, c3] = c_offs;
         let sum_0 = common.combine_qm31([relation_id, a0, b0, c0].span());
         let sum_1 = common.combine_qm31([relation_id, a0, b1, c1].span());
         let sum_2 = common.combine_qm31([relation_id, a0, b2, c2].span());
