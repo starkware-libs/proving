@@ -1,7 +1,6 @@
 //! `stwo_circuit_air`: AIR-specific verifier-side logic written in Cairo for the stwo-circuits
 //! circuit.
 use circuit_air::CircuitAirNewImpl;
-use core::dict::{Felt252DictTrait, SquashedFelt252DictTrait};
 use core::num::traits::Zero;
 use multiverifier_consts::{N_OUTPUTS, circuit_fri_config};
 use stwo_constraint_framework::LookupElementsImpl;
@@ -22,7 +21,7 @@ pub mod claims;
 pub mod per_component;
 use claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
-    accumulate_circuit_relation_uses, column_log_sizes_per_tree, logup_sum,
+    column_log_sizes_per_tree, logup_sum,
 };
 pub mod circuit_hash;
 pub use circuit_hash::compute_circuit_hash;
@@ -94,8 +93,6 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // proof produced with weaker/mismatched FRI parameters.
     let fri_config = stark_proof.commitment_scheme_proof.config;
     assert!(fri_config == circuit_fri_config(), "unexpected proof fri config");
-
-    verify_claim();
 
     let mut channel: Channel = Default::default();
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
@@ -185,24 +182,3 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     );
 }
 
-/// Verifies the claim of the circuit proof.
-///
-/// Checks that, for every lookup relation, the total number of uses across all components is
-/// less than `P`. This mirrors the soundness requirement enforced by
-/// `stwo-circuits/crates/stark_verifier/src/verify.rs::check_relation_uses`; the Rust version
-/// has to work in the QM31 circuit domain and therefore uses a shifted sum
-/// (`sum(uses_per_row * (floor(num_rows/DIV) + 1)) < floor(P/DIV)`) to avoid overflow.
-/// In Cairo we have native `u64` arithmetic, so the accumulator in
-/// `stwo_constraint_framework::accumulate_relation_uses` already sums directly — the check
-/// here is the plain `< P` bound on that accumulated `u64`.
-fn verify_claim() {
-    let mut relation_uses: RelationUsesDict = Default::default();
-    accumulate_circuit_relation_uses(ref relation_uses);
-
-    let squashed = relation_uses.squash();
-    let entries = squashed.into_entries();
-    for entry in entries {
-        let (_relation_id, _first_uses, last_uses) = entry;
-        assert!(last_uses < P_U32.into(), "A relation has more than P-1 uses");
-    }
-}

@@ -1,10 +1,7 @@
-use stwo_constraint_framework::{
-    CommonLookupElements, LookupElementsTrait, RelationUsesDict, accumulate_relation_uses,
-};
+use stwo_constraint_framework::{CommonLookupElements, LookupElementsTrait};
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
 use stwo_verifier_utils::zip_eq::zip_eq;
-use crate::components;
 use crate::multiverifier_consts::{COMPONENT_LOG_SIZES, PREPROCESSED_COLUMN_LOG_SIZES};
 use crate::per_component::{
     N_INTERACTION_COLUMNS_PER_COMPONENT, N_TRACE_COLUMNS_PER_COMPONENT, PerComponent,
@@ -115,31 +112,50 @@ pub fn column_log_sizes_per_tree() -> [Span<u32>; 3] {
     ];
 }
 
-/// Accumulates lookup-relation uses across components from the hardcoded `COMPONENT_LOG_SIZES`.
-/// Only the variable-size components export `RELATION_USES_PER_ROW`; fixed-size components
-/// (lookup tables) use no relations.
-pub fn accumulate_circuit_relation_uses(ref relation_uses: RelationUsesDict) {
-    accumulate_relation_uses(
-        ref relation_uses, components::eq::RELATION_USES_PER_ROW.span(), COMPONENT_LOG_SIZES.eq,
-    );
-    accumulate_relation_uses(
-        ref relation_uses,
-        components::triple_xor::RELATION_USES_PER_ROW.span(),
-        COMPONENT_LOG_SIZES.triple_xor,
-    );
-    accumulate_relation_uses(
-        ref relation_uses,
-        components::m_31_to_u_32::RELATION_USES_PER_ROW.span(),
-        COMPONENT_LOG_SIZES.m_31_to_u_32,
-    );
-    accumulate_relation_uses(
-        ref relation_uses,
-        components::blake_g_gate::RELATION_USES_PER_ROW.span(),
-        COMPONENT_LOG_SIZES.blake_g_gate,
-    );
-    accumulate_relation_uses(
-        ref relation_uses,
-        components::qm_31_ops::RELATION_USES_PER_ROW.span(),
-        COMPONENT_LOG_SIZES.qm_31_ops,
-    );
+#[cfg(test)]
+mod tests {
+    use core::dict::{Felt252DictTrait, SquashedFelt252DictTrait};
+    use stwo_constraint_framework::{RelationUsesDict, accumulate_relation_uses};
+    use stwo_verifier_core::fields::m31::P_U32;
+    use crate::components;
+    use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
+
+    /// Checks that, for every lookup relation, the total number of uses across all components is
+    /// less than `P`.
+    ///
+    /// The circuit is fixed-size, so the uses are determined by the hardcoded
+    /// `COMPONENT_LOG_SIZES` (that's why this is a test rather than a verifier-side check).
+    #[test]
+    fn relation_uses_are_below_p() {
+        let mut relation_uses: RelationUsesDict = Default::default();
+        accumulate_relation_uses(
+            ref relation_uses, components::eq::RELATION_USES_PER_ROW.span(), COMPONENT_LOG_SIZES.eq,
+        );
+        accumulate_relation_uses(
+            ref relation_uses,
+            components::triple_xor::RELATION_USES_PER_ROW.span(),
+            COMPONENT_LOG_SIZES.triple_xor,
+        );
+        accumulate_relation_uses(
+            ref relation_uses,
+            components::m_31_to_u_32::RELATION_USES_PER_ROW.span(),
+            COMPONENT_LOG_SIZES.m_31_to_u_32,
+        );
+        accumulate_relation_uses(
+            ref relation_uses,
+            components::blake_g_gate::RELATION_USES_PER_ROW.span(),
+            COMPONENT_LOG_SIZES.blake_g_gate,
+        );
+        accumulate_relation_uses(
+            ref relation_uses,
+            components::qm_31_ops::RELATION_USES_PER_ROW.span(),
+            COMPONENT_LOG_SIZES.qm_31_ops,
+        );
+
+        let squashed = relation_uses.squash();
+        for entry in squashed.into_entries() {
+            let (_relation_id, _first_uses, last_uses) = entry;
+            assert!(last_uses < P_U32.into(), "A relation has more than P-1 uses");
+        }
+    }
 }
