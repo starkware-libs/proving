@@ -76,7 +76,7 @@ fn layout(target_sizes: &ComponentSizes) -> Vec<(String, u32)> {
 fn cairo_component(id: &str) -> &'static str {
     match id {
         _ if id.starts_with("eq_") => "eq",
-        _ if id.starts_with("qm31_ops_") => "qm_31_ops",
+        _ if id.starts_with("qm_31_ops_") => "qm_31_ops",
         _ if id.starts_with("triple_xor_") => "triple_xor",
         _ if id.starts_with("m31_to_u32_") => "m_31_to_u_32",
         _ if id.starts_with("blake_g_gate_") => "blake_g_gate",
@@ -91,19 +91,9 @@ fn cairo_component(id: &str) -> &'static str {
 }
 
 /// The Cairo `*_IDX` constant name of a preprocessed column id. The AIR-infra naming differs
-/// from the registry ids for some columns, aliased here (`qm31_ops_*` is `qm_31_ops_*`, with
-/// `in0/in1` as `in_0/in_1`).
+/// from the registry ids for some columns, aliased here (`m31_to_u32/m_31_to_u_32`, `f0/f_0`).
 fn idx_const_name(id: &str) -> String {
     let renamed = match id {
-        // TODO(Leo): change the registry names `qm31_ops_*` to `qm_31_ops_*`.
-        "qm31_ops_add_flag" => "qm_31_ops_add_flag",
-        "qm31_ops_sub_flag" => "qm_31_ops_sub_flag",
-        "qm31_ops_mul_flag" => "qm_31_ops_mul_flag",
-        "qm31_ops_pointwise_mul_flag" => "qm_31_ops_pointwise_mul_flag",
-        "qm31_ops_in0_address" => "qm_31_ops_in_0_address",
-        "qm31_ops_in1_address" => "qm_31_ops_in_1_address",
-        "qm31_ops_out_address" => "qm_31_ops_out_address",
-        "qm31_ops_mults" => "qm_31_ops_mults",
         "blake_g_gate_input_addr_f0" => "blake_g_gate_input_addr_f_0",
         "blake_g_gate_input_addr_f1" => "blake_g_gate_input_addr_f_1",
         _ if id.starts_with("m31_to_u32_") => {
@@ -163,7 +153,7 @@ fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSi
     writeln!(w, "/// Each component's log size.").unwrap();
     writeln!(w, "pub const COMPONENT_LOG_SIZES: PerComponent<u32> = PerComponent {{").unwrap();
     writeln!(w, "    eq: {},", log_of("eq_in0_address")).unwrap();
-    writeln!(w, "    qm_31_ops: {},", log_of("qm31_ops_add_flag")).unwrap();
+    writeln!(w, "    qm_31_ops: {},", log_of("qm_31_ops_add_flag")).unwrap();
     writeln!(w, "    triple_xor: {},", log_of("triple_xor_input_addr_0")).unwrap();
     writeln!(w, "    m_31_to_u_32: {},", log_of("m31_to_u32_input_addr")).unwrap();
     writeln!(w, "    blake_g_gate: {},", log_of("blake_g_gate_input_addr_a")).unwrap();

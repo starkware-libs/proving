@@ -8,8 +8,8 @@ pub const M_31_TO_U_32_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 462064706 },
 ];
 pub const QM_31_OPS_SAMPLE_EVAL_RESULT: [M31; 4] = [
-    M31 { inner: 129009472 }, M31 { inner: 1233759849 }, M31 { inner: 56358031 },
-    M31 { inner: 1784081381 },
+    M31 { inner: 1031374204 }, M31 { inner: 1278518267 }, M31 { inner: 873601223 },
+    M31 { inner: 2002933222 },
 ];
 pub const RANGE_CHECK_16_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 1328638141 }, M31 { inner: 302872209 }, M31 { inner: 1035108074 },

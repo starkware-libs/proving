@@ -45,26 +45,26 @@ impl FrameworkEval for Eval {
         let M31_1 = E::F::from(M31::from(1));
         let M31_2 = E::F::from(M31::from(2));
         let M31_378353459 = E::F::from(M31::from(378353459));
-        let qm31_ops_add_flag = eval
-            .get_preprocessed_column(PreProcessedColumnId { id: "qm31_ops_add_flag".to_owned() });
-        let qm31_ops_mul_flag = eval
-            .get_preprocessed_column(PreProcessedColumnId { id: "qm31_ops_mul_flag".to_owned() });
-        let qm31_ops_pointwise_mul_flag = eval.get_preprocessed_column(PreProcessedColumnId {
-            id: "qm31_ops_pointwise_mul_flag".to_owned(),
+        let qm_31_ops_add_flag = eval
+            .get_preprocessed_column(PreProcessedColumnId { id: "qm_31_ops_add_flag".to_owned() });
+        let qm_31_ops_mul_flag = eval
+            .get_preprocessed_column(PreProcessedColumnId { id: "qm_31_ops_mul_flag".to_owned() });
+        let qm_31_ops_pointwise_mul_flag = eval.get_preprocessed_column(PreProcessedColumnId {
+            id: "qm_31_ops_pointwise_mul_flag".to_owned(),
         });
-        let qm31_ops_sub_flag = eval
-            .get_preprocessed_column(PreProcessedColumnId { id: "qm31_ops_sub_flag".to_owned() });
-        let qm31_ops_in0_address = eval.get_preprocessed_column(PreProcessedColumnId {
-            id: "qm31_ops_in0_address".to_owned(),
+        let qm_31_ops_sub_flag = eval
+            .get_preprocessed_column(PreProcessedColumnId { id: "qm_31_ops_sub_flag".to_owned() });
+        let qm_31_ops_in_0_address = eval.get_preprocessed_column(PreProcessedColumnId {
+            id: "qm_31_ops_in_0_address".to_owned(),
         });
-        let qm31_ops_in1_address = eval.get_preprocessed_column(PreProcessedColumnId {
-            id: "qm31_ops_in1_address".to_owned(),
+        let qm_31_ops_in_1_address = eval.get_preprocessed_column(PreProcessedColumnId {
+            id: "qm_31_ops_in_1_address".to_owned(),
         });
-        let qm31_ops_out_address = eval.get_preprocessed_column(PreProcessedColumnId {
-            id: "qm31_ops_out_address".to_owned(),
+        let qm_31_ops_out_address = eval.get_preprocessed_column(PreProcessedColumnId {
+            id: "qm_31_ops_out_address".to_owned(),
         });
-        let qm31_ops_mults =
-            eval.get_preprocessed_column(PreProcessedColumnId { id: "qm31_ops_mults".to_owned() });
+        let qm_31_ops_mults =
+            eval.get_preprocessed_column(PreProcessedColumnId { id: "qm_31_ops_mults".to_owned() });
         let input_op0_limb0_col0 = eval.next_trace_mask();
         let input_op0_limb1_col1 = eval.next_trace_mask();
         let input_op0_limb2_col2 = eval.next_trace_mask();
@@ -80,27 +80,27 @@ impl FrameworkEval for Eval {
 
         // all flags sum to 1.
         eval.add_constraint(
-            ((((qm31_ops_add_flag.clone() + qm31_ops_sub_flag.clone())
-                + qm31_ops_mul_flag.clone())
-                + qm31_ops_pointwise_mul_flag.clone())
+            ((((qm_31_ops_add_flag.clone() + qm_31_ops_sub_flag.clone())
+                + qm_31_ops_mul_flag.clone())
+                + qm_31_ops_pointwise_mul_flag.clone())
                 - M31_1.clone()),
         );
         // add_flag is a bit.
         eval.add_constraint(
-            (qm31_ops_add_flag.clone() * (qm31_ops_add_flag.clone() - M31_1.clone())),
+            (qm_31_ops_add_flag.clone() * (qm_31_ops_add_flag.clone() - M31_1.clone())),
         );
         // sub_flag is a bit.
         eval.add_constraint(
-            (qm31_ops_sub_flag.clone() * (qm31_ops_sub_flag.clone() - M31_1.clone())),
+            (qm_31_ops_sub_flag.clone() * (qm_31_ops_sub_flag.clone() - M31_1.clone())),
         );
         // mul_flag is a bit.
         eval.add_constraint(
-            (qm31_ops_mul_flag.clone() * (qm31_ops_mul_flag.clone() - M31_1.clone())),
+            (qm_31_ops_mul_flag.clone() * (qm_31_ops_mul_flag.clone() - M31_1.clone())),
         );
         // pointwise_mul_flag is a bit.
         eval.add_constraint(
-            (qm31_ops_pointwise_mul_flag.clone()
-                * (qm31_ops_pointwise_mul_flag.clone() - M31_1.clone())),
+            (qm_31_ops_pointwise_mul_flag.clone()
+                * (qm_31_ops_pointwise_mul_flag.clone() - M31_1.clone())),
         );
         eval.add_constraint(
             (input_dst_limb0_col8.clone()
@@ -112,13 +112,13 @@ impl FrameworkEval for Eval {
                                 * input_op1_limb3_col7.clone()))))
                     - (input_op0_limb2_col2.clone() * input_op1_limb3_col7.clone()))
                     - (input_op0_limb3_col3.clone() * input_op1_limb2_col6.clone()))
-                    * qm31_ops_mul_flag.clone())
+                    * qm_31_ops_mul_flag.clone())
                     + ((input_op0_limb0_col0.clone() + input_op1_limb0_col4.clone())
-                        * qm31_ops_add_flag.clone()))
+                        * qm_31_ops_add_flag.clone()))
                     + ((input_op0_limb0_col0.clone() - input_op1_limb0_col4.clone())
-                        * qm31_ops_sub_flag.clone()))
+                        * qm_31_ops_sub_flag.clone()))
                     + ((input_op0_limb0_col0.clone() * input_op1_limb0_col4.clone())
-                        * qm31_ops_pointwise_mul_flag.clone()))),
+                        * qm_31_ops_pointwise_mul_flag.clone()))),
         );
         eval.add_constraint(
             (input_dst_limb1_col9.clone()
@@ -130,13 +130,13 @@ impl FrameworkEval for Eval {
                                 * input_op1_limb2_col6.clone()))))
                     + (input_op0_limb2_col2.clone() * input_op1_limb2_col6.clone()))
                     - (input_op0_limb3_col3.clone() * input_op1_limb3_col7.clone()))
-                    * qm31_ops_mul_flag.clone())
+                    * qm_31_ops_mul_flag.clone())
                     + ((input_op0_limb1_col1.clone() + input_op1_limb1_col5.clone())
-                        * qm31_ops_add_flag.clone()))
+                        * qm_31_ops_add_flag.clone()))
                     + ((input_op0_limb1_col1.clone() - input_op1_limb1_col5.clone())
-                        * qm31_ops_sub_flag.clone()))
+                        * qm_31_ops_sub_flag.clone()))
                     + ((input_op0_limb1_col1.clone() * input_op1_limb1_col5.clone())
-                        * qm31_ops_pointwise_mul_flag.clone()))),
+                        * qm_31_ops_pointwise_mul_flag.clone()))),
         );
         eval.add_constraint(
             (input_dst_limb2_col10.clone()
@@ -144,13 +144,13 @@ impl FrameworkEval for Eval {
                     - (input_op0_limb1_col1.clone() * input_op1_limb3_col7.clone()))
                     + (input_op0_limb2_col2.clone() * input_op1_limb0_col4.clone()))
                     - (input_op0_limb3_col3.clone() * input_op1_limb1_col5.clone()))
-                    * qm31_ops_mul_flag.clone())
+                    * qm_31_ops_mul_flag.clone())
                     + ((input_op0_limb2_col2.clone() + input_op1_limb2_col6.clone())
-                        * qm31_ops_add_flag.clone()))
+                        * qm_31_ops_add_flag.clone()))
                     + ((input_op0_limb2_col2.clone() - input_op1_limb2_col6.clone())
-                        * qm31_ops_sub_flag.clone()))
+                        * qm_31_ops_sub_flag.clone()))
                     + ((input_op0_limb2_col2.clone() * input_op1_limb2_col6.clone())
-                        * qm31_ops_pointwise_mul_flag.clone()))),
+                        * qm_31_ops_pointwise_mul_flag.clone()))),
         );
         eval.add_constraint(
             (input_dst_limb3_col11.clone()
@@ -158,20 +158,20 @@ impl FrameworkEval for Eval {
                     + (input_op0_limb1_col1.clone() * input_op1_limb2_col6.clone()))
                     + (input_op0_limb2_col2.clone() * input_op1_limb1_col5.clone()))
                     + (input_op0_limb3_col3.clone() * input_op1_limb0_col4.clone()))
-                    * qm31_ops_mul_flag.clone())
+                    * qm_31_ops_mul_flag.clone())
                     + ((input_op0_limb3_col3.clone() + input_op1_limb3_col7.clone())
-                        * qm31_ops_add_flag.clone()))
+                        * qm_31_ops_add_flag.clone()))
                     + ((input_op0_limb3_col3.clone() - input_op1_limb3_col7.clone())
-                        * qm31_ops_sub_flag.clone()))
+                        * qm_31_ops_sub_flag.clone()))
                     + ((input_op0_limb3_col3.clone() * input_op1_limb3_col7.clone())
-                        * qm31_ops_pointwise_mul_flag.clone()))),
+                        * qm_31_ops_pointwise_mul_flag.clone()))),
         );
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
             E::EF::from(M31_1.clone()),
             &[
                 M31_378353459.clone(),
-                qm31_ops_in0_address.clone(),
+                qm_31_ops_in_0_address.clone(),
                 input_op0_limb0_col0.clone(),
                 input_op0_limb1_col1.clone(),
                 input_op0_limb2_col2.clone(),
@@ -184,7 +184,7 @@ impl FrameworkEval for Eval {
             E::EF::from(M31_1.clone()),
             &[
                 M31_378353459.clone(),
-                qm31_ops_in1_address.clone(),
+                qm_31_ops_in_1_address.clone(),
                 input_op1_limb0_col4.clone(),
                 input_op1_limb1_col5.clone(),
                 input_op1_limb2_col6.clone(),
@@ -194,10 +194,10 @@ impl FrameworkEval for Eval {
 
         eval.add_to_relation(RelationEntry::new(
             &self.common_lookup_elements,
-            -E::EF::from(qm31_ops_mults.clone()),
+            -E::EF::from(qm_31_ops_mults.clone()),
             &[
                 M31_378353459.clone(),
-                qm31_ops_out_address.clone(),
+                qm_31_ops_out_address.clone(),
                 input_dst_limb0_col8.clone(),
                 input_dst_limb1_col9.clone(),
                 input_dst_limb2_col10.clone(),

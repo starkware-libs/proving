@@ -81,19 +81,18 @@ macro_rules! define_preprocessed_columns {
 }
 
 define_preprocessed_columns!(EqColumns, EQ_COLUMN_IDS, [eq_in0_address, eq_in1_address]);
-// TODO(Leo): rename these ids to `qm_31_ops_*`.
 define_preprocessed_columns!(
     Qm31OpsColumns,
     QM31_OPS_COLUMN_IDS,
     [
-        qm31_ops_add_flag,
-        qm31_ops_sub_flag,
-        qm31_ops_mul_flag,
-        qm31_ops_pointwise_mul_flag,
-        qm31_ops_in0_address,
-        qm31_ops_in1_address,
-        qm31_ops_out_address,
-        qm31_ops_mults
+        qm_31_ops_add_flag,
+        qm_31_ops_sub_flag,
+        qm_31_ops_mul_flag,
+        qm_31_ops_pointwise_mul_flag,
+        qm_31_ops_in_0_address,
+        qm_31_ops_in_1_address,
+        qm_31_ops_out_address,
+        qm_31_ops_mults
     ]
 );
 define_preprocessed_columns!(

@@ -113,14 +113,14 @@ pub fn multiverifier_preprocessed_column_log_sizes() -> OrderedHashMap<PreProces
         ("bitwise_xor_10_0", 20),
         ("bitwise_xor_10_1", 20),
         ("bitwise_xor_10_2", 20),
-        ("qm31_ops_add_flag", 21),
-        ("qm31_ops_sub_flag", 21),
-        ("qm31_ops_mul_flag", 21),
-        ("qm31_ops_pointwise_mul_flag", 21),
-        ("qm31_ops_in0_address", 21),
-        ("qm31_ops_in1_address", 21),
-        ("qm31_ops_out_address", 21),
-        ("qm31_ops_mults", 21),
+        ("qm_31_ops_add_flag", 21),
+        ("qm_31_ops_sub_flag", 21),
+        ("qm_31_ops_mul_flag", 21),
+        ("qm_31_ops_pointwise_mul_flag", 21),
+        ("qm_31_ops_in_0_address", 21),
+        ("qm_31_ops_in_1_address", 21),
+        ("qm_31_ops_out_address", 21),
+        ("qm_31_ops_mults", 21),
     ]
     .into_iter()
     .map(|(id, log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))

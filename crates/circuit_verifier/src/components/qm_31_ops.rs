@@ -28,48 +28,48 @@ pub fn accumulate_constraints<Value: IValue>(
         input_dst_limb2_col10,
         input_dst_limb3_col11,
     ] = input.try_into().unwrap();
-    let qm31_ops_add_flag =
-        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_add_flag".to_owned() });
-    let qm31_ops_in0_address = acc
-        .get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_in0_address".to_owned() });
-    let qm31_ops_in1_address = acc
-        .get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_in1_address".to_owned() });
-    let qm31_ops_mul_flag =
-        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_mul_flag".to_owned() });
-    let qm31_ops_mults =
-        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_mults".to_owned() });
-    let qm31_ops_out_address = acc
-        .get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_out_address".to_owned() });
-    let qm31_ops_pointwise_mul_flag = acc.get_preprocessed_column(&PreProcessedColumnId {
-        id: "qm31_ops_pointwise_mul_flag".to_owned(),
+    let qm_31_ops_add_flag =
+        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_add_flag".to_owned() });
+    let qm_31_ops_in_0_address = acc
+        .get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_in_0_address".to_owned() });
+    let qm_31_ops_in_1_address = acc
+        .get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_in_1_address".to_owned() });
+    let qm_31_ops_mul_flag =
+        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_mul_flag".to_owned() });
+    let qm_31_ops_mults =
+        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_mults".to_owned() });
+    let qm_31_ops_out_address = acc
+        .get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_out_address".to_owned() });
+    let qm_31_ops_pointwise_mul_flag = acc.get_preprocessed_column(&PreProcessedColumnId {
+        id: "qm_31_ops_pointwise_mul_flag".to_owned(),
     });
-    let qm31_ops_sub_flag =
-        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm31_ops_sub_flag".to_owned() });
+    let qm_31_ops_sub_flag =
+        acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_sub_flag".to_owned() });
 
     // all flags sum to 1.
     let constraint_0_value = eval!(
         context,
-        ((((qm31_ops_add_flag) + (qm31_ops_sub_flag)) + (qm31_ops_mul_flag))
-            + (qm31_ops_pointwise_mul_flag))
+        ((((qm_31_ops_add_flag) + (qm_31_ops_sub_flag)) + (qm_31_ops_mul_flag))
+            + (qm_31_ops_pointwise_mul_flag))
             - (1)
     );
     acc.add_constraint(context, constraint_0_value);
 
     // add_flag is a bit.
-    let constraint_1_value = eval!(context, (qm31_ops_add_flag) * ((qm31_ops_add_flag) - (1)));
+    let constraint_1_value = eval!(context, (qm_31_ops_add_flag) * ((qm_31_ops_add_flag) - (1)));
     acc.add_constraint(context, constraint_1_value);
 
     // sub_flag is a bit.
-    let constraint_2_value = eval!(context, (qm31_ops_sub_flag) * ((qm31_ops_sub_flag) - (1)));
+    let constraint_2_value = eval!(context, (qm_31_ops_sub_flag) * ((qm_31_ops_sub_flag) - (1)));
     acc.add_constraint(context, constraint_2_value);
 
     // mul_flag is a bit.
-    let constraint_3_value = eval!(context, (qm31_ops_mul_flag) * ((qm31_ops_mul_flag) - (1)));
+    let constraint_3_value = eval!(context, (qm_31_ops_mul_flag) * ((qm_31_ops_mul_flag) - (1)));
     acc.add_constraint(context, constraint_3_value);
 
     // pointwise_mul_flag is a bit.
     let constraint_4_value =
-        eval!(context, (qm31_ops_pointwise_mul_flag) * ((qm31_ops_pointwise_mul_flag) - (1)));
+        eval!(context, (qm_31_ops_pointwise_mul_flag) * ((qm_31_ops_pointwise_mul_flag) - (1)));
     acc.add_constraint(context, constraint_4_value);
 
     let constraint_5_value = eval!(
@@ -82,11 +82,11 @@ pub fn accumulate_constraints<Value: IValue>(
                         - ((input_op0_limb3_col3) * (input_op1_limb3_col7)))))
                 - ((input_op0_limb2_col2) * (input_op1_limb3_col7)))
                 - ((input_op0_limb3_col3) * (input_op1_limb2_col6)))
-                * (qm31_ops_mul_flag))
-                + (((input_op0_limb0_col0) + (input_op1_limb0_col4)) * (qm31_ops_add_flag)))
-                + (((input_op0_limb0_col0) - (input_op1_limb0_col4)) * (qm31_ops_sub_flag)))
+                * (qm_31_ops_mul_flag))
+                + (((input_op0_limb0_col0) + (input_op1_limb0_col4)) * (qm_31_ops_add_flag)))
+                + (((input_op0_limb0_col0) - (input_op1_limb0_col4)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb0_col0) * (input_op1_limb0_col4))
-                    * (qm31_ops_pointwise_mul_flag)))
+                    * (qm_31_ops_pointwise_mul_flag)))
     );
     acc.add_constraint(context, constraint_5_value);
 
@@ -100,11 +100,11 @@ pub fn accumulate_constraints<Value: IValue>(
                         + ((input_op0_limb3_col3) * (input_op1_limb2_col6)))))
                 + ((input_op0_limb2_col2) * (input_op1_limb2_col6)))
                 - ((input_op0_limb3_col3) * (input_op1_limb3_col7)))
-                * (qm31_ops_mul_flag))
-                + (((input_op0_limb1_col1) + (input_op1_limb1_col5)) * (qm31_ops_add_flag)))
-                + (((input_op0_limb1_col1) - (input_op1_limb1_col5)) * (qm31_ops_sub_flag)))
+                * (qm_31_ops_mul_flag))
+                + (((input_op0_limb1_col1) + (input_op1_limb1_col5)) * (qm_31_ops_add_flag)))
+                + (((input_op0_limb1_col1) - (input_op1_limb1_col5)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb1_col1) * (input_op1_limb1_col5))
-                    * (qm31_ops_pointwise_mul_flag)))
+                    * (qm_31_ops_pointwise_mul_flag)))
     );
     acc.add_constraint(context, constraint_6_value);
 
@@ -115,11 +115,11 @@ pub fn accumulate_constraints<Value: IValue>(
                 - ((input_op0_limb1_col1) * (input_op1_limb3_col7)))
                 + ((input_op0_limb2_col2) * (input_op1_limb0_col4)))
                 - ((input_op0_limb3_col3) * (input_op1_limb1_col5)))
-                * (qm31_ops_mul_flag))
-                + (((input_op0_limb2_col2) + (input_op1_limb2_col6)) * (qm31_ops_add_flag)))
-                + (((input_op0_limb2_col2) - (input_op1_limb2_col6)) * (qm31_ops_sub_flag)))
+                * (qm_31_ops_mul_flag))
+                + (((input_op0_limb2_col2) + (input_op1_limb2_col6)) * (qm_31_ops_add_flag)))
+                + (((input_op0_limb2_col2) - (input_op1_limb2_col6)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb2_col2) * (input_op1_limb2_col6))
-                    * (qm31_ops_pointwise_mul_flag)))
+                    * (qm_31_ops_pointwise_mul_flag)))
     );
     acc.add_constraint(context, constraint_7_value);
 
@@ -130,18 +130,18 @@ pub fn accumulate_constraints<Value: IValue>(
                 + ((input_op0_limb1_col1) * (input_op1_limb2_col6)))
                 + ((input_op0_limb2_col2) * (input_op1_limb1_col5)))
                 + ((input_op0_limb3_col3) * (input_op1_limb0_col4)))
-                * (qm31_ops_mul_flag))
-                + (((input_op0_limb3_col3) + (input_op1_limb3_col7)) * (qm31_ops_add_flag)))
-                + (((input_op0_limb3_col3) - (input_op1_limb3_col7)) * (qm31_ops_sub_flag)))
+                * (qm_31_ops_mul_flag))
+                + (((input_op0_limb3_col3) + (input_op1_limb3_col7)) * (qm_31_ops_add_flag)))
+                + (((input_op0_limb3_col3) - (input_op1_limb3_col7)) * (qm_31_ops_sub_flag)))
                 + (((input_op0_limb3_col3) * (input_op1_limb3_col7))
-                    * (qm31_ops_pointwise_mul_flag)))
+                    * (qm_31_ops_pointwise_mul_flag)))
     );
     acc.add_constraint(context, constraint_8_value);
 
     // Use Gate.
     let tuple_9 = &[
         eval!(context, 378353459),
-        eval!(context, qm31_ops_in0_address),
+        eval!(context, qm_31_ops_in_0_address),
         eval!(context, input_op0_limb0_col0),
         eval!(context, input_op0_limb1_col1),
         eval!(context, input_op0_limb2_col2),
@@ -153,7 +153,7 @@ pub fn accumulate_constraints<Value: IValue>(
     // Use Gate.
     let tuple_10 = &[
         eval!(context, 378353459),
-        eval!(context, qm31_ops_in1_address),
+        eval!(context, qm_31_ops_in_1_address),
         eval!(context, input_op1_limb0_col4),
         eval!(context, input_op1_limb1_col5),
         eval!(context, input_op1_limb2_col6),
@@ -165,13 +165,13 @@ pub fn accumulate_constraints<Value: IValue>(
     // Yield Gate.
     let tuple_11 = &[
         eval!(context, 378353459),
-        eval!(context, qm31_ops_out_address),
+        eval!(context, qm_31_ops_out_address),
         eval!(context, input_dst_limb0_col8),
         eval!(context, input_dst_limb1_col9),
         eval!(context, input_dst_limb2_col10),
         eval!(context, input_dst_limb3_col11),
     ];
-    let numerator_11 = eval!(context, -(qm31_ops_mults));
+    let numerator_11 = eval!(context, -(qm_31_ops_mults));
     acc.add_to_relation(context, numerator_11, tuple_11);
 }
 
@@ -208,7 +208,7 @@ impl<Value: IValue> CircuitEval<Value> for Component {
     ) -> Option<u32> {
         Some(
             *preprocessed_column_log_sizes
-                .get(&PreProcessedColumnId { id: "qm31_ops_add_flag".to_string() })
+                .get(&PreProcessedColumnId { id: "qm_31_ops_add_flag".to_string() })
                 .unwrap(),
         )
     }
@@ -266,36 +266,36 @@ mod tests {
         ];
         let preprocessed_columns = HashMap::from([
             (
-                PreProcessedColumnId { id: "qm31_ops_add_flag".to_owned() },
-                context.constant(qm31_from_u32s(1527140322, 858930457, 73068685, 1080204029)),
+                PreProcessedColumnId { id: "qm_31_ops_add_flag".to_owned() },
+                context.constant(qm31_from_u32s(2008763856, 668586075, 986260244, 1154698137)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_mul_flag".to_owned() },
-                context.constant(qm31_from_u32s(1106251446, 17903294, 1375115415, 1357632339)),
+                PreProcessedColumnId { id: "qm_31_ops_mul_flag".to_owned() },
+                context.constant(qm31_from_u32s(753532226, 1668588607, 2021383940, 940498869)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_pointwise_mul_flag".to_owned() },
-                context.constant(qm31_from_u32s(485880212, 563142412, 2027283405, 872250142)),
+                PreProcessedColumnId { id: "qm_31_ops_pointwise_mul_flag".to_owned() },
+                context.constant(qm31_from_u32s(1658621201, 1657657148, 1342332119, 2034171678)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_sub_flag".to_owned() },
-                context.constant(qm31_from_u32s(631320763, 551670292, 1783831999, 688564846)),
+                PreProcessedColumnId { id: "qm_31_ops_sub_flag".to_owned() },
+                context.constant(qm31_from_u32s(346603561, 1505146370, 374195948, 1196742422)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_in0_address".to_owned() },
-                context.constant(qm31_from_u32s(944321702, 2104082059, 1058357559, 650219243)),
+                PreProcessedColumnId { id: "qm_31_ops_in_0_address".to_owned() },
+                context.constant(qm31_from_u32s(1444382797, 1354185417, 705047099, 132239089)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_in1_address".to_owned() },
-                context.constant(qm31_from_u32s(721894235, 818083030, 1176389319, 1875149912)),
+                PreProcessedColumnId { id: "qm_31_ops_in_1_address".to_owned() },
+                context.constant(qm31_from_u32s(585273626, 1140883031, 1920880217, 1007275653)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_out_address".to_owned() },
-                context.constant(qm31_from_u32s(1284595166, 878257086, 777884389, 531365363)),
+                PreProcessedColumnId { id: "qm_31_ops_out_address".to_owned() },
+                context.constant(qm31_from_u32s(1287652242, 435165403, 1148348826, 1979403697)),
             ),
             (
-                PreProcessedColumnId { id: "qm31_ops_mults".to_owned() },
-                context.constant(qm31_from_u32s(2068309461, 1074848526, 422232906, 2078266109)),
+                PreProcessedColumnId { id: "qm_31_ops_mults".to_owned() },
+                context.constant(qm31_from_u32s(1372962279, 1246081592, 1017358753, 1525168544)),
             ),
         ]);
         let public_params = HashMap::from([]);

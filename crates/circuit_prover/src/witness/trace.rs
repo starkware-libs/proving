@@ -19,7 +19,7 @@ use stwo::prover::poly::circle::PolyOps;
 use stwo::prover::poly::twiddles::TwiddleTree;
 
 use crate::witness::components::{
-    blake_g_gate, eq, m_31_to_u_32, qm31_ops, range_check_16, triple_xor, verify_bitwise_xor_4,
+    blake_g_gate, eq, m_31_to_u_32, qm_31_ops, range_check_16, triple_xor, verify_bitwise_xor_4,
     verify_bitwise_xor_7, verify_bitwise_xor_8, verify_bitwise_xor_9, verify_bitwise_xor_12,
 };
 
@@ -67,7 +67,7 @@ where
     scope(|s| {
         // Eq and qm31_ops traces run for the full duration of the parent scope.
         s.spawn(|_| {
-            let (trace, log_size, lookup_data) = qm31_ops::write_trace(
+            let (trace, log_size, lookup_data) = qm_31_ops::write_trace(
                 context_values,
                 preprocessed_trace_ref,
                 &trace_generator.qm31_ops_trace_generator,
@@ -299,7 +299,7 @@ where
 
 pub struct CircuitInteractionClaimGenerator {
     pub eq_lookup_data: eq::LookupData,
-    pub qm31_ops_lookup_data: qm31_ops::LookupData,
+    pub qm31_ops_lookup_data: qm_31_ops::LookupData,
     pub triple_xor: triple_xor::InteractionClaimGenerator,
     pub m_31_to_u_32: m_31_to_u_32::InteractionClaimGenerator,
     pub blake_g_gate: blake_g_gate::InteractionClaimGenerator,
@@ -356,7 +356,7 @@ where
             claimed_sums.eq = claimed_sum;
         });
         s.spawn(|_| {
-            let (trace, claimed_sum) = qm31_ops::write_interaction_trace(
+            let (trace, claimed_sum) = qm_31_ops::write_interaction_trace(
                 qm31_ops_log_size,
                 qm31_ops_lookup_data,
                 &interaction_elements.common_lookup_elements,

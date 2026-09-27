@@ -77,14 +77,14 @@ pub const PREPROCESSED_COLUMN_LOG_SIZES: [u32; 45] = [
     COMPONENT_LOG_SIZES.verify_bitwise_xor_12, // bitwise_xor_10_0
     COMPONENT_LOG_SIZES.verify_bitwise_xor_12, // bitwise_xor_10_1
     COMPONENT_LOG_SIZES.verify_bitwise_xor_12, // bitwise_xor_10_2
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_add_flag
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_sub_flag
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_mul_flag
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_pointwise_mul_flag
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_in0_address
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_in1_address
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_out_address
-    COMPONENT_LOG_SIZES.qm_31_ops, // qm31_ops_mults
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_add_flag
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_sub_flag
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_mul_flag
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_pointwise_mul_flag
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_in_0_address
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_in_1_address
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_out_address
+    COMPONENT_LOG_SIZES.qm_31_ops, // qm_31_ops_mults
     COMPONENT_LOG_SIZES.blake_g_gate, // blake_g_gate_input_addr_a
     COMPONENT_LOG_SIZES.blake_g_gate, // blake_g_gate_input_addr_b
     COMPONENT_LOG_SIZES.blake_g_gate, // blake_g_gate_input_addr_c
