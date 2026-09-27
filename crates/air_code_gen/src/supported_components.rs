@@ -71,7 +71,6 @@ fn get_manual_circuit_constraints_components() -> Vec<String> {
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         // Gates components
-        "qm_31_ops".into(),
         // The circuit version requires applying the enabler to the reading of the message,
         "circuit_blake_round".into(),
         "verify_bitwise_xor_12".into(),

@@ -21,9 +21,8 @@ use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 use crate::circuit_components::PerComponent;
 use crate::circuit_hash::compute_circuit_hash;
 use crate::components::eq::CircuitEqComponent;
-use crate::components::qm31_ops::CircuitQm31OpsComponent;
 use crate::components::{
-    blake_g_gate, m_31_to_u_32, range_check_16, triple_xor, verify_bitwise_xor_4,
+    blake_g_gate, m_31_to_u_32, qm_31_ops, range_check_16, triple_xor, verify_bitwise_xor_4,
     verify_bitwise_xor_7, verify_bitwise_xor_8, verify_bitwise_xor_9, verify_bitwise_xor_12,
 };
 use crate::relations::GATE_RELATION_ID;
@@ -159,7 +158,7 @@ pub fn all_circuit_components<Value: IValue>() -> IndexMap<&'static str, Box<dyn
 {
     let components = PerComponent::<Box<dyn CircuitEval<Value>>> {
         eq: Box::new(CircuitEqComponent {}),
-        qm31_ops: Box::new(CircuitQm31OpsComponent {}),
+        qm_31_ops: Box::new(qm_31_ops::Component {}),
         triple_xor: Box::new(triple_xor::Component {}),
         m_31_to_u_32: Box::new(m_31_to_u_32::Component {}),
         blake_g_gate: Box::new(blake_g_gate::Component {}),
@@ -187,7 +186,7 @@ pub fn circuit_component_log_sizes<Value: IValue>(
     };
     PerComponent {
         eq: log_size("eq"),
-        qm31_ops: log_size("qm31_ops"),
+        qm_31_ops: log_size("qm_31_ops"),
         triple_xor: log_size("triple_xor"),
         m_31_to_u_32: log_size("m_31_to_u_32"),
         blake_g_gate: log_size("blake_g_gate"),

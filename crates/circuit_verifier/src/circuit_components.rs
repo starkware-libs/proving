@@ -46,7 +46,7 @@ macro_rules! define_component_list {
 
 define_component_list! {
     Eq => eq,
-    Qm31Ops => qm31_ops,
+    Qm31Ops => qm_31_ops,
     TripleXor => triple_xor,
     M31ToU32 => m_31_to_u_32,
     BlakeGGate => blake_g_gate,

@@ -2,7 +2,7 @@ pub mod blake_g_gate;
 pub mod eq;
 pub mod m_31_to_u_32;
 pub mod prelude;
-pub mod qm31_ops;
+pub mod qm_31_ops;
 pub mod range_check_16;
 pub mod subroutines;
 pub mod triple_xor;

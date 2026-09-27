@@ -245,7 +245,7 @@ where
 
     let log_sizes = PerComponent {
         eq: eq_log_size,
-        qm31_ops: qm31_ops_log_size,
+        qm_31_ops: qm31_ops_log_size,
         triple_xor: triple_xor_claim.log_size,
         m_31_to_u_32: m_31_to_u_32_claim.log_size,
         blake_g_gate: blake_g_gate_claim.log_size,
@@ -323,7 +323,7 @@ where
 {
     // Extract log sizes before parallel section.
     let eq_log_size = component_log_sizes.eq;
-    let qm31_ops_log_size = component_log_sizes.qm31_ops;
+    let qm31_ops_log_size = component_log_sizes.qm_31_ops;
 
     // Write all interaction traces in parallel, including interpolation. The slots below start
     // default-initialized; each spawned task writes into its own disjoint field. Destructuring
@@ -361,8 +361,8 @@ where
                 qm31_ops_lookup_data,
                 &interaction_elements.common_lookup_elements,
             );
-            all_polys.qm31_ops = SimdBackend::interpolate_columns(trace, twiddles);
-            claimed_sums.qm31_ops = claimed_sum;
+            all_polys.qm_31_ops = SimdBackend::interpolate_columns(trace, twiddles);
+            claimed_sums.qm_31_ops = claimed_sum;
         });
         s.spawn(|_| {
             let (trace, claim) =
