@@ -56,8 +56,9 @@ pub impl CircuitInteractionClaimImpl of CircuitInteractionClaimTrait {
     }
 }
 
-/// Public logup sum determined by the public statement.
-//.
+/// The sum over all of the circuit's logups: every component's claimed sum, plus the public logup
+/// sum determined by the public statement.
+///
 ///   `component_sum + u_sum + output_sum`
 /// where:
 ///   - `component_sum` is the sum of all components' `claimed_sums`;
