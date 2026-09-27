@@ -40,7 +40,7 @@ use crate::claim::{CairoCircuitClaim, CairoCircuitInteractionClaim};
 #[derive(Clone, Debug, CairoSerialize)]
 pub struct CairoCircuitProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
     pub claim: CairoCircuitClaim,
-    pub interaction_pow: u64,
+    pub interaction_pow_nonce: u64,
     pub interaction_claim: CairoCircuitInteractionClaim,
     pub stark_proof: CairoStarkProof<H>,
     pub channel_salt: u32,
@@ -77,7 +77,7 @@ pub fn prepare_circuit_proof_for_cairo_verifier<H: MerkleHasherLifted<Hash = Bla
     );
     let circuit_proof_for_cairo = CairoCircuitProof::<H> {
         claim: CairoCircuitClaim::new(&circuit_proof.claim),
-        interaction_pow: circuit_proof.interaction_pow_nonce,
+        interaction_pow_nonce: circuit_proof.interaction_pow_nonce,
         interaction_claim: CairoCircuitInteractionClaim::from(&circuit_proof.interaction_claim),
         stark_proof,
         channel_salt: circuit_proof.channel_salt,
@@ -101,7 +101,7 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoCircuitProof<H> {
     ) -> Self {
         Self {
             claim: CairoDeserialize::deserialize(data),
-            interaction_pow: CairoDeserialize::deserialize(data),
+            interaction_pow_nonce: CairoDeserialize::deserialize(data),
             interaction_claim: CairoDeserialize::deserialize(data),
             stark_proof: CairoStarkProof::deserialize(
                 data,

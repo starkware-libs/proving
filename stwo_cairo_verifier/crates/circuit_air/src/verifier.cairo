@@ -25,7 +25,7 @@ const SECURITY_BITS: u32 = 96;
 #[derive(Drop, Serde)]
 pub struct CircuitProof {
     pub claim: CircuitClaim,
-    pub interaction_pow: u64,
+    pub interaction_pow_nonce: u64,
     pub interaction_claim: CircuitInteractionClaim,
     pub stark_proof: StarkProof,
     /// Salt used in the channel initialization.
@@ -67,7 +67,7 @@ pub fn get_verification_output(
 
 pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let CircuitProof {
-        claim, interaction_pow, interaction_claim, stark_proof, channel_salt,
+        claim, interaction_pow_nonce, interaction_claim, stark_proof, channel_salt,
     } = proof;
 
     // The circuit produces a fixed number of public outputs (its topology); the claim must
@@ -124,11 +124,11 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
 
     // Interaction proof of work.
     assert!(
-        channel.verify_pow_nonce(INTERACTION_POW_BITS, interaction_pow),
+        channel.verify_pow_nonce(INTERACTION_POW_BITS, interaction_pow_nonce),
         "{}",
         VerificationError::InteractionProofOfWork,
     );
-    channel.mix_u64(interaction_pow);
+    channel.mix_u64(interaction_pow_nonce);
 
     // Pick the interaction elements.
     let common_lookup_elements = LookupElementsImpl::draw(ref channel);
