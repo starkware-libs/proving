@@ -17,27 +17,15 @@ use crate::relations::GATE_RELATION_ID;
 /// Variable index of the public input `u`.
 const U_VAR_IDX: u32 = 2;
 
-#[derive(Clone, Drop, Serde)]
-pub struct CircuitPublicData {
-    pub output_values: Array<QM31>,
-}
-
-#[generate_trait]
-pub impl CircuitPublicDataImpl of CircuitPublicDataTrait {
-    fn mix_into(self: @CircuitPublicData, ref channel: Channel) {
-        channel.mix_felts(self.output_values.span());
-    }
-}
-
 #[derive(Drop, Serde)]
 pub struct CircuitClaim {
-    pub public_data: CircuitPublicData,
+    pub output_values: Array<QM31>,
 }
 
 #[generate_trait]
 pub impl CircuitClaimImpl of CircuitClaimTrait {
     fn mix_into(self: @CircuitClaim, ref channel: Channel) {
-        self.public_data.mix_into(ref channel);
+        channel.mix_felts(self.output_values.span());
     }
 }
 
@@ -92,7 +80,7 @@ pub fn logup_sum(
     // relation, keyed by its variable index (addr).
     let mut output_sum: QM31 = Zero::zero();
     let mut addr: M31 = m31(U_VAR_IDX + 1);
-    for value in claim.public_data.output_values.span() {
+    for value in claim.output_values.span() {
         let [a, b, c, d] = QM31Trait::to_fixed_array(*value);
         let denom = common_lookup_elements.combine([GATE_RELATION_ID, addr, a, b, c, d].span());
         output_sum = output_sum + denom.inverse();

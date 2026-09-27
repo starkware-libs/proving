@@ -88,7 +88,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
 
     // The circuit produces a fixed number of public outputs (its topology); the claim must
     // provide exactly that many.
-    assert!(claim.public_data.output_values.len() == N_OUTPUTS);
+    assert!(claim.output_values.len() == N_OUTPUTS);
 
     // Pin the proof's PCS config to the circuit's hardcoded canonical config. This rejects any
     // proof produced with weaker/mismatched FRI parameters.

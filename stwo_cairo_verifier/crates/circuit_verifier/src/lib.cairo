@@ -12,7 +12,7 @@ fn main(proof: CircuitProof) -> VerificationOutput {
         .commitments
         .try_into()
         .unwrap();
-    let output_values = proof.claim.public_data.output_values.span();
+    let output_values = proof.claim.output_values.span();
 
     // Compute the circuit hash.
     let [preprocessed_commitment, _, _, _] = commitments.unbox();

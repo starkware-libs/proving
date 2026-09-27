@@ -20,7 +20,7 @@ use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
 /// Mirror of Cairo `CircuitClaim`.
 ///
 /// Cairo layout:
-/// - `public_data: CircuitPublicData { output_values: Array<QM31> }`
+/// - `output_values: Array<QM31>`
 #[derive(Clone, Debug, PartialEq, Eq, CairoSerialize, CairoDeserialize)]
 pub struct CairoCircuitClaim {
     pub output_values: Vec<QM31>,
