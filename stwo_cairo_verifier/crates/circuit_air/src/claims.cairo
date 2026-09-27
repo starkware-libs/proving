@@ -1,12 +1,11 @@
 use stwo_constraint_framework::{
     CommonLookupElements, LookupElementsTrait, RelationUsesDict, accumulate_relation_uses,
 };
-use stwo_verifier_core::TreeArray;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
 use stwo_verifier_utils::zip_eq::zip_eq;
 use crate::components;
-use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
+use crate::multiverifier_consts::{COMPONENT_LOG_SIZES, PREPROCESSED_COLUMN_LOG_SIZES};
 use crate::per_component::{
     N_INTERACTION_COLUMNS_PER_COMPONENT, N_TRACE_COLUMNS_PER_COMPONENT, PerComponent,
     PerComponentTrait,
@@ -90,11 +89,11 @@ pub fn logup_sum(
     component_sum + u_sum + output_sum
 }
 
-/// Builds `[preprocessed (empty placeholder), trace, interaction]` column log sizes from the
-/// hardcoded per-component log sizes, repeating each component's log size by its trace/interaction
-/// column count, in `ComponentList` order. The preprocessed placeholder is discarded by the caller,
-/// which commits the preprocessed tree using the hardcoded `PREPROCESSED_COLUMN_LOG_SIZES`.
-pub fn column_log_sizes_per_tree() -> TreeArray<Span<u32>> {
+/// Returns `[preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]`, one entry per
+/// committed tree,  where all three are constants. `tree[0]` is the hardcoded
+/// `PREPROCESSED_COLUMN_LOG_SIZES`; `tree[1]` and `tree[2]` repeat each component's log size by its
+/// trace/interaction column count, in `ComponentList` order.
+pub fn column_log_sizes_per_tree() -> [Span<u32>; 3] {
     let mut trace_log_sizes = array![];
     let mut interaction_log_sizes = array![];
     for (log_size, (n_trace_cols, n_interaction_cols)) in zip_eq(
@@ -111,7 +110,9 @@ pub fn column_log_sizes_per_tree() -> TreeArray<Span<u32>> {
             interaction_log_sizes.append(*log_size);
         }
     }
-    array![array![].span(), trace_log_sizes.span(), interaction_log_sizes.span()]
+    return [
+        PREPROCESSED_COLUMN_LOG_SIZES.span(), trace_log_sizes.span(), interaction_log_sizes.span(),
+    ];
 }
 
 /// Accumulates lookup-relation uses across components from the hardcoded `COMPONENT_LOG_SIZES`.

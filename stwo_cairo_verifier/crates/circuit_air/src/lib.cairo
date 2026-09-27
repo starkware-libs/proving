@@ -3,7 +3,7 @@
 use circuit_air::CircuitAirNewImpl;
 use core::dict::{Felt252DictTrait, SquashedFelt252DictTrait};
 use core::num::traits::Zero;
-use multiverifier_consts::{N_OUTPUTS, PREPROCESSED_COLUMN_LOG_SIZES, circuit_fri_config};
+use multiverifier_consts::{N_OUTPUTS, circuit_fri_config};
 use stwo_constraint_framework::LookupElementsImpl;
 pub use stwo_constraint_framework::{RelationUse, RelationUsesDict, accumulate_relation_uses};
 use stwo_verifier_core::Hash;
@@ -120,9 +120,8 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
         commitments
         .unbox();
 
-    let log_sizes = column_log_sizes_per_tree();
-    let log_sizes_box: @Box<[Span<u32>; 3]> = log_sizes.span().try_into().unwrap();
-    let [_, trace_log_sizes, interaction_trace_log_sizes] = log_sizes_box.unbox();
+    let [preprocessed_column_log_sizes, trace_log_sizes, interaction_trace_log_sizes] =
+        column_log_sizes_per_tree();
 
     let log_blowup_factor = fri_config.log_blowup_factor;
 
@@ -131,10 +130,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // to the expected circuit topology is the responsibility of whoever consumes that output.
     commitment_scheme
         .commit(
-            preprocessed_commitment,
-            PREPROCESSED_COLUMN_LOG_SIZES.span(),
-            ref channel,
-            log_blowup_factor,
+            preprocessed_commitment, preprocessed_column_log_sizes, ref channel, log_blowup_factor,
         );
 
     // Mix the circuit hash and the claim into the channel.
@@ -175,7 +171,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // bound (`trace_log_size = lifting - blowup`); the composition polynomial's raw degree bound is
     // one higher (degree-2 constraints) but it is split into 2 polynomials before LDE, bringing its
     // per-column degree bound back down to the trace's.
-    let trace_log_degree_bound = *PREPROCESSED_COLUMN_LOG_SIZES.span().max().unwrap();
+    let trace_log_degree_bound = *preprocessed_column_log_sizes.max().unwrap();
     let circuit_air = CircuitAirNewImpl::new(@common_lookup_elements, @interaction_claim);
 
     verify(
