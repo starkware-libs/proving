@@ -68,6 +68,8 @@ impl<T> FriWitness<T> {
 pub struct FriProof<T> {
     /// Information regarding the FRI commitment phase.
     pub commit: FriCommitProof<T>,
+    /// Nonce for the proof of work that gates query selection.
+    pub pow_nonce: T,
     /// Authentication paths for all the FRI trees.
     pub auth_paths: AuthPaths<T>,
     /// Witness for the FRI decommitment phase.
@@ -77,7 +79,7 @@ pub struct FriProof<T> {
 impl<T> FriProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
     pub fn validate_structure(&self, log_trace_size: usize, config: &FriConfig) {
-        let FriProof { commit, auth_paths, witness } = self;
+        let FriProof { commit, pow_nonce: _, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
             log_trace_size - config.log_last_layer_degree_bound as usize,
             config.fold_step as usize,
@@ -108,6 +110,7 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
     fn guess(&self, context: &mut Context<Value>) -> Self::Target {
         Self::Target {
             commit: self.commit.guess(context),
+            pow_nonce: self.pow_nonce.guess(context),
             auth_paths: self.auth_paths.guess(context),
             witness: self.witness.guess(context),
         }
@@ -142,6 +145,7 @@ pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<No
             layer_commitments: vec![HashValue([U32Wrapper::no_value(); 8]); all_fold_steps.len()],
             last_layer_coefs: vec![NoValue; 1 << config.log_last_layer_degree_bound],
         },
+        pow_nonce: NoValue,
         auth_paths,
         witness: FriWitness(witness_per_query_per_tree),
     }

@@ -59,8 +59,6 @@ pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
     pub decommitments: Vec<MerkleDecommitmentLifted<H>>,
     /// Sorted+transposed queried values (per tree).
     pub queried_values: Vec<Vec<M31>>,
-    /// Ground before drawing the FRI query positions.
-    pub proof_of_work: u64,
     pub fri_proof: FriProof<H>,
 }
 
@@ -135,7 +133,6 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
             sampled_values: CairoDeserialize::deserialize(data),
             decommitments: CairoDeserialize::deserialize(data),
             queried_values: CairoDeserialize::deserialize(data),
-            proof_of_work: CairoDeserialize::deserialize(data),
             fri_proof: CairoDeserialize::deserialize(data),
         }
     }
@@ -154,7 +151,6 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work,
             fri_proof,
         } = commitment_scheme_proof;
 
@@ -170,7 +166,6 @@ impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
             sampled_values: sampled_values.0,
             decommitments: decommitments.0,
             queried_values: sorted.0,
-            proof_of_work,
             fri_proof,
         }
     }

@@ -1,7 +1,7 @@
 use hashbrown::HashMap;
 use itertools::Itertools;
 use num_traits::Zero;
-use tracing::instrument;
+use tracing::{Level, instrument, span};
 
 use crate::core::channel::{Channel, MerkleChannel};
 use crate::core::fields::m31::BaseField;
@@ -11,6 +11,7 @@ use crate::core::fri::{
     FriProofAux,
 };
 use crate::core::poly::line::LinePoly;
+use crate::core::proof_of_work::GrindOps;
 use crate::core::queries::{Queries, draw_queries};
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use crate::core::vcs_lifted::verifier::LOG_PACKED_LEAF_SIZE;
@@ -98,7 +99,9 @@ pub struct FriProver<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> 
     inner_layers: Vec<FriInnerLayerProver<B, MC::H>>,
     last_layer_poly: LinePoly,
 }
-impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B, MC> {
+impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel>
+    FriProver<'a, B, MC>
+{
     /// Runs the commitment phase of FRI on one circle evaluation over a canonic circle domain.
     ///
     /// # Panics
@@ -223,13 +226,19 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B,
     }
 
     /// Returns a FRI proof and the query positions.
-    pub fn decommit(self, channel: &mut MC::C) -> FriDecommitResult<MC::H> {
+    pub fn decommit(self, channel: &mut MC::C, pow_bits: u32) -> FriDecommitResult<MC::H> {
         let first_layer_log_size = self.first_layer.column.domain.log_size();
+
+        // Proof of work.
+        let span1 = span!(Level::INFO, "Grind", class = "Queries POW").entered();
+        let proof_of_work = B::grind(channel, pow_bits);
+        span1.exit();
+        channel.mix_u64(proof_of_work);
         let unsorted_query_locations =
             draw_queries(channel, first_layer_log_size, self.config.n_queries);
         let queries = Queries::new(&unsorted_query_locations, first_layer_log_size);
 
-        let fri_proof = self.decommit_on_queries(&queries);
+        let fri_proof = self.decommit_on_queries(&queries, proof_of_work);
         FriDecommitResult {
             fri_proof,
             query_positions: queries.positions,
@@ -240,7 +249,11 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B,
     /// # Panics
     ///
     /// Panics if the queries were sampled on the wrong domain size.
-    pub fn decommit_on_queries(self, queries: &Queries) -> ExtendedFriProof<MC::H> {
+    pub fn decommit_on_queries(
+        self,
+        queries: &Queries,
+        proof_of_work: u64,
+    ) -> ExtendedFriProof<MC::H> {
         let Self { config, first_layer, inner_layers, last_layer_poly } = self;
 
         let first_layer_proof = first_layer.decommit(queries, config.fold_step);
@@ -263,6 +276,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B,
                 first_layer: first_layer_proof.proof,
                 inner_layers: inner_proofs,
                 last_layer_poly,
+                proof_of_work,
             },
             aux: FriProofAux { first_layer: first_layer_proof.aux, inner_layers: inner_layers_aux },
         }
@@ -502,7 +516,7 @@ mod tests {
 
         let prover = FriProver::commit(&mut test_channel(), config, &column, &twiddles);
         let queries = Queries::from_positions(vec![0, 3], 6 + LOG_BLOWUP_FACTOR);
-        prover.decommit_on_queries(&queries);
+        prover.decommit_on_queries(&queries, 0);
     }
 
     #[test]
@@ -514,7 +528,7 @@ mod tests {
 
             let prover = FriProver::commit(&mut test_channel(), config, &column, &twiddles);
             let queries = Queries::from_positions(vec![1, 6, 11], 8 + LOG_BLOWUP_FACTOR);
-            prover.decommit_on_queries(&queries);
+            prover.decommit_on_queries(&queries, 0);
         }
     }
 
@@ -535,7 +549,7 @@ mod tests {
                 &twiddles,
             );
             let queries = Queries::from_positions(vec![1, 6, 11], 8 + LOG_BLOWUP_FACTOR);
-            prover.decommit_on_queries(&queries);
+            prover.decommit_on_queries(&queries, 0);
         }
     }
 
@@ -555,7 +569,7 @@ mod tests {
             &twiddles,
         );
         let queries = Queries::from_positions(vec![0, 3], 6 + LOG_BLOWUP_FACTOR);
-        prover.decommit_on_queries(&queries);
+        prover.decommit_on_queries(&queries, 0);
     }
 
     #[test]
@@ -575,7 +589,7 @@ mod tests {
             &twiddles,
         );
         let queries = Queries::from_positions(vec![1, 6, 11], 8 + LOG_BLOWUP_FACTOR);
-        prover.decommit_on_queries(&queries);
+        prover.decommit_on_queries(&queries, 0);
     }
 
     #[test]

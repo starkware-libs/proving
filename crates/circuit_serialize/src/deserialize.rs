@@ -121,7 +121,6 @@ pub fn deserialize_proof_with_config(
     let eval_domain_samples = deserialize_eval_domain_samples(data, config)?;
     let eval_domain_auth_paths = deserialize_eval_domain_auth_paths(data, config)?;
     let oods_pow_nonce = QM31::deserialize(data)?;
-    let pow_nonce = QM31::deserialize(data)?;
     let interaction_pow_nonce = QM31::deserialize(data)?;
     let fri = deserialize_fri_proof(data, config.log_trace_size, &config.fri)?;
 
@@ -138,7 +137,6 @@ pub fn deserialize_proof_with_config(
         eval_domain_samples,
         eval_domain_auth_paths,
         oods_pow_nonce,
-        pow_nonce,
         interaction_pow_nonce,
         fri,
     })
@@ -218,6 +216,7 @@ fn deserialize_fri_proof(
         fri_config.fold_step as usize,
     );
     let commit = deserialize_fri_commit_proof(data, fri_config, &all_fold_steps)?;
+    let pow_nonce = QM31::deserialize(data)?;
 
     let mut path_len = log_trace_size + fri_config.log_blowup_factor as usize;
     let mut auth_path_trees = Vec::with_capacity(all_fold_steps.len());
@@ -242,5 +241,5 @@ fn deserialize_fri_proof(
         witness_per_query_per_tree.push(witness_per_query);
     }
     let witness = FriWitness(witness_per_query_per_tree);
-    Ok(FriProof { commit, auth_paths, witness })
+    Ok(FriProof { commit, pow_nonce, auth_paths, witness })
 }

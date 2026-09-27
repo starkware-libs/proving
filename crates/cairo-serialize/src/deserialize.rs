@@ -107,7 +107,8 @@ where
         let first_layer = FriLayerProof::deserialize(data);
         let inner_layers = Vec::deserialize(data);
         let last_layer_poly = LinePoly::deserialize(data);
-        FriProof { first_layer, inner_layers, last_layer_poly }
+        let proof_of_work = u64::deserialize(data);
+        FriProof { first_layer, inner_layers, last_layer_poly, proof_of_work }
     }
 }
 

@@ -12,7 +12,6 @@ use crate::utils::{
 };
 use crate::vcs::MerkleHasher;
 use crate::vcs::verifier::{MerkleDecommitment, MerkleVerifier, MerkleVerifierTrait};
-use crate::verifier::VerificationError;
 use crate::{ColumnSpan, Hash, TreeArray, TreeSpan, queries};
 
 /// Sanity check that the proof of work is not negligible.
@@ -61,7 +60,6 @@ pub struct CommitmentSchemeProof {
     pub sampled_values: SampledValues,
     pub decommitments: TreeArray<MerkleDecommitment<MerkleHasher>>,
     pub queried_values: QueriedValues,
-    pub proof_of_work_nonce: u64,
     pub fri_proof: FriProof,
 }
 
@@ -140,7 +138,6 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
             sampled_values,
             decommitments,
             queried_values: queried_values_per_tree,
-            proof_of_work_nonce,
             fri_proof,
         } = proof;
 
@@ -153,16 +150,10 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
             ref channel, fri_config, fri_proof, max_log_degree_bound,
         );
 
-        // Verify proof of work.
         assert!(fri_config.pow_bits >= MIN_POW_BITS);
-        assert!(
-            channel.verify_pow_nonce(fri_config.pow_bits, proof_of_work_nonce),
-            "{}",
-            VerificationError::QueriesProofOfWork,
-        );
-        channel.mix_u64(proof_of_work_nonce);
 
-        // Get FRI query positions.
+        // Get FRI query positions. Gated by the query proof of work.
+        fri_verifier.verify_proof_of_work(ref channel);
         let queries = fri_verifier.sample_query_positions(ref channel);
         let query_positions = queries.positions;
         let lifting_log_size = max_log_degree_bound + fri_config.log_blowup_factor;

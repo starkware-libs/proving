@@ -57,6 +57,7 @@ pub struct FriVerifier {
     inner_layers: Array<FriInnerLayerVerifier>,
     last_layer_domain: LineDomain,
     last_layer_poly: LinePoly,
+    proof_of_work_nonce: u64,
 }
 
 #[generate_trait]
@@ -69,7 +70,10 @@ pub impl FriVerifierImpl of FriVerifierTrait {
         ref channel: Channel, config: FriConfig, proof: FriProof, log_bound: u32,
     ) -> FriVerifier {
         let FriProof {
-            first_layer: first_layer_proof, inner_layers: mut inner_layer_proofs, last_layer_poly,
+            first_layer: first_layer_proof,
+            inner_layers: mut inner_layer_proofs,
+            last_layer_poly,
+            proof_of_work_nonce,
         } = proof;
 
         channel.mix_commitment(first_layer_proof.commitment);
@@ -143,7 +147,12 @@ pub impl FriVerifierImpl of FriVerifierTrait {
         channel.mix_felts(last_layer_poly.coeffs.span());
 
         FriVerifier {
-            config, first_layer, inner_layers, last_layer_domain: layer_domain, last_layer_poly,
+            config,
+            first_layer,
+            inner_layers,
+            last_layer_domain: layer_domain,
+            last_layer_poly,
+            proof_of_work_nonce,
         }
     }
 
@@ -160,6 +169,20 @@ pub impl FriVerifierImpl of FriVerifierTrait {
         );
 
         decommit_last_layer(self, last_layer_queries, last_layer_query_evals)
+    }
+
+    /// Verifies the query proof of work and mixes the nonce into the channel.
+    ///
+    /// Must be called before `sample_query_positions`: the nonce gates the query positions
+    /// drawn from the channel.
+    fn verify_proof_of_work(self: @FriVerifier, ref channel: Channel) {
+        let proof_of_work_nonce = *self.proof_of_work_nonce;
+        assert!(
+            channel.verify_pow_nonce(*self.config.pow_bits, proof_of_work_nonce),
+            "{}",
+            FriVerificationError::ProofOfWork,
+        );
+        channel.mix_u64(proof_of_work_nonce);
     }
 
     /// Samples and returns query positions mapped by column log size.
@@ -258,6 +281,8 @@ pub struct FriProof {
     pub first_layer: FriLayerProof,
     pub inner_layers: Span<FriLayerProof>,
     pub last_layer_poly: LinePoly,
+    /// Nonce for the proof of work that gates the query phase.
+    pub proof_of_work_nonce: u64,
 }
 
 #[derive(Drop)]
@@ -655,6 +680,7 @@ pub enum FriVerificationError {
     LastLayerDegreeInvalid,
     LastLayerEvaluationsInvalid,
     LastLayerLogDegreeMustBeZero,
+    ProofOfWork,
 }
 
 impl FriVerificationErrorDisplay of core::fmt::Display<FriVerificationError> {
@@ -676,6 +702,7 @@ impl FriVerificationErrorDisplay of core::fmt::Display<FriVerificationError> {
             FriVerificationError::LastLayerLogDegreeMustBeZero => write!(
                 f, "Last layer log degree must be zero",
             ),
+            FriVerificationError::ProofOfWork => write!(f, "Proof Of Work verification failed"),
         }
     }
 }

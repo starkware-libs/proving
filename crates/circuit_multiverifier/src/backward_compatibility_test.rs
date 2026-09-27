@@ -15,7 +15,7 @@ use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circui
 
 /// The preprocessed root of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [441253039, 3875613392, 928940681, 3427512551, 3617659553, 3418754813, 3338178337, 68552802];
+    [4177100276, 2501926633, 3282252103, 603308509, 2618324398, 401385220, 3101853439, 528333151];
 /// The output digest of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];

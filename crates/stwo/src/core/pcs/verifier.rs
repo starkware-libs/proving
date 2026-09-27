@@ -69,12 +69,8 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
         let mut fri_verifier =
             FriVerifier::<MC>::commit(channel, self.config.fri_config, proof.fri_proof, bound)?;
 
-        // Verify proof of work.
-        if !channel.verify_pow_nonce(self.config.fri_config.pow_bits, proof.proof_of_work) {
-            return Err(VerificationError::ProofOfWork);
-        }
-        channel.mix_u64(proof.proof_of_work);
-        // Get FRI query positions.
+        // Get FRI query positions. Gated by the query proof of work.
+        fri_verifier.verify_proof_of_work(channel)?;
         let query_positions = fri_verifier.sample_query_positions(channel);
         let preprocessed_query_positions = prepare_preprocessed_query_positions(
             &query_positions,

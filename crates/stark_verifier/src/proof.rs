@@ -377,7 +377,6 @@ pub struct Proof<T> {
     pub eval_domain_auth_paths: AuthPaths<T>,
 
     pub oods_pow_nonce: T,
-    pub pow_nonce: T,
     pub interaction_pow_nonce: T,
     pub fri: FriProof<T>,
 }
@@ -397,7 +396,6 @@ impl<T> Proof<T> {
             eval_domain_samples,
             eval_domain_auth_paths,
             oods_pow_nonce: _,
-            pow_nonce: _,
             interaction_pow_nonce: _,
             fri,
         } = self;
@@ -470,7 +468,6 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
             data: vec![vec![auth_path; config.n_queries()]; N_TRACES],
         },
         oods_pow_nonce: NoValue,
-        pow_nonce: NoValue,
         interaction_pow_nonce: NoValue,
         fri: empty_fri_proof(config.log_trace_size, &config.fri),
         channel_salt: NoValue,
@@ -493,7 +490,6 @@ impl<Value: IValue> Guess<Value> for Proof<Value> {
             eval_domain_samples: self.eval_domain_samples.guess(context),
             eval_domain_auth_paths: self.eval_domain_auth_paths.guess(context),
             oods_pow_nonce: self.oods_pow_nonce.guess(context),
-            pow_nonce: self.pow_nonce.guess(context),
             interaction_pow_nonce: self.interaction_pow_nonce.guess(context),
             fri: self.fri.guess(context),
             channel_salt: self.channel_salt.guess(context),

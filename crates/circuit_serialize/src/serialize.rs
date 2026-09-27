@@ -26,7 +26,6 @@ impl CircuitSerialize for Proof<QM31> {
             eval_domain_samples,
             eval_domain_auth_paths,
             oods_pow_nonce,
-            pow_nonce,
             interaction_pow_nonce,
             fri,
         } = self;
@@ -43,7 +42,6 @@ impl CircuitSerialize for Proof<QM31> {
         eval_domain_samples.serialize(output);
         eval_domain_auth_paths.serialize(output);
         oods_pow_nonce.serialize(output);
-        pow_nonce.serialize(output);
         interaction_pow_nonce.serialize(output);
         fri.serialize(output);
     }
@@ -164,8 +162,9 @@ impl CircuitSerialize for FriWitness<QM31> {
 
 impl CircuitSerialize for FriProof<QM31> {
     fn serialize(&self, output: &mut Vec<u8>) {
-        let Self { commit, auth_paths, witness } = self;
+        let Self { commit, pow_nonce, auth_paths, witness } = self;
         commit.serialize(output);
+        pow_nonce.serialize(output);
         auth_paths.serialize(output);
         witness.serialize(output);
     }

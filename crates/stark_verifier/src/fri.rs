@@ -70,6 +70,7 @@ pub fn fri_decommit<Value: IValue>(
 ) {
     let FriProof {
         commit: FriCommitProof { layer_commitments, last_layer_coefs },
+        pow_nonce: _,
         auth_paths,
         witness: FriWitness(witness_per_query_per_tree),
     } = proof;

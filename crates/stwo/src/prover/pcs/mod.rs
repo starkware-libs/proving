@@ -253,15 +253,9 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         let fri_prover =
             FriProver::<B, MC>::commit(channel, self.config.fri_config, &quotients, self.twiddles);
 
-        // Proof of work.
-        let span1 = span!(Level::INFO, "Grind", class = "Queries POW").entered();
-        let proof_of_work = B::grind(channel, self.config.fri_config.pow_bits);
-        span1.exit();
-        channel.mix_u64(proof_of_work);
-
         // FRI decommitment phase.
         let FriDecommitResult { fri_proof, query_positions, unsorted_query_locations } =
-            fri_prover.decommit(channel);
+            fri_prover.decommit(channel, self.config.fri_config.pow_bits);
         // Build the query position tree.
         let preprocessed_query_positions = prepare_preprocessed_query_positions(
             &query_positions,
@@ -308,7 +302,6 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
                 sampled_values,
                 decommitments: TreeVec(decommitments),
                 queried_values: TreeVec(queried_values),
-                proof_of_work,
                 fri_proof: fri_proof.proof,
                 config: self.config,
                 oods_proof_of_work,

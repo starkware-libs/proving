@@ -81,10 +81,11 @@ where
     H::Hash: CairoSerialize,
 {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
-        let Self { first_layer, inner_layers, last_layer_poly } = self;
+        let Self { first_layer, inner_layers, last_layer_poly, proof_of_work } = self;
         first_layer.serialize(output);
         inner_layers.serialize(output);
         last_layer_poly.serialize(output);
+        proof_of_work.serialize(output);
     }
 }
 
@@ -128,7 +129,6 @@ where
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work,
             fri_proof,
         } = self;
         config.serialize(output);
@@ -137,7 +137,6 @@ where
         sampled_values.serialize(output);
         decommitments.serialize(output);
         queried_values.serialize(output);
-        proof_of_work.serialize(output);
         fri_proof.serialize(output);
     }
 }

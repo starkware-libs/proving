@@ -31,7 +31,7 @@ pub fn proof_from_stark_proof(
     let oods_pow_high = (oods_pow >> 32) as u32;
     let oods_pow_low = (oods_pow & 0xFFFFFFFF) as u32;
 
-    let pow: u64 = proof.proof.proof_of_work;
+    let pow: u64 = proof.proof.fri_proof.proof_of_work;
     let pow_high = (pow >> 32) as u32;
     let pow_low = (pow & 0xFFFFFFFF) as u32;
 
@@ -70,11 +70,11 @@ pub fn proof_from_stark_proof(
                 .collect(),
                 last_layer_coefs: (*fri_proof.last_layer_poly).to_vec(),
             },
+            pow_nonce: qm31_from_u32s(pow_low, pow_high, 0, 0),
             auth_paths: construct_fri_auth_paths(proof, config, &all_fold_steps),
             witness: construct_fri_witness(proof, &all_fold_steps),
         },
         oods_pow_nonce: qm31_from_u32s(oods_pow_low, oods_pow_high, 0, 0),
-        pow_nonce: qm31_from_u32s(pow_low, pow_high, 0, 0),
         interaction_pow_nonce: qm31_from_u32s(interaction_pow_low, interaction_pow_high, 0, 0),
         channel_salt: qm31_from_u32s(channel_salt, 0, 0, 0),
     }

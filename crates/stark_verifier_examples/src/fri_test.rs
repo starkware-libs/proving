@@ -82,6 +82,7 @@ fn test_fri_decommit_with_jumps(
             .collect(),
             last_layer_coefs: last_layer_coefficients.clone(),
         },
+        pow_nonce: QM31::from_u32_unchecked(0, 0, 0, 0),
         auth_paths,
         witness,
     };
@@ -147,7 +148,7 @@ fn create_fri_proof(
         &twiddles,
     );
     let queries = Queries::new(query_indices, log_trace_size + log_blowup_factor);
-    prover.decommit_on_queries(&queries)
+    prover.decommit_on_queries(&queries, 0)
 }
 
 fn generate_query_indices(n_queries: usize, log_evaluation_domain_size: u32) -> Vec<usize> {
