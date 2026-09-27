@@ -119,6 +119,7 @@ mod tests {
     use stwo_verifier_core::fields::m31::P_U32;
     use crate::components;
     use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
+    use crate::per_component::PerComponent;
 
     /// Checks that, for every lookup relation, the total number of uses across all components is
     /// less than `P`.
@@ -127,29 +128,35 @@ mod tests {
     /// `COMPONENT_LOG_SIZES` (that's why this is a test rather than a verifier-side check).
     #[test]
     fn relation_uses_are_below_p() {
+        let PerComponent {
+            eq,
+            qm_31_ops,
+            triple_xor,
+            m_31_to_u_32,
+            blake_g_gate,
+            verify_bitwise_xor_8: _,
+            verify_bitwise_xor_12: _,
+            verify_bitwise_xor_4: _,
+            verify_bitwise_xor_7: _,
+            verify_bitwise_xor_9: _,
+            range_check_16: _,
+        } = COMPONENT_LOG_SIZES;
+
         let mut relation_uses: RelationUsesDict = Default::default();
         accumulate_relation_uses(
-            ref relation_uses, components::eq::RELATION_USES_PER_ROW.span(), COMPONENT_LOG_SIZES.eq,
+            ref relation_uses, components::eq::RELATION_USES_PER_ROW.span(), eq,
         );
         accumulate_relation_uses(
-            ref relation_uses,
-            components::triple_xor::RELATION_USES_PER_ROW.span(),
-            COMPONENT_LOG_SIZES.triple_xor,
+            ref relation_uses, components::triple_xor::RELATION_USES_PER_ROW.span(), triple_xor,
         );
         accumulate_relation_uses(
-            ref relation_uses,
-            components::m_31_to_u_32::RELATION_USES_PER_ROW.span(),
-            COMPONENT_LOG_SIZES.m_31_to_u_32,
+            ref relation_uses, components::m_31_to_u_32::RELATION_USES_PER_ROW.span(), m_31_to_u_32,
         );
         accumulate_relation_uses(
-            ref relation_uses,
-            components::blake_g_gate::RELATION_USES_PER_ROW.span(),
-            COMPONENT_LOG_SIZES.blake_g_gate,
+            ref relation_uses, components::blake_g_gate::RELATION_USES_PER_ROW.span(), blake_g_gate,
         );
         accumulate_relation_uses(
-            ref relation_uses,
-            components::qm_31_ops::RELATION_USES_PER_ROW.span(),
-            COMPONENT_LOG_SIZES.qm_31_ops,
+            ref relation_uses, components::qm_31_ops::RELATION_USES_PER_ROW.span(), qm_31_ops,
         );
 
         let squashed = relation_uses.squash();
