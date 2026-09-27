@@ -39,7 +39,7 @@ mod test;
 /// * `query_positions`: Query positions, as indices in the largest LDE domain (i.e. the lifting
 /// domain), in ascending order.
 /// * `queried_values_per_tree`: For each tree, contains all queried trace values.
-/// * `max_log_degree_bound`: The max log degree of a committed polynomial.
+/// * `log_degree_bound`: The max log degree of a committed polynomial.
 pub fn fri_answers(
     mut column_indices_per_tree_by_degree_bound: ColumnsIndicesPerTreeByLogDegreeBound,
     log_blowup_factor: u32,
@@ -48,20 +48,18 @@ pub fn fri_answers(
     random_coeff: QM31,
     query_positions: Span<usize>,
     queried_values_per_tree: QueriedValues,
-    max_log_degree_bound: u32,
+    log_degree_bound: u32,
 ) -> Span<QM31> {
     // Note that `log_size` is equal to 1 + largest log size of a trace column (the additional 1
     // comes from calling `len()` on `column_indices_per_tree_by_degree_bound`).
     // Check that the largest log size of a trace column is <= `M31_CIRCLE_LOG_ORDER` - 1.
-    assert!(
-        max_log_degree_bound + log_blowup_factor <= M31_CIRCLE_LOG_ORDER, "log_size is too large",
-    );
+    assert!(log_degree_bound + log_blowup_factor <= M31_CIRCLE_LOG_ORDER, "log_size is too large");
     let mut queried_values_per_tree = queried_values_per_tree.span();
     // Add to each sample value the corresponding random coefficient power.
     let samples_with_randomness: Span<Span<Span<(QM31, QM31)>>> = build_samples_with_randomness(
         sample_values_per_column_per_tree, random_coeff,
     );
-    // Build the array `sample_batches_by_log_degree_bound`: for i ∈ [0, max_log_degree_bound],
+    // Build the array `sample_batches_by_log_degree_bound`: for i ∈ [0, log_degree_bound],
     // `sample_batches_by_log_degree_bound[i]` contains a triple consisting of:
     // * the sample batches for all columns of log degree bound i.
     // * an array containing the number of columns of log degree bound i in each tree.
@@ -70,11 +68,11 @@ pub fn fri_answers(
         (Span<ColumnSampleBatch>, Array<u32>, QuotientConstants),
     > =
         array![];
-    let lifting_log_size = max_log_degree_bound + log_blowup_factor;
+    let lifting_log_size = log_degree_bound + log_blowup_factor;
     let lifting_domain = CanonicCosetImpl::new(lifting_log_size);
     let lifting_domain_step = lifting_domain.coset.step.mul(1).to_point();
 
-    let trace_step = CanonicCosetImpl::new(max_log_degree_bound).coset.step.mul(1).to_point();
+    let trace_step = CanonicCosetImpl::new(log_degree_bound).coset.step.mul(1).to_point();
     let prev_oods_point = oods_point.add_circle_point_m31(-trace_step);
     // For a column of log degree bound k, its periodicity samples are evaluated at the point
     // `oods_point + lifting_domain_step.repeated_double(k + log_blowup_factor)`. Here,
@@ -215,10 +213,10 @@ fn sample_batches_for_degree_bound(
 // TODO(Leo): think about merging the loop in this function with the loop in
 // [`sample_batches_for_degree_bound`].
 fn build_samples_with_randomness(
-    sample_values_per_column_per_tree: SampledValues, random_coeff: QM31,
+    sample_values_per_column_per_tree: SampledValues, coeff: QM31,
 ) -> Span<Span<Span<(QM31, QM31)>>> {
     let mut samples_with_randomness_per_tree = array![];
-    let mut random_pow: QM31 = One::one();
+    let mut coeff_pow: QM31 = One::one();
     for sample_values_per_column in sample_values_per_column_per_tree {
         let mut new_samples_per_col = array![];
         for sample_values in sample_values_per_column {
@@ -229,18 +227,18 @@ fn build_samples_with_randomness(
             if let Some(tuple_box) = (*sample_values).try_into() {
                 let [prev_sample, ood_sample]: [QM31; 2] = (*tuple_box).unbox();
                 // Add periodicity sample.
-                new_samples.append((ood_sample, random_pow));
-                random_pow *= random_coeff;
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
 
-                new_samples.append((prev_sample, random_pow));
-                random_pow *= random_coeff;
+                new_samples.append((prev_sample, coeff_pow));
+                coeff_pow *= coeff;
 
-                new_samples.append((ood_sample, random_pow));
-                random_pow *= random_coeff;
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
             } else if let Some(point_box) = (*sample_values).try_into() {
                 let [ood_sample]: [QM31; 1] = (*point_box).unbox();
-                new_samples.append((ood_sample, random_pow));
-                random_pow *= random_coeff;
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
             } else {
                 assert!(sample_values.is_empty(), "Unexpected number of samples");
             }
@@ -390,42 +388,42 @@ impl QuotientConstantsImpl of QuotientConstantsTrait {
                 sample_batch.point,
             );
 
-            // The coefficients (a_i, b_i, c_i) are the coefficients of the line
-            //   c_i * F(q) - a_i * q.y - b_i through
+            // The coefficients (a_i, b_i, c_i) of the line
+            //   c_i * F(q) - a_i * q.y - b_i
             // through (p.y, v_i) and (conj(p.y), conj(v_i)) are:
             //   c_i =               conj(p.y) - p.y = -2u * Im(p.y),
             //   a_i =               conj(v_i) - v_i = -2u * Im(v_i),
             //   b_i = conj(p.y)*v_i - conj(v_i)*p.y = -2u * (Re(v_i)*Im(p.y) - Re(p.y)*Im(v_i)).
             // Note that c_i = c depends only on p.y and not on the value v_i.
-            // We have to compute and store c * α^i for each i; we compute these directly,
-            // without calculating each α^i. We use these to accumulate the sums
+            // We compute and store c * α^i for each i, where α^i is supplied
+            // per sample in `cols_vals_and_pows`. We use these to accumulate the sums
             //   Σ_i (c * α^i) * Im(v_i)
             //   Σ_i (c * α^i) * Re(v_i)
             // From these sums we then construct `alpha_mul_a_sum` and `alpha_mul_b_sum` by
             //   `alpha_mul_a_sum` = (Σ_i (c * α^i) * Im(v_i)) / Im(p.y)
             //   `alpha_mul_b_sum` = (Σ_i (c * α^i) * Re(v_i)) - (`alpha_mul_a_sum` * Re(p.y)).
 
-            let [re_py_a, re_py_b, im_py_a, im_py_b] = sample_batch.point.y.to_fixed_array();
-            let re_py = CM31Trait::pack(re_py_a, re_py_b);
-            let im_py_inv = CM31Trait::pack(im_py_a, im_py_b).inverse();
+            let [re_py_0, re_py_1, im_py_0, im_py_1] = sample_batch.point.y.to_fixed_array();
+            let re_py = CM31Trait::pack(re_py_0, re_py_1);
+            let im_py_inv = CM31Trait::pack(im_py_0, im_py_1).inverse();
 
-            let c = QM31Trait::from_fixed_array(
-                [M31Zero::zero(), M31Zero::zero(), im_py_a, im_py_b],
+            let u_mul_im_py = QM31Trait::from_fixed_array(
+                [M31Zero::zero(), M31Zero::zero(), im_py_0, im_py_1],
             );
-            let minus_two_c = -(c + c);
+            let c = -(u_mul_im_py + u_mul_im_py);
             let mut alpha_mul_c_mul_im_sum = PackedUnreducedQM31Trait::large_zero();
             let mut alpha_mul_c_mul_re_sum = PackedUnreducedQM31Trait::large_zero();
             let mut indexed_alpha_mul_c: Array<(usize, PackedUnreducedQM31)> = array![];
 
-            for (column_idx, sample_value, random_pow) in sample_batch.cols_vals_and_pows.span() {
-                let [re_cv_a, re_cv_b, im_cv_a, im_cv_b] = sample_value.to_fixed_array();
-                let alpha_mul_c = minus_two_c * *random_pow;
-                let re_cv = CM31Trait::pack(re_cv_a, re_cv_b);
-                let im_cv = CM31Trait::pack(im_cv_a, im_cv_b);
+            for (column_idx, sample_value, coeff_pow) in sample_batch.cols_vals_and_pows.span() {
+                let [re_v_0, re_v_1, im_v_0, im_v_1] = sample_value.to_fixed_array();
+                let alpha_mul_c = c * *coeff_pow;
+                let re_v = CM31Trait::pack(re_v_0, re_v_1);
+                let im_v = CM31Trait::pack(im_v_0, im_v_1);
                 let alpha_mul_c_packed = to_packed_unreduced_qm31(alpha_mul_c);
 
-                alpha_mul_c_mul_re_sum += alpha_mul_c_packed.mul_cm31(re_cv);
-                alpha_mul_c_mul_im_sum += alpha_mul_c_packed.mul_cm31(im_cv);
+                alpha_mul_c_mul_re_sum += alpha_mul_c_packed.mul_cm31(re_v);
+                alpha_mul_c_mul_im_sum += alpha_mul_c_packed.mul_cm31(im_v);
                 indexed_alpha_mul_c.append((*column_idx, alpha_mul_c_packed));
             }
 
