@@ -133,7 +133,7 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     )
         - QM31Impl::from_partial_evals(
@@ -144,7 +144,7 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_b_sum_1)
         + (verify_bitwise_xor_8_sum_0 * numerator_1)
         + (verify_bitwise_xor_8_b_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {

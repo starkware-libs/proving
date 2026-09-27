@@ -116,7 +116,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
         core::internal::revoke_ap_tracking();
 
         // Constraint -
-        let constraint_quotient = ((input_dst_limb0_col8
+        let constraint_eval = ((input_dst_limb0_col8
             - (((((((((input_op0_limb0_col0 * input_op1_limb0_col4)
                 - (input_op0_limb1_col1 * input_op1_limb1_col5))
                 + (qm31_const::<2, 0, 0, 0>()
@@ -128,10 +128,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 + ((input_op0_limb0_col0 + input_op1_limb0_col4) * qm_31_ops_add_flag))
                 + ((input_op0_limb0_col0 - input_op1_limb0_col4) * qm_31_ops_sub_flag))
                 + ((input_op0_limb0_col0 * input_op1_limb0_col4) * qm_31_ops_pointwise_mul_flag))));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         // Constraint -
-        let constraint_quotient = ((input_dst_limb1_col9
+        let constraint_eval = ((input_dst_limb1_col9
             - (((((((((input_op0_limb0_col0 * input_op1_limb1_col5)
                 + (input_op0_limb1_col1 * input_op1_limb0_col4))
                 + (qm31_const::<2, 0, 0, 0>()
@@ -143,10 +143,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 + ((input_op0_limb1_col1 + input_op1_limb1_col5) * qm_31_ops_add_flag))
                 + ((input_op0_limb1_col1 - input_op1_limb1_col5) * qm_31_ops_sub_flag))
                 + ((input_op0_limb1_col1 * input_op1_limb1_col5) * qm_31_ops_pointwise_mul_flag))));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         // Constraint -
-        let constraint_quotient = ((input_dst_limb2_col10
+        let constraint_eval = ((input_dst_limb2_col10
             - ((((((((input_op0_limb0_col0 * input_op1_limb2_col6)
                 - (input_op0_limb1_col1 * input_op1_limb3_col7))
                 + (input_op0_limb2_col2 * input_op1_limb0_col4))
@@ -155,10 +155,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 + ((input_op0_limb2_col2 + input_op1_limb2_col6) * qm_31_ops_add_flag))
                 + ((input_op0_limb2_col2 - input_op1_limb2_col6) * qm_31_ops_sub_flag))
                 + ((input_op0_limb2_col2 * input_op1_limb2_col6) * qm_31_ops_pointwise_mul_flag))));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         // Constraint -
-        let constraint_quotient = ((input_dst_limb3_col11
+        let constraint_eval = ((input_dst_limb3_col11
             - ((((((((input_op0_limb0_col0 * input_op1_limb3_col7)
                 + (input_op0_limb1_col1 * input_op1_limb2_col6))
                 + (input_op0_limb2_col2 * input_op1_limb1_col5))
@@ -167,7 +167,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 + ((input_op0_limb3_col3 + input_op1_limb3_col7) * qm_31_ops_add_flag))
                 + ((input_op0_limb3_col3 - input_op1_limb3_col7) * qm_31_ops_sub_flag))
                 + ((input_op0_limb3_col3 * input_op1_limb3_col7) * qm_31_ops_pointwise_mul_flag))));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         gate_sum_0 = self
             .common_lookup_elements
@@ -260,16 +260,16 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     ))
         * gate_sum_0
         * gate_sum_1)
         - (gate_sum_0 * numerator_1)
         - (gate_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7],
     )
         - QM31Impl::from_partial_evals([trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3])
@@ -279,7 +279,7 @@ fn lookup_constraints(
         + (claimed_sum * (column_size.inverse().into())))
         * gate_sum_2)
         + numerator_2);
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {

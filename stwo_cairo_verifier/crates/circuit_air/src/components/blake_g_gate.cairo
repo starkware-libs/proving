@@ -789,16 +789,16 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     ))
         * verify_bitwise_xor_8_sum_0
         * verify_bitwise_xor_8_sum_1)
         - (verify_bitwise_xor_8_sum_0 * numerator_1)
         - (verify_bitwise_xor_8_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7],
     )
         - QM31Impl::from_partial_evals([trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3]))
@@ -806,9 +806,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_b_sum_3)
         - (verify_bitwise_xor_8_b_sum_2 * numerator_3)
         - (verify_bitwise_xor_8_b_sum_3 * numerator_2));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11],
     )
         - QM31Impl::from_partial_evals([trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7]))
@@ -816,9 +816,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_4_sum_5)
         - (verify_bitwise_xor_12_sum_4 * numerator_5)
         - (verify_bitwise_xor_4_sum_5 * numerator_4));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col12, trace_2_col13, trace_2_col14, trace_2_col15],
     )
         - QM31Impl::from_partial_evals([trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11]))
@@ -826,9 +826,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_4_sum_7)
         - (verify_bitwise_xor_12_sum_6 * numerator_7)
         - (verify_bitwise_xor_4_sum_7 * numerator_6));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col16, trace_2_col17, trace_2_col18, trace_2_col19],
     )
         - QM31Impl::from_partial_evals(
@@ -838,9 +838,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_sum_9)
         - (verify_bitwise_xor_8_sum_8 * numerator_9)
         - (verify_bitwise_xor_8_sum_9 * numerator_8));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col20, trace_2_col21, trace_2_col22, trace_2_col23],
     )
         - QM31Impl::from_partial_evals(
@@ -850,9 +850,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_sum_11)
         - (verify_bitwise_xor_8_sum_10 * numerator_11)
         - (verify_bitwise_xor_8_sum_11 * numerator_10));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col24, trace_2_col25, trace_2_col26, trace_2_col27],
     )
         - QM31Impl::from_partial_evals(
@@ -862,9 +862,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_7_sum_13)
         - (verify_bitwise_xor_9_sum_12 * numerator_13)
         - (verify_bitwise_xor_7_sum_13 * numerator_12));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col28, trace_2_col29, trace_2_col30, trace_2_col31],
     )
         - QM31Impl::from_partial_evals(
@@ -874,9 +874,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_7_sum_15)
         - (verify_bitwise_xor_9_sum_14 * numerator_15)
         - (verify_bitwise_xor_7_sum_15 * numerator_14));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col32, trace_2_col33, trace_2_col34, trace_2_col35],
     )
         - QM31Impl::from_partial_evals(
@@ -886,9 +886,9 @@ fn lookup_constraints(
         * gate_sum_17)
         - (gate_sum_16 * numerator_17)
         - (gate_sum_17 * numerator_16));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col36, trace_2_col37, trace_2_col38, trace_2_col39],
     )
         - QM31Impl::from_partial_evals(
@@ -898,9 +898,9 @@ fn lookup_constraints(
         * gate_sum_19)
         - (gate_sum_18 * numerator_19)
         - (gate_sum_19 * numerator_18));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col40, trace_2_col41, trace_2_col42, trace_2_col43],
     )
         - QM31Impl::from_partial_evals(
@@ -910,9 +910,9 @@ fn lookup_constraints(
         * gate_sum_21)
         - (gate_sum_20 * numerator_21)
         - (gate_sum_21 * numerator_20));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col44, trace_2_col45, trace_2_col46, trace_2_col47],
     )
         - QM31Impl::from_partial_evals(
@@ -922,9 +922,9 @@ fn lookup_constraints(
         * gate_sum_23)
         + (gate_sum_22 * numerator_23)
         + (gate_sum_23 * numerator_22));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col48, trace_2_col49, trace_2_col50, trace_2_col51],
     )
         - QM31Impl::from_partial_evals([trace_2_col44, trace_2_col45, trace_2_col46, trace_2_col47])
@@ -936,7 +936,7 @@ fn lookup_constraints(
         * gate_sum_25)
         + (gate_sum_24 * numerator_25)
         + (gate_sum_25 * numerator_24));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {

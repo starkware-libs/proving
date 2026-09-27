@@ -116,15 +116,14 @@ pub impl AirComponentImpl of AirComponent<Component> {
         numerator_2 = qm31_const::<1, 0, 0, 0>();
 
         // Constraint - input is zero then limb_low is zero
-        let constraint_quotient = ((((input_m31_col0 * inv_or_one_col3)
-            - qm31_const::<1, 0, 0, 0>())
+        let constraint_eval = ((((input_m31_col0 * inv_or_one_col3) - qm31_const::<1, 0, 0, 0>())
             * input_u32_limb_0_col1));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         // Constraint - input reconstruction
-        let constraint_quotient = ((input_m31_col0
+        let constraint_eval = ((input_m31_col0
             - (input_u32_limb_0_col1 + (input_u32_limb_1_col2 * qm31_const::<65536, 0, 0, 0>()))));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         gate_sum_3 = self
             .common_lookup_elements
@@ -218,16 +217,16 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     ))
         * range_check_16_sum_0
         * range_check_16_sum_1)
         - (range_check_16_sum_0 * numerator_1)
         - (range_check_16_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7],
     )
         - QM31Impl::from_partial_evals([trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3]))
@@ -235,9 +234,9 @@ fn lookup_constraints(
         * gate_sum_3)
         - (range_check_16_sum_2 * numerator_3)
         - (gate_sum_3 * numerator_2));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11],
     )
         - QM31Impl::from_partial_evals([trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7])
@@ -247,7 +246,7 @@ fn lookup_constraints(
         + (claimed_sum * (column_size.inverse().into())))
         * gate_sum_4)
         + numerator_4);
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {

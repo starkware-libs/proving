@@ -130,8 +130,8 @@ pub impl AirComponentImpl of AirComponent<Component> {
         core::internal::revoke_ap_tracking();
 
         // Constraint - Enabler is a bit
-        let constraint_quotient = (((enabler_col0 * enabler_col0) - enabler_col0));
-        sum = sum * random_coeff + constraint_quotient;
+        let constraint_eval = (((enabler_col0 * enabler_col0) - enabler_col0));
+        sum = sum * random_coeff + constraint_eval;
         let [
             decode_instruction_89ffb_output_tmp_44683_6_offset2,
             decode_instruction_89ffb_output_tmp_44683_6_op1_base_ap,
@@ -150,15 +150,15 @@ pub impl AirComponentImpl of AirComponent<Component> {
         );
 
         // Constraint - if imm then offset2 is 1
-        let constraint_quotient = ((op1_imm_col5
+        let constraint_eval = ((op1_imm_col5
             * (qm31_const::<1, 0, 0, 0>() - decode_instruction_89ffb_output_tmp_44683_6_offset2)));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
 
         // Constraint - mem1_base
-        let constraint_quotient = ((mem1_base_col7
+        let constraint_eval = ((mem1_base_col7
             - (((op1_imm_col5 * input_pc_col1) + (op1_base_fp_col6 * input_fp_col3))
                 + (decode_instruction_89ffb_output_tmp_44683_6_op1_base_ap * input_ap_col2))));
-        sum = sum * random_coeff + constraint_quotient;
+        sum = sum * random_coeff + constraint_eval;
         let read_small_output_tmp_44683_16_limb_0: QM31 = read_small_evaluate(
             (mem1_base_col7 + decode_instruction_89ffb_output_tmp_44683_6_offset2),
             enabler_col0,
@@ -304,16 +304,16 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     ))
         * verify_instruction_sum_0
         * memory_address_to_id_sum_1)
         - (verify_instruction_sum_0 * numerator_1)
         - (memory_address_to_id_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7],
     )
         - QM31Impl::from_partial_evals([trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3]))
@@ -321,9 +321,9 @@ fn lookup_constraints(
         * range_check_18_sum_3)
         - (memory_id_to_big_sum_2 * numerator_3)
         - (range_check_18_sum_3 * numerator_2));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11],
     )
         - QM31Impl::from_partial_evals([trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7]))
@@ -331,9 +331,9 @@ fn lookup_constraints(
         * opcodes_sum_5)
         - (range_check_11_sum_4 * numerator_5)
         - (opcodes_sum_5 * numerator_4));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col12, trace_2_col13, trace_2_col14, trace_2_col15],
     )
         - QM31Impl::from_partial_evals([trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11])
@@ -343,7 +343,7 @@ fn lookup_constraints(
         + (claimed_sum * (column_size.inverse().into())))
         * opcodes_sum_6)
         + numerator_6);
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {

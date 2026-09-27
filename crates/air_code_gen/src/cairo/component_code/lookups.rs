@@ -53,7 +53,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
             let rel2_times_rel1_mult = format!("({rel2} * numerator_{sum_i})");
 
             code.append(quote! {
-                let constraint_quotient = (
+                let constraint_eval = (
                     (
                         (
                             $(prefix)
@@ -65,7 +65,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
             let numerator = format!("numerator_{sum_i}");
 
             code.append(quote! {
-                let constraint_quotient = (
+                let constraint_eval = (
                     (
                         (
                             $(prefix)
@@ -76,7 +76,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         }
 
         code.append(quote! {
-            sum = sum * random_coeff + constraint_quotient;$("\n")
+            sum = sum * random_coeff + constraint_eval;$("\n")
         });
 
         prev_trace = trace;

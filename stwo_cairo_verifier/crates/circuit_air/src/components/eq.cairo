@@ -152,7 +152,7 @@ fn lookup_constraints(
     // `(sum_a + sum_b) / (sum_a * sum_b)` per row. The verifier-side constraint is
     //   diff * denom - num = (diff + shift) * sum_a * sum_b - sum_a - sum_b
     // with `diff = cur - cur_neg1` and `shift = claimed_sum / column_size`.
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     )
         - QM31Impl::from_partial_evals(
@@ -163,5 +163,5 @@ fn lookup_constraints(
         * eq_sum_1)
         - (eq_sum_0 * numerator_1)
         - (eq_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }

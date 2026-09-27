@@ -16,8 +16,8 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 code.append(quote! {
                     $("\n")
                     $("//") Constraint - $(desc.clone().unwrap_or("".to_string()))
-                    let constraint_quotient = ($(parse_var(air_fn, c, &mut relation_offset)));
-                    sum = sum * random_coeff + constraint_quotient;
+                    let constraint_eval = ($(parse_var(air_fn, c, &mut relation_offset)));
+                    sum = sum * random_coeff + constraint_eval;
                 });
             }
             ConstraintEvalStep::Intermediate(CompiledConstraintIntermediate {
