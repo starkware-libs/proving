@@ -81,6 +81,7 @@ macro_rules! define_preprocessed_columns {
 }
 
 define_preprocessed_columns!(EqColumns, EQ_COLUMN_IDS, [eq_in0_address, eq_in1_address]);
+// TODO(Leo): rename these ids to `qm_31_ops_*`.
 define_preprocessed_columns!(
     Qm31OpsColumns,
     QM31_OPS_COLUMN_IDS,

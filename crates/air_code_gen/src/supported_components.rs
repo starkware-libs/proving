@@ -56,8 +56,7 @@ fn get_manual_cairo_constraints_components() -> Vec<String> {
         // In particular, the ppt with the columns of pedersen_points_table_window_bits_9 doesn't
         // exist, so the sample evaluation test of this component fails.
         "pedersen_points_table_window_bits_9".into(),
-        // Gates components
-        "qm_31_ops".into(),
+        // Gates components.
         // The circuit version requires applying the enabler to the reading of the message,
         "circuit_blake_round".into(),
         "verify_bitwise_xor_12".into(),

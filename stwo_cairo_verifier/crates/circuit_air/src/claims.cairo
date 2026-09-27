@@ -150,7 +150,7 @@ pub fn accumulate_circuit_relation_uses(ref relation_uses: RelationUsesDict) {
     );
     accumulate_relation_uses(
         ref relation_uses,
-        components::qm31_ops::RELATION_USES_PER_ROW.span(),
-        COMPONENT_LOG_SIZES.qm31_ops,
+        components::qm_31_ops::RELATION_USES_PER_ROW.span(),
+        COMPONENT_LOG_SIZES.qm_31_ops,
     );
 }

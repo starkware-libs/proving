@@ -15,7 +15,7 @@ pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
 /// must be a multiple of 4.
 fn config_words(log_blowup_factor: u32) -> Array<u32> {
     let mut config_bytes = [
-        log_blowup_factor, COMPONENT_LOG_SIZES.eq, COMPONENT_LOG_SIZES.qm31_ops,
+        log_blowup_factor, COMPONENT_LOG_SIZES.eq, COMPONENT_LOG_SIZES.qm_31_ops,
         COMPONENT_LOG_SIZES.triple_xor, COMPONENT_LOG_SIZES.m_31_to_u_32,
         COMPONENT_LOG_SIZES.blake_g_gate, COMPONENT_LOG_SIZES.verify_bitwise_xor_8,
         COMPONENT_LOG_SIZES.verify_bitwise_xor_12, COMPONENT_LOG_SIZES.verify_bitwise_xor_4,

@@ -194,6 +194,8 @@ impl ExtTable for Op0Addr {
     type T = CasmAddress;
 
     fn column_ids() -> Vec<String> {
+        // TODO(Leo): rename to `qm_31_ops_*` (and for all preprocessed columns
+        // of the form `qm31_ops_*`).
         vec!["qm31_ops_in0_address".to_string()]
     }
 

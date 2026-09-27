@@ -4,10 +4,6 @@
 // the committed registry, rendered by `circuit_params/tests/cairo_consts_test.rs` (run it with
 // FIX=1 to regenerate). Columns are sorted by size (ascending, stable on insertion order), so
 // these indices change whenever the registry's component sizes change.
-//
-// The component files reference some IDX symbols under legacy names (e.g.
-// `ADD_FLAG_IDX` corresponds to the prover-side column `qm31_ops_add_flag`); the constants
-// keep those names to match the ported code.
 
 use stwo_constraint_framework::{INVALID_COLUMN_IDX, PreprocessedColumnIdx};
 
@@ -50,16 +46,15 @@ pub const BITWISE_XOR_10_0_IDX: PreprocessedColumnIdx = 23;
 pub const BITWISE_XOR_10_1_IDX: PreprocessedColumnIdx = 24;
 pub const BITWISE_XOR_10_2_IDX: PreprocessedColumnIdx = 25;
 
-// qm31_ops_* (log_size=23). Hand-ported components reference these without the
-// `qm31_ops_` prefix and with legacy names (`OP_0/OP_1/DST` for `in0/in1/out`).
-pub const ADD_FLAG_IDX: PreprocessedColumnIdx = 26;
-pub const SUB_FLAG_IDX: PreprocessedColumnIdx = 27;
-pub const MUL_FLAG_IDX: PreprocessedColumnIdx = 28;
-pub const POINTWISE_MUL_FLAG_IDX: PreprocessedColumnIdx = 29;
-pub const OP_0_ADDR_IDX: PreprocessedColumnIdx = 30;
-pub const OP_1_ADDR_IDX: PreprocessedColumnIdx = 31;
-pub const DST_ADDR_IDX: PreprocessedColumnIdx = 32;
-pub const QM_31_OPS_MULTIPLICITY_IDX: PreprocessedColumnIdx = 33;
+// qm_31_ops_* (log_size=23).
+pub const QM_31_OPS_ADD_FLAG_IDX: PreprocessedColumnIdx = 26;
+pub const QM_31_OPS_SUB_FLAG_IDX: PreprocessedColumnIdx = 27;
+pub const QM_31_OPS_MUL_FLAG_IDX: PreprocessedColumnIdx = 28;
+pub const QM_31_OPS_POINTWISE_MUL_FLAG_IDX: PreprocessedColumnIdx = 29;
+pub const QM_31_OPS_IN_0_ADDRESS_IDX: PreprocessedColumnIdx = 30;
+pub const QM_31_OPS_IN_1_ADDRESS_IDX: PreprocessedColumnIdx = 31;
+pub const QM_31_OPS_OUT_ADDRESS_IDX: PreprocessedColumnIdx = 32;
+pub const QM_31_OPS_MULTS_IDX: PreprocessedColumnIdx = 33;
 
 pub const BLAKE_G_GATE_INPUT_ADDR_A_IDX: PreprocessedColumnIdx = 34;
 pub const BLAKE_G_GATE_INPUT_ADDR_B_IDX: PreprocessedColumnIdx = 35;

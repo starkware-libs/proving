@@ -29,6 +29,7 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
     }
 }
 
+
 #[derive(Drop)]
 pub struct Component {
     pub claim: Claim,
@@ -66,15 +67,18 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_1: QM31 = Zero::zero();
         let mut gate_sum_2: QM31 = Zero::zero();
         let mut numerator_2: QM31 = Zero::zero();
-        let add_flag = preprocessed_mask_values.get_and_mark_used(ADD_FLAG_IDX);
-        let mul_flag = preprocessed_mask_values.get_and_mark_used(MUL_FLAG_IDX);
-        let pointwise_mul_flag = preprocessed_mask_values.get_and_mark_used(POINTWISE_MUL_FLAG_IDX);
-        let sub_flag = preprocessed_mask_values.get_and_mark_used(SUB_FLAG_IDX);
-        let op0_addr = preprocessed_mask_values.get_and_mark_used(OP_0_ADDR_IDX);
-        let op1_addr = preprocessed_mask_values.get_and_mark_used(OP_1_ADDR_IDX);
-        let dst_addr = preprocessed_mask_values.get_and_mark_used(DST_ADDR_IDX);
-        let qm31_ops_multiplicity = preprocessed_mask_values
-            .get_and_mark_used(QM_31_OPS_MULTIPLICITY_IDX);
+        let qm31_ops_add_flag = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_ADD_FLAG_IDX);
+        let qm31_ops_mul_flag = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_MUL_FLAG_IDX);
+        let qm31_ops_pointwise_mul_flag = preprocessed_mask_values
+            .get_and_mark_used(QM_31_OPS_POINTWISE_MUL_FLAG_IDX);
+        let qm31_ops_sub_flag = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_SUB_FLAG_IDX);
+        let qm31_ops_in0_address = preprocessed_mask_values
+            .get_and_mark_used(QM_31_OPS_IN_0_ADDRESS_IDX);
+        let qm31_ops_in1_address = preprocessed_mask_values
+            .get_and_mark_used(QM_31_OPS_IN_1_ADDRESS_IDX);
+        let qm31_ops_out_address = preprocessed_mask_values
+            .get_and_mark_used(QM_31_OPS_OUT_ADDRESS_IDX);
+        let qm31_ops_mults = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_MULTS_IDX);
 
         let [
             input_op0_limb0_col0,
@@ -112,25 +116,29 @@ pub impl AirComponentImpl of AirComponent<Component> {
         core::internal::revoke_ap_tracking();
 
         // Constraint - all flags sum to 1
-        let constraint_quotient = (((((add_flag + sub_flag) + mul_flag) + pointwise_mul_flag)
+        let constraint_quotient = (((((qm31_ops_add_flag + qm31_ops_sub_flag) + qm31_ops_mul_flag)
+            + qm31_ops_pointwise_mul_flag)
             - qm31_const::<1, 0, 0, 0>()));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint - add_flag is a bit
-        let constraint_quotient = ((add_flag * (add_flag - qm31_const::<1, 0, 0, 0>())));
+        let constraint_quotient = ((qm31_ops_add_flag
+            * (qm31_ops_add_flag - qm31_const::<1, 0, 0, 0>())));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint - sub_flag is a bit
-        let constraint_quotient = ((sub_flag * (sub_flag - qm31_const::<1, 0, 0, 0>())));
+        let constraint_quotient = ((qm31_ops_sub_flag
+            * (qm31_ops_sub_flag - qm31_const::<1, 0, 0, 0>())));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint - mul_flag is a bit
-        let constraint_quotient = ((mul_flag * (mul_flag - qm31_const::<1, 0, 0, 0>())));
+        let constraint_quotient = ((qm31_ops_mul_flag
+            * (qm31_ops_mul_flag - qm31_const::<1, 0, 0, 0>())));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint - pointwise_mul_flag is a bit
-        let constraint_quotient = ((pointwise_mul_flag
-            * (pointwise_mul_flag - qm31_const::<1, 0, 0, 0>())));
+        let constraint_quotient = ((qm31_ops_pointwise_mul_flag
+            * (qm31_ops_pointwise_mul_flag - qm31_const::<1, 0, 0, 0>())));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint -
@@ -142,10 +150,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
                         - (input_op0_limb3_col3 * input_op1_limb3_col7))))
                 - (input_op0_limb2_col2 * input_op1_limb3_col7))
                 - (input_op0_limb3_col3 * input_op1_limb2_col6))
-                * mul_flag)
-                + ((input_op0_limb0_col0 + input_op1_limb0_col4) * add_flag))
-                + ((input_op0_limb0_col0 - input_op1_limb0_col4) * sub_flag))
-                + ((input_op0_limb0_col0 * input_op1_limb0_col4) * pointwise_mul_flag))));
+                * qm31_ops_mul_flag)
+                + ((input_op0_limb0_col0 + input_op1_limb0_col4) * qm31_ops_add_flag))
+                + ((input_op0_limb0_col0 - input_op1_limb0_col4) * qm31_ops_sub_flag))
+                + ((input_op0_limb0_col0 * input_op1_limb0_col4) * qm31_ops_pointwise_mul_flag))));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint -
@@ -157,10 +165,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
                         + (input_op0_limb3_col3 * input_op1_limb2_col6))))
                 + (input_op0_limb2_col2 * input_op1_limb2_col6))
                 - (input_op0_limb3_col3 * input_op1_limb3_col7))
-                * mul_flag)
-                + ((input_op0_limb1_col1 + input_op1_limb1_col5) * add_flag))
-                + ((input_op0_limb1_col1 - input_op1_limb1_col5) * sub_flag))
-                + ((input_op0_limb1_col1 * input_op1_limb1_col5) * pointwise_mul_flag))));
+                * qm31_ops_mul_flag)
+                + ((input_op0_limb1_col1 + input_op1_limb1_col5) * qm31_ops_add_flag))
+                + ((input_op0_limb1_col1 - input_op1_limb1_col5) * qm31_ops_sub_flag))
+                + ((input_op0_limb1_col1 * input_op1_limb1_col5) * qm31_ops_pointwise_mul_flag))));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint -
@@ -169,10 +177,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 - (input_op0_limb1_col1 * input_op1_limb3_col7))
                 + (input_op0_limb2_col2 * input_op1_limb0_col4))
                 - (input_op0_limb3_col3 * input_op1_limb1_col5))
-                * mul_flag)
-                + ((input_op0_limb2_col2 + input_op1_limb2_col6) * add_flag))
-                + ((input_op0_limb2_col2 - input_op1_limb2_col6) * sub_flag))
-                + ((input_op0_limb2_col2 * input_op1_limb2_col6) * pointwise_mul_flag))));
+                * qm31_ops_mul_flag)
+                + ((input_op0_limb2_col2 + input_op1_limb2_col6) * qm31_ops_add_flag))
+                + ((input_op0_limb2_col2 - input_op1_limb2_col6) * qm31_ops_sub_flag))
+                + ((input_op0_limb2_col2 * input_op1_limb2_col6) * qm31_ops_pointwise_mul_flag))));
         sum = sum * random_coeff + constraint_quotient;
 
         // Constraint -
@@ -181,17 +189,17 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 + (input_op0_limb1_col1 * input_op1_limb2_col6))
                 + (input_op0_limb2_col2 * input_op1_limb1_col5))
                 + (input_op0_limb3_col3 * input_op1_limb0_col4))
-                * mul_flag)
-                + ((input_op0_limb3_col3 + input_op1_limb3_col7) * add_flag))
-                + ((input_op0_limb3_col3 - input_op1_limb3_col7) * sub_flag))
-                + ((input_op0_limb3_col3 * input_op1_limb3_col7) * pointwise_mul_flag))));
+                * qm31_ops_mul_flag)
+                + ((input_op0_limb3_col3 + input_op1_limb3_col7) * qm31_ops_add_flag))
+                + ((input_op0_limb3_col3 - input_op1_limb3_col7) * qm31_ops_sub_flag))
+                + ((input_op0_limb3_col3 * input_op1_limb3_col7) * qm31_ops_pointwise_mul_flag))));
         sum = sum * random_coeff + constraint_quotient;
 
         gate_sum_0 = self
             .common_lookup_elements
             .combine_qm31(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), op0_addr, input_op0_limb0_col0,
+                    qm31_const::<378353459, 0, 0, 0>(), qm31_ops_in0_address, input_op0_limb0_col0,
                     input_op0_limb1_col1, input_op0_limb2_col2, input_op0_limb3_col3,
                 ]
                     .span(),
@@ -202,7 +210,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             .common_lookup_elements
             .combine_qm31(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), op1_addr, input_op1_limb0_col4,
+                    qm31_const::<378353459, 0, 0, 0>(), qm31_ops_in1_address, input_op1_limb0_col4,
                     input_op1_limb1_col5, input_op1_limb2_col6, input_op1_limb3_col7,
                 ]
                     .span(),
@@ -213,12 +221,12 @@ pub impl AirComponentImpl of AirComponent<Component> {
             .common_lookup_elements
             .combine_qm31(
                 [
-                    qm31_const::<378353459, 0, 0, 0>(), dst_addr, input_dst_limb0_col8,
+                    qm31_const::<378353459, 0, 0, 0>(), qm31_ops_out_address, input_dst_limb0_col8,
                     input_dst_limb1_col9, input_dst_limb2_col10, input_dst_limb3_col11,
                 ]
                     .span(),
             );
-        numerator_2 = qm31_ops_multiplicity;
+        numerator_2 = qm31_ops_mults;
 
         lookup_constraints(
             ref sum,
@@ -296,4 +304,109 @@ fn lookup_constraints(
         * gate_sum_2)
         + numerator_2);
     sum = sum * random_coeff + constraint_quotient;
+}
+#[cfg(and(test, feature: "qm31_opcode"))]
+mod tests {
+    use core::array::ArrayImpl;
+    use core::num::traits::Zero;
+    use stwo_constraint_framework::AirComponent;
+    #[allow(unused_imports)]
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    #[allow(unused_imports)]
+    use stwo_constraint_framework::{
+        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+    };
+    use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
+    use crate::components::sample_evaluations::*;
+    #[allow(unused_imports)]
+    use crate::preprocessed_columns::*;
+    use super::{Claim, Component};
+
+    #[test]
+    fn test_evaluation_result() {
+        let component = Component {
+            claim: Claim { log_size: 15 },
+            claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
+            common_lookup_elements: LookupElementsTrait::from_z_alpha(
+                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            ),
+        };
+        let mut sum: QM31 = Zero::zero();
+
+        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_ADD_FLAG_IDX,
+            qm31_const::<1527140322, 858930457, 73068685, 1080204029>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_MUL_FLAG_IDX,
+            qm31_const::<1106251446, 17903294, 1375115415, 1357632339>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_POINTWISE_MUL_FLAG_IDX,
+            qm31_const::<485880212, 563142412, 2027283405, 872250142>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_SUB_FLAG_IDX,
+            qm31_const::<631320763, 551670292, 1783831999, 688564846>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_IN_0_ADDRESS_IDX,
+            qm31_const::<944321702, 2104082059, 1058357559, 650219243>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_IN_1_ADDRESS_IDX,
+            qm31_const::<721894235, 818083030, 1176389319, 1875149912>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_OUT_ADDRESS_IDX,
+            qm31_const::<1284595166, 878257086, 777884389, 531365363>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            QM_31_OPS_MULTS_IDX,
+            qm31_const::<2068309461, 1074848526, 422232906, 2078266109>(),
+        );
+
+        let mut trace_columns = [
+            [qm31_const::<1659099300, 905558730, 651199673, 1375009625>()].span(),
+            [qm31_const::<1591990121, 771341002, 584090809, 1375009625>()].span(),
+            [qm31_const::<1793317658, 1173994186, 785417401, 1375009625>()].span(),
+            [qm31_const::<1726208479, 1039776458, 718308537, 1375009625>()].span(),
+            [qm31_const::<1390662584, 368687818, 382764217, 1375009625>()].span(),
+            [qm31_const::<1323553405, 234470090, 315655353, 1375009625>()].span(),
+            [qm31_const::<1524880942, 637123274, 516981945, 1375009625>()].span(),
+            [qm31_const::<1457771763, 502905546, 449873081, 1375009625>()].span(),
+            [qm31_const::<48489085, 1979300555, 1188070585, 1375009625>()].span(),
+            [qm31_const::<2128863553, 1845082826, 1120961721, 1375009625>()].span(),
+            [qm31_const::<1852335767, 645078115, 2059236183, 343880121>()].span(),
+            [qm31_const::<1919444946, 779295843, 2126345047, 343880121>()].span(),
+        ]
+            .span();
+        let interaction_values = array![
+            qm31_const::<1005168032, 79980996, 1847888101, 1941984119>(),
+            qm31_const::<1072277211, 214198724, 1914996965, 1941984119>(),
+        ];
+        let mut interaction_columns = make_interaction_trace(
+            interaction_values, qm31_const::<1115374022, 1127856551, 489657863, 643630026>(),
+        );
+        component
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_trace,
+                ref trace_columns,
+                ref interaction_columns,
+                qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
+            );
+        preprocessed_trace.validate_usage();
+        assert_eq!(sum, QM31Trait::from_fixed_array(QM_31_OPS_SAMPLE_EVAL_RESULT))
+    }
 }

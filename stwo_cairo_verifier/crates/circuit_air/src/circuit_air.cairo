@@ -15,7 +15,7 @@ use crate::per_component::*;
 #[derive(Drop)]
 pub struct CircuitAir {
     pub eq: components::eq::Component,
-    pub qm31_ops: components::qm31_ops::Component,
+    pub qm_31_ops: components::qm_31_ops::Component,
     pub triple_xor: components::triple_xor::Component,
     pub m_31_to_u_32: components::m_31_to_u_32::Component,
     pub blake_g_gate: components::blake_g_gate::Component,
@@ -40,7 +40,7 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
         let CircuitInteractionClaim { claimed_sum } = interaction_claim;
         let PerComponent {
             eq: eq_claimed_sum,
-            qm31_ops: qm31_ops_claimed_sum,
+            qm_31_ops: qm_31_ops_claimed_sum,
             triple_xor: triple_xor_claimed_sum,
             m_31_to_u_32: m_31_to_u_32_claimed_sum,
             blake_g_gate: blake_g_gate_claimed_sum,
@@ -53,7 +53,7 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
         } = *claimed_sum;
         let PerComponent {
             eq: eq_log_size,
-            qm31_ops: qm31_ops_log_size,
+            qm_31_ops: qm_31_ops_log_size,
             triple_xor: triple_xor_log_size,
             m_31_to_u_32: m_31_to_u_32_log_size,
             blake_g_gate: blake_g_gate_log_size,
@@ -71,9 +71,9 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
                 eq_claimed_sum,
                 common_lookup_elements,
             ),
-            qm31_ops: components::qm31_ops::NewComponentImpl::new(
-                @components::qm31_ops::Claim { log_size: qm31_ops_log_size },
-                qm31_ops_claimed_sum,
+            qm_31_ops: components::qm_31_ops::NewComponentImpl::new(
+                @components::qm_31_ops::Claim { log_size: qm_31_ops_log_size },
+                qm_31_ops_claimed_sum,
                 common_lookup_elements,
             ),
             triple_xor: components::triple_xor::NewComponentImpl::new(
@@ -151,7 +151,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
         // front of the mask spans.
         let CircuitAir {
             eq,
-            qm31_ops,
+            qm_31_ops,
             triple_xor,
             m_31_to_u_32,
             blake_g_gate,
@@ -171,7 +171,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref interaction_trace_mask_values,
                 random_coeff,
             );
-        qm31_ops
+        qm_31_ops
             .evaluate_constraints_at_point(
                 ref sum,
                 ref preprocessed_mask_values,
