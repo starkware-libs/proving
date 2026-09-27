@@ -46,33 +46,7 @@ pub fn accumulate_constraints<Value: IValue>(
     let qm_31_ops_sub_flag =
         acc.get_preprocessed_column(&PreProcessedColumnId { id: "qm_31_ops_sub_flag".to_owned() });
 
-    // all flags sum to 1.
     let constraint_0_value = eval!(
-        context,
-        ((((qm_31_ops_add_flag) + (qm_31_ops_sub_flag)) + (qm_31_ops_mul_flag))
-            + (qm_31_ops_pointwise_mul_flag))
-            - (1)
-    );
-    acc.add_constraint(context, constraint_0_value);
-
-    // add_flag is a bit.
-    let constraint_1_value = eval!(context, (qm_31_ops_add_flag) * ((qm_31_ops_add_flag) - (1)));
-    acc.add_constraint(context, constraint_1_value);
-
-    // sub_flag is a bit.
-    let constraint_2_value = eval!(context, (qm_31_ops_sub_flag) * ((qm_31_ops_sub_flag) - (1)));
-    acc.add_constraint(context, constraint_2_value);
-
-    // mul_flag is a bit.
-    let constraint_3_value = eval!(context, (qm_31_ops_mul_flag) * ((qm_31_ops_mul_flag) - (1)));
-    acc.add_constraint(context, constraint_3_value);
-
-    // pointwise_mul_flag is a bit.
-    let constraint_4_value =
-        eval!(context, (qm_31_ops_pointwise_mul_flag) * ((qm_31_ops_pointwise_mul_flag) - (1)));
-    acc.add_constraint(context, constraint_4_value);
-
-    let constraint_5_value = eval!(
         context,
         (input_dst_limb0_col8)
             - ((((((((((input_op0_limb0_col0) * (input_op1_limb0_col4))
@@ -88,9 +62,9 @@ pub fn accumulate_constraints<Value: IValue>(
                 + (((input_op0_limb0_col0) * (input_op1_limb0_col4))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_5_value);
+    acc.add_constraint(context, constraint_0_value);
 
-    let constraint_6_value = eval!(
+    let constraint_1_value = eval!(
         context,
         (input_dst_limb1_col9)
             - ((((((((((input_op0_limb0_col0) * (input_op1_limb1_col5))
@@ -106,9 +80,9 @@ pub fn accumulate_constraints<Value: IValue>(
                 + (((input_op0_limb1_col1) * (input_op1_limb1_col5))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_6_value);
+    acc.add_constraint(context, constraint_1_value);
 
-    let constraint_7_value = eval!(
+    let constraint_2_value = eval!(
         context,
         (input_dst_limb2_col10)
             - (((((((((input_op0_limb0_col0) * (input_op1_limb2_col6))
@@ -121,9 +95,9 @@ pub fn accumulate_constraints<Value: IValue>(
                 + (((input_op0_limb2_col2) * (input_op1_limb2_col6))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_7_value);
+    acc.add_constraint(context, constraint_2_value);
 
-    let constraint_8_value = eval!(
+    let constraint_3_value = eval!(
         context,
         (input_dst_limb3_col11)
             - (((((((((input_op0_limb0_col0) * (input_op1_limb3_col7))
@@ -136,10 +110,10 @@ pub fn accumulate_constraints<Value: IValue>(
                 + (((input_op0_limb3_col3) * (input_op1_limb3_col7))
                     * (qm_31_ops_pointwise_mul_flag)))
     );
-    acc.add_constraint(context, constraint_8_value);
+    acc.add_constraint(context, constraint_3_value);
 
     // Use Gate.
-    let tuple_9 = &[
+    let tuple_4 = &[
         eval!(context, 378353459),
         eval!(context, qm_31_ops_in_0_address),
         eval!(context, input_op0_limb0_col0),
@@ -147,11 +121,11 @@ pub fn accumulate_constraints<Value: IValue>(
         eval!(context, input_op0_limb2_col2),
         eval!(context, input_op0_limb3_col3),
     ];
-    let numerator_9 = eval!(context, 1);
-    acc.add_to_relation(context, numerator_9, tuple_9);
+    let numerator_4 = eval!(context, 1);
+    acc.add_to_relation(context, numerator_4, tuple_4);
 
     // Use Gate.
-    let tuple_10 = &[
+    let tuple_5 = &[
         eval!(context, 378353459),
         eval!(context, qm_31_ops_in_1_address),
         eval!(context, input_op1_limb0_col4),
@@ -159,11 +133,11 @@ pub fn accumulate_constraints<Value: IValue>(
         eval!(context, input_op1_limb2_col6),
         eval!(context, input_op1_limb3_col7),
     ];
-    let numerator_10 = eval!(context, 1);
-    acc.add_to_relation(context, numerator_10, tuple_10);
+    let numerator_5 = eval!(context, 1);
+    acc.add_to_relation(context, numerator_5, tuple_5);
 
     // Yield Gate.
-    let tuple_11 = &[
+    let tuple_6 = &[
         eval!(context, 378353459),
         eval!(context, qm_31_ops_out_address),
         eval!(context, input_dst_limb0_col8),
@@ -171,8 +145,8 @@ pub fn accumulate_constraints<Value: IValue>(
         eval!(context, input_dst_limb2_col10),
         eval!(context, input_dst_limb3_col11),
     ];
-    let numerator_11 = eval!(context, -(qm_31_ops_mults));
-    acc.add_to_relation(context, numerator_11, tuple_11);
+    let numerator_6 = eval!(context, -(qm_31_ops_mults));
+    acc.add_to_relation(context, numerator_6, tuple_6);
 }
 
 pub struct Component {}

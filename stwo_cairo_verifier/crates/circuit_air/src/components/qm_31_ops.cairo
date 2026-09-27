@@ -115,33 +115,6 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
-        // Constraint - all flags sum to 1
-        let constraint_quotient = (((((qm_31_ops_add_flag + qm_31_ops_sub_flag)
-            + qm_31_ops_mul_flag)
-            + qm_31_ops_pointwise_mul_flag)
-            - qm31_const::<1, 0, 0, 0>()));
-        sum = sum * random_coeff + constraint_quotient;
-
-        // Constraint - add_flag is a bit
-        let constraint_quotient = ((qm_31_ops_add_flag
-            * (qm_31_ops_add_flag - qm31_const::<1, 0, 0, 0>())));
-        sum = sum * random_coeff + constraint_quotient;
-
-        // Constraint - sub_flag is a bit
-        let constraint_quotient = ((qm_31_ops_sub_flag
-            * (qm_31_ops_sub_flag - qm31_const::<1, 0, 0, 0>())));
-        sum = sum * random_coeff + constraint_quotient;
-
-        // Constraint - mul_flag is a bit
-        let constraint_quotient = ((qm_31_ops_mul_flag
-            * (qm_31_ops_mul_flag - qm31_const::<1, 0, 0, 0>())));
-        sum = sum * random_coeff + constraint_quotient;
-
-        // Constraint - pointwise_mul_flag is a bit
-        let constraint_quotient = ((qm_31_ops_pointwise_mul_flag
-            * (qm_31_ops_pointwise_mul_flag - qm31_const::<1, 0, 0, 0>())));
-        sum = sum * random_coeff + constraint_quotient;
-
         // Constraint -
         let constraint_quotient = ((input_dst_limb0_col8
             - (((((((((input_op0_limb0_col0 * input_op1_limb0_col4)

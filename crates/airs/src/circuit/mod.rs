@@ -3,6 +3,6 @@ pub mod circuit_registry;
 #[cfg(test)]
 pub mod circuit_registry_test;
 pub mod ext_tables;
-pub mod qm31_ops;
+pub mod qm_31_ops;
 #[cfg(test)]
 mod tests;

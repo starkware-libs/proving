@@ -78,30 +78,6 @@ impl FrameworkEval for Eval {
         let input_dst_limb2_col10 = eval.next_trace_mask();
         let input_dst_limb3_col11 = eval.next_trace_mask();
 
-        // all flags sum to 1.
-        eval.add_constraint(
-            ((((qm_31_ops_add_flag.clone() + qm_31_ops_sub_flag.clone())
-                + qm_31_ops_mul_flag.clone())
-                + qm_31_ops_pointwise_mul_flag.clone())
-                - M31_1.clone()),
-        );
-        // add_flag is a bit.
-        eval.add_constraint(
-            (qm_31_ops_add_flag.clone() * (qm_31_ops_add_flag.clone() - M31_1.clone())),
-        );
-        // sub_flag is a bit.
-        eval.add_constraint(
-            (qm_31_ops_sub_flag.clone() * (qm_31_ops_sub_flag.clone() - M31_1.clone())),
-        );
-        // mul_flag is a bit.
-        eval.add_constraint(
-            (qm_31_ops_mul_flag.clone() * (qm_31_ops_mul_flag.clone() - M31_1.clone())),
-        );
-        // pointwise_mul_flag is a bit.
-        eval.add_constraint(
-            (qm_31_ops_pointwise_mul_flag.clone()
-                * (qm_31_ops_pointwise_mul_flag.clone() - M31_1.clone())),
-        );
         eval.add_constraint(
             (input_dst_limb0_col8.clone()
                 - (((((((((input_op0_limb0_col0.clone() * input_op1_limb0_col4.clone())
