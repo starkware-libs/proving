@@ -4,7 +4,7 @@ use core::num::traits::Zero;
 use stwo_constraint_framework::LookupElementsImpl;
 use stwo_verifier_core::Hash;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
-use stwo_verifier_core::fields::m31::{M31Trait, P_U32};
+use stwo_verifier_core::fields::m31::M31Trait;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
 use stwo_verifier_core::fri::FriConfigTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
@@ -21,8 +21,6 @@ use crate::multiverifier_consts::{N_OUTPUTS, circuit_fri_config};
 // Security constants.
 pub const INTERACTION_POW_BITS: u32 = 20;
 const SECURITY_BITS: u32 = 96;
-
-pub const P_U32_CONST: u32 = P_U32;
 
 #[derive(Drop, Serde)]
 pub struct CircuitProof {

@@ -15,6 +15,5 @@ pub mod preprocessed_columns;
 pub mod relations;
 pub mod verifier;
 pub use verifier::{
-    CircuitProof, INTERACTION_POW_BITS, P_U32_CONST, VerificationOutput, get_verification_output,
-    verify_circuit,
+    CircuitProof, INTERACTION_POW_BITS, VerificationOutput, get_verification_output, verify_circuit,
 };
