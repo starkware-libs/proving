@@ -132,7 +132,8 @@ fn reduce(
 ) -> Result<LayerEntry, RecursiveTreeError> {
     let _span = span!(Level::INFO, "reduce", layer_idx, pair_idx, is_root).entered();
 
-    let mut context = build_multiverifier_circuit::<QM31>(input0, input1, &canonical.shared_config);
+    let mut context =
+        build_multiverifier_circuit::<QM31>(vec![input0, input1], &canonical.shared_config);
     pad_to_targets(&mut context, &canonical.target_sizes);
     debug_assert!(
         context.is_circuit_valid(),
