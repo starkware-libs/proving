@@ -53,10 +53,8 @@ pub fn fri_answers(
     // The lifting domain has log size `log_degree_bound + log_blowup_factor`. Check that it's
     // smaller than the log order of the M31 circle group (a canonical coset can be of log size at
     // most M31_CIRCLE_LOG_ORDER - 1).
-    assert!(
-        log_degree_bound + log_blowup_factor < M31_CIRCLE_LOG_ORDER,
-        "lifting domain log size is too large",
-    );
+    let lifting_log_size = log_degree_bound + log_blowup_factor;
+    assert!(lifting_log_size < M31_CIRCLE_LOG_ORDER, "lifting domain log size is too large");
     let mut queried_values_per_tree = queried_values_per_tree.span();
     // Add to each sample value the corresponding random coefficient power.
     let samples_with_randomness: Span<Span<Span<(QM31, QM31)>>> = build_samples_with_randomness(
@@ -71,22 +69,14 @@ pub fn fri_answers(
         (Span<ColumnSampleBatch>, Array<u32>, QuotientConstants),
     > =
         array![];
-    let lifting_log_size = log_degree_bound + log_blowup_factor;
-    let lifting_domain = CanonicCosetImpl::new(lifting_log_size);
-    let lifting_domain_step = lifting_domain.coset.step.mul(1).to_point();
-
-    let trace_step = CanonicCosetImpl::new(log_degree_bound).coset.step.mul(1).to_point();
+    let trace_step = CanonicCosetImpl::new(log_degree_bound).coset.step.to_point();
     let prev_oods_point = oods_point.add_circle_point_m31(-trace_step);
     // For a column of log degree bound k, its periodicity samples are evaluated at the point
-    // `oods_point + lifting_domain_step.repeated_double(k + log_blowup_factor)`. Here,
-    // we initialize `periodicity_generator` to
-    // `lifting_domain_step.repeated_double(log_blowup_factor)`.
-    // Then when iterating over log_degree_bounds we double the periodicity step at the end of each
-    // iteration.
-    let mut periodicity_generator = lifting_domain_step;
-    for _ in 0..log_blowup_factor {
-        periodicity_generator = periodicity_generator + periodicity_generator;
-    }
+    // `oods_point + trace_step.repeated_double(k)`. We initialize `periodicity_generator` to
+    // `trace_step`, then when iterating over log_degree_bounds we double the periodicity step
+    // at the end of each iteration.
+    let mut periodicity_generator = trace_step;
+
     for column_indices_per_tree_for_degree_bound in column_indices_per_tree_by_degree_bound {
         let (sample_batches, n_cols_per_tree) = sample_batches_for_degree_bound(
             column_indices_per_tree_for_degree_bound,
@@ -102,12 +92,12 @@ pub fn fri_answers(
     }
 
     // Compute the fri answers.
+    let lifting_domain = CanonicCosetImpl::new(lifting_log_size).circle_domain();
     let mut answers: Array<QM31> = array![];
+
     for pos in query_positions {
         let mut fri_answer_for_position: QM31 = Zero::zero();
-        let domain_point = lifting_domain
-            .circle_domain()
-            .at(bit_reverse_index(*pos, lifting_log_size));
+        let domain_point = lifting_domain.at(bit_reverse_index(*pos, lifting_log_size));
         for (
             sample_batches, n_columns_per_tree, quotient_constants,
         ) in sample_batches_by_log_degree_bound
