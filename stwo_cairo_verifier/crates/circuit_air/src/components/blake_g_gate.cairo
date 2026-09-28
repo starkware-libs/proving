@@ -24,10 +24,6 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
     fn mix_into(self: @Claim, ref channel: Channel) {
         channel.mix_u64((*(self.log_size)).into());
     }
-
-    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {
-        accumulate_relation_uses(ref relation_uses, RELATION_USES_PER_ROW.span(), *self.log_size);
-    }
 }
 
 

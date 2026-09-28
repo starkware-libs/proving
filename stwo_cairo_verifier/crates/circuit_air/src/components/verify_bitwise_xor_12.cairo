@@ -16,6 +16,8 @@ pub const LOG_SIZE: u32 = (ELEM_BITS - EXPAND_BITS) * 2; // = 20
 pub const N_MULT_COLUMNS: usize = 16; // = 1 << (EXPAND_BITS * 2)
 pub const N_TRACE_COLUMNS: usize = N_MULT_COLUMNS;
 pub const N_INTERACTION_COLUMNS: usize = 32;
+/// The table only yields into relations, so it uses none.
+pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 
 /// `1 << LIMB_BITS = 1024`. Used as the offset shift between expansion bands.
 const LIMB_OFFSET: u32 = 1024;
@@ -25,8 +27,6 @@ pub struct Claim {}
 
 pub impl ClaimImpl of ClaimTrait<Claim> {
     fn mix_into(self: @Claim, ref channel: Channel) {}
-
-    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {}
 }
 
 #[derive(Drop)]

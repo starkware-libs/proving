@@ -4,6 +4,7 @@ use crate::prelude::*;
 
 pub const N_TRACE_COLUMNS: usize = 1;
 pub const N_INTERACTION_COLUMNS: usize = 4;
+pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 pub const LOG_SIZE: u32 = 14;
 
 #[derive(Drop, Serde, Copy)]
@@ -11,8 +12,6 @@ pub struct Claim {}
 
 pub impl ClaimImpl of ClaimTrait<Claim> {
     fn mix_into(self: @Claim, ref channel: Channel) {}
-
-    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {}
 }
 
 

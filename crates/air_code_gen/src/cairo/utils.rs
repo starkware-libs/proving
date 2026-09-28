@@ -47,24 +47,24 @@ pub fn gen_consts(air_fn: &CompiledAirFn) -> rust::Tokens {
             pub const N_INTERACTION_COLUMNS: usize = $(n_logup_columns(air_fn));
         });
 
-        if !is_const_size_component(air_fn) {
-            let uses = air_fn
-                .constraint_lookups
-                .iter()
-                .filter(|(_, use_or_yield)| matches!(use_or_yield, UseOrYield::Use))
-                .collect::<Vec<_>>();
-            let mut uses_count = IndexMap::new();
-            for (relation, _) in &uses {
-                *(uses_count.entry(relation.clone()).or_insert(0)) += 1;
-            }
-            consts.extend(quote! {
-                pub const RELATION_USES_PER_ROW: [(felt252, u32); $(uses_count.keys().len())] = [
-                    $(uses_count.iter().map(|(relation, count)| {
-                        format!(r#"('{relation}', {count})"#)
-                    }).collect::<Vec<_>>().join(", "))
-                ];
-            });
+        // Emitted for every component, empty when it uses no relations, so the relation-uses
+        // check can cover all of them.
+        let uses = air_fn
+            .constraint_lookups
+            .iter()
+            .filter(|(_, use_or_yield)| matches!(use_or_yield, UseOrYield::Use))
+            .collect::<Vec<_>>();
+        let mut uses_count = IndexMap::new();
+        for (relation, _) in &uses {
+            *(uses_count.entry(relation.clone()).or_insert(0)) += 1;
         }
+        consts.extend(quote! {
+            pub const RELATION_USES_PER_ROW: [(felt252, u32); $(uses_count.keys().len())] = [
+                $(uses_count.iter().map(|(relation, count)| {
+                    format!(r#"('{relation}', {count})"#)
+                }).collect::<Vec<_>>().join(", "))
+            ];
+        });
     }
 
     if is_const_size_component(air_fn) {
