@@ -67,15 +67,10 @@ fn test_serialize_deserialize_cairo_proof() {
     );
     let felts = prepare_circuit_proof_for_cairo_verifier(circuit_proof, &component_log_sizes);
     let mut iter = felts.iter();
-    // The format carries no lifting log sizes, so they are passed in; see
-    // `CairoCircuitProof::deserialize`.
-    let deserialized: CairoCircuitProof<Blake2sMerkleHasher> = CairoCircuitProof::deserialize(
-        &mut iter,
-        pcs_config.trace_lifting_log_size,
-        pcs_config.preprocessed_lifting_log_size,
-    );
+    // The format carries no PCS config; see [`CairoStarkProof`].
+    let deserialized: CairoCircuitProof<Blake2sMerkleHasher> =
+        CairoCircuitProof::deserialize(&mut iter);
     assert!(iter.next().is_none(), "trailing data after proof");
-    assert_eq!(deserialized.stark_proof.config, pcs_config);
     let mut felts_after = Vec::new();
     CairoSerialize::serialize(&deserialized, &mut felts_after);
     assert_eq!(felts, felts_after);

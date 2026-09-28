@@ -16,7 +16,7 @@ use crate::claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
     column_log_sizes_per_tree, logup_sum,
 };
-use crate::multiverifier_consts::{N_OUTPUTS, circuit_fri_config};
+use crate::multiverifier_consts::{CIRCUIT_FRI_CONFIG, N_OUTPUTS};
 
 // Security constants.
 pub const INTERACTION_POW_BITS: u32 = 20;
@@ -56,17 +56,13 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // provide exactly that many.
     assert!(claim.output_values.len() == N_OUTPUTS);
 
-    // Pin the proof's PCS config to the circuit's hardcoded canonical config. This rejects any
-    // proof produced with weaker/mismatched FRI parameters.
-    let fri_config = stark_proof.commitment_scheme_proof.config;
-    assert!(fri_config == circuit_fri_config(), "unexpected proof fri config");
-
     let mut channel: Channel = Default::default();
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     let channel_salt_as_felt: QM31 = M31Trait::reduce_u32(channel_salt).into();
     channel.mix_felts([channel_salt_as_felt].span());
 
-    fri_config.mix_into(ref channel);
+    // The FRI parameters are the circuit's hardcoded ones.
+    CIRCUIT_FRI_CONFIG.mix_into(ref channel);
     let mut commitment_scheme = CommitmentSchemeVerifierImpl::new();
 
     // Unpack commitments.
@@ -87,7 +83,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let [preprocessed_column_log_sizes, trace_log_sizes, interaction_trace_log_sizes] =
         column_log_sizes_per_tree();
 
-    let log_blowup_factor = fri_config.log_blowup_factor;
+    let log_blowup_factor = CIRCUIT_FRI_CONFIG.log_blowup_factor;
 
     // Preprocessed trace. The preprocessed column log sizes are hardcoded. The preprocessed-trace
     // commitment itself is taken from the proof and exposed in the verification output; binding it
@@ -144,6 +140,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
         trace_log_degree_bound,
         composition_commitment,
         commitment_scheme,
+        CIRCUIT_FRI_CONFIG,
         ref channel,
         SECURITY_BITS,
     );

@@ -20,15 +20,9 @@ pub const N_OUTPUTS: u32 = 8;
 /// blowup, or less proof-of-work — is rejected, independently of stwo's
 /// `security_bits >= SECURITY_BITS` floor).
 /// Note `pow_bits + log_blowup_factor * n_queries = 26 + 1 * 70 = 96 = SECURITY_BITS`.
-pub fn circuit_fri_config() -> FriConfig {
-    FriConfig {
-        pow_bits: 26,
-        log_blowup_factor: 1,
-        log_last_layer_degree_bound: 0,
-        n_queries: 70,
-        fold_step: 4,
-    }
-}
+pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
+    pow_bits: 26, log_blowup_factor: 1, log_last_layer_degree_bound: 0, n_queries: 70, fold_step: 4,
+};
 
 /// Each component's log size.
 pub const COMPONENT_LOG_SIZES: PerComponent<u32> = PerComponent {

@@ -140,15 +140,15 @@ fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSi
         pow_bits as usize + log_blowup_factor as usize * n_queries
     )
     .unwrap();
-    writeln!(w, "pub fn circuit_fri_config() -> FriConfig {{").unwrap();
-    writeln!(w, "    FriConfig {{").unwrap();
-    writeln!(w, "        pow_bits: {pow_bits},").unwrap();
-    writeln!(w, "        log_blowup_factor: {log_blowup_factor},").unwrap();
-    writeln!(w, "        log_last_layer_degree_bound: {log_last_layer_degree_bound},").unwrap();
-    writeln!(w, "        n_queries: {n_queries},").unwrap();
-    writeln!(w, "        fold_step: {fold_step},").unwrap();
-    writeln!(w, "    }}").unwrap();
-    writeln!(w, "}}").unwrap();
+    writeln!(w, "pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {{").unwrap();
+    writeln!(
+        w,
+        "    pow_bits: {pow_bits}, log_blowup_factor: {log_blowup_factor}, \
+         log_last_layer_degree_bound: {log_last_layer_degree_bound}, n_queries: {n_queries}, \
+         fold_step: {fold_step},"
+    )
+    .unwrap();
+    writeln!(w, "}};").unwrap();
     writeln!(w).unwrap();
     writeln!(w, "/// Each component's log size.").unwrap();
     writeln!(w, "pub const COMPONENT_LOG_SIZES: PerComponent<u32> = PerComponent {{").unwrap();

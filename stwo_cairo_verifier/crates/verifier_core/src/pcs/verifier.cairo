@@ -53,7 +53,6 @@ pub type QueriedValues = TreeArray<Span<M31>>;
 
 #[derive(Drop, Serde)]
 pub struct CommitmentSchemeProof {
-    pub config: FriConfig,
     pub commitments: TreeSpan<Hash>,
     /// Proof of work nonce ground before the OODS point is drawn.
     pub oods_proof_of_work: u64,
@@ -127,11 +126,11 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         self: CommitmentSchemeVerifier,
         oods_point: CirclePoint<QM31>,
         proof: CommitmentSchemeProof,
+        fri_config: FriConfig,
         ref channel: Channel,
         max_log_degree_bound: u32,
     ) {
         let CommitmentSchemeProof {
-            config: fri_config,
             commitments: _,
             // Verified before the OODS point was drawn, see `verify`.
             oods_proof_of_work: _,

@@ -6,7 +6,7 @@ use crate::fields::Invertible;
 #[allow(unused_imports)]
 use crate::fields::qm31::QM31_EXTENSION_DEGREE;
 use crate::fields::qm31::{QM31, QM31Trait};
-use crate::fri::FriConfigTrait;
+use crate::fri::{FriConfig, FriConfigTrait};
 use crate::pcs::verifier::{
     CommitmentSchemeProof, CommitmentSchemeVerifier, CommitmentSchemeVerifierImpl,
 };
@@ -49,6 +49,8 @@ pub trait Air<T> {
 /// - `commitment_scheme`: verifier-side state for the polynomial commitment scheme used by the
 ///    proof, the commitment scheme already holds the commitments for the preprocessed trace, trace,
 ///    and interaction trace.
+/// - `config`: the FRI configuration to verify against. It is not read from the proof: the caller
+///    supplies the parameters it considers canonical, so a prover cannot choose them.
 /// - `channel`: verifier Fiat–Shamir channel used to sample challenges while checking the proof.
 /// - `min_security_bits`: minimum security level to enforce (soundness).
 pub fn verify<A, +Air<A>, +Drop<A>>(
@@ -57,6 +59,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
     log_trace_degree_bound: u32,
     composition_commitment: Hash,
     mut commitment_scheme: CommitmentSchemeVerifier,
+    config: FriConfig,
     ref channel: Channel,
     min_security_bits: u32,
 ) {
@@ -65,9 +68,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
 
     // Check that there are enough security bits.
     assert!(
-        commitment_scheme_proof.config.security_bits() >= min_security_bits,
-        "{}",
-        VerificationError::SecurityBitsTooLow,
+        config.security_bits() >= min_security_bits, "{}", VerificationError::SecurityBitsTooLow,
     );
 
     // Draw a random coefficient from the channel to be used in the composition polynomial.
@@ -81,7 +82,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
             composition_commitment,
             [log_trace_degree_bound; COMPOSITION_SPLIT_FACTOR * QM31_EXTENSION_DEGREE].span(),
             ref channel,
-            commitment_scheme_proof.config.log_blowup_factor,
+            config.log_blowup_factor,
         );
 
     // Verify the proof of work ground before the OODS point.
@@ -117,7 +118,9 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
     );
 
     commitment_scheme
-        .verify_values(ood_point, commitment_scheme_proof, ref channel, log_trace_degree_bound);
+        .verify_values(
+            ood_point, commitment_scheme_proof, config, ref channel, log_trace_degree_bound,
+        );
 }
 
 fn circle_double_x(x: QM31) -> QM31 {

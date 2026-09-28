@@ -1,3 +1,4 @@
+use stwo_circuit_air::multiverifier_consts::CIRCUIT_FRI_CONFIG;
 use stwo_circuit_air::{
     CircuitProof, VerificationOutput, compute_circuit_hash, get_verification_output, verify_circuit,
 };
@@ -14,10 +15,11 @@ fn main(proof: CircuitProof) -> VerificationOutput {
         .unwrap();
     let output_values = proof.claim.output_values.span();
 
-    // Compute the circuit hash.
+    // Compute the circuit hash. The blowup factor is the circuit's hardcoded one, the same one
+    // `verify_circuit` verifies against, and not a value the proof carries.
     let [preprocessed_commitment, _, _, _] = commitments.unbox();
     let circuit_hash = compute_circuit_hash(
-        proof.stark_proof.commitment_scheme_proof.config.log_blowup_factor, preprocessed_commitment,
+        CIRCUIT_FRI_CONFIG.log_blowup_factor, preprocessed_commitment,
     );
 
     // Verify the circuit proof; panics on an invalid proof.
