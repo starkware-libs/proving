@@ -6,6 +6,7 @@
 use stwo_verifier_core::Hash;
 use stwo_verifier_utils::blake2s::hash_u32s;
 use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
+use crate::per_component::PerComponentTrait;
 
 /// Number of 32-bit words in a Blake2s-256 digest.
 pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
@@ -14,15 +15,9 @@ pub const BLAKE2S_DIGEST_N_WORDS: usize = 8;
 /// each, in canonical order) into little-endian u32 words. The total byte count `1 + N_COMPONENTS`
 /// must be a multiple of 4.
 fn config_words(log_blowup_factor: u32) -> Array<u32> {
-    let mut config_bytes = [
-        log_blowup_factor, COMPONENT_LOG_SIZES.eq, COMPONENT_LOG_SIZES.qm_31_ops,
-        COMPONENT_LOG_SIZES.triple_xor, COMPONENT_LOG_SIZES.m_31_to_u_32,
-        COMPONENT_LOG_SIZES.blake_g_gate, COMPONENT_LOG_SIZES.verify_bitwise_xor_8,
-        COMPONENT_LOG_SIZES.verify_bitwise_xor_12, COMPONENT_LOG_SIZES.verify_bitwise_xor_4,
-        COMPONENT_LOG_SIZES.verify_bitwise_xor_7, COMPONENT_LOG_SIZES.verify_bitwise_xor_9,
-        COMPONENT_LOG_SIZES.range_check_16,
-    ]
-        .span();
+    let mut config_bytes = array![log_blowup_factor];
+    config_bytes.append_span(COMPONENT_LOG_SIZES.to_fixed_array().span());
+    let mut config_bytes = config_bytes.span();
 
     let mut words = array![];
     while let Some(boxed) = config_bytes.multi_pop_front::<4>() {
