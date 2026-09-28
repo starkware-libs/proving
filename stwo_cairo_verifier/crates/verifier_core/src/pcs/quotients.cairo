@@ -141,15 +141,24 @@ fn sample_batches_for_degree_bound(
         *column_indices_per_tree, sample_values_with_rand,
     ) {
         for column_idx in column_indices {
+            // The length of sample_values_at_column can be either 3 (for logup columns) or 1 (for
+            // the rest).
             let mut sample_values_at_column = *samples_per_column[*column_idx];
 
-            if let Some(tuple_box) = sample_values_at_column.try_into() {
+            if let Some(point_box) =
+                TryInto::<_, @Box<[(QM31, QM31); 1]>>::try_into(sample_values_at_column) {
+                let [(point_sample, rand)] = (*point_box).unbox();
+
+                col_eval_coeff_triples_at_point.append((index, point_sample, rand));
+            } else {
                 let [
                     (periodicity_point_sample, periodicity_point_rand),
                     (prev_point_sample, prev_point_rand),
                     (point_sample, point_rand),
-                ]: [(QM31, QM31); 3] =
-                    (*tuple_box)
+                ] =
+                    (*sample_values_at_column
+                    .try_into()
+                    .expect('Unexpected number of samples.'))
                     .unbox();
 
                 col_eval_coeff_triples_at_point_plus_periodicity
@@ -157,12 +166,6 @@ fn sample_batches_for_degree_bound(
                 col_eval_coeff_triples_at_prev_point
                     .append((index, prev_point_sample, prev_point_rand));
                 col_eval_coeff_triples_at_point.append((index, point_sample, point_rand));
-            } else if let Some(point_box) = sample_values_at_column.try_into() {
-                let [(point_sample, rand)]: [(QM31, QM31); 1] = (*point_box).unbox();
-
-                col_eval_coeff_triples_at_point.append((index, point_sample, rand));
-            } else {
-                assert!(sample_values_at_column.is_empty(), "Unexpected number of samples");
             }
             index += 1;
         }
@@ -228,11 +231,21 @@ fn build_samples_with_randomness(
         let mut new_samples_per_col = array![];
         for sample_values in sample_values_per_column {
             let mut new_samples = array![];
-            // If the column is sampled at OOD point and its neighbor, we add a periodicity sample.
-            // Notice that we add it also when the column is of maximal size, in which case we have
-            // `(periodicity_point, periodicity_sample) == (ood_point, ood_sample)`.
-            if let Some(tuple_box) = (*sample_values).try_into() {
-                let [prev_sample, ood_sample]: [QM31; 2] = (*tuple_box).unbox();
+            // The length of `sample_values` can be either 2 (for logup columns) or 1 (for
+            // the rest).
+            if let Some(point_box) = TryInto::<_, @Box<[QM31; 1]>>::try_into(*sample_values) {
+                let [ood_sample] = (*point_box).unbox();
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
+            } else {
+                // The column is sampled at OOD point and its neighbor, so we add a periodicity
+                // sample. Notice that we add it also when the column is of maximal size, in which
+                // case we have
+                // `(periodicity_point, periodicity_sample) == (ood_point, ood_sample)`.
+                let [prev_sample, ood_sample] = (*(*sample_values)
+                    .try_into()
+                    .expect('Unexpected number of samples.'))
+                    .unbox();
                 // Add periodicity sample.
                 new_samples.append((ood_sample, coeff_pow));
                 coeff_pow *= coeff;
@@ -242,12 +255,6 @@ fn build_samples_with_randomness(
 
                 new_samples.append((ood_sample, coeff_pow));
                 coeff_pow *= coeff;
-            } else if let Some(point_box) = (*sample_values).try_into() {
-                let [ood_sample]: [QM31; 1] = (*point_box).unbox();
-                new_samples.append((ood_sample, coeff_pow));
-                coeff_pow *= coeff;
-            } else {
-                assert!(sample_values.is_empty(), "Unexpected number of samples");
             }
             new_samples_per_col.append(new_samples.span());
         }
