@@ -21,14 +21,6 @@ pub struct Claim {
 }
 
 pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
-        let log_size = *(self.log_size);
-        let preprocessed_log_sizes = array![log_size].span();
-        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
-        let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
-        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
-    }
-
     fn mix_into(self: @Claim, ref channel: Channel) {
         channel.mix_u64((*(self.log_size)).into());
     }

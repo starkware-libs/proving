@@ -10,14 +10,6 @@ pub const LOG_SIZE: u32 = 18;
 pub struct Claim {}
 
 pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
-        let log_size = LOG_SIZE;
-        let preprocessed_log_sizes = array![log_size].span();
-        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
-        let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
-        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
-    }
-
     fn mix_into(self: @Claim, ref channel: Channel) {}
 
     fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {}
