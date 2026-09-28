@@ -210,6 +210,21 @@ fn sample_batches_for_degree_bound(
     (sample_batches_by_point.span(), n_columns_per_tree)
 }
 
+/// Pairs every OOD sample value with its own power of `coeff`: the i-th sample (counting
+/// across all trees and columns, in order) gets `coeff^i`, starting from `coeff^0`.
+///
+/// # Arguments
+///
+/// * `sample_values_per_column_per_tree`: OOD samples for each column in each tree.
+/// * `coeff`: Verifier randomness for folding multiple columns' quotients together.
+///
+/// # Returns
+///
+/// For each tree and each of its columns, the column's `(sample value, coeff^i)` pairs.
+///
+/// # Panics
+///
+/// Panics if a column has 0 or > 2 samples.
 // TODO(Leo): think about merging the loop in this function with the loop in
 // [`sample_batches_for_degree_bound`].
 fn build_samples_with_randomness(
