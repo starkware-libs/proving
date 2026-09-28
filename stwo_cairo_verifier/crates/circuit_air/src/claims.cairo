@@ -7,7 +7,7 @@ use crate::per_component::{
     N_INTERACTION_COLUMNS_PER_COMPONENT, N_TRACE_COLUMNS_PER_COMPONENT, PerComponent,
     PerComponentTrait,
 };
-use crate::prelude::{Invertible, M31, Zero, m31};
+use crate::prelude::{Invertible, M31, One, Zero, m31};
 use crate::relations::GATE_RELATION_ID;
 
 /// Variable index of the public input `u`.
@@ -28,7 +28,7 @@ pub impl CircuitClaimImpl of CircuitClaimTrait {
         let mut wire_values = array![];
         for value in self.output_values.span() {
             let [lo, hi] = output_limbs(*value);
-            wire_values.append(QM31Trait::from_fixed_array([lo, hi, m31(0), m31(0)]));
+            wire_values.append(QM31Trait::from_fixed_array([lo, hi, Zero::zero(), Zero::zero()]));
         }
         channel.mix_felts(wire_values.span());
     }
@@ -84,7 +84,10 @@ pub fn logup_sum(
 
     // u_sum = the `u` input is yielded at `U_VAR_IDX` with value `U_VALUE = (0, 0, 1, 0)`.
     let u_denom = common_lookup_elements
-        .combine([GATE_RELATION_ID, m31(U_VAR_IDX), m31(0), m31(0), m31(1), m31(0)].span());
+        .combine(
+            [GATE_RELATION_ID, m31(U_VAR_IDX), Zero::zero(), Zero::zero(), One::one(), Zero::zero()]
+                .span(),
+        );
     let u_sum = u_denom.inverse();
 
     // output_sum = Σ (1 / combine([GATE_RELATION_ID, addr, a, b, c, d])).
@@ -95,9 +98,9 @@ pub fn logup_sum(
     for value in claim.output_values.span() {
         let [lo, hi] = output_limbs(*value);
         let denom = common_lookup_elements
-            .combine([GATE_RELATION_ID, addr, lo, hi, m31(0), m31(0)].span());
+            .combine([GATE_RELATION_ID, addr, lo, hi, Zero::zero(), Zero::zero()].span());
         output_sum = output_sum + denom.inverse();
-        addr += m31(1);
+        addr += One::one();
     }
 
     component_sum + u_sum + output_sum

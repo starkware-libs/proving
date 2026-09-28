@@ -1,4 +1,4 @@
-pub use core::num::traits::Zero;
+pub use core::num::traits::{One, Zero};
 pub use stwo_constraint_framework::claim::ClaimTrait;
 pub use stwo_constraint_framework::{
     AirComponent, CommonLookupElements, LookupElementsImpl, NewComponent, PreprocessedMaskValues,
