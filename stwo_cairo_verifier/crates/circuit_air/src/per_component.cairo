@@ -25,10 +25,23 @@ pub struct PerComponent<T> {
 pub impl PerComponentImpl<T, +Copy<T>, +Drop<T>> of PerComponentTrait<T> {
     /// Returns the per-component values as a fixed-size array in committed component order.
     fn to_fixed_array(self: @PerComponent<T>) -> [T; N_COMPONENTS] {
+        let PerComponent {
+            eq,
+            qm_31_ops,
+            triple_xor,
+            m_31_to_u_32,
+            blake_g_gate,
+            verify_bitwise_xor_8,
+            verify_bitwise_xor_12,
+            verify_bitwise_xor_4,
+            verify_bitwise_xor_7,
+            verify_bitwise_xor_9,
+            range_check_16,
+        } = *self;
         [
-            *self.eq, *self.qm_31_ops, *self.triple_xor, *self.m_31_to_u_32, *self.blake_g_gate,
-            *self.verify_bitwise_xor_8, *self.verify_bitwise_xor_12, *self.verify_bitwise_xor_4,
-            *self.verify_bitwise_xor_7, *self.verify_bitwise_xor_9, *self.range_check_16,
+            eq, qm_31_ops, triple_xor, m_31_to_u_32, blake_g_gate, verify_bitwise_xor_8,
+            verify_bitwise_xor_12, verify_bitwise_xor_4, verify_bitwise_xor_7, verify_bitwise_xor_9,
+            range_check_16,
         ]
     }
 }
