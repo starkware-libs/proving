@@ -12,7 +12,7 @@ use crate::utils::{
 };
 use crate::vcs::MerkleHasher;
 use crate::vcs::verifier::{MerkleDecommitment, MerkleVerifier, MerkleVerifierTrait};
-use crate::{ColumnSpan, Hash, TreeArray, TreeSpan, queries};
+use crate::{ColumnSpan, Hash, N_TREES, TreeArray, TreeSpan, queries};
 
 /// Sanity check that the proof of work is not negligible.
 pub const MIN_POW_BITS: u32 = 20;
@@ -210,7 +210,7 @@ fn mix_sampled_values(sampled_values: TreeSpan<ColumnSpan<Span<QM31>>>, ref chan
 pub fn get_trace_lde_log_size(
     commitment_scheme_trees: @TreeArray<MerkleVerifier<MerkleHasher>>,
 ) -> u32 {
-    let boxed_triplet: @Box<[MerkleVerifier<MerkleHasher>; 3]> = commitment_scheme_trees
+    let boxed_triplet: @Box<[MerkleVerifier<MerkleHasher>; N_TREES]> = commitment_scheme_trees
         .span()
         .try_into()
         .unwrap();

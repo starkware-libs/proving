@@ -45,6 +45,10 @@ pub type TreeArray<T> = Array<T>;
 /// A span in which each element relates (by index) to a commitment tree.
 pub type TreeSpan<T> = Span<T>;
 
+/// The number of commitment trees excluding the composition polynomial commitment: preprocessed,
+/// trace and interaction.
+pub const N_TREES: usize = 3;
+
 #[cfg(not(feature: "poseidon252_verifier"))]
 pub type Hash = vcs::blake2s_hasher::Blake2sHash;
 

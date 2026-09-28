@@ -1,4 +1,5 @@
 use stwo_constraint_framework::{CommonLookupElements, LookupElementsTrait};
+use stwo_verifier_core::N_TREES;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
 use stwo_verifier_utils::zip_eq::zip_eq;
@@ -110,7 +111,7 @@ pub fn logup_sum(
 /// committed tree,  where all three are constants. `tree[0]` is the hardcoded
 /// `PREPROCESSED_COLUMN_LOG_SIZES`; `tree[1]` and `tree[2]` repeat each component's log size by its
 /// trace/interaction column count, in `ComponentList` order.
-pub fn column_log_sizes_per_tree() -> [Span<u32>; 3] {
+pub fn column_log_sizes_per_tree() -> [Span<u32>; N_TREES] {
     let mut trace_log_sizes = array![];
     let mut interaction_log_sizes = array![];
     for (log_size, (n_trace_cols, n_interaction_cols)) in zip_eq(

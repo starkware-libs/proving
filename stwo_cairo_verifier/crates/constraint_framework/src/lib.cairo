@@ -8,7 +8,7 @@ use stwo_verifier_core::fields::m31::M31;
 use stwo_verifier_core::fields::m31::MulByM31Trait;
 use stwo_verifier_core::fields::qm31::QM31;
 use stwo_verifier_core::utils::{ArrayImpl, pow2};
-use stwo_verifier_core::{ColumnSpan, TreeArray};
+use stwo_verifier_core::{ColumnSpan, N_TREES, TreeArray};
 
 pub mod claim;
 pub mod component;
@@ -201,7 +201,7 @@ pub fn validate_mask_usage(
 pub fn override_preprocessed_trace_log_sizes(
     aggregated_log_sizes: TreeArray<Span<u32>>, preprocessed_column_log_sizes: Span<u32>,
 ) -> TreeArray<Span<u32>> {
-    let boxed_triplet: Box<[Span<u32>; 3]> = *aggregated_log_sizes.span().try_into().unwrap();
+    let boxed_triplet: Box<[Span<u32>; N_TREES]> = *aggregated_log_sizes.span().try_into().unwrap();
     let [_invalid_preprocessed_trace_log_sizes, trace_log_sizes, interaction_log_sizes] =
         boxed_triplet
         .unbox();
