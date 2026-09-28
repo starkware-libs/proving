@@ -13,16 +13,32 @@ use crate::relations::GATE_RELATION_ID;
 /// Variable index of the public input `u`.
 const U_VAR_IDX: u32 = 2;
 
+/// The circuit encodes a u32 as two u16 limbs, so this is the shift between them.
+const U16_SHIFT: NonZero<u32> = 0x10000;
+
 #[derive(Drop, Serde)]
 pub struct CircuitClaim {
-    pub output_values: Array<QM31>,
+    pub output_values: Array<u32>,
 }
 
 #[generate_trait]
 pub impl CircuitClaimImpl of CircuitClaimTrait {
+    /// Mixes the outputs in the circuit's wire encoding, matching what the prover mixes.
     fn mix_into(self: @CircuitClaim, ref channel: Channel) {
-        channel.mix_felts(self.output_values.span());
+        let mut wire_values = array![];
+        for value in self.output_values.span() {
+            let [lo, hi] = output_limbs(*value);
+            wire_values.append(QM31Trait::from_fixed_array([lo, hi, m31(0), m31(0)]));
+        }
+        channel.mix_felts(wire_values.span());
     }
+}
+
+/// Splits a u32 output into the circuit's wire limbs `(low_u16, high_u16)`. The wire value is
+/// `(low_u16, high_u16, 0, 0)`; the last two coordinates are always zero.
+fn output_limbs(value: u32) -> [M31; 2] {
+    let (hi, lo) = DivRem::div_rem(value, U16_SHIFT);
+    [m31(lo), m31(hi)]
 }
 
 /// Circuit interaction claim, holding every component's `claimed_sum` in `ComponentList` order.
@@ -77,8 +93,9 @@ pub fn logup_sum(
     let mut output_sum: QM31 = Zero::zero();
     let mut addr: M31 = m31(U_VAR_IDX + 1);
     for value in claim.output_values.span() {
-        let [a, b, c, d] = QM31Trait::to_fixed_array(*value);
-        let denom = common_lookup_elements.combine([GATE_RELATION_ID, addr, a, b, c, d].span());
+        let [lo, hi] = output_limbs(*value);
+        let denom = common_lookup_elements
+            .combine([GATE_RELATION_ID, addr, lo, hi, m31(0), m31(0)].span());
         output_sum = output_sum + denom.inverse();
         addr += m31(1);
     }

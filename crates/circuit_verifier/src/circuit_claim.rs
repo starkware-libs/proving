@@ -19,6 +19,7 @@ use crate::statement::all_circuit_components;
 pub type ComponentLogSize = u32;
 pub type ClaimedSum = QM31;
 
+// TODO(noa): Consider replacing QM31 with u32 (see `CairoCircuitClaim`).
 #[derive(Debug, PartialEq)]
 pub struct CircuitClaim {
     pub output_values: Vec<QM31>,

@@ -5,7 +5,7 @@ use stwo_constraint_framework::LookupElementsImpl;
 use stwo_verifier_core::Hash;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::m31::M31Trait;
-use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
+use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
 use stwo_verifier_core::fri::FriConfigTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
 use stwo_verifier_core::utils::SpanExTrait;
@@ -39,29 +39,11 @@ pub struct VerificationOutput {
     pub output_hash: Hash,
 }
 
-/// The u32 wire encoding's limb bound and shift: each limb is a u16.
-const U16_SHIFT: u32 = 0x10000;
-
-/// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`, where each
-/// output value is the circuit's wire encoding `(low_u16, high_u16, 0, 0)` of one u32 word and
-/// contributes the recombined word.
-pub fn get_verification_output(
-    circuit_hash: Hash, output_values: Span<QM31>,
-) -> VerificationOutput {
+/// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`.
+pub fn get_verification_output(circuit_hash: Hash, output_values: Span<u32>) -> VerificationOutput {
     let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
     let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
-    for value in output_values {
-        let [lo, hi, c2, c3] = (*value).to_fixed_array();
-        let lo: u32 = lo.into();
-        let hi: u32 = hi.into();
-        let c2: u32 = c2.into();
-        let c3: u32 = c3.into();
-        assert!(
-            lo < U16_SHIFT && hi < U16_SHIFT && c2 == 0 && c3 == 0,
-            "circuit output value is not a packed u32",
-        );
-        words.append(lo + hi * U16_SHIFT);
-    }
+    words.append_span(output_values);
     VerificationOutput { output_hash: Hash { hash: hash_u32s(words.span()) } }
 }
 
