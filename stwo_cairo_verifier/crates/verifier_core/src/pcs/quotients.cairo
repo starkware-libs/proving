@@ -50,10 +50,13 @@ pub fn fri_answers(
     queried_values_per_tree: QueriedValues,
     log_degree_bound: u32,
 ) -> Span<QM31> {
-    // Note that `log_size` is equal to 1 + largest log size of a trace column (the additional 1
-    // comes from calling `len()` on `column_indices_per_tree_by_degree_bound`).
-    // Check that the largest log size of a trace column is <= `M31_CIRCLE_LOG_ORDER` - 1.
-    assert!(log_degree_bound + log_blowup_factor <= M31_CIRCLE_LOG_ORDER, "log_size is too large");
+    // The lifting domain has log size `log_degree_bound + log_blowup_factor`. Check that it's
+    // smaller than the log order of the M31 circle group (a canonical coset can be of log size at
+    // most M31_CIRCLE_LOG_ORDER - 1).
+    assert!(
+        log_degree_bound + log_blowup_factor < M31_CIRCLE_LOG_ORDER,
+        "lifting domain log size is too large",
+    );
     let mut queried_values_per_tree = queried_values_per_tree.span();
     // Add to each sample value the corresponding random coefficient power.
     let samples_with_randomness: Span<Span<Span<(QM31, QM31)>>> = build_samples_with_randomness(
@@ -148,7 +151,6 @@ fn sample_batches_for_degree_bound(
         *column_indices_per_tree, sample_values_with_rand,
     ) {
         for column_idx in column_indices {
-            // Note that samples_per_column[*column] can be an empty array.
             let mut sample_values_at_column = *samples_per_column[*column_idx];
 
             if let Some(tuple_box) = sample_values_at_column.try_into() {
