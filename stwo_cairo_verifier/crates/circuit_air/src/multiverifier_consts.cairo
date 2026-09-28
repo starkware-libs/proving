@@ -92,6 +92,9 @@ pub const PREPROCESSED_COLUMN_LOG_SIZES: [u32; 45] = [
     COMPONENT_LOG_SIZES.blake_g_gate // blake_g_gate_multiplicity
 ];
 
+/// Log degree bound of the circuit's trace, equal to the largest preprocessed column log size.
+pub const TRACE_LOG_DEGREE_BOUND: u32 = 23;
+
 // === END GENERATED ===
 
 #[cfg(test)]

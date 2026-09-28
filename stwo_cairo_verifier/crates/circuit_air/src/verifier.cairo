@@ -8,7 +8,6 @@ use stwo_verifier_core::fields::m31::M31Trait;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
 use stwo_verifier_core::fri::FriConfigTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
-use stwo_verifier_core::utils::SpanExTrait;
 use stwo_verifier_core::verifier::{StarkProof, VerificationError, verify};
 use stwo_verifier_utils::blake2s::hash_u32s;
 use crate::circuit_air::CircuitAirNewImpl;
@@ -16,7 +15,7 @@ use crate::claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
     column_log_sizes_per_tree, logup_sum,
 };
-use crate::multiverifier_consts::{CIRCUIT_FRI_CONFIG, N_OUTPUTS};
+use crate::multiverifier_consts::{CIRCUIT_FRI_CONFIG, N_OUTPUTS, TRACE_LOG_DEGREE_BOUND};
 
 // Security constants.
 pub const INTERACTION_POW_BITS: u32 = 20;
@@ -124,13 +123,12 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // bound (`trace_log_size = lifting - blowup`); the composition polynomial's raw degree bound is
     // one higher (degree-2 constraints) but it is split into 2 polynomials before LDE, bringing its
     // per-column degree bound back down to the trace's.
-    let trace_log_degree_bound = *preprocessed_column_log_sizes.max().unwrap();
     let circuit_air = CircuitAirNewImpl::new(@common_lookup_elements, @interaction_claim);
 
     verify(
         stark_proof,
         circuit_air,
-        trace_log_degree_bound,
+        TRACE_LOG_DEGREE_BOUND,
         composition_commitment,
         commitment_scheme,
         CIRCUIT_FRI_CONFIG,

@@ -181,6 +181,19 @@ fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSi
     }
     writeln!(w, "];").unwrap();
     writeln!(w).unwrap();
+    writeln!(
+        w,
+        "/// Log degree bound of the circuit's trace, equal to the largest preprocessed column \
+         log size."
+    )
+    .unwrap();
+    writeln!(
+        w,
+        "pub const TRACE_LOG_DEGREE_BOUND: u32 = {};",
+        layout.iter().map(|(_, log_size)| *log_size).max().expect("empty preprocessed layout")
+    )
+    .unwrap();
+    writeln!(w).unwrap();
     writeln!(w, "{END_MARKER}").unwrap();
     out
 }
