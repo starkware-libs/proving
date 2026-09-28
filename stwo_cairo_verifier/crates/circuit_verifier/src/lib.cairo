@@ -1,11 +1,9 @@
 use stwo_circuit_air::multiverifier_consts::CIRCUIT_FRI_CONFIG;
-use stwo_circuit_air::{
-    CircuitProof, VerificationOutput, compute_circuit_hash, get_verification_output, verify_circuit,
-};
+use stwo_circuit_air::{CircuitProof, compute_circuit_hash, get_verification_output, verify_circuit};
 use stwo_verifier_core::Hash;
 
 #[executable]
-fn main(proof: CircuitProof) -> VerificationOutput {
+fn main(proof: CircuitProof) -> Hash {
     /// Extract the commitments and output values before they are consumed by 'verify_circuit'.
     let commitments: @Box<[Hash; 4]> = proof
         .stark_proof

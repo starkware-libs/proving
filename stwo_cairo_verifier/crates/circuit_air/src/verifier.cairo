@@ -32,19 +32,12 @@ pub struct CircuitProof {
     pub channel_salt: u32,
 }
 
-/// The output of a circuit verification: `blake2s(circuit_hash || output_words)` (see
-/// `get_verification_output`).
-#[derive(Drop, Serde)]
-pub struct VerificationOutput {
-    pub output_hash: Hash,
-}
-
 /// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`.
-pub fn get_verification_output(circuit_hash: Hash, output_values: Span<u32>) -> VerificationOutput {
+pub fn get_verification_output(circuit_hash: Hash, output_values: Span<u32>) -> Hash {
     let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
     let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
     words.append_span(output_values);
-    VerificationOutput { output_hash: Hash { hash: hash_u32s(words.span()) } }
+    Hash { hash: hash_u32s(words.span()) }
 }
 
 pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
