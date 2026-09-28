@@ -10,8 +10,7 @@ use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use crate::cairo::utils::{
-    gen_consts, gen_imports, get_log_size, get_lookup_sums, get_numerators,
-    make_preprocessed_column,
+    gen_consts, gen_imports, get_log_size, get_logup_sums, get_numerators, make_preprocessed_column,
 };
 use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
@@ -72,7 +71,7 @@ pub fn generate_component_cairo_constraints_code(
                     $(get_numerators(air_fn).iter().map(|m| m.to_string() + ",\n").join(""))
                     column_size,
                     ref interaction_trace_mask_values,
-                    $(get_lookup_sums(air_fn).join(",\n"))
+                    $(get_logup_sums(air_fn).join(",\n"))
                 );
             }
         }

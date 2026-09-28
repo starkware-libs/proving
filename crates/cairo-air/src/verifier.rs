@@ -18,7 +18,7 @@ use tracing::{Level, span};
 use crate::CairoProofForRustVerifier;
 use crate::air::{MemorySection, PublicData, PublicMemory, PublicSegmentRanges, SegmentRange};
 use crate::cairo_components::CairoComponents;
-use crate::claims::{CairoClaim, lookup_sum};
+use crate::claims::{CairoClaim, logup_sum};
 use crate::components::memory_address_to_id::MEMORY_ADDRESS_TO_ID_SPLIT;
 use crate::components::{
     add_mod_builtin, bitwise_builtin, ec_op_builtin, mul_mod_builtin, pedersen_builtin,
@@ -303,7 +303,7 @@ pub fn verify_cairo_ex<MC: MerkleChannel>(
     let interaction_elements = CommonLookupElements::draw(channel);
 
     // Verify lookup argument.
-    if lookup_sum(&claim, &interaction_elements, &interaction_claim) != SecureField::zero() {
+    if logup_sum(&claim, &interaction_elements, &interaction_claim) != SecureField::zero() {
         return Err(CairoVerificationError::InvalidLogupSum);
     }
     interaction_claim.mix_into(channel);

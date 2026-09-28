@@ -5,7 +5,7 @@ use std::sync::{Arc, LazyLock};
 use anyhow::Result;
 use cairo_air::CairoProof;
 use cairo_air::cairo_components::CairoComponents;
-use cairo_air::claims::{CairoClaim, lookup_sum};
+use cairo_air::claims::{CairoClaim, logup_sum};
 use cairo_air::relations::CommonLookupElements;
 use cairo_air::utils::{ProofFormat, serialize_proof_to_file};
 use cairo_air::verifier::{INTERACTION_POW_BITS, verify_cairo_ex};
@@ -308,7 +308,7 @@ where
     tracing::info!("Witness trace cells: {:?}", witness_trace_cells(&claim, &preprocessed_trace));
     // Validate lookup argument.
     debug_assert_eq!(
-        lookup_sum(&claim, &interaction_elements, &interaction_claim),
+        logup_sum(&claim, &interaction_elements, &interaction_claim),
         SecureField::zero()
     );
     interaction_claim.mix_into(channel);

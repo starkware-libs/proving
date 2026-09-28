@@ -1197,7 +1197,7 @@ impl CairoInteractionClaim {
     }
 }
 
-pub fn lookup_sum(
+pub fn logup_sum(
     claim: &CairoClaim,
     common_lookup_elements: &CommonLookupElements,
     interaction_claim: &CairoInteractionClaim,

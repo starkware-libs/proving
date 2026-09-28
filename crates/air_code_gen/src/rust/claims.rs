@@ -47,7 +47,7 @@ pub fn generate_claims_rust_file(
         $(generate_cairo_interaction_claim_impl(&components_names))
 
         // TODO(Stav): change it to be a sum function of the CairoInteractionClaim.
-        pub fn lookup_sum(
+        pub fn logup_sum(
             claim: &CairoClaim,
             common_lookup_elements: &CommonLookupElements,
             interaction_claim: &CairoInteractionClaim,

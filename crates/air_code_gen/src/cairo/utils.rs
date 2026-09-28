@@ -159,7 +159,7 @@ pub(super) fn get_numerators(air_fn: &CompiledAirFn) -> Vec<String> {
     (0..air_fn.constraint_lookups.len()).map(|idx| format!("numerator_{idx}")).collect()
 }
 
-pub(super) fn get_lookup_sums(air_fn: &CompiledAirFn) -> Vec<String> {
+pub(super) fn get_logup_sums(air_fn: &CompiledAirFn) -> Vec<String> {
     air_fn
         .constraint_lookups
         .iter()

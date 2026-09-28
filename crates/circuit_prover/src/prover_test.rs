@@ -2,7 +2,7 @@ use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
-    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum, mix_circuit_hash,
+    CircuitInteractionElements, column_log_sizes_per_tree, logup_sum, mix_circuit_hash,
 };
 use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
@@ -261,7 +261,7 @@ fn stwo_verify(
     )
     .unwrap();
 
-    assert_eq!(lookup_sum(&claim, &interaction_claim, &interaction_elements,), QM31::zero());
+    assert_eq!(logup_sum(&claim, &interaction_claim, &interaction_elements,), QM31::zero());
 }
 
 #[test]

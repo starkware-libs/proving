@@ -78,7 +78,7 @@ impl CircuitInteractionClaim {
     }
 }
 
-pub fn lookup_sum(
+pub fn logup_sum(
     claim: &CircuitClaim,
     interaction_claim: &CircuitInteractionClaim,
     interaction_elements: &CircuitInteractionElements,
