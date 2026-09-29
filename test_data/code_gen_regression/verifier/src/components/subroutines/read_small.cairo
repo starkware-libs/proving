@@ -55,7 +55,7 @@ pub fn read_small_evaluate(
     );
 
     memory_id_to_big_sum_1 = common_lookup_elements
-        .combine_qm31(
+        .combine(
             [
                 qm31_const::<1662111297, 0, 0, 0>(), id_col0, value_limb_0_col3, value_limb_1_col4,
                 value_limb_2_col5,

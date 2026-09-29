@@ -89,7 +89,7 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
     let common_lookup_elements = &assignment.common_lookup_elements;
     let lookup_elements_fields = quote! {
         common_lookup_elements:
-            LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
+            CommonLookupElements { z: $(make_qm31(&common_lookup_elements.z)), alpha: $(make_qm31(&common_lookup_elements.alpha)) }, $("\n")
     };
 
     let claim_fields = match air_fn.log_height {
@@ -153,7 +153,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             #[allow(unused_imports)]
             use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
             #[allow(unused_imports)]
-            use stwo_constraint_framework::{LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
+            use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
             #[test]

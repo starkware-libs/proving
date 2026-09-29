@@ -1,11 +1,7 @@
 use core::box::BoxImpl;
 use core::dict::{Felt252Dict, Felt252DictEntryTrait, Felt252DictTrait, SquashedFelt252DictTrait};
 use core::nullable::{Nullable, NullableTrait};
-use core::num::traits::One;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
-use stwo_verifier_core::fields::m31::M31;
-#[cfg(not(feature: "qm31_opcode"))]
-use stwo_verifier_core::fields::m31::MulByM31Trait;
 use stwo_verifier_core::fields::qm31::QM31;
 use stwo_verifier_core::utils::{ArrayImpl, pow2};
 use stwo_verifier_core::{ColumnSpan, N_TREES, TreeArray};
@@ -31,90 +27,34 @@ const MAX_RELATION_SIZE: usize = 128;
 pub struct CommonLookupElements {
     pub z: QM31,
     pub alpha: QM31,
-    pub alpha_powers: Array<QM31>,
 }
 
-pub trait LookupElementsTrait {
-    fn from_z_alpha(
-        z: QM31, alpha: QM31,
-    ) -> CommonLookupElements {
-        let mut acc = One::one();
-        let mut alpha_powers = array![acc];
-
-        for _ in 1..(MAX_RELATION_SIZE + 1) {
-            acc *= alpha;
-            alpha_powers.append(acc);
-        }
-
-        CommonLookupElements { z, alpha, alpha_powers }
-    }
-
-    fn draw(
-        ref channel: Channel,
-    ) -> CommonLookupElements {
+#[generate_trait]
+pub impl LookupElementsImpl of LookupElementsTrait {
+    fn draw(ref channel: Channel) -> CommonLookupElements {
         let [z, alpha]: [QM31; 2] = (*channel.draw_secure_felts(2).span().try_into().unwrap())
             .unbox();
 
-        Self::from_z_alpha(z, alpha)
+        CommonLookupElements { z, alpha }
     }
 
-
-    /// Computes \sigma_i = -z + values[i] * self.alpha^i where values[i] is in qm31.
+    /// Computes the sum of terms `-z + values[i] * self.alpha^i`, over i in 0..values.len(), by
+    /// Horner evaluation.
     ///
-    /// We use horner evaluation here regardless of the qm31_opcode feature flag as it is faster in
-    /// both cases.
-    fn combine_qm31(
-        self: @CommonLookupElements, values: Span<QM31>,
+    /// Generic over the value type T, so both the constraint evaluation at the OOD point (T = QM31)
+    /// and the public logup terms (T = M31) go through this implementation.
+    fn combine<T, +Copy<T>, +Into<T, QM31>>(
+        self: @CommonLookupElements, mut values: Span<T>,
     ) -> QM31 {
         assert!(values.len() <= MAX_RELATION_SIZE);
         let alpha = *self.alpha;
-        let mut values = values;
-        let mut sum = *values.pop_back().unwrap();
-
-        while let Some(value) = values.pop_back() {
-            sum = sum * alpha + *value;
-        }
-
-        sum - *self.z
-    }
-
-    /// Computes \sigma_i = -z + values[i] * self.alpha^i where values[i] is in m31.
-    ///
-    /// The implementation varies based on the qm31_opcode feature flag.
-    fn combine(self: @CommonLookupElements, values: Span<M31>) -> QM31;
-}
-
-#[cfg(feature: "qm31_opcode")]
-pub impl LookupElementsImpl of LookupElementsTrait {
-    /// With qm31_opcode enabled, qm31 by qm31 multiplication becomes a single opcode, making
-    /// Horner's method the more efficient choice.
-    fn combine(self: @CommonLookupElements, mut values: Span<M31>) -> QM31 {
-        assert!(values.len() <= MAX_RELATION_SIZE);
-        let alpha = *self.alpha;
-        let mut sum = (*values.pop_back().unwrap()).into();
+        let mut sum: QM31 = (*values.pop_back().unwrap()).into();
 
         while let Some(value) = values.pop_back() {
             sum = sum * alpha + (*value).into();
         }
 
         sum - *self.z
-    }
-}
-
-#[cfg(not(feature: "qm31_opcode"))]
-pub impl LookupElementsImpl of LookupElementsTrait {
-    /// Without qm31_opcode, the naive approach using precomputed alpha powers is faster than
-    /// Horner's method because it uses qm31 by m31 multiplication instead of qm31 by qm31.
-    fn combine(self: @CommonLookupElements, mut values: Span<M31>) -> QM31 {
-        assert!(values.len() <= MAX_RELATION_SIZE);
-        let mut alpha_powers = self.alpha_powers.span();
-        let mut sum = -*self.z;
-
-        while let (Some(alpha), Some(value)) = (alpha_powers.pop_front(), values.pop_front()) {
-            sum += (*alpha).mul_m31(*value);
-        }
-
-        sum
     }
 }
 

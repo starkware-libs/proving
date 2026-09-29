@@ -60,7 +60,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         verify_bitwise_xor_9_sum_0 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<95781001, 0, 0, 0>(), bitwise_xor_9_0, bitwise_xor_9_1,
                     bitwise_xor_9_2,
@@ -124,7 +124,7 @@ mod tests {
     use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
     #[allow(unused_imports)]
     use stwo_constraint_framework::{
-        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
     };
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
@@ -137,10 +137,10 @@ mod tests {
         let component = Component {
             claim: Claim {},
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: LookupElementsTrait::from_z_alpha(
-                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            ),
+            common_lookup_elements: CommonLookupElements {
+                z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            },
         };
         let mut sum: QM31 = Zero::zero();
 

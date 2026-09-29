@@ -16,7 +16,7 @@ pub fn bitwise_xor_num_bits_4_evaluate(
     let [bitwise_xor_num_bits_4_input_limb_0, bitwise_xor_num_bits_4_input_limb_1] = input;
 
     verify_bitwise_xor_4_sum_0 = common_lookup_elements
-        .combine_qm31(
+        .combine(
             [
                 qm31_const::<45448144, 0, 0, 0>(), bitwise_xor_num_bits_4_input_limb_0,
                 bitwise_xor_num_bits_4_input_limb_1, xor_col0,

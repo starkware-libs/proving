@@ -262,7 +262,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         verify_bitwise_xor_8_sum_4 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), xor_col16,
                     split_16_low_part_size_8_output_tmp_4ec2c_9_limb_0,
@@ -274,7 +274,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         verify_bitwise_xor_8_sum_5 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [qm31_const::<112558620, 0, 0, 0>(), xor_col17, ms_8_bits_col12, ms_8_bits_col14]
                     .span(),
             );
@@ -282,7 +282,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         verify_bitwise_xor_8_sum_6 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), xor_col18,
                     split_16_low_part_size_8_output_tmp_4ec2c_11_limb_0,
@@ -294,7 +294,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         verify_bitwise_xor_8_sum_7 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [qm31_const::<112558620, 0, 0, 0>(), xor_col19, ms_8_bits_col13, ms_8_bits_col15]
                     .span(),
             );
@@ -302,7 +302,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_8 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_0,
                     input_a_limb_0_col0, input_a_limb_1_col1,
@@ -313,7 +313,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_9 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_1,
                     input_b_limb_0_col2, input_b_limb_1_col3,
@@ -324,7 +324,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_10 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_2,
                     input_c_limb_0_col4, input_c_limb_1_col5,
@@ -335,7 +335,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_11 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_output_addr,
                     input_a_xor_b_xor_c_limb_0_col6, input_a_xor_b_xor_c_limb_1_col7,
@@ -546,7 +546,7 @@ mod tests {
     use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
     #[allow(unused_imports)]
     use stwo_constraint_framework::{
-        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
     };
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
@@ -559,10 +559,10 @@ mod tests {
         let component = Component {
             claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: LookupElementsTrait::from_z_alpha(
-                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            ),
+            common_lookup_elements: CommonLookupElements {
+                z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            },
         };
         let mut sum: QM31 = Zero::zero();
 

@@ -429,7 +429,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_16 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_a,
                     input_a_limb_0_col0, input_a_limb_1_col1,
@@ -440,7 +440,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_17 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_b,
                     input_b_limb_0_col2, input_b_limb_1_col3,
@@ -451,7 +451,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_18 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_c,
                     input_c_limb_0_col4, input_c_limb_1_col5,
@@ -462,7 +462,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_19 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_d,
                     input_d_limb_0_col6, input_d_limb_1_col7,
@@ -473,7 +473,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_20 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_f0,
                     input_f0_limb_0_col8, input_f0_limb_1_col9,
@@ -484,7 +484,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_21 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_f1,
                     input_f1_limb_0_col10, input_f1_limb_1_col11,
@@ -495,7 +495,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_22 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_a,
                     input_a_out_limb_0_col12, input_a_out_limb_1_col13,
@@ -506,7 +506,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_23 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_b,
                     input_b_out_limb_0_col14, input_b_out_limb_1_col15,
@@ -517,7 +517,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_24 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_c,
                     input_c_out_limb_0_col16, input_c_out_limb_1_col17,
@@ -528,7 +528,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_25 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_d,
                     input_d_out_limb_0_col18, input_d_out_limb_1_col19,
@@ -935,7 +935,7 @@ mod tests {
     use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
     #[allow(unused_imports)]
     use stwo_constraint_framework::{
-        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
     };
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
@@ -948,10 +948,10 @@ mod tests {
         let component = Component {
             claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: LookupElementsTrait::from_z_alpha(
-                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            ),
+            common_lookup_elements: CommonLookupElements {
+                z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            },
         };
         let mut sum: QM31 = Zero::zero();
 

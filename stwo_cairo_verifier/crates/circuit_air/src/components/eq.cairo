@@ -79,14 +79,10 @@ pub impl AirComponentImpl of AirComponent<Component> {
         // The two yields differ only in the address slot.
         let eq_sum_0 = self
             .common_lookup_elements
-            .combine_qm31(
-                [gate_relation_id, eq_in0_address, in_col0, in_col1, in_col2, in_col3].span(),
-            );
+            .combine([gate_relation_id, eq_in0_address, in_col0, in_col1, in_col2, in_col3].span());
         let eq_sum_1 = self
             .common_lookup_elements
-            .combine_qm31(
-                [gate_relation_id, eq_in1_address, in_col0, in_col1, in_col2, in_col3].span(),
-            );
+            .combine([gate_relation_id, eq_in1_address, in_col0, in_col1, in_col2, in_col3].span());
         // Both numerators are 1 (`E::EF::one()` in eq.rs::evaluate).
         let one: QM31 = qm31_const::<1, 0, 0, 0>();
         let numerator_0 = one;

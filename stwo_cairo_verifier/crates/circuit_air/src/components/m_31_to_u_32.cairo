@@ -84,17 +84,17 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         range_check_16_sum_0 = self
             .common_lookup_elements
-            .combine_qm31([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
+            .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
         numerator_0 = qm31_const::<1, 0, 0, 0>();
 
         range_check_16_sum_1 = self
             .common_lookup_elements
-            .combine_qm31([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
+            .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
         numerator_1 = qm31_const::<1, 0, 0, 0>();
 
         range_check_16_sum_2 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<1008385708, 0, 0, 0>(),
                     (qm31_const::<32767, 0, 0, 0>() - input_u32_limb_1_col2),
@@ -115,14 +115,14 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         gate_sum_3 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_input_addr, input_m31_col0].span(),
             );
         numerator_3 = qm31_const::<1, 0, 0, 0>();
 
         gate_sum_4 = self
             .common_lookup_elements
-            .combine_qm31(
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_output_addr,
                     input_u32_limb_0_col1, input_u32_limb_1_col2,
@@ -245,7 +245,7 @@ mod tests {
     use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
     #[allow(unused_imports)]
     use stwo_constraint_framework::{
-        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
     };
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
@@ -258,10 +258,10 @@ mod tests {
         let component = Component {
             claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: LookupElementsTrait::from_z_alpha(
-                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            ),
+            common_lookup_elements: CommonLookupElements {
+                z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            },
         };
         let mut sum: QM31 = Zero::zero();
 

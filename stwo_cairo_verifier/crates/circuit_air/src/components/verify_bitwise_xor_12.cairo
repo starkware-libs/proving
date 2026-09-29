@@ -132,22 +132,22 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         // Build sum_n = combine(relation_id, a_i, b_j, c_{i^j} for each lookup n = 4*i + j.
         let common = self.common_lookup_elements;
-        let sum_0 = common.combine_qm31([relation_id, a0, b0, c0].span());
-        let sum_1 = common.combine_qm31([relation_id, a0, b1, c1].span());
-        let sum_2 = common.combine_qm31([relation_id, a0, b2, c2].span());
-        let sum_3 = common.combine_qm31([relation_id, a0, b3, c3].span());
-        let sum_4 = common.combine_qm31([relation_id, a1, b0, c1].span());
-        let sum_5 = common.combine_qm31([relation_id, a1, b1, c0].span());
-        let sum_6 = common.combine_qm31([relation_id, a1, b2, c3].span());
-        let sum_7 = common.combine_qm31([relation_id, a1, b3, c2].span());
-        let sum_8 = common.combine_qm31([relation_id, a2, b0, c2].span());
-        let sum_9 = common.combine_qm31([relation_id, a2, b1, c3].span());
-        let sum_10 = common.combine_qm31([relation_id, a2, b2, c0].span());
-        let sum_11 = common.combine_qm31([relation_id, a2, b3, c1].span());
-        let sum_12 = common.combine_qm31([relation_id, a3, b0, c3].span());
-        let sum_13 = common.combine_qm31([relation_id, a3, b1, c2].span());
-        let sum_14 = common.combine_qm31([relation_id, a3, b2, c1].span());
-        let sum_15 = common.combine_qm31([relation_id, a3, b3, c0].span());
+        let sum_0 = common.combine([relation_id, a0, b0, c0].span());
+        let sum_1 = common.combine([relation_id, a0, b1, c1].span());
+        let sum_2 = common.combine([relation_id, a0, b2, c2].span());
+        let sum_3 = common.combine([relation_id, a0, b3, c3].span());
+        let sum_4 = common.combine([relation_id, a1, b0, c1].span());
+        let sum_5 = common.combine([relation_id, a1, b1, c0].span());
+        let sum_6 = common.combine([relation_id, a1, b2, c3].span());
+        let sum_7 = common.combine([relation_id, a1, b3, c2].span());
+        let sum_8 = common.combine([relation_id, a2, b0, c2].span());
+        let sum_9 = common.combine([relation_id, a2, b1, c3].span());
+        let sum_10 = common.combine([relation_id, a2, b2, c0].span());
+        let sum_11 = common.combine([relation_id, a2, b3, c1].span());
+        let sum_12 = common.combine([relation_id, a3, b0, c3].span());
+        let sum_13 = common.combine([relation_id, a3, b1, c2].span());
+        let sum_14 = common.combine([relation_id, a3, b2, c1].span());
+        let sum_15 = common.combine([relation_id, a3, b3, c0].span());
 
         lookup_constraints(
             ref sum,

@@ -27,7 +27,7 @@ pub fn decode_instruction_1af1f_evaluate(
     sum = sum * random_coeff + constraint_eval;
 
     verify_instruction_sum_0 = common_lookup_elements
-        .combine_qm31(
+        .combine(
             [
                 qm31_const::<1719106205, 0, 0, 0>(), decode_instruction_1af1f_input_pc,
                 qm31_const::<32767, 0, 0, 0>(), qm31_const::<32767, 0, 0, 0>(), offset2_col0,

@@ -53,7 +53,7 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 };
                 code.append(quote! {
                     $("\n")
-                    $(relation_name.clone())_sum_$(relation_offset) = $(lookup_elements).combine_qm31(
+                    $(relation_name.clone())_sum_$(relation_offset) = $(lookup_elements).combine(
                         [
                             $(felts.join(",\n"))
                         ].span(),
