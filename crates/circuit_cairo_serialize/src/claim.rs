@@ -14,26 +14,38 @@
 
 use circuit_verifier::circuit_claim::{CircuitClaim, CircuitInteractionClaim};
 use circuit_verifier::circuit_components::N_COMPONENTS;
+use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::ivalue::IValue;
 use stwo::core::fields::qm31::QM31;
+use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
 
 /// Mirror of Cairo `CircuitClaim`.
 ///
 /// Cairo layout:
-/// - `output_values: Array<u32>`
+/// - `output_digest: Blake2sHash`
 #[derive(Clone, Debug, PartialEq, Eq, CairoSerialize, CairoDeserialize)]
 pub struct CairoCircuitClaim {
-    /// The outputs as plain u32 words. The circuit carries each one as a QM31 wire value
+    /// The circuit's output: the unreduced Blake2s digest, one 32-bit word per reserved wire
+    /// (see [`BLAKE2S_DIGEST_N_WORDS`]). The circuit carries each word as a QM31 wire value
     /// `(low_u16, high_u16, 0, 0)`; the Cairo verifier rebuilds that encoding where it needs it.
-    pub output_values: Vec<u32>,
+    pub output_digest: Blake2sHash,
 }
 
 impl CairoCircuitClaim {
     pub fn new(claim: &CircuitClaim) -> Self {
         let CircuitClaim { output_values } = claim;
 
-        Self { output_values: output_values.iter().map(|value| value.unpack_u32()).collect() }
+        assert_eq!(
+            output_values.len(),
+            BLAKE2S_DIGEST_N_WORDS,
+            "expected {BLAKE2S_DIGEST_N_WORDS} outputs, got {}",
+            output_values.len()
+        );
+        let words: [u32; BLAKE2S_DIGEST_N_WORDS] =
+            std::array::from_fn(|i| output_values[i].unpack_u32());
+
+        Self { output_digest: words.into() }
     }
 }
 

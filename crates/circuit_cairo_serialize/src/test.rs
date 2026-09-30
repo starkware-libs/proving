@@ -4,6 +4,7 @@
 //! `CairoSerialize` impls, deserializes the felt252 stream back via `CairoDeserialize`,
 //! and asserts the result equals the original.
 
+use circuit_common::N_RESERVED;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
@@ -14,6 +15,7 @@ use num_traits::{One, Zero};
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
+use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
 
@@ -29,12 +31,15 @@ fn qm31(a: u32, b: u32, c: u32, d: u32) -> QM31 {
 /// in `circuit_prover::test`, just smaller.
 fn build_minimal_context() -> Context<QM31> {
     const N: usize = 16;
-    let mut ctx = Context::<QM31>::new(1);
+    let mut ctx = Context::<QM31>::new(N_RESERVED);
     let (mut a, mut b) = (guess(&mut ctx, QM31::zero()), guess(&mut ctx, QM31::one()));
+    // The Cairo verifier's claim holds a fixed-size digest, so emit exactly that many outputs.
+    let mut outputs = Vec::with_capacity(N);
     for _ in 2..N {
         (a, b) = (b, circuits::eval!(&mut ctx, (a) + (b)));
+        outputs.push(b);
     }
-    ctx.set_outputs(&[b]);
+    ctx.set_outputs(&outputs[outputs.len() - N_RESERVED..]);
     ctx
 }
 
@@ -78,8 +83,8 @@ fn test_serialize_deserialize_cairo_proof() {
 
 #[test]
 fn test_serialize_deserialize_claim_and_interaction_claim() {
-    // Use distinct claim sum values to detect ordering bugs.
-    let claim = CairoCircuitClaim { output_values: vec![1, 0xffff_ffff] };
+    // Distinct bytes throughout, so a reordering bug shows up.
+    let claim = CairoCircuitClaim { output_digest: Blake2sHash(std::array::from_fn(|i| i as u8)) };
     let interaction = CairoCircuitInteractionClaim {
         claimed_sums: [
             qm31(1, 0, 0, 0),

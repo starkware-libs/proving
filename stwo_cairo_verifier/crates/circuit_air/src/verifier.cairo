@@ -8,6 +8,7 @@ use stwo_verifier_core::fields::m31::M31Trait;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
 use stwo_verifier_core::fri::FriParamsTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
+use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
 use stwo_verifier_core::verifier::{StarkProof, VerificationError, verify};
 use stwo_verifier_utils::blake2s::hash_u32s;
 use crate::circuit_air::CircuitAirNewImpl;
@@ -16,13 +17,6 @@ use crate::claims::{
     column_log_sizes_per_tree, logup_sum,
 };
 use crate::multiverifier_consts::{CIRCUIT_FRI_PARAMS, TRACE_LOG_DEGREE_BOUND};
-
-/// Number of public output values of the multiverifier circuit.
-///
-/// The multiverifier outputs the full unreduced Blake2s digest of its two verified inputs as
-/// `N_RESERVED` = 8 QM31 words. (The logup anchor `u` is appended internally by the verifier and
-/// is not part of the public outputs.)
-const N_OUTPUTS: u32 = 8;
 
 // Security constants.
 pub const INTERACTION_POW_BITS: u32 = 20;
@@ -39,10 +33,10 @@ pub struct CircuitProof {
 }
 
 /// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`.
-pub fn get_verification_output(circuit_hash: Hash, output_values: Span<u32>) -> Hash {
+pub fn get_verification_output(circuit_hash: Hash, output_digest: Blake2sHash) -> Hash {
     let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
     let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
-    words.append_span(output_values);
+    words.append_span(output_digest.hash.unbox().span());
     Hash { hash: hash_u32s(words.span()) }
 }
 
@@ -50,10 +44,6 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let CircuitProof {
         claim, interaction_pow_nonce, interaction_claim, stark_proof, channel_salt,
     } = proof;
-
-    // The circuit produces a fixed number of public outputs (its topology); the claim must
-    // provide exactly that many.
-    assert!(claim.output_values.len() == N_OUTPUTS);
 
     let mut channel: Channel = Default::default();
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.

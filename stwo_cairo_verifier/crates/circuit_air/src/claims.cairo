@@ -2,6 +2,7 @@ use stwo_constraint_framework::{CommonLookupElements, LookupElementsTrait};
 use stwo_verifier_core::N_TREES;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde, QM31Trait};
+use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
 use stwo_verifier_utils::zip_eq::zip_eq;
 use crate::multiverifier_consts::{COMPONENT_LOG_SIZES, PREPROCESSED_COLUMN_LOG_SIZES};
 use crate::per_component::{
@@ -19,7 +20,8 @@ const U16_SHIFT: NonZero<u32> = 0x10000;
 
 #[derive(Drop, Serde)]
 pub struct CircuitClaim {
-    pub output_values: Array<u32>,
+    /// The circuit's public output.
+    pub output_digest: Blake2sHash,
 }
 
 #[generate_trait]
@@ -27,7 +29,7 @@ pub impl CircuitClaimImpl of CircuitClaimTrait {
     /// Mixes the outputs in the circuit's wire encoding, matching what the prover mixes.
     fn mix_into(self: @CircuitClaim, ref channel: Channel) {
         let mut wire_values = array![];
-        for value in self.output_values.span() {
+        for value in @self.output_digest.hash.unbox() {
             let [lo, hi] = output_limbs(*value);
             wire_values.append(QM31Trait::from_fixed_array([lo, hi, Zero::zero(), Zero::zero()]));
         }
@@ -63,10 +65,10 @@ pub impl CircuitInteractionClaimImpl of CircuitInteractionClaimTrait {
 ///   `component_sum + u_sum + output_sum`
 /// where:
 ///   - `component_sum` is the sum of all components' `claimed_sums`;
-///   - `u_sum` is the `u` term at `U_VAR_IDX` with value `U_VALUE = (0, 0, 1, 0)`.
-///   - `output_sum` is the sum over all public output values;
+///   - `u_sum` is the `u` term at `U_VAR_IDX` with value `U_VALUE = (0, 0, 1, 0)`;
+///   - `output_sum` is the sum over the digest words of `output_digest`.
 ///
-/// Assumes that the circuit lays out its variables in a fixed order:`var[0] = 0`, `var[1] = 1`,
+/// Assumes that the circuit lays out its variables in a fixed order: `var[0] = 0`, `var[1] = 1`,
 /// `var[2] = u`, with the public output values placed in the variable slots immediately after `u`.
 /// A proof is valid only when this value equals zero.
 pub fn logup_sum(
@@ -96,7 +98,7 @@ pub fn logup_sum(
     // relation, keyed by its variable index (addr).
     let mut output_sum: QM31 = Zero::zero();
     let mut addr: M31 = m31(U_VAR_IDX + 1);
-    for value in claim.output_values.span() {
+    for value in @claim.output_digest.hash.unbox() {
         let [lo, hi] = output_limbs(*value);
         let denom = common_lookup_elements
             .combine([GATE_RELATION_ID, addr, lo, hi, Zero::zero(), Zero::zero()].span());
@@ -108,7 +110,7 @@ pub fn logup_sum(
 }
 
 /// Returns `[preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]`, one entry per
-/// committed tree,  where all three are constants. `tree[0]` is the hardcoded
+/// committed tree, where all three are constants. `tree[0]` is the hardcoded
 /// `PREPROCESSED_COLUMN_LOG_SIZES`; `tree[1]` and `tree[2]` repeat each component's log size by its
 /// trace/interaction column count, in `ComponentList` order.
 pub fn column_log_sizes_per_tree() -> [Span<u32>; N_TREES] {

@@ -4,7 +4,7 @@ use stwo_verifier_core::Hash;
 
 #[executable]
 fn main(proof: CircuitProof) -> Hash {
-    // Take the commitments and the span of `output_values` here, because `verify_circuit`
+    // Read the commitments and copy the output digest out here, because `verify_circuit`
     // consumes the proof later.
     let commitments: @Box<[Hash; 4]> = proof
         .stark_proof
@@ -12,7 +12,7 @@ fn main(proof: CircuitProof) -> Hash {
         .commitments
         .try_into()
         .unwrap();
-    let output_values = proof.claim.output_values.span();
+    let output_digest = proof.claim.output_digest;
 
     // Compute the circuit hash. The blowup factor is the circuit's hardcoded one, the same one
     // `verify_circuit` verifies against, and not a value the proof carries.
@@ -25,5 +25,5 @@ fn main(proof: CircuitProof) -> Hash {
     verify_circuit(:proof, :circuit_hash);
 
     // Return the verification output.
-    get_verification_output(:circuit_hash, :output_values)
+    get_verification_output(:circuit_hash, :output_digest)
 }
