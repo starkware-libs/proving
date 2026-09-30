@@ -1,11 +1,5 @@
-crates/stwo-circuits/all_opcode_components.bin -text
-test_data/all_opcode_components/proof.bin binary
-test_data/privacy/proof.bin binary
-test_data/privacy/recursion_proof.bin binary
-test_data/privacy/privacy_tx_cairo_pie.zip binary
-test_data/circuit_multiverifier/proof.bin binary
-test_data/circuit_multiverifier/proof_cairo.bin binary
-test_data/circuit_multiverifier/backward_compatibility_cairo_proof.bin binary
-crates/leaf_prover/tests/data/expected_output.json binary
-crates/stwo_run_and_prove_recursive_tree/test_data/goldens/four_leaves/leaf.json binary
-crates/stwo_run_and_prove_recursive_tree/test_data/goldens/four_leaves/root.proof binary
+*.bin binary linguist-generated=true
+*.proof binary linguist-generated=true
+test_data/**/*.zip binary linguist-generated=true
+crates/leaf_prover/tests/data/expected_output.json binary linguist-generated=true
+crates/stwo_run_and_prove_recursive_tree/test_data/goldens/four_leaves/leaf.json binary linguist-generated=true
