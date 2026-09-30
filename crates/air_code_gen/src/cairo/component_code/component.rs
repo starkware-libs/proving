@@ -115,8 +115,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             .external_states
             .get(external_state)
             .unwrap_or_else(|| panic!("Missing external state {external_state}"));
-        let preprocessed_column =
-            make_preprocessed_column(external_state, &quote! { component.claim.log_size });
+        let preprocessed_column = make_preprocessed_column(external_state);
         preprocessed_values.append(quote! {
                 ($(preprocessed_column), $(make_qm31(external_column_value))), $("\n")
         });
@@ -199,7 +198,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
+                = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id)));
         });
     }
 

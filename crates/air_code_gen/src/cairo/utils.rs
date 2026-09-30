@@ -114,15 +114,8 @@ pub fn n_logup_columns(air_fn: &CompiledAirFn) -> usize {
     QM31_EXTENSION_DEGREE * n_batches
 }
 
-pub fn make_preprocessed_column(
-    external_state: &ExternalState,
-    log_size_expr: &rust::Tokens,
-) -> rust::Tokens {
-    if external_state == "Seq" {
-        quote! { seq_column_idx($(log_size_expr)) }
-    } else {
-        quote! { $(&external_state.to_case(Case::Constant))_IDX }
-    }
+pub fn make_preprocessed_column(external_state: &ExternalState) -> rust::Tokens {
+    quote! { $(&external_state.to_case(Case::Constant))_IDX }
 }
 
 pub fn format_cairo_code(code_text: String) -> String {

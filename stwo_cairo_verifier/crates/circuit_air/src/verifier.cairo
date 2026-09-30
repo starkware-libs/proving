@@ -15,7 +15,14 @@ use crate::claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
     column_log_sizes_per_tree, logup_sum,
 };
-use crate::multiverifier_consts::{CIRCUIT_FRI_PARAMS, N_OUTPUTS, TRACE_LOG_DEGREE_BOUND};
+use crate::multiverifier_consts::{CIRCUIT_FRI_PARAMS, TRACE_LOG_DEGREE_BOUND};
+
+/// Number of public output values of the multiverifier circuit.
+///
+/// The multiverifier outputs the full unreduced Blake2s digest of its two verified inputs as
+/// `N_RESERVED` = 8 QM31 words. (The logup anchor `u` is appended internally by the verifier and
+/// is not part of the public outputs.)
+const N_OUTPUTS: u32 = 8;
 
 // Security constants.
 pub const INTERACTION_POW_BITS: u32 = 20;
