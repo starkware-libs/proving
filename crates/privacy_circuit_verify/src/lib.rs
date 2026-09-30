@@ -39,7 +39,7 @@ use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::Felt252;
 use tracing::{Level, info, span};
-pub use utils::{VERSION_BYTES, Version};
+pub use utils::Version;
 
 use crate::consts::{
     CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG, LARGE_PROOFS_CIRCUIT_REGISTRY_JSON,

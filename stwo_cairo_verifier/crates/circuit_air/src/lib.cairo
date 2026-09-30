@@ -1,6 +1,5 @@
 //! `stwo_circuit_air`: AIR-specific verifier-side logic written in Cairo for the stwo-circuits
 //! circuit.
-pub use stwo_constraint_framework::{RelationUse, RelationUsesDict, accumulate_relation_uses};
 
 pub mod circuit_air;
 

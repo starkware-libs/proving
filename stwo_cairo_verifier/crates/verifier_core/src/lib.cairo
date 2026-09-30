@@ -30,8 +30,7 @@ mod utils_test;
 
 pub mod vcs;
 pub mod verifier;
-
-pub use fields::{BaseField, SecureField};
+use fields::{BaseField, SecureField};
 
 /// An array in which each element relates (by index) to a column in the trace.
 pub type ColumnArray<T> = Array<T>;

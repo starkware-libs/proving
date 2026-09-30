@@ -39,7 +39,8 @@ pub mod output;
 
 use canonical::CanonicalCircuit;
 use fold::{LayerEntry, reduce_pair, reduce_root_single};
-pub use leaf_io::{LeafInput, LeafProofExt, load_leaves};
+use leaf_io::LeafInput;
+pub use leaf_io::load_leaves;
 pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
 #[derive(Debug, Error)]

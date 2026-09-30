@@ -30,7 +30,7 @@ pub fn generate_claim_generator_file(
             PreProcessedTrace, MAX_SEQUENCE_LOG_SIZE,
         };
         use stwo_cairo_common::preprocessed_columns::simd_prelude::{BaseField, CircleEvaluation};
-        pub use stwo::prover::backend::simd::SimdBackend;
+        use stwo::prover::backend::simd::SimdBackend;
         use stwo::prover::poly::BitReversedOrder;
         use crate::witness::components::*;
 

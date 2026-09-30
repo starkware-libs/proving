@@ -13,7 +13,8 @@ use cairo_vm::vm::errors::runner_errors::RunnerError;
 use cairo_vm::vm::errors::vm_errors::VirtualMachineError;
 use stwo_cairo_adapter::ProverInput;
 use stwo_cairo_adapter::adapter::adapt;
-pub use stwo_run_and_prove_common::{ProverTrait, StwoProverEntryPoint};
+use stwo_run_and_prove_common::ProverTrait;
+pub use stwo_run_and_prove_common::StwoProverEntryPoint;
 use thiserror::Error;
 use tracing::{Level, error, info, span};
 

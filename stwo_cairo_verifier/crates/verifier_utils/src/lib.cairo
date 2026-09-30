@@ -76,9 +76,9 @@ pub mod poseidon252;
 // TODO(Gil): Remove this global use and use the explicit module imports instead everywhere it is
 // currently used.
 #[cfg(not(feature: "poseidon252_verifier"))]
-pub use stwo_verifier_utils::blake2s::*;
+use stwo_verifier_utils::blake2s::*;
 #[cfg(feature: "poseidon252_verifier")]
-pub use stwo_verifier_utils::poseidon252::*;
+use stwo_verifier_utils::poseidon252::*;
 
 /// Constructs a `felt252` from 8 u32 little-endian limbs.
 /// Doesn't check for overflow, i.e, the result is in fact a u256 modulo p252.

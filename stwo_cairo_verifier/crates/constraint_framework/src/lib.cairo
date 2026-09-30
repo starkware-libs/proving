@@ -11,9 +11,7 @@ pub mod component;
 pub mod test_utils;
 pub mod utils;
 
-pub use claim::ClaimTrait;
 pub use component::{AirComponent, NewComponent};
-pub use utils::tree_array_concat_cols;
 
 /// Represents the value of the prefix sum column at some index.
 /// Should be used to eliminate padded rows for the logup sum.
