@@ -7,7 +7,7 @@ use stwo::core::channel::{Blake2sM31Channel, Channel};
 use stwo::core::fields::FieldExpOps;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{QM31, SecureField};
-use stwo::core::fri::FriParams;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof::ExtendedStarkProof;
@@ -201,10 +201,10 @@ pub fn create_proof_with_fold_step(
     u64,
     u32,
 ) {
-    let config = PcsConfig::from_fri_and_trace_size(
-        FriParams { log_blowup_factor: 2, fold_step, ..FriParams::default() },
-        LOG_SIZE_LONG,
-    );
+    let config = PcsConfig::from_fri_config(FriConfig {
+        params: FriParams { log_blowup_factor: 2, fold_step, ..FriParams::default() },
+        trace_log_size: LOG_SIZE_LONG,
+    });
     let lifting_log_size = config.trace_lifting_log_size;
     // Precompute twiddles.
     let twiddles = SimdBackend::precompute_twiddles(

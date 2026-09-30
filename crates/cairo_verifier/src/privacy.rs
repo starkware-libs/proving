@@ -5,7 +5,7 @@ use circuits::ivalue::NoValue;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
-use stwo::core::fri::FriParams;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 
@@ -148,5 +148,5 @@ pub const fn get_pcs_config(trace_log_size: u32, log_blowup_factor: u32) -> PcsC
         n_queries,
         fold_step: 4,
     };
-    PcsConfig::from_fri_and_trace_size(fri_params, trace_log_size)
+    PcsConfig::from_fri_config(FriConfig { params: fri_params, trace_log_size })
 }

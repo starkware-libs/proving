@@ -169,7 +169,7 @@ mod tests {
     use crate::core::channel::Blake2sChannel;
     use crate::core::circle::SECURE_FIELD_CIRCLE_GEN;
     use crate::core::fields::m31::M31;
-    use crate::core::fri::FriParams;
+    use crate::core::fri::{FriConfig, FriParams};
     use crate::core::pcs::quotients::PointSample;
     use crate::core::pcs::{CommitmentSchemeVerifier, PcsConfig, TreeVec};
     use crate::core::poly::circle::CanonicCoset;
@@ -247,7 +247,10 @@ mod tests {
 
         // Setup the prover side of the pcs.
         let mut channel = Blake2sChannel::default();
-        let config = PcsConfig::from_fri_and_trace_size(FriParams::default(), LIFTING_LOG_SIZE);
+        let config = PcsConfig::from_fri_config(FriConfig {
+            params: FriParams::default(),
+            trace_log_size: LIFTING_LOG_SIZE,
+        });
         let twiddles = B::precompute_twiddles(
             CanonicCoset::new(LIFTING_LOG_SIZE + config.fri_params.log_blowup_factor).half_coset(),
         );

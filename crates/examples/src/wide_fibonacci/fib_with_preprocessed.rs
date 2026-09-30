@@ -85,7 +85,7 @@ mod tests {
     use stwo::core::channel::Blake2sM31Channel;
     use stwo::core::fields::m31::BaseField;
     use stwo::core::fields::qm31::SecureField;
-    use stwo::core::fri::FriParams;
+    use stwo::core::fri::{FriConfig, FriParams};
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
@@ -113,7 +113,10 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_with_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
-            let config = PcsConfig::from_fri_and_trace_size(FriParams::default(), log_n_instances);
+            let config = PcsConfig::from_fri_config(FriConfig {
+                params: FriParams::default(),
+                trace_log_size: log_n_instances,
+            });
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
                 CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
@@ -251,8 +254,10 @@ mod tests {
         for log_n_instances in 4..=8 {
             let log_size_unused_pp = log_n_instances + 3;
             // Lift every tree to the largest preprocessed column (after LDE).
-            let config =
-                PcsConfig::from_fri_and_trace_size(FriParams::default(), log_size_unused_pp);
+            let config = PcsConfig::from_fri_config(FriConfig {
+                params: FriParams::default(),
+                trace_log_size: log_size_unused_pp,
+            });
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
                 CanonicCoset::new(log_size_unused_pp + 1 + config.fri_params.log_blowup_factor)

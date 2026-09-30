@@ -23,7 +23,7 @@ use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use leaf_prover::prove_leaf::leaf_verifier_config;
-use stwo::core::fri::FriParams;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
@@ -67,7 +67,7 @@ impl CircuitsBuilder {
     /// The verified proofs' PCS config at `trace_log_size`: `cairo_fri_params`, lifted to that
     /// trace.
     pub fn cairo_pcs_config(&self, trace_log_size: u32) -> PcsConfig {
-        PcsConfig::from_fri_and_trace_size(self.cairo_fri_params, trace_log_size)
+        PcsConfig::from_fri_config(FriConfig { params: self.cairo_fri_params, trace_log_size })
     }
 
     /// Returns the preprocessed root of a verified Cairo proof of `trace_log_size` — the Cairo
@@ -116,7 +116,7 @@ pub fn multiverifier_context_for_sizes(
         *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
     build_multiverifier_context_from_shared_config(&shared_config(
         preprocessed_column_log_sizes,
-        PcsConfig::from_fri_and_trace_size(circuit_fri_params, trace_log_size),
+        PcsConfig::from_fri_config(FriConfig { params: circuit_fri_params, trace_log_size }),
     ))
 }
 

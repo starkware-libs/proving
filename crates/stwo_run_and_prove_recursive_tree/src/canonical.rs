@@ -15,6 +15,7 @@ use circuit_multiverifier::verify::{
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend};
 use circuit_registry::{CircuitRegistry, DigestHex};
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use tracing::{Level, info, span};
 
@@ -55,8 +56,10 @@ impl CanonicalCircuit {
         let preprocessed_column_log_sizes = layout_from_component_sizes(&target_sizes);
         let trace_log_size =
             *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
-        let circuit_pcs_config =
-            PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_params, trace_log_size);
+        let circuit_pcs_config = PcsConfig::from_fri_config(FriConfig {
+            params: circuit_proof_config.fri_params,
+            trace_log_size,
+        });
         let shared_config = shared_config(preprocessed_column_log_sizes, circuit_pcs_config);
 
         // 2. The multiverifier circuit shape, padded to the registry's target.

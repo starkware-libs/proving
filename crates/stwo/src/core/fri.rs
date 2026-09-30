@@ -100,6 +100,25 @@ impl Default for FriParams {
     }
 }
 
+/// The FRI parameters together with the trace size they are applied to.
+///
+/// [`FriParams`] alone does not determine the protocol's layer structure: the number of layers and
+/// their sizes follow from the trace size being proven. This pairs the two, so that every consumer
+/// of the pair carries one value instead of two that must be kept in sync.
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+pub struct FriConfig {
+    pub params: FriParams,
+    /// Log2 of the trace size: the degree bound of the committed columns, before the blowup.
+    pub trace_log_size: u32,
+}
+
+impl FriConfig {
+    /// Log2 of the size of the domain the columns are committed over.
+    pub const fn log_evaluation_domain_size(&self) -> u32 {
+        self.trace_log_size + self.params.log_blowup_factor
+    }
+}
+
 #[cfg(test)]
 mod config_tests {
     use super::FriParams;

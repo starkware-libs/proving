@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 
 pub use self::utils::TreeVec;
 pub use self::verifier::CommitmentSchemeVerifier;
-use super::fri::FriParams;
+use super::fri::{FriConfig, FriParams};
 use super::verifier::PREPROCESSED_TRACE_IDX;
 
 #[derive(Copy, Debug, Clone, PartialEq, Eq)]
@@ -29,7 +29,7 @@ pub struct TreeSubspan {
 /// Configuration parameters for the commitment scheme prover.
 ///
 /// Deliberately not [`Default`]: the lifting log sizes depend on the trees being committed, so
-/// there is no sane default for them. Build one with [`PcsConfig::from_fri_and_trace_size`],
+/// there is no sane default for them. Build one with [`PcsConfig::from_fri_config`],
 /// [`PcsConfig::from_fri_and_lifting_size`], or a struct literal.
 ///
 /// The lifting log sizes are the heights the trees are committed at: every column in a tree is
@@ -48,10 +48,10 @@ pub struct PcsConfig {
     pub preprocessed_lifting_log_size: u32,
 }
 impl PcsConfig {
-    /// The config for proving a trace of `trace_log_size` under `fri_params`: every tree, the
-    /// preprocessed one included, is lifted to the trace's extended domain.
-    pub const fn from_fri_and_trace_size(fri_params: FriParams, trace_log_size: u32) -> Self {
-        Self::from_fri_and_lifting_size(fri_params, trace_log_size + fri_params.log_blowup_factor)
+    /// The config for proving under `fri_config`: every tree, the preprocessed one included, is
+    /// lifted to the trace's extended domain.
+    pub const fn from_fri_config(fri_config: FriConfig) -> Self {
+        Self::from_fri_and_lifting_size(fri_config.params, fri_config.log_evaluation_domain_size())
     }
 
     /// The config lifting every tree, the preprocessed one included, to `lifting_log_size`

@@ -26,6 +26,7 @@ use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
 use leaf_proof_format::{DigestHex, SerializedLeafProof};
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
@@ -198,7 +199,7 @@ pub fn prove_leaf(
         n_outputs,
         verifier_config.preprocessed_trace_variant,
         verifier_config.preprocessed_root,
-        verifier_config.proof_config.fri.pow_bits,
+        verifier_config.proof_config.fri.params.pow_bits,
         verifier_config.proof_config.fri,
     );
     assert!(context.is_circuit_valid(), "The verifier circuit rejected the proof!");
@@ -207,10 +208,10 @@ pub fn prove_leaf(
     // Prove the execution of the verifier circuit.
 
     // The padded circuit fixes the circuit proof's lifting size.
-    let circuit_prover_pcs_config = PcsConfig::from_fri_and_trace_size(
-        circuit_proof_config.fri_params,
-        preprocessed_circuit.trace_log_size(),
-    );
+    let circuit_prover_pcs_config = PcsConfig::from_fri_config(FriConfig {
+        params: circuit_proof_config.fri_params,
+        trace_log_size: preprocessed_circuit.trace_log_size(),
+    });
     let base_column_pool = BaseColumnPool::new();
     let circuit_proof = prove_circuit_assignment(
         context.values(),

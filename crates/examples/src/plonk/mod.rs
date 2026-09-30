@@ -279,7 +279,7 @@ mod tests {
 
     use stwo::core::air::Component;
     use stwo::core::channel::Blake2sChannel;
-    use stwo::core::fri::FriParams;
+    use stwo::core::fri::{FriConfig, FriParams};
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig};
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo::core::verifier::verify;
@@ -293,8 +293,10 @@ mod tests {
             .unwrap_or_else(|_| "10".to_string())
             .parse::<u32>()
             .unwrap();
-        let config =
-            PcsConfig::from_fri_and_trace_size(FriParams::new(10, 5, 4, 64, 1), log_n_instances);
+        let config = PcsConfig::from_fri_config(FriConfig {
+            params: FriParams::new(10, 5, 4, 64, 1),
+            trace_log_size: log_n_instances,
+        });
 
         // Prove.
         let (component, proof) = prove_fibonacci_plonk(log_n_instances, config);

@@ -62,7 +62,7 @@ pub fn verify<Value: IValue>(
     channel.mix_qm31s(context, [proof.channel_salt]);
 
     // Mix the FRI params.
-    mix_fri_params(context, &mut channel, &config.fri);
+    mix_fri_params(context, &mut channel, &config.fri.params);
 
     // Mix the preprocessed root (known from the statement) into the channel.
     let preprocessed_root = statement.get_preprocessed_root(context);
@@ -174,7 +174,7 @@ pub fn verify<Value: IValue>(
     let fri_alphas = fri_commit(context, &mut channel, &proof.fri.commit);
 
     // Proof of work before query selection.
-    channel.pow(context, config.fri.pow_bits, proof.fri.pow_nonce);
+    channel.pow(context, config.fri.params.pow_bits, proof.fri.pow_nonce);
 
     // Select queries.
     let query_selection_input =
@@ -216,16 +216,7 @@ pub fn verify<Value: IValue>(
         oods_quotient_coef,
     );
 
-    fri_decommit(
-        context,
-        &proof.fri,
-        config.log_trace_size,
-        &config.fri,
-        fri_input,
-        &bits,
-        queries,
-        &fri_alphas,
-    );
+    fri_decommit(context, &proof.fri, &config.fri, fri_input, &bits, queries, &fri_alphas);
 }
 
 /// Verify that no relation is used more than P times.

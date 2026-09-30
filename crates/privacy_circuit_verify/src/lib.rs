@@ -33,6 +33,7 @@ use starknet_types_core::felt::Felt;
 use starknet_types_core::hash::Blake2Felt252;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
@@ -41,7 +42,7 @@ use tracing::{Level, info, span};
 pub use utils::{VERSION_BYTES, Version};
 
 use crate::consts::{
-    CAIRO_PCS_CONFIG, CIRCUIT_FRI_PARAMS, CIRCUIT_PCS_CONFIG, LARGE_PROOFS_CIRCUIT_REGISTRY_JSON,
+    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG, LARGE_PROOFS_CIRCUIT_REGISTRY_JSON,
     LEAF_BOOTLOADER_JSON, MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES,
     MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_BOOTLOADER_JSON,
     PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
@@ -191,7 +192,7 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
         program: Arc::from(program_entries.as_slice()),
         preprocessed_root: get_preprocessed_root(cairo_lifting_log_size),
         preprocessed_trace_variant,
-        zk_blinding_amount: Some(CIRCUIT_FRI_PARAMS.n_queries + NON_QUERY_INFO_LEAK),
+        zk_blinding_amount: Some(CIRCUIT_FRI_CONFIG.params.n_queries + NON_QUERY_INFO_LEAK),
     })
 }
 
@@ -273,7 +274,10 @@ fn pcs_config_from_circuit_proof_config(circuit_proof_config: &CircuitProofConfi
     let trace_size = component_sizes.iter().max().unwrap();
 
     // Build the PcsConfig
-    PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_params, *trace_size)
+    PcsConfig::from_fri_config(FriConfig {
+        params: circuit_proof_config.fri_params,
+        trace_log_size: *trace_size,
+    })
 }
 
 // The config used to prove the leaf verifier with the given preprocessed root.

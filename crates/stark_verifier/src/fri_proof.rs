@@ -4,7 +4,7 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::wrappers::U32Wrapper;
 use itertools::zip_eq;
-pub use stwo::core::fri::FriParams;
+pub use stwo::core::fri::{FriConfig, FriParams};
 
 use crate::merkle::{AuthPath, AuthPaths};
 
@@ -78,13 +78,13 @@ pub struct FriProof<T> {
 
 impl<T> FriProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, log_trace_size: usize, config: &FriParams) {
+    pub fn validate_structure(&self, config: &FriConfig) {
         let FriProof { commit, pow_nonce: _, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
-            log_trace_size - config.log_last_layer_degree_bound as usize,
-            config.fold_step as usize,
+            (config.trace_log_size - config.params.log_last_layer_degree_bound) as usize,
+            config.params.fold_step as usize,
         );
-        commit.validate_structure(config, &all_fold_steps);
+        commit.validate_structure(&config.params, &all_fold_steps);
 
         // Build `tree_heights` so that `tree_heights[i]` is the Merkle authentication-path
         // length for FRI layer `i`, to validate against the proof.
@@ -92,15 +92,15 @@ impl<T> FriProof<T> {
         // starts, so a layer with `2^k` values has an auth path of length `k - fold_step`
         // (equivalently, the layer's log-size after folding).
         let mut tree_heights: Vec<usize> = Vec::with_capacity(all_fold_steps.len());
-        let mut layer_size = log_trace_size + config.log_blowup_factor as usize;
+        let mut layer_size = config.log_evaluation_domain_size() as usize;
         for fold_step in &all_fold_steps {
             layer_size -= *fold_step;
             tree_heights.push(layer_size);
         }
-        auth_paths.validate_structure(&tree_heights, config.n_queries);
+        auth_paths.validate_structure(&tree_heights, config.params.n_queries);
 
         // Check the witness.
-        witness.validate_structure(config, &all_fold_steps);
+        witness.validate_structure(&config.params, &all_fold_steps);
     }
 }
 
@@ -117,12 +117,12 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
     }
 }
 
-pub fn empty_fri_proof(log_trace_size: usize, config: &FriParams) -> FriProof<NoValue> {
+pub fn empty_fri_proof(config: &FriConfig) -> FriProof<NoValue> {
     let all_fold_steps = compute_all_fold_steps(
-        log_trace_size - config.log_last_layer_degree_bound as usize,
-        config.fold_step as usize,
+        (config.trace_log_size - config.params.log_last_layer_degree_bound) as usize,
+        config.params.fold_step as usize,
     );
-    let mut log_layer_size = log_trace_size + config.log_blowup_factor as usize;
+    let mut log_layer_size = config.log_evaluation_domain_size() as usize;
     let mut auth_paths = vec![];
 
     for step in &all_fold_steps {
@@ -130,7 +130,7 @@ pub fn empty_fri_proof(log_trace_size: usize, config: &FriParams) -> FriProof<No
             // The verifier computes the Merkle node at height `log_layer_size - step`
             // from the witness.
             AuthPath(vec![HashValue::no_value(); log_layer_size - step]);
-            config.n_queries
+            config.params.n_queries
         ]);
         log_layer_size -= step;
     }
@@ -138,12 +138,12 @@ pub fn empty_fri_proof(log_trace_size: usize, config: &FriParams) -> FriProof<No
 
     let witness_per_query_per_tree = all_fold_steps
         .iter()
-        .map(|step| vec![vec![NoValue; 1 << step]; config.n_queries])
+        .map(|step| vec![vec![NoValue; 1 << step]; config.params.n_queries])
         .collect();
     FriProof {
         commit: FriCommitProof {
             layer_commitments: vec![HashValue([U32Wrapper::no_value(); 8]); all_fold_steps.len()],
-            last_layer_coefs: vec![NoValue; 1 << config.log_last_layer_degree_bound],
+            last_layer_coefs: vec![NoValue; 1 << config.params.log_last_layer_degree_bound],
         },
         pow_nonce: NoValue,
         auth_paths,

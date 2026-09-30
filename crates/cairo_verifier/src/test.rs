@@ -18,7 +18,7 @@ use circuits_stark_verifier::verify::verify;
 use num_traits::Zero;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriParams;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
@@ -48,10 +48,10 @@ pub fn verify_cairo(
 
 #[test]
 fn test_verify() {
-    let pcs_config = PcsConfig::from_fri_and_trace_size(
-        FriParams { fold_step: 4, ..FriParams::default() },
-        SMALL_MAX_SEQUENCE_LOG_SIZE,
-    );
+    let pcs_config = PcsConfig::from_fri_config(FriConfig {
+        params: FriParams { fold_step: 4, ..FriParams::default() },
+        trace_log_size: SMALL_MAX_SEQUENCE_LOG_SIZE,
+    });
 
     let mut novalue_context: Context<NoValue> = Context::new(N_RESERVED);
     let program_len = 128;

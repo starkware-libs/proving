@@ -495,7 +495,7 @@ pub fn verify_blake<MC: MerkleChannel>(
 mod tests {
     use std::env;
 
-    use stwo::core::fri::FriParams;
+    use stwo::core::fri::{FriConfig, FriParams};
     use stwo::core::pcs::PcsConfig;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 
@@ -514,10 +514,10 @@ mod tests {
         let log_n_instances =
             env::var("LOG_N_INSTANCES").unwrap_or_else(|_| "6".to_string()).parse::<u32>().unwrap();
         // Blake's preprocessed tree holds the XOR tables, so every tree lifts alike.
-        let config = PcsConfig::from_fri_and_trace_size(
-            FriParams::default(),
-            blake_log_max_rows(log_n_instances),
-        );
+        let config = PcsConfig::from_fri_config(FriConfig {
+            params: FriParams::default(),
+            trace_log_size: blake_log_max_rows(log_n_instances),
+        });
 
         // Prove.
         let proof = prove_blake::<Blake2sMerkleChannel>(log_n_instances, config);

@@ -3,7 +3,7 @@ use std::fmt;
 use circuits::blake::{HashValue, ReducedHashValue};
 use circuits::wrappers::M31Wrapper;
 use circuits_stark_verifier::fri_proof::{
-    FriCommitProof, FriParams, FriProof, FriWitness, compute_all_fold_steps,
+    FriCommitProof, FriConfig, FriParams, FriProof, FriWitness, compute_all_fold_steps,
 };
 use circuits_stark_verifier::merkle::{AuthPath, AuthPaths};
 use circuits_stark_verifier::oods::{EvalDomainSamples, N_COMPOSITION_COLUMNS};
@@ -122,7 +122,7 @@ pub fn deserialize_proof_with_config(
     let eval_domain_auth_paths = deserialize_eval_domain_auth_paths(data, config)?;
     let oods_pow_nonce = QM31::deserialize(data)?;
     let interaction_pow_nonce = QM31::deserialize(data)?;
-    let fri = deserialize_fri_proof(data, config.log_trace_size, &config.fri)?;
+    let fri = deserialize_fri_proof(data, &config.fri)?;
 
     Ok(Proof {
         channel_salt,
@@ -208,17 +208,17 @@ fn deserialize_fri_commit_proof(
 
 fn deserialize_fri_proof(
     data: &mut &[u8],
-    log_trace_size: usize,
-    fri_params: &FriParams,
+    fri_config: &FriConfig,
 ) -> DeserializeResult<FriProof<QM31>> {
+    let fri_params = &fri_config.params;
     let all_fold_steps = compute_all_fold_steps(
-        log_trace_size - fri_params.log_last_layer_degree_bound as usize,
+        (fri_config.trace_log_size - fri_params.log_last_layer_degree_bound) as usize,
         fri_params.fold_step as usize,
     );
     let commit = deserialize_fri_commit_proof(data, fri_params, &all_fold_steps)?;
     let pow_nonce = QM31::deserialize(data)?;
 
-    let mut path_len = log_trace_size + fri_params.log_blowup_factor as usize;
+    let mut path_len = fri_config.log_evaluation_domain_size() as usize;
     let mut auth_path_trees = Vec::with_capacity(all_fold_steps.len());
     for step in all_fold_steps.iter() {
         path_len -= step;

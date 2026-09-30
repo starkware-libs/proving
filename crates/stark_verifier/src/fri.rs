@@ -15,7 +15,7 @@ use crate::circle::{
     compute_half_coset_points, double_x_simd, generator_point_simd, repeated_double_point_simd,
     sub_points_simd,
 };
-use crate::fri_proof::{FriCommitProof, FriParams, FriProof, FriWitness};
+use crate::fri_proof::{FriCommitProof, FriConfig, FriParams, FriProof, FriWitness};
 use crate::merkle::{hash_leaf_qm31, hash_node, hash_packed_leaf_qm31s, verify_merkle_path};
 use crate::select_queries::Queries;
 
@@ -61,8 +61,7 @@ pub fn fri_commit(
 pub fn fri_decommit<Value: IValue>(
     context: &mut Context<Value>,
     proof: &FriProof<Var>,
-    log_trace_size: usize,
-    params: &FriParams,
+    config: &FriConfig,
     fri_input: Vec<Var>,
     mut bits: &[Vec<Var>],
     queries: Queries,
@@ -79,10 +78,11 @@ pub fn fri_decommit<Value: IValue>(
     let mut base_point = queries.points.clone();
     let mut packed_bits = queries.bits.as_slice();
 
+    let log_trace_size = config.trace_log_size as usize;
     let mut log_degree_bound = log_trace_size;
-    let mut step = params.fold_step as usize;
+    let mut step = config.params.fold_step as usize;
     assert!(log_trace_size >= step);
-    assert_eq!(params.log_last_layer_degree_bound, 0);
+    assert_eq!(config.params.log_last_layer_degree_bound, 0);
 
     // Translate base_point to the base of the current circle domain.
     let mut packed_lowest_bits = packed_bits.split_off(..step).unwrap();
@@ -149,7 +149,7 @@ pub fn fri_decommit<Value: IValue>(
         }
 
         // Unpack twiddles from [fold][twiddle_packed] to per-query [fold][twiddle].
-        let twiddles_per_query: Vec<Vec<Vec<Var>>> = (0..params.n_queries)
+        let twiddles_per_query: Vec<Vec<Vec<Var>>> = (0..config.params.n_queries)
             .map(|q| {
                 twiddles_per_fold
                     .iter()
@@ -193,8 +193,8 @@ pub fn fri_decommit<Value: IValue>(
         twiddles_per_fold = compute_twiddles_from_base_point(context, &base_point, step);
     }
     // The last fri layer log size is equal to the log blowup factor.
-    assert_eq!(bits.len(), params.log_blowup_factor as usize);
-    assert_eq!(packed_bits.len(), params.log_blowup_factor as usize);
+    assert_eq!(bits.len(), config.params.log_blowup_factor as usize);
+    assert_eq!(packed_bits.len(), config.params.log_blowup_factor as usize);
 
     // The last base point's y-coords hasn't been used by `compute_twiddles_from_base_point` if the
     // last step was = 1.

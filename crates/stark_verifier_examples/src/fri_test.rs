@@ -16,7 +16,7 @@ use stwo::core::channel::{Blake2sM31Channel, Channel, MerkleChannel};
 use stwo::core::circle::Coset;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{QM31, SecureField};
-use stwo::core::fri::{ExtendedFriProof, FriParams};
+use stwo::core::fri::{ExtendedFriProof, FriConfig, FriParams};
 use stwo::core::poly::circle::CircleDomain;
 use stwo::core::queries::Queries;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
@@ -34,15 +34,15 @@ use stwo::prover::poly::circle::{PolyOps, SecureEvaluation};
 #[case::fold_step_4(8, 2, 4, 7)]
 #[case::fold_step_4_blowup_3(8, 3, 4, 7)]
 fn test_fri_decommit_with_jumps(
-    #[case] log_trace_size: u32,
+    #[case] trace_log_size: u32,
     #[case] log_blowup_factor: u32,
     #[case] fold_step: usize,
     #[case] n_queries: usize,
 ) {
-    let log_evaluation_domain_size = log_trace_size + log_blowup_factor;
+    let log_evaluation_domain_size = trace_log_size + log_blowup_factor;
     let query_indices = generate_query_indices(n_queries, log_evaluation_domain_size);
     let fri_proof =
-        create_fri_proof(log_trace_size, log_blowup_factor, fold_step, n_queries, &query_indices);
+        create_fri_proof(trace_log_size, log_blowup_factor, fold_step, n_queries, &query_indices);
 
     let mut context = TraceContext::default();
     // Make a dummy config.
@@ -53,8 +53,10 @@ fn test_fri_decommit_with_jumps(
         n_interaction_columns: 0,
         component_shapes: vec![],
         cumulative_sum_columns: vec![],
-        log_trace_size: log_trace_size as usize,
-        fri: FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step as u32),
+        fri: FriConfig {
+            params: FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step as u32),
+            trace_log_size,
+        },
     };
 
     // Compute FRI input.
@@ -103,16 +105,7 @@ fn test_fri_decommit_with_jumps(
     channel.mix_felts(&last_layer_coefficients);
     let alphas: Vec<_> = alpha_values.iter().map(|x| context.constant(*x)).collect();
 
-    fri_decommit(
-        &mut context,
-        &circuit_fri_proof,
-        config.log_trace_size,
-        &config.fri,
-        fri_input,
-        &bits,
-        queries,
-        &alphas,
-    );
+    fri_decommit(&mut context, &circuit_fri_proof, &config.fri, fri_input, &bits, queries, &alphas);
     context.validate_circuit();
     println!("Stats: {:?}", context.stats);
 }
@@ -132,14 +125,14 @@ fn polynomial_evaluation(
 }
 
 fn create_fri_proof(
-    log_trace_size: u32,
+    trace_log_size: u32,
     log_blowup_factor: u32,
     fold_step: usize,
     n_queries: usize,
     query_indices: &[usize],
 ) -> ExtendedFriProof<Blake2sMerkleHasher> {
     let config = FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step as u32);
-    let column = polynomial_evaluation(log_trace_size, log_blowup_factor);
+    let column = polynomial_evaluation(trace_log_size, log_blowup_factor);
     let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
     let prover = FriProver::<CpuBackend, Blake2sM31MerkleChannel>::commit(
         &mut Blake2sM31Channel::default(),
@@ -147,7 +140,7 @@ fn create_fri_proof(
         &column,
         &twiddles,
     );
-    let queries = Queries::new(query_indices, log_trace_size + log_blowup_factor);
+    let queries = Queries::new(query_indices, trace_log_size + log_blowup_factor);
     prover.decommit_on_queries(&queries, 0)
 }
 

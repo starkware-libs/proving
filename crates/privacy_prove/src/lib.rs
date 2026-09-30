@@ -33,7 +33,7 @@ use itertools::chain;
 use leaf_proof_format::{DigestHex, SerializedLeafProof};
 use leaf_prover::prove_leaf::prove_leaf;
 use privacy_circuit_verify::consts::{
-    CAIRO_PCS_CONFIG, CIRCUIT_FRI_PARAMS, CIRCUIT_PCS_CONFIG,
+    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG,
     PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
 };
 use privacy_circuit_verify::utils::ProofHeader;
@@ -178,7 +178,7 @@ pub fn prepare_recursive_prover_precomputes()
     let circuit_preprocessed_tree =
         CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(
             circuit_preprocessed_trace_polys,
-            CIRCUIT_FRI_PARAMS.log_blowup_factor,
+            CIRCUIT_FRI_CONFIG.params.log_blowup_factor,
             &twiddles,
             CIRCUIT_STORE_POLYNOMIALS_COEFFICIENTS,
             circuit_config.config.preprocessed_lifting_log_size,
