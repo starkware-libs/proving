@@ -295,19 +295,18 @@ where
     }
 }
 
-pub fn sample_evaluations_consts(
-    sample_evaluations: &IndexMap<String, SampleEvaluation>,
+pub fn sample_evaluations_consts<'a>(
+    sample_evaluations: impl IntoIterator<Item = (&'a String, &'a SampleEvaluation)>,
 ) -> HashMap<String, QM31> {
-    let mut constants_to_write = HashMap::new();
-
-    for (fn_name, evaluation) in sample_evaluations {
-        let constant_name =
-            format!("{}{}", fn_name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX);
-
-        constants_to_write.insert(constant_name, evaluation.result);
-    }
-
-    constants_to_write
+    sample_evaluations
+        .into_iter()
+        .map(|(fn_name, evaluation)| {
+            (
+                format!("{}{}", fn_name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX),
+                evaluation.result,
+            )
+        })
+        .collect()
 }
 
 #[cfg(test)]

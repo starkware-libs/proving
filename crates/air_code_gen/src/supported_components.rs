@@ -44,7 +44,7 @@ pub fn get_manual_rust_constraints_components() -> Vec<String> {
 /// Returns the list of components whose Cairo constraint evaluation code is manually written.
 /// The CI ensures that constraint evaluation code generation works for all components not
 /// listed here.
-fn get_manual_cairo_constraints_components() -> Vec<String> {
+pub(crate) fn get_manual_cairo_constraints_components() -> Vec<String> {
     vec![
         // CASM components
         "memory_address_to_id".into(),

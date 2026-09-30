@@ -19,10 +19,6 @@ pub const TRIPLE_XOR_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 731346899 }, M31 { inner: 1577065601 }, M31 { inner: 629243848 },
     M31 { inner: 388337013 },
 ];
-pub const VERIFY_BITWISE_XOR_12_SAMPLE_EVAL_RESULT: [M31; 4] = [
-    M31 { inner: 1164619324 }, M31 { inner: 1195346952 }, M31 { inner: 540051247 },
-    M31 { inner: 1660102276 },
-];
 pub const VERIFY_BITWISE_XOR_4_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 1744867710 }, M31 { inner: 1582203579 }, M31 { inner: 2027916061 },
     M31 { inner: 1843132599 },
