@@ -98,9 +98,6 @@ enum PreprocessedColumnsAllocationMode {
 
 pub type PreprocessedColumnIdx = u32;
 
-// Used for columns not present in the preprocessed trace
-pub const INVALID_COLUMN_IDX: PreprocessedColumnIdx = 1000000000;
-
 // A dict from relation_id, which is a string encoded as a felt252, to the number of uses of the
 // corresponding relation.
 pub type RelationUsesDict = Felt252Dict<u64>;

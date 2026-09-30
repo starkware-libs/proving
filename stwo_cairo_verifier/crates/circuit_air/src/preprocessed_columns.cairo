@@ -5,7 +5,7 @@
 // FIX=1 to regenerate). Columns are sorted by size (ascending, stable on insertion order), so
 // these indices change whenever the registry's component sizes change.
 
-use stwo_constraint_framework::{INVALID_COLUMN_IDX, PreprocessedColumnIdx};
+use stwo_constraint_framework::PreprocessedColumnIdx;
 
 // === BEGIN GENERATED (see cairo_consts_test.rs; running it with FIX=1 regenerates) ===
 
@@ -69,11 +69,6 @@ pub const BLAKE_G_GATE_OUTPUT_ADDR_D_IDX: PreprocessedColumnIdx = 43;
 pub const BLAKE_G_GATE_MULTIPLICITY_IDX: PreprocessedColumnIdx = 44;
 
 // === END GENERATED ===
-
-// Make sure INVALID_COLUMN_IDX is not the ID of any column
-const INVALID_IDX_CHECK: () = if NUM_PREPROCESSED_COLUMNS >= INVALID_COLUMN_IDX {
-    core::panic_with_felt252('invalid idx too small')
-};
 
 /// Maps a `log_size` to the index of the corresponding `seq_<log_size>` preprocessed
 /// column. Only sizes used by the privacy recursive circuit are supported.
