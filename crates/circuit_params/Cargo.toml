@@ -23,7 +23,7 @@ leaf-prover.workspace = true
 circuit-cairo-verifier.workspace = true
 circuit-common = { workspace = true, features = ["prover"] }
 circuit-prover.workspace = true
-circuit-multiverifier.workspace = true
+circuit-verifier.workspace = true
 circuits.workspace = true
 stwo.workspace = true
 stwo-cairo-common.workspace = true

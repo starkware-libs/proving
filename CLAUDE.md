@@ -34,7 +34,7 @@ to load it by hand.
 |------|---------------------|-------------------------------|
 | **stwo** (core) | `stwo`, `constraint-framework`, `air-utils`, `air-utils-derive`, `examples`, `std-shims` (+ root `ensure-verifier-no_std/`) | `stwo-core-guide` |
 | **stwo-cairo** | `adapter`, `cairo-air`, `prover`, `common`, `utils`, `dev_utils`, `cairo-serialize`, `cairo-serialize-derive` (+ root `stwo_cairo_verifier/`, a Cairo workspace) | `stwo-cairo-guide` |
-| **stwo-circuits** | `circuits`, `circuit_common`, `circuit_prover`, `circuit_verifier`, `circuit_serialize`, `circuit_cairo_serialize`, `circuit_multiverifier`, `stark_verifier`, `stark_verifier_examples`, `cairo_verifier`, `unpacker` | `stwo-circuits-guide` |
+| **stwo-circuits** | `circuits`, `circuit_common`, `circuit_prover`, `circuit_verifier`, `circuit_serialize`, `circuit_cairo_serialize`, `stark_verifier`, `stark_verifier_examples`, `cairo_verifier`, `unpacker` | `stwo-circuits-guide` |
 | **proving-utils** | `privacy_prove`, `privacy_circuit_verify`, `stwo_run_and_prove`, `stwo_run_and_prove_common`, `stwo_run_and_prove_recursive_tree`, `cairo-program-runner`, `cairo-program-runner-lib`, `vm_runner`, `leaf_prover`, `leaf_proof_format`, `circuit_params` | `proving-utils-guide` |
 | **stwo-air-infra** | `air_infra`, `air_common`, `air_compile`, `air_code_gen`, `airs`, `eval_air_fn_constraints`, `compiled_casm_air`, `compiled_circuit_air`, `code_gen_regression` | `stwo-air-infra-guide` |
 

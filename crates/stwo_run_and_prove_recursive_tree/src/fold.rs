@@ -4,7 +4,6 @@
 use circuit_cairo_serialize::prepare_circuit_proof_for_cairo_verifier;
 use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
-use circuit_multiverifier::verify::{MultiverifierInput, build_multiverifier_circuit};
 use circuit_prover::prover::{
     prepare_circuit_proof_for_circuit_verifier, prove_circuit_assignment,
     prove_circuit_assignment_with_channel,
@@ -12,6 +11,7 @@ use circuit_prover::prover::{
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_serialize::serialize::CircuitSerialize;
 use circuit_verifier::circuit_proof::CircuitProof;
+use circuit_verifier::multiverifier::{MultiverifierInput, build_multiverifier_circuit};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::blake::HashValue;
 use circuits::ivalue::{IValue, NoValue};

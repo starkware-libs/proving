@@ -3,7 +3,7 @@
 //! Given an ordered list of `N` leaf circuit proofs (produced by the `leaf_prover` crate — each one
 //! is a circuit proof that a Cairo proof was verified by the cairo-verifier circuit), this folds
 //! the entire recursive proof tree above the leaves in a single binary invocation by repeatedly
-//! pairing adjacent children with the `circuit_multiverifier`: for each pair it builds a
+//! pairing adjacent children with the multiverifier : for each pair it builds a
 //! multiverifier circuit that verifies both children, proves that circuit, and the resulting
 //! circuit proof becomes the parent node for the next layer. There is no Cairo bootloader and no
 //! wrapping step anymore.

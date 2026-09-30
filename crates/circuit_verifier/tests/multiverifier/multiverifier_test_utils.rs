@@ -3,6 +3,9 @@ use circuit_cairo_verifier::privacy::get_pcs_config;
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::circuit_hash::compute_circuit_hash;
+use circuit_verifier::multiverifier::{
+    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
+};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
@@ -12,8 +15,6 @@ use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
-
-use crate::verify::{SharedConfig, build_multiverifier_context_from_shared_config, shared_config};
 
 // Shared test fixtures: config constants, target padding sizes, and helpers used by the
 // multiverifier test modules (`verify_test` and `backward_compatibility_test`).
@@ -32,7 +33,7 @@ pub const TARGET_PADDING_SIZES: ComponentSizes = ComponentSizes {
 /// The number of preprocessed columns in a trace of a circuit.
 pub const CIRCUIT_N_PREPROCESSED_COLUMNS: usize = 45;
 /// The Cairo verifier circuit's output digest for the privacy proof fixture
-/// (`test_data/circuit_multiverifier/proof_cairo.bin`): the eight words of the program's output
+/// (`test_data/multiverifier/proof_cairo.bin`): the eight words of the program's output
 /// Blake2s digest, exposed directly (the output memory cells encode this digest).
 pub const PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
@@ -46,7 +47,7 @@ pub const MULTIVERIFIER_PREPROCESSED_ROOT: [u32; 8] =
     [1000226240, 2594245421, 3723596985, 3224848905, 58402566, 2000113262, 123403781, 2713442088];
 /// A multiverifier proof verifying two identical Cairo verifier proofs.
 pub const MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH: &str =
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/circuit_multiverifier/proof.bin");
+    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/multiverifier/proof.bin");
 
 /// Out-of-circuit implementation of [`circuits::blake::blake2s_u32s`].
 pub fn native_blake_u32s(words: &[u32]) -> [u32; 8] {

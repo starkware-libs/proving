@@ -1660,34 +1660,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "circuit-multiverifier"
-version = "2.4.0"
-dependencies = [
- "blake2",
- "cairo-air",
- "circuit-cairo-serialize",
- "circuit-cairo-verifier",
- "circuit-common",
- "circuit-prover",
- "circuit-serialize",
- "circuit-verifier",
- "circuits",
- "circuits-stark-verifier",
- "itertools 0.12.1",
- "serde_json",
- "stwo",
- "stwo-constraint-framework",
-]
-
-[[package]]
 name = "circuit-params"
 version = "2.4.0"
 dependencies = [
  "circuit-cairo-verifier",
  "circuit-common",
- "circuit-multiverifier",
  "circuit-prover",
  "circuit-registry",
+ "circuit-verifier",
  "circuits",
  "clap",
  "leaf-prover",
@@ -1753,7 +1733,11 @@ name = "circuit-verifier"
 version = "2.4.0"
 dependencies = [
  "blake2",
+ "cairo-air",
+ "circuit-cairo-verifier",
  "circuit-common",
+ "circuit-prover",
+ "circuit-serialize",
  "circuits",
  "circuits-stark-verifier",
  "expect-test",
@@ -4980,7 +4964,6 @@ dependencies = [
  "blake2",
  "circuit-cairo-serialize",
  "circuit-common",
- "circuit-multiverifier",
  "circuit-prover",
  "circuit-registry",
  "circuit-serialize",

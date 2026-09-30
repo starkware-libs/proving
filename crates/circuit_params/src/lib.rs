@@ -15,10 +15,10 @@ use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
 use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
-use circuit_multiverifier::verify::{
+use circuit_registry::LogSizes;
+use circuit_verifier::multiverifier::{
     build_multiverifier_context_from_shared_config, shared_config,
 };
-use circuit_registry::LogSizes;
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;

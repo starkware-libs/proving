@@ -9,12 +9,12 @@
 
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
-use circuit_multiverifier::verify::{
-    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
-};
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend};
 use circuit_registry::{CircuitRegistry, DigestHex};
+use circuit_verifier::multiverifier::{
+    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
+};
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use tracing::{Level, info, span};

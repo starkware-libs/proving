@@ -15,6 +15,9 @@ use circuit_prover::prover::{
 };
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_serialize::serialize::CircuitSerialize;
+use circuit_verifier::multiverifier::{
+    MultiverifierInput, SharedConfig, build_multiverifier_circuit,
+};
 use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::HashValue;
@@ -28,18 +31,17 @@ use stwo::core::pcs::PcsConfig;
 use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::mempool::BaseColumnPool;
 
-use crate::test_utils::{
+use crate::multiverifier_test_utils::{
     CIRCUIT_N_PREPROCESSED_COLUMNS, LOG_BLOWUP_FACTOR, MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH,
     MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG, PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST,
     PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, TARGET_PADDING_SIZES,
     get_preprocessed_multiverifier_from_circuit, leaf_circuit_hash,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
 };
-use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
 
 /// The Cairo verifier proof fixture (produced by [`test_cairo_proof_regression`]).
 const PRIVACY_CAIRO_VERIFIER_PROOF_PATH: &str =
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/circuit_multiverifier/proof_cairo.bin");
+    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/multiverifier/proof_cairo.bin");
 
 /// Builds the `ProofConfig` for the proofs of the inner verifiers.
 fn inner_verifier_proof_config() -> ProofConfig {

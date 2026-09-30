@@ -1,6 +1,4 @@
 use circuit_common::N_RESERVED;
-use circuit_verifier::statement::{CircuitStatement, circuit_verifier_proof_config};
-use circuit_verifier::verify::CircuitConfig;
 use circuits::blake::{HashValue, blake2s_u32s};
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};
@@ -12,13 +10,8 @@ use itertools::{Itertools, chain};
 use stwo::core::pcs::PcsConfig;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
-#[cfg(test)]
-#[path = "verify_test.rs"]
-mod verify_test;
-
-#[cfg(test)]
-#[path = "backward_compatibility_test.rs"]
-mod backward_compatibility_test;
+use crate::statement::{CircuitStatement, circuit_verifier_proof_config};
+use crate::verify::CircuitConfig;
 
 /// A circuit proof together with metadata needed to build the [`CircuitStatement`] against which
 /// the proof will be verified. The multiverifier expects the output gates of an input circuit to
