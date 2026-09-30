@@ -120,7 +120,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     // bound (`trace_log_size = lifting - blowup`); the composition polynomial's raw degree bound is
     // one higher (degree-2 constraints) but it is split into 2 polynomials before LDE, bringing its
     // per-column degree bound back down to the trace's.
-    let circuit_air = CircuitAirNewImpl::new(@common_lookup_elements, @interaction_claim);
+    let circuit_air = CircuitAirNewImpl::new(common_lookup_elements, @interaction_claim);
 
     verify(
         stark_proof,

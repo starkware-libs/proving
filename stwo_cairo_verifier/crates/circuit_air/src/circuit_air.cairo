@@ -1,11 +1,24 @@
 use core::box::BoxImpl;
 use core::num::traits::Zero;
-use stwo_constraint_framework::{AirComponent, CommonLookupElements, PreprocessedMaskValuesImpl};
+use stwo_constraint_framework::{
+    AirComponent, CommonLookupElements, Component, PreprocessedMaskValuesImpl,
+};
 use stwo_verifier_core::fields::qm31::{QM31, QM31_EXTENSION_DEGREE};
 use stwo_verifier_core::verifier::Air;
 use stwo_verifier_core::{ColumnSpan, TreeSpan};
 use crate::claims::CircuitInteractionClaim;
 use crate::components;
+use crate::components::blake_g_gate::AirComponentImpl as BlakeGGateAirComponentImpl;
+use crate::components::eq::AirComponentImpl as EqAirComponentImpl;
+use crate::components::m_31_to_u_32::AirComponentImpl as M31ToU32AirComponentImpl;
+use crate::components::qm_31_ops::AirComponentImpl as Qm31OpsAirComponentImpl;
+use crate::components::range_check_16::AirComponentImpl as RangeCheck16AirComponentImpl;
+use crate::components::triple_xor::AirComponentImpl as TripleXorAirComponentImpl;
+use crate::components::verify_bitwise_xor_12::AirComponentImpl as VerifyBitwiseXor12AirComponentImpl;
+use crate::components::verify_bitwise_xor_4::AirComponentImpl as VerifyBitwiseXor4AirComponentImpl;
+use crate::components::verify_bitwise_xor_7::AirComponentImpl as VerifyBitwiseXor7AirComponentImpl;
+use crate::components::verify_bitwise_xor_8::AirComponentImpl as VerifyBitwiseXor8AirComponentImpl;
+use crate::components::verify_bitwise_xor_9::AirComponentImpl as VerifyBitwiseXor9AirComponentImpl;
 use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
 use crate::per_component::*;
 use crate::preprocessed_columns::NUM_PREPROCESSED_COLUMNS;
@@ -13,17 +26,19 @@ use crate::preprocessed_columns::NUM_PREPROCESSED_COLUMNS;
 /// Circuit components, in `crate::per_component` (committed) order.
 #[derive(Drop)]
 pub struct CircuitAir {
-    pub eq: components::eq::Component,
-    pub qm_31_ops: components::qm_31_ops::Component,
-    pub triple_xor: components::triple_xor::Component,
-    pub m_31_to_u_32: components::m_31_to_u_32::Component,
-    pub blake_g_gate: components::blake_g_gate::Component,
-    pub verify_bitwise_xor_8: components::verify_bitwise_xor_8::Component,
-    pub verify_bitwise_xor_12: components::verify_bitwise_xor_12::Component,
-    pub verify_bitwise_xor_4: components::verify_bitwise_xor_4::Component,
-    pub verify_bitwise_xor_7: components::verify_bitwise_xor_7::Component,
-    pub verify_bitwise_xor_9: components::verify_bitwise_xor_9::Component,
-    pub range_check_16: components::range_check_16::Component,
+    pub eq: Component<components::eq::Claim>,
+    pub qm_31_ops: Component<components::qm_31_ops::Claim>,
+    pub triple_xor: Component<components::triple_xor::Claim>,
+    pub m_31_to_u_32: Component<components::m_31_to_u_32::Claim>,
+    pub blake_g_gate: Component<components::blake_g_gate::Claim>,
+    pub verify_bitwise_xor_8: Component<components::verify_bitwise_xor_8::Claim>,
+    pub verify_bitwise_xor_12: Component<components::verify_bitwise_xor_12::Claim>,
+    pub verify_bitwise_xor_4: Component<components::verify_bitwise_xor_4::Claim>,
+    pub verify_bitwise_xor_7: Component<components::verify_bitwise_xor_7::Claim>,
+    pub verify_bitwise_xor_9: Component<components::verify_bitwise_xor_9::Claim>,
+    pub range_check_16: Component<components::range_check_16::Claim>,
+    /// Shared by every component's constraints, so held once here rather than per component.
+    pub common_lookup_elements: CommonLookupElements,
 }
 
 #[generate_trait]
@@ -32,7 +47,7 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
     /// the hardcoded `COMPONENT_LOG_SIZES`, one entry per component. The circuit is fixed-size,
     /// so every component is present.
     fn new(
-        common_lookup_elements: @CommonLookupElements, interaction_claim: @CircuitInteractionClaim,
+        common_lookup_elements: CommonLookupElements, interaction_claim: @CircuitInteractionClaim,
     ) -> CircuitAir {
         // Each component's interaction claim is its single `claimed_sum`, and its log size is the
         // matching field of `COMPONENT_LOG_SIZES`.
@@ -65,61 +80,50 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
         } = COMPONENT_LOG_SIZES;
 
         CircuitAir {
-            eq: components::eq::NewComponentImpl::new(
-                @components::eq::Claim { log_size: eq_log_size },
-                eq_claimed_sum,
-                common_lookup_elements,
-            ),
-            qm_31_ops: components::qm_31_ops::NewComponentImpl::new(
-                @components::qm_31_ops::Claim { log_size: qm_31_ops_log_size },
-                qm_31_ops_claimed_sum,
-                common_lookup_elements,
-            ),
-            triple_xor: components::triple_xor::NewComponentImpl::new(
-                @components::triple_xor::Claim { log_size: triple_xor_log_size },
-                triple_xor_claimed_sum,
-                common_lookup_elements,
-            ),
-            m_31_to_u_32: components::m_31_to_u_32::NewComponentImpl::new(
-                @components::m_31_to_u_32::Claim { log_size: m_31_to_u_32_log_size },
-                m_31_to_u_32_claimed_sum,
-                common_lookup_elements,
-            ),
-            blake_g_gate: components::blake_g_gate::NewComponentImpl::new(
-                @components::blake_g_gate::Claim { log_size: blake_g_gate_log_size },
-                blake_g_gate_claimed_sum,
-                common_lookup_elements,
-            ),
-            verify_bitwise_xor_8: components::verify_bitwise_xor_8::NewComponentImpl::new(
-                @components::verify_bitwise_xor_8::Claim {},
-                verify_bitwise_xor_8_claimed_sum,
-                common_lookup_elements,
-            ),
-            verify_bitwise_xor_12: components::verify_bitwise_xor_12::NewComponentImpl::new(
-                @components::verify_bitwise_xor_12::Claim {},
-                verify_bitwise_xor_12_claimed_sum,
-                common_lookup_elements,
-            ),
-            verify_bitwise_xor_4: components::verify_bitwise_xor_4::NewComponentImpl::new(
-                @components::verify_bitwise_xor_4::Claim {},
-                verify_bitwise_xor_4_claimed_sum,
-                common_lookup_elements,
-            ),
-            verify_bitwise_xor_7: components::verify_bitwise_xor_7::NewComponentImpl::new(
-                @components::verify_bitwise_xor_7::Claim {},
-                verify_bitwise_xor_7_claimed_sum,
-                common_lookup_elements,
-            ),
-            verify_bitwise_xor_9: components::verify_bitwise_xor_9::NewComponentImpl::new(
-                @components::verify_bitwise_xor_9::Claim {},
-                verify_bitwise_xor_9_claimed_sum,
-                common_lookup_elements,
-            ),
-            range_check_16: components::range_check_16::NewComponentImpl::new(
-                @components::range_check_16::Claim {},
-                range_check_16_claimed_sum,
-                common_lookup_elements,
-            ),
+            eq: Component {
+                claim: components::eq::Claim { log_size: eq_log_size }, claimed_sum: eq_claimed_sum,
+            },
+            qm_31_ops: Component {
+                claim: components::qm_31_ops::Claim { log_size: qm_31_ops_log_size },
+                claimed_sum: qm_31_ops_claimed_sum,
+            },
+            triple_xor: Component {
+                claim: components::triple_xor::Claim { log_size: triple_xor_log_size },
+                claimed_sum: triple_xor_claimed_sum,
+            },
+            m_31_to_u_32: Component {
+                claim: components::m_31_to_u_32::Claim { log_size: m_31_to_u_32_log_size },
+                claimed_sum: m_31_to_u_32_claimed_sum,
+            },
+            blake_g_gate: Component {
+                claim: components::blake_g_gate::Claim { log_size: blake_g_gate_log_size },
+                claimed_sum: blake_g_gate_claimed_sum,
+            },
+            verify_bitwise_xor_8: Component {
+                claim: components::verify_bitwise_xor_8::Claim {},
+                claimed_sum: verify_bitwise_xor_8_claimed_sum,
+            },
+            verify_bitwise_xor_12: Component {
+                claim: components::verify_bitwise_xor_12::Claim {},
+                claimed_sum: verify_bitwise_xor_12_claimed_sum,
+            },
+            verify_bitwise_xor_4: Component {
+                claim: components::verify_bitwise_xor_4::Claim {},
+                claimed_sum: verify_bitwise_xor_4_claimed_sum,
+            },
+            verify_bitwise_xor_7: Component {
+                claim: components::verify_bitwise_xor_7::Claim {},
+                claimed_sum: verify_bitwise_xor_7_claimed_sum,
+            },
+            verify_bitwise_xor_9: Component {
+                claim: components::verify_bitwise_xor_9::Claim {},
+                claimed_sum: verify_bitwise_xor_9_claimed_sum,
+            },
+            range_check_16: Component {
+                claim: components::range_check_16::Claim {},
+                claimed_sum: range_check_16_claimed_sum,
+            },
+            common_lookup_elements,
         }
     }
 }
@@ -160,6 +164,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
             verify_bitwise_xor_7,
             verify_bitwise_xor_9,
             range_check_16,
+            common_lookup_elements,
         } = self;
 
         eq
@@ -169,6 +174,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         qm_31_ops
             .evaluate_constraints_at_point(
@@ -177,6 +183,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         triple_xor
             .evaluate_constraints_at_point(
@@ -185,6 +192,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         m_31_to_u_32
             .evaluate_constraints_at_point(
@@ -193,6 +201,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         blake_g_gate
             .evaluate_constraints_at_point(
@@ -201,6 +210,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         verify_bitwise_xor_8
             .evaluate_constraints_at_point(
@@ -209,6 +219,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         verify_bitwise_xor_12
             .evaluate_constraints_at_point(
@@ -217,6 +228,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         verify_bitwise_xor_4
             .evaluate_constraints_at_point(
@@ -225,6 +237,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         verify_bitwise_xor_7
             .evaluate_constraints_at_point(
@@ -233,6 +246,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         verify_bitwise_xor_9
             .evaluate_constraints_at_point(
@@ -241,6 +255,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
         range_check_16
             .evaluate_constraints_at_point(
@@ -249,6 +264,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 ref trace_mask_values,
                 ref interaction_trace_mask_values,
                 random_coeff,
+                common_lookup_elements,
             );
 
         // Sanity check that the components consumed every trace and interaction-trace column.

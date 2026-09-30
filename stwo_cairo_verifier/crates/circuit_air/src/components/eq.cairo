@@ -29,33 +29,15 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
     }
 }
 
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent<Component<Claim>> {
     fn evaluate_constraints_at_point(
-        self: @Component,
+        self: @Component<Claim>,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
+        common_lookup_elements: @CommonLookupElements,
     ) {
         let log_size = *self.claim.log_size;
         let claimed_sum = *self.claimed_sum;
@@ -77,11 +59,9 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         let gate_relation_id = GATE_RELATION_ID.into();
         // The two yields differ only in the address slot.
-        let eq_sum_0 = self
-            .common_lookup_elements
+        let eq_sum_0 = common_lookup_elements
             .combine([gate_relation_id, eq_in0_address, in_col0, in_col1, in_col2, in_col3].span());
-        let eq_sum_1 = self
-            .common_lookup_elements
+        let eq_sum_1 = common_lookup_elements
             .combine([gate_relation_id, eq_in1_address, in_col0, in_col1, in_col2, in_col3].span());
         // Both numerators are 1 (`E::EF::one()` in eq.rs::evaluate).
         let one: QM31 = qm31_const::<1, 0, 0, 0>();

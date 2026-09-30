@@ -1,4 +1,4 @@
-use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType};
+use air_common::CONSTRAINT_EVAL_FUNCTION_NAME;
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };
@@ -46,14 +46,9 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                     .map(|f| parse_var(air_fn, f, &mut relation_offset))
                     .collect::<Vec<_>>();
                 let relation_name = relation_name.to_case(Case::Snake);
-                let lookup_elements = if air_fn.r#type == TraceType::Inline {
-                    "common_lookup_elements"
-                } else {
-                    "self.common_lookup_elements"
-                };
                 code.append(quote! {
                     $("\n")
-                    $(relation_name.clone())_sum_$(relation_offset) = $(lookup_elements).combine(
+                    $(relation_name.clone())_sum_$(relation_offset) = common_lookup_elements.combine(
                         [
                             $(felts.join(",\n"))
                         ].span(),
@@ -119,11 +114,7 @@ fn gen_evaluate_call(
 
     let inline_fn = id.trim_end_matches(&format!("::{CONSTRAINT_EVAL_FUNCTION_NAME}"));
     let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
-    if air_fn.r#type == TraceType::Inline {
-        arg_str.push("common_lookup_elements".to_string());
-    } else {
-        arg_str.push("self.common_lookup_elements".to_string());
-    }
+    arg_str.push("common_lookup_elements".to_string());
     for param in params {
         arg_str.push(parse_var(
             air_fn,

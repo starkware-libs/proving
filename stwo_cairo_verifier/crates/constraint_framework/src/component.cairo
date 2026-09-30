@@ -12,28 +12,15 @@ pub trait AirComponent<T> {
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
+        common_lookup_elements: @CommonLookupElements,
     );
 }
 
-/// A trait for creating a new component.
-pub trait NewComponent<T> {
-    type Claim;
-
-    fn new(
-        claim: @Self::Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> T;
-
-    fn try_new(
-        claim: @Option<Self::Claim>,
-        ref claimed_sums: Span<QM31>,
-        interaction_elements: @CommonLookupElements,
-    ) -> Option<
-        T,
-    > {
-        let Some(claim) = claim else {
-            return None;
-        };
-        let claimed_sum = *claimed_sums.pop_front().unwrap();
-        Some(Self::new(claim, claimed_sum, interaction_elements))
-    }
+/// The state every AIR component holds: its claim and its logup claimed sum. Generic over the
+/// claim, which is the only per-component part. The lookup elements are the same for every
+/// component, so they are passed to `evaluate_constraints_at_point` rather than copied here.
+#[derive(Drop)]
+pub struct Component<Claim> {
+    pub claim: Claim,
+    pub claimed_sum: QM31,
 }

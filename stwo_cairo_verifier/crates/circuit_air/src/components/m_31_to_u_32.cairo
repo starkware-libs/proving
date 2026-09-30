@@ -18,33 +18,15 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
 }
 
 
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent<Component<Claim>> {
     fn evaluate_constraints_at_point(
-        self: @Component,
+        self: @Component<Claim>,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
+        common_lookup_elements: @CommonLookupElements,
     ) {
         let log_size = *(self.claim.log_size);
         let claimed_sum = *self.claimed_sum;
@@ -79,18 +61,15 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
-        range_check_16_sum_0 = self
-            .common_lookup_elements
+        range_check_16_sum_0 = common_lookup_elements
             .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
         numerator_0 = qm31_const::<1, 0, 0, 0>();
 
-        range_check_16_sum_1 = self
-            .common_lookup_elements
+        range_check_16_sum_1 = common_lookup_elements
             .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
         numerator_1 = qm31_const::<1, 0, 0, 0>();
 
-        range_check_16_sum_2 = self
-            .common_lookup_elements
+        range_check_16_sum_2 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<1008385708, 0, 0, 0>(),
@@ -110,15 +89,13 @@ pub impl AirComponentImpl of AirComponent<Component> {
             - (input_u32_limb_0_col1 + (input_u32_limb_1_col2 * qm31_const::<65536, 0, 0, 0>()))));
         sum = sum * random_coeff + constraint_eval;
 
-        gate_sum_3 = self
-            .common_lookup_elements
+        gate_sum_3 = common_lookup_elements
             .combine(
                 [qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_input_addr, input_m31_col0].span(),
             );
         numerator_3 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_4 = self
-            .common_lookup_elements
+        gate_sum_4 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_output_addr,
@@ -246,17 +223,13 @@ mod tests {
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-    use super::{Claim, Component};
+    use super::{AirComponentImpl, Claim, Component};
 
     #[test]
     fn test_evaluation_result() {
         let component = Component {
             claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: CommonLookupElements {
-                z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            },
         };
         let mut sum: QM31 = Zero::zero();
 
@@ -301,6 +274,10 @@ mod tests {
                 ref trace_columns,
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
+                @CommonLookupElements {
+                    z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                    alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+                },
             );
         assert_eq!(sum, QM31Trait::from_fixed_array(M_31_TO_U_32_SAMPLE_EVAL_RESULT))
     }

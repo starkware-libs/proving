@@ -23,37 +23,15 @@ pub fn generate_component_cairo_constraints_code(
         $(gen_consts(air_fn))$("\n")
         $(gen_claim_struct(air_fn))$("\n")
 
-        #[derive(Drop)]
-        pub struct Component {
-            pub claim: Claim,
-            pub claimed_sum: QM31,
-            pub common_lookup_elements: CommonLookupElements
-        }
-
-        pub impl NewComponentImpl of NewComponent<Component> {
-            type Claim = Claim;
-
-            fn new(
-                claim: @Claim,
-                claimed_sum: QM31,
-                common_lookup_elements: @CommonLookupElements,
-            ) -> Component {
-                Component {
-                    claim: *claim,
-                    claimed_sum,
-                    common_lookup_elements: common_lookup_elements.clone()
-                }
-            }
-        }
-
-        pub impl AirComponentImpl of AirComponent<Component> {
+        pub impl AirComponentImpl of AirComponent<Component<Claim>> {
             fn evaluate_constraints_at_point(
-                self: @Component,
+                self: @Component<Claim>,
                 ref sum: QM31,
                 ref preprocessed_mask_values: PreprocessedMaskValues,
                 ref trace_mask_values: ColumnSpan<Span<QM31>>,
                 ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
                 random_coeff: QM31,
+                common_lookup_elements: @CommonLookupElements,
             ) {
                 let log_size = $(get_log_size(air_fn, false));
                 let claimed_sum = *self.claimed_sum;
@@ -86,12 +64,6 @@ pub fn generate_component_cairo_constraints_code(
 }
 
 fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let common_lookup_elements = &assignment.common_lookup_elements;
-    let lookup_elements_fields = quote! {
-        common_lookup_elements:
-            CommonLookupElements { z: $(make_qm31(&common_lookup_elements.z)), alpha: $(make_qm31(&common_lookup_elements.alpha)) }, $("\n")
-    };
-
     let claim_fields = match air_fn.log_height {
         Some(_fixed_size) => quote! {},
         None => quote! { log_size: $(assignment.log_height), $("\n") },
@@ -101,7 +73,6 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
         Component {
             claim: Claim { $(claim_fields) },
             claimed_sum: $(make_qm31(&assignment.claimed_sum)),
-            $(lookup_elements_fields)
         }
     }
 }
@@ -144,6 +115,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         mod tests {
             use super::{Component, Claim};
             use crate::components::sample_evaluations::*;
+            use super::AirComponentImpl;
             use stwo_constraint_framework::AirComponent;
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
@@ -167,7 +139,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                 let mut trace_columns = [ $(trace_values) ].span();
                 let interaction_values = array![ $(interaction_values) ];
                 let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
-                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)));
+                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), @CommonLookupElements { z: $(make_qm31(&assignment.common_lookup_elements.z)), alpha: $(make_qm31(&assignment.common_lookup_elements.alpha)) });
                 assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
             }
         }

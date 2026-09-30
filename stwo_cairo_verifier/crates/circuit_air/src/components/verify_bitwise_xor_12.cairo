@@ -29,33 +29,15 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
     fn mix_into(self: @Claim, ref channel: Channel) {}
 }
 
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent<Component<Claim>> {
     fn evaluate_constraints_at_point(
-        self: @Component,
+        self: @Component<Claim>,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
+        common_lookup_elements: @CommonLookupElements,
     ) {
         let log_size = LOG_SIZE;
         let claimed_sum = *self.claimed_sum;
@@ -131,7 +113,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
         ];
 
         // Build sum_n = combine(relation_id, a_i, b_j, c_{i^j} for each lookup n = 4*i + j.
-        let common = self.common_lookup_elements;
+        let common = common_lookup_elements;
         let sum_0 = common.combine([relation_id, a0, b0, c0].span());
         let sum_1 = common.combine([relation_id, a0, b1, c1].span());
         let sum_2 = common.combine([relation_id, a0, b2, c2].span());

@@ -9,7 +9,7 @@ pub mod component;
 pub mod test_utils;
 pub mod utils;
 
-pub use component::{AirComponent, NewComponent};
+pub use component::{AirComponent, Component};
 
 /// Represents the value of the prefix sum column at some index.
 /// Should be used to eliminate padded rows for the logup sum.
@@ -19,7 +19,7 @@ pub type ClaimedPrefixSum = (QM31, usize);
 // The maximal number of felts we support combining in CommonLookupElements::combine.
 const MAX_RELATION_SIZE: usize = 128;
 
-#[derive(Drop, Clone)]
+#[derive(Drop)]
 pub struct CommonLookupElements {
     pub z: QM31,
     pub alpha: QM31,

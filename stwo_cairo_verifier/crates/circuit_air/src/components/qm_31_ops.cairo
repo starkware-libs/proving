@@ -18,33 +18,15 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
 }
 
 
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent<Component<Claim>> {
     fn evaluate_constraints_at_point(
-        self: @Component,
+        self: @Component<Claim>,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
+        common_lookup_elements: @CommonLookupElements,
     ) {
         let log_size = *(self.claim.log_size);
         let claimed_sum = *self.claimed_sum;
@@ -154,8 +136,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
                 + ((input_op0_limb3_col3 * input_op1_limb3_col7) * qm_31_ops_pointwise_mul_flag))));
         sum = sum * random_coeff + constraint_eval;
 
-        gate_sum_0 = self
-            .common_lookup_elements
+        gate_sum_0 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_in_0_address,
@@ -166,8 +147,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_0 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_1 = self
-            .common_lookup_elements
+        gate_sum_1 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_in_1_address,
@@ -178,8 +158,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_1 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_2 = self
-            .common_lookup_elements
+        gate_sum_2 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_out_address, input_dst_limb0_col8,
@@ -279,17 +258,13 @@ mod tests {
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-    use super::{Claim, Component};
+    use super::{AirComponentImpl, Claim, Component};
 
     #[test]
     fn test_evaluation_result() {
         let component = Component {
             claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: CommonLookupElements {
-                z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            },
         };
         let mut sum: QM31 = Zero::zero();
 
@@ -361,6 +336,10 @@ mod tests {
                 ref trace_columns,
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
+                @CommonLookupElements {
+                    z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                    alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+                },
             );
         assert_eq!(sum, QM31Trait::from_fixed_array(QM_31_OPS_SAMPLE_EVAL_RESULT))
     }
