@@ -18,7 +18,7 @@ use circuits_stark_verifier::verify::verify;
 use num_traits::Zero;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
@@ -49,7 +49,7 @@ pub fn verify_cairo(
 #[test]
 fn test_verify() {
     let pcs_config = PcsConfig::from_fri_and_trace_size(
-        FriConfig { fold_step: 4, ..FriConfig::default() },
+        FriParams { fold_step: 4, ..FriParams::default() },
         SMALL_MAX_SEQUENCE_LOG_SIZE,
     );
 
@@ -73,7 +73,7 @@ fn test_verify() {
         HashValue::no_value(),
         program,
         enabled_bits,
-        get_preprocessed_root(20 + pcs_config.fri_config.log_blowup_factor),
+        get_preprocessed_root(20 + pcs_config.fri_params.log_blowup_factor),
         PreProcessedTraceVariant::CanonicalSmall,
     );
 
@@ -110,7 +110,7 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2sM31,
             // Fold step = 4.
-            fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
+            fri_params: FriParams::new(26, 0, low_blowup_factor, 70, 4),
             preprocessed_trace: preprocessed_trace_variant,
             channel_salt: 0,
             store_polynomials_coefficients: true,

@@ -39,7 +39,7 @@ pub struct CanonicalCircuit {
 impl CanonicalCircuit {
     /// Builds the canonical circuit shape and all the configuration derived from it.
     ///
-    /// `registry` is the only input: its multiverifier's config supplies the FRI config the leaf
+    /// `registry` is the only input: its multiverifier's config supplies the FRI params the leaf
     /// circuit proofs were produced with and the padding target every circuit here is built to,
     /// and its entry supplies the hash the built multiverifier is checked against.
     pub fn build(registry: &CircuitRegistry) -> Result<Self, RecursiveTreeError> {
@@ -56,7 +56,7 @@ impl CanonicalCircuit {
         let trace_log_size =
             *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
         let circuit_pcs_config =
-            PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_config, trace_log_size);
+            PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_params, trace_log_size);
         let shared_config = shared_config(preprocessed_column_log_sizes, circuit_pcs_config);
 
         // 2. The multiverifier circuit shape, padded to the registry's target.
@@ -83,7 +83,7 @@ impl CanonicalCircuit {
         let circuit_hash = DigestHex::from(
             preprocessed_circuit_hash(
                 &preprocessed_multiverifier,
-                circuit_pcs_config.fri_config.log_blowup_factor,
+                circuit_pcs_config.fri_params.log_blowup_factor,
             )
             .0,
         );

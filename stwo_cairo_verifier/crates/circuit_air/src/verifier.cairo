@@ -6,7 +6,7 @@ use stwo_verifier_core::Hash;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::m31::M31Trait;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
-use stwo_verifier_core::fri::FriConfigTrait;
+use stwo_verifier_core::fri::FriParamsTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
 use stwo_verifier_core::verifier::{StarkProof, VerificationError, verify};
 use stwo_verifier_utils::blake2s::hash_u32s;
@@ -15,7 +15,7 @@ use crate::claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
     column_log_sizes_per_tree, logup_sum,
 };
-use crate::multiverifier_consts::{CIRCUIT_FRI_CONFIG, N_OUTPUTS, TRACE_LOG_DEGREE_BOUND};
+use crate::multiverifier_consts::{CIRCUIT_FRI_PARAMS, N_OUTPUTS, TRACE_LOG_DEGREE_BOUND};
 
 // Security constants.
 pub const INTERACTION_POW_BITS: u32 = 20;
@@ -54,7 +54,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     channel.mix_felts([channel_salt_as_felt].span());
 
     // The FRI parameters are the circuit's hardcoded ones.
-    CIRCUIT_FRI_CONFIG.mix_into(ref channel);
+    CIRCUIT_FRI_PARAMS.mix_into(ref channel);
     let mut commitment_scheme = CommitmentSchemeVerifierImpl::new();
 
     // Unpack commitments.
@@ -75,7 +75,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
     let [preprocessed_column_log_sizes, trace_log_sizes, interaction_trace_log_sizes] =
         column_log_sizes_per_tree();
 
-    let log_blowup_factor = CIRCUIT_FRI_CONFIG.log_blowup_factor;
+    let log_blowup_factor = CIRCUIT_FRI_PARAMS.log_blowup_factor;
 
     // Preprocessed trace. The preprocessed column log sizes are hardcoded. The preprocessed-trace
     // commitment itself is taken from the proof and exposed in the verification output; binding it
@@ -131,7 +131,7 @@ pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
         TRACE_LOG_DEGREE_BOUND,
         composition_commitment,
         commitment_scheme,
-        CIRCUIT_FRI_CONFIG,
+        CIRCUIT_FRI_PARAMS,
         ref channel,
         SECURITY_BITS,
     );

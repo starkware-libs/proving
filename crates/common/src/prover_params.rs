@@ -2,7 +2,7 @@
 //! what to prove).
 
 use serde::{Deserialize, Serialize};
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 
 use crate::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 
@@ -18,7 +18,7 @@ pub struct ProverParameters {
     /// denominator).
     pub channel_salt: u32,
     /// Parameters of the FRI proof.
-    pub fri_config: FriConfig,
+    pub fri_params: FriParams,
     /// Preprocessed trace.
     pub preprocessed_trace: PreProcessedTraceVariant,
     /// Whether or not to store the polynomials coefficients. Affects runtime-memory usage

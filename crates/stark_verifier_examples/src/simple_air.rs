@@ -7,7 +7,7 @@ use stwo::core::channel::{Blake2sM31Channel, Channel};
 use stwo::core::fields::FieldExpOps;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{QM31, SecureField};
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof::ExtendedStarkProof;
@@ -202,7 +202,7 @@ pub fn create_proof_with_fold_step(
     u32,
 ) {
     let config = PcsConfig::from_fri_and_trace_size(
-        FriConfig { log_blowup_factor: 2, fold_step, ..FriConfig::default() },
+        FriParams { log_blowup_factor: 2, fold_step, ..FriParams::default() },
         LOG_SIZE_LONG,
     );
     let lifting_log_size = config.trace_lifting_log_size;
@@ -217,7 +217,7 @@ pub fn create_proof_with_fold_step(
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     let channel_salt = 0_u32;
     prover_channel.mix_felts(&[channel_salt.into()]);
-    config.fri_config.mix_into(prover_channel);
+    config.fri_params.mix_into(prover_channel);
 
     let mut commitment_scheme =
         CommitmentSchemeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(config, &twiddles);

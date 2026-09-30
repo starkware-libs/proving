@@ -7,7 +7,7 @@ use crate::core::channel::{Channel, MerkleChannel};
 use crate::core::fields::m31::BaseField;
 use crate::core::fields::qm31::{QM31, SecureField};
 use crate::core::fri::{
-    ExtendedFriLayerProof, ExtendedFriProof, FriConfig, FriLayerProof, FriLayerProofAux, FriProof,
+    ExtendedFriLayerProof, ExtendedFriProof, FriLayerProof, FriLayerProofAux, FriParams, FriProof,
     FriProofAux,
 };
 use crate::core::poly::line::LinePoly;
@@ -94,7 +94,7 @@ pub struct FriDecommitResult<H: MerkleHasherLifted> {
 
 /// A FRI prover that applies the FRI protocol to prove a set of polynomials are of low degree.
 pub struct FriProver<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> {
-    config: FriConfig,
+    config: FriParams,
     first_layer: FriFirstLayerProver<'a, B, MC::H>,
     inner_layers: Vec<FriInnerLayerProver<B, MC::H>>,
     last_layer_poly: LinePoly,
@@ -112,7 +112,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     #[instrument(skip_all)]
     pub fn commit(
         channel: &mut MC::C,
-        config: FriConfig,
+        config: FriParams,
         column: &'a SecureEvaluation<B, BitReversedOrder>,
         twiddles: &TwiddleTree<B>,
     ) -> Self {
@@ -129,7 +129,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     /// Commits to the first FRI layer.
     fn commit_first_layer(
         channel: &mut MC::C,
-        config: &FriConfig,
+        config: &FriParams,
         column: &'a SecureEvaluation<B, BitReversedOrder>,
     ) -> FriFirstLayerProver<'a, B, MC::H> {
         // The circle-to-line fold is always equal to the config.fold_step.
@@ -144,7 +144,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     /// Returns all inner layers and the evaluation of the last layer.
     fn commit_inner_layers(
         channel: &mut MC::C,
-        config: FriConfig,
+        config: FriParams,
         column: &SecureEvaluation<B, BitReversedOrder>,
         twiddles: &TwiddleTree<B>,
     ) -> (Vec<FriInnerLayerProver<B, MC::H>>, LineEvaluation<B>) {
@@ -207,7 +207,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     /// * The evaluation is not of sufficiently low degree.
     fn commit_last_layer(
         channel: &mut MC::C,
-        config: FriConfig,
+        config: FriParams,
         evaluation: LineEvaluation<B>,
     ) -> LinePoly {
         assert_eq!(evaluation.len(), config.last_layer_domain_size());
@@ -448,7 +448,7 @@ mod tests {
     use crate::core::circle::{CirclePointIndex, Coset};
     use crate::core::fields::m31::BaseField;
     use crate::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
-    use crate::core::fri::FriConfig;
+    use crate::core::fri::FriParams;
     use crate::core::poly::circle::CircleDomain;
     use crate::core::queries::Queries;
     use crate::core::test_utils::test_channel;
@@ -472,7 +472,7 @@ mod tests {
     fn committing_high_degree_polynomial_fails() {
         const LOG_EXPECTED_BLOWUP_FACTOR: u32 = LOG_BLOWUP_FACTOR;
         const LOG_INVALID_BLOWUP_FACTOR: u32 = LOG_BLOWUP_FACTOR - 1;
-        let config = FriConfig::new(0, 2, LOG_EXPECTED_BLOWUP_FACTOR, 3, 1);
+        let config = FriParams::new(0, 2, LOG_EXPECTED_BLOWUP_FACTOR, 3, 1);
         let column = polynomial_evaluation(6, LOG_INVALID_BLOWUP_FACTOR);
         let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
@@ -484,7 +484,7 @@ mod tests {
     fn committing_column_from_invalid_domain_fails() {
         let invalid_domain = CircleDomain::new(Coset::new(CirclePointIndex::generator(), 3));
         assert!(!invalid_domain.is_canonic(), "must be an invalid domain");
-        let config = FriConfig::new(0, 2, 2, 3, 1);
+        let config = FriParams::new(0, 2, 2, 3, 1);
         let column = SecureEvaluation::new(
             invalid_domain,
             [SecureField::one(); 1 << 4].into_iter().collect(),
@@ -510,7 +510,7 @@ mod tests {
 
     #[test]
     fn test_fri_commit_decommit_with_jumps() {
-        let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
+        let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
         let column = polynomial_evaluation(6, LOG_BLOWUP_FACTOR);
         let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
@@ -522,7 +522,7 @@ mod tests {
     #[test]
     fn test_fri_commit_decommit_with_packed_leaves() {
         for fold_step in 2..=4 {
-            let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
+            let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
             let column = polynomial_evaluation(8, LOG_BLOWUP_FACTOR);
             let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
@@ -535,7 +535,7 @@ mod tests {
     #[test]
     fn test_fri_commit_decommit_with_packed_leaves_simd() {
         for fold_step in 2..=4 {
-            let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
+            let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
             let cpu_eval = polynomial_evaluation(8, LOG_BLOWUP_FACTOR);
             let column = SecureEvaluation::new(
                 cpu_eval.domain,
@@ -558,7 +558,7 @@ mod tests {
         use crate::core::channel::Keccak256Channel;
         use crate::core::vcs_lifted::keccak256_merkle::Keccak256MerkleChannel;
 
-        let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
+        let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
         let column = polynomial_evaluation(6, LOG_BLOWUP_FACTOR);
         let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
@@ -577,7 +577,7 @@ mod tests {
         use crate::core::channel::Keccak256Channel;
         use crate::core::vcs_lifted::keccak256_merkle::Keccak256MerkleChannel;
 
-        let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
+        let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
         let cpu_eval = polynomial_evaluation(8, LOG_BLOWUP_FACTOR);
         let column =
             SecureEvaluation::new(cpu_eval.domain, cpu_eval.values.to_vec().into_iter().collect());

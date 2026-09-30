@@ -2,7 +2,7 @@
   "cairo_prover_params": {
     "channel_hash": "blake2s",
     "channel_salt": 0,
-    "fri_config": {
+    "fri_params": {
       "pow_bits": 16,
       "log_blowup_factor": 1,
       "log_last_layer_degree_bound": 0,
@@ -17,7 +17,7 @@
   },
   "circuit_proof_configs": {
     "default": {
-      "fri_config": {
+      "fri_params": {
         "pow_bits": 26,
         "log_blowup_factor": 1,
         "log_last_layer_degree_bound": 0,

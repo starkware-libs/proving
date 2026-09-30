@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 use circuit_common::finalize::ComponentSizes;
 use leaf_proof_format::DigestHex;
 use serde::{Deserialize, Serialize};
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo_cairo_common::prover_params::ProverParameters;
 
 /// The padded log sizes of the components that circuits are padded to a shared target on.
@@ -53,7 +53,7 @@ fn log_size(size: usize) -> u32 {
 /// circuit.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct CircuitProofConfig {
-    pub fri_config: FriConfig,
+    pub fri_params: FriParams,
     pub component_log_sizes: LogSizes,
 }
 

@@ -143,14 +143,14 @@ pub fn prove_leaf(
          same size"
     );
     let trace_log_size =
-        pcs_config.trace_lifting_log_size - pcs_config.fri_config.log_blowup_factor;
+        pcs_config.trace_lifting_log_size - pcs_config.fri_params.log_blowup_factor;
     let registry_entry =
         circuit_registry.leaf_verifier(trace_log_size).unwrap_or_else(|err| panic!("{err}"));
     let circuit_proof_config =
         circuit_registry.config(&registry_entry.config).unwrap_or_else(|err| panic!("{err}"));
     let zk_blinding_size = registry_entry
         .zk_blinding
-        .then_some(circuit_proof_config.fri_config.n_queries + NON_QUERY_INFO_LEAK);
+        .then_some(circuit_proof_config.fri_params.n_queries + NON_QUERY_INFO_LEAK);
 
     let verifier_config = leaf_verifier_config(
         cairo_prover_parameters.preprocessed_trace,
@@ -193,7 +193,7 @@ pub fn prove_leaf(
     Cairo preprocessed trace: {:?}
     Cairo preprocessed trace root: {:?}
     Proof pow bits: {}
-    Proof FRI config: {:?}",
+    Proof FRI params: {:?}",
         verifier_config.program.len(),
         n_outputs,
         verifier_config.preprocessed_trace_variant,
@@ -208,7 +208,7 @@ pub fn prove_leaf(
 
     // The padded circuit fixes the circuit proof's lifting size.
     let circuit_prover_pcs_config = PcsConfig::from_fri_and_trace_size(
-        circuit_proof_config.fri_config,
+        circuit_proof_config.fri_params,
         preprocessed_circuit.trace_log_size(),
     );
     let base_column_pool = BaseColumnPool::new();

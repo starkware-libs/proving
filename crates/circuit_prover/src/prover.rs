@@ -67,7 +67,7 @@ where
         CanonicCoset::new(
             preprocessed_circuit.trace_log_size()
                 + std::cmp::max(
-                    pcs_config.fri_config.log_blowup_factor,
+                    pcs_config.fri_params.log_blowup_factor,
                     COMPOSITION_POLYNOMIAL_LOG_DEGREE_BOUND,
                 ),
         )
@@ -81,7 +81,7 @@ where
     let store_polynomials_coefficients = true;
     let preprocessed_tree = CommitmentTreeProver::<SimdBackend, MC>::new(
         preprocessed_trace_polys,
-        pcs_config.fri_config.log_blowup_factor,
+        pcs_config.fri_params.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
         pcs_config.preprocessed_lifting_log_size,
@@ -125,7 +125,7 @@ where
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     let channel_salt = 0_u32;
     channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.fri_config.mix_into(channel);
+    pcs_config.fri_params.mix_into(channel);
     let mut commitment_scheme = CommitmentSchemeProver::<SimdBackend, MC>::with_memory_pool(
         pcs_config,
         twiddles,
@@ -153,7 +153,7 @@ where
 
     let circuit_hash = compute_circuit_hash(
         &component_log_sizes,
-        pcs_config.fri_config.log_blowup_factor,
+        pcs_config.fri_params.log_blowup_factor,
         preprocessed_root,
     );
     mix_circuit_hash(channel, &circuit_hash);

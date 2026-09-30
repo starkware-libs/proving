@@ -20,8 +20,8 @@ description: >
 ### Configuration
 
 ```rust
-// crates/stwo/src/core/fri.rs — FriConfig
-pub struct FriConfig {
+// crates/stwo/src/core/fri.rs — FriParams
+pub struct FriParams {
     pub log_blowup_factor: u32,         // Rate = 1/2^B
     pub log_last_layer_degree_bound: u32, // Degree of final polynomial
     pub n_queries: usize,                // Number of query positions
@@ -29,7 +29,7 @@ pub struct FriConfig {
 }
 ```
 
-**Parameter ranges** (enforced in `FriConfig::new()`):
+**Parameter ranges** (enforced in `FriParams::new()`):
 - `log_last_layer_degree_bound`: 0..=10
 - `log_blowup_factor`: 1..=16
 - `line_fold_step`: must be > 0

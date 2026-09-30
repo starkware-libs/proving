@@ -216,10 +216,10 @@ fn stwo_verify(
         &preprocessed_column_log_sizes,
     );
 
-    let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
+    let log_blowup_factor = pcs_config.fri_params.log_blowup_factor;
     let verifier_channel = &mut Blake2sM31Channel::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.fri_config.mix_into(verifier_channel);
+    pcs_config.fri_params.mix_into(verifier_channel);
     let commitment_scheme =
         &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(pcs_config);
 

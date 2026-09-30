@@ -4,7 +4,7 @@ use crate::channel::{Channel, ChannelTrait};
 use crate::circle::CirclePoint;
 use crate::fields::m31::M31;
 use crate::fields::qm31::{QM31, QM31Serde};
-use crate::fri::{FriConfig, FriProof, FriVerifierTrait};
+use crate::fri::{FriParams, FriProof, FriVerifierTrait};
 use crate::pcs::quotients::fri_answers;
 use crate::utils::{
     ArrayImpl, ColumnsIndicesPerTreeByLogDegreeBound, DictImpl, SpanExTrait,
@@ -126,7 +126,7 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         self: CommitmentSchemeVerifier,
         oods_point: CirclePoint<QM31>,
         proof: CommitmentSchemeProof,
-        fri_config: FriConfig,
+        fri_params: FriParams,
         ref channel: Channel,
         max_log_degree_bound: u32,
     ) {
@@ -146,16 +146,16 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
 
         // FRI commitment phase on OODS quotients.
         let mut fri_verifier = FriVerifierTrait::commit(
-            ref channel, fri_config, fri_proof, max_log_degree_bound,
+            ref channel, fri_params, fri_proof, max_log_degree_bound,
         );
 
-        assert!(fri_config.pow_bits >= MIN_POW_BITS);
+        assert!(fri_params.pow_bits >= MIN_POW_BITS);
 
         // Get FRI query positions. Gated by the query proof of work.
         fri_verifier.verify_proof_of_work(ref channel);
         let queries = fri_verifier.sample_query_positions(ref channel);
         let query_positions = queries.positions;
-        let lifting_log_size = max_log_degree_bound + fri_config.log_blowup_factor;
+        let lifting_log_size = max_log_degree_bound + fri_params.log_blowup_factor;
         // Verify Merkle decommitments.
         let mut tree_index = 0;
         for (tree, (queried_values, decommitment)) in zip_eq(
@@ -175,7 +175,7 @@ pub impl CommitmentSchemeVerifierImpl of CommitmentSchemeVerifierTrait {
         // Answer FRI queries.
         let fri_answers = fri_answers(
             self.column_indices_per_tree_by_degree_bound(),
-            fri_config.log_blowup_factor,
+            fri_params.log_blowup_factor,
             oods_point,
             sampled_values,
             random_coeff,

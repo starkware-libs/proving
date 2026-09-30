@@ -66,7 +66,7 @@ impl<Value: IValue> CircuitStatement<Value> {
         let circuit_hash = compute_circuit_hash(
             context,
             &log_sizes,
-            config.fri_config.log_blowup_factor,
+            config.fri_params.log_blowup_factor,
             &preprocessed_root,
         );
 

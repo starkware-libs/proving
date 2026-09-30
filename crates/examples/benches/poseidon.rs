@@ -1,5 +1,5 @@
 use criterion::{Criterion, Throughput, criterion_group, criterion_main};
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo_examples::poseidon::{poseidon_pcs_config, prove_poseidon};
 
 pub fn simd_poseidon(c: &mut Criterion) {
@@ -10,7 +10,7 @@ pub fn simd_poseidon(c: &mut Criterion) {
         b.iter(|| {
             prove_poseidon(
                 LOG_N_INSTANCES,
-                poseidon_pcs_config(LOG_N_INSTANCES, FriConfig::default()),
+                poseidon_pcs_config(LOG_N_INSTANCES, FriParams::default()),
             )
         });
     });

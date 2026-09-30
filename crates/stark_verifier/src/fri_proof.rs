@@ -4,7 +4,7 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::wrappers::U32Wrapper;
 use itertools::zip_eq;
-pub use stwo::core::fri::FriConfig;
+pub use stwo::core::fri::FriParams;
 
 use crate::merkle::{AuthPath, AuthPaths};
 
@@ -17,7 +17,7 @@ pub struct FriCommitProof<T> {
 
 impl<T> FriCommitProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, config: &FriConfig, all_fold_steps: &[usize]) {
+    pub fn validate_structure(&self, config: &FriParams, all_fold_steps: &[usize]) {
         // The computation of `all_fold_step` guarantees also that
         // `log_trace_size = log_last_layer_degree_bound + ∑ fold_step_for_layer`, where
         // the sum runs over the FRI layers.
@@ -54,7 +54,7 @@ impl<Value: IValue> Guess<Value> for FriWitness<Value> {
 
 impl<T> FriWitness<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, config: &FriConfig, all_fold_steps: &[usize]) {
+    pub fn validate_structure(&self, config: &FriParams, all_fold_steps: &[usize]) {
         assert_eq!(self.0.len(), all_fold_steps.len());
         for (witness_per_query, step) in zip_eq(&self.0, all_fold_steps) {
             assert_eq!(witness_per_query.len(), config.n_queries);
@@ -78,7 +78,7 @@ pub struct FriProof<T> {
 
 impl<T> FriProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, log_trace_size: usize, config: &FriConfig) {
+    pub fn validate_structure(&self, log_trace_size: usize, config: &FriParams) {
         let FriProof { commit, pow_nonce: _, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
             log_trace_size - config.log_last_layer_degree_bound as usize,
@@ -117,7 +117,7 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
     }
 }
 
-pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<NoValue> {
+pub fn empty_fri_proof(log_trace_size: usize, config: &FriParams) -> FriProof<NoValue> {
     let all_fold_steps = compute_all_fold_steps(
         log_trace_size - config.log_last_layer_degree_bound as usize,
         config.fold_step as usize,

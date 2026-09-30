@@ -23,7 +23,7 @@ use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use leaf_prover::prove_leaf::leaf_verifier_config;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
@@ -55,26 +55,26 @@ pub struct CircuitsBuilder {
     pub cairo_preprocessed_trace_variant: PreProcessedTraceVariant,
     /// The program every leaf proof of these circuits attests to.
     pub leaf_program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
-    /// FRI config of the verified Cairo proofs.
-    pub cairo_fri_config: FriConfig,
-    /// FRI config used to prove the leaf circuits
-    pub circuit_fri_config: FriConfig,
+    /// FRI params of the verified Cairo proofs.
+    pub cairo_fri_params: FriParams,
+    /// FRI params used to prove the leaf circuits
+    pub circuit_fri_params: FriParams,
     /// Whether to add zk blinding to the circuit.
     pub add_zk_blinding: bool,
 }
 
 impl CircuitsBuilder {
-    /// The verified proofs' PCS config at `trace_log_size`: `cairo_fri_config`, lifted to that
+    /// The verified proofs' PCS config at `trace_log_size`: `cairo_fri_params`, lifted to that
     /// trace.
     pub fn cairo_pcs_config(&self, trace_log_size: u32) -> PcsConfig {
-        PcsConfig::from_fri_and_trace_size(self.cairo_fri_config, trace_log_size)
+        PcsConfig::from_fri_and_trace_size(self.cairo_fri_params, trace_log_size)
     }
 
     /// Returns the preprocessed root of a verified Cairo proof of `trace_log_size` — the Cairo
     /// AIR's preprocessed trace, committed at `trace_log_size + log_blowup_factor`, which the leaf
     /// circuit then verifies against as a constant.
     pub fn cairo_preprocessed_root(&self, trace_log_size: u32) -> HashValue<QM31> {
-        let log_blowup_factor = self.cairo_fri_config.log_blowup_factor;
+        let log_blowup_factor = self.cairo_fri_params.log_blowup_factor;
         generate_preprocessed_commitment_root::<Blake2sM31MerkleChannel>(
             log_blowup_factor,
             self.cairo_preprocessed_trace_variant,
@@ -95,7 +95,7 @@ impl CircuitsBuilder {
             &self.cairo_pcs_config(trace_log_size),
             self.leaf_program.clone(),
             preprocessed_root,
-            self.add_zk_blinding.then_some(self.circuit_fri_config.n_queries + NON_QUERY_INFO_LEAK),
+            self.add_zk_blinding.then_some(self.circuit_fri_params.n_queries + NON_QUERY_INFO_LEAK),
         );
 
         build_cairo_verifier_circuit(&verifier_config)
@@ -105,18 +105,18 @@ impl CircuitsBuilder {
 /// The multiverifier that verifies proofs of circuits padded to `sizes`.
 ///
 /// The verified proofs' preprocessed layout — hence the multiverifier — is a function of the
-/// padded sizes and the circuit FRI config alone, so no leaf circuit is built or preprocessed
+/// padded sizes and the circuit FRI params alone, so no leaf circuit is built or preprocessed
 /// here. This is how the recursive tree derives its multiverifier too.
 pub fn multiverifier_context_for_sizes(
     sizes: &ComponentSizes,
-    circuit_fri_config: FriConfig,
+    circuit_fri_params: FriParams,
 ) -> FinalizedContext<NoValue> {
     let preprocessed_column_log_sizes = layout_from_component_sizes(sizes);
     let trace_log_size =
         *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
     build_multiverifier_context_from_shared_config(&shared_config(
         preprocessed_column_log_sizes,
-        PcsConfig::from_fri_and_trace_size(circuit_fri_config, trace_log_size),
+        PcsConfig::from_fri_and_trace_size(circuit_fri_params, trace_log_size),
     ))
 }
 
@@ -141,12 +141,12 @@ pub fn padded_preprocessed_circuit(
 
 /// Runs [`shared_target_fixpoint`] from the leaves' max, raised to `pad_to` when given: that lets
 /// a cheap registry adopt a larger one's circuit shape (e.g. small Cairo proofs padded to the
-/// production target, so the multiverifier — a function of the target and FRI config alone — is
+/// production target, so the multiverifier — a function of the target and FRI params alone — is
 /// the production one). `pad_to` must then be the exact final target: a fixpoint dominating the
 /// registry's own leaf circuits (asserted, so the shape cannot silently diverge).
 pub fn padded_shared_target(
     leaves_max_sizes: ComponentSizes,
-    circuit_fri_config: FriConfig,
+    circuit_fri_params: FriParams,
     pad_to: Option<&LogSizes>,
 ) -> (ComponentSizes, PreprocessedCircuit) {
     let start = match pad_to {
@@ -154,7 +154,7 @@ pub fn padded_shared_target(
         None => leaves_max_sizes,
     };
     let (target_sizes, preprocessed_multiverifier) =
-        shared_target_fixpoint(start, circuit_fri_config);
+        shared_target_fixpoint(start, circuit_fri_params);
     if let Some(pad_to) = pad_to {
         assert_eq!(
             &LogSizes::from(&target_sizes),
@@ -176,11 +176,11 @@ pub fn padded_shared_target(
 /// exactly as the recursive tree builds its multiverifier.
 pub fn shared_target_fixpoint(
     mut target_sizes: ComponentSizes,
-    circuit_fri_config: FriConfig,
+    circuit_fri_params: FriParams,
 ) -> (ComponentSizes, PreprocessedCircuit) {
     loop {
         let multiverifier_context =
-            multiverifier_context_for_sizes(&target_sizes, circuit_fri_config);
+            multiverifier_context_for_sizes(&target_sizes, circuit_fri_params);
         let grown_sizes =
             target_sizes.elementwise_max(&compute_padded_sizes(&multiverifier_context));
         if grown_sizes == target_sizes {
@@ -195,14 +195,14 @@ pub fn shared_target_fixpoint(
 /// Inputs for the supported-circuits registry generator.
 #[derive(serde::Deserialize)]
 pub struct RegistryDefinition {
-    /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI config and
+    /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI params and
     /// preprocessed trace variant) and are recorded in the registry for the leaf prover to run
     /// with.
     pub cairo_prover_params_json: std::path::PathBuf,
-    /// The circuit proofs' FRI config, recorded in the registry for the leaf prover and the
+    /// The circuit proofs' FRI params, recorded in the registry for the leaf prover and the
     /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
     /// as if lifted to `trace_size + blowup`.
-    pub circuit_fri_config_json: std::path::PathBuf,
+    pub circuit_fri_params_json: std::path::PathBuf,
     /// The compiled program the leaf circuit verifies (the leaf prover's `--program`).
     pub program: std::path::PathBuf,
     /// Smallest verified trace log size (inclusive). Bounded below by the preprocessed-trace
@@ -225,7 +225,7 @@ impl RegistryDefinition {
         );
         for path in [
             &mut definition.cairo_prover_params_json,
-            &mut definition.circuit_fri_config_json,
+            &mut definition.circuit_fri_params_json,
             &mut definition.program,
         ] {
             *path = repo_root.join(&*path);
@@ -237,7 +237,7 @@ impl RegistryDefinition {
         read_params(&self.cairo_prover_params_json)
     }
 
-    pub fn circuit_fri_config(&self) -> FriConfig {
-        read_params(&self.circuit_fri_config_json)
+    pub fn circuit_fri_params(&self) -> FriParams {
+        read_params(&self.circuit_fri_params_json)
     }
 }

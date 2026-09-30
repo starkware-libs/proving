@@ -20,7 +20,7 @@ use crate::vcs::verifier::{MerkleDecommitment, MerkleVerifier, MerkleVerifierTra
 pub const LOG_PACKED_LEAF_SIZE: u32 = 2;
 
 #[derive(Drop, Serde, Copy, PartialEq)]
-pub struct FriConfig {
+pub struct FriParams {
     pub pow_bits: u32,
     pub log_blowup_factor: u32,
     pub log_last_layer_degree_bound: u32,
@@ -29,13 +29,13 @@ pub struct FriConfig {
 }
 
 #[generate_trait]
-pub impl FriConfigImpl of FriConfigTrait {
-    fn security_bits(self: @FriConfig) -> u32 {
+pub impl FriParamsImpl of FriParamsTrait {
+    fn security_bits(self: @FriParams) -> u32 {
         *self.pow_bits + *self.log_blowup_factor * *self.n_queries
     }
 
-    fn mix_into(self: @FriConfig, ref channel: Channel) {
-        let FriConfig {
+    fn mix_into(self: @FriParams, ref channel: Channel) {
+        let FriParams {
             pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step,
         } = self;
 
@@ -52,7 +52,7 @@ pub impl FriConfigImpl of FriConfigTrait {
 
 #[derive(Drop)]
 pub struct FriVerifier {
-    config: FriConfig,
+    config: FriParams,
     first_layer: FriFirstLayerVerifier,
     inner_layers: Array<FriInnerLayerVerifier>,
     last_layer_domain: LineDomain,
@@ -67,7 +67,7 @@ pub impl FriVerifierImpl of FriVerifierTrait {
     /// `log_bound` should be the committed circle polynomial log
     /// degree bound.
     fn commit(
-        ref channel: Channel, config: FriConfig, proof: FriProof, log_bound: u32,
+        ref channel: Channel, config: FriParams, proof: FriProof, log_bound: u32,
     ) -> FriVerifier {
         let FriProof {
             first_layer: first_layer_proof,

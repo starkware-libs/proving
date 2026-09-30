@@ -49,7 +49,7 @@ fn check_privacy_recursion_circuit_preprocessed_root() {
     let base_column_pool = BaseColumnPool::<SimdBackend>::new();
     let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(
         preprocessed_trace_polys,
-        CIRCUIT_PCS_CONFIG.fri_config.log_blowup_factor,
+        CIRCUIT_PCS_CONFIG.fri_params.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
         CIRCUIT_PCS_CONFIG.preprocessed_lifting_log_size,
@@ -104,17 +104,17 @@ fn check_circuit_verifier_configs() {
 
     // Check that the circuit pcs config is secure enough
     assert!(
-        CIRCUIT_PCS_CONFIG.fri_config.pow_bits
-            + CIRCUIT_PCS_CONFIG.fri_config.n_queries as u32
-                * CIRCUIT_PCS_CONFIG.fri_config.log_blowup_factor
+        CIRCUIT_PCS_CONFIG.fri_params.pow_bits
+            + CIRCUIT_PCS_CONFIG.fri_params.n_queries as u32
+                * CIRCUIT_PCS_CONFIG.fri_params.log_blowup_factor
             >= CONJECTURED_SECURITY_BITS,
         "The recursive circuit pcs config is not secure enough."
     );
 
     assert!(
-        CAIRO_PCS_CONFIG.fri_config.pow_bits
-            + CAIRO_PCS_CONFIG.fri_config.n_queries as u32
-                * CAIRO_PCS_CONFIG.fri_config.log_blowup_factor
+        CAIRO_PCS_CONFIG.fri_params.pow_bits
+            + CAIRO_PCS_CONFIG.fri_params.n_queries as u32
+                * CAIRO_PCS_CONFIG.fri_params.log_blowup_factor
             >= CONJECTURED_SECURITY_BITS,
         "The cairo circuit pcs config is not secure enough."
     );

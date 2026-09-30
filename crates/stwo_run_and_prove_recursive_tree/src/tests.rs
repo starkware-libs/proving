@@ -269,7 +269,7 @@ mod e2e {
     ) -> [u32; circuit_common::N_RESERVED] {
         let hash = preprocessed_circuit_hash(
             &canonical.preprocessed_multiverifier,
-            canonical.shared_config.pcs_config.fri_config.log_blowup_factor,
+            canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
         );
         digest_bytes_to_words(&hash.0)
     }

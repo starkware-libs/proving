@@ -107,7 +107,7 @@ mod tests {
     use stwo::core::channel::Poseidon252Channel;
     use stwo::core::fields::m31::BaseField;
     use stwo::core::fields::qm31::SecureField;
-    use stwo::core::fri::FriConfig;
+    use stwo::core::fri::FriParams;
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig, TreeVec};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
@@ -182,16 +182,16 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_prove_with_blake() {
         for log_n_instances in 4..=8 {
-            let fri_config = FriConfig::default();
+            let fri_params = FriParams::default();
             let config = PcsConfig {
-                fri_config,
-                trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+                fri_params,
+                trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
                 // The preprocessed tree is empty, so it is not lifted.
                 preprocessed_lifting_log_size: 0,
             };
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
-                CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+                CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
                     .circle_domain()
                     .half_coset,
             );
@@ -247,15 +247,15 @@ mod tests {
     #[test]
     fn test_wide_fib_bad_oods_pow_nonce_rejected() {
         let log_n_instances = 6;
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let config = PcsConfig {
-            fri_config,
-            trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+            fri_params,
+            trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
             // The preprocessed tree is empty, so it is not lifted.
             preprocessed_lifting_log_size: 0,
         };
         let twiddles = SimdBackend::precompute_twiddles(
-            CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+            CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
                 .circle_domain()
                 .half_coset,
         );
@@ -315,16 +315,16 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_prove_with_larger_blowup() {
         for log_n_instances in 4..=7 {
-            let fri_config = FriConfig::new(10, 0, 2, 3, 1);
+            let fri_params = FriParams::new(10, 0, 2, 3, 1);
             let config = PcsConfig {
-                fri_config,
-                trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+                fri_params,
+                trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
                 // The preprocessed tree is empty, so it is not lifted.
                 preprocessed_lifting_log_size: 0,
             };
             // Precompute twiddles for the larger committed domain.
             let twiddles = SimdBackend::precompute_twiddles(
-                CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+                CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
                     .circle_domain()
                     .half_coset,
             );
@@ -377,16 +377,16 @@ mod tests {
         for log_n_instances in 4..=8 {
             // Test different steps.
             let fold_step = if (4..6).contains(&log_n_instances) { 2 } else { 3 };
-            let fri_config = FriConfig { fold_step, ..FriConfig::default() };
+            let fri_params = FriParams { fold_step, ..FriParams::default() };
             let config = PcsConfig {
-                fri_config,
-                trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+                fri_params,
+                trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
                 // The preprocessed tree is empty, so it is not lifted.
                 preprocessed_lifting_log_size: 0,
             };
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
-                CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+                CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
                     .circle_domain()
                     .half_coset,
             );
@@ -441,16 +441,16 @@ mod tests {
     #[cfg(not(target_arch = "wasm32"))]
     fn test_wide_fib_prove_with_poseidon() {
         const LOG_N_INSTANCES: u32 = 6;
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let config = PcsConfig {
-            fri_config,
-            trace_lifting_log_size: LOG_N_INSTANCES + fri_config.log_blowup_factor,
+            fri_params,
+            trace_lifting_log_size: LOG_N_INSTANCES + fri_params.log_blowup_factor,
             // The preprocessed tree is empty, so it is not lifted.
             preprocessed_lifting_log_size: 0,
         };
         // Precompute twiddles.
         let twiddles = SimdBackend::precompute_twiddles(
-            CanonicCoset::new(LOG_N_INSTANCES + 1 + config.fri_config.log_blowup_factor)
+            CanonicCoset::new(LOG_N_INSTANCES + 1 + config.fri_params.log_blowup_factor)
                 .circle_domain()
                 .half_coset,
         );
@@ -506,16 +506,16 @@ mod tests {
         const N_COLS_LONG_COMPONENT: usize = 4;
         const N_COLS_SHORT_COMPONENT: usize = 5;
 
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let config = PcsConfig {
-            fri_config,
-            trace_lifting_log_size: LOG_SIZE_LONG + fri_config.log_blowup_factor,
+            fri_params,
+            trace_lifting_log_size: LOG_SIZE_LONG + fri_params.log_blowup_factor,
             // The preprocessed tree is empty, so it is not lifted.
             preprocessed_lifting_log_size: 0,
         };
         // Precompute twiddles.
         let twiddles = CpuBackend::precompute_twiddles(
-            CanonicCoset::new(LOG_SIZE_LONG + config.fri_config.log_blowup_factor)
+            CanonicCoset::new(LOG_SIZE_LONG + config.fri_params.log_blowup_factor)
                 .circle_domain()
                 .half_coset,
         );

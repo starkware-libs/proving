@@ -21,7 +21,7 @@ use circuits_stark_verifier::proof::{ProofConfig, ProofInfo};
 use circuits_stark_verifier::statement::Statement;
 use itertools::Itertools;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 
@@ -205,7 +205,7 @@ fn test_privacy_proof_info() {
     let log_blowup_factor = 2;
     let lifting_log_size = preprocessed_circuit.trace_log_size() + log_blowup_factor;
     let pcs_config = PcsConfig::from_fri_and_lifting_size(
-        FriConfig {
+        FriParams {
             pow_bits: 26,
             log_blowup_factor,
             log_last_layer_degree_bound: 0,

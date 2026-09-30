@@ -2,7 +2,7 @@ use crate::channel::Channel;
 use crate::circle::{CirclePointIndexImpl, CirclePointM31Impl, CosetImpl};
 use crate::fields::Invertible;
 use crate::fields::qm31::qm31_const;
-use crate::fri::{FriConfig, FriConfigTrait, FriVerifierImpl, FriVerifierTrait, fold_coset};
+use crate::fri::{FriParams, FriParamsTrait, FriVerifierImpl, FriVerifierTrait, fold_coset};
 use crate::poly::circle::CircleEvaluationImpl;
 use crate::poly::line::{LineDomainImpl, LineDomainTrait};
 use crate::poly::utils::fri_fold;
@@ -11,7 +11,7 @@ use crate::utils::bit_reverse_index;
 
 #[test]
 fn test_security_bits() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 42,
         log_blowup_factor: 10,
         log_last_layer_degree_bound: 1,
@@ -25,7 +25,7 @@ fn test_security_bits() {
 /// The test data was generated using [`stwo::core::fri::tests::valid_proof_passes_verification`]
 /// on commit c66302ae7afaa09e6e9fe8a5039094100121d673.
 fn valid_proof_passes_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -73,7 +73,7 @@ fn valid_proof_passes_verification() {
 #[test]
 #[should_panic]
 fn proof_with_invalid_inner_layer_evaluation_fails_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -139,7 +139,7 @@ fn proof_with_invalid_inner_layer_evaluation_fails_verification() {
 #[test]
 #[should_panic(expected: "Invalid number of FRI layers")]
 fn proof_with_added_layer_fails_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 1,
         log_blowup_factor: 2,
@@ -147,7 +147,7 @@ fn proof_with_added_layer_fails_verification() {
         fold_step: 1,
     };
     let column_log_bound = 6;
-    // The proof is created with a fri config with log_last_layer_degree_bound = 0, so the verifier
+    // The proof is created with fri params with log_last_layer_degree_bound = 0, so the verifier
     // receives one more layer than it expects.
     let mut proof_data = array![
         1, 13485189, 0, 0, 0, 7, 1372005470, 2709444601, 8660353, 1197912763, 2097669106,
@@ -202,7 +202,7 @@ fn proof_with_added_layer_fails_verification() {
 #[test]
 #[should_panic(expected: "Invalid number of FRI layers")]
 fn proof_with_removed_layer_fails_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -210,7 +210,7 @@ fn proof_with_removed_layer_fails_verification() {
         fold_step: 1,
     };
     let column_log_bound = 6;
-    // The proof is created with a fri config with log_last_layer_degree_bound = 1, so the verifier
+    // The proof is created with fri params with log_last_layer_degree_bound = 1, so the verifier
     // expects another layer.
     let mut proof_data = array![
         1, 13485189, 0, 0, 0, 7, 1372005470, 2709444601, 8660353, 1197912763, 2097669106,
@@ -261,7 +261,7 @@ fn proof_with_removed_layer_fails_verification() {
 #[test]
 #[should_panic(expected: "Invalid last layer degree")]
 fn proof_with_invalid_last_layer_degree_fails_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -322,7 +322,7 @@ fn proof_with_invalid_last_layer_degree_fails_verification() {
 #[test]
 #[should_panic(expected: "Invalid last layer evaluations")]
 fn proof_with_invalid_last_layer_fails_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -392,7 +392,7 @@ fn proof_with_invalid_last_layer_fails_verification() {
 #[test]
 #[should_panic]
 fn decommit_queries_on_invalid_domain_fails_verification() {
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -507,7 +507,7 @@ fn test_fold_coset_step_2() {
 #[test]
 fn valid_proof_with_fold_step_2_passes_verification() {
     // fold_step=2, log_degree=6, log_blowup=2
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,
@@ -559,7 +559,7 @@ fn valid_proof_with_fold_step_2_passes_verification() {
 #[test]
 fn valid_proof_with_fold_step_3_passes_verification() {
     // fold_step=3, log_degree=7, log_blowup=2
-    let config = FriConfig {
+    let config = FriParams {
         pow_bits: 0,
         log_last_layer_degree_bound: 0,
         log_blowup_factor: 2,

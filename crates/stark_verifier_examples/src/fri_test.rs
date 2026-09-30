@@ -16,7 +16,7 @@ use stwo::core::channel::{Blake2sM31Channel, Channel, MerkleChannel};
 use stwo::core::circle::Coset;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{QM31, SecureField};
-use stwo::core::fri::{ExtendedFriProof, FriConfig};
+use stwo::core::fri::{ExtendedFriProof, FriParams};
 use stwo::core::poly::circle::CircleDomain;
 use stwo::core::queries::Queries;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
@@ -54,7 +54,7 @@ fn test_fri_decommit_with_jumps(
         component_shapes: vec![],
         cumulative_sum_columns: vec![],
         log_trace_size: log_trace_size as usize,
-        fri: FriConfig::new(0, 0, log_blowup_factor, n_queries, fold_step as u32),
+        fri: FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step as u32),
     };
 
     // Compute FRI input.
@@ -138,7 +138,7 @@ fn create_fri_proof(
     n_queries: usize,
     query_indices: &[usize],
 ) -> ExtendedFriProof<Blake2sMerkleHasher> {
-    let config = FriConfig::new(0, 0, log_blowup_factor, n_queries, fold_step as u32);
+    let config = FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step as u32);
     let column = polynomial_evaluation(log_trace_size, log_blowup_factor);
     let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
     let prover = FriProver::<CpuBackend, Blake2sM31MerkleChannel>::commit(

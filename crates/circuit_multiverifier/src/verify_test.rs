@@ -55,8 +55,8 @@ fn get_preprocessed_cairo_verifier(
     target_padding: Option<ComponentSizes>,
 ) -> (PreprocessedCircuit, FinalizedContext<NoValue>) {
     // TODO(az-starkware): Use same ZK blinding as the production flow
-    // (Some(PCS_CONFIG.fri_config.n_queries))
-    let const_config = privacy_cairo_verifier_config(pcs_config.fri_config.log_blowup_factor, None);
+    // (Some(PCS_CONFIG.fri_params.n_queries))
+    let const_config = privacy_cairo_verifier_config(pcs_config.fri_params.log_blowup_factor, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     if let Some(target_padding) = target_padding {
         pad_to_targets(&mut novalue_context, &target_padding);
@@ -133,10 +133,10 @@ fn test_regression_constants() {
         Some(target_padding),
     );
     let cairo_verifier_root: [u32; 8] = le_u32s_from_bytes(
-        pp_cairo_circuit.preprocessed_root(pcs_config.fri_config.log_blowup_factor).0,
+        pp_cairo_circuit.preprocessed_root(pcs_config.fri_params.log_blowup_factor).0,
     );
     let multiverifier_root: [u32; 8] = le_u32s_from_bytes(
-        pp_multiverifier.preprocessed_root(pcs_config.fri_config.log_blowup_factor).0,
+        pp_multiverifier.preprocessed_root(pcs_config.fri_params.log_blowup_factor).0,
     );
     assert_eq!(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, cairo_verifier_root);
     assert_eq!(MULTIVERIFIER_PREPROCESSED_ROOT, multiverifier_root);
@@ -164,7 +164,7 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
     let cairo_proof = binary_deserialize_from_file(&proof_file).expect("read cairo proof");
 
     // TODO(az-starkware): Use same ZK blinding as the production flow
-    // (Some(PCS_CONFIG.fri_config.n_queries))
+    // (Some(PCS_CONFIG.fri_params.n_queries))
     let const_config = privacy_cairo_verifier_config(LOG_BLOWUP_FACTOR, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     pad_to_targets(&mut novalue_context, &TARGET_PADDING_SIZES);
@@ -311,7 +311,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     // multiverifier proof and a cairo verifier proof.
     let preprocessed_multiverifier = PreprocessedCircuit::preprocess_circuit(&mut context);
     let preprocessed_root_multiverifier: [u32; 8] = le_u32s_from_bytes(
-        preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_config.log_blowup_factor).0,
+        preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_params.log_blowup_factor).0,
     );
     assert_eq!(preprocessed_root_multiverifier, MULTIVERIFIER_PREPROCESSED_ROOT);
 }

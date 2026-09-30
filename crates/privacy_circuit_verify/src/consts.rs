@@ -1,4 +1,4 @@
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 
 /// Uncompressed size in bytes of the serialized cairo proof (including public claim prefix).
@@ -44,7 +44,7 @@ pub const CAIRO_TRACE_LOG_SIZE: u32 = 20;
 pub const CIRCUIT_LOG_BLOWUP_FACTOR: u32 = 2;
 pub const CIRCUIT_TRACE_LOG_SIZE: u32 = 21;
 
-pub const CAIRO_FRI_CONFIG: FriConfig = FriConfig {
+pub const CAIRO_FRI_PARAMS: FriParams = FriParams {
     pow_bits: 27,
     log_blowup_factor: CAIRO_LOG_BLOWUP_FACTOR,
     log_last_layer_degree_bound: 0,
@@ -53,9 +53,9 @@ pub const CAIRO_FRI_CONFIG: FriConfig = FriConfig {
 };
 
 pub const CAIRO_PCS_CONFIG: PcsConfig =
-    PcsConfig::from_fri_and_trace_size(CAIRO_FRI_CONFIG, CAIRO_TRACE_LOG_SIZE);
+    PcsConfig::from_fri_and_trace_size(CAIRO_FRI_PARAMS, CAIRO_TRACE_LOG_SIZE);
 
-pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
+pub const CIRCUIT_FRI_PARAMS: FriParams = FriParams {
     pow_bits: 26,
     log_blowup_factor: CIRCUIT_LOG_BLOWUP_FACTOR,
     log_last_layer_degree_bound: 0,
@@ -64,7 +64,7 @@ pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
 };
 
 pub const CIRCUIT_PCS_CONFIG: PcsConfig =
-    PcsConfig::from_fri_and_trace_size(CIRCUIT_FRI_CONFIG, CIRCUIT_TRACE_LOG_SIZE);
+    PcsConfig::from_fri_and_trace_size(CIRCUIT_FRI_PARAMS, CIRCUIT_TRACE_LOG_SIZE);
 
 // The set of components that are used to verify the privacy transaction.
 // The order of the components is determend by the order in circuit_cairo_air::all_components()

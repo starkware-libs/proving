@@ -3,7 +3,7 @@ use std::array;
 use starknet_ff::FieldElement;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
-use stwo::core::fri::{FriConfig, FriLayerProof, FriProof};
+use stwo::core::fri::{FriLayerProof, FriParams, FriProof};
 use stwo::core::poly::line::LinePoly;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::MerkleHasherLifted;
@@ -118,14 +118,14 @@ impl CairoDeserialize for FieldElement {
     }
 }
 
-impl CairoDeserialize for FriConfig {
+impl CairoDeserialize for FriParams {
     fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
         let pow_bits = u32::deserialize(data);
         let log_blowup_factor = u32::deserialize(data);
         let log_last_layer_degree_bound = u32::deserialize(data);
         let n_queries = usize::deserialize(data);
         let fold_step = u32::deserialize(data);
-        FriConfig { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step }
+        FriParams { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step }
     }
 }
 

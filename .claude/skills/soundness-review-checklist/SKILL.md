@@ -87,7 +87,7 @@ Run this checklist for ANY change touching:
 ## 7. Security Parameters
 
 - [ ] **No parameter weakening**: log_blowup_factor, n_queries, pow_bits are not reduced
-- [ ] **Parameter validation**: FriConfig::new() range checks are preserved
+- [ ] **Parameter validation**: FriParams::new() range checks are preserved
 - [ ] **Security bits**: Total security_bits() >= target (document what target is)
 
 ## 8. Test Coverage

@@ -1,6 +1,6 @@
 //! Hardcoded constants for the multiverifier circuit.
 
-use stwo_verifier_core::fri::FriConfig;
+use stwo_verifier_core::fri::FriParams;
 use crate::per_component::PerComponent;
 
 /// Number of public output values of the multiverifier circuit.
@@ -12,7 +12,7 @@ pub const N_OUTPUTS: u32 = 8;
 
 // === BEGIN GENERATED (see cairo_consts_test.rs; running it with FIX=1 regenerates) ===
 
-/// Expected FRI config of the multiverifier circuit's proof.
+/// Expected FRI params of the multiverifier circuit's proof.
 ///
 /// Pinned to the production registry's proof config, so the verifier accepts
 /// only proofs produced with that canonical configuration. This pins
@@ -20,7 +20,7 @@ pub const N_OUTPUTS: u32 = 8;
 /// blowup, or less proof-of-work — is rejected, independently of stwo's
 /// `security_bits >= SECURITY_BITS` floor).
 /// Note `pow_bits + log_blowup_factor * n_queries = 26 + 1 * 70 = 96 = SECURITY_BITS`.
-pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
+pub const CIRCUIT_FRI_PARAMS: FriParams = FriParams {
     pow_bits: 26, log_blowup_factor: 1, log_last_layer_degree_bound: 0, n_queries: 70, fold_step: 4,
 };
 

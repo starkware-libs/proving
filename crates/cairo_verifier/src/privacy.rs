@@ -5,7 +5,7 @@ use circuits::ivalue::NoValue;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 
@@ -141,12 +141,12 @@ pub const fn get_pcs_config(trace_log_size: u32, log_blowup_factor: u32) -> PcsC
         "The config is not secure enough."
     );
     // Note that `fold_step` is hardcoded to 4.
-    let fri_config = FriConfig {
+    let fri_params = FriParams {
         pow_bits,
         log_blowup_factor,
         log_last_layer_degree_bound: 0,
         n_queries,
         fold_step: 4,
     };
-    PcsConfig::from_fri_and_trace_size(fri_config, trace_log_size)
+    PcsConfig::from_fri_and_trace_size(fri_params, trace_log_size)
 }

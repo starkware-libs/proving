@@ -58,7 +58,7 @@ pub fn prove_ex<B: BackendForChannel<MC>, MC: MerkleChannel>(
         random_coeff,
         &trace,
         commitment_scheme.twiddles,
-        commitment_scheme.config.fri_config.log_blowup_factor,
+        commitment_scheme.config.fri_params.log_blowup_factor,
     );
     span1.exit();
 
@@ -100,7 +100,7 @@ pub fn prove_ex<B: BackendForChannel<MC>, MC: MerkleChannel>(
         }
     }
     let max_log_degree_bound =
-        lifting_log_size - commitment_scheme.config.fri_config.log_blowup_factor;
+        lifting_log_size - commitment_scheme.config.fri_params.log_blowup_factor;
 
     // Get mask sample points relative to oods point.
     let mut sample_points = component_provers.components().mask_points(

@@ -68,7 +68,7 @@ pub fn leaf_circuit_hash(preprocessed_root: Blake2sHash, shared_config: &SharedC
     );
     let hash = compute_circuit_hash(
         &component_log_sizes,
-        shared_config.pcs_config.fri_config.log_blowup_factor,
+        shared_config.pcs_config.fri_params.log_blowup_factor,
         preprocessed_root,
     );
     le_u32s_from_bytes(hash.0)
@@ -134,7 +134,7 @@ fn build_multiverifier_context(
 ) -> FinalizedContext<NoValue> {
     assert_eq!(
         pcs_config.trace_lifting_log_size,
-        preprocessed_leaf.trace_log_size() + pcs_config.fri_config.log_blowup_factor,
+        preprocessed_leaf.trace_log_size() + pcs_config.fri_params.log_blowup_factor,
         "`pcs_config` must be the config of the proofs of the verified circuit"
     );
     let shared_config = shared_config(preprocessed_leaf.preprocessed_trace.log_sizes(), pcs_config);

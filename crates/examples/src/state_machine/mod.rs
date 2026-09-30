@@ -41,13 +41,13 @@ pub fn prove_state_machine(
 
     // Precompute twiddles.
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(log_n_rows + config.fri_config.log_blowup_factor + 1)
+        CanonicCoset::new(log_n_rows + config.fri_params.log_blowup_factor + 1)
             .circle_domain()
             .half_coset,
     );
 
     // Setup protocol.
-    config.fri_config.mix_into(channel);
+    config.fri_params.mix_into(channel);
     let mut commitment_scheme =
         CommitmentSchemeProver::<_, Blake2sMerkleChannel>::new(config, &twiddles);
     commitment_scheme.set_store_polynomials_coefficients();
@@ -130,7 +130,7 @@ pub fn verify_state_machine(
     proof: StateMachineProof<Blake2sMerkleHasher>,
 ) -> Result<(), VerificationError> {
     let pcs_config = proof.stark_proof.config;
-    pcs_config.fri_config.mix_into(channel);
+    pcs_config.fri_params.mix_into(channel);
     let commitment_scheme = &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(pcs_config);
     // Decommit.
     // Retrieve the expected column sizes in each commitment interaction, from the AIR.
@@ -167,7 +167,7 @@ mod tests {
     use stwo::core::fields::FieldExpOps;
     use stwo::core::fields::m31::M31;
     use stwo::core::fields::qm31::QM31;
-    use stwo::core::fri::FriConfig;
+    use stwo::core::fri::FriParams;
     use stwo::core::pcs::{PcsConfig, TreeVec};
     use stwo::core::poly::circle::CanonicCoset;
     use stwo_constraint_framework::expr::ExprEvaluator;
@@ -214,10 +214,10 @@ mod tests {
     #[test]
     fn test_state_machine_claimed_sum() {
         let log_n_rows = 8;
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let config = PcsConfig {
-            fri_config,
-            trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+            fri_params,
+            trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
             // The preprocessed tree is empty, so it is not lifted.
             preprocessed_lifting_log_size: 0,
         };
@@ -247,10 +247,10 @@ mod tests {
     #[test]
     fn test_relation_tracker() {
         let log_n_rows = 8;
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let config = PcsConfig {
-            fri_config,
-            trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+            fri_params,
+            trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
             // The preprocessed tree is empty, so it is not lifted.
             preprocessed_lifting_log_size: 0,
         };
@@ -292,10 +292,10 @@ mod tests {
     #[test]
     fn test_state_machine_prove() {
         let log_n_rows = 8;
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let config = PcsConfig {
-            fri_config,
-            trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+            fri_params,
+            trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
             // The preprocessed tree is empty, so it is not lifted.
             preprocessed_lifting_log_size: 0,
         };
@@ -350,13 +350,13 @@ let constraint_0 = (QM31Impl::from_partial_evals([trace_2_column_2_offset_0, \
     fn test_logup_counts() {
         let log_n_rows = 8;
         let initial_state = [M31::zero(); STATE_SIZE];
-        let fri_config = FriConfig::default();
+        let fri_params = FriParams::default();
         let (components, ..) = prove_state_machine(
             log_n_rows,
             initial_state,
             PcsConfig {
-                fri_config,
-                trace_lifting_log_size: log_n_rows + fri_config.log_blowup_factor,
+                fri_params,
+                trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
                 // The preprocessed tree is empty, so it is not lifted.
                 preprocessed_lifting_log_size: 0,
             },

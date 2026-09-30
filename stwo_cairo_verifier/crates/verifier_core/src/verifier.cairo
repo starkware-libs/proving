@@ -6,7 +6,7 @@ use crate::fields::Invertible;
 #[allow(unused_imports)]
 use crate::fields::qm31::QM31_EXTENSION_DEGREE;
 use crate::fields::qm31::{QM31, QM31Trait};
-use crate::fri::{FriConfig, FriConfigTrait};
+use crate::fri::{FriParams, FriParamsTrait};
 use crate::pcs::verifier::{
     CommitmentSchemeProof, CommitmentSchemeVerifier, CommitmentSchemeVerifierImpl,
 };
@@ -59,7 +59,7 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
     log_trace_degree_bound: u32,
     composition_commitment: Hash,
     mut commitment_scheme: CommitmentSchemeVerifier,
-    config: FriConfig,
+    config: FriParams,
     ref channel: Channel,
     min_security_bits: u32,
 ) {

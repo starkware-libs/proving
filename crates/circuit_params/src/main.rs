@@ -37,7 +37,7 @@ use circuit_registry::{
 use circuits::blake::HashValue;
 use clap::Parser;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo_cairo_prover::prover::ProverParameters;
 use stwo_cairo_utils::binary_utils::run_binary;
 
@@ -92,13 +92,13 @@ fn run() -> Result<(), String> {
 
     // The definition's params, each read from the file the proving binaries run with.
     let cairo_params: ProverParameters = definition.cairo_params();
-    let circuit_fri_config: FriConfig = definition.circuit_fri_config();
+    let circuit_fri_params: FriParams = definition.circuit_fri_params();
 
     let circuits_builder = CircuitsBuilder {
         cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
         leaf_program: program,
-        cairo_fri_config: cairo_params.fri_config,
-        circuit_fri_config,
+        cairo_fri_params: cairo_params.fri_params,
+        circuit_fri_params,
         add_zk_blinding: definition.add_zk_blinding,
     };
     let trace_log_sizes = definition.min_trace_log_size..=definition.max_trace_log_size;
@@ -124,7 +124,7 @@ fn run() -> Result<(), String> {
         .collect();
 
     let output = if args.registry {
-        let circuit_log_blowup_factor = circuit_fri_config.log_blowup_factor;
+        let circuit_log_blowup_factor = circuit_fri_params.log_blowup_factor;
 
         let leaves_max_sizes = leaf_sizes
             .values()
@@ -133,7 +133,7 @@ fn run() -> Result<(), String> {
             .expect("the trace range is non-empty");
         let (target_sizes, preprocessed_multiverifier) = padded_shared_target(
             leaves_max_sizes,
-            circuit_fri_config,
+            circuit_fri_params,
             definition.pad_to_component_log_sizes.as_ref(),
         );
 
@@ -143,7 +143,7 @@ fn run() -> Result<(), String> {
         let circuit_proof_configs = BTreeMap::from([(
             CONFIG_ID.to_string(),
             CircuitProofConfig {
-                fri_config: circuit_fri_config,
+                fri_params: circuit_fri_params,
                 component_log_sizes: (&target_sizes).into(),
             },
         )]);
@@ -203,7 +203,7 @@ fn run() -> Result<(), String> {
 
         let (_, largest_leaf_padded_sizes) = &leaf_sizes[&definition.max_trace_log_size];
         let multiverifier_context =
-            multiverifier_context_for_sizes(largest_leaf_padded_sizes, circuit_fri_config);
+            multiverifier_context_for_sizes(largest_leaf_padded_sizes, circuit_fri_params);
         let (mv_raw, mv_padded) = raw_and_padded_component_sizes(&multiverifier_context);
         let multiverifier_line = format!("multiverifier:\n{}", format_sizes(&mv_raw, &mv_padded));
 

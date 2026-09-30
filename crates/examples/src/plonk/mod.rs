@@ -171,7 +171,7 @@ pub fn prove_fibonacci_plonk(
     // Precompute twiddles.
     let span = span!(Level::INFO, "Precompute twiddles").entered();
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(log_n_rows + config.fri_config.log_blowup_factor + 1)
+        CanonicCoset::new(log_n_rows + config.fri_params.log_blowup_factor + 1)
             .circle_domain()
             .half_coset,
     );
@@ -279,7 +279,7 @@ mod tests {
 
     use stwo::core::air::Component;
     use stwo::core::channel::Blake2sChannel;
-    use stwo::core::fri::FriConfig;
+    use stwo::core::fri::FriParams;
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig};
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo::core::verifier::verify;
@@ -294,7 +294,7 @@ mod tests {
             .parse::<u32>()
             .unwrap();
         let config =
-            PcsConfig::from_fri_and_trace_size(FriConfig::new(10, 5, 4, 64, 1), log_n_instances);
+            PcsConfig::from_fri_and_trace_size(FriParams::new(10, 5, 4, 64, 1), log_n_instances);
 
         // Prove.
         let (component, proof) = prove_fibonacci_plonk(log_n_instances, config);

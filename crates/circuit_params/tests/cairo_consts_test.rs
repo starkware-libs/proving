@@ -16,7 +16,7 @@ use circuit_common::finalize::{ComponentSizes, compute_padded_sizes};
 use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
 use circuit_params::{CircuitsBuilder, RegistryDefinition, padded_shared_target};
 use circuits::blake::HashValue;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 
 const BEGIN_MARKER: &str =
     "// === BEGIN GENERATED (see cairo_consts_test.rs; running it with FIX=1 regenerates) ===";
@@ -39,8 +39,8 @@ fn shared_target(definition: &RegistryDefinition) -> (ComponentSizes, Preprocess
     let circuits_builder = CircuitsBuilder {
         cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
         leaf_program: load_program(&definition.program),
-        cairo_fri_config: cairo_params.fri_config,
-        circuit_fri_config: definition.circuit_fri_config(),
+        cairo_fri_params: cairo_params.fri_params,
+        circuit_fri_params: definition.circuit_fri_params(),
         add_zk_blinding: definition.add_zk_blinding,
     };
     let leaves_max_sizes = (definition.min_trace_log_size..=definition.max_trace_log_size)
@@ -53,7 +53,7 @@ fn shared_target(definition: &RegistryDefinition) -> (ComponentSizes, Preprocess
         .expect("the trace range is non-empty");
     padded_shared_target(
         leaves_max_sizes,
-        definition.circuit_fri_config(),
+        definition.circuit_fri_params(),
         definition.pad_to_component_log_sizes.as_ref(),
     )
 }
@@ -106,24 +106,24 @@ fn idx_const_name(id: &str) -> String {
 
 /// Renders the generated section of `multiverifier_consts.cairo`: the pinned PCS config and the
 /// component / preprocessed-column log sizes.
-fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSizes) -> String {
+fn render_multiverifier_consts(fri_params: FriParams, target_sizes: &ComponentSizes) -> String {
     let layout = layout(target_sizes);
     let log_of = |id: &str| {
         layout.iter().find(|(col, _)| col == id).unwrap_or_else(|| panic!("missing {id}")).1
     };
-    let FriConfig {
+    let FriParams {
         pow_bits,
         log_blowup_factor,
         log_last_layer_degree_bound,
         n_queries,
         fold_step,
-    } = fri_config;
+    } = fri_params;
 
     let mut out = String::new();
     let w = &mut out;
     writeln!(w, "{BEGIN_MARKER}").unwrap();
     writeln!(w).unwrap();
-    writeln!(w, "/// Expected FRI config of the multiverifier circuit's proof.").unwrap();
+    writeln!(w, "/// Expected FRI params of the multiverifier circuit's proof.").unwrap();
     writeln!(w, "///").unwrap();
     writeln!(w, "/// Pinned to the production registry's proof config, so the verifier accepts")
         .unwrap();
@@ -140,7 +140,7 @@ fn render_multiverifier_consts(fri_config: FriConfig, target_sizes: &ComponentSi
         pow_bits as usize + log_blowup_factor as usize * n_queries
     )
     .unwrap();
-    writeln!(w, "pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {{").unwrap();
+    writeln!(w, "pub const CIRCUIT_FRI_PARAMS: FriParams = FriParams {{").unwrap();
     writeln!(
         w,
         "    pow_bits: {pow_bits}, log_blowup_factor: {log_blowup_factor}, \
@@ -270,10 +270,10 @@ fn test_cairo_verifier_consts_match_production_registry() {
     // TODO(yair): Add a sizes-only shared-target variant; the discarded multiverifier's
     // preprocessed trace is the bulk of this test's memory.
     let (target_sizes, _preprocessed_multiverifier) = shared_target(&production);
-    let fri_config = production.circuit_fri_config();
+    let fri_params = production.circuit_fri_params();
     assert_generated_section(
         "multiverifier_consts.cairo",
-        &render_multiverifier_consts(fri_config, &target_sizes),
+        &render_multiverifier_consts(fri_params, &target_sizes),
     );
     assert_generated_section(
         "preprocessed_columns.cairo",
@@ -289,8 +289,8 @@ fn test_cairo_verifier_consts_match_production_registry() {
         "canonical_small's pad_to_component_log_sizes must equal the production target"
     );
     assert_eq!(
-        small.circuit_fri_config(),
-        fri_config,
-        "canonical_small's circuit FRI config must equal production's"
+        small.circuit_fri_params(),
+        fri_params,
+        "canonical_small's circuit FRI params must equal production's"
     );
 }

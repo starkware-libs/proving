@@ -281,7 +281,7 @@ where
     let span = span!(Level::INFO, "Precompute twiddles").entered();
     let log_max_rows = blake_log_max_rows(log_size);
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(log_max_rows + 1 + config.fri_config.log_blowup_factor)
+        CanonicCoset::new(log_max_rows + 1 + config.fri_params.log_blowup_factor)
             .circle_domain()
             .half_coset,
     );
@@ -436,7 +436,7 @@ where
         commitment_scheme
             .polynomials()
             .as_cols_ref()
-            .map_cols(|c| c.evals.domain.log_size() - config.fri_config.log_blowup_factor)
+            .map_cols(|c| c.evals.domain.log_size() - config.fri_params.log_blowup_factor)
             .0,
         stmt0.log_sizes().0
     );
@@ -455,7 +455,7 @@ pub fn verify_blake<MC: MerkleChannel>(
     // TODO(alonf): Consider mixing the config into the channel.
     let channel = &mut MC::C::default();
     const REQUIRED_SECURITY_BITS: u32 = 5;
-    assert!(stark_proof.config.fri_config.security_bits() >= REQUIRED_SECURITY_BITS);
+    assert!(stark_proof.config.fri_params.security_bits() >= REQUIRED_SECURITY_BITS);
     let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(stark_proof.config);
 
     let log_sizes = stmt0.log_sizes();
@@ -495,7 +495,7 @@ pub fn verify_blake<MC: MerkleChannel>(
 mod tests {
     use std::env;
 
-    use stwo::core::fri::FriConfig;
+    use stwo::core::fri::FriParams;
     use stwo::core::pcs::PcsConfig;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 
@@ -515,7 +515,7 @@ mod tests {
             env::var("LOG_N_INSTANCES").unwrap_or_else(|_| "6".to_string()).parse::<u32>().unwrap();
         // Blake's preprocessed tree holds the XOR tables, so every tree lifts alike.
         let config = PcsConfig::from_fri_and_trace_size(
-            FriConfig::default(),
+            FriParams::default(),
             blake_log_max_rows(log_n_instances),
         );
 

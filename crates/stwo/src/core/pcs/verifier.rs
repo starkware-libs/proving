@@ -47,7 +47,7 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
         MC::mix_root(channel, commitment);
         let extended_log_sizes = log_sizes
             .iter()
-            .map(|&log_size| log_size + self.config.fri_config.log_blowup_factor)
+            .map(|&log_size| log_size + self.config.fri_params.log_blowup_factor)
             .collect();
         let verifier = MerkleVerifierLifted::new(commitment, extended_log_sizes, lifting_log_size);
         self.trees.push(verifier);
@@ -63,11 +63,11 @@ impl<MC: MerkleChannel> CommitmentSchemeVerifier<MC> {
         let random_coeff = channel.draw_secure_felt();
         let lifting_log_size = self.trees.last().unwrap().height;
         let bound =
-            CirclePolyDegreeBound::new(lifting_log_size - self.config.fri_config.log_blowup_factor);
+            CirclePolyDegreeBound::new(lifting_log_size - self.config.fri_params.log_blowup_factor);
 
         // FRI commitment phase on OODS quotients.
         let mut fri_verifier =
-            FriVerifier::<MC>::commit(channel, self.config.fri_config, proof.fri_proof, bound)?;
+            FriVerifier::<MC>::commit(channel, self.config.fri_params, proof.fri_proof, bound)?;
 
         // Get FRI query positions. Gated by the query proof of work.
         fri_verifier.verify_proof_of_work(channel)?;

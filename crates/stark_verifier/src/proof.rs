@@ -5,7 +5,7 @@ use circuits::ops::Guess;
 use indexmap::IndexMap;
 use itertools::zip_eq;
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 
 use crate::constraint_eval::CircuitEval;
@@ -242,7 +242,7 @@ pub struct ProofConfig {
     /// Log2 of the trace size.
     pub log_trace_size: usize,
 
-    pub fri: FriConfig,
+    pub fri: FriParams,
 }
 impl ProofConfig {
     pub fn new<Value: IValue>(
@@ -278,7 +278,7 @@ impl ProofConfig {
         // The circuit verifier verifies every tree against a single evaluation domain, so it
         // only accepts proofs whose trees — the preprocessed one included — were lifted to the
         // same height.
-        let PcsConfig { fri_config, trace_lifting_log_size, preprocessed_lifting_log_size } =
+        let PcsConfig { fri_params, trace_lifting_log_size, preprocessed_lifting_log_size } =
             pcs_config;
         assert_eq!(
             trace_lifting_log_size, preprocessed_lifting_log_size,
@@ -286,7 +286,7 @@ impl ProofConfig {
              to the same size"
         );
         let log_trace_size =
-            trace_lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
+            trace_lifting_log_size.checked_sub(fri_params.log_blowup_factor).expect(
                 "The circuit verifier expects trace_lifting_log_size to be log_trace_size + \
                  log_blowup_factor",
             ) as usize;
@@ -299,7 +299,7 @@ impl ProofConfig {
             component_shapes,
             cumulative_sum_columns,
             log_trace_size,
-            fri: *fri_config,
+            fri: *fri_params,
         }
     }
 
