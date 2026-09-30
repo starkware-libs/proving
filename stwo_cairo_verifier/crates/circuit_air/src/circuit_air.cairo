@@ -1,8 +1,6 @@
 use core::box::BoxImpl;
 use core::num::traits::Zero;
-use stwo_constraint_framework::{
-    AirComponent, CommonLookupElements, PreprocessedMaskValuesImpl, validate_mask_usage,
-};
+use stwo_constraint_framework::{AirComponent, CommonLookupElements, PreprocessedMaskValuesImpl};
 use stwo_verifier_core::fields::qm31::{QM31, QM31_EXTENSION_DEGREE};
 use stwo_verifier_core::verifier::Air;
 use stwo_verifier_core::{ColumnSpan, TreeSpan};
@@ -253,7 +251,9 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 random_coeff,
             );
 
-        validate_mask_usage(trace_mask_values, interaction_trace_mask_values);
+        // Sanity check that the components consumed every trace and interaction-trace column.
+        assert!(trace_mask_values.is_empty());
+        assert!(interaction_trace_mask_values.is_empty());
         sum
     }
 }

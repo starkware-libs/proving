@@ -89,17 +89,6 @@ pub impl PreprocessedMaskValuesImpl of PreprocessedMaskValuesTrait {
     }
 }
 
-/// Sanity check that the columns in the trace and interaction-trace were consumed by the
-/// components. This is not strictly necessary as the verifier generates the column indices on its
-/// own and only access samples of columns for which it knows about.
-pub fn validate_mask_usage(
-    trace_mask_values: ColumnSpan<Span<QM31>>,
-    interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
-) {
-    assert!(trace_mask_values.is_empty());
-    assert!(interaction_trace_mask_values.is_empty());
-}
-
 /// Override the preprocessed trace log sizes, since they come from a global setting
 /// rather than computed by concatenating preprocessed log sizes of the individual
 /// components.
