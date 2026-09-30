@@ -4,7 +4,8 @@ use stwo_verifier_core::Hash;
 
 #[executable]
 fn main(proof: CircuitProof) -> Hash {
-    /// Extract the commitments and output values before they are consumed by 'verify_circuit'.
+    // Take the commitments and the span of `output_values` here, because `verify_circuit`
+    // consumes the proof later.
     let commitments: @Box<[Hash; 4]> = proof
         .stark_proof
         .commitment_scheme_proof
