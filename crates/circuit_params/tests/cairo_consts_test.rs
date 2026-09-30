@@ -193,7 +193,6 @@ fn render_multiverifier_consts(fri_params: FriParams, target_sizes: &ComponentSi
         layout.iter().map(|(_, log_size)| *log_size).max().expect("empty preprocessed layout")
     )
     .unwrap();
-    writeln!(w).unwrap();
     writeln!(w, "{END_MARKER}").unwrap();
     out
 }
