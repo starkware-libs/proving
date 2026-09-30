@@ -4,11 +4,12 @@
 //!
 //! Note: this module cannot be `#[cfg(test)]`-gated because `cfg(test)` only activates when
 //! testing *this* crate, not when downstream crates compile their own tests.
+use core::dict::{Felt252Dict, Felt252DictEntryTrait};
 use core::num::traits::Zero;
 use stwo_verifier_core::ColumnSpan;
 use stwo_verifier_core::fields::m31::M31;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Impl};
-use stwo_verifier_core::utils::ArrayImpl;
+use stwo_verifier_core::utils::{ArrayImpl, pow2};
 use crate::{PreprocessedColumnIdx, PreprocessedMaskValues};
 
 fn qm31_from_m31(m31: M31) -> QM31 {
@@ -55,4 +56,22 @@ pub fn new_preprocessed_mask(
     }
 
     PreprocessedMaskValues { values: values.span() }
+}
+
+// A dict from relation_id, which is a string encoded as a felt252, to the number of uses of the
+// corresponding relation.
+pub type RelationUsesDict = Felt252Dict<u64>;
+
+// A tuple of (relation_id, uses).
+pub type RelationUse = (felt252, u32);
+
+pub fn accumulate_relation_uses(
+    ref relation_uses: RelationUsesDict, relation_uses_per_row: Span<RelationUse>, log_size: u32,
+) {
+    let component_size = pow2(log_size);
+    for relation_use in relation_uses_per_row {
+        let (relation_id, uses) = *relation_use;
+        let (entry, prev_uses) = relation_uses.entry(relation_id);
+        relation_uses = entry.finalize(prev_uses + uses.into() * component_size.into());
+    }
 }

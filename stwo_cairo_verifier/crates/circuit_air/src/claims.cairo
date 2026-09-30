@@ -136,7 +136,7 @@ pub fn column_log_sizes_per_tree() -> [Span<u32>; N_TREES] {
 #[cfg(test)]
 mod tests {
     use core::dict::{Felt252DictTrait, SquashedFelt252DictTrait};
-    use stwo_constraint_framework::{RelationUsesDict, accumulate_relation_uses};
+    use stwo_constraint_framework::test_utils::{RelationUsesDict, accumulate_relation_uses};
     use stwo_verifier_core::fields::m31::P_U32;
     use stwo_verifier_utils::zip_eq::zip_eq;
     use crate::components;
