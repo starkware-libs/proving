@@ -31,51 +31,32 @@ pub struct AutogenCodeFile {
 /// The CI ensures that constraint evaluation code generation works for all components not
 /// listed here.
 pub fn get_manual_rust_constraints_components() -> Vec<String> {
-    vec![
-        "memory_address_to_id".into(),
-        "memory_id_to_big".into(),
-        "verify_bitwise_xor_12".into(),
-        "circuit_blake_round".into(),
-        "qm_31_into_u_32".into(),
-        "blake_gate".into(),
-    ]
+    // `eq` is manual too, but stwo-air-infra has no compiled JSON for it, so it is not listed here.
+    vec!["memory_address_to_id".into(), "memory_id_to_big".into(), "verify_bitwise_xor_12".into()]
 }
 
 /// Returns the list of components whose Cairo constraint evaluation code is manually written.
 /// The CI ensures that constraint evaluation code generation works for all components not
 /// listed here.
+///
+/// The Cairo jobs are generated from `outputs/compiled_circuit_air`, so only circuit components
+/// belong here.
 pub(crate) fn get_manual_cairo_constraints_components() -> Vec<String> {
-    vec![
-        // CASM components
-        "memory_address_to_id".into(),
-        "memory_id_to_big".into(),
-        "cube_252".into(),
-        "poseidon_aggregator".into(),
-        "verify_bitwise_xor_12".into(),
-        // We do not support pedersen narrow windows in Cairo.
-        // In particular, the ppt with the columns of pedersen_points_table_window_bits_9 doesn't
-        // exist, so the sample evaluation test of this component fails.
-        "pedersen_points_table_window_bits_9".into(),
-        // Gates components.
-        // The circuit version requires applying the enabler to the reading of the message,
-        "circuit_blake_round".into(),
-        "verify_bitwise_xor_12".into(),
-        "qm_31_into_u_32".into(),
-        "blake_gate".into(),
-    ]
+    // `eq` is manual too, but stwo-air-infra has no compiled JSON for it, so it is not listed here.
+    vec!["verify_bitwise_xor_12".into()]
 }
 
+/// Returns the list of components whose circuit constraint evaluation code is manually written.
+/// The CI ensures that constraint evaluation code generation works for all components not
+/// listed here.
 fn get_manual_circuit_constraints_components() -> Vec<String> {
+    // `eq` is manual too, but stwo-air-infra has no compiled JSON for it, so it is not listed here.
     vec![
         // CASM components
         "memory_address_to_id".into(),
         "memory_id_to_big".into(),
         // Gates components
-        // The circuit version requires applying the enabler to the reading of the message,
-        "circuit_blake_round".into(),
         "verify_bitwise_xor_12".into(),
-        "qm_31_into_u_32".into(),
-        "blake_gate".into(),
     ]
 }
 

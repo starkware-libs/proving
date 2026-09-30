@@ -12,7 +12,7 @@ use crate::utils::{
 };
 use crate::vcs::MerkleHasher;
 use crate::vcs::verifier::{MerkleDecommitment, MerkleVerifier, MerkleVerifierTrait};
-use crate::{ColumnSpan, Hash, N_TREES, TreeArray, TreeSpan, queries};
+use crate::{ColumnSpan, Hash, TreeArray, TreeSpan, queries};
 
 /// Sanity check that the proof of work is not negligible.
 pub const MIN_POW_BITS: u32 = 20;
@@ -201,27 +201,6 @@ fn mix_sampled_values(sampled_values: TreeSpan<ColumnSpan<Span<QM31>>>, ref chan
     }
 
     channel.mix_felts(flattened_sampled_values.span());
-}
-
-/// Retrieves the trace LDE log size from the commitment scheme’s tree array.
-///
-/// Marked with `#[inline(never)]` to avoid a const-folding bug in the compiler.
-#[inline(never)]
-pub fn get_trace_lde_log_size(
-    commitment_scheme_trees: @TreeArray<MerkleVerifier<MerkleHasher>>,
-) -> u32 {
-    let boxed_triplet: @Box<[MerkleVerifier<MerkleHasher>; N_TREES]> = commitment_scheme_trees
-        .span()
-        .try_into()
-        .unwrap();
-    let [_preprocessed_merkle_verifier, trace_merkle_verifier, interaction_trace_merkle_verifier] =
-        boxed_triplet
-        .as_snapshot()
-        .unbox();
-
-    let trace_lde_log_size = *trace_merkle_verifier.tree_height;
-    assert!(trace_lde_log_size == *interaction_trace_merkle_verifier.tree_height);
-    trace_lde_log_size
 }
 
 pub fn prepare_preprocessed_query_positions(

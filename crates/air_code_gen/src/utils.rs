@@ -9,7 +9,7 @@ use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 use xshell::{Shell, cmd};
@@ -215,19 +215,6 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
     quote! {
         $['\n']$("// ")$msg.$['\n']
     }
-}
-
-pub fn relations_used_or_yielded(air_fn: &CompiledAirFn) -> IndexSet<String> {
-    // TODO(AnatG): Change the name of constraint_lookups in compiled air. This is used also in
-    // trace_gen.
-    air_fn.constraint_lookups.iter().map(|(r, _)| r.clone()).collect::<IndexSet<_>>()
-}
-
-/// Checks if the relation should be masked, meaning it's numerator should be altered.
-/// A relation is masked when the relation name matches one of the component's relation names (the
-/// component must contain an enabler/multiplicity columns).
-pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
-    air_fn.relation_names.iter().position(|n| n == relation_name)
 }
 
 pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {

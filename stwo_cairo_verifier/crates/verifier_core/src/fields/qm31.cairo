@@ -14,9 +14,6 @@ mod opcode;
 #[cfg(feature: "qm31_opcode")]
 use opcode::*;
 
-/// Equals `(2^31 - 1)^4`.
-pub const P4: u128 = 0xFFFFFFF800000017FFFFFFE00000001;
-
 pub const QM31_EXTENSION_DEGREE: usize = 4;
 
 pub trait QM31Trait {
