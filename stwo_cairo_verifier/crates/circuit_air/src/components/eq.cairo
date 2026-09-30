@@ -61,8 +61,8 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
 
-        let eq_in0_address = preprocessed_mask_values.get_and_mark_used(EQ_IN0_ADDRESS_IDX);
-        let eq_in1_address = preprocessed_mask_values.get_and_mark_used(EQ_IN1_ADDRESS_IDX);
+        let eq_in0_address = preprocessed_mask_values.get(EQ_IN0_ADDRESS_IDX);
+        let eq_in1_address = preprocessed_mask_values.get(EQ_IN1_ADDRESS_IDX);
 
         let [in_col0, in_col1, in_col2, in_col3]: [Span<QM31>; 4] = (*trace_mask_values
             .multi_pop_front()

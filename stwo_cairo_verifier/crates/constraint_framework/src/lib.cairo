@@ -1,6 +1,5 @@
 use core::box::BoxImpl;
-use core::dict::{Felt252Dict, Felt252DictEntryTrait, Felt252DictTrait, SquashedFelt252DictTrait};
-use core::nullable::{Nullable, NullableTrait};
+use core::dict::{Felt252Dict, Felt252DictEntryTrait, Felt252DictTrait};
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::QM31;
 use stwo_verifier_core::utils::{ArrayImpl, pow2};
@@ -56,78 +55,47 @@ pub impl LookupElementsImpl of LookupElementsTrait {
     }
 }
 
-#[derive(PanicDestruct)]
+#[derive(Drop)]
 pub struct PreprocessedMaskValues {
-    /// Maps a preprocessed column index to a nullable value with the value of the column at the out
-    /// of domain point and a boolean indicating if the value was used in a constraint.
-    pub values: Felt252Dict<Nullable<(QM31, bool)>>,
+    /// The value of each preprocessed column at the out of domain point, indexed by
+    /// `PreprocessedColumnIdx`.
+    pub values: Span<QM31>,
 }
 
 #[generate_trait]
 pub impl PreprocessedMaskValuesImpl of PreprocessedMaskValuesTrait {
-    fn new(mut preprocessed_mask_values: ColumnSpan<Span<QM31>>) -> PreprocessedMaskValues {
-        let mut values: Felt252Dict<Nullable<(QM31, bool)>> = Default::default();
-
-        let mut idx = 0;
-        for column_mask_values in preprocessed_mask_values.into_iter() {
-            let mut desnapped = *column_mask_values;
-
-            if let Some(boxed_mask_value) = desnapped.try_into() {
-                let [mask_value]: [QM31; 1] = (*boxed_mask_value).unbox();
-                values.insert(idx, NullableTrait::new((mask_value, false)));
-            } else {
-                // Preprocessed columns should have at most one mask item.
-                assert!(desnapped.is_empty());
-            }
-            idx += 1;
+    /// Reads one mask value per preprocessed column.
+    ///
+    /// The number of preprocessed columns is hardcoded by the verifier and each preprocessed column
+    /// contributes exactly one sample.
+    fn new(
+        preprocessed_mask_values: ColumnSpan<Span<QM31>>, n_preprocessed_columns: usize,
+    ) -> PreprocessedMaskValues {
+        assert!(preprocessed_mask_values.len() == n_preprocessed_columns);
+        let mut values = array![];
+        for column_mask_values in preprocessed_mask_values {
+            let [mask_value] = (*(*column_mask_values)
+                .try_into()
+                .expect('preprocessed column mask != 1'))
+                .unbox();
+            values.append(mask_value);
         }
 
-        PreprocessedMaskValues { values }
+        PreprocessedMaskValues { values: values.span() }
     }
 
-    fn get_and_mark_used(ref self: PreprocessedMaskValues, idx: PreprocessedColumnIdx) -> QM31 {
-        let (entry, nullable_value) = self.values.entry(idx.into());
-        let (value, used) = nullable_value.deref();
-
-        let used_value = if used {
-            nullable_value
-        } else {
-            NullableTrait::new((value, true))
-        };
-        self.values = entry.finalize(used_value);
-
-        value
-    }
-
-
-    /// Validates that all the preprocessed_mask_values that were sent in the proof were used by at
-    /// least one component.
-    fn validate_usage(self: PreprocessedMaskValues) {
-        for (_, _, nullable_value) in self.values.squash().into_entries() {
-            let (_value, used) = nullable_value.deref();
-            assert!(used);
-        }
+    fn get(self: @PreprocessedMaskValues, idx: PreprocessedColumnIdx) -> QM31 {
+        *self.values[idx]
     }
 }
 
-/// Validates that every `mask_value` provided in the proof (in `sampled_values`) is used by at
-/// least one component.
-///
-/// Since `eval_composition_polynomial_at_point` is responsible for validating the *structure*
-/// of `sampled_values` in the proof, it needs to ensure that all sampled preprocessed
-/// mask values are actually used. Otherwise, the prover would have the freedom to
-/// send a sample of a column even if it is unused, adding another term to the FRI quotients.
-///
-/// Additionally, there is a sanity check that the columns in the trace and interaction-trace were
-/// consumed by the components.
-/// This is not strictly necessary as the verifier generates the column indices on its own and only
-/// access samples of columns for which it knows about.
+/// Sanity check that the columns in the trace and interaction-trace were consumed by the
+/// components. This is not strictly necessary as the verifier generates the column indices on its
+/// own and only access samples of columns for which it knows about.
 pub fn validate_mask_usage(
-    preprocessed_mask_values: PreprocessedMaskValues,
     trace_mask_values: ColumnSpan<Span<QM31>>,
     interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
 ) {
-    preprocessed_mask_values.validate_usage();
     assert!(trace_mask_values.is_empty());
     assert!(interaction_trace_mask_values.is_empty());
 }

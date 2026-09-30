@@ -62,9 +62,9 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let column_size = m31(pow2(log_size));
 
         // Preprocessed 10-bit XOR table columns.
-        let bitwise_xor_10_0 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_10_0_IDX);
-        let bitwise_xor_10_1 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_10_1_IDX);
-        let bitwise_xor_10_2 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_10_2_IDX);
+        let bitwise_xor_10_0 = preprocessed_mask_values.get(BITWISE_XOR_10_0_IDX);
+        let bitwise_xor_10_1 = preprocessed_mask_values.get(BITWISE_XOR_10_1_IDX);
+        let bitwise_xor_10_2 = preprocessed_mask_values.get(BITWISE_XOR_10_2_IDX);
 
         // 16 multiplicity columns, one per (i, j) ∈ {0..4}².
         let [

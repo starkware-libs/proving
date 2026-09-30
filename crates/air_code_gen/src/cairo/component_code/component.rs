@@ -118,8 +118,8 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         let preprocessed_column =
             make_preprocessed_column(external_state, &quote! { component.claim.log_size });
         preprocessed_values.append(quote! {
-                    let mut preprocessed_trace = preprocessed_mask_add(preprocessed_trace, $(preprocessed_column), $(make_qm31(external_column_value))); $("\n")
-                });
+                ($(preprocessed_column), $(make_qm31(external_column_value))), $("\n")
+        });
     }
 
     let trace_values: rust::Tokens = assignment
@@ -151,9 +151,9 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             #[allow(unused_imports)]
             use crate::preprocessed_columns::*;
             #[allow(unused_imports)]
-            use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+            use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
             #[allow(unused_imports)]
-            use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
+            use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
             #[test]
@@ -161,14 +161,14 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
                 let component = $(gen_component_for_assignment(air_fn, assignment));
                 let mut sum: QM31 = Zero::zero();
 
-                let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-                $(preprocessed_values)
+                let mut preprocessed_trace = new_preprocessed_mask(array![
+                    $(preprocessed_values)
+                ].span(), NUM_PREPROCESSED_COLUMNS);
 
                 let mut trace_columns = [ $(trace_values) ].span();
                 let interaction_values = array![ $(interaction_values) ];
                 let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
                 component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)));
-                preprocessed_trace.validate_usage();
                 assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
             }
         }
@@ -199,7 +199,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
+                = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
         });
     }
 

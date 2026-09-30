@@ -37,9 +37,22 @@ pub fn make_interaction_trace(values: Array<QM31>, last_row_sum: QM31) -> Column
     result.span()
 }
 
-pub fn preprocessed_mask_add(
-    mut mask_values: PreprocessedMaskValues, column_idx: PreprocessedColumnIdx, value: QM31,
+/// Builds a component's preprocessed mask: `indexed_values` at their column indices, and zero at
+/// every other column. The indices may come in any order.
+pub fn new_preprocessed_mask(
+    indexed_values: Span<(PreprocessedColumnIdx, QM31)>, n_preprocessed_columns: usize,
 ) -> PreprocessedMaskValues {
-    mask_values.values.insert(column_idx.into(), NullableTrait::new((value, false)));
-    mask_values
+    let mut values = array![];
+    for idx in 0..n_preprocessed_columns {
+        let mut value = Zero::zero();
+        for indexed_value in indexed_values {
+            let (column_idx, column_value) = *indexed_value;
+            if column_idx == idx {
+                value = column_value;
+            }
+        }
+        values.append(value);
+    }
+
+    PreprocessedMaskValues { values: values.span() }
 }

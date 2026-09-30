@@ -48,9 +48,9 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let column_size = m31(pow2(log_size));
         let mut verify_bitwise_xor_7_sum_0: QM31 = Zero::zero();
         let mut numerator_0: QM31 = Zero::zero();
-        let bitwise_xor_7_0 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_7_0_IDX);
-        let bitwise_xor_7_1 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_7_1_IDX);
-        let bitwise_xor_7_2 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_7_2_IDX);
+        let bitwise_xor_7_0 = preprocessed_mask_values.get(BITWISE_XOR_7_0_IDX);
+        let bitwise_xor_7_1 = preprocessed_mask_values.get(BITWISE_XOR_7_1_IDX);
+        let bitwise_xor_7_2 = preprocessed_mask_values.get(BITWISE_XOR_7_2_IDX);
 
         let [multiplicity_0_col0]: [Span<QM31>; 1] = (*trace_mask_values.multi_pop_front().unwrap())
             .unbox();
@@ -121,11 +121,9 @@ mod tests {
     use core::num::traits::Zero;
     use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{
-        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
-    };
+    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
@@ -144,21 +142,14 @@ mod tests {
         };
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BITWISE_XOR_7_0_IDX,
-            qm31_const::<181664839, 625954933, 1973648388, 1503075109>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BITWISE_XOR_7_1_IDX,
-            qm31_const::<114555660, 491737205, 1906539524, 1503075109>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BITWISE_XOR_7_2_IDX,
-            qm31_const::<315883197, 894390389, 2107866116, 1503075109>(),
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (BITWISE_XOR_7_0_IDX, qm31_const::<181664839, 625954933, 1973648388, 1503075109>()),
+                (BITWISE_XOR_7_1_IDX, qm31_const::<114555660, 491737205, 1906539524, 1503075109>()),
+                (BITWISE_XOR_7_2_IDX, qm31_const::<315883197, 894390389, 2107866116, 1503075109>()),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
         );
 
         let mut trace_columns = [
@@ -179,7 +170,6 @@ mod tests {
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
             );
-        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(VERIFY_BITWISE_XOR_7_SAMPLE_EVAL_RESULT))
     }
 }

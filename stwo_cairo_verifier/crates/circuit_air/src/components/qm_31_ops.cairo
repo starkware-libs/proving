@@ -55,18 +55,15 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_1: QM31 = Zero::zero();
         let mut gate_sum_2: QM31 = Zero::zero();
         let mut numerator_2: QM31 = Zero::zero();
-        let qm_31_ops_add_flag = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_ADD_FLAG_IDX);
-        let qm_31_ops_mul_flag = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_MUL_FLAG_IDX);
+        let qm_31_ops_add_flag = preprocessed_mask_values.get(QM_31_OPS_ADD_FLAG_IDX);
+        let qm_31_ops_mul_flag = preprocessed_mask_values.get(QM_31_OPS_MUL_FLAG_IDX);
         let qm_31_ops_pointwise_mul_flag = preprocessed_mask_values
-            .get_and_mark_used(QM_31_OPS_POINTWISE_MUL_FLAG_IDX);
-        let qm_31_ops_sub_flag = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_SUB_FLAG_IDX);
-        let qm_31_ops_in_0_address = preprocessed_mask_values
-            .get_and_mark_used(QM_31_OPS_IN_0_ADDRESS_IDX);
-        let qm_31_ops_in_1_address = preprocessed_mask_values
-            .get_and_mark_used(QM_31_OPS_IN_1_ADDRESS_IDX);
-        let qm_31_ops_out_address = preprocessed_mask_values
-            .get_and_mark_used(QM_31_OPS_OUT_ADDRESS_IDX);
-        let qm_31_ops_mults = preprocessed_mask_values.get_and_mark_used(QM_31_OPS_MULTS_IDX);
+            .get(QM_31_OPS_POINTWISE_MUL_FLAG_IDX);
+        let qm_31_ops_sub_flag = preprocessed_mask_values.get(QM_31_OPS_SUB_FLAG_IDX);
+        let qm_31_ops_in_0_address = preprocessed_mask_values.get(QM_31_OPS_IN_0_ADDRESS_IDX);
+        let qm_31_ops_in_1_address = preprocessed_mask_values.get(QM_31_OPS_IN_1_ADDRESS_IDX);
+        let qm_31_ops_out_address = preprocessed_mask_values.get(QM_31_OPS_OUT_ADDRESS_IDX);
+        let qm_31_ops_mults = preprocessed_mask_values.get(QM_31_OPS_MULTS_IDX);
 
         let [
             input_op0_limb0_col0,
@@ -275,11 +272,9 @@ mod tests {
     use core::num::traits::Zero;
     use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{
-        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
-    };
+    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
@@ -298,46 +293,43 @@ mod tests {
         };
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_ADD_FLAG_IDX,
-            qm31_const::<2008763856, 668586075, 986260244, 1154698137>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_MUL_FLAG_IDX,
-            qm31_const::<753532226, 1668588607, 2021383940, 940498869>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_POINTWISE_MUL_FLAG_IDX,
-            qm31_const::<1658621201, 1657657148, 1342332119, 2034171678>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_SUB_FLAG_IDX,
-            qm31_const::<346603561, 1505146370, 374195948, 1196742422>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_IN_0_ADDRESS_IDX,
-            qm31_const::<1444382797, 1354185417, 705047099, 132239089>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_IN_1_ADDRESS_IDX,
-            qm31_const::<585273626, 1140883031, 1920880217, 1007275653>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_OUT_ADDRESS_IDX,
-            qm31_const::<1287652242, 435165403, 1148348826, 1979403697>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            QM_31_OPS_MULTS_IDX,
-            qm31_const::<1372962279, 1246081592, 1017358753, 1525168544>(),
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (
+                    QM_31_OPS_ADD_FLAG_IDX,
+                    qm31_const::<2008763856, 668586075, 986260244, 1154698137>(),
+                ),
+                (
+                    QM_31_OPS_MUL_FLAG_IDX,
+                    qm31_const::<753532226, 1668588607, 2021383940, 940498869>(),
+                ),
+                (
+                    QM_31_OPS_POINTWISE_MUL_FLAG_IDX,
+                    qm31_const::<1658621201, 1657657148, 1342332119, 2034171678>(),
+                ),
+                (
+                    QM_31_OPS_SUB_FLAG_IDX,
+                    qm31_const::<346603561, 1505146370, 374195948, 1196742422>(),
+                ),
+                (
+                    QM_31_OPS_IN_0_ADDRESS_IDX,
+                    qm31_const::<1444382797, 1354185417, 705047099, 132239089>(),
+                ),
+                (
+                    QM_31_OPS_IN_1_ADDRESS_IDX,
+                    qm31_const::<585273626, 1140883031, 1920880217, 1007275653>(),
+                ),
+                (
+                    QM_31_OPS_OUT_ADDRESS_IDX,
+                    qm31_const::<1287652242, 435165403, 1148348826, 1979403697>(),
+                ),
+                (
+                    QM_31_OPS_MULTS_IDX,
+                    qm31_const::<1372962279, 1246081592, 1017358753, 1525168544>(),
+                ),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
         );
 
         let mut trace_columns = [
@@ -370,7 +362,6 @@ mod tests {
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
             );
-        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(QM_31_OPS_SAMPLE_EVAL_RESULT))
     }
 }

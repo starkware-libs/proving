@@ -75,16 +75,11 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_10: QM31 = Zero::zero();
         let mut gate_sum_11: QM31 = Zero::zero();
         let mut numerator_11: QM31 = Zero::zero();
-        let triple_xor_input_addr_0 = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_INPUT_ADDR_0_IDX);
-        let triple_xor_input_addr_1 = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_INPUT_ADDR_1_IDX);
-        let triple_xor_input_addr_2 = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_INPUT_ADDR_2_IDX);
-        let triple_xor_output_addr = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_OUTPUT_ADDR_IDX);
-        let triple_xor_multiplicity = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_MULTIPLICITY_IDX);
+        let triple_xor_input_addr_0 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_0_IDX);
+        let triple_xor_input_addr_1 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_1_IDX);
+        let triple_xor_input_addr_2 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_2_IDX);
+        let triple_xor_output_addr = preprocessed_mask_values.get(TRIPLE_XOR_OUTPUT_ADDR_IDX);
+        let triple_xor_multiplicity = preprocessed_mask_values.get(TRIPLE_XOR_MULTIPLICITY_IDX);
 
         let [
             input_a_limb_0_col0,
@@ -543,11 +538,9 @@ mod tests {
     use core::num::traits::Zero;
     use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{
-        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
-    };
+    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
@@ -566,31 +559,31 @@ mod tests {
         };
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_INPUT_ADDR_0_IDX,
-            qm31_const::<609298445, 1319370969, 1526988810, 301130926>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_INPUT_ADDR_1_IDX,
-            qm31_const::<542189266, 1185153241, 1459879946, 301130926>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_INPUT_ADDR_2_IDX,
-            qm31_const::<475080087, 1050935513, 1392771082, 301130926>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_OUTPUT_ADDR_IDX,
-            qm31_const::<2078058264, 1287289382, 1925271066, 560922030>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_MULTIPLICITY_IDX,
-            qm31_const::<576605629, 937297661, 250894038, 1499736593>(),
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (
+                    TRIPLE_XOR_INPUT_ADDR_0_IDX,
+                    qm31_const::<609298445, 1319370969, 1526988810, 301130926>(),
+                ),
+                (
+                    TRIPLE_XOR_INPUT_ADDR_1_IDX,
+                    qm31_const::<542189266, 1185153241, 1459879946, 301130926>(),
+                ),
+                (
+                    TRIPLE_XOR_INPUT_ADDR_2_IDX,
+                    qm31_const::<475080087, 1050935513, 1392771082, 301130926>(),
+                ),
+                (
+                    TRIPLE_XOR_OUTPUT_ADDR_IDX,
+                    qm31_const::<2078058264, 1287289382, 1925271066, 560922030>(),
+                ),
+                (
+                    TRIPLE_XOR_MULTIPLICITY_IDX,
+                    qm31_const::<576605629, 937297661, 250894038, 1499736593>(),
+                ),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
         );
 
         let mut trace_columns = [
@@ -635,7 +628,6 @@ mod tests {
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
             );
-        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(TRIPLE_XOR_SAMPLE_EVAL_RESULT))
     }
 }

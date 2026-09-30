@@ -110,28 +110,23 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_24: QM31 = Zero::zero();
         let mut gate_sum_25: QM31 = Zero::zero();
         let mut numerator_25: QM31 = Zero::zero();
-        let blake_g_gate_input_addr_a = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_INPUT_ADDR_A_IDX);
-        let blake_g_gate_input_addr_b = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_INPUT_ADDR_B_IDX);
-        let blake_g_gate_input_addr_c = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_INPUT_ADDR_C_IDX);
-        let blake_g_gate_input_addr_d = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_INPUT_ADDR_D_IDX);
+        let blake_g_gate_input_addr_a = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_A_IDX);
+        let blake_g_gate_input_addr_b = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_B_IDX);
+        let blake_g_gate_input_addr_c = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_C_IDX);
+        let blake_g_gate_input_addr_d = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_D_IDX);
         let blake_g_gate_input_addr_f0 = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_INPUT_ADDR_F_0_IDX);
+            .get(BLAKE_G_GATE_INPUT_ADDR_F_0_IDX);
         let blake_g_gate_input_addr_f1 = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_INPUT_ADDR_F_1_IDX);
+            .get(BLAKE_G_GATE_INPUT_ADDR_F_1_IDX);
         let blake_g_gate_output_addr_a = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_OUTPUT_ADDR_A_IDX);
-        let blake_g_gate_multiplicity = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_MULTIPLICITY_IDX);
+            .get(BLAKE_G_GATE_OUTPUT_ADDR_A_IDX);
+        let blake_g_gate_multiplicity = preprocessed_mask_values.get(BLAKE_G_GATE_MULTIPLICITY_IDX);
         let blake_g_gate_output_addr_b = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_OUTPUT_ADDR_B_IDX);
+            .get(BLAKE_G_GATE_OUTPUT_ADDR_B_IDX);
         let blake_g_gate_output_addr_c = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_OUTPUT_ADDR_C_IDX);
+            .get(BLAKE_G_GATE_OUTPUT_ADDR_C_IDX);
         let blake_g_gate_output_addr_d = preprocessed_mask_values
-            .get_and_mark_used(BLAKE_G_GATE_OUTPUT_ADDR_D_IDX);
+            .get(BLAKE_G_GATE_OUTPUT_ADDR_D_IDX);
 
         let [
             input_a_limb_0_col0,
@@ -932,11 +927,9 @@ mod tests {
     use core::num::traits::Zero;
     use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{
-        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
-    };
+    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
@@ -955,61 +948,55 @@ mod tests {
         };
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_INPUT_ADDR_A_IDX,
-            qm31_const::<1561015597, 333429713, 1360902583, 275382995>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_INPUT_ADDR_B_IDX,
-            qm31_const::<1359688060, 2078260176, 1159575990, 275382995>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_INPUT_ADDR_C_IDX,
-            qm31_const::<1426797239, 64994257, 1226684855, 275382995>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_INPUT_ADDR_D_IDX,
-            qm31_const::<1762343134, 736082897, 1562229175, 275382995>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_INPUT_ADDR_F_0_IDX,
-            qm31_const::<488315978, 423156510, 947924622, 381699903>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_INPUT_ADDR_F_1_IDX,
-            qm31_const::<555425157, 557374238, 1015033486, 381699903>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_OUTPUT_ADDR_A_IDX,
-            qm31_const::<1146775924, 727857672, 2027108080, 15586960>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_MULTIPLICITY_IDX,
-            qm31_const::<1337682056, 1421774621, 2129811908, 1037565344>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_OUTPUT_ADDR_B_IDX,
-            qm31_const::<1348103461, 1130510856, 80951025, 15586961>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_OUTPUT_ADDR_C_IDX,
-            qm31_const::<1280994282, 996293128, 13842161, 15586961>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            BLAKE_G_GATE_OUTPUT_ADDR_D_IDX,
-            qm31_const::<1482321819, 1398946312, 215168753, 15586961>(),
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (
+                    BLAKE_G_GATE_INPUT_ADDR_A_IDX,
+                    qm31_const::<1561015597, 333429713, 1360902583, 275382995>(),
+                ),
+                (
+                    BLAKE_G_GATE_INPUT_ADDR_B_IDX,
+                    qm31_const::<1359688060, 2078260176, 1159575990, 275382995>(),
+                ),
+                (
+                    BLAKE_G_GATE_INPUT_ADDR_C_IDX,
+                    qm31_const::<1426797239, 64994257, 1226684855, 275382995>(),
+                ),
+                (
+                    BLAKE_G_GATE_INPUT_ADDR_D_IDX,
+                    qm31_const::<1762343134, 736082897, 1562229175, 275382995>(),
+                ),
+                (
+                    BLAKE_G_GATE_INPUT_ADDR_F_0_IDX,
+                    qm31_const::<488315978, 423156510, 947924622, 381699903>(),
+                ),
+                (
+                    BLAKE_G_GATE_INPUT_ADDR_F_1_IDX,
+                    qm31_const::<555425157, 557374238, 1015033486, 381699903>(),
+                ),
+                (
+                    BLAKE_G_GATE_OUTPUT_ADDR_A_IDX,
+                    qm31_const::<1146775924, 727857672, 2027108080, 15586960>(),
+                ),
+                (
+                    BLAKE_G_GATE_MULTIPLICITY_IDX,
+                    qm31_const::<1337682056, 1421774621, 2129811908, 1037565344>(),
+                ),
+                (
+                    BLAKE_G_GATE_OUTPUT_ADDR_B_IDX,
+                    qm31_const::<1348103461, 1130510856, 80951025, 15586961>(),
+                ),
+                (
+                    BLAKE_G_GATE_OUTPUT_ADDR_C_IDX,
+                    qm31_const::<1280994282, 996293128, 13842161, 15586961>(),
+                ),
+                (
+                    BLAKE_G_GATE_OUTPUT_ADDR_D_IDX,
+                    qm31_const::<1482321819, 1398946312, 215168753, 15586961>(),
+                ),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
         );
 
         let mut trace_columns = [
@@ -1093,7 +1080,6 @@ mod tests {
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
             );
-        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(BLAKE_G_GATE_SAMPLE_EVAL_RESULT))
     }
 }

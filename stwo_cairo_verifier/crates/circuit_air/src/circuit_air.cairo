@@ -10,6 +10,7 @@ use crate::claims::CircuitInteractionClaim;
 use crate::components;
 use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
 use crate::per_component::*;
+use crate::preprocessed_columns::NUM_PREPROCESSED_COLUMNS;
 
 /// Circuit components, in `crate::per_component` (committed) order.
 #[derive(Drop)]
@@ -143,7 +144,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
             .unbox();
 
         let mut preprocessed_mask_values = PreprocessedMaskValuesImpl::new(
-            preprocessed_mask_values,
+            preprocessed_mask_values, NUM_PREPROCESSED_COLUMNS,
         );
 
         // Evaluate components in committed order — this must match the order in which the prover
@@ -252,9 +253,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
                 random_coeff,
             );
 
-        validate_mask_usage(
-            preprocessed_mask_values, trace_mask_values, interaction_trace_mask_values,
-        );
+        validate_mask_usage(trace_mask_values, interaction_trace_mask_values);
         sum
     }
 }

@@ -59,12 +59,9 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_3: QM31 = Zero::zero();
         let mut gate_sum_4: QM31 = Zero::zero();
         let mut numerator_4: QM31 = Zero::zero();
-        let m31_to_u32_input_addr = preprocessed_mask_values
-            .get_and_mark_used(M_31_TO_U_32_INPUT_ADDR_IDX);
-        let m31_to_u32_output_addr = preprocessed_mask_values
-            .get_and_mark_used(M_31_TO_U_32_OUTPUT_ADDR_IDX);
-        let m31_to_u32_multiplicity = preprocessed_mask_values
-            .get_and_mark_used(M_31_TO_U_32_MULTIPLICITY_IDX);
+        let m31_to_u32_input_addr = preprocessed_mask_values.get(M_31_TO_U_32_INPUT_ADDR_IDX);
+        let m31_to_u32_output_addr = preprocessed_mask_values.get(M_31_TO_U_32_OUTPUT_ADDR_IDX);
+        let m31_to_u32_multiplicity = preprocessed_mask_values.get(M_31_TO_U_32_MULTIPLICITY_IDX);
 
         let [
             input_m31_col0, input_u32_limb_0_col1, input_u32_limb_1_col2, inv_or_one_col3,
@@ -242,11 +239,9 @@ mod tests {
     use core::num::traits::Zero;
     use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{
-        CommonLookupElements, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
-    };
+    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
@@ -265,21 +260,23 @@ mod tests {
         };
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            M_31_TO_U_32_INPUT_ADDR_IDX,
-            qm31_const::<15668215, 1851966168, 874056991, 2075313468>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            M_31_TO_U_32_OUTPUT_ADDR_IDX,
-            qm31_const::<701904311, 1125291129, 1904795215, 38357025>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            M_31_TO_U_32_MULTIPLICITY_IDX,
-            qm31_const::<1979029033, 1524573277, 1930122227, 1490762084>(),
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (
+                    M_31_TO_U_32_INPUT_ADDR_IDX,
+                    qm31_const::<15668215, 1851966168, 874056991, 2075313468>(),
+                ),
+                (
+                    M_31_TO_U_32_OUTPUT_ADDR_IDX,
+                    qm31_const::<701904311, 1125291129, 1904795215, 38357025>(),
+                ),
+                (
+                    M_31_TO_U_32_MULTIPLICITY_IDX,
+                    qm31_const::<1979029033, 1524573277, 1930122227, 1490762084>(),
+                ),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
         );
 
         let mut trace_columns = [
@@ -305,7 +302,6 @@ mod tests {
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
             );
-        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(M_31_TO_U_32_SAMPLE_EVAL_RESULT))
     }
 }
