@@ -7,7 +7,6 @@ use stwo_verifier_core::utils::ArrayImpl;
 pub mod claim;
 pub mod component;
 pub mod test_utils;
-pub mod utils;
 
 pub use component::{AirComponent, Component};
 
