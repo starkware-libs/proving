@@ -19,7 +19,7 @@ use circuit_verifier::multiverifier::{
     MultiverifierInput, SharedConfig, build_multiverifier_circuit,
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
-use circuit_verifier::verify::CircuitPublicData;
+use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
@@ -316,4 +316,49 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
         preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_params.log_blowup_factor).0,
     );
     assert_eq!(preprocessed_root_multiverifier, MULTIVERIFIER_PREPROCESSED_ROOT);
+}
+
+/// Checks that the arity-1 output-wire digest produced by [`verify_circuit`] matches the
+/// out-of-circuit Blake2s recompute over `[leaf_circuit_hash ||
+/// PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST]`.
+#[test]
+fn test_verify_circuit_single_input_output_digest() {
+    let proof_config = inner_verifier_proof_config();
+    let bytes = std::fs::read(PRIVACY_CAIRO_VERIFIER_PROOF_PATH).unwrap();
+    let proof = deserialize_proof_with_config(&mut bytes.as_slice(), &proof_config).unwrap();
+
+    let circuit_config = CircuitConfig {
+        config: PCS_CONFIG,
+        preprocessed_column_log_sizes: multiverifier_preprocessed_column_log_sizes(),
+    };
+    let context = verify_circuit(
+        circuit_config,
+        PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(),
+        proof,
+        CircuitPublicData { output_digest: PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST.into() },
+    )
+    .unwrap();
+
+    // Mirror the single-child preimage `build_multiverifier_circuit` hashes: the eight 32-bit
+    // words of the leaf circuit hash followed by the N_RESERVED output words.
+    let shared_config = SharedConfig {
+        pcs_config: PCS_CONFIG,
+        proof_config,
+        preprocessed_column_log_sizes: multiverifier_preprocessed_column_log_sizes(),
+    };
+    let payload_words: Vec<u32> =
+        leaf_circuit_hash(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(), &shared_config)
+            .into_iter()
+            .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST)
+            .collect();
+    let expected_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
+    let expected_wires: Vec<QM31> =
+        HashValue::<QM31>::from(expected_digest).into_iter().map(|w| *w.get()).collect();
+
+    // Reserved output wires occupy indices 3..3+N_RESERVED (zero/one/u at 0..3; see Context::new).
+    const RESERVED_OFFSET: usize = 3;
+    assert_eq!(
+        &context.values()[RESERVED_OFFSET..RESERVED_OFFSET + N_RESERVED],
+        expected_wires.as_slice()
+    );
 }
