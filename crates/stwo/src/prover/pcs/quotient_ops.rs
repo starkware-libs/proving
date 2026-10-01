@@ -248,7 +248,7 @@ mod tests {
         // Setup the prover side of the pcs.
         let mut channel = Blake2sChannel::default();
         let config = PcsConfig::from_fri_config(FriConfig {
-            params: FriParams::default(),
+            params: FriParams::test_params(),
             trace_log_size: LIFTING_LOG_SIZE,
         });
         let twiddles = B::precompute_twiddles(

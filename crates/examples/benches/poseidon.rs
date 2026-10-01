@@ -10,7 +10,7 @@ pub fn simd_poseidon(c: &mut Criterion) {
         b.iter(|| {
             prove_poseidon(
                 LOG_N_INSTANCES,
-                poseidon_pcs_config(LOG_N_INSTANCES, FriParams::default()),
+                poseidon_pcs_config(LOG_N_INSTANCES, FriParams::test_params()),
             )
         });
     });

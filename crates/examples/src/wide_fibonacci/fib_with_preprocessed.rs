@@ -114,7 +114,7 @@ mod tests {
     fn test_wide_fib_with_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
             let config = PcsConfig::from_fri_config(FriConfig {
-                params: FriParams::default(),
+                params: FriParams::test_params(),
                 trace_log_size: log_n_instances,
             });
             // Precompute twiddles.
@@ -175,7 +175,7 @@ mod tests {
     fn test_wide_fib_with_unused_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
             let log_size_unused_pp = log_n_instances + 1;
-            let fri_params = FriParams::default();
+            let fri_params = FriParams::test_params();
             let config = PcsConfig {
                 fri_params,
                 trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
@@ -255,7 +255,7 @@ mod tests {
             let log_size_unused_pp = log_n_instances + 3;
             // Lift every tree to the largest preprocessed column (after LDE).
             let config = PcsConfig::from_fri_config(FriConfig {
-                params: FriParams::default(),
+                params: FriParams::test_params(),
                 trace_log_size: log_size_unused_pp,
             });
             // Precompute twiddles.

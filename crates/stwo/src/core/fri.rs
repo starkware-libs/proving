@@ -92,10 +92,10 @@ impl FriParams {
     pub const fn security_bits(&self) -> u32 {
         self.pow_bits + self.log_blowup_factor * self.n_queries as u32
     }
-}
 
-impl Default for FriParams {
-    fn default() -> Self {
+    /// Parameters for tests and benchmarks. Their security is nowhere near enough for a real
+    /// proof: they are 13 bits, against the 96 a production config is held to.
+    pub fn test_params() -> Self {
         FriParams::new(10, 0, 1, 3, 1)
     }
 }

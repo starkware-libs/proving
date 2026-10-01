@@ -182,7 +182,7 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_prove_with_blake() {
         for log_n_instances in 4..=8 {
-            let fri_params = FriParams::default();
+            let fri_params = FriParams::test_params();
             let config = PcsConfig {
                 fri_params,
                 trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
@@ -247,7 +247,7 @@ mod tests {
     #[test]
     fn test_wide_fib_bad_oods_pow_nonce_rejected() {
         let log_n_instances = 6;
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
@@ -377,7 +377,7 @@ mod tests {
         for log_n_instances in 4..=8 {
             // Test different steps.
             let fold_step = if (4..6).contains(&log_n_instances) { 2 } else { 3 };
-            let fri_params = FriParams { fold_step, ..FriParams::default() };
+            let fri_params = FriParams { fold_step, ..FriParams::test_params() };
             let config = PcsConfig {
                 fri_params,
                 trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
@@ -441,7 +441,7 @@ mod tests {
     #[cfg(not(target_arch = "wasm32"))]
     fn test_wide_fib_prove_with_poseidon() {
         const LOG_N_INSTANCES: u32 = 6;
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: LOG_N_INSTANCES + fri_params.log_blowup_factor,
@@ -506,7 +506,7 @@ mod tests {
         const N_COLS_LONG_COMPONENT: usize = 4;
         const N_COLS_SHORT_COMPONENT: usize = 5;
 
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: LOG_SIZE_LONG + fri_params.log_blowup_factor,

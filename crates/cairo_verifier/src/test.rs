@@ -49,7 +49,7 @@ pub fn verify_cairo(
 #[test]
 fn test_verify() {
     let pcs_config = PcsConfig::from_fri_config(FriConfig {
-        params: FriParams { fold_step: 4, ..FriParams::default() },
+        params: FriParams { fold_step: 4, ..FriParams::test_params() },
         trace_log_size: SMALL_MAX_SEQUENCE_LOG_SIZE,
     });
 

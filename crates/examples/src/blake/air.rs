@@ -515,7 +515,7 @@ mod tests {
             env::var("LOG_N_INSTANCES").unwrap_or_else(|_| "6".to_string()).parse::<u32>().unwrap();
         // Blake's preprocessed tree holds the XOR tables, so every tree lifts alike.
         let config = PcsConfig::from_fri_config(FriConfig {
-            params: FriParams::default(),
+            params: FriParams::test_params(),
             trace_log_size: blake_log_max_rows(log_n_instances),
         });
 

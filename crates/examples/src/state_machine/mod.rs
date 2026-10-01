@@ -214,7 +214,7 @@ mod tests {
     #[test]
     fn test_state_machine_claimed_sum() {
         let log_n_rows = 8;
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
@@ -247,7 +247,7 @@ mod tests {
     #[test]
     fn test_relation_tracker() {
         let log_n_rows = 8;
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
@@ -292,7 +292,7 @@ mod tests {
     #[test]
     fn test_state_machine_prove() {
         let log_n_rows = 8;
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: log_n_rows + fri_params.log_blowup_factor,
@@ -350,7 +350,7 @@ let constraint_0 = (QM31Impl::from_partial_evals([trace_2_column_2_offset_0, \
     fn test_logup_counts() {
         let log_n_rows = 8;
         let initial_state = [M31::zero(); STATE_SIZE];
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let (components, ..) = prove_state_machine(
             log_n_rows,
             initial_state,

@@ -793,7 +793,7 @@ mod tests {
                 .circle_domain()
                 .half_coset,
         );
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: log_size + fri_params.log_blowup_factor,
@@ -875,7 +875,7 @@ mod tests {
                 .circle_domain()
                 .half_coset,
         );
-        let fri_params = FriParams::default();
+        let fri_params = FriParams::test_params();
         let config = PcsConfig {
             fri_params,
             trace_lifting_log_size: log_size + fri_params.log_blowup_factor,

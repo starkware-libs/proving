@@ -202,7 +202,7 @@ pub fn create_proof_with_fold_step(
     u32,
 ) {
     let config = PcsConfig::from_fri_config(FriConfig {
-        params: FriParams { log_blowup_factor: 2, fold_step, ..FriParams::default() },
+        params: FriParams { log_blowup_factor: 2, fold_step, ..FriParams::test_params() },
         trace_log_size: LOG_SIZE_LONG,
     });
     let lifting_log_size = config.trace_lifting_log_size;

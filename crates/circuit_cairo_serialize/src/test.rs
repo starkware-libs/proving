@@ -49,7 +49,7 @@ fn test_serialize_deserialize_cairo_proof() {
     ctx.validate_circuit();
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut ctx);
     let pcs_config = PcsConfig::from_fri_config(FriConfig {
-        params: FriParams::default(),
+        params: FriParams::test_params(),
         trace_log_size: preprocessed_circuit.trace_log_size(),
     });
     let circuit_proof = prove_circuit_assignment(

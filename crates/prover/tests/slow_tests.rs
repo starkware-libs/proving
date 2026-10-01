@@ -76,7 +76,7 @@ fn test_proof_stability(path: &str, n_proofs_to_compare: usize) {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_params: FriParams::default(),
+        fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
@@ -125,7 +125,7 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_params: FriParams::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 0,
             store_polynomials_coefficients: false,
@@ -255,7 +255,7 @@ pub mod builtin_tests {
     fn test_poseidon_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_params: FriParams::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
@@ -326,7 +326,7 @@ pub mod builtin_tests {
     fn test_pedersen_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_params: FriParams::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
@@ -422,7 +422,7 @@ fn test_prove_verify_all_opcode_components() {
     }
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_params: FriParams::default(),
+        fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
         channel_salt: 0,
         store_polynomials_coefficients: true,
@@ -586,7 +586,7 @@ fn test_prove_verify_all_builtins() {
     assert_all_builtins_in_input(&input);
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_params: FriParams::default(),
+        fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,

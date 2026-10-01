@@ -539,7 +539,7 @@ pub mod tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_params: FriParams::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 0,
             store_polynomials_coefficients: false,
