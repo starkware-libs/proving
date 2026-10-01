@@ -1,7 +1,8 @@
 use circuit_registry::CircuitRegistry;
+use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
 use crate::canonical::CanonicalCircuit;
-use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
+use crate::{LeafInput, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -49,7 +50,7 @@ fn test_load_leaves_reads_manifest_of_paths() {
 #[test]
 fn test_leaf_output_values_derived_from_preimage() {
     let leaf = LeafInput {
-        proof: crate::SerializedLeafProof {
+        proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
             circuit_hash: leaf_proof_format::DigestHex([0; 8]),
             proof: vec![],
@@ -75,7 +76,7 @@ fn test_leaf_output_values_derived_from_preimage() {
 #[test]
 fn test_leaf_output_values_rejects_invalid_felt() {
     let leaf = LeafInput {
-        proof: crate::SerializedLeafProof {
+        proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
             circuit_hash: leaf_proof_format::DigestHex([0; 8]),
             proof: vec![],
@@ -168,13 +169,14 @@ mod e2e {
 
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
+    use leaf_proof_format::PackedNode;
     use leaf_prover::prove_leaf::prove_leaf_from_files;
     use num_bigint::BigUint;
 
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
     use crate::fold::digest_bytes_to_words;
-    use crate::{LeafInput, PackedNode, stwo_run_and_prove_recursive_tree};
+    use crate::{LeafInput, stwo_run_and_prove_recursive_tree};
 
     fn goldens_dir() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/goldens/four_leaves")
