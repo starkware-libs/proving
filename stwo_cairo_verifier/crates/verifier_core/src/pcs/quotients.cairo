@@ -19,7 +19,7 @@ use crate::utils::{
     ArrayImpl as ArrayUtilImpl, ColumnsIndicesPerTreeByLogDegreeBound, SpanExTrait, SpanImpl,
     bit_reverse_index, pack_qm31,
 };
-use crate::{TreeArray, TreeSpan};
+use crate::{ColumnSpan, TreeArray, TreeSpan};
 use super::verifier::{QueriedValues, SampledValues};
 
 
@@ -57,7 +57,8 @@ pub fn fri_answers(
     assert!(lifting_log_size < M31_CIRCLE_LOG_ORDER, "lifting domain log size is too large");
     let mut queried_values_per_tree = queried_values_per_tree.span();
     // Add to each sample value the corresponding random coefficient power.
-    let samples_with_randomness: Span<Span<Span<(QM31, QM31)>>> = build_samples_with_randomness(
+    let samples_with_randomness: TreeSpan<ColumnSpan<Span<(QM31, QM31)>>> =
+        build_samples_with_randomness(
         sample_values_per_column_per_tree, random_coeff,
     );
     // Build the array `sample_batches_by_log_degree_bound`: for i ∈ [0, log_degree_bound],
@@ -123,7 +124,7 @@ pub fn fri_answers(
 /// Gathers sample batches and column counts for a given degree bound.
 fn sample_batches_for_degree_bound(
     column_indices_per_tree: @TreeSpan<Span<usize>>,
-    sample_values_with_rand: Span<Span<Span<(QM31, QM31)>>>,
+    sample_values_with_rand: TreeSpan<ColumnSpan<Span<(QM31, QM31)>>>,
     oods_point: CirclePoint<QM31>,
     prev_oods_point: CirclePoint<QM31>,
     periodicity_generator: CirclePoint<M31>,
@@ -227,7 +228,7 @@ fn sample_batches_for_degree_bound(
 // [`sample_batches_for_degree_bound`].
 fn build_samples_with_randomness(
     sample_values_per_column_per_tree: SampledValues, coeff: QM31,
-) -> Span<Span<Span<(QM31, QM31)>>> {
+) -> TreeSpan<ColumnSpan<Span<(QM31, QM31)>>> {
     let mut samples_with_randomness_per_tree = array![];
     let mut coeff_pow: QM31 = One::one();
     for sample_values_per_column in sample_values_per_column_per_tree {
