@@ -1,4 +1,3 @@
-use stwo_verifier_utils::MemorySection;
 use crate::{Hash, SecureField};
 
 #[cfg(not(feature: "poseidon252_verifier"))]
@@ -31,11 +30,6 @@ pub trait ChannelTrait {
     fn mix_u32s(ref self: Channel, words: Span<u32>);
 
     fn mix_u64(ref self: Channel, nonce: u64);
-
-    /// Mixes a memory section (id-value pairs) into the channel.
-    /// All the ids are mixed first, then all the values, each of them in the order it appears in
-    /// the section.
-    fn mix_memory_section(ref self: Channel, section: MemorySection);
 
     /// Mixes a commitment (typically the root of a Merkle tree) into the channel.
     fn mix_commitment(ref self: Channel, commitment: Hash);

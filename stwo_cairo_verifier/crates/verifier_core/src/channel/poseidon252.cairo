@@ -3,7 +3,7 @@ use bounded_int::impls::*;
 use core::array::SpanTrait;
 use core::poseidon::{hades_permutation, poseidon_hash_span};
 use core::traits::DivRem;
-use stwo_verifier_utils::{MemorySection, deconstruct_f252, hash_u32s_with_state};
+use stwo_verifier_utils::{deconstruct_f252, hash_u32s_with_state};
 use crate::SecureField;
 use crate::fields::m31::{M31, M31Trait};
 use crate::fields::qm31::QM31Trait;
@@ -76,21 +76,6 @@ pub impl Poseidon252ChannelImpl of ChannelTrait {
 
     fn mix_u64(ref self: Poseidon252Channel, nonce: u64) {
         self.mix_felt252(nonce.into());
-    }
-
-    fn mix_memory_section(ref self: Poseidon252Channel, section: MemorySection) {
-        // TODO(Gali): Make this more efficient, use hash_memory_section.
-        let mut ids = array![];
-        let mut flat_values = array![];
-        for entry in section {
-            let (id, val) = entry;
-            ids.append(*id);
-            flat_values.append_span((*val).span());
-        }
-        let ids_hash = hash_u32s_with_state(self.digest, ids.span());
-        let values_hash = hash_u32s_with_state(ids_hash, flat_values.span());
-
-        update_digest(ref self, values_hash);
     }
 
     fn draw_secure_felt(ref self: Poseidon252Channel) -> SecureField {
