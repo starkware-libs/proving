@@ -311,7 +311,7 @@ fn test_unpack_idx() {
     let packed = simd_from_u32s(&mut context, input.clone());
 
     for (i, expected) in input.iter().enumerate() {
-        let unpacked = Simd::unpack_idx(&mut context, &packed, i);
+        let unpacked = *Simd::unpack_idx(&mut context, &packed, i).get();
         assert_eq!(context.get(unpacked), qm31_from_u32s(*expected, 0, 0, 0));
     }
 }

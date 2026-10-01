@@ -4,7 +4,7 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
 use circuits::simd::Simd;
-use circuits::wrappers::U32Wrapper;
+use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use indexmap::IndexMap;
 use stwo::core::circle::CirclePoint;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
@@ -75,7 +75,7 @@ pub trait Statement<Value: IValue> {
         &self,
         _context: &mut Context<Value>,
         _component_sizes: &[Var],
-        _shifted_relation_uses: &HashMap<String, Var>,
+        _shifted_relation_uses: &HashMap<String, M31Wrapper<Var>>,
     ) {
     }
 }

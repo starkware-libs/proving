@@ -580,7 +580,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         &self,
         context: &mut Context<Value>,
         component_sizes: &[Var],
-        shifted_relation_uses: &HashMap<String, Var>,
+        shifted_relation_uses: &HashMap<String, M31Wrapper<Var>>,
     ) {
         let AuxData {
             initial_state,
@@ -636,8 +636,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
             assert!((1 << MAX_SEQUENCE_LOG_SIZE) <= LARGE_MEMORY_VALUE_ID_BASE);
         };
 
-        let shifted_opcode_relation_uses =
-            Simd::from_packed(vec![shifted_relation_uses["Opcodes"]], 1);
+        let shifted_opcode_relation_uses = Simd::pack_single(shifted_relation_uses["Opcodes"]);
         extract_bits(
             context,
             &shifted_opcode_relation_uses,

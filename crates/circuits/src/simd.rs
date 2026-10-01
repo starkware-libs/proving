@@ -199,19 +199,23 @@ impl Simd {
 
     /// Unpacks a [Simd] into a vector of [Var]s, where each [Var] represents a single [M31] value.
     pub fn unpack(context: &mut Context<impl IValue>, input: &Simd) -> Vec<Var> {
-        (0..input.len).map(|i| Self::unpack_idx(context, input, i)).collect_vec()
+        (0..input.len).map(|i| *Self::unpack_idx(context, input, i).get()).collect_vec()
     }
 
     /// Unpacks the `idx`-th [M31] value from the [Simd].
-    pub fn unpack_idx(context: &mut Context<impl IValue>, input: &Simd, idx: usize) -> Var {
+    pub fn unpack_idx(
+        context: &mut Context<impl IValue>,
+        input: &Simd,
+        idx: usize,
+    ) -> M31Wrapper<Var> {
         assert!(idx < input.len, "Index {idx} is out of range for a Simd of length {}", input.len);
-        *get_coord(context, &input.data[idx / 4], idx % 4).get()
+        get_coord(context, &input.data[idx / 4], idx % 4)
     }
 
     /// Unpacks the single [M31] value of a [Simd] of length 1.
     pub fn unpack_single(context: &mut Context<impl IValue>, input: &Simd) -> M31Wrapper<Var> {
         assert_eq!(input.len, 1);
-        get_coord(context, &input.data[0], 0)
+        Self::unpack_idx(context, input, 0)
     }
 
     /// Packs a vector of [M31] values into [Simd].

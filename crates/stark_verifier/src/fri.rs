@@ -155,7 +155,7 @@ pub fn fri_decommit<Value: IValue>(
                     .map(|twiddles_at_layer| {
                         twiddles_at_layer
                             .iter()
-                            .map(|simd| Simd::unpack_idx(context, simd, q))
+                            .map(|simd| *Simd::unpack_idx(context, simd, q).get())
                             .collect()
                     })
                     .collect()

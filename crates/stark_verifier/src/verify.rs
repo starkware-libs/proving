@@ -239,7 +239,7 @@ fn check_relation_uses<Value: IValue>(
     context: &mut Context<impl IValue>,
     statement: &impl Statement<Value>,
     component_sizes_bits: &[Simd],
-) -> HashMap<String, Var> {
+) -> HashMap<String, M31Wrapper<Var>> {
     let components = statement.get_components();
 
     // Check that sum(uses_per_row * (floor(num_rows / DIV) + 1)) cannot overflow even for the
@@ -281,7 +281,8 @@ fn check_relation_uses<Value: IValue>(
         }
         let shifted_size_p1 = Simd::unpack_idx(context, &shifted_component_sizes_p1, i);
         for relation_use in relation_uses {
-            let uses_per_row = context.constant(u32::try_from(relation_use.uses).unwrap().into());
+            let uses_per_row =
+                M31Wrapper::const_m31(context, u32::try_from(relation_use.uses).unwrap().into());
 
             let shifted_uses_upper_bound = eval!(context, (shifted_size_p1) * (uses_per_row));
 
@@ -296,11 +297,8 @@ fn check_relation_uses<Value: IValue>(
 
     // Verify that the sum is at most `floor(P / DIV) = 2^(31 - RELATION_USES_NUM_ROWS_SHIFT) - 1`
     // by expressing it as a `31 - RELATION_USES_NUM_ROWS_SHIFT`-bit number.
-    let shifted_use_counts = shifted_relation_uses
-        .iter()
-        .sorted_by_key(|(k, _v)| *k)
-        .map(|(_k, v)| M31Wrapper::new_unsafe(*v))
-        .collect_vec();
+    let shifted_use_counts =
+        shifted_relation_uses.iter().sorted_by_key(|(k, _v)| *k).map(|(_k, v)| *v).collect_vec();
     let shifted_use_counts = Simd::pack(context, &shifted_use_counts);
     // The range check below ensures that:
     // `shifted_use_counts <= 2^(31 - RELATION_USES_NUM_ROWS_SHIFT) - 1`

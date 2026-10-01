@@ -69,7 +69,7 @@ impl<'a, Value: IValue> ComponentDataTrait<Value> for ComponentData<'a> {
     }
 
     fn get_n_instances_bit(&self, context: &mut Context<Value>, bit: usize) -> Var {
-        Simd::unpack_idx(context, &self.n_instances_bits[bit], self.index)
+        *Simd::unpack_idx(context, &self.n_instances_bits[bit], self.index).get()
     }
 
     fn max_component_size_bits(&self) -> usize {
