@@ -7,7 +7,7 @@ use circuits::eval;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{eq, inv, pointwise_mul};
-use circuits::simd::Simd;
+use circuits::simd::{Simd, get_coord};
 use circuits::wrappers::U32Wrapper;
 use stwo::core::circle::CirclePoint;
 use stwo::core::fields::m31::MODULUS_BITS;
@@ -172,7 +172,7 @@ impl Channel {
         context.mark_as_unused(res1);
 
         // Take the first word.
-        let first_word = pointwise_mul(context, res0, context.one());
+        let first_word = get_coord(context, &res0, 0);
 
         // Check that the n_bits least significant bits are zero. The only deviation from a
         // uniform draw is that M31 value 0 has one extra u32 preimage (2*M31 in addition to
@@ -180,7 +180,7 @@ impl Channel {
         // loss of 0.32 bits of security for n_bits=30 and much less for smaller values.
         // Value 1 also has an extra preimage but is irrelevant here since 1 is never
         // all-zero bits.
-        let bits = extract_bits(context, &Simd::from_packed(vec![first_word], 1), MODULUS_BITS);
+        let bits = extract_bits(context, &Simd::pack_single(first_word), MODULUS_BITS);
         for bit in &bits[0..n_bits.try_into().unwrap()] {
             eq(context, bit.get_packed()[0], context.zero());
         }

@@ -204,7 +204,14 @@ impl Simd {
 
     /// Unpacks the `idx`-th [M31] value from the [Simd].
     pub fn unpack_idx(context: &mut Context<impl IValue>, input: &Simd, idx: usize) -> Var {
+        assert!(idx < input.len, "Index {idx} is out of range for a Simd of length {}", input.len);
         *get_coord(context, &input.data[idx / 4], idx % 4).get()
+    }
+
+    /// Unpacks the single [M31] value of a [Simd] of length 1.
+    pub fn unpack_single(context: &mut Context<impl IValue>, input: &Simd) -> M31Wrapper<Var> {
+        assert_eq!(input.len, 1);
+        get_coord(context, &input.data[0], 0)
     }
 
     /// Packs a vector of [M31] values into [Simd].
@@ -225,6 +232,11 @@ impl Simd {
             })
             .collect();
         Simd::from_packed(data, values.len())
+    }
+
+    /// Takes a single [M31] value and represents it as a [Simd] of length 1.
+    pub fn pack_single(value: M31Wrapper<Var>) -> Simd {
+        Simd::from_packed(vec![*value.get()], 1)
     }
 
     /// Computes `2^n` per lane, where `n` is the integer whose little-endian bit decomposition

@@ -95,13 +95,16 @@ pub struct PubMemoryAddress<T> {
     pub value: T,
 }
 
-pub fn split_address_to_9bit_limbs(context: &mut Context<impl IValue>, value: Var) -> [Var; 4] {
-    let simd = Simd::from_packed(vec![value], 1);
+pub fn split_address_to_9bit_limbs(
+    context: &mut Context<impl IValue>,
+    value: M31Wrapper<Var>,
+) -> [Var; 4] {
+    let simd = Simd::pack_single(value);
     let extracted_bits = extract_bits(context, &simd, MEMORY_ADDRESS_BITS);
 
     let mut limbs_iter = extracted_bits.chunks(LIMB_BITS).map(|limb_bits| {
         let limb = Simd::combine_bits(context, limb_bits);
-        Simd::unpack(context, &limb)[0]
+        *Simd::unpack_single(context, &limb).get()
     });
     array::from_fn(|_| limbs_iter.next().unwrap())
 }
@@ -345,8 +348,8 @@ fn word_to_le_bits<Value: IValue>(
     context: &mut Context<Value>,
     word: &U32Wrapper<Var>,
 ) -> Vec<Simd> {
-    let low = Simd::from_packed(vec![*word.low(context).get()], 1);
-    let high = Simd::from_packed(vec![*word.high(context).get()], 1);
+    let low = Simd::pack_single(word.low(context));
+    let high = Simd::pack_single(word.high(context));
     chain!(extract_bits(context, &low, 16), extract_bits(context, &high, 16)).collect()
 }
 
@@ -373,7 +376,7 @@ fn output_limbs_from_hash<Value: IValue>(
 
             let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
             let limb = Simd::combine_bits(context, chunk);
-            M31Wrapper::new_unsafe(Simd::unpack_idx(context, &limb, 0))
+            Simd::unpack_single(context, &limb)
         });
         outputs.push(cell);
     }
@@ -662,8 +665,7 @@ pub fn segment_ranges_logup_sum(
             return_value_address = eval!(context, (return_value_address) + (one));
         }
 
-        let start_value_limbs =
-            split_address_to_9bit_limbs(context, *segment_range.start.value.get());
+        let start_value_limbs = split_address_to_9bit_limbs(context, segment_range.start.value);
         let segment_start_logup_term = public_memory_logup_terms(
             context,
             interaction_elements,
@@ -672,7 +674,7 @@ pub fn segment_ranges_logup_sum(
             &start_value_limbs,
         );
         sum = eval!(context, (sum) + (segment_start_logup_term));
-        let end_value_limbs = split_address_to_9bit_limbs(context, *segment_range.end.value.get());
+        let end_value_limbs = split_address_to_9bit_limbs(context, segment_range.end.value);
         let segment_end_logup_term = public_memory_logup_terms(
             context,
             interaction_elements,
@@ -770,7 +772,7 @@ pub fn public_logup_sum(
     // Enforce correct initialization of the safe call memory section:
     // memory[initial_ap - 2] = (safe_call_id0, initial_ap)
     // memory[initial_ap - 1] = (safe_call_id1, 0).
-    let split_initial_ap = split_address_to_9bit_limbs(context, initial_ap);
+    let split_initial_ap = split_address_to_9bit_limbs(context, initial_state.ap);
     // The value of memory[initial_ap - 1] is 0, so its 9-bit limbs are all zeros.
     // Passing an empty slice to id_to_big_logup_term is equivalent to passing [0, 0, 0, 0]
     // because trailing zeros don't affect the polynomial combination in combine_term.
