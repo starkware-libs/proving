@@ -250,14 +250,14 @@ mod e2e {
 
     /// The leaf bootloader input JSON: one simple-output `RunProgramTask` (blake program hash) plus
     /// the hashed-output preimage dump path.
-    fn leaf_bl_input_json(dump_path: &Path) -> String {
+    fn leaf_bl_input_json(dump_path: &Path, task_output: &[u32]) -> String {
         let task_path =
             PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/simple_output_compiled.json");
         serde_json::to_string_pretty(&serde_json::json!({
             "tasks": [{
                 "type": "RunProgramTask",
                 "path": task_path.to_str().unwrap(),
-                "program_input": {"output": LEAF_TASK_OUTPUT},
+                "program_input": {"output": task_output},
                 "program_hash_function": "blake",
             }],
             "fact_topologies_path": null,
@@ -268,13 +268,13 @@ mod e2e {
     }
 
     /// True-e2e leaf generation: runs `leaf_prover` on the leaf simple bootloader (executing the
-    /// simple-output task) with the registry's parameters, then wraps the produced
-    /// `SerializedLeafProof` into a `LeafInput` with the dumped hashed-output preimage exactly as
-    /// the backend does (hex felts from the dump file, re-encoded as decimal strings).
-    fn generate_leaf(dir: &Path) -> LeafInput {
+    /// simple-output task with `task_output`) against the registry's parameters, then wraps the
+    /// produced `SerializedLeafProof` into a `LeafInput` with the dumped hashed-output preimage
+    /// exactly as the backend does (hex felts from the dump file, re-encoded as decimal strings).
+    fn generate_leaf(dir: &Path, task_output: &[u32]) -> LeafInput {
         let dump_path = dir.join("leaf_preimage.json");
         let input_path = dir.join("leaf_bl_input.json");
-        std::fs::write(&input_path, leaf_bl_input_json(&dump_path)).unwrap();
+        std::fs::write(&input_path, leaf_bl_input_json(&dump_path, task_output)).unwrap();
 
         let leaf = prove_leaf_from_files(
             &PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
@@ -390,18 +390,17 @@ mod e2e {
         }
     }
 
-    /// Folds `n` identical leaves exactly as the binary does (pair adjacent, carry the odd one up;
-    /// a single leaf self-folds) and returns the expected root node. `multiverifier_circuit_hash`
-    /// is the `circuit_hash` every internal node carries (see [`multiverifier_circuit_hash`]).
+    /// Folds `leaves` exactly as the binary does (pair adjacent, carry the odd one up; a single
+    /// leaf self-folds) and returns the expected root node. `multiverifier_circuit_hash` is the
+    /// `circuit_hash` every internal node carries (see [`multiverifier_circuit_hash`]).
     fn expected_root(
-        leaf: &LeafInput,
-        n: usize,
+        leaves: &[LeafInput],
         multiverifier_circuit_hash: [u32; circuit_common::N_RESERVED],
     ) -> ExpectedNode {
-        if n == 1 {
-            return expected_self_fold(expected_leaf(leaf), multiverifier_circuit_hash);
+        if leaves.len() == 1 {
+            return expected_self_fold(expected_leaf(&leaves[0]), multiverifier_circuit_hash);
         }
-        let mut layer: Vec<ExpectedNode> = (0..n).map(|_| expected_leaf(leaf)).collect();
+        let mut layer: Vec<ExpectedNode> = leaves.iter().map(expected_leaf).collect();
         while layer.len() > 1 {
             let mut next = Vec::with_capacity(layer.len().div_ceil(2));
             let mut pairs = layer.into_iter();
@@ -418,14 +417,15 @@ mod e2e {
         layer.pop().expect("at least one leaf")
     }
 
-    /// Folds `n` identical copies of `leaf` with the binary entry point, and asserts the fold's
-    /// shape stats plus the produced root proof, root outputs, and full `packed_output` tree match
-    /// what we recompute independently (topology + values) from the identical leaves.
-    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path) {
+    /// Runs the recursive-tree fold over `leaves` into `dir`, and asserts: the fold's shape stats
+    /// (derived from `leaves.len()`); the root proof felt-array shape; and the root outputs and
+    /// full `packed_output` tree match what we recompute independently (topology + values) from
+    /// `leaves`.
+    fn fold_and_check(leaves: &[LeafInput], dir: &Path) {
         init_tracing();
-        let leaves: Vec<LeafInput> = vec![leaf.clone(); n];
+        let n = leaves.len();
         let stats = stwo_run_and_prove_recursive_tree(
-            leaves,
+            leaves.to_vec(),
             &circuit_registry(),
             &dir.join("root.proof"),
             &dir.join("root_outputs.json"),
@@ -453,10 +453,11 @@ mod e2e {
             "root proof felts must be 0x-prefixed hex strings"
         );
 
-        // Independently recompute the whole tree (topology + hashed output values) from the leaves.
+        // Independently recompute the whole tree (topology + hashed output values) from the
+        // leaves and assert the fold's root outputs and packed tree match.
         let canonical = CanonicalCircuit::build(&circuit_registry()).unwrap();
         let multiverifier_circuit_hash = multiverifier_circuit_hash(&canonical);
-        let expected = expected_root(leaf, n, multiverifier_circuit_hash);
+        let expected = expected_root(leaves, multiverifier_circuit_hash);
 
         let actual_outputs: Vec<u32> =
             serde_json::from_str(&std::fs::read_to_string(dir.join("root_outputs.json")).unwrap())
@@ -470,6 +471,11 @@ mod e2e {
             actual_packed, expected.packed,
             "packed output tree (topology + values) mismatch"
         );
+    }
+
+    /// Folds `n` identical copies of `leaf` via [`fold_and_check`].
+    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path) {
+        fold_and_check(&vec![leaf.clone(); n], dir);
     }
 
     /// Parses the same JSON file from two directories and asserts value equality (formatting- and
@@ -525,7 +531,7 @@ mod e2e {
     fn test_golden_four_leaves_e2e() {
         let tmp = tempfile::tempdir().unwrap();
         let dir = tmp.path();
-        let leaf = generate_leaf(dir);
+        let leaf = generate_leaf(dir, &LEAF_TASK_OUTPUT);
         dupe_and_fold(&leaf, 4, dir);
 
         // The root proof is the Cairo circuit verifier's input: execute the verifier on it.
@@ -560,5 +566,25 @@ mod e2e {
         assert_same_json::<Vec<String>>(dir, &goldens, "root.proof");
         assert_same_json::<Vec<u32>>(dir, &goldens, "root_outputs.json");
         assert_same_json::<PackedNode>(dir, &goldens, "root_packed.json");
+    }
+
+    /// Structural fence for the fold's child-order preservation. With distinct leaves `A` and `B`
+    /// laid out `[A, B, B]`, the produced `packed_output` is `Composite(Composite(A, B), B)`.
+    #[test]
+    fn test_fold_preserves_child_order_with_distinct_leaves() {
+        let tmp = tempfile::tempdir().unwrap();
+        let tmp_dir = tmp.path();
+
+        // Two distinct real leaves: same leaf circuit, different task outputs → distinct output
+        // preimages. Distinctness is a test invariant: with identical leaves the packed tree
+        // check could not distinguish reorderings.
+        let leaf_a = golden_leaf();
+        let leaf_b = generate_leaf(tmp_dir, &[23, 29, 31]);
+        assert_ne!(
+            leaf_a.output_preimage, leaf_b.output_preimage,
+            "test invariant: A and B must yield distinct preimages"
+        );
+
+        fold_and_check(&[leaf_a, leaf_b.clone(), leaf_b], tmp_dir);
     }
 }
