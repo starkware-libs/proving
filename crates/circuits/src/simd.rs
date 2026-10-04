@@ -139,7 +139,7 @@ impl Simd {
 
     /// Multiplies all the elements of `a` by the scalar `b`.
     pub fn scalar_mul(context: &mut Context<impl IValue>, a: &Simd, b: &M31Wrapper<Var>) -> Simd {
-        Simd { data: a.data.iter().map(|x| mul(context, *x, *b.get())).collect(), len: a.len }
+        Simd { data: a.data.iter().map(|x| mul(context, *x, *b.raw())).collect(), len: a.len }
     }
 
     /// Returns an *unconstrained* [Simd] initialized (hint) with `1/x` if `x != 0`,
@@ -199,7 +199,7 @@ impl Simd {
 
     /// Unpacks a [Simd] into a vector of [Var]s, where each [Var] represents a single [M31] value.
     pub fn unpack(context: &mut Context<impl IValue>, input: &Simd) -> Vec<Var> {
-        (0..input.len).map(|i| *Self::unpack_idx(context, input, i).get()).collect_vec()
+        (0..input.len).map(|i| *Self::unpack_idx(context, input, i).raw()).collect_vec()
     }
 
     /// Unpacks the `idx`-th [M31] value from the [Simd].
@@ -225,12 +225,12 @@ impl Simd {
         let n = values.len();
         let data = (0..n.div_ceil(4))
             .map(|i| {
-                let mut res = *values[4 * i].get();
+                let mut res = *values[4 * i].raw();
                 for j in 1..4 {
                     if 4 * i + j == n {
                         break;
                     }
-                    res = eval!(context, (res) + ((unit_vecs[j]) * (*values[4 * i + j].get())));
+                    res = eval!(context, (res) + ((unit_vecs[j]) * (*values[4 * i + j].raw())));
                 }
                 res
             })
@@ -240,7 +240,7 @@ impl Simd {
 
     /// Takes a single [M31] value and represents it as a [Simd] of length 1.
     pub fn pack_single(value: M31Wrapper<Var>) -> Simd {
-        Simd::from_packed(vec![*value.get()], 1)
+        Simd::from_packed(vec![*value.raw()], 1)
     }
 
     /// Computes `2^n` per lane, where `n` is the integer whose little-endian bit decomposition

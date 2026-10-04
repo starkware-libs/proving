@@ -127,7 +127,7 @@ pub fn verify_merkle_path<Value: IValue>(
     // `HashValue`s and the recomputed root is compared word-for-word against the `root` bound by
     // the Fiat-Shamir channel.
     for (recomputed, expected) in zip_eq(leaf.0, root.0) {
-        eq(context, *recomputed.get(), *expected.get());
+        eq(context, *recomputed.raw(), *expected.raw());
     }
 }
 

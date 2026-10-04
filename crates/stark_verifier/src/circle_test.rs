@@ -137,8 +137,8 @@ fn test_double_points() {
     let res = double_point(&mut context, &pt0_var);
     let double_pt0 = pt0 + pt0;
 
-    assert_eq!(context.get(*res.x.get()).0.0, double_pt0.x);
-    assert_eq!(context.get(*res.y.get()).0.0, double_pt0.y);
+    assert_eq!(context.get(*res.x.raw()).0.0, double_pt0.x);
+    assert_eq!(context.get(*res.y.raw()).0.0, double_pt0.y);
 }
 
 #[test]

@@ -69,7 +69,7 @@ pub fn build_verification_circuit<Value: IValue>(
         preprocessed_root.iter().copied().chain(statement.output_digest.iter().copied()).collect();
     let n_bytes = 4 * output_preimage.len();
     let output_hash = blake2s_u32s(&mut context, output_preimage, n_bytes);
-    context.set_outputs(&output_hash.iter().map(|word| *word.get()).collect_vec());
+    context.set_outputs(&output_hash.iter().map(|word| *word.raw()).collect_vec());
 
     let context = context.finalize(false);
     #[cfg(test)]

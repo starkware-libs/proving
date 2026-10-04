@@ -99,7 +99,7 @@ pub fn build_multiverifier_circuit<Value: IValue>(
     let n_bytes = 4 * outer_verifier_output_preimage.len();
     let output_hash = blake2s_u32s(&mut context, outer_verifier_output_preimage, n_bytes);
     // Copy the unreduced digest words into the reserved variables.
-    context.set_outputs(&output_hash.iter().map(|word| *word.get()).collect_vec());
+    context.set_outputs(&output_hash.iter().map(|word| *word.raw()).collect_vec());
 
     let context = context.finalize(false);
     #[cfg(test)]

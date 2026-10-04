@@ -115,7 +115,7 @@ fn eq_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl RngCore) {
 /// finalize_guessed_vars.
 fn random_u32_var(context: &mut Context<impl IValue>, rng: &mut impl RngCore) -> U32Wrapper<Var> {
     let zero = context.zero();
-    let x = context.new_var(*IValue::pack_u32(rng.next_u32()).get());
+    let x = context.new_var(*IValue::pack_u32(rng.next_u32()).raw());
     add_into(context, x, zero, x);
     U32Wrapper::new_unsafe(x)
 }

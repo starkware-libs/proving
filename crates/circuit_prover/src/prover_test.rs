@@ -38,7 +38,7 @@ const N: usize = 1030;
 /// fill the digest width. A circuit verified by the circuit verifier outputs a Blake2s digest;
 /// these test circuits have no digest of their own, so any `u32`-encoded wires will do.
 fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
-    let outputs: Vec<Var> = words.iter().cycle().take(N_RESERVED).map(|w| *w.get()).collect();
+    let outputs: Vec<Var> = words.iter().cycle().take(N_RESERVED).map(|w| *w.raw()).collect();
     context.set_outputs(&outputs);
 }
 

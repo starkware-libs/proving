@@ -94,8 +94,8 @@ fn test_blake2s() {
     let output = blake2s(&mut context, &input, n_bytes);
 
     for (out_word, exp_word) in zip_eq(output.iter(), expected.iter()) {
-        let exp = guess(&mut context, *exp_word.get());
-        eq(&mut context, *out_word.get(), exp);
+        let exp = guess(&mut context, *exp_word.raw());
+        eq(&mut context, *out_word.raw(), exp);
     }
 
     let context = context.finalize(false);
@@ -125,7 +125,7 @@ fn test_hash_value_guess() {
     // Each guessed word must round-trip back to the original raw u32 in full (no `M31::P`
     // reduction, unlike `ReducedHashValue`).
     for (i, &word) in words.iter().enumerate() {
-        assert_eq!(context.get(*guessed.0[i].get()).unpack_u32(), word);
+        assert_eq!(context.get(*guessed.0[i].raw()).unpack_u32(), word);
     }
 
     finalize_guessed_vars(&mut context);

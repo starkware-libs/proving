@@ -155,8 +155,8 @@ fn select_hash<Value: IValue>(
     if_one: &HashValue<Var>,
 ) -> HashValue<Var> {
     HashValue(std::array::from_fn(|i| {
-        let diff = circuits::eval!(context, (*if_one[i].get()) - (*if_zero[i].get()));
-        let result = circuits::eval!(context, (*if_zero[i].get()) + ((selector) * (diff)));
+        let diff = circuits::eval!(context, (*if_one[i].raw()) - (*if_zero[i].raw()));
+        let result = circuits::eval!(context, (*if_zero[i].raw()) + ((selector) * (diff)));
         U32Wrapper::new_unsafe(result)
     }))
 }
@@ -166,7 +166,7 @@ fn hash_value_of<Value: IValue>(
     context: &Context<Value>,
     hash: &HashValue<Var>,
 ) -> HashValue<Value> {
-    HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(context.get(*hash[i].get()))))
+    HashValue(std::array::from_fn(|i| U32Wrapper::new_unsafe(context.get(*hash[i].raw()))))
 }
 
 /// Reads the concrete value of a [`Node<Var>`] back out of the context.
@@ -203,7 +203,7 @@ fn guess_hash_value<Value: IValue>(
     hash: &HashValue<QM31>,
 ) -> HashValue<Var> {
     let value: HashValue<Value> = HashValue(std::array::from_fn(|i| {
-        U32Wrapper::new_unsafe(Value::from_qm31(*hash[i].get()))
+        U32Wrapper::new_unsafe(Value::from_qm31(*hash[i].raw()))
     }));
     value.guess(context)
 }
@@ -238,7 +238,7 @@ fn is_zero_node<Value: IValue>(context: &mut Context<Value>, node: &Node<Var>) -
     let one = context.one();
 
     let words = &node.subtree_hash;
-    let acc = words.iter().skip(1).fold(*words[0].get(), |acc, w| add(context, acc, *w.get()));
+    let acc = words.iter().skip(1).fold(*words[0].raw(), |acc, w| add(context, acc, *w.raw()));
 
     let acc_val = context.get(acc);
     let is_zero = acc_val == Value::from_qm31(qm31_from_u32s(0, 0, 0, 0));
@@ -313,7 +313,7 @@ fn constrain_hash_in_set<Value: IValue>(
             candidate
                 .iter()
                 .enumerate()
-                .all(|(j, word)| context.get(*hash[j].get()) == Value::from_qm31(*word.get()))
+                .all(|(j, word)| context.get(*hash[j].raw()) == Value::from_qm31(*word.raw()))
         })
         .expect("circuit hash is not in the allowed set");
 
@@ -322,15 +322,15 @@ fn constrain_hash_in_set<Value: IValue>(
     // Bind each word to the matched candidate's word.
     for j in 0..BLAKE2S_DIGEST_N_WORDS {
         let mut selected = {
-            let word = context.constant(*allowed[0][j].get());
+            let word = context.constant(*allowed[0][j].raw());
             mul(context, is_match[0], word)
         };
         for (&flag, candidate) in zip_eq(&is_match, allowed).skip(1) {
-            let word = context.constant(*candidate[j].get());
+            let word = context.constant(*candidate[j].raw());
             let term = mul(context, flag, word);
             selected = add(context, selected, term);
         }
-        eq(context, *hash[j].get(), selected);
+        eq(context, *hash[j].raw(), selected);
     }
 }
 
@@ -344,8 +344,8 @@ fn constrain_hash_eq<Value: IValue>(
     expected: &HashValue<QM31>,
 ) {
     for j in 0..BLAKE2S_DIGEST_N_WORDS {
-        let word = context.constant(*expected[j].get());
-        eq(context, *hash[j].get(), word);
+        let word = context.constant(*expected[j].raw());
+        eq(context, *hash[j].raw(), word);
     }
 }
 

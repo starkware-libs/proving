@@ -185,7 +185,7 @@ impl Gate for TripleXor {
         let a = values[self.input_a].unpack_u32();
         let b = values[self.input_b].unpack_u32();
         let c = values[self.input_c].unpack_u32();
-        check_eq(values[self.out], *QM31::pack_u32(a ^ b ^ c).get())
+        check_eq(values[self.out], *QM31::pack_u32(a ^ b ^ c).raw())
     }
 
     fn uses(&self) -> Vec<usize> {
@@ -351,10 +351,10 @@ impl Gate for BlakeGGate {
 
         let (a, b, c, d) = blake2s_g(a, b, c, d, f0, f1);
 
-        check_eq(values[self.out_a], *QM31::pack_u32(a).get())?;
-        check_eq(values[self.out_b], *QM31::pack_u32(b).get())?;
-        check_eq(values[self.out_c], *QM31::pack_u32(c).get())?;
-        check_eq(values[self.out_d], *QM31::pack_u32(d).get())
+        check_eq(values[self.out_a], *QM31::pack_u32(a).raw())?;
+        check_eq(values[self.out_b], *QM31::pack_u32(b).raw())?;
+        check_eq(values[self.out_c], *QM31::pack_u32(c).raw())?;
+        check_eq(values[self.out_d], *QM31::pack_u32(d).raw())
     }
 
     fn uses(&self) -> Vec<usize> {

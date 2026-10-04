@@ -91,7 +91,7 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
     fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
         let circuit_hash_words = self.circuit_hash.iter().copied().collect_vec();
         let output_words =
-            unpack_qm31s_to_u32_words(context, self.output_digest.iter().map(|word| *word.get()));
+            unpack_qm31s_to_u32_words(context, self.output_digest.iter().map(|word| *word.raw()));
         vec![circuit_hash_words, output_words]
     }
 
@@ -120,7 +120,7 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
         let u_addr = M31Wrapper::const_m31(context, U_VAR_IDX.into());
         let u_val = context.u();
         let output_addresses = chain!(&output_addresses, [&u_addr]);
-        let output_value_vars = self.output_digest.iter().map(|word| *word.get()).collect_vec();
+        let output_value_vars = self.output_digest.iter().map(|word| *word.raw()).collect_vec();
         let output_values = chain!(&output_value_vars, [&u_val]);
 
         for (output_address, output_value) in zip_eq(output_addresses, output_values) {
@@ -132,7 +132,7 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
                 context,
                 &[
                     gate_relation_id,
-                    *output_address.get(),
+                    *output_address.raw(),
                     output_value_0,
                     output_value_1,
                     output_value_2,

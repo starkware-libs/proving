@@ -239,7 +239,7 @@ pub fn reduce_hash_value<Value: IValue>(
     let reduced: [Var; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|i| {
         let low = hash[i].low(ctx);
         let high = hash[i].high(ctx);
-        *(eval!(ctx, (low) + ((high) * (c_2_pow_16))).get())
+        *(eval!(ctx, (low) + ((high) * (c_2_pow_16))).raw())
     });
 
     let out0 = from_partial_evals(ctx, [reduced[0], reduced[1], reduced[2], reduced[3]]);
@@ -340,15 +340,15 @@ pub fn triple_xor<Value: IValue>(
     input_b: U32Wrapper<Var>,
     input_c: U32Wrapper<Var>,
 ) -> U32Wrapper<Var> {
-    let a = input_a.get_value(ctx).get().unpack_u32();
-    let b = input_b.get_value(ctx).get().unpack_u32();
-    let c = input_c.get_value(ctx).get().unpack_u32();
-    let out = ctx.new_var(*Value::pack_u32(a ^ b ^ c).get());
+    let a = input_a.get_value(ctx).raw().unpack_u32();
+    let b = input_b.get_value(ctx).raw().unpack_u32();
+    let c = input_c.get_value(ctx).raw().unpack_u32();
+    let out = ctx.new_var(*Value::pack_u32(a ^ b ^ c).raw());
     ctx.stats.triple_xor += 1;
     ctx.circuit.triple_xor.push(TripleXor {
-        input_a: input_a.get().idx,
-        input_b: input_b.get().idx,
-        input_c: input_c.get().idx,
+        input_a: input_a.raw().idx,
+        input_b: input_b.raw().idx,
+        input_c: input_c.raw().idx,
         out: out.idx,
     });
     U32Wrapper::new_unsafe(out)
@@ -374,8 +374,8 @@ pub fn m31_to_u32<Value: IValue>(
     ctx: &mut Context<Value>,
     input: M31Wrapper<Var>,
 ) -> U32Wrapper<Var> {
-    let out = ctx.new_var(ctx.get(*input.get()).m31_to_u32());
-    m31_to_u32_into(ctx, *input.get(), out);
+    let out = ctx.new_var(ctx.get(*input.raw()).m31_to_u32());
+    m31_to_u32_into(ctx, *input.raw(), out);
     U32Wrapper::new_unsafe(out)
 }
 
@@ -395,27 +395,27 @@ pub fn blake_g_gate<Value: IValue>(
     input_f0: U32Wrapper<Var>,
     input_f1: U32Wrapper<Var>,
 ) -> [U32Wrapper<Var>; 4] {
-    let a = input_a.get_value(ctx).get().unpack_u32();
-    let b = input_b.get_value(ctx).get().unpack_u32();
-    let c = input_c.get_value(ctx).get().unpack_u32();
-    let d = input_d.get_value(ctx).get().unpack_u32();
-    let f0 = input_f0.get_value(ctx).get().unpack_u32();
-    let f1 = input_f1.get_value(ctx).get().unpack_u32();
+    let a = input_a.get_value(ctx).raw().unpack_u32();
+    let b = input_b.get_value(ctx).raw().unpack_u32();
+    let c = input_c.get_value(ctx).raw().unpack_u32();
+    let d = input_d.get_value(ctx).raw().unpack_u32();
+    let f0 = input_f0.get_value(ctx).raw().unpack_u32();
+    let f1 = input_f1.get_value(ctx).raw().unpack_u32();
 
     let (a_out, b_out, c_out, d_out) = blake2s_g(a, b, c, d, f0, f1);
 
-    let out_a = ctx.new_var(*Value::pack_u32(a_out).get());
-    let out_b = ctx.new_var(*Value::pack_u32(b_out).get());
-    let out_c = ctx.new_var(*Value::pack_u32(c_out).get());
-    let out_d = ctx.new_var(*Value::pack_u32(d_out).get());
+    let out_a = ctx.new_var(*Value::pack_u32(a_out).raw());
+    let out_b = ctx.new_var(*Value::pack_u32(b_out).raw());
+    let out_c = ctx.new_var(*Value::pack_u32(c_out).raw());
+    let out_d = ctx.new_var(*Value::pack_u32(d_out).raw());
 
     ctx.circuit.blake_g_gate.push(BlakeGGate {
-        input_a: input_a.get().idx,
-        input_b: input_b.get().idx,
-        input_c: input_c.get().idx,
-        input_d: input_d.get().idx,
-        input_f0: input_f0.get().idx,
-        input_f1: input_f1.get().idx,
+        input_a: input_a.raw().idx,
+        input_b: input_b.raw().idx,
+        input_c: input_c.raw().idx,
+        input_d: input_d.raw().idx,
+        input_f0: input_f0.raw().idx,
+        input_f1: input_f1.raw().idx,
         out_a: out_a.idx,
         out_b: out_b.idx,
         out_c: out_c.idx,

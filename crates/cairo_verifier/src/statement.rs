@@ -84,7 +84,7 @@ impl CasmState<M31Wrapper<Var>> {
     ) -> Var {
         let Self { pc, ap, fp } = self;
         let elements =
-            [context.constant(OPCODES_RELATION_ID.into()), *pc.get(), *ap.get(), *fp.get()];
+            [context.constant(OPCODES_RELATION_ID.into()), *pc.raw(), *ap.raw(), *fp.raw()];
         logup_use_term(context, &elements, interaction_elements)
     }
 }
@@ -104,7 +104,7 @@ pub fn split_address_to_9bit_limbs(
 
     let mut limbs_iter = extracted_bits.chunks(LIMB_BITS).map(|limb_bits| {
         let limb = Simd::combine_bits(context, limb_bits);
-        *Simd::unpack_single(context, &limb).get()
+        *Simd::unpack_single(context, &limb).raw()
     });
     array::from_fn(|_| limbs_iter.next().unwrap())
 }
@@ -237,7 +237,7 @@ impl<Value: IValue> CairoStatement<Value> {
         // Validate the output segment range.
         let diff = eval!(
             context,
-            (*output_segment_range.end.value.get()) - (*output_segment_range.start.value.get())
+            (*output_segment_range.end.value.raw()) - (*output_segment_range.start.value.raw())
         );
         let n_outputs = context.constant(self.outputs.len().into());
         eq(context, diff, n_outputs);
@@ -408,7 +408,7 @@ impl<Value: IValue> CairoStatement<Value> {
         let components = enabled_components::<Value>(&enabled_bits);
         let n_components = components.len();
         let output_hash = output_hash.guess(context);
-        context.set_outputs(&output_hash.iter().map(|word| *word.get()).collect_vec());
+        context.set_outputs(&output_hash.iter().map(|word| *word.raw()).collect_vec());
 
         let outputs = output_limbs_from_hash(context, &output_hash);
 
@@ -571,7 +571,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
                 ("mul_mod_builtin_segment_start", &segment_ranges[10]),
             ]
             .into_iter()
-            .map(|(k, v)| (k.to_string(), *v.start.value.get())),
+            .map(|(k, v)| (k.to_string(), *v.start.value.raw())),
         );
         public_params
     }
@@ -601,20 +601,20 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         // A vector of values that are going to be range checked to 29 bits.
         let mut range_checks = vec![];
 
-        eq(context, *initial_pc.get(), context.one());
+        eq(context, *initial_pc.raw(), context.one());
         // Check that initial_pc (== 1) + 2 < initial_ap.
         // i.e. 3 < initial_ap < 2**29 + 4.
         // At this point we actually know that `initial_ap < 2**29` because we enforced it when
         // computing the safe_call logup sum.
-        range_checks.push(eval!(context, (*initial_ap.get()) - (context.constant(4.into()))));
+        range_checks.push(eval!(context, (*initial_ap.raw()) - (context.constant(4.into()))));
 
-        eq(context, *initial_fp.get(), *final_fp.get());
-        eq(context, *initial_fp.get(), *initial_ap.get());
+        eq(context, *initial_fp.raw(), *final_fp.raw());
+        eq(context, *initial_fp.raw(), *initial_ap.raw());
         let expected_final_pc = context.constant(5.into());
-        eq(context, *final_pc.get(), expected_final_pc);
+        eq(context, *final_pc.raw(), expected_final_pc);
         // Check that the initial_ap <= final_ap.
         // i.e. 0 <= final_ap - initial_ap < 2**29.
-        range_checks.push(eval!(context, (*final_ap.get()) - (*initial_ap.get())));
+        range_checks.push(eval!(context, (*final_ap.raw()) - (*initial_ap.raw())));
 
         let rc_simd = Simd::pack(
             context,
@@ -669,7 +669,7 @@ pub fn segment_ranges_logup_sum(
             context,
             interaction_elements,
             argument_address,
-            *segment_range.start.id.get(),
+            *segment_range.start.id.raw(),
             &start_value_limbs,
         );
         sum = eval!(context, (sum) + (segment_start_logup_term));
@@ -678,7 +678,7 @@ pub fn segment_ranges_logup_sum(
             context,
             interaction_elements,
             return_value_address,
-            *segment_range.end.id.get(),
+            *segment_range.end.id.raw(),
             &end_value_limbs,
         );
         sum = eval!(context, (sum) + (segment_end_logup_term));
@@ -731,8 +731,8 @@ pub fn memory_segment_logup_sum(
             context,
             interaction_elements,
             address,
-            *id.get(),
-            value_limbs.iter().map(|limb| limb.get()),
+            *id.raw(),
+            value_limbs.iter().map(|limb| limb.raw()),
         );
         sum = eval!(context, (sum) + (logup_term));
     }
@@ -756,8 +756,8 @@ pub fn public_logup_sum(
         program_ids,
         component_log_sizes: _,
     } = aux_data;
-    let initial_ap = *initial_state.ap.get();
-    let final_ap = *final_state.ap.get();
+    let initial_ap = *initial_state.ap.raw();
+    let final_ap = *final_state.ap.raw();
     let final_state_logup_term = aux_data.final_state.logup_term(context, interaction_elements);
     let initial_state_logup_term = aux_data.initial_state.logup_term(context, interaction_elements);
     let mut sum = eval!(context, (final_state_logup_term) - (initial_state_logup_term));
@@ -783,7 +783,7 @@ pub fn public_logup_sum(
             context,
             interaction_elements,
             address,
-            *id.get(),
+            *id.raw(),
             value_limbs,
         );
         sum = eval!(context, (sum) + (logup_term));
@@ -804,7 +804,7 @@ pub fn public_logup_sum(
     let output_logup_sum = memory_segment_logup_sum(
         context,
         interaction_elements,
-        *segment_ranges[0].start.value.get(),
+        *segment_ranges[0].start.value.raw(),
         output_ids,
         outputs,
     );
@@ -813,7 +813,7 @@ pub fn public_logup_sum(
     let program_logup_sum = memory_segment_logup_sum(
         context,
         interaction_elements,
-        *initial_state.pc.get(),
+        *initial_state.pc.raw(),
         program_ids,
         program,
     );

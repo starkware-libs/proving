@@ -95,7 +95,7 @@ impl CircuitSerialize for HashValue<QM31> {
         // and write the four little-endian bytes, so the whole hash occupies exactly 32 bytes.
         let Self(words) = self;
         for word in words {
-            let (low, high) = (word.get().0.0.0, word.get().0.1.0);
+            let (low, high) = (word.raw().0.0.0, word.raw().0.1.0);
             output.extend_from_slice(&((high << 16) | low).to_le_bytes());
         }
     }
@@ -128,7 +128,7 @@ impl CircuitSerialize for AuthPaths<QM31> {
 impl CircuitSerialize for M31Wrapper<QM31> {
     fn serialize(&self, output: &mut Vec<u8>) {
         // M31Wrapper wraps a value known to be in the base field M31.
-        let m31: M31 = self.get().0.0;
+        let m31: M31 = self.raw().0.0;
         m31.serialize(output);
     }
 }

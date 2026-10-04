@@ -163,7 +163,7 @@ pub fn build_and_fill_cairo_verifier_circuit(
     let mut finalized_context = context.finalize(false);
 
     if let Some(zk_blinding_size) = verifier_config.zk_blinding_amount {
-        let zk_blinding_seed = bytes_from_le_u32s(proof.trace_root.0.map(|w| w.get().unpack_u32()));
+        let zk_blinding_seed = bytes_from_le_u32s(proof.trace_root.0.map(|w| w.raw().unpack_u32()));
         add_zk_blinding(&mut finalized_context, zk_blinding_seed, zk_blinding_size);
     }
     finalized_context

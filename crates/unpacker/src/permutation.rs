@@ -57,7 +57,7 @@ pub fn permute_tuples<Value: IValue>(
 
     // The `arity` u32 words of a tuple, used as the lookup key for matching outputs to inputs.
     let key_from_tuple = |ctx: &Context<Value>, tuple: &[U32Wrapper<Var>]| -> Vec<u32> {
-        tuple.iter().map(|w| w.get_value(ctx).get().unpack_u32()).collect()
+        tuple.iter().map(|w| w.get_value(ctx).raw().unpack_u32()).collect()
     };
 
     // Tag each input word with its tuple index `j`: `(low, high, 0, 0) + (0, 0, j, 0)`, and map
@@ -68,7 +68,7 @@ pub fn permute_tuples<Value: IValue>(
     for (j, tuple) in inputs.iter().enumerate() {
         let tag = ctx.constant(qm31_from_u32s(0, 0, j as u32, 0));
         for (col, word) in zip_eq(tagged_in.iter_mut(), tuple.iter()) {
-            col.push(eval!(ctx, (*word.get()) + (tag)));
+            col.push(eval!(ctx, (*word.raw()) + (tag)));
         }
 
         indices_by_value.entry(key_from_tuple(ctx, tuple)).or_default().push(j);
@@ -90,12 +90,12 @@ pub fn permute_tuples<Value: IValue>(
             .expect("output tuple is not a permutation of the inputs");
         let index_var =
             M31Wrapper::from_m31(u32::try_from(index_in_inputs).unwrap().into()).guess(ctx);
-        let tag_u = eval!(ctx, (*index_var.get()) * (u));
+        let tag_u = eval!(ctx, (*index_var.raw()) * (u));
 
         // Tag each word of this tuple and add it to its word-column as one permutation output.
         for (col, out_word) in zip_eq(tagged_out.iter_mut(), out_tuple.iter()) {
             // Tagged output word: `(low, high, 0, 0) + (0, 0, index, 0)`.
-            let tagged_word = eval!(ctx, (*out_word.get()) + (tag_u));
+            let tagged_word = eval!(ctx, (*out_word.raw()) + (tag_u));
             // The per-column Permutation gate yields its own fresh variable, so allocate one and
             // pin it to `tagged_word` with the `eq`. The gate (added per column below) then proves
             // these tagged outputs are a multiset-permutation of the column's tagged inputs.

@@ -21,7 +21,7 @@ pub mod test;
 pub struct M31Wrapper<T>(T);
 
 impl<T> M31Wrapper<T> {
-    pub fn get(&self) -> &T {
+    pub fn raw(&self) -> &T {
         &self.0
     }
 
@@ -82,15 +82,15 @@ impl<T: Debug> Debug for M31Wrapper<T> {
 
 impl CircuitOps for M31Wrapper<Var> {
     fn add(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
-        Self(add(context, *a.get(), *b.get()))
+        Self(add(context, *a.raw(), *b.raw()))
     }
 
     fn sub(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
-        Self(sub(context, *a.get(), *b.get()))
+        Self(sub(context, *a.raw(), *b.raw()))
     }
 
     fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
-        Self(mul(context, *a.get(), *b.get()))
+        Self(mul(context, *a.raw(), *b.raw()))
     }
 
     fn zero(context: &mut Context<impl IValue>, _like: &Self) -> Self {
@@ -111,7 +111,7 @@ impl CircuitOps for M31Wrapper<Var> {
 pub struct U16Wrapper<T>(T);
 
 impl<T> U16Wrapper<T> {
-    pub fn get(&self) -> &T {
+    pub fn raw(&self) -> &T {
         &self.0
     }
 
@@ -139,7 +139,7 @@ impl<Value: IValue> Guess<Value> for U16Wrapper<Value> {
         // The guessed variable is range-constrained to `[0, 2^16)` during finalization (see
         // `Context::finalize_guessed_vars`), so no further masking is required here.
         context.stats.guess += 1;
-        let out = context.new_var(*self.get());
+        let out = context.new_var(*self.raw());
         context.guessed_vars.as_mut().unwrap().push(GuessVar::U16(out));
         U16Wrapper::new_unsafe(out)
     }
@@ -161,7 +161,7 @@ impl<T: Debug> Debug for U16Wrapper<T> {
 pub struct U32Wrapper<T>(T);
 
 impl<T> U32Wrapper<T> {
-    pub fn get(&self) -> &T {
+    pub fn raw(&self) -> &T {
         &self.0
     }
 
@@ -179,7 +179,7 @@ impl U32Wrapper<NoValue> {
 impl<Value: IValue> U32Wrapper<Value> {
     /// Converts a [U32Wrapper<QM31>] into a [U32Wrapper<impl IValue>].
     pub fn from_u32wrapper_qm31(value: U32Wrapper<QM31>) -> Self {
-        Self(Value::from_qm31(*value.get()))
+        Self(Value::from_qm31(*value.raw()))
     }
 }
 
@@ -223,13 +223,13 @@ impl<Value: IValue> Guess<Value> for U32Wrapper<Value> {
         // A `u32` is stored as `(low_u16, high_u16, 0, 0)`. Guess each 16-bit limb separately so
         // that each is range-constrained to `[0, 2^16)` during finalization, then recombine them as
         // `low + high * i` to rebuild the packed representation.
-        let value = Value::unpack_u32(self.get());
+        let value = Value::unpack_u32(self.raw());
         let low = U16Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(value & 0xFFFF, 0, 0, 0)))
             .guess(context);
         let high = U16Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(value >> 16, 0, 0, 0)))
             .guess(context);
         let i = context.constant(qm31_from_u32s(0, 1, 0, 0));
-        U32Wrapper(eval!(context, (*low.get()) + ((*high.get()) * (i))))
+        U32Wrapper(eval!(context, (*low.raw()) + ((*high.raw()) * (i))))
     }
 }
 

@@ -253,7 +253,7 @@ pub fn cond_flip_u32(
     a: U32Wrapper<Var>,
     b: U32Wrapper<Var>,
 ) -> (U32Wrapper<Var>, U32Wrapper<Var>) {
-    let (res_a, res_b) = cond_flip(context, selector, *a.get(), *b.get());
+    let (res_a, res_b) = cond_flip(context, selector, *a.raw(), *b.raw());
     (U32Wrapper::new_unsafe(res_a), U32Wrapper::new_unsafe(res_b))
 }
 
@@ -285,7 +285,7 @@ pub fn guess_m31<Value: IValue>(
     value: M31Wrapper<Value>,
 ) -> M31Wrapper<Var> {
     context.stats.guess += 1;
-    let out = context.new_var(*value.get());
+    let out = context.new_var(*value.raw());
     context.guessed_vars.as_mut().unwrap().push(GuessVar::M31(out));
     M31Wrapper::new_unsafe(out)
 }

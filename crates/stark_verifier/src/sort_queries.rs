@@ -119,7 +119,7 @@ impl QuerySorter {
         }
 
         let tagged_values = zip_eq(query_values, &self.sort_keys)
-            .map(|(value, sort_key)| eval!(context, (*value.get()) + (*sort_key)))
+            .map(|(value, sort_key)| eval!(context, (*value.raw()) + (*sort_key)))
             .collect_vec();
 
         let sorted = permute(context, &tagged_values, IValue::sort_by_u_coordinate);
