@@ -14,15 +14,11 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedCol
 #[cfg(test)]
 use crate::casm::builtins::ec_utils::utils::*;
 
-// TODO(Dan): Fix documentation.
-// A table with 2**15 rows, each containing a point on the Pedersen elliptic curve.
-// The table is divided into 2 sections:
-// 1a. First 27 blocks of 2**9 rows: Row k of block b contains -P_shift + 2**(9*b) * k * P_0
-// 1b. The 28th block of 2**9 rows: Row k + (l << 5) contains
-//       -P_shift + 2**(9*27) * k * P_0 + l * P_1
-// 2a. Next 27 blocks of 2**9 rows: Row k of block b contains -P_shift + 2**(9*b) * k * P_2
-// 2b. The last block of 2**9 rows: Row k + (l << 5) contains
-//       -P_shift + 2**(9*13) * k * P_2 + l * P_3
+/// A table of points on the Pedersen elliptic curve, for a window size of W = `WINDOW_BITS` bits
+/// and n = 252 / W windows. See crates/common/src/preprocessed_columns/pedersen.rs for
+/// detailed description of the table structure.
+/// The supported values of `WINDOW_BITS` are 9 or 18, corresponding to n = 28 or 14,
+/// and tables with 2**15 or 2**23 rows.
 #[derive(Clone, Debug, Default)]
 pub struct PedersenPoints<const WINDOW_BITS: usize> {
     pub window_bits: usize,

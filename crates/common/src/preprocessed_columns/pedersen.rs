@@ -101,15 +101,19 @@ impl<const WINDOW_BITS: usize> PreProcessedColumn for PedersenPoints<WINDOW_BITS
     }
 }
 
-// TODO(DanC): Fix documentation.
-// A table with 2**15 rows, each containing a point on the Pedersen elliptic curve.
-// The table is divided into 2 sections:
-// 1a. First 27 blocks of 2**9 rows: Row k of block b contains -P_shift + 2**(9*b) * k * P_0
-// 1b. The 28th block of 2**9 rows: Row k + (l << 5) contains
-//       -P_shift + 2**(9*27) * k * P_0 + l * P_1
-// 2a. Next 27 blocks of 2**9 rows: Row k of block b contains -P_shift + 2**(9*b) * k * P_2
-// 2b. The last block of 2**9 rows: Row k + (l << 5) contains
-//       -P_shift + 2**(9*13) * k * P_2 + l * P_3
+/// A table of points on the Pedersen elliptic curve, for a window size of W = `WINDOW_BITS` bits
+/// and n = 252 / W windows. The table is made of two sections of n * 2**W rows each, one after
+/// the other. The first section is based on the points P_0 and P_1 and is divided into:
+/// a. The first n - 1 blocks of 2**W rows: Row k of block b contains
+///      -P_shift + 2**(W*b) * k * P_0
+/// b. The final block of 2**W rows, made of 16 sub-blocks of 2**(W-4) rows: The
+///    ((l << (W-4)) + k)-th row, which is the k-th row of sub-block l, contains
+///      -P_shift + 2**(W*(n-1)) * k * P_0 + l * P_1
+/// The second section is the same as the first, with (P_0, P_1) replaced by (P_2, P_3). The table's
+/// rows are padded to the next power of two by repeating the first row.
+///
+/// The supported values of `WINDOW_BITS` are 9 or 18, corresponding to n = 28 or 14,
+/// and tables with 2**15 or 2**23 rows.
 pub struct PedersenPointsTable<const WINDOW_BITS: usize> {
     // The one copy of the column contents. Shared by all column instances.
     column_data: [Vec<BaseField>; PEDERSEN_TABLE_N_COLUMNS],
