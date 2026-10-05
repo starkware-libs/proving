@@ -405,9 +405,6 @@ pub struct ExtendedFriProof<H: MerkleHasherLifted> {
     pub aux: FriProofAux<H>,
 }
 
-/// Number of folds for univariate polynomials.
-pub const FOLD_STEP: u32 = 1;
-
 /// Proof of an individual FRI layer.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FriLayerProof<H: MerkleHasherLifted> {
@@ -740,33 +737,14 @@ impl SparseEvaluation {
     }
 }
 
-/// Folds a degree `d` polynomial into a degree `d/2` polynomial.
-/// See [`crate::prover::fri::FriOps::fold_line`].
-pub fn fold_line(
-    eval: &[SecureField],
-    domain: LineDomain,
-    alpha: SecureField,
-) -> (LineDomain, Vec<SecureField>) {
-    let n = eval.len();
-    assert!(n >= 2, "Evaluation too small");
-
-    let folded_values = eval
-        .iter()
-        .tuples()
-        .enumerate()
-        .map(|(i, (&f_x, &f_neg_x))| {
-            // TODO(andrew): Inefficient. Update when domain twiddles get stored in a buffer.
-            let x = domain.at(bit_reverse_index(i << FOLD_STEP, domain.log_size()));
-
-            let (mut f0, mut f1) = (f_x, f_neg_x);
-            ibutterfly(&mut f0, &mut f1, x.inverse());
-            f0 + alpha * f1
-        })
-        .collect();
-
-    (domain.double(), folded_values)
-}
-
+/// Folds the evaluations of a univariate polynomial on a coset of size `2^n` down to a single
+/// value by applying `n` consecutive line folds, squaring `alpha` after each fold.
+///
+/// `eval` holds the evaluations of the polynomial on `domain` in bit-reversed order, so that
+/// `eval[2i]` and `eval[2i + 1]` are the evaluations at `x` and `-x`. Each fold maps
+/// `f(x) = f0(pi(x)) + x * f1(pi(x))` to `2 * (f0 + alpha * f1)(pi(x))`, where `pi` is the
+/// x-coordinate doubling map. This is the multi-step version of
+/// [`crate::prover::fri::FriOps::fold_line`].
 pub fn fold_coset(
     mut eval: Vec<SecureField>,
     domain: LineDomain,
@@ -821,21 +799,20 @@ mod tests {
     use itertools::Itertools;
     use num_traits::{One, Zero};
 
-    use super::FriVerificationError;
+    use super::{FriVerificationError, SparseEvaluation};
     use crate::core::circle::{CirclePointIndex, Coset};
     use crate::core::fields::Field;
     use crate::core::fields::m31::BaseField;
     use crate::core::fields::qm31::SecureField;
-    use crate::core::fri::{
-        CirclePolyDegreeBound, FriConfig, fold_circle_into_line, fold_coset, fold_line,
-    };
+    use crate::core::fri::{CirclePolyDegreeBound, FriConfig, fold_circle_into_line, fold_coset};
     use crate::core::poly::circle::CircleDomain;
     use crate::core::poly::line::{LineDomain, LinePoly};
     use crate::core::queries::Queries;
     use crate::core::test_utils::test_channel;
+    use crate::core::utils::bit_reverse_index;
     use crate::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use crate::m31;
-    use crate::prover::backend::cpu::CpuCirclePoly;
+    use crate::prover::backend::cpu::{CpuCirclePoly, fold_line_cpu};
     use crate::prover::backend::{ColumnOps, CpuBackend};
     use crate::prover::line::LineEvaluation;
     use crate::prover::poly::BitReversedOrder;
@@ -848,29 +825,33 @@ mod tests {
     type FriVerifier = super::FriVerifier<Blake2sMerkleChannel>;
 
     #[test]
-    fn fold_line_works() {
-        const DEGREE: usize = 8;
-        // Coefficients are bit-reversed.
-        let even_coeffs: [SecureField; DEGREE / 2] = [1, 2, 1, 3].map(SecureField::from);
-        let odd_coeffs: [SecureField; DEGREE / 2] = [3, 5, 4, 1].map(SecureField::from);
-        let poly = LinePoly::new([even_coeffs, odd_coeffs].concat());
-        let even_poly = LinePoly::new(even_coeffs.to_vec());
-        let odd_poly = LinePoly::new(odd_coeffs.to_vec());
-        let alpha = BaseField::from_u32_unchecked(19283).into();
-        let domain = LineDomain::new(Coset::half_odds(DEGREE.ilog2()));
-        let mut values = domain.iter().map(|p| poly.eval_at_point(p.into())).collect();
-        CpuBackend::bit_reverse_column(&mut values);
+    fn fold_coset_works() {
+        const LOG_SIZE: u32 = 3;
+        // Coefficients are bit-reversed: the first half is the even part and the second half is
+        // the odd part, recursively.
+        let coeffs = (0..1 << LOG_SIZE)
+            .map(|i| SecureField::from_m31(m31!(i + 1), m31!(2 * i + 3), m31!(5 * i), m31!(i * i)))
+            .collect_vec();
+        let poly = LinePoly::new(coeffs.clone());
+        let alpha = SecureField::from_m31(m31!(9), m31!(8), m31!(7), m31!(6));
+        let domain = LineDomain::new(Coset::new(CirclePointIndex::generator(), LOG_SIZE));
+        let mut evals = domain.iter().map(|x| poly.eval_at_point(x.into())).collect_vec();
+        CpuBackend::bit_reverse_column(&mut evals);
 
-        let (drp_domain, drp_evals) = fold_line(&values, domain, alpha);
-        let mut drp_evals = drp_evals.into_iter().collect_vec();
-        CpuBackend::bit_reverse_column(&mut drp_evals);
+        let actual = fold_coset(evals, domain, alpha);
 
-        assert_eq!(drp_evals.len(), DEGREE / 2);
-        for (i, (&drp_eval, x)) in zip(&drp_evals, drp_domain).enumerate() {
-            let f_e: SecureField = even_poly.eval_at_point(x.into());
-            let f_o: SecureField = odd_poly.eval_at_point(x.into());
-            assert_eq!(drp_eval, (f_e + alpha * f_o).double(), "mismatch at {i}");
+        // Each fold maps `f = f_e + x * f_o` to `2 * (f_e + alpha * f_o)`, then squares alpha.
+        let mut folded_coeffs = coeffs;
+        let mut folding_alpha = alpha;
+        while folded_coeffs.len() > 1 {
+            let (even, odd) = folded_coeffs.split_at(folded_coeffs.len() / 2);
+            folded_coeffs =
+                zip(even, odd).map(|(&f_e, &f_o)| (f_e + folding_alpha * f_o).double()).collect();
+            folding_alpha = folding_alpha * folding_alpha;
         }
+        let expected = folded_coeffs[0];
+
+        assert_eq!(actual, expected);
     }
 
     #[test]
@@ -1155,22 +1136,87 @@ mod tests {
     }
 
     #[test]
-    fn test_fold_coset() {
+    fn test_fold_coset_matches_prover_folds() {
         const N_FOLDS: usize = 3;
-        let mut domain = LineDomain::new(Coset::new(CirclePointIndex::generator(), N_FOLDS as u32));
-        let mut eval: Vec<_> = (0..1 << N_FOLDS)
+        let domain = LineDomain::new(Coset::new(CirclePointIndex::generator(), N_FOLDS as u32));
+        let eval: Vec<_> = (0..1 << N_FOLDS)
             .map(|i| SecureField::from_m31(m31!(i), m31!(i), m31!(i), m31!(i)))
             .collect();
         let alpha = SecureField::from_m31(m31!(9), m31!(8), m31!(7), m31!(6));
         let actual_value = fold_coset(eval.clone(), domain, alpha);
 
+        let mut eval = LineEvaluation::new(domain, eval.into_iter().collect());
         let mut random_pow = alpha;
         for _ in 0..N_FOLDS {
-            (domain, eval) = fold_line(&eval, domain, random_pow);
+            eval = fold_line_cpu(&eval, random_pow);
             random_pow = random_pow * random_pow;
         }
-        let expected_value = eval[0];
+        let expected_value = eval.values.at(0);
         assert_eq!(actual_value, expected_value);
+    }
+
+    #[test]
+    fn sparse_evaluation_fold_line_matches_folded_polynomial() {
+        const LOG_SIZE: u32 = 6;
+        // Coefficients are bit-reversed: the first half is the even part and the second half is
+        // the odd part, recursively.
+        let coeffs = (0..1 << LOG_SIZE)
+            .map(|i| SecureField::from_m31(m31!(i + 1), m31!(3 * i + 2), m31!(7 * i), m31!(i * i)))
+            .collect_vec();
+        let poly = LinePoly::new(coeffs.clone());
+        let alpha = SecureField::from_m31(m31!(9), m31!(8), m31!(7), m31!(6));
+        // An inner FRI layer domain, with the layer's evaluations in bit-reversed order (the
+        // order in which the layer is committed and queried).
+        let domain = LineDomain::new(Coset::half_odds(LOG_SIZE));
+        let mut evals = domain.iter().map(|x| poly.eval_at_point(x.into())).collect_vec();
+        CpuBackend::bit_reverse_column(&mut evals);
+        // Query positions spread over different cosets and different offsets within a coset,
+        // including the first and last positions and two queries sharing a coset.
+        let queries = Queries::from_positions(vec![0, 3, 14, 37, 38, 63], LOG_SIZE);
+
+        for fold_step in 1..=3 {
+            // Build the sparse evaluation the way the verifier does from the decommitment.
+            let (subset_evals, subset_domain_initial_indexes): (Vec<_>, Vec<_>) = queries
+                .chunk_by(|a, b| a >> fold_step == b >> fold_step)
+                .map(|subset_queries| {
+                    let subset_start = (subset_queries[0] >> fold_step) << fold_step;
+                    (
+                        evals[subset_start..subset_start + (1 << fold_step)].to_vec(),
+                        bit_reverse_index(subset_start, LOG_SIZE),
+                    )
+                })
+                .unzip();
+            let sparse_evaluation =
+                SparseEvaluation::new(subset_evals, subset_domain_initial_indexes, fold_step);
+
+            let actual = sparse_evaluation.fold_line(alpha, domain, fold_step);
+
+            // The verifier compares the folded values against the next layer, which is the
+            // polynomial folded `fold_step` times (see `fold_coset_works`), evaluated on the
+            // `fold_step` times doubled domain at the folded query positions.
+            let mut folded_coeffs = coeffs.clone();
+            let mut folding_alpha = alpha;
+            let mut folded_domain = domain;
+            for _ in 0..fold_step {
+                let (even, odd) = folded_coeffs.split_at(folded_coeffs.len() / 2);
+                folded_coeffs = zip(even, odd)
+                    .map(|(&f_e, &f_o)| (f_e + folding_alpha * f_o).double())
+                    .collect();
+                folding_alpha = folding_alpha * folding_alpha;
+                folded_domain = folded_domain.double();
+            }
+            let folded_poly = LinePoly::new(folded_coeffs);
+            let expected = queries
+                .fold(fold_step)
+                .iter()
+                .map(|&query| {
+                    let x = folded_domain.at(bit_reverse_index(query, folded_domain.log_size()));
+                    folded_poly.eval_at_point(x.into())
+                })
+                .collect_vec();
+
+            assert_eq!(actual, expected, "mismatch for fold_step {fold_step}");
+        }
     }
 
     #[test]

@@ -61,7 +61,8 @@ impl FriOps for CpuBackend {
     }
 }
 
-/// TODO: Almost duplicate code of [`crate::core::fri::fold_line`]. Consider refactor.
+/// TODO: Almost duplicate code of a single fold step in [`crate::core::fri::fold_coset`].
+/// Consider refactor.
 pub fn fold_line_cpu(
     eval: &LineEvaluation<CpuBackend>,
     alpha: SecureField,
