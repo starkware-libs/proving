@@ -37,12 +37,6 @@ pub struct AirFnStat {
     // How many yield lookups each row does. A map of relation name -> number of lookups to this
     // relation.
     pub yield_lookup_cols: IndexMap<String, usize>,
-    // How many rows each row in this component adds to other components, keyed by relation name.
-    // This is higher than `use_lookup_cols` for calls to chain round components. For example,
-    // blake_compress_opcode adds 10 rows to blake_round, but does only one use lookup and one
-    // yield lookup to that component. Unlike `exact_rows`, this also counts the memory,
-    // verify_instruction and const-table relations.
-    pub lookup_rows: IndexMap<String, usize>,
     // The exact number of rows this component adds to each lookup relation it depends on, directly
     // or transitively. Same as `rows_upper_bound` but without the power-of-two padding, so it has
     // the same keys and its values are at most the corresponding upper bounds. Like
@@ -691,7 +685,6 @@ impl AirFnRegistry {
                 num_state_cols,
                 use_lookup_cols,
                 yield_lookup_cols,
-                lookup_rows: lookup_rows.into_iter().map(|(r, (_, c))| (r, c)).collect(),
                 exact_rows,
                 padding_type: entry.padding_type,
                 total_num_trace_cols,

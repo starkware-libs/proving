@@ -9,7 +9,6 @@
     "yield_lookup_cols": {
       "Gate": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 20,
@@ -28,7 +27,6 @@
       "VerifyBitwiseXor_8": 1,
       "VerifyBitwiseXor_8_B": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 6,
@@ -46,7 +44,6 @@
     "yield_lookup_cols": {
       "VerifyBitwiseXor_12": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
@@ -64,7 +61,6 @@
     "yield_lookup_cols": {
       "VerifyBitwiseXor_4": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
@@ -82,7 +78,6 @@
     "yield_lookup_cols": {
       "VerifyBitwiseXor_9": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
@@ -100,7 +95,6 @@
     "yield_lookup_cols": {
       "VerifyBitwiseXor_7": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
@@ -126,14 +120,6 @@
     "yield_lookup_cols": {
       "Gate": 4
     },
-    "lookup_rows": {
-      "VerifyBitwiseXor_8": 6,
-      "VerifyBitwiseXor_8_B": 2,
-      "VerifyBitwiseXor_12": 2,
-      "VerifyBitwiseXor_4": 2,
-      "VerifyBitwiseXor_9": 2,
-      "VerifyBitwiseXor_7": 2
-    },
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 104,
@@ -158,7 +144,6 @@
     "yield_lookup_cols": {
       "RangeCheck_16": 1
     },
-    "lookup_rows": {},
     "exact_rows": {},
     "padding_type": "Multiplicity",
     "total_num_trace_cols": 5,
@@ -178,9 +163,6 @@
     },
     "yield_lookup_cols": {
       "Gate": 1
-    },
-    "lookup_rows": {
-      "RangeCheck_16": 3
     },
     "exact_rows": {},
     "padding_type": "Multiplicity",
@@ -203,9 +185,6 @@
     },
     "yield_lookup_cols": {
       "Gate": 1
-    },
-    "lookup_rows": {
-      "VerifyBitwiseXor_8": 8
     },
     "exact_rows": {},
     "padding_type": "Multiplicity",
