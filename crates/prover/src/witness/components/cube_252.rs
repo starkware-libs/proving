@@ -224,41 +224,41 @@ fn write_trace_simd(
 
             let input_as_felt252_tmp_715f4_0 =
                 PackedFelt252::from_packed_felt252width27(cube_252_input);
-            let unpacked_limb_0_col11 = input_as_felt252_tmp_715f4_0.get_m31(0);
+            let unpacked_limb_0_col11 = input_as_felt252_tmp_715f4_0.get_m31_limb(0);
             *row[11] = unpacked_limb_0_col11;
-            let unpacked_limb_1_col12 = input_as_felt252_tmp_715f4_0.get_m31(1);
+            let unpacked_limb_1_col12 = input_as_felt252_tmp_715f4_0.get_m31_limb(1);
             *row[12] = unpacked_limb_1_col12;
-            let unpacked_limb_3_col13 = input_as_felt252_tmp_715f4_0.get_m31(3);
+            let unpacked_limb_3_col13 = input_as_felt252_tmp_715f4_0.get_m31_limb(3);
             *row[13] = unpacked_limb_3_col13;
-            let unpacked_limb_4_col14 = input_as_felt252_tmp_715f4_0.get_m31(4);
+            let unpacked_limb_4_col14 = input_as_felt252_tmp_715f4_0.get_m31_limb(4);
             *row[14] = unpacked_limb_4_col14;
-            let unpacked_limb_6_col15 = input_as_felt252_tmp_715f4_0.get_m31(6);
+            let unpacked_limb_6_col15 = input_as_felt252_tmp_715f4_0.get_m31_limb(6);
             *row[15] = unpacked_limb_6_col15;
-            let unpacked_limb_7_col16 = input_as_felt252_tmp_715f4_0.get_m31(7);
+            let unpacked_limb_7_col16 = input_as_felt252_tmp_715f4_0.get_m31_limb(7);
             *row[16] = unpacked_limb_7_col16;
-            let unpacked_limb_9_col17 = input_as_felt252_tmp_715f4_0.get_m31(9);
+            let unpacked_limb_9_col17 = input_as_felt252_tmp_715f4_0.get_m31_limb(9);
             *row[17] = unpacked_limb_9_col17;
-            let unpacked_limb_10_col18 = input_as_felt252_tmp_715f4_0.get_m31(10);
+            let unpacked_limb_10_col18 = input_as_felt252_tmp_715f4_0.get_m31_limb(10);
             *row[18] = unpacked_limb_10_col18;
-            let unpacked_limb_12_col19 = input_as_felt252_tmp_715f4_0.get_m31(12);
+            let unpacked_limb_12_col19 = input_as_felt252_tmp_715f4_0.get_m31_limb(12);
             *row[19] = unpacked_limb_12_col19;
-            let unpacked_limb_13_col20 = input_as_felt252_tmp_715f4_0.get_m31(13);
+            let unpacked_limb_13_col20 = input_as_felt252_tmp_715f4_0.get_m31_limb(13);
             *row[20] = unpacked_limb_13_col20;
-            let unpacked_limb_15_col21 = input_as_felt252_tmp_715f4_0.get_m31(15);
+            let unpacked_limb_15_col21 = input_as_felt252_tmp_715f4_0.get_m31_limb(15);
             *row[21] = unpacked_limb_15_col21;
-            let unpacked_limb_16_col22 = input_as_felt252_tmp_715f4_0.get_m31(16);
+            let unpacked_limb_16_col22 = input_as_felt252_tmp_715f4_0.get_m31_limb(16);
             *row[22] = unpacked_limb_16_col22;
-            let unpacked_limb_18_col23 = input_as_felt252_tmp_715f4_0.get_m31(18);
+            let unpacked_limb_18_col23 = input_as_felt252_tmp_715f4_0.get_m31_limb(18);
             *row[23] = unpacked_limb_18_col23;
-            let unpacked_limb_19_col24 = input_as_felt252_tmp_715f4_0.get_m31(19);
+            let unpacked_limb_19_col24 = input_as_felt252_tmp_715f4_0.get_m31_limb(19);
             *row[24] = unpacked_limb_19_col24;
-            let unpacked_limb_21_col25 = input_as_felt252_tmp_715f4_0.get_m31(21);
+            let unpacked_limb_21_col25 = input_as_felt252_tmp_715f4_0.get_m31_limb(21);
             *row[25] = unpacked_limb_21_col25;
-            let unpacked_limb_22_col26 = input_as_felt252_tmp_715f4_0.get_m31(22);
+            let unpacked_limb_22_col26 = input_as_felt252_tmp_715f4_0.get_m31_limb(22);
             *row[26] = unpacked_limb_22_col26;
-            let unpacked_limb_24_col27 = input_as_felt252_tmp_715f4_0.get_m31(24);
+            let unpacked_limb_24_col27 = input_as_felt252_tmp_715f4_0.get_m31_limb(24);
             *row[27] = unpacked_limb_24_col27;
-            let unpacked_limb_25_col28 = input_as_felt252_tmp_715f4_0.get_m31(25);
+            let unpacked_limb_25_col28 = input_as_felt252_tmp_715f4_0.get_m31_limb(25);
             *row[28] = unpacked_limb_25_col28;
             let unpacked_tmp_715f4_1 = PackedFelt252::from_limbs([
                 unpacked_limb_0_col11,
@@ -316,57 +316,57 @@ fn write_trace_simd(
             *lookup_data.range_check_9_9_0 =
                 [M31_517791011, unpacked_limb_0_col11, unpacked_limb_1_col12];
             *sub_component_inputs.range_check_9_9_b[0] =
-                [unpacked_tmp_715f4_1.get_m31(2), unpacked_limb_3_col13];
+                [unpacked_tmp_715f4_1.get_m31_limb(2), unpacked_limb_3_col13];
             *lookup_data.range_check_9_9_b_1 =
-                [M31_1897792095, unpacked_tmp_715f4_1.get_m31(2), unpacked_limb_3_col13];
+                [M31_1897792095, unpacked_tmp_715f4_1.get_m31_limb(2), unpacked_limb_3_col13];
             *sub_component_inputs.range_check_9_9_c[0] =
-                [unpacked_limb_4_col14, unpacked_tmp_715f4_1.get_m31(5)];
+                [unpacked_limb_4_col14, unpacked_tmp_715f4_1.get_m31_limb(5)];
             *lookup_data.range_check_9_9_c_2 =
-                [M31_1881014476, unpacked_limb_4_col14, unpacked_tmp_715f4_1.get_m31(5)];
+                [M31_1881014476, unpacked_limb_4_col14, unpacked_tmp_715f4_1.get_m31_limb(5)];
             *sub_component_inputs.range_check_9_9_d[0] =
                 [unpacked_limb_6_col15, unpacked_limb_7_col16];
             *lookup_data.range_check_9_9_d_3 =
                 [M31_1864236857, unpacked_limb_6_col15, unpacked_limb_7_col16];
             *sub_component_inputs.range_check_9_9_e[0] =
-                [unpacked_tmp_715f4_1.get_m31(8), unpacked_limb_9_col17];
+                [unpacked_tmp_715f4_1.get_m31_limb(8), unpacked_limb_9_col17];
             *lookup_data.range_check_9_9_e_4 =
-                [M31_1847459238, unpacked_tmp_715f4_1.get_m31(8), unpacked_limb_9_col17];
+                [M31_1847459238, unpacked_tmp_715f4_1.get_m31_limb(8), unpacked_limb_9_col17];
             *sub_component_inputs.range_check_9_9_f[0] =
-                [unpacked_limb_10_col18, unpacked_tmp_715f4_1.get_m31(11)];
+                [unpacked_limb_10_col18, unpacked_tmp_715f4_1.get_m31_limb(11)];
             *lookup_data.range_check_9_9_f_5 =
-                [M31_1830681619, unpacked_limb_10_col18, unpacked_tmp_715f4_1.get_m31(11)];
+                [M31_1830681619, unpacked_limb_10_col18, unpacked_tmp_715f4_1.get_m31_limb(11)];
             *sub_component_inputs.range_check_9_9_g[0] =
                 [unpacked_limb_12_col19, unpacked_limb_13_col20];
             *lookup_data.range_check_9_9_g_6 =
                 [M31_1813904000, unpacked_limb_12_col19, unpacked_limb_13_col20];
             *sub_component_inputs.range_check_9_9_h[0] =
-                [unpacked_tmp_715f4_1.get_m31(14), unpacked_limb_15_col21];
+                [unpacked_tmp_715f4_1.get_m31_limb(14), unpacked_limb_15_col21];
             *lookup_data.range_check_9_9_h_7 =
-                [M31_2065568285, unpacked_tmp_715f4_1.get_m31(14), unpacked_limb_15_col21];
+                [M31_2065568285, unpacked_tmp_715f4_1.get_m31_limb(14), unpacked_limb_15_col21];
             *sub_component_inputs.range_check_9_9[1] =
-                [unpacked_limb_16_col22, unpacked_tmp_715f4_1.get_m31(17)];
+                [unpacked_limb_16_col22, unpacked_tmp_715f4_1.get_m31_limb(17)];
             *lookup_data.range_check_9_9_8 =
-                [M31_517791011, unpacked_limb_16_col22, unpacked_tmp_715f4_1.get_m31(17)];
+                [M31_517791011, unpacked_limb_16_col22, unpacked_tmp_715f4_1.get_m31_limb(17)];
             *sub_component_inputs.range_check_9_9_b[1] =
                 [unpacked_limb_18_col23, unpacked_limb_19_col24];
             *lookup_data.range_check_9_9_b_9 =
                 [M31_1897792095, unpacked_limb_18_col23, unpacked_limb_19_col24];
             *sub_component_inputs.range_check_9_9_c[1] =
-                [unpacked_tmp_715f4_1.get_m31(20), unpacked_limb_21_col25];
+                [unpacked_tmp_715f4_1.get_m31_limb(20), unpacked_limb_21_col25];
             *lookup_data.range_check_9_9_c_10 =
-                [M31_1881014476, unpacked_tmp_715f4_1.get_m31(20), unpacked_limb_21_col25];
+                [M31_1881014476, unpacked_tmp_715f4_1.get_m31_limb(20), unpacked_limb_21_col25];
             *sub_component_inputs.range_check_9_9_d[1] =
-                [unpacked_limb_22_col26, unpacked_tmp_715f4_1.get_m31(23)];
+                [unpacked_limb_22_col26, unpacked_tmp_715f4_1.get_m31_limb(23)];
             *lookup_data.range_check_9_9_d_11 =
-                [M31_1864236857, unpacked_limb_22_col26, unpacked_tmp_715f4_1.get_m31(23)];
+                [M31_1864236857, unpacked_limb_22_col26, unpacked_tmp_715f4_1.get_m31_limb(23)];
             *sub_component_inputs.range_check_9_9_e[1] =
                 [unpacked_limb_24_col27, unpacked_limb_25_col28];
             *lookup_data.range_check_9_9_e_12 =
                 [M31_1847459238, unpacked_limb_24_col27, unpacked_limb_25_col28];
             *sub_component_inputs.range_check_9_9_f[1] =
-                [unpacked_tmp_715f4_1.get_m31(26), input_limb_9_col10];
+                [unpacked_tmp_715f4_1.get_m31_limb(26), input_limb_9_col10];
             *lookup_data.range_check_9_9_f_13 =
-                [M31_1830681619, unpacked_tmp_715f4_1.get_m31(26), input_limb_9_col10];
+                [M31_1830681619, unpacked_tmp_715f4_1.get_m31_limb(26), input_limb_9_col10];
 
             let felt_252_unpack_from_27_range_check_output_output_tmp_715f4_2 =
                 unpacked_tmp_715f4_1;
@@ -376,61 +376,61 @@ fn write_trace_simd(
             let mul_res_tmp_715f4_3 =
                 ((felt_252_unpack_from_27_range_check_output_output_tmp_715f4_2)
                     * (felt_252_unpack_from_27_range_check_output_output_tmp_715f4_2));
-            let mul_res_limb_0_col29 = mul_res_tmp_715f4_3.get_m31(0);
+            let mul_res_limb_0_col29 = mul_res_tmp_715f4_3.get_m31_limb(0);
             *row[29] = mul_res_limb_0_col29;
-            let mul_res_limb_1_col30 = mul_res_tmp_715f4_3.get_m31(1);
+            let mul_res_limb_1_col30 = mul_res_tmp_715f4_3.get_m31_limb(1);
             *row[30] = mul_res_limb_1_col30;
-            let mul_res_limb_2_col31 = mul_res_tmp_715f4_3.get_m31(2);
+            let mul_res_limb_2_col31 = mul_res_tmp_715f4_3.get_m31_limb(2);
             *row[31] = mul_res_limb_2_col31;
-            let mul_res_limb_3_col32 = mul_res_tmp_715f4_3.get_m31(3);
+            let mul_res_limb_3_col32 = mul_res_tmp_715f4_3.get_m31_limb(3);
             *row[32] = mul_res_limb_3_col32;
-            let mul_res_limb_4_col33 = mul_res_tmp_715f4_3.get_m31(4);
+            let mul_res_limb_4_col33 = mul_res_tmp_715f4_3.get_m31_limb(4);
             *row[33] = mul_res_limb_4_col33;
-            let mul_res_limb_5_col34 = mul_res_tmp_715f4_3.get_m31(5);
+            let mul_res_limb_5_col34 = mul_res_tmp_715f4_3.get_m31_limb(5);
             *row[34] = mul_res_limb_5_col34;
-            let mul_res_limb_6_col35 = mul_res_tmp_715f4_3.get_m31(6);
+            let mul_res_limb_6_col35 = mul_res_tmp_715f4_3.get_m31_limb(6);
             *row[35] = mul_res_limb_6_col35;
-            let mul_res_limb_7_col36 = mul_res_tmp_715f4_3.get_m31(7);
+            let mul_res_limb_7_col36 = mul_res_tmp_715f4_3.get_m31_limb(7);
             *row[36] = mul_res_limb_7_col36;
-            let mul_res_limb_8_col37 = mul_res_tmp_715f4_3.get_m31(8);
+            let mul_res_limb_8_col37 = mul_res_tmp_715f4_3.get_m31_limb(8);
             *row[37] = mul_res_limb_8_col37;
-            let mul_res_limb_9_col38 = mul_res_tmp_715f4_3.get_m31(9);
+            let mul_res_limb_9_col38 = mul_res_tmp_715f4_3.get_m31_limb(9);
             *row[38] = mul_res_limb_9_col38;
-            let mul_res_limb_10_col39 = mul_res_tmp_715f4_3.get_m31(10);
+            let mul_res_limb_10_col39 = mul_res_tmp_715f4_3.get_m31_limb(10);
             *row[39] = mul_res_limb_10_col39;
-            let mul_res_limb_11_col40 = mul_res_tmp_715f4_3.get_m31(11);
+            let mul_res_limb_11_col40 = mul_res_tmp_715f4_3.get_m31_limb(11);
             *row[40] = mul_res_limb_11_col40;
-            let mul_res_limb_12_col41 = mul_res_tmp_715f4_3.get_m31(12);
+            let mul_res_limb_12_col41 = mul_res_tmp_715f4_3.get_m31_limb(12);
             *row[41] = mul_res_limb_12_col41;
-            let mul_res_limb_13_col42 = mul_res_tmp_715f4_3.get_m31(13);
+            let mul_res_limb_13_col42 = mul_res_tmp_715f4_3.get_m31_limb(13);
             *row[42] = mul_res_limb_13_col42;
-            let mul_res_limb_14_col43 = mul_res_tmp_715f4_3.get_m31(14);
+            let mul_res_limb_14_col43 = mul_res_tmp_715f4_3.get_m31_limb(14);
             *row[43] = mul_res_limb_14_col43;
-            let mul_res_limb_15_col44 = mul_res_tmp_715f4_3.get_m31(15);
+            let mul_res_limb_15_col44 = mul_res_tmp_715f4_3.get_m31_limb(15);
             *row[44] = mul_res_limb_15_col44;
-            let mul_res_limb_16_col45 = mul_res_tmp_715f4_3.get_m31(16);
+            let mul_res_limb_16_col45 = mul_res_tmp_715f4_3.get_m31_limb(16);
             *row[45] = mul_res_limb_16_col45;
-            let mul_res_limb_17_col46 = mul_res_tmp_715f4_3.get_m31(17);
+            let mul_res_limb_17_col46 = mul_res_tmp_715f4_3.get_m31_limb(17);
             *row[46] = mul_res_limb_17_col46;
-            let mul_res_limb_18_col47 = mul_res_tmp_715f4_3.get_m31(18);
+            let mul_res_limb_18_col47 = mul_res_tmp_715f4_3.get_m31_limb(18);
             *row[47] = mul_res_limb_18_col47;
-            let mul_res_limb_19_col48 = mul_res_tmp_715f4_3.get_m31(19);
+            let mul_res_limb_19_col48 = mul_res_tmp_715f4_3.get_m31_limb(19);
             *row[48] = mul_res_limb_19_col48;
-            let mul_res_limb_20_col49 = mul_res_tmp_715f4_3.get_m31(20);
+            let mul_res_limb_20_col49 = mul_res_tmp_715f4_3.get_m31_limb(20);
             *row[49] = mul_res_limb_20_col49;
-            let mul_res_limb_21_col50 = mul_res_tmp_715f4_3.get_m31(21);
+            let mul_res_limb_21_col50 = mul_res_tmp_715f4_3.get_m31_limb(21);
             *row[50] = mul_res_limb_21_col50;
-            let mul_res_limb_22_col51 = mul_res_tmp_715f4_3.get_m31(22);
+            let mul_res_limb_22_col51 = mul_res_tmp_715f4_3.get_m31_limb(22);
             *row[51] = mul_res_limb_22_col51;
-            let mul_res_limb_23_col52 = mul_res_tmp_715f4_3.get_m31(23);
+            let mul_res_limb_23_col52 = mul_res_tmp_715f4_3.get_m31_limb(23);
             *row[52] = mul_res_limb_23_col52;
-            let mul_res_limb_24_col53 = mul_res_tmp_715f4_3.get_m31(24);
+            let mul_res_limb_24_col53 = mul_res_tmp_715f4_3.get_m31_limb(24);
             *row[53] = mul_res_limb_24_col53;
-            let mul_res_limb_25_col54 = mul_res_tmp_715f4_3.get_m31(25);
+            let mul_res_limb_25_col54 = mul_res_tmp_715f4_3.get_m31_limb(25);
             *row[54] = mul_res_limb_25_col54;
-            let mul_res_limb_26_col55 = mul_res_tmp_715f4_3.get_m31(26);
+            let mul_res_limb_26_col55 = mul_res_tmp_715f4_3.get_m31_limb(26);
             *row[55] = mul_res_limb_26_col55;
-            let mul_res_limb_27_col56 = mul_res_tmp_715f4_3.get_m31(27);
+            let mul_res_limb_27_col56 = mul_res_tmp_715f4_3.get_m31_limb(27);
             *row[56] = mul_res_limb_27_col56;
 
             // Range Check Mem Value N 28.
@@ -501,120 +501,128 @@ fn write_trace_simd(
                 ((unpacked_limb_0_col11) * (unpacked_limb_0_col11)),
                 (((unpacked_limb_0_col11) * (unpacked_limb_1_col12))
                     + ((unpacked_limb_1_col12) * (unpacked_limb_0_col11))),
-                ((((unpacked_limb_0_col11) * (unpacked_tmp_715f4_1.get_m31(2)))
+                ((((unpacked_limb_0_col11) * (unpacked_tmp_715f4_1.get_m31_limb(2)))
                     + ((unpacked_limb_1_col12) * (unpacked_limb_1_col12)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_limb_0_col11))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (unpacked_limb_0_col11))),
                 (((((unpacked_limb_0_col11) * (unpacked_limb_3_col13))
-                    + ((unpacked_limb_1_col12) * (unpacked_tmp_715f4_1.get_m31(2))))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_limb_1_col12)))
+                    + ((unpacked_limb_1_col12) * (unpacked_tmp_715f4_1.get_m31_limb(2))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (unpacked_limb_1_col12)))
                     + ((unpacked_limb_3_col13) * (unpacked_limb_0_col11))),
                 ((((((unpacked_limb_0_col11) * (unpacked_limb_4_col14))
                     + ((unpacked_limb_1_col12) * (unpacked_limb_3_col13)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_tmp_715f4_1.get_m31(2))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(2))))
                     + ((unpacked_limb_3_col13) * (unpacked_limb_1_col12)))
                     + ((unpacked_limb_4_col14) * (unpacked_limb_0_col11))),
-                (((((((unpacked_limb_0_col11) * (unpacked_tmp_715f4_1.get_m31(5)))
+                (((((((unpacked_limb_0_col11) * (unpacked_tmp_715f4_1.get_m31_limb(5)))
                     + ((unpacked_limb_1_col12) * (unpacked_limb_4_col14)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_limb_3_col13)))
-                    + ((unpacked_limb_3_col13) * (unpacked_tmp_715f4_1.get_m31(2))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (unpacked_limb_3_col13)))
+                    + ((unpacked_limb_3_col13) * (unpacked_tmp_715f4_1.get_m31_limb(2))))
                     + ((unpacked_limb_4_col14) * (unpacked_limb_1_col12)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_limb_0_col11))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (unpacked_limb_0_col11))),
                 ((((((((unpacked_limb_0_col11) * (unpacked_limb_6_col15))
-                    + ((unpacked_limb_1_col12) * (unpacked_tmp_715f4_1.get_m31(5))))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_limb_4_col14)))
+                    + ((unpacked_limb_1_col12) * (unpacked_tmp_715f4_1.get_m31_limb(5))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (unpacked_limb_4_col14)))
                     + ((unpacked_limb_3_col13) * (unpacked_limb_3_col13)))
-                    + ((unpacked_limb_4_col14) * (unpacked_tmp_715f4_1.get_m31(2))))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_limb_1_col12)))
+                    + ((unpacked_limb_4_col14) * (unpacked_tmp_715f4_1.get_m31_limb(2))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (unpacked_limb_1_col12)))
                     + ((unpacked_limb_6_col15) * (unpacked_limb_0_col11))),
                 (((((((unpacked_limb_1_col12) * (unpacked_limb_6_col15))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_tmp_715f4_1.get_m31(5))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(5))))
                     + ((unpacked_limb_3_col13) * (unpacked_limb_4_col14)))
                     + ((unpacked_limb_4_col14) * (unpacked_limb_3_col13)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_tmp_715f4_1.get_m31(2))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(2))))
                     + ((unpacked_limb_6_col15) * (unpacked_limb_1_col12))),
-                ((((((unpacked_tmp_715f4_1.get_m31(2)) * (unpacked_limb_6_col15))
-                    + ((unpacked_limb_3_col13) * (unpacked_tmp_715f4_1.get_m31(5))))
+                ((((((unpacked_tmp_715f4_1.get_m31_limb(2)) * (unpacked_limb_6_col15))
+                    + ((unpacked_limb_3_col13) * (unpacked_tmp_715f4_1.get_m31_limb(5))))
                     + ((unpacked_limb_4_col14) * (unpacked_limb_4_col14)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_limb_3_col13)))
-                    + ((unpacked_limb_6_col15) * (unpacked_tmp_715f4_1.get_m31(2)))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (unpacked_limb_3_col13)))
+                    + ((unpacked_limb_6_col15) * (unpacked_tmp_715f4_1.get_m31_limb(2)))),
                 (((((unpacked_limb_3_col13) * (unpacked_limb_6_col15))
-                    + ((unpacked_limb_4_col14) * (unpacked_tmp_715f4_1.get_m31(5))))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_limb_4_col14)))
+                    + ((unpacked_limb_4_col14) * (unpacked_tmp_715f4_1.get_m31_limb(5))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (unpacked_limb_4_col14)))
                     + ((unpacked_limb_6_col15) * (unpacked_limb_3_col13))),
                 ((((unpacked_limb_4_col14) * (unpacked_limb_6_col15))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_tmp_715f4_1.get_m31(5))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(5))))
                     + ((unpacked_limb_6_col15) * (unpacked_limb_4_col14))),
-                (((unpacked_tmp_715f4_1.get_m31(5)) * (unpacked_limb_6_col15))
-                    + ((unpacked_limb_6_col15) * (unpacked_tmp_715f4_1.get_m31(5)))),
+                (((unpacked_tmp_715f4_1.get_m31_limb(5)) * (unpacked_limb_6_col15))
+                    + ((unpacked_limb_6_col15) * (unpacked_tmp_715f4_1.get_m31_limb(5)))),
                 ((unpacked_limb_6_col15) * (unpacked_limb_6_col15)),
             ];
             let z2_tmp_715f4_5 = [
                 ((unpacked_limb_7_col16) * (unpacked_limb_7_col16)),
-                (((unpacked_limb_7_col16) * (unpacked_tmp_715f4_1.get_m31(8)))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_limb_7_col16))),
+                (((unpacked_limb_7_col16) * (unpacked_tmp_715f4_1.get_m31_limb(8)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (unpacked_limb_7_col16))),
                 ((((unpacked_limb_7_col16) * (unpacked_limb_9_col17))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_tmp_715f4_1.get_m31(8))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(8))))
                     + ((unpacked_limb_9_col17) * (unpacked_limb_7_col16))),
                 (((((unpacked_limb_7_col16) * (unpacked_limb_10_col18))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_limb_9_col17)))
-                    + ((unpacked_limb_9_col17) * (unpacked_tmp_715f4_1.get_m31(8))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (unpacked_limb_9_col17)))
+                    + ((unpacked_limb_9_col17) * (unpacked_tmp_715f4_1.get_m31_limb(8))))
                     + ((unpacked_limb_10_col18) * (unpacked_limb_7_col16))),
-                ((((((unpacked_limb_7_col16) * (unpacked_tmp_715f4_1.get_m31(11)))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_limb_10_col18)))
+                ((((((unpacked_limb_7_col16) * (unpacked_tmp_715f4_1.get_m31_limb(11)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (unpacked_limb_10_col18)))
                     + ((unpacked_limb_9_col17) * (unpacked_limb_9_col17)))
-                    + ((unpacked_limb_10_col18) * (unpacked_tmp_715f4_1.get_m31(8))))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_limb_7_col16))),
+                    + ((unpacked_limb_10_col18) * (unpacked_tmp_715f4_1.get_m31_limb(8))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (unpacked_limb_7_col16))),
                 (((((((unpacked_limb_7_col16) * (unpacked_limb_12_col19))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_tmp_715f4_1.get_m31(11))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(11))))
                     + ((unpacked_limb_9_col17) * (unpacked_limb_10_col18)))
                     + ((unpacked_limb_10_col18) * (unpacked_limb_9_col17)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_tmp_715f4_1.get_m31(8))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(8))))
                     + ((unpacked_limb_12_col19) * (unpacked_limb_7_col16))),
                 ((((((((unpacked_limb_7_col16) * (unpacked_limb_13_col20))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_limb_12_col19)))
-                    + ((unpacked_limb_9_col17) * (unpacked_tmp_715f4_1.get_m31(11))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (unpacked_limb_12_col19)))
+                    + ((unpacked_limb_9_col17) * (unpacked_tmp_715f4_1.get_m31_limb(11))))
                     + ((unpacked_limb_10_col18) * (unpacked_limb_10_col18)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_limb_9_col17)))
-                    + ((unpacked_limb_12_col19) * (unpacked_tmp_715f4_1.get_m31(8))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (unpacked_limb_9_col17)))
+                    + ((unpacked_limb_12_col19) * (unpacked_tmp_715f4_1.get_m31_limb(8))))
                     + ((unpacked_limb_13_col20) * (unpacked_limb_7_col16))),
-                (((((((unpacked_tmp_715f4_1.get_m31(8)) * (unpacked_limb_13_col20))
+                (((((((unpacked_tmp_715f4_1.get_m31_limb(8)) * (unpacked_limb_13_col20))
                     + ((unpacked_limb_9_col17) * (unpacked_limb_12_col19)))
-                    + ((unpacked_limb_10_col18) * (unpacked_tmp_715f4_1.get_m31(11))))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_limb_10_col18)))
+                    + ((unpacked_limb_10_col18) * (unpacked_tmp_715f4_1.get_m31_limb(11))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (unpacked_limb_10_col18)))
                     + ((unpacked_limb_12_col19) * (unpacked_limb_9_col17)))
-                    + ((unpacked_limb_13_col20) * (unpacked_tmp_715f4_1.get_m31(8)))),
+                    + ((unpacked_limb_13_col20) * (unpacked_tmp_715f4_1.get_m31_limb(8)))),
                 ((((((unpacked_limb_9_col17) * (unpacked_limb_13_col20))
                     + ((unpacked_limb_10_col18) * (unpacked_limb_12_col19)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_tmp_715f4_1.get_m31(11))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(11))))
                     + ((unpacked_limb_12_col19) * (unpacked_limb_10_col18)))
                     + ((unpacked_limb_13_col20) * (unpacked_limb_9_col17))),
                 (((((unpacked_limb_10_col18) * (unpacked_limb_13_col20))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_limb_12_col19)))
-                    + ((unpacked_limb_12_col19) * (unpacked_tmp_715f4_1.get_m31(11))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (unpacked_limb_12_col19)))
+                    + ((unpacked_limb_12_col19) * (unpacked_tmp_715f4_1.get_m31_limb(11))))
                     + ((unpacked_limb_13_col20) * (unpacked_limb_10_col18))),
-                ((((unpacked_tmp_715f4_1.get_m31(11)) * (unpacked_limb_13_col20))
+                ((((unpacked_tmp_715f4_1.get_m31_limb(11)) * (unpacked_limb_13_col20))
                     + ((unpacked_limb_12_col19) * (unpacked_limb_12_col19)))
-                    + ((unpacked_limb_13_col20) * (unpacked_tmp_715f4_1.get_m31(11)))),
+                    + ((unpacked_limb_13_col20) * (unpacked_tmp_715f4_1.get_m31_limb(11)))),
                 (((unpacked_limb_12_col19) * (unpacked_limb_13_col20))
                     + ((unpacked_limb_13_col20) * (unpacked_limb_12_col19))),
                 ((unpacked_limb_13_col20) * (unpacked_limb_13_col20)),
             ];
             let x_sum_tmp_715f4_6 = [
                 ((unpacked_limb_0_col11) + (unpacked_limb_7_col16)),
-                ((unpacked_limb_1_col12) + (unpacked_tmp_715f4_1.get_m31(8))),
-                ((unpacked_tmp_715f4_1.get_m31(2)) + (unpacked_limb_9_col17)),
+                ((unpacked_limb_1_col12) + (unpacked_tmp_715f4_1.get_m31_limb(8))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(2)) + (unpacked_limb_9_col17)),
                 ((unpacked_limb_3_col13) + (unpacked_limb_10_col18)),
-                ((unpacked_limb_4_col14) + (unpacked_tmp_715f4_1.get_m31(11))),
-                ((unpacked_tmp_715f4_1.get_m31(5)) + (unpacked_limb_12_col19)),
+                ((unpacked_limb_4_col14) + (unpacked_tmp_715f4_1.get_m31_limb(11))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(5)) + (unpacked_limb_12_col19)),
                 ((unpacked_limb_6_col15) + (unpacked_limb_13_col20)),
             ];
             let y_sum_tmp_715f4_7 = [
                 ((unpacked_limb_0_col11) + (unpacked_limb_7_col16)),
-                ((unpacked_limb_1_col12) + (unpacked_tmp_715f4_1.get_m31(8))),
-                ((unpacked_tmp_715f4_1.get_m31(2)) + (unpacked_limb_9_col17)),
+                ((unpacked_limb_1_col12) + (unpacked_tmp_715f4_1.get_m31_limb(8))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(2)) + (unpacked_limb_9_col17)),
                 ((unpacked_limb_3_col13) + (unpacked_limb_10_col18)),
-                ((unpacked_limb_4_col14) + (unpacked_tmp_715f4_1.get_m31(11))),
-                ((unpacked_tmp_715f4_1.get_m31(5)) + (unpacked_limb_12_col19)),
+                ((unpacked_limb_4_col14) + (unpacked_tmp_715f4_1.get_m31_limb(11))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(5)) + (unpacked_limb_12_col19)),
                 ((unpacked_limb_6_col15) + (unpacked_limb_13_col20)),
             ];
             let single_karatsuba_n_7_output_tmp_715f4_8 = [
@@ -722,126 +730,135 @@ fn write_trace_simd(
             // Single Karatsuba N 7.
 
             let z0_tmp_715f4_9 = [
-                ((unpacked_tmp_715f4_1.get_m31(14)) * (unpacked_tmp_715f4_1.get_m31(14))),
-                (((unpacked_tmp_715f4_1.get_m31(14)) * (unpacked_limb_15_col21))
-                    + ((unpacked_limb_15_col21) * (unpacked_tmp_715f4_1.get_m31(14)))),
-                ((((unpacked_tmp_715f4_1.get_m31(14)) * (unpacked_limb_16_col22))
+                ((unpacked_tmp_715f4_1.get_m31_limb(14)) * (unpacked_tmp_715f4_1.get_m31_limb(14))),
+                (((unpacked_tmp_715f4_1.get_m31_limb(14)) * (unpacked_limb_15_col21))
+                    + ((unpacked_limb_15_col21) * (unpacked_tmp_715f4_1.get_m31_limb(14)))),
+                ((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (unpacked_limb_16_col22))
                     + ((unpacked_limb_15_col21) * (unpacked_limb_15_col21)))
-                    + ((unpacked_limb_16_col22) * (unpacked_tmp_715f4_1.get_m31(14)))),
-                (((((unpacked_tmp_715f4_1.get_m31(14)) * (unpacked_tmp_715f4_1.get_m31(17)))
+                    + ((unpacked_limb_16_col22) * (unpacked_tmp_715f4_1.get_m31_limb(14)))),
+                (((((unpacked_tmp_715f4_1.get_m31_limb(14))
+                    * (unpacked_tmp_715f4_1.get_m31_limb(17)))
                     + ((unpacked_limb_15_col21) * (unpacked_limb_16_col22)))
                     + ((unpacked_limb_16_col22) * (unpacked_limb_15_col21)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_tmp_715f4_1.get_m31(14)))),
-                ((((((unpacked_tmp_715f4_1.get_m31(14)) * (unpacked_limb_18_col23))
-                    + ((unpacked_limb_15_col21) * (unpacked_tmp_715f4_1.get_m31(17))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(14)))),
+                ((((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (unpacked_limb_18_col23))
+                    + ((unpacked_limb_15_col21) * (unpacked_tmp_715f4_1.get_m31_limb(17))))
                     + ((unpacked_limb_16_col22) * (unpacked_limb_16_col22)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_limb_15_col21)))
-                    + ((unpacked_limb_18_col23) * (unpacked_tmp_715f4_1.get_m31(14)))),
-                (((((((unpacked_tmp_715f4_1.get_m31(14)) * (unpacked_limb_19_col24))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (unpacked_limb_15_col21)))
+                    + ((unpacked_limb_18_col23) * (unpacked_tmp_715f4_1.get_m31_limb(14)))),
+                (((((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (unpacked_limb_19_col24))
                     + ((unpacked_limb_15_col21) * (unpacked_limb_18_col23)))
-                    + ((unpacked_limb_16_col22) * (unpacked_tmp_715f4_1.get_m31(17))))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_limb_16_col22)))
+                    + ((unpacked_limb_16_col22) * (unpacked_tmp_715f4_1.get_m31_limb(17))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (unpacked_limb_16_col22)))
                     + ((unpacked_limb_18_col23) * (unpacked_limb_15_col21)))
-                    + ((unpacked_limb_19_col24) * (unpacked_tmp_715f4_1.get_m31(14)))),
-                ((((((((unpacked_tmp_715f4_1.get_m31(14))
-                    * (unpacked_tmp_715f4_1.get_m31(20)))
+                    + ((unpacked_limb_19_col24) * (unpacked_tmp_715f4_1.get_m31_limb(14)))),
+                ((((((((unpacked_tmp_715f4_1.get_m31_limb(14))
+                    * (unpacked_tmp_715f4_1.get_m31_limb(20)))
                     + ((unpacked_limb_15_col21) * (unpacked_limb_19_col24)))
                     + ((unpacked_limb_16_col22) * (unpacked_limb_18_col23)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_tmp_715f4_1.get_m31(17))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(17))))
                     + ((unpacked_limb_18_col23) * (unpacked_limb_16_col22)))
                     + ((unpacked_limb_19_col24) * (unpacked_limb_15_col21)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_tmp_715f4_1.get_m31(14)))),
-                (((((((unpacked_limb_15_col21) * (unpacked_tmp_715f4_1.get_m31(20)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(14)))),
+                (((((((unpacked_limb_15_col21) * (unpacked_tmp_715f4_1.get_m31_limb(20)))
                     + ((unpacked_limb_16_col22) * (unpacked_limb_19_col24)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_limb_18_col23)))
-                    + ((unpacked_limb_18_col23) * (unpacked_tmp_715f4_1.get_m31(17))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (unpacked_limb_18_col23)))
+                    + ((unpacked_limb_18_col23) * (unpacked_tmp_715f4_1.get_m31_limb(17))))
                     + ((unpacked_limb_19_col24) * (unpacked_limb_16_col22)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_limb_15_col21))),
-                ((((((unpacked_limb_16_col22) * (unpacked_tmp_715f4_1.get_m31(20)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_limb_19_col24)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (unpacked_limb_15_col21))),
+                ((((((unpacked_limb_16_col22) * (unpacked_tmp_715f4_1.get_m31_limb(20)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (unpacked_limb_19_col24)))
                     + ((unpacked_limb_18_col23) * (unpacked_limb_18_col23)))
-                    + ((unpacked_limb_19_col24) * (unpacked_tmp_715f4_1.get_m31(17))))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_limb_16_col22))),
-                (((((unpacked_tmp_715f4_1.get_m31(17)) * (unpacked_tmp_715f4_1.get_m31(20)))
+                    + ((unpacked_limb_19_col24) * (unpacked_tmp_715f4_1.get_m31_limb(17))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (unpacked_limb_16_col22))),
+                (((((unpacked_tmp_715f4_1.get_m31_limb(17))
+                    * (unpacked_tmp_715f4_1.get_m31_limb(20)))
                     + ((unpacked_limb_18_col23) * (unpacked_limb_19_col24)))
                     + ((unpacked_limb_19_col24) * (unpacked_limb_18_col23)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_tmp_715f4_1.get_m31(17)))),
-                ((((unpacked_limb_18_col23) * (unpacked_tmp_715f4_1.get_m31(20)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(17)))),
+                ((((unpacked_limb_18_col23) * (unpacked_tmp_715f4_1.get_m31_limb(20)))
                     + ((unpacked_limb_19_col24) * (unpacked_limb_19_col24)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_limb_18_col23))),
-                (((unpacked_limb_19_col24) * (unpacked_tmp_715f4_1.get_m31(20)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_limb_19_col24))),
-                ((unpacked_tmp_715f4_1.get_m31(20)) * (unpacked_tmp_715f4_1.get_m31(20))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (unpacked_limb_18_col23))),
+                (((unpacked_limb_19_col24) * (unpacked_tmp_715f4_1.get_m31_limb(20)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (unpacked_limb_19_col24))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (unpacked_tmp_715f4_1.get_m31_limb(20))),
             ];
             let z2_tmp_715f4_10 = [
                 ((unpacked_limb_21_col25) * (unpacked_limb_21_col25)),
                 (((unpacked_limb_21_col25) * (unpacked_limb_22_col26))
                     + ((unpacked_limb_22_col26) * (unpacked_limb_21_col25))),
-                ((((unpacked_limb_21_col25) * (unpacked_tmp_715f4_1.get_m31(23)))
+                ((((unpacked_limb_21_col25) * (unpacked_tmp_715f4_1.get_m31_limb(23)))
                     + ((unpacked_limb_22_col26) * (unpacked_limb_22_col26)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (unpacked_limb_21_col25))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (unpacked_limb_21_col25))),
                 (((((unpacked_limb_21_col25) * (unpacked_limb_24_col27))
-                    + ((unpacked_limb_22_col26) * (unpacked_tmp_715f4_1.get_m31(23))))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (unpacked_limb_22_col26)))
+                    + ((unpacked_limb_22_col26) * (unpacked_tmp_715f4_1.get_m31_limb(23))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (unpacked_limb_22_col26)))
                     + ((unpacked_limb_24_col27) * (unpacked_limb_21_col25))),
                 ((((((unpacked_limb_21_col25) * (unpacked_limb_25_col28))
                     + ((unpacked_limb_22_col26) * (unpacked_limb_24_col27)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (unpacked_tmp_715f4_1.get_m31(23))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(23))))
                     + ((unpacked_limb_24_col27) * (unpacked_limb_22_col26)))
                     + ((unpacked_limb_25_col28) * (unpacked_limb_21_col25))),
-                (((((((unpacked_limb_21_col25) * (unpacked_tmp_715f4_1.get_m31(26)))
+                (((((((unpacked_limb_21_col25) * (unpacked_tmp_715f4_1.get_m31_limb(26)))
                     + ((unpacked_limb_22_col26) * (unpacked_limb_25_col28)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (unpacked_limb_24_col27)))
-                    + ((unpacked_limb_24_col27) * (unpacked_tmp_715f4_1.get_m31(23))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (unpacked_limb_24_col27)))
+                    + ((unpacked_limb_24_col27) * (unpacked_tmp_715f4_1.get_m31_limb(23))))
                     + ((unpacked_limb_25_col28) * (unpacked_limb_22_col26)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (unpacked_limb_21_col25))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (unpacked_limb_21_col25))),
                 ((((((((unpacked_limb_21_col25) * (input_limb_9_col10))
-                    + ((unpacked_limb_22_col26) * (unpacked_tmp_715f4_1.get_m31(26))))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (unpacked_limb_25_col28)))
+                    + ((unpacked_limb_22_col26) * (unpacked_tmp_715f4_1.get_m31_limb(26))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (unpacked_limb_25_col28)))
                     + ((unpacked_limb_24_col27) * (unpacked_limb_24_col27)))
-                    + ((unpacked_limb_25_col28) * (unpacked_tmp_715f4_1.get_m31(23))))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (unpacked_limb_22_col26)))
+                    + ((unpacked_limb_25_col28) * (unpacked_tmp_715f4_1.get_m31_limb(23))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (unpacked_limb_22_col26)))
                     + ((input_limb_9_col10) * (unpacked_limb_21_col25))),
                 (((((((unpacked_limb_22_col26) * (input_limb_9_col10))
-                    + ((unpacked_tmp_715f4_1.get_m31(23))
-                        * (unpacked_tmp_715f4_1.get_m31(26))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(26))))
                     + ((unpacked_limb_24_col27) * (unpacked_limb_25_col28)))
                     + ((unpacked_limb_25_col28) * (unpacked_limb_24_col27)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (unpacked_tmp_715f4_1.get_m31(23))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(23))))
                     + ((input_limb_9_col10) * (unpacked_limb_22_col26))),
-                ((((((unpacked_tmp_715f4_1.get_m31(23)) * (input_limb_9_col10))
-                    + ((unpacked_limb_24_col27) * (unpacked_tmp_715f4_1.get_m31(26))))
+                ((((((unpacked_tmp_715f4_1.get_m31_limb(23)) * (input_limb_9_col10))
+                    + ((unpacked_limb_24_col27) * (unpacked_tmp_715f4_1.get_m31_limb(26))))
                     + ((unpacked_limb_25_col28) * (unpacked_limb_25_col28)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (unpacked_limb_24_col27)))
-                    + ((input_limb_9_col10) * (unpacked_tmp_715f4_1.get_m31(23)))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (unpacked_limb_24_col27)))
+                    + ((input_limb_9_col10) * (unpacked_tmp_715f4_1.get_m31_limb(23)))),
                 (((((unpacked_limb_24_col27) * (input_limb_9_col10))
-                    + ((unpacked_limb_25_col28) * (unpacked_tmp_715f4_1.get_m31(26))))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (unpacked_limb_25_col28)))
+                    + ((unpacked_limb_25_col28) * (unpacked_tmp_715f4_1.get_m31_limb(26))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (unpacked_limb_25_col28)))
                     + ((input_limb_9_col10) * (unpacked_limb_24_col27))),
                 ((((unpacked_limb_25_col28) * (input_limb_9_col10))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (unpacked_tmp_715f4_1.get_m31(26))))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26))
+                        * (unpacked_tmp_715f4_1.get_m31_limb(26))))
                     + ((input_limb_9_col10) * (unpacked_limb_25_col28))),
-                (((unpacked_tmp_715f4_1.get_m31(26)) * (input_limb_9_col10))
-                    + ((input_limb_9_col10) * (unpacked_tmp_715f4_1.get_m31(26)))),
+                (((unpacked_tmp_715f4_1.get_m31_limb(26)) * (input_limb_9_col10))
+                    + ((input_limb_9_col10) * (unpacked_tmp_715f4_1.get_m31_limb(26)))),
                 ((input_limb_9_col10) * (input_limb_9_col10)),
             ];
             let x_sum_tmp_715f4_11 = [
-                ((unpacked_tmp_715f4_1.get_m31(14)) + (unpacked_limb_21_col25)),
+                ((unpacked_tmp_715f4_1.get_m31_limb(14)) + (unpacked_limb_21_col25)),
                 ((unpacked_limb_15_col21) + (unpacked_limb_22_col26)),
-                ((unpacked_limb_16_col22) + (unpacked_tmp_715f4_1.get_m31(23))),
-                ((unpacked_tmp_715f4_1.get_m31(17)) + (unpacked_limb_24_col27)),
+                ((unpacked_limb_16_col22) + (unpacked_tmp_715f4_1.get_m31_limb(23))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(17)) + (unpacked_limb_24_col27)),
                 ((unpacked_limb_18_col23) + (unpacked_limb_25_col28)),
-                ((unpacked_limb_19_col24) + (unpacked_tmp_715f4_1.get_m31(26))),
-                ((unpacked_tmp_715f4_1.get_m31(20)) + (input_limb_9_col10)),
+                ((unpacked_limb_19_col24) + (unpacked_tmp_715f4_1.get_m31_limb(26))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(20)) + (input_limb_9_col10)),
             ];
             let y_sum_tmp_715f4_12 = [
-                ((unpacked_tmp_715f4_1.get_m31(14)) + (unpacked_limb_21_col25)),
+                ((unpacked_tmp_715f4_1.get_m31_limb(14)) + (unpacked_limb_21_col25)),
                 ((unpacked_limb_15_col21) + (unpacked_limb_22_col26)),
-                ((unpacked_limb_16_col22) + (unpacked_tmp_715f4_1.get_m31(23))),
-                ((unpacked_tmp_715f4_1.get_m31(17)) + (unpacked_limb_24_col27)),
+                ((unpacked_limb_16_col22) + (unpacked_tmp_715f4_1.get_m31_limb(23))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(17)) + (unpacked_limb_24_col27)),
                 ((unpacked_limb_18_col23) + (unpacked_limb_25_col28)),
-                ((unpacked_limb_19_col24) + (unpacked_tmp_715f4_1.get_m31(26))),
-                ((unpacked_tmp_715f4_1.get_m31(20)) + (input_limb_9_col10)),
+                ((unpacked_limb_19_col24) + (unpacked_tmp_715f4_1.get_m31_limb(26))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(20)) + (input_limb_9_col10)),
             ];
             let single_karatsuba_n_7_output_tmp_715f4_13 = [
                 z0_tmp_715f4_9[0],
@@ -948,35 +965,35 @@ fn write_trace_simd(
             ];
 
             let x_sum_tmp_715f4_14 = [
-                ((unpacked_limb_0_col11) + (unpacked_tmp_715f4_1.get_m31(14))),
+                ((unpacked_limb_0_col11) + (unpacked_tmp_715f4_1.get_m31_limb(14))),
                 ((unpacked_limb_1_col12) + (unpacked_limb_15_col21)),
-                ((unpacked_tmp_715f4_1.get_m31(2)) + (unpacked_limb_16_col22)),
-                ((unpacked_limb_3_col13) + (unpacked_tmp_715f4_1.get_m31(17))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(2)) + (unpacked_limb_16_col22)),
+                ((unpacked_limb_3_col13) + (unpacked_tmp_715f4_1.get_m31_limb(17))),
                 ((unpacked_limb_4_col14) + (unpacked_limb_18_col23)),
-                ((unpacked_tmp_715f4_1.get_m31(5)) + (unpacked_limb_19_col24)),
-                ((unpacked_limb_6_col15) + (unpacked_tmp_715f4_1.get_m31(20))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(5)) + (unpacked_limb_19_col24)),
+                ((unpacked_limb_6_col15) + (unpacked_tmp_715f4_1.get_m31_limb(20))),
                 ((unpacked_limb_7_col16) + (unpacked_limb_21_col25)),
-                ((unpacked_tmp_715f4_1.get_m31(8)) + (unpacked_limb_22_col26)),
-                ((unpacked_limb_9_col17) + (unpacked_tmp_715f4_1.get_m31(23))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(8)) + (unpacked_limb_22_col26)),
+                ((unpacked_limb_9_col17) + (unpacked_tmp_715f4_1.get_m31_limb(23))),
                 ((unpacked_limb_10_col18) + (unpacked_limb_24_col27)),
-                ((unpacked_tmp_715f4_1.get_m31(11)) + (unpacked_limb_25_col28)),
-                ((unpacked_limb_12_col19) + (unpacked_tmp_715f4_1.get_m31(26))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(11)) + (unpacked_limb_25_col28)),
+                ((unpacked_limb_12_col19) + (unpacked_tmp_715f4_1.get_m31_limb(26))),
                 ((unpacked_limb_13_col20) + (input_limb_9_col10)),
             ];
             let y_sum_tmp_715f4_15 = [
-                ((unpacked_limb_0_col11) + (unpacked_tmp_715f4_1.get_m31(14))),
+                ((unpacked_limb_0_col11) + (unpacked_tmp_715f4_1.get_m31_limb(14))),
                 ((unpacked_limb_1_col12) + (unpacked_limb_15_col21)),
-                ((unpacked_tmp_715f4_1.get_m31(2)) + (unpacked_limb_16_col22)),
-                ((unpacked_limb_3_col13) + (unpacked_tmp_715f4_1.get_m31(17))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(2)) + (unpacked_limb_16_col22)),
+                ((unpacked_limb_3_col13) + (unpacked_tmp_715f4_1.get_m31_limb(17))),
                 ((unpacked_limb_4_col14) + (unpacked_limb_18_col23)),
-                ((unpacked_tmp_715f4_1.get_m31(5)) + (unpacked_limb_19_col24)),
-                ((unpacked_limb_6_col15) + (unpacked_tmp_715f4_1.get_m31(20))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(5)) + (unpacked_limb_19_col24)),
+                ((unpacked_limb_6_col15) + (unpacked_tmp_715f4_1.get_m31_limb(20))),
                 ((unpacked_limb_7_col16) + (unpacked_limb_21_col25)),
-                ((unpacked_tmp_715f4_1.get_m31(8)) + (unpacked_limb_22_col26)),
-                ((unpacked_limb_9_col17) + (unpacked_tmp_715f4_1.get_m31(23))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(8)) + (unpacked_limb_22_col26)),
+                ((unpacked_limb_9_col17) + (unpacked_tmp_715f4_1.get_m31_limb(23))),
                 ((unpacked_limb_10_col18) + (unpacked_limb_24_col27)),
-                ((unpacked_tmp_715f4_1.get_m31(11)) + (unpacked_limb_25_col28)),
-                ((unpacked_limb_12_col19) + (unpacked_tmp_715f4_1.get_m31(26))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(11)) + (unpacked_limb_25_col28)),
+                ((unpacked_limb_12_col19) + (unpacked_tmp_715f4_1.get_m31_limb(26))),
                 ((unpacked_limb_13_col20) + (input_limb_9_col10)),
             ];
 
@@ -1615,61 +1632,61 @@ fn write_trace_simd(
             let mul_res_tmp_715f4_26 =
                 ((felt_252_unpack_from_27_range_check_output_output_tmp_715f4_2)
                     * (mul_252_output_tmp_715f4_25));
-            let mul_res_limb_0_col85 = mul_res_tmp_715f4_26.get_m31(0);
+            let mul_res_limb_0_col85 = mul_res_tmp_715f4_26.get_m31_limb(0);
             *row[85] = mul_res_limb_0_col85;
-            let mul_res_limb_1_col86 = mul_res_tmp_715f4_26.get_m31(1);
+            let mul_res_limb_1_col86 = mul_res_tmp_715f4_26.get_m31_limb(1);
             *row[86] = mul_res_limb_1_col86;
-            let mul_res_limb_2_col87 = mul_res_tmp_715f4_26.get_m31(2);
+            let mul_res_limb_2_col87 = mul_res_tmp_715f4_26.get_m31_limb(2);
             *row[87] = mul_res_limb_2_col87;
-            let mul_res_limb_3_col88 = mul_res_tmp_715f4_26.get_m31(3);
+            let mul_res_limb_3_col88 = mul_res_tmp_715f4_26.get_m31_limb(3);
             *row[88] = mul_res_limb_3_col88;
-            let mul_res_limb_4_col89 = mul_res_tmp_715f4_26.get_m31(4);
+            let mul_res_limb_4_col89 = mul_res_tmp_715f4_26.get_m31_limb(4);
             *row[89] = mul_res_limb_4_col89;
-            let mul_res_limb_5_col90 = mul_res_tmp_715f4_26.get_m31(5);
+            let mul_res_limb_5_col90 = mul_res_tmp_715f4_26.get_m31_limb(5);
             *row[90] = mul_res_limb_5_col90;
-            let mul_res_limb_6_col91 = mul_res_tmp_715f4_26.get_m31(6);
+            let mul_res_limb_6_col91 = mul_res_tmp_715f4_26.get_m31_limb(6);
             *row[91] = mul_res_limb_6_col91;
-            let mul_res_limb_7_col92 = mul_res_tmp_715f4_26.get_m31(7);
+            let mul_res_limb_7_col92 = mul_res_tmp_715f4_26.get_m31_limb(7);
             *row[92] = mul_res_limb_7_col92;
-            let mul_res_limb_8_col93 = mul_res_tmp_715f4_26.get_m31(8);
+            let mul_res_limb_8_col93 = mul_res_tmp_715f4_26.get_m31_limb(8);
             *row[93] = mul_res_limb_8_col93;
-            let mul_res_limb_9_col94 = mul_res_tmp_715f4_26.get_m31(9);
+            let mul_res_limb_9_col94 = mul_res_tmp_715f4_26.get_m31_limb(9);
             *row[94] = mul_res_limb_9_col94;
-            let mul_res_limb_10_col95 = mul_res_tmp_715f4_26.get_m31(10);
+            let mul_res_limb_10_col95 = mul_res_tmp_715f4_26.get_m31_limb(10);
             *row[95] = mul_res_limb_10_col95;
-            let mul_res_limb_11_col96 = mul_res_tmp_715f4_26.get_m31(11);
+            let mul_res_limb_11_col96 = mul_res_tmp_715f4_26.get_m31_limb(11);
             *row[96] = mul_res_limb_11_col96;
-            let mul_res_limb_12_col97 = mul_res_tmp_715f4_26.get_m31(12);
+            let mul_res_limb_12_col97 = mul_res_tmp_715f4_26.get_m31_limb(12);
             *row[97] = mul_res_limb_12_col97;
-            let mul_res_limb_13_col98 = mul_res_tmp_715f4_26.get_m31(13);
+            let mul_res_limb_13_col98 = mul_res_tmp_715f4_26.get_m31_limb(13);
             *row[98] = mul_res_limb_13_col98;
-            let mul_res_limb_14_col99 = mul_res_tmp_715f4_26.get_m31(14);
+            let mul_res_limb_14_col99 = mul_res_tmp_715f4_26.get_m31_limb(14);
             *row[99] = mul_res_limb_14_col99;
-            let mul_res_limb_15_col100 = mul_res_tmp_715f4_26.get_m31(15);
+            let mul_res_limb_15_col100 = mul_res_tmp_715f4_26.get_m31_limb(15);
             *row[100] = mul_res_limb_15_col100;
-            let mul_res_limb_16_col101 = mul_res_tmp_715f4_26.get_m31(16);
+            let mul_res_limb_16_col101 = mul_res_tmp_715f4_26.get_m31_limb(16);
             *row[101] = mul_res_limb_16_col101;
-            let mul_res_limb_17_col102 = mul_res_tmp_715f4_26.get_m31(17);
+            let mul_res_limb_17_col102 = mul_res_tmp_715f4_26.get_m31_limb(17);
             *row[102] = mul_res_limb_17_col102;
-            let mul_res_limb_18_col103 = mul_res_tmp_715f4_26.get_m31(18);
+            let mul_res_limb_18_col103 = mul_res_tmp_715f4_26.get_m31_limb(18);
             *row[103] = mul_res_limb_18_col103;
-            let mul_res_limb_19_col104 = mul_res_tmp_715f4_26.get_m31(19);
+            let mul_res_limb_19_col104 = mul_res_tmp_715f4_26.get_m31_limb(19);
             *row[104] = mul_res_limb_19_col104;
-            let mul_res_limb_20_col105 = mul_res_tmp_715f4_26.get_m31(20);
+            let mul_res_limb_20_col105 = mul_res_tmp_715f4_26.get_m31_limb(20);
             *row[105] = mul_res_limb_20_col105;
-            let mul_res_limb_21_col106 = mul_res_tmp_715f4_26.get_m31(21);
+            let mul_res_limb_21_col106 = mul_res_tmp_715f4_26.get_m31_limb(21);
             *row[106] = mul_res_limb_21_col106;
-            let mul_res_limb_22_col107 = mul_res_tmp_715f4_26.get_m31(22);
+            let mul_res_limb_22_col107 = mul_res_tmp_715f4_26.get_m31_limb(22);
             *row[107] = mul_res_limb_22_col107;
-            let mul_res_limb_23_col108 = mul_res_tmp_715f4_26.get_m31(23);
+            let mul_res_limb_23_col108 = mul_res_tmp_715f4_26.get_m31_limb(23);
             *row[108] = mul_res_limb_23_col108;
-            let mul_res_limb_24_col109 = mul_res_tmp_715f4_26.get_m31(24);
+            let mul_res_limb_24_col109 = mul_res_tmp_715f4_26.get_m31_limb(24);
             *row[109] = mul_res_limb_24_col109;
-            let mul_res_limb_25_col110 = mul_res_tmp_715f4_26.get_m31(25);
+            let mul_res_limb_25_col110 = mul_res_tmp_715f4_26.get_m31_limb(25);
             *row[110] = mul_res_limb_25_col110;
-            let mul_res_limb_26_col111 = mul_res_tmp_715f4_26.get_m31(26);
+            let mul_res_limb_26_col111 = mul_res_tmp_715f4_26.get_m31_limb(26);
             *row[111] = mul_res_limb_26_col111;
-            let mul_res_limb_27_col112 = mul_res_tmp_715f4_26.get_m31(27);
+            let mul_res_limb_27_col112 = mul_res_tmp_715f4_26.get_m31_limb(27);
             *row[112] = mul_res_limb_27_col112;
 
             // Range Check Mem Value N 28.
@@ -1742,96 +1759,96 @@ fn write_trace_simd(
                     + ((unpacked_limb_1_col12) * (mul_res_limb_0_col29))),
                 ((((unpacked_limb_0_col11) * (mul_res_limb_2_col31))
                     + ((unpacked_limb_1_col12) * (mul_res_limb_1_col30)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_0_col29))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_0_col29))),
                 (((((unpacked_limb_0_col11) * (mul_res_limb_3_col32))
                     + ((unpacked_limb_1_col12) * (mul_res_limb_2_col31)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_1_col30)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_1_col30)))
                     + ((unpacked_limb_3_col13) * (mul_res_limb_0_col29))),
                 ((((((unpacked_limb_0_col11) * (mul_res_limb_4_col33))
                     + ((unpacked_limb_1_col12) * (mul_res_limb_3_col32)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_2_col31)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_2_col31)))
                     + ((unpacked_limb_3_col13) * (mul_res_limb_1_col30)))
                     + ((unpacked_limb_4_col14) * (mul_res_limb_0_col29))),
                 (((((((unpacked_limb_0_col11) * (mul_res_limb_5_col34))
                     + ((unpacked_limb_1_col12) * (mul_res_limb_4_col33)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_3_col32)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_3_col32)))
                     + ((unpacked_limb_3_col13) * (mul_res_limb_2_col31)))
                     + ((unpacked_limb_4_col14) * (mul_res_limb_1_col30)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_0_col29))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_0_col29))),
                 ((((((((unpacked_limb_0_col11) * (mul_res_limb_6_col35))
                     + ((unpacked_limb_1_col12) * (mul_res_limb_5_col34)))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_4_col33)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_4_col33)))
                     + ((unpacked_limb_3_col13) * (mul_res_limb_3_col32)))
                     + ((unpacked_limb_4_col14) * (mul_res_limb_2_col31)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_1_col30)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_1_col30)))
                     + ((unpacked_limb_6_col15) * (mul_res_limb_0_col29))),
                 (((((((unpacked_limb_1_col12) * (mul_res_limb_6_col35))
-                    + ((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_5_col34)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_5_col34)))
                     + ((unpacked_limb_3_col13) * (mul_res_limb_4_col33)))
                     + ((unpacked_limb_4_col14) * (mul_res_limb_3_col32)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_2_col31)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_2_col31)))
                     + ((unpacked_limb_6_col15) * (mul_res_limb_1_col30))),
-                ((((((unpacked_tmp_715f4_1.get_m31(2)) * (mul_res_limb_6_col35))
+                ((((((unpacked_tmp_715f4_1.get_m31_limb(2)) * (mul_res_limb_6_col35))
                     + ((unpacked_limb_3_col13) * (mul_res_limb_5_col34)))
                     + ((unpacked_limb_4_col14) * (mul_res_limb_4_col33)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_3_col32)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_3_col32)))
                     + ((unpacked_limb_6_col15) * (mul_res_limb_2_col31))),
                 (((((unpacked_limb_3_col13) * (mul_res_limb_6_col35))
                     + ((unpacked_limb_4_col14) * (mul_res_limb_5_col34)))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_4_col33)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_4_col33)))
                     + ((unpacked_limb_6_col15) * (mul_res_limb_3_col32))),
                 ((((unpacked_limb_4_col14) * (mul_res_limb_6_col35))
-                    + ((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_5_col34)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_5_col34)))
                     + ((unpacked_limb_6_col15) * (mul_res_limb_4_col33))),
-                (((unpacked_tmp_715f4_1.get_m31(5)) * (mul_res_limb_6_col35))
+                (((unpacked_tmp_715f4_1.get_m31_limb(5)) * (mul_res_limb_6_col35))
                     + ((unpacked_limb_6_col15) * (mul_res_limb_5_col34))),
                 ((unpacked_limb_6_col15) * (mul_res_limb_6_col35)),
             ];
             let z2_tmp_715f4_28 = [
                 ((unpacked_limb_7_col16) * (mul_res_limb_7_col36)),
                 (((unpacked_limb_7_col16) * (mul_res_limb_8_col37))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_7_col36))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_7_col36))),
                 ((((unpacked_limb_7_col16) * (mul_res_limb_9_col38))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_8_col37)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_8_col37)))
                     + ((unpacked_limb_9_col17) * (mul_res_limb_7_col36))),
                 (((((unpacked_limb_7_col16) * (mul_res_limb_10_col39))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_9_col38)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_9_col38)))
                     + ((unpacked_limb_9_col17) * (mul_res_limb_8_col37)))
                     + ((unpacked_limb_10_col18) * (mul_res_limb_7_col36))),
                 ((((((unpacked_limb_7_col16) * (mul_res_limb_11_col40))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_10_col39)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_10_col39)))
                     + ((unpacked_limb_9_col17) * (mul_res_limb_9_col38)))
                     + ((unpacked_limb_10_col18) * (mul_res_limb_8_col37)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_7_col36))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_7_col36))),
                 (((((((unpacked_limb_7_col16) * (mul_res_limb_12_col41))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_11_col40)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_11_col40)))
                     + ((unpacked_limb_9_col17) * (mul_res_limb_10_col39)))
                     + ((unpacked_limb_10_col18) * (mul_res_limb_9_col38)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_8_col37)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_8_col37)))
                     + ((unpacked_limb_12_col19) * (mul_res_limb_7_col36))),
                 ((((((((unpacked_limb_7_col16) * (mul_res_limb_13_col42))
-                    + ((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_12_col41)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_12_col41)))
                     + ((unpacked_limb_9_col17) * (mul_res_limb_11_col40)))
                     + ((unpacked_limb_10_col18) * (mul_res_limb_10_col39)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_9_col38)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_9_col38)))
                     + ((unpacked_limb_12_col19) * (mul_res_limb_8_col37)))
                     + ((unpacked_limb_13_col20) * (mul_res_limb_7_col36))),
-                (((((((unpacked_tmp_715f4_1.get_m31(8)) * (mul_res_limb_13_col42))
+                (((((((unpacked_tmp_715f4_1.get_m31_limb(8)) * (mul_res_limb_13_col42))
                     + ((unpacked_limb_9_col17) * (mul_res_limb_12_col41)))
                     + ((unpacked_limb_10_col18) * (mul_res_limb_11_col40)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_10_col39)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_10_col39)))
                     + ((unpacked_limb_12_col19) * (mul_res_limb_9_col38)))
                     + ((unpacked_limb_13_col20) * (mul_res_limb_8_col37))),
                 ((((((unpacked_limb_9_col17) * (mul_res_limb_13_col42))
                     + ((unpacked_limb_10_col18) * (mul_res_limb_12_col41)))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_11_col40)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_11_col40)))
                     + ((unpacked_limb_12_col19) * (mul_res_limb_10_col39)))
                     + ((unpacked_limb_13_col20) * (mul_res_limb_9_col38))),
                 (((((unpacked_limb_10_col18) * (mul_res_limb_13_col42))
-                    + ((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_12_col41)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_12_col41)))
                     + ((unpacked_limb_12_col19) * (mul_res_limb_11_col40)))
                     + ((unpacked_limb_13_col20) * (mul_res_limb_10_col39))),
-                ((((unpacked_tmp_715f4_1.get_m31(11)) * (mul_res_limb_13_col42))
+                ((((unpacked_tmp_715f4_1.get_m31_limb(11)) * (mul_res_limb_13_col42))
                     + ((unpacked_limb_12_col19) * (mul_res_limb_12_col41)))
                     + ((unpacked_limb_13_col20) * (mul_res_limb_11_col40))),
                 (((unpacked_limb_12_col19) * (mul_res_limb_13_col42))
@@ -1840,11 +1857,11 @@ fn write_trace_simd(
             ];
             let x_sum_tmp_715f4_29 = [
                 ((unpacked_limb_0_col11) + (unpacked_limb_7_col16)),
-                ((unpacked_limb_1_col12) + (unpacked_tmp_715f4_1.get_m31(8))),
-                ((unpacked_tmp_715f4_1.get_m31(2)) + (unpacked_limb_9_col17)),
+                ((unpacked_limb_1_col12) + (unpacked_tmp_715f4_1.get_m31_limb(8))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(2)) + (unpacked_limb_9_col17)),
                 ((unpacked_limb_3_col13) + (unpacked_limb_10_col18)),
-                ((unpacked_limb_4_col14) + (unpacked_tmp_715f4_1.get_m31(11))),
-                ((unpacked_tmp_715f4_1.get_m31(5)) + (unpacked_limb_12_col19)),
+                ((unpacked_limb_4_col14) + (unpacked_tmp_715f4_1.get_m31_limb(11))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(5)) + (unpacked_limb_12_col19)),
                 ((unpacked_limb_6_col15) + (unpacked_limb_13_col20)),
             ];
             let y_sum_tmp_715f4_30 = [
@@ -1963,55 +1980,55 @@ fn write_trace_simd(
             // Single Karatsuba N 7.
 
             let z0_tmp_715f4_32 = [
-                ((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_14_col43)),
-                (((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_15_col44))
+                ((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_14_col43)),
+                (((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_15_col44))
                     + ((unpacked_limb_15_col21) * (mul_res_limb_14_col43))),
-                ((((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_16_col45))
+                ((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_16_col45))
                     + ((unpacked_limb_15_col21) * (mul_res_limb_15_col44)))
                     + ((unpacked_limb_16_col22) * (mul_res_limb_14_col43))),
-                (((((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_17_col46))
+                (((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_17_col46))
                     + ((unpacked_limb_15_col21) * (mul_res_limb_16_col45)))
                     + ((unpacked_limb_16_col22) * (mul_res_limb_15_col44)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_14_col43))),
-                ((((((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_18_col47))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_14_col43))),
+                ((((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_18_col47))
                     + ((unpacked_limb_15_col21) * (mul_res_limb_17_col46)))
                     + ((unpacked_limb_16_col22) * (mul_res_limb_16_col45)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_15_col44)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_15_col44)))
                     + ((unpacked_limb_18_col23) * (mul_res_limb_14_col43))),
-                (((((((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_19_col48))
+                (((((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_19_col48))
                     + ((unpacked_limb_15_col21) * (mul_res_limb_18_col47)))
                     + ((unpacked_limb_16_col22) * (mul_res_limb_17_col46)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_16_col45)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_16_col45)))
                     + ((unpacked_limb_18_col23) * (mul_res_limb_15_col44)))
                     + ((unpacked_limb_19_col24) * (mul_res_limb_14_col43))),
-                ((((((((unpacked_tmp_715f4_1.get_m31(14)) * (mul_res_limb_20_col49))
+                ((((((((unpacked_tmp_715f4_1.get_m31_limb(14)) * (mul_res_limb_20_col49))
                     + ((unpacked_limb_15_col21) * (mul_res_limb_19_col48)))
                     + ((unpacked_limb_16_col22) * (mul_res_limb_18_col47)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_17_col46)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_17_col46)))
                     + ((unpacked_limb_18_col23) * (mul_res_limb_16_col45)))
                     + ((unpacked_limb_19_col24) * (mul_res_limb_15_col44)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_14_col43))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_14_col43))),
                 (((((((unpacked_limb_15_col21) * (mul_res_limb_20_col49))
                     + ((unpacked_limb_16_col22) * (mul_res_limb_19_col48)))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_18_col47)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_18_col47)))
                     + ((unpacked_limb_18_col23) * (mul_res_limb_17_col46)))
                     + ((unpacked_limb_19_col24) * (mul_res_limb_16_col45)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_15_col44))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_15_col44))),
                 ((((((unpacked_limb_16_col22) * (mul_res_limb_20_col49))
-                    + ((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_19_col48)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_19_col48)))
                     + ((unpacked_limb_18_col23) * (mul_res_limb_18_col47)))
                     + ((unpacked_limb_19_col24) * (mul_res_limb_17_col46)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_16_col45))),
-                (((((unpacked_tmp_715f4_1.get_m31(17)) * (mul_res_limb_20_col49))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_16_col45))),
+                (((((unpacked_tmp_715f4_1.get_m31_limb(17)) * (mul_res_limb_20_col49))
                     + ((unpacked_limb_18_col23) * (mul_res_limb_19_col48)))
                     + ((unpacked_limb_19_col24) * (mul_res_limb_18_col47)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_17_col46))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_17_col46))),
                 ((((unpacked_limb_18_col23) * (mul_res_limb_20_col49))
                     + ((unpacked_limb_19_col24) * (mul_res_limb_19_col48)))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_18_col47))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_18_col47))),
                 (((unpacked_limb_19_col24) * (mul_res_limb_20_col49))
-                    + ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_19_col48))),
-                ((unpacked_tmp_715f4_1.get_m31(20)) * (mul_res_limb_20_col49)),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_19_col48))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(20)) * (mul_res_limb_20_col49)),
             ];
             let z2_tmp_715f4_33 = [
                 ((unpacked_limb_21_col25) * (mul_res_limb_21_col50)),
@@ -2019,59 +2036,59 @@ fn write_trace_simd(
                     + ((unpacked_limb_22_col26) * (mul_res_limb_21_col50))),
                 ((((unpacked_limb_21_col25) * (mul_res_limb_23_col52))
                     + ((unpacked_limb_22_col26) * (mul_res_limb_22_col51)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_21_col50))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_21_col50))),
                 (((((unpacked_limb_21_col25) * (mul_res_limb_24_col53))
                     + ((unpacked_limb_22_col26) * (mul_res_limb_23_col52)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_22_col51)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_22_col51)))
                     + ((unpacked_limb_24_col27) * (mul_res_limb_21_col50))),
                 ((((((unpacked_limb_21_col25) * (mul_res_limb_25_col54))
                     + ((unpacked_limb_22_col26) * (mul_res_limb_24_col53)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_23_col52)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_23_col52)))
                     + ((unpacked_limb_24_col27) * (mul_res_limb_22_col51)))
                     + ((unpacked_limb_25_col28) * (mul_res_limb_21_col50))),
                 (((((((unpacked_limb_21_col25) * (mul_res_limb_26_col55))
                     + ((unpacked_limb_22_col26) * (mul_res_limb_25_col54)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_24_col53)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_24_col53)))
                     + ((unpacked_limb_24_col27) * (mul_res_limb_23_col52)))
                     + ((unpacked_limb_25_col28) * (mul_res_limb_22_col51)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_21_col50))),
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_21_col50))),
                 ((((((((unpacked_limb_21_col25) * (mul_res_limb_27_col56))
                     + ((unpacked_limb_22_col26) * (mul_res_limb_26_col55)))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_25_col54)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_25_col54)))
                     + ((unpacked_limb_24_col27) * (mul_res_limb_24_col53)))
                     + ((unpacked_limb_25_col28) * (mul_res_limb_23_col52)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_22_col51)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_22_col51)))
                     + ((input_limb_9_col10) * (mul_res_limb_21_col50))),
                 (((((((unpacked_limb_22_col26) * (mul_res_limb_27_col56))
-                    + ((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_26_col55)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_26_col55)))
                     + ((unpacked_limb_24_col27) * (mul_res_limb_25_col54)))
                     + ((unpacked_limb_25_col28) * (mul_res_limb_24_col53)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_23_col52)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_23_col52)))
                     + ((input_limb_9_col10) * (mul_res_limb_22_col51))),
-                ((((((unpacked_tmp_715f4_1.get_m31(23)) * (mul_res_limb_27_col56))
+                ((((((unpacked_tmp_715f4_1.get_m31_limb(23)) * (mul_res_limb_27_col56))
                     + ((unpacked_limb_24_col27) * (mul_res_limb_26_col55)))
                     + ((unpacked_limb_25_col28) * (mul_res_limb_25_col54)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_24_col53)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_24_col53)))
                     + ((input_limb_9_col10) * (mul_res_limb_23_col52))),
                 (((((unpacked_limb_24_col27) * (mul_res_limb_27_col56))
                     + ((unpacked_limb_25_col28) * (mul_res_limb_26_col55)))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_25_col54)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_25_col54)))
                     + ((input_limb_9_col10) * (mul_res_limb_24_col53))),
                 ((((unpacked_limb_25_col28) * (mul_res_limb_27_col56))
-                    + ((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_26_col55)))
+                    + ((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_26_col55)))
                     + ((input_limb_9_col10) * (mul_res_limb_25_col54))),
-                (((unpacked_tmp_715f4_1.get_m31(26)) * (mul_res_limb_27_col56))
+                (((unpacked_tmp_715f4_1.get_m31_limb(26)) * (mul_res_limb_27_col56))
                     + ((input_limb_9_col10) * (mul_res_limb_26_col55))),
                 ((input_limb_9_col10) * (mul_res_limb_27_col56)),
             ];
             let x_sum_tmp_715f4_34 = [
-                ((unpacked_tmp_715f4_1.get_m31(14)) + (unpacked_limb_21_col25)),
+                ((unpacked_tmp_715f4_1.get_m31_limb(14)) + (unpacked_limb_21_col25)),
                 ((unpacked_limb_15_col21) + (unpacked_limb_22_col26)),
-                ((unpacked_limb_16_col22) + (unpacked_tmp_715f4_1.get_m31(23))),
-                ((unpacked_tmp_715f4_1.get_m31(17)) + (unpacked_limb_24_col27)),
+                ((unpacked_limb_16_col22) + (unpacked_tmp_715f4_1.get_m31_limb(23))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(17)) + (unpacked_limb_24_col27)),
                 ((unpacked_limb_18_col23) + (unpacked_limb_25_col28)),
-                ((unpacked_limb_19_col24) + (unpacked_tmp_715f4_1.get_m31(26))),
-                ((unpacked_tmp_715f4_1.get_m31(20)) + (input_limb_9_col10)),
+                ((unpacked_limb_19_col24) + (unpacked_tmp_715f4_1.get_m31_limb(26))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(20)) + (input_limb_9_col10)),
             ];
             let y_sum_tmp_715f4_35 = [
                 ((mul_res_limb_14_col43) + (mul_res_limb_21_col50)),
@@ -2187,19 +2204,19 @@ fn write_trace_simd(
             ];
 
             let x_sum_tmp_715f4_37 = [
-                ((unpacked_limb_0_col11) + (unpacked_tmp_715f4_1.get_m31(14))),
+                ((unpacked_limb_0_col11) + (unpacked_tmp_715f4_1.get_m31_limb(14))),
                 ((unpacked_limb_1_col12) + (unpacked_limb_15_col21)),
-                ((unpacked_tmp_715f4_1.get_m31(2)) + (unpacked_limb_16_col22)),
-                ((unpacked_limb_3_col13) + (unpacked_tmp_715f4_1.get_m31(17))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(2)) + (unpacked_limb_16_col22)),
+                ((unpacked_limb_3_col13) + (unpacked_tmp_715f4_1.get_m31_limb(17))),
                 ((unpacked_limb_4_col14) + (unpacked_limb_18_col23)),
-                ((unpacked_tmp_715f4_1.get_m31(5)) + (unpacked_limb_19_col24)),
-                ((unpacked_limb_6_col15) + (unpacked_tmp_715f4_1.get_m31(20))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(5)) + (unpacked_limb_19_col24)),
+                ((unpacked_limb_6_col15) + (unpacked_tmp_715f4_1.get_m31_limb(20))),
                 ((unpacked_limb_7_col16) + (unpacked_limb_21_col25)),
-                ((unpacked_tmp_715f4_1.get_m31(8)) + (unpacked_limb_22_col26)),
-                ((unpacked_limb_9_col17) + (unpacked_tmp_715f4_1.get_m31(23))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(8)) + (unpacked_limb_22_col26)),
+                ((unpacked_limb_9_col17) + (unpacked_tmp_715f4_1.get_m31_limb(23))),
                 ((unpacked_limb_10_col18) + (unpacked_limb_24_col27)),
-                ((unpacked_tmp_715f4_1.get_m31(11)) + (unpacked_limb_25_col28)),
-                ((unpacked_limb_12_col19) + (unpacked_tmp_715f4_1.get_m31(26))),
+                ((unpacked_tmp_715f4_1.get_m31_limb(11)) + (unpacked_limb_25_col28)),
+                ((unpacked_limb_12_col19) + (unpacked_tmp_715f4_1.get_m31_limb(26))),
                 ((unpacked_limb_13_col20) + (input_limb_9_col10)),
             ];
             let y_sum_tmp_715f4_38 = [

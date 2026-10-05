@@ -130,53 +130,53 @@ fn write_trace_simd(
                 let memory_id_to_big_value_tmp_36a9d_1 =
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_36a9d_0);
                 let offset0_tmp_36a9d_2 =
-                    ((PackedUInt16::from_m31(memory_id_to_big_value_tmp_36a9d_1.get_m31(0)))
+                    ((PackedUInt16::from_m31(memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(0)))
                         + (((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_36a9d_1.get_m31(1),
+                            memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(1),
                         )) & (UInt16_127))
                             << (UInt16_9)));
                 let offset0_col4 = offset0_tmp_36a9d_2.as_m31();
                 *row[4] = offset0_col4;
-                let offset2_tmp_36a9d_3 =
-                    ((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_36a9d_1.get_m31(3)))
-                        >> (UInt16_5))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_36a9d_1.get_m31(4),
-                        )) << (UInt16_4)))
-                        + (((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_36a9d_1.get_m31(5),
-                        )) & (UInt16_7))
-                            << (UInt16_13)));
+                let offset2_tmp_36a9d_3 = ((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(3),
+                )) >> (UInt16_5))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(4),
+                    )) << (UInt16_4)))
+                    + (((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(5),
+                    )) & (UInt16_7))
+                        << (UInt16_13)));
                 let offset2_col5 = offset2_tmp_36a9d_3.as_m31();
                 *row[5] = offset2_col5;
-                let dst_base_fp_tmp_36a9d_4 =
-                    (((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_36a9d_1.get_m31(5)))
-                        >> (UInt16_3))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_36a9d_1.get_m31(6),
-                        )) << (UInt16_6)))
-                        >> (UInt16_0))
-                        & (UInt16_1));
+                let dst_base_fp_tmp_36a9d_4 = (((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(5),
+                )) >> (UInt16_3))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(6),
+                    )) << (UInt16_6)))
+                    >> (UInt16_0))
+                    & (UInt16_1));
                 let dst_base_fp_col6 = dst_base_fp_tmp_36a9d_4.as_m31();
                 *row[6] = dst_base_fp_col6;
-                let op1_base_fp_tmp_36a9d_5 =
-                    (((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_36a9d_1.get_m31(5)))
-                        >> (UInt16_3))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_36a9d_1.get_m31(6),
-                        )) << (UInt16_6)))
-                        >> (UInt16_3))
-                        & (UInt16_1));
+                let op1_base_fp_tmp_36a9d_5 = (((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(5),
+                )) >> (UInt16_3))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(6),
+                    )) << (UInt16_6)))
+                    >> (UInt16_3))
+                    & (UInt16_1));
                 let op1_base_fp_col7 = op1_base_fp_tmp_36a9d_5.as_m31();
                 *row[7] = op1_base_fp_col7;
-                let ap_update_add_1_tmp_36a9d_6 =
-                    (((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_36a9d_1.get_m31(5)))
-                        >> (UInt16_3))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_36a9d_1.get_m31(6),
-                        )) << (UInt16_6)))
-                        >> (UInt16_11))
-                        & (UInt16_1));
+                let ap_update_add_1_tmp_36a9d_6 = (((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(5),
+                )) >> (UInt16_3))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_36a9d_1.get_m31_limb(6),
+                    )) << (UInt16_6)))
+                    >> (UInt16_11))
+                    & (UInt16_1));
                 let ap_update_add_1_col8 = ap_update_add_1_tmp_36a9d_6.as_m31();
                 *row[8] = ap_update_add_1_col8;
                 *sub_component_inputs.verify_instruction[0] = (

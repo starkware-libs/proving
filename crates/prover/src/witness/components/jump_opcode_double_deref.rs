@@ -137,48 +137,48 @@ fn write_trace_simd(
                     memory_address_to_id_state.deduce_output(input_pc_col1);
                 let memory_id_to_big_value_tmp_b5a8f_1 =
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_b5a8f_0);
-                let offset1_tmp_b5a8f_2 =
-                    ((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_b5a8f_1.get_m31(1)))
-                        >> (UInt16_7))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_b5a8f_1.get_m31(2),
-                        )) << (UInt16_2)))
-                        + (((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_b5a8f_1.get_m31(3),
-                        )) & (UInt16_31))
-                            << (UInt16_11)));
+                let offset1_tmp_b5a8f_2 = ((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(1),
+                )) >> (UInt16_7))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(2),
+                    )) << (UInt16_2)))
+                    + (((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(3),
+                    )) & (UInt16_31))
+                        << (UInt16_11)));
                 let offset1_col4 = offset1_tmp_b5a8f_2.as_m31();
                 *row[4] = offset1_col4;
-                let offset2_tmp_b5a8f_3 =
-                    ((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_b5a8f_1.get_m31(3)))
-                        >> (UInt16_5))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_b5a8f_1.get_m31(4),
-                        )) << (UInt16_4)))
-                        + (((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_b5a8f_1.get_m31(5),
-                        )) & (UInt16_7))
-                            << (UInt16_13)));
+                let offset2_tmp_b5a8f_3 = ((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(3),
+                )) >> (UInt16_5))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(4),
+                    )) << (UInt16_4)))
+                    + (((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(5),
+                    )) & (UInt16_7))
+                        << (UInt16_13)));
                 let offset2_col5 = offset2_tmp_b5a8f_3.as_m31();
                 *row[5] = offset2_col5;
-                let op0_base_fp_tmp_b5a8f_4 =
-                    (((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_b5a8f_1.get_m31(5)))
-                        >> (UInt16_3))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_b5a8f_1.get_m31(6),
-                        )) << (UInt16_6)))
-                        >> (UInt16_1))
-                        & (UInt16_1));
+                let op0_base_fp_tmp_b5a8f_4 = (((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(5),
+                )) >> (UInt16_3))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(6),
+                    )) << (UInt16_6)))
+                    >> (UInt16_1))
+                    & (UInt16_1));
                 let op0_base_fp_col6 = op0_base_fp_tmp_b5a8f_4.as_m31();
                 *row[6] = op0_base_fp_col6;
-                let ap_update_add_1_tmp_b5a8f_5 =
-                    (((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_b5a8f_1.get_m31(5)))
-                        >> (UInt16_3))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_b5a8f_1.get_m31(6),
-                        )) << (UInt16_6)))
-                        >> (UInt16_11))
-                        & (UInt16_1));
+                let ap_update_add_1_tmp_b5a8f_5 = (((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(5),
+                )) >> (UInt16_3))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_b5a8f_1.get_m31_limb(6),
+                    )) << (UInt16_6)))
+                    >> (UInt16_11))
+                    & (UInt16_1));
                 let ap_update_add_1_col7 = ap_update_add_1_tmp_b5a8f_5.as_m31();
                 *row[7] = ap_update_add_1_col7;
                 *sub_component_inputs.verify_instruction[0] = (
@@ -252,13 +252,13 @@ fn write_trace_simd(
 
                 let memory_id_to_big_value_tmp_b5a8f_9 =
                     memory_id_to_big_state.deduce_output(mem1_base_id_col9);
-                let mem1_base_limb_0_col10 = memory_id_to_big_value_tmp_b5a8f_9.get_m31(0);
+                let mem1_base_limb_0_col10 = memory_id_to_big_value_tmp_b5a8f_9.get_m31_limb(0);
                 *row[10] = mem1_base_limb_0_col10;
-                let mem1_base_limb_1_col11 = memory_id_to_big_value_tmp_b5a8f_9.get_m31(1);
+                let mem1_base_limb_1_col11 = memory_id_to_big_value_tmp_b5a8f_9.get_m31_limb(1);
                 *row[11] = mem1_base_limb_1_col11;
-                let mem1_base_limb_2_col12 = memory_id_to_big_value_tmp_b5a8f_9.get_m31(2);
+                let mem1_base_limb_2_col12 = memory_id_to_big_value_tmp_b5a8f_9.get_m31_limb(2);
                 *row[12] = mem1_base_limb_2_col12;
-                let mem1_base_limb_3_col13 = memory_id_to_big_value_tmp_b5a8f_9.get_m31(3);
+                let mem1_base_limb_3_col13 = memory_id_to_big_value_tmp_b5a8f_9.get_m31_limb(3);
                 *row[13] = mem1_base_limb_3_col13;
 
                 // Range Check Last Limb Bits In Ms Limb 2.
@@ -369,13 +369,13 @@ fn write_trace_simd(
 
                 let memory_id_to_big_value_tmp_b5a8f_16 =
                     memory_id_to_big_state.deduce_output(next_pc_id_col15);
-                let next_pc_limb_0_col16 = memory_id_to_big_value_tmp_b5a8f_16.get_m31(0);
+                let next_pc_limb_0_col16 = memory_id_to_big_value_tmp_b5a8f_16.get_m31_limb(0);
                 *row[16] = next_pc_limb_0_col16;
-                let next_pc_limb_1_col17 = memory_id_to_big_value_tmp_b5a8f_16.get_m31(1);
+                let next_pc_limb_1_col17 = memory_id_to_big_value_tmp_b5a8f_16.get_m31_limb(1);
                 *row[17] = next_pc_limb_1_col17;
-                let next_pc_limb_2_col18 = memory_id_to_big_value_tmp_b5a8f_16.get_m31(2);
+                let next_pc_limb_2_col18 = memory_id_to_big_value_tmp_b5a8f_16.get_m31_limb(2);
                 *row[18] = next_pc_limb_2_col18;
-                let next_pc_limb_3_col19 = memory_id_to_big_value_tmp_b5a8f_16.get_m31(3);
+                let next_pc_limb_3_col19 = memory_id_to_big_value_tmp_b5a8f_16.get_m31_limb(3);
                 *row[19] = next_pc_limb_3_col19;
 
                 // Range Check Last Limb Bits In Ms Limb 2.

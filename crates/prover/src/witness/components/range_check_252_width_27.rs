@@ -159,9 +159,9 @@ fn write_trace_simd(
                 *row[10] = input_limb_9_col10;
                 let input_as_felt252_tmp_6d30a_0 =
                     PackedFelt252::from_packed_felt252width27(range_check_252_width_27_input);
-                let limb_0_high_part_col11 = input_as_felt252_tmp_6d30a_0.get_m31(2);
+                let limb_0_high_part_col11 = input_as_felt252_tmp_6d30a_0.get_m31_limb(2);
                 *row[11] = limb_0_high_part_col11;
-                let limb_1_low_part_col12 = input_as_felt252_tmp_6d30a_0.get_m31(3);
+                let limb_1_low_part_col12 = input_as_felt252_tmp_6d30a_0.get_m31_limb(3);
                 *row[12] = limb_1_low_part_col12;
                 *sub_component_inputs.range_check_9_9[0] =
                     [limb_0_high_part_col11, limb_1_low_part_col12];
@@ -179,9 +179,9 @@ fn write_trace_simd(
                     M31_1109051422,
                     (((input_limb_1_col2) - (limb_1_low_part_col12)) * (M31_4194304)),
                 ];
-                let limb_2_high_part_col13 = input_as_felt252_tmp_6d30a_0.get_m31(8);
+                let limb_2_high_part_col13 = input_as_felt252_tmp_6d30a_0.get_m31_limb(8);
                 *row[13] = limb_2_high_part_col13;
-                let limb_3_low_part_col14 = input_as_felt252_tmp_6d30a_0.get_m31(9);
+                let limb_3_low_part_col14 = input_as_felt252_tmp_6d30a_0.get_m31_limb(9);
                 *row[14] = limb_3_low_part_col14;
                 *sub_component_inputs.range_check_9_9_b[0] =
                     [limb_2_high_part_col13, limb_3_low_part_col14];
@@ -199,9 +199,9 @@ fn write_trace_simd(
                     M31_1109051422,
                     (((input_limb_3_col4) - (limb_3_low_part_col14)) * (M31_4194304)),
                 ];
-                let limb_4_high_part_col15 = input_as_felt252_tmp_6d30a_0.get_m31(14);
+                let limb_4_high_part_col15 = input_as_felt252_tmp_6d30a_0.get_m31_limb(14);
                 *row[15] = limb_4_high_part_col15;
-                let limb_5_low_part_col16 = input_as_felt252_tmp_6d30a_0.get_m31(15);
+                let limb_5_low_part_col16 = input_as_felt252_tmp_6d30a_0.get_m31_limb(15);
                 *row[16] = limb_5_low_part_col16;
                 *sub_component_inputs.range_check_9_9_c[0] =
                     [limb_4_high_part_col15, limb_5_low_part_col16];
@@ -219,9 +219,9 @@ fn write_trace_simd(
                     M31_1109051422,
                     (((input_limb_5_col6) - (limb_5_low_part_col16)) * (M31_4194304)),
                 ];
-                let limb_6_high_part_col17 = input_as_felt252_tmp_6d30a_0.get_m31(20);
+                let limb_6_high_part_col17 = input_as_felt252_tmp_6d30a_0.get_m31_limb(20);
                 *row[17] = limb_6_high_part_col17;
-                let limb_7_low_part_col18 = input_as_felt252_tmp_6d30a_0.get_m31(21);
+                let limb_7_low_part_col18 = input_as_felt252_tmp_6d30a_0.get_m31_limb(21);
                 *row[18] = limb_7_low_part_col18;
                 *sub_component_inputs.range_check_9_9_d[0] =
                     [limb_6_high_part_col17, limb_7_low_part_col18];
@@ -239,7 +239,7 @@ fn write_trace_simd(
                     M31_1109051422,
                     (((input_limb_7_col8) - (limb_7_low_part_col18)) * (M31_4194304)),
                 ];
-                let limb_8_high_part_col19 = input_as_felt252_tmp_6d30a_0.get_m31(26);
+                let limb_8_high_part_col19 = input_as_felt252_tmp_6d30a_0.get_m31_limb(26);
                 *row[19] = limb_8_high_part_col19;
                 *sub_component_inputs.range_check_9_9_e[0] =
                     [limb_8_high_part_col19, input_limb_9_col10];

@@ -276,117 +276,153 @@ fn write_trace_simd(
                 *row[29] = input_limb_28_col29;
                 let input_limb_29_col30 = partial_ec_mul_window_bits_9_input.2.0[27];
                 *row[30] = input_limb_29_col30;
-                let input_limb_30_col31 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(0);
+                let input_limb_30_col31 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(0);
                 *row[31] = input_limb_30_col31;
-                let input_limb_31_col32 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(1);
+                let input_limb_31_col32 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(1);
                 *row[32] = input_limb_31_col32;
-                let input_limb_32_col33 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(2);
+                let input_limb_32_col33 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(2);
                 *row[33] = input_limb_32_col33;
-                let input_limb_33_col34 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(3);
+                let input_limb_33_col34 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(3);
                 *row[34] = input_limb_33_col34;
-                let input_limb_34_col35 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(4);
+                let input_limb_34_col35 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(4);
                 *row[35] = input_limb_34_col35;
-                let input_limb_35_col36 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(5);
+                let input_limb_35_col36 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(5);
                 *row[36] = input_limb_35_col36;
-                let input_limb_36_col37 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(6);
+                let input_limb_36_col37 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(6);
                 *row[37] = input_limb_36_col37;
-                let input_limb_37_col38 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(7);
+                let input_limb_37_col38 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(7);
                 *row[38] = input_limb_37_col38;
-                let input_limb_38_col39 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(8);
+                let input_limb_38_col39 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(8);
                 *row[39] = input_limb_38_col39;
-                let input_limb_39_col40 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(9);
+                let input_limb_39_col40 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(9);
                 *row[40] = input_limb_39_col40;
-                let input_limb_40_col41 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(10);
+                let input_limb_40_col41 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(10);
                 *row[41] = input_limb_40_col41;
-                let input_limb_41_col42 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(11);
+                let input_limb_41_col42 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(11);
                 *row[42] = input_limb_41_col42;
-                let input_limb_42_col43 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(12);
+                let input_limb_42_col43 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(12);
                 *row[43] = input_limb_42_col43;
-                let input_limb_43_col44 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(13);
+                let input_limb_43_col44 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(13);
                 *row[44] = input_limb_43_col44;
-                let input_limb_44_col45 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(14);
+                let input_limb_44_col45 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(14);
                 *row[45] = input_limb_44_col45;
-                let input_limb_45_col46 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(15);
+                let input_limb_45_col46 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(15);
                 *row[46] = input_limb_45_col46;
-                let input_limb_46_col47 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(16);
+                let input_limb_46_col47 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(16);
                 *row[47] = input_limb_46_col47;
-                let input_limb_47_col48 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(17);
+                let input_limb_47_col48 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(17);
                 *row[48] = input_limb_47_col48;
-                let input_limb_48_col49 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(18);
+                let input_limb_48_col49 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(18);
                 *row[49] = input_limb_48_col49;
-                let input_limb_49_col50 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(19);
+                let input_limb_49_col50 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(19);
                 *row[50] = input_limb_49_col50;
-                let input_limb_50_col51 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(20);
+                let input_limb_50_col51 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(20);
                 *row[51] = input_limb_50_col51;
-                let input_limb_51_col52 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(21);
+                let input_limb_51_col52 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(21);
                 *row[52] = input_limb_51_col52;
-                let input_limb_52_col53 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(22);
+                let input_limb_52_col53 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(22);
                 *row[53] = input_limb_52_col53;
-                let input_limb_53_col54 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(23);
+                let input_limb_53_col54 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(23);
                 *row[54] = input_limb_53_col54;
-                let input_limb_54_col55 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(24);
+                let input_limb_54_col55 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(24);
                 *row[55] = input_limb_54_col55;
-                let input_limb_55_col56 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(25);
+                let input_limb_55_col56 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(25);
                 *row[56] = input_limb_55_col56;
-                let input_limb_56_col57 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(26);
+                let input_limb_56_col57 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(26);
                 *row[57] = input_limb_56_col57;
-                let input_limb_57_col58 = partial_ec_mul_window_bits_9_input.2.1[0].get_m31(27);
+                let input_limb_57_col58 =
+                    partial_ec_mul_window_bits_9_input.2.1[0].get_m31_limb(27);
                 *row[58] = input_limb_57_col58;
-                let input_limb_58_col59 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(0);
+                let input_limb_58_col59 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(0);
                 *row[59] = input_limb_58_col59;
-                let input_limb_59_col60 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(1);
+                let input_limb_59_col60 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(1);
                 *row[60] = input_limb_59_col60;
-                let input_limb_60_col61 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(2);
+                let input_limb_60_col61 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(2);
                 *row[61] = input_limb_60_col61;
-                let input_limb_61_col62 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(3);
+                let input_limb_61_col62 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(3);
                 *row[62] = input_limb_61_col62;
-                let input_limb_62_col63 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(4);
+                let input_limb_62_col63 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(4);
                 *row[63] = input_limb_62_col63;
-                let input_limb_63_col64 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(5);
+                let input_limb_63_col64 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(5);
                 *row[64] = input_limb_63_col64;
-                let input_limb_64_col65 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(6);
+                let input_limb_64_col65 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(6);
                 *row[65] = input_limb_64_col65;
-                let input_limb_65_col66 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(7);
+                let input_limb_65_col66 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(7);
                 *row[66] = input_limb_65_col66;
-                let input_limb_66_col67 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(8);
+                let input_limb_66_col67 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(8);
                 *row[67] = input_limb_66_col67;
-                let input_limb_67_col68 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(9);
+                let input_limb_67_col68 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(9);
                 *row[68] = input_limb_67_col68;
-                let input_limb_68_col69 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(10);
+                let input_limb_68_col69 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(10);
                 *row[69] = input_limb_68_col69;
-                let input_limb_69_col70 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(11);
+                let input_limb_69_col70 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(11);
                 *row[70] = input_limb_69_col70;
-                let input_limb_70_col71 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(12);
+                let input_limb_70_col71 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(12);
                 *row[71] = input_limb_70_col71;
-                let input_limb_71_col72 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(13);
+                let input_limb_71_col72 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(13);
                 *row[72] = input_limb_71_col72;
-                let input_limb_72_col73 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(14);
+                let input_limb_72_col73 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(14);
                 *row[73] = input_limb_72_col73;
-                let input_limb_73_col74 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(15);
+                let input_limb_73_col74 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(15);
                 *row[74] = input_limb_73_col74;
-                let input_limb_74_col75 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(16);
+                let input_limb_74_col75 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(16);
                 *row[75] = input_limb_74_col75;
-                let input_limb_75_col76 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(17);
+                let input_limb_75_col76 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(17);
                 *row[76] = input_limb_75_col76;
-                let input_limb_76_col77 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(18);
+                let input_limb_76_col77 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(18);
                 *row[77] = input_limb_76_col77;
-                let input_limb_77_col78 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(19);
+                let input_limb_77_col78 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(19);
                 *row[78] = input_limb_77_col78;
-                let input_limb_78_col79 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(20);
+                let input_limb_78_col79 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(20);
                 *row[79] = input_limb_78_col79;
-                let input_limb_79_col80 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(21);
+                let input_limb_79_col80 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(21);
                 *row[80] = input_limb_79_col80;
-                let input_limb_80_col81 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(22);
+                let input_limb_80_col81 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(22);
                 *row[81] = input_limb_80_col81;
-                let input_limb_81_col82 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(23);
+                let input_limb_81_col82 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(23);
                 *row[82] = input_limb_81_col82;
-                let input_limb_82_col83 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(24);
+                let input_limb_82_col83 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(24);
                 *row[83] = input_limb_82_col83;
-                let input_limb_83_col84 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(25);
+                let input_limb_83_col84 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(25);
                 *row[84] = input_limb_83_col84;
-                let input_limb_84_col85 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(26);
+                let input_limb_84_col85 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(26);
                 *row[85] = input_limb_84_col85;
-                let input_limb_85_col86 = partial_ec_mul_window_bits_9_input.2.1[1].get_m31(27);
+                let input_limb_85_col86 =
+                    partial_ec_mul_window_bits_9_input.2.1[1].get_m31_limb(27);
                 *row[86] = input_limb_85_col86;
                 *sub_component_inputs.pedersen_points_table_window_bits_9[0] =
                     [(((M31_512) * (input_limb_1_col2)) + (input_limb_2_col3))];
@@ -395,172 +431,172 @@ fn write_trace_simd(
                         * (input_limb_1_col2))
                         + (input_limb_2_col3))]);
                 let pedersen_points_table_window_bits_9_output_limb_0_col87 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(0);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(0);
                 *row[87] = pedersen_points_table_window_bits_9_output_limb_0_col87;
                 let pedersen_points_table_window_bits_9_output_limb_1_col88 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(1);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(1);
                 *row[88] = pedersen_points_table_window_bits_9_output_limb_1_col88;
                 let pedersen_points_table_window_bits_9_output_limb_2_col89 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(2);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(2);
                 *row[89] = pedersen_points_table_window_bits_9_output_limb_2_col89;
                 let pedersen_points_table_window_bits_9_output_limb_3_col90 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(3);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(3);
                 *row[90] = pedersen_points_table_window_bits_9_output_limb_3_col90;
                 let pedersen_points_table_window_bits_9_output_limb_4_col91 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(4);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(4);
                 *row[91] = pedersen_points_table_window_bits_9_output_limb_4_col91;
                 let pedersen_points_table_window_bits_9_output_limb_5_col92 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(5);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(5);
                 *row[92] = pedersen_points_table_window_bits_9_output_limb_5_col92;
                 let pedersen_points_table_window_bits_9_output_limb_6_col93 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(6);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(6);
                 *row[93] = pedersen_points_table_window_bits_9_output_limb_6_col93;
                 let pedersen_points_table_window_bits_9_output_limb_7_col94 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(7);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(7);
                 *row[94] = pedersen_points_table_window_bits_9_output_limb_7_col94;
                 let pedersen_points_table_window_bits_9_output_limb_8_col95 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(8);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(8);
                 *row[95] = pedersen_points_table_window_bits_9_output_limb_8_col95;
                 let pedersen_points_table_window_bits_9_output_limb_9_col96 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(9);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(9);
                 *row[96] = pedersen_points_table_window_bits_9_output_limb_9_col96;
                 let pedersen_points_table_window_bits_9_output_limb_10_col97 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(10);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(10);
                 *row[97] = pedersen_points_table_window_bits_9_output_limb_10_col97;
                 let pedersen_points_table_window_bits_9_output_limb_11_col98 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(11);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(11);
                 *row[98] = pedersen_points_table_window_bits_9_output_limb_11_col98;
                 let pedersen_points_table_window_bits_9_output_limb_12_col99 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(12);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(12);
                 *row[99] = pedersen_points_table_window_bits_9_output_limb_12_col99;
                 let pedersen_points_table_window_bits_9_output_limb_13_col100 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(13);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(13);
                 *row[100] = pedersen_points_table_window_bits_9_output_limb_13_col100;
                 let pedersen_points_table_window_bits_9_output_limb_14_col101 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(14);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(14);
                 *row[101] = pedersen_points_table_window_bits_9_output_limb_14_col101;
                 let pedersen_points_table_window_bits_9_output_limb_15_col102 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(15);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(15);
                 *row[102] = pedersen_points_table_window_bits_9_output_limb_15_col102;
                 let pedersen_points_table_window_bits_9_output_limb_16_col103 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(16);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(16);
                 *row[103] = pedersen_points_table_window_bits_9_output_limb_16_col103;
                 let pedersen_points_table_window_bits_9_output_limb_17_col104 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(17);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(17);
                 *row[104] = pedersen_points_table_window_bits_9_output_limb_17_col104;
                 let pedersen_points_table_window_bits_9_output_limb_18_col105 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(18);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(18);
                 *row[105] = pedersen_points_table_window_bits_9_output_limb_18_col105;
                 let pedersen_points_table_window_bits_9_output_limb_19_col106 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(19);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(19);
                 *row[106] = pedersen_points_table_window_bits_9_output_limb_19_col106;
                 let pedersen_points_table_window_bits_9_output_limb_20_col107 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(20);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(20);
                 *row[107] = pedersen_points_table_window_bits_9_output_limb_20_col107;
                 let pedersen_points_table_window_bits_9_output_limb_21_col108 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(21);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(21);
                 *row[108] = pedersen_points_table_window_bits_9_output_limb_21_col108;
                 let pedersen_points_table_window_bits_9_output_limb_22_col109 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(22);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(22);
                 *row[109] = pedersen_points_table_window_bits_9_output_limb_22_col109;
                 let pedersen_points_table_window_bits_9_output_limb_23_col110 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(23);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(23);
                 *row[110] = pedersen_points_table_window_bits_9_output_limb_23_col110;
                 let pedersen_points_table_window_bits_9_output_limb_24_col111 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(24);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(24);
                 *row[111] = pedersen_points_table_window_bits_9_output_limb_24_col111;
                 let pedersen_points_table_window_bits_9_output_limb_25_col112 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(25);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(25);
                 *row[112] = pedersen_points_table_window_bits_9_output_limb_25_col112;
                 let pedersen_points_table_window_bits_9_output_limb_26_col113 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(26);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(26);
                 *row[113] = pedersen_points_table_window_bits_9_output_limb_26_col113;
                 let pedersen_points_table_window_bits_9_output_limb_27_col114 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31(27);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0].get_m31_limb(27);
                 *row[114] = pedersen_points_table_window_bits_9_output_limb_27_col114;
                 let pedersen_points_table_window_bits_9_output_limb_28_col115 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(0);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(0);
                 *row[115] = pedersen_points_table_window_bits_9_output_limb_28_col115;
                 let pedersen_points_table_window_bits_9_output_limb_29_col116 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(1);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(1);
                 *row[116] = pedersen_points_table_window_bits_9_output_limb_29_col116;
                 let pedersen_points_table_window_bits_9_output_limb_30_col117 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(2);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(2);
                 *row[117] = pedersen_points_table_window_bits_9_output_limb_30_col117;
                 let pedersen_points_table_window_bits_9_output_limb_31_col118 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(3);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(3);
                 *row[118] = pedersen_points_table_window_bits_9_output_limb_31_col118;
                 let pedersen_points_table_window_bits_9_output_limb_32_col119 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(4);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(4);
                 *row[119] = pedersen_points_table_window_bits_9_output_limb_32_col119;
                 let pedersen_points_table_window_bits_9_output_limb_33_col120 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(5);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(5);
                 *row[120] = pedersen_points_table_window_bits_9_output_limb_33_col120;
                 let pedersen_points_table_window_bits_9_output_limb_34_col121 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(6);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(6);
                 *row[121] = pedersen_points_table_window_bits_9_output_limb_34_col121;
                 let pedersen_points_table_window_bits_9_output_limb_35_col122 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(7);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(7);
                 *row[122] = pedersen_points_table_window_bits_9_output_limb_35_col122;
                 let pedersen_points_table_window_bits_9_output_limb_36_col123 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(8);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(8);
                 *row[123] = pedersen_points_table_window_bits_9_output_limb_36_col123;
                 let pedersen_points_table_window_bits_9_output_limb_37_col124 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(9);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(9);
                 *row[124] = pedersen_points_table_window_bits_9_output_limb_37_col124;
                 let pedersen_points_table_window_bits_9_output_limb_38_col125 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(10);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(10);
                 *row[125] = pedersen_points_table_window_bits_9_output_limb_38_col125;
                 let pedersen_points_table_window_bits_9_output_limb_39_col126 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(11);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(11);
                 *row[126] = pedersen_points_table_window_bits_9_output_limb_39_col126;
                 let pedersen_points_table_window_bits_9_output_limb_40_col127 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(12);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(12);
                 *row[127] = pedersen_points_table_window_bits_9_output_limb_40_col127;
                 let pedersen_points_table_window_bits_9_output_limb_41_col128 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(13);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(13);
                 *row[128] = pedersen_points_table_window_bits_9_output_limb_41_col128;
                 let pedersen_points_table_window_bits_9_output_limb_42_col129 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(14);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(14);
                 *row[129] = pedersen_points_table_window_bits_9_output_limb_42_col129;
                 let pedersen_points_table_window_bits_9_output_limb_43_col130 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(15);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(15);
                 *row[130] = pedersen_points_table_window_bits_9_output_limb_43_col130;
                 let pedersen_points_table_window_bits_9_output_limb_44_col131 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(16);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(16);
                 *row[131] = pedersen_points_table_window_bits_9_output_limb_44_col131;
                 let pedersen_points_table_window_bits_9_output_limb_45_col132 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(17);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(17);
                 *row[132] = pedersen_points_table_window_bits_9_output_limb_45_col132;
                 let pedersen_points_table_window_bits_9_output_limb_46_col133 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(18);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(18);
                 *row[133] = pedersen_points_table_window_bits_9_output_limb_46_col133;
                 let pedersen_points_table_window_bits_9_output_limb_47_col134 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(19);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(19);
                 *row[134] = pedersen_points_table_window_bits_9_output_limb_47_col134;
                 let pedersen_points_table_window_bits_9_output_limb_48_col135 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(20);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(20);
                 *row[135] = pedersen_points_table_window_bits_9_output_limb_48_col135;
                 let pedersen_points_table_window_bits_9_output_limb_49_col136 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(21);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(21);
                 *row[136] = pedersen_points_table_window_bits_9_output_limb_49_col136;
                 let pedersen_points_table_window_bits_9_output_limb_50_col137 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(22);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(22);
                 *row[137] = pedersen_points_table_window_bits_9_output_limb_50_col137;
                 let pedersen_points_table_window_bits_9_output_limb_51_col138 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(23);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(23);
                 *row[138] = pedersen_points_table_window_bits_9_output_limb_51_col138;
                 let pedersen_points_table_window_bits_9_output_limb_52_col139 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(24);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(24);
                 *row[139] = pedersen_points_table_window_bits_9_output_limb_52_col139;
                 let pedersen_points_table_window_bits_9_output_limb_53_col140 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(25);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(25);
                 *row[140] = pedersen_points_table_window_bits_9_output_limb_53_col140;
                 let pedersen_points_table_window_bits_9_output_limb_54_col141 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(26);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(26);
                 *row[141] = pedersen_points_table_window_bits_9_output_limb_54_col141;
                 let pedersen_points_table_window_bits_9_output_limb_55_col142 =
-                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31(27);
+                    pedersen_points_table_window_bits_9_output_tmp_a95f5_0[1].get_m31_limb(27);
                 *row[142] = pedersen_points_table_window_bits_9_output_limb_55_col142;
                 *lookup_data.pedersen_points_table_window_bits_9_0 = [
                     M31_1791500038,
@@ -630,61 +666,61 @@ fn write_trace_simd(
                     - (partial_ec_mul_window_bits_9_input.2.1[1]))
                     / ((pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0])
                         - (partial_ec_mul_window_bits_9_input.2.1[0])));
-                let slope_limb_0_col143 = slope_tmp_a95f5_1.get_m31(0);
+                let slope_limb_0_col143 = slope_tmp_a95f5_1.get_m31_limb(0);
                 *row[143] = slope_limb_0_col143;
-                let slope_limb_1_col144 = slope_tmp_a95f5_1.get_m31(1);
+                let slope_limb_1_col144 = slope_tmp_a95f5_1.get_m31_limb(1);
                 *row[144] = slope_limb_1_col144;
-                let slope_limb_2_col145 = slope_tmp_a95f5_1.get_m31(2);
+                let slope_limb_2_col145 = slope_tmp_a95f5_1.get_m31_limb(2);
                 *row[145] = slope_limb_2_col145;
-                let slope_limb_3_col146 = slope_tmp_a95f5_1.get_m31(3);
+                let slope_limb_3_col146 = slope_tmp_a95f5_1.get_m31_limb(3);
                 *row[146] = slope_limb_3_col146;
-                let slope_limb_4_col147 = slope_tmp_a95f5_1.get_m31(4);
+                let slope_limb_4_col147 = slope_tmp_a95f5_1.get_m31_limb(4);
                 *row[147] = slope_limb_4_col147;
-                let slope_limb_5_col148 = slope_tmp_a95f5_1.get_m31(5);
+                let slope_limb_5_col148 = slope_tmp_a95f5_1.get_m31_limb(5);
                 *row[148] = slope_limb_5_col148;
-                let slope_limb_6_col149 = slope_tmp_a95f5_1.get_m31(6);
+                let slope_limb_6_col149 = slope_tmp_a95f5_1.get_m31_limb(6);
                 *row[149] = slope_limb_6_col149;
-                let slope_limb_7_col150 = slope_tmp_a95f5_1.get_m31(7);
+                let slope_limb_7_col150 = slope_tmp_a95f5_1.get_m31_limb(7);
                 *row[150] = slope_limb_7_col150;
-                let slope_limb_8_col151 = slope_tmp_a95f5_1.get_m31(8);
+                let slope_limb_8_col151 = slope_tmp_a95f5_1.get_m31_limb(8);
                 *row[151] = slope_limb_8_col151;
-                let slope_limb_9_col152 = slope_tmp_a95f5_1.get_m31(9);
+                let slope_limb_9_col152 = slope_tmp_a95f5_1.get_m31_limb(9);
                 *row[152] = slope_limb_9_col152;
-                let slope_limb_10_col153 = slope_tmp_a95f5_1.get_m31(10);
+                let slope_limb_10_col153 = slope_tmp_a95f5_1.get_m31_limb(10);
                 *row[153] = slope_limb_10_col153;
-                let slope_limb_11_col154 = slope_tmp_a95f5_1.get_m31(11);
+                let slope_limb_11_col154 = slope_tmp_a95f5_1.get_m31_limb(11);
                 *row[154] = slope_limb_11_col154;
-                let slope_limb_12_col155 = slope_tmp_a95f5_1.get_m31(12);
+                let slope_limb_12_col155 = slope_tmp_a95f5_1.get_m31_limb(12);
                 *row[155] = slope_limb_12_col155;
-                let slope_limb_13_col156 = slope_tmp_a95f5_1.get_m31(13);
+                let slope_limb_13_col156 = slope_tmp_a95f5_1.get_m31_limb(13);
                 *row[156] = slope_limb_13_col156;
-                let slope_limb_14_col157 = slope_tmp_a95f5_1.get_m31(14);
+                let slope_limb_14_col157 = slope_tmp_a95f5_1.get_m31_limb(14);
                 *row[157] = slope_limb_14_col157;
-                let slope_limb_15_col158 = slope_tmp_a95f5_1.get_m31(15);
+                let slope_limb_15_col158 = slope_tmp_a95f5_1.get_m31_limb(15);
                 *row[158] = slope_limb_15_col158;
-                let slope_limb_16_col159 = slope_tmp_a95f5_1.get_m31(16);
+                let slope_limb_16_col159 = slope_tmp_a95f5_1.get_m31_limb(16);
                 *row[159] = slope_limb_16_col159;
-                let slope_limb_17_col160 = slope_tmp_a95f5_1.get_m31(17);
+                let slope_limb_17_col160 = slope_tmp_a95f5_1.get_m31_limb(17);
                 *row[160] = slope_limb_17_col160;
-                let slope_limb_18_col161 = slope_tmp_a95f5_1.get_m31(18);
+                let slope_limb_18_col161 = slope_tmp_a95f5_1.get_m31_limb(18);
                 *row[161] = slope_limb_18_col161;
-                let slope_limb_19_col162 = slope_tmp_a95f5_1.get_m31(19);
+                let slope_limb_19_col162 = slope_tmp_a95f5_1.get_m31_limb(19);
                 *row[162] = slope_limb_19_col162;
-                let slope_limb_20_col163 = slope_tmp_a95f5_1.get_m31(20);
+                let slope_limb_20_col163 = slope_tmp_a95f5_1.get_m31_limb(20);
                 *row[163] = slope_limb_20_col163;
-                let slope_limb_21_col164 = slope_tmp_a95f5_1.get_m31(21);
+                let slope_limb_21_col164 = slope_tmp_a95f5_1.get_m31_limb(21);
                 *row[164] = slope_limb_21_col164;
-                let slope_limb_22_col165 = slope_tmp_a95f5_1.get_m31(22);
+                let slope_limb_22_col165 = slope_tmp_a95f5_1.get_m31_limb(22);
                 *row[165] = slope_limb_22_col165;
-                let slope_limb_23_col166 = slope_tmp_a95f5_1.get_m31(23);
+                let slope_limb_23_col166 = slope_tmp_a95f5_1.get_m31_limb(23);
                 *row[166] = slope_limb_23_col166;
-                let slope_limb_24_col167 = slope_tmp_a95f5_1.get_m31(24);
+                let slope_limb_24_col167 = slope_tmp_a95f5_1.get_m31_limb(24);
                 *row[167] = slope_limb_24_col167;
-                let slope_limb_25_col168 = slope_tmp_a95f5_1.get_m31(25);
+                let slope_limb_25_col168 = slope_tmp_a95f5_1.get_m31_limb(25);
                 *row[168] = slope_limb_25_col168;
-                let slope_limb_26_col169 = slope_tmp_a95f5_1.get_m31(26);
+                let slope_limb_26_col169 = slope_tmp_a95f5_1.get_m31_limb(26);
                 *row[169] = slope_limb_26_col169;
-                let slope_limb_27_col170 = slope_tmp_a95f5_1.get_m31(27);
+                let slope_limb_27_col170 = slope_tmp_a95f5_1.get_m31_limb(27);
                 *row[170] = slope_limb_27_col170;
 
                 // Range Check Mem Value N 28.
@@ -2087,61 +2123,61 @@ fn write_trace_simd(
                 let result_x_tmp_a95f5_79 = ((((slope_tmp_a95f5_1) * (slope_tmp_a95f5_1))
                     - (partial_ec_mul_window_bits_9_input.2.1[0]))
                     - (pedersen_points_table_window_bits_9_output_tmp_a95f5_0[0]));
-                let result_x_limb_0_col199 = result_x_tmp_a95f5_79.get_m31(0);
+                let result_x_limb_0_col199 = result_x_tmp_a95f5_79.get_m31_limb(0);
                 *row[199] = result_x_limb_0_col199;
-                let result_x_limb_1_col200 = result_x_tmp_a95f5_79.get_m31(1);
+                let result_x_limb_1_col200 = result_x_tmp_a95f5_79.get_m31_limb(1);
                 *row[200] = result_x_limb_1_col200;
-                let result_x_limb_2_col201 = result_x_tmp_a95f5_79.get_m31(2);
+                let result_x_limb_2_col201 = result_x_tmp_a95f5_79.get_m31_limb(2);
                 *row[201] = result_x_limb_2_col201;
-                let result_x_limb_3_col202 = result_x_tmp_a95f5_79.get_m31(3);
+                let result_x_limb_3_col202 = result_x_tmp_a95f5_79.get_m31_limb(3);
                 *row[202] = result_x_limb_3_col202;
-                let result_x_limb_4_col203 = result_x_tmp_a95f5_79.get_m31(4);
+                let result_x_limb_4_col203 = result_x_tmp_a95f5_79.get_m31_limb(4);
                 *row[203] = result_x_limb_4_col203;
-                let result_x_limb_5_col204 = result_x_tmp_a95f5_79.get_m31(5);
+                let result_x_limb_5_col204 = result_x_tmp_a95f5_79.get_m31_limb(5);
                 *row[204] = result_x_limb_5_col204;
-                let result_x_limb_6_col205 = result_x_tmp_a95f5_79.get_m31(6);
+                let result_x_limb_6_col205 = result_x_tmp_a95f5_79.get_m31_limb(6);
                 *row[205] = result_x_limb_6_col205;
-                let result_x_limb_7_col206 = result_x_tmp_a95f5_79.get_m31(7);
+                let result_x_limb_7_col206 = result_x_tmp_a95f5_79.get_m31_limb(7);
                 *row[206] = result_x_limb_7_col206;
-                let result_x_limb_8_col207 = result_x_tmp_a95f5_79.get_m31(8);
+                let result_x_limb_8_col207 = result_x_tmp_a95f5_79.get_m31_limb(8);
                 *row[207] = result_x_limb_8_col207;
-                let result_x_limb_9_col208 = result_x_tmp_a95f5_79.get_m31(9);
+                let result_x_limb_9_col208 = result_x_tmp_a95f5_79.get_m31_limb(9);
                 *row[208] = result_x_limb_9_col208;
-                let result_x_limb_10_col209 = result_x_tmp_a95f5_79.get_m31(10);
+                let result_x_limb_10_col209 = result_x_tmp_a95f5_79.get_m31_limb(10);
                 *row[209] = result_x_limb_10_col209;
-                let result_x_limb_11_col210 = result_x_tmp_a95f5_79.get_m31(11);
+                let result_x_limb_11_col210 = result_x_tmp_a95f5_79.get_m31_limb(11);
                 *row[210] = result_x_limb_11_col210;
-                let result_x_limb_12_col211 = result_x_tmp_a95f5_79.get_m31(12);
+                let result_x_limb_12_col211 = result_x_tmp_a95f5_79.get_m31_limb(12);
                 *row[211] = result_x_limb_12_col211;
-                let result_x_limb_13_col212 = result_x_tmp_a95f5_79.get_m31(13);
+                let result_x_limb_13_col212 = result_x_tmp_a95f5_79.get_m31_limb(13);
                 *row[212] = result_x_limb_13_col212;
-                let result_x_limb_14_col213 = result_x_tmp_a95f5_79.get_m31(14);
+                let result_x_limb_14_col213 = result_x_tmp_a95f5_79.get_m31_limb(14);
                 *row[213] = result_x_limb_14_col213;
-                let result_x_limb_15_col214 = result_x_tmp_a95f5_79.get_m31(15);
+                let result_x_limb_15_col214 = result_x_tmp_a95f5_79.get_m31_limb(15);
                 *row[214] = result_x_limb_15_col214;
-                let result_x_limb_16_col215 = result_x_tmp_a95f5_79.get_m31(16);
+                let result_x_limb_16_col215 = result_x_tmp_a95f5_79.get_m31_limb(16);
                 *row[215] = result_x_limb_16_col215;
-                let result_x_limb_17_col216 = result_x_tmp_a95f5_79.get_m31(17);
+                let result_x_limb_17_col216 = result_x_tmp_a95f5_79.get_m31_limb(17);
                 *row[216] = result_x_limb_17_col216;
-                let result_x_limb_18_col217 = result_x_tmp_a95f5_79.get_m31(18);
+                let result_x_limb_18_col217 = result_x_tmp_a95f5_79.get_m31_limb(18);
                 *row[217] = result_x_limb_18_col217;
-                let result_x_limb_19_col218 = result_x_tmp_a95f5_79.get_m31(19);
+                let result_x_limb_19_col218 = result_x_tmp_a95f5_79.get_m31_limb(19);
                 *row[218] = result_x_limb_19_col218;
-                let result_x_limb_20_col219 = result_x_tmp_a95f5_79.get_m31(20);
+                let result_x_limb_20_col219 = result_x_tmp_a95f5_79.get_m31_limb(20);
                 *row[219] = result_x_limb_20_col219;
-                let result_x_limb_21_col220 = result_x_tmp_a95f5_79.get_m31(21);
+                let result_x_limb_21_col220 = result_x_tmp_a95f5_79.get_m31_limb(21);
                 *row[220] = result_x_limb_21_col220;
-                let result_x_limb_22_col221 = result_x_tmp_a95f5_79.get_m31(22);
+                let result_x_limb_22_col221 = result_x_tmp_a95f5_79.get_m31_limb(22);
                 *row[221] = result_x_limb_22_col221;
-                let result_x_limb_23_col222 = result_x_tmp_a95f5_79.get_m31(23);
+                let result_x_limb_23_col222 = result_x_tmp_a95f5_79.get_m31_limb(23);
                 *row[222] = result_x_limb_23_col222;
-                let result_x_limb_24_col223 = result_x_tmp_a95f5_79.get_m31(24);
+                let result_x_limb_24_col223 = result_x_tmp_a95f5_79.get_m31_limb(24);
                 *row[223] = result_x_limb_24_col223;
-                let result_x_limb_25_col224 = result_x_tmp_a95f5_79.get_m31(25);
+                let result_x_limb_25_col224 = result_x_tmp_a95f5_79.get_m31_limb(25);
                 *row[224] = result_x_limb_25_col224;
-                let result_x_limb_26_col225 = result_x_tmp_a95f5_79.get_m31(26);
+                let result_x_limb_26_col225 = result_x_tmp_a95f5_79.get_m31_limb(26);
                 *row[225] = result_x_limb_26_col225;
-                let result_x_limb_27_col226 = result_x_tmp_a95f5_79.get_m31(27);
+                let result_x_limb_27_col226 = result_x_tmp_a95f5_79.get_m31_limb(27);
                 *row[226] = result_x_limb_27_col226;
 
                 // Range Check Mem Value N 28.
@@ -3466,61 +3502,61 @@ fn write_trace_simd(
                 let result_y_tmp_a95f5_129 = (((slope_tmp_a95f5_1)
                     * ((partial_ec_mul_window_bits_9_input.2.1[0]) - (result_x_tmp_a95f5_79)))
                     - (partial_ec_mul_window_bits_9_input.2.1[1]));
-                let result_y_limb_0_col255 = result_y_tmp_a95f5_129.get_m31(0);
+                let result_y_limb_0_col255 = result_y_tmp_a95f5_129.get_m31_limb(0);
                 *row[255] = result_y_limb_0_col255;
-                let result_y_limb_1_col256 = result_y_tmp_a95f5_129.get_m31(1);
+                let result_y_limb_1_col256 = result_y_tmp_a95f5_129.get_m31_limb(1);
                 *row[256] = result_y_limb_1_col256;
-                let result_y_limb_2_col257 = result_y_tmp_a95f5_129.get_m31(2);
+                let result_y_limb_2_col257 = result_y_tmp_a95f5_129.get_m31_limb(2);
                 *row[257] = result_y_limb_2_col257;
-                let result_y_limb_3_col258 = result_y_tmp_a95f5_129.get_m31(3);
+                let result_y_limb_3_col258 = result_y_tmp_a95f5_129.get_m31_limb(3);
                 *row[258] = result_y_limb_3_col258;
-                let result_y_limb_4_col259 = result_y_tmp_a95f5_129.get_m31(4);
+                let result_y_limb_4_col259 = result_y_tmp_a95f5_129.get_m31_limb(4);
                 *row[259] = result_y_limb_4_col259;
-                let result_y_limb_5_col260 = result_y_tmp_a95f5_129.get_m31(5);
+                let result_y_limb_5_col260 = result_y_tmp_a95f5_129.get_m31_limb(5);
                 *row[260] = result_y_limb_5_col260;
-                let result_y_limb_6_col261 = result_y_tmp_a95f5_129.get_m31(6);
+                let result_y_limb_6_col261 = result_y_tmp_a95f5_129.get_m31_limb(6);
                 *row[261] = result_y_limb_6_col261;
-                let result_y_limb_7_col262 = result_y_tmp_a95f5_129.get_m31(7);
+                let result_y_limb_7_col262 = result_y_tmp_a95f5_129.get_m31_limb(7);
                 *row[262] = result_y_limb_7_col262;
-                let result_y_limb_8_col263 = result_y_tmp_a95f5_129.get_m31(8);
+                let result_y_limb_8_col263 = result_y_tmp_a95f5_129.get_m31_limb(8);
                 *row[263] = result_y_limb_8_col263;
-                let result_y_limb_9_col264 = result_y_tmp_a95f5_129.get_m31(9);
+                let result_y_limb_9_col264 = result_y_tmp_a95f5_129.get_m31_limb(9);
                 *row[264] = result_y_limb_9_col264;
-                let result_y_limb_10_col265 = result_y_tmp_a95f5_129.get_m31(10);
+                let result_y_limb_10_col265 = result_y_tmp_a95f5_129.get_m31_limb(10);
                 *row[265] = result_y_limb_10_col265;
-                let result_y_limb_11_col266 = result_y_tmp_a95f5_129.get_m31(11);
+                let result_y_limb_11_col266 = result_y_tmp_a95f5_129.get_m31_limb(11);
                 *row[266] = result_y_limb_11_col266;
-                let result_y_limb_12_col267 = result_y_tmp_a95f5_129.get_m31(12);
+                let result_y_limb_12_col267 = result_y_tmp_a95f5_129.get_m31_limb(12);
                 *row[267] = result_y_limb_12_col267;
-                let result_y_limb_13_col268 = result_y_tmp_a95f5_129.get_m31(13);
+                let result_y_limb_13_col268 = result_y_tmp_a95f5_129.get_m31_limb(13);
                 *row[268] = result_y_limb_13_col268;
-                let result_y_limb_14_col269 = result_y_tmp_a95f5_129.get_m31(14);
+                let result_y_limb_14_col269 = result_y_tmp_a95f5_129.get_m31_limb(14);
                 *row[269] = result_y_limb_14_col269;
-                let result_y_limb_15_col270 = result_y_tmp_a95f5_129.get_m31(15);
+                let result_y_limb_15_col270 = result_y_tmp_a95f5_129.get_m31_limb(15);
                 *row[270] = result_y_limb_15_col270;
-                let result_y_limb_16_col271 = result_y_tmp_a95f5_129.get_m31(16);
+                let result_y_limb_16_col271 = result_y_tmp_a95f5_129.get_m31_limb(16);
                 *row[271] = result_y_limb_16_col271;
-                let result_y_limb_17_col272 = result_y_tmp_a95f5_129.get_m31(17);
+                let result_y_limb_17_col272 = result_y_tmp_a95f5_129.get_m31_limb(17);
                 *row[272] = result_y_limb_17_col272;
-                let result_y_limb_18_col273 = result_y_tmp_a95f5_129.get_m31(18);
+                let result_y_limb_18_col273 = result_y_tmp_a95f5_129.get_m31_limb(18);
                 *row[273] = result_y_limb_18_col273;
-                let result_y_limb_19_col274 = result_y_tmp_a95f5_129.get_m31(19);
+                let result_y_limb_19_col274 = result_y_tmp_a95f5_129.get_m31_limb(19);
                 *row[274] = result_y_limb_19_col274;
-                let result_y_limb_20_col275 = result_y_tmp_a95f5_129.get_m31(20);
+                let result_y_limb_20_col275 = result_y_tmp_a95f5_129.get_m31_limb(20);
                 *row[275] = result_y_limb_20_col275;
-                let result_y_limb_21_col276 = result_y_tmp_a95f5_129.get_m31(21);
+                let result_y_limb_21_col276 = result_y_tmp_a95f5_129.get_m31_limb(21);
                 *row[276] = result_y_limb_21_col276;
-                let result_y_limb_22_col277 = result_y_tmp_a95f5_129.get_m31(22);
+                let result_y_limb_22_col277 = result_y_tmp_a95f5_129.get_m31_limb(22);
                 *row[277] = result_y_limb_22_col277;
-                let result_y_limb_23_col278 = result_y_tmp_a95f5_129.get_m31(23);
+                let result_y_limb_23_col278 = result_y_tmp_a95f5_129.get_m31_limb(23);
                 *row[278] = result_y_limb_23_col278;
-                let result_y_limb_24_col279 = result_y_tmp_a95f5_129.get_m31(24);
+                let result_y_limb_24_col279 = result_y_tmp_a95f5_129.get_m31_limb(24);
                 *row[279] = result_y_limb_24_col279;
-                let result_y_limb_25_col280 = result_y_tmp_a95f5_129.get_m31(25);
+                let result_y_limb_25_col280 = result_y_tmp_a95f5_129.get_m31_limb(25);
                 *row[280] = result_y_limb_25_col280;
-                let result_y_limb_26_col281 = result_y_tmp_a95f5_129.get_m31(26);
+                let result_y_limb_26_col281 = result_y_tmp_a95f5_129.get_m31_limb(26);
                 *row[281] = result_y_limb_26_col281;
-                let result_y_limb_27_col282 = result_y_tmp_a95f5_129.get_m31(27);
+                let result_y_limb_27_col282 = result_y_tmp_a95f5_129.get_m31_limb(27);
                 *row[282] = result_y_limb_27_col282;
 
                 // Range Check Mem Value N 28.

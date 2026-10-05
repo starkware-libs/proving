@@ -109,27 +109,27 @@ fn write_trace_simd(
 
             let memory_id_to_big_value_tmp_af536_2 =
                 memory_id_to_big_state.deduce_output(value_id_col0);
-            let value_limb_0_col1 = memory_id_to_big_value_tmp_af536_2.get_m31(0);
+            let value_limb_0_col1 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(0);
             *row[1] = value_limb_0_col1;
-            let value_limb_1_col2 = memory_id_to_big_value_tmp_af536_2.get_m31(1);
+            let value_limb_1_col2 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(1);
             *row[2] = value_limb_1_col2;
-            let value_limb_2_col3 = memory_id_to_big_value_tmp_af536_2.get_m31(2);
+            let value_limb_2_col3 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(2);
             *row[3] = value_limb_2_col3;
-            let value_limb_3_col4 = memory_id_to_big_value_tmp_af536_2.get_m31(3);
+            let value_limb_3_col4 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(3);
             *row[4] = value_limb_3_col4;
-            let value_limb_4_col5 = memory_id_to_big_value_tmp_af536_2.get_m31(4);
+            let value_limb_4_col5 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(4);
             *row[5] = value_limb_4_col5;
-            let value_limb_5_col6 = memory_id_to_big_value_tmp_af536_2.get_m31(5);
+            let value_limb_5_col6 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(5);
             *row[6] = value_limb_5_col6;
-            let value_limb_6_col7 = memory_id_to_big_value_tmp_af536_2.get_m31(6);
+            let value_limb_6_col7 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(6);
             *row[7] = value_limb_6_col7;
-            let value_limb_7_col8 = memory_id_to_big_value_tmp_af536_2.get_m31(7);
+            let value_limb_7_col8 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(7);
             *row[8] = value_limb_7_col8;
-            let value_limb_8_col9 = memory_id_to_big_value_tmp_af536_2.get_m31(8);
+            let value_limb_8_col9 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(8);
             *row[9] = value_limb_8_col9;
-            let value_limb_9_col10 = memory_id_to_big_value_tmp_af536_2.get_m31(9);
+            let value_limb_9_col10 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(9);
             *row[10] = value_limb_9_col10;
-            let value_limb_10_col11 = memory_id_to_big_value_tmp_af536_2.get_m31(10);
+            let value_limb_10_col11 = memory_id_to_big_value_tmp_af536_2.get_m31_limb(10);
             *row[11] = value_limb_10_col11;
 
             // Range Check Last Limb Bits In Ms Limb 6.

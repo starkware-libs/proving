@@ -167,13 +167,13 @@ fn write_trace_simd(
 
                 let memory_id_to_big_value_tmp_82d62_5 =
                     memory_id_to_big_state.deduce_output(stored_fp_id_col4);
-                let stored_fp_limb_0_col5 = memory_id_to_big_value_tmp_82d62_5.get_m31(0);
+                let stored_fp_limb_0_col5 = memory_id_to_big_value_tmp_82d62_5.get_m31_limb(0);
                 *row[5] = stored_fp_limb_0_col5;
-                let stored_fp_limb_1_col6 = memory_id_to_big_value_tmp_82d62_5.get_m31(1);
+                let stored_fp_limb_1_col6 = memory_id_to_big_value_tmp_82d62_5.get_m31_limb(1);
                 *row[6] = stored_fp_limb_1_col6;
-                let stored_fp_limb_2_col7 = memory_id_to_big_value_tmp_82d62_5.get_m31(2);
+                let stored_fp_limb_2_col7 = memory_id_to_big_value_tmp_82d62_5.get_m31_limb(2);
                 *row[7] = stored_fp_limb_2_col7;
-                let stored_fp_limb_3_col8 = memory_id_to_big_value_tmp_82d62_5.get_m31(3);
+                let stored_fp_limb_3_col8 = memory_id_to_big_value_tmp_82d62_5.get_m31_limb(3);
                 *row[8] = stored_fp_limb_3_col8;
 
                 // Range Check Last Limb Bits In Ms Limb 2.
@@ -269,13 +269,17 @@ fn write_trace_simd(
 
                 let memory_id_to_big_value_tmp_82d62_12 =
                     memory_id_to_big_state.deduce_output(stored_ret_pc_id_col10);
-                let stored_ret_pc_limb_0_col11 = memory_id_to_big_value_tmp_82d62_12.get_m31(0);
+                let stored_ret_pc_limb_0_col11 =
+                    memory_id_to_big_value_tmp_82d62_12.get_m31_limb(0);
                 *row[11] = stored_ret_pc_limb_0_col11;
-                let stored_ret_pc_limb_1_col12 = memory_id_to_big_value_tmp_82d62_12.get_m31(1);
+                let stored_ret_pc_limb_1_col12 =
+                    memory_id_to_big_value_tmp_82d62_12.get_m31_limb(1);
                 *row[12] = stored_ret_pc_limb_1_col12;
-                let stored_ret_pc_limb_2_col13 = memory_id_to_big_value_tmp_82d62_12.get_m31(2);
+                let stored_ret_pc_limb_2_col13 =
+                    memory_id_to_big_value_tmp_82d62_12.get_m31_limb(2);
                 *row[13] = stored_ret_pc_limb_2_col13;
-                let stored_ret_pc_limb_3_col14 = memory_id_to_big_value_tmp_82d62_12.get_m31(3);
+                let stored_ret_pc_limb_3_col14 =
+                    memory_id_to_big_value_tmp_82d62_12.get_m31_limb(3);
                 *row[14] = stored_ret_pc_limb_3_col14;
 
                 // Range Check Last Limb Bits In Ms Limb 2.
@@ -375,11 +379,12 @@ fn write_trace_simd(
 
                 // Decode Small Sign.
 
-                let msb_tmp_82d62_20 = memory_id_to_big_value_tmp_82d62_19.get_m31(27).eq(M31_256);
+                let msb_tmp_82d62_20 =
+                    memory_id_to_big_value_tmp_82d62_19.get_m31_limb(27).eq(M31_256);
                 let msb_col17 = msb_tmp_82d62_20.as_m31();
                 *row[17] = msb_col17;
                 let mid_limbs_set_tmp_82d62_21 =
-                    ((memory_id_to_big_value_tmp_82d62_19.get_m31(20).eq(M31_511))
+                    ((memory_id_to_big_value_tmp_82d62_19.get_m31_limb(20).eq(M31_511))
                         & (msb_tmp_82d62_20));
                 let mid_limbs_set_col18 = mid_limbs_set_tmp_82d62_21.as_m31();
                 *row[18] = mid_limbs_set_col18;
@@ -393,16 +398,16 @@ fn write_trace_simd(
                 ];
 
                 let distance_to_next_pc_limb_0_col19 =
-                    memory_id_to_big_value_tmp_82d62_19.get_m31(0);
+                    memory_id_to_big_value_tmp_82d62_19.get_m31_limb(0);
                 *row[19] = distance_to_next_pc_limb_0_col19;
                 let distance_to_next_pc_limb_1_col20 =
-                    memory_id_to_big_value_tmp_82d62_19.get_m31(1);
+                    memory_id_to_big_value_tmp_82d62_19.get_m31_limb(1);
                 *row[20] = distance_to_next_pc_limb_1_col20;
                 let distance_to_next_pc_limb_2_col21 =
-                    memory_id_to_big_value_tmp_82d62_19.get_m31(2);
+                    memory_id_to_big_value_tmp_82d62_19.get_m31_limb(2);
                 *row[21] = distance_to_next_pc_limb_2_col21;
                 let remainder_bits_tmp_82d62_23 =
-                    ((PackedUInt16::from_m31(memory_id_to_big_value_tmp_82d62_19.get_m31(3)))
+                    ((PackedUInt16::from_m31(memory_id_to_big_value_tmp_82d62_19.get_m31_limb(3)))
                         & (UInt16_3));
                 let remainder_bits_col22 = remainder_bits_tmp_82d62_23.as_m31();
                 *row[22] = remainder_bits_col22;

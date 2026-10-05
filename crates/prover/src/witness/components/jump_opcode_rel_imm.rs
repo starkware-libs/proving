@@ -133,14 +133,14 @@ fn write_trace_simd(
                     memory_address_to_id_state.deduce_output(input_pc_col1);
                 let memory_id_to_big_value_tmp_78364_1 =
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_78364_0);
-                let ap_update_add_1_tmp_78364_2 =
-                    (((((PackedUInt16::from_m31(memory_id_to_big_value_tmp_78364_1.get_m31(5)))
-                        >> (UInt16_3))
-                        + ((PackedUInt16::from_m31(
-                            memory_id_to_big_value_tmp_78364_1.get_m31(6),
-                        )) << (UInt16_6)))
-                        >> (UInt16_11))
-                        & (UInt16_1));
+                let ap_update_add_1_tmp_78364_2 = (((((PackedUInt16::from_m31(
+                    memory_id_to_big_value_tmp_78364_1.get_m31_limb(5),
+                )) >> (UInt16_3))
+                    + ((PackedUInt16::from_m31(
+                        memory_id_to_big_value_tmp_78364_1.get_m31_limb(6),
+                    )) << (UInt16_6)))
+                    >> (UInt16_11))
+                    & (UInt16_1));
                 let ap_update_add_1_col4 = ap_update_add_1_tmp_78364_2.as_m31();
                 *row[4] = ap_update_add_1_col4;
                 *sub_component_inputs.verify_instruction[0] = (
@@ -198,11 +198,12 @@ fn write_trace_simd(
 
                 // Decode Small Sign.
 
-                let msb_tmp_78364_7 = memory_id_to_big_value_tmp_78364_6.get_m31(27).eq(M31_256);
+                let msb_tmp_78364_7 =
+                    memory_id_to_big_value_tmp_78364_6.get_m31_limb(27).eq(M31_256);
                 let msb_col6 = msb_tmp_78364_7.as_m31();
                 *row[6] = msb_col6;
                 let mid_limbs_set_tmp_78364_8 =
-                    ((memory_id_to_big_value_tmp_78364_6.get_m31(20).eq(M31_511))
+                    ((memory_id_to_big_value_tmp_78364_6.get_m31_limb(20).eq(M31_511))
                         & (msb_tmp_78364_7));
                 let mid_limbs_set_col7 = mid_limbs_set_tmp_78364_8.as_m31();
                 *row[7] = mid_limbs_set_col7;
@@ -215,14 +216,14 @@ fn write_trace_simd(
                     ((msb_col6) * (M31_256)),
                 ];
 
-                let next_pc_limb_0_col8 = memory_id_to_big_value_tmp_78364_6.get_m31(0);
+                let next_pc_limb_0_col8 = memory_id_to_big_value_tmp_78364_6.get_m31_limb(0);
                 *row[8] = next_pc_limb_0_col8;
-                let next_pc_limb_1_col9 = memory_id_to_big_value_tmp_78364_6.get_m31(1);
+                let next_pc_limb_1_col9 = memory_id_to_big_value_tmp_78364_6.get_m31_limb(1);
                 *row[9] = next_pc_limb_1_col9;
-                let next_pc_limb_2_col10 = memory_id_to_big_value_tmp_78364_6.get_m31(2);
+                let next_pc_limb_2_col10 = memory_id_to_big_value_tmp_78364_6.get_m31_limb(2);
                 *row[10] = next_pc_limb_2_col10;
                 let remainder_bits_tmp_78364_10 =
-                    ((PackedUInt16::from_m31(memory_id_to_big_value_tmp_78364_6.get_m31(3)))
+                    ((PackedUInt16::from_m31(memory_id_to_big_value_tmp_78364_6.get_m31_limb(3)))
                         & (UInt16_3));
                 let remainder_bits_col11 = remainder_bits_tmp_78364_10.as_m31();
                 *row[11] = remainder_bits_col11;
