@@ -7,7 +7,7 @@
 ///        simplification.
 ///     2. If expressions p and q cancel out under some operation, this will not be accounted
 ///        for, so that (x^2 + 1) - (x^2 + x) will return degree 2.
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use num_traits::Zero;
 
@@ -22,13 +22,16 @@ type Degree = usize;
 pub struct NamedExprs {
     exprs: HashMap<String, BaseExpr>,
     ext_exprs: HashMap<String, ExtExpr>,
+    /// Names of parameters that are preprocessed columns, which have degree 1.
+    preprocessed_columns: HashSet<String>,
 }
 impl NamedExprs {
     pub const fn new(
         exprs: HashMap<String, BaseExpr>,
         ext_exprs: HashMap<String, ExtExpr>,
+        preprocessed_columns: HashSet<String>,
     ) -> Self {
-        Self { exprs, ext_exprs }
+        Self { exprs, ext_exprs, preprocessed_columns }
     }
 
     pub fn degree_bound(&self, name: String) -> Degree {
@@ -36,11 +39,13 @@ impl NamedExprs {
             expr.degree_bound(self)
         } else if let Some(expr) = self.ext_exprs.get(&name) {
             expr.degree_bound(self)
-        } else if name.starts_with("preprocessed.") {
-            // TODO(alont): Fix this hack.
+        } else if self.preprocessed_columns.contains(&name) {
             1
         } else {
             // If expression isn't found assume it's an external variable, effectively a const.
+            // TODO(ilya): Track the known constant params (claimed_sum, column_size, relation
+            // alphas and z) and panic on unknown names, so unregistered params can't silently
+            // get degree 0.
             0
         }
     }
@@ -103,6 +108,7 @@ mod tests {
             ]
             .into(),
             ext_exprs: [("qintermediate".to_string(), qintermediate.clone())].into(),
+            preprocessed_columns: ["is_first".to_string()].into(),
         };
 
         let expr = var!("intermediate") * col!(2, 1, 0);
@@ -113,6 +119,8 @@ mod tests {
         assert_eq!(qintermediate.degree_bound(&named_exprs), 2);
         assert_eq!(expr.degree_bound(&named_exprs), 3);
         assert_eq!(qexpr.degree_bound(&named_exprs), 5);
+        assert_eq!((var!("is_first") * col!(1, 0, 0)).degree_bound(&named_exprs), 2);
+        assert_eq!((var!("a") * col!(1, 0, 0)).degree_bound(&named_exprs), 1);
 
         // Multiplty by the inverse of a constant and a constant intermediate.
         assert_eq!(

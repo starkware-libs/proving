@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use num_traits::Zero;
 use stwo::core::Fraction;
@@ -61,6 +61,7 @@ pub struct ExprEvaluator {
     pub logup: FormalLogupAtRow,
     pub intermediates: HashMap<String, BaseExpr>,
     pub ext_intermediates: HashMap<String, ExtExpr>,
+    pub preprocessed_columns: HashSet<String>,
     // Save all intermediate names by order they can be assigned.
     ordered_intermediates: Vec<String>,
 }
@@ -80,6 +81,7 @@ impl ExprEvaluator {
             // TODO(alont) unify both intermediate types.
             intermediates: HashMap::new(),
             ext_intermediates: HashMap::new(),
+            preprocessed_columns: HashSet::new(),
             ordered_intermediates: vec![],
         }
     }
@@ -127,6 +129,7 @@ impl ExprEvaluator {
                 .iter()
                 .map(|(name, expr)| (name.clone(), expr.clone()))
                 .collect(),
+            self.preprocessed_columns.clone(),
         );
         self.constraints.iter().map(|c| c.degree_bound(&named_exprs)).collect()
     }
@@ -232,6 +235,7 @@ impl EvalAtRow for ExprEvaluator {
     }
 
     fn get_preprocessed_column(&mut self, column: PreProcessedColumnId) -> Self::F {
+        self.preprocessed_columns.insert(column.id.clone());
         BaseExpr::Param(column.id)
     }
 
@@ -261,6 +265,7 @@ mod tests {
     use stwo::core::fields::FieldExpOps;
 
     use crate::expr::{ExprEvaluator, ExtExpr};
+    use crate::preprocessed_columns::PreProcessedColumnId;
     use crate::{EvalAtRow, FrameworkEval, RelationEntry, relation};
 
     #[test]
@@ -430,5 +435,16 @@ let constraint_1 = (QM31Impl::from_partial_evals([trace_2_column_3_offset_0, \
         let expected = vec![4, 3];
 
         assert_eq!(eval.constraint_degree_bounds(), expected);
+    }
+
+    #[test]
+    fn test_preprocessed_column_degree_bound() {
+        let mut eval = ExprEvaluator::new();
+        let flag = eval.get_preprocessed_column(PreProcessedColumnId { id: "flag".to_owned() });
+        let x0 = eval.next_trace_mask();
+        let x1 = eval.next_trace_mask();
+        eval.add_constraint(flag * x0 * x1);
+
+        assert_eq!(eval.constraint_degree_bounds(), vec![3]);
     }
 }
