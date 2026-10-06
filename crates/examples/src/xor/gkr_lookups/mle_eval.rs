@@ -1,6 +1,4 @@
 //! Multilinear extension (MLE) eval at point constraints.
-// TODO(andrew): Remove in downstream PR.
-#![allow(dead_code)]
 
 use std::iter::zip;
 
@@ -859,7 +857,6 @@ mod tests {
         const N_VARIABLES: usize = 8;
         const COEFFS_COL_TRACE: usize = 1;
         const MLE_EVAL_TRACE: usize = 2;
-        const CONST_TRACE: usize = 2;
         const LOG_EXPAND: u32 = 1;
         // Create the test MLE.
         let mut rng = SmallRng::seed_from_u64(0);
