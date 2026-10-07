@@ -205,8 +205,6 @@ pub fn big_components_from_claim(
 pub fn accumulate_relation_memory(relation_uses: &mut RelationUsesDict, claim: &Option<Claim>) {
     let memory_id_to_value = claim.as_ref().expect("memory_id_to_value must be Some");
 
-    // TODO(ShaharS): Look into the file name of memory_id_to_big.
-    // memory_id_to_value has a big value component and a small value component.
     for log_size in &memory_id_to_value.big_log_sizes {
         accumulate_relation_uses(relation_uses, RELATION_USES_PER_ROW, *log_size);
     }
