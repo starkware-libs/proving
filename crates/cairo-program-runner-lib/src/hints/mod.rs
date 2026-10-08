@@ -1,3 +1,4 @@
+mod aggregator_wrapper_hints;
 mod applicative_bootloader_hints;
 mod bootloader_hints;
 mod builtin_usage_hints;

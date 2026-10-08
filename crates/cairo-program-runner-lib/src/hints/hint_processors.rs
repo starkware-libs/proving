@@ -13,6 +13,10 @@ use cairo_vm::vm::errors::hint_errors::HintError;
 use cairo_vm::vm::runners::cairo_runner::ResourceTracker;
 use cairo_vm::vm::vm_core::VirtualMachine;
 
+use super::aggregator_wrapper_hints::{
+    dump_aggregated_output_fact_topology, dump_aggregator_wrapper_poseidon_preimage,
+    load_aggregator_wrapper_input,
+};
 use super::applicative_bootloader_hints::{
     finalize_fact_topologies_and_pages, prepare_aggregator_simple_bootloader_output_segment,
     prepare_root_task_unpacker_bootloader_output_segment, restore_applicative_output_state,
@@ -120,6 +124,13 @@ impl HintProcessorLogic for MinimalBootloaderHintProcessor {
                 load_privacy_simple_bootloader_input(exec_scopes)
             }
             DUMP_INNER_TASK_FACT_TOPOLOGY => dump_inner_task_fact_topology(exec_scopes),
+            LOAD_AGGREGATOR_WRAPPER_INPUT => load_aggregator_wrapper_input(exec_scopes),
+            DUMP_AGGREGATED_OUTPUT_FACT_TOPOLOGY => {
+                dump_aggregated_output_fact_topology(vm, exec_scopes, ids_data, ap_tracking)
+            }
+            DUMP_AGGREGATOR_WRAPPER_POSEIDON_PREIMAGE => {
+                dump_aggregator_wrapper_poseidon_preimage(vm, exec_scopes, ids_data, ap_tracking)
+            }
             DUMP_PRIVACY_SIMPLE_BOOTLOADER_OUTPUT_PREIMAGE => {
                 dump_privacy_simple_bootloader_output_preimage(
                     vm,
