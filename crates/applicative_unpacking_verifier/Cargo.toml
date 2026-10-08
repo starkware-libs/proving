@@ -7,4 +7,8 @@ edition.workspace = true
 circuits.workspace = true
 circuits-unpacker.workspace = true
 itertools.workspace = true
+starknet-types-core.workspace = true
 stwo.workspace = true
+
+[dev-dependencies]
+circuit-multiverifier = { workspace = true, features = ["test-utils"] }

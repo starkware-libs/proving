@@ -3,6 +3,10 @@ name = "circuit-multiverifier"
 version.workspace = true
 edition.workspace = true
 
+[features]
+# Exposes the `test_utils` module (canonical-config fixtures and helpers) to other crates' tests.
+test-utils = ["dep:blake2", "dep:circuit-prover", "dep:circuit-cairo-verifier", "circuit-common/prover"]
+
 [dependencies]
 itertools.workspace = true
 stwo.workspace = true
@@ -11,6 +15,9 @@ circuits.workspace = true
 circuits-stark-verifier.workspace = true
 circuit-verifier.workspace = true
 circuit-common.workspace = true
+blake2 = { workspace = true, optional = true }
+circuit-prover = { workspace = true, optional = true }
+circuit-cairo-verifier = { workspace = true, optional = true }
 
 [dev-dependencies]
 blake2.workspace = true

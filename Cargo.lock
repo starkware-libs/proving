@@ -207,9 +207,11 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 name = "applicative-unpacking-verifier"
 version = "2.4.0"
 dependencies = [
+ "circuit-multiverifier",
  "circuits",
  "circuits-unpacker",
  "itertools 0.12.1",
+ "starknet-types-core",
  "stwo",
 ]
 
