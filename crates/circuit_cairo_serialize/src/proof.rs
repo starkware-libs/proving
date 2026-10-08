@@ -31,11 +31,11 @@ use crate::claim::{CairoCircuitClaim, CairoCircuitInteractionClaim};
 /// Owned mirror of the Cairo `CircuitProof` struct, with `queried_values` already sorted
 /// and transposed into the layout the Cairo verifier expects.
 ///
-/// `CairoSerialize` is derived; the reverse direction is [`CairoCircuitProof::deserialize`],
-/// which reads the same fields in declaration order but takes the lifting log sizes the format
-/// omits.
+/// `CairoSerialize` is derived; the reverse direction (`deserialize` in this crate's test
+/// module) reads the same fields in declaration order but takes the lifting log sizes the
+/// format omits.
 // Note: cannot derive `PartialEq`/`Eq` because `FriProof`/`MerkleDecommitmentLifted` do
-// not implement them. Roundtrip tests compare serialized felts instead.
+// not implement them. The round-trip tests compare serialized felts instead.
 #[derive(Clone, Debug, CairoSerialize)]
 pub struct CairoCircuitProof<H: MerkleHasherLifted>
 where
@@ -97,63 +97,10 @@ where
     felts
 }
 
-impl<H: MerkleHasherLifted> CairoCircuitProof<H>
-where
-    H::Hash: CairoSerialize + CairoDeserialize,
-{
-    /// Reads a proof back from the felt stream written by its `CairoSerialize` impl.
-    ///
-    /// `trace_lifting_log_size` and `preprocessed_lifting_log_size` are the heights the proof's
-    /// trees were committed at. The format does not carry them — no Cairo verifier reads them
-    /// back, the circuit verifier has them hardcoded for its topology — so the caller, who knows
-    /// the circuit's column log sizes, supplies them.
-    pub fn deserialize<'a>(
-        data: &mut impl Iterator<Item = &'a FieldElement>,
-        trace_lifting_log_size: u32,
-        preprocessed_lifting_log_size: u32,
-    ) -> Self {
-        Self {
-            claim: CairoDeserialize::deserialize(data),
-            interaction_pow: CairoDeserialize::deserialize(data),
-            interaction_claim: CairoDeserialize::deserialize(data),
-            stark_proof: CairoStarkProof::deserialize(
-                data,
-                trace_lifting_log_size,
-                preprocessed_lifting_log_size,
-            ),
-            channel_salt: CairoDeserialize::deserialize(data),
-        }
-    }
-}
-
 impl<H: MerkleHasherLifted> CairoStarkProof<H>
 where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
-    /// Reads a stark proof back, with the lifting log sizes the format omits supplied by the
-    /// caller. See [`CairoCircuitProof::deserialize`].
-    pub fn deserialize<'a>(
-        data: &mut impl Iterator<Item = &'a FieldElement>,
-        trace_lifting_log_size: u32,
-        preprocessed_lifting_log_size: u32,
-    ) -> Self {
-        Self {
-            // Only the FRI config is on the wire; the heights come from the caller.
-            config: PcsConfig {
-                fri_config: CairoDeserialize::deserialize(data),
-                trace_lifting_log_size,
-                preprocessed_lifting_log_size,
-            },
-            commitments: CairoDeserialize::deserialize(data),
-            oods_proof_of_work: CairoDeserialize::deserialize(data),
-            sampled_values: CairoDeserialize::deserialize(data),
-            decommitments: CairoDeserialize::deserialize(data),
-            queried_values: CairoDeserialize::deserialize(data),
-            proof_of_work: CairoDeserialize::deserialize(data),
-            fri_proof: CairoDeserialize::deserialize(data),
-        }
-    }
-
     /// Builds the Cairo-ready stark proof from a Rust `StarkProof` plus per-tree column
     /// log sizes for the [trace, interaction] trees (used to sort `queried_values`).
     pub fn from_stark_proof(
