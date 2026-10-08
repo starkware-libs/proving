@@ -1,0 +1,10 @@
+[package]
+name = "applicative-unpacking-verifier"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+circuits.workspace = true
+circuits-unpacker.workspace = true
+itertools.workspace = true
+stwo.workspace = true
