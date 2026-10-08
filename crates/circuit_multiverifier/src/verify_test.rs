@@ -35,7 +35,7 @@ use crate::test_utils::{
     get_preprocessed_multiverifier_from_circuit, leaf_circuit_hash,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
 };
-use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
+use crate::verify::{CircuitVerifierInput, SharedConfig, build_multiverifier_circuit};
 
 /// The Cairo verifier proof fixture (produced by [`test_cairo_proof_regression`]).
 const PRIVACY_CAIRO_VERIFIER_PROOF_PATH: &str =
@@ -147,10 +147,10 @@ fn test_regression_constants() {
     );
 }
 
-/// Builds a `MultiverifierInput` that wraps a proof of the privacy cairo verifier (i.e. the circuit
-/// with preprocessed root = `PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT`).
-fn build_cairo_input(proof: &Proof<QM31>) -> MultiverifierInput<QM31> {
-    MultiverifierInput {
+/// Builds a `CircuitVerifierInput` that wraps a proof of the privacy cairo verifier (i.e. the
+/// circuit with preprocessed root = `PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT`).
+fn build_cairo_input(proof: &Proof<QM31>) -> CircuitVerifierInput<QM31> {
+    CircuitVerifierInput {
         proof: proof.clone(),
         preprocessed_root: HashValue::<QM31>::from(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT),
         output_digest: HashValue::from(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST),
@@ -286,7 +286,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     // The circuit keeps the full unreduced eight-word digest as its output.
     let hash_of_payload: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
 
-    let multiverifier_of_two_cairo_input = MultiverifierInput {
+    let multiverifier_of_two_cairo_input = CircuitVerifierInput {
         proof: multiverifier_proof,
         output_digest: hash_of_payload.into(),
         preprocessed_root: MULTIVERIFIER_PREPROCESSED_ROOT.into(),

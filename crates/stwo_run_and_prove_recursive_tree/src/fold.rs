@@ -4,7 +4,7 @@
 use circuit_cairo_serialize::prepare_circuit_proof_for_cairo_verifier;
 use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
-use circuit_multiverifier::verify::{MultiverifierInput, build_multiverifier_circuit};
+use circuit_multiverifier::verify::{CircuitVerifierInput, build_multiverifier_circuit};
 use circuit_prover::prover::{
     prepare_circuit_proof_for_circuit_verifier, prove_circuit_assignment,
     prove_circuit_assignment_with_channel,
@@ -65,14 +65,14 @@ impl LayerEntry {
         })
     }
 
-    /// Materializes this node as a [`MultiverifierInput`] by deserializing its in-memory proof.
+    /// Materializes this node as a [`CircuitVerifierInput`] by deserializing its in-memory proof.
     pub fn to_multiverifier_input(
         &self,
         proof_config: &ProofConfig,
-    ) -> Result<MultiverifierInput<QM31>, RecursiveTreeError> {
+    ) -> Result<CircuitVerifierInput<QM31>, RecursiveTreeError> {
         let proof = deserialize_proof_with_config(&mut self.proof_bytes.as_slice(), proof_config)
             .map_err(|e| RecursiveTreeError::Deserialize(format!("{e:?}")))?;
-        Ok(MultiverifierInput {
+        Ok(CircuitVerifierInput {
             proof,
             preprocessed_root: self.preprocessed_root.clone(),
             output_digest: self.output_digest.into(),
@@ -122,8 +122,8 @@ pub fn reduce_root_single(
 /// Shared reduction body: proves a multiverifier over the two inputs and wraps the result in the
 /// parent entry, with `subtasks` as its packed children.
 fn reduce(
-    input0: MultiverifierInput<QM31>,
-    input1: MultiverifierInput<QM31>,
+    input0: CircuitVerifierInput<QM31>,
+    input1: CircuitVerifierInput<QM31>,
     subtasks: Vec<PackedNode>,
     layer_idx: usize,
     pair_idx: usize,

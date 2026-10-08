@@ -21,12 +21,12 @@ mod verify_test;
 mod backward_compatibility_test;
 
 /// A circuit proof together with metadata needed to build the [`CircuitStatement`] against which
-/// the proof will be verified. The multiverifier expects the output gates of an input circuit to
-/// hold its output digest (`N_RESERVED` QM31, the unreduced Blake2s digest) + 1 QM31 equal to
-/// [`circuits::context::U_VALUE`] coming from the constant finalization mechanism (see
+/// the proof will be verified. The verifying circuit expects the output gates of a verified
+/// circuit to hold its output digest (`N_RESERVED` QM31, the unreduced Blake2s digest) + 1 QM31
+/// equal to [`circuits::context::U_VALUE`] coming from the constant finalization mechanism (see
 /// [`circuits::finalize_constants`]).
 #[derive(Clone)]
-pub struct MultiverifierInput<Value: IValue> {
+pub struct CircuitVerifierInput<Value: IValue> {
     /// A circuit proof.
     pub proof: Proof<Value>,
     /// The preprocessed root of the circuit associated to `proof`.
@@ -45,7 +45,7 @@ pub struct SharedConfig {
 
 /// Builds a circuit that verifies `k` circuit proofs (a `k`-to-1 fold node).
 ///
-/// For each [`MultiverifierInput`], the function reconstructs the inner
+/// For each [`CircuitVerifierInput`], the function reconstructs the inner
 /// [`CircuitStatement`] from `shared_config` and the per-proof
 /// `preprocessed_root` and `output_digest`, and runs the STARK verifier.
 ///
@@ -63,7 +63,7 @@ pub struct SharedConfig {
 /// emit `[circuit_hash words, output words]`. Any arity change must keep this ordering identical
 /// on both sides.
 pub fn build_multiverifier_circuit<Value: IValue>(
-    inputs: Vec<MultiverifierInput<Value>>,
+    inputs: Vec<CircuitVerifierInput<Value>>,
     shared_config: &SharedConfig,
 ) -> FinalizedContext<Value> {
     assert!(!inputs.is_empty(), "multiverifier node needs at least one input");
@@ -71,8 +71,8 @@ pub fn build_multiverifier_circuit<Value: IValue>(
 
     let mut outer_verifier_output_preimage = vec![];
     // Verify the `k` proofs sequentially, in the fixed left-to-right order of `inputs`.
-    for multiverifier_input in inputs {
-        let MultiverifierInput { proof, preprocessed_root, output_digest } = multiverifier_input;
+    for input in inputs {
+        let CircuitVerifierInput { proof, preprocessed_root, output_digest } = input;
 
         let circuit_config = CircuitConfig {
             config: shared_config.pcs_config,
@@ -121,7 +121,7 @@ pub fn shared_config(
 pub fn build_multiverifier_context_from_shared_config(
     shared_config: &SharedConfig,
 ) -> FinalizedContext<NoValue> {
-    let empty_input = || MultiverifierInput {
+    let empty_input = || CircuitVerifierInput {
         proof: empty_proof(&shared_config.proof_config),
         preprocessed_root: HashValue::no_value(),
         output_digest: HashValue::no_value(),

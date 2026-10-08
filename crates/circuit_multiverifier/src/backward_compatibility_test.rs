@@ -11,7 +11,7 @@ use crate::test_utils::{
     TARGET_PADDING_SIZES, leaf_circuit_hash, multiverifier_preprocessed_column_log_sizes,
     native_blake_u32s,
 };
-use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
+use crate::verify::{CircuitVerifierInput, SharedConfig, build_multiverifier_circuit};
 
 /// The preprocessed root of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
@@ -46,7 +46,7 @@ fn test_backward_compatibility() {
     let old_cairo_proof =
         deserialize_proof_with_config(&mut old_bytes.as_slice(), &shared_config.proof_config)
             .unwrap();
-    let old_input = MultiverifierInput {
+    let old_input = CircuitVerifierInput {
         proof: old_cairo_proof,
         output_digest: BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST.into(),
         preprocessed_root: BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(),
@@ -67,7 +67,7 @@ fn test_backward_compatibility() {
     let current_proof =
         deserialize_proof_with_config(&mut current_bytes.as_slice(), &shared_config.proof_config)
             .unwrap();
-    let current_input = MultiverifierInput {
+    let current_input = CircuitVerifierInput {
         proof: current_proof,
         output_digest: current_output_digest.into(),
         preprocessed_root: MULTIVERIFIER_PREPROCESSED_ROOT.into(),
