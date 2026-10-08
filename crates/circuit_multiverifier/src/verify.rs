@@ -2,7 +2,7 @@ use circuit_common::N_RESERVED;
 use circuit_verifier::statement::{CircuitStatement, circuit_verifier_proof_config};
 use circuit_verifier::verify::CircuitConfig;
 use circuits::blake::{HashValue, blake2s_u32s};
-use circuits::context::{Context, FinalizedContext};
+use circuits::context::{Context, FinalizedContext, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
@@ -72,22 +72,9 @@ pub fn build_multiverifier_circuit<Value: IValue>(
     let mut outer_verifier_output_preimage = vec![];
     // Verify the `k` proofs sequentially, in the fixed left-to-right order of `inputs`.
     for input in inputs {
-        let CircuitVerifierInput { proof, preprocessed_root, output_digest } = input;
-
-        let circuit_config = CircuitConfig {
-            config: shared_config.pcs_config,
-            preprocessed_column_log_sizes: shared_config.preprocessed_column_log_sizes.clone(),
-        };
-        let output_digest = output_digest.guess(&mut context);
-        let preprocessed_root = preprocessed_root.guess(&mut context);
-        let statement =
-            CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
-        let proof_vars = proof.guess(&mut context);
-
-        verify(&mut context, &proof_vars, &shared_config.proof_config, &statement);
+        let (circuit_hash, output_digest) = verify_child(&mut context, input, shared_config);
         // Append (circuit_hash, output_digest) to the preimage of the outer hash.
-        outer_verifier_output_preimage
-            .extend(chain!(statement.circuit_hash, statement.output_digest));
+        outer_verifier_output_preimage.extend(chain!(circuit_hash, output_digest));
     }
     // The payload to be hashed is, for each of the `k` verified circuits (left to right), the eight
     // 32-bit words of its circuit hash followed by its `N_RESERVED` raw output words:
@@ -105,6 +92,32 @@ pub fn build_multiverifier_circuit<Value: IValue>(
     #[cfg(test)]
     context.circuit().check_yields();
     context
+}
+
+/// Verifies one circuit proof in-circuit: guesses the child's output digest and its per-proof
+/// `preprocessed_root` (each word range-constrained to a valid `u32` packing), reconstructs its
+/// [`CircuitStatement`] from those and `shared_config`, guesses the proof, and runs the STARK
+/// verifier. Returns the statement's in-circuit `circuit_hash` together with the guessed output
+/// digest.
+pub fn verify_child<Value: IValue>(
+    context: &mut Context<Value>,
+    input: CircuitVerifierInput<Value>,
+    shared_config: &SharedConfig,
+) -> (HashValue<Var>, HashValue<Var>) {
+    let CircuitVerifierInput { proof, preprocessed_root, output_digest } = input;
+
+    let circuit_config = CircuitConfig {
+        config: shared_config.pcs_config,
+        preprocessed_column_log_sizes: shared_config.preprocessed_column_log_sizes.clone(),
+    };
+    let output_digest = output_digest.guess(context);
+    let preprocessed_root = preprocessed_root.guess(context);
+    let statement =
+        CircuitStatement::new(context, &circuit_config, preprocessed_root, output_digest);
+    let proof_vars = proof.guess(context);
+
+    verify(context, &proof_vars, &shared_config.proof_config, &statement);
+    (statement.circuit_hash, statement.output_digest)
 }
 
 /// The [`SharedConfig`] for verifying proofs of a circuit with the given preprocessed-trace
