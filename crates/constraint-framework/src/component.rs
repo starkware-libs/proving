@@ -26,7 +26,13 @@ enum PreprocessedColumnsAllocationMode {
     Static,
 }
 
-// TODO(andrew): Docs.
+/// Assigns each [`FrameworkComponent`] its columns in the commitment trees, in the order the
+/// components are created, and tracks the preprocessed columns they use.
+///
+/// Production systems should use [`Self::new_with_preprocessed_columns`], which fixes the
+/// preprocessed columns upfront; a component using a column outside of that set panics. The default
+/// allocator instead allocates preprocessed columns dynamically, in order of first use, and is
+/// intended for testing.
 // TODO(andrew): Consider better location for this.
 #[derive(Debug, Default)]
 pub struct TraceLocationAllocator {
