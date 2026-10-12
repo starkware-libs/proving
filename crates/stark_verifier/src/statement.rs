@@ -44,7 +44,9 @@ pub trait Statement<Value: IValue> {
     /// Returns the AIR components that define the constraint system.
     fn get_components(&self) -> &IndexMap<&'static str, Box<dyn CircuitEval<Value>>>;
 
-    fn get_component_log_sizes(&self) -> &Simd;
+    /// Packs the per-component trace log sizes into a [`Simd`] (in the order of
+    /// [`Self::get_components`]), adding the packed values to `context`.
+    fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd;
 
     /// Returns the IDs of the preprocessed columns used by this statement's components.
     fn get_preprocessed_column_ids(&self) -> Vec<PreProcessedColumnId>;

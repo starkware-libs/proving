@@ -44,7 +44,7 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
         let empty_proof = empty_proof(&config);
         let mut novalue_context = Context::<NoValue>::default();
         let proof_vars = empty_proof.guess(&mut novalue_context);
-        let statement = SimpleStatement::new(&mut novalue_context);
+        let statement = SimpleStatement::default();
         verify(&mut novalue_context, &proof_vars, &config, &statement);
         novalue_context.finalize(false).context.circuit
     };
@@ -80,7 +80,7 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
     let mut context = TraceContext::default();
     let proof = proof_from_stark_proof(&proof, &config, claim, interaction_pow_nonce, channel_salt);
     let proof_vars = proof.guess(&mut context);
-    let statement = SimpleStatement::new(&mut context);
+    let statement = SimpleStatement::default();
     verify(&mut context, &proof_vars, &config, &statement);
     let context = context.finalize(true);
 

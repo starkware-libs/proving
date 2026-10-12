@@ -68,7 +68,7 @@ pub fn verify<Value: IValue>(
     let preprocessed_root = statement.get_preprocessed_root(context);
     channel.mix_commitment(context, &preprocessed_root);
 
-    let component_log_sizes = statement.get_component_log_sizes().clone();
+    let component_log_sizes = statement.pack_component_log_sizes(context);
     let component_sizes = validate_and_compute_component_sizes(
         context,
         &component_log_sizes,
