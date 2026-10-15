@@ -195,7 +195,6 @@ pub const ALL_BUILTINS: [BuiltinName; 11] = [
     BuiltinName::mul_mod,
 ];
 
-// TODO(idanh): This function seems to be unused, consider removing it.
 fn check_cairo_pie_builtin_usage(
     vm: &mut VirtualMachine,
     builtin_name: &BuiltinName,
