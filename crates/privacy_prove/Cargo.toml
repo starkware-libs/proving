@@ -26,11 +26,7 @@ leaf-proof-format.workspace = true
 leaf-prover.workspace = true
 
 # cairo-vm
-cairo-vm = { workspace = true, features = [
-    "extensive_hints",
-    "mod_builtin",
-    "clap",
-] }
+cairo-vm.workspace = true
 
 # stwo cairo
 stwo-cairo-adapter.workspace = true
