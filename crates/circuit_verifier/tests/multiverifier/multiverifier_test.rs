@@ -3,7 +3,7 @@ use std::io::Write;
 
 use cairo_air::utils::binary_deserialize_from_file;
 use circuit_cairo_verifier::test_utils::{
-    privacy_cairo_verifier_config, privacy_components, verify_cairo_with_component_set,
+    privacy_cairo_verifier_config, verify_cairo_with_component_set,
 };
 use circuit_cairo_verifier::utils::get_proof_file_path;
 use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
@@ -26,6 +26,7 @@ use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use itertools::chain;
+use privacy_common::privacy_components;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo::prover::backend::simd::SimdBackend;
@@ -58,7 +59,11 @@ fn get_preprocessed_cairo_verifier(
 ) -> (PreprocessedCircuit, FinalizedContext<NoValue>) {
     // TODO(az-starkware): Use same ZK blinding as the production flow
     // (Some(PCS_CONFIG.fri_params.n_queries))
-    let const_config = privacy_cairo_verifier_config(pcs_config.fri_params.log_blowup_factor, None);
+    let const_config = privacy_cairo_verifier_config(
+        &privacy_components(),
+        pcs_config.fri_params.log_blowup_factor,
+        None,
+    );
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     if let Some(target_padding) = target_padding {
         pad_to_targets(&mut novalue_context, &target_padding);
@@ -167,7 +172,8 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
 
     // TODO(az-starkware): Use same ZK blinding as the production flow
     // (Some(PCS_CONFIG.fri_params.n_queries))
-    let const_config = privacy_cairo_verifier_config(LOG_BLOWUP_FACTOR, None);
+    let const_config =
+        privacy_cairo_verifier_config(&privacy_components(), LOG_BLOWUP_FACTOR, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     pad_to_targets(&mut novalue_context, &TARGET_PADDING_SIZES);
     let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);

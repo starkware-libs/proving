@@ -4,7 +4,6 @@ use std::sync::Arc;
 use anyhow::Result;
 use cairo_air::verifier::INTERACTION_POW_BITS;
 use circuit_cairo_verifier::all_components::all_components;
-use circuit_cairo_verifier::privacy::PRIVACY_TRANSACTION_COMPONENTS;
 use circuit_cairo_verifier::verify::{
     CairoVerifierConfig, NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit, get_preprocessed_root,
 };
@@ -22,7 +21,7 @@ use circuits_stark_verifier::proof::ProofConfig;
 use privacy_common::consts::{
     CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG,
     MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS,
-    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, PRIVACY_TRANSACTION_COMPONENTS,
 };
 use privacy_common::utils::ProofHeader;
 use privacy_common::{

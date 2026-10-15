@@ -1,11 +1,10 @@
 use circuit_cairo_verifier::all_components::all_components;
-use circuit_cairo_verifier::privacy::PRIVACY_TRANSACTION_COMPONENTS;
 use circuit_cairo_verifier::test_utils::privacy_pcs_config;
 use stwo::core::fields::qm31::QM31;
 
 use crate::consts::{
     CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,
-    CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE,
+    CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE, PRIVACY_TRANSACTION_COMPONENTS,
 };
 
 /// Test that the privacy test setup (`privacy_pcs_config`) matches the production configs.

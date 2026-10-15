@@ -3,6 +3,7 @@ pub mod consts;
 mod tests;
 pub mod utils;
 
+use std::collections::HashSet;
 use std::error::Error;
 
 use cairo_vm::types::program::Program;
@@ -11,7 +12,9 @@ use starknet_types_core::felt::Felt;
 use starknet_types_core::hash::Blake2Felt252;
 use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 
-use crate::consts::{LARGE_PROOFS_CIRCUIT_REGISTRY_JSON, PRIVACY_BOOTLOADER_JSON};
+use crate::consts::{
+    LARGE_PROOFS_CIRCUIT_REGISTRY_JSON, PRIVACY_BOOTLOADER_JSON, PRIVACY_TRANSACTION_COMPONENTS,
+};
 
 pub struct PrivacyProofOutput {
     /// Proof bytes, laid out as the serialized [`utils::ProofHeader`] of the `privacy-prove` crate
@@ -20,6 +23,11 @@ pub struct PrivacyProofOutput {
     /// (`verify_recursive_circuit`).
     pub proof: Vec<u8>,
     pub output_preimage: Vec<Felt>,
+}
+
+/// Returns [`PRIVACY_TRANSACTION_COMPONENTS`] as a set.
+pub fn privacy_components() -> HashSet<&'static str> {
+    HashSet::from_iter(PRIVACY_TRANSACTION_COMPONENTS)
 }
 
 pub fn get_privacy_bootloader_program() -> Result<Program, Box<dyn Error>> {
