@@ -79,7 +79,6 @@ RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f" cargo bench --featur
 | `pcs` | Full PCS prove/verify | proof time |
 | `eval_at_point` | Circle poly evaluation | points/sec |
 | `barycentric_eval_at_point` | Barycentric eval | points/sec |
-| `bit_rev` | Bit-reversal permutation | elements/sec |
 | `lookups` | GKR grand product + logup | layers/sec |
 | `prefix_sum` | SIMD prefix sum | elements/sec |
 | `poseidon` (examples) | Poseidon2 proof generation | proofs/sec |

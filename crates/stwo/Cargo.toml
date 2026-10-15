@@ -89,11 +89,6 @@ missing_const_for_fn = "warn"
 
 [[bench]]
 harness = false
-name = "bit_rev"
-required-features = ["prover"]
-
-[[bench]]
-harness = false
 name = "eval_at_point"
 required-features = ["prover"]
 
