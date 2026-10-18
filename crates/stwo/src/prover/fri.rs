@@ -330,11 +330,8 @@ impl<'a, B: FriOps + MerkleOpsLifted<H>, H: MerkleHasherLifted> FriFirstLayerPro
 
 /// A FRI layer comprises of a merkle tree that commits to evaluations of a polynomial.
 ///
-/// The polynomial evaluations are viewed as evaluation of a polynomial on multiple distinct cosets
-/// of size two. Each leaf of the merkle tree commits to a single coset evaluation.
-// TODO(andrew): Support different step sizes and update docs.
-// TODO(andrew): The docs are wrong. Each leaf of the merkle tree commits to a single
-// QM31 value. This is inefficient and should be changed.
+/// If `pack_leaves` is set, each Merkle leaf commits to the values on a FRI coset of size
+/// `2^LOG_PACKED_LEAF_SIZE`; otherwise, each leaf commits to a single QM31 value.
 struct FriInnerLayerProver<B: FriOps + MerkleOpsLifted<H>, H: MerkleHasherLifted> {
     evaluation: LineEvaluation<B>,
     merkle_tree: MerkleProverLifted<B, H>,
