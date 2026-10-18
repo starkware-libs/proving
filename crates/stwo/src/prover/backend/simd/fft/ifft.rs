@@ -87,7 +87,7 @@ pub unsafe fn ifft_lower_with_vecwise(
 
     let values = UnsafeMut(values);
     parallel_iter!(0..1 << (log_size - fft_layers)).for_each(|index_h| {
-        let values = values.get();
+        let values = values.get().add(index_h << fft_layers);
         ifft_vecwise_loop(values, twiddle_dbl, fft_layers - VECWISE_FFT_BITS, index_h);
         for layer in (VECWISE_FFT_BITS..fft_layers).step_by(3) {
             match fft_layers - layer {
@@ -139,7 +139,7 @@ pub unsafe fn ifft_lower_without_vecwise(
 
     let values = UnsafeMut(values);
     parallel_iter!(0..1 << (log_size - fft_layers - LOG_N_LANES as usize)).for_each(|index_h| {
-        let values = values.get();
+        let values = values.get().add(index_h << (fft_layers + LOG_N_LANES as usize));
         for layer in (0..fft_layers).step_by(3) {
             let fixed_layer = layer + LOG_N_LANES as usize;
             match fft_layers - layer {
@@ -167,7 +167,7 @@ pub unsafe fn ifft_lower_without_vecwise(
 ///
 /// # Arguments
 ///
-/// - `values`: Pointer to the entire value array, aligned to 64 bytes.
+/// - `values`: Pointer to the block of `index_h` in the value array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for each of the 5 ifft layers.
 /// - `high_bits`: The number of bits this loops needs to run on.
 /// - `index_h`: The higher part of the index, iterated by the caller.
@@ -183,8 +183,8 @@ pub unsafe fn ifft_vecwise_loop(
 ) {
     for index_l in 0..1 << loop_bits {
         let index = (index_h << loop_bits) + index_l;
-        let mut val0 = PackedBaseField::load(values.add(index * 32).cast_const());
-        let mut val1 = PackedBaseField::load(values.add(index * 32 + 16).cast_const());
+        let mut val0 = PackedBaseField::load(values.add(index_l * 32).cast_const());
+        let mut val1 = PackedBaseField::load(values.add(index_l * 32 + 16).cast_const());
         (val0, val1) = vecwise_ibutterflies(
             val0,
             val1,
@@ -194,8 +194,8 @@ pub unsafe fn ifft_vecwise_loop(
         );
         (val0, val1) =
             simd_ibutterfly(val0, val1, u32x16::splat(*twiddle_dbl[3].get_unchecked(index)));
-        val0.store(values.add(index * 32));
-        val1.store(values.add(index * 32 + 16));
+        val0.store(values.add(index_l * 32));
+        val1.store(values.add(index_l * 32 + 16));
     }
 }
 
@@ -203,7 +203,7 @@ pub unsafe fn ifft_vecwise_loop(
 ///
 /// # Arguments
 ///
-/// - `values`: Pointer to the entire value array, aligned to 64 bytes.
+/// - `values`: Pointer to the block of `index_h` in the value array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for each of the 3 ifft layers.
 /// - `loop_bits`: The number of bits this loops needs to run on.
 /// - `layer`: The layer number of the first ifft layer to apply. The layers `layer`, `layer + 1`,
@@ -222,7 +222,7 @@ pub unsafe fn ifft3_loop(
 ) {
     for index_l in 0..1 << loop_bits {
         let index = (index_h << loop_bits) + index_l;
-        let offset = index << (layer + 3);
+        let offset = index_l << (layer + 3);
         let twiddles0: [u32x16; 4] = std::array::from_fn(|i| {
             u32x16::splat(
                 *twiddle_dbl[0].get_unchecked((index * 4 + i) & (twiddle_dbl[0].len() - 1)),
@@ -246,7 +246,7 @@ pub unsafe fn ifft3_loop(
 ///
 /// # Arguments
 ///
-/// - `values`: Pointer to the entire value array, aligned to 64 bytes.
+/// - `values`: Pointer to the block of `index_h` in the value array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for each of the 2 ifft layers.
 /// - `loop_bits`: The number of bits this loops needs to run on.
 /// - `layer`: The layer number of the first ifft layer to apply. The layers `layer`, `layer + 1`
@@ -257,7 +257,6 @@ pub unsafe fn ifft3_loop(
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
 unsafe fn ifft2_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, index: usize) {
-    let offset = index << (layer + 2);
     let twiddles0: [u32x16; 2] = std::array::from_fn(|i| {
         u32x16::splat(*twiddle_dbl[0].get_unchecked((index * 2 + i) & (twiddle_dbl[0].len() - 1)))
     });
@@ -265,7 +264,7 @@ unsafe fn ifft2_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, ind
         u32x16::splat(*twiddle_dbl[1].get_unchecked((index + i) & (twiddle_dbl[1].len() - 1)))
     });
     for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
-        ifft2(values, offset + l, layer, twiddles0, twiddles1);
+        ifft2(values, l, layer, twiddles0, twiddles1);
     }
 }
 
@@ -273,7 +272,7 @@ unsafe fn ifft2_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, ind
 ///
 /// # Arguments
 ///
-/// - `values`: Pointer to the entire value array, aligned to 64 bytes.
+/// - `values`: Pointer to the block of `index_h` in the value array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for the ifft layer.
 /// - `layer`: The layer number of the ifft layer to apply.
 /// - `index_h`: The higher part of the index, iterated by the caller.
@@ -282,12 +281,11 @@ unsafe fn ifft2_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, ind
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
 unsafe fn ifft1_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, index: usize) {
-    let offset = index << (layer + 1);
     let twiddles0: [u32x16; 1] = std::array::from_fn(|i| {
         u32x16::splat(*twiddle_dbl[0].get_unchecked((index + i) & (twiddle_dbl[0].len() - 1)))
     });
     for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
-        ifft1(values, offset + l, layer, twiddles0);
+        ifft1(values, l, layer, twiddles0);
     }
 }
 

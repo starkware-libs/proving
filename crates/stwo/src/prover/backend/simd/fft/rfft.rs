@@ -93,8 +93,9 @@ pub unsafe fn fft_lower_with_vecwise(
     let src = UnsafeConst(src);
     let dst = UnsafeMut(dst);
     parallel_iter!(0..1 << (log_size - fft_layers)).for_each(|index_h| {
-        let mut src = src.get();
-        let dst = dst.get();
+        let block = index_h << fft_layers;
+        let mut src = src.get().add(block);
+        let dst = dst.get().add(block);
         for layer in (VECWISE_FFT_BITS..fft_layers).step_by(3).rev() {
             match fft_layers - layer {
                 1 => {
@@ -151,8 +152,9 @@ pub unsafe fn fft_lower_without_vecwise(
     let src = UnsafeConst(src);
     let dst = UnsafeMut(dst);
     parallel_iter!(0..1 << (log_size - fft_layers - LOG_N_LANES as usize)).for_each(|index_h| {
-        let mut src = src.get();
-        let dst = dst.get();
+        let block = index_h << (fft_layers + LOG_N_LANES as usize);
+        let mut src = src.get().add(block);
+        let dst = dst.get().add(block);
         for layer in (0..fft_layers).step_by(3).rev() {
             let fixed_layer = layer + LOG_N_LANES as usize;
             match fft_layers - layer {
@@ -182,8 +184,8 @@ pub unsafe fn fft_lower_without_vecwise(
 ///
 /// # Arguments
 ///
-/// - `src`: A pointer to the values to transform, aligned to 64 bytes.
-/// - `dst`: A pointer to the destination array, aligned to 64 bytes.
+/// - `src`: A pointer to the block of `index_h` in the values to transform, aligned to 64 bytes.
+/// - `dst`: A pointer to the block of `index_h` in the destination array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for each of the 5 fft layers.
 /// - `high_bits`: The number of bits this loops needs to run on.
 /// - `index_h`: The higher part of the index, iterated by the caller.
@@ -200,8 +202,8 @@ unsafe fn fft_vecwise_loop(
 ) {
     for index_l in 0..1 << loop_bits {
         let index = (index_h << loop_bits) + index_l;
-        let mut val0 = PackedBaseField::load(src.add(index * 32));
-        let mut val1 = PackedBaseField::load(src.add(index * 32 + 16));
+        let mut val0 = PackedBaseField::load(src.add(index_l * 32));
+        let mut val1 = PackedBaseField::load(src.add(index_l * 32 + 16));
         (val0, val1) =
             simd_butterfly(val0, val1, u32x16::splat(*twiddle_dbl[3].get_unchecked(index)));
         (val0, val1) = vecwise_butterflies(
@@ -211,8 +213,8 @@ unsafe fn fft_vecwise_loop(
             array::from_fn(|i| *twiddle_dbl[1].get_unchecked(index * 4 + i)),
             array::from_fn(|i| *twiddle_dbl[2].get_unchecked(index * 2 + i)),
         );
-        val0.store(dst.add(index * 32));
-        val1.store(dst.add(index * 32 + 16));
+        val0.store(dst.add(index_l * 32));
+        val1.store(dst.add(index_l * 32 + 16));
     }
 }
 
@@ -220,8 +222,8 @@ unsafe fn fft_vecwise_loop(
 ///
 /// # Arguments
 ///
-/// - `src`: A pointer to the values to transform, aligned to 64 bytes.
-/// - `dst`: A pointer to the destination array, aligned to 64 bytes.
+/// - `src`: A pointer to the block of `index_h` in the values to transform, aligned to 64 bytes.
+/// - `dst`: A pointer to the block of `index_h` in the destination array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for each of the 3 fft layers.
 /// - `loop_bits`: The number of bits this loops needs to run on.
 /// - `layer`: The layer number of the first fft layer to apply. The layers `layer`, `layer + 1`,
@@ -241,7 +243,7 @@ unsafe fn fft3_loop(
 ) {
     for index_l in 0..1 << loop_bits {
         let index = (index_h << loop_bits) + index_l;
-        let offset = index << (layer + 3);
+        let offset = index_l << (layer + 3);
         let twiddles0: [u32x16; 4] = array::from_fn(|i| {
             u32x16::splat(
                 *twiddle_dbl[0].get_unchecked((index * 4 + i) & (twiddle_dbl[0].len() - 1)),
@@ -265,8 +267,8 @@ unsafe fn fft3_loop(
 ///
 /// # Arguments
 ///
-/// - `src`: A pointer to the values to transform, aligned to 64 bytes.
-/// - `dst`: A pointer to the destination array, aligned to 64 bytes.
+/// - `src`: A pointer to the block of `index_h` in the values to transform, aligned to 64 bytes.
+/// - `dst`: A pointer to the block of `index_h` in the destination array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for each of the 2 fft layers.
 /// - `loop_bits`: The number of bits this loops needs to run on.
 /// - `layer`: The layer number of the first fft layer to apply. The layers `layer`, `layer + 1` are
@@ -283,7 +285,6 @@ unsafe fn fft2_loop(
     layer: usize,
     index: usize,
 ) {
-    let offset = index << (layer + 2);
     let twiddles0: [u32x16; 2] = array::from_fn(|i| {
         u32x16::splat(*twiddle_dbl[0].get_unchecked((index * 2 + i) & (twiddle_dbl[0].len() - 1)))
     });
@@ -291,7 +292,7 @@ unsafe fn fft2_loop(
         u32x16::splat(*twiddle_dbl[1].get_unchecked((index + i) & (twiddle_dbl[1].len() - 1)))
     });
     for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
-        fft2(src, dst, offset + l, layer, twiddles0, twiddles1);
+        fft2(src, dst, l, layer, twiddles0, twiddles1);
     }
 }
 
@@ -299,8 +300,8 @@ unsafe fn fft2_loop(
 ///
 /// # Arguments
 ///
-/// - `src`: A pointer to the values to transform, aligned to 64 bytes.
-/// - `dst`: A pointer to the destination array, aligned to 64 bytes.
+/// - `src`: A pointer to the block of `index_h` in the values to transform, aligned to 64 bytes.
+/// - `dst`: A pointer to the block of `index_h` in the destination array, aligned to 64 bytes.
 /// - `twiddle_dbl`: The doubles of the twiddle factors for the fft layer.
 /// - `layer`: The layer number of the fft layer to apply.
 /// - `index_h`: The higher part of the index, iterated by the caller.
@@ -315,12 +316,11 @@ unsafe fn fft1_loop(
     layer: usize,
     index: usize,
 ) {
-    let offset = index << (layer + 1);
     let twiddles0: [u32x16; 1] = array::from_fn(|i| {
         u32x16::splat(*twiddle_dbl[0].get_unchecked((index + i) & (twiddle_dbl[0].len() - 1)))
     });
     for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
-        fft1(src, dst, offset + l, layer, twiddles0);
+        fft1(src, dst, l, layer, twiddles0);
     }
 }
 
