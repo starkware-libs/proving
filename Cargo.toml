@@ -96,7 +96,6 @@ syn = "2.0.90"
 test-log = { version = "0.2.17", features = ["trace"] }
 wasm-bindgen-test = "0.3.43"
 getrandom_v2 = { package = "getrandom", version = "0.2", features = ["js"] }
-getrandom_v3 = { package = "getrandom", version = "0.3", features = ["wasm_js"] }
 bzip2 = { version = "0.5.0", default-features = false, features = ["libbz2-rs-sys"] }
 cairo-vm = { version = "3.2.0", features = [
     "extensive_hints",
@@ -228,8 +227,8 @@ inherits = "release"
 debug = true
 
 [workspace.metadata.cargo-shear]
-# `stwo-cairo-prover` pulls these in under a wasm-only `[target.'cfg(...)'.dependencies]` table
-# purely to activate feature flags of indirect `getrandom` dependencies. shear does not evaluate
-# cfg-specific tables, and for renamed dependencies only a workspace-level ignore silences both
+# `stwo-cairo-prover` declares `getrandom_v2` under a wasm-only `[target.'cfg(...)'.dependencies]`
+# table only to enable its `js` feature (see the comment there). shear does not evaluate
+# cfg-specific tables, and for a renamed dependency only a workspace-level ignore silences both
 # the package-level and the workspace-level finding.
-ignored = ["getrandom_v2", "getrandom_v3"]
+ignored = ["getrandom_v2"]

@@ -41,10 +41,11 @@ bytemuck.workspace = true
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))'.dependencies]
 sonic-rs.workspace = true
 
-# Override getrandom feature flags for indirect dependencies.
+# `getrandom` 0.2 reaches this crate through `rand_core` (via `crypto-bigint`, `rand` and
+# `rand_chacha`) and refuses to build for `wasm*-unknown-unknown` unless some crate in the graph
+# enables its `js` feature. So the wasm32/wasm64 CI checks need it enabled here.
 [target.'cfg(any(target_arch = "wasm32", target_arch = "wasm64"))'.dependencies]
 getrandom_v2.workspace = true
-getrandom_v3.workspace = true
 
 [[test]]
 name = "slow_tests"
