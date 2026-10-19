@@ -14,14 +14,14 @@ impl VerifyTripleSum32 {
     #[allow(clippy::too_many_arguments)]
     pub fn evaluate<E: EvalAtRow>(
         [
-            verify_triple_sum_32_input_limb_0,
-            verify_triple_sum_32_input_limb_1,
-            verify_triple_sum_32_input_limb_2,
-            verify_triple_sum_32_input_limb_3,
-            verify_triple_sum_32_input_limb_4,
-            verify_triple_sum_32_input_limb_5,
-            verify_triple_sum_32_input_limb_6,
-            verify_triple_sum_32_input_limb_7,
+            verify_triple_sum_32_input_a_limb_0,
+            verify_triple_sum_32_input_a_limb_1,
+            verify_triple_sum_32_input_b_limb_0,
+            verify_triple_sum_32_input_b_limb_1,
+            verify_triple_sum_32_input_c_limb_0,
+            verify_triple_sum_32_input_c_limb_1,
+            verify_triple_sum_32_input_s_limb_0,
+            verify_triple_sum_32_input_s_limb_1,
         ]: [E::F; 8],
         enabler: E::F,
         common_lookup_elements: &relations::CommonLookupElements,
@@ -32,10 +32,10 @@ impl VerifyTripleSum32 {
         let M31_32768 = E::F::from(M31::from(32768));
 
         let carry_low_tmp_a7b7a_0 = eval.add_intermediate(
-            ((((verify_triple_sum_32_input_limb_0.clone()
-                + verify_triple_sum_32_input_limb_2.clone())
-                + verify_triple_sum_32_input_limb_4.clone())
-                - verify_triple_sum_32_input_limb_6.clone())
+            ((((verify_triple_sum_32_input_a_limb_0.clone()
+                + verify_triple_sum_32_input_b_limb_0.clone())
+                + verify_triple_sum_32_input_c_limb_0.clone())
+                - verify_triple_sum_32_input_s_limb_0.clone())
                 * M31_32768.clone()),
         );
         // carry low is 0 or 1 or 2.
@@ -44,11 +44,11 @@ impl VerifyTripleSum32 {
                 * (carry_low_tmp_a7b7a_0.clone() - M31_2.clone())),
         );
         let carry_high_tmp_a7b7a_1 = eval.add_intermediate(
-            (((((verify_triple_sum_32_input_limb_1.clone()
-                + verify_triple_sum_32_input_limb_3.clone())
-                + verify_triple_sum_32_input_limb_5.clone())
+            (((((verify_triple_sum_32_input_a_limb_1.clone()
+                + verify_triple_sum_32_input_b_limb_1.clone())
+                + verify_triple_sum_32_input_c_limb_1.clone())
                 + carry_low_tmp_a7b7a_0.clone())
-                - verify_triple_sum_32_input_limb_7.clone())
+                - verify_triple_sum_32_input_s_limb_1.clone())
                 * M31_32768.clone()),
         );
         // carry high is 0 or 1 or 2.
