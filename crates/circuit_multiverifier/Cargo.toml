@@ -21,7 +21,6 @@ circuit-cairo-verifier = { workspace = true, optional = true }
 
 [dev-dependencies]
 blake2.workspace = true
-serde_json.workspace = true
 stwo = { workspace = true, features = ["prover"] }
 stwo-constraint-framework = { workspace = true, features = ["prover"] }
 circuit-common = { workspace = true, features = ["prover"] }
@@ -30,4 +29,3 @@ cairo-air.workspace = true
 circuit-prover.workspace = true
 circuit-cairo-verifier.workspace = true
 circuit-serialize.workspace = true
-circuit-cairo-serialize.workspace = true

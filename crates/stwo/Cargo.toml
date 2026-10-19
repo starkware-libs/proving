@@ -61,8 +61,9 @@ aligned.workspace = true
 keccak.workspace = true
 test-log.workspace = true
 
-[package.metadata.cargo-machete]
-ignored = ["stwo-std-shims"]
+[package.metadata.cargo-shear]
+# Used by the wasm-only test harness; shear does not evaluate cfg-specific dependency tables.
+ignored = ["wasm-bindgen-test"]
 
 [target.'cfg(all(target_family = "wasm", not(target_os = "wasi")))'.dev-dependencies]
 wasm-bindgen-test.workspace = true

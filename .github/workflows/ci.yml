@@ -67,19 +67,20 @@ jobs:
           tool: typos@1.48.0
       - run: typos
 
-  machete:
-    name: machete
+  shear:
+    name: shear
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      # cargo-shear is a prebuilt binary, but it is invoked through `cargo` and runs
+      # `cargo metadata`, so a toolchain is needed.
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
-      - name: Install Machete
-        run: cargo install --locked cargo-machete
-      - name: Run Machete (detect unused dependencies)
-        run: cargo machete crates
+      - uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2
+        with:
+          tool: cargo-shear@1.14.0
+      - run: cargo shear
 
   dispatcher:
     runs-on: namespace-profile-starkware-libs-proving-dev-small-ubuntu-24-04-amd64
@@ -195,7 +196,7 @@ jobs:
       - clippy
       - docs
       - typos
-      - machete
+      - shear
       - dispatcher
       - stwo
       - stwo-cairo-prover

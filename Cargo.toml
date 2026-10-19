@@ -89,7 +89,6 @@ crypto-bigint = "0.5.1"
 enum_dispatch = "0.3.13"
 fnv = { version = "1.0.7", default-features = false }
 ndarray = "0.16.1"
-pretty_assertions = "1.4.0"
 proc-macro2 = "1.0.92"
 quote = "1.0.37"
 stwo-std-shims = { version = "1.0.0", default-features = false }
@@ -120,18 +119,15 @@ starknet-types-core = { version = "=0.2.4", features = [
     "curve",
     "num-traits",
 ] }
-test-case = "3.3.1"
 serde_arrays = "0.1.0"
 tempfile = "3.10.1"
 anyhow = "1.0.98"
 dashmap = "6.0.1"
 
 indexmap = { version = "2.10.0", default-features = false }
-indoc = "2.0.6"
 rstest = "0.26.1"
 expect-test = "1.5.1"
 rand_chacha = "0.3"
-rand_core = "0.6"
 
 aligned = "0.4.2"
 ctor = "0.2"
@@ -178,7 +174,6 @@ circuit-cairo-serialize = { path = "crates/circuit_cairo_serialize" }
 circuit-cairo-verifier = { path = "crates/cairo_verifier" }
 circuit-common = { path = "crates/circuit_common" }
 circuit-multiverifier = { path = "crates/circuit_multiverifier" }
-applicative-unpacking-verifier = { path = "crates/applicative_unpacking_verifier" }
 circuit-prover = { path = "crates/circuit_prover" }
 circuit-serialize = { path = "crates/circuit_serialize" }
 circuits-stark-verifier = { path = "crates/stark_verifier" }
@@ -231,3 +226,10 @@ opt-level = 3
 [profile.samply]
 inherits = "release"
 debug = true
+
+[workspace.metadata.cargo-shear]
+# `stwo-cairo-prover` pulls these in under a wasm-only `[target.'cfg(...)'.dependencies]` table
+# purely to activate feature flags of indirect `getrandom` dependencies. shear does not evaluate
+# cfg-specific tables, and for renamed dependencies only a workspace-level ignore silences both
+# the package-level and the workspace-level finding.
+ignored = ["getrandom_v2", "getrandom_v3"]

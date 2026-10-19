@@ -54,7 +54,6 @@ dependencies = [
 name = "air_common"
 version = "2.4.0"
 dependencies = [
- "air_infra",
  "convert_case 0.8.0",
  "serde",
  "serde_json",
@@ -76,12 +75,10 @@ version = "2.4.0"
 dependencies = [
  "air_common",
  "air_compile",
- "blake2",
  "convert_case 0.8.0",
  "enum_dispatch",
  "eval_air_fn_constraints",
  "expect-test",
- "generic-tests",
  "indexmap 2.14.0",
  "regex",
  "serde",
@@ -846,10 +843,8 @@ dependencies = [
  "starknet-ff",
  "stwo",
  "stwo-cairo-common",
- "stwo-cairo-dev-utils",
  "stwo-cairo-serialize",
  "stwo-constraint-framework",
- "tempfile",
  "thiserror",
  "tracing",
 ]
@@ -1463,12 +1458,10 @@ dependencies = [
 name = "cairo-program-runner"
 version = "2.4.0"
 dependencies = [
- "assert_matches",
  "bincode 2.0.1",
  "cairo-program-runner-lib",
  "cairo-vm",
  "clap",
- "rstest",
  "serde_json",
  "stwo-cairo-utils",
  "tempfile",
@@ -1623,7 +1616,6 @@ dependencies = [
  "circuit-prover",
  "circuit-verifier",
  "circuits",
- "itertools 0.12.1",
  "num-traits",
  "starknet-ff",
  "stwo",
@@ -1651,7 +1643,6 @@ dependencies = [
  "stwo-cairo-common",
  "stwo-cairo-dev-utils",
  "stwo-cairo-prover",
- "stwo-cairo-utils",
  "stwo-constraint-framework",
 ]
 
@@ -1675,7 +1666,6 @@ version = "2.4.0"
 dependencies = [
  "blake2",
  "cairo-air",
- "circuit-cairo-serialize",
  "circuit-cairo-verifier",
  "circuit-common",
  "circuit-prover",
@@ -1684,7 +1674,6 @@ dependencies = [
  "circuits",
  "circuits-stark-verifier",
  "itertools 0.12.1",
- "serde_json",
  "stwo",
  "stwo-constraint-framework",
 ]
@@ -1753,9 +1742,6 @@ dependencies = [
  "circuits",
  "circuits-stark-verifier",
  "circuits-stark-verifier-examples",
- "expect-test",
- "indoc",
- "rstest",
  "stwo",
 ]
 
@@ -1763,16 +1749,12 @@ dependencies = [
 name = "circuit-verifier"
 version = "2.4.0"
 dependencies = [
- "blake2",
  "circuit-common",
  "circuits",
  "circuits-stark-verifier",
- "expect-test",
  "indexmap 2.14.0",
- "indoc",
  "itertools 0.12.1",
  "num-traits",
- "rstest",
  "stwo",
  "stwo-constraint-framework",
 ]
@@ -1785,7 +1767,6 @@ dependencies = [
  "expect-test",
  "hashbrown 0.17.1",
  "indexmap 2.14.0",
- "indoc",
  "itertools 0.12.1",
  "num-traits",
  "rstest",
@@ -1801,7 +1782,6 @@ dependencies = [
  "expect-test",
  "hashbrown 0.17.1",
  "indexmap 2.14.0",
- "indoc",
  "itertools 0.12.1",
  "num-traits",
  "rstest",
@@ -3700,16 +3680,12 @@ dependencies = [
  "circuit-verifier",
  "circuits",
  "circuits-stark-verifier",
- "ctor",
  "itertools 0.12.1",
- "mockall",
  "privacy-prove",
- "rstest",
  "serde_json",
  "starknet-types-core",
  "stwo",
  "stwo-cairo-common",
- "tempfile",
  "tracing",
  "tracing-subscriber",
  "zstd",
@@ -3730,14 +3706,11 @@ dependencies = [
  "circuit-verifier",
  "circuits",
  "circuits-stark-verifier",
- "ctor",
  "expect-test",
  "itertools 0.12.1",
  "leaf-proof-format",
  "leaf-prover",
- "mockall",
  "privacy-circuit-verify",
- "rstest",
  "serde_json",
  "starknet-types-core",
  "stwo",
@@ -4800,14 +4773,12 @@ dependencies = [
  "crypto-bigint",
  "dashmap",
  "itertools 0.12.1",
- "rand 0.9.5",
  "rayon",
  "serde",
  "serde_json",
  "stwo",
  "stwo-cairo-common",
  "stwo-cairo-dev-utils",
- "test-case",
  "tracing",
 ]
 
@@ -4889,7 +4860,6 @@ dependencies = [
  "tempfile",
  "test-log",
  "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -4963,7 +4933,6 @@ dependencies = [
  "clap",
  "ctor",
  "log",
- "rstest",
  "serde_json",
  "sonic-rs",
  "stwo-cairo-adapter",
@@ -5124,39 +5093,6 @@ name = "termtree"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f50febec83f5ee1df3015341d8bd429f2d1cc62bcba7ea2076759d315084683"
-
-[[package]]
-name = "test-case"
-version = "3.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eb2550dd13afcd286853192af8601920d959b14c401fcece38071d53bf0768a8"
-dependencies = [
- "test-case-macros",
-]
-
-[[package]]
-name = "test-case-core"
-version = "3.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "adcb7fd841cd518e279be3d5a3eb0636409487998a4aff22f3de87b81e88384f"
-dependencies = [
- "cfg-if",
- "proc-macro2",
- "quote",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "test-case-macros"
-version = "3.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c89e72a01ed4c579669add59014b9a524d609c0c88c6a585ce37485879f6ffb"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.119",
- "test-case-core",
-]
 
 [[package]]
 name = "test-log"

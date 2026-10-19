@@ -50,8 +50,5 @@ circuits.workspace = true
 stwo = { workspace = true, features = ["parallel"] }
 
 [dev-dependencies]
-ctor.workspace = true
 expect-test.workspace = true
-mockall.workspace = true
-rstest.workspace = true
 tracing-subscriber = { workspace = true, features = ["fmt"] }

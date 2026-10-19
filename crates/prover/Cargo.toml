@@ -17,7 +17,6 @@ nightly = []
 [dependencies]
 stwo-air-utils-derive.workspace = true
 stwo-air-utils.workspace = true
-hex.workspace = true
 itertools.workspace = true
 num-traits.workspace = true
 # TODO(Ohad): Add parallel config.
@@ -55,10 +54,10 @@ test = false
 
 [dev-dependencies]
 stwo-cairo-dev-utils.workspace = true
+hex.workspace = true
 cairo-vm.workspace = true
 generic-tests.workspace = true
 tempfile.workspace = true
 test-log.workspace = true
-tracing-subscriber = { workspace = true, features = ["fmt"] }
 rand.workspace = true
 sonic-rs.workspace = true

@@ -16,6 +16,5 @@ circuits.workspace = true
 
 [dev-dependencies]
 circuits = { workspace = true, features = ["test-utils"] }
-indoc.workspace = true
 rstest.workspace = true
 expect-test.workspace = true
