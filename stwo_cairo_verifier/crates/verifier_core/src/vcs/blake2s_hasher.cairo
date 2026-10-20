@@ -14,32 +14,18 @@ type Blake2sState = Box<[u32; 8]>;
 pub impl Blake2sMerkleHasher of MerkleHasher {
     type Hash = Blake2sHash;
 
-    fn hash_node(
-        children_hashes: Option<(Self::Hash, Self::Hash)>, mut column_values: Span<BaseField>,
-    ) -> Self::Hash {
+    fn hash_children(left: Self::Hash, right: Self::Hash) -> Self::Hash {
+        let state = BoxImpl::new(BLAKE2S_256_INITIAL_STATE);
+        let msg = combine_u32_block(left.hash, right.hash);
+        // Note: there is no domain separation between an inner node and a leaf with 16 column
+        // values. This is acceptable because the verifier always knows the exact structure of the
+        // Merkle tree.
+        Blake2sHash { hash: blake2s_finalize(:state, byte_count: 64, :msg) }
+    }
+
+    fn hash_leaf(mut column_values: Span<BaseField>) -> Self::Hash {
         let mut state = BoxImpl::new(BLAKE2S_256_INITIAL_STATE);
-
-        // No column values (most common case).
-        if column_values.is_empty() {
-            let (msg, byte_count) = match children_hashes {
-                Some((x, y)) => (combine_u32_block(x.hash, y.hash), 64),
-                None => panic!("Empty nodes are not supported"),
-            };
-
-            // Note: there is no domain separation between the cases
-            // (children_hashes.is_some() && column_values.len()= K)
-            // and (children_hashes.is_none() && column_values.len() == 16 + K).
-            // This is acceptable because the verifier always knows
-            // the exact structure of the Merkle tree.
-            return Blake2sHash { hash: blake2s_finalize(:state, :byte_count, :msg) };
-        }
-
         let mut byte_count = 0_u32;
-        if let Some((x, y)) = children_hashes {
-            let msg = combine_u32_block(x.hash, y.hash);
-            byte_count = 64;
-            state = blake2s_compress(:state, :byte_count, :msg);
-        }
 
         // Special case #1: Single QM31 column (split into 4 M31 coordinates), inner FRI layer
         // decommitment phase.
@@ -156,9 +142,4 @@ impl Blake2sHashSerde of Serde<Blake2sHash> {
             },
         )
     }
-}
-
-pub fn hash_small_vals(initial_array: Array<felt252>, mut values: Span<u32>) -> Blake2sHash {
-    assert!(initial_array.is_empty());
-    Blake2sHash { hash: stwo_verifier_utils::hash_u32s(values) }
 }

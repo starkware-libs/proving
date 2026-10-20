@@ -2,13 +2,19 @@ use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
+<<<<<<< HEAD
     CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum,
+||||||| 167116f40
+    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum, mix_circuit_hash,
+=======
+    CircuitInteractionElements, column_log_sizes_per_tree, logup_sum, mix_circuit_hash,
+>>>>>>> origin/sharp-8.0
 };
 use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
 };
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
-use circuits::blake::{blake_g_gate, blake2s_m31, m31_to_u32, triple_xor};
+use circuits::blake::{blake_g_gate, blake2s, m31_to_u32, triple_xor};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
@@ -17,12 +23,24 @@ use circuits::utils::le_u32s_from_bytes;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use expect_test::expect;
 use num_traits::{One, Zero};
+<<<<<<< HEAD
 use stwo::core::channel::{Channel, MerkleChannel};
+||||||| 167116f40
+use stwo::core::channel::{Blake2sM31Channel, Channel};
+=======
+use stwo::core::channel::{Blake2sChannel, Channel};
+>>>>>>> origin/sharp-8.0
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::CommitmentSchemeVerifier;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
+<<<<<<< HEAD
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
+||||||| 167116f40
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
+=======
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
+>>>>>>> origin/sharp-8.0
 
 use crate::circuit_air::circuit_components::CircuitComponents;
 use crate::circuit_hash::compute_circuit_hash;
@@ -87,8 +105,11 @@ pub fn build_blake_context() -> Context<QM31> {
         ));
     }
     for _ in 0..n_blakes {
-        let output = blake2s_m31(&mut context, &inputs, n_bytes as usize);
-        eval!(&mut context, (output.0) + (output.1));
+        let output = blake2s(&mut context, &inputs, n_bytes as usize).0;
+        eval!(&mut context, (*output[0].get()) + (*output[1].get()));
+        eval!(&mut context, (*output[2].get()) + (*output[3].get()));
+        eval!(&mut context, (*output[4].get()) + (*output[5].get()));
+        eval!(&mut context, (*output[6].get()) + (*output[7].get()));
     }
 
     context
@@ -217,11 +238,28 @@ fn stwo_verify<MC: MerkleChannel>(
         &preprocessed_column_log_sizes,
     );
 
+<<<<<<< HEAD
     let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
     let verifier_channel = &mut MC::C::default();
+||||||| 167116f40
+    let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
+    let verifier_channel = &mut Blake2sM31Channel::default();
+=======
+    let log_blowup_factor = pcs_config.fri_params.log_blowup_factor;
+    let verifier_channel = &mut Blake2sChannel::default();
+>>>>>>> origin/sharp-8.0
     verifier_channel.mix_felts(&[channel_salt.into()]);
+<<<<<<< HEAD
     pcs_config.fri_config.mix_into(verifier_channel);
     let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
+||||||| 167116f40
+    pcs_config.fri_config.mix_into(verifier_channel);
+    let commitment_scheme =
+        &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(pcs_config);
+=======
+    pcs_config.fri_params.mix_into(verifier_channel);
+    let commitment_scheme = &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(pcs_config);
+>>>>>>> origin/sharp-8.0
 
     let [trace_log_sizes, interaction_log_sizes] = column_log_sizes_per_tree(&log_sizes);
 
@@ -262,7 +300,7 @@ fn stwo_verify<MC: MerkleChannel>(
     )
     .unwrap();
 
-    assert_eq!(lookup_sum(&claim, &interaction_claim, &interaction_elements,), QM31::zero());
+    assert_eq!(logup_sum(&claim, &interaction_claim, &interaction_elements,), QM31::zero());
 }
 
 #[test]
@@ -415,7 +453,7 @@ fn test_prove_and_circuit_verify_triple_xor_context() {
 }
 
 /// Extract the preprocessed-trace Merkle root (`commitments[0]`) from a `CircuitProof` as
-/// `[u32; 8]`, matching the layout `ReducedHashValue<QM31>` consumes via `From<[u32; 8]>`.
+/// `[u32; 8]`.
 fn preprocessed_root_from_proof(circuit_proof: &CircuitProof<Blake2sMerkleHasher>) -> [u32; 8] {
     let hash: Blake2sHash = circuit_proof.stark_proof.proof.commitments[0];
     le_u32s_from_bytes(hash.0)

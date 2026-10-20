@@ -21,6 +21,7 @@ zstd.workspace = true
 # local crates
 cairo-program-runner-lib.workspace = true
 privacy-circuit-verify.workspace = true
+privacy_common.workspace = true
 leaf-proof-format.workspace = true
 leaf-prover.workspace = true
 
@@ -32,7 +33,6 @@ cairo-vm = { workspace = true, features = [
 ] }
 
 # stwo cairo
-cairo-air.workspace = true
 stwo-cairo-adapter.workspace = true
 stwo-cairo-prover.workspace = true
 stwo-cairo-common.workspace = true

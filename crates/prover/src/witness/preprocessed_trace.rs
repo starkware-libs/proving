@@ -16,13 +16,23 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
 
 use crate::prover::warm_pedersen_pp_trace;
 
-/// Generates the root of the preprocessed trace commitment tree for a given `log_blowup_factor`
-/// and `lifting_log_size`.
+/// Generates the root of the preprocessed trace commitment tree.
+///
+/// log_trace_size - The size to which we lift all columns (preprocessed and base trace)
+/// before the blowup.
 pub fn generate_preprocessed_commitment_root<MC: MerkleChannel>(
     log_blowup_factor: u32,
     preprocessed_trace: PreProcessedTraceVariant,
+<<<<<<< HEAD
     lifting_log_size: u32,
 ) -> <<MC as MerkleChannel>::H as Hasher>::Hash
+||||||| 167116f40
+    lifting_log_size: u32,
+) -> <<MC as MerkleChannel>::H as MerkleHasherLifted>::Hash
+=======
+    log_trace_size: u32,
+) -> <<MC as MerkleChannel>::H as MerkleHasherLifted>::Hash
+>>>>>>> origin/sharp-8.0
 where
     SimdBackend: BackendForChannel<MC>,
 {
@@ -32,9 +42,16 @@ where
     // Precompute twiddles covering the largest evaluation domain in use: the biggest column's
     // extended domain log size, or the `lifting_log_size`.
     let max_column_log_size = preprocessed_trace.log_sizes().into_iter().max().unwrap();
-    let max_log_size = (max_column_log_size + log_blowup_factor).max(lifting_log_size);
+
+    assert!(
+        max_column_log_size <= log_trace_size,
+        "log_trace_size={log_trace_size} should include the preprocessed trace, but preprocessed \
+         trace has column of size {max_column_log_size}"
+    );
+    let lifting_log_size = log_trace_size + log_blowup_factor;
+
     let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(max_log_size).circle_domain().half_coset,
+        CanonicCoset::new(max_column_log_size + log_blowup_factor).circle_domain().half_coset,
     );
 
     // Generate the commitment tree.
@@ -44,7 +61,7 @@ where
         log_blowup_factor,
         &twiddles,
         false,
-        max_log_size,
+        lifting_log_size,
         &BaseColumnPool::new(),
     );
 

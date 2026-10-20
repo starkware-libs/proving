@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 use circuit_common::finalize::ComponentSizes;
 use leaf_proof_format::DigestHex;
 use serde::{Deserialize, Serialize};
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo_cairo_common::prover_params::ProverParameters;
 
 /// The padded log sizes of the components that circuits are padded to a shared target on.
@@ -20,8 +20,8 @@ pub struct LogSizes {
     pub blake_g_gate: u32,
 }
 
-impl From<&ComponentSizes> for LogSizes {
-    fn from(padded: &ComponentSizes) -> Self {
+impl LogSizes {
+    pub fn of(padded: &ComponentSizes) -> Self {
         LogSizes {
             eq: log_size(padded.eq),
             qm31_ops: log_size(padded.qm31_ops),
@@ -30,22 +30,24 @@ impl From<&ComponentSizes> for LogSizes {
             blake_g_gate: log_size(padded.blake_g_gate),
         }
     }
-}
 
-impl From<&LogSizes> for ComponentSizes {
-    fn from(log_sizes: &LogSizes) -> Self {
+    pub fn to_component_sizes(&self) -> ComponentSizes {
         ComponentSizes {
-            eq: 1 << log_sizes.eq,
-            qm31_ops: 1 << log_sizes.qm31_ops,
-            m31_to_u32: 1 << log_sizes.m31_to_u32,
-            triple_xor: 1 << log_sizes.triple_xor,
-            blake_g_gate: 1 << log_sizes.blake_g_gate,
+            eq: 1 << self.eq,
+            qm31_ops: 1 << self.qm31_ops,
+            m31_to_u32: 1 << self.m31_to_u32,
+            triple_xor: 1 << self.triple_xor,
+            blake_g_gate: 1 << self.blake_g_gate,
         }
     }
 }
 
 fn log_size(size: usize) -> u32 {
-    size.next_power_of_two().ilog2()
+    assert!(
+        size.is_power_of_two(),
+        "Trying to convert size {size} to log size, but it is not a power of two"
+    );
+    size.ilog2()
 }
 
 /// A proof configuration: the (circuit-prover) FRI config and padded component log sizes a circuit
@@ -53,14 +55,14 @@ fn log_size(size: usize) -> u32 {
 /// circuit.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct CircuitProofConfig {
-    pub fri_config: FriConfig,
+    pub fri_params: FriParams,
     pub component_log_sizes: LogSizes,
 }
 
 impl CircuitProofConfig {
     /// The shared padding target every circuit proven under this config is padded to.
     pub fn target_sizes(&self) -> ComponentSizes {
-        (&self.component_log_sizes).into()
+        self.component_log_sizes.to_component_sizes()
     }
 }
 
@@ -106,6 +108,7 @@ pub struct Multiverifier {
 pub struct CircuitRegistry {
     /// The prover params the verified Cairo proofs are produced with.
     pub cairo_prover_params: ProverParameters,
+    pub cairo_components: Vec<String>,
     pub circuit_proof_configs: BTreeMap<String, CircuitProofConfig>,
     pub leaf_verifiers: Vec<LeafVerifier>,
     pub multiverifiers: Vec<Multiverifier>,

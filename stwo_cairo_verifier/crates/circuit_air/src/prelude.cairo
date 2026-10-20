@@ -1,8 +1,8 @@
-pub use core::num::traits::Zero;
+pub use core::num::traits::{One, Zero};
 pub use stwo_constraint_framework::claim::ClaimTrait;
 pub use stwo_constraint_framework::{
-    AirComponent, CommonLookupElements, LookupElementsImpl, NewComponent, PreprocessedMaskValues,
-    PreprocessedMaskValuesImpl, RelationUse, RelationUsesDict, accumulate_relation_uses,
+    AirComponent, CommonLookupElements, Component, LookupElementsImpl, PreprocessedMaskValues,
+    PreprocessedMaskValuesImpl,
 };
 pub use stwo_verifier_core::channel::{Channel, ChannelTrait};
 pub use stwo_verifier_core::circle::{

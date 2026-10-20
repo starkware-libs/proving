@@ -1,3 +1,7 @@
+#[cfg(test)]
+#[path = "circuit_components_test.rs"]
+mod test;
+
 macro_rules! define_component_list {
     ($($variant:ident => $field:ident),* $(,)?) => {
         pub enum ComponentList {
@@ -40,13 +44,34 @@ macro_rules! define_component_list {
             pub fn into_named_iter(self) -> impl Iterator<Item = (&'static str, T)> {
                 itertools::zip_eq(COMPONENT_NAMES, self.into_array())
             }
+
+            /// Consumes `self`, returning a map from component name to value, in
+            /// `ComponentList` order.
+            pub fn into_index_map(self) -> indexmap::IndexMap<&'static str, T> {
+                self.into_named_iter().collect()
+            }
+
+            /// Applies `f` to every component's value, in `ComponentList` order.
+            pub fn map<U>(self, mut f: impl FnMut(T) -> U) -> PerComponent<U> {
+                PerComponent { $($field: f(self.$field)),* }
+            }
+
+            /// Borrows every component's value.
+            pub fn as_ref(&self) -> PerComponent<&T> {
+                PerComponent { $($field: &self.$field),* }
+            }
+
+            /// Pairs the values of `self` and `other` component-wise.
+            pub fn zip<U>(self, other: PerComponent<U>) -> PerComponent<(T, U)> {
+                PerComponent { $($field: (self.$field, other.$field)),* }
+            }
         }
     };
 }
 
 define_component_list! {
     Eq => eq,
-    Qm31Ops => qm31_ops,
+    Qm31Ops => qm_31_ops,
     TripleXor => triple_xor,
     M31ToU32 => m_31_to_u_32,
     BlakeGGate => blake_g_gate,

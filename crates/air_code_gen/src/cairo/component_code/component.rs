@@ -10,8 +10,7 @@ use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use crate::cairo::utils::{
-    gen_consts, gen_imports, get_log_size, get_lookup_sums, get_numerators,
-    make_preprocessed_column,
+    gen_consts, gen_imports, get_log_size, get_logup_sums, get_numerators, make_preprocessed_column,
 };
 use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
@@ -24,38 +23,15 @@ pub fn generate_component_cairo_constraints_code(
         $(gen_consts(air_fn))$("\n")
         $(gen_claim_struct(air_fn))$("\n")
 
-        #[derive(Drop)]
-        pub struct Component {
-            pub claim: Claim,
-            pub claimed_sum: QM31,
-            pub common_lookup_elements: CommonLookupElements
-        }
-
-        pub impl NewComponentImpl of NewComponent<Component> {
-            type Claim = Claim;
-
-            fn new(
-                claim: @Claim,
-                claimed_sum: QM31,
-                common_lookup_elements: @CommonLookupElements,
-            ) -> Component {
-                Component {
-                    claim: *claim,
-                    claimed_sum,
-                    common_lookup_elements: common_lookup_elements.clone()
-                }
-            }
-        }
-
-        pub impl AirComponentImpl of AirComponent<Component> {
+        pub impl AirComponentImpl of AirComponent<Component<Claim>> {
             fn evaluate_constraints_at_point(
-                self: @Component,
+                self: @Component<Claim>,
                 ref sum: QM31,
                 ref preprocessed_mask_values: PreprocessedMaskValues,
                 ref trace_mask_values: ColumnSpan<Span<QM31>>,
                 ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
                 random_coeff: QM31,
-                public_params: Span<u32>,
+                common_lookup_elements: @CommonLookupElements,
             ) {
                 let log_size = $(get_log_size(air_fn, false));
                 let claimed_sum = *self.claimed_sum;
@@ -73,7 +49,7 @@ pub fn generate_component_cairo_constraints_code(
                     $(get_numerators(air_fn).iter().map(|m| m.to_string() + ",\n").join(""))
                     column_size,
                     ref interaction_trace_mask_values,
-                    $(get_lookup_sums(air_fn).join(",\n"))
+                    $(get_logup_sums(air_fn).join(",\n"))
                 );
             }
         }
@@ -88,12 +64,6 @@ pub fn generate_component_cairo_constraints_code(
 }
 
 fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let common_lookup_elements = &assignment.common_lookup_elements;
-    let lookup_elements_fields = quote! {
-        common_lookup_elements:
-            LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
-    };
-
     let claim_fields = match air_fn.log_height {
         Some(_fixed_size) => quote! {},
         None => quote! { log_size: $(assignment.log_height), $("\n") },
@@ -103,22 +73,11 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
         Component {
             claim: Claim { $(claim_fields) },
             claimed_sum: $(make_qm31(&assignment.claimed_sum)),
-            $(lookup_elements_fields)
         }
     }
 }
 
 fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let mut values = air_fn.public_params.iter().map(|param| {
-        assignment
-            .environment
-            .public_params
-            .get(param)
-            .unwrap_or_else(|| panic!("Missing public param {param:?} in assignment"))
-            .0
-    });
-    let public_params = quote! { [$(values.join(", "))].span() };
-
     let mut preprocessed_values = quote! {};
 
     for external_state in air_fn.external_states.iter() {
@@ -127,11 +86,10 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             .external_states
             .get(external_state)
             .unwrap_or_else(|| panic!("Missing external state {external_state}"));
-        let preprocessed_column =
-            make_preprocessed_column(external_state, &quote! { component.claim.log_size });
+        let preprocessed_column = make_preprocessed_column(external_state);
         preprocessed_values.append(quote! {
-                    let mut preprocessed_trace = preprocessed_mask_add(preprocessed_trace, $(preprocessed_column), $(make_qm31(external_column_value))); $("\n")
-                });
+                ($(preprocessed_column), $(make_qm31(external_column_value))), $("\n")
+        });
     }
 
     let trace_values: rust::Tokens = assignment
@@ -156,32 +114,32 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
             use super::{Component, Claim};
-            use crate::components::sample_evaluations::*;
+            use crate::components::sample_evaluations_test_data::*;
+            use super::AirComponentImpl;
             use stwo_constraint_framework::AirComponent;
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
             #[allow(unused_imports)]
             use crate::preprocessed_columns::*;
             #[allow(unused_imports)]
-            use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+            use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
             #[allow(unused_imports)]
-            use stwo_constraint_framework::{LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait};
+            use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
             use stwo_verifier_core::fields::qm31::{qm31_const, QM31, QM31Impl, QM31Trait};
 
             #[test]
             fn test_evaluation_result() {
                 let component = $(gen_component_for_assignment(air_fn, assignment));
-                let public_params = $(public_params);
                 let mut sum: QM31 = Zero::zero();
 
-                let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-                $(preprocessed_values)
+                let mut preprocessed_trace = new_preprocessed_mask(array![
+                    $(preprocessed_values)
+                ].span(), NUM_PREPROCESSED_COLUMNS);
 
                 let mut trace_columns = [ $(trace_values) ].span();
                 let interaction_values = array![ $(interaction_values) ];
                 let mut interaction_columns = make_interaction_trace(interaction_values, $(make_qm31(&assignment.last_row_sum)));
-                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), public_params);
-                preprocessed_trace.validate_usage();
+                component.evaluate_constraints_at_point(ref sum, ref preprocessed_trace, ref trace_columns, ref interaction_columns, $(make_qm31(&assignment.random_coeff)), @CommonLookupElements { z: $(make_qm31(&assignment.common_lookup_elements.z)), alpha: $(make_qm31(&assignment.common_lookup_elements.alpha)) });
                 assert_eq!(sum, QM31Trait::from_fixed_array($(expected_result_name)))
             }
         }
@@ -198,13 +156,6 @@ fn make_qm31(value: &QM31) -> rust::Tokens {
 fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
-    // Public params
-    for (i, param) in air_fn.public_params.iter().enumerate() {
-        code.append(quote!{
-            let $(param): QM31 = (TryInto::<u32, M31>::try_into((*public_params[$(i)])).unwrap()).into();
-        });
-    }
-
     // Relation sums and numerators
     for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
         code.append(quote! {
@@ -219,7 +170,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
+                = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id)));
         });
     }
 

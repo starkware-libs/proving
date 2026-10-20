@@ -1,7 +1,7 @@
 use starknet_ff::FieldElement;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
-use stwo::core::fri::{FriConfig, FriLayerProof, FriProof};
+use stwo::core::fri::{FriLayerProof, FriParams, FriProof};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::pcs::quotients::CommitmentSchemeProof;
 use stwo::core::poly::line::LinePoly;
@@ -81,10 +81,11 @@ where
     H::Hash: CairoSerialize,
 {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
-        let Self { first_layer, inner_layers, last_layer_poly } = self;
+        let Self { first_layer, inner_layers, last_layer_poly, proof_of_work } = self;
         first_layer.serialize(output);
         inner_layers.serialize(output);
         last_layer_poly.serialize(output);
+        proof_of_work.serialize(output);
     }
 }
 
@@ -94,7 +95,7 @@ impl CairoSerialize for FieldElement {
     }
 }
 
-impl CairoSerialize for FriConfig {
+impl CairoSerialize for FriParams {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
         let Self { pow_bits, log_blowup_factor, log_last_layer_degree_bound, n_queries, fold_step } =
             self;
@@ -109,10 +110,10 @@ impl CairoSerialize for FriConfig {
 impl CairoSerialize for PcsConfig {
     fn serialize(&self, output: &mut Vec<FieldElement>) {
         // The lifting log sizes are intentionally not serialized: the Cairo verifier
-        // recomputes them from `fri_config.log_blowup_factor` and the committed columns'
+        // recomputes them from `fri_params.log_blowup_factor` and the committed columns'
         // log sizes (see `pcs/verifier.cairo`), so shipping them would be redundant.
-        let Self { fri_config, trace_lifting_log_size: _, preprocessed_lifting_log_size: _ } = self;
-        fri_config.serialize(output);
+        let Self { fri_params, trace_lifting_log_size: _, preprocessed_lifting_log_size: _ } = self;
+        fri_params.serialize(output);
     }
 }
 
@@ -128,7 +129,6 @@ where
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work,
             fri_proof,
         } = self;
         config.serialize(output);
@@ -137,7 +137,6 @@ where
         sampled_values.serialize(output);
         decommitments.serialize(output);
         queried_values.serialize(output);
-        proof_of_work.serialize(output);
         fri_proof.serialize(output);
     }
 }

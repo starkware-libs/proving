@@ -12,6 +12,7 @@ pub fn accumulate_constraints<Value: IValue>(
     acc: &mut CompositionConstraintAccumulator,
 ) -> Vec<Var> {
     let [
+<<<<<<< HEAD
         verify_triple_sum_32_input_a_limb_0,
         verify_triple_sum_32_input_a_limb_1,
         verify_triple_sum_32_input_b_limb_0,
@@ -20,14 +21,43 @@ pub fn accumulate_constraints<Value: IValue>(
         verify_triple_sum_32_input_c_limb_1,
         verify_triple_sum_32_input_s_limb_0,
         verify_triple_sum_32_input_s_limb_1,
+||||||| 167116f40
+        verify_triple_sum_32_input_limb_0,
+        verify_triple_sum_32_input_limb_1,
+        verify_triple_sum_32_input_limb_2,
+        verify_triple_sum_32_input_limb_3,
+        verify_triple_sum_32_input_limb_4,
+        verify_triple_sum_32_input_limb_5,
+        verify_triple_sum_32_input_limb_6,
+        verify_triple_sum_32_input_limb_7,
+=======
+        verify_triple_sum_32_input_a_limb_0,
+        verify_triple_sum_32_input_a_limb_1,
+        verify_triple_sum_32_input_b_limb_0,
+        verify_triple_sum_32_input_b_limb_1,
+        verify_triple_sum_32_input_c_limb_0,
+        verify_triple_sum_32_input_c_limb_1,
+        verify_triple_sum_32_input_res_limb_0,
+        verify_triple_sum_32_input_res_limb_1,
+>>>>>>> origin/sharp-8.0
         enabler,
     ] = input.try_into().unwrap();
 
     let carry_low_tmp_a7b7a_0 = eval!(
         context,
+<<<<<<< HEAD
         ((((verify_triple_sum_32_input_a_limb_0) + (verify_triple_sum_32_input_b_limb_0))
             + (verify_triple_sum_32_input_c_limb_0))
             - (verify_triple_sum_32_input_s_limb_0))
+||||||| 167116f40
+        ((((verify_triple_sum_32_input_limb_0) + (verify_triple_sum_32_input_limb_2))
+            + (verify_triple_sum_32_input_limb_4))
+            - (verify_triple_sum_32_input_limb_6))
+=======
+        ((((verify_triple_sum_32_input_a_limb_0) + (verify_triple_sum_32_input_b_limb_0))
+            + (verify_triple_sum_32_input_c_limb_0))
+            - (verify_triple_sum_32_input_res_limb_0))
+>>>>>>> origin/sharp-8.0
             * (32768)
     );
 
@@ -44,7 +74,13 @@ pub fn accumulate_constraints<Value: IValue>(
         (((((verify_triple_sum_32_input_a_limb_1) + (verify_triple_sum_32_input_b_limb_1))
             + (verify_triple_sum_32_input_c_limb_1))
             + (carry_low_tmp_a7b7a_0))
+<<<<<<< HEAD
             - (verify_triple_sum_32_input_s_limb_1))
+||||||| 167116f40
+            - (verify_triple_sum_32_input_limb_7))
+=======
+            - (verify_triple_sum_32_input_res_limb_1))
+>>>>>>> origin/sharp-8.0
             * (32768)
     );
 

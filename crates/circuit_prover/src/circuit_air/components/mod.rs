@@ -1,7 +1,7 @@
 pub mod blake_g_gate;
 pub mod eq;
 pub mod m_31_to_u_32;
-pub mod prelude;
+pub(crate) mod prelude;
 pub mod qm_31_ops;
 pub mod range_check_16;
 pub mod subroutines;

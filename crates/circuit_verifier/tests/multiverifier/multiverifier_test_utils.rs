@@ -1,8 +1,11 @@
 use blake2::{Blake2s256, Digest};
-use circuit_cairo_verifier::privacy::get_pcs_config;
+use circuit_cairo_verifier::test_utils::privacy_pcs_config;
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::circuit_hash::compute_circuit_hash;
+use circuit_verifier::multiverifier::{
+    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
+};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
@@ -14,15 +17,13 @@ use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
-use crate::verify::{SharedConfig, build_multiverifier_context_from_shared_config, shared_config};
-
 // Shared test fixtures: config constants, target padding sizes, and helpers used by the
 // multiverifier test modules (`verify_test` and `backward_compatibility_test`).
 
 const PRIVACY_CAIRO_VERIFIER_TRACE_LOG_SIZE: u32 = 21;
 pub const LOG_BLOWUP_FACTOR: u32 = 3;
 pub const PCS_CONFIG: PcsConfig =
-    get_pcs_config(PRIVACY_CAIRO_VERIFIER_TRACE_LOG_SIZE, LOG_BLOWUP_FACTOR);
+    privacy_pcs_config(PRIVACY_CAIRO_VERIFIER_TRACE_LOG_SIZE, LOG_BLOWUP_FACTOR);
 pub const TARGET_PADDING_SIZES: ComponentSizes = ComponentSizes {
     eq: 1 << 17,
     qm31_ops: 1 << 21,
@@ -33,21 +34,21 @@ pub const TARGET_PADDING_SIZES: ComponentSizes = ComponentSizes {
 /// The number of preprocessed columns in a trace of a circuit.
 pub const CIRCUIT_N_PREPROCESSED_COLUMNS: usize = 45;
 /// The Cairo verifier circuit's output digest for the privacy proof fixture
-/// (`test_data/circuit_multiverifier/proof_cairo.bin`): the eight words of the program's output
+/// (`test_data/multiverifier/proof_cairo.bin`): the eight words of the program's output
 /// Blake2s digest, exposed directly (the output memory cells encode this digest).
 pub const PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
 
 /// The preprocessed root of the privacy Cairo verifier circuit.
 pub const PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [441253039, 3875613392, 928940681, 3427512551, 3617659553, 3418754813, 3338178337, 68552802];
+    [3461839265, 1768344184, 1546597907, 1585217408, 427664610, 158966453, 724012200, 2473462434];
 
 /// The preprocessed root of the multiverifier circuit.
 pub const MULTIVERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [3760681776, 2017370616, 464666940, 2861425099, 658127946, 1813826220, 2131048142, 2618722788];
+    [980800018, 1125590706, 3025978376, 2848953975, 2402144048, 4244010225, 3197528705, 992140647];
 /// A multiverifier proof verifying two identical Cairo verifier proofs.
 pub const MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH: &str =
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/circuit_multiverifier/proof.bin");
+    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/multiverifier/proof.bin");
 
 /// Out-of-circuit implementation of [`circuits::blake::blake2s_u32s`].
 pub fn native_blake_u32s(words: &[u32]) -> [u32; 8] {
@@ -69,7 +70,7 @@ pub fn leaf_circuit_hash(preprocessed_root: Blake2sHash, shared_config: &SharedC
     );
     let hash = compute_circuit_hash::<Blake2sMerkleHasher>(
         &component_log_sizes,
-        shared_config.pcs_config.fri_config.log_blowup_factor,
+        shared_config.pcs_config.fri_params.log_blowup_factor,
         preprocessed_root,
     );
     le_u32s_from_bytes(hash.0)
@@ -114,14 +115,14 @@ pub fn multiverifier_preprocessed_column_log_sizes() -> OrderedHashMap<PreProces
         ("bitwise_xor_10_0", 20),
         ("bitwise_xor_10_1", 20),
         ("bitwise_xor_10_2", 20),
-        ("qm31_ops_add_flag", 21),
-        ("qm31_ops_sub_flag", 21),
-        ("qm31_ops_mul_flag", 21),
-        ("qm31_ops_pointwise_mul_flag", 21),
-        ("qm31_ops_in0_address", 21),
-        ("qm31_ops_in1_address", 21),
-        ("qm31_ops_out_address", 21),
-        ("qm31_ops_mults", 21),
+        ("qm_31_ops_add_flag", 21),
+        ("qm_31_ops_sub_flag", 21),
+        ("qm_31_ops_mul_flag", 21),
+        ("qm_31_ops_pointwise_mul_flag", 21),
+        ("qm_31_ops_in_0_address", 21),
+        ("qm_31_ops_in_1_address", 21),
+        ("qm_31_ops_out_address", 21),
+        ("qm_31_ops_mults", 21),
     ]
     .into_iter()
     .map(|(id, log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))
@@ -135,7 +136,7 @@ fn build_multiverifier_context(
 ) -> FinalizedContext<NoValue> {
     assert_eq!(
         pcs_config.trace_lifting_log_size,
-        preprocessed_leaf.trace_log_size() + pcs_config.fri_config.log_blowup_factor,
+        preprocessed_leaf.trace_log_size() + pcs_config.fri_params.log_blowup_factor,
         "`pcs_config` must be the config of the proofs of the verified circuit"
     );
     let shared_config = shared_config(preprocessed_leaf.preprocessed_trace.log_sizes(), pcs_config);

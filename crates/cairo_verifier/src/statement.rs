@@ -2,6 +2,7 @@ use std::array;
 use std::collections::HashMap;
 use std::sync::Arc;
 
+use cairo_air::air::{PublicData, PublicMemory};
 use cairo_air::components::memory_address_to_id::MEMORY_ADDRESS_TO_ID_SPLIT;
 use cairo_air::flat_claims::FlatClaim;
 use cairo_air::relations::{
@@ -22,9 +23,9 @@ use circuits_stark_verifier::statement::Statement;
 use circuits_stark_verifier::verify::RELATION_USES_NUM_ROWS_SHIFT;
 use indexmap::IndexMap;
 use itertools::{Itertools, chain, zip_eq};
-use num_traits::Zero;
 use stwo::core::fields::m31::{M31, P as M31_P};
 use stwo::core::fields::qm31::QM31;
+use stwo::core::utils::SliceExt;
 use stwo_cairo_common::builtins::{
     ADD_MOD_BUILTIN_MEMORY_CELLS, BITWISE_BUILTIN_MEMORY_CELLS, EC_OP_BUILTIN_MEMORY_CELLS,
     ECDSA_MEMORY_CELLS, KECCAK_MEMORY_CELLS, MUL_MOD_BUILTIN_MEMORY_CELLS,
@@ -65,7 +66,7 @@ const LIMB_BITS: usize = 9;
 /// Number of 32-bit words in a 128-bit output cell value, i.e. how many `u32`s fit in a `u128`.
 /// The program's output is a Blake2s digest ([`BLAKE2S_DIGEST_N_WORDS`] words) split across
 /// [`N_OUTPUTS`] cells, one 128-bit half each.
-pub const N_WORDS_PER_OUTPUT_CELL: usize = u128::BITS as usize / u32::BITS as usize;
+pub const N_WORDS_PER_OUTPUT_CELL: usize = 128 / 32;
 // The whole digest must map exactly onto the output cells.
 const _: () = assert!(N_OUTPUTS * N_WORDS_PER_OUTPUT_CELL == BLAKE2S_DIGEST_N_WORDS);
 const MEMORY_ADDRESS_BITS: u32 = 29;
@@ -111,7 +112,7 @@ pub fn split_address_to_9bit_limbs(
 
 pub struct SegmentRange<T> {
     pub start: PubMemoryAddress<T>,
-    pub end: PubMemoryAddress<T>,
+    pub stop: PubMemoryAddress<T>,
 }
 
 // Auxiliary data that is used for verifying an execution of a Cairo program.
@@ -131,11 +132,7 @@ impl AuxData {
     /// `data` is laid out as the concatenation of, in order: the fixed-size fields
     /// (initial state, final state, segment ranges and safe-call ids), then
     /// `output_ids`, `program_ids` and `component_log_sizes`.
-    pub fn parse_from_vars(
-        data: &[M31Wrapper<Var>],
-        program_len: usize,
-        n_components: usize,
-    ) -> Self {
+    fn parse_from_vars(data: &[M31Wrapper<Var>], program_len: usize, n_components: usize) -> Self {
         let mut iter = data.iter().cloned();
 
         let initial_state = CasmState {
@@ -151,14 +148,15 @@ impl AuxData {
 
         let segment_ranges = array::from_fn(|_| SegmentRange {
             start: PubMemoryAddress { id: iter.next().unwrap(), value: iter.next().unwrap() },
-            end: PubMemoryAddress { id: iter.next().unwrap(), value: iter.next().unwrap() },
+            stop: PubMemoryAddress { id: iter.next().unwrap(), value: iter.next().unwrap() },
         });
 
         let safe_call_ids = [iter.next().unwrap(), iter.next().unwrap()];
         let output_ids = iter.by_ref().take(N_OUTPUTS).collect_vec();
         let program_ids = iter.by_ref().take(program_len).collect_vec();
-        let component_log_sizes = iter.collect_vec();
+        let component_log_sizes = iter.by_ref().take(n_components).collect_vec();
         assert_eq!(component_log_sizes.len(), n_components);
+        assert!(iter.next().is_none(), "Didn't consume all vars");
 
         Self {
             initial_state,
@@ -176,25 +174,28 @@ impl AuxData {
 pub fn serialize_aux_data(claim: &FlatClaim) -> Vec<M31> {
     let mut result = vec![];
 
-    for state in [&claim.public_data.initial_state, &claim.public_data.final_state] {
+    let FlatClaim { component_enable_bits: _, component_log_sizes, public_data } = claim;
+    let PublicData { public_memory, initial_state, final_state } = public_data;
+
+    for state in [initial_state, final_state] {
         result.push(state.pc);
         result.push(state.ap);
         result.push(state.fp);
     }
 
-    let public_memory = &claim.public_data.public_memory;
+    let PublicMemory { program, public_segments, output, safe_call_ids } = public_memory;
 
-    for segment in public_memory.public_segments.present_segments().iter() {
+    for segment in public_segments.present_segments().iter() {
         result.push(segment.start_ptr.id.into());
         result.push(segment.start_ptr.value.into());
         result.push(segment.stop_ptr.id.into());
         result.push(segment.stop_ptr.value.into());
     }
 
-    result.extend(public_memory.safe_call_ids.iter().map(|id| M31::from(*id)));
-    result.extend(public_memory.output.iter().map(|(id, _value)| M31::from(*id)));
-    result.extend(public_memory.program.iter().map(|(id, _value)| M31::from(*id)));
-    result.extend(claim.component_log_sizes.iter().map(|size| M31::from(*size)));
+    result.extend(safe_call_ids.iter().map(|id| M31::from(*id)));
+    result.extend(output.iter().map(|(id, _value)| M31::from(*id)));
+    result.extend(program.iter().map(|(id, _value)| M31::from(*id)));
+    result.extend(component_log_sizes.iter().map(|size| M31::from(*size)));
 
     result
 }
@@ -207,9 +208,10 @@ pub struct CairoStatement<Value: IValue> {
     /// the AIR can be set dynamically.
     pub enabled_bits: Vec<bool>,
     pub aux_data: AuxData,
+    // The same component_log_sizes that are in aux_data only packed.
     pub packed_component_log_sizes: Simd,
     pub program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
-    pub outputs: Vec<[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]>,
+    pub outputs: [[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]; N_OUTPUTS],
     pub preprocessed_root: HashValue<QM31>,
     pub preprocessed_trace_variant: PreProcessedTraceVariant,
 }
@@ -237,9 +239,15 @@ impl<Value: IValue> CairoStatement<Value> {
         // Validate the output segment range.
         let diff = eval!(
             context,
+<<<<<<< HEAD
             (*output_segment_range.end.value.raw()) - (*output_segment_range.start.value.raw())
+||||||| 167116f40
+            (*output_segment_range.end.value.get()) - (*output_segment_range.start.value.get())
+=======
+            (*output_segment_range.stop.value.get()) - (*output_segment_range.start.value.get())
+>>>>>>> origin/sharp-8.0
         );
-        let n_outputs = context.constant(self.outputs.len().into());
+        let n_outputs = context.constant(N_OUTPUTS.into());
         eq(context, diff, n_outputs);
 
         let builtin_segment_ranges = [
@@ -261,17 +269,23 @@ impl<Value: IValue> CairoStatement<Value> {
                 .map(|segment_range| segment_range.start.value)
                 .collect_vec(),
         );
-        let end_addresses = Simd::pack(
+        let stop_addresses = Simd::pack(
             context,
             &builtin_segment_ranges
                 .iter()
+<<<<<<< HEAD
                 .map(|segment_range| segment_range.end.value)
+||||||| 167116f40
+                .map(|segment_range| segment_range.end.value.clone())
+=======
+                .map(|segment_range| segment_range.stop.value.clone())
+>>>>>>> origin/sharp-8.0
                 .collect_vec(),
         );
-        let diff = Simd::sub(context, &end_addresses, &start_addresses);
+        let diff = Simd::sub(context, &stop_addresses, &start_addresses);
 
-        // Select the pedersen builtin based on the trace variant, for `CanonicalWithoutPedersen`
-        // the builtin is can't be used so we can use either of the two.
+        // Select the pedersen builtin based on the trace variant. For `CanonicalWithoutPedersen`
+        // the builtin can't be used, so we can choose an arbitrary pedersen builtin.
         let pedersen_builtin = match self.preprocessed_trace_variant {
             PreProcessedTraceVariant::CanonicalSmall => "pedersen_builtin_narrow_windows",
             PreProcessedTraceVariant::Canonical
@@ -303,17 +317,14 @@ impl<Value: IValue> CairoStatement<Value> {
         let n_uses_simd = Simd::mul(context, &diff, &packed_instance_size_inverses);
 
         // Range-check the number of times each builtin is used.
-        // n_uses = (end - start) / instance_size, which implies end = start + n_uses *
-        // instance_size (mod M31_P). Since end and start are 29 bits and n_uses is 27 bits,
+        // n_uses = (stop - start) / instance_size, which implies stop = start + n_uses *
+        // instance_size (mod M31_P). Since stop and start are 29 bits and n_uses is 27 bits,
         // start + n_uses * instance_size < 2^29 + 2^27 * max_supported_builtin_instance_size <
         // M31_P, so this equality also holds over the integers.
-        // Note that there is an assertion involving max_supported_builtin_instance_size that
-        // guarantees this doesn't overflow.
         extract_bits(context, &n_uses_simd, BUILTIN_USAGE_BITS);
 
         let actual_uses_iter = Simd::unpack(context, &n_uses_simd).into_iter();
         let mut range_checks = vec![];
-        let mut max_supported_builtin_instance_size = 0_usize;
         for ((name, size), actual_uses) in zip_eq(builtin_instance_sizes, actual_uses_iter) {
             let Some(index) = self.components.get_index_of(name) else {
                 // The component is not supported by the circuit - actual_uses must be 0.
@@ -321,20 +332,18 @@ impl<Value: IValue> CairoStatement<Value> {
                 continue;
             };
 
-            if size > max_supported_builtin_instance_size {
-                max_supported_builtin_instance_size = size;
-            }
+            // Verify that start + n_uses * instance_size doesn't overflow.
+            assert!(
+                (1_u64 << MEMORY_ADDRESS_BITS)
+                    + (1_u64 << BUILTIN_USAGE_BITS) * u64::try_from(size).unwrap()
+                    < u64::from(M31_P),
+            );
 
             let component_size = component_sizes[index];
             // Check that 0 <= component_size - actual_uses < 2^27 => actual_uses <= component_size.
             let diff = eval!(context, (component_size) - (actual_uses));
             range_checks.push(M31Wrapper::new_unsafe(diff));
         }
-        assert!(
-            (1 << MEMORY_ADDRESS_BITS)
-                + (1 << BUILTIN_USAGE_BITS) * max_supported_builtin_instance_size
-                < usize::try_from(M31_P).unwrap(),
-        );
 
         let rc_simd = Simd::pack(context, &range_checks);
         extract_bits(context, &rc_simd, BUILTIN_USAGE_BITS);
@@ -347,20 +356,36 @@ impl<Value: IValue> CairoStatement<Value> {
 fn word_to_le_bits<Value: IValue>(
     context: &mut Context<Value>,
     word: &U32Wrapper<Var>,
+<<<<<<< HEAD
 ) -> Vec<Simd> {
     let low = Simd::pack_single(word.low(context));
     let high = Simd::pack_single(word.high(context));
     chain!(extract_bits(context, &low, 16), extract_bits(context, &high, 16)).collect()
+||||||| 167116f40
+) -> Vec<Simd> {
+    let packed = Simd::from_packed(vec![*word.get()], 2);
+    let low = Simd::from_packed(vec![Simd::unpack_idx(context, &packed, 0)], 1);
+    let high = Simd::from_packed(vec![Simd::unpack_idx(context, &packed, 1)], 1);
+    chain!(extract_bits(context, &low, 16), extract_bits(context, &high, 16)).collect()
+=======
+) -> [Simd; 32] {
+    let packed = Simd::from_packed(vec![*word.get()], 2);
+    let low = Simd::from_packed(vec![Simd::unpack_idx(context, &packed, 0)], 1);
+    let high = Simd::from_packed(vec![Simd::unpack_idx(context, &packed, 1)], 1);
+    let bits =
+        chain!(extract_bits(context, &low, 16), extract_bits(context, &high, 16)).collect_vec();
+    bits.try_into().unwrap()
+>>>>>>> origin/sharp-8.0
 }
 
 /// Splits the digest `hash` into its 2 u128s, each decomposed into nine-bit limbs (little-endian).
 fn output_limbs_from_hash<Value: IValue>(
     context: &mut Context<Value>,
     hash: &HashValue<Var>,
-) -> Vec<[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]> {
-    let zero = M31Wrapper::const_m31(context, Zero::zero());
+) -> [[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]; N_OUTPUTS] {
+    let zero = M31Wrapper::const_from_u32(context, 0);
     let mut outputs = Vec::with_capacity(N_OUTPUTS);
-    for half in hash.as_array().chunks(N_WORDS_PER_OUTPUT_CELL) {
+    for half in hash.as_array().checked_as_chunks::<N_WORDS_PER_OUTPUT_CELL>() {
         // Little-endian bit stream of the cell's 128-bit value (LSB first).
         let mut bits = Vec::with_capacity(N_WORDS_PER_OUTPUT_CELL * 32);
         for word in half {
@@ -368,20 +393,44 @@ fn output_limbs_from_hash<Value: IValue>(
         }
         // Regroup the bits into nine-bit limbs: the 128 bits fill the low div_ceil(128, 9) = 15
         // limbs (the last only partially), and the high limbs stay zero.
+<<<<<<< HEAD
         let cell: [M31Wrapper<Var>; MEMORY_VALUES_LIMBS] = array::from_fn(|i| {
             let start = i * LIMB_BITS;
             if start >= bits.len() {
                 return zero;
             }
+||||||| 167116f40
+        let cell: [M31Wrapper<Var>; MEMORY_VALUES_LIMBS] = array::from_fn(|i| {
+            let start = i * LIMB_BITS;
+            if start >= bits.len() {
+                return zero.clone();
+            }
+=======
+        let mut cell_vec = Vec::with_capacity(MEMORY_VALUES_LIMBS);
+        for limb_bits in bits.chunks(LIMB_BITS) {
+            let limb = Simd::combine_bits(context, limb_bits);
+            cell_vec.push(M31Wrapper::new_unsafe(Simd::unpack_idx(context, &limb, 0)));
+        }
+>>>>>>> origin/sharp-8.0
 
+<<<<<<< HEAD
             let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
             let limb = Simd::combine_bits(context, chunk);
             Simd::unpack_single(context, &limb)
         });
+||||||| 167116f40
+            let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
+            let limb = Simd::combine_bits(context, chunk);
+            M31Wrapper::new_unsafe(Simd::unpack_idx(context, &limb, 0))
+        });
+=======
+        assert!(cell_vec.len() <= MEMORY_VALUES_LIMBS); // Otherwise .resize() would crop it
+        cell_vec.resize(MEMORY_VALUES_LIMBS, zero.clone());
+        let cell: [M31Wrapper<Var>; MEMORY_VALUES_LIMBS] = cell_vec.try_into().unwrap();
+>>>>>>> origin/sharp-8.0
         outputs.push(cell);
     }
-    debug_assert_eq!(outputs.len(), N_OUTPUTS);
-    outputs
+    outputs.try_into().unwrap()
 }
 
 impl<Value: IValue> CairoStatement<Value> {
@@ -473,6 +522,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
 
         // Mix the (hardcoded) enable bits into the channel for compatibility with the Cairo1
         // verifier: the count (in its own group), then one word per bit.
+<<<<<<< HEAD
         let enable_count = M31Wrapper::const_m31(context, (enabled_bits.len() as u32).into());
         let enable_count_words = to_padded_u32_words(context, &[enable_count]);
         let enable_bit_vars = enabled_bits
@@ -480,23 +530,79 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
             .map(|&b| M31Wrapper::const_m31(context, u32::from(b).into()))
             .collect_vec();
         let enable_bits_words = to_padded_u32_words(context, &enable_bit_vars);
+||||||| 167116f40
+        let enable_count = context.constant((enabled_bits.len() as u32).into());
+        let enable_count_words = to_padded_u32_words(context, vec![enable_count]);
+        let enable_bit_vars =
+            enabled_bits.iter().map(|&b| context.constant(u32::from(b).into())).collect_vec();
+        let enable_bits_words = to_padded_u32_words(context, enable_bit_vars);
+=======
+        let enable_count = context.constant((u32::try_from(enabled_bits.len()).unwrap()).into());
+        let enable_count_words = to_padded_u32_words(context, vec![enable_count]);
+        let enable_bit_vars =
+            enabled_bits.iter().map(|&b| context.constant(u32::from(b).into())).collect_vec();
+        let enable_bits_words = to_padded_u32_words(context, enable_bit_vars);
+>>>>>>> origin/sharp-8.0
+
+        let AuxData {
+            initial_state,
+            final_state,
+            segment_ranges,
+            safe_call_ids,
+            output_ids,
+            program_ids,
+            component_log_sizes,
+        } = aux_data;
 
         // Component log sizes, one word per size.
+<<<<<<< HEAD
         let log_sizes_words = to_padded_u32_words(context, &aux_data.component_log_sizes);
+||||||| 167116f40
+        let log_size_vars = aux_data.component_log_sizes.iter().map(|v| *v.get()).collect_vec();
+        let log_sizes_words = to_padded_u32_words(context, log_size_vars);
+=======
+        let log_size_vars = component_log_sizes.iter().map(|v| *v.get()).collect_vec();
+        let log_sizes_words = to_padded_u32_words(context, log_size_vars);
+>>>>>>> origin/sharp-8.0
 
         // Program length (in its own group), then the aux data fields in
         // `AuxData::parse_from_vars` order.
+<<<<<<< HEAD
         let program_len = M31Wrapper::const_m31(context, (program.len() as u32).into());
         let program_len_words = to_padded_u32_words(context, &[program_len]);
+||||||| 167116f40
+        let program_len = context.constant((program.len() as u32).into());
+        let program_len_words = to_padded_u32_words(context, vec![program_len]);
+=======
+        let program_len = context.constant((u32::try_from(program.len()).unwrap()).into());
+        let program_len_words = to_padded_u32_words(context, vec![program_len]);
+>>>>>>> origin/sharp-8.0
         let aux_data_vars = chain!(
             [
+<<<<<<< HEAD
                 aux_data.initial_state.pc,
                 aux_data.initial_state.ap,
                 aux_data.initial_state.fp,
                 aux_data.final_state.pc,
                 aux_data.final_state.ap,
                 aux_data.final_state.fp
+||||||| 167116f40
+                *aux_data.initial_state.pc.get(),
+                *aux_data.initial_state.ap.get(),
+                *aux_data.initial_state.fp.get(),
+                *aux_data.final_state.pc.get(),
+                *aux_data.final_state.ap.get(),
+                *aux_data.final_state.fp.get()
+=======
+                *initial_state.pc.get(),
+                *initial_state.ap.get(),
+                *initial_state.fp.get(),
+                *final_state.pc.get(),
+                *final_state.ap.get(),
+                *final_state.fp.get()
+>>>>>>> origin/sharp-8.0
             ],
+<<<<<<< HEAD
             aux_data
                 .segment_ranges
                 .iter()
@@ -504,6 +610,21 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
             aux_data.safe_call_ids,
             aux_data.output_ids.iter().copied(),
             aux_data.program_ids.iter().copied(),
+||||||| 167116f40
+            aux_data.segment_ranges.iter().flat_map(|r| {
+                [*r.start.id.get(), *r.start.value.get(), *r.end.id.get(), *r.end.value.get()]
+            }),
+            aux_data.safe_call_ids.iter().map(|id| *id.get()),
+            aux_data.output_ids.iter().map(|id| *id.get()),
+            aux_data.program_ids.iter().map(|id| *id.get()),
+=======
+            segment_ranges.iter().flat_map(|r| {
+                [*r.start.id.get(), *r.start.value.get(), *r.stop.id.get(), *r.stop.value.get()]
+            }),
+            safe_call_ids.iter().map(|id| *id.get()),
+            output_ids.iter().map(|id| *id.get()),
+            program_ids.iter().map(|id| *id.get()),
+>>>>>>> origin/sharp-8.0
         )
         .collect_vec();
         let aux_data_words = to_padded_u32_words(context, &aux_data_vars);
@@ -626,7 +747,7 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
             // Sanity check: ensure that the maximum address in the address_to_id is at most 2**29.
             // Assumes that there is only one ADDRESS_TO_ID component and that it uses Seq.
             assert!(
-                MEMORY_ADDRESS_TO_ID_SPLIT * (1 << MAX_SEQUENCE_LOG_SIZE)
+                MEMORY_ADDRESS_TO_ID_SPLIT.checked_mul(1 << MAX_SEQUENCE_LOG_SIZE).unwrap()
                     <= (1 << MEMORY_ADDRESS_BITS)
             );
 
@@ -673,15 +794,32 @@ pub fn segment_ranges_logup_sum(
             &start_value_limbs,
         );
         sum = eval!(context, (sum) + (segment_start_logup_term));
+<<<<<<< HEAD
         let end_value_limbs = split_address_to_9bit_limbs(context, segment_range.end.value);
         let segment_end_logup_term = public_memory_logup_terms(
+||||||| 167116f40
+        let end_value_limbs = split_address_to_9bit_limbs(context, *segment_range.end.value.get());
+        let segment_end_logup_term = public_memory_logup_terms(
+=======
+        let stop_value_limbs =
+            split_address_to_9bit_limbs(context, *segment_range.stop.value.get());
+        let segment_stop_logup_term = public_memory_logup_terms(
+>>>>>>> origin/sharp-8.0
             context,
             interaction_elements,
             return_value_address,
+<<<<<<< HEAD
             *segment_range.end.id.raw(),
             &end_value_limbs,
+||||||| 167116f40
+            *segment_range.end.id.get(),
+            &end_value_limbs,
+=======
+            *segment_range.stop.id.get(),
+            &stop_value_limbs,
+>>>>>>> origin/sharp-8.0
         );
-        sum = eval!(context, (sum) + (segment_end_logup_term));
+        sum = eval!(context, (sum) + (segment_stop_logup_term));
     }
 
     sum

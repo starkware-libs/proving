@@ -19,7 +19,6 @@ use stwo::core::ColumnVec;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::FriProof;
-use stwo::core::pcs::PcsConfig;
 use stwo::core::pcs::quotients::CommitmentSchemeProof;
 use stwo::core::proof::StarkProof;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
@@ -42,7 +41,7 @@ where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
     pub claim: CairoCircuitClaim,
-    pub interaction_pow: u64,
+    pub interaction_pow_nonce: u64,
     pub interaction_claim: CairoCircuitInteractionClaim,
     pub stark_proof: CairoStarkProof<H>,
     pub channel_salt: u32,
@@ -51,21 +50,31 @@ where
 /// Owned counterpart of `CommitmentSchemeProof` with `queried_values` already in the
 /// 2D sorted-and-transposed layout (one `Vec<BaseField>` per tree, concatenated across
 /// queries) that the Cairo verifier deserializes.
+///
+/// The PCS config is not included: the circuit verifier hardcodes its FRI parameters and tree
+/// heights for its fixed topology, so a prover cannot propose its own FRI parameters.
 #[derive(Clone, Debug, CairoSerialize)]
+<<<<<<< HEAD
 pub struct CairoStarkProof<H: MerkleHasherLifted>
 where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
     pub config: PcsConfig,
     pub commitments: Vec<H::Hash>,
+||||||| 167116f40
+pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
+    pub config: PcsConfig,
+    pub commitments: Vec<Blake2sHash>,
+=======
+pub struct CairoStarkProof<H: MerkleHasherLifted<Hash = Blake2sHash>> {
+    pub commitments: Vec<Blake2sHash>,
+>>>>>>> origin/sharp-8.0
     /// Ground before drawing the OODS point.
     pub oods_proof_of_work: u64,
     pub sampled_values: Vec<ColumnVec<Vec<QM31>>>,
     pub decommitments: Vec<MerkleDecommitmentLifted<H>>,
     /// Sorted+transposed queried values (per tree).
     pub queried_values: Vec<Vec<M31>>,
-    /// Ground before drawing the FRI query positions.
-    pub proof_of_work: u64,
     pub fri_proof: FriProof<H>,
 }
 
@@ -87,7 +96,7 @@ where
     );
     let circuit_proof_for_cairo = CairoCircuitProof::<H> {
         claim: CairoCircuitClaim::new(&circuit_proof.claim),
-        interaction_pow: circuit_proof.interaction_pow_nonce,
+        interaction_pow_nonce: circuit_proof.interaction_pow_nonce,
         interaction_claim: CairoCircuitInteractionClaim::from(&circuit_proof.interaction_claim),
         stark_proof,
         channel_salt: circuit_proof.channel_salt,
@@ -97,10 +106,91 @@ where
     felts
 }
 
+<<<<<<< HEAD
 impl<H: MerkleHasherLifted> CairoStarkProof<H>
 where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
+||||||| 167116f40
+impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoCircuitProof<H> {
+    /// Reads a proof back from the felt stream written by its `CairoSerialize` impl.
+    ///
+    /// `trace_lifting_log_size` and `preprocessed_lifting_log_size` are the heights the proof's
+    /// trees were committed at. The format does not carry them — no Cairo verifier reads them
+    /// back, the circuit verifier has them hardcoded for its topology — so the caller, who knows
+    /// the circuit's column log sizes, supplies them.
+    pub fn deserialize<'a>(
+        data: &mut impl Iterator<Item = &'a FieldElement>,
+        trace_lifting_log_size: u32,
+        preprocessed_lifting_log_size: u32,
+    ) -> Self {
+        Self {
+            claim: CairoDeserialize::deserialize(data),
+            interaction_pow: CairoDeserialize::deserialize(data),
+            interaction_claim: CairoDeserialize::deserialize(data),
+            stark_proof: CairoStarkProof::deserialize(
+                data,
+                trace_lifting_log_size,
+                preprocessed_lifting_log_size,
+            ),
+            channel_salt: CairoDeserialize::deserialize(data),
+        }
+    }
+}
+
+impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
+    /// Reads a stark proof back, with the lifting log sizes the format omits supplied by the
+    /// caller. See [`CairoCircuitProof::deserialize`].
+    pub fn deserialize<'a>(
+        data: &mut impl Iterator<Item = &'a FieldElement>,
+        trace_lifting_log_size: u32,
+        preprocessed_lifting_log_size: u32,
+    ) -> Self {
+        Self {
+            // Only the FRI config is on the wire; the heights come from the caller.
+            config: PcsConfig {
+                fri_config: CairoDeserialize::deserialize(data),
+                trace_lifting_log_size,
+                preprocessed_lifting_log_size,
+            },
+            commitments: CairoDeserialize::deserialize(data),
+            oods_proof_of_work: CairoDeserialize::deserialize(data),
+            sampled_values: CairoDeserialize::deserialize(data),
+            decommitments: CairoDeserialize::deserialize(data),
+            queried_values: CairoDeserialize::deserialize(data),
+            proof_of_work: CairoDeserialize::deserialize(data),
+            fri_proof: CairoDeserialize::deserialize(data),
+        }
+    }
+
+=======
+impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoCircuitProof<H> {
+    /// Reads a proof back from the felt stream written by its `CairoSerialize` impl.
+    pub fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+        Self {
+            claim: CairoDeserialize::deserialize(data),
+            interaction_pow_nonce: CairoDeserialize::deserialize(data),
+            interaction_claim: CairoDeserialize::deserialize(data),
+            stark_proof: CairoStarkProof::deserialize(data),
+            channel_salt: CairoDeserialize::deserialize(data),
+        }
+    }
+}
+
+impl<H: MerkleHasherLifted<Hash = Blake2sHash>> CairoStarkProof<H> {
+    /// Reads a stark proof back. See [`CairoStarkProof`] on the omitted config.
+    pub fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
+        Self {
+            commitments: CairoDeserialize::deserialize(data),
+            oods_proof_of_work: CairoDeserialize::deserialize(data),
+            sampled_values: CairoDeserialize::deserialize(data),
+            decommitments: CairoDeserialize::deserialize(data),
+            queried_values: CairoDeserialize::deserialize(data),
+            fri_proof: CairoDeserialize::deserialize(data),
+        }
+    }
+
+>>>>>>> origin/sharp-8.0
     /// Builds the Cairo-ready stark proof from a Rust `StarkProof` plus per-tree column
     /// log sizes for the [trace, interaction] trees (used to sort `queried_values`).
     pub fn from_stark_proof(
@@ -110,12 +200,12 @@ where
         let StarkProof(commitment_scheme_proof) = proof;
         let CommitmentSchemeProof {
             oods_proof_of_work,
-            config,
+            // The config is not serialized: the circuit verifier uses its hardcoded one.
+            config: _,
             commitments,
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work,
             fri_proof,
         } = commitment_scheme_proof;
 
@@ -126,12 +216,10 @@ where
 
         Self {
             oods_proof_of_work,
-            config,
             commitments: commitments.0,
             sampled_values: sampled_values.0,
             decommitments: decommitments.0,
             queried_values: sorted.0,
-            proof_of_work,
             fri_proof,
         }
     }

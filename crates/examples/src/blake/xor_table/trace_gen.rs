@@ -124,4 +124,3 @@ macro_rules! xor_table_gen {
         }
     };
 }
-pub(crate) use xor_table_gen;

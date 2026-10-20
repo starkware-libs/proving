@@ -1,6 +1,6 @@
 use core::box::BoxTrait;
 use core::poseidon::poseidon_hash_span;
-use super::{MemorySection, add_length_padding, construct_f252, deconstruct_f252};
+use super::add_length_padding;
 
 /// Constructs a `felt252` from 7 u32 big-endian limbs.
 pub fn construct_f252_be(x: Box<[u32; 7]>) -> felt252 {
@@ -15,6 +15,7 @@ pub fn construct_f252_be(x: Box<[u32; 7]>) -> felt252 {
     result * offset + l6.into()
 }
 
+<<<<<<< HEAD
 /// Returns the hash of the memory section, for packing purposes.
 /// Note: this function ignores the ids and therefore assumes that the section is sorted.
 /// Note: no encoding is done at the moment.
@@ -39,6 +40,41 @@ pub fn hash_memory_section(section: MemorySection) -> Box<[u32; 8]> {
 /// and carries its real word count in its high bits, so inputs of different lengths cannot pack
 /// to the same felts — the encoding `construct_felt252s_from_u32s` uses on the Rust side.
 fn append_packed_u32s(mut data: Span<u32>, ref res: Array<felt252>) {
+||||||| 167116f40
+/// Returns the hash of the memory section, for packing purposes.
+/// Note: this function ignores the ids and therefore assumes that the section is sorted.
+/// Note: no encoding is done at the moment.
+// TODO(Gali): There is no encoding done at the moment with poseidon, so this function is
+// equivalent to `hash_memory_section`.
+pub fn encode_and_hash_memory_section(section: MemorySection) -> Box<[u32; 8]> {
+    hash_memory_section(section)
+}
+
+/// Returns the hash of the memory section.
+/// Note: this function ignores the ids and therefore assumes that the section is sorted.
+pub fn hash_memory_section(section: MemorySection) -> Box<[u32; 8]> {
+    let mut felts = array![];
+    for entry in section {
+        let (_, val) = *entry;
+        felts.append(construct_f252(BoxTrait::new(val)));
+    }
+    deconstruct_f252(poseidon_hash_span(felts.span()))
+}
+
+/// Returns the hash of the given state and data.
+pub fn hash_u32s_with_state(state: felt252, data: Span<u32>) -> felt252 {
+    let mut res = array![state];
+
+    let mut data = data;
+
+=======
+/// Returns the hash of the given state and data.
+pub fn hash_u32s_with_state(state: felt252, data: Span<u32>) -> felt252 {
+    let mut res = array![state];
+
+    let mut data = data;
+
+>>>>>>> origin/sharp-8.0
     while let Some(chunk) = data.multi_pop_front::<7>() {
         res.append(construct_f252_be(*chunk));
     }

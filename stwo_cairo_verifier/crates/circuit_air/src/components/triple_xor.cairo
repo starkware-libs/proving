@@ -14,52 +14,21 @@ pub struct Claim {
 }
 
 pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
-        let log_size = *(self.log_size);
-        let preprocessed_log_sizes = array![log_size].span();
-        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
-        let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
-        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
-    }
-
     fn mix_into(self: @Claim, ref channel: Channel) {
         channel.mix_u64((*(self.log_size)).into());
     }
-
-    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {
-        accumulate_relation_uses(ref relation_uses, RELATION_USES_PER_ROW.span(), *self.log_size);
-    }
 }
 
 
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent<Component<Claim>> {
     fn evaluate_constraints_at_point(
-        self: @Component,
+        self: @Component<Claim>,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
-        public_params: Span<u32>,
+        common_lookup_elements: @CommonLookupElements,
     ) {
         let log_size = *(self.claim.log_size);
         let claimed_sum = *self.claimed_sum;
@@ -88,16 +57,11 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_10: QM31 = Zero::zero();
         let mut gate_sum_11: QM31 = Zero::zero();
         let mut numerator_11: QM31 = Zero::zero();
-        let triple_xor_input_addr_0 = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_INPUT_ADDR_0_IDX);
-        let triple_xor_input_addr_1 = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_INPUT_ADDR_1_IDX);
-        let triple_xor_input_addr_2 = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_INPUT_ADDR_2_IDX);
-        let triple_xor_output_addr = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_OUTPUT_ADDR_IDX);
-        let triple_xor_multiplicity = preprocessed_mask_values
-            .get_and_mark_used(TRIPLE_XOR_MULTIPLICITY_IDX);
+        let triple_xor_input_addr_0 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_0_IDX);
+        let triple_xor_input_addr_1 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_1_IDX);
+        let triple_xor_input_addr_2 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_2_IDX);
+        let triple_xor_output_addr = preprocessed_mask_values.get(TRIPLE_XOR_OUTPUT_ADDR_IDX);
+        let triple_xor_multiplicity = preprocessed_mask_values.get(TRIPLE_XOR_MULTIPLICITY_IDX);
 
         let [
             input_a_limb_0_col0,
@@ -159,7 +123,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_a_limb_0_col0,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col8,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -168,7 +132,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_a_limb_1_col1,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col9,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -177,7 +141,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_b_limb_0_col2,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col10,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -186,7 +150,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_b_limb_1_col3,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col11,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -195,7 +159,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_c_limb_0_col4,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col12,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -204,7 +168,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_c_limb_1_col5,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col13,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -213,7 +177,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_a_xor_b_xor_c_limb_0_col6,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col14,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -222,7 +186,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             input_a_xor_b_xor_c_limb_1_col7,
             qm31_const::<1, 0, 0, 0>(),
             ms_8_bits_col15,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref sum,
             random_coeff,
         );
@@ -233,7 +197,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             ],
             qm31_const::<1, 0, 0, 0>(),
             xor_col16,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref verify_bitwise_xor_8_sum_0,
             ref numerator_0,
             ref sum,
@@ -243,7 +207,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             [ms_8_bits_col8, ms_8_bits_col10],
             qm31_const::<1, 0, 0, 0>(),
             xor_col17,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref verify_bitwise_xor_8_sum_1,
             ref numerator_1,
             ref sum,
@@ -256,7 +220,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
             ],
             qm31_const::<1, 0, 0, 0>(),
             xor_col18,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref verify_bitwise_xor_8_sum_2,
             ref numerator_2,
             ref sum,
@@ -266,16 +230,15 @@ pub impl AirComponentImpl of AirComponent<Component> {
             [ms_8_bits_col9, ms_8_bits_col11],
             qm31_const::<1, 0, 0, 0>(),
             xor_col19,
-            self.common_lookup_elements,
+            common_lookup_elements,
             ref verify_bitwise_xor_8_sum_3,
             ref numerator_3,
             ref sum,
             random_coeff,
         );
 
-        verify_bitwise_xor_8_sum_4 = self
-            .common_lookup_elements
-            .combine_qm31(
+        verify_bitwise_xor_8_sum_4 = common_lookup_elements
+            .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), xor_col16,
                     split_16_low_part_size_8_output_tmp_4ec2c_9_limb_0,
@@ -285,17 +248,15 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_4 = qm31_const::<1, 0, 0, 0>();
 
-        verify_bitwise_xor_8_sum_5 = self
-            .common_lookup_elements
-            .combine_qm31(
+        verify_bitwise_xor_8_sum_5 = common_lookup_elements
+            .combine(
                 [qm31_const::<112558620, 0, 0, 0>(), xor_col17, ms_8_bits_col12, ms_8_bits_col14]
                     .span(),
             );
         numerator_5 = qm31_const::<1, 0, 0, 0>();
 
-        verify_bitwise_xor_8_sum_6 = self
-            .common_lookup_elements
-            .combine_qm31(
+        verify_bitwise_xor_8_sum_6 = common_lookup_elements
+            .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), xor_col18,
                     split_16_low_part_size_8_output_tmp_4ec2c_11_limb_0,
@@ -305,17 +266,15 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_6 = qm31_const::<1, 0, 0, 0>();
 
-        verify_bitwise_xor_8_sum_7 = self
-            .common_lookup_elements
-            .combine_qm31(
+        verify_bitwise_xor_8_sum_7 = common_lookup_elements
+            .combine(
                 [qm31_const::<112558620, 0, 0, 0>(), xor_col19, ms_8_bits_col13, ms_8_bits_col15]
                     .span(),
             );
         numerator_7 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_8 = self
-            .common_lookup_elements
-            .combine_qm31(
+        gate_sum_8 = common_lookup_elements
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_0,
                     input_a_limb_0_col0, input_a_limb_1_col1,
@@ -324,9 +283,8 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_8 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_9 = self
-            .common_lookup_elements
-            .combine_qm31(
+        gate_sum_9 = common_lookup_elements
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_1,
                     input_b_limb_0_col2, input_b_limb_1_col3,
@@ -335,9 +293,8 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_9 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_10 = self
-            .common_lookup_elements
-            .combine_qm31(
+        gate_sum_10 = common_lookup_elements
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_2,
                     input_c_limb_0_col4, input_c_limb_1_col5,
@@ -346,9 +303,8 @@ pub impl AirComponentImpl of AirComponent<Component> {
             );
         numerator_10 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_11 = self
-            .common_lookup_elements
-            .combine_qm31(
+        gate_sum_11 = common_lookup_elements
+            .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_output_addr,
                     input_a_xor_b_xor_c_limb_0_col6, input_a_xor_b_xor_c_limb_1_col7,
@@ -485,16 +441,16 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     ))
         * verify_bitwise_xor_8_sum_0
         * verify_bitwise_xor_8_sum_1)
         - (verify_bitwise_xor_8_sum_0 * numerator_1)
         - (verify_bitwise_xor_8_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7],
     )
         - QM31Impl::from_partial_evals([trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3]))
@@ -502,9 +458,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_sum_3)
         - (verify_bitwise_xor_8_sum_2 * numerator_3)
         - (verify_bitwise_xor_8_sum_3 * numerator_2));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11],
     )
         - QM31Impl::from_partial_evals([trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7]))
@@ -512,9 +468,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_sum_5)
         - (verify_bitwise_xor_8_sum_4 * numerator_5)
         - (verify_bitwise_xor_8_sum_5 * numerator_4));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col12, trace_2_col13, trace_2_col14, trace_2_col15],
     )
         - QM31Impl::from_partial_evals([trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11]))
@@ -522,9 +478,9 @@ fn lookup_constraints(
         * verify_bitwise_xor_8_sum_7)
         - (verify_bitwise_xor_8_sum_6 * numerator_7)
         - (verify_bitwise_xor_8_sum_7 * numerator_6));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col16, trace_2_col17, trace_2_col18, trace_2_col19],
     )
         - QM31Impl::from_partial_evals(
@@ -534,9 +490,9 @@ fn lookup_constraints(
         * gate_sum_9)
         - (gate_sum_8 * numerator_9)
         - (gate_sum_9 * numerator_8));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
-    let constraint_quotient = (((QM31Impl::from_partial_evals(
+    let constraint_eval = (((QM31Impl::from_partial_evals(
         [trace_2_col20, trace_2_col21, trace_2_col22, trace_2_col23],
     )
         - QM31Impl::from_partial_evals([trace_2_col16, trace_2_col17, trace_2_col18, trace_2_col19])
@@ -548,7 +504,7 @@ fn lookup_constraints(
         * gate_sum_11)
         + (gate_sum_10 * numerator_11)
         - (gate_sum_11 * numerator_10));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {
@@ -556,55 +512,48 @@ mod tests {
     use core::num::traits::Zero;
     use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{
-        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
-    };
+    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
-    use crate::components::sample_evaluations::*;
+    use crate::components::sample_evaluations_test_data::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-    use super::{Claim, Component};
+    use super::{AirComponentImpl, Claim, Component};
 
     #[test]
     fn test_evaluation_result() {
         let component = Component {
             claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
-            common_lookup_elements: LookupElementsTrait::from_z_alpha(
-                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-            ),
         };
-        let public_params = [].span();
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_INPUT_ADDR_0_IDX,
-            qm31_const::<609298445, 1319370969, 1526988810, 301130926>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_INPUT_ADDR_1_IDX,
-            qm31_const::<542189266, 1185153241, 1459879946, 301130926>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_INPUT_ADDR_2_IDX,
-            qm31_const::<475080087, 1050935513, 1392771082, 301130926>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_OUTPUT_ADDR_IDX,
-            qm31_const::<2078058264, 1287289382, 1925271066, 560922030>(),
-        );
-        let mut preprocessed_trace = preprocessed_mask_add(
-            preprocessed_trace,
-            TRIPLE_XOR_MULTIPLICITY_IDX,
-            qm31_const::<576605629, 937297661, 250894038, 1499736593>(),
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (
+                    TRIPLE_XOR_INPUT_ADDR_0_IDX,
+                    qm31_const::<609298445, 1319370969, 1526988810, 301130926>(),
+                ),
+                (
+                    TRIPLE_XOR_INPUT_ADDR_1_IDX,
+                    qm31_const::<542189266, 1185153241, 1459879946, 301130926>(),
+                ),
+                (
+                    TRIPLE_XOR_INPUT_ADDR_2_IDX,
+                    qm31_const::<475080087, 1050935513, 1392771082, 301130926>(),
+                ),
+                (
+                    TRIPLE_XOR_OUTPUT_ADDR_IDX,
+                    qm31_const::<2078058264, 1287289382, 1925271066, 560922030>(),
+                ),
+                (
+                    TRIPLE_XOR_MULTIPLICITY_IDX,
+                    qm31_const::<576605629, 937297661, 250894038, 1499736593>(),
+                ),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
         );
 
         let mut trace_columns = [
@@ -648,9 +597,11 @@ mod tests {
                 ref trace_columns,
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
-                public_params,
+                @CommonLookupElements {
+                    z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                    alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+                },
             );
-        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(TRIPLE_XOR_SAMPLE_EVAL_RESULT))
     }
 }

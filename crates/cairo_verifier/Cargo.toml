@@ -3,6 +3,9 @@ name = "circuit-cairo-verifier"
 version.workspace = true
 edition.workspace = true
 
+[features]
+test-utils = []
+
 [dependencies]
 hashbrown.workspace = true
 indexmap = { workspace = true, features = ["std"] }

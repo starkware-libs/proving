@@ -27,6 +27,7 @@ slow-tests = []
 blake2 = "0.10"
 clap.workspace = true
 leaf-proof-format.workspace = true
+mimalloc = "0.1"
 serde.workspace = true
 serde_json.workspace = true
 sonic-rs.workspace = true
@@ -38,7 +39,6 @@ thiserror.workspace = true
 tracing.workspace = true
 
 circuit-cairo-serialize.workspace = true
-circuit-multiverifier.workspace = true
 circuit-registry.workspace = true
 circuit-verifier.workspace = true
 circuit-common = { workspace = true, features = ["prover"] }
@@ -53,7 +53,14 @@ tracing-subscriber.workspace = true
 tempfile.workspace = true
 num-bigint.workspace = true
 leaf-prover.workspace = true
+<<<<<<< HEAD
 # The committed compiled-bootloader fixtures' program-hash snapshot test.
 cairo-program-runner-lib.workspace = true
 cairo-vm.workspace = true
 expect-test.workspace = true
+||||||| 167116f40
+=======
+cairo-program-runner-lib.workspace = true
+cairo-vm.workspace = true
+expect-test.workspace = true
+>>>>>>> origin/sharp-8.0

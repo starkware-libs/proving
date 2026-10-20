@@ -2,9 +2,8 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
-use circuits::wrappers::U32Wrapper;
 use itertools::zip_eq;
-pub use stwo::core::fri::FriConfig;
+pub use stwo::core::fri::{FriConfig, FriParams};
 
 use crate::merkle::{AuthPath, AuthPaths};
 
@@ -17,7 +16,7 @@ pub struct FriCommitProof<T> {
 
 impl<T> FriCommitProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, config: &FriConfig, all_fold_steps: &[usize]) {
+    pub fn validate_structure(&self, config: &FriParams, all_fold_steps: &[u32]) {
         // The computation of `all_fold_step` guarantees also that
         // `log_trace_size = log_last_layer_degree_bound + ∑ fold_step_for_layer`, where
         // the sum runs over the FRI layers.
@@ -54,7 +53,7 @@ impl<Value: IValue> Guess<Value> for FriWitness<Value> {
 
 impl<T> FriWitness<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, config: &FriConfig, all_fold_steps: &[usize]) {
+    pub fn validate_structure(&self, config: &FriParams, all_fold_steps: &[u32]) {
         assert_eq!(self.0.len(), all_fold_steps.len());
         for (witness_per_query, step) in zip_eq(&self.0, all_fold_steps) {
             assert_eq!(witness_per_query.len(), config.n_queries);
@@ -68,6 +67,8 @@ impl<T> FriWitness<T> {
 pub struct FriProof<T> {
     /// Information regarding the FRI commitment phase.
     pub commit: FriCommitProof<T>,
+    /// Nonce for the proof of work that gates query selection.
+    pub pow_nonce: T,
     /// Authentication paths for all the FRI trees.
     pub auth_paths: AuthPaths<T>,
     /// Witness for the FRI decommitment phase.
@@ -76,29 +77,29 @@ pub struct FriProof<T> {
 
 impl<T> FriProof<T> {
     /// Validates that the size of the members of the struct are consistent with the config.
-    pub fn validate_structure(&self, log_trace_size: usize, config: &FriConfig) {
-        let FriProof { commit, auth_paths, witness } = self;
+    pub fn validate_structure(&self, config: &FriConfig) {
+        let FriProof { commit, pow_nonce: _, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
-            log_trace_size - config.log_last_layer_degree_bound as usize,
-            config.fold_step as usize,
+            config.trace_log_size.checked_sub(config.params.log_last_layer_degree_bound).unwrap(),
+            config.params.fold_step,
         );
-        commit.validate_structure(config, &all_fold_steps);
+        commit.validate_structure(&config.params, &all_fold_steps);
 
         // Build `tree_heights` so that `tree_heights[i]` is the Merkle authentication-path
         // length for FRI layer `i`, to validate against the proof.
         // The fold inputs are merklized in cosets of size `2^fold_step` before authentication
         // starts, so a layer with `2^k` values has an auth path of length `k - fold_step`
         // (equivalently, the layer's log-size after folding).
-        let mut tree_heights: Vec<usize> = Vec::with_capacity(all_fold_steps.len());
-        let mut layer_size = log_trace_size + config.log_blowup_factor as usize;
+        let mut tree_heights: Vec<u32> = Vec::with_capacity(all_fold_steps.len());
+        let mut layer_size = config.log_evaluation_domain_size();
         for fold_step in &all_fold_steps {
-            layer_size -= *fold_step;
+            layer_size = layer_size.checked_sub(*fold_step).unwrap();
             tree_heights.push(layer_size);
         }
-        auth_paths.validate_structure(&tree_heights, config.n_queries);
+        auth_paths.validate_structure(&tree_heights, config.params.n_queries);
 
         // Check the witness.
-        witness.validate_structure(config, &all_fold_steps);
+        witness.validate_structure(&config.params, &all_fold_steps);
     }
 }
 
@@ -108,40 +109,41 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
     fn guess(&self, context: &mut Context<Value>) -> Self::Target {
         Self::Target {
             commit: self.commit.guess(context),
+            pow_nonce: self.pow_nonce.guess(context),
             auth_paths: self.auth_paths.guess(context),
             witness: self.witness.guess(context),
         }
     }
 }
 
-pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<NoValue> {
+pub fn empty_fri_proof(config: &FriConfig) -> FriProof<NoValue> {
     let all_fold_steps = compute_all_fold_steps(
-        log_trace_size - config.log_last_layer_degree_bound as usize,
-        config.fold_step as usize,
+        config.trace_log_size - config.params.log_last_layer_degree_bound,
+        config.params.fold_step,
     );
-    let mut log_layer_size = log_trace_size + config.log_blowup_factor as usize;
+    let mut log_layer_size = config.log_evaluation_domain_size();
     let mut auth_paths = vec![];
 
     for step in &all_fold_steps {
-        auth_paths.push(vec![
-            // The verifier computes the Merkle node at height `log_layer_size - step`
-            // from the witness.
-            AuthPath(vec![HashValue::no_value(); log_layer_size - step]);
-            config.n_queries
-        ]);
-        log_layer_size -= step;
+        // The verifier computes the Merkle node at height `log_layer_size - step` from the
+        // witness.
+        log_layer_size = log_layer_size.checked_sub(*step).unwrap();
+        let path_len: usize = log_layer_size.try_into().unwrap();
+        auth_paths
+            .push(vec![AuthPath(vec![HashValue::no_value(); path_len]); config.params.n_queries]);
     }
     let auth_paths = AuthPaths { data: auth_paths };
 
     let witness_per_query_per_tree = all_fold_steps
         .iter()
-        .map(|step| vec![vec![NoValue; 1 << step]; config.n_queries])
+        .map(|step| vec![vec![NoValue; 1 << step]; config.params.n_queries])
         .collect();
     FriProof {
         commit: FriCommitProof {
-            layer_commitments: vec![HashValue([U32Wrapper::no_value(); 8]); all_fold_steps.len()],
-            last_layer_coefs: vec![NoValue; 1 << config.log_last_layer_degree_bound],
+            layer_commitments: vec![HashValue::no_value(); all_fold_steps.len()],
+            last_layer_coefs: vec![NoValue; 1 << config.params.log_last_layer_degree_bound],
         },
+        pow_nonce: NoValue,
         auth_paths,
         witness: FriWitness(witness_per_query_per_tree),
     }
@@ -153,10 +155,10 @@ pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<No
 ///
 /// - `degree_log_ratio`: (log degree of committed polynomial) - (log degree of FRI's last layer).
 /// - `fold_step`: the folding step of all the FRI folds except possibly the last.
-pub fn compute_all_fold_steps(degree_log_ratio: usize, fold_step: usize) -> Vec<usize> {
+pub fn compute_all_fold_steps(degree_log_ratio: u32, fold_step: u32) -> Vec<u32> {
     let n_folds = degree_log_ratio.div_ceil(fold_step);
     let rem = degree_log_ratio % fold_step;
-    let mut all_fold_steps = vec![fold_step; n_folds];
+    let mut all_fold_steps = vec![fold_step; n_folds.try_into().unwrap()];
     if rem != 0 {
         *all_fold_steps.last_mut().unwrap() = rem;
     }

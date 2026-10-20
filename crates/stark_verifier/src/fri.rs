@@ -15,7 +15,7 @@ use crate::circle::{
     compute_half_coset_points, double_x, generator_point_simd, repeated_double_point_simd,
     sub_points_simd,
 };
-use crate::fri_proof::{FriCommitProof, FriConfig, FriProof, FriWitness};
+use crate::fri_proof::{FriCommitProof, FriConfig, FriParams, FriProof, FriWitness};
 use crate::merkle::{hash_leaf_qm31, hash_node, hash_packed_leaf_qm31s, verify_merkle_path};
 use crate::select_queries::Queries;
 
@@ -23,18 +23,25 @@ use crate::select_queries::Queries;
 #[path = "fri_test.rs"]
 pub mod test;
 
-/// Mixes the FRI config into the channel.
-pub fn mix_fri_config<Value: IValue>(
+/// Mixes the FRI params into the channel.
+pub fn mix_fri_params<Value: IValue>(
     context: &mut Context<Value>,
     channel: &mut Channel,
-    config: &FriConfig,
+    params: &FriParams,
 ) {
+    let FriParams {
+        pow_bits,
+        log_blowup_factor,
+        n_queries,
+        log_last_layer_degree_bound,
+        fold_step,
+    } = params;
     let words = [
-        config.pow_bits,
-        config.log_blowup_factor,
-        config.n_queries as u32,
-        config.log_last_layer_degree_bound,
-        config.fold_step,
+        *pow_bits,
+        *log_blowup_factor,
+        *n_queries as u32,
+        *log_last_layer_degree_bound,
+        *fold_step,
     ]
     .map(|value| U32Wrapper::const_u32(context, value));
     channel.mix_u32s(context, words.into_iter());
@@ -61,7 +68,6 @@ pub fn fri_commit(
 pub fn fri_decommit<Value: IValue>(
     context: &mut Context<Value>,
     proof: &FriProof<Var>,
-    log_trace_size: usize,
     config: &FriConfig,
     fri_input: Vec<Var>,
     mut bits: &[Vec<Var>],
@@ -70,6 +76,7 @@ pub fn fri_decommit<Value: IValue>(
 ) {
     let FriProof {
         commit: FriCommitProof { layer_commitments, last_layer_coefs },
+        pow_nonce: _,
         auth_paths,
         witness: FriWitness(witness_per_query_per_tree),
     } = proof;
@@ -78,13 +85,13 @@ pub fn fri_decommit<Value: IValue>(
     let mut base_point = queries.points.clone();
     let mut packed_bits = queries.bits.as_slice();
 
-    let mut log_degree_bound = log_trace_size;
-    let mut step = config.fold_step as usize;
-    assert!(log_trace_size >= step);
-    assert_eq!(config.log_last_layer_degree_bound, 0);
+    let mut log_degree_bound = config.trace_log_size;
+    let mut step = config.params.fold_step;
+    assert!(log_degree_bound >= step);
+    assert_eq!(config.params.log_last_layer_degree_bound, 0);
 
     // Translate base_point to the base of the current circle domain.
-    let mut packed_lowest_bits = packed_bits.split_off(..step).unwrap();
+    let mut packed_lowest_bits = packed_bits.split_off(..usize::try_from(step).unwrap()).unwrap();
     base_point = circle_translate_to_base_point(context, base_point, packed_lowest_bits);
     // Compute twiddles.
     let mut twiddles_per_fold = circle_compute_twiddles_from_base_point(context, &base_point, step);
@@ -95,7 +102,7 @@ pub fn fri_decommit<Value: IValue>(
     for (tree_idx, (root, witness_per_query)) in
         zip_eq(layer_commitments, witness_per_query_per_tree).enumerate()
     {
-        let log_layer_size = bits.len();
+        let log_layer_size: u32 = bits.len().try_into().unwrap();
 
         // Validate that the fri query is in the correct position inside the guessed
         // `witness_per_query`.
@@ -103,20 +110,20 @@ pub fn fri_decommit<Value: IValue>(
             context,
             witness_per_query,
             &layer_values,
-            bits.split_off(..step).unwrap(),
+            bits.split_off(..usize::try_from(step).unwrap()).unwrap(),
         );
 
         // Check merkle decommitment.
         for (query_idx, witness) in witness_per_query.iter().enumerate() {
-            let pack_leaves = log_layer_size >= LOG_PACKED_LEAF_SIZE as usize && step > 1;
+            let pack_leaves = log_layer_size >= LOG_PACKED_LEAF_SIZE && step > 1;
             // Compute the leaves.
-            let (mut leaves, n_folds): (Vec<HashValue<Var>>, usize) = if pack_leaves {
+            let (mut leaves, n_folds): (Vec<HashValue<Var>>, u32) = if pack_leaves {
                 (
                     witness
                         .chunks(PACKED_LEAF_SIZE)
                         .map(|chunk| hash_packed_leaf_qm31s(context, chunk.try_into().unwrap()))
                         .collect(),
-                    step - LOG_PACKED_LEAF_SIZE as usize,
+                    step - LOG_PACKED_LEAF_SIZE,
                 )
             } else {
                 (witness.iter().map(|val| hash_leaf_qm31(context, *val)).collect(), step)
@@ -139,7 +146,7 @@ pub fn fri_decommit<Value: IValue>(
         }
 
         // Compute alpha, alpha^2, ..., alpha^(2^(step - 1));
-        let mut alpha_powers = Vec::with_capacity(step);
+        let mut alpha_powers = Vec::with_capacity(step.try_into().unwrap());
         let mut alpha_pow = alphas[tree_idx];
         alpha_powers.push(alpha_pow);
         for _ in 0..step - 1 {
@@ -148,7 +155,7 @@ pub fn fri_decommit<Value: IValue>(
         }
 
         // Unpack twiddles from [fold][twiddle_packed] to per-query [fold][twiddle].
-        let twiddles_per_query: Vec<Vec<Vec<Var>>> = (0..config.n_queries)
+        let twiddles_per_query: Vec<Vec<Vec<Var>>> = (0..config.params.n_queries)
             .map(|q| {
                 twiddles_per_fold
                     .iter()
@@ -183,7 +190,7 @@ pub fn fri_decommit<Value: IValue>(
         n_doubles = step;
         step = std::cmp::min(step, log_degree_bound);
 
-        packed_lowest_bits = packed_bits.split_off(..step).unwrap();
+        packed_lowest_bits = packed_bits.split_off(..usize::try_from(step).unwrap()).unwrap();
 
         // Translate query_domain_point to the base of the current coset.
         base_point = translate_to_base_point(context, query_domain_point, packed_lowest_bits);
@@ -192,8 +199,9 @@ pub fn fri_decommit<Value: IValue>(
         twiddles_per_fold = compute_twiddles_from_base_point(context, &base_point, step);
     }
     // The last fri layer log size is equal to the log blowup factor.
-    assert_eq!(bits.len(), config.log_blowup_factor as usize);
-    assert_eq!(packed_bits.len(), config.log_blowup_factor as usize);
+    let log_blowup_factor: usize = config.params.log_blowup_factor.try_into().unwrap();
+    assert_eq!(bits.len(), log_blowup_factor);
+    assert_eq!(packed_bits.len(), log_blowup_factor);
 
     // The last base point's y-coords hasn't been used by `compute_twiddles_from_base_point` if the
     // last step was = 1.
@@ -202,6 +210,7 @@ pub fn fri_decommit<Value: IValue>(
     }
 
     // Check last layer.
+    assert_eq!(last_layer_coefs.len(), 1);
     let last_layer_val = last_layer_coefs[0];
     for value in layer_values {
         eq(context, value, last_layer_val);
@@ -260,7 +269,7 @@ fn validate_query_position_in_coset<Value: IValue>(
 fn circle_compute_twiddles_from_base_point<Value: IValue>(
     context: &mut Context<Value>,
     base_point: &CirclePoint<Simd>,
-    fold_step: usize,
+    fold_step: u32,
 ) -> Vec<Vec<Simd>> {
     assert!(fold_step > 0);
 
@@ -270,7 +279,7 @@ fn circle_compute_twiddles_from_base_point<Value: IValue>(
 
     // For circle-to-line, the witness domain is a circle domain with half-coset of size
     // `fold_step - 1`.
-    let coset_points = compute_half_coset_points(context, base_point, (fold_step - 1) as u32);
+    let coset_points = compute_half_coset_points(context, base_point, fold_step - 1);
     if let Some(last_pt) = coset_points.iter().skip(1).last() {
         Simd::mark_partly_used(context, &last_pt.y);
     }
@@ -297,7 +306,7 @@ fn circle_compute_twiddles_from_base_point<Value: IValue>(
 fn compute_x_twiddles<Value: IValue>(
     context: &mut Context<Value>,
     mut x_coords: Vec<Simd>,
-    num_folds: usize,
+    num_folds: u32,
 ) -> Vec<Vec<Simd>> {
     let mut twiddles_per_fold: Vec<Vec<Simd>> = vec![];
     for fold_idx in 0..num_folds {
@@ -326,11 +335,11 @@ fn compute_x_twiddles<Value: IValue>(
 fn compute_twiddles_from_base_point<Value: IValue>(
     context: &mut Context<Value>,
     base_point: &CirclePoint<Simd>,
-    fold_step: usize,
+    fold_step: u32,
 ) -> Vec<Vec<Simd>> {
     assert!(fold_step > 0);
 
-    let coset_points = compute_half_coset_points(context, base_point, fold_step as u32);
+    let coset_points = compute_half_coset_points(context, base_point, fold_step);
     // The y-coordinate of the last point of half_coset is not necessarily used. In the special case
     // where half_coset consists only of the base point, we don't enter this code path (this special
     // case happens if and only if fold step = 1).
@@ -380,9 +389,9 @@ fn translate_to_base_point<Value: IValue>(
 ) -> CirclePoint<Simd> {
     let n_queries = base_point.x.len();
 
-    for (i, bit) in packed_bits.iter().enumerate() {
-        // The group inverse of the generator of the subgroup of size 2^(i+1).
-        let cur_gen_pt = generator_point_simd(context, i + 1, n_queries);
+    for (i, bit) in (1..).zip(packed_bits) {
+        // The group inverse of the generator of the subgroup of size 2^i.
+        let cur_gen_pt = generator_point_simd(context, i, n_queries);
         // Select between `point` and `point - cur_gen_pt`.
         let point_if_bit = sub_points_simd(context, &base_point, &cur_gen_pt);
         base_point = CirclePoint {

@@ -19,5 +19,4 @@ pub mod proof;
 #[cfg(test)]
 mod test;
 
-pub use claim::{CairoCircuitClaim, CairoCircuitInteractionClaim};
-pub use proof::{CairoCircuitProof, CairoStarkProof, prepare_circuit_proof_for_cairo_verifier};
+pub use proof::prepare_circuit_proof_for_cairo_verifier;

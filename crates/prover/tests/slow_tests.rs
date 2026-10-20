@@ -8,7 +8,7 @@ use cairo_air::CairoProofForRustVerifier;
 use cairo_air::verifier::verify_cairo;
 use cairo_vm::types::layout_name::LayoutName;
 use itertools::Itertools;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo_cairo_adapter::ProverInput;
@@ -38,6 +38,8 @@ fn test_all_cairo_constraints() {
 #[test]
 fn test_canonical_preprocessed_root_regression() {
     let log_blowup_factor = 1;
+    let canonical_trace = PreProcessedTraceVariant::Canonical;
+
     let expected = Blake2sHash::from(
         hex::decode("a98e22423bf5d235981f0b36d939ae56ef3be2751c58b032b2831e6e24ba0364")
             .expect("Invalid hex string"),
@@ -45,8 +47,8 @@ fn test_canonical_preprocessed_root_regression() {
 
     let root = generate_preprocessed_commitment_root::<Blake2sMerkleChannel>(
         log_blowup_factor,
-        PreProcessedTraceVariant::Canonical,
-        0,
+        canonical_trace,
+        canonical_trace.max_log_trace_size(),
     );
 
     assert_eq!(root, expected);
@@ -55,6 +57,8 @@ fn test_canonical_preprocessed_root_regression() {
 #[test]
 fn test_small_canonical_preprocessed_root_regression() {
     let log_blowup_factor = 1;
+    let small_trace = PreProcessedTraceVariant::CanonicalSmall;
+
     let expected = Blake2sHash::from(
         hex::decode("068d1166c9f9f0ec247641ca391ee8396170e69343dfcacc632f9638670d2bec")
             .expect("Invalid hex string"),
@@ -62,8 +66,8 @@ fn test_small_canonical_preprocessed_root_regression() {
 
     let root = generate_preprocessed_commitment_root::<Blake2sMerkleChannel>(
         log_blowup_factor,
-        PreProcessedTraceVariant::CanonicalSmall,
-        0,
+        small_trace,
+        small_trace.max_log_trace_size(),
     );
 
     assert_eq!(root, expected);
@@ -76,7 +80,7 @@ fn test_proof_stability(path: &str, n_proofs_to_compare: usize) {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_config: FriConfig::default(),
+        fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
@@ -125,7 +129,7 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_config: FriConfig::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 0,
             store_polynomials_coefficients: false,
@@ -142,7 +146,7 @@ pub mod builtin_tests {
                 |max, &size| max.max(size),
             );
         let max_column_log_size =
-            max_log_trace_size + std::cmp::max(1, config.fri_config.log_blowup_factor);
+            max_log_trace_size + std::cmp::max(1, config.fri_params.log_blowup_factor);
         assert_eq!(config.trace_lifting_log_size, max_column_log_size);
         assert_eq!(config.preprocessed_lifting_log_size, max_column_log_size);
 
@@ -153,7 +157,7 @@ pub mod builtin_tests {
     /// *unsorted* preprocessed query positions that the Merkle verifier must
     /// sort.
     ///
-    /// `channel_salt = 25` with `n_queries = 1000` is a seed where the folded positions
+    /// `channel_salt = 16` with `n_queries = 1000` is a seed where the folded positions
     /// come out unsorted.
     #[test]
     fn test_prove_verify_large_trace_canonical_small() {
@@ -164,9 +168,9 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_config: FriConfig::new(10, 0, 1, 1000, 1),
+            fri_params: FriParams::new(10, 0, 1, 1000, 1),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
-            channel_salt: 25,
+            channel_salt: 16,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
@@ -180,7 +184,7 @@ pub mod builtin_tests {
         let max_trace_log_size = log_sizes[ORIGINAL_TRACE_IDX].iter().max().unwrap();
         let max_pp_log_size = PreProcessedTraceVariant::CanonicalSmall.max_log_trace_size();
         let log_blowup_factor =
-            cairo_proof.extended_stark_proof.proof.config.fri_config.log_blowup_factor;
+            cairo_proof.extended_stark_proof.proof.config.fri_params.log_blowup_factor;
         assert!(
             !prepare_preprocessed_query_positions(
                 &unsorted_query_positions.into_iter().sorted().collect_vec(),
@@ -255,7 +259,7 @@ pub mod builtin_tests {
     fn test_poseidon_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_config: FriConfig::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
@@ -326,7 +330,7 @@ pub mod builtin_tests {
     fn test_pedersen_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_config: FriConfig::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
@@ -422,7 +426,7 @@ fn test_prove_verify_all_opcode_components() {
     }
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_config: FriConfig::default(),
+        fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
         channel_salt: 0,
         store_polynomials_coefficients: true,
@@ -443,7 +447,7 @@ fn test_prove_all_opcode_components_proof_regression() {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_config: FriConfig::new(26, 0, 1, 70, 3),
+        fri_params: FriParams::new(26, 0, 1, 70, 3),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
@@ -478,14 +482,14 @@ fn test_prove_all_opcode_components_proof_regression() {
 }
 
 #[test]
-fn test_prove_verify_all_builtins_non_default_fri_config() {
+fn test_prove_verify_all_builtins_non_default_fri_params() {
     let compiled_program = get_compiled_cairo_program_path("test_prove_verify_all_builtins");
     let input =
         run_and_adapt(&compiled_program, ProgramType::Json, LayoutName::all_cairo_stwo, None)
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_config: FriConfig::new(26, 0, 1, 70, 1),
+        fri_params: FriParams::new(26, 0, 1, 70, 1),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
@@ -586,7 +590,7 @@ fn test_prove_verify_all_builtins() {
     assert_all_builtins_in_input(&input);
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
-        fri_config: FriConfig::default(),
+        fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,

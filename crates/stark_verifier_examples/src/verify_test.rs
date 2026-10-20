@@ -107,11 +107,11 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
             // coset. `validate_query_position_in_coset` selects the value at the query's
             // local index (`queried_pos`'s low `last_step` bits) in the last-layer coset.
             let fold_steps = compute_all_fold_steps(
-                config.log_trace_size - config.fri.log_last_layer_degree_bound as usize,
-                config.fri.fold_step as usize,
+                config.log_trace_size() - config.fri.params.log_last_layer_degree_bound,
+                config.fri.params.fold_step,
             );
             let last_step = *fold_steps.last().unwrap();
-            let shift: usize = fold_steps.iter().sum::<usize>() - last_step;
+            let shift = fold_steps.iter().sum::<u32>() - last_step;
             let queried_pos = first_query >> shift;
             let index_in_coset = queried_pos & ((1 << last_step) - 1);
             let expected_value =

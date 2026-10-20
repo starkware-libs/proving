@@ -1,4 +1,5 @@
 use circuits::context::{Context, TraceContext};
+use circuits::extract_bits::extract_bits;
 use circuits::ivalue::{NoValue, qm31_from_u32s};
 use circuits::ops::Guess;
 use circuits::test_utils::{finalize_guessed_vars, simd_from_u32s};
@@ -106,7 +107,8 @@ fn test_compute_fri_input_regression() {
 
     let input = simd_from_u32s(&mut context, vec![0, 21, 26]);
     let log_domain_size = 5;
-    let queries = select_queries(&mut context, &input, log_domain_size);
+    let bits = extract_bits(&mut context, &input, log_domain_size);
+    let queries = select_queries(&mut context, bits);
 
     let trace_queries_vars: Vec<Vec<M31>> = vec![
         vec![1.into(), 1.into(), 1.into()],

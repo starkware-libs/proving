@@ -1,12 +1,10 @@
-use blake2::{Blake2s256, Digest};
 use itertools::Itertools;
 use num_traits::Zero;
 use stwo::core::fields::cm31::CM31;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
-use crate::utils::le_u32s_from_bytes;
+use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake_qm31};
 use crate::wrappers::U32Wrapper;
 
 #[cfg(test)]
@@ -95,23 +93,7 @@ impl IValue for QM31 {
     }
 
     fn blake2s(input: &[Self], n_bytes: usize) -> HashValue<Self> {
-        // Sanity check: check the number of bytes is consistent with the number of [QM31] values.
-        assert_eq!(input.len(), n_bytes.div_ceil(16));
-
-        // Serialize each QM31's four M31 coordinates as little-endian u32 words.
-        let mut input_bytes: Vec<u8> = Vec::new();
-        for x in input {
-            for coord in x.to_m31_array() {
-                input_bytes.extend_from_slice(&coord.0.to_le_bytes());
-            }
-        }
-
-        let mut hasher = Blake2s256::new();
-        hasher.update(&input_bytes[0..n_bytes]);
-        let hash: [u8; 32] = hasher.finalize().into();
-
-        let words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(hash);
-        HashValue::from(words)
+        blake_qm31(input, n_bytes)
     }
 
     fn sort_by_u_coordinate(input: &[Self]) -> Vec<Self> {

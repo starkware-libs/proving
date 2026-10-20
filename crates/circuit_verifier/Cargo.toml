@@ -13,3 +13,24 @@ stwo-constraint-framework.workspace = true
 circuits.workspace = true
 circuits-stark-verifier.workspace = true
 circuit-common.workspace = true
+<<<<<<< HEAD
+||||||| 167116f40
+
+[dev-dependencies]
+blake2.workspace = true
+indoc.workspace = true
+rstest.workspace = true
+expect-test.workspace = true
+=======
+
+[dev-dependencies]
+blake2.workspace = true
+indoc.workspace = true
+rstest.workspace = true
+expect-test.workspace = true
+cairo-air.workspace = true
+circuit-cairo-verifier = { workspace = true, features = ["test-utils"] }
+circuit-prover.workspace = true
+circuit-serialize.workspace = true
+stwo = { workspace = true, features = ["prover"] }
+>>>>>>> origin/sharp-8.0

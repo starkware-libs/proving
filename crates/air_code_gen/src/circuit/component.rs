@@ -397,7 +397,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
 
             #[allow(unused_imports)]
             use crate::components::prelude::PreProcessedColumnId;
-            use crate::sample_evaluations::*;
+            use crate::sample_evaluations_test_data::*;
             use circuits::context::Context;
             use circuits::ivalue::qm31_from_u32s;
             use circuits_stark_verifier::constraint_eval::*;

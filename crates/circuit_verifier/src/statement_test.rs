@@ -16,7 +16,7 @@ const KNOWN_RELATIONS: [&str; 8] = [
 /// `check_relation_uses` and undercounts relation uses.
 #[test]
 fn test_regression_relation_ids() {
-    for (name, component) in all_circuit_components::<QM31>() {
+    for (name, component) in all_circuit_components::<QM31>().into_named_iter() {
         for relation_use in component.relation_uses_per_row() {
             assert!(
                 KNOWN_RELATIONS.contains(&relation_use.relation_id),

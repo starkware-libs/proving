@@ -11,6 +11,7 @@ pub fn verify_triple_sum_32_evaluate(
     random_coeff: QM31,
 ) -> [QM31; 0] {
     let [
+<<<<<<< HEAD
         verify_triple_sum_32_input_a_limb_0,
         verify_triple_sum_32_input_a_limb_1,
         verify_triple_sum_32_input_b_limb_0,
@@ -19,31 +20,80 @@ pub fn verify_triple_sum_32_evaluate(
         verify_triple_sum_32_input_c_limb_1,
         verify_triple_sum_32_input_s_limb_0,
         verify_triple_sum_32_input_s_limb_1,
+||||||| 167116f40
+        verify_triple_sum_32_input_limb_0,
+        verify_triple_sum_32_input_limb_1,
+        verify_triple_sum_32_input_limb_2,
+        verify_triple_sum_32_input_limb_3,
+        verify_triple_sum_32_input_limb_4,
+        verify_triple_sum_32_input_limb_5,
+        verify_triple_sum_32_input_limb_6,
+        verify_triple_sum_32_input_limb_7,
+=======
+        verify_triple_sum_32_input_a_limb_0,
+        verify_triple_sum_32_input_a_limb_1,
+        verify_triple_sum_32_input_b_limb_0,
+        verify_triple_sum_32_input_b_limb_1,
+        verify_triple_sum_32_input_c_limb_0,
+        verify_triple_sum_32_input_c_limb_1,
+        verify_triple_sum_32_input_res_limb_0,
+        verify_triple_sum_32_input_res_limb_1,
+>>>>>>> origin/sharp-8.0
     ] =
         input;
+<<<<<<< HEAD
     let carry_low_tmp_a7b7a_0: QM31 = ((((verify_triple_sum_32_input_a_limb_0
         + verify_triple_sum_32_input_b_limb_0)
         + verify_triple_sum_32_input_c_limb_0)
         - verify_triple_sum_32_input_s_limb_0)
+||||||| 167116f40
+    let carry_low_tmp_a7b7a_0: QM31 = ((((verify_triple_sum_32_input_limb_0
+        + verify_triple_sum_32_input_limb_2)
+        + verify_triple_sum_32_input_limb_4)
+        - verify_triple_sum_32_input_limb_6)
+=======
+    let carry_low_tmp_a7b7a_0: QM31 = ((((verify_triple_sum_32_input_a_limb_0
+        + verify_triple_sum_32_input_b_limb_0)
+        + verify_triple_sum_32_input_c_limb_0)
+        - verify_triple_sum_32_input_res_limb_0)
+>>>>>>> origin/sharp-8.0
         * qm31_const::<32768, 0, 0, 0>());
 
     // Constraint - carry low is 0 or 1 or 2
-    let constraint_quotient = (((carry_low_tmp_a7b7a_0
+    let constraint_eval = (((carry_low_tmp_a7b7a_0
         * (carry_low_tmp_a7b7a_0 - qm31_const::<1, 0, 0, 0>()))
         * (carry_low_tmp_a7b7a_0 - qm31_const::<2, 0, 0, 0>())));
+<<<<<<< HEAD
     sum = sum * random_coeff + constraint_quotient;
     let carry_high_tmp_a7b7a_1: QM31 = (((((verify_triple_sum_32_input_a_limb_1
         + verify_triple_sum_32_input_b_limb_1)
         + verify_triple_sum_32_input_c_limb_1)
+||||||| 167116f40
+    sum = sum * random_coeff + constraint_quotient;
+    let carry_high_tmp_a7b7a_1: QM31 = (((((verify_triple_sum_32_input_limb_1
+        + verify_triple_sum_32_input_limb_3)
+        + verify_triple_sum_32_input_limb_5)
+=======
+    sum = sum * random_coeff + constraint_eval;
+    let carry_high_tmp_a7b7a_1: QM31 = (((((verify_triple_sum_32_input_a_limb_1
+        + verify_triple_sum_32_input_b_limb_1)
+        + verify_triple_sum_32_input_c_limb_1)
+>>>>>>> origin/sharp-8.0
         + carry_low_tmp_a7b7a_0)
+<<<<<<< HEAD
         - verify_triple_sum_32_input_s_limb_1)
+||||||| 167116f40
+        - verify_triple_sum_32_input_limb_7)
+=======
+        - verify_triple_sum_32_input_res_limb_1)
+>>>>>>> origin/sharp-8.0
         * qm31_const::<32768, 0, 0, 0>());
 
     // Constraint - carry high is 0 or 1 or 2
-    let constraint_quotient = (((carry_high_tmp_a7b7a_1
+    let constraint_eval = (((carry_high_tmp_a7b7a_1
         * (carry_high_tmp_a7b7a_1 - qm31_const::<1, 0, 0, 0>()))
         * (carry_high_tmp_a7b7a_1 - qm31_const::<2, 0, 0, 0>())));
-    sum = sum * random_coeff + constraint_quotient;
+    sum = sum * random_coeff + constraint_eval;
 
     []
 }

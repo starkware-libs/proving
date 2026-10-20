@@ -4,7 +4,14 @@
 //! the three root output paths; the rest of the proving configuration is fixed by the canonical
 //! circuit shape (see `canonical`).
 
+<<<<<<< HEAD
 use std::num::NonZeroUsize;
+||||||| 167116f40
+=======
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
+>>>>>>> origin/sharp-8.0
 use std::path::PathBuf;
 use std::process::ExitCode;
 

@@ -1,7 +1,8 @@
 use circuit_registry::CircuitRegistry;
+use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
 use crate::canonical::CanonicalCircuit;
-use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
+use crate::{LeafInput, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -49,7 +50,7 @@ fn test_load_leaves_reads_manifest_of_paths() {
 #[test]
 fn test_leaf_output_values_derived_from_preimage() {
     let leaf = LeafInput {
-        proof: crate::SerializedLeafProof {
+        proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
             circuit_hash: leaf_proof_format::DigestHex([0; 8]),
             proof: vec![],
@@ -75,7 +76,7 @@ fn test_leaf_output_values_derived_from_preimage() {
 #[test]
 fn test_leaf_output_values_rejects_invalid_felt() {
     let leaf = LeafInput {
-        proof: crate::SerializedLeafProof {
+        proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
             circuit_hash: leaf_proof_format::DigestHex([0; 8]),
             proof: vec![],
@@ -135,6 +136,47 @@ fn circuit_registry_path() -> std::path::PathBuf {
 /// The committed circuit registry, deserialized.
 fn circuit_registry() -> CircuitRegistry {
     CircuitRegistry::from_path(&circuit_registry_path()).unwrap()
+}
+
+/// The Blake program-hash chain of a compiled program as a decimal string.
+fn program_hash(path: &std::path::Path) -> String {
+    use cairo_program_runner_lib::compute_program_hash_chain;
+    use cairo_program_runner_lib::types::HashFunc;
+    use cairo_vm::types::program::Program;
+
+    let program_bytes = std::fs::read(path).expect("Failed to read the compiled fixture.");
+    let program =
+        Program::from_bytes(&program_bytes, Some("main")).expect("Failed to load the program.");
+    let stripped_program = program.get_stripped_program().unwrap();
+    compute_program_hash_chain(&stripped_program, 0, HashFunc::Blake)
+        .expect("Failed to compute program hash.")
+        .to_string()
+}
+
+// Check the program hash of the simple bootloader. This allows us to ignore
+// non-meaningful diffs in the compiled bootloader JSON (e.g., format/ordering
+// changes) - As long as this test passes the program is the same.
+#[test]
+fn test_leaf_simple_bootloader_program_hash_snapshot() {
+    // Source code for this compiled privacy bootloader can be found at:
+    // repo: https://github.com/starkware-industries/starkware
+    // commit: b9c5fc560e1916064997570ef4d25c8ea629fd65
+    // Built (with debug info) via the standard BUILD target, then stripped of debug info to keep
+    // the checked-in file small, from the starkware repo root:
+    //   bazel build
+    // //src/starkware/cairo/bootloaders/simple_bootloader:leaf_simple_bootloader_compiled.json
+    //   jq --indent 4 '.debug_info = null' \
+    //     "$(bazel info
+    // bazel-bin)/src/starkware/cairo/bootloaders/simple_bootloader/leaf_simple_bootloader_compiled.
+    // json" \
+    //     > leaf_simple_bootloader_compiled.json
+    let expected = expect_test::expect![
+        "182007537687310579697542984331198756973092309284201401073437552481857403195"
+    ];
+    expected.assert_eq(&program_hash(&std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+        "../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
+         leaf_simple_bootloader_compiled.json",
+    )));
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -223,13 +265,14 @@ mod e2e {
 
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
+    use leaf_proof_format::PackedNode;
     use leaf_prover::prove_leaf::prove_leaf_from_files;
     use num_bigint::BigUint;
 
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
     use crate::fold::digest_bytes_to_words;
-    use crate::{LeafInput, PackedNode, stwo_run_and_prove_recursive_tree};
+    use crate::{LeafInput, stwo_run_and_prove_recursive_tree};
 
     fn goldens_dir() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/goldens/four_leaves")
@@ -324,7 +367,7 @@ mod e2e {
     ) -> [u32; circuit_common::N_RESERVED] {
         let hash = preprocessed_circuit_hash(
             &canonical.preprocessed_multiverifier,
-            canonical.shared_config.pcs_config.fri_config.log_blowup_factor,
+            canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
         );
         digest_bytes_to_words(&hash.0)
     }

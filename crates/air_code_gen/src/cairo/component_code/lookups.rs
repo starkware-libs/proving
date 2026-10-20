@@ -5,7 +5,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::cairo::utils::{QM31_N_TRACE_CELLTS, get_lookup_sums, get_numerators, n_logup_columns};
+use crate::cairo::utils::{QM31_N_TRACE_CELLTS, get_logup_sums, get_numerators, n_logup_columns};
 
 pub const LOOKUP_RELATION_BATCH_SIZE: usize = 2;
 pub const N_SAMPLES_FOR_PREFIX_SUM: usize = 2;
@@ -21,7 +21,7 @@ pub fn gen_lookup_constraints_fn(air_fn: &CompiledAirFn) -> rust::Tokens {
             $(get_numerators(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
             column_size: M31,
             ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
-            $(get_lookup_sums(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
+            $(get_logup_sums(air_fn).iter().map(|m| m.to_string() + ": QM31,\n").join(""))
         ) {
             $(get_interaction_trace_vars(air_fn))$("\n")
             core::internal::revoke_ap_tracking();$("\n")
@@ -53,7 +53,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
             let rel2_times_rel1_mult = format!("({rel2} * numerator_{sum_i})");
 
             code.append(quote! {
-                let constraint_quotient = (
+                let constraint_eval = (
                     (
                         (
                             $(prefix)
@@ -65,7 +65,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
             let numerator = format!("numerator_{sum_i}");
 
             code.append(quote! {
-                let constraint_quotient = (
+                let constraint_eval = (
                     (
                         (
                             $(prefix)
@@ -76,7 +76,7 @@ fn gen_lookup_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
         }
 
         code.append(quote! {
-            sum = sum * random_coeff + constraint_quotient;$("\n")
+            sum = sum * random_coeff + constraint_eval;$("\n")
         });
 
         prev_trace = trace;

@@ -19,8 +19,7 @@ fn test_fri_commit_regression() {
     let mut context = TraceContext::default();
 
     let init_digest = [
-        qm31_from_u32s(375224163, 1270824854, 44060607, 991529112),
-        qm31_from_u32s(1068130924, 1630210318, 1632828025, 1983481471),
+        375224163, 1270824854, 44060607, 991529112, 1068130924, 1630210318, 1632828025, 1983481471,
     ];
 
     let mut channel = Channel::from_digest(&mut context, init_digest);
@@ -50,25 +49,21 @@ fn test_fri_commit_regression() {
 
     let alphas = fri_commit(&mut context, &mut channel, &proof_vars);
     assert_eq!(alphas.len(), 4);
-    assert_eq!(context.get(alphas[0]), qm31_from_u32s(2047550788, 23895068, 1676134944, 263598239));
+    assert_eq!(context.get(alphas[0]), qm31_from_u32s(2095340924, 55847775, 622739305, 1487645426));
+    assert_eq!(context.get(alphas[1]), qm31_from_u32s(1841835271, 88682846, 943566863, 1832748979));
+    assert_eq!(context.get(alphas[2]), qm31_from_u32s(1664316906, 1745746238, 36831430, 295953716));
     assert_eq!(
-        context.get(alphas[1]),
-        qm31_from_u32s(1988032363, 1739489633, 826507892, 1797301629)
+        context.get(alphas[3]),
+        qm31_from_u32s(1927326284, 635617732, 1578432644, 197802647)
     );
-    assert_eq!(
-        context.get(alphas[2]),
-        qm31_from_u32s(1957504342, 848565442, 1129943791, 1937962621)
-    );
-    assert_eq!(context.get(alphas[3]), qm31_from_u32s(1748651123, 2133979933, 232524784, 85583628));
 
-    assert_eq!(
-        context.get(channel.digest().0),
-        qm31_from_u32s(968886948, 725376924, 836084817, 484428276)
-    );
-    assert_eq!(
-        context.get(channel.digest().1),
-        qm31_from_u32s(1805658819, 300032261, 172116750, 994058243)
-    );
+    let expected_digest = HashValue::from([
+        2011654111, 999476491, 2151765299, 3983010386, 1800159642, 1178117815, 245568689,
+        1900177583,
+    ]);
+    for i in 0..8 {
+        assert_eq!(context.get(*channel.digest()[i].get()), *expected_digest[i].get());
+    }
 
     context.validate_circuit();
 }
