@@ -49,9 +49,9 @@ fn test_blake(#[case] wrong_output: bool) {
             *QM31::pack_u32(u32::from_le_bytes(
                 expected_hash[4 * i..4 * i + 4].try_into().unwrap(),
             ))
-            .get(),
+            .raw(),
         );
-        eq(&mut context, *output.0[i].get(), out_i);
+        eq(&mut context, *output.0[i].raw(), out_i);
     }
 
     assert_eq!(

@@ -32,7 +32,7 @@ fn test_mix_commitment_regression() {
         4132878725,
     ]);
     for i in 0..8 {
-        assert_eq!(context.get(*digest0[i].get()), *expected_digest0[i].get());
+        assert_eq!(context.get(*digest0[i].raw()), *expected_digest0[i].raw());
     }
 
     let expected_digest1 = HashValue::from([
@@ -40,7 +40,7 @@ fn test_mix_commitment_regression() {
         3936037936,
     ]);
     for i in 0..8 {
-        assert_eq!(context.get(*digest1[i].get()), *expected_digest1[i].get());
+        assert_eq!(context.get(*digest1[i].raw()), *expected_digest1[i].raw());
     }
 
     assert_eq!(
@@ -88,7 +88,7 @@ fn test_mix_qm31s_regression() {
     ]);
     let digest = channel.digest();
     for i in 0..8 {
-        assert_eq!(context.get(*digest[i].get()), *expected_digest[i].get());
+        assert_eq!(context.get(*digest[i].raw()), *expected_digest[i].raw());
     }
     assert_eq!(channel.n_draws, 0);
 
@@ -114,7 +114,7 @@ fn test_mix_u32s_matches_stwo() {
         let expected = HashValue::from(stwo_channel.digest());
         let digest = channel.digest();
         for i in 0..8 {
-            assert_eq!(context.get(*digest[i].get()), *expected[i].get());
+            assert_eq!(context.get(*digest[i].raw()), *expected[i].raw());
         }
     }
     assert_eq!(channel.n_draws, 0);
@@ -211,7 +211,7 @@ fn test_pow_regression(#[case] n_bits: u32, #[case] nonce: u32, #[case] success:
             2257392334,
         ]);
         for i in 0..8 {
-            assert_eq!(context.get(*digest[i].get()), *expected_digest[i].get());
+            assert_eq!(context.get(*digest[i].raw()), *expected_digest[i].raw());
         }
     }
 }
@@ -256,7 +256,7 @@ fn test_unpack_then_mix_u32s_matches_mix_felts() {
 
     let expected = HashValue::from(stwo_channel.digest());
     for i in 0..8 {
-        assert_eq!(context.get(*channel.digest()[i].get()), *expected[i].get());
+        assert_eq!(context.get(*channel.digest()[i].raw()), *expected[i].raw());
     }
 
     // Also verify a second round with a non-zero starting digest.
@@ -281,7 +281,7 @@ fn test_unpack_then_mix_u32s_matches_mix_felts() {
 
     let expected2 = HashValue::from(stwo_channel.digest());
     for i in 0..8 {
-        assert_eq!(context.get(*channel.digest()[i].get()), *expected2[i].get());
+        assert_eq!(context.get(*channel.digest()[i].raw()), *expected2[i].raw());
     }
 
     context.validate_circuit();

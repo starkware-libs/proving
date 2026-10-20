@@ -20,14 +20,8 @@ use stwo::core::pcs::utils::InvalidLiftingLogSizeError;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-<<<<<<< HEAD
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleChannel};
-use stwo::core::vcs_lifted::hasher::Hasher;
-||||||| 167116f40
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleChannel};
-=======
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
->>>>>>> origin/sharp-8.0
+use stwo::core::vcs_lifted::hasher::Hasher;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use stwo::prover::backend::BackendForChannel;
 use stwo::prover::backend::simd::SimdBackend;

@@ -62,7 +62,7 @@ fn test_fri_commit_regression() {
         1900177583,
     ]);
     for i in 0..8 {
-        assert_eq!(context.get(*channel.digest()[i].get()), *expected_digest[i].get());
+        assert_eq!(context.get(*channel.digest()[i].raw()), *expected_digest[i].raw());
     }
 
     context.validate_circuit();

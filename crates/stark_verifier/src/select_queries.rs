@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-||||||| 167116f40
-use circuits::EXTENSION_DEGREE;
-=======
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
->>>>>>> origin/sharp-8.0
 use circuits::context::Context;
+use circuits::eval;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::IValue;
 use circuits::simd::Simd;
-<<<<<<< HEAD
-use circuits::{EXTENSION_DEGREE, eval};
-||||||| 167116f40
-=======
-use circuits::wrappers::M31Wrapper;
->>>>>>> origin/sharp-8.0
 use stwo::core::circle::CirclePoint;
 
 use crate::channel::Channel;
@@ -39,13 +29,13 @@ pub fn get_query_bits_from_channel(
         for j in 0..BLAKE2S_DIGEST_N_WORDS {
             if BLAKE2S_DIGEST_N_WORDS * i + j == n_queries {
                 for k in j..BLAKE2S_DIGEST_N_WORDS {
-                    context.mark_as_unused(*u32s[k].get());
+                    context.mark_as_unused(*u32s[k].raw());
                 }
                 // Note that this is already necessarily the last iteration of the outer loop,
                 // so we do not need to break out of it as well.
                 break;
             }
-            let simd = Simd::from_packed(vec![*u32s[j].get()], 2);
+            let simd = Simd::from_packed(vec![*u32s[j].raw()], 2);
             queries_simd_vec.push(simd);
         }
     }
@@ -67,11 +57,8 @@ pub fn get_query_bits_from_channel(
 fn extract_limb_bits(context: &mut Context<impl IValue>, words: &[Simd], limb: usize) -> Vec<Simd> {
     let limbs = words
         .iter()
-        .map(|word| {
-            // `unpack_idx` yields the `limb`-th M31 coordinate of the word, so it is an M31 by
-            // construction.
-            M31Wrapper::new_unsafe(Simd::unpack_idx(context, word, limb))
-        })
+        // `unpack_idx` yields the `limb`-th M31 coordinate of the word.
+        .map(|word| Simd::unpack_idx(context, word, limb))
         .collect::<Vec<_>>();
 
     let packed_limbs = Simd::pack(context, &limbs);
@@ -112,15 +99,7 @@ pub fn select_queries(context: &mut Context<impl IValue>, bits: Vec<Simd>) -> Qu
     }
 
     // Handle the first bit, which may negate the sign of `y`.
-<<<<<<< HEAD
     let neg_y = eval!(context, -(point.y));
-||||||| 167116f40
-    let zero = Simd::zero(context, input.len());
-    let neg_y = Simd::sub(context, &zero, &point.y);
-=======
-    let zero = Simd::zero(context, n_queries);
-    let neg_y = Simd::sub(context, &zero, &point.y);
->>>>>>> origin/sharp-8.0
     point.y = Simd::select(context, &bits[0], &point.y, &neg_y);
 
     Queries { bits, points: point }

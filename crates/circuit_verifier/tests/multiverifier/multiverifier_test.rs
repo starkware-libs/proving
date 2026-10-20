@@ -16,7 +16,7 @@ use circuit_prover::prover::{
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_serialize::serialize::CircuitSerialize;
 use circuit_verifier::multiverifier::{
-    MultiverifierInput, SharedConfig, build_multiverifier_circuit,
+    CircuitVerifierInput, SharedConfig, build_multiverifier_circuit,
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
@@ -38,12 +38,6 @@ use crate::multiverifier_test_utils::{
     get_preprocessed_multiverifier_from_circuit, leaf_circuit_hash,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
 };
-<<<<<<< HEAD:crates/circuit_multiverifier/src/verify_test.rs
-use crate::verify::{CircuitVerifierInput, SharedConfig, build_multiverifier_circuit};
-||||||| 167116f40:crates/circuit_multiverifier/src/verify_test.rs
-use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
-=======
->>>>>>> origin/sharp-8.0:crates/circuit_verifier/tests/multiverifier/multiverifier_test.rs
 
 /// The Cairo verifier proof fixture (produced by [`test_cairo_proof_regression`]).
 const PRIVACY_CAIRO_VERIFIER_PROOF_PATH: &str =
@@ -359,7 +353,7 @@ fn test_verify_circuit_single_input_output_digest() {
             .collect();
     let expected_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
     let expected_wires: Vec<QM31> =
-        HashValue::<QM31>::from(expected_digest).into_iter().map(|w| *w.get()).collect();
+        HashValue::<QM31>::from(expected_digest).into_iter().map(|w| *w.raw()).collect();
 
     // Reserved output wires occupy indices 3..3+N_RESERVED (zero/one/u at 0..3; see Context::new).
     assert_eq!(

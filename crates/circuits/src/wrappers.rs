@@ -41,25 +41,11 @@ impl M31Wrapper<Var> {
     pub fn const_m31(context: &mut Context<impl IValue>, value: M31) -> M31Wrapper<Var> {
         Self(context.constant(value.into()))
     }
-<<<<<<< HEAD
-||||||| 167116f40
-
-    /// Adds a multiplication gate to the circuit, and returns the output variable.
-    pub fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
-        Self(eval!(context, (*a.get()) * (*b.get())))
-    }
-=======
 
     pub fn const_from_u32(context: &mut Context<impl IValue>, value: u32) -> M31Wrapper<Var> {
         assert!(value < P, "{value} is >= P");
         Self::const_m31(context, value.into())
     }
-
-    /// Adds a multiplication gate to the circuit, and returns the output variable.
-    pub fn mul(context: &mut Context<impl IValue>, a: Self, b: Self) -> Self {
-        Self(eval!(context, (*a.get()) * (*b.get())))
-    }
->>>>>>> origin/sharp-8.0
 }
 
 impl From<NoValue> for M31Wrapper<NoValue> {
@@ -249,30 +235,12 @@ impl<Value: IValue> Guess<Value> for U32Wrapper<Value> {
         // A `u32` is stored as `(low_u16, high_u16, 0, 0)`. Guess each 16-bit limb separately so
         // that each is range-constrained to `[0, 2^16)` during finalization, then recombine them as
         // `low + high * i` to rebuild the packed representation.
-<<<<<<< HEAD
         let value = Value::unpack_u32(self.raw());
-        let low = U16Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(value & 0xFFFF, 0, 0, 0)))
-            .guess(context);
-        let high = U16Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(value >> 16, 0, 0, 0)))
-            .guess(context);
-        let i = context.constant(qm31_from_u32s(0, 1, 0, 0));
-        U32Wrapper(eval!(context, (*low.raw()) + ((*high.raw()) * (i))))
-||||||| 167116f40
-        let value = Value::unpack_u32(self.get());
-        let low = U16Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(value & 0xFFFF, 0, 0, 0)))
-            .guess(context);
-        let high = U16Wrapper::new_unsafe(Value::from_qm31(qm31_from_u32s(value >> 16, 0, 0, 0)))
-            .guess(context);
-        let i = context.constant(qm31_from_u32s(0, 1, 0, 0));
-        U32Wrapper(eval!(context, (*low.get()) + ((*high.get()) * (i))))
-=======
-        let value = Value::unpack_u32(self.get());
         let low =
             U16Wrapper::<Value>::from_u16((value & 0xffff).try_into().unwrap()).guess(context);
         let high = U16Wrapper::<Value>::from_u16((value >> 16).try_into().unwrap()).guess(context);
         let i = context.i();
-        U32Wrapper(eval!(context, (*low.get()) + ((*high.get()) * (i))))
->>>>>>> origin/sharp-8.0
+        U32Wrapper(eval!(context, (*low.raw()) + ((*high.raw()) * (i))))
     }
 }
 

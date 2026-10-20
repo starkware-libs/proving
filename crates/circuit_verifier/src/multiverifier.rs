@@ -42,25 +42,12 @@ pub struct SharedConfig {
 /// [`CircuitStatement`] from `shared_config` and the per-proof
 /// `preprocessed_root` and `output_digest`, and runs the STARK verifier.
 ///
-<<<<<<< HEAD:crates/circuit_multiverifier/src/verify.rs
 /// After all `k` proofs are verified, each circuit's [`CircuitStatement::circuit_hash`] (the hash
 /// of its shared config and preprocessed root) is concatenated with the inner circuit's output
 /// values, and both circuits' words are hashed together. The resulting unreduced Blake2s digest is
 /// written into the outer circuit's `N_RESERVED` reserved output variables.
-||||||| 167116f40:crates/circuit_multiverifier/src/verify.rs
-/// After both proofs are verified, each circuit's [`CircuitStatement::circuit_hash`] (the hash of
-/// its shared config and preprocessed root) is concatenated with that circuit's output digest, and
-/// both circuits' words are hashed together. The resulting unreduced Blake2s digest is written
-/// into the outer circuit's `N_RESERVED` reserved output variables.
-=======
-/// After all `k` proofs are verified, each circuit's [`CircuitStatement::circuit_hash`] (the hash
-/// of its shared config and preprocessed root) is concatenated with that circuit's output digest,
-/// and both circuits' words are hashed together. The resulting unreduced Blake2s digest is written
-/// into the outer circuit's `N_RESERVED` reserved output variables.
->>>>>>> origin/sharp-8.0:crates/circuit_verifier/src/multiverifier.rs
 /// The circuit is then finalized.
 ///
-<<<<<<< HEAD:crates/circuit_multiverifier/src/verify.rs
 /// All proofs must have been produced with the same [`SharedConfig`]. `inputs` must be non-empty;
 /// its length is the fold arity `k`.
 ///
@@ -68,68 +55,17 @@ pub struct SharedConfig {
 /// code that recomputes this digest: both concatenate the children left-to-right, and per child
 /// emit `[circuit_hash words, output words]`. Any arity change must keep this ordering identical
 /// on both sides.
-||||||| 167116f40:crates/circuit_multiverifier/src/verify.rs
-/// Both proofs must have been produced with the same [`SharedConfig`].
-=======
-/// All proofs must have been produced with the same [`SharedConfig`].
-///
-/// The child ordering of the hash preimage is a byte-identity contract with any out-of-circuit
-/// code that recomputes this digest: both concatenate the children left-to-right, and per child
-/// emit `[circuit_hash words, output words]`. Any arity change must keep this ordering identical
-/// on both sides.
->>>>>>> origin/sharp-8.0:crates/circuit_verifier/src/multiverifier.rs
 pub fn build_multiverifier_circuit<Value: IValue>(
-<<<<<<< HEAD:crates/circuit_multiverifier/src/verify.rs
     inputs: Vec<CircuitVerifierInput<Value>>,
-||||||| 167116f40:crates/circuit_multiverifier/src/verify.rs
-    input0: MultiverifierInput<Value>,
-    input1: MultiverifierInput<Value>,
-=======
-    inputs: Vec<MultiverifierInput<Value>>,
->>>>>>> origin/sharp-8.0:crates/circuit_verifier/src/multiverifier.rs
     shared_config: &SharedConfig,
 ) -> FinalizedContext<Value> {
     assert!(!inputs.is_empty(), "multiverifier node needs at least one input");
     let mut context = Context::new(N_RESERVED);
 
     let mut outer_verifier_output_preimage = vec![];
-<<<<<<< HEAD:crates/circuit_multiverifier/src/verify.rs
     // Verify the `k` proofs sequentially, in the fixed left-to-right order of `inputs`.
     for input in inputs {
         let (circuit_hash, output_digest) = verify_child(&mut context, input, shared_config);
-||||||| 167116f40:crates/circuit_multiverifier/src/verify.rs
-    // Verify sequentially the two proofs.
-    for multiverifier_input in [input0, input1] {
-        let MultiverifierInput { proof, preprocessed_root, output_digest } = multiverifier_input;
-
-        let circuit_config = CircuitConfig {
-            config: shared_config.pcs_config,
-            preprocessed_column_log_sizes: shared_config.preprocessed_column_log_sizes.clone(),
-        };
-        let output_digest = output_digest.guess(&mut context);
-        let preprocessed_root = preprocessed_root.guess(&mut context);
-        let statement =
-            CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
-        let proof_vars = proof.guess(&mut context);
-
-        verify(&mut context, &proof_vars, &shared_config.proof_config, &statement);
-=======
-    // Verify the `k` proofs sequentially, in the fixed left-to-right order of `inputs`.
-    for multiverifier_input in inputs {
-        let MultiverifierInput { proof, preprocessed_root, output_digest } = multiverifier_input;
-
-        let circuit_config = CircuitConfig {
-            config: shared_config.pcs_config,
-            preprocessed_column_log_sizes: shared_config.preprocessed_column_log_sizes.clone(),
-        };
-        let output_digest = output_digest.guess(&mut context);
-        let preprocessed_root = preprocessed_root.guess(&mut context);
-        let statement =
-            CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
-        let proof_vars = proof.guess(&mut context);
-
-        verify(&mut context, &proof_vars, &shared_config.proof_config, &statement);
->>>>>>> origin/sharp-8.0:crates/circuit_verifier/src/multiverifier.rs
         // Append (circuit_hash, output_digest) to the preimage of the outer hash.
         outer_verifier_output_preimage.extend(chain!(circuit_hash, output_digest));
     }

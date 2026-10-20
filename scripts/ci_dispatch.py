@@ -86,13 +86,7 @@ RUST_GROUPS: dict[str, Group] = {
             Crate("crates/circuit_verifier", "circuit-verifier"),
             Crate("crates/circuit_cairo_serialize", "circuit-cairo-serialize"),
             Crate("crates/circuit_common", "circuit-common"),
-<<<<<<< HEAD
-            Crate("crates/circuit_multiverifier", "circuit-multiverifier"),
             Crate("crates/applicative_unpacking_verifier", "applicative-unpacking-verifier"),
-||||||| 167116f40
-            Crate("crates/circuit_multiverifier", "circuit-multiverifier"),
-=======
->>>>>>> origin/sharp-8.0
             Crate("crates/circuit_serialize", "circuit-serialize"),
             Crate("crates/circuit_prover", "circuit-prover", stable_check=False),
             Crate("crates/stark_verifier", "circuits-stark-verifier"),

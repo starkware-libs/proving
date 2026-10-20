@@ -71,18 +71,8 @@ fn hash_leaf_m31s(
     context: &mut Context<impl IValue>,
     values: &[M31Wrapper<Var>],
 ) -> HashValue<Var> {
-<<<<<<< HEAD
-    // Convert each `M31` directly into a single Blake2s message word. `m31_to_u32` already emits a
-    // valid `(low_u16, high_u16, 0, 0)` u32 encoding, so `new_unsafe` (no range check) is safe.
-    let message_u32s = values.iter().map(|value| m31_to_u32(context, *value)).collect();
-||||||| 167116f40
-    // Convert each `M31` directly into a single Blake2s message word. `m31_to_u32` already emits a
-    // valid `(low_u16, high_u16, 0, 0)` u32 encoding, so `new_unsafe` (no range check) is safe.
-    let message_u32s = values.iter().map(|value| m31_to_u32(context, *value.get())).collect();
-=======
     // Convert each `M31` directly into a single Blake2s message word.
-    let message_u32s = values.iter().map(|value| m31_to_u32(context, *value.get())).collect();
->>>>>>> origin/sharp-8.0
+    let message_u32s = values.iter().map(|value| m31_to_u32(context, *value)).collect();
     blake2s_u32s(context, message_u32s, values.len() * 4)
 }
 

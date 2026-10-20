@@ -138,47 +138,6 @@ fn circuit_registry() -> CircuitRegistry {
     CircuitRegistry::from_path(&circuit_registry_path()).unwrap()
 }
 
-/// The Blake program-hash chain of a compiled program as a decimal string.
-fn program_hash(path: &std::path::Path) -> String {
-    use cairo_program_runner_lib::compute_program_hash_chain;
-    use cairo_program_runner_lib::types::HashFunc;
-    use cairo_vm::types::program::Program;
-
-    let program_bytes = std::fs::read(path).expect("Failed to read the compiled fixture.");
-    let program =
-        Program::from_bytes(&program_bytes, Some("main")).expect("Failed to load the program.");
-    let stripped_program = program.get_stripped_program().unwrap();
-    compute_program_hash_chain(&stripped_program, 0, HashFunc::Blake)
-        .expect("Failed to compute program hash.")
-        .to_string()
-}
-
-// Check the program hash of the simple bootloader. This allows us to ignore
-// non-meaningful diffs in the compiled bootloader JSON (e.g., format/ordering
-// changes) - As long as this test passes the program is the same.
-#[test]
-fn test_leaf_simple_bootloader_program_hash_snapshot() {
-    // Source code for this compiled privacy bootloader can be found at:
-    // repo: https://github.com/starkware-industries/starkware
-    // commit: b9c5fc560e1916064997570ef4d25c8ea629fd65
-    // Built (with debug info) via the standard BUILD target, then stripped of debug info to keep
-    // the checked-in file small, from the starkware repo root:
-    //   bazel build
-    // //src/starkware/cairo/bootloaders/simple_bootloader:leaf_simple_bootloader_compiled.json
-    //   jq --indent 4 '.debug_info = null' \
-    //     "$(bazel info
-    // bazel-bin)/src/starkware/cairo/bootloaders/simple_bootloader/leaf_simple_bootloader_compiled.
-    // json" \
-    //     > leaf_simple_bootloader_compiled.json
-    let expected = expect_test::expect![
-        "182007537687310579697542984331198756973092309284201401073437552481857403195"
-    ];
-    expected.assert_eq(&program_hash(&std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-        "../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
-         leaf_simple_bootloader_compiled.json",
-    )));
-}
-
 // ------------------------------------------------------------------------------------------------
 // Program-hash snapshots of the compiled programs the tests run. A snapshot pins the exact
 // program a fixture holds; regenerating a fixture must reproduce the hash (or knowingly change it

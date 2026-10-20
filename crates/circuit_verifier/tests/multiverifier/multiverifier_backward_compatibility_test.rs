@@ -2,7 +2,7 @@ use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_verifier::multiverifier::{
-    MultiverifierInput, SharedConfig, build_multiverifier_circuit,
+    CircuitVerifierInput, SharedConfig, build_multiverifier_circuit,
 };
 use circuit_verifier::statement::circuit_verifier_proof_config;
 use itertools::chain;
@@ -14,12 +14,6 @@ use crate::multiverifier_test_utils::{
     TARGET_PADDING_SIZES, leaf_circuit_hash, multiverifier_preprocessed_column_log_sizes,
     native_blake_u32s,
 };
-<<<<<<< HEAD:crates/circuit_multiverifier/src/backward_compatibility_test.rs
-use crate::verify::{CircuitVerifierInput, SharedConfig, build_multiverifier_circuit};
-||||||| 167116f40:crates/circuit_multiverifier/src/backward_compatibility_test.rs
-use crate::verify::{MultiverifierInput, SharedConfig, build_multiverifier_circuit};
-=======
->>>>>>> origin/sharp-8.0:crates/circuit_verifier/tests/multiverifier/multiverifier_backward_compatibility_test.rs
 
 /// The preprocessed root of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =

@@ -1,18 +1,7 @@
 use std::iter::repeat_n;
 
-<<<<<<< HEAD
-use circuits::context::{U_VALUE, U_VAR_IDX};
-use circuits::ivalue::NoValue;
-||||||| 167116f40
-use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
-use circuits::context::{U_VALUE, U_VAR_IDX};
-use circuits::ivalue::NoValue;
-=======
-use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits::context::{OUTPUT_START, U_VALUE, U_VAR_IDX};
 use circuits::ivalue::{IValue, NoValue};
-use circuits::utils::le_u32s_from_bytes;
->>>>>>> origin/sharp-8.0
 use itertools::Itertools;
 use num_traits::Zero;
 use stwo::core::channel::Channel;
@@ -42,25 +31,6 @@ impl CircuitClaim {
     }
 }
 
-<<<<<<< HEAD
-||||||| 167116f40
-/// Mixes the circuit hash into the channel, committing the transcript to the circuit's identity.
-pub fn mix_circuit_hash(channel: &mut impl Channel, circuit_hash: &Blake2sHash) {
-    let circuit_hash_words: [u32; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|i| {
-        u32::from_le_bytes(circuit_hash.0[i * 4..i * 4 + 4].try_into().unwrap())
-    });
-
-    channel.mix_u32s(&circuit_hash_words);
-}
-
-=======
-/// Mixes the circuit hash into the channel, committing the transcript to the circuit's identity.
-pub fn mix_circuit_hash(channel: &mut impl Channel, circuit_hash: &Blake2sHash) {
-    let circuit_hash_words: [u32; BLAKE2S_DIGEST_N_WORDS] = le_u32s_from_bytes(circuit_hash.0);
-    channel.mix_u32s(&circuit_hash_words);
-}
-
->>>>>>> origin/sharp-8.0
 /// Returns `[trace_log_sizes, interaction_log_sizes]` for `tree[1]` and `tree[2]`,
 /// in `ComponentList` order. Each component contributes its `log_size` repeated
 /// by its number of trace and interaction columns respectively.

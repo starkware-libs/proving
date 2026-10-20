@@ -1,15 +1,7 @@
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_common::{N_RESERVED, Qm31OpsTraceGenerator};
-<<<<<<< HEAD
-use circuit_verifier::circuit_claim::{CircuitInteractionElements, lookup_sum};
-pub use circuit_verifier::circuit_proof::CircuitProof;
-||||||| 167116f40
-use circuit_verifier::circuit_claim::{CircuitInteractionElements, lookup_sum, mix_circuit_hash};
-pub use circuit_verifier::circuit_proof::CircuitProof;
-=======
-use circuit_verifier::circuit_claim::{CircuitInteractionElements, logup_sum, mix_circuit_hash};
+use circuit_verifier::circuit_claim::{CircuitInteractionElements, logup_sum};
 use circuit_verifier::circuit_proof::CircuitProof;
->>>>>>> origin/sharp-8.0
 use circuit_verifier::statement::{INTERACTION_POW_BITS, all_circuit_components};
 use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::HashValue;
@@ -23,17 +15,7 @@ use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-<<<<<<< HEAD
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
-||||||| 167116f40
-use stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo::core::vcs_lifted::MerkleHasherLifted;
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
-=======
-use stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo::core::vcs_lifted::MerkleHasherLifted;
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
->>>>>>> origin/sharp-8.0
 pub use stwo::prover::backend::simd::SimdBackend;
 pub use stwo::prover::mempool::BaseColumnPool;
 use stwo::prover::poly::circle::PolyOps;

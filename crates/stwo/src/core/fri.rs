@@ -841,17 +841,7 @@ mod tests {
     use crate::core::fields::Field;
     use crate::core::fields::m31::BaseField;
     use crate::core::fields::qm31::SecureField;
-<<<<<<< HEAD
-    use crate::core::fri::{CirclePolyDegreeBound, FriConfig, fold_circle_into_line, fold_coset};
-||||||| 167116f40
-    use crate::core::fri::{
-        CirclePolyDegreeBound, FriConfig, fold_circle_into_line, fold_coset, fold_line,
-    };
-=======
-    use crate::core::fri::{
-        CirclePolyDegreeBound, FriParams, fold_circle_into_line, fold_coset, fold_line,
-    };
->>>>>>> origin/sharp-8.0
+    use crate::core::fri::{CirclePolyDegreeBound, FriParams, fold_circle_into_line, fold_coset};
     use crate::core::poly::circle::CircleDomain;
     use crate::core::poly::line::{LineDomain, LinePoly};
     use crate::core::queries::Queries;

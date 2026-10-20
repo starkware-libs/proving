@@ -35,20 +35,6 @@ impl AirFn for VerifyTripleSum32 {
     type In = [UInt32Expr; 4]; // [a, b, c, res]
     type Out = ();
 
-<<<<<<< HEAD
-    fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
-        Some(vec![
-            Some("a".to_string()),
-            Some("b".to_string()),
-            Some("c".to_string()),
-            Some("s".to_string()),
-        ])
-    }
-
-    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c, s]: Self::In) -> Self::Out {
-||||||| 167116f40
-    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c, s]: Self::In) -> Self::Out {
-=======
     fn input_expr_descriptions(&self) -> Option<Vec<Option<String>>> {
         Some(vec![
             Some("a".to_string()),
@@ -59,7 +45,6 @@ impl AirFn for VerifyTripleSum32 {
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c, res]: Self::In) -> Self::Out {
->>>>>>> origin/sharp-8.0
         // Verify addition of the low halves
         let carry_low = air_builder.let_for_constraint(
             ((a.low().as_felt() + b.low().as_felt() + c.low().as_felt()) - res.low().as_felt())

@@ -23,16 +23,8 @@ use crate::prover::warm_pedersen_pp_trace;
 pub fn generate_preprocessed_commitment_root<MC: MerkleChannel>(
     log_blowup_factor: u32,
     preprocessed_trace: PreProcessedTraceVariant,
-<<<<<<< HEAD
-    lifting_log_size: u32,
-) -> <<MC as MerkleChannel>::H as Hasher>::Hash
-||||||| 167116f40
-    lifting_log_size: u32,
-) -> <<MC as MerkleChannel>::H as MerkleHasherLifted>::Hash
-=======
     log_trace_size: u32,
-) -> <<MC as MerkleChannel>::H as MerkleHasherLifted>::Hash
->>>>>>> origin/sharp-8.0
+) -> <<MC as MerkleChannel>::H as Hasher>::Hash
 where
     SimdBackend: BackendForChannel<MC>,
 {

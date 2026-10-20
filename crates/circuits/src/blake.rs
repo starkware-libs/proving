@@ -1,30 +1,13 @@
-<<<<<<< HEAD
-||||||| 167116f40
-use stwo::core::fields::m31::M31;
-=======
 use blake2::{Blake2s256, Digest};
->>>>>>> origin/sharp-8.0
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_cairo_common::preprocessed_columns::blake::BLAKE_SIGMA;
 
 use crate::circuit::{BlakeGGate, M31ToU32, TripleXor};
 use crate::context::{Context, Var};
-<<<<<<< HEAD
-use crate::eval;
-use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
-use crate::ops::{Constant, Guess, from_partial_evals};
-use crate::simd::get_coord;
-||||||| 167116f40
-use crate::eval;
-use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
-use crate::ops::{Constant, Guess, from_partial_evals};
-use crate::simd::Simd;
-=======
 use crate::ivalue::{IValue, NoValue};
 use crate::ops::{Constant, Guess};
-use crate::simd::Simd;
->>>>>>> origin/sharp-8.0
+use crate::simd::get_coord;
 use crate::utils::le_u32s_from_bytes;
 use crate::wrappers::{M31Wrapper, U32Wrapper};
 
@@ -203,55 +186,6 @@ pub fn unpack_qm31s_to_u32_words<Value: IValue>(
     words
 }
 
-<<<<<<< HEAD
-/// Reduces the eight raw Blake2s output words of a [`HashValue`] mod `M31::P` and packs them
-/// into a [`ReducedHashValue`] (two QM31s of four `M31` words each).
-///
-/// Each word, stored as `(low_u16, high_u16, 0, 0)`, is recombined as `low + high * 2^16`; the
-/// field arithmetic reduces it mod `M31::P`.
-pub fn reduce_hash_value<Value: IValue>(
-    ctx: &mut Context<Value>,
-    hash: HashValue<Var>,
-) -> ReducedHashValue<Var> {
-    let c_2_pow_16 = M31Wrapper::const_m31(ctx, (1u32 << 16).into());
-    let reduced: [Var; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|i| {
-        let low = hash[i].low(ctx);
-        let high = hash[i].high(ctx);
-        *(eval!(ctx, (low) + ((high) * (c_2_pow_16))).raw())
-    });
-
-    let out0 = from_partial_evals(ctx, [reduced[0], reduced[1], reduced[2], reduced[3]]);
-    let out1 = from_partial_evals(ctx, [reduced[4], reduced[5], reduced[6], reduced[7]]);
-
-    ReducedHashValue(out0, out1)
-}
-
-||||||| 167116f40
-/// Reduces the eight raw Blake2s output words of a [`HashValue`] mod `M31::P` and packs them
-/// into a [`ReducedHashValue`] (two QM31s of four `M31` words each).
-///
-/// Each word, stored as `(low_u16, high_u16, 0, 0)`, is recombined as `low + high * 2^16`; the
-/// field arithmetic reduces it mod `M31::P`.
-pub fn reduce_hash_value<Value: IValue>(
-    ctx: &mut Context<Value>,
-    hash: HashValue<Var>,
-) -> ReducedHashValue<Var> {
-    let c_2_pow_16 = ctx.constant(M31::from(1u32 << 16).into());
-    let reduced: [Var; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|i| {
-        let h_simd = Simd::from_packed(vec![*hash[i].get()], 2);
-        let low = Simd::unpack_idx(ctx, &h_simd, 0);
-        let high = Simd::unpack_idx(ctx, &h_simd, 1);
-        eval!(ctx, (low) + ((high) * (c_2_pow_16)))
-    });
-
-    let out0 = from_partial_evals(ctx, [reduced[0], reduced[1], reduced[2], reduced[3]]);
-    let out1 = from_partial_evals(ctx, [reduced[4], reduced[5], reduced[6], reduced[7]]);
-
-    ReducedHashValue(out0, out1)
-}
-
-=======
->>>>>>> origin/sharp-8.0
 /// Adds the Blake2s block-compression gates to the circuit and returns the hash state as the eight
 /// `h` words, each encoded as QM31 `(low_u16, high_u16, 0, 0)`. No reduction modulo `M31::P` is
 /// performed (the two 16-bit limbs are not combined into a single field element).

@@ -2,13 +2,7 @@ use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
-<<<<<<< HEAD
-    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum,
-||||||| 167116f40
-    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum, mix_circuit_hash,
-=======
-    CircuitInteractionElements, column_log_sizes_per_tree, logup_sum, mix_circuit_hash,
->>>>>>> origin/sharp-8.0
+    CircuitInteractionElements, column_log_sizes_per_tree, logup_sum,
 };
 use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
@@ -23,24 +17,12 @@ use circuits::utils::le_u32s_from_bytes;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use expect_test::expect;
 use num_traits::{One, Zero};
-<<<<<<< HEAD
 use stwo::core::channel::{Channel, MerkleChannel};
-||||||| 167116f40
-use stwo::core::channel::{Blake2sM31Channel, Channel};
-=======
-use stwo::core::channel::{Blake2sChannel, Channel};
->>>>>>> origin/sharp-8.0
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::CommitmentSchemeVerifier;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
-<<<<<<< HEAD
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
-use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
-||||||| 167116f40
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
-=======
 use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
->>>>>>> origin/sharp-8.0
+use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
 
 use crate::circuit_air::circuit_components::CircuitComponents;
 use crate::circuit_hash::compute_circuit_hash;
@@ -106,10 +88,10 @@ pub fn build_blake_context() -> Context<QM31> {
     }
     for _ in 0..n_blakes {
         let output = blake2s(&mut context, &inputs, n_bytes as usize).0;
-        eval!(&mut context, (*output[0].get()) + (*output[1].get()));
-        eval!(&mut context, (*output[2].get()) + (*output[3].get()));
-        eval!(&mut context, (*output[4].get()) + (*output[5].get()));
-        eval!(&mut context, (*output[6].get()) + (*output[7].get()));
+        eval!(&mut context, (*output[0].raw()) + (*output[1].raw()));
+        eval!(&mut context, (*output[2].raw()) + (*output[3].raw()));
+        eval!(&mut context, (*output[4].raw()) + (*output[5].raw()));
+        eval!(&mut context, (*output[6].raw()) + (*output[7].raw()));
     }
 
     context
@@ -238,28 +220,11 @@ fn stwo_verify<MC: MerkleChannel>(
         &preprocessed_column_log_sizes,
     );
 
-<<<<<<< HEAD
-    let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
-    let verifier_channel = &mut MC::C::default();
-||||||| 167116f40
-    let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
-    let verifier_channel = &mut Blake2sM31Channel::default();
-=======
     let log_blowup_factor = pcs_config.fri_params.log_blowup_factor;
-    let verifier_channel = &mut Blake2sChannel::default();
->>>>>>> origin/sharp-8.0
+    let verifier_channel = &mut MC::C::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
-<<<<<<< HEAD
-    pcs_config.fri_config.mix_into(verifier_channel);
-    let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
-||||||| 167116f40
-    pcs_config.fri_config.mix_into(verifier_channel);
-    let commitment_scheme =
-        &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(pcs_config);
-=======
     pcs_config.fri_params.mix_into(verifier_channel);
-    let commitment_scheme = &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(pcs_config);
->>>>>>> origin/sharp-8.0
+    let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
 
     let [trace_log_sizes, interaction_log_sizes] = column_log_sizes_per_tree(&log_sizes);
 
@@ -332,7 +297,7 @@ fn test_prove_and_stark_verify_blake_gate_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -348,7 +313,7 @@ fn test_prove_and_stark_verify_permutation_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -364,7 +329,7 @@ fn test_prove_and_stark_verify_fibonacci_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -380,7 +345,7 @@ fn test_prove_and_stark_verify_triple_xor_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -396,7 +361,7 @@ fn test_prove_and_stark_verify_m31_to_u32_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -412,7 +377,7 @@ fn test_prove_and_stark_verify_blake_g_gate_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 /// Verifies a [`CircuitProof`] using the circuit verifier. Requires the expected

@@ -202,7 +202,6 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 name = "applicative-unpacking-verifier"
 version = "2.4.0"
 dependencies = [
- "circuit-multiverifier",
  "circuits",
  "circuits-unpacker",
  "itertools 0.12.1",
@@ -1656,50 +1655,6 @@ dependencies = [
  "itertools 0.12.1",
  "rand_chacha 0.3.1",
  "stwo",
-<<<<<<< HEAD
- "stwo-cairo-common",
- "stwo-constraint-framework",
-]
-
-[[package]]
-name = "circuit-multiverifier"
-version = "2.4.0"
-dependencies = [
- "blake2",
- "cairo-air",
- "circuit-cairo-verifier",
- "circuit-common",
- "circuit-prover",
- "circuit-serialize",
- "circuit-verifier",
- "circuits",
- "circuits-stark-verifier",
- "itertools 0.12.1",
- "stwo",
-||||||| 167116f40
- "stwo-cairo-common",
- "stwo-constraint-framework",
-]
-
-[[package]]
-name = "circuit-multiverifier"
-version = "2.4.0"
-dependencies = [
- "blake2",
- "cairo-air",
- "circuit-cairo-serialize",
- "circuit-cairo-verifier",
- "circuit-common",
- "circuit-prover",
- "circuit-serialize",
- "circuit-verifier",
- "circuits",
- "circuits-stark-verifier",
- "itertools 0.12.1",
- "serde_json",
- "stwo",
-=======
->>>>>>> origin/sharp-8.0
  "stwo-constraint-framework",
 ]
 
@@ -1774,14 +1729,9 @@ dependencies = [
 name = "circuit-verifier"
 version = "2.4.0"
 dependencies = [
-<<<<<<< HEAD
-||||||| 167116f40
- "blake2",
-=======
  "blake2",
  "cairo-air",
  "circuit-cairo-verifier",
->>>>>>> origin/sharp-8.0
  "circuit-common",
  "circuit-prover",
  "circuit-serialize",
@@ -3735,26 +3685,10 @@ dependencies = [
  "circuits-stark-verifier",
  "itertools 0.12.1",
  "privacy-prove",
-<<<<<<< HEAD
- "serde_json",
- "starknet-types-core",
-||||||| 167116f40
- "rstest",
- "serde_json",
- "starknet-types-core",
-=======
  "privacy_common",
- "rstest",
->>>>>>> origin/sharp-8.0
  "stwo",
  "stwo-cairo-common",
-<<<<<<< HEAD
-||||||| 167116f40
- "tempfile",
-=======
  "stwo-constraint-framework",
- "tempfile",
->>>>>>> origin/sharp-8.0
  "tracing",
  "tracing-subscriber",
  "zstd",
@@ -3779,13 +3713,7 @@ dependencies = [
  "leaf-proof-format",
  "leaf-prover",
  "privacy-circuit-verify",
-<<<<<<< HEAD
-||||||| 167116f40
- "rstest",
-=======
  "privacy_common",
- "rstest",
->>>>>>> origin/sharp-8.0
  "serde_json",
  "starknet-types-core",
  "stwo",

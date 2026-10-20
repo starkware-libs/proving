@@ -88,21 +88,9 @@ impl<Value: IValue> CircuitStatement<Value> {
 }
 
 impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
-<<<<<<< HEAD
-    fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
-        let circuit_hash_words = self.circuit_hash.iter().copied().collect_vec();
-        let output_words =
-            unpack_qm31s_to_u32_words(context, self.output_digest.iter().map(|word| *word.raw()));
-||||||| 167116f40
-    fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
-        let circuit_hash_words = self.circuit_hash.iter().copied().collect_vec();
-        let output_words =
-            unpack_qm31s_to_u32_words(context, self.output_digest.iter().map(|word| *word.get()));
-=======
     fn claims_to_mix(&self, _context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
         let circuit_hash_words = self.circuit_hash.to_vec();
         let output_words = self.output_digest.to_vec();
->>>>>>> origin/sharp-8.0
         vec![circuit_hash_words, output_words]
     }
 

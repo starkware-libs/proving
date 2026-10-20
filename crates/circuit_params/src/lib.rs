@@ -268,7 +268,7 @@ pub fn padded_shared_target(
     pad_to: Option<&LogSizes>,
 ) -> (ComponentSizes, PreprocessedCircuit) {
     let (target_sizes, multiverifier_context) =
-        padded_shared_target_context(leaves_max_sizes, circuit_fri_config, pad_to);
+        padded_shared_target_context(leaves_max_sizes, circuit_fri_params, pad_to);
     let preprocessed_multiverifier =
         padded_preprocessed_circuit(multiverifier_context, &target_sizes);
     (target_sizes, preprocessed_multiverifier)
@@ -278,31 +278,23 @@ pub fn padded_shared_target(
 /// consumers that need only the target sizes.
 pub fn padded_shared_target_sizes(
     leaves_max_sizes: ComponentSizes,
-    circuit_fri_config: FriConfig,
+    circuit_fri_params: FriParams,
     pad_to: Option<&LogSizes>,
 ) -> ComponentSizes {
-    padded_shared_target_context(leaves_max_sizes, circuit_fri_config, pad_to).0
+    padded_shared_target_context(leaves_max_sizes, circuit_fri_params, pad_to).0
 }
 
 /// The converged target sizes and the multiverifier context built at them (not yet padded).
 fn padded_shared_target_context(
     leaves_max_sizes: ComponentSizes,
-    circuit_fri_config: FriConfig,
+    circuit_fri_params: FriParams,
     pad_to: Option<&LogSizes>,
 ) -> (ComponentSizes, FinalizedContext<NoValue>) {
     let start = match pad_to {
         Some(pad_to) => leaves_max_sizes.elementwise_max(&pad_to.to_component_sizes()),
         None => leaves_max_sizes,
     };
-<<<<<<< HEAD
-    let (target_sizes, multiverifier_context) = shared_target_fixpoint(start, circuit_fri_config);
-||||||| 167116f40
-    let (target_sizes, preprocessed_multiverifier) =
-        shared_target_fixpoint(start, circuit_fri_config);
-=======
-    let (target_sizes, preprocessed_multiverifier) =
-        shared_target_fixpoint(start, circuit_fri_params);
->>>>>>> origin/sharp-8.0
+    let (target_sizes, multiverifier_context) = shared_target_fixpoint(start, circuit_fri_params);
     if let Some(pad_to) = pad_to {
         assert_eq!(
             &LogSizes::of(&target_sizes),
@@ -326,16 +318,8 @@ fn padded_shared_target_context(
 /// exactly as the recursive tree builds its multiverifier.
 pub fn shared_target_fixpoint(
     mut target_sizes: ComponentSizes,
-<<<<<<< HEAD
-    circuit_fri_config: FriConfig,
-) -> (ComponentSizes, FinalizedContext<NoValue>) {
-||||||| 167116f40
-    circuit_fri_config: FriConfig,
-) -> (ComponentSizes, PreprocessedCircuit) {
-=======
     circuit_fri_params: FriParams,
-) -> (ComponentSizes, PreprocessedCircuit) {
->>>>>>> origin/sharp-8.0
+) -> (ComponentSizes, FinalizedContext<NoValue>) {
     loop {
         let multiverifier_context =
             multiverifier_context_for_sizes(&target_sizes, circuit_fri_params);

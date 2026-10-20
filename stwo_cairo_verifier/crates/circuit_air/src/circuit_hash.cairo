@@ -4,18 +4,10 @@
 //! The component log sizes are taken in `ComponentList` (canonical) order, so this must match the
 //! packing there byte-for-byte for the Fiat-Shamir transcript to agree.
 use stwo_verifier_core::Hash;
-<<<<<<< HEAD
 #[cfg(not(feature: "poseidon252_verifier"))]
 use stwo_verifier_utils::blake2s::hash_u32s_followed_by_digest;
 #[cfg(feature: "poseidon252_verifier")]
 use stwo_verifier_utils::poseidon252::hash_u32s_followed_by_digest;
-||||||| 167116f40
-#[cfg(not(feature: "poseidon252_verifier"))]
-use stwo_verifier_utils::blake2s::hash_u32s;
-#[cfg(not(feature: "poseidon252_verifier"))]
-=======
-use stwo_verifier_utils::blake2s::hash_u32s;
->>>>>>> origin/sharp-8.0
 use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
 use crate::per_component::PerComponentTrait;
 
@@ -42,6 +34,7 @@ fn config_words(log_blowup_factor: u32) -> Array<u32> {
 /// Computes the circuit hash: `blake2s(log_blowup_factor || component_log_sizes ||
 /// preprocessed_root)`, packing each value as little-endian bytes. The log blowup factor and
 /// component log sizes are the circuit's hardcoded constants; only the preprocessed root varies.
+#[cfg(not(feature: "poseidon252_verifier"))]
 pub fn compute_circuit_hash(log_blowup_factor: u32, preprocessed_root: Hash) -> Hash {
     Hash {
         hash: hash_u32s_followed_by_digest(
@@ -49,7 +42,6 @@ pub fn compute_circuit_hash(log_blowup_factor: u32, preprocessed_root: Hash) -> 
         ),
     }
 }
-<<<<<<< HEAD
 
 /// Computes the circuit hash as `poseidon(config_words || preprocessed_root)`: the config words
 /// packed seven to a felt252, then the root absorbed whole as the final element. The root is a
@@ -78,61 +70,3 @@ mod poseidon_tests {
         );
     }
 }
-
-#[cfg(test)]
-#[cfg(not(feature: "poseidon252_verifier"))]
-mod tests {
-    use core::box::BoxImpl;
-    use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
-    use super::{BLAKE2S_DIGEST_N_WORDS, compute_circuit_hash};
-
-    /// Known-answer test: `blake2s` over the production `log_blowup_factor` (1) and component log
-    /// sizes, and `preprocessed_root = [0, 1, .., 7]`, cross-checked against
-    /// `circuit_prover::circuit_hash::compute_circuit_hash`. This pins the byte packing against
-    /// the host-side implementation the prover mixes into the channel.
-    #[test]
-    fn compute_circuit_hash_matches_reference() {
-        let log_blowup_factor = 1;
-        let preprocessed_root = Blake2sHash { hash: BoxImpl::new([0, 1, 2, 3, 4, 5, 6, 7]) };
-        let expected: [u32; BLAKE2S_DIGEST_N_WORDS] = [
-            0x5b6cadf2, 0x78860d2c, 0xde9b6924, 0xf656020c, 0xc965e2b2, 0x0bb57f82, 0x9236ceb4,
-            0x388feeb7,
-        ];
-        assert!(
-            compute_circuit_hash(log_blowup_factor, preprocessed_root).hash.unbox() == expected,
-        );
-    }
-}
-||||||| 167116f40
-
-#[cfg(feature: "poseidon252_verifier")]
-pub fn compute_circuit_hash(_log_blowup_factor: u32, _preprocessed_root: Hash) -> Hash {
-    panic!("the privacy recursive circuit verifier only supports the blake2s hasher")
-}
-
-#[cfg(test)]
-#[cfg(not(feature: "poseidon252_verifier"))]
-mod tests {
-    use core::box::BoxImpl;
-    use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
-    use super::{BLAKE2S_DIGEST_N_WORDS, compute_circuit_hash};
-
-    /// Known-answer test: `blake2s` over the production `log_blowup_factor` (1) and component log
-    /// sizes, and `preprocessed_root = [0, 1, .., 7]`, cross-checked against
-    /// `circuit_prover::circuit_hash::compute_circuit_hash`. This pins the byte packing against
-    /// the host-side implementation the prover mixes into the channel.
-    #[test]
-    fn compute_circuit_hash_matches_reference() {
-        let log_blowup_factor = 1;
-        let preprocessed_root = Blake2sHash { hash: BoxImpl::new([0, 1, 2, 3, 4, 5, 6, 7]) };
-        let expected: [u32; BLAKE2S_DIGEST_N_WORDS] = [
-            0x5b6cadf2, 0x78860d2c, 0xde9b6924, 0xf656020c, 0xc965e2b2, 0x0bb57f82, 0x9236ceb4,
-            0x388feeb7,
-        ];
-        assert!(
-            compute_circuit_hash(log_blowup_factor, preprocessed_root).hash.unbox() == expected,
-        );
-    }
-}
-=======
->>>>>>> origin/sharp-8.0

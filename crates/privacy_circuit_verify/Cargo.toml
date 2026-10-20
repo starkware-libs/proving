@@ -35,24 +35,12 @@ stwo.workspace = true
 stwo-constraint-framework.workspace = true
 
 [dev-dependencies]
-<<<<<<< HEAD
-||||||| 167116f40
-ctor.workspace = true
-mockall.workspace = true
-rstest.workspace = true
-tempfile.workspace = true
-=======
 circuit-params.workspace = true
 cairo-vm = { workspace = true, features = [
     "extensive_hints",
     "mod_builtin",
     "clap",
 ] }
-ctor.workspace = true
-mockall.workspace = true
-rstest.workspace = true
-tempfile.workspace = true
->>>>>>> origin/sharp-8.0
 tracing-subscriber = { workspace = true, features = ["fmt"] }
 privacy-prove.workspace = true
 stwo = { workspace = true, features = ["parallel"] }

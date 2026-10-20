@@ -134,16 +134,8 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     ) -> FriFirstLayerProver<'a, B, MC::H> {
         // The circle-to-line fold is always equal to `params.fold_step`.
         // TODO(Leo): consider support for smaller steps.
-<<<<<<< HEAD
-        let layer = FriFirstLayerProver::new(column, config.fold_step);
-        MC::mix_hash(channel, layer.merkle_tree.root());
-||||||| 167116f40
-        let layer = FriFirstLayerProver::new(column, config.fold_step);
-        MC::mix_root(channel, layer.merkle_tree.root());
-=======
         let layer = FriFirstLayerProver::new(column, params.fold_step);
-        MC::mix_root(channel, layer.merkle_tree.root());
->>>>>>> origin/sharp-8.0
+        MC::mix_hash(channel, layer.merkle_tree.root());
         layer
     }
 
@@ -180,22 +172,10 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
         if line_log_size == last_layer_log_domain_size {
             return (layers, layer_evaluation);
         }
-<<<<<<< HEAD
-        // While we can, skip `config.fold_step` layers.
-        while line_log_size > last_layer_log_domain_size + config.fold_step {
-            let layer = FriInnerLayerProver::new(layer_evaluation, config.fold_step);
-            MC::mix_hash(channel, layer.merkle_tree.root());
-||||||| 167116f40
-        // While we can, skip `config.fold_step` layers.
-        while line_log_size > last_layer_log_domain_size + config.fold_step {
-            let layer = FriInnerLayerProver::new(layer_evaluation, config.fold_step);
-            MC::mix_root(channel, layer.merkle_tree.root());
-=======
         // While we can, skip `params.fold_step` layers.
         while line_log_size > last_layer_log_domain_size + params.fold_step {
             let layer = FriInnerLayerProver::new(layer_evaluation, params.fold_step);
-            MC::mix_root(channel, layer.merkle_tree.root());
->>>>>>> origin/sharp-8.0
+            MC::mix_hash(channel, layer.merkle_tree.root());
             let folding_alpha = channel.draw_secure_felt();
             let alpha_sq_powers = squared_alpha_powers(folding_alpha, params.fold_step);
             layer_evaluation = B::fold_line(&layer.evaluation, &alpha_sq_powers, twiddles);

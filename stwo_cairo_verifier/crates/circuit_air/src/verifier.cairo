@@ -10,7 +10,10 @@ use stwo_verifier_core::fri::FriParamsTrait;
 use stwo_verifier_core::pcs::verifier::CommitmentSchemeVerifierImpl;
 use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
 use stwo_verifier_core::verifier::{StarkProof, VerificationError, verify};
+#[cfg(not(feature: "poseidon252_verifier"))]
 use stwo_verifier_utils::blake2s::hash_u32s;
+#[cfg(feature: "poseidon252_verifier")]
+use stwo_verifier_utils::poseidon252::hash_state_with_u32s;
 use crate::circuit_air::CircuitAirNewImpl;
 use crate::claims::{
     CircuitClaim, CircuitClaimImpl, CircuitInteractionClaim, CircuitInteractionClaimImpl,
@@ -33,11 +36,18 @@ pub struct CircuitProof {
 }
 
 /// Returns the output of the verifier: `blake2s(circuit_hash || output_words)`.
+#[cfg(not(feature: "poseidon252_verifier"))]
 pub fn get_verification_output(circuit_hash: Hash, output_digest: Blake2sHash) -> Hash {
     let [h0, h1, h2, h3, h4, h5, h6, h7] = circuit_hash.hash.unbox();
     let mut words = array![h0, h1, h2, h3, h4, h5, h6, h7];
     words.append_span(output_digest.hash.unbox().span());
     Hash { hash: hash_u32s(words.span()) }
+}
+
+/// Returns `poseidon(circuit_hash || output_words)`.
+#[cfg(feature: "poseidon252_verifier")]
+pub fn get_verification_output(circuit_hash: Hash, output_digest: Blake2sHash) -> Hash {
+    hash_state_with_u32s(circuit_hash, output_digest.hash.unbox().span())
 }
 
 pub fn verify_circuit(proof: CircuitProof, circuit_hash: Hash) {
