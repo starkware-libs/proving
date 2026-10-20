@@ -236,7 +236,7 @@ fn check_relation_uses<Value: IValue>(
     // This is a sanity check that `RELATION_USES_NUM_ROWS_SHIFT` is large enough for the given
     // statement, it does not depend on the specific assignment.
     let mut max_shifted_uses_per_relation = HashMap::<&str, u64>::new();
-    for component in components.values() {
+    for component in &components {
         for relation_use in component.relation_uses_per_row() {
             let entry = max_shifted_uses_per_relation.entry(relation_use.relation_id).or_insert(0);
             *entry = entry
@@ -263,7 +263,7 @@ fn check_relation_uses<Value: IValue>(
 
     // Sum uses_per_row * (floor(num_rows / DIV) + 1) for all relations
     let mut shifted_relation_uses = HashMap::new();
-    for (i, component) in components.values().enumerate() {
+    for (i, component) in components.iter().enumerate() {
         let relation_uses = component.relation_uses_per_row();
         if relation_uses.is_empty() {
             continue;

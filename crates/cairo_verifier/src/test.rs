@@ -13,7 +13,6 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{ProofConfig, empty_proof};
-use circuits_stark_verifier::statement::Statement;
 use circuits_stark_verifier::verify::verify;
 use num_traits::Zero;
 use stwo::core::fields::m31::M31;
@@ -79,7 +78,7 @@ fn test_verify() {
     );
 
     let config = ProofConfig::new(
-        statement.get_components(),
+        &statement.components,
         statement.preprocessed_trace_variant.n_columns(),
         &pcs_config,
         INTERACTION_POW_BITS,

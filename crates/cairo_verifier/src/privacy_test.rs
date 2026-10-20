@@ -2,7 +2,6 @@ use std::fs::File;
 
 use cairo_air::CairoProof;
 use cairo_air::utils::binary_deserialize_from_file;
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
@@ -12,15 +11,12 @@ use circuit_prover::prover::{
 use circuit_prover::test_utils::default_circuit_pcs_config;
 use circuit_serialize::serialize::CircuitSerialize;
 use circuit_verifier::circuit_proof::CircuitProof;
-use circuit_verifier::statement::CircuitStatement;
+use circuit_verifier::statement::circuit_verifier_proof_config;
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
 use circuits::blake::HashValue;
-use circuits::context::{Context, FinalizedContext};
-use circuits::ivalue::{IValue, NoValue};
-use circuits::ops::Guess;
-use circuits_stark_verifier::proof::ProofConfig;
+use circuits::context::FinalizedContext;
+use circuits::ivalue::IValue;
 use circuits_stark_verifier::proof_info::ProofInfo;
-use circuits_stark_verifier::statement::Statement;
 use itertools::Itertools;
 use privacy_common::privacy_components;
 use stwo::core::fields::qm31::QM31;
@@ -225,17 +221,9 @@ fn test_privacy_proof_info() {
         config: pcs_config,
         preprocessed_column_log_sizes: preprocessed_circuit.preprocessed_trace.log_sizes(),
     };
-    let mut context: Context<NoValue> = Context::new(N_RESERVED);
-    let output_digest = HashValue::<NoValue>::no_value().guess(&mut context);
-    let preprocessed_root = HashValue::no_value().guess(&mut context);
-    let statement =
-        CircuitStatement::new(&mut context, &circuit_config, preprocessed_root, output_digest);
-
-    let proof_config = ProofConfig::new(
-        statement.get_components(),
-        circuit_config.preprocessed_column_log_sizes.len(),
+    let proof_config = circuit_verifier_proof_config(
+        &circuit_config.preprocessed_column_log_sizes,
         &circuit_config.config,
-        circuit_verifier::statement::INTERACTION_POW_BITS,
     );
     let proof_info = ProofInfo::from_config(&proof_config);
     println!("{proof_info}");

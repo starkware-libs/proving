@@ -5,7 +5,6 @@ use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
-use indexmap::IndexMap;
 use stwo::core::circle::CirclePoint;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
@@ -41,8 +40,9 @@ pub trait Statement<Value: IValue> {
     /// transcript as mixing the felts directly.
     fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>>;
 
-    /// Returns the AIR components that define the constraint system.
-    fn get_components(&self) -> &IndexMap<&'static str, Box<dyn CircuitEval<Value>>>;
+    /// Returns the AIR components that define the constraint system, in the order the prover
+    /// appended their traces to the commitment trees.
+    fn get_components(&self) -> Vec<&dyn CircuitEval<Value>>;
 
     /// Packs the per-component trace log sizes into a [`Simd`] (in the order of
     /// [`Self::get_components`]), adding the packed values to `context`.

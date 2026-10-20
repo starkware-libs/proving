@@ -143,8 +143,8 @@ impl<Value: IValue> Statement<Value> for SimpleStatement<Value> {
         vec![vec![]]
     }
 
-    fn get_components(&self) -> &IndexMap<&'static str, Box<dyn CircuitEval<Value>>> {
-        &self.components
+    fn get_components(&self) -> Vec<&dyn CircuitEval<Value>> {
+        self.components.values().map(|component| component.as_ref()).collect()
     }
 
     fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd {
