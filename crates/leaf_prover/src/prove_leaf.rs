@@ -103,6 +103,7 @@ pub fn prove_leaf(
     info!("Program execution done");
 
     let prover_input = adapt(&runner).unwrap();
+    drop(runner);
     let output_addresses = prover_input.builtin_segments.output.unwrap();
 
     let program_output_u256s: Vec<[u32; 8]> = (output_addresses.begin_addr
