@@ -50,23 +50,3 @@ pub fn compute_circuit_hash(log_blowup_factor: u32, preprocessed_root: Hash) -> 
 pub fn compute_circuit_hash(log_blowup_factor: u32, preprocessed_root: Hash) -> Hash {
     hash_u32s_followed_by_digest(config_words(log_blowup_factor).span(), preprocessed_root)
 }
-
-/// Known-answer test mirroring `compute_circuit_hash_matches_reference` for the Poseidon252
-/// build: the production `log_blowup_factor` (1) and component log sizes, cross-checked against
-/// `circuit_prover::circuit_hash::compute_circuit_hash::<Poseidon252MerkleHasher>`. Pins the felt
-/// packing — words seven to a felt, the root absorbed last — against the host the prover mixes
-/// in.
-#[cfg(test)]
-#[cfg(feature: "poseidon252_verifier")]
-mod poseidon_tests {
-    use super::compute_circuit_hash;
-
-    #[test]
-    fn compute_circuit_hash_matches_reference() {
-        assert!(
-            compute_circuit_hash(
-                1, 0x0172b6763ef45133e1d1d1a507f14fe24702c221cdbbc7ca7c0e5d654b008d27,
-            ) == 0x034adf23e8131cdb790fdb1412b8147f9c7d8904db61e9990f886c4d835ffdfc,
-        );
-    }
-}

@@ -1,4 +1,3 @@
-use blake2::{Blake2s256, Digest};
 use circuit_cairo_verifier::test_utils::privacy_pcs_config;
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::PreprocessedCircuit;
@@ -7,6 +6,7 @@ use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
+pub use circuit_verifier::test_utils::native_blake_u32s;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
@@ -49,16 +49,6 @@ pub const MULTIVERIFIER_PREPROCESSED_ROOT: [u32; 8] =
 /// A multiverifier proof verifying two identical Cairo verifier proofs.
 pub const MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH: &str =
     concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/multiverifier/proof.bin");
-
-/// Out-of-circuit implementation of [`circuits::blake::blake2s_u32s`].
-pub fn native_blake_u32s(words: &[u32]) -> [u32; 8] {
-    let mut hasher = Blake2s256::new();
-    for word in words {
-        hasher.update(word.to_le_bytes());
-    }
-    let hash: [u8; 32] = hasher.finalize().into();
-    le_u32s_from_bytes(hash)
-}
 
 /// Computes the circuit hash for a given preprocessed root and shared config.
 ///

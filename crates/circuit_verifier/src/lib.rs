@@ -8,4 +8,6 @@ pub mod relations;
 #[cfg(test)]
 mod sample_evaluations_test_data;
 pub mod statement;
+#[cfg(any(test, feature = "test-utils"))]
+pub mod test_utils;
 pub mod verify;

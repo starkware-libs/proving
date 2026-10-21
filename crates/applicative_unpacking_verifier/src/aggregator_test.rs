@@ -1,21 +1,14 @@
+use circuit_verifier::test_utils::native_blake_u32s;
 use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
 use circuits::context::{TraceContext, Var};
 use circuits::ops::Guess;
-use circuits::utils::le_u32s_from_bytes;
 use circuits_unpacker::unpacker::Node;
 use itertools::Itertools;
 use starknet_types_core::felt::Felt;
 use starknet_types_core::hash::Blake2Felt252;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::vcs_lifted::Hasher;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 
 use super::{CAPACITY, open_aggregator_output};
-
-/// Out-of-circuit implementation of [`circuits::blake::blake2s_u32s`].
-fn native_blake_u32s(words: &[u32]) -> [u32; 8] {
-    le_u32s_from_bytes(Blake2sMerkleHasher::hash_u32s(words).0)
-}
 
 /// Arbitrary non-zero leaf digests (a real `subtree_hash` is a Blake2s digest).
 fn leaf_hash(i: u32) -> [u32; 8] {
