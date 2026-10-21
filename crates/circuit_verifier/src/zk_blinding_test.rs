@@ -1,3 +1,4 @@
+use circuit_common::finalize::{ComponentSizes, raw_component_sizes};
 use circuits::context::TraceContext;
 
 use super::*;

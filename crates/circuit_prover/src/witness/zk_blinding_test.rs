@@ -1,4 +1,4 @@
-use circuit_common::finalize::{
+use circuit_verifier::zk_blinding::{
     BLAKE_G_GATE_BLINDING_FACTOR, M31_TO_U32_BLINDING_FACTOR, TRIPLE_XOR_BLINDING_FACTOR,
 };
 use stwo::core::fields::m31::MODULUS_BITS;

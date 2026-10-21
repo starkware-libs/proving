@@ -3,7 +3,7 @@ use std::sync::Arc;
 use cairo_air::CairoProof;
 use cairo_air::flat_claims::FlatClaim;
 use circuit_common::N_RESERVED;
-use circuit_common::finalize::add_zk_blinding;
+use circuit_verifier::zk_blinding::add_zk_blinding;
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};

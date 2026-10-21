@@ -42,6 +42,7 @@ crates/
   circuit_verifier/          [SOUNDNESS-CRITICAL] Circuit constraint definitions and multi-proof verification
     src/components/          [AIR-GENERATED] constraint evaluators (Eq, QM31Ops, Blake*, XOR*, RangeCheck*)
     src/multiverifier.rs     Multi-proof verification circuit builder
+    src/zk_blinding.rs       add_zk_blinding() — random rows that blind the witness components for ZK
   cairo_verifier/            [SOUNDNESS-CRITICAL] Cairo constraint definitions  (pkg: circuit-cairo-verifier)
     src/components/          [AIR-GENERATED] 50+ opcode/builtin evaluators + subroutines/
     src/all_components.rs    [AIR-GENERATED] Component registry
@@ -91,7 +92,8 @@ crates/
 8. **Finalization/preprocessing** — `circuit_common` bridges DSL and prover:
    `finalize_context()` hashes constants (Blake) and adds their hash as public outputs, then
    pads Eq/QM31Ops/Blake components to powers of two (min `N_LANES=16`); `add_zk_blinding()`
-   injects randomness for ZK; `PreprocessedCircuit::preprocess_circuit()` builds the fixed
+   (in `circuit_verifier::zk_blinding`, next to the AIR whose columns it blinds) injects
+   randomness for ZK; `PreprocessedCircuit::preprocess_circuit()` builds the fixed
    preprocessed trace.
 
 ## Metrics
