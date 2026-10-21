@@ -97,14 +97,13 @@ impl Channel for Blake2sChannel {
             .collect()
     }
 
-    /// Verifies that `H(H(POW_PREFIX, [0_u8; 12], digest, n_bits), nonce)` has at least `n_bits`
-    /// many leading zeros.
+    /// Verifies that `H(H(POW_PREFIX, digest, n_bits), nonce)` has at least `n_bits` many leading
+    /// zeros.
     fn verify_pow_nonce(&self, n_bits: u32, nonce: u64) -> bool {
         let digest = self.digest();
-        // Compute H(POW_PREFIX, [0_u8; 12], digest, n_bits).
+        // Compute H(POW_PREFIX, digest, n_bits).
         let mut hasher = Blake2sHasher::default();
         hasher.update(&Self::POW_PREFIX.to_le_bytes());
-        hasher.update(&[0_u8; 12]);
         hasher.update(&digest.0[..]);
         hasher.update(&n_bits.to_le_bytes());
         let prefixed_digest = hasher.finalize();
@@ -217,5 +216,25 @@ mod tests {
                 0xcb, 0xf9, 0xa1, 0xc7
             ]
         );
+    }
+
+    /// Same values as the circuit verifier's `test_pow_regression` and the Cairo verifier's
+    /// `test_verify_pow_nonce`.
+    #[test]
+    pub fn test_verify_pow_nonce() {
+        let mut channel = Blake2sChannel::default();
+        channel.update_digest(
+            [
+                968886948, 725376924, 836084817, 484428276, 1805658819, 300032261, 172116750,
+                994058243,
+            ]
+            .into(),
+        );
+
+        assert!(channel.verify_pow_nonce(10, 649));
+        assert!(!channel.verify_pow_nonce(11, 649));
+        assert!(!channel.verify_pow_nonce(9, 649));
+        assert!(!channel.verify_pow_nonce(10, 648));
+        assert!(!channel.verify_pow_nonce(10, 650));
     }
 }

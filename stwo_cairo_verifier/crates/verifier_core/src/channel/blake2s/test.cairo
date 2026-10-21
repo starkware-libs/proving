@@ -1,5 +1,5 @@
 use core::box::BoxImpl;
-use crate::channel::blake2s::{Blake2sChannel, ChannelTrait, check_leading_zeros};
+use crate::channel::blake2s::{Blake2sChannel, ChannelTrait, check_leading_zeros, new_channel};
 use crate::fields::qm31::qm31_const;
 use crate::vcs::blake2s_hasher::Blake2sHash;
 
@@ -283,6 +283,27 @@ fn test_check_proof_of_work_with_invalid_n_bits() {
     let res = check_leading_zeros(digest, 4);
 
     assert!(!res);
+}
+
+// Same values as the circuit verifier's `test_pow_regression` and the Rust `test_verify_pow_nonce`.
+#[test]
+fn test_verify_pow_nonce() {
+    let channel = new_channel(
+        Blake2sHash {
+            hash: BoxImpl::new(
+                [
+                    968886948, 725376924, 836084817, 484428276, 1805658819, 300032261, 172116750,
+                    994058243,
+                ],
+            ),
+        },
+    );
+
+    assert!(channel.verify_pow_nonce(10, 649));
+    assert!(!channel.verify_pow_nonce(11, 649));
+    assert!(!channel.verify_pow_nonce(9, 649));
+    assert!(!channel.verify_pow_nonce(10, 648));
+    assert!(!channel.verify_pow_nonce(10, 650));
 }
 
 #[test]

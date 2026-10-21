@@ -186,11 +186,11 @@ fn test_draw_point_regression() {
 }
 
 #[rstest]
-#[case::success(10, 484, true)]
-#[case::wrong_n_bits0(11, 484, false)]
-#[case::wrong_n_bits1(9, 484, false)]
-#[case::wrong_nonce0(10, 483, false)]
-#[case::wrong_nonce1(10, 485, false)]
+#[case::success(10, 649, true)]
+#[case::wrong_n_bits0(11, 649, false)]
+#[case::wrong_n_bits1(9, 649, false)]
+#[case::wrong_nonce0(10, 648, false)]
+#[case::wrong_nonce1(10, 650, false)]
 fn test_pow_regression(#[case] n_bits: u32, #[case] nonce: u32, #[case] success: bool) {
     let mut context = TraceContext::default();
 
@@ -207,8 +207,8 @@ fn test_pow_regression(#[case] n_bits: u32, #[case] nonce: u32, #[case] success:
     if success {
         let digest = channel.digest();
         let expected_digest = HashValue::from([
-            504080137, 1083012672, 3095019893, 4068872123, 1307383598, 2664898104, 4196059202,
-            2257392334,
+            3076160844, 2367247246, 2827868628, 1624113922, 3763804367, 4030608090, 2020618635,
+            3856111847,
         ]);
         for i in 0..8 {
             assert_eq!(context.get(*digest[i].raw()), *expected_digest[i].raw());
