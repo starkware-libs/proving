@@ -9,7 +9,7 @@ use circuits_stark_verifier::fri_proof::{
 };
 use circuits_stark_verifier::merkle::{AuthPath, AuthPaths};
 use circuits_stark_verifier::proof::ProofConfig;
-use circuits_stark_verifier::select_queries::select_queries;
+use circuits_stark_verifier::select_queries::{Queries as CircuitQueries, select_queries};
 use itertools::{chain, zip_eq};
 use rand::rngs::SmallRng;
 use rand::{Rng, SeedableRng};
@@ -63,13 +63,14 @@ fn test_fri_decommit_with_jumps(
     // Compute FRI input.
     let input = simd_from_u32s(&mut context, query_indices.iter().map(|x| *x as u32).collect());
     let bits = extract_bits(&mut context, &input, log_evaluation_domain_size);
-    let queries = select_queries(&mut context, bits);
+    let points = select_queries(&mut context, &bits);
     let fri_input: Vec<_> = query_indices
         .iter()
         .map(|query| context.constant(fri_proof.aux.first_layer.all_values[0][query]))
         .collect();
-    let bits: Vec<Vec<_>> =
-        queries.bits.iter().map(|simd| Simd::unpack(&mut context, simd)).collect();
+    let unpacked_bits: Vec<Vec<_>> =
+        bits.iter().map(|simd| Simd::unpack(&mut context, simd)).collect();
+    let queries = CircuitQueries { bits, points };
 
     // Compute the circuit FriProof.
     let all_fold_steps = compute_all_fold_steps(trace_log_size, fold_step);
@@ -107,7 +108,15 @@ fn test_fri_decommit_with_jumps(
     channel.mix_felts(&last_layer_coefficients);
     let alphas: Vec<_> = alpha_values.iter().map(|x| context.constant(*x)).collect();
 
-    fri_decommit(&mut context, &circuit_fri_proof, &config.fri, fri_input, &bits, queries, &alphas);
+    fri_decommit(
+        &mut context,
+        &circuit_fri_proof,
+        &config.fri,
+        fri_input,
+        &unpacked_bits,
+        queries,
+        &alphas,
+    );
     context.validate_circuit();
     println!("Stats: {:?}", context.stats);
 }

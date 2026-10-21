@@ -75,8 +75,9 @@ pub struct Queries {
     pub points: CirclePoint<Simd>,
 }
 
-/// Takes the data obtained from [get_query_bits_from_channel], and returns [Queries].
-pub fn select_queries(context: &mut Context<impl IValue>, bits: Vec<Simd>) -> Queries {
+/// Takes the bits obtained from [get_query_bits_from_channel], and returns the circle points of
+/// the chosen queries in the evaluation domain.
+pub fn select_queries(context: &mut Context<impl IValue>, bits: &[Simd]) -> CirclePoint<Simd> {
     let n_queries = bits[0].len();
     let log_domain_size: u32 = bits.len().try_into().unwrap();
 
@@ -102,5 +103,5 @@ pub fn select_queries(context: &mut Context<impl IValue>, bits: Vec<Simd>) -> Qu
     let neg_y = eval!(context, -(point.y));
     point.y = Simd::select(context, &bits[0], &point.y, &neg_y);
 
-    Queries { bits, points: point }
+    point
 }

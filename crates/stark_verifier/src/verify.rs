@@ -19,7 +19,7 @@ use crate::fri::{fri_commit, fri_decommit, mix_fri_params};
 use crate::merkle::decommit_eval_domain_samples;
 use crate::oods::{collect_oods_responses, compute_fri_input, extract_expected_composition_eval};
 use crate::proof::{Proof, ProofConfig};
-use crate::select_queries::{get_query_bits_from_channel, select_queries};
+use crate::select_queries::{Queries, get_query_bits_from_channel, select_queries};
 use crate::statement::{EvaluateArgs, OodsSamples, Statement};
 
 /// Number of bits used to represent a component log-size in the packed claim format.
@@ -183,21 +183,20 @@ pub fn verify<Value: IValue>(
         config.n_queries(),
         config.log_evaluation_domain_size(),
     );
-    let queries = select_queries(context, bits);
+    let points = select_queries(context, &bits);
+    let unpacked_bits = bits.iter().map(|simd| Simd::unpack(context, simd)).collect_vec();
+    let queries = Queries { bits, points };
 
     // Check decommitment of trace queries.
-    let bits = queries.bits.iter().map(|simd| Simd::unpack(context, simd)).collect_vec();
-
     let opt_column_log_sizes_by_trace =
         get_opt_column_log_sizes_by_trace(context, config, component_log_sizes);
-
     decommit_eval_domain_samples(
         context,
         config.n_queries(),
         &opt_column_log_sizes_by_trace,
         &proof.eval_domain_samples,
         &proof.eval_domain_auth_paths,
-        &bits,
+        &unpacked_bits,
         &{
             let [trace, interaction, composition] = proof.merkle_roots();
             [&preprocessed_root, trace, interaction, composition]
@@ -215,7 +214,7 @@ pub fn verify<Value: IValue>(
         oods_quotient_coef,
     );
 
-    fri_decommit(context, &proof.fri, &config.fri, fri_input, &bits, queries, &fri_alphas);
+    fri_decommit(context, &proof.fri, &config.fri, fri_input, &unpacked_bits, queries, &fri_alphas);
 }
 
 /// Verify that no relation is used more than P times.
