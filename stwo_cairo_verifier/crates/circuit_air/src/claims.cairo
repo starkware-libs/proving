@@ -18,16 +18,15 @@ const U_VAR_IDX: u32 = 2;
 /// The circuit encodes a u32 as two u16 limbs, so this is the shift between them.
 const U16_SHIFT: NonZero<u32> = 0x10000;
 
-#[derive(Drop, Serde)]
+#[derive(Drop)]
 pub struct CircuitClaim {
     /// The circuit's public output: the eight words of a Blake2s digest.
     pub output_digest: Box<[u32; 8]>,
 }
 
-/// Serializes the output digest as eight felts, one u32 word each.
-impl OutputDigestSerde of Serde<Box<[u32; 8]>> {
-    fn serialize(self: @Box<[u32; 8]>, ref output: Array<felt252>) {
-        let [w0, w1, w2, w3, w4, w5, w6, w7] = self.unbox();
+impl CircuitClaimSerde of Serde<CircuitClaim> {
+    fn serialize(self: @CircuitClaim, ref output: Array<felt252>) {
+        let [w0, w1, w2, w3, w4, w5, w6, w7] = self.output_digest.unbox();
         output.append(w0.into());
         output.append(w1.into());
         output.append(w2.into());
@@ -38,15 +37,18 @@ impl OutputDigestSerde of Serde<Box<[u32; 8]>> {
         output.append(w7.into());
     }
 
-    fn deserialize(ref serialized: Span<felt252>) -> Option<Box<[u32; 8]>> {
+    fn deserialize(ref serialized: Span<felt252>) -> Option<CircuitClaim> {
         let [w0, w1, w2, w3, w4, w5, w6, w7] = (*serialized.multi_pop_front()?).unbox();
         Some(
-            BoxImpl::new(
-                [
-                    w0.try_into()?, w1.try_into()?, w2.try_into()?, w3.try_into()?, w4.try_into()?,
-                    w5.try_into()?, w6.try_into()?, w7.try_into()?,
-                ],
-            ),
+            CircuitClaim {
+                output_digest: BoxImpl::new(
+                    [
+                        w0.try_into().unwrap(), w1.try_into().unwrap(), w2.try_into().unwrap(),
+                        w3.try_into().unwrap(), w4.try_into().unwrap(), w5.try_into().unwrap(),
+                        w6.try_into().unwrap(), w7.try_into().unwrap(),
+                    ],
+                ),
+            },
         )
     }
 }
