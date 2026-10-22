@@ -199,6 +199,20 @@ fn test_aggregator_wrapper_program_hash_snapshot() {
     ));
 }
 
+// Built at the pre-merge starkware branch "yair/aggregator_simple_bootloader" (commit
+// "4c56ac0e689") from
+// //src/starkware/cairo/bootloaders/applicative_bootloader/test_utils:concat_aggregator_program.
+#[test]
+fn test_concat_aggregator_program_hash_snapshot() {
+    let expected = expect_test::expect![
+        "1554726174270058396665791700878496117514229730010818533966500003869418874662"
+    ];
+    expected.assert_eq(&program_hash(
+        &std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("test_data/concat_aggregator_compiled.json"),
+    ));
+}
+
 // ------------------------------------------------------------------------------------------------
 // End-to-end folds (gated behind the `slow-tests` feature; run in RELEASE mode, one test at a
 // time: `cargo test --release --features slow-tests -- --test-threads=1`).
@@ -233,6 +247,7 @@ mod e2e {
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use leaf_prover::prove_leaf::prove_leaf_from_files;
     use num_bigint::BigUint;
+    use stwo::core::fields::qm31::QM31;
 
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
@@ -425,11 +440,15 @@ mod e2e {
         layer.pop().expect("at least one leaf")
     }
 
-    /// Runs the recursive-tree fold over `leaves` into `dir`, and asserts: the fold's shape stats
-    /// (derived from `leaves.len()`); the root proof felt-array shape; and the root outputs and
-    /// full `packed_output` tree match what we recompute independently (topology + values) from
-    /// `leaves`.
-    fn fold_and_check(leaves: &[LeafInput], dir: &Path) {
+    /// Folds the leaves with [`stwo_run_and_prove_recursive_tree`], validating the shape stats,
+    /// root outputs and `packed_output` tree against an independent recomputation. Returns the
+    /// packed tree.
+    fn fold_and_check(
+        leaves: &[LeafInput],
+        dir: &Path,
+        canonical: &CanonicalCircuit,
+        root_proof_format: ProofFormat,
+    ) -> PackedNode {
         init_tracing();
         let n = leaves.len();
         let stats = stwo_run_and_prove_recursive_tree(
@@ -439,7 +458,7 @@ mod e2e {
             &dir.join("root_outputs.json"),
             &dir.join("root_packed.json"),
             NonZeroUsize::new(1).unwrap(),
-            ProofFormat::CairoVerifier,
+            root_proof_format,
         )
         .unwrap();
 
@@ -451,21 +470,8 @@ mod e2e {
         assert_eq!(stats.n_layers, expected_layers, "layer count mismatch");
         assert_eq!(stats.n_pair_reductions, expected_reductions, "reduction count mismatch");
 
-        // The root proof is the Cairo circuit verifier's `--arguments-file` stream: a JSON array
-        // of hex-string felts (the final fold is proven with the standard Blake2s channel and
-        // serialized via `prepare_circuit_proof_for_cairo_verifier`).
-        let root_felts: Vec<String> =
-            serde_json::from_str(&std::fs::read_to_string(dir.join("root.proof")).unwrap())
-                .expect("root proof parses as a JSON array of hex felts");
-        assert!(
-            !root_felts.is_empty() && root_felts.iter().all(|f| f.starts_with("0x")),
-            "root proof felts must be 0x-prefixed hex strings"
-        );
-
-        // Independently recompute the whole tree (topology + hashed output values) from the
-        // leaves and assert the fold's root outputs and packed tree match.
-        let canonical = CanonicalCircuit::build(&circuit_registry()).unwrap();
-        let multiverifier_circuit_hash = multiverifier_circuit_hash(&canonical);
+        // Independently recompute the whole tree (topology + hashed output values) from the leaves.
+        let multiverifier_circuit_hash = multiverifier_circuit_hash(canonical);
         let expected = expected_root(leaves, multiverifier_circuit_hash);
 
         let actual_outputs: Vec<u32> =
@@ -480,11 +486,312 @@ mod e2e {
             actual_packed, expected.packed,
             "packed output tree (topology + values) mismatch"
         );
+        actual_packed
     }
 
-    /// Folds `n` identical copies of `leaf` via [`fold_and_check`].
-    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path) {
-        fold_and_check(&vec![leaf.clone(); n], dir);
+    /// Folds `n` identical copies of `leaf` (see [`fold_and_check`]).
+    fn dupe_and_fold(leaf: &LeafInput, n: usize, dir: &Path, root_proof_format: ProofFormat) {
+        let canonical = CanonicalCircuit::build(&circuit_registry()).unwrap();
+        fold_and_check(&vec![leaf.clone(); n], dir, &canonical, root_proof_format);
+    }
+
+    /// The leaf simple bootloader's input for the aggregator wrapper task. The wrapper runs one
+    /// concat-aggregator task over a bootloader output of `n` copies of `leaf`'s task output, so it
+    /// aggregates the same tasks the tree's other leaves prove. The bootloader dumps the preimage
+    /// of its hashed output after the execution of the wrapper task.
+    fn wrapper_leaf_bl_input_json(
+        leaf: &LeafInput,
+        n: usize,
+        poseidon_dump_path: &Path,
+        output_preimage_dump_path: &Path,
+    ) -> String {
+        let wrapper_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("test_data/aggregator_wrapper_compiled.json");
+        let task_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("test_data/concat_aggregator_compiled.json");
+        // A bootloader output: [config (one felt, skipped), n_tasks, records...], one
+        // [record_size, program_hash, output...] record per task. Felts go in as quoted `0x`-hex
+        // strings.
+        let hex_token = |value: usize| format!("{:?}", format!("{value:#x}"));
+        let record: Vec<String> = std::iter::once(hex_token(leaf.output_preimage.len() + 1))
+            .chain(leaf.output_preimage.iter().map(|felt| {
+                format!(
+                    "{:?}",
+                    format!("{:#x}", starknet_crypto::Felt::from_dec_str(felt).unwrap())
+                )
+            }))
+            .collect();
+        let bootloader_output = [hex_token(0), hex_token(n)]
+            .into_iter()
+            .chain(std::iter::repeat_n(record, n).flatten())
+            .collect::<Vec<_>>()
+            .join(", ");
+        format!(
+            r#"{{
+    "tasks": [{{
+        "type": "RunProgramTask",
+        "path": {wrapper_path:?},
+        "program_input": {{
+            "task": {{
+                "type": "RunProgramTask",
+                "path": {task_path:?},
+                "program_input": {{"bootloader_output": [{bootloader_output}]}},
+                "program_hash_function": "blake"
+            }},
+            "poseidon_preimage_dump_path": {poseidon_dump_path:?},
+            "fact_topologies_path": null
+        }},
+        "program_hash_function": "blake"
+    }}],
+    "fact_topologies_path": null,
+    "single_page": true,
+    "output_preimage_dump_path": {output_preimage_dump_path:?}
+}}"#
+        )
+    }
+
+    /// Maps the fold's packed output onto the unpacker's witness tree.
+    ///
+    /// Leaves are encoded as `Composite { subtasks: [Plain { .. }], .. }`; internal nodes as
+    /// `Composite { circuit_hash, subtasks: [Composite { .. }, ..] }`.
+    fn packed_to_witness_tree(
+        node: &PackedNode,
+    ) -> circuits_unpacker::tree::BinaryTree<
+        circuits_unpacker::unpacker::Node<QM31>,
+        circuits::blake::HashValue<QM31>,
+    > {
+        use circuits::blake::HashValue;
+        use circuits_unpacker::tree::BinaryTree;
+        use circuits_unpacker::unpacker::Node;
+        use starknet_types_core::hash::Blake2Felt252;
+        match node {
+            PackedNode::Composite { circuit_hash, subtasks } => match subtasks.as_slice() {
+                // A leaf node: the leaf circuit outputs the Blake2s hash of its output preimage.
+                [PackedNode::Plain { output_preimage }] => {
+                    let felts: Vec<starknet_crypto::Felt> = output_preimage
+                        .iter()
+                        .map(|felt| starknet_crypto::Felt::from_dec_str(felt).unwrap())
+                        .collect();
+                    let digest = blake2s_u32s_host(&Blake2Felt252::encode_felts_to_u32s(&felts));
+                    BinaryTree::Leaf(Node {
+                        circuit_hash: HashValue::from(*circuit_hash),
+                        subtree_hash: HashValue::from(digest),
+                    })
+                }
+                [left, right] => BinaryTree::Internal(
+                    HashValue::from(*circuit_hash),
+                    Box::new([packed_to_witness_tree(left), packed_to_witness_tree(right)]),
+                ),
+                _ => panic!("unexpected packed-node arity"),
+            },
+            PackedNode::Plain { .. } => panic!("a plain node outside a composite leaf"),
+        }
+    }
+
+    /// The applicative flow end to end:
+    /// a. Prove the aggregator wrapper's leaf.
+    /// b. Fold it as the tree's first leaf, next to the `n` task leaves.
+    /// c. Prove the unpacking verifier circuit over the root proof.
+    /// d. Prove the multiverifier circuit with the proof from c as its witness.
+    fn applicative_fold_and_unpack(leaf: &LeafInput, n: usize, dir: &Path) {
+        use applicative_unpacking_verifier::unpacking_verifier::{
+            UnpackingCircuitParams, build_applicative_unpacking_verifier_circuit,
+        };
+        use circuit_common::finalize::pad_to_targets;
+        use circuit_common::preprocessed::PreprocessedCircuit;
+        use circuit_multiverifier::verify::CircuitVerifierInput;
+        use circuit_prover::prover::prove_circuit_assignment;
+        use circuit_serialize::deserialize::deserialize_proof_with_config;
+        use circuit_serialize::serialize::CircuitSerialize;
+        use circuits::blake::HashValue;
+        use leaf_proof_format::DigestHex;
+        use leaf_prover::prove_leaf::prove_leaf_from_files;
+        use starknet_crypto::poseidon_hash_many;
+
+        use crate::fold::{LayerEntry, extract_root_and_outputs, reduce_root_single};
+
+        let registry = circuit_registry();
+        let canonical = &CanonicalCircuit::build(&registry).unwrap();
+        let proof_config = &canonical.shared_config.proof_config;
+        let u32_from_hex =
+            |hex: &str| u32::from_str_radix(hex.trim_start_matches("0x"), 16).unwrap();
+
+        // 1. Prove the leaf simple bootloader running the aggregator wrapper over the concat
+        //    aggregator, with the same `n` task records the tree's leaves hashed.
+        let poseidon_dump_path = dir.join("wrapper_poseidon_preimage.json");
+        let preimage_dump_path = dir.join("wrapper_output_preimage.json");
+        let input_path = dir.join("wrapper_leaf_bl_input.json");
+        std::fs::write(
+            &input_path,
+            wrapper_leaf_bl_input_json(leaf, n, &poseidon_dump_path, &preimage_dump_path),
+        )
+        .unwrap();
+        let wrapper = prove_leaf_from_files(
+            &PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+                "../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
+                 leaf_simple_bootloader_compiled.json",
+            ),
+            &Some(input_path),
+            &circuit_registry_path(),
+        );
+
+        // 2. The bootloader dumped the preimage it hashed: the wrapper's program hash (asserted
+        //    below), then its output felts — one digest per task, zero padding, and the
+        //    poseidon-encoded aggregated output.
+        let preimage_felts: Vec<String> =
+            serde_json::from_str(&std::fs::read_to_string(&preimage_dump_path).unwrap()).unwrap();
+        let wrapper_program_hash = starknet_crypto::Felt::from_hex(&preimage_felts[0]).unwrap();
+        assert_eq!(
+            wrapper_program_hash,
+            starknet_crypto::Felt::from_dec_str(&super::program_hash(
+                &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                    .join("test_data/aggregator_wrapper_compiled.json"),
+            ))
+            .unwrap(),
+            "the leaf hashed a different wrapper program"
+        );
+        // The wrapper's output words: the other tree slots' digests, then the final digest.
+        let output_words: Vec<u32> = preimage_felts[1..].iter().map(|f| u32_from_hex(f)).collect();
+        let capacity = applicative_unpacking_verifier::aggregator::CAPACITY;
+        assert_eq!(output_words.len(), capacity * circuit_common::N_RESERVED);
+        let leaf_digest = leaf.output_digest().unwrap();
+        for digest in
+            output_words[..n * circuit_common::N_RESERVED].chunks(circuit_common::N_RESERVED)
+        {
+            assert_eq!(digest, leaf_digest, "all the leaves should have the same digest");
+        }
+        assert!(
+            output_words
+                [n * circuit_common::N_RESERVED..(capacity - 1) * circuit_common::N_RESERVED]
+                .iter()
+                .all(|w| *w == 0),
+            "padding digests must be zero"
+        );
+        let dumped_poseidon: Vec<String> =
+            serde_json::from_str(&std::fs::read_to_string(&poseidon_dump_path).unwrap()).unwrap();
+        let poseidon_felts: Vec<starknet_crypto::Felt> =
+            dumped_poseidon.iter().map(|f| starknet_crypto::Felt::from_hex(f).unwrap()).collect();
+        // It opens with the concat aggregator's modified program hash, blake("AGGREGATOR",
+        // program hash), as its task is blake-hashed.
+        let aggregator_program_hash = starknet_crypto::Felt::from_dec_str(&super::program_hash(
+            &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("test_data/concat_aggregator_compiled.json"),
+        ))
+        .unwrap();
+        assert_eq!(
+            poseidon_felts[0],
+            starknet_types_core::hash::Blake2Felt252::encode_felt252_data_and_calc_blake_hash(&[
+                starknet_crypto::Felt::from_bytes_be_slice(b"AGGREGATOR"),
+                aggregator_program_hash,
+            ]),
+            "aggregated output opens with another aggregator's program hash"
+        );
+        let expected_records: Vec<starknet_crypto::Felt> =
+            std::iter::repeat_n(&leaf.output_preimage, n)
+                .flatten()
+                .map(|felt| starknet_crypto::Felt::from_dec_str(felt).unwrap())
+                .collect();
+        assert_eq!(
+            poseidon_felts[1..],
+            expected_records,
+            "aggregated output differs from the records"
+        );
+        let poseidon_hash = poseidon_hash_many(&poseidon_felts);
+        let poseidon_bytes = poseidon_hash.to_bytes_le();
+        let expected_final_digest: Vec<u32> =
+            poseidon_bytes.chunks(4).map(|c| u32::from_le_bytes(c.try_into().unwrap())).collect();
+        assert_eq!(
+            output_words[(capacity - 1) * circuit_common::N_RESERVED..],
+            expected_final_digest,
+            "final digest differs from the recomputed poseidon hash"
+        );
+
+        // 3. Fold the wrapper's proof — an ordinary leaf whose preimage is the dumped
+        //    `[wrapper_program_hash, output...]` — as the tree's first leaf, next to the task
+        //    leaves it attests to.
+        let wrapper_leaf = LeafInput {
+            proof: wrapper,
+            output_preimage: preimage_felts
+                .iter()
+                .map(|f| starknet_crypto::Felt::from_hex(f).unwrap().to_biguint().to_string())
+                .collect(),
+        };
+        let mut leaves = vec![wrapper_leaf];
+        leaves.extend(std::iter::repeat_n(leaf.clone(), n));
+        let packed = fold_and_check(&leaves, dir, canonical, ProofFormat::Circuit);
+
+        // 4. Assemble and check the applicative unpacking verifier over the root proof.
+        let root_bytes = std::fs::read(dir.join("root.proof")).unwrap();
+        let root_outputs: Vec<u32> =
+            serde_json::from_str(&std::fs::read_to_string(dir.join("root_outputs.json")).unwrap())
+                .unwrap();
+        let root_input = CircuitVerifierInput::<QM31> {
+            proof: deserialize_proof_with_config(&mut root_bytes.as_slice(), proof_config).unwrap(),
+            preprocessed_root: canonical
+                .preprocessed_multiverifier
+                .preprocessed_root(proof_config.fri.log_blowup_factor)
+                .into(),
+            output_digest: <[u32; 8]>::try_from(root_outputs.clone()).unwrap().into(),
+        };
+        let tree = packed_to_witness_tree(&packed);
+        let to_hashes = |verifiers: &[circuit_registry::LeafVerifier]| -> Vec<HashValue<QM31>> {
+            verifiers.iter().map(|v| HashValue::from(v.circuit_hash.0)).collect()
+        };
+        let leaf_set = to_hashes(&registry.leaf_verifiers);
+        let node_set = vec![HashValue::from(registry.multiverifiers[0].circuit_hash.0)];
+        let params = UnpackingCircuitParams {
+            leaf_circuit_whitelist: &leaf_set,
+            internal_node_circuit_whitelist: &node_set,
+            aggregator_wrapper_program_hash: wrapper_program_hash,
+        };
+
+        let aggregated_output_digest: [u32; 8] =
+            output_words[(capacity - 1) * circuit_common::N_RESERVED..].try_into().unwrap();
+        let mut context = build_applicative_unpacking_verifier_circuit(
+            root_input,
+            &canonical.shared_config,
+            &tree,
+            aggregated_output_digest,
+            &params,
+        );
+        assert!(context.is_circuit_valid(), "the unpacking verifier rejected the flow");
+
+        // 5. Prove the unpacking verifier's run at the registry's shared target; the proof's
+        //    circuit hash must be the registry's unpacking-verifier entry.
+        pad_to_targets(&mut context, &canonical.target_sizes);
+        let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut context);
+        let unpacking_proof = prove_circuit_assignment(
+            context.values(),
+            &preprocessed,
+            &canonical.base_column_pool,
+            canonical.shared_config.pcs_config,
+        )
+        .unwrap();
+        let extracted = extract_root_and_outputs(&unpacking_proof).unwrap();
+        assert_eq!(
+            DigestHex::from(unpacking_proof.circuit_hash.0),
+            registry.unpacking_verifiers[0].circuit_hash,
+            "the proven unpacking verifier differs from the registry entry"
+        );
+        assert_eq!(
+            extracted.output_digest.to_vec(),
+            expected_final_digest,
+            "the unpacking verifier's outputs differ from the aggregated-output digest"
+        );
+
+        // 6. Prove the multiverifier circuit with `unpacking_proof` as both of its inputs.
+        let mut unpacking_bytes = Vec::new();
+        let (unpacking_serialized, _public_data) =
+            circuit_prover::prover::prepare_circuit_proof_for_circuit_verifier(unpacking_proof);
+        unpacking_serialized.serialize(&mut unpacking_bytes);
+        let unpacking_entry = LayerEntry {
+            proof_bytes: unpacking_bytes,
+            preprocessed_root: extracted.preprocessed_root.clone(),
+            output_digest: extracted.output_digest,
+            packed_output: PackedNode::leaf(extracted.circuit_hash_words, vec![]),
+        };
+        reduce_root_single(unpacking_entry, canonical, ProofFormat::Circuit)
+            .expect("the multiverifier rejected the unpacking verifier's proof");
     }
 
     /// Parses the same JSON file from two directories and asserts value equality (formatting- and
@@ -509,19 +816,26 @@ mod e2e {
     #[test]
     fn test_fold_one_leaf() {
         let tmp = tempfile::tempdir().unwrap();
-        dupe_and_fold(&golden_leaf(), 1, tmp.path());
+        dupe_and_fold(&golden_leaf(), 1, tmp.path(), ProofFormat::CairoVerifier);
     }
 
     #[test]
     fn test_fold_two_leaves() {
         let tmp = tempfile::tempdir().unwrap();
-        dupe_and_fold(&golden_leaf(), 2, tmp.path());
+        dupe_and_fold(&golden_leaf(), 2, tmp.path(), ProofFormat::CairoVerifier);
     }
 
     #[test]
     fn test_fold_three_leaves_with_carry() {
         let tmp = tempfile::tempdir().unwrap();
-        dupe_and_fold(&golden_leaf(), 3, tmp.path());
+        dupe_and_fold(&golden_leaf(), 3, tmp.path(), ProofFormat::CairoVerifier);
+    }
+
+    /// The applicative flow over the carry shape (see [`applicative_fold_and_unpack`]).
+    #[test]
+    fn test_fold_three_leaves_applicative() {
+        let tmp = tempfile::tempdir().unwrap();
+        applicative_fold_and_unpack(&golden_leaf(), 3, tmp.path());
     }
 
     /// True end-to-end: `leaf_prover` over the leaf simple bootloader (running the simple-output
@@ -541,7 +855,7 @@ mod e2e {
         let tmp = tempfile::tempdir().unwrap();
         let dir = tmp.path();
         let leaf = generate_leaf(dir, &LEAF_TASK_OUTPUT);
-        dupe_and_fold(&leaf, 4, dir);
+        dupe_and_fold(&leaf, 4, dir, ProofFormat::CairoVerifier);
 
         // The root proof is the Cairo circuit verifier's input: execute the verifier on it.
         let status = std::process::Command::new("scarb")
@@ -594,6 +908,12 @@ mod e2e {
             "test invariant: A and B must yield distinct preimages"
         );
 
-        fold_and_check(&[leaf_a, leaf_b.clone(), leaf_b], tmp_dir);
+        let canonical = CanonicalCircuit::build(&circuit_registry()).unwrap();
+        fold_and_check(
+            &[leaf_a, leaf_b.clone(), leaf_b],
+            tmp_dir,
+            &canonical,
+            ProofFormat::CairoVerifier,
+        );
     }
 }

@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use cairo_vm::Felt252;
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
     get_integer_from_var_name, get_ptr_from_var_name, insert_value_from_var_name,
 };
@@ -17,30 +16,12 @@ use super::utils::get_program_input_value;
 
 const TASKS_OUTPUTS: &str = "tasks_outputs";
 
-/// Implements hint:
-/// %{
-///     def parse_bootloader_tasks_outputs(output):
-///         """
-///         Parses the output of the bootloader, returning the raw outputs of the tasks.
-///         """
-///         output_iter = iter(output)
-///         # Skip the bootloader_config (a single felt; must match BOOTLOADER_CONFIG_SIZE).
-///         [next(output_iter) for _ in range(1)]
+/// Implements hint: CONCAT_AGGREGATOR_PARSE_TASKS_OUTPUTS
 ///
-///         n_tasks = next(output_iter)
-///         tasks_outputs = []
-///         for _ in range(n_tasks):
-///             task_output_size = next(output_iter)
-///             tasks_outputs.append([next(output_iter) for _ in range(task_output_size - 1)])
-///
-///         assert next(output_iter, None) is None, "Bootloader output wasn't fully consumed."
-///
-///         return tasks_outputs
-///
-///     tasks_outputs = parse_bootloader_tasks_outputs(program_input["bootloader_output"])
-///     assert len(tasks_outputs) > 0, "No tasks found in the bootloader output."
-///     ids.n_tasks = len(tasks_outputs)
-/// %}
+/// Parses `program_input["bootloader_output"]` — `[bootloader_config (BOOTLOADER_CONFIG_SIZE
+/// felts), n_tasks, per task: (task_output_size, program_hash, output...)]` — into the per-task
+/// `[program_hash, output...]` records, stored in the `tasks_outputs` scope variable with their
+/// count in `ids.n_tasks`. Rejects an output a record overruns or that isn't fully consumed.
 pub fn concat_aggregator_parse_task(
     vm: &mut VirtualMachine,
     exec_scopes: &mut ExecutionScopes,
@@ -49,17 +30,8 @@ pub fn concat_aggregator_parse_task(
 ) -> Result<(), HintError> {
     let concat_aggregator_input: ConcatAggregatorInput = get_program_input_value(exec_scopes)?;
 
-    let bl_numbers = concat_aggregator_input
-        .bootloader_output
-        .iter()
-        .map(|number| {
-            Felt252::from_dec_str(&number.to_string())
-                .map(|felt| felt.into())
-                .map_err(|e| HintError::CustomHint(format!("Conversion failed: {e:?}").into()))
-        })
-        .collect::<Result<Vec<_>, _>>()?;
-
-    let mut iter = bl_numbers.into_iter();
+    let mut iter =
+        concat_aggregator_input.bootloader_output.iter().map(|felt| MaybeRelocatable::from(*felt));
     let mut next_item = || {
         iter.next()
             .ok_or_else(|| HintError::CustomHint("Unexpected end of bootloader output.".into()))
@@ -132,6 +104,8 @@ pub fn concat_aggregator_get_handle_task_output(
 
 #[cfg(test)]
 mod tests {
+    use cairo_vm::Felt252;
+
     use super::*;
     use crate::test_utils::fill_ids_data_for_test;
     use crate::{PROGRAM_INPUT, ProgramInput};
@@ -143,9 +117,9 @@ mod tests {
         // bootloader_output is laid out as
         // [bootloader_config (BOOTLOADER_CONFIG_SIZE=1 felt), n_tasks, (task_output_size,
         // *task_output) per task]: the leading config felt (111) is irrelevant to the tasks'
-        // outputs, then n_tasks=2 tasks of sizes 3 and 2 are parsed. So we expect n_tasks=2
-        // and TASKS_OUTPUTS=[[100, 101], [200]].
-        let input_json = r#"{"bootloader_output": [111, 2, 3, 100, 101, 2, 200]}"#;
+        // outputs, then n_tasks=2 tasks of sizes 3 and 2 are parsed. Every felt is a hex string;
+        // the second task's single output felt is wider than a `u64`.
+        let input_json = r#"{"bootloader_output": ["0x6f", "0x2", "0x3", "0x64", "0x65", "0x2", "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd"]}"#;
 
         let trace_enabled = false;
         let disable_trace_padding = false;
@@ -179,7 +153,7 @@ mod tests {
                     MaybeRelocatable::from(Felt252::from(100)),
                     MaybeRelocatable::from(Felt252::from(101)),
                 ],
-                vec![MaybeRelocatable::from(Felt252::from(200))],
+                vec![MaybeRelocatable::from(Felt252::from_dec_str("32164469228446645568324754197800141613077674933089001409933681519550835661").unwrap())],
             ]
         );
     }

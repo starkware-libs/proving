@@ -202,16 +202,16 @@ fn reduce(
 /// The parent-entry data extracted from a freshly proven circuit proof: its preprocessed root (for
 /// the multiverifier input that re-verifies this node), the `circuit_hash` identifying the circuit
 /// (the unpacker's trust anchor, carried in `PackedNode`), and its circuit output digest.
-struct ExtractedProofData {
-    preprocessed_root: HashValue<QM31>,
-    circuit_hash_words: [u32; N_RESERVED],
-    output_digest: [u32; N_RESERVED],
+pub(crate) struct ExtractedProofData {
+    pub(crate) preprocessed_root: HashValue<QM31>,
+    pub(crate) circuit_hash_words: [u32; N_RESERVED],
+    pub(crate) output_digest: [u32; N_RESERVED],
 }
 
 /// Extracts the parent entry's preprocessed root and output digest from a freshly proven circuit
 /// proof. The claim's outputs are packed-`u32` `QM31`s; they are unpacked back to the raw digest
 /// words.
-fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>>(
+pub(crate) fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>>(
     circuit_proof: &CircuitProof<H>,
 ) -> Result<ExtractedProofData, RecursiveTreeError> {
     let root_hash = circuit_proof.stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];

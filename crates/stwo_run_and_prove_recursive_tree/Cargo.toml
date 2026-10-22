@@ -49,6 +49,9 @@ circuits-stark-verifier.workspace = true
 stwo.workspace = true
 
 [dev-dependencies]
+applicative-unpacking-verifier.workspace = true
+circuits-unpacker.workspace = true
+starknet-crypto.workspace = true
 tracing-subscriber.workspace = true
 tempfile.workspace = true
 num-bigint.workspace = true
