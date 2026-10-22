@@ -10,11 +10,11 @@ use circuits_stark_verifier::merkle::{AuthPath, AuthPaths};
 use circuits_stark_verifier::proof::ProofConfig;
 use circuits_stark_verifier::select_queries::select_queries;
 use itertools::{chain, zip_eq};
-use num_traits::One;
+use rand::rngs::SmallRng;
+use rand::{Rng, SeedableRng};
 use rstest::rstest;
 use stwo::core::channel::{Blake2sM31Channel, Channel, MerkleChannel};
 use stwo::core::circle::Coset;
-use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::{QM31, SecureField};
 use stwo::core::fri::{ExtendedFriProof, FriConfig};
 use stwo::core::poly::circle::CircleDomain;
@@ -123,7 +123,9 @@ fn polynomial_evaluation(
     log_degree: u32,
     log_blowup_factor: u32,
 ) -> SecureEvaluation<CpuBackend, BitReversedOrder> {
-    let poly = CpuCirclePoly::new(vec![BaseField::one(); 1 << log_degree]);
+    let mut rng = SmallRng::seed_from_u64(0);
+    let coeffs = (0..1 << log_degree).map(|_| rng.random()).collect();
+    let poly = CpuCirclePoly::new(coeffs);
     let coset = Coset::half_odds(log_degree + log_blowup_factor - 1);
     let domain = CircleDomain::new(coset);
     let values = poly.evaluate(domain);

@@ -798,6 +798,8 @@ mod tests {
 
     use itertools::Itertools;
     use num_traits::{One, Zero};
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
 
     use super::{FriVerificationError, SparseEvaluation};
     use crate::core::circle::{CirclePointIndex, Coset};
@@ -1106,7 +1108,9 @@ mod tests {
         log_degree: u32,
         log_blowup_factor: u32,
     ) -> SecureEvaluation<CpuBackend, BitReversedOrder> {
-        let poly = CpuCirclePoly::new(vec![BaseField::one(); 1 << log_degree]);
+        let mut rng = SmallRng::seed_from_u64(0);
+        let coeffs = (0..1 << log_degree).map(|_| rng.random()).collect();
+        let poly = CpuCirclePoly::new(coeffs);
         let coset = Coset::half_odds(log_degree + log_blowup_factor - 1);
         let domain = CircleDomain::new(coset);
         let values = poly.evaluate(domain);

@@ -15,4 +15,5 @@ stwo-constraint-framework = { workspace = true, features = ["prover"] }
 [dev-dependencies]
 circuit-serialize.workspace = true
 circuits = { workspace = true, features = ["test-utils"] }
+rand.workspace = true
 rstest.workspace = true
