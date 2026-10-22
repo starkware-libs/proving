@@ -71,12 +71,12 @@ const _: () = assert!(N_OUTPUTS * N_WORDS_PER_OUTPUT_CELL == BLAKE2S_DIGEST_N_WO
 const MEMORY_ADDRESS_BITS: u32 = 29;
 const BUILTIN_USAGE_BITS: u32 = 27;
 
-pub struct CasmState<T> {
-    pub pc: T,
-    pub ap: T,
-    pub fp: T,
+pub struct CasmState {
+    pub pc: M31Wrapper<Var>,
+    pub ap: M31Wrapper<Var>,
+    pub fp: M31Wrapper<Var>,
 }
-impl CasmState<M31Wrapper<Var>> {
+impl CasmState {
     pub fn logup_term(
         &self,
         context: &mut Context<impl IValue>,
@@ -116,8 +116,8 @@ pub struct SegmentRange<T> {
 
 // Auxiliary data that is used for verifying an execution of a Cairo program.
 pub struct AuxData {
-    pub initial_state: CasmState<M31Wrapper<Var>>,
-    pub final_state: CasmState<M31Wrapper<Var>>,
+    pub initial_state: CasmState,
+    pub final_state: CasmState,
     pub segment_ranges: [SegmentRange<M31Wrapper<Var>>; N_SEGMENTS],
     pub safe_call_ids: [M31Wrapper<Var>; 2],
     pub output_ids: Vec<M31Wrapper<Var>>,
@@ -497,10 +497,12 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
                 aux_data.final_state.ap,
                 aux_data.final_state.fp
             ],
-            aux_data
-                .segment_ranges
-                .iter()
-                .flat_map(|r| { [r.start.id, r.start.value, r.end.id, r.end.value] }),
+            aux_data.segment_ranges.iter().flat_map(
+                |SegmentRange {
+                     start: PubMemoryAddress { id: start_id, value: start_value },
+                     end: PubMemoryAddress { id: end_id, value: end_value },
+                 }| [*start_id, *start_value, *end_id, *end_value]
+            ),
             aux_data.safe_call_ids,
             aux_data.output_ids.iter().copied(),
             aux_data.program_ids.iter().copied(),
