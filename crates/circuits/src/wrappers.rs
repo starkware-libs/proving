@@ -183,12 +183,6 @@ impl<Value: IValue> U32Wrapper<Value> {
     }
 }
 
-impl From<u32> for U32Wrapper<QM31> {
-    fn from(value: u32) -> Self {
-        QM31::pack_u32(value)
-    }
-}
-
 impl From<NoValue> for U32Wrapper<NoValue> {
     fn from(_: NoValue) -> Self {
         U32Wrapper(NoValue)
@@ -198,7 +192,7 @@ impl From<NoValue> for U32Wrapper<NoValue> {
 impl U32Wrapper<Var> {
     /// Creates a constant [Var] with the given `u32` value (represented as `low + i * high`).
     pub fn const_u32(context: &mut Context<impl IValue>, value: u32) -> U32Wrapper<Var> {
-        U32Wrapper::<QM31>::from(value).constant(context)
+        QM31::pack_u32(value).constant(context)
     }
 
     pub fn get_value<Value: IValue>(self, context: &Context<Value>) -> U32Wrapper<Value> {

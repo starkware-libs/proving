@@ -100,9 +100,9 @@ pub fn build_triple_xor_context() -> Context<QM31> {
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // 42 ^ 17 ^ 55 = 12
-    let a = U32Wrapper::from(42).guess(&mut context);
-    let b = U32Wrapper::from(17).guess(&mut context);
-    let c = U32Wrapper::from(55).guess(&mut context);
+    let a = QM31::pack_u32(42).guess(&mut context);
+    let b = QM31::pack_u32(17).guess(&mut context);
+    let c = QM31::pack_u32(55).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
     expect![["
         U32((12 + 0i) + (0 + 0i)u)
@@ -110,9 +110,9 @@ pub fn build_triple_xor_context() -> Context<QM31> {
     .assert_debug_eq(&out.get_value(&context));
 
     // 0x10000 ^ 0x20000 ^ 0x30001 = 1
-    let a = U32Wrapper::from(0x10000).guess(&mut context);
-    let b = U32Wrapper::from(0x20000).guess(&mut context);
-    let c = U32Wrapper::from(0x30001).guess(&mut context);
+    let a = QM31::pack_u32(0x10000).guess(&mut context);
+    let b = QM31::pack_u32(0x20000).guess(&mut context);
+    let c = QM31::pack_u32(0x30001).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
     expect![["
         U32((1 + 0i) + (0 + 0i)u)
@@ -120,9 +120,9 @@ pub fn build_triple_xor_context() -> Context<QM31> {
     .assert_debug_eq(&out.get_value(&context));
 
     // 0x30005 ^ 0x10007 ^ 0x4000b = 0x60009
-    let a = U32Wrapper::from(0x30005).guess(&mut context);
-    let b = U32Wrapper::from(0x10007).guess(&mut context);
-    let c = U32Wrapper::from(0x4000b).guess(&mut context);
+    let a = QM31::pack_u32(0x30005).guess(&mut context);
+    let b = QM31::pack_u32(0x10007).guess(&mut context);
+    let c = QM31::pack_u32(0x4000b).guess(&mut context);
     let out = triple_xor(&mut context, a, b, c);
     expect![["
         U32((9 + 6i) + (0 + 0i)u)
@@ -167,12 +167,12 @@ pub fn build_blake_g_gate_context() -> Context<QM31> {
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // G(305419896, 4294967295, 2147483647, 123456789, 987654321, 468798)
     //   => (2827666065, 4146123195, 3407348176, 3638212488)
-    let a = U32Wrapper::from(305419896).guess(&mut context);
-    let b = U32Wrapper::from(4294967295).guess(&mut context);
-    let c = U32Wrapper::from(2147483647).guess(&mut context);
-    let d = U32Wrapper::from(123456789).guess(&mut context);
-    let f0 = U32Wrapper::from(987654321).guess(&mut context);
-    let f1 = U32Wrapper::from(468798).guess(&mut context);
+    let a = QM31::pack_u32(305419896).guess(&mut context);
+    let b = QM31::pack_u32(4294967295).guess(&mut context);
+    let c = QM31::pack_u32(2147483647).guess(&mut context);
+    let d = QM31::pack_u32(123456789).guess(&mut context);
+    let f0 = QM31::pack_u32(987654321).guess(&mut context);
+    let f1 = QM31::pack_u32(468798).guess(&mut context);
 
     let [out_a, out_b, out_c, out_d] = blake_g_gate(&mut context, a, b, c, d, f0, f1);
     expect![["
