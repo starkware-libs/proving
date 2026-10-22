@@ -34,17 +34,18 @@ struct Args {
     /// The path to the JSON file containing the prover parameters (optional).
     /// The expected file format is:
     ///     {
-    ///         "channel_hash":"blake2s",
-    ///         "channel_salt": 0
-    ///         "pcs_config": {
-    ///             "fri_config": {
-    ///                 "pow_bits": 26,
-    ///                 "log_last_layer_degree_bound": 0,
-    ///                 "log_blowup_factor": 1,
-    ///                 "n_queries": 70
-    ///             }
+    ///         "channel_hash": "blake2s",
+    ///         "channel_salt": 0,
+    ///         "fri_config": {
+    ///             "pow_bits": 26,
+    ///             "log_last_layer_degree_bound": 0,
+    ///             "log_blowup_factor": 1,
+    ///             "n_queries": 70
     ///         },
-    ///         "preprocessed_trace": "canonical_without_pedersen",
+    ///         "preprocessed_trace_variant": "canonical_without_pedersen",
+    ///         "store_polynomials_coefficients": false,
+    ///         "include_all_preprocessed_columns": false,
+    ///         "lifting_size_policy": "auto"
     ///     }
     ///
     /// Default parameters are chosen to ensure 96 bits of security.

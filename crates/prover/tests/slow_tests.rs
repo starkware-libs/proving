@@ -77,7 +77,7 @@ fn test_proof_stability(path: &str, n_proofs_to_compare: usize) {
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
         fri_config: FriConfig::default(),
-        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
@@ -126,7 +126,7 @@ pub mod builtin_tests {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
             fri_config: FriConfig::default(),
-            preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+            preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -165,7 +165,7 @@ pub mod builtin_tests {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
             fri_config: FriConfig::new(10, 0, 1, 1000, 1),
-            preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+            preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 25,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -256,7 +256,7 @@ pub mod builtin_tests {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
             fri_config: FriConfig::default(),
-            preprocessed_trace: PreProcessedTraceVariant::Canonical,
+            preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -327,7 +327,7 @@ pub mod builtin_tests {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
             fri_config: FriConfig::default(),
-            preprocessed_trace: PreProcessedTraceVariant::Canonical,
+            preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -423,7 +423,7 @@ fn test_prove_verify_all_opcode_components() {
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
         fri_config: FriConfig::default(),
-        preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
+        preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalWithoutPedersen,
         channel_salt: 0,
         store_polynomials_coefficients: true,
         include_all_preprocessed_columns: false,
@@ -444,7 +444,7 @@ fn test_prove_all_opcode_components_proof_regression() {
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
         fri_config: FriConfig::new(26, 0, 1, 70, 3),
-        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
@@ -486,7 +486,7 @@ fn test_prove_verify_all_builtins_non_default_fri_config() {
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
         fri_config: FriConfig::new(26, 0, 1, 70, 1),
-        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
@@ -587,7 +587,7 @@ fn test_prove_verify_all_builtins() {
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
         fri_config: FriConfig::default(),
-        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,

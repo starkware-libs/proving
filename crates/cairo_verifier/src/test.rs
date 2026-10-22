@@ -111,7 +111,7 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
             channel_hash: ChannelHash::Blake2sM31,
             // Fold step = 4.
             fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
-            preprocessed_trace: preprocessed_trace_variant,
+            preprocessed_trace_variant,
             channel_salt: 0,
             store_polynomials_coefficients: true,
             include_all_preprocessed_columns: true,

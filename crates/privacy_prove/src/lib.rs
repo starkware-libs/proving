@@ -156,9 +156,9 @@ pub fn prepare_recursive_prover_precomputes()
 
     info!("Prepare the cairo prover preprocessed trace and tree");
     let cairo_preprocessed_trace =
-        Arc::new(CAIRO_PROVER_PARAMS.preprocessed_trace.to_preprocessed_trace());
+        Arc::new(CAIRO_PROVER_PARAMS.preprocessed_trace_variant.to_preprocessed_trace());
     // Warm the Pedersen points table before gen_trace reads it.
-    warm_pedersen_pp_trace(CAIRO_PROVER_PARAMS.preprocessed_trace);
+    warm_pedersen_pp_trace(CAIRO_PROVER_PARAMS.preprocessed_trace_variant);
     let cairo_preprocessed_trace_polys =
         SimdBackend::interpolate_columns(gen_trace(cairo_preprocessed_trace.clone()), &twiddles);
     let cairo_preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(

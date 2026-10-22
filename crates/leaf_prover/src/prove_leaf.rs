@@ -154,7 +154,7 @@ pub fn prove_leaf(
         .then_some(circuit_proof_config.fri_config.n_queries + NON_QUERY_INFO_LEAK);
 
     let verifier_config = leaf_verifier_config(
-        cairo_prover_parameters.preprocessed_trace,
+        cairo_prover_parameters.preprocessed_trace_variant,
         &pcs_config,
         Arc::from(program_felts(program)),
         preprocessed_root.into(),

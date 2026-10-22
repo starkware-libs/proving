@@ -36,7 +36,7 @@ fn repo_root() -> PathBuf {
 fn shared_target_sizes(definition: &RegistryDefinition) -> ComponentSizes {
     let cairo_params = definition.cairo_prover_params;
     let circuits_builder = CircuitsBuilder {
-        cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
+        cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace_variant,
         leaf_program: load_program(&definition.program),
         cairo_fri_config: cairo_params.fri_config,
         circuit_fri_config: definition.circuit_fri_config,

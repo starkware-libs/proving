@@ -19,8 +19,8 @@ pub struct ProverParameters {
     pub channel_salt: u32,
     /// Parameters of the FRI proof.
     pub fri_config: FriConfig,
-    /// Preprocessed trace.
-    pub preprocessed_trace: PreProcessedTraceVariant,
+    /// Preprocessed trace variant.
+    pub preprocessed_trace_variant: PreProcessedTraceVariant,
     /// Whether or not to store the polynomials coefficients. Affects runtime-memory usage
     /// trade-off. Default is `false`.
     pub store_polynomials_coefficients: bool,

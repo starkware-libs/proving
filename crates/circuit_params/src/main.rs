@@ -99,7 +99,7 @@ fn run() -> Result<(), String> {
     let circuit_fri_config: FriConfig = definition.circuit_fri_config;
 
     let circuits_builder = CircuitsBuilder {
-        cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
+        cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace_variant,
         leaf_program: program,
         cairo_fri_config: cairo_params.fri_config,
         circuit_fri_config,
