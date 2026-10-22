@@ -13,8 +13,8 @@ use std::path::PathBuf;
 
 use circuit_cairo_verifier::utils::load_program;
 use circuit_common::finalize::{ComponentSizes, compute_padded_sizes};
-use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
-use circuit_params::{CircuitsBuilder, RegistryDefinition, padded_shared_target};
+use circuit_common::preprocessed::layout_from_component_sizes;
+use circuit_params::{CircuitsBuilder, RegistryDefinition, padded_shared_target_sizes};
 use circuits::blake::HashValue;
 use stwo::core::fri::FriConfig;
 
@@ -26,15 +26,14 @@ fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
 
-/// `definition`'s shared padding target and the multiverifier padded to it: the elementwise max
-/// over the leaf circuits of its trace range, closed under the multiverifier fixpoint.
+/// `definition`'s shared padding target: the elementwise max over the leaf circuits of its trace
+/// range, closed under the multiverifier fixpoint.
 ///
-/// Builds each leaf's topology with a dummy Cairo root, which the padded sizes do not depend on.
-/// That keeps this test cheap — the binary commits the real roots instead, at a cost this test
-/// does not want to pay per run.
+/// Builds each leaf's topology with a dummy Cairo root to keep this test cheap: the binary commits
+/// the real roots instead, unlike this test.
 // TODO(yair): Consider using the real roots, as the binary does, and moving this test to
 // `slow-tests`: a dummy cannot guarantee the same target sizes, however unlikely a difference.
-fn shared_target(definition: &RegistryDefinition) -> (ComponentSizes, PreprocessedCircuit) {
+fn shared_target_sizes(definition: &RegistryDefinition) -> ComponentSizes {
     let cairo_params = definition.cairo_prover_params;
     let circuits_builder = CircuitsBuilder {
         cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
@@ -51,7 +50,7 @@ fn shared_target(definition: &RegistryDefinition) -> (ComponentSizes, Preprocess
         })
         .reduce(|a, b| a.elementwise_max(&b))
         .expect("the trace range is non-empty");
-    padded_shared_target(
+    padded_shared_target_sizes(
         leaves_max_sizes,
         definition.circuit_fri_config,
         definition.pad_to_component_log_sizes.as_ref(),
@@ -273,9 +272,7 @@ fn assert_generated_section(file_name: &str, rendered: &str) {
 #[test]
 fn test_cairo_verifier_consts_match_production_registry() {
     let production = RegistryDefinition::load(&repo_root(), "production");
-    // TODO(yair): Add a sizes-only shared-target variant; the discarded multiverifier's
-    // preprocessed trace is the bulk of this test's memory.
-    let (target_sizes, _preprocessed_multiverifier) = shared_target(&production);
+    let target_sizes = shared_target_sizes(&production);
     let fri_config = production.circuit_fri_config;
     assert_generated_section(
         "multiverifier_consts.cairo",

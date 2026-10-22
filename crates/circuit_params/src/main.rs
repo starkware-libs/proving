@@ -1,10 +1,12 @@
 //! Builds the circuits a registry definition determines, and reports or records them.
 //!
-//! A circuit registry specifies which circuits may appear in a recursive proof tree. Currently
-//! this utility generates a leaf (cairo-verifier) circuit per verified Cairo trace log size in the
-//! definition's range, plus the multiverifier that verifies their proofs — all padded to a shared
-//! component-size target (the elementwise max over them), so one circuit shape verifies proofs of
-//! any of them.
+//! A circuit registry specifies which circuits may appear in a recursive proof tree:
+//! 1. a leaf (cairo-verifier) circuit per verified Cairo trace log size in the definition's range,
+//! 2. the multiverifier, which verifies two proofs of the registry's circuits,
+//! 3. the applicative unpacking verifier, when the definition specifies the aggregator wrapper.
+//!
+//! All are padded to a shared component-size target (the elementwise max over them), so one
+//! circuit shape verifies proofs of any of them.
 //!
 //! The circuits, hence their identities, are functions of the verified Cairo proofs' prover params,
 //! the circuit proofs' prover params, and the verified program. The params are taken from the
@@ -24,15 +26,17 @@ use std::collections::BTreeMap;
 use std::path::PathBuf;
 use std::process::ExitCode;
 
+use applicative_unpacking_verifier::unpacking_verifier::UnpackingCircuitParams;
 use circuit_cairo_verifier::utils::load_program;
-use circuit_common::finalize::ComponentSizes;
+use circuit_common::finalize::{ComponentSizes, compute_padded_sizes};
 use circuit_params::{
-    CircuitsBuilder, RegistryDefinition, multiverifier_context_for_sizes,
+    CircuitsBuilder, RegistryDefinition, multiverifier_context_from_circuit_config,
     padded_preprocessed_circuit, padded_shared_target, raw_and_padded_component_sizes, read_params,
+    unpacking_verifier_context_for_params,
 };
 use circuit_prover::circuit_hash::circuit_hash_and_preprocessed_root;
 use circuit_registry::{
-    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier,
+    CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, Multiverifier, UnpackingVerifier,
 };
 use circuits::blake::HashValue;
 use clap::Parser;
@@ -140,13 +144,9 @@ fn run() -> Result<(), String> {
         // All circuits are padded to `target_sizes` and proven with
         // `circuit_log_blowup_factor`, so they share a single config.
         const CONFIG_ID: &str = "default";
-        let circuit_proof_configs = BTreeMap::from([(
-            CONFIG_ID.to_string(),
-            CircuitProofConfig {
-                fri_config: circuit_fri_config,
-                component_log_sizes: (&target_sizes).into(),
-            },
-        )]);
+        let circuit_proof_config = CircuitProofConfig::new(circuit_fri_config, &target_sizes);
+        let circuit_proof_configs =
+            BTreeMap::from([(CONFIG_ID.to_string(), circuit_proof_config.clone())]);
         // Pass 2: rebuild each leaf circuit, pad it to the shared target and record the hashes
         // that identify it.
         let leaf_verifiers = trace_log_sizes
@@ -181,18 +181,52 @@ fn run() -> Result<(), String> {
             preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
         }];
 
+        // The unpacking verifier's whitelists are the hashes computed above, baked in as circuit
+        // constants — so it is built last and its own hash lives in no whitelist. It must fit the
+        // target those circuits fixed: it never grows it.
+        let unpacking_verifiers = match definition.aggregator_wrapper_program_hash() {
+            Some(aggregator_wrapper_program_hash) => {
+                let leaf_set: Vec<HashValue<QM31>> = leaf_verifiers
+                    .iter()
+                    .map(|verifier| HashValue::from(verifier.circuit_hash.0))
+                    .collect();
+                let internal_node_set = [HashValue::from(multiverifiers[0].circuit_hash.0)];
+                let unpacking_context = unpacking_verifier_context_for_params(
+                    &circuit_proof_config,
+                    &UnpackingCircuitParams {
+                        leaf_circuit_whitelist: &leaf_set,
+                        internal_node_circuit_whitelist: &internal_node_set,
+                        aggregator_wrapper_program_hash,
+                    },
+                );
+                assert_eq!(
+                    target_sizes.elementwise_max(&compute_padded_sizes(&unpacking_context)),
+                    target_sizes,
+                    "the unpacking verifier does not fit the shared target"
+                );
+                let (circuit_hash, preprocessed_root) = circuit_hash_and_preprocessed_root(
+                    &padded_preprocessed_circuit(unpacking_context, &target_sizes),
+                    circuit_log_blowup_factor,
+                );
+                vec![UnpackingVerifier {
+                    config: CONFIG_ID.to_string(),
+                    input_config: CONFIG_ID.to_string(),
+                    preprocessed_root: DigestHex::from(preprocessed_root.0),
+                    circuit_hash: DigestHex::from(circuit_hash.0),
+                }]
+            }
+            None => vec![],
+        };
+
         let registry = CircuitRegistry {
             cairo_prover_params: cairo_params,
             circuit_proof_configs,
             leaf_verifiers,
             multiverifiers,
+            unpacking_verifiers,
         };
         serde_json::to_string_pretty(&registry).map_err(|err| err.to_string())?
     } else {
-        // The leaf verifier circuit's size grows with the verified trace size, so it's reported
-        // for every trace log size in the range. The multiverifier
-        // verifies proofs of the leaf circuit; we only report it for the largest leaf
-        // (`max_trace_log_size`), which bounds the multiverifier size across the range.
         let leaf_lines: Vec<String> = leaf_sizes
             .iter()
             .map(|(trace_log_size, (raw, padded))| {
@@ -202,11 +236,10 @@ fn run() -> Result<(), String> {
         let leaf_section = format!("leaf:\n{}", leaf_lines.join("\n"));
 
         let (_, largest_leaf_padded_sizes) = &leaf_sizes[&definition.max_trace_log_size];
-        let multiverifier_context =
-            multiverifier_context_for_sizes(largest_leaf_padded_sizes, circuit_fri_config);
+        let config = CircuitProofConfig::new(circuit_fri_config, largest_leaf_padded_sizes);
+        let multiverifier_context = multiverifier_context_from_circuit_config(&config);
         let (mv_raw, mv_padded) = raw_and_padded_component_sizes(&multiverifier_context);
         let multiverifier_line = format!("multiverifier:\n{}", format_sizes(&mv_raw, &mv_padded));
-
         format!("{leaf_section}\n\n{multiverifier_line}")
     };
 

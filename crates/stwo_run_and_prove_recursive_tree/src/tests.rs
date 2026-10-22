@@ -151,16 +151,11 @@ fn circuit_registry() -> CircuitRegistry {
 
 /// The Blake program-hash chain of a compiled program, as the decimal string the snapshots pin.
 fn program_hash(path: &std::path::Path) -> String {
-    use cairo_program_runner_lib::compute_program_hash_chain;
+    use cairo_program_runner_lib::compiled_program_hash;
     use cairo_program_runner_lib::types::HashFunc;
-    use cairo_vm::types::program::Program;
 
-    let program_bytes = std::fs::read(path).expect("Failed to read the compiled fixture.");
-    let program =
-        Program::from_bytes(&program_bytes, Some("main")).expect("Failed to load the program.");
-    let stripped_program = program.get_stripped_program().unwrap();
-    compute_program_hash_chain(&stripped_program, 0, HashFunc::Blake)
-        .expect("Failed to compute program hash.")
+    compiled_program_hash(path, HashFunc::Blake)
+        .expect("Failed to compute the program hash.")
         .to_string()
 }
 
@@ -191,6 +186,19 @@ fn test_simple_output_program_hash_snapshot() {
     ));
 }
 
+// Built from starkware-industries/starkware#41234, not yet on dev, from
+// //src/starkware/cairo/bootloaders/simple_bootloader:aggregator_wrapper_program.
+#[test]
+fn test_aggregator_wrapper_program_hash_snapshot() {
+    let expected = expect_test::expect![
+        "828474924517741145847165707602666455661714061056494467766548351125989539667"
+    ];
+    expected.assert_eq(&program_hash(
+        &std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("test_data/aggregator_wrapper_compiled.json"),
+    ));
+}
+
 // ------------------------------------------------------------------------------------------------
 // End-to-end folds (gated behind the `slow-tests` feature; run in RELEASE mode, one test at a
 // time: `cargo test --release --features slow-tests -- --test-threads=1`).
@@ -209,10 +217,10 @@ fn test_simple_output_program_hash_snapshot() {
 //   FIX=1 cargo test -p stwo-run-and-prove-recursive-tree --release --features slow-tests \
 //     --lib -- test_golden_four_leaves_e2e --test-threads=1
 //
-// The compiled programs are inputs, not goldens: `simple_output_compiled.json` in `test_data/`,
-// and the leaf simple bootloader shared with the privacy flow at
-// `crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/`. They are compiled
-// from the main starkware repo via `bazel run
+// The compiled programs are inputs, not goldens: `simple_output_compiled.json` and
+// `aggregator_wrapper_compiled.json` in `test_data/`, and the leaf simple bootloader shared with
+// the privacy flow at `crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/`.
+// They are compiled from the main starkware repo via `bazel run
 // //src/services/gps/bin/rust/test:compile_cairo_run_programs_with_rust_hints_script`.
 // ------------------------------------------------------------------------------------------------
 

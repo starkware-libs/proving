@@ -25,5 +25,6 @@
     "program": "crates/leaf_prover/tests/data/use_all_opcodes_and_builtins_compiled.json",
     "min_trace_log_size": 20,
     "max_trace_log_size": 20,
-    "add_zk_blinding": false
+    "add_zk_blinding": false,
+    "aggregator_wrapper_program": "crates/stwo_run_and_prove_recursive_tree/test_data/aggregator_wrapper_compiled.json"
 }

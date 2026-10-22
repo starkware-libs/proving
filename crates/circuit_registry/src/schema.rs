@@ -1,6 +1,6 @@
 //! The JSON schema for the circuit registry: the prover params its proofs are produced
-//! with, a map of proof configs, the leaf verifiers (one per trace size), and the multiverifiers,
-//! each identified by its circuit hash.
+//! with, a map of proof configs, the leaf verifiers (one per trace size), the multiverifiers, and
+//! the unpacking verifiers, each identified by its circuit hash.
 
 use std::collections::BTreeMap;
 
@@ -58,6 +58,11 @@ pub struct CircuitProofConfig {
 }
 
 impl CircuitProofConfig {
+    /// The config of circuits padded to `target_sizes` and proven with `fri_config`.
+    pub fn new(fri_config: FriConfig, target_sizes: &ComponentSizes) -> Self {
+        Self { fri_config, component_log_sizes: target_sizes.into() }
+    }
+
     /// The shared padding target every circuit proven under this config is padded to.
     pub fn target_sizes(&self) -> ComponentSizes {
         (&self.component_log_sizes).into()
@@ -93,11 +98,26 @@ pub struct Multiverifier {
     pub circuit_hash: DigestHex,
 }
 
+/// The applicative unpacking verifier circuit, padded to its config's component sizes. It verifies
+/// the tree's root proof and unpacks the tree's leaf entries, the first being the aggregator
+/// wrapper's; its whitelists are the registry's other circuit hashes.
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+pub struct UnpackingVerifier {
+    /// Key into `CircuitRegistry::circuit_proof_configs`: the unpacking verifier's own config.
+    pub config: String,
+    /// Config of the one proof it verifies: the tree root's (a multiverifier proof).
+    pub input_config: String,
+    pub preprocessed_root: DigestHex,
+    /// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)` — the value that
+    /// identifies this circuit in a verifier's public output.
+    pub circuit_hash: DigestHex,
+}
+
 /// The json output: the prover params of the verified Cairo proofs, a map of proof configs, the
-/// leaf verifiers (one per trace size), and the multiverifiers. All circuits are padded to the
-/// shared target sizes and proven with the same blowup, so they share a single config; the
-/// multiverifier verifies proofs of the leaf circuit and is essentially the same across trace
-/// sizes, so a single multiverifier is reported.
+/// leaf verifiers (one per trace size), the multiverifiers, and the unpacking verifiers. All
+/// circuits are padded to the shared target sizes and proven with the same blowup, so they share a
+/// single config; the multiverifier verifies proofs of the leaf circuit and is essentially the same
+/// across trace sizes, so a single multiverifier is reported.
 ///
 /// The params are part of the registry because the circuits — hence every hash here — are functions
 /// of them, and so that a proving binary of these circuits needs no configuration beyond the
@@ -109,4 +129,7 @@ pub struct CircuitRegistry {
     pub circuit_proof_configs: BTreeMap<String, CircuitProofConfig>,
     pub leaf_verifiers: Vec<LeafVerifier>,
     pub multiverifiers: Vec<Multiverifier>,
+    /// Present only in registries of the applicative flow; the privacy registry has none.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub unpacking_verifiers: Vec<UnpackingVerifier>,
 }

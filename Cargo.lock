@@ -1685,6 +1685,8 @@ dependencies = [
 name = "circuit-params"
 version = "2.4.0"
 dependencies = [
+ "applicative-unpacking-verifier",
+ "cairo-program-runner-lib",
  "circuit-cairo-verifier",
  "circuit-common",
  "circuit-multiverifier",
@@ -1695,6 +1697,7 @@ dependencies = [
  "leaf-prover",
  "serde",
  "serde_json",
+ "starknet-types-core",
  "stwo",
  "stwo-cairo-common",
  "stwo-cairo-prover",
@@ -4960,7 +4963,6 @@ version = "2.4.0"
 dependencies = [
  "blake2",
  "cairo-program-runner-lib",
- "cairo-vm",
  "circuit-cairo-serialize",
  "circuit-common",
  "circuit-multiverifier",

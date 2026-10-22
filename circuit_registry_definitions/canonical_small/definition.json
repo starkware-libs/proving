@@ -25,6 +25,7 @@
     "program": "crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/leaf_simple_bootloader_compiled.json",
     "min_trace_log_size": 20,
     "max_trace_log_size": 20,
+    "aggregator_wrapper_program": "crates/stwo_run_and_prove_recursive_tree/test_data/aggregator_wrapper_compiled.json",
     "pad_to_component_log_sizes": {
         "eq": 20,
         "qm31_ops": 23,

@@ -9,6 +9,8 @@ use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use itertools::{chain, zip_eq};
 #[cfg(feature = "prover")]
 use stwo::core::fields::m31::BaseField;
+use stwo::core::fri::FriConfig;
+use stwo::core::pcs::PcsConfig;
 #[cfg(feature = "prover")]
 use stwo::core::poly::circle::CanonicCoset;
 #[cfg(feature = "prover")]
@@ -184,6 +186,17 @@ pub fn layout_from_component_sizes(
     // The same order as `PreProcessedTrace::sort_by_size` (stable, so ties keep insertion order).
     entries.sort_by_key(|(_, log_size)| *log_size);
     entries.into_iter().map(|(id, log_size)| (PreProcessedColumnId { id }, log_size)).collect()
+}
+
+/// The [`layout_from_component_sizes`] layout of circuits padded to `sizes`, and the PCS config
+/// they are proven with under `fri_config`: the one for that layout's largest column.
+pub fn layout_and_pcs_config(
+    sizes: &ComponentSizes,
+    fri_config: FriConfig,
+) -> (OrderedHashMap<PreProcessedColumnId, u32>, PcsConfig) {
+    let layout = layout_from_component_sizes(sizes);
+    let trace_log_size = *layout.values().max().expect("the layout is non-empty");
+    (layout, PcsConfig::from_fri_and_trace_size(fri_config, trace_log_size))
 }
 
 #[derive(Copy, Clone, PartialEq)]

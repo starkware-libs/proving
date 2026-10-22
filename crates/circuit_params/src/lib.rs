@@ -1,28 +1,33 @@
-//! Building blocks for the circuits of one registry: a leaf (cairo-verifier) circuit per
-//! verified Cairo trace log size in a range, plus the multiverifier that verifies their proofs —
-//! all padded to a shared component-size target (the elementwise max over them), so one
-//! circuit shape verifies proofs of any of them.
+//! Building blocks for the circuits of one registry, listed in `main.rs`.
 //!
-//! The `circuit-params` binary uses these to emit the registry (see `main.rs`); tests use them to
-//! derive its circuits' shape without committing anything.
+//! The `circuit-params` binary uses these to emit the registry; tests use them to derive its
+//! circuits' shape without committing anything.
 
 use std::path::Path;
 use std::sync::Arc;
 
+use applicative_unpacking_verifier::unpacking_verifier::{
+    UnpackingCircuitParams, build_applicative_unpacking_verifier_context,
+};
+use cairo_program_runner_lib::compiled_program_hash;
+use cairo_program_runner_lib::types::HashFunc;
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
 use circuit_cairo_verifier::verify::{NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit};
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
-use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
-use circuit_multiverifier::verify::{
-    build_multiverifier_context_from_shared_config, shared_config,
+use circuit_common::preprocessed::{
+    PreprocessedCircuit, layout_and_pcs_config, layout_from_component_sizes,
 };
-use circuit_registry::LogSizes;
+use circuit_multiverifier::verify::{
+    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
+};
+use circuit_registry::{CircuitProofConfig, LogSizes};
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use leaf_prover::prove_leaf::leaf_verifier_config;
+use starknet_types_core::felt::Felt;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
@@ -102,22 +107,30 @@ impl CircuitsBuilder {
     }
 }
 
-/// The multiverifier that verifies proofs of circuits padded to `sizes`.
+/// The config every circuit proven under `config` is built and verified against (see
+/// [`layout_and_pcs_config`]).
+pub fn shared_config_from_circuit_config(config: &CircuitProofConfig) -> SharedConfig {
+    let (preprocessed_column_log_sizes, pcs_config) =
+        layout_and_pcs_config(&config.target_sizes(), config.fri_config);
+    shared_config(preprocessed_column_log_sizes, pcs_config)
+}
+
+/// The multiverifier that verifies proofs of circuits proven under `config`.
 ///
-/// The verified proofs' preprocessed layout — hence the multiverifier — is a function of the
-/// padded sizes and the circuit FRI config alone, so no leaf circuit is built or preprocessed
-/// here. This is how the recursive tree derives its multiverifier too.
-pub fn multiverifier_context_for_sizes(
-    sizes: &ComponentSizes,
-    circuit_fri_config: FriConfig,
+/// It depends only on the config's padded sizes and FRI config, so no leaf circuit is built here;
+/// the recursive tree builds its multiverifier the same way.
+pub fn multiverifier_context_from_circuit_config(
+    config: &CircuitProofConfig,
 ) -> FinalizedContext<NoValue> {
-    let preprocessed_column_log_sizes = layout_from_component_sizes(sizes);
-    let trace_log_size =
-        *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
-    build_multiverifier_context_from_shared_config(&shared_config(
-        preprocessed_column_log_sizes,
-        PcsConfig::from_fri_and_trace_size(circuit_fri_config, trace_log_size),
-    ))
+    build_multiverifier_context_from_shared_config(&shared_config_from_circuit_config(config))
+}
+
+/// The unpacking verifier built under `config`. It must fit the config's target.
+pub fn unpacking_verifier_context_for_params(
+    config: &CircuitProofConfig,
+    params: &UnpackingCircuitParams<'_>,
+) -> FinalizedContext<NoValue> {
+    build_applicative_unpacking_verifier_context(&shared_config_from_circuit_config(config), params)
 }
 
 /// Pads `context` to the shared `target_sizes` and preprocesses it.
@@ -192,19 +205,16 @@ fn padded_shared_target_context(
 /// only read its sizes.
 ///
 /// The target and the multiverifier's sizes are a fixpoint of each other: the multiverifier
-/// verifies proofs of the TARGET-PADDED leaf circuit, and the target is the elementwise max over
-/// every leaf circuit and that very multiverifier. Starts from the leaves' max (`target_sizes`)
-/// and iterates — a larger target can grow the multiverifier, growing the target again.
-///
-/// The verified proofs' layout is derived from the target alone (`layout_from_component_sizes`),
-/// exactly as the recursive tree builds its multiverifier.
+/// verifies proofs of TARGET-PADDED circuits, and the target is the elementwise max over it and
+/// the leaf circuits. Iterates from the leaves' max, since a larger target can grow it.
 pub fn shared_target_fixpoint(
     mut target_sizes: ComponentSizes,
     circuit_fri_config: FriConfig,
 ) -> (ComponentSizes, FinalizedContext<NoValue>) {
     loop {
-        let multiverifier_context =
-            multiverifier_context_for_sizes(&target_sizes, circuit_fri_config);
+        let multiverifier_context = multiverifier_context_from_circuit_config(
+            &CircuitProofConfig::new(circuit_fri_config, &target_sizes),
+        );
         let grown_sizes =
             target_sizes.elementwise_max(&compute_padded_sizes(&multiverifier_context));
         if grown_sizes == target_sizes {
@@ -236,16 +246,35 @@ pub struct RegistryDefinition {
     pub pad_to_component_log_sizes: Option<LogSizes>,
     /// Whether to add ZK blinding to the leaf circuits
     pub add_zk_blinding: bool,
+    /// The compiled aggregator wrapper program, for registries of the applicative flow: its
+    /// (blake) program hash is baked into the unpacking verifier. Absent for registries without
+    /// that flow, which then have no unpacking verifier.
+    pub aggregator_wrapper_program: Option<std::path::PathBuf>,
 }
 
 impl RegistryDefinition {
-    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its program path
+    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its program paths
     /// against `repo_root`.
     pub fn load(repo_root: &Path, name: &str) -> Self {
         let mut definition: RegistryDefinition = read_params(
             &repo_root.join(format!("circuit_registry_definitions/{name}/definition.json")),
         );
         definition.program = repo_root.join(&definition.program);
+        if let Some(wrapper) = &mut definition.aggregator_wrapper_program {
+            *wrapper = repo_root.join(&*wrapper);
+        }
         definition
     }
+
+    /// The (blake) program hash of the definition's aggregator wrapper, baked into the unpacking
+    /// verifier, or `None` when the definition names none.
+    pub fn aggregator_wrapper_program_hash(&self) -> Option<Felt> {
+        self.aggregator_wrapper_program.as_deref().map(blake_program_hash)
+    }
+}
+
+/// The (blake) program hash of the compiled program at `path`.
+fn blake_program_hash(path: &Path) -> Felt {
+    compiled_program_hash(path, HashFunc::Blake)
+        .unwrap_or_else(|err| panic!("Cannot hash {}: {err}", path.display()))
 }

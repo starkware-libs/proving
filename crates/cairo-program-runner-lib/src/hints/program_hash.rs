@@ -1,7 +1,10 @@
 use std::iter::once;
+use std::path::Path;
 
 use cairo_vm::Felt252;
 use cairo_vm::types::builtin_name::BuiltinName;
+use cairo_vm::types::errors::program_errors::ProgramError;
+use cairo_vm::types::program::Program;
 use cairo_vm::types::relocatable::MaybeRelocatable;
 use cairo_vm::vm::runners::cairo_pie::StrippedProgram;
 use starknet_crypto::{Felt, pedersen_hash, poseidon_hash_many};
@@ -129,6 +132,27 @@ pub fn compute_program_hash_chain(
         }
     };
     Ok(hash)
+}
+
+/// Why [`compiled_program_hash`] failed.
+#[derive(thiserror::Error, Debug)]
+pub enum CompiledProgramHashError {
+    #[error(transparent)]
+    Read(#[from] std::io::Error),
+    #[error(transparent)]
+    Load(#[from] ProgramError),
+    #[error("{0}")]
+    Hash(ProgramHashError),
+}
+
+/// The [`compute_program_hash_chain`] of the compiled program at `path`, entered at `main`.
+pub fn compiled_program_hash(
+    path: &Path,
+    program_hash_function: HashFunc,
+) -> Result<Felt, CompiledProgramHashError> {
+    let program = Program::from_bytes(&std::fs::read(path)?, Some("main"))?;
+    compute_program_hash_chain(&program.get_stripped_program()?, 0, program_hash_function)
+        .map_err(CompiledProgramHashError::Hash)
 }
 
 #[cfg(test)]
