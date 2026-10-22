@@ -32,7 +32,7 @@ pub fn mix_fri_config<Value: IValue>(
     let words = [
         config.pow_bits,
         config.log_blowup_factor,
-        config.n_queries as u32,
+        config.n_queries.try_into().unwrap(),
         config.log_last_layer_degree_bound,
         config.fold_step,
     ]
