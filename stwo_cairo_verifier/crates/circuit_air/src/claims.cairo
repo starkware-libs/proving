@@ -1,8 +1,8 @@
+use core::box::BoxImpl;
 use stwo_constraint_framework::{CommonLookupElements, LookupElementsTrait};
 use stwo_verifier_core::N_TREES;
 use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::{QM31, QM31Serde};
-use stwo_verifier_core::vcs::blake2s_hasher::Blake2sHash;
 use stwo_verifier_utils::zip_eq::zip_eq;
 use crate::multiverifier_consts::{COMPONENT_LOG_SIZES, PREPROCESSED_COLUMN_LOG_SIZES};
 use crate::per_component::{
@@ -20,14 +20,41 @@ const U16_SHIFT: NonZero<u32> = 0x10000;
 
 #[derive(Drop, Serde)]
 pub struct CircuitClaim {
-    /// The circuit's public output.
-    pub output_digest: Blake2sHash,
+    /// The circuit's public output: the eight words of a Blake2s digest.
+    pub output_digest: Box<[u32; 8]>,
+}
+
+/// Serializes the output digest as eight felts, one u32 word each.
+impl OutputDigestSerde of Serde<Box<[u32; 8]>> {
+    fn serialize(self: @Box<[u32; 8]>, ref output: Array<felt252>) {
+        let [w0, w1, w2, w3, w4, w5, w6, w7] = self.unbox();
+        output.append(w0.into());
+        output.append(w1.into());
+        output.append(w2.into());
+        output.append(w3.into());
+        output.append(w4.into());
+        output.append(w5.into());
+        output.append(w6.into());
+        output.append(w7.into());
+    }
+
+    fn deserialize(ref serialized: Span<felt252>) -> Option<Box<[u32; 8]>> {
+        let [w0, w1, w2, w3, w4, w5, w6, w7] = (*serialized.multi_pop_front()?).unbox();
+        Some(
+            BoxImpl::new(
+                [
+                    w0.try_into()?, w1.try_into()?, w2.try_into()?, w3.try_into()?, w4.try_into()?,
+                    w5.try_into()?, w6.try_into()?, w7.try_into()?,
+                ],
+            ),
+        )
+    }
 }
 
 #[generate_trait]
 pub impl CircuitClaimImpl of CircuitClaimTrait {
     fn mix_into(self: @CircuitClaim, ref channel: Channel) {
-        channel.mix_u32s(self.output_digest.hash.unbox().span());
+        channel.mix_u32s(self.output_digest.unbox().span());
     }
 }
 
@@ -92,7 +119,7 @@ pub fn logup_sum(
     // relation, keyed by its variable index (addr).
     let mut output_sum: QM31 = Zero::zero();
     let mut addr: M31 = m31(U_VAR_IDX + 1);
-    for value in @claim.output_digest.hash.unbox() {
+    for value in @claim.output_digest.unbox() {
         let [lo, hi] = output_limbs(*value);
         let denom = common_lookup_elements
             .combine([GATE_RELATION_ID, addr, lo, hi, Zero::zero(), Zero::zero()].span());
