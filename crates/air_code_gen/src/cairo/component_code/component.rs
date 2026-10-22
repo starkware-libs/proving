@@ -6,14 +6,13 @@ use genco::quote;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use crate::cairo::utils::{
     gen_consts, gen_imports, get_log_size, get_lookup_sums, get_numerators,
     make_preprocessed_column,
 };
-use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
+use crate::utils::{SAMPLE_EVALUATION_RESULT_SUFFIX, is_const_size_component};
 
 pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
@@ -21,30 +20,13 @@ pub fn generate_component_cairo_constraints_code(
 ) -> rust::Tokens {
     let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
-        $(gen_consts(air_fn))$("\n")
-        $(gen_claim_struct(air_fn))$("\n")
+        $(gen_consts(air_fn))
 
         #[derive(Drop)]
         pub struct Component {
-            pub claim: Claim,
+            $(if !is_const_size_component(air_fn) => pub log_size: u32,)
             pub claimed_sum: QM31,
             pub common_lookup_elements: CommonLookupElements
-        }
-
-        pub impl NewComponentImpl of NewComponent<Component> {
-            type Claim = Claim;
-
-            fn new(
-                claim: @Claim,
-                claimed_sum: QM31,
-                common_lookup_elements: @CommonLookupElements,
-            ) -> Component {
-                Component {
-                    claim: *claim,
-                    claimed_sum,
-                    common_lookup_elements: common_lookup_elements.clone()
-                }
-            }
         }
 
         pub impl AirComponentImpl of AirComponent<Component> {
@@ -57,7 +39,7 @@ pub fn generate_component_cairo_constraints_code(
                 random_coeff: QM31,
                 public_params: Span<u32>,
             ) {
-                let log_size = $(get_log_size(air_fn, false));
+                let log_size = $(get_log_size(air_fn));
                 let claimed_sum = *self.claimed_sum;
                 let column_size = m31(pow2(log_size));
                 $(get_evaluate_locals(air_fn))$("\n")
@@ -94,14 +76,14 @@ fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment)
             LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
     };
 
-    let claim_fields = match air_fn.log_height {
+    let log_size_field = match air_fn.log_height {
         Some(_fixed_size) => quote! {},
         None => quote! { log_size: $(assignment.log_height), $("\n") },
     };
 
     quote! {
         Component {
-            claim: Claim { $(claim_fields) },
+            $(log_size_field)
             claimed_sum: $(make_qm31(&assignment.claimed_sum)),
             $(lookup_elements_fields)
         }
@@ -128,7 +110,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             .get(external_state)
             .unwrap_or_else(|| panic!("Missing external state {external_state}"));
         let preprocessed_column =
-            make_preprocessed_column(external_state, &quote! { component.claim.log_size });
+            make_preprocessed_column(external_state, &quote! { component.log_size });
         preprocessed_values.append(quote! {
                     let mut preprocessed_trace = preprocessed_mask_add(preprocessed_trace, $(preprocessed_column), $(make_qm31(external_column_value))); $("\n")
                 });
@@ -155,7 +137,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         // result when the opcode is available.
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
-            use super::{Component, Claim};
+            use super::Component;
             use crate::components::sample_evaluations::*;
             use stwo_constraint_framework::AirComponent;
             use core::array::ArrayImpl;
@@ -219,7 +201,7 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
-                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
+                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn))));
         });
     }
 

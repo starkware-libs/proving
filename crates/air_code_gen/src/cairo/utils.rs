@@ -90,18 +90,13 @@ pub fn gen_imports(air_fn: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-/// Create an expression that evaluates to the log size of the current AirFn
-/// air_fn - The AirFn
-/// in_claim - If true, return code that works inside the generated `Claim` struct (where the type
-/// of `self` is `Claim`). Otherwise, return code that works inside the generated `Eval` struct
-/// (where the type of `self` is `Eval`).
-pub fn get_log_size(air_fn: &CompiledAirFn, in_claim: bool) -> rust::Tokens {
+/// Create an expression that evaluates to the log size of the current AirFn inside the generated
+/// `Component` (where the type of `self` is `Component`).
+pub fn get_log_size(air_fn: &CompiledAirFn) -> rust::Tokens {
     if is_const_size_component(air_fn) {
         quote! { LOG_SIZE }
-    } else if in_claim {
-        quote! { *(self.log_size) }
     } else {
-        quote! { *(self.claim.log_size) }
+        quote! { *(self.log_size) }
     }
 }
 
