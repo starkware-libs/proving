@@ -229,7 +229,7 @@ mod e2e {
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
     use crate::fold::digest_bytes_to_words;
-    use crate::{LeafInput, PackedNode, stwo_run_and_prove_recursive_tree};
+    use crate::{LeafInput, PackedNode, ProofFormat, stwo_run_and_prove_recursive_tree};
 
     fn goldens_dir() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/goldens/four_leaves")
@@ -431,6 +431,7 @@ mod e2e {
             &dir.join("root_outputs.json"),
             &dir.join("root_packed.json"),
             NonZeroUsize::new(1).unwrap(),
+            ProofFormat::CairoVerifier,
         )
         .unwrap();
 

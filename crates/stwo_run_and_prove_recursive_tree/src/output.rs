@@ -6,9 +6,8 @@ use crate::RecursiveTreeError;
 use crate::fold::LayerEntry;
 
 /// Writes the root-layer outputs to the caller-configured paths:
-/// - `proof_path`: the root node's in-memory proof bytes — the Cairo circuit verifier's felt252
-///   arguments stream for a folded tree, or the leaf's serialized `Proof<QM31>` unchanged for a
-///   single-leaf tree.
+/// - `proof_path`: the root node's in-memory proof bytes, in the fold's requested
+///   [`ProofFormat`](crate::ProofFormat).
 /// - `program_output`: the root node's output digest, as a JSON array of raw `u32` words.
 /// - `packed_output_path`: the nested `PackedNode` JSON tree mirroring the whole fold.
 pub fn write_root_outputs(

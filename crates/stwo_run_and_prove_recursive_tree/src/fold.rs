@@ -33,9 +33,9 @@ use crate::leaf_io::{LeafInput, LeafProofExt};
 pub struct LayerEntry {
     /// This node's serialized proof, held in memory (a leaf `Proof<QM31>` read from disk at layer
     /// 0, a freshly reserialized multiverifier `Proof<QM31>` at internal/carried nodes, or the
-    /// Cairo verifier's felt252 arguments stream at the root — see [`reduce_pair`]). Kept in
-    /// memory rather than round-tripped through a scratch file — one proof per live entry, freed
-    /// as the layer is consumed.
+    /// root proof in the requested [`ProofFormat`] — see [`reduce_pair`]). Kept in memory rather
+    /// than round-tripped through a scratch file — one proof per live entry, freed as the layer is
+    /// consumed.
     pub proof_bytes: Vec<u8>,
     /// Preprocessed root of this node's proof: for a layer-0 leaf it's whatever root the manifest
     /// declared; for an internal/carried node it's the multiverifier root read from the freshly
@@ -80,21 +80,32 @@ impl LayerEntry {
     }
 }
 
+/// A fold proof's channel and wire format. Internal folds always use `Circuit`, since another
+/// multiverifier re-verifies them; the final reduction uses what the root's consumer expects.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
+#[clap(rename_all = "snake_case")]
+pub enum ProofFormat {
+    /// For the Cairo circuit verifier program: the Blake2s Merkle channel, serialized as the
+    /// felt252 hex-string JSON stream `scarb execute --arguments-file` expects.
+    CairoVerifier,
+    /// For an enclosing circuit (the applicative unpacking verifier): proven and serialized like
+    /// the internal folds, consumable as a `CircuitVerifierInput`.
+    Circuit,
+}
+
 /// Folds two children into a new parent entry: builds a multiverifier circuit that verifies both
 /// children, proves it against the canonical preprocessed circuit, and reserializes the resulting
 /// proof into the parent entry for the next layer.
 ///
-/// `is_root` marks the tree's final reduction. Its proof is consumed by the Cairo circuit verifier
-/// rather than by another multiverifier fold, so it is proven with the standard lossless Blake2s
-/// Merkle channel (internal folds use the M31 channel the multiverifier circuit verifies) and
-/// serialized as the felt252 hex-string JSON stream `scarb execute --arguments-file` expects.
+/// `proof_format` is `Circuit` for an internal fold, and the tree's requested root format for the
+/// final reduction (see [`ProofFormat`]).
 pub fn reduce_pair(
     left: LayerEntry,
     right: LayerEntry,
     layer_idx: usize,
     pair_idx: usize,
     canonical: &CanonicalCircuit,
-    is_root: bool,
+    proof_format: ProofFormat,
 ) -> Result<LayerEntry, RecursiveTreeError> {
     let input0 = left.to_multiverifier_input(&canonical.shared_config.proof_config)?;
     let input1 = right.to_multiverifier_input(&canonical.shared_config.proof_config)?;
@@ -105,7 +116,7 @@ pub fn reduce_pair(
         layer_idx,
         pair_idx,
         canonical,
-        is_root,
+        proof_format,
     )
 }
 
@@ -114,9 +125,10 @@ pub fn reduce_pair(
 pub fn reduce_root_single(
     entry: LayerEntry,
     canonical: &CanonicalCircuit,
+    root_proof_format: ProofFormat,
 ) -> Result<LayerEntry, RecursiveTreeError> {
     let input = entry.to_multiverifier_input(&canonical.shared_config.proof_config)?;
-    reduce(input.clone(), input, vec![entry.packed_output], 1, 0, canonical, true)
+    reduce(input.clone(), input, vec![entry.packed_output], 1, 0, canonical, root_proof_format)
 }
 
 /// Shared reduction body: proves a multiverifier over the two inputs and wraps the result in the
@@ -128,9 +140,9 @@ fn reduce(
     layer_idx: usize,
     pair_idx: usize,
     canonical: &CanonicalCircuit,
-    is_root: bool,
+    proof_format: ProofFormat,
 ) -> Result<LayerEntry, RecursiveTreeError> {
-    let _span = span!(Level::INFO, "reduce", layer_idx, pair_idx, is_root).entered();
+    let _span = span!(Level::INFO, "reduce", layer_idx, pair_idx, ?proof_format).entered();
 
     let mut context =
         build_multiverifier_circuit::<QM31>(vec![input0, input1], &canonical.shared_config);
@@ -140,7 +152,7 @@ fn reduce(
         "multiverifier circuit rejected its inputs at layer {layer_idx} pair {pair_idx}"
     );
 
-    let (proof_bytes, extracted) = if is_root {
+    let (proof_bytes, extracted) = if proof_format == ProofFormat::CairoVerifier {
         let circuit_proof = prove_circuit_assignment_with_channel::<Blake2sMerkleChannel>(
             context.values(),
             &canonical.preprocessed_multiverifier,

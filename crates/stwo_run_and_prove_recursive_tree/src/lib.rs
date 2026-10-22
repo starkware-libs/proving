@@ -14,12 +14,12 @@
 //! proof in the tree — leaf or internal — has the exact same circuit shape and is therefore
 //! verifiable by the same multiverifier circuit (see [`canonical`]).
 //!
-//! The tree's final reduction is special: its proof is consumed by the Cairo circuit verifier (as
-//! the applicative root task), not by another fold, so it is proven with the standard Blake2s
-//! Merkle channel and written as the verifier's felt252 arguments stream (internal folds use the
-//! M31 channel the multiverifier circuit verifies). A single-leaf tree folds its leaf with
-//! itself (the multiverifier verifies the same proof in both slots), so the root is always a
-//! multiverifier proof of that final form.
+//! The tree's final reduction is special: its proof is the one the fold's consumer verifies, not
+//! another fold, so it is proven and serialized in the requested [`ProofFormat`] — by default the
+//! Cairo circuit verifier's, as the applicative root task. Internal folds use the M31 channel the
+//! multiverifier circuit verifies. A single-leaf tree folds its leaf with itself (the
+//! multiverifier verifies the same proof in both slots), so the root is always a multiverifier
+//! proof in the requested format.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
 //! root node's circuit output values, and a nested `packed_output` JSON tree mirroring the fold —
@@ -39,6 +39,7 @@ pub mod leaf_io;
 pub mod output;
 
 use canonical::CanonicalCircuit;
+pub use fold::ProofFormat;
 use fold::{LayerEntry, reduce_pair, reduce_root_single};
 pub use leaf_io::{LeafInput, LeafProofExt, load_leaves};
 pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
@@ -86,7 +87,7 @@ pub struct RecursiveTreeStats {
 
 /// Entry point: folds the entire recursive tree above `leaves` (consumed in order by the layer-0
 /// entry list) and writes the three root-layer output files:
-/// - `proof_path`: the root proof — the Cairo circuit verifier's felt252 arguments stream.
+/// - `proof_path`: the root proof, in `root_proof_format` (see [`ProofFormat`]).
 /// - `program_output`: the root node's output values (flat JSON array of raw `u32` digest words).
 /// - `packed_output_path`: the nested `PackedNode` JSON tree.
 /// - `registry`: the circuit registry, which MUST be the one the leaves were proven against.
@@ -99,6 +100,7 @@ pub fn stwo_run_and_prove_recursive_tree(
     program_output: &Path,
     packed_output_path: &Path,
     max_concurrency: NonZeroUsize,
+    root_proof_format: ProofFormat,
 ) -> Result<RecursiveTreeStats, RecursiveTreeError> {
     let _span = span!(Level::INFO, "stwo_run_and_prove_recursive_tree").entered();
     // Note: max_concurrency is currently no-op (the fold below is strictly sequential). Parameter
@@ -118,7 +120,7 @@ pub fn stwo_run_and_prove_recursive_tree(
     let current_layer: Vec<LayerEntry> =
         leaves.iter().map(LayerEntry::from_leaf).collect::<Result<Vec<_>, _>>()?;
 
-    let (root, stats) = fold_entries(current_layer, &canonical)?;
+    let (root, stats) = fold_entries(current_layer, &canonical, root_proof_format)?;
     output::write_root_outputs(&root, proof_path, program_output, packed_output_path)?;
     info!(
         n_layers = stats.n_layers,
@@ -134,6 +136,7 @@ pub fn stwo_run_and_prove_recursive_tree(
 pub(crate) fn fold_entries(
     entries: Vec<LayerEntry>,
     canonical: &CanonicalCircuit,
+    root_proof_format: ProofFormat,
 ) -> Result<(LayerEntry, RecursiveTreeStats), RecursiveTreeError> {
     let mut current_layer = entries;
     let mut stats =
@@ -141,7 +144,11 @@ pub(crate) fn fold_entries(
 
     if current_layer.len() == 1 {
         info!("Single-leaf tree: folding the leaf with itself for the root pass.");
-        let root = reduce_root_single(current_layer.pop().expect("exactly one entry"), canonical)?;
+        let root = reduce_root_single(
+            current_layer.pop().expect("exactly one entry"),
+            canonical,
+            root_proof_format,
+        )?;
         stats.n_layers = 1;
         stats.n_pair_reductions = 1;
         return Ok((root, stats));
@@ -151,8 +158,9 @@ pub(crate) fn fold_entries(
     while current_layer.len() > 1 {
         info!(layer_idx, n_entries = current_layer.len(), "Reducing recursive-tree layer.");
         // A two-entry layer folds into the tree's single root: that final reduction produces the
-        // proof the Cairo circuit verifier consumes (see `reduce_pair`).
-        let is_root = current_layer.len() == 2;
+        // proof the fold's consumer verifies, in `root_proof_format` (see `reduce_pair`).
+        let proof_format =
+            if current_layer.len() == 2 { root_proof_format } else { ProofFormat::Circuit };
         let mut next_layer: Vec<LayerEntry> = Vec::with_capacity(current_layer.len().div_ceil(2));
         let mut pairs = current_layer.into_iter();
         let mut pair_idx: usize = 0;
@@ -160,7 +168,7 @@ pub(crate) fn fold_entries(
             match pairs.next() {
                 Some(right) => {
                     let entry =
-                        reduce_pair(left, right, layer_idx + 1, pair_idx, canonical, is_root)?;
+                        reduce_pair(left, right, layer_idx + 1, pair_idx, canonical, proof_format)?;
                     next_layer.push(entry);
                     stats.n_pair_reductions += 1;
                 }
