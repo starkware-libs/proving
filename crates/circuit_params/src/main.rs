@@ -7,9 +7,9 @@
 //! any of them.
 //!
 //! The circuits, hence their identities, are functions of the verified Cairo proofs' prover params,
-//! the circuit proofs' prover params, and the verified program. The params are taken from files
-//! here and recorded in the registry, which is then the only configuration the proving binaries
-//! need.
+//! the circuit proofs' prover params, and the verified program. The params are taken from the
+//! definition and recorded in the registry, which is then the only configuration the proving
+//! binaries need.
 //!
 //! By default, writes a human-readable report: each component's padded log size and usage, per
 //! trace size for the leaf circuit and once (at the largest size) for the multiverifier.
@@ -90,9 +90,9 @@ fn run() -> Result<(), String> {
     let definition: RegistryDefinition = read_params(&args.definition);
     let program = load_program(&definition.program);
 
-    // The definition's params, each read from the file the proving binaries run with.
-    let cairo_params: ProverParameters = definition.cairo_params();
-    let circuit_fri_config: FriConfig = definition.circuit_fri_config();
+    // The definition's params, recorded in the registry for the proving binaries to run with.
+    let cairo_params: ProverParameters = definition.cairo_prover_params;
+    let circuit_fri_config: FriConfig = definition.circuit_fri_config;
 
     let circuits_builder = CircuitsBuilder {
         cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,

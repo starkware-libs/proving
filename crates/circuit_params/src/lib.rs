@@ -32,12 +32,12 @@ use stwo_cairo_prover::prover::ProverParameters;
 use stwo_cairo_prover::witness::prelude::QM31;
 use stwo_cairo_prover::witness::preprocessed_trace::generate_preprocessed_commitment_root;
 
-/// Reads a prover params JSON file.
+/// Reads a JSON file.
 pub fn read_params<T: serde::de::DeserializeOwned>(path: &Path) -> T {
     let json = std::fs::read_to_string(path)
-        .unwrap_or_else(|err| panic!("Cannot read prover params from {}: {err}", path.display()));
+        .unwrap_or_else(|err| panic!("Cannot read {}: {err}", path.display()));
     serde_json::from_str(&json)
-        .unwrap_or_else(|err| panic!("Cannot parse prover params from {}: {err}", path.display()))
+        .unwrap_or_else(|err| panic!("Cannot parse {}: {err}", path.display()))
 }
 
 /// Non-padded row counts and padded sizes of a circuit context's AIR components.
@@ -220,11 +220,11 @@ pub struct RegistryDefinition {
     /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI config and
     /// preprocessed trace variant) and are recorded in the registry for the leaf prover to run
     /// with.
-    pub cairo_prover_params_json: std::path::PathBuf,
+    pub cairo_prover_params: ProverParameters,
     /// The circuit proofs' FRI config, recorded in the registry for the leaf prover and the
     /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
     /// as if lifted to `trace_size + blowup`.
-    pub circuit_fri_config_json: std::path::PathBuf,
+    pub circuit_fri_config: FriConfig,
     /// The compiled program the leaf circuit verifies (the leaf prover's `--program`).
     pub program: std::path::PathBuf,
     /// Smallest verified trace log size (inclusive). Bounded below by the preprocessed-trace
@@ -239,27 +239,13 @@ pub struct RegistryDefinition {
 }
 
 impl RegistryDefinition {
-    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its paths against
-    /// `repo_root`.
+    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its program path
+    /// against `repo_root`.
     pub fn load(repo_root: &Path, name: &str) -> Self {
         let mut definition: RegistryDefinition = read_params(
             &repo_root.join(format!("circuit_registry_definitions/{name}/definition.json")),
         );
-        for path in [
-            &mut definition.cairo_prover_params_json,
-            &mut definition.circuit_fri_config_json,
-            &mut definition.program,
-        ] {
-            *path = repo_root.join(&*path);
-        }
+        definition.program = repo_root.join(&definition.program);
         definition
-    }
-
-    pub fn cairo_params(&self) -> ProverParameters {
-        read_params(&self.cairo_prover_params_json)
-    }
-
-    pub fn circuit_fri_config(&self) -> FriConfig {
-        read_params(&self.circuit_fri_config_json)
     }
 }

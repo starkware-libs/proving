@@ -1,6 +1,27 @@
 {
-    "cairo_prover_params_json": "circuit_registry_definitions/privacy_large_proofs/cairo_prover_params.json",
-    "circuit_fri_config_json": "circuit_registry_definitions/privacy_large_proofs/circuit_fri_config.json",
+    "cairo_prover_params": {
+        "channel_hash": "blake2s",
+        "channel_salt": 0,
+        "preprocessed_trace": "canonical",
+        "fri_config": {
+            "pow_bits": 26,
+            "log_blowup_factor": 1,
+            "log_last_layer_degree_bound": 0,
+            "n_queries": 70,
+            "fold_step": 1
+        },
+        "store_polynomials_coefficients": false,
+        "include_all_preprocessed_columns": true,
+        "opt_n_id_to_big_components": 16,
+        "lifting_size_policy": "at_least_preprocessed"
+    },
+    "circuit_fri_config": {
+        "pow_bits": 26,
+        "log_blowup_factor": 2,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 35,
+        "fold_step": 4
+    },
     "program": "crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/leaf_simple_bootloader_compiled.json",
     "min_trace_log_size": 25,
     "max_trace_log_size": 29,

@@ -35,12 +35,12 @@ fn repo_root() -> PathBuf {
 // TODO(yair): Consider using the real roots, as the binary does, and moving this test to
 // `slow-tests`: a dummy cannot guarantee the same target sizes, however unlikely a difference.
 fn shared_target(definition: &RegistryDefinition) -> (ComponentSizes, PreprocessedCircuit) {
-    let cairo_params = definition.cairo_params();
+    let cairo_params = definition.cairo_prover_params;
     let circuits_builder = CircuitsBuilder {
         cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
         leaf_program: load_program(&definition.program),
         cairo_fri_config: cairo_params.fri_config,
-        circuit_fri_config: definition.circuit_fri_config(),
+        circuit_fri_config: definition.circuit_fri_config,
         add_zk_blinding: definition.add_zk_blinding,
     };
     let leaves_max_sizes = (definition.min_trace_log_size..=definition.max_trace_log_size)
@@ -53,7 +53,7 @@ fn shared_target(definition: &RegistryDefinition) -> (ComponentSizes, Preprocess
         .expect("the trace range is non-empty");
     padded_shared_target(
         leaves_max_sizes,
-        definition.circuit_fri_config(),
+        definition.circuit_fri_config,
         definition.pad_to_component_log_sizes.as_ref(),
     )
 }
@@ -276,7 +276,7 @@ fn test_cairo_verifier_consts_match_production_registry() {
     // TODO(yair): Add a sizes-only shared-target variant; the discarded multiverifier's
     // preprocessed trace is the bulk of this test's memory.
     let (target_sizes, _preprocessed_multiverifier) = shared_target(&production);
-    let fri_config = production.circuit_fri_config();
+    let fri_config = production.circuit_fri_config;
     assert_generated_section(
         "multiverifier_consts.cairo",
         &render_multiverifier_consts(fri_config, &target_sizes),
@@ -295,8 +295,7 @@ fn test_cairo_verifier_consts_match_production_registry() {
         "canonical_small's pad_to_component_log_sizes must equal the production target"
     );
     assert_eq!(
-        small.circuit_fri_config(),
-        fri_config,
+        small.circuit_fri_config, fri_config,
         "canonical_small's circuit FRI config must equal production's"
     );
 }
