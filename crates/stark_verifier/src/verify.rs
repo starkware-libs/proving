@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use circuits::context::{Context, Var};
 use circuits::eval;
-use circuits::extract_bits::extract_bits;
+use circuits::extract_bits::{combine_bits, extract_bits};
 use circuits::ivalue::IValue;
 use circuits::ops::eq;
 use circuits::simd::Simd;
@@ -262,7 +262,7 @@ fn check_relation_uses<Value: IValue>(
     {
         Some(high_bits) => {
             let one = Simd::one(context, components.len());
-            let shifted_component_sizes = Simd::combine_bits(context, high_bits);
+            let shifted_component_sizes = combine_bits(context, high_bits);
             let res = eval!(context, (shifted_component_sizes) + (one));
             // A variable in the Simd vector might be unused in the case where all the corresponding
             // components don't use any relations.

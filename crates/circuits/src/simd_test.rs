@@ -493,16 +493,3 @@ fn test_pow2_circuit() {
         ]
     );
 }
-
-#[test]
-fn test_combine_bits_circuit() {
-    let mut context = TraceContext::default();
-
-    let input = simd_from_u32s(&mut context, vec![12, 6, 5, 3, 4]);
-    let n_bits = 5;
-    let bits = extract_bits(&mut context, &input, n_bits);
-    let res = Simd::combine_bits(&mut context, &bits);
-
-    assert_eq!(packed_values(&context, &input), packed_values(&context, &res));
-    context.validate_circuit();
-}

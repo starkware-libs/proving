@@ -1,7 +1,7 @@
 use rstest::rstest;
 
 use crate::context::TraceContext;
-use crate::extract_bits::{extract_bits, validate_extract_bits};
+use crate::extract_bits::{combine_bits, extract_bits, validate_extract_bits};
 use crate::ivalue::qm31_from_u32s;
 use crate::test_utils::{packed_values, simd_from_u32s};
 
@@ -53,4 +53,17 @@ fn test_extract_bits_as_range_check(#[case] len: usize) {
     let _bits = extract_bits(&mut context, &input, n_bits);
 
     assert!(!context.is_circuit_valid());
+}
+
+#[test]
+fn test_combine_bits_circuit() {
+    let mut context = TraceContext::default();
+
+    let input = simd_from_u32s(&mut context, vec![12, 6, 5, 3, 4]);
+    let n_bits = 5;
+    let bits = extract_bits(&mut context, &input, n_bits);
+    let res = combine_bits(&mut context, &bits);
+
+    assert_eq!(packed_values(&context, &input), packed_values(&context, &res));
+    context.validate_circuit();
 }

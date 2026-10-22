@@ -10,7 +10,7 @@ use cairo_air::relations::{
 use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
 use circuits::eval;
-use circuits::extract_bits::extract_bits;
+use circuits::extract_bits::{combine_bits, extract_bits};
 use circuits::ivalue::IValue;
 use circuits::ops::{Constant, Guess, eq};
 use circuits::simd::Simd;
@@ -103,7 +103,7 @@ pub fn split_address_to_9bit_limbs(
     let extracted_bits = extract_bits(context, &simd, MEMORY_ADDRESS_BITS);
 
     let mut limbs_iter = extracted_bits.chunks(LIMB_BITS).map(|limb_bits| {
-        let limb = Simd::combine_bits(context, limb_bits);
+        let limb = combine_bits(context, limb_bits);
         *Simd::unpack_single(context, &limb).raw()
     });
     array::from_fn(|_| limbs_iter.next().unwrap())
@@ -375,7 +375,7 @@ fn output_limbs_from_hash<Value: IValue>(
             }
 
             let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
-            let limb = Simd::combine_bits(context, chunk);
+            let limb = combine_bits(context, chunk);
             Simd::unpack_single(context, &limb)
         });
         outputs.push(cell);
