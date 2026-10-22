@@ -9,12 +9,12 @@ use crate::fold::LayerEntry;
 /// - `proof_path`: the root node's in-memory proof bytes, in the fold's requested
 ///   [`ProofFormat`](crate::ProofFormat).
 /// - `program_output`: the root node's output digest, as a JSON array of raw `u32` words.
-/// - `packed_output_path`: the nested `PackedNode` JSON tree mirroring the whole fold.
+/// - `packed_node_tree_path`: the nested `PackedNode` JSON tree mirroring the whole fold.
 pub fn write_root_outputs(
     root: &LayerEntry,
     proof_path: &Path,
     program_output: &Path,
-    packed_output_path: &Path,
+    packed_node_tree_path: &Path,
 ) -> Result<(), RecursiveTreeError> {
     std::fs::write(proof_path, &root.proof_bytes)
         .map_err(|e| RecursiveTreeError::PathIO(e, proof_path.to_path_buf()))?;
@@ -22,7 +22,7 @@ pub fn write_root_outputs(
     std::fs::write(program_output, sonic_rs::to_string(&root.output_digest)?)
         .map_err(|e| RecursiveTreeError::PathIO(e, program_output.to_path_buf()))?;
 
-    std::fs::write(packed_output_path, serde_json::to_string(&root.packed_output)?)
-        .map_err(|e| RecursiveTreeError::PathIO(e, packed_output_path.to_path_buf()))?;
+    std::fs::write(packed_node_tree_path, serde_json::to_string(&root.packed_node)?)
+        .map_err(|e| RecursiveTreeError::PathIO(e, packed_node_tree_path.to_path_buf()))?;
     Ok(())
 }

@@ -1,5 +1,5 @@
 //! The JSON wire formats of the proving pipeline's binaries: the leaf prover's proof output
-//! ([`SerializedLeafProof`]) and the recursive tree prover's packed-output tree ([`PackedNode`]).
+//! ([`SerializedLeafProof`]) and the recursive tree prover's packed node tree ([`PackedNode`]).
 
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_with::base64::Base64;
@@ -58,7 +58,7 @@ pub struct SerializedLeafProof {
     pub proof: Vec<u8>,
 }
 
-/// The recursive tree prover's nested packed-output tree, one `Composite` per verifier node:
+/// The recursive tree prover's nested packed node tree, one `Composite` per verifier node:
 ///
 /// ```text
 /// Composite { subtasks: [left, right] }   // a fold: the multiverifier over two children
@@ -72,8 +72,9 @@ pub struct SerializedLeafProof {
 /// circuit output — bottom-up from the preimages.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum PackedNode {
-    /// A leaf's hashed-output preimage — the task's program hash followed by the task's raw output
-    /// (each felt a decimal string; see the recursive tree's `LeafInput::output_preimage`).
+    /// A leaf's hashed-output preimage — the task's program hash followed by the task's raw output.
+    /// The preimage felts are stored as decimal strings.
+    // TODO(yair): store the preimage felts as felt252s rather than decimal strings.
     Plain { output_preimage: Vec<String> },
     /// A verifier node — a fold over two children, a self-fold over one `Composite` child (the
     /// single-leaf tree's root pass, where the multiverifier verifies the same proof in both

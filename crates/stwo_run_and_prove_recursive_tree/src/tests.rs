@@ -1,7 +1,9 @@
 use circuit_registry::CircuitRegistry;
 
 use crate::canonical::CanonicalCircuit;
-use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
+use crate::{
+    LeafInput, LeafOutputHashType, LeafOutputPreimage, PackedNode, RecursiveTreeError, load_leaves,
+};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -10,19 +12,33 @@ use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
 #[test]
 fn test_leaf_input_roundtrips() {
     // A representative leaf: `proof` is base64 ("AQID" = bytes [1, 2, 3]); the two digests are
-    // eight little-endian `0x`-hex words each, with the injected `output_preimage` flattened in.
-    let json = r#"{"output_preimage":["5","11"],"circuit_preprocessed_root":["0x00000000","0x00000001","0x00000002","0x00000003","0x00000004","0x00000005","0x00000006","0x00000007"],"circuit_hash":["0x0000000a","0x0000000b","0x0000000c","0x0000000d","0x0000000e","0x0000000f","0x00000010","0x00000011"],"proof":"AQID"}"#;
+    // eight little-endian `0x`-hex words each, with the injected `output` next to them.
+    let json = r#"{"output":{"hash_type":"blake2s","preimage":["5","11"]},"circuit_preprocessed_root":["0x00000000","0x00000001","0x00000002","0x00000003","0x00000004","0x00000005","0x00000006","0x00000007"],"circuit_hash":["0x0000000a","0x0000000b","0x0000000c","0x0000000d","0x0000000e","0x0000000f","0x00000010","0x00000011"],"proof":"AQID"}"#;
     let leaf: LeafInput = serde_json::from_str(json).unwrap();
-    assert_eq!(leaf.output_preimage, vec!["5", "11"]);
+    assert_eq!(
+        leaf.output,
+        LeafOutputPreimage {
+            hash_type: LeafOutputHashType::Blake2s,
+            preimage: vec!["5".to_string(), "11".to_string()],
+        }
+    );
     assert_eq!(leaf.proof.circuit_preprocessed_root.0[0], 0);
     assert_eq!(leaf.proof.circuit_preprocessed_root.0[7], 7);
     assert_eq!(leaf.proof.circuit_hash.0[0], 0x0a);
     assert_eq!(leaf.proof.proof, vec![1, 2, 3]);
-    // The wrapper is flattened: it round-trips through the same flat JSON object,
-    // `SerializedLeafProof` fields at top level next to `output_preimage`.
+    // The wrapper is flattened: it round-trips through the same JSON object, `SerializedLeafProof`
+    // fields at top level next to `output`.
     let back = serde_json::to_string(&leaf).unwrap();
     let leaf2: LeafInput = serde_json::from_str(&back).unwrap();
     assert_eq!(leaf2, leaf);
+
+    // A poseidon hash type round-trips the same way.
+    let poseidon_json = json.replace(r#""hash_type":"blake2s""#, r#""hash_type":"poseidon""#);
+    let poseidon_leaf: LeafInput = serde_json::from_str(&poseidon_json).unwrap();
+    assert_eq!(poseidon_leaf.output.hash_type, LeafOutputHashType::Poseidon);
+    assert_eq!(poseidon_leaf.output.preimage, leaf.output.preimage);
+    let poseidon_back = serde_json::to_string(&poseidon_leaf).unwrap();
+    assert_eq!(serde_json::from_str::<LeafInput>(&poseidon_back).unwrap(), poseidon_leaf);
 }
 
 #[test]
@@ -31,7 +47,7 @@ fn test_load_leaves_reads_manifest_of_paths() {
     let leaf_path = tmp.path().join("leaf0.json");
     std::fs::write(
         &leaf_path,
-        r#"{"output_preimage":["2"],"circuit_preprocessed_root":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"circuit_hash":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"proof":"AQID"}"#,
+        r#"{"output":{"hash_type":"blake2s","preimage":["2"]},"circuit_preprocessed_root":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"circuit_hash":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"proof":"AQID"}"#,
     )
     .unwrap();
     let manifest = tmp.path().join("leaves.json");
@@ -39,7 +55,7 @@ fn test_load_leaves_reads_manifest_of_paths() {
         .unwrap();
     let leaves = load_leaves(&manifest).unwrap();
     assert_eq!(leaves.len(), 1);
-    assert_eq!(leaves[0].output_preimage, vec!["2"]);
+    assert_eq!(leaves[0].output.preimage, ["2"]);
     assert_eq!(leaves[0].proof.proof, vec![1, 2, 3]);
 }
 
@@ -54,14 +70,17 @@ fn test_leaf_output_values_derived_from_preimage() {
             circuit_hash: leaf_proof_format::DigestHex([0; 8]),
             proof: vec![],
         },
-        output_preimage: [
-            "1433852663250257978909904594223798547176815246431631498282706690602142197827",
-            "11",
-            "13",
-            "17",
-        ]
-        .map(str::to_string)
-        .to_vec(),
+        output: LeafOutputPreimage {
+            hash_type: LeafOutputHashType::Blake2s,
+            preimage: [
+                "1433852663250257978909904594223798547176815246431631498282706690602142197827",
+                "11",
+                "13",
+                "17",
+            ]
+            .map(str::to_string)
+            .to_vec(),
+        },
     };
     assert_eq!(
         leaf.output_digest().unwrap(),
@@ -80,7 +99,10 @@ fn test_leaf_output_values_rejects_invalid_felt() {
             circuit_hash: leaf_proof_format::DigestHex([0; 8]),
             proof: vec![],
         },
-        output_preimage: vec!["not-a-felt".to_string()],
+        output: LeafOutputPreimage {
+            hash_type: LeafOutputHashType::Blake2s,
+            preimage: vec!["not-a-felt".to_string()],
+        },
     };
     match leaf.output_digest() {
         Err(RecursiveTreeError::BadLeafOutputs { reason }) => {
@@ -252,7 +274,10 @@ mod e2e {
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
     use crate::fold::digest_bytes_to_words;
-    use crate::{LeafInput, PackedNode, ProofFormat, stwo_run_and_prove_recursive_tree};
+    use crate::{
+        LeafInput, LeafOutputHashType, LeafOutputPreimage, PackedNode, ProofFormat,
+        stwo_run_and_prove_recursive_tree,
+    };
 
     fn goldens_dir() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/goldens/four_leaves")
@@ -317,7 +342,13 @@ mod e2e {
                     .to_string()
             })
             .collect();
-        LeafInput { proof: leaf, output_preimage }
+        LeafInput {
+            proof: leaf,
+            output: LeafOutputPreimage {
+                hash_type: LeafOutputHashType::Blake2s,
+                preimage: output_preimage,
+            },
+        }
     }
 
     /// The leaf circuit's `circuit_hash` (its trust-anchor identity) — read straight from the
@@ -364,7 +395,7 @@ mod e2e {
         ExpectedNode {
             output_digest: leaf.output_digest().unwrap(),
             circuit_hash: leaf_circuit_hash(leaf),
-            packed: PackedNode::leaf(leaf_circuit_hash(leaf), leaf.output_preimage.clone()),
+            packed: PackedNode::leaf(leaf_circuit_hash(leaf), leaf.output.preimage.clone()),
         }
     }
 
@@ -441,7 +472,7 @@ mod e2e {
     }
 
     /// Folds the leaves with [`stwo_run_and_prove_recursive_tree`], validating the shape stats,
-    /// root outputs and `packed_output` tree against an independent recomputation. Returns the
+    /// root outputs and packed tree against an independent recomputation. Returns the
     /// packed tree.
     fn fold_and_check(
         leaves: &[LeafInput],
@@ -513,8 +544,9 @@ mod e2e {
         // [record_size, program_hash, output...] record per task. Felts go in as quoted `0x`-hex
         // strings.
         let hex_token = |value: usize| format!("{:?}", format!("{value:#x}"));
-        let record: Vec<String> = std::iter::once(hex_token(leaf.output_preimage.len() + 1))
-            .chain(leaf.output_preimage.iter().map(|felt| {
+        let preimage = &leaf.output.preimage;
+        let record: Vec<String> = std::iter::once(hex_token(preimage.len() + 1))
+            .chain(preimage.iter().map(|felt| {
                 format!(
                     "{:?}",
                     format!("{:#x}", starknet_crypto::Felt::from_dec_str(felt).unwrap())
@@ -687,7 +719,7 @@ mod e2e {
             "aggregated output opens with another aggregator's program hash"
         );
         let expected_records: Vec<starknet_crypto::Felt> =
-            std::iter::repeat_n(&leaf.output_preimage, n)
+            std::iter::repeat_n(&leaf.output.preimage, n)
                 .flatten()
                 .map(|felt| starknet_crypto::Felt::from_dec_str(felt).unwrap())
                 .collect();
@@ -711,10 +743,13 @@ mod e2e {
         //    leaves it attests to.
         let wrapper_leaf = LeafInput {
             proof: wrapper,
-            output_preimage: preimage_felts
-                .iter()
-                .map(|f| starknet_crypto::Felt::from_hex(f).unwrap().to_biguint().to_string())
-                .collect(),
+            output: LeafOutputPreimage {
+                hash_type: LeafOutputHashType::Blake2s,
+                preimage: preimage_felts
+                    .iter()
+                    .map(|f| starknet_crypto::Felt::from_hex(f).unwrap().to_biguint().to_string())
+                    .collect(),
+            },
         };
         let mut leaves = vec![wrapper_leaf];
         leaves.extend(std::iter::repeat_n(leaf.clone(), n));
@@ -788,7 +823,7 @@ mod e2e {
             proof_bytes: unpacking_bytes,
             preprocessed_root: extracted.preprocessed_root.clone(),
             output_digest: extracted.output_digest,
-            packed_output: PackedNode::leaf(extracted.circuit_hash_words, vec![]),
+            packed_node: PackedNode::leaf(extracted.circuit_hash_words, vec![]),
         };
         reduce_root_single(unpacking_entry, canonical, ProofFormat::Circuit)
             .expect("the multiverifier rejected the unpacking verifier's proof");
@@ -892,7 +927,7 @@ mod e2e {
     }
 
     /// Structural fence for the fold's child-order preservation. With distinct leaves `A` and `B`
-    /// laid out `[A, B, B]`, the produced `packed_output` is `Composite(Composite(A, B), B)`.
+    /// laid out `[A, B, B]`, the produced packed tree is `Composite(Composite(A, B), B)`.
     #[test]
     fn test_fold_preserves_child_order_with_distinct_leaves() {
         let tmp = tempfile::tempdir().unwrap();
@@ -904,7 +939,7 @@ mod e2e {
         let leaf_a = golden_leaf();
         let leaf_b = generate_leaf(tmp_dir, &[23, 29, 31]);
         assert_ne!(
-            leaf_a.output_preimage, leaf_b.output_preimage,
+            leaf_a.output.preimage, leaf_b.output.preimage,
             "test invariant: A and B must yield distinct preimages"
         );
 

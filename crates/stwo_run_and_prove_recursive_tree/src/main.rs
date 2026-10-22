@@ -36,8 +36,8 @@ struct Args {
     program_output: PathBuf,
 
     /// Output path for the nested `PackedNode` JSON tree consumed by a future per-leaf unpacker.
-    #[clap(long = "packed_output_path")]
-    packed_output_path: PathBuf,
+    #[clap(long = "packed_node_tree_path")]
+    packed_node_tree_path: PathBuf,
 
     /// The circuit registry of the circuits being folded — the same file the leaf prover ran with.
     /// Supplies the circuit proofs' prover params, the registry's padding target and the
@@ -71,7 +71,7 @@ fn run() -> Result<(), RecursiveTreeError> {
         &registry,
         &args.proof_path,
         &args.program_output,
-        &args.packed_output_path,
+        &args.packed_node_tree_path,
         args.max_concurrency,
         args.proof_format,
     )?;

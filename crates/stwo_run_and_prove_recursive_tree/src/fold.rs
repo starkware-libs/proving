@@ -26,7 +26,7 @@ use tracing::{Level, span};
 
 use crate::RecursiveTreeError;
 use crate::canonical::CanonicalCircuit;
-use crate::leaf_io::{LeafInput, LeafProofExt};
+use crate::leaf_io::LeafInput;
 
 /// In-memory representation of a single tree node during reduction. At layer 0 these wrap the leaf
 /// proofs; at higher layers each entry is the result of folding two children.
@@ -41,12 +41,11 @@ pub struct LayerEntry {
     /// declared; for an internal/carried node it's the multiverifier root read from the freshly
     /// proved proof.
     pub preprocessed_root: HashValue<QM31>,
-    /// This node's circuit output digest (the unreduced Blake2s digest the circuit outputs):
-    /// derived from the leaf's `output_preimage` at layer 0, read from the fresh proof's claim at
-    /// internal nodes. The multiverifier needs it to verify this node at the next layer.
+    /// This node's circuit output digest, a public input to the multiverifier that verifies this
+    /// node.
     pub output_digest: [u32; N_RESERVED],
-    /// Nested packed-output subtree rooted at this node.
-    pub packed_output: PackedNode,
+    /// The packed subtree rooted at this node.
+    pub packed_node: PackedNode,
 }
 
 impl LayerEntry {
@@ -56,12 +55,10 @@ impl LayerEntry {
     pub fn from_leaf(leaf: &LeafInput) -> Result<Self, RecursiveTreeError> {
         Ok(Self {
             proof_bytes: leaf.proof.proof.clone(),
-            preprocessed_root: leaf.proof.preprocessed_root(),
+            preprocessed_root: HashValue::from(leaf.proof.circuit_preprocessed_root.0),
             output_digest: leaf.output_digest()?,
-            packed_output: PackedNode::leaf(
-                leaf.proof.circuit_hash.0,
-                leaf.output_preimage.clone(),
-            ),
+            // The preimage whose (blake or poseidon) digest is the leaf's output.
+            packed_node: PackedNode::leaf(leaf.proof.circuit_hash.0, leaf.output.preimage.clone()),
         })
     }
 
@@ -112,7 +109,7 @@ pub fn reduce_pair(
     reduce(
         input0,
         input1,
-        vec![left.packed_output, right.packed_output],
+        vec![left.packed_node, right.packed_node],
         layer_idx,
         pair_idx,
         canonical,
@@ -128,7 +125,7 @@ pub fn reduce_root_single(
     root_proof_format: ProofFormat,
 ) -> Result<LayerEntry, RecursiveTreeError> {
     let input = entry.to_multiverifier_input(&canonical.shared_config.proof_config)?;
-    reduce(input.clone(), input, vec![entry.packed_output], 1, 0, canonical, root_proof_format)
+    reduce(input.clone(), input, vec![entry.packed_node], 1, 0, canonical, root_proof_format)
 }
 
 /// Shared reduction body: proves a multiverifier over the two inputs and wraps the result in the
@@ -192,10 +189,7 @@ fn reduce(
         proof_bytes,
         preprocessed_root: extracted.preprocessed_root,
         output_digest: extracted.output_digest,
-        packed_output: PackedNode::Composite {
-            circuit_hash: extracted.circuit_hash_words,
-            subtasks,
-        },
+        packed_node: PackedNode::Composite { circuit_hash: extracted.circuit_hash_words, subtasks },
     })
 }
 

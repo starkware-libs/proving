@@ -22,7 +22,7 @@
 //! proof in the requested format.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
-//! root node's circuit output values, and a nested `packed_output` JSON tree mirroring the fold —
+//! root node's circuit output values, and a nested packed JSON tree mirroring the fold —
 //! `Composite` verifier nodes down to each leaf's `Plain` node carrying the raw hashed-output
 //! preimage, from which a future unpacker recomputes every digest in the tree.
 
@@ -41,7 +41,7 @@ pub mod output;
 use canonical::CanonicalCircuit;
 pub use fold::ProofFormat;
 use fold::{LayerEntry, reduce_pair, reduce_root_single};
-pub use leaf_io::{LeafInput, LeafProofExt, load_leaves};
+pub use leaf_io::{LeafInput, LeafOutputHashType, LeafOutputPreimage, load_leaves};
 pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
 #[derive(Debug, Error)]
@@ -89,7 +89,7 @@ pub struct RecursiveTreeStats {
 /// entry list) and writes the three root-layer output files:
 /// - `proof_path`: the root proof, in `root_proof_format` (see [`ProofFormat`]).
 /// - `program_output`: the root node's output values (flat JSON array of raw `u32` digest words).
-/// - `packed_output_path`: the nested `PackedNode` JSON tree.
+/// - `packed_node_tree_path`: the nested `PackedNode` JSON tree.
 /// - `registry`: the circuit registry, which MUST be the one the leaves were proven against.
 /// - `max_concurrency`: upper bound on the number of pair reductions to run in parallel within a
 ///   single layer.
@@ -98,7 +98,7 @@ pub fn stwo_run_and_prove_recursive_tree(
     registry: &CircuitRegistry,
     proof_path: &Path,
     program_output: &Path,
-    packed_output_path: &Path,
+    packed_node_tree_path: &Path,
     max_concurrency: NonZeroUsize,
     root_proof_format: ProofFormat,
 ) -> Result<RecursiveTreeStats, RecursiveTreeError> {
@@ -121,7 +121,7 @@ pub fn stwo_run_and_prove_recursive_tree(
         leaves.iter().map(LayerEntry::from_leaf).collect::<Result<Vec<_>, _>>()?;
 
     let (root, stats) = fold_entries(current_layer, &canonical, root_proof_format)?;
-    output::write_root_outputs(&root, proof_path, program_output, packed_output_path)?;
+    output::write_root_outputs(&root, proof_path, program_output, packed_node_tree_path)?;
     info!(
         n_layers = stats.n_layers,
         n_pair_reductions = stats.n_pair_reductions,
