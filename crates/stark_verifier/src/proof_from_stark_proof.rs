@@ -27,16 +27,9 @@ pub fn proof_from_stark_proof(
     let sampled_values = &proof.proof.sampled_values;
     let fri_proof = &proof.proof.fri_proof;
 
-    let oods_pow: u64 = proof.proof.oods_proof_of_work;
-    let oods_pow_high = (oods_pow >> 32) as u32;
-    let oods_pow_low = (oods_pow & 0xFFFFFFFF) as u32;
-
-    let pow: u64 = proof.proof.proof_of_work;
-    let pow_high = (pow >> 32) as u32;
-    let pow_low = (pow & 0xFFFFFFFF) as u32;
-
-    let interaction_pow_high = (interaction_pow_nonce >> 32) as u32;
-    let interaction_pow_low = (interaction_pow_nonce & 0xFFFFFFFF) as u32;
+    let (oods_pow_low, oods_pow_high) = split_u64(proof.proof.oods_proof_of_work);
+    let (pow_low, pow_high) = split_u64(proof.proof.proof_of_work);
+    let (interaction_pow_low, interaction_pow_high) = split_u64(interaction_pow_nonce);
 
     let all_fold_steps = compute_all_fold_steps(
         config.log_trace_size - config.fri.log_last_layer_degree_bound as usize,
@@ -78,6 +71,13 @@ pub fn proof_from_stark_proof(
         interaction_pow_nonce: qm31_from_u32s(interaction_pow_low, interaction_pow_high, 0, 0),
         channel_salt: qm31_from_u32s(channel_salt, 0, 0, 0),
     }
+}
+
+/// Splits `value` into its low and high `u32` words.
+fn split_u64(value: u64) -> (u32, u32) {
+    let low = u32::try_from(value & 0xFFFF_FFFF).unwrap();
+    let high = u32::try_from(value >> 32).unwrap();
+    (low, high)
 }
 
 /// Converts a 2D vector of singletons to a 1D vector.
