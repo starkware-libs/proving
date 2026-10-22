@@ -283,8 +283,8 @@ fn test_cairo_verifier_consts_match_production_registry() {
         &render_preprocessed_columns(&target_sizes),
     );
 
-    // The canonical_small registry pads to the production shape, so that its goldens' root proof —
-    // the Cairo verifier's execution fixture — is verified by exactly these consts.
+    // The recursive-tree e2e runs the Cairo verifier on roots proven with canonical_small, so
+    // canonical_small must pad to the production sizes.
     let small = RegistryDefinition::load(&repo_root(), "canonical_small");
     assert_eq!(
         small.pad_to_component_log_sizes.as_ref(),

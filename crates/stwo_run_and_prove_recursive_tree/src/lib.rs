@@ -37,6 +37,8 @@ pub mod canonical;
 pub mod fold;
 pub mod leaf_io;
 pub mod output;
+#[cfg(feature = "slow-tests")]
+pub mod test_support;
 
 use canonical::CanonicalCircuit;
 pub use fold::ProofFormat;

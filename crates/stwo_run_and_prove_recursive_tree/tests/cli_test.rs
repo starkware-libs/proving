@@ -1,9 +1,3 @@
-//! Binary-level integration tests for the `stwo_run_and_prove_recursive_tree` CLI.
-//!
-//! The cheap error arm (malformed leaves file → non-zero exit) runs always. The single-leaf
-//! success arm self-folds the golden leaf — real multiverifier proving — so it is gated behind
-//! `slow-tests`.
-
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -36,17 +30,19 @@ fn test_invalid_program_input_exits_nonzero() {
     assert!(!status.success(), "binary should exit non-zero on malformed input, got: {status:?}",);
 }
 
-/// The CLI success path on a single-leaf tree: the binary self-folds the golden leaf into a real
-/// multiverifier root proof (the lib-level checks live in `test_fold_one_leaf`; this covers the
-/// binary boundary — arg parsing and the output files).
+/// The success path: the binary self-folds a generated leaf into a root proof. The proof itself is
+/// checked in `test_fold_one_leaf`; this test covers argument parsing and the output files.
 #[cfg(feature = "slow-tests")]
 #[test]
 fn test_single_leaf_cli_succeeds() {
     let tmp = tempfile::tempdir().expect("tempdir");
     let dir = tmp.path();
 
-    let leaf_path =
-        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/goldens/four_leaves/leaf.json");
+    use stwo_run_and_prove_recursive_tree::test_support::{LEAF_TASK_OUTPUT, generate_leaf};
+    let leaf = generate_leaf(dir, &LEAF_TASK_OUTPUT);
+    let leaf_path = dir.join("leaf.json");
+    std::fs::write(&leaf_path, serde_json::to_string(&leaf).expect("serialize leaf"))
+        .expect("write leaf.json");
     let manifest_path = dir.join("leaves.json");
     std::fs::write(&manifest_path, format!(r#"{{"leaves":[{:?}]}}"#, leaf_path.to_str().unwrap()))
         .expect("write leaves.json");

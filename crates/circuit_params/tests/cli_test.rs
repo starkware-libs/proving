@@ -16,10 +16,9 @@ struct RegistryTestFixture {
     committed_path: &'static str,
 }
 
-/// The registry the recursive tree's golden e2e (`test_golden_four_leaves_e2e`) proves with; its
-/// leaves attest to the leaf simple bootloader, and its circuits are padded to the production
-/// shape (so the goldens' root proof is what the Cairo circuit verifier consumes). Its committed
-/// definition is the same one the registry upload generates from.
+/// The registry the recursive-tree e2e proves with. Its leaf verifiers attest to the leaf simple
+/// bootloader, and it pads to the production sizes so the Cairo circuit verifier accepts the e2e's
+/// root proofs.
 const RECURSIVE_TREE: RegistryTestFixture = RegistryTestFixture {
     definition_path: "circuit_registry_definitions/canonical_small/definition.json",
     #[cfg(feature = "slow-tests")]
