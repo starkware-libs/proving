@@ -79,7 +79,7 @@ impl<T> FriProof<T> {
     pub fn validate_structure(&self, log_trace_size: usize, config: &FriConfig) {
         let FriProof { commit, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
-            log_trace_size - config.log_last_layer_degree_bound as usize,
+            log_trace_size.checked_sub(config.log_last_layer_degree_bound as usize).unwrap(),
             config.fold_step as usize,
         );
         commit.validate_structure(config, &all_fold_steps);
@@ -92,7 +92,7 @@ impl<T> FriProof<T> {
         let mut tree_heights: Vec<usize> = Vec::with_capacity(all_fold_steps.len());
         let mut layer_size = log_trace_size + config.log_blowup_factor as usize;
         for fold_step in &all_fold_steps {
-            layer_size -= *fold_step;
+            layer_size = layer_size.checked_sub(*fold_step).unwrap();
             tree_heights.push(layer_size);
         }
         auth_paths.validate_structure(&tree_heights, config.n_queries);
@@ -116,20 +116,18 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
 
 pub fn empty_fri_proof(log_trace_size: usize, config: &FriConfig) -> FriProof<NoValue> {
     let all_fold_steps = compute_all_fold_steps(
-        log_trace_size - config.log_last_layer_degree_bound as usize,
+        log_trace_size.checked_sub(config.log_last_layer_degree_bound as usize).unwrap(),
         config.fold_step as usize,
     );
     let mut log_layer_size = log_trace_size + config.log_blowup_factor as usize;
     let mut auth_paths = vec![];
 
     for step in &all_fold_steps {
-        auth_paths.push(vec![
-            // The verifier computes the Merkle node at height `log_layer_size - step`
-            // from the witness.
-            AuthPath(vec![HashValue::no_value(); log_layer_size - step]);
-            config.n_queries
-        ]);
-        log_layer_size -= step;
+        // The verifier computes the Merkle node at height `log_layer_size - step` from the
+        // witness.
+        log_layer_size = log_layer_size.checked_sub(*step).unwrap();
+        auth_paths
+            .push(vec![AuthPath(vec![HashValue::no_value(); log_layer_size]); config.n_queries]);
     }
     let auth_paths = AuthPaths { data: auth_paths };
 
