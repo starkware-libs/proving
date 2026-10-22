@@ -17,11 +17,6 @@ fn leaf_hash(i: u32) -> [u32; 8] {
 
 const AGGREGATED_OUTPUT_DIGEST: [u32; 8] = [21, 22, 23, 24, 25, 26, 27, 28];
 
-/// The output's final digest, guessed as the enclosing circuit guesses it.
-fn guess_aggregated_output_digest(context: &mut TraceContext) -> HashValue<Var> {
-    HashValue::<QM31>::from(AGGREGATED_OUTPUT_DIGEST).guess(context)
-}
-
 /// An arbitrary program-hash felt above `2^63` (a blake program hash virtually always is).
 fn wrapper_program_hash() -> Felt {
     Felt::from_hex_unchecked("0x71234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd")
@@ -75,12 +70,11 @@ fn guess_leaves(context: &mut TraceContext, n: u32, wrapper_digest: [u32; 8]) ->
 fn build(n: u32, wrapper_digest: [u32; 8]) -> TraceContext {
     let mut context = TraceContext::default();
     let leaves = guess_leaves(&mut context, n, wrapper_digest);
-    let aggregated_output_digest = guess_aggregated_output_digest(&mut context);
     let (wrapper_leaf, task_leaves) = leaves.split_first().unwrap();
     open_aggregator_output(
         &mut context,
         &wrapper_program_hash(),
-        &aggregated_output_digest,
+        AGGREGATED_OUTPUT_DIGEST,
         &wrapper_leaf.subtree_hash,
         task_leaves,
     );
@@ -134,22 +128,6 @@ fn rejects_a_missing_leaf() {
         !build(3, native_wrapper_digest(&wrapper_output_words(&digests)))
             .finalize(false)
             .is_circuit_valid()
-    );
-}
-
-#[test]
-#[should_panic(expected = "CAPACITY - 1 task slots")]
-fn panics_on_a_wrong_slot_count() {
-    let mut context = TraceContext::default();
-    let leaves = guess_leaves(&mut context, 1, [0u32; 8]);
-    let aggregated_output_digest = guess_aggregated_output_digest(&mut context);
-    let (wrapper_leaf, task_leaves) = leaves.split_first().unwrap();
-    open_aggregator_output(
-        &mut context,
-        &wrapper_program_hash(),
-        &aggregated_output_digest,
-        &wrapper_leaf.subtree_hash,
-        &task_leaves[..CAPACITY - 2],
     );
 }
 

@@ -4,7 +4,10 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
+circuit-common.workspace = true
+circuit-multiverifier.workspace = true
 circuits.workspace = true
+circuits-stark-verifier.workspace = true
 circuits-unpacker.workspace = true
 itertools.workspace = true
 starknet-types-core.workspace = true

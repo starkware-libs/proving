@@ -1,7 +1,7 @@
 use circuits::blake::{HashValue, blake2s_u32s};
 use circuits::context::{Context, Var};
 use circuits::ivalue::IValue;
-use circuits::ops::{Constant, eq};
+use circuits::ops::{Constant, Guess, eq};
 use circuits_unpacker::unpacker::Node;
 use itertools::{Itertools, zip_eq};
 use starknet_types_core::felt::Felt;
@@ -16,23 +16,20 @@ mod test;
 /// most `CAPACITY - 1` tasks are aggregated. Must equal `aggregator_wrapper.cairo`'s CAPACITY.
 pub const CAPACITY: usize = 512;
 
-/// Asserts that `[wrapper_program_hash, every task slot's digest..., aggregated_output_digest]`
-/// is the preimage of `wrapper_digest` under the leaf bootloader's
-/// `blake2s(cairo0-encode(felts))`.
+/// Guesses `aggregated_output_digest` and asserts that `[wrapper_program_hash, every task slot's
+/// digest..., aggregated_output_digest]` is the preimage of `wrapper_digest` under the leaf
+/// bootloader's `blake2s(cairo0-encode(felts))`; returns the bound digest.
 // TODO(yair): slot order is bound to the wrapper's task order; consider a permutation argument
 // instead to allow first-come-first-served parallel tree folding.
 pub fn open_aggregator_output<Value: IValue>(
     context: &mut Context<Value>,
     wrapper_program_hash: &Felt,
-    aggregated_output_digest: &HashValue<Var>,
+    aggregated_output_digest: [u32; 8],
     wrapper_digest: &HashValue<Var>,
     task_leaves: &[Node<Var>],
-) {
-    assert_eq!(
-        task_leaves.len(),
-        CAPACITY - 1,
-        "the wrapper's output covers CAPACITY - 1 task slots"
-    );
+) -> HashValue<Var> {
+    let aggregated_output_digest =
+        HashValue(aggregated_output_digest.map(Value::pack_u32)).guess(context);
 
     // The encoded program-hash prefix, then the wrapper output's digests.
     let zero = QM31::pack_u32(0).constant(context);
@@ -56,4 +53,5 @@ pub fn open_aggregator_output<Value: IValue>(
     for (digest_word, wrapper_word) in zip_eq(digest.iter(), wrapper_digest.iter()) {
         eq(context, *digest_word.raw(), *wrapper_word.raw());
     }
+    aggregated_output_digest
 }

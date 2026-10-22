@@ -297,7 +297,7 @@ fn guess_one_hot<Value: IValue>(context: &mut Context<Value>, len: usize, hot: u
 ///
 /// The gates do not depend on *which* candidate matches, so the circuit stays fixed across
 /// witnesses. A single-candidate set takes the cheaper [`constrain_hash_eq`] path.
-fn constrain_hash_in_set<Value: IValue>(
+pub fn constrain_hash_in_set<Value: IValue>(
     context: &mut Context<Value>,
     hash: &HashValue<Var>,
     allowed: &[HashValue<QM31>],
@@ -457,6 +457,8 @@ fn build_tree<Value: IValue>(
 /// copy-up yet still appears in the returned `leaves`, so a prover can place a whitelisted
 /// `circuit_hash` beside a zero `subtree_hash` and have that entry show up uncommitted. **Callers
 /// must treat a zero `subtree_hash` in `leaves` as padding** rather than as a committed leaf.
+// TODO(yair): take the witness as `BinaryTree<Node<Value>, HashValue<Value>>`, like
+// `CircuitVerifierInput`, so topology builders can pass `HashValue::no_value()` placeholders.
 pub fn unpack_recursion_tree<Value: IValue>(
     context: &mut Context<Value>,
     tree: &BinaryTree<Node<QM31>, HashValue<QM31>>,
