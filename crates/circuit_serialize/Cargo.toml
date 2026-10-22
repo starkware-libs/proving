@@ -9,4 +9,5 @@ circuits.workspace = true
 circuits-stark-verifier.workspace = true
 
 [dev-dependencies]
+circuits-stark-verifier = { workspace = true, features = ["test-utils"] }
 circuits-stark-verifier-examples.workspace = true

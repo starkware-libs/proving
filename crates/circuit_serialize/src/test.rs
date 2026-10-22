@@ -1,5 +1,6 @@
-use circuits_stark_verifier::proof::{ProofConfig, ProofInfo};
+use circuits_stark_verifier::proof::ProofConfig;
 use circuits_stark_verifier::proof_from_stark_proof::proof_from_stark_proof;
+use circuits_stark_verifier::proof_info::ProofInfo;
 use circuits_stark_verifier_examples::simple_air::create_proof;
 use circuits_stark_verifier_examples::simple_statement::{
     PREPROCESSED_COLUMN_LOG_SIZES, simple_statement_components,

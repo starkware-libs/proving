@@ -3,6 +3,9 @@ name = "circuits-stark-verifier"
 version.workspace = true
 edition.workspace = true
 
+[features]
+test-utils = []
+
 [dependencies]
 indexmap = { workspace = true, features = ["serde", "std"] }
 hashbrown.workspace = true

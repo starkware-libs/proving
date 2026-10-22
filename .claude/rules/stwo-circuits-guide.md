@@ -51,7 +51,7 @@ crates/
     src/fri.rs               [SOUNDNESS-CRITICAL] FRI protocol verification
     src/oods.rs              [SOUNDNESS-CRITICAL] Out-of-domain sampling
     src/merkle.rs            [SECURITY-CRITICAL]  Blake2s Merkle authentication
-    src/proof.rs             ProofInfo — proof-size breakdown (see Metrics)
+    src/proof_info.rs        ProofInfo — proof-size breakdown (see Metrics); `test-utils` feature
   stark_verifier_examples/   Example verifiers and test utilities
   circuit_serialize/         Proof serialization/deserialization
   circuit_cairo_serialize/   Cairo-side serialization
@@ -108,7 +108,8 @@ No built-in timing; wrap with `std::time::Instant` or profile externally. Becaus
 `circuit-prover`/`stwo` are opt-level 3 in tests, test-time measurements approximate release.
 
 **Proof size** — measured in `u32` elements (×4 for bytes). `ProofInfo::from_config(&config)`
-in `stark_verifier/src/proof.rs` computes a full breakdown without an actual proof:
+in `stark_verifier/src/proof_info.rs` (behind the `test-utils` feature; enable it from
+`[dev-dependencies]`) computes a full breakdown without an actual proof:
 
 | Component | Scaling |
 |-----------|---------|
