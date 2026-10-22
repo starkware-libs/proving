@@ -30,4 +30,5 @@ sonic-rs.workspace = true
 
 [dev-dependencies]
 rand.workspace = true
+stwo-constraint-framework = { workspace = true, features = ["prover"] }
 expect-test.workspace = true
