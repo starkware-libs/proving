@@ -225,7 +225,7 @@ impl Qm31OpsColumns {
     /// Appends `n_rows` rows of the one-hot op-code flags, set for `op_code` and clear elsewhere.
     fn push_op_code_flags(&mut self, op_code: OpCode, n_rows: usize) {
         for op in OpCode::ALL {
-            self.flag_column(op).extend(std::iter::repeat_n((op == op_code) as usize, n_rows));
+            self.flag_column(op).extend(std::iter::repeat_n(usize::from(op == op_code), n_rows));
         }
     }
 }
