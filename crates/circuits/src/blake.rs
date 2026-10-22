@@ -255,8 +255,10 @@ pub fn reduce_hash_value<Value: IValue>(
 /// Each entry of `message_u32s` is a single message word encoded as QM31 `(low_u16, high_u16, 0,
 /// 0)`. The vector is zero-padded up to a whole number of 64-byte blocks.
 ///
-/// NOTE: If the number of bytes is not a multiple of 4, the caller must make sure that the
-/// remaining bytes of the last word are zero.
+/// NOTE: The caller must make sure that every byte past `n_bytes` in the hashed blocks is zero;
+/// words past the last hashed block are ignored.
+///
+/// Panics if `n_bytes` exceeds `4 * message_u32s.len()`.
 pub fn blake2s_u32s<Value: IValue>(
     ctx: &mut Context<Value>,
     mut message_u32s: Vec<U32Wrapper<Var>>,
@@ -265,6 +267,11 @@ pub fn blake2s_u32s<Value: IValue>(
     const BLOCK_BYTES: usize = 64;
     const WORDS_PER_BLOCK: usize = 16;
 
+    assert!(
+        n_bytes <= 4 * message_u32s.len(),
+        "Cannot hash {n_bytes} bytes from {} message words",
+        message_u32s.len()
+    );
     let n_blocks = std::cmp::max(1, n_bytes.div_ceil(BLOCK_BYTES));
     let total_words = n_blocks * WORDS_PER_BLOCK;
     let zero_u32 = QM31::pack_u32(0).constant(ctx);
@@ -340,9 +347,9 @@ pub fn triple_xor<Value: IValue>(
     input_b: U32Wrapper<Var>,
     input_c: U32Wrapper<Var>,
 ) -> U32Wrapper<Var> {
-    let a = input_a.get_value(ctx).raw().unpack_u32();
-    let b = input_b.get_value(ctx).raw().unpack_u32();
-    let c = input_c.get_value(ctx).raw().unpack_u32();
+    let a = ctx.get(*input_a.raw()).unpack_u32();
+    let b = ctx.get(*input_b.raw()).unpack_u32();
+    let c = ctx.get(*input_c.raw()).unpack_u32();
     let out = ctx.new_var(*Value::pack_u32(a ^ b ^ c).raw());
     ctx.stats.triple_xor += 1;
     ctx.circuit.triple_xor.push(TripleXor {
@@ -395,12 +402,12 @@ pub fn blake_g_gate<Value: IValue>(
     input_f0: U32Wrapper<Var>,
     input_f1: U32Wrapper<Var>,
 ) -> [U32Wrapper<Var>; 4] {
-    let a = input_a.get_value(ctx).raw().unpack_u32();
-    let b = input_b.get_value(ctx).raw().unpack_u32();
-    let c = input_c.get_value(ctx).raw().unpack_u32();
-    let d = input_d.get_value(ctx).raw().unpack_u32();
-    let f0 = input_f0.get_value(ctx).raw().unpack_u32();
-    let f1 = input_f1.get_value(ctx).raw().unpack_u32();
+    let a = ctx.get(*input_a.raw()).unpack_u32();
+    let b = ctx.get(*input_b.raw()).unpack_u32();
+    let c = ctx.get(*input_c.raw()).unpack_u32();
+    let d = ctx.get(*input_d.raw()).unpack_u32();
+    let f0 = ctx.get(*input_f0.raw()).unpack_u32();
+    let f1 = ctx.get(*input_f1.raw()).unpack_u32();
 
     let (a_out, b_out, c_out, d_out) = blake2s_g(a, b, c, d, f0, f1);
 
