@@ -24,7 +24,7 @@ use stwo::prover::backend::simd::SimdBackend;
 #[cfg(feature = "prover")]
 use stwo::prover::backend::simd::m31::PackedM31;
 #[cfg(feature = "prover")]
-use stwo::prover::backend::{Backend, Col, Column};
+use stwo::prover::backend::{Backend, Col};
 #[cfg(feature = "prover")]
 use stwo::prover::mempool::BaseColumnPool;
 #[cfg(feature = "prover")]
@@ -32,6 +32,7 @@ use stwo::prover::poly::BitReversedOrder;
 #[cfg(feature = "prover")]
 use stwo::prover::poly::circle::{CircleEvaluation, PolyOps};
 pub use stwo_cairo_common::preprocessed_columns::blake::BLAKE_SIGMA;
+use stwo_cairo_utils::math_utils::safe_log2;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
 #[cfg(feature = "prover")]
@@ -433,6 +434,13 @@ pub struct PreProcessedTrace {
     columns: OrderedHashMap<PreProcessedColumnId, Vec<usize>>,
 }
 
+/// Log2 of a preprocessed column's length. Panics if the length is not a power of two.
+fn column_log_size(id: &PreProcessedColumnId, column: &[usize]) -> u32 {
+    safe_log2(column.len() as u128).unwrap_or_else(|| {
+        panic!("Preprocessed column {id:?} has a non-power-of-two length {}", column.len())
+    })
+}
+
 impl PreProcessedTrace {
     fn push_column(&mut self, id: PreProcessedColumnId, column: Vec<usize>) {
         assert!(
@@ -462,14 +470,14 @@ impl PreProcessedTrace {
     }
 
     pub fn log_sizes(&self) -> OrderedHashMap<PreProcessedColumnId, u32> {
-        self.columns.iter().map(|(id, column)| (id.clone(), column.len().ilog2())).collect()
+        self.columns.iter().map(|(id, column)| (id.clone(), column_log_size(id, column))).collect()
     }
 
     /// Log2 of the trace size: the largest column's log size.
     pub fn trace_log_size(&self) -> u32 {
         self.columns
-            .values()
-            .map(|column| column.len().ilog2())
+            .iter()
+            .map(|(id, column)| column_log_size(id, column))
             .max()
             .expect("the preprocessed trace is non-empty")
     }
@@ -484,12 +492,12 @@ impl PreProcessedTrace {
 
     #[cfg(feature = "prover")]
     pub fn get_trace<B: Backend>(&self) -> Vec<CircleEvaluation<B, BaseField, BitReversedOrder>> {
-        let to_evaluation = |vec: &[usize]| {
+        let to_evaluation = |id: &PreProcessedColumnId, vec: &[usize]| {
             let col = Col::<B, BaseField>::from_iter(vec.iter().cloned().map(BaseField::from));
-            CircleEvaluation::new(CanonicCoset::new(col.len().ilog2()).circle_domain(), col)
+            CircleEvaluation::new(CanonicCoset::new(column_log_size(id, vec)).circle_domain(), col)
         };
 
-        self.columns.values().map(|c| to_evaluation(c)).collect()
+        self.columns.iter().map(|(id, c)| to_evaluation(id, c)).collect()
     }
 
     pub fn get_column(&self, id: &PreProcessedColumnId) -> &Vec<usize> {
