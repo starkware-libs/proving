@@ -88,9 +88,11 @@ impl Channel {
         let n_draw_u32_var = U32Wrapper::const_u32(context, self.n_draws.try_into().unwrap());
         self.n_draws += 1;
         // Note that we add a zero byte for domain separation between generating randomness and
-        // mixing a single u32.
+        // mixing a single u32. The byte is the first one of an explicit zero word, since
+        // `blake2s_u32s` requires every hashed byte to come from a message word.
         let mut message = self.digest.to_vec();
         message.push(n_draw_u32_var);
+        message.push(U32Wrapper::const_u32(context, 0));
         blake2s_u32s(context, message, (8 + 1) * 4 + 1)
     }
 

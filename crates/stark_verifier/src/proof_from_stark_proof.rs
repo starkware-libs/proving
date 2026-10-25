@@ -27,33 +27,9 @@ pub fn proof_from_stark_proof(
     let sampled_values = &proof.proof.sampled_values;
     let fri_proof = &proof.proof.fri_proof;
 
-<<<<<<< HEAD
-    let oods_pow: u64 = proof.proof.oods_proof_of_work;
-    let oods_pow_high = (oods_pow >> 32) as u32;
-    let oods_pow_low = (oods_pow & 0xFFFFFFFF) as u32;
-
-    let pow: u64 = proof.proof.fri_proof.proof_of_work;
-    let pow_high = (pow >> 32) as u32;
-    let pow_low = (pow & 0xFFFFFFFF) as u32;
-
-    let interaction_pow_high = (interaction_pow_nonce >> 32) as u32;
-    let interaction_pow_low = (interaction_pow_nonce & 0xFFFFFFFF) as u32;
-||||||| 0dbaec2ac
-    let oods_pow: u64 = proof.proof.oods_proof_of_work;
-    let oods_pow_high = (oods_pow >> 32) as u32;
-    let oods_pow_low = (oods_pow & 0xFFFFFFFF) as u32;
-
-    let pow: u64 = proof.proof.proof_of_work;
-    let pow_high = (pow >> 32) as u32;
-    let pow_low = (pow & 0xFFFFFFFF) as u32;
-
-    let interaction_pow_high = (interaction_pow_nonce >> 32) as u32;
-    let interaction_pow_low = (interaction_pow_nonce & 0xFFFFFFFF) as u32;
-=======
     let (oods_pow_low, oods_pow_high) = split_u64(proof.proof.oods_proof_of_work);
-    let (pow_low, pow_high) = split_u64(proof.proof.proof_of_work);
+    let (pow_low, pow_high) = split_u64(proof.proof.fri_proof.proof_of_work);
     let (interaction_pow_low, interaction_pow_high) = split_u64(interaction_pow_nonce);
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 
     let all_fold_steps = compute_all_fold_steps(
         config.log_trace_size() - config.fri.params.log_last_layer_degree_bound,

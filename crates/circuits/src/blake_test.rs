@@ -4,13 +4,7 @@ use itertools::zip_eq;
 use rstest::rstest;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 
-<<<<<<< HEAD
 use crate::blake::{HashValue, blake2s, blake2s_u32s, unpack_qm31s_to_u32_words};
-||||||| 0dbaec2ac
-use crate::blake::{HashValue, blake2s, blake2s_m31, qm31_from_bytes};
-=======
-use crate::blake::{HashValue, blake2s, blake2s_m31, blake2s_u32s, qm31_from_bytes};
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 use crate::context::TraceContext;
 use crate::ivalue::{IValue, qm31_from_u32s};
 use crate::ops::{Guess, eq, guess};

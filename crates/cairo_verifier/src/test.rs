@@ -110,16 +110,8 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
             // Fold step = 4.
-<<<<<<< HEAD
             fri_params: FriParams::new(26, 0, low_blowup_factor, 70, 4),
-            preprocessed_trace: preprocessed_trace_variant,
-||||||| 0dbaec2ac
-            fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
-            preprocessed_trace: preprocessed_trace_variant,
-=======
-            fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
             preprocessed_trace_variant,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             channel_salt: 0,
             store_polynomials_coefficients: true,
             include_all_preprocessed_columns: true,

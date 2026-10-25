@@ -29,32 +29,12 @@ mod verifier_hints;
 mod verifier_utils;
 
 pub use hint_processors::{BootloaderHintProcessor, MinimalBootloaderHintProcessor};
-<<<<<<< HEAD
-pub use program_hash::{ProgramHashError, compute_program_hash_chain};
+pub use program_hash::{
+    CompiledProgramHashError, ProgramHashError, compiled_program_hash, compute_program_hash_chain,
+};
 use types::{ApplicativeBootloaderInput, BootloaderInput, CairoVerifierInput};
 pub use types::{Cairo0Executable, SimpleBootloaderInput, Task, TaskSpec};
 use vars::{
     APPLICATIVE_BOOTLOADER_INPUT, BOOTLOADER_INPUT, COMPONENT_HEIGHT, SIMPLE_BOOTLOADER_INPUT,
-||||||| 0dbaec2ac
-pub use program_hash::{ProgramHashError, compute_program_hash_chain};
-pub use types::{
-    ApplicativeBootloaderInput, BootloaderConfig, BootloaderInput, Cairo0Executable,
-    CairoVerifierInput, PackedOutput, SimpleBootloaderInput, Task, TaskSpec,
-};
-pub use vars::{
-    APPLICATIVE_BOOTLOADER_INPUT, BOOTLOADER_INPUT, COMPONENT_HEIGHT, PROGRAM_INPUT,
-    PROGRAM_OBJECT, SIMPLE_BOOTLOADER_INPUT,
-=======
-pub use program_hash::{
-    CompiledProgramHashError, ProgramHashError, compiled_program_hash, compute_program_hash_chain,
-};
-pub use types::{
-    ApplicativeBootloaderInput, BootloaderConfig, BootloaderInput, Cairo0Executable,
-    CairoVerifierInput, PackedOutput, SimpleBootloaderInput, Task, TaskSpec,
-};
-pub use vars::{
-    APPLICATIVE_BOOTLOADER_INPUT, BOOTLOADER_INPUT, COMPONENT_HEIGHT, PROGRAM_INPUT,
-    PROGRAM_OBJECT, SIMPLE_BOOTLOADER_INPUT,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 };
 pub use vars::{PROGRAM_INPUT, PROGRAM_OBJECT};

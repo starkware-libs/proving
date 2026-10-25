@@ -1,23 +1,8 @@
-<<<<<<< HEAD
 pub use core::num::traits::{One, Zero};
 pub use stwo_constraint_framework::claim::ClaimTrait;
-||||||| 0dbaec2ac
-pub use core::num::traits::Zero;
-pub use stwo_constraint_framework::claim::ClaimTrait;
-=======
-pub use core::num::traits::Zero;
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 pub use stwo_constraint_framework::{
-<<<<<<< HEAD
     AirComponent, CommonLookupElements, Component, LookupElementsImpl, PreprocessedMaskValues,
     PreprocessedMaskValuesImpl,
-||||||| 0dbaec2ac
-    AirComponent, CommonLookupElements, LookupElementsImpl, NewComponent, PreprocessedMaskValues,
-    PreprocessedMaskValuesImpl, RelationUse, RelationUsesDict, accumulate_relation_uses,
-=======
-    AirComponent, CommonLookupElements, LookupElementsImpl, PreprocessedMaskValues,
-    PreprocessedMaskValuesImpl, RelationUse, RelationUsesDict, accumulate_relation_uses,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 };
 pub use stwo_verifier_core::channel::{Channel, ChannelTrait};
 pub use stwo_verifier_core::circle::{

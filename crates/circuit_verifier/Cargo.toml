@@ -23,6 +23,6 @@ circuit-common.workspace = true
 circuit-verifier = { path = ".", features = ["test-utils"] }
 cairo-air.workspace = true
 circuit-cairo-verifier = { workspace = true, features = ["test-utils"] }
-circuit-prover.workspace = true
+circuit-prover = { workspace = true, features = ["test-utils"] }
 circuit-serialize.workspace = true
 stwo = { workspace = true, features = ["prover"] }

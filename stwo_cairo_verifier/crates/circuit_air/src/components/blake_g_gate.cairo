@@ -15,7 +15,6 @@ pub const RELATION_USES_PER_ROW: [(felt252, u32); 7] = [
     ('VerifyBitwiseXor_4', 2), ('VerifyBitwiseXor_9', 2), ('VerifyBitwiseXor_7', 2), ('Gate', 6),
 ];
 
-<<<<<<< HEAD
 #[derive(Drop, Serde, Copy)]
 pub struct Claim {
     pub log_size: u32,
@@ -29,61 +28,6 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
 
 
 pub impl AirComponentImpl of AirComponent<Component<Claim>> {
-||||||| 0dbaec2ac
-#[derive(Drop, Serde, Copy)]
-pub struct Claim {
-    pub log_size: u32,
-}
-
-pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
-        let log_size = *(self.log_size);
-        let preprocessed_log_sizes = array![log_size].span();
-        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
-        let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
-        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
-    }
-
-    fn mix_into(self: @Claim, ref channel: Channel) {
-        channel.mix_u64((*(self.log_size)).into());
-    }
-
-    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {
-        accumulate_relation_uses(ref relation_uses, RELATION_USES_PER_ROW.span(), *self.log_size);
-    }
-}
-
-
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
-=======
-#[derive(Drop)]
-pub struct Component {
-    pub log_size: u32,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     fn evaluate_constraints_at_point(
         self: @Component<Claim>,
         ref sum: QM31,
@@ -93,7 +37,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
         random_coeff: QM31,
         common_lookup_elements: @CommonLookupElements,
     ) {
-        let log_size = *(self.log_size);
+        let log_size = *(self.claim.log_size);
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
         let mut verify_bitwise_xor_8_sum_0: QM31 = Zero::zero();
@@ -962,18 +906,12 @@ mod tests {
     use crate::components::sample_evaluations_test_data::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-<<<<<<< HEAD
     use super::{AirComponentImpl, Claim, Component};
-||||||| 0dbaec2ac
-    use super::{Claim, Component};
-=======
-    use super::Component;
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 
     #[test]
     fn test_evaluation_result() {
         let component = Component {
-            log_size: 15,
+            claim: Claim { log_size: 15 },
             claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
         };
         let mut sum: QM31 = Zero::zero();

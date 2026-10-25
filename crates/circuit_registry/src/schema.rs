@@ -60,9 +60,9 @@ pub struct CircuitProofConfig {
 }
 
 impl CircuitProofConfig {
-    /// The config of circuits padded to `target_sizes` and proven with `fri_config`.
-    pub fn new(fri_config: FriConfig, target_sizes: &ComponentSizes) -> Self {
-        Self { fri_config, component_log_sizes: target_sizes.into() }
+    /// The config of circuits padded to `target_sizes` and proven with `fri_params`.
+    pub fn new(fri_params: FriParams, target_sizes: &ComponentSizes) -> Self {
+        Self { fri_params, component_log_sizes: LogSizes::of(target_sizes) }
     }
 
     /// The shared padding target every circuit proven under this config is padded to.

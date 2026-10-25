@@ -1,7 +1,10 @@
-//! Building blocks for the circuits of one registry, listed in `main.rs`.
+//! Building blocks for the circuits of one registry: a leaf (cairo-verifier) circuit per
+//! verified Cairo trace log size in a range, plus the multiverifier that verifies their proofs —
+//! all padded to a shared component-size target (the elementwise max over them), so one
+//! circuit shape verifies proofs of any of them.
 //!
-//! The `circuit-params` binary uses these to emit the registry; tests use them to derive its
-//! circuits' shape without committing anything.
+//! The `circuit-params` binary uses these to emit the registry (see `main.rs`); tests use them to
+//! derive its circuits' shape without committing anything.
 
 use std::collections::BTreeMap;
 use std::fs;
@@ -19,44 +22,23 @@ use circuit_cairo_verifier::verify::{NON_QUERY_INFO_LEAK, build_cairo_verifier_c
 use circuit_common::finalize::{
     ComponentSizes, compute_padded_sizes, pad_to_targets, raw_component_sizes,
 };
-<<<<<<< HEAD
-use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
+use circuit_common::preprocessed::{
+    PreprocessedCircuit, layout_and_pcs_config, layout_from_component_sizes,
+};
 use circuit_prover::circuit_hash::circuit_hash_and_preprocessed_root;
 use circuit_registry::{
     CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, LogSizes, Multiverifier,
+    UnpackingVerifier,
 };
 use circuit_verifier::multiverifier::{
-    build_multiverifier_context_from_shared_config, shared_config,
-||||||| 0dbaec2ac
-use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
-use circuit_multiverifier::verify::{
-    build_multiverifier_context_from_shared_config, shared_config,
-=======
-use circuit_common::preprocessed::{
-    PreprocessedCircuit, layout_and_pcs_config, layout_from_component_sizes,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
-};
-<<<<<<< HEAD
-||||||| 0dbaec2ac
-use circuit_registry::LogSizes;
-=======
-use circuit_multiverifier::verify::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
-use circuit_registry::{CircuitProofConfig, LogSizes};
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use leaf_prover::prove_leaf::leaf_verifier_config;
-<<<<<<< HEAD
-use stwo::core::fri::{FriConfig, FriParams};
-||||||| 0dbaec2ac
-use stwo::core::fri::FriConfig;
-=======
 use starknet_types_core::felt::Felt;
-use stwo::core::fri::FriConfig;
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo_cairo_common::prover_types::cpu::M31;
@@ -119,7 +101,7 @@ impl CircuitsBuilder {
                 let log_blowup_factor = self.cairo_prover_params.fri_params.log_blowup_factor;
                 generate_preprocessed_commitment_root::<Blake2sMerkleChannel>(
                     log_blowup_factor,
-                    self.cairo_prover_params.preprocessed_trace,
+                    self.cairo_prover_params.preprocessed_trace_variant,
                     trace_log_size,
                 )
                 .into()
@@ -135,7 +117,7 @@ impl CircuitsBuilder {
         preprocessed_root: HashValue<QM31>,
     ) -> FinalizedContext<NoValue> {
         let verifier_config = leaf_verifier_config(
-            self.cairo_prover_params.preprocessed_trace,
+            self.cairo_prover_params.preprocessed_trace_variant,
             &self.cairo_pcs_config(trace_log_size),
             &self.cairo_component_names,
             self.leaf_program.clone(),
@@ -147,13 +129,12 @@ impl CircuitsBuilder {
     }
 }
 
-<<<<<<< HEAD
 pub fn circuits_builder_from_definition(definition: &RegistryDefinition) -> CircuitsBuilder {
     let program = load_program(&definition.program);
 
-    // Read the definition's params from the JSON files.
-    let cairo_prover_params: ProverParameters = definition.cairo_params();
-    let circuit_fri_params: FriParams = definition.circuit_fri_params();
+    // The definition's params, recorded in the registry for the proving binaries to run with.
+    let cairo_prover_params: ProverParameters = definition.cairo_prover_params;
+    let circuit_fri_params: FriParams = definition.circuit_fri_params;
 
     CircuitsBuilder {
         cairo_roots_cache: Default::default(),
@@ -204,13 +185,10 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
     // All circuits are padded to `target_sizes` and proven with
     // `circuit_log_blowup_factor`, so they share a single config.
     const CONFIG_ID: &str = "default";
-    let circuit_proof_configs = BTreeMap::from([(
-        CONFIG_ID.to_string(),
-        CircuitProofConfig {
-            fri_params: circuits_builder.circuit_fri_params,
-            component_log_sizes: LogSizes::of(&target_sizes),
-        },
-    )]);
+    let circuit_proof_config =
+        CircuitProofConfig::new(circuits_builder.circuit_fri_params, &target_sizes);
+    let circuit_proof_configs =
+        BTreeMap::from([(CONFIG_ID.to_string(), circuit_proof_config.clone())]);
     // Rebuild each leaf circuit, pad it to the shared target and record the hashes
     // that identify it.
     let leaf_verifiers = trace_log_sizes
@@ -243,68 +221,68 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
         preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
     }];
 
+    // The unpacking verifier's whitelists are the hashes computed above, baked in as circuit
+    // constants — so it is built last and its own hash lives in no whitelist. It must fit the
+    // target those circuits fixed: it never grows it.
+    let unpacking_verifiers = match definition.aggregator_wrapper_program_hash() {
+        Some(aggregator_wrapper_program_hash) => {
+            let leaf_set: Vec<HashValue<QM31>> = leaf_verifiers
+                .iter()
+                .map(|verifier| HashValue::from(verifier.circuit_hash.0))
+                .collect();
+            let internal_node_set = [HashValue::from(multiverifiers[0].circuit_hash.0)];
+            let unpacking_context = unpacking_verifier_context_for_params(
+                &circuit_proof_config,
+                &UnpackingCircuitParams {
+                    leaf_circuit_whitelist: &leaf_set,
+                    internal_node_circuit_whitelist: &internal_node_set,
+                    aggregator_wrapper_program_hash,
+                },
+            );
+            assert_eq!(
+                target_sizes.elementwise_max(&compute_padded_sizes(&unpacking_context)),
+                target_sizes,
+                "the unpacking verifier does not fit the shared target"
+            );
+            let (circuit_hash, preprocessed_root) = circuit_hash_and_preprocessed_root(
+                &padded_preprocessed_circuit(unpacking_context, &target_sizes),
+                circuit_log_blowup_factor,
+            );
+            vec![UnpackingVerifier {
+                config: CONFIG_ID.to_string(),
+                input_config: CONFIG_ID.to_string(),
+                preprocessed_root: DigestHex::from(preprocessed_root.0),
+                circuit_hash: DigestHex::from(circuit_hash.0),
+            }]
+        }
+        None => vec![],
+    };
+
     CircuitRegistry {
         cairo_prover_params: circuits_builder.cairo_prover_params,
         cairo_components: circuits_builder.cairo_component_names,
         circuit_proof_configs,
         leaf_verifiers,
         multiverifiers,
+        unpacking_verifiers,
     }
 }
 
-/// The multiverifier that verifies proofs of circuits padded to `sizes`.
-||||||| 0dbaec2ac
-/// The multiverifier that verifies proofs of circuits padded to `sizes`.
-=======
 /// The config every circuit proven under `config` is built and verified against (see
 /// [`layout_and_pcs_config`]).
 pub fn shared_config_from_circuit_config(config: &CircuitProofConfig) -> SharedConfig {
     let (preprocessed_column_log_sizes, pcs_config) =
-        layout_and_pcs_config(&config.target_sizes(), config.fri_config);
+        layout_and_pcs_config(&config.target_sizes(), config.fri_params);
     shared_config(preprocessed_column_log_sizes, pcs_config)
 }
 
 /// The multiverifier that verifies proofs of circuits proven under `config`.
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 ///
-<<<<<<< HEAD
-/// The verified proofs' preprocessed layout — hence the multiverifier — is a function of the
-/// padded sizes and the circuit FRI params alone, so no leaf circuit is built or preprocessed
-/// here. This is how the recursive tree derives its multiverifier too.
-pub fn multiverifier_context_for_sizes(
-    sizes: &ComponentSizes,
-    circuit_fri_params: FriParams,
-||||||| 0dbaec2ac
-/// The verified proofs' preprocessed layout — hence the multiverifier — is a function of the
-/// padded sizes and the circuit FRI config alone, so no leaf circuit is built or preprocessed
-/// here. This is how the recursive tree derives its multiverifier too.
-pub fn multiverifier_context_for_sizes(
-    sizes: &ComponentSizes,
-    circuit_fri_config: FriConfig,
-=======
-/// It depends only on the config's padded sizes and FRI config, so no leaf circuit is built here;
+/// It depends only on the config's padded sizes and FRI params, so no leaf circuit is built here;
 /// the recursive tree builds its multiverifier the same way.
 pub fn multiverifier_context_from_circuit_config(
     config: &CircuitProofConfig,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 ) -> FinalizedContext<NoValue> {
-<<<<<<< HEAD
-    let preprocessed_column_log_sizes = layout_from_component_sizes(sizes);
-    let trace_log_size =
-        *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
-    build_multiverifier_context_from_shared_config(&shared_config(
-        preprocessed_column_log_sizes,
-        PcsConfig::from_fri_config(FriConfig { params: circuit_fri_params, trace_log_size }),
-    ))
-||||||| 0dbaec2ac
-    let preprocessed_column_log_sizes = layout_from_component_sizes(sizes);
-    let trace_log_size =
-        *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
-    build_multiverifier_context_from_shared_config(&shared_config(
-        preprocessed_column_log_sizes,
-        PcsConfig::from_fri_and_trace_size(circuit_fri_config, trace_log_size),
-    ))
-=======
     build_multiverifier_context_from_shared_config(&shared_config_from_circuit_config(config))
 }
 
@@ -314,10 +292,13 @@ pub fn unpacking_verifier_context_for_params(
     params: &UnpackingCircuitParams<'_>,
 ) -> FinalizedContext<NoValue> {
     build_applicative_unpacking_verifier_context(&shared_config_from_circuit_config(config), params)
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 }
 
 /// Pads `context` to the shared `target_sizes` and preprocesses it.
+///
+/// Homogeneity: every circuit padded to one target must come out with that target's preprocessed
+/// layout — the layout the multiverifier verifies — so a registry's circuits cannot silently
+/// diverge in shape.
 pub fn padded_preprocessed_circuit(
     mut context: FinalizedContext<NoValue>,
     target_sizes: &ComponentSizes,
@@ -392,17 +373,9 @@ pub fn shared_target_fixpoint(
     circuit_fri_params: FriParams,
 ) -> (ComponentSizes, FinalizedContext<NoValue>) {
     loop {
-<<<<<<< HEAD
-        let multiverifier_context =
-            multiverifier_context_for_sizes(&target_sizes, circuit_fri_params);
-||||||| 0dbaec2ac
-        let multiverifier_context =
-            multiverifier_context_for_sizes(&target_sizes, circuit_fri_config);
-=======
         let multiverifier_context = multiverifier_context_from_circuit_config(
-            &CircuitProofConfig::new(circuit_fri_config, &target_sizes),
+            &CircuitProofConfig::new(circuit_fri_params, &target_sizes),
         );
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         let grown_sizes =
             target_sizes.elementwise_max(&compute_padded_sizes(&multiverifier_context));
         if grown_sizes == target_sizes {
@@ -418,25 +391,11 @@ pub struct RegistryDefinition {
     /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI params and
     /// preprocessed trace variant) and are recorded in the registry for the leaf prover to run
     /// with.
-<<<<<<< HEAD
-    pub cairo_prover_params_json: std::path::PathBuf,
-    /// The circuit proofs' FRI params, recorded in the registry for the leaf prover and the
-||||||| 0dbaec2ac
-    pub cairo_prover_params_json: std::path::PathBuf,
-    /// The circuit proofs' FRI config, recorded in the registry for the leaf prover and the
-=======
     pub cairo_prover_params: ProverParameters,
-    /// The circuit proofs' FRI config, recorded in the registry for the leaf prover and the
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+    /// The circuit proofs' FRI params, recorded in the registry for the leaf prover and the
     /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
     /// as if lifted to `trace_size + blowup`.
-<<<<<<< HEAD
-    pub circuit_fri_params_json: std::path::PathBuf,
-||||||| 0dbaec2ac
-    pub circuit_fri_config_json: std::path::PathBuf,
-=======
-    pub circuit_fri_config: FriConfig,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+    pub circuit_fri_params: FriParams,
     /// The compiled program the leaf circuit verifies (the leaf prover's `--program`).
     pub program: std::path::PathBuf,
     /// The set of components used by the program. The circuit will assume the Cairo AIR contains
@@ -458,54 +417,29 @@ pub struct RegistryDefinition {
 }
 
 impl RegistryDefinition {
-<<<<<<< HEAD
     /// Loads the definition at `relative_definition_path`. `relative_definition_path`
-    /// and the paths inside the definition are assumed to be relative to `repo_root`.
+    /// and the program paths inside the definition are assumed to be relative to `repo_root`.
     pub fn load(repo_root: &Path, relative_definition_path: &str) -> Self {
         let mut definition: RegistryDefinition =
             read_params(&repo_root.join(relative_definition_path));
-        for path in [
-            &mut definition.cairo_prover_params_json,
-            &mut definition.circuit_fri_params_json,
-            &mut definition.program,
-        ] {
-            *path = repo_root.join(&*path);
-||||||| 0dbaec2ac
-    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its paths against
-    /// `repo_root`.
-    pub fn load(repo_root: &Path, name: &str) -> Self {
-        let mut definition: RegistryDefinition = read_params(
-            &repo_root.join(format!("circuit_registry_definitions/{name}/definition.json")),
-        );
-        for path in [
-            &mut definition.cairo_prover_params_json,
-            &mut definition.circuit_fri_config_json,
-            &mut definition.program,
-        ] {
-            *path = repo_root.join(&*path);
-=======
-    /// Loads `circuit_registry_definitions/<name>/definition.json`, resolving its program paths
-    /// against `repo_root`.
-    pub fn load(repo_root: &Path, name: &str) -> Self {
-        let mut definition: RegistryDefinition = read_params(
-            &repo_root.join(format!("circuit_registry_definitions/{name}/definition.json")),
-        );
         definition.program = repo_root.join(&definition.program);
         if let Some(wrapper) = &mut definition.aggregator_wrapper_program {
             *wrapper = repo_root.join(&*wrapper);
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         }
         definition
     }
 
-<<<<<<< HEAD
-    pub fn cairo_params(&self) -> ProverParameters {
-        read_params(&self.cairo_prover_params_json)
+    /// The (blake) program hash of the definition's aggregator wrapper, baked into the unpacking
+    /// verifier, or `None` when the definition names none.
+    pub fn aggregator_wrapper_program_hash(&self) -> Option<Felt> {
+        self.aggregator_wrapper_program.as_deref().map(blake_program_hash)
     }
+}
 
-    pub fn circuit_fri_params(&self) -> FriParams {
-        read_params(&self.circuit_fri_params_json)
-    }
+/// The (blake) program hash of the compiled program at `path`.
+fn blake_program_hash(path: &Path) -> Felt {
+    compiled_program_hash(path, HashFunc::Blake)
+        .unwrap_or_else(|err| panic!("Cannot hash {}: {err}", path.display()))
 }
 
 /// Regenerates the given registry and asserts it matches the committed. Run with `FIX=1`
@@ -524,24 +458,5 @@ pub fn assert_committed_registry_is_up_to_date(definition_path: &str, committed_
             existing_registry, registry_serialized,
             "{committed_path} does not match this run's output; run with FIX=1 to regenerate"
         );
-||||||| 0dbaec2ac
-    pub fn cairo_params(&self) -> ProverParameters {
-        read_params(&self.cairo_prover_params_json)
     }
-
-    pub fn circuit_fri_config(&self) -> FriConfig {
-        read_params(&self.circuit_fri_config_json)
-=======
-    /// The (blake) program hash of the definition's aggregator wrapper, baked into the unpacking
-    /// verifier, or `None` when the definition names none.
-    pub fn aggregator_wrapper_program_hash(&self) -> Option<Felt> {
-        self.aggregator_wrapper_program.as_deref().map(blake_program_hash)
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
-    }
-}
-
-/// The (blake) program hash of the compiled program at `path`.
-fn blake_program_hash(path: &Path) -> Felt {
-    compiled_program_hash(path, HashFunc::Blake)
-        .unwrap_or_else(|err| panic!("Cannot hash {}: {err}", path.display()))
 }

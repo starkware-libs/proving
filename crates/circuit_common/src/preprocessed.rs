@@ -9,7 +9,7 @@ use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use itertools::{chain, zip_eq};
 #[cfg(feature = "prover")]
 use stwo::core::fields::m31::BaseField;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 #[cfg(feature = "prover")]
 use stwo::core::poly::circle::CanonicCoset;
@@ -31,13 +31,7 @@ use stwo::prover::mempool::BaseColumnPool;
 use stwo::prover::poly::BitReversedOrder;
 #[cfg(feature = "prover")]
 use stwo::prover::poly::circle::{CircleEvaluation, PolyOps};
-<<<<<<< HEAD
-||||||| 0dbaec2ac
-pub use stwo_cairo_common::preprocessed_columns::blake::BLAKE_SIGMA;
-=======
-pub use stwo_cairo_common::preprocessed_columns::blake::BLAKE_SIGMA;
 use stwo_cairo_utils::math_utils::safe_log2;
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
 #[cfg(feature = "prover")]
@@ -194,14 +188,14 @@ pub fn layout_from_component_sizes(
 }
 
 /// The [`layout_from_component_sizes`] layout of circuits padded to `sizes`, and the PCS config
-/// they are proven with under `fri_config`: the one for that layout's largest column.
+/// they are proven with under `fri_params`: the one for that layout's largest column.
 pub fn layout_and_pcs_config(
     sizes: &ComponentSizes,
-    fri_config: FriConfig,
+    fri_params: FriParams,
 ) -> (OrderedHashMap<PreProcessedColumnId, u32>, PcsConfig) {
     let layout = layout_from_component_sizes(sizes);
     let trace_log_size = *layout.values().max().expect("the layout is non-empty");
-    (layout, PcsConfig::from_fri_and_trace_size(fri_config, trace_log_size))
+    (layout, PcsConfig::from_fri_config(FriConfig { params: fri_params, trace_log_size }))
 }
 
 #[derive(Copy, Clone, PartialEq)]
@@ -213,46 +207,12 @@ enum OpCode {
 }
 
 impl Qm31OpsColumns {
-<<<<<<< HEAD
     /// Appends a row of the one-hot op-code flags, set for `op_code` and clear elsewhere.
     fn push_op_code_flags(&mut self, op_code: OpCode) {
         self.qm_31_ops_add_flag.push((op_code == OpCode::Add) as usize);
         self.qm_31_ops_sub_flag.push((op_code == OpCode::Sub) as usize);
         self.qm_31_ops_mul_flag.push((op_code == OpCode::Mul) as usize);
         self.qm_31_ops_pointwise_mul_flag.push((op_code == OpCode::PointwiseMul) as usize);
-||||||| 0dbaec2ac
-    /// The one-hot flag column of `op_code`.
-    fn flag_column(&mut self, op_code: OpCode) -> &mut Vec<usize> {
-        match op_code {
-            OpCode::Add => &mut self.qm31_ops_add_flag,
-            OpCode::Sub => &mut self.qm31_ops_sub_flag,
-            OpCode::Mul => &mut self.qm31_ops_mul_flag,
-            OpCode::PointwiseMul => &mut self.qm31_ops_pointwise_mul_flag,
-        }
-    }
-
-    /// Appends `n_rows` rows of the one-hot op-code flags, set for `op_code` and clear elsewhere.
-    fn push_op_code_flags(&mut self, op_code: OpCode, n_rows: usize) {
-        for op in OpCode::ALL {
-            self.flag_column(op).extend(std::iter::repeat_n((op == op_code) as usize, n_rows));
-        }
-=======
-    /// The one-hot flag column of `op_code`.
-    fn flag_column(&mut self, op_code: OpCode) -> &mut Vec<usize> {
-        match op_code {
-            OpCode::Add => &mut self.qm31_ops_add_flag,
-            OpCode::Sub => &mut self.qm31_ops_sub_flag,
-            OpCode::Mul => &mut self.qm31_ops_mul_flag,
-            OpCode::PointwiseMul => &mut self.qm31_ops_pointwise_mul_flag,
-        }
-    }
-
-    /// Appends `n_rows` rows of the one-hot op-code flags, set for `op_code` and clear elsewhere.
-    fn push_op_code_flags(&mut self, op_code: OpCode, n_rows: usize) {
-        for op in OpCode::ALL {
-            self.flag_column(op).extend(std::iter::repeat_n(usize::from(op == op_code), n_rows));
-        }
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     }
 }
 
@@ -500,21 +460,7 @@ impl PreProcessedTrace {
 
     /// Log2 of the trace size: the largest column's log size.
     pub fn trace_log_size(&self) -> u32 {
-<<<<<<< HEAD
         *self.log_sizes().values().max().expect("the preprocessed trace is non-empty")
-||||||| 0dbaec2ac
-        self.columns
-            .values()
-            .map(|column| column.len().ilog2())
-            .max()
-            .expect("the preprocessed trace is non-empty")
-=======
-        self.columns
-            .iter()
-            .map(|(id, column)| column_log_size(id, column))
-            .max()
-            .expect("the preprocessed trace is non-empty")
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     }
 
     pub fn ids(&self) -> Vec<PreProcessedColumnId> {

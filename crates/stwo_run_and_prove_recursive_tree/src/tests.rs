@@ -2,15 +2,7 @@ use circuit_registry::CircuitRegistry;
 use leaf_proof_format::{PackedNode, SerializedLeafProof};
 
 use crate::canonical::CanonicalCircuit;
-<<<<<<< HEAD
-use crate::{LeafInput, RecursiveTreeError, load_leaves};
-||||||| 0dbaec2ac
-use crate::{LeafInput, PackedNode, RecursiveTreeError, load_leaves};
-=======
-use crate::{
-    LeafInput, LeafOutputHashType, LeafOutputPreimage, PackedNode, RecursiveTreeError, load_leaves,
-};
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -266,31 +258,17 @@ mod e2e {
 
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
-<<<<<<< HEAD
     use leaf_proof_format::PackedNode;
-    use leaf_prover::prove_leaf::prove_leaf_from_files;
-    use num_bigint::BigUint;
-||||||| 0dbaec2ac
-    use leaf_prover::prove_leaf::prove_leaf_from_files;
-    use num_bigint::BigUint;
-=======
     use stwo::core::fields::qm31::QM31;
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
     use crate::fold::digest_bytes_to_words;
-<<<<<<< HEAD
-    use crate::{LeafInput, stwo_run_and_prove_recursive_tree};
-||||||| 0dbaec2ac
-    use crate::{LeafInput, PackedNode, stwo_run_and_prove_recursive_tree};
-=======
     use crate::test_support::{LEAF_TASK_OUTPUT, generate_leaf};
     use crate::{
-        LeafInput, LeafOutputHashType, LeafOutputPreimage, PackedNode, ProofFormat,
+        LeafInput, LeafOutputHashType, LeafOutputPreimage, ProofFormat,
         stwo_run_and_prove_recursive_tree,
     };
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 
     /// The leaf every fold test duplicates, proven once per process.
     static GENERATED_LEAF: std::sync::LazyLock<LeafInput> = std::sync::LazyLock::new(|| {
@@ -582,10 +560,10 @@ mod e2e {
         };
         use circuit_common::finalize::pad_to_targets;
         use circuit_common::preprocessed::PreprocessedCircuit;
-        use circuit_multiverifier::verify::CircuitVerifierInput;
         use circuit_prover::prover::prove_circuit_assignment;
         use circuit_serialize::deserialize::deserialize_proof_with_config;
         use circuit_serialize::serialize::CircuitSerialize;
+        use circuit_verifier::multiverifier::CircuitVerifierInput;
         use circuits::blake::HashValue;
         use leaf_proof_format::DigestHex;
         use leaf_prover::prove_leaf::prove_leaf_from_files;
@@ -716,7 +694,7 @@ mod e2e {
             proof: deserialize_proof_with_config(&mut root_bytes.as_slice(), proof_config).unwrap(),
             preprocessed_root: canonical
                 .preprocessed_multiverifier
-                .preprocessed_root(proof_config.fri.log_blowup_factor)
+                .preprocessed_root(proof_config.fri.params.log_blowup_factor)
                 .into(),
             output_digest: <[u32; 8]>::try_from(root_outputs.clone()).unwrap().into(),
         };
@@ -778,7 +756,7 @@ mod e2e {
             circuit_prover::prover::prepare_circuit_proof_for_circuit_verifier(unpacking_proof);
         unpacking_serialized.serialize(&mut unpacking_bytes);
         let outer_leaf = LeafInput {
-            proof: crate::SerializedLeafProof {
+            proof: leaf_proof_format::SerializedLeafProof {
                 circuit_preprocessed_root: unpacking_preprocessed_digest,
                 circuit_hash: registry.unpacking_verifiers[0].circuit_hash,
                 proof: unpacking_bytes,

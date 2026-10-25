@@ -202,15 +202,10 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 name = "applicative-unpacking-verifier"
 version = "2.4.0"
 dependencies = [
-<<<<<<< HEAD
- "circuit-verifier",
-||||||| 0dbaec2ac
- "circuit-multiverifier",
-=======
  "circuit-common",
- "circuit-multiverifier",
+ "circuit-prover",
  "circuit-serialize",
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+ "circuit-verifier",
  "circuits",
  "circuits-stark-verifier",
  "circuits-unpacker",
@@ -1666,49 +1661,7 @@ dependencies = [
  "itertools 0.12.1",
  "rand_chacha 0.3.1",
  "stwo",
-<<<<<<< HEAD
-||||||| 0dbaec2ac
- "stwo-cairo-common",
- "stwo-constraint-framework",
-]
-
-[[package]]
-name = "circuit-multiverifier"
-version = "2.4.0"
-dependencies = [
- "blake2",
- "cairo-air",
- "circuit-cairo-verifier",
- "circuit-common",
- "circuit-prover",
- "circuit-serialize",
- "circuit-verifier",
- "circuits",
- "circuits-stark-verifier",
- "itertools 0.12.1",
- "stwo",
-=======
- "stwo-cairo-common",
  "stwo-cairo-utils",
- "stwo-constraint-framework",
-]
-
-[[package]]
-name = "circuit-multiverifier"
-version = "2.4.0"
-dependencies = [
- "blake2",
- "cairo-air",
- "circuit-cairo-verifier",
- "circuit-common",
- "circuit-prover",
- "circuit-serialize",
- "circuit-verifier",
- "circuits",
- "circuits-stark-verifier",
- "itertools 0.12.1",
- "stwo",
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
  "stwo-constraint-framework",
 ]
 
@@ -1733,14 +1686,15 @@ dependencies = [
  "stwo-cairo-common",
  "stwo-cairo-prover",
  "stwo-cairo-utils",
- "tempfile",
 ]
 
 [[package]]
 name = "circuit-prover"
 version = "2.4.0"
 dependencies = [
+ "circuit-cairo-verifier",
  "circuit-common",
+ "circuit-prover",
  "circuit-verifier",
  "circuits",
  "circuits-stark-verifier",

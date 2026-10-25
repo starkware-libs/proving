@@ -30,29 +30,11 @@ struct Args {
     ///     {
     ///         "channel_hash": "blake2s",
     ///         "channel_salt": 0,
-<<<<<<< HEAD
-    ///         "pcs_config": {
-    ///             "fri_params": {
-    ///                 "pow_bits": 26,
-    ///                 "log_last_layer_degree_bound": 0,
-    ///                 "log_blowup_factor": 1,
-    ///                 "n_queries": 70
-    ///             }
-||||||| 0dbaec2ac
-    ///         "pcs_config": {
-    ///             "fri_config": {
-    ///                 "pow_bits": 26,
-    ///                 "log_last_layer_degree_bound": 0,
-    ///                 "log_blowup_factor": 1,
-    ///                 "n_queries": 70
-    ///             }
-=======
-    ///         "fri_config": {
+    ///         "fri_params": {
     ///             "pow_bits": 26,
     ///             "log_last_layer_degree_bound": 0,
     ///             "log_blowup_factor": 1,
     ///             "n_queries": 70
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     ///         },
     ///         "preprocessed_trace_variant": "canonical_without_pedersen",
     ///         "store_polynomials_coefficients": false,

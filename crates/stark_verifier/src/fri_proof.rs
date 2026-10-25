@@ -80,16 +80,8 @@ impl<T> FriProof<T> {
     pub fn validate_structure(&self, config: &FriConfig) {
         let FriProof { commit, pow_nonce: _, auth_paths, witness } = self;
         let all_fold_steps = compute_all_fold_steps(
-<<<<<<< HEAD
             config.trace_log_size.checked_sub(config.params.log_last_layer_degree_bound).unwrap(),
             config.params.fold_step,
-||||||| 0dbaec2ac
-            log_trace_size - config.log_last_layer_degree_bound as usize,
-            config.fold_step as usize,
-=======
-            log_trace_size.checked_sub(config.log_last_layer_degree_bound as usize).unwrap(),
-            config.fold_step as usize,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         );
         commit.validate_structure(&config.params, &all_fold_steps);
 
@@ -126,43 +118,19 @@ impl<Value: IValue> Guess<Value> for FriProof<Value> {
 
 pub fn empty_fri_proof(config: &FriConfig) -> FriProof<NoValue> {
     let all_fold_steps = compute_all_fold_steps(
-<<<<<<< HEAD
-        config.trace_log_size - config.params.log_last_layer_degree_bound,
+        config.trace_log_size.checked_sub(config.params.log_last_layer_degree_bound).unwrap(),
         config.params.fold_step,
-||||||| 0dbaec2ac
-        log_trace_size - config.log_last_layer_degree_bound as usize,
-        config.fold_step as usize,
-=======
-        log_trace_size.checked_sub(config.log_last_layer_degree_bound as usize).unwrap(),
-        config.fold_step as usize,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     );
     let mut log_layer_size = config.log_evaluation_domain_size();
     let mut auth_paths = vec![];
 
     for step in &all_fold_steps {
-<<<<<<< HEAD
         // The verifier computes the Merkle node at height `log_layer_size - step` from the
         // witness.
         log_layer_size = log_layer_size.checked_sub(*step).unwrap();
         let path_len: usize = log_layer_size.try_into().unwrap();
         auth_paths
             .push(vec![AuthPath(vec![HashValue::no_value(); path_len]); config.params.n_queries]);
-||||||| 0dbaec2ac
-        auth_paths.push(vec![
-            // The verifier computes the Merkle node at height `log_layer_size - step`
-            // from the witness.
-            AuthPath(vec![HashValue::no_value(); log_layer_size - step]);
-            config.n_queries
-        ]);
-        log_layer_size -= step;
-=======
-        // The verifier computes the Merkle node at height `log_layer_size - step` from the
-        // witness.
-        log_layer_size = log_layer_size.checked_sub(*step).unwrap();
-        auth_paths
-            .push(vec![AuthPath(vec![HashValue::no_value(); log_layer_size]); config.n_queries]);
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     }
     let auth_paths = AuthPaths { data: auth_paths };
 

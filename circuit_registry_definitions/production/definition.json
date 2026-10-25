@@ -1,16 +1,9 @@
 {
-<<<<<<< HEAD
-    "cairo_prover_params_json": "circuit_registry_definitions/production/cairo_prover_params.json",
-    "circuit_fri_params_json": "circuit_registry_definitions/production/circuit_fri_params.json",
-||||||| 0dbaec2ac
-    "cairo_prover_params_json": "circuit_registry_definitions/production/cairo_prover_params.json",
-    "circuit_fri_config_json": "circuit_registry_definitions/production/circuit_fri_config.json",
-=======
     "cairo_prover_params": {
         "channel_hash": "blake2s",
         "channel_salt": 0,
         "preprocessed_trace_variant": "canonical",
-        "fri_config": {
+        "fri_params": {
             "pow_bits": 26,
             "log_blowup_factor": 1,
             "log_last_layer_degree_bound": 0,
@@ -22,19 +15,18 @@
         "opt_n_id_to_big_components": 16,
         "lifting_size_policy": "at_least_preprocessed"
     },
-    "circuit_fri_config": {
+    "circuit_fri_params": {
         "pow_bits": 26,
         "log_blowup_factor": 1,
         "log_last_layer_degree_bound": 0,
         "n_queries": 70,
         "fold_step": 4
     },
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     "program": "crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/leaf_simple_bootloader_compiled.json",
     "min_trace_log_size": 25,
     "max_trace_log_size": 29,
-<<<<<<< HEAD
     "add_zk_blinding": false,
+    "aggregator_wrapper_program": "crates/stwo_run_and_prove_recursive_tree/test_data/aggregator_wrapper_compiled.json",
     "cairo_components": [
         "add_opcode",
         "add_opcode_small",
@@ -116,10 +108,4 @@
         "verify_bitwise_xor_8",
         "verify_bitwise_xor_9"
     ]
-||||||| 0dbaec2ac
-    "add_zk_blinding": false
-=======
-    "add_zk_blinding": false,
-    "aggregator_wrapper_program": "crates/stwo_run_and_prove_recursive_tree/test_data/aggregator_wrapper_compiled.json"
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 }

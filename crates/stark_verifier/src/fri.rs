@@ -37,25 +37,11 @@ pub fn mix_fri_params<Value: IValue>(
         fold_step,
     } = params;
     let words = [
-<<<<<<< HEAD
         *pow_bits,
         *log_blowup_factor,
-        *n_queries as u32,
+        (*n_queries).try_into().unwrap(),
         *log_last_layer_degree_bound,
         *fold_step,
-||||||| 0dbaec2ac
-        config.pow_bits,
-        config.log_blowup_factor,
-        config.n_queries as u32,
-        config.log_last_layer_degree_bound,
-        config.fold_step,
-=======
-        config.pow_bits,
-        config.log_blowup_factor,
-        config.n_queries.try_into().unwrap(),
-        config.log_last_layer_degree_bound,
-        config.fold_step,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     ]
     .map(|value| U32Wrapper::const_u32(context, value));
     channel.mix_u32s(context, words.into_iter());

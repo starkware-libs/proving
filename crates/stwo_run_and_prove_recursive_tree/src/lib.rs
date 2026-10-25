@@ -43,16 +43,8 @@ pub mod test_support;
 use canonical::CanonicalCircuit;
 pub use fold::ProofFormat;
 use fold::{LayerEntry, reduce_pair, reduce_root_single};
-<<<<<<< HEAD
 use leaf_io::LeafInput;
-pub use leaf_io::load_leaves;
-||||||| 0dbaec2ac
-pub use leaf_io::{LeafInput, LeafProofExt, load_leaves};
-pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
-=======
-pub use leaf_io::{LeafInput, LeafOutputHashType, LeafOutputPreimage, load_leaves};
-pub use leaf_proof_format::{PackedNode, SerializedLeafProof};
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+pub use leaf_io::{LeafOutputHashType, LeafOutputPreimage, load_leaves};
 
 #[derive(Debug, Error)]
 pub enum RecursiveTreeError {

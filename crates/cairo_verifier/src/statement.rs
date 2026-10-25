@@ -369,25 +369,13 @@ fn output_limbs_from_hash<Value: IValue>(
         // limbs (the last only partially), and the high limbs stay zero.
         let mut cell_vec = Vec::with_capacity(MEMORY_VALUES_LIMBS);
         for limb_bits in bits.chunks(LIMB_BITS) {
-            let limb = Simd::combine_bits(context, limb_bits);
+            let limb = combine_bits(context, limb_bits);
             cell_vec.push(Simd::unpack_single(context, &limb));
         }
 
-<<<<<<< HEAD
         assert!(cell_vec.len() <= MEMORY_VALUES_LIMBS); // Otherwise .resize() would crop it
         cell_vec.resize(MEMORY_VALUES_LIMBS, zero);
         let cell: [M31Wrapper<Var>; MEMORY_VALUES_LIMBS] = cell_vec.try_into().unwrap();
-||||||| 0dbaec2ac
-            let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
-            let limb = Simd::combine_bits(context, chunk);
-            Simd::unpack_single(context, &limb)
-        });
-=======
-            let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
-            let limb = combine_bits(context, chunk);
-            Simd::unpack_single(context, &limb)
-        });
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         outputs.push(cell);
     }
     outputs.try_into().unwrap()
@@ -518,32 +506,15 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
                 final_state.ap,
                 final_state.fp
             ],
-<<<<<<< HEAD
-            segment_ranges
-                .iter()
-                .flat_map(|r| { [r.start.id, r.start.value, r.stop.id, r.stop.value] }),
+            segment_ranges.iter().flat_map(
+                |SegmentRange {
+                     start: PubMemoryAddress { id: start_id, value: start_value },
+                     stop: PubMemoryAddress { id: stop_id, value: stop_value },
+                 }| [*start_id, *start_value, *stop_id, *stop_value]
+            ),
             safe_call_ids.iter().copied(),
             output_ids.iter().copied(),
             program_ids.iter().copied(),
-||||||| 0dbaec2ac
-            aux_data
-                .segment_ranges
-                .iter()
-                .flat_map(|r| { [r.start.id, r.start.value, r.end.id, r.end.value] }),
-            aux_data.safe_call_ids,
-            aux_data.output_ids.iter().copied(),
-            aux_data.program_ids.iter().copied(),
-=======
-            aux_data.segment_ranges.iter().flat_map(
-                |SegmentRange {
-                     start: PubMemoryAddress { id: start_id, value: start_value },
-                     end: PubMemoryAddress { id: end_id, value: end_value },
-                 }| [*start_id, *start_value, *end_id, *end_value]
-            ),
-            aux_data.safe_call_ids,
-            aux_data.output_ids.iter().copied(),
-            aux_data.program_ids.iter().copied(),
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         )
         .collect_vec();
         let aux_data_words = to_padded_u32_words(context, &aux_data_vars);

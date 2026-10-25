@@ -212,7 +212,7 @@ pub fn blake2s_u32s<Value: IValue>(
     );
     let n_blocks = std::cmp::max(1, n_bytes.div_ceil(BLOCK_BYTES));
     let total_words = n_blocks * WORDS_PER_BLOCK;
-    let zero_u32 = U32Wrapper::from(0).constant(ctx);
+    let zero_u32 = QM31::pack_u32(0).constant(ctx);
     while message_u32s.len() < total_words {
         message_u32s.push(zero_u32);
     }

@@ -4,20 +4,12 @@ use stwo_verifier_core::channel::{Channel, ChannelTrait};
 use stwo_verifier_core::fields::qm31::QM31;
 use stwo_verifier_core::utils::ArrayImpl;
 
+pub mod claim;
 pub mod component;
 #[cfg(feature: "test_utils")]
 pub mod test_utils;
 
-<<<<<<< HEAD
 pub use component::{AirComponent, Component};
-||||||| 0dbaec2ac
-pub use claim::ClaimTrait;
-pub use component::{AirComponent, NewComponent};
-pub use utils::tree_array_concat_cols;
-=======
-pub use component::AirComponent;
-pub use utils::tree_array_concat_cols;
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 
 /// Represents the value of the prefix sum column at some index.
 /// Should be used to eliminate padded rows for the logup sum.

@@ -22,7 +22,6 @@ pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 /// `1 << LIMB_BITS = 1024`. Used as the offset shift between expansion bands.
 const LIMB_OFFSET: u32 = 1024;
 
-<<<<<<< HEAD
 #[derive(Drop, Serde, Copy)]
 pub struct Claim {}
 
@@ -31,54 +30,6 @@ pub impl ClaimImpl of ClaimTrait<Claim> {
 }
 
 pub impl AirComponentImpl of AirComponent<Component<Claim>> {
-||||||| 0dbaec2ac
-#[derive(Drop, Serde, Copy)]
-pub struct Claim {}
-
-pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn log_sizes(self: @Claim) -> TreeArray<Span<u32>> {
-        let log_size = LOG_SIZE;
-        let preprocessed_log_sizes = array![log_size].span();
-        let trace_log_sizes = [log_size; N_TRACE_COLUMNS].span();
-        // 8 pairs × QM31 (4 base columns each) = 32 interaction columns.
-        let interaction_log_sizes = [log_size; N_INTERACTION_COLUMNS].span();
-        array![preprocessed_log_sizes, trace_log_sizes, interaction_log_sizes]
-    }
-
-    fn mix_into(self: @Claim, ref channel: Channel) {}
-
-    fn accumulate_relation_uses(self: @Claim, ref relation_uses: RelationUsesDict) {}
-}
-
-#[derive(Drop)]
-pub struct Component {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl NewComponentImpl of NewComponent<Component> {
-    type Claim = Claim;
-
-    fn new(
-        claim: @Claim, claimed_sum: QM31, common_lookup_elements: @CommonLookupElements,
-    ) -> Component {
-        Component {
-            claim: *claim, claimed_sum, common_lookup_elements: common_lookup_elements.clone(),
-        }
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
-=======
-#[derive(Drop)]
-pub struct Component {
-    pub claimed_sum: QM31,
-    pub common_lookup_elements: CommonLookupElements,
-}
-
-pub impl AirComponentImpl of AirComponent<Component> {
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     fn evaluate_constraints_at_point(
         self: @Component<Claim>,
         ref sum: QM31,

@@ -9,9 +9,6 @@ description = "Compute the leaf-prover verifier circuit's per-component sizes fo
 # Gates the json CLI test, which builds and Merkle-commits a large preprocessed trace.
 slow-tests = []
 
-[dev-dependencies]
-tempfile.workspace = true
-
 [dependencies]
 clap.workspace = true
 serde.workspace = true

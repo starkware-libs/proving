@@ -19,19 +19,9 @@ pub const CAIRO_RUN_CONFIG: CairoRunConfig<'_> = CairoRunConfig {
 };
 
 pub const CAIRO_PROVER_PARAMS: ProverParameters = ProverParameters {
-<<<<<<< HEAD
     channel_hash: ChannelHash::Blake2s,
     fri_params: CAIRO_PCS_CONFIG.fri_params,
-    preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
-||||||| 0dbaec2ac
-    channel_hash: ChannelHash::Blake2sM31,
-    fri_config: CAIRO_PCS_CONFIG.fri_config,
-    preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
-=======
-    channel_hash: ChannelHash::Blake2sM31,
-    fri_config: CAIRO_PCS_CONFIG.fri_config,
     preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     channel_salt: 0,
     store_polynomials_coefficients: true,
     include_all_preprocessed_columns: true,

@@ -54,25 +54,11 @@ use stwo_constraint_framework::PreprocessedColumnIdx;";
 fn shared_target_sizes(definition: &RegistryDefinition) -> ComponentSizes {
     let cairo_params = definition.cairo_prover_params;
     let circuits_builder = CircuitsBuilder {
-<<<<<<< HEAD
         cairo_roots_cache: Default::default(),
-||||||| 0dbaec2ac
-        cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace,
-=======
-        cairo_preprocessed_trace_variant: cairo_params.preprocessed_trace_variant,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         leaf_program: load_program(&definition.program),
-<<<<<<< HEAD
         cairo_component_names: definition.cairo_components.clone(),
         cairo_prover_params: cairo_params,
-        circuit_fri_params: definition.circuit_fri_params(),
-||||||| 0dbaec2ac
-        cairo_fri_config: cairo_params.fri_config,
-        circuit_fri_config: definition.circuit_fri_config(),
-=======
-        cairo_fri_config: cairo_params.fri_config,
-        circuit_fri_config: definition.circuit_fri_config,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+        circuit_fri_params: definition.circuit_fri_params,
         add_zk_blinding: definition.add_zk_blinding,
     };
     let leaves_max_sizes = (definition.min_trace_log_size..=definition.max_trace_log_size)
@@ -85,13 +71,7 @@ fn shared_target_sizes(definition: &RegistryDefinition) -> ComponentSizes {
         .expect("the trace range is non-empty");
     padded_shared_target_sizes(
         leaves_max_sizes,
-<<<<<<< HEAD
-        definition.circuit_fri_params(),
-||||||| 0dbaec2ac
-        definition.circuit_fri_config(),
-=======
-        definition.circuit_fri_config,
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+        definition.circuit_fri_params,
         definition.pad_to_component_log_sizes.as_ref(),
     )
 }
@@ -288,29 +268,13 @@ fn assert_generated_file(file_name: &str, rendered: &str) {
 /// preprocessed-trace values, so this is fast).
 #[test]
 fn test_cairo_verifier_consts_match_production_registry() {
-<<<<<<< HEAD
     let production = RegistryDefinition::load(
         &repo_root(),
         "circuit_registry_definitions/production/definition.json",
     );
-    // TODO(yair): Add a sizes-only shared-target variant; the discarded multiverifier's
-    // preprocessed trace is the bulk of this test's memory.
-    let (target_sizes, _preprocessed_multiverifier) = shared_target(&production);
-    let fri_params = production.circuit_fri_params();
-    assert_generated_file(
-||||||| 0dbaec2ac
-    let production = RegistryDefinition::load(&repo_root(), "production");
-    // TODO(yair): Add a sizes-only shared-target variant; the discarded multiverifier's
-    // preprocessed trace is the bulk of this test's memory.
-    let (target_sizes, _preprocessed_multiverifier) = shared_target(&production);
-    let fri_config = production.circuit_fri_config();
-    assert_generated_section(
-=======
-    let production = RegistryDefinition::load(&repo_root(), "production");
     let target_sizes = shared_target_sizes(&production);
-    let fri_config = production.circuit_fri_config;
-    assert_generated_section(
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
+    let fri_params = production.circuit_fri_params;
+    assert_generated_file(
         "multiverifier_consts.cairo",
         &render_multiverifier_consts(fri_params, &target_sizes),
     );
@@ -319,39 +283,19 @@ fn test_cairo_verifier_consts_match_production_registry() {
         &render_preprocessed_columns(&target_sizes),
     );
 
-<<<<<<< HEAD
-    // The canonical_small registry pads to the production shape, so that its goldens' root proof —
-    // the Cairo verifier's execution fixture — is verified by exactly these consts.
+    // The recursive-tree e2e runs the Cairo verifier on roots proven with canonical_small, so
+    // canonical_small must pad to the production sizes.
     let small = RegistryDefinition::load(
         &repo_root(),
         "circuit_registry_definitions/canonical_small/definition.json",
     );
-||||||| 0dbaec2ac
-    // The canonical_small registry pads to the production shape, so that its goldens' root proof —
-    // the Cairo verifier's execution fixture — is verified by exactly these consts.
-    let small = RegistryDefinition::load(&repo_root(), "canonical_small");
-=======
-    // The recursive-tree e2e runs the Cairo verifier on roots proven with canonical_small, so
-    // canonical_small must pad to the production sizes.
-    let small = RegistryDefinition::load(&repo_root(), "canonical_small");
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     assert_eq!(
         small.pad_to_component_log_sizes.as_ref(),
         Some(&circuit_registry::LogSizes::of(&target_sizes)),
         "canonical_small's pad_to_component_log_sizes must equal the production target"
     );
     assert_eq!(
-<<<<<<< HEAD
-        small.circuit_fri_params(),
-        fri_params,
+        small.circuit_fri_params, fri_params,
         "canonical_small's circuit FRI params must equal production's"
-||||||| 0dbaec2ac
-        small.circuit_fri_config(),
-        fri_config,
-        "canonical_small's circuit FRI config must equal production's"
-=======
-        small.circuit_fri_config, fri_config,
-        "canonical_small's circuit FRI config must equal production's"
->>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     );
 }
