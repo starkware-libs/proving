@@ -10,6 +10,9 @@ use crate::parallel_iter;
 
 pub mod ifft;
 pub mod rfft;
+mod twiddle_tree_view;
+
+pub use twiddle_tree_view::TwiddleTreeView;
 
 pub const CACHED_FFT_LOG_SIZE: u32 = 16;
 

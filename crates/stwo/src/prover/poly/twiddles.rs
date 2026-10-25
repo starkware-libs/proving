@@ -1,7 +1,6 @@
 use super::BitReversedOrder;
 use super::circle::PolyOps;
 use crate::core::circle::Coset;
-use crate::core::poly::circle::CircleDomain;
 
 /// Precomputed twiddles for a specific coset tower.
 ///
@@ -16,41 +15,6 @@ pub struct TwiddleTree<B: PolyOps> {
 }
 
 unsafe impl<B: PolyOps> Sync for TwiddleTree<B> {}
-
-impl<T, B: PolyOps<Twiddles = Vec<T>>> TwiddleTree<B> {
-    /// Returns the forward twiddles of the `index`-th of the `2^log_n_subdomains` subdomains of
-    /// `domain` (in bit-reversed order), layer by layer from the outermost.
-    ///
-    /// Each layer of the tree is in bit-reversed order, so a subdomain's layer is the `index`-th of
-    /// `2^log_n_subdomains` equal chunks of the domain's layer.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the tree does not cover `domain`, if `log_n_subdomains` is larger than the number
-    /// of layers of `domain`, or if `index` is not smaller than `2^log_n_subdomains`.
-    pub fn subdomain_twiddles(
-        &self,
-        domain: CircleDomain,
-        log_n_subdomains: u32,
-        index: usize,
-    ) -> Vec<&[T]> {
-        let n_layers = domain.log_size() as usize - 1;
-        assert!(
-            n_layers <= self.twiddles.len().checked_ilog2().unwrap_or(0) as usize,
-            "Not enough twiddles!"
-        );
-        assert!(log_n_subdomains as usize <= n_layers);
-        assert!(index < 1 << log_n_subdomains);
-        let subdomain_n_layers = n_layers - log_n_subdomains as usize;
-        (0..subdomain_n_layers)
-            .map(|j| {
-                let layer_start = self.twiddles.len() - (2 << (n_layers - 1 - j));
-                let len = 1 << (subdomain_n_layers - 1 - j);
-                &self.twiddles[layer_start + index * len..layer_start + (index + 1) * len]
-            })
-            .collect()
-    }
-}
 
 /// Trait for twiddle buffers that support subdomain extraction.
 pub trait TwiddleBuffer<Order> {
@@ -116,9 +80,7 @@ impl<T: Copy> TwiddleBuffer<BitReversedOrder> for Vec<T> {
 mod tests {
     use super::*;
     use crate::core::poly::circle::CanonicCoset;
-    use crate::core::poly::utils::domain_line_twiddles_from_tree;
     use crate::prover::backend::cpu::circle::slow_precompute_twiddles;
-    use crate::prover::backend::simd::SimdBackend;
 
     #[test]
     fn test_extract_subdomain_twiddles() {
@@ -169,32 +131,5 @@ mod tests {
         // Compare all layers (excluding the padding element).
         assert_eq!(extracted.len(), expected.len());
         assert_eq!(extracted[..extracted.len() - 1], expected[..expected.len() - 1]);
-    }
-
-    #[test]
-    fn test_subdomain_twiddles() {
-        let root_log_size = 8;
-        let tree = TwiddleTree::<SimdBackend> {
-            root_coset: CanonicCoset::new(root_log_size + 1).circle_domain().half_coset,
-            twiddles: (0..1 << root_log_size).collect(),
-            itwiddles: vec![],
-        };
-        // Includes trees larger than the domain.
-        for log_size in 2..=root_log_size + 1 {
-            let domain = CanonicCoset::new(log_size).circle_domain();
-            let domain_layers = domain_line_twiddles_from_tree(domain, &tree.twiddles);
-            for fft_log_size in 1..=log_size {
-                let log_n_subdomains = log_size - fft_log_size;
-                for i in 0..1 << log_n_subdomains {
-                    let expected = (0..fft_log_size as usize - 1)
-                        .map(|j| {
-                            let len = 1 << (fft_log_size as usize - 2 - j);
-                            &domain_layers[j][i * len..(i + 1) * len]
-                        })
-                        .collect::<Vec<_>>();
-                    assert_eq!(tree.subdomain_twiddles(domain, log_n_subdomains, i), expected);
-                }
-            }
-        }
     }
 }

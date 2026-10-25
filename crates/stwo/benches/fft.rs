@@ -4,24 +4,23 @@ use std::hint::black_box;
 use std::mem::{size_of_val, transmute};
 
 use criterion::{BatchSize, BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
-use itertools::Itertools;
 use stwo::core::fields::m31::BaseField;
 use stwo::core::poly::circle::CanonicCoset;
+use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::backend::simd::column::BaseColumn;
-use stwo::prover::backend::simd::fft::ifft::{
-    get_itwiddle_dbls, ifft, ifft_vecwise_loop, ifft3_loop,
-};
-use stwo::prover::backend::simd::fft::rfft::{fft, get_twiddle_dbls};
-use stwo::prover::backend::simd::fft::transpose_vecs;
+use stwo::prover::backend::simd::fft::ifft::{ifft, ifft_vecwise_loop, ifft3_loop};
+use stwo::prover::backend::simd::fft::rfft::fft;
+use stwo::prover::backend::simd::fft::{TwiddleTreeView, transpose_vecs};
 use stwo::prover::backend::simd::m31::PackedBaseField;
+use stwo::prover::poly::circle::PolyOps;
 
 pub fn simd_ifft(c: &mut Criterion) {
     let mut group = c.benchmark_group("iffts");
 
     for log_size in 16..=28 {
         let domain = CanonicCoset::new(log_size).circle_domain();
-        let twiddle_dbls = get_itwiddle_dbls(domain.half_coset);
-        let twiddle_dbls_refs = twiddle_dbls.iter().map(|x| x.as_slice()).collect_vec();
+        let twiddle_tree = SimdBackend::precompute_twiddles(domain.half_coset);
+        let twiddles = TwiddleTreeView::new(&twiddle_tree.itwiddles);
         let values: BaseColumn = (0..domain.size()).map(BaseField::from).collect();
         group.throughput(Throughput::Bytes(size_of_val(&*values.data) as u64));
         group.bench_function(BenchmarkId::new("simd ifft", log_size), |b| {
@@ -30,7 +29,7 @@ pub fn simd_ifft(c: &mut Criterion) {
                 |mut data| unsafe {
                     ifft(
                         transmute::<*mut PackedBaseField, *mut u32>(data.as_mut_ptr()),
-                        black_box(&twiddle_dbls_refs),
+                        black_box(twiddles),
                         black_box(log_size as usize),
                     );
                 },
@@ -44,8 +43,8 @@ pub fn simd_ifft_parts(c: &mut Criterion) {
     const LOG_SIZE: u32 = 14;
 
     let domain = CanonicCoset::new(LOG_SIZE).circle_domain();
-    let twiddle_dbls = get_itwiddle_dbls(domain.half_coset);
-    let twiddle_dbls_refs = twiddle_dbls.iter().map(|x| x.as_slice()).collect_vec();
+    let twiddle_tree = SimdBackend::precompute_twiddles(domain.half_coset);
+    let twiddles = TwiddleTreeView::new(&twiddle_tree.itwiddles);
     let values: BaseColumn = (0..domain.size()).map(BaseField::from).collect();
 
     let mut group = c.benchmark_group("ifft parts");
@@ -59,7 +58,7 @@ pub fn simd_ifft_parts(c: &mut Criterion) {
             |mut values| unsafe {
                 ifft_vecwise_loop(
                     transmute::<*mut PackedBaseField, *mut u32>(values.as_mut_ptr()),
-                    black_box(&twiddle_dbls_refs),
+                    black_box(twiddles),
                     black_box(9),
                     black_box(0),
                 )
@@ -73,7 +72,7 @@ pub fn simd_ifft_parts(c: &mut Criterion) {
             |mut values| unsafe {
                 ifft3_loop(
                     transmute::<*mut PackedBaseField, *mut u32>(values.as_mut_ptr()),
-                    black_box(&twiddle_dbls_refs[3..]),
+                    black_box(twiddles.skip_layers(3)),
                     black_box(7),
                     black_box(4),
                     black_box(0),
@@ -104,8 +103,8 @@ pub fn simd_rfft(c: &mut Criterion) {
     const LOG_SIZE: u32 = 24;
 
     let domain = CanonicCoset::new(LOG_SIZE).circle_domain();
-    let twiddle_dbls = get_twiddle_dbls(domain.half_coset);
-    let twiddle_dbls_refs = twiddle_dbls.iter().map(|x| x.as_slice()).collect_vec();
+    let twiddle_tree = SimdBackend::precompute_twiddles(domain.half_coset);
+    let twiddles = TwiddleTreeView::new(&twiddle_tree.twiddles);
     let values: BaseColumn = (0..domain.size()).map(BaseField::from).collect();
 
     let mut group = c.benchmark_group("rfft");
@@ -119,7 +118,7 @@ pub fn simd_rfft(c: &mut Criterion) {
             fft(
                 black_box(transmute::<*const PackedBaseField, *const u32>(values.data.as_ptr())),
                 transmute::<*mut PackedBaseField, *mut u32>(target.as_mut_ptr()),
-                black_box(&twiddle_dbls_refs),
+                black_box(twiddles),
                 black_box(LOG_SIZE as usize),
             )
         });
