@@ -31,3 +31,7 @@ circuit-prover = { path = ".", features = ["test-utils"] }
 circuits = { workspace = true, features = ["test-utils"] }
 expect-test.workspace = true
 starknet-ff.workspace = true
+
+[package.metadata.cargo-shear]
+# The self dev-dependency only turns `test-utils` on for this crate's own tests.
+ignored = ["circuit-prover"]
