@@ -45,7 +45,8 @@ jobs:
           cargo run -p cairo-program-runner-lib --example run_pie_object_with_simple_bl
 
   slow-tests:
-    runs-on: namespace-profile-starkware-libs-proving-dev-xlarge-ubuntu-24-04-amd64
+    # The applicative e2e test needs more memory than the xlarge profile has.
+    runs-on: namespace-profile-starkware-libs-proving-dev-32-128-ubuntu-24-04-amd64
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
@@ -56,7 +57,7 @@ jobs:
         uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2
         with:
           tool: nextest
-      # The recursive tree's golden e2e ends with a `scarb execute` of the Cairo circuit verifier.
+      # The recursive tree's e2e tests run their roots through the Cairo verifier (`scarb execute`).
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1
         with:
           tool-versions: .tool-versions

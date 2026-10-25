@@ -15,7 +15,7 @@ use circuit_registry::CircuitRegistry;
 use clap::Parser;
 use stwo_cairo_utils::binary_utils::run_binary;
 use stwo_run_and_prove_recursive_tree::{
-    RecursiveTreeError, load_leaves, stwo_run_and_prove_recursive_tree,
+    ProofFormat, RecursiveTreeError, load_leaves, stwo_run_and_prove_recursive_tree,
 };
 use tracing::{Level, info, span};
 
@@ -30,19 +30,17 @@ struct Args {
     #[clap(long = "program_input")]
     program_input: PathBuf,
 
-    /// Output path for the root circuit proof. For a multi-leaf tree this is the Cairo circuit
-    /// verifier's felt252 arguments stream (a JSON array of hex-string felts); a single-leaf tree
-    /// copies the leaf's serialized proof through unchanged.
+    /// Output path for the root circuit proof, in the format `--proof_format` selects.
     #[clap(long = "proof_path")]
     proof_path: PathBuf,
 
-    /// Output path for the root node's output values (JSON array of `[u32; 4]` QM31 limbs).
+    /// Output path for the root node's output values (JSON array of raw `u32` digest words).
     #[clap(long = "program_output")]
     program_output: PathBuf,
 
     /// Output path for the nested `PackedNode` JSON tree consumed by a future per-leaf unpacker.
-    #[clap(long = "packed_output_path")]
-    packed_output_path: PathBuf,
+    #[clap(long = "packed_node_tree_path")]
+    packed_node_tree_path: PathBuf,
 
     /// The circuit registry of the circuits being folded — the same file the leaf prover ran with.
     /// Supplies the circuit proofs' prover params, the registry's padding target and the
@@ -53,6 +51,12 @@ struct Args {
     /// Maximum number of pair reductions proven in parallel within a layer.
     #[clap(long = "max_concurrency", default_value_t = NonZeroUsize::new(1).unwrap())]
     max_concurrency: NonZeroUsize,
+
+    /// Who consumes the root proof: `cairo_verifier` (the default) emits the Cairo circuit
+    /// verifier's felt252 arguments stream; `circuit` emits CircuitSerialize bytes for the
+    /// applicative unpacking verifier.
+    #[clap(long = "proof_format", value_enum, default_value_t = ProofFormat::CairoVerifier)]
+    proof_format: ProofFormat,
 }
 
 fn main() -> ExitCode {
@@ -70,8 +74,9 @@ fn run() -> Result<(), RecursiveTreeError> {
         &registry,
         &args.proof_path,
         &args.program_output,
-        &args.packed_output_path,
+        &args.packed_node_tree_path,
         args.max_concurrency,
+        args.proof_format,
     )?;
     info!(
         n_layers = stats.n_layers,

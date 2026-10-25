@@ -4,13 +4,20 @@ use itertools::zip_eq;
 use rstest::rstest;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 
+<<<<<<< HEAD
 use crate::blake::{HashValue, blake2s, blake2s_u32s, unpack_qm31s_to_u32_words};
+||||||| 0dbaec2ac
+use crate::blake::{HashValue, blake2s, blake2s_m31, qm31_from_bytes};
+=======
+use crate::blake::{HashValue, blake2s, blake2s_m31, blake2s_u32s, qm31_from_bytes};
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 use crate::context::TraceContext;
 use crate::ivalue::{IValue, qm31_from_u32s};
 use crate::ops::{Guess, eq, guess};
 use crate::stats::Stats;
 use crate::test_utils::finalize_guessed_vars;
 use crate::utils::bytes_from_le_u32s;
+use crate::wrappers::U32Wrapper;
 
 #[rstest]
 #[case::success(false)]
@@ -111,6 +118,39 @@ fn test_blake2s() {
     let context = context.finalize(false);
     context.circuit().check_yields();
     assert!(context.is_circuit_valid());
+}
+
+/// Boundary of the `n_bytes <= 4 * message_u32s.len()` precondition: every byte of every message
+/// word is hashed.
+#[test]
+fn test_blake2s_u32s_n_bytes_fills_message_words() {
+    let mut context = TraceContext::default();
+
+    let words: [u32; 3] = [0x0403_0201, 0x0807_0605, 0x0C0B_0A09];
+    let n_bytes = 4 * words.len();
+    let message_u32s =
+        words.iter().map(|&word| U32Wrapper::const_u32(&mut context, word)).collect();
+
+    let output = blake2s_u32s(&mut context, message_u32s, n_bytes);
+
+    let message_bytes: [u8; 12] = bytes_from_le_u32s(words);
+    let mut hasher = Blake2s256::new();
+    hasher.update(message_bytes);
+    let expected = HashValue::from(Blake2sHash(hasher.finalize().into()));
+    assert_eq!(HashValue(output.0.map(|word| word.get_value(&context))), expected);
+
+    let context = context.finalize(false);
+    context.circuit().check_yields();
+    assert!(context.is_circuit_valid());
+}
+
+#[test]
+#[should_panic(expected = "Cannot hash 5 bytes from 1 message words")]
+fn test_blake2s_u32s_n_bytes_exceeds_message_words() {
+    let mut context = TraceContext::default();
+    let message_u32s = vec![U32Wrapper::const_u32(&mut context, 0)];
+
+    blake2s_u32s(&mut context, message_u32s, 5);
 }
 
 #[test]

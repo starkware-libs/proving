@@ -10,31 +10,18 @@ use num_traits::ToPrimitive;
 use regex::Regex;
 use serde_json::Value as JsonValue;
 use starknet_types_core::hash::{Pedersen, StarkHash};
+use stwo_cairo_utils::math_utils;
 
 use super::COMPONENT_HEIGHT;
 use super::cairo_structs::*;
 use super::types::{ExtractedIDsAndInputValues, ExtractedProofValues, OwnedPublicInput};
 
-/// Computes the base-2 logarithm of a power-of-two number.
-///
-/// # Arguments
-///
-/// * `x` - A `u128` integer which must be a power of two.
-///
-/// # Returns
-///
-/// Returns `Ok` containing the logarithm value if `x` is a power of two,
-/// or an error `HintError` if `x` is not a power of two.
-///
-/// # Errors
-///
-/// Returns `HintError::CustomHint` if `x` is not a power of two.
+/// Computes the base-2 logarithm via [`math_utils::safe_log2`], failing with a
+/// `HintError::CustomHint` if `x` is not a power of two.
 pub fn safe_log2(x: u128) -> Result<u32, HintError> {
-    if x.is_power_of_two() {
-        Ok(x.trailing_zeros())
-    } else {
-        Err(HintError::CustomHint(format!("safe_log2: Input {x} is not a power of two.").into()))
-    }
+    math_utils::safe_log2(x).ok_or_else(|| {
+        HintError::CustomHint(format!("safe_log2: Input {x} is not a power of two.").into())
+    })
 }
 
 /// Extracts annotations from a list of strings based on a given prefix and kind.

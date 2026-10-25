@@ -26,5 +26,6 @@ circuits-stark-verifier.workspace = true
 rand.workspace = true
 
 [dev-dependencies]
+circuits = { workspace = true, features = ["test-utils"] }
 expect-test.workspace = true
 starknet-ff.workspace = true

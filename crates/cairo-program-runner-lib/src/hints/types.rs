@@ -541,7 +541,9 @@ pub struct SimpleOutputInput {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct ConcatAggregatorInput {
-    pub bootloader_output: Vec<Number>,
+    /// The bootloader output holding the task records, every felt a `0x`-prefixed hex string (a
+    /// program hash does not fit a JSON number).
+    pub bootloader_output: Vec<Felt252>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

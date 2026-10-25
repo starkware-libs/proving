@@ -80,8 +80,16 @@ fn test_proof_stability(path: &str, n_proofs_to_compare: usize) {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
         fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
+||||||| 0dbaec2ac
+        fri_config: FriConfig::default(),
+        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+=======
+        fri_config: FriConfig::default(),
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
@@ -129,8 +137,16 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
             fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+||||||| 0dbaec2ac
+            fri_config: FriConfig::default(),
+            preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+=======
+            fri_config: FriConfig::default(),
+            preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -168,9 +184,19 @@ pub mod builtin_tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
             fri_params: FriParams::new(10, 0, 1, 1000, 1),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 16,
+||||||| 0dbaec2ac
+            fri_config: FriConfig::new(10, 0, 1, 1000, 1),
+            preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+            channel_salt: 25,
+=======
+            fri_config: FriConfig::new(10, 0, 1, 1000, 1),
+            preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
+            channel_salt: 25,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
@@ -259,8 +285,16 @@ pub mod builtin_tests {
     fn test_poseidon_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
             fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
+||||||| 0dbaec2ac
+            fri_config: FriConfig::default(),
+            preprocessed_trace: PreProcessedTraceVariant::Canonical,
+=======
+            fri_config: FriConfig::default(),
+            preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -330,8 +364,16 @@ pub mod builtin_tests {
     fn test_pedersen_aggregator() {
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
             fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::Canonical,
+||||||| 0dbaec2ac
+            fri_config: FriConfig::default(),
+            preprocessed_trace: PreProcessedTraceVariant::Canonical,
+=======
+            fri_config: FriConfig::default(),
+            preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
@@ -426,8 +468,16 @@ fn test_prove_verify_all_opcode_components() {
     }
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
         fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
+||||||| 0dbaec2ac
+        fri_config: FriConfig::default(),
+        preprocessed_trace: PreProcessedTraceVariant::CanonicalWithoutPedersen,
+=======
+        fri_config: FriConfig::default(),
+        preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalWithoutPedersen,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         channel_salt: 0,
         store_polynomials_coefficients: true,
         include_all_preprocessed_columns: false,
@@ -447,8 +497,16 @@ fn test_prove_all_opcode_components_proof_regression() {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
         fri_params: FriParams::new(26, 0, 1, 70, 3),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
+||||||| 0dbaec2ac
+        fri_config: FriConfig::new(26, 0, 1, 70, 3),
+        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+=======
+        fri_config: FriConfig::new(26, 0, 1, 70, 3),
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
@@ -489,8 +547,16 @@ fn test_prove_verify_all_builtins_non_default_fri_params() {
             .unwrap();
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
         fri_params: FriParams::new(26, 0, 1, 70, 1),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
+||||||| 0dbaec2ac
+        fri_config: FriConfig::new(26, 0, 1, 70, 1),
+        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+=======
+        fri_config: FriConfig::new(26, 0, 1, 70, 1),
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,
@@ -590,8 +656,16 @@ fn test_prove_verify_all_builtins() {
     assert_all_builtins_in_input(&input);
     let prover_params = ProverParameters {
         channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
         fri_params: FriParams::test_params(),
         preprocessed_trace: PreProcessedTraceVariant::Canonical,
+||||||| 0dbaec2ac
+        fri_config: FriConfig::default(),
+        preprocessed_trace: PreProcessedTraceVariant::Canonical,
+=======
+        fri_config: FriConfig::default(),
+        preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         channel_salt: 0,
         store_polynomials_coefficients: false,
         include_all_preprocessed_columns: false,

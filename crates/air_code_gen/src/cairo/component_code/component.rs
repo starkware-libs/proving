@@ -6,13 +6,12 @@ use genco::quote;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use crate::cairo::utils::{
     gen_consts, gen_imports, get_log_size, get_logup_sums, get_numerators, make_preprocessed_column,
 };
-use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
+use crate::utils::{SAMPLE_EVALUATION_RESULT_SUFFIX, is_const_size_component};
 
 pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
@@ -20,10 +19,45 @@ pub fn generate_component_cairo_constraints_code(
 ) -> rust::Tokens {
     let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
-        $(gen_consts(air_fn))$("\n")
-        $(gen_claim_struct(air_fn))$("\n")
+        $(gen_consts(air_fn))
 
+<<<<<<< HEAD
         pub impl AirComponentImpl of AirComponent<Component<Claim>> {
+||||||| 0dbaec2ac
+        #[derive(Drop)]
+        pub struct Component {
+            pub claim: Claim,
+            pub claimed_sum: QM31,
+            pub common_lookup_elements: CommonLookupElements
+        }
+
+        pub impl NewComponentImpl of NewComponent<Component> {
+            type Claim = Claim;
+
+            fn new(
+                claim: @Claim,
+                claimed_sum: QM31,
+                common_lookup_elements: @CommonLookupElements,
+            ) -> Component {
+                Component {
+                    claim: *claim,
+                    claimed_sum,
+                    common_lookup_elements: common_lookup_elements.clone()
+                }
+            }
+        }
+
+        pub impl AirComponentImpl of AirComponent<Component> {
+=======
+        #[derive(Drop)]
+        pub struct Component {
+            $(if !is_const_size_component(air_fn) => pub log_size: u32,)
+            pub claimed_sum: QM31,
+            pub common_lookup_elements: CommonLookupElements
+        }
+
+        pub impl AirComponentImpl of AirComponent<Component> {
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             fn evaluate_constraints_at_point(
                 self: @Component<Claim>,
                 ref sum: QM31,
@@ -33,7 +67,7 @@ pub fn generate_component_cairo_constraints_code(
                 random_coeff: QM31,
                 common_lookup_elements: @CommonLookupElements,
             ) {
-                let log_size = $(get_log_size(air_fn, false));
+                let log_size = $(get_log_size(air_fn));
                 let claimed_sum = *self.claimed_sum;
                 let column_size = m31(pow2(log_size));
                 $(get_evaluate_locals(air_fn))$("\n")
@@ -64,14 +98,32 @@ pub fn generate_component_cairo_constraints_code(
 }
 
 fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
+<<<<<<< HEAD
     let claim_fields = match air_fn.log_height {
+||||||| 0dbaec2ac
+    let common_lookup_elements = &assignment.common_lookup_elements;
+    let lookup_elements_fields = quote! {
+        common_lookup_elements:
+            LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
+    };
+
+    let claim_fields = match air_fn.log_height {
+=======
+    let common_lookup_elements = &assignment.common_lookup_elements;
+    let lookup_elements_fields = quote! {
+        common_lookup_elements:
+            LookupElementsTrait::from_z_alpha($(make_qm31(&common_lookup_elements.z)), $(make_qm31(&common_lookup_elements.alpha))), $("\n")
+    };
+
+    let log_size_field = match air_fn.log_height {
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         Some(_fixed_size) => quote! {},
         None => quote! { log_size: $(assignment.log_height), $("\n") },
     };
 
     quote! {
         Component {
-            claim: Claim { $(claim_fields) },
+            $(log_size_field)
             claimed_sum: $(make_qm31(&assignment.claimed_sum)),
         }
     }
@@ -86,7 +138,15 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
             .external_states
             .get(external_state)
             .unwrap_or_else(|| panic!("Missing external state {external_state}"));
+<<<<<<< HEAD
         let preprocessed_column = make_preprocessed_column(external_state);
+||||||| 0dbaec2ac
+        let preprocessed_column =
+            make_preprocessed_column(external_state, &quote! { component.claim.log_size });
+=======
+        let preprocessed_column =
+            make_preprocessed_column(external_state, &quote! { component.log_size });
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         preprocessed_values.append(quote! {
                 ($(preprocessed_column), $(make_qm31(external_column_value))), $("\n")
         });
@@ -113,9 +173,17 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         // result when the opcode is available.
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
+<<<<<<< HEAD
             use super::{Component, Claim};
             use crate::components::sample_evaluations_test_data::*;
             use super::AirComponentImpl;
+||||||| 0dbaec2ac
+            use super::{Component, Claim};
+            use crate::components::sample_evaluations::*;
+=======
+            use super::Component;
+            use crate::components::sample_evaluations::*;
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             use stwo_constraint_framework::AirComponent;
             use core::array::ArrayImpl;
             use core::num::traits::Zero;
@@ -170,7 +238,13 @@ fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
 
         code.append(quote! {
             let $(variable_name)
+<<<<<<< HEAD
                 = preprocessed_mask_values.get($(make_preprocessed_column(external_col_id)));
+||||||| 0dbaec2ac
+                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn, false))));
+=======
+                = preprocessed_mask_values.get_and_mark_used($(make_preprocessed_column(external_col_id, &get_log_size(air_fn))));
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         });
     }
 

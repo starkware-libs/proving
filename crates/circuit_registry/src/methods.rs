@@ -8,7 +8,9 @@ use std::path::{Path, PathBuf};
 
 use thiserror::Error;
 
-use crate::schema::{CircuitProofConfig, CircuitRegistry, LeafVerifier, Multiverifier};
+use crate::schema::{
+    CircuitProofConfig, CircuitRegistry, LeafVerifier, Multiverifier, UnpackingVerifier,
+};
 
 #[derive(Debug, Error)]
 pub enum RegistryError {
@@ -27,6 +29,10 @@ pub enum RegistryError {
     NotExactlyOneMultiverifier(usize),
     #[error("The circuit registry lists no leaf verifiers.")]
     NoLeafVerifiers,
+    #[error(
+        "The circuit registry describes {0} unpacking verifier circuits; expected exactly one."
+    )]
+    NotExactlyOneUnpackingVerifier(usize),
 }
 
 impl CircuitRegistry {
@@ -72,6 +78,14 @@ impl CircuitRegistry {
         match self.multiverifiers.as_slice() {
             [multiverifier] => Ok(multiverifier),
             others => Err(RegistryError::NotExactlyOneMultiverifier(others.len())),
+        }
+    }
+
+    /// The registry's single unpacking verifier circuit.
+    pub fn unpacking_verifier(&self) -> Result<&UnpackingVerifier, RegistryError> {
+        match self.unpacking_verifiers.as_slice() {
+            [unpacking_verifier] => Ok(unpacking_verifier),
+            others => Err(RegistryError::NotExactlyOneUnpackingVerifier(others.len())),
         }
     }
 }

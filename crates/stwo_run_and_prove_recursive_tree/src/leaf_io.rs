@@ -1,81 +1,81 @@
 //! Loading the leaves for a fold.
 //!
 //! The binary is given a manifest (`{"leaves": ["<path>", ...]}`) listing one leaf input file per
-//! leaf. Each is a [`LeafInput`]: the [`SerializedLeafProof`] `leaf_prover` produced — the shared
-//! `leaf_proof_format` type, so producer and consumer share one definition of the wire format —
-//! flattened together with the backend-injected bootloader context into one JSON object.
-//! [`LeafProofExt`] adds the fold-side conversions.
+//! leaf, each a [`LeafInput`].
 
 use std::path::PathBuf;
 
 use blake2::{Blake2s256, Digest};
 use circuit_common::N_RESERVED;
-use circuits::blake::HashValue;
 use leaf_proof_format::SerializedLeafProof;
 use serde::{Deserialize, Serialize};
 use starknet_types_core::felt::Felt;
-use starknet_types_core::hash::Blake2Felt252;
-use stwo::core::fields::qm31::QM31;
+use starknet_types_core::hash::{Blake2Felt252, Poseidon, StarkHash};
 
 use crate::RecursiveTreeError;
 
-/// One leaf input to the recursive tree: the raw `leaf_prover` output plus the bootloader-level
-/// context that `leaf_prover` doesn't know about (it proves an arbitrary Cairo run, not
-/// specifically a bootloader run), so it cannot live on [`SerializedLeafProof`] itself. The
-/// backend injects the extra fields next to the proof's own; `#[serde(flatten)]` keeps the file a
-/// single flat JSON object.
+/// One leaf input to the recursive tree: the raw `leaf_prover` output plus the preimage of the
+/// output digest.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LeafInput {
     /// The `leaf_prover` output file's contents, verbatim.
     #[serde(flatten)]
     pub proof: SerializedLeafProof,
-    /// The preimage of the leaf's hashed output: the task's program hash followed by the task's
-    /// raw output, each element a felt encoded as a decimal number. Dumped by the leaf simple
-    /// bootloader to its `output_preimage_dump_path` and injected here by the backend.
-    pub output_preimage: Vec<String>,
+    /// The leaf circuit's output preimage and its hash type.
+    pub output: LeafOutputPreimage,
+}
+
+/// The preimage of a leaf circuit's output digest, and the hash that maps it to that digest.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LeafOutputPreimage {
+    pub hash_type: LeafOutputHashType,
+    /// The preimage's felts as decimal strings, as the leaf's run dumped them.
+    pub preimage: Vec<String>,
+}
+
+/// The hash a leaf's output preimage opens with; see [`LeafInput::output_digest`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LeafOutputHashType {
+    Blake2s,
+    Poseidon,
 }
 
 impl LeafInput {
-    /// Recomputes this leaf circuit's `N_RESERVED`-word output digest from `output_preimage`: the
-    /// leaf simple bootloader's Blake2s output digest
-    /// `H1 = blake2s(cairo0-encode(output_preimage))` — a Uint256 (low, high) written to its output
-    /// segment — which the leaf cairo-verifier circuit emits verbatim as its public output (see
-    /// `CairoStatement::new`'s `set_outputs(output_hash)`). Eight little-endian u32 words.
+    /// This leaf circuit's `N_RESERVED`-word output digest: the digest of its output preimage, as
+    /// eight little-endian u32 words.
+    ///
+    /// A blake leaf's is `blake2s(cairo0-encode(preimage))`, which the leaf bootloader writes to
+    /// its output segment as a Uint256 (low, high) and the leaf circuit emits verbatim (see
+    /// `CairoStatement::new`'s `set_outputs(output_hash)`). A poseidon leaf's is
+    /// `poseidon_hash_many(preimage)` in the same layout.
     pub fn output_digest(&self) -> Result<[u32; N_RESERVED], RecursiveTreeError> {
         let preimage: Vec<Felt> = self
-            .output_preimage
+            .output
+            .preimage
             .iter()
             .map(|felt| {
                 Felt::from_dec_str(felt).map_err(|e| RecursiveTreeError::BadLeafOutputs {
-                    reason: format!("invalid decimal felt {felt:?} in output_preimage: {e}"),
+                    reason: format!("invalid decimal felt {felt:?} in the preimage: {e}"),
                 })
             })
             .collect::<Result<_, _>>()?;
 
-        // H1, over the same u32-word encoding Cairo's `encode_felt252_data_and_calc_blake2s`
-        // hashes; its 32 digest bytes read as eight little-endian words.
-        let encoded_bytes: Vec<u8> = Blake2Felt252::encode_felts_to_u32s(&preimage)
-            .iter()
-            .flat_map(|word| word.to_le_bytes())
-            .collect();
-        let h1: [u8; 32] = Blake2s256::digest(&encoded_bytes).into();
-        Ok(std::array::from_fn(|i| u32::from_le_bytes(h1[i * 4..i * 4 + 4].try_into().unwrap())))
-    }
-}
-
-/// Fold-side conversions on a [`SerializedLeafProof`] — the typed values the fold needs from a
-/// leaf's wire data. Kept in this crate (not in `leaf_proof_format`) so the shared format crate
-/// stays dependency-light.
-pub trait LeafProofExt {
-    /// This leaf circuit's preprocessed root as a [`HashValue<QM31>`]: the 32 digest bytes read as
-    /// eight little-endian words (matching `From<Blake2sHash>`, the same conversion `reduce_pair`
-    /// applies to internal-node roots). The multiverifier uses it to verify this leaf.
-    fn preprocessed_root(&self) -> HashValue<QM31>;
-}
-
-impl LeafProofExt for SerializedLeafProof {
-    fn preprocessed_root(&self) -> HashValue<QM31> {
-        HashValue::from(self.circuit_preprocessed_root.0)
+        let digest_bytes: [u8; 32] = match self.output.hash_type {
+            // The u32-word encoding Cairo's `encode_felt252_data_and_calc_blake2s` hashes.
+            LeafOutputHashType::Blake2s => {
+                let encoded_bytes: Vec<u8> = Blake2Felt252::encode_felts_to_u32s(&preimage)
+                    .iter()
+                    .flat_map(|word| word.to_le_bytes())
+                    .collect();
+                Blake2s256::digest(&encoded_bytes).into()
+            }
+            LeafOutputHashType::Poseidon => Poseidon::hash_array(&preimage).to_bytes_le(),
+        };
+        // The digest's 32 bytes read as eight little-endian words.
+        Ok(std::array::from_fn(|i| {
+            u32::from_le_bytes(digest_bytes[i * 4..i * 4 + 4].try_into().unwrap())
+        }))
     }
 }
 

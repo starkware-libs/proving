@@ -4,3 +4,4 @@
 
 pub mod aggregator;
 pub mod tree_root;
+pub mod unpacking_verifier;

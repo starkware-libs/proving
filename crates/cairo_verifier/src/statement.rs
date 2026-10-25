@@ -11,7 +11,7 @@ use cairo_air::relations::{
 use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, blake2s_u32s, m31_to_u32};
 use circuits::context::{Context, Var};
 use circuits::eval;
-use circuits::extract_bits::extract_bits;
+use circuits::extract_bits::{combine_bits, extract_bits};
 use circuits::ivalue::IValue;
 use circuits::ops::{Constant, Guess, eq};
 use circuits::simd::Simd;
@@ -72,12 +72,12 @@ const _: () = assert!(N_OUTPUTS * N_WORDS_PER_OUTPUT_CELL == BLAKE2S_DIGEST_N_WO
 const MEMORY_ADDRESS_BITS: u32 = 29;
 const BUILTIN_USAGE_BITS: u32 = 27;
 
-pub struct CasmState<T> {
-    pub pc: T,
-    pub ap: T,
-    pub fp: T,
+pub struct CasmState {
+    pub pc: M31Wrapper<Var>,
+    pub ap: M31Wrapper<Var>,
+    pub fp: M31Wrapper<Var>,
 }
-impl CasmState<M31Wrapper<Var>> {
+impl CasmState {
     pub fn logup_term(
         &self,
         context: &mut Context<impl IValue>,
@@ -104,7 +104,7 @@ pub fn split_address_to_9bit_limbs(
     let extracted_bits = extract_bits(context, &simd, MEMORY_ADDRESS_BITS);
 
     let mut limbs_iter = extracted_bits.chunks(LIMB_BITS).map(|limb_bits| {
-        let limb = Simd::combine_bits(context, limb_bits);
+        let limb = combine_bits(context, limb_bits);
         *Simd::unpack_single(context, &limb).raw()
     });
     array::from_fn(|_| limbs_iter.next().unwrap())
@@ -117,8 +117,8 @@ pub struct SegmentRange<T> {
 
 // Auxiliary data that is used for verifying an execution of a Cairo program.
 pub struct AuxData {
-    pub initial_state: CasmState<M31Wrapper<Var>>,
-    pub final_state: CasmState<M31Wrapper<Var>>,
+    pub initial_state: CasmState,
+    pub final_state: CasmState,
     pub segment_ranges: [SegmentRange<M31Wrapper<Var>>; N_SEGMENTS],
     pub safe_call_ids: [M31Wrapper<Var>; 2],
     pub output_ids: Vec<M31Wrapper<Var>>,
@@ -373,9 +373,21 @@ fn output_limbs_from_hash<Value: IValue>(
             cell_vec.push(Simd::unpack_single(context, &limb));
         }
 
+<<<<<<< HEAD
         assert!(cell_vec.len() <= MEMORY_VALUES_LIMBS); // Otherwise .resize() would crop it
         cell_vec.resize(MEMORY_VALUES_LIMBS, zero);
         let cell: [M31Wrapper<Var>; MEMORY_VALUES_LIMBS] = cell_vec.try_into().unwrap();
+||||||| 0dbaec2ac
+            let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
+            let limb = Simd::combine_bits(context, chunk);
+            Simd::unpack_single(context, &limb)
+        });
+=======
+            let chunk = &bits[start..(start + LIMB_BITS).min(bits.len())];
+            let limb = combine_bits(context, chunk);
+            Simd::unpack_single(context, &limb)
+        });
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         outputs.push(cell);
     }
     outputs.try_into().unwrap()
@@ -506,12 +518,32 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
                 final_state.ap,
                 final_state.fp
             ],
+<<<<<<< HEAD
             segment_ranges
                 .iter()
                 .flat_map(|r| { [r.start.id, r.start.value, r.stop.id, r.stop.value] }),
             safe_call_ids.iter().copied(),
             output_ids.iter().copied(),
             program_ids.iter().copied(),
+||||||| 0dbaec2ac
+            aux_data
+                .segment_ranges
+                .iter()
+                .flat_map(|r| { [r.start.id, r.start.value, r.end.id, r.end.value] }),
+            aux_data.safe_call_ids,
+            aux_data.output_ids.iter().copied(),
+            aux_data.program_ids.iter().copied(),
+=======
+            aux_data.segment_ranges.iter().flat_map(
+                |SegmentRange {
+                     start: PubMemoryAddress { id: start_id, value: start_value },
+                     end: PubMemoryAddress { id: end_id, value: end_value },
+                 }| [*start_id, *start_value, *end_id, *end_value]
+            ),
+            aux_data.safe_call_ids,
+            aux_data.output_ids.iter().copied(),
+            aux_data.program_ids.iter().copied(),
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         )
         .collect_vec();
         let aux_data_words = to_padded_u32_words(context, &aux_data_vars);

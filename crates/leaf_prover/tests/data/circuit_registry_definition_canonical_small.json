@@ -1,9 +1,39 @@
 {
+<<<<<<< HEAD
     "cairo_prover_params_json": "crates/leaf_prover/tests/data/cairo_prover_params_canonical_small.json",
     "circuit_fri_params_json": "crates/leaf_prover/tests/data/circuit_fri_params_canonical_small.json",
+||||||| 0dbaec2ac
+    "cairo_prover_params_json": "crates/leaf_prover/tests/data/cairo_prover_params_canonical_small.json",
+    "circuit_fri_config_json": "crates/leaf_prover/tests/data/circuit_fri_config_canonical_small.json",
+=======
+    "cairo_prover_params": {
+        "channel_hash": "blake2s",
+        "channel_salt": 0,
+        "preprocessed_trace_variant": "canonical_small",
+        "fri_config": {
+            "pow_bits": 16,
+            "log_blowup_factor": 1,
+            "log_last_layer_degree_bound": 0,
+            "n_queries": 70,
+            "fold_step": 4
+        },
+        "store_polynomials_coefficients": false,
+        "include_all_preprocessed_columns": true,
+        "opt_n_id_to_big_components": 16,
+        "lifting_size_policy": "at_least_preprocessed"
+    },
+    "circuit_fri_config": {
+        "pow_bits": 26,
+        "log_blowup_factor": 1,
+        "log_last_layer_degree_bound": 0,
+        "n_queries": 35,
+        "fold_step": 4
+    },
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
     "program": "crates/leaf_prover/tests/data/use_all_opcodes_and_builtins_compiled.json",
     "min_trace_log_size": 20,
     "max_trace_log_size": 20,
+<<<<<<< HEAD
     "add_zk_blinding": false,
     "cairo_components": [
         "add_opcode",
@@ -86,4 +116,10 @@
         "verify_bitwise_xor_8",
         "verify_bitwise_xor_9"
     ]
+||||||| 0dbaec2ac
+    "add_zk_blinding": false
+=======
+    "add_zk_blinding": false,
+    "aggregator_wrapper_program": "crates/stwo_run_and_prove_recursive_tree/test_data/aggregator_wrapper_compiled.json"
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
 }

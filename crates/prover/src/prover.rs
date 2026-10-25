@@ -106,8 +106,16 @@ where
     let ProverParameters {
         channel_hash: _,
         channel_salt: _,
+<<<<<<< HEAD
         fri_params,
         preprocessed_trace: preprocessed_trace_variant,
+||||||| 0dbaec2ac
+        fri_config,
+        preprocessed_trace: preprocessed_trace_variant,
+=======
+        fri_config,
+        preprocessed_trace_variant,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         store_polynomials_coefficients,
         include_all_preprocessed_columns: _,
         opt_n_id_to_big_components,
@@ -260,8 +268,16 @@ where
     let ProverParameters {
         channel_hash: _,
         channel_salt,
+<<<<<<< HEAD
         fri_params: _,
         preprocessed_trace: preprocessed_trace_variant,
+||||||| 0dbaec2ac
+        fri_config: _,
+        preprocessed_trace: preprocessed_trace_variant,
+=======
+        fri_config: _,
+        preprocessed_trace_variant,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
         store_polynomials_coefficients,
         include_all_preprocessed_columns,
         opt_n_id_to_big_components: _,
@@ -394,7 +410,7 @@ pub fn create_and_serialize_proof(
                 n_queries: 70,
                 fold_step: 1,
             },
-            preprocessed_trace: PreProcessedTraceVariant::Canonical,
+            preprocessed_trace_variant: PreProcessedTraceVariant::Canonical,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,
@@ -531,8 +547,16 @@ pub mod tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
+<<<<<<< HEAD
             fri_params: FriParams::test_params(),
             preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+||||||| 0dbaec2ac
+            fri_config: FriConfig::default(),
+            preprocessed_trace: PreProcessedTraceVariant::CanonicalSmall,
+=======
+            fri_config: FriConfig::default(),
+            preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
             channel_salt: 0,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,

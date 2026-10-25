@@ -202,8 +202,17 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 name = "applicative-unpacking-verifier"
 version = "2.4.0"
 dependencies = [
+<<<<<<< HEAD
  "circuit-verifier",
+||||||| 0dbaec2ac
+ "circuit-multiverifier",
+=======
+ "circuit-common",
+ "circuit-multiverifier",
+ "circuit-serialize",
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
  "circuits",
+ "circuits-stark-verifier",
  "circuits-unpacker",
  "itertools 0.12.1",
  "starknet-types-core",
@@ -1490,6 +1499,7 @@ dependencies = [
  "sonic-rs",
  "starknet-crypto 0.8.1",
  "starknet-types-core",
+ "stwo-cairo-utils",
  "tempfile",
  "thiserror",
  "thiserror-no-std",
@@ -1656,6 +1666,49 @@ dependencies = [
  "itertools 0.12.1",
  "rand_chacha 0.3.1",
  "stwo",
+<<<<<<< HEAD
+||||||| 0dbaec2ac
+ "stwo-cairo-common",
+ "stwo-constraint-framework",
+]
+
+[[package]]
+name = "circuit-multiverifier"
+version = "2.4.0"
+dependencies = [
+ "blake2",
+ "cairo-air",
+ "circuit-cairo-verifier",
+ "circuit-common",
+ "circuit-prover",
+ "circuit-serialize",
+ "circuit-verifier",
+ "circuits",
+ "circuits-stark-verifier",
+ "itertools 0.12.1",
+ "stwo",
+=======
+ "stwo-cairo-common",
+ "stwo-cairo-utils",
+ "stwo-constraint-framework",
+]
+
+[[package]]
+name = "circuit-multiverifier"
+version = "2.4.0"
+dependencies = [
+ "blake2",
+ "cairo-air",
+ "circuit-cairo-verifier",
+ "circuit-common",
+ "circuit-prover",
+ "circuit-serialize",
+ "circuit-verifier",
+ "circuits",
+ "circuits-stark-verifier",
+ "itertools 0.12.1",
+ "stwo",
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f
  "stwo-constraint-framework",
 ]
 
@@ -1663,6 +1716,8 @@ dependencies = [
 name = "circuit-params"
 version = "2.4.0"
 dependencies = [
+ "applicative-unpacking-verifier",
+ "cairo-program-runner-lib",
  "circuit-cairo-verifier",
  "circuit-common",
  "circuit-prover",
@@ -1673,6 +1728,7 @@ dependencies = [
  "leaf-prover",
  "serde",
  "serde_json",
+ "starknet-types-core",
  "stwo",
  "stwo-cairo-common",
  "stwo-cairo-prover",
@@ -1787,6 +1843,7 @@ dependencies = [
  "indexmap 2.14.0",
  "itertools 0.12.1",
  "num-traits",
+ "rand 0.9.5",
  "rstest",
  "stwo",
  "stwo-constraint-framework",
@@ -4976,9 +5033,9 @@ dependencies = [
 name = "stwo-run-and-prove-recursive-tree"
 version = "2.4.0"
 dependencies = [
+ "applicative-unpacking-verifier",
  "blake2",
  "cairo-program-runner-lib",
- "cairo-vm",
  "circuit-cairo-serialize",
  "circuit-common",
  "circuit-prover",
@@ -4987,6 +5044,7 @@ dependencies = [
  "circuit-verifier",
  "circuits",
  "circuits-stark-verifier",
+ "circuits-unpacker",
  "clap",
  "expect-test",
  "leaf-proof-format",
@@ -4996,6 +5054,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sonic-rs",
+ "starknet-crypto 0.8.1",
  "starknet-types-core",
  "stwo",
  "stwo-cairo-utils",

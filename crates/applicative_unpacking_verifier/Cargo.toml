@@ -4,11 +4,21 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
+circuit-common.workspace = true
+circuit-multiverifier.workspace = true
 circuits.workspace = true
+circuits-stark-verifier.workspace = true
 circuits-unpacker.workspace = true
 itertools.workspace = true
 starknet-types-core.workspace = true
 stwo.workspace = true
 
 [dev-dependencies]
+<<<<<<< HEAD
 circuit-verifier = { workspace = true, features = ["test-utils"] }
+||||||| 0dbaec2ac
+circuit-multiverifier = { workspace = true, features = ["test-utils"] }
+=======
+circuit-multiverifier = { workspace = true, features = ["test-utils"] }
+circuit-serialize.workspace = true
+>>>>>>> a4b96ad32727e219b4a5a2c022f5ab419819045f

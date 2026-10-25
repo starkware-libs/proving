@@ -101,6 +101,7 @@ pub fn prove_leaf(
     info!("Program execution done");
 
     let prover_input = adapt(&runner).unwrap();
+    drop(runner);
     let output_addresses = prover_input.builtin_segments.output.unwrap();
 
     let program_output_u256s: Vec<[u32; 8]> = (output_addresses.begin_addr
@@ -150,7 +151,7 @@ pub fn prove_leaf(
         .then_some(circuit_proof_config.fri_params.n_queries + NON_QUERY_INFO_LEAK);
 
     let verifier_config = leaf_verifier_config(
-        cairo_prover_parameters.preprocessed_trace,
+        cairo_prover_parameters.preprocessed_trace_variant,
         &pcs_config,
         &circuit_registry.cairo_components,
         Arc::from(program_felts(program)),

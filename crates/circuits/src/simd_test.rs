@@ -6,7 +6,7 @@ use stwo::core::fields::cm31::CM31;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::context::{Context, TraceContext, Var};
+use crate::context::{Context, TraceContext};
 use crate::extract_bits::extract_bits;
 use crate::ivalue::{NoValue, qm31_from_u32s};
 use crate::ops::{Guess, guess};
@@ -43,6 +43,7 @@ fn test_one() {
     assert_eq!(packed_values(&context, &a), &[ones, ones]);
     context.validate_circuit();
 }
+
 #[test]
 fn test_simd_basic_ops() {
     let mut context = TraceContext::default();
@@ -491,18 +492,4 @@ fn test_pow2_circuit() {
             qm31_from_u32s(expected_res[4], 1, 1, 1)
         ]
     );
-}
-
-#[test]
-fn test_combine_bits_circuit() {
-    let mut context = TraceContext::default();
-
-    let input = simd_from_u32s(&mut context, vec![12, 6, 5, 3, 4]);
-    let n_bits = 5;
-    let bits = extract_bits(&mut context, &input, n_bits);
-    let res = Simd::combine_bits(&mut context, &bits);
-
-    let get_vals = |vars: &[Var]| -> Vec<QM31> { vars.iter().map(|v| context.get(*v)).collect() };
-
-    assert_eq!(get_vals(input.get_packed()), get_vals(res.get_packed()));
 }

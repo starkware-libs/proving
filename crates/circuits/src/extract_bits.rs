@@ -40,6 +40,25 @@ pub fn extract_bits(context: &mut Context<impl IValue>, input: &Simd, n_bits: u3
     bits
 }
 
+/// Packs little-endian bit-slices into a SIMD integer.
+/// This is the inverse of `extract_bits`.
+///
+/// Assumes each `bits[i]` contains only 0/1 values;
+/// returns Σ `bits[i] * (1 << i)` per lane.
+///
+/// `bits` must be non-empty and have at most 30 elements (so the result fits in M31 without
+/// wrapping — 31 all-one bits would produce 2^31 - 1 = M31::P ≡ 0).
+pub fn combine_bits(context: &mut Context<impl IValue>, bits: &[Simd]) -> Simd {
+    let mut iter = bits.iter().rev();
+    let mut res = iter.next().unwrap().clone();
+    let two = M31Wrapper::const_m31(context, 2.into());
+    for bit in iter {
+        res = Simd::scalar_mul(context, &res, &two);
+        res = eval!(context, (res) + (*bit));
+    }
+    res
+}
+
 /// Forbids the case `0b1111...1111`, as this number should be represented as `0`.
 fn validate_extract_bits(context: &mut Context<impl IValue>, input: &Simd, lsb: &Simd) {
     // Add a new variable `aux` and check the constraint:
