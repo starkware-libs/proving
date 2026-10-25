@@ -13,6 +13,7 @@ stwo = { workspace = true, features = ["prover"] }
 stwo-constraint-framework = { workspace = true, features = ["prover"] }
 
 [dev-dependencies]
+circuits-stark-verifier = { workspace = true, features = ["test-utils"] }
 circuit-serialize.workspace = true
 circuits = { workspace = true, features = ["test-utils"] }
 rand.workspace = true

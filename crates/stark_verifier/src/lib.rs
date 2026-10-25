@@ -9,6 +9,8 @@ pub mod oods;
 pub mod order_hash_map;
 pub mod proof;
 pub mod proof_from_stark_proof;
+#[cfg(any(test, feature = "test-utils"))]
+pub mod proof_info;
 pub mod select_queries;
 pub mod sort_queries;
 pub mod statement;
