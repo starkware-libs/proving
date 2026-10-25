@@ -15,10 +15,11 @@ use super::poly::circle::CircleDomain;
 use super::queries::{Queries, draw_queries};
 use crate::core::circle::Coset;
 use crate::core::fft::ibutterfly;
+use crate::core::fields::batch_inverse;
 use crate::core::fields::m31::BaseField;
 use crate::core::poly::circle::CanonicCoset;
 use crate::core::poly::line::{LineDomain, LinePoly};
-use crate::core::utils::bit_reverse_index;
+use crate::core::utils::{bit_reverse, bit_reverse_index};
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use crate::core::vcs_lifted::verifier::{
     LOG_PACKED_LEAF_SIZE, MerkleDecommitmentLifted, MerkleDecommitmentLiftedAux,
@@ -750,45 +751,76 @@ pub fn fold_coset(
     domain: LineDomain,
     alpha: SecureField,
 ) -> SecureField {
-    let mut domain = domain;
     let n = domain.log_size();
+    let inverse_twiddles = fold_coset_inverse_twiddles(domain);
+    let mut remaining_inverse_twiddles = inverse_twiddles.as_slice();
     let mut folding_alpha = alpha;
     for i in 0..n {
+        let (fold_inverse_twiddles, rest) = remaining_inverse_twiddles.split_at(1 << (n - i - 1));
         for j in (0..1 << (n - i)).step_by(2) {
-            let x = domain.at(bit_reverse_index(j, domain.log_size()));
             let (mut f0, mut f1) = (eval[j], eval[j + 1]);
-            ibutterfly(&mut f0, &mut f1, x.inverse());
+            ibutterfly(&mut f0, &mut f1, fold_inverse_twiddles[j >> 1]);
             eval[j >> 1] = f0 + folding_alpha * f1
         }
         folding_alpha = folding_alpha * folding_alpha;
-        domain = domain.double();
+        remaining_inverse_twiddles = rest;
     }
     eval[0]
+}
+
+/// Returns the inverse twiddles of the `n = domain.log_size()` folds of [`fold_coset`], fold after
+/// fold: `2^(n - 1)` for the first, `2^(n - 2)` for the second, and so on.
+///
+/// The pair `(eval[2k], eval[2k + 1])` of a fold over `D` uses the twiddle
+/// `D.at(bit_reverse_index(2k, D.log_size())) = D.at(bit_reverse_index(k, D.log_size() - 1))`,
+/// so a fold's twiddles are the first half of `D` in bit-reversed order. Walking `D` and inverting
+/// in one batch avoids a scalar multiplication and an inversion per twiddle.
+fn fold_coset_inverse_twiddles(domain: LineDomain) -> Vec<BaseField> {
+    let mut twiddles = Vec::with_capacity(domain.size() - 1);
+    let mut fold_domain = domain;
+    for _ in 0..domain.log_size() {
+        let fold_start = twiddles.len();
+        twiddles.extend(fold_domain.iter().take(fold_domain.size() / 2));
+        bit_reverse(&mut twiddles[fold_start..]);
+        fold_domain = fold_domain.double();
+    }
+    batch_inverse(&twiddles)
 }
 
 /// Folds a degree `d` circle polynomial into a degree `d/2` univariate
 /// polynomial.
 /// See [`crate::prover::fri::FriOps::fold_circle_into_line`].
+///
+/// # Panics
+///
+/// Panics if `src` doesn't hold one evaluation per point of `src_domain`.
 pub fn fold_circle_into_line(
     src: &[SecureField],
     src_domain: CircleDomain,
     alpha: SecureField,
 ) -> Vec<SecureField> {
+    assert_eq!(src.len(), src_domain.size());
     // The output domain is the image of the source circle domain by the x-projection, hence
     // it's of half the size.
     let mut dst = vec![SecureField::zero(); src.len() >> 1];
 
-    src.iter().tuples().enumerate().for_each(|(i, (&f_p, &f_neg_p))| {
-        // TODO(andrew): Inefficient. Update when domain twiddles get stored in a buffer.
-        let p = src_domain.at(bit_reverse_index(i << 1, src_domain.log_size()));
+    // The pair `(src[2i], src[2i + 1])` is at `p` and its conjugate, where `p` is the half coset's
+    // point at index `bit_reverse_index(i, src_domain.log_size() - 1)`. So the twiddles are the
+    // half coset's y-coordinates in bit-reversed order.
+    let mut twiddles = src_domain.half_coset.iter().map(|p| p.y).collect_vec();
+    bit_reverse(&mut twiddles);
+    let inverse_twiddles = batch_inverse(&twiddles);
 
+    for (i, ((&f_p, &f_neg_p), &inverse_twiddle)) in
+        src.iter().tuples().zip(&inverse_twiddles).enumerate()
+    {
         // Calculate `f0(px)` and `f1(px)` such that `2f(p) = f0(px) + py * f1(px)`.
         let (mut f0_px, mut f1_px) = (f_p, f_neg_p);
-        ibutterfly(&mut f0_px, &mut f1_px, p.y.inverse());
+        ibutterfly(&mut f0_px, &mut f1_px, inverse_twiddle);
         let f_prime = alpha * f1_px + f0_px;
 
         dst[i] = f_prime;
-    });
+    }
     dst
 }
 
@@ -798,6 +830,8 @@ mod tests {
 
     use itertools::Itertools;
     use num_traits::{One, Zero};
+    use rand::rngs::SmallRng;
+    use rand::{Rng, SeedableRng};
 
     use super::{FriVerificationError, SparseEvaluation};
     use crate::core::circle::{CirclePointIndex, Coset};
@@ -805,14 +839,14 @@ mod tests {
     use crate::core::fields::m31::BaseField;
     use crate::core::fields::qm31::SecureField;
     use crate::core::fri::{CirclePolyDegreeBound, FriConfig, fold_circle_into_line, fold_coset};
-    use crate::core::poly::circle::CircleDomain;
+    use crate::core::poly::circle::{CanonicCoset, CircleDomain};
     use crate::core::poly::line::{LineDomain, LinePoly};
     use crate::core::queries::Queries;
     use crate::core::test_utils::test_channel;
     use crate::core::utils::bit_reverse_index;
     use crate::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use crate::m31;
-    use crate::prover::backend::cpu::{CpuCirclePoly, fold_line_cpu};
+    use crate::prover::backend::cpu::{CpuCirclePoly, fold_circle_into_line_cpu, fold_line_cpu};
     use crate::prover::backend::{ColumnOps, CpuBackend};
     use crate::prover::line::LineEvaluation;
     use crate::prover::poly::BitReversedOrder;
@@ -1153,6 +1187,72 @@ mod tests {
         }
         let expected_value = eval.values.at(0);
         assert_eq!(actual_value, expected_value);
+    }
+
+    /// The verifier folds, per query, a subcoset of a layer's domain that can start at any of its
+    /// points. `fold_line_cpu` computes each twiddle on its own with `LineDomain::at`, so it checks
+    /// the twiddles `fold_coset` computes for all its folds at once.
+    #[test]
+    fn fold_coset_matches_prover_folds_on_subcosets() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let layer_coset = Coset::half_odds(10);
+        for log_size in 1..=8 {
+            for _ in 0..8 {
+                let initial_index = layer_coset.index_at(rng.random_range(0..layer_coset.size()));
+                let domain = LineDomain::new(Coset::new(initial_index, log_size));
+                let eval: Vec<SecureField> = (0..1 << log_size).map(|_| rng.random()).collect();
+                let alpha = rng.random();
+
+                let actual_value = fold_coset(eval.clone(), domain, alpha);
+
+                let mut eval = LineEvaluation::new(domain, eval.into_iter().collect());
+                let mut folding_alpha = alpha;
+                for _ in 0..log_size {
+                    eval = fold_line_cpu(&eval, folding_alpha);
+                    folding_alpha = folding_alpha * folding_alpha;
+                }
+                assert_eq!(actual_value, eval.values.at(0), "log_size {log_size}");
+            }
+        }
+    }
+
+    #[test]
+    fn fold_coset_of_a_single_point_is_the_value() {
+        let value = SecureField::from_u32_unchecked(1, 2, 3, 4);
+        let domain = LineDomain::new(Coset::new(CirclePointIndex::generator(), 0));
+
+        assert_eq!(fold_coset(vec![value], domain, SecureField::one()), value);
+    }
+
+    /// Like `fold_coset_matches_prover_folds_on_subcosets`, for the circle-to-line fold:
+    /// `fold_circle_into_line_cpu` computes each twiddle on its own with `CircleDomain::at`.
+    #[test]
+    fn fold_circle_into_line_matches_prover_fold_on_subdomains() {
+        let mut rng = SmallRng::seed_from_u64(0);
+        let layer_domain = CanonicCoset::new(10).circle_domain();
+        for log_size in 1..=8 {
+            for _ in 0..8 {
+                let initial_index = layer_domain.index_at(rng.random_range(0..layer_domain.size()));
+                let domain = CircleDomain::new(Coset::new(initial_index, log_size - 1));
+                let src: Vec<SecureField> = (0..1 << log_size).map(|_| rng.random()).collect();
+                let alpha = rng.random();
+
+                let actual = fold_circle_into_line(&src, domain, alpha);
+
+                let src = SecureEvaluation::new(domain, src.into_iter().collect());
+                let expected = fold_circle_into_line_cpu(&src, alpha).values.to_vec();
+                assert_eq!(actual, expected, "log_size {log_size}");
+            }
+        }
+    }
+
+    #[test]
+    #[should_panic]
+    fn fold_circle_into_line_with_too_few_evaluations_panics() {
+        let domain = CanonicCoset::new(3).circle_domain();
+        let src = vec![SecureField::one(); domain.size() / 2];
+
+        fold_circle_into_line(&src, domain, SecureField::one());
     }
 
     #[test]
