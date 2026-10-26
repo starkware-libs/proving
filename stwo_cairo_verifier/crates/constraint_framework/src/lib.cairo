@@ -8,7 +8,7 @@ pub mod component;
 #[cfg(feature: "test_utils")]
 pub mod test_utils;
 
-pub use component::AirComponent;
+pub use component::{AirComponent, Component};
 
 /// Represents the value of the prefix sum column at some index.
 /// Should be used to eliminate padded rows for the logup sum.

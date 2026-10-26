@@ -18,12 +18,6 @@ pub const N_TRACE_COLUMNS: usize = 4;
 pub const N_INTERACTION_COLUMNS: usize = 4;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 1] = [('Gate', 2)];
 
-#[derive(Drop)]
-pub struct Component {
-    pub log_size: u32,
-    pub claimed_sum: QM31,
-}
-
 pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
         self: @Component,

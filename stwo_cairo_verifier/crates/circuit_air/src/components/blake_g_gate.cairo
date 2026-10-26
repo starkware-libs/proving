@@ -15,12 +15,6 @@ pub const RELATION_USES_PER_ROW: [(felt252, u32); 7] = [
     ('VerifyBitwiseXor_4', 2), ('VerifyBitwiseXor_9', 2), ('VerifyBitwiseXor_7', 2), ('Gate', 6),
 ];
 
-#[derive(Drop)]
-pub struct Component {
-    pub log_size: u32,
-    pub claimed_sum: QM31,
-}
-
 pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
         self: @Component,
@@ -891,16 +885,16 @@ fn lookup_constraints(
 mod tests {
     use core::array::ArrayImpl;
     use core::num::traits::Zero;
-    use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
     use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
+    use stwo_constraint_framework::{AirComponent, Component};
     #[allow(unused_imports)]
     use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
     use crate::components::sample_evaluations_test_data::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-    use super::{AirComponentImpl, Component};
+    use super::AirComponentImpl;
 
     #[test]
     fn test_evaluation_result() {

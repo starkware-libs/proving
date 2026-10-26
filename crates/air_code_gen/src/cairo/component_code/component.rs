@@ -11,7 +11,7 @@ use super::parse::parse_constraints;
 use crate::cairo::utils::{
     gen_consts, gen_imports, get_log_size, get_logup_sums, get_numerators, make_preprocessed_column,
 };
-use crate::utils::{SAMPLE_EVALUATION_RESULT_SUFFIX, is_const_size_component};
+use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
 
 pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
@@ -20,12 +20,6 @@ pub fn generate_component_cairo_constraints_code(
     let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))
-
-        #[derive(Drop)]
-        pub struct Component {
-            $(if !is_const_size_component(air_fn) => pub log_size: u32,)
-            pub claimed_sum: QM31,
-        }
 
         pub impl AirComponentImpl of AirComponent<Component> {
             fn evaluate_constraints_at_point(
@@ -68,14 +62,14 @@ pub fn generate_component_cairo_constraints_code(
 }
 
 fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let log_size_field = match air_fn.log_height {
-        Some(_fixed_size) => quote! {},
-        None => quote! { log_size: $(assignment.log_height), $("\n") },
+    let log_size = match air_fn.log_height {
+        Some(_fixed_size) => quote! { super::LOG_SIZE },
+        None => quote! { $(assignment.log_height) },
     };
 
     quote! {
         Component {
-            $(log_size_field)
+            log_size: $(log_size),
             claimed_sum: $(make_qm31(&assignment.claimed_sum)),
         }
     }
@@ -117,7 +111,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         // result when the opcode is available.
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
-            use super::Component;
+            use stwo_constraint_framework::Component;
             use crate::components::sample_evaluations_test_data::*;
             use super::AirComponentImpl;
             use stwo_constraint_framework::AirComponent;
