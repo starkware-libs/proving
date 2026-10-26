@@ -5,7 +5,7 @@ edition.workspace = true
 
 [dependencies]
 circuit-common.workspace = true
-circuit-multiverifier.workspace = true
+circuit-verifier.workspace = true
 circuits.workspace = true
 circuits-stark-verifier.workspace = true
 circuits-unpacker.workspace = true
@@ -14,5 +14,6 @@ starknet-types-core.workspace = true
 stwo.workspace = true
 
 [dev-dependencies]
-circuit-multiverifier = { workspace = true, features = ["test-utils"] }
+circuit-prover = { workspace = true, features = ["test-utils"] }
+circuit-verifier = { workspace = true, features = ["test-utils"] }
 circuit-serialize.workspace = true

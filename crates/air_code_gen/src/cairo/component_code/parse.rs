@@ -1,4 +1,4 @@
-use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType};
+use air_common::CONSTRAINT_EVAL_FUNCTION_NAME;
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };
@@ -16,8 +16,8 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                 code.append(quote! {
                     $("\n")
                     $("//") Constraint - $(desc.clone().unwrap_or("".to_string()))
-                    let constraint_quotient = ($(parse_var(air_fn, c, &mut relation_offset)));
-                    sum = sum * random_coeff + constraint_quotient;
+                    let constraint_eval = ($(parse_var(air_fn, c, &mut relation_offset)));
+                    sum = sum * random_coeff + constraint_eval;
                 });
             }
             ConstraintEvalStep::Intermediate(CompiledConstraintIntermediate {
@@ -46,14 +46,9 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                     .map(|f| parse_var(air_fn, f, &mut relation_offset))
                     .collect::<Vec<_>>();
                 let relation_name = relation_name.to_case(Case::Snake);
-                let lookup_elements = if air_fn.r#type == TraceType::Inline {
-                    "common_lookup_elements"
-                } else {
-                    "self.common_lookup_elements"
-                };
                 code.append(quote! {
                     $("\n")
-                    $(relation_name.clone())_sum_$(relation_offset) = $(lookup_elements).combine_qm31(
+                    $(relation_name.clone())_sum_$(relation_offset) = common_lookup_elements.combine(
                         [
                             $(felts.join(",\n"))
                         ].span(),
@@ -103,7 +98,6 @@ pub fn parse_var(
             }
         }
         CompiledAirVar::ExternalState(col_id) => col_id.to_lowercase(),
-        CompiledAirVar::PublicParam(name) => name.clone(),
         CompiledAirVar::Enabler => "enabler".to_string(),
         v => unimplemented!("Unsupported variable type: {v:?}"),
     }
@@ -120,11 +114,7 @@ fn gen_evaluate_call(
 
     let inline_fn = id.trim_end_matches(&format!("::{CONSTRAINT_EVAL_FUNCTION_NAME}"));
     let (relations, params, external_states) = air_fn.inline_calls.get(inline_fn).unwrap();
-    if air_fn.r#type == TraceType::Inline {
-        arg_str.push("common_lookup_elements".to_string());
-    } else {
-        arg_str.push("self.common_lookup_elements".to_string());
-    }
+    arg_str.push("common_lookup_elements".to_string());
     for param in params {
         arg_str.push(parse_var(
             air_fn,

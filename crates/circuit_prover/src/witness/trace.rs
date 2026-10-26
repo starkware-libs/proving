@@ -7,7 +7,7 @@ use circuit_verifier::circuit_claim::{
     CircuitClaim, CircuitInteractionClaim, CircuitInteractionElements,
 };
 use circuit_verifier::circuit_components::PerComponent;
-use circuits::context::U_VAR_IDX;
+use circuits::context::OUTPUT_START;
 use itertools::Itertools;
 use rayon::scope;
 use stwo::core::channel::MerkleChannel;
@@ -19,7 +19,7 @@ use stwo::prover::poly::circle::PolyOps;
 use stwo::prover::poly::twiddles::TwiddleTree;
 
 use crate::witness::components::{
-    blake_g_gate, eq, m_31_to_u_32, qm31_ops, range_check_16, triple_xor, verify_bitwise_xor_4,
+    blake_g_gate, eq, m_31_to_u_32, qm_31_ops, range_check_16, triple_xor, verify_bitwise_xor_4,
     verify_bitwise_xor_7, verify_bitwise_xor_8, verify_bitwise_xor_9, verify_bitwise_xor_12,
 };
 
@@ -67,7 +67,7 @@ where
     scope(|s| {
         // Eq and qm31_ops traces run for the full duration of the parent scope.
         s.spawn(|_| {
-            let (trace, log_size, lookup_data) = qm31_ops::write_trace(
+            let (trace, log_size, lookup_data) = qm_31_ops::write_trace(
                 context_values,
                 preprocessed_trace_ref,
                 &trace_generator.qm31_ops_trace_generator,
@@ -245,7 +245,7 @@ where
 
     let log_sizes = PerComponent {
         eq: eq_log_size,
-        qm31_ops: qm31_ops_log_size,
+        qm_31_ops: qm31_ops_log_size,
         triple_xor: triple_xor_claim.log_size,
         m_31_to_u_32: m_31_to_u_32_claim.log_size,
         blake_g_gate: blake_g_gate_claim.log_size,
@@ -274,9 +274,8 @@ where
         tree_builder.extend_polys(polys);
     }
 
-    let output_values = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + n_outputs))
-        .map(|addr| context_values[addr])
-        .collect_vec();
+    let output_values =
+        (OUTPUT_START..(OUTPUT_START + n_outputs)).map(|addr| context_values[addr]).collect_vec();
 
     (
         CircuitClaim { output_values },
@@ -299,7 +298,7 @@ where
 
 pub struct CircuitInteractionClaimGenerator {
     pub eq_lookup_data: eq::LookupData,
-    pub qm31_ops_lookup_data: qm31_ops::LookupData,
+    pub qm31_ops_lookup_data: qm_31_ops::LookupData,
     pub triple_xor: triple_xor::InteractionClaimGenerator,
     pub m_31_to_u_32: m_31_to_u_32::InteractionClaimGenerator,
     pub blake_g_gate: blake_g_gate::InteractionClaimGenerator,
@@ -323,7 +322,7 @@ where
 {
     // Extract log sizes before parallel section.
     let eq_log_size = component_log_sizes.eq;
-    let qm31_ops_log_size = component_log_sizes.qm31_ops;
+    let qm31_ops_log_size = component_log_sizes.qm_31_ops;
 
     // Write all interaction traces in parallel, including interpolation. The slots below start
     // default-initialized; each spawned task writes into its own disjoint field. Destructuring
@@ -356,13 +355,13 @@ where
             claimed_sums.eq = claimed_sum;
         });
         s.spawn(|_| {
-            let (trace, claimed_sum) = qm31_ops::write_interaction_trace(
+            let (trace, claimed_sum) = qm_31_ops::write_interaction_trace(
                 qm31_ops_log_size,
                 qm31_ops_lookup_data,
                 &interaction_elements.common_lookup_elements,
             );
-            all_polys.qm31_ops = SimdBackend::interpolate_columns(trace, twiddles);
-            claimed_sums.qm31_ops = claimed_sum;
+            all_polys.qm_31_ops = SimdBackend::interpolate_columns(trace, twiddles);
+            claimed_sums.qm_31_ops = claimed_sum;
         });
         s.spawn(|_| {
             let (trace, claim) =

@@ -4,6 +4,7 @@
 //! `CairoSerialize` impls, deserializes the felt252 stream back via `CairoDeserialize`,
 //! and asserts the result equals the original.
 
+use circuit_common::N_RESERVED;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment_with_channel};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
@@ -14,10 +15,11 @@ use num_traits::{One, Zero};
 use starknet_ff::FieldElement;
 use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
+use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::Hasher;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
 use stwo_cairo_serialize::{CairoDeserialize, CairoSerialize};
@@ -30,25 +32,12 @@ where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
     /// Reads a proof back from the felt stream written by its `CairoSerialize` impl.
-    ///
-    /// `trace_lifting_log_size` and `preprocessed_lifting_log_size` are the heights the proof's
-    /// trees were committed at. The format does not carry them — no Cairo verifier reads them
-    /// back, the circuit verifier has them hardcoded for its topology — so the caller, who knows
-    /// the circuit's column log sizes, supplies them.
-    fn deserialize<'a>(
-        data: &mut impl Iterator<Item = &'a FieldElement>,
-        trace_lifting_log_size: u32,
-        preprocessed_lifting_log_size: u32,
-    ) -> Self {
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
         Self {
             claim: CairoDeserialize::deserialize(data),
-            interaction_pow: CairoDeserialize::deserialize(data),
+            interaction_pow_nonce: CairoDeserialize::deserialize(data),
             interaction_claim: CairoDeserialize::deserialize(data),
-            stark_proof: CairoStarkProof::deserialize(
-                data,
-                trace_lifting_log_size,
-                preprocessed_lifting_log_size,
-            ),
+            stark_proof: CairoStarkProof::deserialize(data),
             channel_salt: CairoDeserialize::deserialize(data),
         }
     }
@@ -58,26 +47,14 @@ impl<H: MerkleHasherLifted> CairoStarkProof<H>
 where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
-    /// Reads a stark proof back, with the lifting log sizes the format omits supplied by the
-    /// caller. See [`CairoCircuitProof::deserialize`].
-    fn deserialize<'a>(
-        data: &mut impl Iterator<Item = &'a FieldElement>,
-        trace_lifting_log_size: u32,
-        preprocessed_lifting_log_size: u32,
-    ) -> Self {
+    /// Reads a stark proof back. See [`CairoStarkProof`] on the omitted config.
+    fn deserialize<'a>(data: &mut impl Iterator<Item = &'a FieldElement>) -> Self {
         Self {
-            // Only the FRI config is on the wire; the heights come from the caller.
-            config: PcsConfig {
-                fri_config: CairoDeserialize::deserialize(data),
-                trace_lifting_log_size,
-                preprocessed_lifting_log_size,
-            },
             commitments: CairoDeserialize::deserialize(data),
             oods_proof_of_work: CairoDeserialize::deserialize(data),
             sampled_values: CairoDeserialize::deserialize(data),
             decommitments: CairoDeserialize::deserialize(data),
             queried_values: CairoDeserialize::deserialize(data),
-            proof_of_work: CairoDeserialize::deserialize(data),
             fri_proof: CairoDeserialize::deserialize(data),
         }
     }
@@ -92,18 +69,21 @@ fn qm31(a: u32, b: u32, c: u32, d: u32) -> QM31 {
 /// in `circuit_prover::test`, just smaller.
 fn build_minimal_context() -> Context<QM31> {
     const N: usize = 16;
-    let mut ctx = Context::<QM31>::new(1);
+    let mut ctx = Context::<QM31>::new(N_RESERVED);
     let (mut a, mut b) = (guess(&mut ctx, QM31::zero()), guess(&mut ctx, QM31::one()));
+    // The Cairo verifier's claim holds a fixed-size digest, so emit exactly that many outputs.
+    let mut outputs = Vec::with_capacity(N);
     for _ in 2..N {
         (a, b) = (b, circuits::eval!(&mut ctx, (a) + (b)));
+        outputs.push(b);
     }
-    ctx.set_outputs(&[b]);
+    ctx.set_outputs(&outputs[outputs.len() - N_RESERVED..]);
     ctx
 }
 
 #[test]
 fn test_serialize_deserialize_cairo_proof() {
-    assert_cairo_proof_round_trips::<Blake2sM31MerkleChannel>();
+    assert_cairo_proof_round_trips::<Blake2sMerkleChannel>();
 }
 
 #[test]
@@ -121,10 +101,10 @@ where
     let mut ctx = build_minimal_context().finalize(false);
     ctx.validate_circuit();
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut ctx);
-    let pcs_config = PcsConfig::from_fri_and_trace_size(
-        FriConfig::default(),
-        preprocessed_circuit.trace_log_size(),
-    );
+    let pcs_config = PcsConfig::from_fri_config(FriConfig {
+        params: FriParams::test_params(),
+        trace_log_size: preprocessed_circuit.trace_log_size(),
+    });
     let circuit_proof = prove_circuit_assignment_with_channel::<MC>(
         ctx.values(),
         &preprocessed_circuit,
@@ -145,15 +125,9 @@ where
     );
     let felts = prepare_circuit_proof_for_cairo_verifier(circuit_proof, &component_log_sizes);
     let mut iter = felts.iter();
-    // The format carries no lifting log sizes, so they are passed in; see
-    // `CairoCircuitProof::deserialize`.
-    let deserialized: CairoCircuitProof<MC::H> = CairoCircuitProof::deserialize(
-        &mut iter,
-        pcs_config.trace_lifting_log_size,
-        pcs_config.preprocessed_lifting_log_size,
-    );
+    // The format carries no PCS config; see [`CairoStarkProof`].
+    let deserialized: CairoCircuitProof<MC::H> = CairoCircuitProof::deserialize(&mut iter);
     assert!(iter.next().is_none(), "trailing data after proof");
-    assert_eq!(deserialized.stark_proof.config, pcs_config);
     let mut felts_after = Vec::new();
     CairoSerialize::serialize(&deserialized, &mut felts_after);
     assert_eq!(felts, felts_after);
@@ -161,8 +135,8 @@ where
 
 #[test]
 fn test_serialize_deserialize_claim_and_interaction_claim() {
-    // Use distinct claim sum values to detect ordering bugs.
-    let claim = CairoCircuitClaim { output_values: vec![qm31(1, 2, 3, 4), qm31(5, 6, 7, 8)] };
+    // Distinct bytes throughout, so a reordering bug shows up.
+    let claim = CairoCircuitClaim { output_digest: Blake2sHash(std::array::from_fn(|i| i as u8)) };
     let interaction = CairoCircuitInteractionClaim {
         claimed_sums: [
             qm31(1, 0, 0, 0),

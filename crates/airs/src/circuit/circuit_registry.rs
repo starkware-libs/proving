@@ -4,7 +4,7 @@ use air_infra::core::air_fn_registry::AirFnRegistry;
 use super::blake::blake_g_gate::BlakeGGate;
 use super::blake::m31_to_u32::M31ToU32;
 use super::blake::triple_xor::TripleXor;
-use super::qm31_ops::Qm31Ops;
+use super::qm_31_ops::Qm31Ops;
 
 pub fn create_circuit_registry() -> AirFnRegistry {
     let mut registry = AirFnRegistry::new_empty();

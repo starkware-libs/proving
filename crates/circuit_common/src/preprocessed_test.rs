@@ -6,7 +6,7 @@ use itertools::{Itertools, zip_eq};
 use stwo::prover::backend::Column;
 use stwo::prover::backend::simd::SimdBackend;
 
-use crate::finalize::{ComponentSizes, qm31_ops_n_rows};
+use crate::finalize::ComponentSizes;
 use crate::preprocessed::{
     PreprocessedCircuit, fixed_column_layout, fixed_column_values, layout_from_component_sizes,
 };
@@ -120,7 +120,7 @@ fn test_layout_from_component_sizes_matches_preprocessed_trace() {
     let circuit = sample_circuit();
     let sizes = ComponentSizes {
         eq: circuit.eq.len(),
-        qm31_ops: qm31_ops_n_rows(&circuit),
+        qm31_ops: circuit.n_qm31_ops_rows(),
         m31_to_u32: circuit.m31_to_u32.len(),
         triple_xor: circuit.triple_xor.len(),
         blake_g_gate: circuit.blake_g_gate.len(),

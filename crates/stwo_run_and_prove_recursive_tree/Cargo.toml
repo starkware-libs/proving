@@ -28,6 +28,7 @@ slow-tests = ["dep:leaf-prover", "dep:num-bigint"]
 blake2 = "0.10"
 clap.workspace = true
 leaf-proof-format.workspace = true
+mimalloc = "0.1"
 serde.workspace = true
 serde_json.workspace = true
 sonic-rs.workspace = true
@@ -39,7 +40,6 @@ thiserror.workspace = true
 tracing.workspace = true
 
 circuit-cairo-serialize.workspace = true
-circuit-multiverifier.workspace = true
 circuit-registry.workspace = true
 circuit-verifier.workspace = true
 circuit-common = { workspace = true, features = ["prover"] }

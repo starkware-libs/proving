@@ -9,7 +9,7 @@ use crate::circuit_components::PerComponent;
 fn compute_circuit_hash_matches_golden() {
     let component_log_sizes = PerComponent {
         eq: 17,
-        qm31_ops: 21,
+        qm_31_ops: 21,
         triple_xor: 17,
         m_31_to_u_32: 18,
         blake_g_gate: 20,

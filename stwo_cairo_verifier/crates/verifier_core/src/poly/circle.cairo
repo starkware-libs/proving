@@ -37,6 +37,9 @@ pub impl CircleDomainImpl of CircleDomainTrait {
     }
 
     /// Returns the [`CirclePointIndex`] of the `i`th domain element.
+    ///
+    /// Maps an index in the domain (in natural order) to a global index: the power of the circle
+    /// generator that gives the element.
     fn index_at(self: @CircleDomain, index: usize) -> CirclePointIndex {
         if index < self.half_coset.size() {
             self.half_coset.index_at(index)

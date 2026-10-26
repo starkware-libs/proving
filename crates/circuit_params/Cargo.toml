@@ -9,9 +9,6 @@ description = "Compute the leaf-prover verifier circuit's per-component sizes fo
 # Gates the json CLI test, which builds and Merkle-commits a large preprocessed trace.
 slow-tests = []
 
-[dev-dependencies]
-tempfile.workspace = true
-
 [dependencies]
 clap.workspace = true
 serde.workspace = true
@@ -25,7 +22,7 @@ leaf-prover.workspace = true
 circuit-cairo-verifier.workspace = true
 circuit-common = { workspace = true, features = ["prover"] }
 circuit-prover.workspace = true
-circuit-multiverifier.workspace = true
+circuit-verifier.workspace = true
 circuits.workspace = true
 starknet-types-core.workspace = true
 stwo.workspace = true

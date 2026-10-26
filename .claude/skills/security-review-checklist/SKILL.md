@@ -27,7 +27,7 @@ Run this checklist for changes touching:
 - [ ] **Proof format**: Malformed proofs are rejected gracefully (no panic, no UB)
 - [ ] **Size bounds**: All deserialized vectors have bounded length
 - [ ] **Domain validation**: FRI domains are constructed with validated parameters
-- [ ] **Parameter ranges**: FriConfig fields are within documented ranges
+- [ ] **Parameter ranges**: FriParams fields are within documented ranges
 
 ## 2. Proof Malleability
 

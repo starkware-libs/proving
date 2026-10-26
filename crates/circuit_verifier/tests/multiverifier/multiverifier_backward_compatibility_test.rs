@@ -1,21 +1,23 @@
 use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
 use circuit_serialize::deserialize::deserialize_proof_with_config;
+use circuit_verifier::multiverifier::{
+    CircuitVerifierInput, SharedConfig, build_multiverifier_circuit,
+};
 use circuit_verifier::statement::circuit_verifier_proof_config;
 use itertools::chain;
 use stwo::core::fields::qm31::QM31;
 
-use crate::test_utils::{
+use crate::multiverifier_test_utils::{
     MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH, MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG,
     PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST, PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT,
     TARGET_PADDING_SIZES, leaf_circuit_hash, multiverifier_preprocessed_column_log_sizes,
     native_blake_u32s,
 };
-use crate::verify::{CircuitVerifierInput, SharedConfig, build_multiverifier_circuit};
 
 /// The preprocessed root of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [441253039, 3875613392, 928940681, 3427512551, 3617659553, 3418754813, 3338178337, 68552802];
+    [3461839265, 1768344184, 1546597907, 1585217408, 427664610, 158966453, 724012200, 2473462434];
 /// The output digest of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
@@ -23,7 +25,7 @@ const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
 /// proof whenever a transcript-changing feature makes the previous fixture unverifiable.
 const BACKWARD_COMPATIBILITY_CAIRO_PROOF_PATH: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/../../test_data/circuit_multiverifier/backward_compatibility_cairo_proof.bin"
+    "/../../test_data/multiverifier/backward_compatibility_cairo_proof.bin"
 );
 
 /// Backward-compatibility regression test.

@@ -9,7 +9,8 @@ use crate::pcs::quotients::{ColumnSampleBatch, QuotientConstantsImpl, fri_answer
 use crate::pcs::verifier::CommitmentSchemeVerifierImpl;
 use crate::poly::circle::{CanonicCosetImpl, CircleDomainImpl, CircleEvaluationImpl};
 use crate::utils::{
-    DictImpl, group_columns_by_degree_bound, pad_and_transpose_columns_by_log_deg_bound_per_tree,
+    DictImpl, group_columns_by_log_degree_bound,
+    pad_and_transpose_columns_per_log_deg_bound_per_tree,
 };
 use super::{CanonicCosetTrait, accumulate_row_quotients};
 
@@ -33,16 +34,16 @@ fn test_fri_answers() {
         empty_span, empty_span, array![col0_samples, col1_samples, col2_samples].span(),
     ]
         .span();
-    let columns_by_degree_bound_per_tree = array![
+    let columns_per_degree_bound_per_tree = array![
         array![].span(), array![].span(),
-        group_columns_by_degree_bound(
+        group_columns_by_log_degree_bound(
             array![col0_degree_bound, col1_degree_bound, col2_degree_bound].span(),
         ),
     ]
         .span();
 
-    let columns_per_tree_by_degree_bound = pad_and_transpose_columns_by_log_deg_bound_per_tree(
-        columns_by_degree_bound_per_tree,
+    let columns_per_tree_per_degree_bound = pad_and_transpose_columns_per_log_deg_bound_per_tree(
+        columns_per_degree_bound_per_tree,
     );
 
     let random_coeff = qm31_const::<9, 8, 7, 6>();
@@ -53,7 +54,7 @@ fn test_fri_answers() {
     ];
 
     let res = fri_answers(
-        columns_per_tree_by_degree_bound,
+        columns_per_tree_per_degree_bound,
         log_blowup_factor,
         oods_point,
         samples_per_column_per_tree,
@@ -130,18 +131,18 @@ fn test_fri_answers_with_1000_columns() {
     for _ in 0..n_columns {
         size_vector.append(log_degree_bound)
     }
-    let columns_by_degree_bound_per_tree = array![
-        array![].span(), group_columns_by_degree_bound(size_vector.span()), array![].span(),
+    let columns_per_degree_bound_per_tree = array![
+        array![].span(), group_columns_by_log_degree_bound(size_vector.span()), array![].span(),
     ]
         .span();
-    let columns_per_tree_by_degree_bound = pad_and_transpose_columns_by_log_deg_bound_per_tree(
-        columns_by_degree_bound_per_tree,
+    let columns_per_tree_per_degree_bound = pad_and_transpose_columns_per_log_deg_bound_per_tree(
+        columns_per_degree_bound_per_tree,
     );
     let mut queried_values_per_tree = array![array![].span(), query_values.span(), array![].span()];
     let oods_point = qm31_circle_gen();
     let log_blowup_factor = 1;
     let _res = fri_answers(
-        columns_per_tree_by_degree_bound,
+        columns_per_tree_per_degree_bound,
         log_blowup_factor,
         oods_point,
         array![array![].span(), samples.span(), array![].span()].span(),

@@ -1,6 +1,6 @@
 use circuit_common::N_RESERVED;
-use circuits::blake::{HashValue, unpack_qm31s_to_u32_words};
-use circuits::context::{Context, U_VAR_IDX, Var};
+use circuits::blake::HashValue;
+use circuits::context::{Context, OUTPUT_START, U_VAR_IDX, Var};
 use circuits::eval;
 use circuits::ivalue::IValue;
 use circuits::ops::Constant;
@@ -21,9 +21,8 @@ use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 use crate::circuit_components::PerComponent;
 use crate::circuit_hash::compute_circuit_hash;
 use crate::components::eq::CircuitEqComponent;
-use crate::components::qm31_ops::CircuitQm31OpsComponent;
 use crate::components::{
-    blake_g_gate, m_31_to_u_32, range_check_16, triple_xor, verify_bitwise_xor_4,
+    blake_g_gate, m_31_to_u_32, qm_31_ops, range_check_16, triple_xor, verify_bitwise_xor_4,
     verify_bitwise_xor_7, verify_bitwise_xor_8, verify_bitwise_xor_9, verify_bitwise_xor_12,
 };
 use crate::relations::GATE_RELATION_ID;
@@ -63,11 +62,12 @@ impl<Value: IValue> CircuitStatement<Value> {
 
         let components = all_circuit_components::<Value>();
         let log_sizes = circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
+        let components = components.into_index_map();
 
         let circuit_hash = compute_circuit_hash(
             context,
             &log_sizes,
-            config.fri_config.log_blowup_factor,
+            config.fri_params.log_blowup_factor,
             &preprocessed_root,
         );
 
@@ -88,10 +88,9 @@ impl<Value: IValue> CircuitStatement<Value> {
 }
 
 impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
-    fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
-        let circuit_hash_words = self.circuit_hash.iter().copied().collect_vec();
-        let output_words =
-            unpack_qm31s_to_u32_words(context, self.output_digest.iter().map(|word| *word.raw()));
+    fn claims_to_mix(&self, _context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
+        let circuit_hash_words = self.circuit_hash.to_vec();
+        let output_words = self.output_digest.to_vec();
         vec![circuit_hash_words, output_words]
     }
 
@@ -112,8 +111,9 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
 
         // Output gates public logup sum contribution.
         let gate_relation_id = context.constant(GATE_RELATION_ID.into());
-        // Construct the output addresses. They are located at addresses `[3, 3 + N_RESERVED)`.
-        let output_addresses = ((U_VAR_IDX + 1)..(U_VAR_IDX + 1 + N_RESERVED))
+        // Construct the output addresses. They are located at addresses `[OUTPUT_START,
+        // OUTPUT_START + N_RESERVED)`.
+        let output_addresses = (OUTPUT_START..(OUTPUT_START + N_RESERVED))
             .map(|addr| M31Wrapper::const_m31(context, addr.into()))
             .collect_vec();
         // Add the pair `(U_VAR_IDX, U_VALUE)` to the addresses and values, respectively.
@@ -155,11 +155,11 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
     }
 }
 
-pub fn all_circuit_components<Value: IValue>() -> IndexMap<&'static str, Box<dyn CircuitEval<Value>>>
-{
-    let components = PerComponent::<Box<dyn CircuitEval<Value>>> {
+/// Returns the evaluator of every circuit component.
+pub fn all_circuit_components<Value: IValue>() -> PerComponent<Box<dyn CircuitEval<Value>>> {
+    PerComponent {
         eq: Box::new(CircuitEqComponent {}),
-        qm31_ops: Box::new(CircuitQm31OpsComponent {}),
+        qm_31_ops: Box::new(qm_31_ops::Component {}),
         triple_xor: Box::new(triple_xor::Component {}),
         m_31_to_u_32: Box::new(m_31_to_u_32::Component {}),
         blake_g_gate: Box::new(blake_g_gate::Component {}),
@@ -169,35 +169,19 @@ pub fn all_circuit_components<Value: IValue>() -> IndexMap<&'static str, Box<dyn
         verify_bitwise_xor_7: Box::new(verify_bitwise_xor_7::Component {}),
         verify_bitwise_xor_9: Box::new(verify_bitwise_xor_9::Component {}),
         range_check_16: Box::new(range_check_16::Component {}),
-    };
-    IndexMap::from_iter(components.into_named_iter())
+    }
 }
 
 /// Resolves the (static) log size of every circuit component.
 pub fn circuit_component_log_sizes<Value: IValue>(
-    components: &IndexMap<&'static str, Box<dyn CircuitEval<Value>>>,
+    components: &PerComponent<Box<dyn CircuitEval<Value>>>,
     preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
 ) -> PerComponent<u32> {
-    let log_size = |name: &str| {
-        components
-            .get(name)
-            .unwrap()
+    components.as_ref().map(|component| {
+        component
             .log_size(preprocessed_column_log_sizes)
             .expect("The circuit components can't have a dynamic log_size.")
-    };
-    PerComponent {
-        eq: log_size("eq"),
-        qm31_ops: log_size("qm31_ops"),
-        triple_xor: log_size("triple_xor"),
-        m_31_to_u_32: log_size("m_31_to_u_32"),
-        blake_g_gate: log_size("blake_g_gate"),
-        verify_bitwise_xor_8: log_size("verify_bitwise_xor_8"),
-        verify_bitwise_xor_12: log_size("verify_bitwise_xor_12"),
-        verify_bitwise_xor_4: log_size("verify_bitwise_xor_4"),
-        verify_bitwise_xor_7: log_size("verify_bitwise_xor_7"),
-        verify_bitwise_xor_9: log_size("verify_bitwise_xor_9"),
-        range_check_16: log_size("range_check_16"),
-    }
+    })
 }
 
 /// Builds the [`ProofConfig`] for the circuit verifier circuit, with the components in the order
@@ -206,9 +190,8 @@ pub fn circuit_verifier_proof_config(
     preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
     pcs_config: &PcsConfig,
 ) -> ProofConfig {
-    let components = all_circuit_components::<QM31>();
     ProofConfig::new(
-        &components,
+        &all_circuit_components::<QM31>().into_index_map(),
         preprocessed_column_log_sizes.len(),
         pcs_config,
         INTERACTION_POW_BITS,

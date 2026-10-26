@@ -4,11 +4,12 @@
 //!
 //! Note: this module cannot be `#[cfg(test)]`-gated because `cfg(test)` only activates when
 //! testing *this* crate, not when downstream crates compile their own tests.
+use core::dict::{Felt252Dict, Felt252DictEntryTrait};
 use core::num::traits::Zero;
 use stwo_verifier_core::ColumnSpan;
 use stwo_verifier_core::fields::m31::M31;
 use stwo_verifier_core::fields::qm31::{QM31, QM31Impl};
-use stwo_verifier_core::utils::ArrayImpl;
+use stwo_verifier_core::utils::{ArrayImpl, pow2};
 use crate::{PreprocessedColumnIdx, PreprocessedMaskValues};
 
 fn qm31_from_m31(m31: M31) -> QM31 {
@@ -37,9 +38,40 @@ pub fn make_interaction_trace(values: Array<QM31>, last_row_sum: QM31) -> Column
     result.span()
 }
 
-pub fn preprocessed_mask_add(
-    mut mask_values: PreprocessedMaskValues, column_idx: PreprocessedColumnIdx, value: QM31,
+/// Builds a component's preprocessed mask: `indexed_values` at their column indices, and zero at
+/// every other column. The indices may come in any order.
+pub fn new_preprocessed_mask(
+    indexed_values: Span<(PreprocessedColumnIdx, QM31)>, n_preprocessed_columns: usize,
 ) -> PreprocessedMaskValues {
-    mask_values.values.insert(column_idx.into(), NullableTrait::new((value, false)));
-    mask_values
+    let mut values = array![];
+    for idx in 0..n_preprocessed_columns {
+        let mut value = Zero::zero();
+        for indexed_value in indexed_values {
+            let (column_idx, column_value) = *indexed_value;
+            if column_idx == idx {
+                value = column_value;
+            }
+        }
+        values.append(value);
+    }
+
+    PreprocessedMaskValues { values: values.span() }
+}
+
+// A dict from relation_id, which is a string encoded as a felt252, to the number of uses of the
+// corresponding relation.
+pub type RelationUsesDict = Felt252Dict<u64>;
+
+// A tuple of (relation_id, uses).
+pub type RelationUse = (felt252, u32);
+
+pub fn accumulate_relation_uses(
+    ref relation_uses: RelationUsesDict, relation_uses_per_row: Span<RelationUse>, log_size: u32,
+) {
+    let component_size = pow2(log_size);
+    for relation_use in relation_uses_per_row {
+        let (relation_id, uses) = *relation_use;
+        let (entry, prev_uses) = relation_uses.entry(relation_id);
+        relation_uses = entry.finalize(prev_uses + uses.into() * component_size.into());
+    }
 }

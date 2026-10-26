@@ -15,8 +15,8 @@ const N_U8S_PER_U32: usize = 4;
 /// size.
 #[derive(Debug, Clone)]
 pub struct ProofInfo {
-    pub log_trace_size: usize,
-    pub log_blowup_factor: usize,
+    pub log_trace_size: u32,
+    pub log_blowup_factor: u32,
     pub n_queries: usize,
     pub n_columns_per_trace: [usize; N_TRACES],
     // Fixed scalars: channel_salt (QM31) + 3 roots (HashValue, 32 bytes each) +
@@ -45,8 +45,8 @@ pub struct ProofInfo {
 impl ProofInfo {
     /// Returns the proof size breakdown in u8s, computed from config alone.
     pub fn from_config(config: &ProofConfig) -> Self {
-        let n_queries = config.fri.n_queries;
-        let log_eval_domain = config.log_evaluation_domain_size();
+        let n_queries = config.fri.params.n_queries;
+        let log_eval_domain: usize = config.log_evaluation_domain_size().try_into().unwrap();
 
         let fixed = (1 + 3 * 2 + 1 + 1 + 1) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
 
@@ -66,34 +66,34 @@ impl ProofInfo {
         let eval_auth_per_query = N_TRACES * log_eval_domain * hash_size;
 
         let degree_log_ratio =
-            config.log_trace_size - config.fri.log_last_layer_degree_bound as usize;
-        let all_fold_steps =
-            compute_all_fold_steps(degree_log_ratio, config.fri.fold_step as usize);
+            config.log_trace_size() - config.fri.params.log_last_layer_degree_bound;
+        let all_fold_steps = compute_all_fold_steps(degree_log_ratio, config.fri.params.fold_step);
         let n_fri_layers = all_fold_steps.len();
 
         let fri_commitments = n_fri_layers * hash_size;
 
-        let fri_last_layer =
-            (1 << config.fri.log_last_layer_degree_bound) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
+        let fri_last_layer = (1 << config.fri.params.log_last_layer_degree_bound)
+            * SECURE_EXTENSION_DEGREE
+            * N_U8S_PER_U32;
 
-        let mut log_layer_size = log_eval_domain;
-        let fri_auth_per_query: usize = all_fold_steps
+        // Each FRI layer has an auth path of length `log_layer_size - step`.
+        let mut log_layer_size = config.log_evaluation_domain_size();
+        let total_fri_auth_depth: u32 = all_fold_steps
             .iter()
             .map(|step| {
-                let depth = log_layer_size - step;
-                let count = depth * hash_size;
                 log_layer_size -= step;
-                count
+                log_layer_size
             })
             .sum();
+        let fri_auth_per_query = usize::try_from(total_fri_auth_depth).unwrap() * hash_size;
 
         let fri_witness_per_query: usize = all_fold_steps
             .iter()
             .map(|step| (1 << step) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32)
             .sum();
 
-        let log_trace_size = config.log_trace_size;
-        let log_blowup_factor = config.fri.log_blowup_factor as usize;
+        let log_trace_size = config.log_trace_size();
+        let log_blowup_factor = config.fri.params.log_blowup_factor;
 
         Self {
             log_trace_size,

@@ -1,5 +1,5 @@
 use circuit_common::N_RESERVED;
-use circuit_multiverifier::verify::{CircuitVerifierInput, SharedConfig, verify_child};
+use circuit_verifier::multiverifier::{CircuitVerifierInput, SharedConfig, verify_child};
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};

@@ -33,7 +33,6 @@ where
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work,
             fri_proof,
         } = commitment_scheme_proof;
 
@@ -54,7 +53,6 @@ where
         CairoSerialize::serialize(sampled_values.deref(), output);
         CairoSerialize::serialize(decommitments.deref(), output);
         CairoSerialize::serialize(sorted_queried_values.deref(), output);
-        CairoSerialize::serialize(proof_of_work, output);
         CairoSerialize::serialize(fri_proof, output);
 
         CairoSerialize::serialize(channel_salt, output);

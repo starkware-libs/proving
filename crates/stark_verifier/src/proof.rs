@@ -36,8 +36,7 @@ pub struct ProofConfig {
     // the order in which the statement iterates its components in
     // `compute_composition_polynomial`; callers ensure this by building this config from the same
     // components map the statement uses. Note this is not necessarily the committed-column order:
-    // when `Statement::sorting_required` is `true` the verifier sorts the query columns to the
-    // committed order during decommitment instead.
+    // The verifier sorts the query columns to the committed order during decommitment.
     pub component_shapes: Vec<ComponentShape>,
 
     // Per column in the interaction trace, an indicator of whether it is a cumulative sum column.
@@ -45,9 +44,7 @@ pub struct ProofConfig {
     // OODS response.
     pub cumulative_sum_columns: Vec<bool>,
 
-    /// Log2 of the trace size.
-    pub log_trace_size: usize,
-
+    /// The FRI config: the FRI params and the trace size they are applied to.
     pub fri: FriConfig,
 }
 impl ProofConfig {
@@ -84,18 +81,18 @@ impl ProofConfig {
         // The circuit verifier verifies every tree against a single evaluation domain, so it
         // only accepts proofs whose trees — the preprocessed one included — were lifted to the
         // same height.
-        let PcsConfig { fri_config, trace_lifting_log_size, preprocessed_lifting_log_size } =
+        let PcsConfig { fri_params, trace_lifting_log_size, preprocessed_lifting_log_size } =
             pcs_config;
         assert_eq!(
             trace_lifting_log_size, preprocessed_lifting_log_size,
             "The circuit verifier expects every tree, the preprocessed one included, to be lifted \
              to the same size"
         );
-        let log_trace_size =
-            trace_lifting_log_size.checked_sub(fri_config.log_blowup_factor).expect(
-                "The circuit verifier expects trace_lifting_log_size to be log_trace_size + \
+        let trace_log_size =
+            trace_lifting_log_size.checked_sub(fri_params.log_blowup_factor).expect(
+                "The circuit verifier expects trace_lifting_log_size to be trace_log_size + \
                  log_blowup_factor",
-            ) as usize;
+            );
 
         Self {
             n_interaction_pow_bits,
@@ -104,8 +101,7 @@ impl ProofConfig {
             n_interaction_columns,
             component_shapes,
             cumulative_sum_columns,
-            log_trace_size,
-            fri: *fri_config,
+            fri: FriConfig { params: *fri_params, trace_log_size },
         }
     }
 
@@ -115,18 +111,18 @@ impl ProofConfig {
     }
 
     /// Returns the log2 of the size of the trace.
-    pub fn log_trace_size(&self) -> usize {
-        self.log_trace_size
+    pub fn log_trace_size(&self) -> u32 {
+        self.fri.trace_log_size
     }
 
     /// Returns the log2 of the size of the evaluation domain.
-    pub fn log_evaluation_domain_size(&self) -> usize {
-        self.log_trace_size + self.fri.log_blowup_factor as usize
+    pub fn log_evaluation_domain_size(&self) -> u32 {
+        self.fri.log_evaluation_domain_size()
     }
 
     /// Returns the number of queries.
     pub fn n_queries(&self) -> usize {
-        self.fri.n_queries
+        self.fri.params.n_queries
     }
 
     /// Returns the number of columns for each of the traces.
@@ -183,7 +179,6 @@ pub struct Proof<T> {
     pub eval_domain_auth_paths: AuthPaths<T>,
 
     pub oods_pow_nonce: T,
-    pub pow_nonce: T,
     pub interaction_pow_nonce: T,
     pub fri: FriProof<T>,
 }
@@ -203,7 +198,6 @@ impl<T> Proof<T> {
             eval_domain_samples,
             eval_domain_auth_paths,
             oods_pow_nonce: _,
-            pow_nonce: _,
             interaction_pow_nonce: _,
             fri,
         } = self;
@@ -235,7 +229,7 @@ impl<T> Proof<T> {
         eval_domain_auth_paths.validate_structure(&tree_heights, config.n_queries());
 
         // Validate FRI.
-        fri.validate_structure(config.log_trace_size, &config.fri);
+        fri.validate_structure(&config.fri);
     }
 
     /// Returns the 3 witness Merkle roots (trace, interaction, composition polynomial).
@@ -246,7 +240,8 @@ impl<T> Proof<T> {
 }
 
 pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
-    let auth_path = AuthPath(vec![HashValue::no_value(); config.log_evaluation_domain_size()]);
+    let path_len: usize = config.log_evaluation_domain_size().try_into().unwrap();
+    let auth_path = AuthPath(vec![HashValue::no_value(); path_len]);
 
     let n_components = config.n_components();
     Proof {
@@ -276,9 +271,8 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
             data: vec![vec![auth_path; config.n_queries()]; N_TRACES],
         },
         oods_pow_nonce: NoValue,
-        pow_nonce: NoValue,
         interaction_pow_nonce: NoValue,
-        fri: empty_fri_proof(config.log_trace_size, &config.fri),
+        fri: empty_fri_proof(&config.fri),
         channel_salt: NoValue,
     }
 }
@@ -299,7 +293,6 @@ impl<Value: IValue> Guess<Value> for Proof<Value> {
             eval_domain_samples: self.eval_domain_samples.guess(context),
             eval_domain_auth_paths: self.eval_domain_auth_paths.guess(context),
             oods_pow_nonce: self.oods_pow_nonce.guess(context),
-            pow_nonce: self.pow_nonce.guess(context),
             interaction_pow_nonce: self.interaction_pow_nonce.guess(context),
             fri: self.fri.guess(context),
             channel_salt: self.channel_salt.guess(context),

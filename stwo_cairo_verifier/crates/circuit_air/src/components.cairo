@@ -4,9 +4,10 @@
 pub mod blake_g_gate;
 pub mod eq;
 pub mod m_31_to_u_32;
-pub mod qm31_ops;
+pub mod qm_31_ops;
 pub mod range_check_16;
-pub mod sample_evaluations;
+#[cfg(test)]
+mod sample_evaluations_test_data;
 pub mod subroutines;
 pub mod triple_xor;
 pub mod verify_bitwise_xor_12;

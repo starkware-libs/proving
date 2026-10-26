@@ -1,17 +1,13 @@
 use blake2::{Blake2s256, Digest};
 use serde::{Deserialize, Serialize};
 
-use super::blake2_hash::{Blake2sHash, reduce_to_m31};
+use super::blake2_hash::Blake2sHash;
 use crate::core::fields::m31::BaseField;
 use crate::core::vcs::MerkleHasher;
 
-pub type Blake2sMerkleHasher = Blake2sMerkleHasherGeneric<false>;
-/// Same as [Blake2sMerkleHasher], expect that the hash output is taken modulo M31::P.
-pub type Blake2sM31MerkleHasher = Blake2sMerkleHasherGeneric<true>;
-
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Default, Deserialize, Serialize)]
-pub struct Blake2sMerkleHasherGeneric<const IS_M31_OUTPUT: bool>;
-impl<const IS_M31_OUTPUT: bool> MerkleHasher for Blake2sMerkleHasherGeneric<IS_M31_OUTPUT> {
+pub struct Blake2sMerkleHasher;
+impl MerkleHasher for Blake2sMerkleHasher {
     type Hash = Blake2sHash;
 
     fn hash_node(
@@ -29,21 +25,12 @@ impl<const IS_M31_OUTPUT: bool> MerkleHasher for Blake2sMerkleHasherGeneric<IS_M
             hasher.update(value.0.to_le_bytes());
         }
 
-        let mut r: [u8; 32] = hasher.finalize().into();
-        if IS_M31_OUTPUT {
-            r = reduce_to_m31(r);
-        }
-
-        Blake2sHash(r)
+        Blake2sHash(hasher.finalize().into())
     }
 }
 
-pub type Blake2sMerkleChannel = Blake2sMerkleChannelGeneric<false>;
-/// Same as [Blake2sMerkleChannel], expect that the hash output is taken modulo M31::P.
-pub type Blake2sM31MerkleChannel = Blake2sMerkleChannelGeneric<true>;
-
 #[derive(Default)]
-pub struct Blake2sMerkleChannelGeneric<const IS_M31_OUTPUT: bool>;
+pub struct Blake2sMerkleChannel;
 
 #[cfg(all(test, feature = "prover"))]
 mod tests {

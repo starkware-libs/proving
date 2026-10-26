@@ -9,7 +9,7 @@ use convert_case::{Case, Casing};
 use eval_air_fn_constraints::SampleEvaluation;
 use genco::lang::rust;
 use genco::quote;
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 use xshell::{Shell, cmd};
@@ -77,6 +77,25 @@ pub fn reformat_rust_code(code_text: String) -> String {
 /// Create the file `file_path` with the given content, and update the relevant module file
 /// to include the new file.
 pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: &AutogenCodeType) {
+    add_file_to_module_with_visibility(file_path, file_content, code_type, "pub mod");
+}
+
+/// Same as [`add_file_to_module`], but declares the module as test-only.
+pub fn add_test_file_to_module(
+    file_path: &Path,
+    file_content: String,
+    code_type: &AutogenCodeType,
+) {
+    add_file_to_module_with_visibility(file_path, file_content, code_type, "#[cfg(test)]\nmod");
+}
+
+/// `mod_prefix` is what precedes the module name in its declaration, e.g. `pub mod`.
+fn add_file_to_module_with_visibility(
+    file_path: &Path,
+    file_content: String,
+    code_type: &AutogenCodeType,
+    mod_prefix: &str,
+) {
     let parent_dir = file_path.parent().expect("path should include directory name");
     let (mod_file_path, mod_file_name) = match code_type {
         AutogenCodeType::WITNESS | AutogenCodeType::AIR(_) | AutogenCodeType::CIRCUIT => {
@@ -116,7 +135,7 @@ pub fn add_file_to_module(file_path: &Path, file_content: String, code_type: &Au
 
     // Add mod file line for the new file
     let mod_file_line = &format!(
-        "pub mod {};",
+        "{mod_prefix} {};",
         file_path.file_stem().expect("Invalid filename").to_str().expect("Invalid filename")
     );
     if !mod_file_content.contains(mod_file_line) {
@@ -217,19 +236,6 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
     }
 }
 
-pub fn relations_used_or_yielded(air_fn: &CompiledAirFn) -> IndexSet<String> {
-    // TODO(AnatG): Change the name of constraint_lookups in compiled air. This is used also in
-    // trace_gen.
-    air_fn.constraint_lookups.iter().map(|(r, _)| r.clone()).collect::<IndexSet<_>>()
-}
-
-/// Checks if the relation should be masked, meaning it's numerator should be altered.
-/// A relation is masked when the relation name matches one of the component's relation names (the
-/// component must contain an enabler/multiplicity columns).
-pub fn relation_multiplicity_index(air_fn: &CompiledAirFn, relation_name: &str) -> Option<usize> {
-    air_fn.relation_names.iter().position(|n| n == relation_name)
-}
-
 pub fn is_const_size_component(air_fn: &CompiledAirFn) -> bool {
     air_fn.log_height.is_some()
 }
@@ -295,19 +301,18 @@ where
     }
 }
 
-pub fn sample_evaluations_consts(
-    sample_evaluations: &IndexMap<String, SampleEvaluation>,
+pub fn sample_evaluations_consts<'a>(
+    sample_evaluations: impl IntoIterator<Item = (&'a String, &'a SampleEvaluation)>,
 ) -> HashMap<String, QM31> {
-    let mut constants_to_write = HashMap::new();
-
-    for (fn_name, evaluation) in sample_evaluations {
-        let constant_name =
-            format!("{}{}", fn_name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX);
-
-        constants_to_write.insert(constant_name, evaluation.result);
-    }
-
-    constants_to_write
+    sample_evaluations
+        .into_iter()
+        .map(|(fn_name, evaluation)| {
+            (
+                format!("{}{}", fn_name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX),
+                evaluation.result,
+            )
+        })
+        .collect()
 }
 
 #[cfg(test)]

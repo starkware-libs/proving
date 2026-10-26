@@ -25,10 +25,12 @@ use circuits::blake::HashValue;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
 use circuits_stark_verifier::proof::ProofConfig;
 use indexmap::IndexMap;
+use itertools::Itertools;
 use leaf_proof_format::{DigestHex, SerializedLeafProof};
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo::core::verifier::PREPROCESSED_TRACE_IDX;
 use stwo_cairo_adapter::adapter::adapt;
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
@@ -36,10 +38,6 @@ use stwo_cairo_common::prover_types::cpu::M31;
 use stwo_cairo_prover::prover::{LiftingSizePolicy, prove_cairo};
 use stwo_cairo_prover::witness::prelude::{Felt252, QM31};
 use tracing::info;
-
-use crate::consts::{
-    DISABLED_COMPONENTS_CANONICAL_PREPROCESSED, DISABLED_COMPONENTS_SMALL_PREPROCESSED,
-};
 
 /// File-path front end of [`prove_leaf`]: loads the program, program input and circuit registry
 /// from disk.
@@ -128,8 +126,7 @@ pub fn prove_leaf(
         chunk.copy_from_slice(&cell[..N_WORDS_PER_OUTPUT_CELL]);
     }
     let output_hash = Blake2sHash::from(digest_words);
-    let proof =
-        prove_cairo::<Blake2sM31MerkleChannel>(prover_input, cairo_prover_parameters).unwrap();
+    let proof = prove_cairo::<Blake2sMerkleChannel>(prover_input, cairo_prover_parameters).unwrap();
     info!("Cairo proving done");
 
     let preprocessed_root = proof.extended_stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];
@@ -144,18 +141,19 @@ pub fn prove_leaf(
          same size"
     );
     let trace_log_size =
-        pcs_config.trace_lifting_log_size - pcs_config.fri_config.log_blowup_factor;
+        pcs_config.trace_lifting_log_size - pcs_config.fri_params.log_blowup_factor;
     let registry_entry =
         circuit_registry.leaf_verifier(trace_log_size).unwrap_or_else(|err| panic!("{err}"));
     let circuit_proof_config =
         circuit_registry.config(&registry_entry.config).unwrap_or_else(|err| panic!("{err}"));
     let zk_blinding_size = registry_entry
         .zk_blinding
-        .then_some(circuit_proof_config.fri_config.n_queries + NON_QUERY_INFO_LEAK);
+        .then_some(circuit_proof_config.fri_params.n_queries + NON_QUERY_INFO_LEAK);
 
     let verifier_config = leaf_verifier_config(
         cairo_prover_parameters.preprocessed_trace_variant,
         &pcs_config,
+        &circuit_registry.cairo_components,
         Arc::from(program_felts(program)),
         preprocessed_root.into(),
         zk_blinding_size,
@@ -173,8 +171,7 @@ pub fn prove_leaf(
         );
     }
 
-    let (proof_for_circuit, serialized_aux_data) =
-        prepare_cairo_proof_for_circuit_verifier(&proof, &verifier_config.enabled_bits);
+    let (proof_for_circuit, serialized_aux_data) = prepare_cairo_proof_for_circuit_verifier(&proof);
 
     let mut context = build_and_fill_cairo_verifier_circuit(
         &verifier_config,
@@ -194,12 +191,12 @@ pub fn prove_leaf(
     Cairo preprocessed trace: {:?}
     Cairo preprocessed trace root: {:?}
     Proof pow bits: {}
-    Proof FRI config: {:?}",
+    Proof FRI params: {:?}",
         verifier_config.program.len(),
         n_outputs,
         verifier_config.preprocessed_trace_variant,
         verifier_config.preprocessed_root,
-        verifier_config.proof_config.fri.pow_bits,
+        verifier_config.proof_config.fri.params.pow_bits,
         verifier_config.proof_config.fri,
     );
     assert!(context.is_circuit_valid(), "The verifier circuit rejected the proof!");
@@ -208,10 +205,10 @@ pub fn prove_leaf(
     // Prove the execution of the verifier circuit.
 
     // The padded circuit fixes the circuit proof's lifting size.
-    let circuit_prover_pcs_config = PcsConfig::from_fri_and_trace_size(
-        circuit_proof_config.fri_config,
-        preprocessed_circuit.trace_log_size(),
-    );
+    let circuit_prover_pcs_config = PcsConfig::from_fri_config(FriConfig {
+        params: circuit_proof_config.fri_params,
+        trace_log_size: preprocessed_circuit.trace_log_size(),
+    });
     let base_column_pool = BaseColumnPool::new();
     let circuit_proof = prove_circuit_assignment(
         context.values(),
@@ -258,32 +255,27 @@ pub struct LeafVerifierComponents {
     pub enabled_bits: Vec<bool>,
 }
 
-/// Builds the [`CairoVerifierConfig`] of the leaf circuit that verifies a Cairo proof of the
-/// given preprocessed-trace variant: picks the disabled component set from the variant and
-/// assembles the component list, enabled bits and [`ProofConfig`].
+/// Create a configuration used to build the leaf verifier circuit
 ///
-/// `pcs_config` is the verified Cairo proof's PCS config with an explicit `lifting_log_size`
-/// (`trace_log_size + log_blowup_factor`), and `preprocessed_root` the expected root of that
-/// proof's preprocessed trace.
-/// The components a Cairo program proven with the given preprocessed-trace variant is expected NOT
-/// to use.
-fn disabled_components(variant: PreProcessedTraceVariant) -> &'static [&'static str] {
-    match variant {
-        PreProcessedTraceVariant::Canonical => &DISABLED_COMPONENTS_CANONICAL_PREPROCESSED,
-        PreProcessedTraceVariant::CanonicalSmall => &DISABLED_COMPONENTS_SMALL_PREPROCESSED,
-        _ => panic!("Unsupported preprocessed trace {variant:?}"),
-    }
-}
-
+/// `preprocessed_trace_variant` - The preprocessed trace of the Cairo programs the circuit will
+///     verify.
+/// `pcs_config` - The PCS config used to produce the proofs the circuit will verify.
+/// `cairo_component_names` - The components that should be in the Cairo AIR. The circuit
+///     will only be able to verify proofs using all of these components and no extra components.
+/// `program` - The circuit will verify executions of this program.
+/// `preprocessed_root` - The root of the preprocessed trace of the Cairo proofs to be verified.
+/// `zk_blinding_amount` - How many gates to add as padding to the circuit. None turns
+///     off ZK blinding.
 pub fn leaf_verifier_config(
     preprocessed_trace_variant: PreProcessedTraceVariant,
     pcs_config: &PcsConfig,
+    cairo_component_names: &[String],
     program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
     preprocessed_root: HashValue<QM31>,
     zk_blinding_amount: Option<usize>,
 ) -> CairoVerifierConfig {
     let LeafVerifierComponents { components, enabled_bits } =
-        leaf_verifier_components(disabled_components(preprocessed_trace_variant));
+        leaf_verifier_components(cairo_component_names);
     let proof_config = ProofConfig::new(
         &components,
         preprocessed_trace_variant.n_columns(),
@@ -301,18 +293,26 @@ pub fn leaf_verifier_config(
 }
 
 /// Creates the component list and enabled bits for the circuit that verifies the Cairo proof.
-/// The set of components is constant (all possible components for the given preprocessed trace,
-/// minus `disabled_components`) to keep the verifier circuit stable. The trace is expected to
+/// The set of components is constant to keep the verifier circuit stable. The trace is expected to
 /// contain all the components in this set.
-pub fn leaf_verifier_components(disabled_components: &[&str]) -> LeafVerifierComponents {
+fn leaf_verifier_components(component_names: &[String]) -> LeafVerifierComponents {
     let mut components: IndexMap<&'static str, Box<dyn CircuitEval<QM31>>> = IndexMap::default();
     let mut enabled_bits = vec![];
-    for (name, component) in all_components::<QM31>() {
-        if disabled_components.contains(&name) {
-            enabled_bits.push(false);
-        } else {
+    let all_components = all_components::<QM31>();
+    for name in component_names {
+        assert!(all_components.contains_key(name.as_str()), "Unknown component {name}");
+    }
+    assert!(
+        component_names.iter().all_unique(),
+        "Duplicate component names in {:?}",
+        component_names
+    );
+    for (name, component) in all_components {
+        if component_names.contains(&name.to_owned()) {
             components.insert(name, component);
             enabled_bits.push(true);
+        } else {
+            enabled_bits.push(false);
         }
     }
     LeafVerifierComponents { components, enabled_bits }

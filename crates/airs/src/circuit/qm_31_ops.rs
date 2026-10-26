@@ -20,31 +20,6 @@ impl AirFn for Qm31Ops {
         let mul_flag = ab.call_external_table(&MulFlag {});
         let pointwise_mul_flag = ab.call_external_table(&PointwiseMulFlag {});
 
-        ab.constrain(
-            add_flag.as_felt()
-                + sub_flag.as_felt()
-                + mul_flag.as_felt()
-                + pointwise_mul_flag.as_felt()
-                - const_expr!(1),
-            "all flags sum to 1",
-        );
-        ab.constrain(
-            add_flag.as_felt() * (add_flag.as_felt() - const_expr!(1)),
-            "add_flag is a bit",
-        );
-        ab.constrain(
-            sub_flag.as_felt() * (sub_flag.as_felt() - const_expr!(1)),
-            "sub_flag is a bit",
-        );
-        ab.constrain(
-            mul_flag.as_felt() * (mul_flag.as_felt() - const_expr!(1)),
-            "mul_flag is a bit",
-        );
-        ab.constrain(
-            pointwise_mul_flag.as_felt() * (pointwise_mul_flag.as_felt() - const_expr!(1)),
-            "pointwise_mul_flag is a bit",
-        );
-
         // When expanding (a0+b0i+c0j+d0k) * (a1+b1i+c1j+d1k)
         // and regrouping as coordinates in (1, i, j, k) we arrive at the result
         // a0 * a1 - b0 * b1 + 2*(c0*c1 - d0*d1) - c0*d1 - d0*c1

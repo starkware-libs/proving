@@ -5,7 +5,7 @@ use std::sync::{Arc, LazyLock};
 use anyhow::Result;
 use cairo_air::CairoProof;
 use cairo_air::cairo_components::CairoComponents;
-use cairo_air::claims::{CairoClaim, lookup_sum};
+use cairo_air::claims::{CairoClaim, logup_sum};
 use cairo_air::relations::CommonLookupElements;
 use cairo_air::utils::{ProofFormat, serialize_proof_to_file};
 use cairo_air::verifier::{INTERACTION_POW_BITS, verify_cairo_ex};
@@ -14,13 +14,13 @@ use serde::Serialize;
 use stwo::core::channel::{Channel, MerkleChannel};
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fields::qm31::SecureField;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::pcs::utils::InvalidLiftingLogSizeError;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleChannel};
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo::core::vcs_lifted::hasher::Hasher;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use stwo::prover::backend::BackendForChannel;
@@ -106,7 +106,7 @@ where
     let ProverParameters {
         channel_hash: _,
         channel_salt: _,
-        fri_config,
+        fri_params,
         preprocessed_trace_variant,
         store_polynomials_coefficients,
         include_all_preprocessed_columns: _,
@@ -130,11 +130,11 @@ where
 
     // Calculate max trace and preprocessed trace log size.
     let cairo_air_log_degree_bound = 1;
-    assert!(cairo_air_log_degree_bound <= fri_config.log_blowup_factor);
+    assert!(cairo_air_log_degree_bound <= fri_params.log_blowup_factor);
     let trace_domain_log_size =
-        claim.log_sizes().iter().flatten().copied().max().unwrap() + fri_config.log_blowup_factor;
+        claim.log_sizes().iter().flatten().copied().max().unwrap() + fri_params.log_blowup_factor;
     let preprocessed_trace_domain_log_size =
-        preprocessed_trace_variant.max_log_trace_size() + fri_config.log_blowup_factor;
+        preprocessed_trace_variant.max_log_trace_size() + fri_params.log_blowup_factor;
 
     // The heights the trace trees and the preprocessed tree are lifted to, per
     // `LiftingSizePolicy`. The pair goes into the proof's `PcsConfig`, which is what the verifier
@@ -162,7 +162,7 @@ where
     }
 
     let pcs_config =
-        PcsConfig { fri_config, trace_lifting_log_size, preprocessed_lifting_log_size };
+        PcsConfig { fri_params, trace_lifting_log_size, preprocessed_lifting_log_size };
     // The twiddles must cover the tallest tree, whichever of the two it is.
     let max_lifting_log_size = trace_lifting_log_size.max(preprocessed_lifting_log_size);
 
@@ -179,7 +179,7 @@ where
     let base_column_pool = BaseColumnPool::new();
     let preprocessed_tree = MaybeOwned::Owned(CommitmentTreeProver::<SimdBackend, MC>::new(
         preprocessed_trace_polys,
-        fri_config.log_blowup_factor,
+        fri_params.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
         preprocessed_lifting_log_size,
@@ -220,7 +220,7 @@ where
         panic!("Only LiftingSizePolicy::Fixed is supported with a precomputed preprocessed tree");
     };
     let pcs_config =
-        PcsConfig::from_fri_and_lifting_size(prover_params.fri_config, lifting_log_size);
+        PcsConfig::from_fri_and_lifting_size(prover_params.fri_params, lifting_log_size);
 
     // Run Cairo.
     let cairo_claim_generator = create_cairo_claim_generator(input, preprocessed_trace.clone());
@@ -260,7 +260,7 @@ where
     let ProverParameters {
         channel_hash: _,
         channel_salt,
-        fri_config: _,
+        fri_params: _,
         preprocessed_trace_variant,
         store_polynomials_coefficients,
         include_all_preprocessed_columns,
@@ -274,7 +274,7 @@ where
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     channel.mix_felts(&[channel_salt.into()]);
     // Mix PCS config.
-    pcs_config.fri_config.mix_into(channel);
+    pcs_config.fri_params.mix_into(channel);
     let mut commitment_scheme = CommitmentSchemeProver::<SimdBackend, MC>::with_memory_pool(
         pcs_config,
         twiddles,
@@ -309,7 +309,7 @@ where
     tracing::info!("Witness trace cells: {:?}", witness_trace_cells(&claim, &preprocessed_trace));
     // Validate lookup argument.
     debug_assert_eq!(
-        lookup_sum(&claim, &interaction_elements, &interaction_claim),
+        logup_sum(&claim, &interaction_elements, &interaction_claim),
         SecureField::zero()
     );
     interaction_claim.mix_into(channel);
@@ -382,7 +382,7 @@ pub fn create_and_serialize_proof(
         ProverParameters {
             channel_hash: ChannelHash::Blake2s,
             channel_salt: 0,
-            fri_config: FriConfig {
+            fri_params: FriParams {
                 // Stay within 500ms on M3.
                 pow_bits: 26,
                 log_last_layer_degree_bound: 0,
@@ -405,15 +405,6 @@ pub fn create_and_serialize_proof(
     match proof_params.channel_hash {
         ChannelHash::Blake2s => {
             prove_verify_serialize::<Blake2sMerkleChannel>(
-                input,
-                verify,
-                &proof_path,
-                proof_format,
-                proof_params,
-            )?;
-        }
-        ChannelHash::Blake2sM31 => {
-            prove_verify_serialize::<Blake2sM31MerkleChannel>(
                 input,
                 verify,
                 &proof_path,
@@ -447,7 +438,7 @@ pub mod tests {
 
     use cairo_air::verifier::verify_cairo;
     use cairo_vm::types::layout_name::LayoutName;
-    use stwo::core::fri::FriConfig;
+    use stwo::core::fri::FriParams;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_adapter::ExecutionResources;
     use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTrace;
@@ -540,7 +531,7 @@ pub mod tests {
                 .unwrap();
         let prover_params = ProverParameters {
             channel_hash: ChannelHash::Blake2s,
-            fri_config: FriConfig::default(),
+            fri_params: FriParams::test_params(),
             preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
             channel_salt: 0,
             store_polynomials_coefficients: false,

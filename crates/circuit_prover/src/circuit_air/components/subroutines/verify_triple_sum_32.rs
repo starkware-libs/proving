@@ -20,8 +20,8 @@ impl VerifyTripleSum32 {
             verify_triple_sum_32_input_b_limb_1,
             verify_triple_sum_32_input_c_limb_0,
             verify_triple_sum_32_input_c_limb_1,
-            verify_triple_sum_32_input_s_limb_0,
-            verify_triple_sum_32_input_s_limb_1,
+            verify_triple_sum_32_input_res_limb_0,
+            verify_triple_sum_32_input_res_limb_1,
         ]: [E::F; 8],
         enabler: E::F,
         common_lookup_elements: &relations::CommonLookupElements,
@@ -35,7 +35,7 @@ impl VerifyTripleSum32 {
             ((((verify_triple_sum_32_input_a_limb_0.clone()
                 + verify_triple_sum_32_input_b_limb_0.clone())
                 + verify_triple_sum_32_input_c_limb_0.clone())
-                - verify_triple_sum_32_input_s_limb_0.clone())
+                - verify_triple_sum_32_input_res_limb_0.clone())
                 * M31_32768.clone()),
         );
         // carry low is 0 or 1 or 2.
@@ -48,7 +48,7 @@ impl VerifyTripleSum32 {
                 + verify_triple_sum_32_input_b_limb_1.clone())
                 + verify_triple_sum_32_input_c_limb_1.clone())
                 + carry_low_tmp_a7b7a_0.clone())
-                - verify_triple_sum_32_input_s_limb_1.clone())
+                - verify_triple_sum_32_input_res_limb_1.clone())
                 * M31_32768.clone()),
         );
         // carry high is 0 or 1 or 2.
