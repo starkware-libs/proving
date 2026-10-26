@@ -117,13 +117,20 @@ pub fn stwo_run_and_prove_recursive_tree(
 
     let canonical = CanonicalCircuit::build(registry)?;
 
-    // Intermediate proofs live in memory (on each `LayerEntry`) for the duration of the fold; the
-    // only files this invocation writes are the root outputs.
-    let current_layer: Vec<LayerEntry> =
-        leaves.iter().map(LayerEntry::from_leaf).collect::<Result<Vec<_>, _>>()?;
+    let proof_config = &canonical.shared_config.proof_config;
+    let current_layer: Vec<LayerEntry> = leaves
+        .into_iter()
+        .map(|leaf| LayerEntry::from_leaf(leaf, proof_config))
+        .collect::<Result<Vec<_>, _>>()?;
 
     let (root, stats) = fold_entries(current_layer, &canonical, root_proof_format)?;
-    output::write_root_outputs(&root, proof_path, program_output, packed_node_tree_path)?;
+    output::write_root_outputs(
+        &root,
+        root_proof_format,
+        proof_path,
+        program_output,
+        packed_node_tree_path,
+    )?;
     info!(
         n_layers = stats.n_layers,
         n_pair_reductions = stats.n_pair_reductions,

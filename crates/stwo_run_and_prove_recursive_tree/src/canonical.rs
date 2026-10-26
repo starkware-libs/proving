@@ -25,8 +25,8 @@ pub struct CanonicalCircuit {
     /// The preprocessed multiverifier circuit — the shape every layer's proof is generated
     /// against.
     pub preprocessed_multiverifier: PreprocessedCircuit,
-    /// Config shared by all proofs being verified by the multiverifier. Its `proof_config` is also
-    /// used to deserialize leaf / intermediate proofs from disk.
+    /// Config shared by all proofs being verified by the multiverifier. Its `proof_config` also
+    /// deserializes the leaf proofs.
     pub shared_config: SharedConfig,
     /// The registry's padding target, applied to both the leaf and multiverifier circuits so one
     /// proof shape verifies every layer.
