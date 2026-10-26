@@ -61,14 +61,46 @@ mod BlakeTest {
         };
         let queries_position = array![4].span();
         let queried_values = array![m31(0), m31(2), m31(4)].span();
-        let column_log_deg_bounds = array![2, 3, 4].span();
-        MerkleVerifier { root: *test_values[0], tree_height: 4, column_log_deg_bounds }
+        MerkleVerifier { root: *test_values[0], tree_height: 4, n_committed_columns: 3 }
             .verify(queries_position, queried_values, decommitment);
     }
 
+    /// Verification must reject a decommitment whose hash witness is missing a hash.
+    #[test]
+    #[should_panic(expected: "Merkle Verification Error: Witness Too Short")]
+    fn test_witness_too_short_fail() {
+        let test_values = prepare_verifier_values();
+        // Same as `test_verifier`, without the last witness hash.
+        let decommitment = MerkleDecommitment::<
+            Blake2sMerkleHasher,
+        > { hash_witness: array![*test_values[1], *test_values[2], *test_values[3]].span() };
+        let queries_position = array![4].span();
+        let queried_values = array![m31(0), m31(2), m31(4)].span();
+        MerkleVerifier { root: *test_values[0], tree_height: 4, n_committed_columns: 3 }
+            .verify(queries_position, queried_values, decommitment);
+    }
+
+    /// Verification must reject a query position outside the tree.
+    #[test]
+    #[should_panic(expected: "Merkle Verification Error: Query Out Of Range")]
+    fn test_out_of_range_position_fail() {
+        let test_values = prepare_verifier_values();
+        let [_root, w0, w1, w2, w3] = (*test_values.span().try_into().unwrap()).unbox();
+        let decommitment = MerkleDecommitment::<
+            Blake2sMerkleHasher,
+        > { hash_witness: array![w0, w0, w1, w1, w2, w2, w3, w3].span() };
+        // Position 40 is larger than 2^tree_height.
+        let queries_position = array![4, 40].span();
+        let queried_values = array![m31(0), m31(2), m31(4), m31(1), m31(1), m31(1)].span();
+        MerkleVerifier { root: *test_values[0], tree_height: 4, n_committed_columns: 3 }
+            .verify(queries_position, queried_values, decommitment);
+    }
 
     #[test]
-    fn test_duplication_success() {
+    #[should_panic(
+        expected: "Merkle Verification Error: Query Positions Must Be Strictly Increasing",
+    )]
+    fn test_duplicate_positions_fail() {
         let test_values = prepare_verifier_values();
         let decommitment = MerkleDecommitment::<
             Blake2sMerkleHasher,
@@ -79,14 +111,15 @@ mod BlakeTest {
         // Query the same position twice.
         let queries_position = array![4, 4].span();
         let queried_values = array![m31(0), m31(2), m31(4), m31(0), m31(2), m31(4)].span();
-        let column_log_deg_bounds = array![2, 3, 4].span();
-        MerkleVerifier { root: *test_values[0], tree_height: 4, column_log_deg_bounds }
+        MerkleVerifier { root: *test_values[0], tree_height: 4, n_committed_columns: 3 }
             .verify(queries_position, queried_values, decommitment);
     }
 
     #[test]
-    #[should_panic]
-    fn test_duplication_fail() {
+    #[should_panic(
+        expected: "Merkle Verification Error: Query Positions Must Be Strictly Increasing",
+    )]
+    fn test_unsorted_positions_fail() {
         let test_values = prepare_verifier_values();
         let decommitment = MerkleDecommitment::<
             Blake2sMerkleHasher,
@@ -94,106 +127,9 @@ mod BlakeTest {
             hash_witness: array![*test_values[1], *test_values[2], *test_values[3], *test_values[4]]
                 .span(),
         };
-        // Query the same position twice but give different queried values.
-        let queries_position = array![4, 4].span();
-        let queried_values = array![m31(0), m31(2), m31(4), m31(0), m31(3), m31(4)].span();
-        let column_log_deg_bounds = array![2, 3, 4].span();
-
-        MerkleVerifier { root: *test_values[0], tree_height: 4, column_log_deg_bounds }
-            .verify(queries_position, queried_values, decommitment);
-    }
-
-    /// Test data for a tree over columns of log sizes [2, 3, 4] queried at positions `[7, 1, 4,
-    /// 7]`.
-    fn unsorted_decommitment() -> (Blake2sHash, MerkleDecommitment<Blake2sMerkleHasher>) {
-        let root = Blake2sHash {
-            hash: BoxImpl::new(
-                [
-                    799111052, 3851046149, 767764003, 750019224, 868185721, 2802927524, 2631427736,
-                    2953523631,
-                ],
-            ),
-        };
-        let decommitment = MerkleDecommitment::<
-            Blake2sMerkleHasher,
-        > {
-            hash_witness: array![
-                Blake2sHash {
-                    hash: BoxImpl::new(
-                        [
-                            1686078255, 1251989663, 1399841896, 1070415095, 77577676, 3523387273,
-                            772468701, 1963156859,
-                        ],
-                    ),
-                },
-                Blake2sHash {
-                    hash: BoxImpl::new(
-                        [
-                            3190349240, 949347602, 832165461, 554053959, 4286760971, 996742177,
-                            2101294015, 3914298350,
-                        ],
-                    ),
-                },
-                Blake2sHash {
-                    hash: BoxImpl::new(
-                        [
-                            823642232, 1108693860, 1374718226, 4116224843, 2342976400, 4273534153,
-                            4280580980, 2568719764,
-                        ],
-                    ),
-                },
-                Blake2sHash {
-                    hash: BoxImpl::new(
-                        [
-                            287489983, 282350153, 2774670933, 2151505221, 910818842, 2214082789,
-                            2388741195, 2405550818,
-                        ],
-                    ),
-                },
-                Blake2sHash {
-                    hash: BoxImpl::new(
-                        [
-                            1410283336, 2815891655, 3263519339, 573411765, 393219428, 2870469238,
-                            587231783, 2042633243,
-                        ],
-                    ),
-                },
-            ]
-                .span(),
-        };
-        (root, decommitment)
-    }
-
-    /// Verification must succeed when the query positions are given out of order and contain a
-    /// non-adjacent duplicate.
-    #[test]
-    fn test_unsorted_and_duplicate_query_positions() {
-        let (root, decommitment) = unsorted_decommitment();
-        let queries_position = array![7, 1, 4, 7].span();
-        let queried_values = array![
-            m31(1), m31(3), m31(7), m31(1), m31(1), m31(1), m31(0), m31(2), m31(4), m31(1), m31(3),
-            m31(7),
-        ]
-            .span();
-        let column_log_deg_bounds = array![2, 3, 4].span();
-        MerkleVerifier { root, tree_height: 4, column_log_deg_bounds }
-            .verify(queries_position, queried_values, decommitment);
-    }
-
-    /// Verification must reject a duplicated position whose queried values disagree.
-    #[test]
-    #[should_panic]
-    fn test_non_adjacent_inconsistent_duplicate_fail() {
-        let (root, decommitment) = unsorted_decommitment();
-        let queries_position = array![7, 1, 4, 7].span();
-        // Same as the success case, but the second occurrence of `7` carries a different value.
-        let queried_values = array![
-            m31(1), m31(3), m31(7), m31(1), m31(1), m31(1), m31(0), m31(2), m31(4), m31(1), m31(3),
-            m31(8),
-        ]
-            .span();
-        let column_log_deg_bounds = array![2, 3, 4].span();
-        MerkleVerifier { root, tree_height: 4, column_log_deg_bounds }
+        let queries_position = array![4, 0].span();
+        let queried_values = array![m31(0), m31(2), m31(4), m31(0), m31(2), m31(4)].span();
+        MerkleVerifier { root: *test_values[0], tree_height: 4, n_committed_columns: 3 }
             .verify(queries_position, queried_values, decommitment);
     }
 }

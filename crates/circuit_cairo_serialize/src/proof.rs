@@ -19,7 +19,6 @@ use stwo::core::ColumnVec;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::FriProof;
-use stwo::core::pcs::PcsConfig;
 use stwo::core::pcs::quotients::CommitmentSchemeProof;
 use stwo::core::proof::StarkProof;
 use stwo::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
@@ -42,7 +41,7 @@ where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
     pub claim: CairoCircuitClaim,
-    pub interaction_pow: u64,
+    pub interaction_pow_nonce: u64,
     pub interaction_claim: CairoCircuitInteractionClaim,
     pub stark_proof: CairoStarkProof<H>,
     pub channel_salt: u32,
@@ -51,12 +50,14 @@ where
 /// Owned counterpart of `CommitmentSchemeProof` with `queried_values` already in the
 /// 2D sorted-and-transposed layout (one `Vec<BaseField>` per tree, concatenated across
 /// queries) that the Cairo verifier deserializes.
+///
+/// The PCS config is not included: the circuit verifier hardcodes its FRI parameters and tree
+/// heights for its fixed topology, so a prover cannot propose its own FRI parameters.
 #[derive(Clone, Debug, CairoSerialize)]
 pub struct CairoStarkProof<H: MerkleHasherLifted>
 where
     H::Hash: CairoSerialize + CairoDeserialize,
 {
-    pub config: PcsConfig,
     pub commitments: Vec<H::Hash>,
     /// Ground before drawing the OODS point.
     pub oods_proof_of_work: u64,
@@ -64,8 +65,6 @@ where
     pub decommitments: Vec<MerkleDecommitmentLifted<H>>,
     /// Sorted+transposed queried values (per tree).
     pub queried_values: Vec<Vec<M31>>,
-    /// Ground before drawing the FRI query positions.
-    pub proof_of_work: u64,
     pub fri_proof: FriProof<H>,
 }
 
@@ -87,7 +86,7 @@ where
     );
     let circuit_proof_for_cairo = CairoCircuitProof::<H> {
         claim: CairoCircuitClaim::new(&circuit_proof.claim),
-        interaction_pow: circuit_proof.interaction_pow_nonce,
+        interaction_pow_nonce: circuit_proof.interaction_pow_nonce,
         interaction_claim: CairoCircuitInteractionClaim::from(&circuit_proof.interaction_claim),
         stark_proof,
         channel_salt: circuit_proof.channel_salt,
@@ -110,12 +109,12 @@ where
         let StarkProof(commitment_scheme_proof) = proof;
         let CommitmentSchemeProof {
             oods_proof_of_work,
-            config,
+            // The config is not serialized: the circuit verifier uses its hardcoded one.
+            config: _,
             commitments,
             sampled_values,
             decommitments,
             queried_values,
-            proof_of_work,
             fri_proof,
         } = commitment_scheme_proof;
 
@@ -126,12 +125,10 @@ where
 
         Self {
             oods_proof_of_work,
-            config,
             commitments: commitments.0,
             sampled_values: sampled_values.0,
             decommitments: decommitments.0,
             queried_values: sorted.0,
-            proof_of_work,
             fri_proof,
         }
     }

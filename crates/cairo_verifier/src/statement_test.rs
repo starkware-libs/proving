@@ -46,7 +46,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -57,7 +57,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -68,7 +68,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -79,7 +79,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 5),
                 value: m31_const(&mut context, 0),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 5),
                 value: m31_const(&mut context, 0),
             },
@@ -90,7 +90,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -101,7 +101,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 5),
                 value: m31_const(&mut context, 0),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 5),
                 value: m31_const(&mut context, 0),
             },
@@ -112,7 +112,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 5),
                 value: m31_const(&mut context, 0),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 5),
                 value: m31_const(&mut context, 0),
             },
@@ -123,7 +123,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -134,7 +134,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -145,7 +145,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
@@ -156,7 +156,7 @@ fn test_public_logup_sum() {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },
-            end: PubMemoryAddress {
+            stop: PubMemoryAddress {
                 id: m31_const(&mut context, 228),
                 value: m31_const(&mut context, 2520),
             },

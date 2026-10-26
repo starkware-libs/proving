@@ -25,3 +25,4 @@ stwo_verifier_utils = { path = "../verifier_utils" }
 
 [dev-dependencies]
 cairo_test.workspace = true
+stwo_constraint_framework = { path = "../constraint_framework", features = ["test_utils"] }

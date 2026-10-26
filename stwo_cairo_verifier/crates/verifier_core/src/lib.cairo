@@ -13,7 +13,6 @@ mod fields_test;
 
 pub mod fri;
 #[cfg(test)]
-#[cfg(not(feature: "poseidon252_verifier"))]
 mod fri_test;
 
 pub mod pcs;
@@ -30,8 +29,7 @@ mod utils_test;
 
 pub mod vcs;
 pub mod verifier;
-
-pub use fields::{BaseField, SecureField};
+use fields::{BaseField, SecureField};
 
 /// An array in which each element relates (by index) to a column in the trace.
 pub type ColumnArray<T> = Array<T>;
@@ -44,6 +42,10 @@ pub type TreeArray<T> = Array<T>;
 
 /// A span in which each element relates (by index) to a commitment tree.
 pub type TreeSpan<T> = Span<T>;
+
+/// The number of commitment trees excluding the composition polynomial commitment: preprocessed,
+/// trace and interaction.
+pub const N_TREES: usize = 3;
 
 #[cfg(not(feature: "poseidon252_verifier"))]
 pub type Hash = vcs::blake2s_hasher::Blake2sHash;

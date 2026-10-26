@@ -22,7 +22,7 @@ pub struct OodsSamples<'a> {
 pub struct EvaluateArgs<'a> {
     pub oods_samples: OodsSamples<'a>,
     pub pt: CirclePoint<Var>,
-    pub log_domain_size: usize,
+    pub log_domain_size: u32,
     pub composition_polynomial_coeff: Var,
     pub interaction_elements: [Var; 2],
     pub claimed_sums: &'a [Var],
@@ -59,15 +59,6 @@ pub trait Statement<Value: IValue> {
     /// Returns statement-specific named parameters passed to component constraint evaluators.
     fn public_params(&self, _context: &mut Context<Value>) -> HashMap<String, Var> {
         HashMap::new()
-    }
-
-    /// Whether the trace and interaction query columns must be sorted by (log size,
-    /// column index) before Merkle leaf hashing during decommitment, to match the order
-    /// in which those columns were committed to the Merkle tree. Returns `true` by
-    /// default, matching the standard verifier behavior. Statements whose column order
-    /// already matches the committed order can override this to `false` to skip sorting.
-    fn sorting_required(&self) -> bool {
-        true
     }
 
     /// Performs statement-level consistency checks on the claim.

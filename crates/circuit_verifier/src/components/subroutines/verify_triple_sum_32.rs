@@ -18,8 +18,8 @@ pub fn accumulate_constraints<Value: IValue>(
         verify_triple_sum_32_input_b_limb_1,
         verify_triple_sum_32_input_c_limb_0,
         verify_triple_sum_32_input_c_limb_1,
-        verify_triple_sum_32_input_s_limb_0,
-        verify_triple_sum_32_input_s_limb_1,
+        verify_triple_sum_32_input_res_limb_0,
+        verify_triple_sum_32_input_res_limb_1,
         enabler,
     ] = input.try_into().unwrap();
 
@@ -27,7 +27,7 @@ pub fn accumulate_constraints<Value: IValue>(
         context,
         ((((verify_triple_sum_32_input_a_limb_0) + (verify_triple_sum_32_input_b_limb_0))
             + (verify_triple_sum_32_input_c_limb_0))
-            - (verify_triple_sum_32_input_s_limb_0))
+            - (verify_triple_sum_32_input_res_limb_0))
             * (32768)
     );
 
@@ -44,7 +44,7 @@ pub fn accumulate_constraints<Value: IValue>(
         (((((verify_triple_sum_32_input_a_limb_1) + (verify_triple_sum_32_input_b_limb_1))
             + (verify_triple_sum_32_input_c_limb_1))
             + (carry_low_tmp_a7b7a_0))
-            - (verify_triple_sum_32_input_s_limb_1))
+            - (verify_triple_sum_32_input_res_limb_1))
             * (32768)
     );
 

@@ -9,6 +9,7 @@ use crate::statement::MEMORY_VALUES_LIMBS;
 
 /// Divides `a` by `b`, panicking if `b` does not divide `a` evenly.
 pub fn safe_div(a: usize, b: usize) -> usize {
+    assert!(b != 0);
     assert_eq!(a % b, 0, "{b} does not divide {a}");
     a / b
 }

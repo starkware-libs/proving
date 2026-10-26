@@ -16,10 +16,10 @@ use crate::poly::circle::{
     CanonicCosetImpl, CanonicCosetTrait, CircleDomainImpl, CircleEvaluationImpl,
 };
 use crate::utils::{
-    ArrayImpl as ArrayUtilImpl, ColumnsIndicesPerTreeByLogDegreeBound, SpanExTrait, SpanImpl,
+    ArrayImpl as ArrayUtilImpl, ColumnIndicesPerTreePerLogDegreeBound, SpanExTrait, SpanImpl,
     bit_reverse_index, pack_qm31,
 };
-use crate::{TreeArray, TreeSpan};
+use crate::{ColumnSpan, TreeArray, TreeSpan};
 use super::verifier::{QueriedValues, SampledValues};
 
 
@@ -30,8 +30,8 @@ mod test;
 ///
 /// # Arguments
 ///
-/// * `column_indices_per_tree_by_degree_bound`: The column indices grouped by tree and by log
-/// degree bound.
+/// * `column_indices_per_tree_per_log_deg_bound`: `x[log_degree_bound][tree]` is the list of
+/// indices of the columns of `tree` with `log_degree_bound`.
 /// * `log_blowup_factor`: The FRI log blowup factor parameter.
 /// * `oods_point`: The OOD point.
 /// * `sample_values_per_column_per_tree`: OOD samples (only the eval) for each column in each tree.
@@ -39,29 +39,29 @@ mod test;
 /// * `query_positions`: Query positions, as indices in the largest LDE domain (i.e. the lifting
 /// domain), in ascending order.
 /// * `queried_values_per_tree`: For each tree, contains all queried trace values.
-/// * `max_log_degree_bound`: The max log degree of a committed polynomial.
+/// * `log_degree_bound`: The max log degree of a committed polynomial.
 pub fn fri_answers(
-    mut column_indices_per_tree_by_degree_bound: ColumnsIndicesPerTreeByLogDegreeBound,
+    mut column_indices_per_tree_per_log_deg_bound: ColumnIndicesPerTreePerLogDegreeBound,
     log_blowup_factor: u32,
     oods_point: CirclePoint<QM31>,
     sample_values_per_column_per_tree: SampledValues,
     random_coeff: QM31,
     query_positions: Span<usize>,
     queried_values_per_tree: QueriedValues,
-    max_log_degree_bound: u32,
+    log_degree_bound: u32,
 ) -> Span<QM31> {
-    // Note that `log_size` is equal to 1 + largest log size of a trace column (the additional 1
-    // comes from calling `len()` on `column_indices_per_tree_by_degree_bound`).
-    // Check that the largest log size of a trace column is <= `M31_CIRCLE_LOG_ORDER` - 1.
-    assert!(
-        max_log_degree_bound + log_blowup_factor <= M31_CIRCLE_LOG_ORDER, "log_size is too large",
-    );
+    // The lifting domain has log size `log_degree_bound + log_blowup_factor`. Check that it's
+    // smaller than the log order of the M31 circle group (a canonical coset can be of log size at
+    // most M31_CIRCLE_LOG_ORDER - 1).
+    let lifting_log_size = log_degree_bound + log_blowup_factor;
+    assert!(lifting_log_size < M31_CIRCLE_LOG_ORDER, "lifting domain log size is too large");
     let mut queried_values_per_tree = queried_values_per_tree.span();
     // Add to each sample value the corresponding random coefficient power.
-    let samples_with_randomness: Span<Span<Span<(QM31, QM31)>>> = build_samples_with_randomness(
+    let samples_with_randomness: TreeSpan<ColumnSpan<Span<(QM31, QM31)>>> =
+        build_samples_with_randomness(
         sample_values_per_column_per_tree, random_coeff,
     );
-    // Build the array `sample_batches_by_log_degree_bound`: for i ∈ [0, max_log_degree_bound],
+    // Build the array `sample_batches_by_log_degree_bound`: for i ∈ [0, log_degree_bound],
     // `sample_batches_by_log_degree_bound[i]` contains a triple consisting of:
     // * the sample batches for all columns of log degree bound i.
     // * an array containing the number of columns of log degree bound i in each tree.
@@ -70,23 +70,15 @@ pub fn fri_answers(
         (Span<ColumnSampleBatch>, Array<u32>, QuotientConstants),
     > =
         array![];
-    let lifting_log_size = max_log_degree_bound + log_blowup_factor;
-    let lifting_domain = CanonicCosetImpl::new(lifting_log_size);
-    let lifting_domain_step = lifting_domain.coset.step.mul(1).to_point();
-
-    let trace_step = CanonicCosetImpl::new(max_log_degree_bound).coset.step.mul(1).to_point();
+    let trace_step = CanonicCosetImpl::new(log_degree_bound).coset.step.to_point();
     let prev_oods_point = oods_point.add_circle_point_m31(-trace_step);
     // For a column of log degree bound k, its periodicity samples are evaluated at the point
-    // `oods_point + lifting_domain_step.repeated_double(k + log_blowup_factor)`. Here,
-    // we initialize `periodicity_generator` to
-    // `lifting_domain_step.repeated_double(log_blowup_factor)`.
-    // Then when iterating over log_degree_bounds we double the periodicity step at the end of each
-    // iteration.
-    let mut periodicity_generator = lifting_domain_step;
-    for _ in 0..log_blowup_factor {
-        periodicity_generator = periodicity_generator + periodicity_generator;
-    }
-    for column_indices_per_tree_for_degree_bound in column_indices_per_tree_by_degree_bound {
+    // `oods_point + trace_step.repeated_double(k)`. We initialize `periodicity_generator` to
+    // `trace_step`, then when iterating over log_degree_bounds we double the periodicity step
+    // at the end of each iteration.
+    let mut periodicity_generator = trace_step;
+
+    for column_indices_per_tree_for_degree_bound in column_indices_per_tree_per_log_deg_bound {
         let (sample_batches, n_cols_per_tree) = sample_batches_for_degree_bound(
             column_indices_per_tree_for_degree_bound,
             samples_with_randomness,
@@ -101,12 +93,12 @@ pub fn fri_answers(
     }
 
     // Compute the fri answers.
+    let lifting_domain = CanonicCosetImpl::new(lifting_log_size).circle_domain();
     let mut answers: Array<QM31> = array![];
+
     for pos in query_positions {
         let mut fri_answer_for_position: QM31 = Zero::zero();
-        let domain_point = lifting_domain
-            .circle_domain()
-            .at(bit_reverse_index(*pos, lifting_log_size));
+        let domain_point = lifting_domain.at(bit_reverse_index(*pos, lifting_log_size));
         for (
             sample_batches, n_columns_per_tree, quotient_constants,
         ) in sample_batches_by_log_degree_bound
@@ -132,7 +124,7 @@ pub fn fri_answers(
 /// Gathers sample batches and column counts for a given degree bound.
 fn sample_batches_for_degree_bound(
     column_indices_per_tree: @TreeSpan<Span<usize>>,
-    sample_values_with_rand: Span<Span<Span<(QM31, QM31)>>>,
+    sample_values_with_rand: TreeSpan<ColumnSpan<Span<(QM31, QM31)>>>,
     oods_point: CirclePoint<QM31>,
     prev_oods_point: CirclePoint<QM31>,
     periodicity_generator: CirclePoint<M31>,
@@ -150,16 +142,24 @@ fn sample_batches_for_degree_bound(
         *column_indices_per_tree, sample_values_with_rand,
     ) {
         for column_idx in column_indices {
-            // Note that samples_per_column[*column] can be an empty array.
+            // The length of sample_values_at_column can be either 3 (for logup columns) or 1 (for
+            // the rest).
             let mut sample_values_at_column = *samples_per_column[*column_idx];
 
-            if let Some(tuple_box) = sample_values_at_column.try_into() {
+            if let Some(point_box) =
+                TryInto::<_, @Box<[(QM31, QM31); 1]>>::try_into(sample_values_at_column) {
+                let [(point_sample, rand)] = (*point_box).unbox();
+
+                col_eval_coeff_triples_at_point.append((index, point_sample, rand));
+            } else {
                 let [
                     (periodicity_point_sample, periodicity_point_rand),
                     (prev_point_sample, prev_point_rand),
                     (point_sample, point_rand),
-                ]: [(QM31, QM31); 3] =
-                    (*tuple_box)
+                ] =
+                    (*sample_values_at_column
+                    .try_into()
+                    .expect('Unexpected number of samples.'))
                     .unbox();
 
                 col_eval_coeff_triples_at_point_plus_periodicity
@@ -167,12 +167,6 @@ fn sample_batches_for_degree_bound(
                 col_eval_coeff_triples_at_prev_point
                     .append((index, prev_point_sample, prev_point_rand));
                 col_eval_coeff_triples_at_point.append((index, point_sample, point_rand));
-            } else if let Some(point_box) = sample_values_at_column.try_into() {
-                let [(point_sample, rand)]: [(QM31, QM31); 1] = (*point_box).unbox();
-
-                col_eval_coeff_triples_at_point.append((index, point_sample, rand));
-            } else {
-                assert!(sample_values_at_column.is_empty(), "Unexpected number of samples");
             }
             index += 1;
         }
@@ -180,69 +174,84 @@ fn sample_batches_for_degree_bound(
         n_columns_per_tree.append(column_indices.len());
     }
 
-    let mut sample_batches_by_point: Array<ColumnSampleBatch> = array![];
-    if !col_eval_coeff_triples_at_point_plus_periodicity.is_empty() {
-        let point_plus_periodicity = oods_point.add_circle_point_m31(periodicity_generator);
-        sample_batches_by_point
-            .append(
-                ColumnSampleBatch {
-                    point: point_plus_periodicity,
-                    cols_vals_and_pows: col_eval_coeff_triples_at_point_plus_periodicity,
-                },
-            );
+    // The list of sample batches is empty when there are no columns of the current log degree
+    // bound.
+    if col_eval_coeff_triples_at_point.is_empty() {
+        return (array![].span(), n_columns_per_tree);
     }
-    if !col_eval_coeff_triples_at_prev_point.is_empty() {
-        sample_batches_by_point
-            .append(
-                ColumnSampleBatch {
-                    point: prev_oods_point,
-                    cols_vals_and_pows: col_eval_coeff_triples_at_prev_point,
-                },
-            );
-    }
-    if !col_eval_coeff_triples_at_point.is_empty() {
-        sample_batches_by_point
-            .append(
-                ColumnSampleBatch {
-                    point: oods_point, cols_vals_and_pows: col_eval_coeff_triples_at_point,
-                },
-            );
-    }
+
+    // The asserts are implied by the following assumptions on the AIR:
+    // 1. every component has logup columns (which are sampled at previous and periodicity points).
+    // 2. every preprocessed column is used by (hence has same size as) some component.
+    assert!(!col_eval_coeff_triples_at_point_plus_periodicity.is_empty());
+    assert!(!col_eval_coeff_triples_at_prev_point.is_empty());
+
+    let sample_batches_by_point = array![
+        ColumnSampleBatch {
+            point: oods_point.add_circle_point_m31(periodicity_generator),
+            cols_vals_and_pows: col_eval_coeff_triples_at_point_plus_periodicity,
+        },
+        ColumnSampleBatch {
+            point: prev_oods_point, cols_vals_and_pows: col_eval_coeff_triples_at_prev_point,
+        },
+        ColumnSampleBatch {
+            point: oods_point, cols_vals_and_pows: col_eval_coeff_triples_at_point,
+        },
+    ];
 
     (sample_batches_by_point.span(), n_columns_per_tree)
 }
 
+/// Pairs every OOD sample value with its own power of `coeff`: the i-th sample (counting
+/// across all trees and columns, in order) gets `coeff^i`, starting from `coeff^0`.
+///
+/// # Arguments
+///
+/// * `sample_values_per_column_per_tree`: OOD samples for each column in each tree.
+/// * `coeff`: Verifier randomness for folding multiple columns' quotients together.
+///
+/// # Returns
+///
+/// For each tree and each of its columns, the column's `(sample value, coeff^i)` pairs.
+///
+/// # Panics
+///
+/// Panics if a column has 0 or > 2 samples.
 // TODO(Leo): think about merging the loop in this function with the loop in
 // [`sample_batches_for_degree_bound`].
 fn build_samples_with_randomness(
-    sample_values_per_column_per_tree: SampledValues, random_coeff: QM31,
-) -> Span<Span<Span<(QM31, QM31)>>> {
+    sample_values_per_column_per_tree: SampledValues, coeff: QM31,
+) -> TreeSpan<ColumnSpan<Span<(QM31, QM31)>>> {
     let mut samples_with_randomness_per_tree = array![];
-    let mut random_pow: QM31 = One::one();
+    let mut coeff_pow: QM31 = One::one();
     for sample_values_per_column in sample_values_per_column_per_tree {
         let mut new_samples_per_col = array![];
         for sample_values in sample_values_per_column {
             let mut new_samples = array![];
-            // If the column is sampled at OOD point and its neighbor, we add a periodicity sample.
-            // Notice that we add it also when the column is of maximal size, in which case we have
-            // `(periodicity_point, periodicity_sample) == (ood_point, ood_sample)`.
-            if let Some(tuple_box) = (*sample_values).try_into() {
-                let [prev_sample, ood_sample]: [QM31; 2] = (*tuple_box).unbox();
-                // Add periodicity sample.
-                new_samples.append((ood_sample, random_pow));
-                random_pow *= random_coeff;
-
-                new_samples.append((prev_sample, random_pow));
-                random_pow *= random_coeff;
-
-                new_samples.append((ood_sample, random_pow));
-                random_pow *= random_coeff;
-            } else if let Some(point_box) = (*sample_values).try_into() {
-                let [ood_sample]: [QM31; 1] = (*point_box).unbox();
-                new_samples.append((ood_sample, random_pow));
-                random_pow *= random_coeff;
+            // The length of `sample_values` can be either 2 (for logup columns) or 1 (for
+            // the rest).
+            if let Some(point_box) = TryInto::<_, @Box<[QM31; 1]>>::try_into(*sample_values) {
+                let [ood_sample] = (*point_box).unbox();
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
             } else {
-                assert!(sample_values.is_empty(), "Unexpected number of samples");
+                // The column is sampled at OOD point and its neighbor, so we add a periodicity
+                // sample. Notice that we add it also when the column is of maximal size, in which
+                // case we have
+                // `(periodicity_point, periodicity_sample) == (ood_point, ood_sample)`.
+                let [prev_sample, ood_sample] = (*(*sample_values)
+                    .try_into()
+                    .expect('Unexpected number of samples.'))
+                    .unbox();
+                // Add periodicity sample.
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
+
+                new_samples.append((prev_sample, coeff_pow));
+                coeff_pow *= coeff;
+
+                new_samples.append((ood_sample, coeff_pow));
+                coeff_pow *= coeff;
             }
             new_samples_per_col.append(new_samples.span());
         }
@@ -390,42 +399,42 @@ impl QuotientConstantsImpl of QuotientConstantsTrait {
                 sample_batch.point,
             );
 
-            // The coefficients (a_i, b_i, c_i) are the coefficients of the line
-            //   c_i * F(q) - a_i * q.y - b_i through
+            // The coefficients (a_i, b_i, c_i) of the line
+            //   c_i * F(q) - a_i * q.y - b_i
             // through (p.y, v_i) and (conj(p.y), conj(v_i)) are:
             //   c_i =               conj(p.y) - p.y = -2u * Im(p.y),
             //   a_i =               conj(v_i) - v_i = -2u * Im(v_i),
             //   b_i = conj(p.y)*v_i - conj(v_i)*p.y = -2u * (Re(v_i)*Im(p.y) - Re(p.y)*Im(v_i)).
             // Note that c_i = c depends only on p.y and not on the value v_i.
-            // We have to compute and store c * α^i for each i; we compute these directly,
-            // without calculating each α^i. We use these to accumulate the sums
+            // We compute and store c * α^i for each i, where α^i is supplied
+            // per sample in `cols_vals_and_pows`. We use these to accumulate the sums
             //   Σ_i (c * α^i) * Im(v_i)
             //   Σ_i (c * α^i) * Re(v_i)
             // From these sums we then construct `alpha_mul_a_sum` and `alpha_mul_b_sum` by
             //   `alpha_mul_a_sum` = (Σ_i (c * α^i) * Im(v_i)) / Im(p.y)
             //   `alpha_mul_b_sum` = (Σ_i (c * α^i) * Re(v_i)) - (`alpha_mul_a_sum` * Re(p.y)).
 
-            let [re_py_a, re_py_b, im_py_a, im_py_b] = sample_batch.point.y.to_fixed_array();
-            let re_py = CM31Trait::pack(re_py_a, re_py_b);
-            let im_py_inv = CM31Trait::pack(im_py_a, im_py_b).inverse();
+            let [re_py_0, re_py_1, im_py_0, im_py_1] = sample_batch.point.y.to_fixed_array();
+            let re_py = CM31Trait::pack(re_py_0, re_py_1);
+            let im_py_inv = CM31Trait::pack(im_py_0, im_py_1).inverse();
 
-            let c = QM31Trait::from_fixed_array(
-                [M31Zero::zero(), M31Zero::zero(), im_py_a, im_py_b],
+            let u_mul_im_py = QM31Trait::from_fixed_array(
+                [M31Zero::zero(), M31Zero::zero(), im_py_0, im_py_1],
             );
-            let minus_two_c = -(c + c);
+            let c = -(u_mul_im_py + u_mul_im_py);
             let mut alpha_mul_c_mul_im_sum = PackedUnreducedQM31Trait::large_zero();
             let mut alpha_mul_c_mul_re_sum = PackedUnreducedQM31Trait::large_zero();
             let mut indexed_alpha_mul_c: Array<(usize, PackedUnreducedQM31)> = array![];
 
-            for (column_idx, sample_value, random_pow) in sample_batch.cols_vals_and_pows.span() {
-                let [re_cv_a, re_cv_b, im_cv_a, im_cv_b] = sample_value.to_fixed_array();
-                let alpha_mul_c = minus_two_c * *random_pow;
-                let re_cv = CM31Trait::pack(re_cv_a, re_cv_b);
-                let im_cv = CM31Trait::pack(im_cv_a, im_cv_b);
+            for (column_idx, sample_value, coeff_pow) in sample_batch.cols_vals_and_pows.span() {
+                let [re_v_0, re_v_1, im_v_0, im_v_1] = sample_value.to_fixed_array();
+                let alpha_mul_c = c * *coeff_pow;
+                let re_v = CM31Trait::pack(re_v_0, re_v_1);
+                let im_v = CM31Trait::pack(im_v_0, im_v_1);
                 let alpha_mul_c_packed = to_packed_unreduced_qm31(alpha_mul_c);
 
-                alpha_mul_c_mul_re_sum += alpha_mul_c_packed.mul_cm31(re_cv);
-                alpha_mul_c_mul_im_sum += alpha_mul_c_packed.mul_cm31(im_cv);
+                alpha_mul_c_mul_re_sum += alpha_mul_c_packed.mul_cm31(re_v);
+                alpha_mul_c_mul_im_sum += alpha_mul_c_packed.mul_cm31(im_v);
                 indexed_alpha_mul_c.append((*column_idx, alpha_mul_c_packed));
             }
 

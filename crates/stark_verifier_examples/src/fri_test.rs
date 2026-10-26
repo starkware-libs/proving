@@ -1,4 +1,5 @@
 use circuits::context::TraceContext;
+use circuits::extract_bits::extract_bits;
 use circuits::ops::Guess;
 use circuits::simd::Simd;
 use circuits::test_utils::simd_from_u32s;
@@ -13,13 +14,13 @@ use itertools::{chain, zip_eq};
 use rand::rngs::SmallRng;
 use rand::{Rng, SeedableRng};
 use rstest::rstest;
-use stwo::core::channel::{Blake2sM31Channel, Channel, MerkleChannel};
+use stwo::core::channel::{Blake2sChannel, Channel, MerkleChannel};
 use stwo::core::circle::Coset;
 use stwo::core::fields::qm31::{QM31, SecureField};
-use stwo::core::fri::{ExtendedFriProof, FriConfig};
+use stwo::core::fri::{ExtendedFriProof, FriConfig, FriParams};
 use stwo::core::poly::circle::CircleDomain;
 use stwo::core::queries::Queries;
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 use stwo::core::vcs_lifted::verifier::LOG_PACKED_LEAF_SIZE;
 use stwo::prover::backend::CpuBackend;
 use stwo::prover::backend::cpu::CpuCirclePoly;
@@ -34,15 +35,15 @@ use stwo::prover::poly::circle::{PolyOps, SecureEvaluation};
 #[case::fold_step_4(8, 2, 4, 7)]
 #[case::fold_step_4_blowup_3(8, 3, 4, 7)]
 fn test_fri_decommit_with_jumps(
-    #[case] log_trace_size: u32,
+    #[case] trace_log_size: u32,
     #[case] log_blowup_factor: u32,
-    #[case] fold_step: usize,
+    #[case] fold_step: u32,
     #[case] n_queries: usize,
 ) {
-    let log_evaluation_domain_size = log_trace_size + log_blowup_factor;
+    let log_evaluation_domain_size = trace_log_size + log_blowup_factor;
     let query_indices = generate_query_indices(n_queries, log_evaluation_domain_size);
     let fri_proof =
-        create_fri_proof(log_trace_size, log_blowup_factor, fold_step, n_queries, &query_indices);
+        create_fri_proof(trace_log_size, log_blowup_factor, fold_step, n_queries, &query_indices);
 
     let mut context = TraceContext::default();
     // Make a dummy config.
@@ -53,13 +54,16 @@ fn test_fri_decommit_with_jumps(
         n_interaction_columns: 0,
         component_shapes: vec![],
         cumulative_sum_columns: vec![],
-        log_trace_size: log_trace_size as usize,
-        fri: FriConfig::new(0, 0, log_blowup_factor, n_queries, fold_step as u32),
+        fri: FriConfig {
+            params: FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step),
+            trace_log_size,
+        },
     };
 
     // Compute FRI input.
     let input = simd_from_u32s(&mut context, query_indices.iter().map(|x| *x as u32).collect());
-    let queries = select_queries(&mut context, &input, log_evaluation_domain_size as usize);
+    let bits = extract_bits(&mut context, &input, log_evaluation_domain_size);
+    let queries = select_queries(&mut context, bits);
     let fri_input: Vec<_> = query_indices
         .iter()
         .map(|query| context.constant(fri_proof.aux.first_layer.all_values[0][query]))
@@ -68,7 +72,7 @@ fn test_fri_decommit_with_jumps(
         queries.bits.iter().map(|simd| Simd::unpack(&mut context, simd)).collect();
 
     // Compute the circuit FriProof.
-    let all_fold_steps = compute_all_fold_steps(config.log_trace_size(), fold_step);
+    let all_fold_steps = compute_all_fold_steps(trace_log_size, fold_step);
     let witness = test_construct_fri_witness(&fri_proof, &all_fold_steps, &query_indices);
     let auth_paths =
         test_construct_fri_auth_paths(&fri_proof, &config, &query_indices, &all_fold_steps);
@@ -82,36 +86,28 @@ fn test_fri_decommit_with_jumps(
             .collect(),
             last_layer_coefs: last_layer_coefficients.clone(),
         },
+        pow_nonce: QM31::from_u32_unchecked(0, 0, 0, 0),
         auth_paths,
         witness,
     };
     let circuit_fri_proof = circuit_fri_proof.guess(&mut context);
 
     // Compute the folding alphas.
-    let mut channel = Blake2sM31Channel::default();
+    let mut channel = Blake2sChannel::default();
     let proof_layer_commitments = chain!(
         [fri_proof.proof.first_layer.commitment],
         fri_proof.proof.inner_layers.iter().map(|layer| layer.commitment),
     );
     let alpha_values: Vec<_> = proof_layer_commitments
         .map(|commitment| {
-            Blake2sM31MerkleChannel::mix_hash(&mut channel, commitment);
+            Blake2sMerkleChannel::mix_hash(&mut channel, commitment);
             channel.draw_secure_felt()
         })
         .collect();
     channel.mix_felts(&last_layer_coefficients);
     let alphas: Vec<_> = alpha_values.iter().map(|x| context.constant(*x)).collect();
 
-    fri_decommit(
-        &mut context,
-        &circuit_fri_proof,
-        config.log_trace_size,
-        &config.fri,
-        fri_input,
-        &bits,
-        queries,
-        &alphas,
-    );
+    fri_decommit(&mut context, &circuit_fri_proof, &config.fri, fri_input, &bits, queries, &alphas);
     context.validate_circuit();
     println!("Stats: {:?}", context.stats);
 }
@@ -133,23 +129,23 @@ fn polynomial_evaluation(
 }
 
 fn create_fri_proof(
-    log_trace_size: u32,
+    trace_log_size: u32,
     log_blowup_factor: u32,
-    fold_step: usize,
+    fold_step: u32,
     n_queries: usize,
     query_indices: &[usize],
 ) -> ExtendedFriProof<Blake2sMerkleHasher> {
-    let config = FriConfig::new(0, 0, log_blowup_factor, n_queries, fold_step as u32);
-    let column = polynomial_evaluation(log_trace_size, log_blowup_factor);
+    let config = FriParams::new(0, 0, log_blowup_factor, n_queries, fold_step);
+    let column = polynomial_evaluation(trace_log_size, log_blowup_factor);
     let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
-    let prover = FriProver::<CpuBackend, Blake2sM31MerkleChannel>::commit(
-        &mut Blake2sM31Channel::default(),
+    let prover = FriProver::<CpuBackend, Blake2sMerkleChannel>::commit(
+        &mut Blake2sChannel::default(),
         config,
         &column,
         &twiddles,
     );
-    let queries = Queries::new(query_indices, log_trace_size + log_blowup_factor);
-    prover.decommit_on_queries(&queries)
+    let queries = Queries::new(query_indices, trace_log_size + log_blowup_factor);
+    prover.decommit_on_queries(&queries, 0)
 }
 
 fn generate_query_indices(n_queries: usize, log_evaluation_domain_size: u32) -> Vec<usize> {
@@ -162,7 +158,7 @@ fn generate_query_indices(n_queries: usize, log_evaluation_domain_size: u32) -> 
 /// ([ExtendedFriProof]).
 fn test_construct_fri_witness(
     proof: &ExtendedFriProof<Blake2sMerkleHasher>,
-    all_fold_steps: &[usize],
+    all_fold_steps: &[u32],
     query_locations: &[usize],
 ) -> FriWitness<QM31> {
     let all_layers = [
@@ -190,7 +186,7 @@ fn test_construct_fri_auth_paths(
     proof: &ExtendedFriProof<Blake2sMerkleHasher>,
     config: &ProofConfig,
     query_locations: &[usize],
-    all_fold_steps: &[usize],
+    all_fold_steps: &[u32],
 ) -> AuthPaths<QM31> {
     let unsorted_query_locations = &query_locations;
     let layers = chain!([&proof.aux.first_layer], &proof.aux.inner_layers);
@@ -199,18 +195,22 @@ fn test_construct_fri_auth_paths(
     let mut res = vec![];
 
     for (layer_proof, step) in zip_eq(layers, all_fold_steps) {
+        let pack_leaves = log_layer_size >= LOG_PACKED_LEAF_SIZE && *step > 1;
+        let pack_shift = if pack_leaves { LOG_PACKED_LEAF_SIZE } else { 0 };
+        // The auth path covers the tree layers from `step` up to `log_layer_size`; packed leaves
+        // shift the layer indices down by `pack_shift`.
+        let first_layer: usize = (step - pack_shift).try_into().unwrap();
+        let last_layer: usize = (log_layer_size - pack_shift).try_into().unwrap();
         res.push(
             unsorted_query_locations
                 .iter()
                 .map(|query| {
-                    let mut pos = *query;
-                    let pack_leaves = log_layer_size >= LOG_PACKED_LEAF_SIZE as usize && *step > 1;
-                    let pack_shift = if pack_leaves { LOG_PACKED_LEAF_SIZE as usize } else { 0 };
-                    pos >>= fold_sum + step;
+                    let mut pos = *query >> (fold_sum + step);
                     let mut auth_path: AuthPath<QM31> = AuthPath(vec![]);
-                    for j in *step..log_layer_size {
-                        let hash =
-                            layer_proof.decommitment.all_node_values[j - pack_shift][&(pos ^ 1)];
+                    for node_values in
+                        &layer_proof.decommitment.all_node_values[first_layer..last_layer]
+                    {
+                        let hash = node_values[&(pos ^ 1)];
                         auth_path.0.push(hash.into());
                         pos >>= 1;
                     }

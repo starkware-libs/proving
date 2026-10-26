@@ -8,6 +8,7 @@ paths:
   - "crates/stwo_run_and_prove_recursive_tree/**"
   - "crates/privacy_prove/**"
   - "crates/privacy_circuit_verify/**"
+  - "crates/privacy_common/**"
   - "crates/circuit_params/**"
   - "crates/leaf_proof_format/**"
   - "crates/leaf_prover/**"
@@ -47,6 +48,9 @@ crates/
                                 cairo-circuit verifier.  (pkg: privacy-prove)
   privacy_circuit_verify/       Verify a proof with a cairo-circuit verifier.
                                 (pkg: privacy-circuit-verify)
+  privacy_common/               The privacy proof format shared by privacy_prove and
+                                privacy_circuit_verify: consts, the proof header, and the
+                                bootloader programs.  (pkg: privacy_common)
   leaf_prover/                  CLI: run Cairo programs, prove their runs, verify that proof
                                 with a circuit-cairo verifier and output a proof of the run of
                                 that circuit.  (pkg: leaf-prover)

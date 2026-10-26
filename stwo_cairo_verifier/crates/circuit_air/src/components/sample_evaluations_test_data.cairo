@@ -8,8 +8,8 @@ pub const M_31_TO_U_32_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 462064706 },
 ];
 pub const QM_31_OPS_SAMPLE_EVAL_RESULT: [M31; 4] = [
-    M31 { inner: 129009472 }, M31 { inner: 1233759849 }, M31 { inner: 56358031 },
-    M31 { inner: 1784081381 },
+    M31 { inner: 386394725 }, M31 { inner: 430593020 }, M31 { inner: 1003725324 },
+    M31 { inner: 205528597 },
 ];
 pub const RANGE_CHECK_16_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 1328638141 }, M31 { inner: 302872209 }, M31 { inner: 1035108074 },
@@ -18,10 +18,6 @@ pub const RANGE_CHECK_16_SAMPLE_EVAL_RESULT: [M31; 4] = [
 pub const TRIPLE_XOR_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 731346899 }, M31 { inner: 1577065601 }, M31 { inner: 629243848 },
     M31 { inner: 388337013 },
-];
-pub const VERIFY_BITWISE_XOR_12_SAMPLE_EVAL_RESULT: [M31; 4] = [
-    M31 { inner: 1164619324 }, M31 { inner: 1195346952 }, M31 { inner: 540051247 },
-    M31 { inner: 1660102276 },
 ];
 pub const VERIFY_BITWISE_XOR_4_SAMPLE_EVAL_RESULT: [M31; 4] = [
     M31 { inner: 1744867710 }, M31 { inner: 1582203579 }, M31 { inner: 2027916061 },

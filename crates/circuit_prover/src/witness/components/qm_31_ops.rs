@@ -67,22 +67,22 @@ pub fn write_trace(
     preprocessed_trace: &PreProcessedTrace,
     trace_generator: &Qm31OpsTraceGenerator,
 ) -> (ComponentTrace<N_TRACE_COLUMNS>, ComponentLogSize, LookupData) {
-    let add_flag =
-        preprocessed_trace.get_column(&PreProcessedColumnId { id: "qm31_ops_add_flag".to_owned() });
-    let sub_flag =
-        preprocessed_trace.get_column(&PreProcessedColumnId { id: "qm31_ops_sub_flag".to_owned() });
-    let mul_flag =
-        preprocessed_trace.get_column(&PreProcessedColumnId { id: "qm31_ops_mul_flag".to_owned() });
+    let add_flag = preprocessed_trace
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_add_flag".to_owned() });
+    let sub_flag = preprocessed_trace
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_sub_flag".to_owned() });
+    let mul_flag = preprocessed_trace
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_mul_flag".to_owned() });
     let pointwise_mul_flag = preprocessed_trace
-        .get_column(&PreProcessedColumnId { id: "qm31_ops_pointwise_mul_flag".to_owned() });
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_pointwise_mul_flag".to_owned() });
     let in0_address = preprocessed_trace
-        .get_column(&PreProcessedColumnId { id: "qm31_ops_in0_address".to_owned() });
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_in_0_address".to_owned() });
     let in1_address = preprocessed_trace
-        .get_column(&PreProcessedColumnId { id: "qm31_ops_in1_address".to_owned() });
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_in_1_address".to_owned() });
     let out_address = preprocessed_trace
-        .get_column(&PreProcessedColumnId { id: "qm31_ops_out_address".to_owned() });
+        .get_column(&PreProcessedColumnId { id: "qm_31_ops_out_address".to_owned() });
     let mults =
-        preprocessed_trace.get_column(&PreProcessedColumnId { id: "qm31_ops_mults".to_owned() });
+        preprocessed_trace.get_column(&PreProcessedColumnId { id: "qm_31_ops_mults".to_owned() });
 
     let inputs = extract_component_inputs(
         in0_address,

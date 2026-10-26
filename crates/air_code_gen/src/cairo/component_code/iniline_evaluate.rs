@@ -6,16 +6,6 @@ use genco::quote;
 use super::parse::{parse_constraints, parse_var};
 use crate::cairo::utils::{gen_consts, gen_imports};
 
-// Subroutines that need extra calls to revoke_ap_tracking when compiled without qm31_opcode,
-// otherwise you get an offset overflow error.
-const LARGE_SUBROUTINES: [&str; 5] = [
-    "double_karatsuba_1454b",
-    "double_karatsuba_b1daa",
-    "single_karatsuba_n_7",
-    "single_karatsuba_n_8",
-    "verify_add_252",
-];
-
 pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::Tokens {
     let fn_name = air_fn.name.clone();
     let CompiledAirVar::Array(ref output_array) = air_fn.verifier_output.0 else {
@@ -36,11 +26,6 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
     } else {
         format!("[QM31; {}]", output_array.len())
     };
-    let revoke_ap_tracking = if LARGE_SUBROUTINES.contains(&air_fn.name.as_str()) {
-        "\ncore::internal::revoke_ap_tracking();\n".to_string()
-    } else {
-        String::new()
-    };
     let mut code = rust::Tokens::new();
 
     code.append(quote! {
@@ -58,9 +43,7 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
             random_coeff: QM31,
         ) -> $(output_type) {
             let $(input_name) = input;
-            $(revoke_ap_tracking.clone())
             $(parse_constraints(air_fn))$("\n")
-            $(revoke_ap_tracking)
             $(parse_var(air_fn, &air_fn.verifier_output.0, &mut 0))
         }
     });

@@ -1,0 +1,23 @@
+[package]
+name = "privacy_common"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "The privacy proof format shared by the privacy prover and the privacy circuit-circuit verifier"
+
+[dependencies]
+cairo-vm = { workspace = true, features = [
+    "extensive_hints",
+    "mod_builtin",
+    "clap",
+] }
+circuit-registry.workspace = true
+circuits.workspace = true
+itertools.workspace = true
+serde_json.workspace = true
+starknet-types-core.workspace = true
+stwo.workspace = true
+
+[dev-dependencies]
+circuit-cairo-verifier = { workspace = true, features = ["test-utils"] }

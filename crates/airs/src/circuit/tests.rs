@@ -9,7 +9,7 @@ use stwo_cairo_common::prover_types::cpu::QM31;
 use super::blake::blake_gate::*;
 use super::blake::blake_output::*;
 use super::blake::create_blake_round_input::IV;
-use super::qm31_ops::*;
+use super::qm_31_ops::*;
 
 #[test]
 fn test_add_mul_gate() {

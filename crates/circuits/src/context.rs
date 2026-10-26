@@ -8,7 +8,7 @@ use stwo::core::fields::qm31::QM31;
 use crate::blake::m31_to_u32_into;
 use crate::circuit::{Add, Circuit};
 use crate::finalize_constants::finalize_constants;
-use crate::ivalue::IValue;
+use crate::ivalue::{IValue, qm31_from_u32s};
 use crate::ops::{add_into, output, pointwise_mul_into};
 use crate::stats::Stats;
 
@@ -20,6 +20,9 @@ pub mod test;
 pub const U_VAR_IDX: usize = 2;
 /// The value of `u`.
 pub const U_VALUE: QM31 = QM31::from_m31(M31(0), M31(0), M31(1), M31(0));
+
+/// The address of the first output variable.
+pub const OUTPUT_START: usize = U_VAR_IDX + 1;
 
 /// Represents a variable in a [Circuit].
 ///
@@ -119,6 +122,12 @@ impl<Value: IValue> Context<Value> {
 
     pub fn u(&self) -> Var {
         Var { idx: U_VAR_IDX }
+    }
+
+    /// Returns the constant `i = (0, 1, 0, 0)`. Unlike `zero`, `one` and `u`, `i` has no fixed
+    /// slot: it is a regular constant, created on the first call.
+    pub fn i(&mut self) -> Var {
+        self.constant(qm31_from_u32s(0, 1, 0, 0))
     }
 
     /// Creates a new variable.

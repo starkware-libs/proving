@@ -85,7 +85,7 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
         let lifting_log_size = self.config.lifting_log_size(self.trees.len());
         let tree = CommitmentTreeProver::new(
             polynomials,
-            self.config.fri_config.log_blowup_factor,
+            self.config.fri_params.log_blowup_factor,
             self.twiddles,
             self.store_polynomials_coefficients,
             lifting_log_size,
@@ -246,22 +246,16 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
             channel.draw_secure_felt(),
             lifting_log_size,
             self.twiddles,
-            self.config.fri_config.log_blowup_factor,
+            self.config.fri_params.log_blowup_factor,
         );
 
         // Run FRI commitment phase on the oods quotients.
         let fri_prover =
-            FriProver::<B, MC>::commit(channel, self.config.fri_config, &quotients, self.twiddles);
-
-        // Proof of work.
-        let span1 = span!(Level::INFO, "Grind", class = "Queries POW").entered();
-        let proof_of_work = B::grind(channel, self.config.fri_config.pow_bits);
-        span1.exit();
-        channel.mix_u64(proof_of_work);
+            FriProver::<B, MC>::commit(channel, self.config.fri_params, &quotients, self.twiddles);
 
         // FRI decommitment phase.
         let FriDecommitResult { fri_proof, query_positions, unsorted_query_locations } =
-            fri_prover.decommit(channel);
+            fri_prover.decommit(channel, self.config.fri_params.pow_bits);
         // Build the query position tree.
         let preprocessed_query_positions = prepare_preprocessed_query_positions(
             &query_positions,
@@ -308,7 +302,6 @@ impl<'a, B: BackendForChannel<MC>, MC: MerkleChannel> CommitmentSchemeProver<'a,
                 sampled_values,
                 decommitments: TreeVec(decommitments),
                 queried_values: TreeVec(queried_values),
-                proof_of_work,
                 fri_proof: fri_proof.proof,
                 config: self.config,
                 oods_proof_of_work,

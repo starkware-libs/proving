@@ -59,10 +59,10 @@ Pre-query PoW nonce adding `pow_bits` of security.
 
 | Parameter | Symbol | Config Field | Security Impact |
 |-----------|--------|-------------|-----------------|
-| Blowup factor | 2^B | `fri_config.log_blowup_factor` | Rate = 1/2^B. Higher = more secure but slower |
-| FRI queries | s | `fri_config.n_queries` | Each query adds `log_blowup_factor` security bits |
+| Blowup factor | 2^B | `fri_params.log_blowup_factor` | Rate = 1/2^B. Higher = more secure but slower |
+| FRI queries | s | `fri_params.n_queries` | Each query adds `log_blowup_factor` security bits |
 | Grinding bits | g | `pcs_config.pow_bits` | Adds `g` bits of security |
-| Last layer degree | - | `fri_config.log_last_layer_degree_bound` | Degree bound for the final FRI layer |
+| Last layer degree | - | `fri_params.log_last_layer_degree_bound` | Degree bound for the final FRI layer |
 | Total security | - | `pcs_config.security_bits()` | = pow_bits + log_blowup_factor * n_queries |
 
 **WARNING**: Default PcsConfig has only ~13 bits of security (test config).

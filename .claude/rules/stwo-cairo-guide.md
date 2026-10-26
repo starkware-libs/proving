@@ -78,7 +78,7 @@ once this removal lands. Their compiled artifacts are built and uploaded from th
 | Cairo VM | cairo-vm | Trace extraction from Cairo CPU execution |
 | Test runner (Rust) | nextest | Custom profiles in `.config/nextest.toml` |
 | Test runner (Cairo) | scarb test | Feature-matrix tested in CI |
-| Hash functions | Blake2s, Blake2sM31, Poseidon252 | Configurable via verifier features |
+| Hash functions | Blake2s, Poseidon252 | Configurable via verifier features |
 
 ## Commands
 

@@ -1,4 +1,4 @@
-use circuit_multiverifier::test_utils::native_blake_u32s;
+use circuit_verifier::test_utils::native_blake_u32s;
 use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
 use circuits::context::{TraceContext, Var};
 use circuits::ops::Guess;

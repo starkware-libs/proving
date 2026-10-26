@@ -15,11 +15,11 @@ use stwo_constraint_framework::{INTERACTION_TRACE_IDX, ORIGINAL_TRACE_IDX};
 
 use crate::channel::Channel;
 use crate::constraint_eval::compute_composition_polynomial;
-use crate::fri::{fri_commit, fri_decommit, mix_fri_config};
+use crate::fri::{fri_commit, fri_decommit, mix_fri_params};
 use crate::merkle::decommit_eval_domain_samples;
 use crate::oods::{collect_oods_responses, compute_fri_input, extract_expected_composition_eval};
 use crate::proof::{Proof, ProofConfig};
-use crate::select_queries::{get_query_selection_input_from_channel, select_queries};
+use crate::select_queries::{get_query_bits_from_channel, select_queries};
 use crate::statement::{EvaluateArgs, OodsSamples, Statement};
 
 /// Number of bits used to represent a component log-size in the packed claim format.
@@ -61,8 +61,8 @@ pub fn verify<Value: IValue>(
     // Mix the channel salt.
     channel.mix_qm31s(context, [proof.channel_salt]);
 
-    // Mix the FRI config.
-    mix_fri_config(context, &mut channel, &config.fri);
+    // Mix the FRI params.
+    mix_fri_params(context, &mut channel, &config.fri.params);
 
     // Mix the preprocessed root (known from the statement) into the channel.
     let preprocessed_root = statement.get_preprocessed_root(context);
@@ -77,8 +77,7 @@ pub fn verify<Value: IValue>(
 
     // Check that the component sizes are at most 2^config.log_trace_size().
     // Note that we need k + 1 bits to represent 2^k.
-    let component_sizes_bits =
-        extract_bits(context, &component_sizes, config.log_trace_size() as u32 + 1);
+    let component_sizes_bits = extract_bits(context, &component_sizes, config.log_trace_size() + 1);
 
     for claim_to_mix in statement.claims_to_mix(context) {
         channel.mix_u32s(context, claim_to_mix.into_iter());
@@ -89,7 +88,8 @@ pub fn verify<Value: IValue>(
 
     channel.pow(context, config.n_interaction_pow_bits, proof.interaction_pow_nonce);
     // Pick the interaction elements.
-    let [interaction_z, interaction_alpha] = channel.draw_two_qm31s(context);
+    let interaction_z = channel.draw_qm31(context);
+    let interaction_alpha = channel.draw_qm31(context);
     context.debug_info.insert("interaction_z".into(), interaction_z);
     context.debug_info.insert("interaction_alpha".into(), interaction_alpha);
 
@@ -163,7 +163,7 @@ pub fn verify<Value: IValue>(
         context,
         &proof.composition_eval_at_oods,
         oods_point,
-        config.log_trace_size() + COMPOSITION_LOG_SPLIT as usize,
+        config.log_trace_size() + COMPOSITION_LOG_SPLIT,
     );
     eq(context, composition_eval, expected_composition_eval);
 
@@ -174,23 +174,22 @@ pub fn verify<Value: IValue>(
     let fri_alphas = fri_commit(context, &mut channel, &proof.fri.commit);
 
     // Proof of work before query selection.
-    channel.pow(context, config.fri.pow_bits, proof.pow_nonce);
+    channel.pow(context, config.fri.params.pow_bits, proof.fri.pow_nonce);
 
     // Select queries.
-    let query_selection_input =
-        get_query_selection_input_from_channel(context, &mut channel, config.n_queries());
-    let queries =
-        select_queries(context, &query_selection_input, config.log_evaluation_domain_size());
+    let bits = get_query_bits_from_channel(
+        context,
+        &mut channel,
+        config.n_queries(),
+        config.log_evaluation_domain_size(),
+    );
+    let queries = select_queries(context, bits);
 
     // Check decommitment of trace queries.
     let bits = queries.bits.iter().map(|simd| Simd::unpack(context, simd)).collect_vec();
 
-    let opt_column_log_sizes_by_trace = get_opt_column_log_sizes_by_trace(
-        context,
-        config,
-        component_log_sizes,
-        statement.sorting_required(),
-    );
+    let opt_column_log_sizes_by_trace =
+        get_opt_column_log_sizes_by_trace(context, config, component_log_sizes);
 
     decommit_eval_domain_samples(
         context,
@@ -216,16 +215,7 @@ pub fn verify<Value: IValue>(
         oods_quotient_coef,
     );
 
-    fri_decommit(
-        context,
-        &proof.fri,
-        config.log_trace_size,
-        &config.fri,
-        fri_input,
-        &bits,
-        queries,
-        &fri_alphas,
-    );
+    fri_decommit(context, &proof.fri, &config.fri, fri_input, &bits, queries, &fri_alphas);
 }
 
 /// Verify that no relation is used more than P times.
@@ -312,19 +302,12 @@ fn check_relation_uses<Value: IValue>(
 
 // Returns a map from trace index to the column log sizes used to sort that trace's query columns
 // into committed order. A trace index absent from the map needs no sorting (its columns are already
-// in committed order), so only the trace and interaction columns ever appear. When
-// `sorting_required` is false every trace is already in committed order and an empty map is
-// returned, skipping sorting entirely.
+// in committed order), so only the trace and interaction columns ever appear.
 fn get_opt_column_log_sizes_by_trace(
     context: &mut Context<impl IValue>,
     config: &ProofConfig,
     component_log_sizes: Simd,
-    sorting_required: bool,
 ) -> HashMap<usize, Vec<Var>> {
-    if !sorting_required {
-        return HashMap::new();
-    }
-
     let mut column_log_sizes = [
         Vec::with_capacity(config.n_trace_columns),
         Vec::with_capacity(config.n_interaction_columns),
@@ -343,7 +326,7 @@ fn get_opt_column_log_sizes_by_trace(
 fn validate_and_compute_component_sizes(
     context: &mut Context<impl IValue>,
     component_log_sizes: &Simd,
-    log_trace_size: usize,
+    log_trace_size: u32,
 ) -> Simd {
     const _: () = assert!(
         LOG_SIZE_BITS == 5,

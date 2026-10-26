@@ -61,12 +61,12 @@ pub fn verify_ex<MC: MerkleChannel>(
     // which the lifted protocol does not support yet — there the commit below rejects the
     // oversized columns.
     let lifting_log_size = lifting_log_size.max(
-        split_composition_log_degree_bound + commitment_scheme.config.fri_config.log_blowup_factor,
+        split_composition_log_degree_bound + commitment_scheme.config.fri_params.log_blowup_factor,
     );
 
     // The max degree of a committed polynomial.
     let max_log_degree_bound =
-        lifting_log_size - commitment_scheme.config.fri_config.log_blowup_factor;
+        lifting_log_size - commitment_scheme.config.fri_params.log_blowup_factor;
 
     let random_coeff = channel.draw_secure_felt();
 

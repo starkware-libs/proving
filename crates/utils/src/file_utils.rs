@@ -34,3 +34,7 @@ pub fn read_to_string(path: &Path) -> Result<String, IoErrorWithPath> {
     std::fs::read_to_string(path)
         .map_err(|e| IoErrorWithPath { source: e, path: path.to_path_buf() })
 }
+
+pub fn repo_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+}

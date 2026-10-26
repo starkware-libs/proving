@@ -9,12 +9,12 @@
 
 use circuit_common::finalize::{ComponentSizes, pad_to_targets};
 use circuit_common::preprocessed::{PreprocessedCircuit, layout_and_pcs_config};
-use circuit_multiverifier::verify::{
-    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
-};
 use circuit_prover::circuit_hash::preprocessed_circuit_hash;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend};
 use circuit_registry::{CircuitRegistry, DigestHex};
+use circuit_verifier::multiverifier::{
+    SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
+};
 use tracing::{Level, info, span};
 
 use crate::RecursiveTreeError;
@@ -38,7 +38,7 @@ pub struct CanonicalCircuit {
 impl CanonicalCircuit {
     /// Builds the canonical circuit shape and all the configuration derived from it.
     ///
-    /// `registry` is the only input: its multiverifier's config supplies the FRI config the leaf
+    /// `registry` is the only input: its multiverifier's config supplies the FRI params the leaf
     /// circuit proofs were produced with and the padding target every circuit here is built to,
     /// and its entry supplies the hash the built multiverifier is checked against.
     pub fn build(registry: &CircuitRegistry) -> Result<Self, RecursiveTreeError> {
@@ -52,7 +52,7 @@ impl CanonicalCircuit {
         //    verifies, a leaf proof at layer 1 and a multiverifier proof above: the layout every
         //    circuit in the registry has, derived from the shared target.
         let (preprocessed_column_log_sizes, circuit_pcs_config) =
-            layout_and_pcs_config(&target_sizes, circuit_proof_config.fri_config);
+            layout_and_pcs_config(&target_sizes, circuit_proof_config.fri_params);
         let trace_log_size =
             *preprocessed_column_log_sizes.values().max().expect("the layout is non-empty");
         let shared_config = shared_config(preprocessed_column_log_sizes, circuit_pcs_config);
@@ -81,7 +81,7 @@ impl CanonicalCircuit {
         let circuit_hash = DigestHex::from(
             preprocessed_circuit_hash(
                 &preprocessed_multiverifier,
-                circuit_pcs_config.fri_config.log_blowup_factor,
+                circuit_pcs_config.fri_params.log_blowup_factor,
             )
             .0,
         );

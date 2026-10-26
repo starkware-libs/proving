@@ -1,7 +1,7 @@
 use core::array::Span;
 use stwo_verifier_core::ColumnSpan;
 use stwo_verifier_core::fields::qm31::QM31;
-use crate::PreprocessedMaskValues;
+use crate::{CommonLookupElements, PreprocessedMaskValues};
 
 /// A component is a set of trace columns of the same sizes along with a set of constraints on them.
 pub trait AirComponent<T> {
@@ -12,6 +12,15 @@ pub trait AirComponent<T> {
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
-        public_params: Span<u32>,
+        common_lookup_elements: @CommonLookupElements,
     );
+}
+
+/// The state every AIR component holds: its log size and its logup claimed sum. The lookup
+/// elements are the same for every component, so they are passed to
+/// `evaluate_constraints_at_point` rather than copied here.
+#[derive(Drop)]
+pub struct Component {
+    pub log_size: u32,
+    pub claimed_sum: QM31,
 }

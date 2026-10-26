@@ -1,7 +1,7 @@
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_common::{N_RESERVED, Qm31OpsTraceGenerator};
-use circuit_verifier::circuit_claim::{CircuitInteractionElements, lookup_sum};
-pub use circuit_verifier::circuit_proof::CircuitProof;
+use circuit_verifier::circuit_claim::{CircuitInteractionElements, logup_sum};
+use circuit_verifier::circuit_proof::CircuitProof;
 use circuit_verifier::statement::{INTERACTION_POW_BITS, all_circuit_components};
 use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::HashValue;
@@ -15,7 +15,7 @@ use stwo::core::pcs::PcsConfig;
 use stwo::core::poly::circle::CanonicCoset;
 use stwo::core::proof_of_work::GrindOps;
 use stwo::core::utils::MaybeOwned;
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 pub use stwo::prover::backend::simd::SimdBackend;
 pub use stwo::prover::mempool::BaseColumnPool;
 use stwo::prover::poly::circle::PolyOps;
@@ -39,7 +39,7 @@ pub fn prove_circuit_assignment(
     base_column_pool: &BaseColumnPool<SimdBackend>,
     pcs_config: PcsConfig,
 ) -> Result<CircuitProof<Blake2sMerkleHasher>, ProvingError> {
-    prove_circuit_assignment_with_channel::<Blake2sM31MerkleChannel>(
+    prove_circuit_assignment_with_channel::<Blake2sMerkleChannel>(
         values,
         preprocessed_circuit,
         base_column_pool,
@@ -64,7 +64,7 @@ where
         CanonicCoset::new(
             preprocessed_circuit.trace_log_size()
                 + std::cmp::max(
-                    pcs_config.fri_config.log_blowup_factor,
+                    pcs_config.fri_params.log_blowup_factor,
                     COMPOSITION_POLYNOMIAL_LOG_DEGREE_BOUND,
                 ),
         )
@@ -78,7 +78,7 @@ where
     let store_polynomials_coefficients = true;
     let preprocessed_tree = CommitmentTreeProver::<SimdBackend, MC>::new(
         preprocessed_trace_polys,
-        pcs_config.fri_config.log_blowup_factor,
+        pcs_config.fri_params.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
         pcs_config.preprocessed_lifting_log_size,
@@ -121,7 +121,7 @@ where
     // Mix channel salt. Note that we first reduce it modulo `M31::P`, then cast it as QM31.
     let channel_salt = 0_u32;
     channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.fri_config.mix_into(channel);
+    pcs_config.fri_params.mix_into(channel);
     let mut commitment_scheme = CommitmentSchemeProver::<SimdBackend, MC>::with_memory_pool(
         pcs_config,
         twiddles,
@@ -149,7 +149,7 @@ where
 
     let circuit_hash = compute_circuit_hash::<MC::H>(
         &component_log_sizes,
-        pcs_config.fri_config.log_blowup_factor,
+        pcs_config.fri_params.log_blowup_factor,
         preprocessed_root,
     );
     MC::mix_hash(channel, circuit_hash);
@@ -172,7 +172,7 @@ where
     );
 
     // Validate lookup argument.
-    assert_eq!(lookup_sum(&claim, &interaction_claim, &interaction_elements), QM31::zero());
+    assert_eq!(logup_sum(&claim, &interaction_claim, &interaction_elements), QM31::zero());
 
     interaction_claim.mix_into(channel);
     tree_builder.commit(channel);
@@ -222,7 +222,7 @@ pub fn prepare_circuit_proof_for_circuit_verifier(
         CircuitPublicData { output_digest: HashValue(output_words.map(U32Wrapper::new_unsafe)) };
 
     let proof_config = ProofConfig::new(
-        &all_circuit_components::<QM31>(),
+        &all_circuit_components::<QM31>().into_index_map(),
         stark_proof.proof.sampled_values[PREPROCESSED_TRACE_IDX].len(),
         &pcs_config,
         INTERACTION_POW_BITS,

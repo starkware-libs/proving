@@ -938,7 +938,7 @@ mod tests {
     use super::Component;
     #[allow(unused_imports)]
     use crate::components::prelude::PreProcessedColumnId;
-    use crate::sample_evaluations::*;
+    use crate::sample_evaluations_test_data::*;
 
     #[test]
     fn test_evaluation_result() {

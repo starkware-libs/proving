@@ -32,11 +32,9 @@ pub use hint_processors::{BootloaderHintProcessor, MinimalBootloaderHintProcesso
 pub use program_hash::{
     CompiledProgramHashError, ProgramHashError, compiled_program_hash, compute_program_hash_chain,
 };
-pub use types::{
-    ApplicativeBootloaderInput, BootloaderConfig, BootloaderInput, Cairo0Executable,
-    CairoVerifierInput, PackedOutput, SimpleBootloaderInput, Task, TaskSpec,
+use types::{ApplicativeBootloaderInput, BootloaderInput, CairoVerifierInput};
+pub use types::{Cairo0Executable, SimpleBootloaderInput, Task, TaskSpec};
+use vars::{
+    APPLICATIVE_BOOTLOADER_INPUT, BOOTLOADER_INPUT, COMPONENT_HEIGHT, SIMPLE_BOOTLOADER_INPUT,
 };
-pub use vars::{
-    APPLICATIVE_BOOTLOADER_INPUT, BOOTLOADER_INPUT, COMPONENT_HEIGHT, PROGRAM_INPUT,
-    PROGRAM_OBJECT, SIMPLE_BOOTLOADER_INPUT,
-};
+pub use vars::{PROGRAM_INPUT, PROGRAM_OBJECT};

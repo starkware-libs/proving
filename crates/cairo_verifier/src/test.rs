@@ -5,7 +5,6 @@ use std::sync::Arc;
 use cairo_air::CairoProof;
 use cairo_air::flat_claims::FlatClaim;
 use cairo_air::utils::{binary_deserialize_from_file, binary_serialize_to_file};
-use cairo_air::verifier::INTERACTION_POW_BITS;
 use cairo_vm::types::layout_name::LayoutName;
 use circuit_common::N_RESERVED;
 use circuits::blake::HashValue;
@@ -18,9 +17,9 @@ use circuits_stark_verifier::verify::verify;
 use num_traits::Zero;
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriConfig;
+use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::{
     PreProcessedTraceVariant, SMALL_MAX_SEQUENCE_LOG_SIZE,
 };
@@ -30,8 +29,9 @@ use stwo_cairo_prover::prover::{ChannelHash, LiftingSizePolicy, ProverParameters
 
 use crate::all_components::all_components;
 use crate::statement::{AUX_DATA_FIXED_LEN, CairoStatement, MEMORY_VALUES_LIMBS};
+use crate::test_utils::verify_cairo_with_component_set;
 use crate::utils::get_proof_file_path;
-use crate::verify::{enabled_components, get_preprocessed_root, verify_cairo_with_component_set};
+use crate::verify::{INTERACTION_POW_BITS, enabled_components, get_preprocessed_root};
 
 /// Circuit Verifies a [CairoProof].
 pub fn verify_cairo(
@@ -48,10 +48,10 @@ pub fn verify_cairo(
 
 #[test]
 fn test_verify() {
-    let pcs_config = PcsConfig::from_fri_and_trace_size(
-        FriConfig { fold_step: 4, ..FriConfig::default() },
-        SMALL_MAX_SEQUENCE_LOG_SIZE,
-    );
+    let pcs_config = PcsConfig::from_fri_config(FriConfig {
+        params: FriParams { fold_step: 4, ..FriParams::test_params() },
+        trace_log_size: SMALL_MAX_SEQUENCE_LOG_SIZE,
+    });
 
     let mut novalue_context: Context<NoValue> = Context::new(N_RESERVED);
     let program_len = 128;
@@ -73,7 +73,7 @@ fn test_verify() {
         HashValue::no_value(),
         program,
         enabled_bits,
-        get_preprocessed_root(20 + pcs_config.fri_config.log_blowup_factor),
+        get_preprocessed_root(20 + pcs_config.fri_params.log_blowup_factor),
         PreProcessedTraceVariant::CanonicalSmall,
     );
 
@@ -108,9 +108,9 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
             run_and_adapt(&compiled_program, ProgramType::Json, LayoutName::all_cairo_stwo, None)
                 .unwrap();
         let prover_params = ProverParameters {
-            channel_hash: ChannelHash::Blake2sM31,
+            channel_hash: ChannelHash::Blake2s,
             // Fold step = 4.
-            fri_config: FriConfig::new(26, 0, low_blowup_factor, 70, 4),
+            fri_params: FriParams::new(26, 0, low_blowup_factor, 70, 4),
             preprocessed_trace_variant,
             channel_salt: 0,
             store_polynomials_coefficients: true,
@@ -118,7 +118,7 @@ fn all_opcode_components_context() -> FinalizedContext<QM31> {
             opt_n_id_to_big_components: None,
             lifting_size_policy: LiftingSizePolicy::Fixed(trace_log_size + low_blowup_factor),
         };
-        let cairo_proof = prove_cairo::<Blake2sM31MerkleChannel>(input, prover_params).unwrap();
+        let cairo_proof = prove_cairo::<Blake2sMerkleChannel>(input, prover_params).unwrap();
 
         let proof_file =
             OpenOptions::new().create(true).write(true).truncate(true).open(&proof_path).unwrap();

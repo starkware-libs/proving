@@ -58,4 +58,3 @@ macro_rules! xor_table_eval {
         }
     };
 }
-pub(crate) use xor_table_eval;

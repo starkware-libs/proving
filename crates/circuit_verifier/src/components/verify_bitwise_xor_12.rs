@@ -53,6 +53,7 @@ impl<Value: IValue> CircuitEval<Value> for Component {
                 acc.add_to_relation(context, neg_multiplicity, &[relation_id, a, b, c]);
             }
         }
+        assert!(trace_cols.as_slice().is_empty());
     }
 
     fn trace_columns(&self) -> usize {

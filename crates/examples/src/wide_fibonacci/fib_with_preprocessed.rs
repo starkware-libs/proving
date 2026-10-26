@@ -82,13 +82,13 @@ mod tests {
     use itertools::Itertools;
     use num_traits::{One, Zero};
     use stwo::core::air::Component;
-    use stwo::core::channel::Blake2sM31Channel;
+    use stwo::core::channel::Blake2sChannel;
     use stwo::core::fields::m31::BaseField;
     use stwo::core::fields::qm31::SecureField;
-    use stwo::core::fri::FriConfig;
+    use stwo::core::fri::{FriConfig, FriParams};
     use stwo::core::pcs::{CommitmentSchemeVerifier, PcsConfig};
     use stwo::core::poly::circle::CanonicCoset;
-    use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
+    use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo::core::verifier::verify;
     use stwo::prover::backend::Column;
     use stwo::prover::backend::simd::SimdBackend;
@@ -113,20 +113,21 @@ mod tests {
     #[test_log::test]
     fn test_wide_fib_with_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
-            let config = PcsConfig::from_fri_and_trace_size(FriConfig::default(), log_n_instances);
+            let config = PcsConfig::from_fri_config(FriConfig {
+                params: FriParams::test_params(),
+                trace_log_size: log_n_instances,
+            });
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
-                CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+                CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
                     .circle_domain()
                     .half_coset,
             );
 
             // Setup protocol.
-            let prover_channel = &mut Blake2sM31Channel::default();
-            let mut commitment_scheme = CommitmentSchemeProver::<
-                SimdBackend,
-                Blake2sM31MerkleChannel,
-            >::new(config, &twiddles);
+            let prover_channel = &mut Blake2sChannel::default();
+            let mut commitment_scheme =
+                CommitmentSchemeProver::<SimdBackend, Blake2sMerkleChannel>::new(config, &twiddles);
 
             // Preprocessed trace
             let mut tree_builder = commitment_scheme.tree_builder();
@@ -148,7 +149,7 @@ mod tests {
                 SecureField::zero(),
             );
 
-            let proof = prove::<SimdBackend, Blake2sM31MerkleChannel>(
+            let proof = prove::<SimdBackend, Blake2sMerkleChannel>(
                 &[&component],
                 prover_channel,
                 commitment_scheme,
@@ -156,9 +157,9 @@ mod tests {
             .unwrap();
 
             // Verify.
-            let verifier_channel = &mut Blake2sM31Channel::default();
+            let verifier_channel = &mut Blake2sChannel::default();
             let commitment_scheme =
-                &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(config);
+                &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(config);
 
             // Retrieve the expected column sizes in each commitment interaction, from the AIR.
             let sizes = component.trace_log_degree_bounds();
@@ -172,26 +173,24 @@ mod tests {
     fn test_wide_fib_with_unused_pp_prove_with_blake() {
         for log_n_instances in 4..=8 {
             let log_size_unused_pp = log_n_instances + 1;
-            let fri_config = FriConfig::default();
+            let fri_params = FriParams::test_params();
             let config = PcsConfig {
-                fri_config,
-                trace_lifting_log_size: log_n_instances + fri_config.log_blowup_factor,
+                fri_params,
+                trace_lifting_log_size: log_n_instances + fri_params.log_blowup_factor,
                 // The preprocessed tree holds the longer unused column.
-                preprocessed_lifting_log_size: log_size_unused_pp + fri_config.log_blowup_factor,
+                preprocessed_lifting_log_size: log_size_unused_pp + fri_params.log_blowup_factor,
             };
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
-                CanonicCoset::new(log_n_instances + 1 + config.fri_config.log_blowup_factor)
+                CanonicCoset::new(log_n_instances + 1 + config.fri_params.log_blowup_factor)
                     .circle_domain()
                     .half_coset,
             );
 
             // Setup protocol.
-            let prover_channel = &mut Blake2sM31Channel::default();
-            let mut commitment_scheme = CommitmentSchemeProver::<
-                SimdBackend,
-                Blake2sM31MerkleChannel,
-            >::new(config, &twiddles);
+            let prover_channel = &mut Blake2sChannel::default();
+            let mut commitment_scheme =
+                CommitmentSchemeProver::<SimdBackend, Blake2sMerkleChannel>::new(config, &twiddles);
 
             // Preprocessed trace
             let mut tree_builder = commitment_scheme.tree_builder();
@@ -221,7 +220,7 @@ mod tests {
                 SecureField::zero(),
             );
 
-            let proof = prove::<SimdBackend, Blake2sM31MerkleChannel>(
+            let proof = prove::<SimdBackend, Blake2sMerkleChannel>(
                 &[&component],
                 prover_channel,
                 commitment_scheme,
@@ -229,9 +228,9 @@ mod tests {
             .unwrap();
 
             // Verify.
-            let verifier_channel = &mut Blake2sM31Channel::default();
+            let verifier_channel = &mut Blake2sChannel::default();
             let commitment_scheme =
-                &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(config);
+                &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(config);
 
             // Retrieve the expected column sizes in each commitment interaction, from the AIR.
             let sizes = component.trace_log_degree_bounds();
@@ -251,21 +250,21 @@ mod tests {
         for log_n_instances in 4..=8 {
             let log_size_unused_pp = log_n_instances + 3;
             // Lift every tree to the largest preprocessed column (after LDE).
-            let config =
-                PcsConfig::from_fri_and_trace_size(FriConfig::default(), log_size_unused_pp);
+            let config = PcsConfig::from_fri_config(FriConfig {
+                params: FriParams::test_params(),
+                trace_log_size: log_size_unused_pp,
+            });
             // Precompute twiddles.
             let twiddles = SimdBackend::precompute_twiddles(
-                CanonicCoset::new(log_size_unused_pp + 1 + config.fri_config.log_blowup_factor)
+                CanonicCoset::new(log_size_unused_pp + 1 + config.fri_params.log_blowup_factor)
                     .circle_domain()
                     .half_coset,
             );
 
             // Setup protocol.
-            let prover_channel = &mut Blake2sM31Channel::default();
-            let mut commitment_scheme = CommitmentSchemeProver::<
-                SimdBackend,
-                Blake2sM31MerkleChannel,
-            >::new(config, &twiddles);
+            let prover_channel = &mut Blake2sChannel::default();
+            let mut commitment_scheme =
+                CommitmentSchemeProver::<SimdBackend, Blake2sMerkleChannel>::new(config, &twiddles);
 
             // Preprocessed trace
             let mut tree_builder = commitment_scheme.tree_builder();
@@ -295,7 +294,7 @@ mod tests {
                 SecureField::zero(),
             );
 
-            let proof = prove::<SimdBackend, Blake2sM31MerkleChannel>(
+            let proof = prove::<SimdBackend, Blake2sMerkleChannel>(
                 &[&component],
                 prover_channel,
                 commitment_scheme,
@@ -303,9 +302,9 @@ mod tests {
             .unwrap();
 
             // Verify.
-            let verifier_channel = &mut Blake2sM31Channel::default();
+            let verifier_channel = &mut Blake2sChannel::default();
             let commitment_scheme =
-                &mut CommitmentSchemeVerifier::<Blake2sM31MerkleChannel>::new(config);
+                &mut CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(config);
 
             // Retrieve the expected column sizes in each commitment interaction, from the AIR.
             let mut sizes = component.trace_log_degree_bounds();

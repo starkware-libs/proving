@@ -1,9 +1,9 @@
 use std::fmt;
 
-use circuits::blake::{HashValue, ReducedHashValue};
+use circuits::blake::HashValue;
 use circuits::wrappers::M31Wrapper;
 use circuits_stark_verifier::fri_proof::{
-    FriCommitProof, FriConfig, FriProof, FriWitness, compute_all_fold_steps,
+    FriCommitProof, FriConfig, FriParams, FriProof, FriWitness, compute_all_fold_steps,
 };
 use circuits_stark_verifier::merkle::{AuthPath, AuthPaths};
 use circuits_stark_verifier::oods::{EvalDomainSamples, N_COMPOSITION_COLUMNS};
@@ -68,12 +68,6 @@ impl<T: CircuitDeserialize, const N: usize> CircuitDeserialize for [T; N] {
     }
 }
 
-impl CircuitDeserialize for ReducedHashValue<QM31> {
-    fn deserialize(data: &mut &[u8]) -> DeserializeResult<Self> {
-        Ok(ReducedHashValue(QM31::deserialize(data)?, QM31::deserialize(data)?))
-    }
-}
-
 impl CircuitDeserialize for HashValue<QM31> {
     fn deserialize(data: &mut &[u8]) -> DeserializeResult<Self> {
         // A `HashValue` is stored as its 32 raw bytes; split each 32-bit word back into
@@ -121,9 +115,8 @@ pub fn deserialize_proof_with_config(
     let eval_domain_samples = deserialize_eval_domain_samples(data, config)?;
     let eval_domain_auth_paths = deserialize_eval_domain_auth_paths(data, config)?;
     let oods_pow_nonce = QM31::deserialize(data)?;
-    let pow_nonce = QM31::deserialize(data)?;
     let interaction_pow_nonce = QM31::deserialize(data)?;
-    let fri = deserialize_fri_proof(data, config.log_trace_size, &config.fri)?;
+    let fri = deserialize_fri_proof(data, &config.fri)?;
 
     Ok(Proof {
         channel_salt,
@@ -138,7 +131,6 @@ pub fn deserialize_proof_with_config(
         eval_domain_samples,
         eval_domain_auth_paths,
         oods_pow_nonce,
-        pow_nonce,
         interaction_pow_nonce,
         fri,
     })
@@ -182,7 +174,7 @@ fn deserialize_eval_domain_auth_paths(
     config: &ProofConfig,
 ) -> DeserializeResult<AuthPaths<QM31>> {
     let n_queries = config.n_queries();
-    let path_len = config.log_evaluation_domain_size();
+    let path_len: usize = config.log_evaluation_domain_size().try_into().unwrap();
     let mut trees = Vec::with_capacity(N_TRACES);
     for _ in 0..N_TRACES {
         let mut paths = Vec::with_capacity(n_queries);
@@ -197,8 +189,8 @@ fn deserialize_eval_domain_auth_paths(
 
 fn deserialize_fri_commit_proof(
     data: &mut &[u8],
-    config: &FriConfig,
-    all_fold_steps: &[usize],
+    config: &FriParams,
+    all_fold_steps: &[u32],
 ) -> DeserializeResult<FriCommitProof<QM31>> {
     let n_layers = all_fold_steps.len();
     let n_last_layer_coefs = 1 << config.log_last_layer_degree_bound;
@@ -210,21 +202,23 @@ fn deserialize_fri_commit_proof(
 
 fn deserialize_fri_proof(
     data: &mut &[u8],
-    log_trace_size: usize,
     fri_config: &FriConfig,
 ) -> DeserializeResult<FriProof<QM31>> {
+    let fri_params = &fri_config.params;
     let all_fold_steps = compute_all_fold_steps(
-        log_trace_size - fri_config.log_last_layer_degree_bound as usize,
-        fri_config.fold_step as usize,
+        fri_config.trace_log_size - fri_params.log_last_layer_degree_bound,
+        fri_params.fold_step,
     );
-    let commit = deserialize_fri_commit_proof(data, fri_config, &all_fold_steps)?;
+    let commit = deserialize_fri_commit_proof(data, fri_params, &all_fold_steps)?;
+    let pow_nonce = QM31::deserialize(data)?;
 
-    let mut path_len = log_trace_size + fri_config.log_blowup_factor as usize;
+    let mut log_layer_size = fri_config.log_evaluation_domain_size();
     let mut auth_path_trees = Vec::with_capacity(all_fold_steps.len());
     for step in all_fold_steps.iter() {
-        path_len -= step;
-        let mut paths = Vec::with_capacity(fri_config.n_queries);
-        for _ in 0..fri_config.n_queries {
+        log_layer_size -= step;
+        let path_len: usize = log_layer_size.try_into().unwrap();
+        let mut paths = Vec::with_capacity(fri_params.n_queries);
+        for _ in 0..fri_params.n_queries {
             let hashes: Vec<HashValue<QM31>> = deserialize_vec(data, path_len)?;
             paths.push(AuthPath(hashes));
         }
@@ -235,12 +229,12 @@ fn deserialize_fri_proof(
 
     for step in all_fold_steps.iter() {
         let mut witness_per_query = vec![];
-        for _ in 0..fri_config.n_queries {
+        for _ in 0..fri_params.n_queries {
             let witness: Vec<QM31> = deserialize_vec(data, 1 << step)?;
             witness_per_query.push(witness);
         }
         witness_per_query_per_tree.push(witness_per_query);
     }
     let witness = FriWitness(witness_per_query_per_tree);
-    Ok(FriProof { commit, auth_paths, witness })
+    Ok(FriProof { commit, pow_nonce, auth_paths, witness })
 }
