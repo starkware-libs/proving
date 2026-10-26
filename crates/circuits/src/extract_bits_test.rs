@@ -1,9 +1,17 @@
+use expect_test::expect;
 use rstest::rstest;
 
-use crate::context::TraceContext;
+use crate::context::{Context, TraceContext};
 use crate::extract_bits::{combine_bits, extract_bits, validate_extract_bits};
-use crate::ivalue::qm31_from_u32s;
+use crate::ivalue::{NoValue, qm31_from_u32s};
+use crate::ops::guess;
+use crate::simd::Simd;
 use crate::test_utils::{packed_values, simd_from_u32s};
+
+/// Constructs a single-lane [Simd] variable with no value.
+fn guess_simd_no_value(context: &mut Context<NoValue>) -> Simd {
+    Simd::from_packed(vec![guess(context, NoValue)], 1)
+}
 
 #[test]
 fn test_extract_bits() {
@@ -53,6 +61,50 @@ fn test_extract_bits_as_range_check(#[case] len: usize) {
     let _bits = extract_bits(&mut context, &input, n_bits);
 
     assert!(!context.is_circuit_valid());
+}
+
+#[test]
+fn test_extract_bits_circuit_single_simd() {
+    let mut context = Context::<NoValue>::default();
+    let input = guess_simd_no_value(&mut context);
+    let bits = extract_bits(&mut context, &input, 3);
+
+    expect!["Simd { data: [[3]], len: 1 }"].assert_eq(&format!("{input:?}"));
+    expect![
+        "[Simd { data: [[5]], len: 1 }, Simd { data: [[11]], len: 1 }, Simd { data: [[16]], len: \
+         1 }]"
+    ]
+    .assert_eq(&format!("{bits:?}"));
+    expect![[r#"
+        {
+            (0 + 0i) + (0 + 0i)u: [0],
+            (1 + 0i) + (0 + 0i)u: [1],
+            (0 + 0i) + (1 + 0i)u: [2],
+            (1073741824 + 0i) + (0 + 0i)u: [4],
+        }
+    "#]]
+    .assert_debug_eq(&context.constants());
+    expect![[r#"
+        [7] = [5] - [6]
+        [9] = [3] - [5]
+        [13] = [11] - [12]
+        [15] = [10] - [11]
+        [18] = [16] - [17]
+        [10] = [9] * [4]
+        [16] = [15] * [4]
+        [6] = [5] x [5]
+        [8] = [7] x [1]
+        [12] = [11] x [11]
+        [14] = [13] x [1]
+        [17] = [16] x [16]
+        [19] = [18] x [1]
+        [8] = [0]
+        [14] = [0]
+        [19] = [0]
+        output [2]
+
+    "#]]
+    .assert_debug_eq(&context.circuit);
 }
 
 #[test]

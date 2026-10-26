@@ -7,7 +7,8 @@ use itertools::Itertools;
 use rayon::prelude::*;
 
 use super::{
-    CACHED_FFT_LOG_SIZE, MIN_FFT_LOG_SIZE, compute_first_twiddles, mul_twiddle, transpose_vecs,
+    CACHED_FFT_LOG_SIZE, MIN_FFT_LOG_SIZE, TwiddleTreeView, compute_first_twiddles, mul_twiddle,
+    transpose_vecs,
 };
 use crate::core::circle::Coset;
 use crate::core::utils::bit_reverse;
@@ -20,18 +21,20 @@ use crate::prover::backend::simd::utils::UnsafeMut;
 /// # Arguments
 ///
 /// - `values`: A mutable pointer to the values on which the ICFFT is to be performed.
-/// - `twiddle_dbl`: A reference to the doubles of the twiddle factors.
+/// - `twiddle_dbl`: The tree of the doubles of the twiddle factors of the domain.
 /// - `log_n_elements`: The log of the number of elements in the `values` array.
 ///
 /// # Panics
 ///
-/// Panic if `log_n_elements` is less than [`MIN_FFT_LOG_SIZE`].
+/// Panic if `log_n_elements` is less than [`MIN_FFT_LOG_SIZE`], or if `twiddle_dbl` does not have
+/// `log_n_elements - 1` layers.
 ///
 /// # Safety
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
-pub unsafe fn ifft(values: *mut u32, twiddle_dbl: &[&[u32]], log_n_elements: usize) {
+pub unsafe fn ifft(values: *mut u32, twiddle_dbl: TwiddleTreeView<'_, u32>, log_n_elements: usize) {
     assert!(log_n_elements >= MIN_FFT_LOG_SIZE as usize);
+    assert_eq!(twiddle_dbl.n_layers(), log_n_elements - 1);
 
     let log_n_vecs = log_n_elements - LOG_N_LANES as usize;
     if log_n_elements <= CACHED_FFT_LOG_SIZE as usize {
@@ -43,14 +46,14 @@ pub unsafe fn ifft(values: *mut u32, twiddle_dbl: &[&[u32]], log_n_elements: usi
     let fft_layers_post_transpose = log_n_vecs / 2;
     ifft_lower_with_vecwise(
         values,
-        &twiddle_dbl[..3 + fft_layers_pre_transpose],
+        twiddle_dbl,
         log_n_elements,
         fft_layers_pre_transpose + LOG_N_LANES as usize,
     );
     transpose_vecs(values, log_n_vecs);
     ifft_lower_without_vecwise(
         values,
-        &twiddle_dbl[3 + fft_layers_pre_transpose..],
+        twiddle_dbl.skip_layers(3 + fft_layers_pre_transpose),
         log_n_elements,
         fft_layers_post_transpose,
     );
@@ -68,7 +71,7 @@ pub unsafe fn ifft(values: *mut u32, twiddle_dbl: &[&[u32]], log_n_elements: usi
 ///
 /// # Panics
 ///
-/// Panics if `log_size` is not at least 5.
+/// Panics if `log_size` is not at least 5, or if `twiddle_dbl` does not have `log_size - 1` layers.
 ///
 /// # Safety
 ///
@@ -76,14 +79,14 @@ pub unsafe fn ifft(values: *mut u32, twiddle_dbl: &[&[u32]], log_n_elements: usi
 /// `fft_layers` must be at least 5.
 pub unsafe fn ifft_lower_with_vecwise(
     values: *mut u32,
-    twiddle_dbl: &[&[u32]],
+    twiddle_dbl: TwiddleTreeView<'_, u32>,
     log_size: usize,
     fft_layers: usize,
 ) {
     const VECWISE_FFT_BITS: usize = LOG_N_LANES as usize + 1;
     assert!(log_size >= VECWISE_FFT_BITS);
 
-    assert_eq!(twiddle_dbl[0].len(), 1 << (log_size - 2));
+    assert_eq!(twiddle_dbl.n_layers(), log_size - 1);
 
     let values = UnsafeMut(values);
     parallel_iter!(0..1 << (log_size - fft_layers)).for_each(|index_h| {
@@ -92,15 +95,15 @@ pub unsafe fn ifft_lower_with_vecwise(
         for layer in (VECWISE_FFT_BITS..fft_layers).step_by(3) {
             match fft_layers - layer {
                 1 => {
-                    ifft1_loop(values, &twiddle_dbl[(layer - 1)..], layer, index_h);
+                    ifft1_loop(values, twiddle_dbl.skip_layers(layer - 1), layer, index_h);
                 }
                 2 => {
-                    ifft2_loop(values, &twiddle_dbl[(layer - 1)..], layer, index_h);
+                    ifft2_loop(values, twiddle_dbl.skip_layers(layer - 1), layer, index_h);
                 }
                 _ => {
                     ifft3_loop(
                         values,
-                        &twiddle_dbl[(layer - 1)..],
+                        twiddle_dbl.skip_layers(layer - 1),
                         fft_layers - layer - 3,
                         layer,
                         index_h,
@@ -129,9 +132,10 @@ pub unsafe fn ifft_lower_with_vecwise(
 ///
 /// `values` must have the same alignment as [`PackedBaseField`].
 /// `fft_layers` must be at least 4.
+/// `twiddle_dbl` must have at least `fft_layers` layers.
 pub unsafe fn ifft_lower_without_vecwise(
     values: *mut u32,
-    twiddle_dbl: &[&[u32]],
+    twiddle_dbl: TwiddleTreeView<'_, u32>,
     log_size: usize,
     fft_layers: usize,
 ) {
@@ -144,15 +148,15 @@ pub unsafe fn ifft_lower_without_vecwise(
             let fixed_layer = layer + LOG_N_LANES as usize;
             match fft_layers - layer {
                 1 => {
-                    ifft1_loop(values, &twiddle_dbl[layer..], fixed_layer, index_h);
+                    ifft1_loop(values, twiddle_dbl.skip_layers(layer), fixed_layer, index_h);
                 }
                 2 => {
-                    ifft2_loop(values, &twiddle_dbl[layer..], fixed_layer, index_h);
+                    ifft2_loop(values, twiddle_dbl.skip_layers(layer), fixed_layer, index_h);
                 }
                 _ => {
                     ifft3_loop(
                         values,
-                        &twiddle_dbl[layer..],
+                        twiddle_dbl.skip_layers(layer),
                         fft_layers - layer - 3,
                         fixed_layer,
                         index_h,
@@ -175,12 +179,17 @@ pub unsafe fn ifft_lower_without_vecwise(
 /// # Safety
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
+/// `twiddle_dbl` must have at least 4 layers.
 pub unsafe fn ifft_vecwise_loop(
     values: *mut u32,
-    twiddle_dbl: &[&[u32]],
+    twiddle_dbl: TwiddleTreeView<'_, u32>,
     loop_bits: usize,
     index_h: usize,
 ) {
+    let twiddle_dbl0 = twiddle_dbl.layer(0);
+    let twiddle_dbl1 = twiddle_dbl.layer(1);
+    let twiddle_dbl2 = twiddle_dbl.layer(2);
+    let twiddle_dbl3 = twiddle_dbl.layer(3);
     for index_l in 0..1 << loop_bits {
         let index = (index_h << loop_bits) + index_l;
         let mut val0 = PackedBaseField::load(values.add(index_l * 32).cast_const());
@@ -188,12 +197,12 @@ pub unsafe fn ifft_vecwise_loop(
         (val0, val1) = vecwise_ibutterflies(
             val0,
             val1,
-            std::array::from_fn(|i| *twiddle_dbl[0].get_unchecked(index * 8 + i)),
-            std::array::from_fn(|i| *twiddle_dbl[1].get_unchecked(index * 4 + i)),
-            std::array::from_fn(|i| *twiddle_dbl[2].get_unchecked(index * 2 + i)),
+            std::array::from_fn(|i| *twiddle_dbl0.get_unchecked(index * 8 + i)),
+            std::array::from_fn(|i| *twiddle_dbl1.get_unchecked(index * 4 + i)),
+            std::array::from_fn(|i| *twiddle_dbl2.get_unchecked(index * 2 + i)),
         );
         (val0, val1) =
-            simd_ibutterfly(val0, val1, u32x16::splat(*twiddle_dbl[3].get_unchecked(index)));
+            simd_ibutterfly(val0, val1, u32x16::splat(*twiddle_dbl3.get_unchecked(index)));
         val0.store(values.add(index_l * 32));
         val1.store(values.add(index_l * 32 + 16));
     }
@@ -213,28 +222,28 @@ pub unsafe fn ifft_vecwise_loop(
 /// # Safety
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
+/// `twiddle_dbl` must have at least 3 layers.
 pub unsafe fn ifft3_loop(
     values: *mut u32,
-    twiddle_dbl: &[&[u32]],
+    twiddle_dbl: TwiddleTreeView<'_, u32>,
     loop_bits: usize,
     layer: usize,
     index_h: usize,
 ) {
+    let twiddle_dbl0 = twiddle_dbl.layer(0);
+    let twiddle_dbl1 = twiddle_dbl.layer(1);
+    let twiddle_dbl2 = twiddle_dbl.layer(2);
     for index_l in 0..1 << loop_bits {
         let index = (index_h << loop_bits) + index_l;
         let offset = index_l << (layer + 3);
         let twiddles0: [u32x16; 4] = std::array::from_fn(|i| {
-            u32x16::splat(
-                *twiddle_dbl[0].get_unchecked((index * 4 + i) & (twiddle_dbl[0].len() - 1)),
-            )
+            u32x16::splat(*twiddle_dbl0.get_unchecked((index * 4 + i) & (twiddle_dbl0.len() - 1)))
         });
         let twiddles1: [u32x16; 2] = std::array::from_fn(|i| {
-            u32x16::splat(
-                *twiddle_dbl[1].get_unchecked((index * 2 + i) & (twiddle_dbl[1].len() - 1)),
-            )
+            u32x16::splat(*twiddle_dbl1.get_unchecked((index * 2 + i) & (twiddle_dbl1.len() - 1)))
         });
         let twiddles2: [u32x16; 1] = std::array::from_fn(|i| {
-            u32x16::splat(*twiddle_dbl[2].get_unchecked((index + i) & (twiddle_dbl[2].len() - 1)))
+            u32x16::splat(*twiddle_dbl2.get_unchecked((index + i) & (twiddle_dbl2.len() - 1)))
         });
         for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
             ifft3(values, offset + l, layer, twiddles0, twiddles1, twiddles2);
@@ -256,12 +265,19 @@ pub unsafe fn ifft3_loop(
 /// # Safety
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
-unsafe fn ifft2_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, index: usize) {
+unsafe fn ifft2_loop(
+    values: *mut u32,
+    twiddle_dbl: TwiddleTreeView<'_, u32>,
+    layer: usize,
+    index: usize,
+) {
+    let twiddle_dbl0 = twiddle_dbl.layer(0);
+    let twiddle_dbl1 = twiddle_dbl.layer(1);
     let twiddles0: [u32x16; 2] = std::array::from_fn(|i| {
-        u32x16::splat(*twiddle_dbl[0].get_unchecked((index * 2 + i) & (twiddle_dbl[0].len() - 1)))
+        u32x16::splat(*twiddle_dbl0.get_unchecked((index * 2 + i) & (twiddle_dbl0.len() - 1)))
     });
     let twiddles1: [u32x16; 1] = std::array::from_fn(|i| {
-        u32x16::splat(*twiddle_dbl[1].get_unchecked((index + i) & (twiddle_dbl[1].len() - 1)))
+        u32x16::splat(*twiddle_dbl1.get_unchecked((index + i) & (twiddle_dbl1.len() - 1)))
     });
     for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
         ifft2(values, l, layer, twiddles0, twiddles1);
@@ -280,9 +296,15 @@ unsafe fn ifft2_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, ind
 /// # Safety
 ///
 /// Behavior is undefined if `values` does not have the same alignment as [`PackedBaseField`].
-unsafe fn ifft1_loop(values: *mut u32, twiddle_dbl: &[&[u32]], layer: usize, index: usize) {
+unsafe fn ifft1_loop(
+    values: *mut u32,
+    twiddle_dbl: TwiddleTreeView<'_, u32>,
+    layer: usize,
+    index: usize,
+) {
+    let twiddle_dbl0 = twiddle_dbl.layer(0);
     let twiddles0: [u32x16; 1] = std::array::from_fn(|i| {
-        u32x16::splat(*twiddle_dbl[0].get_unchecked((index + i) & (twiddle_dbl[0].len() - 1)))
+        u32x16::splat(*twiddle_dbl0.get_unchecked((index + i) & (twiddle_dbl0.len() - 1)))
     });
     for l in (0..1 << layer).step_by(1 << LOG_N_LANES as usize) {
         ifft1(values, l, layer, twiddles0);
@@ -542,7 +564,7 @@ mod tests {
     use crate::prover::backend::Column;
     use crate::prover::backend::cpu::CpuCircleEvaluation;
     use crate::prover::backend::simd::column::BaseColumn;
-    use crate::prover::backend::simd::fft::{CACHED_FFT_LOG_SIZE, transpose_vecs};
+    use crate::prover::backend::simd::fft::{CACHED_FFT_LOG_SIZE, TwiddleTreeView, transpose_vecs};
     use crate::prover::backend::simd::m31::{LOG_N_LANES, N_LANES, PackedBaseField};
 
     #[test]
@@ -648,13 +670,15 @@ mod tests {
             let domain = CanonicCoset::new(log_size).circle_domain();
             let mut rng = SmallRng::seed_from_u64(0);
             let values = (0..domain.size()).map(|_| rng.random()).collect_vec();
-            let twiddle_dbls = get_itwiddle_dbls(domain.half_coset);
+            // Flatten the layers into a twiddle tree buffer, with one padding element.
+            let mut twiddle_tree = get_itwiddle_dbls(domain.half_coset).concat();
+            twiddle_tree.push(0);
 
             let mut res = values.iter().copied().collect::<BaseColumn>();
             unsafe {
                 ifft_lower_with_vecwise(
                     transmute::<*mut PackedBaseField, *mut u32>(res.data.as_mut_ptr()),
-                    &twiddle_dbls.iter().map(|x| x.as_slice()).collect_vec(),
+                    TwiddleTreeView::new(&twiddle_tree),
                     log_size as usize,
                     log_size as usize,
                 );
@@ -670,13 +694,15 @@ mod tests {
             let domain = CanonicCoset::new(log_size).circle_domain();
             let mut rng = SmallRng::seed_from_u64(0);
             let values = (0..domain.size()).map(|_| rng.random()).collect_vec();
-            let twiddle_dbls = get_itwiddle_dbls(domain.half_coset);
+            // Flatten the layers into a twiddle tree buffer, with one padding element.
+            let mut twiddle_tree = get_itwiddle_dbls(domain.half_coset).concat();
+            twiddle_tree.push(0);
 
             let mut res = values.iter().copied().collect::<BaseColumn>();
             unsafe {
                 ifft(
                     transmute::<*mut PackedBaseField, *mut u32>(res.data.as_mut_ptr()),
-                    &twiddle_dbls.iter().map(|x| x.as_slice()).collect_vec(),
+                    TwiddleTreeView::new(&twiddle_tree),
                     log_size as usize,
                 );
                 transpose_vecs(
