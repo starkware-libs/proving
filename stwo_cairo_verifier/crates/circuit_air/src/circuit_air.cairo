@@ -1,8 +1,6 @@
 use core::box::BoxImpl;
 use core::num::traits::Zero;
-use stwo_constraint_framework::{
-    AirComponent, CommonLookupElements, Component, PreprocessedMaskValuesImpl,
-};
+use stwo_constraint_framework::{AirComponent, CommonLookupElements, PreprocessedMaskValuesImpl};
 use stwo_verifier_core::fields::qm31::QM31;
 use stwo_verifier_core::verifier::Air;
 use stwo_verifier_core::{ColumnSpan, N_TREES, TreeSpan};
@@ -26,17 +24,17 @@ use crate::preprocessed_columns::NUM_PREPROCESSED_COLUMNS;
 /// Circuit components, in `crate::per_component` (committed) order.
 #[derive(Drop)]
 pub struct CircuitAir {
-    pub eq: Component<components::eq::Claim>,
-    pub qm_31_ops: Component<components::qm_31_ops::Claim>,
-    pub triple_xor: Component<components::triple_xor::Claim>,
-    pub m_31_to_u_32: Component<components::m_31_to_u_32::Claim>,
-    pub blake_g_gate: Component<components::blake_g_gate::Claim>,
-    pub verify_bitwise_xor_8: Component<components::verify_bitwise_xor_8::Claim>,
-    pub verify_bitwise_xor_12: Component<components::verify_bitwise_xor_12::Claim>,
-    pub verify_bitwise_xor_4: Component<components::verify_bitwise_xor_4::Claim>,
-    pub verify_bitwise_xor_7: Component<components::verify_bitwise_xor_7::Claim>,
-    pub verify_bitwise_xor_9: Component<components::verify_bitwise_xor_9::Claim>,
-    pub range_check_16: Component<components::range_check_16::Claim>,
+    pub eq: components::eq::Component,
+    pub qm_31_ops: components::qm_31_ops::Component,
+    pub triple_xor: components::triple_xor::Component,
+    pub m_31_to_u_32: components::m_31_to_u_32::Component,
+    pub blake_g_gate: components::blake_g_gate::Component,
+    pub verify_bitwise_xor_8: components::verify_bitwise_xor_8::Component,
+    pub verify_bitwise_xor_12: components::verify_bitwise_xor_12::Component,
+    pub verify_bitwise_xor_4: components::verify_bitwise_xor_4::Component,
+    pub verify_bitwise_xor_7: components::verify_bitwise_xor_7::Component,
+    pub verify_bitwise_xor_9: components::verify_bitwise_xor_9::Component,
+    pub range_check_16: components::range_check_16::Component,
     /// Shared by every component's constraints, so held once here rather than per component.
     pub common_lookup_elements: CommonLookupElements,
 }
@@ -80,47 +78,35 @@ pub impl CircuitAirNewImpl of CircuitAirNewTrait {
         } = COMPONENT_LOG_SIZES;
 
         CircuitAir {
-            eq: Component {
-                claim: components::eq::Claim { log_size: eq_log_size }, claimed_sum: eq_claimed_sum,
+            eq: components::eq::Component { log_size: eq_log_size, claimed_sum: eq_claimed_sum },
+            qm_31_ops: components::qm_31_ops::Component {
+                log_size: qm_31_ops_log_size, claimed_sum: qm_31_ops_claimed_sum,
             },
-            qm_31_ops: Component {
-                claim: components::qm_31_ops::Claim { log_size: qm_31_ops_log_size },
-                claimed_sum: qm_31_ops_claimed_sum,
+            triple_xor: components::triple_xor::Component {
+                log_size: triple_xor_log_size, claimed_sum: triple_xor_claimed_sum,
             },
-            triple_xor: Component {
-                claim: components::triple_xor::Claim { log_size: triple_xor_log_size },
-                claimed_sum: triple_xor_claimed_sum,
+            m_31_to_u_32: components::m_31_to_u_32::Component {
+                log_size: m_31_to_u_32_log_size, claimed_sum: m_31_to_u_32_claimed_sum,
             },
-            m_31_to_u_32: Component {
-                claim: components::m_31_to_u_32::Claim { log_size: m_31_to_u_32_log_size },
-                claimed_sum: m_31_to_u_32_claimed_sum,
+            blake_g_gate: components::blake_g_gate::Component {
+                log_size: blake_g_gate_log_size, claimed_sum: blake_g_gate_claimed_sum,
             },
-            blake_g_gate: Component {
-                claim: components::blake_g_gate::Claim { log_size: blake_g_gate_log_size },
-                claimed_sum: blake_g_gate_claimed_sum,
-            },
-            verify_bitwise_xor_8: Component {
-                claim: components::verify_bitwise_xor_8::Claim {},
+            verify_bitwise_xor_8: components::verify_bitwise_xor_8::Component {
                 claimed_sum: verify_bitwise_xor_8_claimed_sum,
             },
-            verify_bitwise_xor_12: Component {
-                claim: components::verify_bitwise_xor_12::Claim {},
+            verify_bitwise_xor_12: components::verify_bitwise_xor_12::Component {
                 claimed_sum: verify_bitwise_xor_12_claimed_sum,
             },
-            verify_bitwise_xor_4: Component {
-                claim: components::verify_bitwise_xor_4::Claim {},
+            verify_bitwise_xor_4: components::verify_bitwise_xor_4::Component {
                 claimed_sum: verify_bitwise_xor_4_claimed_sum,
             },
-            verify_bitwise_xor_7: Component {
-                claim: components::verify_bitwise_xor_7::Claim {},
+            verify_bitwise_xor_7: components::verify_bitwise_xor_7::Component {
                 claimed_sum: verify_bitwise_xor_7_claimed_sum,
             },
-            verify_bitwise_xor_9: Component {
-                claim: components::verify_bitwise_xor_9::Claim {},
+            verify_bitwise_xor_9: components::verify_bitwise_xor_9::Component {
                 claimed_sum: verify_bitwise_xor_9_claimed_sum,
             },
-            range_check_16: Component {
-                claim: components::range_check_16::Claim {},
+            range_check_16: components::range_check_16::Component {
                 claimed_sum: range_check_16_claimed_sum,
             },
             common_lookup_elements,

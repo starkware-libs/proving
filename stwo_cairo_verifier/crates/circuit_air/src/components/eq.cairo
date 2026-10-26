@@ -18,20 +18,15 @@ pub const N_TRACE_COLUMNS: usize = 4;
 pub const N_INTERACTION_COLUMNS: usize = 4;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 1] = [('Gate', 2)];
 
-#[derive(Drop, Serde, Copy)]
-pub struct Claim {
+#[derive(Drop)]
+pub struct Component {
     pub log_size: u32,
+    pub claimed_sum: QM31,
 }
 
-pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn mix_into(self: @Claim, ref channel: Channel) {
-        channel.mix_u64((*(self.log_size)).into());
-    }
-}
-
-pub impl AirComponentImpl of AirComponent<Component<Claim>> {
+pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
-        self: @Component<Claim>,
+        self: @Component,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
@@ -39,7 +34,7 @@ pub impl AirComponentImpl of AirComponent<Component<Claim>> {
         random_coeff: QM31,
         common_lookup_elements: @CommonLookupElements,
     ) {
-        let log_size = *self.claim.log_size;
+        let log_size = *self.log_size;
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
 

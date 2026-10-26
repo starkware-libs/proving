@@ -15,12 +15,3 @@ pub trait AirComponent<T> {
         common_lookup_elements: @CommonLookupElements,
     );
 }
-
-/// The state every AIR component holds: its claim and its logup claimed sum. Generic over the
-/// claim, which is the only per-component part. The lookup elements are the same for every
-/// component, so they are passed to `evaluate_constraints_at_point` rather than copied here.
-#[derive(Drop)]
-pub struct Component<Claim> {
-    pub claim: Claim,
-    pub claimed_sum: QM31,
-}

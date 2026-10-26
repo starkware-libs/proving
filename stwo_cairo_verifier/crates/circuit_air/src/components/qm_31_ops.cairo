@@ -6,21 +6,15 @@ pub const N_TRACE_COLUMNS: usize = 12;
 pub const N_INTERACTION_COLUMNS: usize = 8;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 1] = [('Gate', 2)];
 
-#[derive(Drop, Serde, Copy)]
-pub struct Claim {
+#[derive(Drop)]
+pub struct Component {
     pub log_size: u32,
+    pub claimed_sum: QM31,
 }
 
-pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn mix_into(self: @Claim, ref channel: Channel) {
-        channel.mix_u64((*(self.log_size)).into());
-    }
-}
-
-
-pub impl AirComponentImpl of AirComponent<Component<Claim>> {
+pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
-        self: @Component<Claim>,
+        self: @Component,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
@@ -28,7 +22,7 @@ pub impl AirComponentImpl of AirComponent<Component<Claim>> {
         random_coeff: QM31,
         common_lookup_elements: @CommonLookupElements,
     ) {
-        let log_size = *(self.claim.log_size);
+        let log_size = *(self.log_size);
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
         let mut gate_sum_0: QM31 = Zero::zero();
@@ -258,13 +252,12 @@ mod tests {
     use crate::components::sample_evaluations_test_data::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-    use super::{AirComponentImpl, Claim, Component};
+    use super::{AirComponentImpl, Component};
 
     #[test]
     fn test_evaluation_result() {
         let component = Component {
-            claim: Claim { log_size: 15 },
-            claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
+            log_size: 15, claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
         };
         let mut sum: QM31 = Zero::zero();
 

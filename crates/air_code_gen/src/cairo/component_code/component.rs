@@ -6,13 +6,12 @@ use genco::quote;
 use itertools::Itertools;
 use stwo_cairo_common::prover_types::cpu::QM31;
 
-use super::claims::gen_claim_struct;
 use super::lookups::gen_lookup_constraints_fn;
 use super::parse::parse_constraints;
 use crate::cairo::utils::{
     gen_consts, gen_imports, get_log_size, get_logup_sums, get_numerators, make_preprocessed_column,
 };
-use crate::utils::SAMPLE_EVALUATION_RESULT_SUFFIX;
+use crate::utils::{SAMPLE_EVALUATION_RESULT_SUFFIX, is_const_size_component};
 
 pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
@@ -20,12 +19,17 @@ pub fn generate_component_cairo_constraints_code(
 ) -> rust::Tokens {
     let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
-        $(gen_consts(air_fn))$("\n")
-        $(gen_claim_struct(air_fn))$("\n")
+        $(gen_consts(air_fn))
 
-        pub impl AirComponentImpl of AirComponent<Component<Claim>> {
+        #[derive(Drop)]
+        pub struct Component {
+            $(if !is_const_size_component(air_fn) => pub log_size: u32,)
+            pub claimed_sum: QM31,
+        }
+
+        pub impl AirComponentImpl of AirComponent<Component> {
             fn evaluate_constraints_at_point(
-                self: @Component<Claim>,
+                self: @Component,
                 ref sum: QM31,
                 ref preprocessed_mask_values: PreprocessedMaskValues,
                 ref trace_mask_values: ColumnSpan<Span<QM31>>,
@@ -33,7 +37,7 @@ pub fn generate_component_cairo_constraints_code(
                 random_coeff: QM31,
                 common_lookup_elements: @CommonLookupElements,
             ) {
-                let log_size = $(get_log_size(air_fn, false));
+                let log_size = $(get_log_size(air_fn));
                 let claimed_sum = *self.claimed_sum;
                 let column_size = m31(pow2(log_size));
                 $(get_evaluate_locals(air_fn))$("\n")
@@ -64,14 +68,14 @@ pub fn generate_component_cairo_constraints_code(
 }
 
 fn gen_component_for_assignment(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::Tokens {
-    let claim_fields = match air_fn.log_height {
+    let log_size_field = match air_fn.log_height {
         Some(_fixed_size) => quote! {},
         None => quote! { log_size: $(assignment.log_height), $("\n") },
     };
 
     quote! {
         Component {
-            claim: Claim { $(claim_fields) },
+            $(log_size_field)
             claimed_sum: $(make_qm31(&assignment.claimed_sum)),
         }
     }
@@ -113,7 +117,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         // result when the opcode is available.
         #[cfg(and(test, feature: "qm31_opcode"))]
         mod tests {
-            use super::{Component, Claim};
+            use super::Component;
             use crate::components::sample_evaluations_test_data::*;
             use super::AirComponentImpl;
             use stwo_constraint_framework::AirComponent;

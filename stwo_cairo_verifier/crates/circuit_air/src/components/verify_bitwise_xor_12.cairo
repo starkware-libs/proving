@@ -22,16 +22,14 @@ pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 /// `1 << LIMB_BITS = 1024`. Used as the offset shift between expansion bands.
 const LIMB_OFFSET: u32 = 1024;
 
-#[derive(Drop, Serde, Copy)]
-pub struct Claim {}
-
-pub impl ClaimImpl of ClaimTrait<Claim> {
-    fn mix_into(self: @Claim, ref channel: Channel) {}
+#[derive(Drop)]
+pub struct Component {
+    pub claimed_sum: QM31,
 }
 
-pub impl AirComponentImpl of AirComponent<Component<Claim>> {
+pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
-        self: @Component<Claim>,
+        self: @Component,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
