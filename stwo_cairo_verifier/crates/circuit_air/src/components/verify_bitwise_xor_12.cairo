@@ -16,11 +16,15 @@ pub const LOG_SIZE: u32 = (ELEM_BITS - EXPAND_BITS) * 2; // = 20
 pub const N_MULT_COLUMNS: usize = 16; // = 1 << (EXPAND_BITS * 2)
 pub const N_TRACE_COLUMNS: usize = N_MULT_COLUMNS;
 pub const N_INTERACTION_COLUMNS: usize = 32;
-/// The table only yields into relations, so it uses none.
-pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 
 /// `1 << LIMB_BITS = 1024`. Used as the offset shift between expansion bands.
 const LIMB_OFFSET: u32 = 1024;
+
+#[derive(Drop)]
+pub struct Component {
+    pub claimed_sum: QM31,
+    pub common_lookup_elements: CommonLookupElements,
+}
 
 pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
@@ -30,16 +34,16 @@ pub impl AirComponentImpl of AirComponent<Component> {
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
-        common_lookup_elements: @CommonLookupElements,
+        public_params: Span<u32>,
     ) {
         let log_size = LOG_SIZE;
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
 
         // Preprocessed 10-bit XOR table columns.
-        let bitwise_xor_10_0 = preprocessed_mask_values.get(BITWISE_XOR_10_0_IDX);
-        let bitwise_xor_10_1 = preprocessed_mask_values.get(BITWISE_XOR_10_1_IDX);
-        let bitwise_xor_10_2 = preprocessed_mask_values.get(BITWISE_XOR_10_2_IDX);
+        let bitwise_xor_10_0 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_10_0_IDX);
+        let bitwise_xor_10_1 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_10_1_IDX);
+        let bitwise_xor_10_2 = preprocessed_mask_values.get_and_mark_used(BITWISE_XOR_10_2_IDX);
 
         // 16 multiplicity columns, one per (i, j) ∈ {0..4}².
         let [
@@ -91,38 +95,42 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let limb_off_3: QM31 = m31(LIMB_OFFSET * 3).into();
 
         // Precompute the 4 a-side values (one per `i`) and 4 b-side values (one per `j`).
-        let [a0, a1, a2, a3] = [
+        let a_offs = [
             bitwise_xor_10_0, bitwise_xor_10_0 + limb_off, bitwise_xor_10_0 + limb_off_2,
             bitwise_xor_10_0 + limb_off_3,
         ];
-        let [b0, b1, b2, b3] = [
+        let b_offs = [
             bitwise_xor_10_1, bitwise_xor_10_1 + limb_off, bitwise_xor_10_1 + limb_off_2,
             bitwise_xor_10_1 + limb_off_3,
         ];
         // c offsets — XOR of i and j folded in.
-        let [c0, c1, c2, c3] = [
+        let c_offs = [
             bitwise_xor_10_2, bitwise_xor_10_2 + limb_off, bitwise_xor_10_2 + limb_off_2,
             bitwise_xor_10_2 + limb_off_3,
         ];
 
-        // Build sum_n = combine(relation_id, a_i, b_j, c_{i^j} for each lookup n = 4*i + j.
-        let common = common_lookup_elements;
-        let sum_0 = common.combine([relation_id, a0, b0, c0].span());
-        let sum_1 = common.combine([relation_id, a0, b1, c1].span());
-        let sum_2 = common.combine([relation_id, a0, b2, c2].span());
-        let sum_3 = common.combine([relation_id, a0, b3, c3].span());
-        let sum_4 = common.combine([relation_id, a1, b0, c1].span());
-        let sum_5 = common.combine([relation_id, a1, b1, c0].span());
-        let sum_6 = common.combine([relation_id, a1, b2, c3].span());
-        let sum_7 = common.combine([relation_id, a1, b3, c2].span());
-        let sum_8 = common.combine([relation_id, a2, b0, c2].span());
-        let sum_9 = common.combine([relation_id, a2, b1, c3].span());
-        let sum_10 = common.combine([relation_id, a2, b2, c0].span());
-        let sum_11 = common.combine([relation_id, a2, b3, c1].span());
-        let sum_12 = common.combine([relation_id, a3, b0, c3].span());
-        let sum_13 = common.combine([relation_id, a3, b1, c2].span());
-        let sum_14 = common.combine([relation_id, a3, b2, c1].span());
-        let sum_15 = common.combine([relation_id, a3, b3, c0].span());
+        // Build sum_n = combine(relation_id, a_offs[i], b_offs[j], c_offs[i^j]) for each
+        // lookup n = 4*i + j.
+        let common = self.common_lookup_elements;
+        let [a0, a1, a2, a3] = a_offs;
+        let [b0, b1, b2, b3] = b_offs;
+        let [c0, c1, c2, c3] = c_offs;
+        let sum_0 = common.combine_qm31([relation_id, a0, b0, c0].span());
+        let sum_1 = common.combine_qm31([relation_id, a0, b1, c1].span());
+        let sum_2 = common.combine_qm31([relation_id, a0, b2, c2].span());
+        let sum_3 = common.combine_qm31([relation_id, a0, b3, c3].span());
+        let sum_4 = common.combine_qm31([relation_id, a1, b0, c1].span());
+        let sum_5 = common.combine_qm31([relation_id, a1, b1, c0].span());
+        let sum_6 = common.combine_qm31([relation_id, a1, b2, c3].span());
+        let sum_7 = common.combine_qm31([relation_id, a1, b3, c2].span());
+        let sum_8 = common.combine_qm31([relation_id, a2, b0, c2].span());
+        let sum_9 = common.combine_qm31([relation_id, a2, b1, c3].span());
+        let sum_10 = common.combine_qm31([relation_id, a2, b2, c0].span());
+        let sum_11 = common.combine_qm31([relation_id, a2, b3, c1].span());
+        let sum_12 = common.combine_qm31([relation_id, a3, b0, c3].span());
+        let sum_13 = common.combine_qm31([relation_id, a3, b1, c2].span());
+        let sum_14 = common.combine_qm31([relation_id, a3, b2, c1].span());
+        let sum_15 = common.combine_qm31([relation_id, a3, b3, c0].span());
 
         lookup_constraints(
             ref sum,

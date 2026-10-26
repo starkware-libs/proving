@@ -9,7 +9,7 @@ use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::m31::M31;
 use stwo::core::pcs::{TreeSubspan, TreeVec};
 use stwo::core::utils::SliceExt;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleChannel};
 use stwo::prover::backend::simd::conversion::{Pack, Unpack};
 use stwo::prover::backend::simd::m31::{LOG_N_LANES, N_LANES, PackedBaseField, PackedM31};
 use stwo::prover::backend::{Backend, BackendForChannel};
@@ -126,14 +126,13 @@ pub fn witness_trace_cells(claim: &CairoClaim, pp_trace: &PreProcessedTrace) -> 
 /// needed.
 pub fn export_preprocessed_roots() {
     let max_log_blowup_factor = 2;
-    let canonical_trace = PreProcessedTraceVariant::Canonical;
 
     // Blake2s roots
     for log_blowup_factor in 1..=max_log_blowup_factor {
         let root = generate_preprocessed_commitment_root::<Blake2sMerkleChannel>(
             log_blowup_factor,
-            canonical_trace,
-            canonical_trace.max_log_trace_size(),
+            PreProcessedTraceVariant::Canonical,
+            0,
         );
         let root_bytes = root.0;
         let u32s_hex = root_bytes
@@ -150,13 +149,12 @@ pub fn export_preprocessed_roots() {
     #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
     {
         use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
-        let no_pedersen_trace = PreProcessedTraceVariant::CanonicalWithoutPedersen;
         // Poseidon252 roots.
         for log_blowup_factor in 1..=max_log_blowup_factor {
             let root = generate_preprocessed_commitment_root::<Poseidon252MerkleChannel>(
                 log_blowup_factor,
-                no_pedersen_trace,
-                no_pedersen_trace.max_log_trace_size(),
+                PreProcessedTraceVariant::CanonicalWithoutPedersen,
+                0,
             );
             println!("log_blowup_factor: {log_blowup_factor}, poseidon root: [{root:#010x}]");
         }
@@ -168,13 +166,12 @@ pub fn export_preprocessed_roots() {
 /// needed.
 pub fn export_circuit_cairo_verifier_preprocessed_roots() {
     let max_log_blowup_factor = 3;
-    let small_trace = PreProcessedTraceVariant::CanonicalSmall;
 
     for log_blowup_factor in 1..=max_log_blowup_factor {
-        let root = generate_preprocessed_commitment_root::<Blake2sMerkleChannel>(
+        let root = generate_preprocessed_commitment_root::<Blake2sM31MerkleChannel>(
             log_blowup_factor,
-            small_trace,
-            small_trace.max_log_trace_size(),
+            PreProcessedTraceVariant::CanonicalSmall,
+            20 + log_blowup_factor,
         );
 
         let root_bytes = root.0;

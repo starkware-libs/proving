@@ -7,7 +7,7 @@ use cairo_air::claims::{CairoClaim, CairoInteractionClaim};
 use cairo_air::relations::CommonLookupElements;
 use indexmap::IndexSet;
 use rayon::scope;
-use stwo::prover::backend::simd::SimdBackend;
+pub use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::poly::BitReversedOrder;
 use stwo_cairo_adapter::builtins::BuiltinSegments;
 use stwo_cairo_adapter::memory::Memory;

@@ -82,7 +82,7 @@ mod tests {
     fn host_matches_in_circuit() {
         let component_log_sizes = PerComponent {
             eq: 0,
-            qm_31_ops: 1,
+            qm31_ops: 1,
             triple_xor: 2,
             m_31_to_u_32: 3,
             blake_g_gate: 4,
@@ -128,7 +128,7 @@ mod tests {
 
         let component_log_sizes = PerComponent {
             eq: 20,
-            qm_31_ops: 23,
+            qm31_ops: 23,
             triple_xor: 19,
             m_31_to_u_32: 20,
             blake_g_gate: 23,

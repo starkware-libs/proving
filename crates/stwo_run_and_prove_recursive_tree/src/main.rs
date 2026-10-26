@@ -4,9 +4,6 @@
 //! the three root output paths; the rest of the proving configuration is fixed by the canonical
 //! circuit shape (see `canonical`).
 
-#[global_allocator]
-static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
 use std::num::NonZeroUsize;
 use std::path::PathBuf;
 use std::process::ExitCode;

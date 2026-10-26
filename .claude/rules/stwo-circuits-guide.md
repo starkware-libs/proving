@@ -9,6 +9,7 @@ paths:
   - "crates/stark_verifier_examples/**"
   - "crates/circuit_serialize/**"
   - "crates/circuit_cairo_serialize/**"
+  - "crates/circuit_multiverifier/**"
   - "crates/unpacker/**"
 ---
 
@@ -39,9 +40,8 @@ crates/
     src/prover.rs            prove_circuit() — main proving entry point
     src/circuit_air/components/   [AIR-GENERATED] 15 circuit components + subroutines/
     src/witness/             Trace and interaction-trace generation
-  circuit_verifier/          [SOUNDNESS-CRITICAL] Circuit constraint definitions and multi-proof verification
+  circuit_verifier/          [SOUNDNESS-CRITICAL] Circuit constraint definitions
     src/components/          [AIR-GENERATED] constraint evaluators (Eq, QM31Ops, Blake*, XOR*, RangeCheck*)
-    src/multiverifier.rs     Multi-proof verification circuit builder
   cairo_verifier/            [SOUNDNESS-CRITICAL] Cairo constraint definitions  (pkg: circuit-cairo-verifier)
     src/components/          [AIR-GENERATED] 50+ opcode/builtin evaluators + subroutines/
     src/all_components.rs    [AIR-GENERATED] Component registry
@@ -55,6 +55,7 @@ crates/
   stark_verifier_examples/   Example verifiers and test utilities
   circuit_serialize/         Proof serialization/deserialization
   circuit_cairo_serialize/   Cairo-side serialization
+  circuit_multiverifier/     Multi-proof verification
   unpacker/                  Proof unpacking utilities
 ```
 

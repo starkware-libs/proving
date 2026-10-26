@@ -8,21 +8,21 @@ use rayon::prelude::*;
 use tracing::{Level, span};
 
 use super::SimdBackend;
-use crate::core::channel::{Blake2sChannel, Channel, Keccak256Channel};
+use crate::core::channel::{Blake2sChannelGeneric, Channel, Keccak256Channel};
 use crate::core::fields::m31::P;
 use crate::core::proof_of_work::GrindOps;
-use crate::core::vcs::blake2_hash::Blake2sHasher;
+use crate::core::vcs::blake2_hash::Blake2sHasherGeneric;
 use crate::prover::backend::simd::blake2s::hash_16;
-use crate::prover::backend::simd::m31::N_LANES;
+use crate::prover::backend::simd::m31::{N_LANES, PackedM31};
 
 // Note: GRIND_LOW_BITS is a cap on how much extra time we need to wait for all threads to finish.
 // It must be <= 30 if we want to guarantee that the lowest 32 bits of the nonce are < 2^31 - 1.
 const GRIND_LOW_BITS: u32 = 20;
 
-impl GrindOps<Blake2sChannel> for SimdBackend {
+impl<const IS_M31_OUTPUT: bool> GrindOps<Blake2sChannelGeneric<IS_M31_OUTPUT>> for SimdBackend {
     /// Outputs the smallest nonce of the form `(a << 32) | b`, where `0 <= a < 2^31 - 1` and
     /// `0 <= b < 2^GRIND_LOW_BITS`.
-    fn grind(channel: &Blake2sChannel, pow_bits: u32) -> u64 {
+    fn grind(channel: &Blake2sChannelGeneric<IS_M31_OUTPUT>, pow_bits: u32) -> u64 {
         let _span = span!(Level::TRACE, "Simd Blake2s Grind", class = "Blake2s Grind");
 
         // TODO(first): support more than 32 bits.
@@ -30,8 +30,8 @@ impl GrindOps<Blake2sChannel> for SimdBackend {
         let digest = channel.digest();
 
         // Compute the prefix digest H(POW_PREFIX, [0_u8; 12], digest, n_bits).
-        let mut hasher = Blake2sHasher::default();
-        hasher.update(&Blake2sChannel::POW_PREFIX.to_le_bytes());
+        let mut hasher = Blake2sHasherGeneric::<IS_M31_OUTPUT>::default();
+        hasher.update(&Blake2sChannelGeneric::<IS_M31_OUTPUT>::POW_PREFIX.to_le_bytes());
         hasher.update(&[0_u8; 12]);
         hasher.update(&digest.0[..]);
         hasher.update(&pow_bits.to_le_bytes());
@@ -40,11 +40,11 @@ impl GrindOps<Blake2sChannel> for SimdBackend {
 
         #[cfg(not(feature = "parallel"))]
         let res = (0..)
-            .find_map(|hi| grind_blake(prefixed_digest, hi, pow_bits))
+            .find_map(|hi| grind_blake::<IS_M31_OUTPUT>(prefixed_digest, hi, pow_bits))
             .expect("Grind failed to find a solution.");
 
         #[cfg(feature = "parallel")]
-        let res = parallel_grind(prefixed_digest, pow_bits, grind_blake);
+        let res = parallel_grind(prefixed_digest, pow_bits, grind_blake::<IS_M31_OUTPUT>);
 
         assert!(
             ((res >> 32) as u32) < P,
@@ -58,7 +58,7 @@ impl GrindOps<Blake2sChannel> for SimdBackend {
     }
 }
 
-fn grind_blake(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
+fn grind_blake<const IS_M31_OUTPUT: bool>(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
     const DIGEST_SIZE: usize = std::mem::size_of::<[u32; 8]>();
     const NONCE_SIZE: usize = std::mem::size_of::<u64>();
     let zero: u32x16 = u32x16::splat(0);
@@ -77,7 +77,8 @@ fn grind_blake(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
             _ => zero,
         });
         let res = hash_16(msgs, (DIGEST_SIZE + NONCE_SIZE) as u64);
-        let success_mask = res[0].trailing_zeros().simd_ge(pow_bits);
+        let res0 = if IS_M31_OUTPUT { PackedM31::reduce_simd(res[0]).into_simd() } else { res[0] };
+        let success_mask = res0.trailing_zeros().simd_ge(pow_bits);
         if success_mask.any() {
             let i = success_mask.to_array().iter().position(|&x| x).unwrap();
             return Some(((hi as u64) << 32) + low as u64 + i as u64);
@@ -136,7 +137,7 @@ where
 
 // TODO: replace with an optimized SIMD implementation using parallel keccak permutations
 // (e.g. `keccak::parallel` `f1600x4`/`x8`), similar to the parallel + SIMD path used for
-// `Blake2sChannel` above.
+// `Blake2sChannelGeneric` above.
 impl GrindOps<Keccak256Channel> for SimdBackend {
     fn grind(channel: &Keccak256Channel, pow_bits: u32) -> u64 {
         let mut nonce = 0u64;

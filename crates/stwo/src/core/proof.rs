@@ -71,11 +71,12 @@ impl<H: MerkleHasherLifted> StarkProof<H> {
             sampled_values,
             decommitments,
             queried_values,
+            proof_of_work,
             fri_proof,
             config: _,
         } = commitment_scheme_proof;
 
-        let FriProof { first_layer, inner_layers, last_layer_poly, proof_of_work } = fri_proof;
+        let FriProof { first_layer, inner_layers, last_layer_poly } = fri_proof;
 
         let mut inner_layers_samples_size = 0;
         let mut inner_layers_hashes_size = 0;
@@ -170,11 +171,8 @@ impl<H: MerkleHasherLifted> SizeEstimate for FriLayerProof<H> {
 
 impl<H: MerkleHasherLifted> SizeEstimate for FriProof<H> {
     fn size_estimate(&self) -> usize {
-        let Self { first_layer, inner_layers, last_layer_poly, proof_of_work } = self;
-        first_layer.size_estimate()
-            + inner_layers.size_estimate()
-            + last_layer_poly.size_estimate()
-            + mem::size_of_val(proof_of_work)
+        let Self { first_layer, inner_layers, last_layer_poly } = self;
+        first_layer.size_estimate() + inner_layers.size_estimate() + last_layer_poly.size_estimate()
     }
 }
 
@@ -186,6 +184,7 @@ impl<H: MerkleHasherLifted> SizeEstimate for CommitmentSchemeProof<H> {
             sampled_values,
             decommitments,
             queried_values,
+            proof_of_work,
             fri_proof,
             config,
         } = self;
@@ -194,6 +193,7 @@ impl<H: MerkleHasherLifted> SizeEstimate for CommitmentSchemeProof<H> {
             + sampled_values.size_estimate()
             + decommitments.size_estimate()
             + queried_values.size_estimate()
+            + mem::size_of_val(proof_of_work)
             + fri_proof.size_estimate()
             + mem::size_of_val(config)
     }

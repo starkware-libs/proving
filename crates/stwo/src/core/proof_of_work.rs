@@ -4,7 +4,7 @@ use crate::core::channel::Channel;
 ///
 /// This grind raises the cost for a malicious prover to re-roll the OODS (DEEP) challenge in
 /// search of a favorable point. It is independent of the FRI query-phase proof of work
-/// (`FriParams::pow_bits`).
+/// (`FriConfig::pow_bits`).
 pub const OODS_POW_BITS: u32 = 16;
 
 pub trait GrindOps<C: Channel> {

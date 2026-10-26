@@ -1,127 +1,108 @@
 use core::box::BoxImpl;
 use core::num::traits::Zero;
-use stwo_constraint_framework::{CommonLookupElements, Component, PreprocessedMaskValuesImpl};
-use stwo_verifier_core::fields::qm31::QM31;
+use stwo_constraint_framework::{
+    AirComponent, CommonLookupElements, PreprocessedMaskValuesImpl, validate_mask_usage,
+};
+use stwo_verifier_core::circle::CirclePoint;
+use stwo_verifier_core::fields::qm31::{QM31, QM31_EXTENSION_DEGREE};
 use stwo_verifier_core::verifier::Air;
-use stwo_verifier_core::{ColumnSpan, N_TREES, TreeSpan};
+use stwo_verifier_core::{ColumnSpan, TreeSpan};
 use crate::claims::CircuitInteractionClaim;
-use crate::components::blake_g_gate::AirComponentImpl as BlakeGGateAirComponentImpl;
-use crate::components::eq::AirComponentImpl as EqAirComponentImpl;
-use crate::components::m_31_to_u_32::AirComponentImpl as M31ToU32AirComponentImpl;
-use crate::components::qm_31_ops::AirComponentImpl as Qm31OpsAirComponentImpl;
-use crate::components::range_check_16::AirComponentImpl as RangeCheck16AirComponentImpl;
-use crate::components::triple_xor::AirComponentImpl as TripleXorAirComponentImpl;
-use crate::components::verify_bitwise_xor_12::AirComponentImpl as VerifyBitwiseXor12AirComponentImpl;
-use crate::components::verify_bitwise_xor_4::AirComponentImpl as VerifyBitwiseXor4AirComponentImpl;
-use crate::components::verify_bitwise_xor_7::AirComponentImpl as VerifyBitwiseXor7AirComponentImpl;
-use crate::components::verify_bitwise_xor_8::AirComponentImpl as VerifyBitwiseXor8AirComponentImpl;
-use crate::components::verify_bitwise_xor_9::AirComponentImpl as VerifyBitwiseXor9AirComponentImpl;
-use crate::multiverifier_consts::COMPONENT_LOG_SIZES;
+use crate::components;
 use crate::per_component::*;
-use crate::preprocessed_columns::NUM_PREPROCESSED_COLUMNS;
 
 /// Circuit components, in `crate::per_component` (committed) order.
 #[derive(Drop)]
 pub struct CircuitAir {
-    pub eq: Component,
-    pub qm_31_ops: Component,
-    pub triple_xor: Component,
-    pub m_31_to_u_32: Component,
-    pub blake_g_gate: Component,
-    pub verify_bitwise_xor_8: Component,
-    pub verify_bitwise_xor_12: Component,
-    pub verify_bitwise_xor_4: Component,
-    pub verify_bitwise_xor_7: Component,
-    pub verify_bitwise_xor_9: Component,
-    pub range_check_16: Component,
-    /// Shared by every component's constraints, so held once here rather than per component.
-    pub common_lookup_elements: CommonLookupElements,
+    pub eq: components::eq::Component,
+    pub qm31_ops: components::qm31_ops::Component,
+    pub triple_xor: components::triple_xor::Component,
+    pub m_31_to_u_32: components::m_31_to_u_32::Component,
+    pub blake_g_gate: components::blake_g_gate::Component,
+    pub verify_bitwise_xor_8: components::verify_bitwise_xor_8::Component,
+    pub verify_bitwise_xor_12: components::verify_bitwise_xor_12::Component,
+    pub verify_bitwise_xor_4: components::verify_bitwise_xor_4::Component,
+    pub verify_bitwise_xor_7: components::verify_bitwise_xor_7::Component,
+    pub verify_bitwise_xor_9: components::verify_bitwise_xor_9::Component,
+    pub range_check_16: components::range_check_16::Component,
 }
 
 #[generate_trait]
 pub impl CircuitAirNewImpl of CircuitAirNewTrait {
-    /// Builds the circuit components. Component log sizes are not part of the claim; they are
-    /// the hardcoded `COMPONENT_LOG_SIZES`, one entry per component. The circuit is fixed-size,
-    /// so every component is present.
+    /// Builds the circuit components. Component log sizes are derived verifier-side (they are
+    /// not part of the claim); `component_log_sizes` holds one entry per component. The circuit
+    /// is fixed-size, so every component is present.
     fn new(
-        common_lookup_elements: CommonLookupElements, interaction_claim: @CircuitInteractionClaim,
+        component_log_sizes: PerComponent<u32>,
+        common_lookup_elements: @CommonLookupElements,
+        interaction_claim: @CircuitInteractionClaim,
     ) -> CircuitAir {
         // Each component's interaction claim is its single `claimed_sum`, and its log size is the
-        // matching field of `COMPONENT_LOG_SIZES`.
-        let CircuitInteractionClaim { claimed_sums } = interaction_claim;
-        let PerComponent {
-            eq: eq_claimed_sum,
-            qm_31_ops: qm_31_ops_claimed_sum,
-            triple_xor: triple_xor_claimed_sum,
-            m_31_to_u_32: m_31_to_u_32_claimed_sum,
-            blake_g_gate: blake_g_gate_claimed_sum,
-            verify_bitwise_xor_8: verify_bitwise_xor_8_claimed_sum,
-            verify_bitwise_xor_12: verify_bitwise_xor_12_claimed_sum,
-            verify_bitwise_xor_4: verify_bitwise_xor_4_claimed_sum,
-            verify_bitwise_xor_7: verify_bitwise_xor_7_claimed_sum,
-            verify_bitwise_xor_9: verify_bitwise_xor_9_claimed_sum,
-            range_check_16: range_check_16_claimed_sum,
-        } = *claimed_sums;
-        let PerComponent {
-            eq: eq_log_size,
-            qm_31_ops: qm_31_ops_log_size,
-            triple_xor: triple_xor_log_size,
-            m_31_to_u_32: m_31_to_u_32_log_size,
-            blake_g_gate: blake_g_gate_log_size,
-            verify_bitwise_xor_8: verify_bitwise_xor_8_log_size,
-            verify_bitwise_xor_12: verify_bitwise_xor_12_log_size,
-            verify_bitwise_xor_4: verify_bitwise_xor_4_log_size,
-            verify_bitwise_xor_7: verify_bitwise_xor_7_log_size,
-            verify_bitwise_xor_9: verify_bitwise_xor_9_log_size,
-            range_check_16: range_check_16_log_size,
-        } = COMPONENT_LOG_SIZES;
+        // matching field of `component_log_sizes`.
+        let claimed_sums = interaction_claim.claimed_sum;
 
         CircuitAir {
-            eq: Component { log_size: eq_log_size, claimed_sum: eq_claimed_sum },
-            qm_31_ops: Component {
-                log_size: qm_31_ops_log_size, claimed_sum: qm_31_ops_claimed_sum,
+            eq: components::eq::Component {
+                log_size: component_log_sizes.eq,
+                claimed_sum: *claimed_sums.eq,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            triple_xor: Component {
-                log_size: triple_xor_log_size, claimed_sum: triple_xor_claimed_sum,
+            qm31_ops: components::qm31_ops::Component {
+                log_size: component_log_sizes.qm31_ops,
+                claimed_sum: *claimed_sums.qm31_ops,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            m_31_to_u_32: Component {
-                log_size: m_31_to_u_32_log_size, claimed_sum: m_31_to_u_32_claimed_sum,
+            triple_xor: components::triple_xor::Component {
+                log_size: component_log_sizes.triple_xor,
+                claimed_sum: *claimed_sums.triple_xor,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            blake_g_gate: Component {
-                log_size: blake_g_gate_log_size, claimed_sum: blake_g_gate_claimed_sum,
+            m_31_to_u_32: components::m_31_to_u_32::Component {
+                log_size: component_log_sizes.m_31_to_u_32,
+                claimed_sum: *claimed_sums.m_31_to_u_32,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            verify_bitwise_xor_8: Component {
-                log_size: verify_bitwise_xor_8_log_size,
-                claimed_sum: verify_bitwise_xor_8_claimed_sum,
+            blake_g_gate: components::blake_g_gate::Component {
+                log_size: component_log_sizes.blake_g_gate,
+                claimed_sum: *claimed_sums.blake_g_gate,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            verify_bitwise_xor_12: Component {
-                log_size: verify_bitwise_xor_12_log_size,
-                claimed_sum: verify_bitwise_xor_12_claimed_sum,
+            verify_bitwise_xor_8: components::verify_bitwise_xor_8::Component {
+                claimed_sum: *claimed_sums.verify_bitwise_xor_8,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            verify_bitwise_xor_4: Component {
-                log_size: verify_bitwise_xor_4_log_size,
-                claimed_sum: verify_bitwise_xor_4_claimed_sum,
+            verify_bitwise_xor_12: components::verify_bitwise_xor_12::Component {
+                claimed_sum: *claimed_sums.verify_bitwise_xor_12,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            verify_bitwise_xor_7: Component {
-                log_size: verify_bitwise_xor_7_log_size,
-                claimed_sum: verify_bitwise_xor_7_claimed_sum,
+            verify_bitwise_xor_4: components::verify_bitwise_xor_4::Component {
+                claimed_sum: *claimed_sums.verify_bitwise_xor_4,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            verify_bitwise_xor_9: Component {
-                log_size: verify_bitwise_xor_9_log_size,
-                claimed_sum: verify_bitwise_xor_9_claimed_sum,
+            verify_bitwise_xor_7: components::verify_bitwise_xor_7::Component {
+                claimed_sum: *claimed_sums.verify_bitwise_xor_7,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            range_check_16: Component {
-                log_size: range_check_16_log_size, claimed_sum: range_check_16_claimed_sum,
+            verify_bitwise_xor_9: components::verify_bitwise_xor_9::Component {
+                claimed_sum: *claimed_sums.verify_bitwise_xor_9,
+                common_lookup_elements: common_lookup_elements.clone(),
             },
-            common_lookup_elements,
+            range_check_16: components::range_check_16::Component {
+                claimed_sum: *claimed_sums.range_check_16,
+                common_lookup_elements: common_lookup_elements.clone(),
+            },
         }
     }
 }
 
 pub impl CircuitAirImpl of Air<CircuitAir> {
     fn eval_composition_polynomial_at_point(
-        self: @CircuitAir, mask_values: TreeSpan<ColumnSpan<Span<QM31>>>, random_coeff: QM31,
+        self: @CircuitAir,
+        point: CirclePoint<QM31>,
+        mask_values: TreeSpan<ColumnSpan<Span<QM31>>>,
+        random_coeff: QM31,
     ) -> QM31 {
+        let _ = point;
         let mut sum = Zero::zero();
 
         let [
@@ -129,14 +110,14 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
             mut trace_mask_values,
             mut interaction_trace_mask_values,
             _composition_trace_mask_values,
-        ]: [ColumnSpan<Span<QM31>>; N_TREES + 1] =
+        ]: [ColumnSpan<Span<QM31>>; QM31_EXTENSION_DEGREE] =
             (*mask_values
             .try_into()
             .unwrap())
             .unbox();
 
         let mut preprocessed_mask_values = PreprocessedMaskValuesImpl::new(
-            preprocessed_mask_values, NUM_PREPROCESSED_COLUMNS,
+            preprocessed_mask_values,
         );
 
         // Evaluate components in committed order — this must match the order in which the prover
@@ -144,7 +125,7 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
         // front of the mask spans.
         let CircuitAir {
             eq,
-            qm_31_ops,
+            qm31_ops,
             triple_xor,
             m_31_to_u_32,
             blake_g_gate,
@@ -154,112 +135,111 @@ pub impl CircuitAirImpl of Air<CircuitAir> {
             verify_bitwise_xor_7,
             verify_bitwise_xor_9,
             range_check_16,
-            common_lookup_elements,
         } = self;
 
-        EqAirComponentImpl::evaluate_constraints_at_point(
-            eq,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        Qm31OpsAirComponentImpl::evaluate_constraints_at_point(
-            qm_31_ops,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        TripleXorAirComponentImpl::evaluate_constraints_at_point(
-            triple_xor,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        M31ToU32AirComponentImpl::evaluate_constraints_at_point(
-            m_31_to_u_32,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        BlakeGGateAirComponentImpl::evaluate_constraints_at_point(
-            blake_g_gate,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        VerifyBitwiseXor8AirComponentImpl::evaluate_constraints_at_point(
-            verify_bitwise_xor_8,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        VerifyBitwiseXor12AirComponentImpl::evaluate_constraints_at_point(
-            verify_bitwise_xor_12,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        VerifyBitwiseXor4AirComponentImpl::evaluate_constraints_at_point(
-            verify_bitwise_xor_4,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        VerifyBitwiseXor7AirComponentImpl::evaluate_constraints_at_point(
-            verify_bitwise_xor_7,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        VerifyBitwiseXor9AirComponentImpl::evaluate_constraints_at_point(
-            verify_bitwise_xor_9,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
-        RangeCheck16AirComponentImpl::evaluate_constraints_at_point(
-            range_check_16,
-            ref sum,
-            ref preprocessed_mask_values,
-            ref trace_mask_values,
-            ref interaction_trace_mask_values,
-            random_coeff,
-            common_lookup_elements,
-        );
+        eq
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        qm31_ops
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        triple_xor
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        m_31_to_u_32
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        blake_g_gate
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        verify_bitwise_xor_8
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        verify_bitwise_xor_12
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        verify_bitwise_xor_4
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        verify_bitwise_xor_7
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        verify_bitwise_xor_9
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
+        range_check_16
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_mask_values,
+                ref trace_mask_values,
+                ref interaction_trace_mask_values,
+                random_coeff,
+                [].span(),
+            );
 
-        // Sanity check that the components consumed every trace and interaction-trace column.
-        assert!(trace_mask_values.is_empty());
-        assert!(interaction_trace_mask_values.is_empty());
+        validate_mask_usage(
+            preprocessed_mask_values, trace_mask_values, interaction_trace_mask_values,
+        );
         sum
     }
 }

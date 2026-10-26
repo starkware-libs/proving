@@ -6,12 +6,11 @@ use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{
-    BaseColumnPool, SimdBackend, prepare_circuit_proof_for_circuit_verifier,
+    BaseColumnPool, CircuitProof, SimdBackend, prepare_circuit_proof_for_circuit_verifier,
     prove_circuit_assignment,
 };
 use circuit_prover::test_utils::default_circuit_pcs_config;
 use circuit_serialize::serialize::CircuitSerialize;
-use circuit_verifier::circuit_proof::CircuitProof;
 use circuit_verifier::statement::CircuitStatement;
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
 use circuits::blake::HashValue;
@@ -23,15 +22,13 @@ use circuits_stark_verifier::proof_info::ProofInfo;
 use circuits_stark_verifier::statement::Statement;
 use itertools::Itertools;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriParams;
+use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 
-use crate::test_utils::{
-    privacy_cairo_verifier_config, privacy_components, verify_cairo_with_component_set,
-};
+use crate::privacy::{privacy_cairo_verifier_config, privacy_components};
 use crate::utils::{get_proof_file_path, get_test_data_dir};
-use crate::verify::build_cairo_verifier_circuit;
+use crate::verify::{build_cairo_verifier_circuit, verify_cairo_with_component_set};
 
 /// Verifies with a circuit a proof of execution of another circuit.
 fn verify_circuit_proof(
@@ -209,7 +206,7 @@ fn test_privacy_proof_info() {
     let log_blowup_factor = 2;
     let lifting_log_size = preprocessed_circuit.trace_log_size() + log_blowup_factor;
     let pcs_config = PcsConfig::from_fri_and_lifting_size(
-        FriParams {
+        FriConfig {
             pow_bits: 26,
             log_blowup_factor,
             log_last_layer_degree_bound: 0,

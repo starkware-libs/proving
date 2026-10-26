@@ -22,6 +22,7 @@ members = [
     "crates/circuit_verifier",
     "crates/circuit_cairo_serialize",
     "crates/circuit_common",
+    "crates/circuit_multiverifier",
     "crates/applicative_unpacking_verifier",
     "crates/circuit_serialize",
     "crates/circuit_prover",
@@ -36,7 +37,6 @@ members = [
     "crates/leaf_proof_format",
     "crates/leaf_prover",
     "crates/privacy_circuit_verify",
-    "crates/privacy_common",
     "crates/privacy_prove",
     "crates/stwo_run_and_prove",
     "crates/stwo_run_and_prove_common",
@@ -172,9 +172,9 @@ circuit-verifier = { path = "crates/circuit_verifier" }
 circuit-cairo-serialize = { path = "crates/circuit_cairo_serialize" }
 circuit-cairo-verifier = { path = "crates/cairo_verifier" }
 circuit-common = { path = "crates/circuit_common" }
+circuit-multiverifier = { path = "crates/circuit_multiverifier" }
 applicative-unpacking-verifier = { path = "crates/applicative_unpacking_verifier" }
 circuit-prover = { path = "crates/circuit_prover" }
-circuit-params = { path = "crates/circuit_params" }
 circuit-serialize = { path = "crates/circuit_serialize" }
 circuits-stark-verifier = { path = "crates/stark_verifier" }
 circuits-stark-verifier-examples = { path = "crates/stark_verifier_examples" }
@@ -183,7 +183,6 @@ circuits-unpacker = { path = "crates/unpacker" }
 cairo-program-runner-lib = { path = "crates/cairo-program-runner-lib" }
 circuit-registry = { path = "crates/circuit_registry" }
 privacy-circuit-verify = { path = "crates/privacy_circuit_verify" }
-privacy_common = { path = "crates/privacy_common" }
 privacy-prove = { path = "crates/privacy_prove" }
 stwo-run-and-prove-common = { path = "crates/stwo_run_and_prove_common" }
 leaf-proof-format = { path = "crates/leaf_proof_format" }

@@ -1,7 +1,7 @@
 use std::iter::repeat_n;
 
-use circuits::context::{OUTPUT_START, U_VALUE, U_VAR_IDX};
-use circuits::ivalue::{IValue, NoValue};
+use circuits::context::{U_VALUE, U_VAR_IDX};
+use circuits::ivalue::NoValue;
 use itertools::Itertools;
 use num_traits::Zero;
 use stwo::core::channel::Channel;
@@ -17,7 +17,6 @@ use crate::statement::all_circuit_components;
 pub type ComponentLogSize = u32;
 pub type ClaimedSum = QM31;
 
-// TODO(noa): Consider replacing QM31 with u32 (see `CairoCircuitClaim`).
 #[derive(Debug, PartialEq)]
 pub struct CircuitClaim {
     pub output_values: Vec<QM31>,
@@ -26,8 +25,8 @@ impl CircuitClaim {
     pub fn mix_into(&self, channel: &mut impl Channel) {
         let Self { output_values } = self;
 
-        let output_words = output_values.iter().map(|value| value.unpack_u32()).collect_vec();
-        channel.mix_u32s(&output_words);
+        // mix the output values into the channel.
+        channel.mix_felts(output_values);
     }
 }
 
@@ -38,7 +37,7 @@ pub fn column_log_sizes_per_tree(log_sizes: &PerComponent<u32>) -> [Vec<u32>; 2]
     let components = all_circuit_components::<NoValue>();
     let mut trace = Vec::new();
     let mut interaction = Vec::new();
-    for (component, log_size) in components.zip(*log_sizes).into_array() {
+    for (component, log_size) in components.values().zip_eq(log_sizes.into_array()) {
         trace.extend(repeat_n(log_size, component.trace_columns()));
         interaction.extend(repeat_n(log_size, component.interaction_columns()));
     }
@@ -67,7 +66,7 @@ impl CircuitInteractionClaim {
     }
 }
 
-pub fn logup_sum(
+pub fn lookup_sum(
     claim: &CircuitClaim,
     interaction_claim: &CircuitInteractionClaim,
     interaction_elements: &CircuitInteractionElements,
@@ -81,7 +80,7 @@ pub fn logup_sum(
     for (i, value) in claim.output_values.iter().enumerate() {
         let values = [
             gate_relation_id,
-            M31::from((OUTPUT_START + i) as u32),
+            M31::from((U_VAR_IDX + 1 + i) as u32),
             value.0.0,
             value.0.1,
             value.1.0,

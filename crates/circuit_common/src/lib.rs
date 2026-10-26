@@ -1,5 +1,6 @@
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 
+pub mod component_utils;
 pub mod finalize;
 pub mod preprocessed;
 

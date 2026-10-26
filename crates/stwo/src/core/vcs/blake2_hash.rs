@@ -66,13 +66,17 @@ impl fmt::Debug for Blake2sHash {
 
 impl super::hash::Hash for Blake2sHash {}
 
+pub type Blake2sHasher = Blake2sHasherGeneric<false>;
+/// Same as [Blake2sHasher], expect that the hash output is taken modulo M31::P.
+pub type Blake2sM31Hasher = Blake2sHasherGeneric<true>;
+
 // Wrapper for the blake2s Hashing functionalities.
 #[derive(Clone, Debug, Default)]
-pub struct Blake2sHasher {
+pub struct Blake2sHasherGeneric<const IS_M31_OUTPUT: bool> {
     state: Blake2s256,
 }
 
-impl Blake2sHasher {
+impl<const IS_M31_OUTPUT: bool> Blake2sHasherGeneric<IS_M31_OUTPUT> {
     pub fn new() -> Self {
         Self { state: Blake2s256::new() }
     }
@@ -82,7 +86,11 @@ impl Blake2sHasher {
     }
 
     pub fn finalize(self) -> Blake2sHash {
-        Blake2sHash(self.state.finalize().into())
+        let mut r: [u8; 32] = self.state.finalize().into();
+        if IS_M31_OUTPUT {
+            r = reduce_to_m31(r);
+        }
+        Blake2sHash(r)
     }
 
     pub fn concat_and_hash(v1: &Blake2sHash, v2: &Blake2sHash) -> Blake2sHash {

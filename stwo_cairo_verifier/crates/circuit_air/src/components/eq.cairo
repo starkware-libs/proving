@@ -12,11 +12,17 @@
 // interaction columns.
 
 use crate::prelude::*;
-use crate::relations::GATE_RELATION_ID;
 
 pub const N_TRACE_COLUMNS: usize = 4;
 pub const N_INTERACTION_COLUMNS: usize = 4;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 1] = [('Gate', 2)];
+
+#[derive(Drop)]
+pub struct Component {
+    pub log_size: u32,
+    pub claimed_sum: QM31,
+    pub common_lookup_elements: CommonLookupElements,
+}
 
 pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
@@ -26,14 +32,14 @@ pub impl AirComponentImpl of AirComponent<Component> {
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
-        common_lookup_elements: @CommonLookupElements,
+        public_params: Span<u32>,
     ) {
         let log_size = *self.log_size;
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
 
-        let eq_in0_address = preprocessed_mask_values.get(EQ_IN0_ADDRESS_IDX);
-        let eq_in1_address = preprocessed_mask_values.get(EQ_IN1_ADDRESS_IDX);
+        let eq_in0_address = preprocessed_mask_values.get_and_mark_used(EQ_IN0_ADDRESS_IDX);
+        let eq_in1_address = preprocessed_mask_values.get_and_mark_used(EQ_IN1_ADDRESS_IDX);
 
         let [in_col0, in_col1, in_col2, in_col3]: [Span<QM31>; 4] = (*trace_mask_values
             .multi_pop_front()
@@ -46,12 +52,19 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
-        let gate_relation_id = GATE_RELATION_ID.into();
+        // GATE_RELATION_ID = 378353459 (see stwo-circuits/crates/circuit_air/src/relations.rs).
+        let gate_relation_id = qm31_const::<378353459, 0, 0, 0>();
         // The two yields differ only in the address slot.
-        let eq_sum_0 = common_lookup_elements
-            .combine([gate_relation_id, eq_in0_address, in_col0, in_col1, in_col2, in_col3].span());
-        let eq_sum_1 = common_lookup_elements
-            .combine([gate_relation_id, eq_in1_address, in_col0, in_col1, in_col2, in_col3].span());
+        let eq_sum_0 = self
+            .common_lookup_elements
+            .combine_qm31(
+                [gate_relation_id, eq_in0_address, in_col0, in_col1, in_col2, in_col3].span(),
+            );
+        let eq_sum_1 = self
+            .common_lookup_elements
+            .combine_qm31(
+                [gate_relation_id, eq_in1_address, in_col0, in_col1, in_col2, in_col3].span(),
+            );
         // Both numerators are 1 (`E::EF::one()` in eq.rs::evaluate).
         let one: QM31 = qm31_const::<1, 0, 0, 0>();
         let numerator_0 = one;
@@ -104,7 +117,7 @@ fn lookup_constraints(
     // `(sum_a + sum_b) / (sum_a * sum_b)` per row. The verifier-side constraint is
     //   diff * denom - num = (diff + shift) * sum_a * sum_b - sum_a - sum_b
     // with `diff = cur - cur_neg1` and `shift = claimed_sum / column_size`.
-    let constraint_eval = (((QM31Impl::from_partial_evals(
+    let constraint_quotient = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     )
         - QM31Impl::from_partial_evals(
@@ -115,5 +128,5 @@ fn lookup_constraints(
         * eq_sum_1)
         - (eq_sum_0 * numerator_1)
         - (eq_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_eval;
+    sum = sum * random_coeff + constraint_quotient;
 }

@@ -293,8 +293,8 @@ pub fn guess_m31<Value: IValue>(
 /// Computes the map `(a, b, c, d) -> a + b * i + c * u + d * iu`. Note that the input values are
 /// not necessarily in the base field `M31`.
 pub fn from_partial_evals(context: &mut Context<impl IValue>, values: [Var; 4]) -> Var {
-    let i = context.i();
-    let u = context.u();
+    let i = context.constant(qm31_from_u32s(0, 1, 0, 0));
+    let u = context.constant(qm31_from_u32s(0, 0, 1, 0));
     let iu = context.constant(qm31_from_u32s(0, 0, 0, 1));
 
     eval!(

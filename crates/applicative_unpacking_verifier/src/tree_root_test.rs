@@ -1,12 +1,12 @@
-use circuit_prover::test_utils::{
+use circuit_multiverifier::test_utils::{
     self, MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH, MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG,
     PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST, PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
 };
-use circuit_serialize::deserialize::deserialize_proof_with_config;
-use circuit_verifier::multiverifier::{
+use circuit_multiverifier::verify::{
     CircuitVerifierInput, SharedConfig, shared_config, verify_child,
 };
+use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuits::blake::HashValue;
 use circuits::context::TraceContext;
 use circuits::ops::Guess;

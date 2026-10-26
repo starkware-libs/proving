@@ -1,16 +1,18 @@
-use privacy_common::consts::{
-    CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,
-    CIRCUIT_OUTPUT_ADDRESSES, CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE,
-    PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
-    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
-};
+use circuit_cairo_verifier::all_components::all_components;
+use stwo::core::fields::qm31::QM31;
 use stwo::core::poly::circle::CanonicCoset;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sM31MerkleChannel;
 use stwo::prover::CommitmentTreeProver;
 use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::mempool::BaseColumnPool;
 use stwo::prover::poly::circle::PolyOps;
 
+use crate::consts::{
+    CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,
+    CIRCUIT_OUTPUT_ADDRESSES, CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE,
+    PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, PRIVACY_TRANSACTION_COMPONENTS,
+};
 use crate::{get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config};
 
 const CONJECTURED_SECURITY_BITS: u32 = 96;
@@ -20,6 +22,17 @@ fn check_proof_config() {
     let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
     // All circuit components should be enabled.
     assert!(proof_config.component_shapes.iter().all(|s| s.trace_columns > 0));
+}
+
+#[test]
+fn check_components() {
+    let all_components = all_components::<QM31>();
+    for component_name in PRIVACY_TRANSACTION_COMPONENTS {
+        assert!(
+            all_components.contains_key(component_name),
+            "Component {component_name} is not in the all_components"
+        );
+    }
 }
 
 #[test]
@@ -34,9 +47,9 @@ fn check_privacy_recursion_circuit_preprocessed_root() {
     let preprocessed_trace_polys = SimdBackend::interpolate_columns(preprocessed_trace, &twiddles);
     let store_polynomials_coefficients = true;
     let base_column_pool = BaseColumnPool::<SimdBackend>::new();
-    let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sMerkleChannel>::new(
+    let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sM31MerkleChannel>::new(
         preprocessed_trace_polys,
-        CIRCUIT_PCS_CONFIG.fri_params.log_blowup_factor,
+        CIRCUIT_PCS_CONFIG.fri_config.log_blowup_factor,
         &twiddles,
         store_polynomials_coefficients,
         CIRCUIT_PCS_CONFIG.preprocessed_lifting_log_size,
@@ -47,7 +60,7 @@ fn check_privacy_recursion_circuit_preprocessed_root() {
         u32::from_le_bytes(root_hash.0[i * 4..i * 4 + 4].try_into().unwrap())
     });
 
-    assert_eq!(raw_words, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT);
+    assert_eq!(raw_words, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,);
 }
 
 #[test]
@@ -91,17 +104,17 @@ fn check_circuit_verifier_configs() {
 
     // Check that the circuit pcs config is secure enough
     assert!(
-        CIRCUIT_PCS_CONFIG.fri_params.pow_bits
-            + CIRCUIT_PCS_CONFIG.fri_params.n_queries as u32
-                * CIRCUIT_PCS_CONFIG.fri_params.log_blowup_factor
+        CIRCUIT_PCS_CONFIG.fri_config.pow_bits
+            + CIRCUIT_PCS_CONFIG.fri_config.n_queries as u32
+                * CIRCUIT_PCS_CONFIG.fri_config.log_blowup_factor
             >= CONJECTURED_SECURITY_BITS,
         "The recursive circuit pcs config is not secure enough."
     );
 
     assert!(
-        CAIRO_PCS_CONFIG.fri_params.pow_bits
-            + CAIRO_PCS_CONFIG.fri_params.n_queries as u32
-                * CAIRO_PCS_CONFIG.fri_params.log_blowup_factor
+        CAIRO_PCS_CONFIG.fri_config.pow_bits
+            + CAIRO_PCS_CONFIG.fri_config.n_queries as u32
+                * CAIRO_PCS_CONFIG.fri_config.log_blowup_factor
             >= CONJECTURED_SECURITY_BITS,
         "The cairo circuit pcs config is not secure enough."
     );
@@ -112,13 +125,10 @@ pub mod slow_tests {
     use std::path::PathBuf;
 
     use cairo_vm::vm::runners::cairo_pie::CairoPie;
-    use circuit_params::assert_committed_registry_is_up_to_date;
-    use privacy_common::consts::{
-        MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, RECURSIVE_PROOF_UNCOMPRESSED_BYTES,
-    };
     use privacy_prove::{prepare_recursive_prover_precomputes, privacy_recursive_prove};
     use tracing_subscriber::fmt;
 
+    use crate::consts::{CAIRO_PROOF_UNCOMPRESSED_BYTES, RECURSIVE_PROOF_UNCOMPRESSED_BYTES};
     use crate::{PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, get_proof_config};
 
     #[test]
@@ -133,9 +143,11 @@ pub mod slow_tests {
 
         let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
         let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
-        let proof_bytes =
-            crate::decompress_proof(compressed_proof, MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES)
-                .unwrap();
+        let proof_bytes = crate::decompress_proof(
+            compressed_proof,
+            crate::consts::MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES,
+        )
+        .unwrap();
         let mut serialized_proof: &[u8] = &proof_bytes;
         circuit_serialize::deserialize::deserialize_proof_with_config(
             &mut serialized_proof,
@@ -143,6 +155,25 @@ pub mod slow_tests {
         )
         .unwrap();
         assert!(serialized_proof.is_empty());
+    }
+
+    #[test]
+    fn check_max_cairo_proof_uncompressed_size() {
+        let _ = fmt().with_max_level(tracing::Level::INFO).try_init();
+
+        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let pie_path = project_dir.join("../privacy_prove/test_data/privacy_tx_cairo_pie.zip");
+        let pie = CairoPie::read_zip_file(&pie_path).unwrap();
+        let proof_output = privacy_prove::privacy_prove(pie).unwrap();
+
+        let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
+        let proof_bytes = zstd::decode_all(compressed_proof).unwrap();
+        assert_eq!(
+            proof_bytes.len(),
+            CAIRO_PROOF_UNCOMPRESSED_BYTES,
+            "Update CAIRO_PROOF_UNCOMPRESSED_BYTES in consts.rs to {}",
+            proof_bytes.len()
+        );
     }
 
     #[test]
@@ -163,15 +194,5 @@ pub mod slow_tests {
             "Update RECURSIVE_PROOF_UNCOMPRESSED_BYTES in consts.rs to {}",
             proof_bytes.len()
         );
-    }
-
-    #[test]
-    fn large_proofs_registry_matches_definition() {
-        const LARGE_REGISTRY_PATH: &str =
-            "crates/privacy_common/large_proofs_circuit_registry.json";
-        const LARGE_REGISTRY_DEFINITION: &str =
-            "circuit_registry_definitions/privacy_large_proofs/definition.json";
-
-        assert_committed_registry_is_up_to_date(LARGE_REGISTRY_DEFINITION, LARGE_REGISTRY_PATH);
     }
 }

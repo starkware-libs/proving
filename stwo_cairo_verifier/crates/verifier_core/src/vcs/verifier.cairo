@@ -1,5 +1,7 @@
 use core::array::{ArrayTrait, SpanTrait, ToSpanTrait};
+use core::dict::{Felt252Dict, Felt252DictEntryTrait, SquashedFelt252DictTrait};
 use core::fmt::{Debug, Error, Formatter};
+use core::nullable::{FromNullableResult, match_nullable};
 use core::num::traits::DivRem;
 use core::option::OptionTrait;
 use crate::BaseField;
@@ -11,10 +13,10 @@ pub struct MerkleVerifier<impl H: MerkleHasher> {
     pub root: H::Hash,
     // The height of the Merkle tree.
     //
-    // The height is log_blowup_factor + the log degree bound of the commitment scheme.
+    // The height can be computed as log_blowup_factor + column_log_deg_bounds.max().
     pub tree_height: u32,
-    // The number of committed columns.
-    pub n_committed_columns: u32,
+    // The log degree bounds of the committed columns.
+    pub column_log_deg_bounds: Span<u32>,
 }
 impl MerkleVerifierDrop<impl H: MerkleHasher, +Drop<H::Hash>> of Drop<MerkleVerifier<H>>;
 
@@ -34,7 +36,13 @@ impl MerkleDecommitmentDebug<
     }
 }
 
-impl MerkleDecommitmentCopy<impl H: MerkleHasher> of Copy<MerkleDecommitment<H>>;
+impl MerkleDecommitmentClone<
+    impl H: MerkleHasher, +Clone<Array<H::Hash>>, +Drop<Array<H::Hash>>,
+> of Clone<MerkleDecommitment<H>> {
+    fn clone(self: @MerkleDecommitment<H>) -> MerkleDecommitment<H> {
+        MerkleDecommitment::<H> { hash_witness: *self.hash_witness }
+    }
+}
 
 impl MerkleDecommitmentSerde<
     impl H: MerkleHasher, +Serde<Span<H::Hash>>,
@@ -54,8 +62,8 @@ pub trait MerkleVerifierTrait<impl H: MerkleHasher> {
     ///
     /// # Arguments
     ///
-    /// * `query_positions` - Vector of query positions with respect to the largest layer, in
-    /// strictly increasing order.
+    /// * `query_positions` - Vector of query positions with respect to the largest layer. Note that
+    /// `query_positions` is not necessarily sorted and may contain duplicates.
     /// * `queried_values` - An array of queried values, of length (number of columns) x (number of
     /// queries). For each query position, there is a row of values, one for each column, at the
     /// index corresponding to the query position.
@@ -69,7 +77,7 @@ pub trait MerkleVerifierTrait<impl H: MerkleHasher> {
 }
 
 impl MerkleVerifierImpl<
-    impl H: MerkleHasher, +Copy<H::Hash>, +Drop<H::Hash>, +PartialEq<H::Hash>,
+    impl H: MerkleHasher, +Clone<H::Hash>, +Drop<H::Hash>, +PartialEq<H::Hash>,
 > of MerkleVerifierTrait<H> {
     /// Verifies openings of a Merkle commitment at positions given by `query_positions`. Expects
     /// a Merkle commitment to a collection of column vectors of the same length, whose leaves
@@ -80,30 +88,38 @@ impl MerkleVerifierImpl<
         mut queried_values: Span<BaseField>,
         decommitment: MerkleDecommitment<H>,
     ) {
-        let n_columns = *self.n_committed_columns;
+        let n_columns = self.column_log_deg_bounds.len();
+        let mut positions_and_values: Felt252Dict<Nullable<Span<BaseField>>> = Default::default();
 
-        // This buffer is filled with the positions and the hash of the corresponding
-        // queried_values. The first element of each tuple encodes in its MSB the height of the
-        // associated layer in the Merkle tree. For example, a query in position k in the leaf
-        // layer is encoded as (2^tree_height + k).
-        let mut positions_and_hashes: Array<(usize, H::Hash)> = array![];
-        let layer_start_idx = pow2(*self.tree_height);
-
-        let mut prev_pos: Option<u32> = None;
         for pos in query_positions {
-            if let Some(prev_pos) = prev_pos {
-                assert!(*pos > prev_pos, "{}", MerkleVerificationError::NonIncreasingQueries);
-            }
-            prev_pos = Some(*pos);
             let column_values = queried_values.pop_front_n(n_columns);
-            positions_and_hashes.append((*pos + layer_start_idx, H::hash_leaf(column_values)));
+            let (entry, maybe_present_values) = positions_and_values.entry((*pos).into());
+            // Check that queried values corresponding to the same position have the same
+            // values.
+            match match_nullable(maybe_present_values) {
+                FromNullableResult::Null => (),
+                FromNullableResult::NotNull(present_values) => assert!(
+                    present_values.unbox() == column_values,
+                    "Queried values at same positions are inconsistent.",
+                ),
+            }
+            positions_and_values = entry.finalize(NullableTrait::new(column_values));
         }
         assert!(queried_values.is_empty());
-        // Check that the largest query position is smaller than the number of leaves.
-        // Use unwrap because `query_positions` should be non-empty.
-        assert!(
-            prev_pos.unwrap() < layer_start_idx, "{}", MerkleVerificationError::QueryOutOfRange,
-        );
+
+        // This buffer is filled with the sorted+deduplicated positions and the hash
+        // of the corresponding queried_values. The first element of each tuple encodes
+        // in its MSB the height of the associated layer in the Merkle tree. For example,
+        // a query in position k in the leaf layer is encoded as (2^tree_height + k).
+        let mut positions_and_hashes: Array<(usize, H::Hash)> = array![];
+        let layer_idx = pow2(*self.tree_height);
+
+        // A squashed dict's entries are sorted by key in ascending order.
+        for (pos, _, queried_values) in positions_and_values.squash().into_entries() {
+            let position_with_msb = pos.try_into().unwrap() + layer_idx;
+            positions_and_hashes
+                .append((position_with_msb, H::hash_node(None, queried_values.deref())));
+        }
 
         // At this point `positions_and_hashes` contains the query positions and their
         // values, for the bottom layer of the Merkle tree (i.e. the leaves).
@@ -112,8 +128,6 @@ impl MerkleVerifierImpl<
             let (child_position, child_hash) = positions_and_hashes.pop_front().unwrap();
             let (parent_position, parity) = child_position.div_rem(2);
 
-            // One could also check for `child_position == 1`, however that conditional would cost
-            // one instruction more than checking `parent_position == 0`.
             if parent_position == 0 {
                 break child_hash;
             }
@@ -121,10 +135,10 @@ impl MerkleVerifierImpl<
             if parity == 1 {
                 // If `child_position` is odd, we know that the sibling was not calculated before.
                 // Consume the hash_witness.
-                let sibling_hash = *hash_witness
-                    .pop_front()
-                    .unwrap_or_else(|| panic!("{}", MerkleVerificationError::WitnessTooShort));
-                let parent_hash = H::hash_children(sibling_hash, child_hash);
+                let parent_hash = H::hash_node(
+                    Some((hash_witness.pop_front().unwrap().clone(), child_hash.clone())),
+                    array![].span(),
+                );
                 positions_and_hashes.append((parent_position, parent_hash));
                 continue;
             }
@@ -136,26 +150,26 @@ impl MerkleVerifierImpl<
             let sibling_hash = if let Some((maybe_sibling_position, maybe_sibling_hash)) =
                 positions_and_hashes
                 .span()
-                .first()
-                && *maybe_sibling_position == child_position
-                + 1 {
-                // Consume the buffer.
-                let _ = positions_and_hashes.pop_front();
-                *maybe_sibling_hash
+                .first() {
+                if *maybe_sibling_position == child_position + 1 {
+                    // Consume the buffer.
+                    let _ = positions_and_hashes.pop_front();
+                    maybe_sibling_hash
+                } else {
+                    // Consume the hash_witness.
+                    hash_witness.pop_front().unwrap()
+                }
             } else {
                 // Consume the hash_witness.
-                *hash_witness
-                    .pop_front()
-                    .unwrap_or_else(|| panic!("{}", MerkleVerificationError::WitnessTooShort))
+                hash_witness.pop_front().unwrap()
             };
 
-            let parent_hash = H::hash_children(child_hash, sibling_hash);
+            let parent_hash = H::hash_node(
+                Some((child_hash.clone(), sibling_hash.clone())), array![].span(),
+            );
             positions_and_hashes.append((parent_position, parent_hash));
         };
 
-        // Check that every node was hashed into the root. This is a sanity check because
-        // it's guaranteed that the query positions are strictly increasing and in range.
-        assert!(positions_and_hashes.is_empty());
         // Check that the witness has been consumed.
         assert!(hash_witness.is_empty(), "{}", MerkleVerificationError::WitnessTooLong);
         assert!(@computed_root == self.root, "{}", MerkleVerificationError::RootMismatch);
@@ -167,8 +181,6 @@ pub enum MerkleVerificationError {
     WitnessTooShort,
     WitnessTooLong,
     RootMismatch,
-    NonIncreasingQueries,
-    QueryOutOfRange,
 }
 
 impl MerkleVerificationErrorDisplay of core::fmt::Display<MerkleVerificationError> {
@@ -184,12 +196,6 @@ impl MerkleVerificationErrorDisplay of core::fmt::Display<MerkleVerificationErro
             ),
             MerkleVerificationError::RootMismatch => write!(
                 f, "Merkle Verification Error: Root Mismatch",
-            ),
-            MerkleVerificationError::NonIncreasingQueries => write!(
-                f, "Merkle Verification Error: Query Positions Must Be Strictly Increasing",
-            ),
-            MerkleVerificationError::QueryOutOfRange => write!(
-                f, "Merkle Verification Error: Query Out Of Range",
             ),
         }
     }

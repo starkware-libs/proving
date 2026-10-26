@@ -4,21 +4,25 @@ use itertools::Itertools;
 use std_shims::Vec;
 
 use super::Channel;
-use crate::core::fields::m31::BaseField;
-use crate::core::fields::qm31::SecureField;
-use crate::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
+use crate::core::fields::m31::{BaseField, P};
+use crate::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
+use crate::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasherGeneric};
 
 pub const BLAKE_BYTES_PER_HASH: usize = 32;
 pub const FELTS_PER_HASH: usize = 8;
 
+pub type Blake2sChannel = Blake2sChannelGeneric<false>;
+/// Same as [Blake2sChannel], expect that the hash output is taken modulo M31::P.
+pub type Blake2sM31Channel = Blake2sChannelGeneric<true>;
+
 /// A channel that can be used to draw random elements from a [Blake2sHash] digest.
 #[derive(Default, Clone, Debug)]
-pub struct Blake2sChannel {
+pub struct Blake2sChannelGeneric<const IS_M31_OUTPUT: bool> {
     digest: Blake2sHash,
     n_draws: u32,
 }
 
-impl Blake2sChannel {
+impl<const IS_M31_OUTPUT: bool> Blake2sChannelGeneric<IS_M31_OUTPUT> {
     pub const POW_PREFIX: u32 = 0x12345678;
 
     pub const fn digest(&self) -> Blake2sHash {
@@ -28,15 +32,27 @@ impl Blake2sChannel {
         self.digest = new_digest;
         self.n_draws = 0;
     }
-
     /// Generates a uniform random vector of BaseField elements.
     fn draw_base_felts(&mut self) -> [BaseField; FELTS_PER_HASH] {
-        let u32s: [u32; FELTS_PER_HASH] = self.draw_u32s().try_into().unwrap();
-        u32s.map(|x| BaseField::reduce(x as u64))
+        // Repeats hashing with an increasing counter until getting a good result.
+        // Retry probability for each round is ~ 2^(-28).
+        loop {
+            let u32s: [u32; FELTS_PER_HASH] = self.draw_u32s().try_into().unwrap();
+
+            // Retry if not all the u32 are in the range [0, 2P).
+            if u32s.iter().all(|x| *x < 2 * P) {
+                return u32s
+                    .into_iter()
+                    .map(|x| BaseField::reduce(x as u64))
+                    .collect::<Vec<_>>()
+                    .try_into()
+                    .unwrap();
+            }
+        }
     }
 }
 
-impl Channel for Blake2sChannel {
+impl<const IS_M31_OUTPUT: bool> Channel for Blake2sChannelGeneric<IS_M31_OUTPUT> {
     const BYTES_PER_HASH: usize = BLAKE_BYTES_PER_HASH;
 
     fn mix_felts(&mut self, felts: &[SecureField]) {
@@ -45,7 +61,7 @@ impl Channel for Blake2sChannel {
             .flat_map(|qm31| qm31.to_m31_array())
             .flat_map(|m31| m31.0.to_le_bytes())
             .collect_vec();
-        let mut hasher = Blake2sHasher::new();
+        let mut hasher = Blake2sHasherGeneric::<IS_M31_OUTPUT>::new();
         hasher.update(self.digest.as_ref());
         hasher.update(&felts_bytes);
 
@@ -53,7 +69,7 @@ impl Channel for Blake2sChannel {
     }
 
     fn mix_u32s(&mut self, data: &[u32]) {
-        let mut hasher = Blake2sHasher::new();
+        let mut hasher = Blake2sHasherGeneric::<IS_M31_OUTPUT>::new();
         hasher.update(self.digest.as_ref());
         for word in data {
             hasher.update(&word.to_le_bytes());
@@ -68,13 +84,20 @@ impl Channel for Blake2sChannel {
 
     fn draw_secure_felt(&mut self) -> SecureField {
         let felts: [BaseField; FELTS_PER_HASH] = self.draw_base_felts();
-        SecureField::from_m31_array(array::from_fn(|i| {
-            felts[2 * i] + felts[2 * i + 1] + felts[2 * i + 1]
-        }))
+        SecureField::from_m31_array(felts[..SECURE_EXTENSION_DEGREE].try_into().unwrap())
     }
 
     fn draw_secure_felts(&mut self, n_felts: usize) -> Vec<SecureField> {
-        iter::from_fn(|| Some(self.draw_secure_felt())).take(n_felts).collect()
+        let mut felts = iter::from_fn(|| Some(self.draw_base_felts())).flatten();
+        let secure_felts = iter::from_fn(|| {
+            Some(SecureField::from_m31_array([
+                felts.next()?,
+                felts.next()?,
+                felts.next()?,
+                felts.next()?,
+            ]))
+        });
+        secure_felts.take(n_felts).collect()
     }
 
     fn draw_u32s(&mut self) -> Vec<u32> {
@@ -89,8 +112,7 @@ impl Channel for Blake2sChannel {
         hash_input.push(0_u8);
 
         self.n_draws += 1;
-        // Note that this function returns unreduced u32s, even when IS_M31_OUTPUT is true.
-        Blake2sHasher::hash(&hash_input)
+        Blake2sHasherGeneric::<IS_M31_OUTPUT>::hash(&hash_input)
             .0
             .chunks_exact(4)
             .map(|chunk| u32::from_le_bytes(chunk.try_into().unwrap()))
@@ -102,14 +124,14 @@ impl Channel for Blake2sChannel {
     fn verify_pow_nonce(&self, n_bits: u32, nonce: u64) -> bool {
         let digest = self.digest();
         // Compute H(POW_PREFIX, [0_u8; 12], digest, n_bits).
-        let mut hasher = Blake2sHasher::default();
+        let mut hasher = Blake2sHasherGeneric::<IS_M31_OUTPUT>::default();
         hasher.update(&Self::POW_PREFIX.to_le_bytes());
         hasher.update(&[0_u8; 12]);
         hasher.update(&digest.0[..]);
         hasher.update(&n_bits.to_le_bytes());
         let prefixed_digest = hasher.finalize();
         // Compute `H(prefixed_digest, nonce)`.
-        let mut hasher = Blake2sHasher::default();
+        let mut hasher = Blake2sHasherGeneric::<IS_M31_OUTPUT>::default();
         hasher.update(prefixed_digest.as_ref());
         hasher.update(&nonce.to_le_bytes());
         let res = hasher.finalize();
@@ -138,7 +160,7 @@ mod tests {
         assert_eq!(channel.n_draws, 1);
 
         channel.draw_secure_felts(9);
-        assert_eq!(channel.n_draws, 10);
+        assert_eq!(channel.n_draws, 6);
     }
 
     #[test]

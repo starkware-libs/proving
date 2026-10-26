@@ -6,7 +6,7 @@ use crate::fields::Invertible;
 #[allow(unused_imports)]
 use crate::fields::qm31::QM31_EXTENSION_DEGREE;
 use crate::fields::qm31::{QM31, QM31Trait};
-use crate::fri::FriParamsTrait;
+use crate::fri::FriConfigTrait;
 use crate::pcs::verifier::{
     CommitmentSchemeProof, CommitmentSchemeVerifier, CommitmentSchemeVerifierImpl,
 };
@@ -29,10 +29,12 @@ const COMPOSITION_SPLIT_FACTOR: u32 = 2_u32.pow(LOG_COMPOSITION_SPLIT_FACTOR);
 /// constraints. For instance, all interaction elements are assumed to be present in it. Therefore,
 /// an AIR is generated only after the initial trace commitment phase.
 pub trait Air<T> {
-    /// Evaluates the linear combination of the constraint numerators at the point at which
-    /// `mask_values` were sampled.
+    /// Evaluates the constraint quotients combination of the AIR at `point`.
     fn eval_composition_polynomial_at_point(
-        self: @T, mask_values: TreeSpan<ColumnSpan<Span<QM31>>>, random_coeff: QM31,
+        self: @T,
+        point: CirclePoint<QM31>,
+        mask_values: TreeSpan<ColumnSpan<Span<QM31>>>,
+        random_coeff: QM31,
     ) -> QM31;
 }
 
@@ -42,6 +44,9 @@ pub trait Air<T> {
 ///
 /// - `proof`: the STARK proof to verify.
 /// - `air`: AIR instance defining the constraints for the statement being proven.
+/// -  log_degree_bound`: log2 upper bound on the degree of the of the trace after lifting.
+///    The log degree bound of the composition polynomial after the splitting must be less than or
+///    equal to this value.
 /// - `composition_commitment`: commitment to the composition polynomial sent by the prover.
 /// - `commitment_scheme`: verifier-side state for the polynomial commitment scheme used by the
 ///    proof, the commitment scheme already holds the commitments for the preprocessed trace, trace,
@@ -51,16 +56,21 @@ pub trait Air<T> {
 pub fn verify<A, +Air<A>, +Drop<A>>(
     proof: StarkProof,
     air: A,
+    log_trace_degree_bound: u32,
     composition_commitment: Hash,
     mut commitment_scheme: CommitmentSchemeVerifier,
     ref channel: Channel,
     min_security_bits: u32,
 ) {
     let StarkProof { commitment_scheme_proof } = proof;
-    let log_trace_degree_bound = commitment_scheme.log_degree_bound;
-    let oods_pow_nonce = commitment_scheme_proof.oods_pow_nonce;
+    let oods_proof_of_work = commitment_scheme_proof.oods_proof_of_work;
 
-    commitment_scheme.fri_params.validate(min_security_bits);
+    // Check that there are enough security bits.
+    assert!(
+        commitment_scheme_proof.config.security_bits() >= min_security_bits,
+        "{}",
+        VerificationError::SecurityBitsTooLow,
+    );
 
     // Draw a random coefficient from the channel to be used in the composition polynomial.
     // The composition polynomial is defined as: Σ_i (composition_random_coeff^i * quotient_i).
@@ -73,15 +83,16 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
             composition_commitment,
             [log_trace_degree_bound; COMPOSITION_SPLIT_FACTOR * QM31_EXTENSION_DEGREE].span(),
             ref channel,
+            commitment_scheme_proof.config.log_blowup_factor,
         );
 
     // Verify the proof of work ground before the OODS point.
     assert!(
-        channel.verify_pow_nonce(OODS_POW_BITS, oods_pow_nonce),
+        channel.verify_pow_nonce(OODS_POW_BITS, oods_proof_of_work),
         "{}",
         VerificationError::OodsProofOfWork,
     );
-    channel.mix_u64(oods_pow_nonce);
+    channel.mix_u64(oods_proof_of_work);
 
     // Draw OOD point.
     let ood_point = channel.get_random_point();
@@ -97,17 +108,20 @@ pub fn verify<A, +Air<A>, +Drop<A>>(
 
     // Evaluate composition polynomial at OOD point and check that it matches the trace OOD values.
     let numerator = air
-        .eval_composition_polynomial_at_point(sampled_oods_values, composition_random_coeff);
-    // `trace_domain` is the largest domain of a trace polynomial (before LDE).
-    let trace_domain = CanonicCosetImpl::new(log_trace_degree_bound);
-    let denominator_inv = trace_domain.eval_vanishing(ood_point).inverse();
+        .eval_composition_polynomial_at_point(
+            ood_point, sampled_oods_values, composition_random_coeff,
+        );
+    // `max_trace_domain` is the largest domain of a trace polynomial (before LDE).
+    let max_trace_domain = CanonicCosetImpl::new(log_trace_degree_bound);
+    let denominator_inv = max_trace_domain.eval_vanishing(ood_point).inverse();
     assert!(
         composition_oods_eval == numerator * denominator_inv,
         "{}",
         VerificationError::OodsNotMatching,
     );
 
-    commitment_scheme.verify_values(ood_point, commitment_scheme_proof, ref channel);
+    commitment_scheme
+        .verify_values(ood_point, commitment_scheme_proof, ref channel, log_trace_degree_bound);
 }
 
 fn circle_double_x(x: QM31) -> QM31 {
@@ -162,6 +176,8 @@ pub enum VerificationError {
     OodsProofOfWork,
     /// Invalid OODS eval.
     OodsNotMatching,
+    /// Security bits are too low.
+    SecurityBitsTooLow,
     /// Interaction proof of work verification failed.
     InteractionProofOfWork,
     /// The logup sum is not zero.
@@ -179,6 +195,7 @@ impl VerificationErrorDisplay of core::fmt::Display<VerificationError> {
                 f, "OODS Proof Of Work verification failed",
             ),
             VerificationError::OodsNotMatching => write!(f, "Invalid OODS eval"),
+            VerificationError::SecurityBitsTooLow => write!(f, "Security bits are too low"),
             VerificationError::InteractionProofOfWork => write!(
                 f, "Interaction Proof Of Work verification failed",
             ),

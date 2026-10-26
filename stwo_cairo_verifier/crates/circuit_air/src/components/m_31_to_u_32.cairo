@@ -6,6 +6,13 @@ pub const N_TRACE_COLUMNS: usize = 4;
 pub const N_INTERACTION_COLUMNS: usize = 12;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 2] = [('RangeCheck_16', 3), ('Gate', 1)];
 
+#[derive(Drop)]
+pub struct Component {
+    pub log_size: u32,
+    pub claimed_sum: QM31,
+    pub common_lookup_elements: CommonLookupElements,
+}
+
 pub impl AirComponentImpl of AirComponent<Component> {
     fn evaluate_constraints_at_point(
         self: @Component,
@@ -14,7 +21,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
         ref trace_mask_values: ColumnSpan<Span<QM31>>,
         ref interaction_trace_mask_values: ColumnSpan<Span<QM31>>,
         random_coeff: QM31,
-        common_lookup_elements: @CommonLookupElements,
+        public_params: Span<u32>,
     ) {
         let log_size = *(self.log_size);
         let claimed_sum = *self.claimed_sum;
@@ -29,9 +36,12 @@ pub impl AirComponentImpl of AirComponent<Component> {
         let mut numerator_3: QM31 = Zero::zero();
         let mut gate_sum_4: QM31 = Zero::zero();
         let mut numerator_4: QM31 = Zero::zero();
-        let m31_to_u32_input_addr = preprocessed_mask_values.get(M_31_TO_U_32_INPUT_ADDR_IDX);
-        let m31_to_u32_output_addr = preprocessed_mask_values.get(M_31_TO_U_32_OUTPUT_ADDR_IDX);
-        let m31_to_u32_multiplicity = preprocessed_mask_values.get(M_31_TO_U_32_MULTIPLICITY_IDX);
+        let m31_to_u32_input_addr = preprocessed_mask_values
+            .get_and_mark_used(M_31_TO_U_32_INPUT_ADDR_IDX);
+        let m31_to_u32_output_addr = preprocessed_mask_values
+            .get_and_mark_used(M_31_TO_U_32_OUTPUT_ADDR_IDX);
+        let m31_to_u32_multiplicity = preprocessed_mask_values
+            .get_and_mark_used(M_31_TO_U_32_MULTIPLICITY_IDX);
 
         let [
             input_m31_col0, input_u32_limb_0_col1, input_u32_limb_1_col2, inv_or_one_col3,
@@ -49,16 +59,19 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
-        range_check_16_sum_0 = common_lookup_elements
-            .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
+        range_check_16_sum_0 = self
+            .common_lookup_elements
+            .combine_qm31([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
         numerator_0 = qm31_const::<1, 0, 0, 0>();
 
-        range_check_16_sum_1 = common_lookup_elements
-            .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
+        range_check_16_sum_1 = self
+            .common_lookup_elements
+            .combine_qm31([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
         numerator_1 = qm31_const::<1, 0, 0, 0>();
 
-        range_check_16_sum_2 = common_lookup_elements
-            .combine(
+        range_check_16_sum_2 = self
+            .common_lookup_elements
+            .combine_qm31(
                 [
                     qm31_const::<1008385708, 0, 0, 0>(),
                     (qm31_const::<32767, 0, 0, 0>() - input_u32_limb_1_col2),
@@ -68,23 +81,26 @@ pub impl AirComponentImpl of AirComponent<Component> {
         numerator_2 = qm31_const::<1, 0, 0, 0>();
 
         // Constraint - input is zero then limb_low is zero
-        let constraint_eval = ((((input_m31_col0 * inv_or_one_col3) - qm31_const::<1, 0, 0, 0>())
+        let constraint_quotient = ((((input_m31_col0 * inv_or_one_col3)
+            - qm31_const::<1, 0, 0, 0>())
             * input_u32_limb_0_col1));
-        sum = sum * random_coeff + constraint_eval;
+        sum = sum * random_coeff + constraint_quotient;
 
         // Constraint - input reconstruction
-        let constraint_eval = ((input_m31_col0
+        let constraint_quotient = ((input_m31_col0
             - (input_u32_limb_0_col1 + (input_u32_limb_1_col2 * qm31_const::<65536, 0, 0, 0>()))));
-        sum = sum * random_coeff + constraint_eval;
+        sum = sum * random_coeff + constraint_quotient;
 
-        gate_sum_3 = common_lookup_elements
-            .combine(
+        gate_sum_3 = self
+            .common_lookup_elements
+            .combine_qm31(
                 [qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_input_addr, input_m31_col0].span(),
             );
         numerator_3 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_4 = common_lookup_elements
-            .combine(
+        gate_sum_4 = self
+            .common_lookup_elements
+            .combine_qm31(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_output_addr,
                     input_u32_limb_0_col1, input_u32_limb_1_col2,
@@ -167,16 +183,16 @@ fn lookup_constraints(
 
     core::internal::revoke_ap_tracking();
 
-    let constraint_eval = (((QM31Impl::from_partial_evals(
+    let constraint_quotient = (((QM31Impl::from_partial_evals(
         [trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3],
     ))
         * range_check_16_sum_0
         * range_check_16_sum_1)
         - (range_check_16_sum_0 * numerator_1)
         - (range_check_16_sum_1 * numerator_0));
-    sum = sum * random_coeff + constraint_eval;
+    sum = sum * random_coeff + constraint_quotient;
 
-    let constraint_eval = (((QM31Impl::from_partial_evals(
+    let constraint_quotient = (((QM31Impl::from_partial_evals(
         [trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7],
     )
         - QM31Impl::from_partial_evals([trace_2_col0, trace_2_col1, trace_2_col2, trace_2_col3]))
@@ -184,9 +200,9 @@ fn lookup_constraints(
         * gate_sum_3)
         - (range_check_16_sum_2 * numerator_3)
         - (gate_sum_3 * numerator_2));
-    sum = sum * random_coeff + constraint_eval;
+    sum = sum * random_coeff + constraint_quotient;
 
-    let constraint_eval = (((QM31Impl::from_partial_evals(
+    let constraint_quotient = (((QM31Impl::from_partial_evals(
         [trace_2_col8, trace_2_col9, trace_2_col10, trace_2_col11],
     )
         - QM31Impl::from_partial_evals([trace_2_col4, trace_2_col5, trace_2_col6, trace_2_col7])
@@ -196,47 +212,53 @@ fn lookup_constraints(
         + (claimed_sum * (column_size.inverse().into())))
         * gate_sum_4)
         + numerator_4);
-    sum = sum * random_coeff + constraint_eval;
+    sum = sum * random_coeff + constraint_quotient;
 }
 #[cfg(and(test, feature: "qm31_opcode"))]
 mod tests {
     use core::array::ArrayImpl;
     use core::num::traits::Zero;
+    use stwo_constraint_framework::AirComponent;
     #[allow(unused_imports)]
-    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
-    use stwo_constraint_framework::{AirComponent, Component};
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, preprocessed_mask_add};
     #[allow(unused_imports)]
-    use stwo_constraint_framework::{CommonLookupElements, PreprocessedMaskValuesTrait};
+    use stwo_constraint_framework::{
+        LookupElementsTrait, PreprocessedMaskValues, PreprocessedMaskValuesTrait,
+    };
     use stwo_verifier_core::fields::qm31::{QM31, QM31Impl, QM31Trait, qm31_const};
-    use crate::components::sample_evaluations_test_data::*;
+    use crate::components::sample_evaluations::*;
     #[allow(unused_imports)]
     use crate::preprocessed_columns::*;
-    use super::AirComponentImpl;
+    use super::Component;
 
     #[test]
     fn test_evaluation_result() {
         let component = Component {
-            log_size: 15, claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
+            log_size: 15,
+            claimed_sum: qm31_const::<1398335417, 314974026, 1722107152, 821933968>(),
+            common_lookup_elements: LookupElementsTrait::from_z_alpha(
+                qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
+                qm31_const::<476823935, 939223384, 62486082, 122423602>(),
+            ),
         };
+        let public_params = [].span();
         let mut sum: QM31 = Zero::zero();
 
-        let mut preprocessed_trace = new_preprocessed_mask(
-            array![
-                (
-                    M_31_TO_U_32_INPUT_ADDR_IDX,
-                    qm31_const::<15668215, 1851966168, 874056991, 2075313468>(),
-                ),
-                (
-                    M_31_TO_U_32_OUTPUT_ADDR_IDX,
-                    qm31_const::<701904311, 1125291129, 1904795215, 38357025>(),
-                ),
-                (
-                    M_31_TO_U_32_MULTIPLICITY_IDX,
-                    qm31_const::<1979029033, 1524573277, 1930122227, 1490762084>(),
-                ),
-            ]
-                .span(),
-            NUM_PREPROCESSED_COLUMNS,
+        let mut preprocessed_trace = PreprocessedMaskValues { values: Default::default() };
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            M_31_TO_U_32_INPUT_ADDR_IDX,
+            qm31_const::<15668215, 1851966168, 874056991, 2075313468>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            M_31_TO_U_32_OUTPUT_ADDR_IDX,
+            qm31_const::<701904311, 1125291129, 1904795215, 38357025>(),
+        );
+        let mut preprocessed_trace = preprocessed_mask_add(
+            preprocessed_trace,
+            M_31_TO_U_32_MULTIPLICITY_IDX,
+            qm31_const::<1979029033, 1524573277, 1930122227, 1490762084>(),
         );
 
         let mut trace_columns = [
@@ -261,11 +283,9 @@ mod tests {
                 ref trace_columns,
                 ref interaction_columns,
                 qm31_const::<474642921, 876336632, 1911695779, 974600512>(),
-                @CommonLookupElements {
-                    z: qm31_const::<445623802, 202571636, 1360224996, 131355117>(),
-                    alpha: qm31_const::<476823935, 939223384, 62486082, 122423602>(),
-                },
+                public_params,
             );
+        preprocessed_trace.validate_usage();
         assert_eq!(sum, QM31Trait::from_fixed_array(M_31_TO_U_32_SAMPLE_EVAL_RESULT))
     }
 }

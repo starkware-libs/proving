@@ -2,11 +2,11 @@ use std::fs::File;
 use std::io::Write;
 
 use cairo_air::utils::binary_deserialize_from_file;
-use circuit_cairo_verifier::test_utils::{
-    privacy_cairo_verifier_config, privacy_components, verify_cairo_with_component_set,
-};
+use circuit_cairo_verifier::privacy::{privacy_cairo_verifier_config, privacy_components};
 use circuit_cairo_verifier::utils::get_proof_file_path;
-use circuit_cairo_verifier::verify::build_cairo_verifier_circuit;
+use circuit_cairo_verifier::verify::{
+    build_cairo_verifier_circuit, verify_cairo_with_component_set,
+};
 use circuit_common::N_RESERVED;
 use circuit_common::finalize::{ComponentSizes, compute_padded_sizes, pad_to_targets};
 use circuit_common::preprocessed::PreprocessedCircuit;
@@ -15,13 +15,10 @@ use circuit_prover::prover::{
 };
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_serialize::serialize::CircuitSerialize;
-use circuit_verifier::multiverifier::{
-    CircuitVerifierInput, SharedConfig, build_multiverifier_circuit,
-};
 use circuit_verifier::statement::circuit_verifier_proof_config;
-use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
+use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::HashValue;
-use circuits::context::{FinalizedContext, OUTPUT_START};
+use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
@@ -31,17 +28,18 @@ use stwo::core::pcs::PcsConfig;
 use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::mempool::BaseColumnPool;
 
-use crate::multiverifier_test_utils::{
+use crate::test_utils::{
     CIRCUIT_N_PREPROCESSED_COLUMNS, LOG_BLOWUP_FACTOR, MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH,
     MULTIVERIFIER_PREPROCESSED_ROOT, PCS_CONFIG, PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST,
     PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, TARGET_PADDING_SIZES,
     get_preprocessed_multiverifier_from_circuit, leaf_circuit_hash,
     multiverifier_preprocessed_column_log_sizes, native_blake_u32s,
 };
+use crate::verify::{CircuitVerifierInput, SharedConfig, build_multiverifier_circuit};
 
 /// The Cairo verifier proof fixture (produced by [`test_cairo_proof_regression`]).
 const PRIVACY_CAIRO_VERIFIER_PROOF_PATH: &str =
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/multiverifier/proof_cairo.bin");
+    concat!(env!("CARGO_MANIFEST_DIR"), "/../../test_data/circuit_multiverifier/proof_cairo.bin");
 
 /// Builds the `ProofConfig` for the proofs of the inner verifiers.
 fn inner_verifier_proof_config() -> ProofConfig {
@@ -57,8 +55,8 @@ fn get_preprocessed_cairo_verifier(
     target_padding: Option<ComponentSizes>,
 ) -> (PreprocessedCircuit, FinalizedContext<NoValue>) {
     // TODO(az-starkware): Use same ZK blinding as the production flow
-    // (Some(PCS_CONFIG.fri_params.n_queries))
-    let const_config = privacy_cairo_verifier_config(pcs_config.fri_params.log_blowup_factor, None);
+    // (Some(PCS_CONFIG.fri_config.n_queries))
+    let const_config = privacy_cairo_verifier_config(pcs_config.fri_config.log_blowup_factor, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     if let Some(target_padding) = target_padding {
         pad_to_targets(&mut novalue_context, &target_padding);
@@ -135,10 +133,10 @@ fn test_regression_constants() {
         Some(target_padding),
     );
     let cairo_verifier_root: [u32; 8] = le_u32s_from_bytes(
-        pp_cairo_circuit.preprocessed_root(pcs_config.fri_params.log_blowup_factor).0,
+        pp_cairo_circuit.preprocessed_root(pcs_config.fri_config.log_blowup_factor).0,
     );
     let multiverifier_root: [u32; 8] = le_u32s_from_bytes(
-        pp_multiverifier.preprocessed_root(pcs_config.fri_params.log_blowup_factor).0,
+        pp_multiverifier.preprocessed_root(pcs_config.fri_config.log_blowup_factor).0,
     );
     assert_eq!(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, cairo_verifier_root);
     assert_eq!(MULTIVERIFIER_PREPROCESSED_ROOT, multiverifier_root);
@@ -166,7 +164,7 @@ fn prove_privacy_with_recursion_and_prepare() -> (Proof<QM31>, CircuitPublicData
     let cairo_proof = binary_deserialize_from_file(&proof_file).expect("read cairo proof");
 
     // TODO(az-starkware): Use same ZK blinding as the production flow
-    // (Some(PCS_CONFIG.fri_params.n_queries))
+    // (Some(PCS_CONFIG.fri_config.n_queries))
     let const_config = privacy_cairo_verifier_config(LOG_BLOWUP_FACTOR, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     pad_to_targets(&mut novalue_context, &TARGET_PADDING_SIZES);
@@ -313,51 +311,7 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     // multiverifier proof and a cairo verifier proof.
     let preprocessed_multiverifier = PreprocessedCircuit::preprocess_circuit(&mut context);
     let preprocessed_root_multiverifier: [u32; 8] = le_u32s_from_bytes(
-        preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_params.log_blowup_factor).0,
+        preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_config.log_blowup_factor).0,
     );
     assert_eq!(preprocessed_root_multiverifier, MULTIVERIFIER_PREPROCESSED_ROOT);
-}
-
-/// Checks that the arity-1 output-wire digest produced by [`verify_circuit`] matches the
-/// out-of-circuit Blake2s recompute over `[leaf_circuit_hash ||
-/// PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST]`.
-#[test]
-fn test_verify_circuit_single_input_output_digest() {
-    let proof_config = inner_verifier_proof_config();
-    let bytes = std::fs::read(PRIVACY_CAIRO_VERIFIER_PROOF_PATH).unwrap();
-    let proof = deserialize_proof_with_config(&mut bytes.as_slice(), &proof_config).unwrap();
-
-    let circuit_config = CircuitConfig {
-        config: PCS_CONFIG,
-        preprocessed_column_log_sizes: multiverifier_preprocessed_column_log_sizes(),
-    };
-    let context = verify_circuit(
-        circuit_config,
-        PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(),
-        proof,
-        CircuitPublicData { output_digest: PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST.into() },
-    )
-    .unwrap();
-
-    // Mirror the single-child preimage `build_multiverifier_circuit` hashes: the eight 32-bit
-    // words of the leaf circuit hash followed by the N_RESERVED output words.
-    let shared_config = SharedConfig {
-        pcs_config: PCS_CONFIG,
-        proof_config,
-        preprocessed_column_log_sizes: multiverifier_preprocessed_column_log_sizes(),
-    };
-    let payload_words: Vec<u32> =
-        leaf_circuit_hash(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT.into(), &shared_config)
-            .into_iter()
-            .chain(PRIVACY_CAIRO_VERIFIER_OUTPUT_DIGEST)
-            .collect();
-    let expected_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
-    let expected_wires: Vec<QM31> =
-        HashValue::<QM31>::from(expected_digest).into_iter().map(|w| *w.raw()).collect();
-
-    // Reserved output wires occupy indices 3..3+N_RESERVED (zero/one/u at 0..3; see Context::new).
-    assert_eq!(
-        &context.values()[OUTPUT_START..OUTPUT_START + N_RESERVED],
-        expected_wires.as_slice()
-    );
 }

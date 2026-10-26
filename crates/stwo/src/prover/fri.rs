@@ -1,17 +1,16 @@
 use hashbrown::HashMap;
 use itertools::Itertools;
 use num_traits::Zero;
-use tracing::{Level, instrument, span};
+use tracing::instrument;
 
 use crate::core::channel::{Channel, MerkleChannel};
 use crate::core::fields::m31::BaseField;
 use crate::core::fields::qm31::{QM31, SecureField};
 use crate::core::fri::{
-    ExtendedFriLayerProof, ExtendedFriProof, FriLayerProof, FriLayerProofAux, FriParams, FriProof,
+    ExtendedFriLayerProof, ExtendedFriProof, FriConfig, FriLayerProof, FriLayerProofAux, FriProof,
     FriProofAux,
 };
 use crate::core::poly::line::LinePoly;
-use crate::core::proof_of_work::GrindOps;
 use crate::core::queries::{Queries, draw_queries};
 use crate::core::vcs_lifted::merkle_hasher::MerkleHasherLifted;
 use crate::core::vcs_lifted::verifier::LOG_PACKED_LEAF_SIZE;
@@ -94,14 +93,12 @@ pub struct FriDecommitResult<H: MerkleHasherLifted> {
 
 /// A FRI prover that applies the FRI protocol to prove a set of polynomials are of low degree.
 pub struct FriProver<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> {
-    params: FriParams,
+    config: FriConfig,
     first_layer: FriFirstLayerProver<'a, B, MC::H>,
     inner_layers: Vec<FriInnerLayerProver<B, MC::H>>,
     last_layer_poly: LinePoly,
 }
-impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel>
-    FriProver<'a, B, MC>
-{
+impl<'a, B: FriOps + MerkleOpsLifted<MC::H>, MC: MerkleChannel> FriProver<'a, B, MC> {
     /// Runs the commitment phase of FRI on one circle evaluation over a canonic circle domain.
     ///
     /// # Panics
@@ -112,29 +109,29 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     #[instrument(skip_all)]
     pub fn commit(
         channel: &mut MC::C,
-        params: FriParams,
+        config: FriConfig,
         column: &'a SecureEvaluation<B, BitReversedOrder>,
         twiddles: &TwiddleTree<B>,
     ) -> Self {
         assert!(column.domain.is_canonic(), "not canonic");
 
-        let first_layer = Self::commit_first_layer(channel, &params, column);
+        let first_layer = Self::commit_first_layer(channel, &config, column);
         let (inner_layers, last_layer_evaluation) =
-            Self::commit_inner_layers(channel, params, column, twiddles);
-        let last_layer_poly = Self::commit_last_layer(channel, params, last_layer_evaluation);
+            Self::commit_inner_layers(channel, config, column, twiddles);
+        let last_layer_poly = Self::commit_last_layer(channel, config, last_layer_evaluation);
 
-        Self { params, first_layer, inner_layers, last_layer_poly }
+        Self { config, first_layer, inner_layers, last_layer_poly }
     }
 
     /// Commits to the first FRI layer.
     fn commit_first_layer(
         channel: &mut MC::C,
-        params: &FriParams,
+        config: &FriConfig,
         column: &'a SecureEvaluation<B, BitReversedOrder>,
     ) -> FriFirstLayerProver<'a, B, MC::H> {
-        // The circle-to-line fold is always equal to `params.fold_step`.
+        // The circle-to-line fold is always equal to the config.fold_step.
         // TODO(Leo): consider support for smaller steps.
-        let layer = FriFirstLayerProver::new(column, params.fold_step);
+        let layer = FriFirstLayerProver::new(column, config.fold_step);
         MC::mix_hash(channel, layer.merkle_tree.root());
         layer
     }
@@ -144,7 +141,7 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     /// Returns all inner layers and the evaluation of the last layer.
     fn commit_inner_layers(
         channel: &mut MC::C,
-        params: FriParams,
+        config: FriConfig,
         column: &SecureEvaluation<B, BitReversedOrder>,
         twiddles: &TwiddleTree<B>,
     ) -> (Vec<FriInnerLayerProver<B, MC::H>>, LineEvaluation<B>) {
@@ -155,15 +152,15 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
         let mut line_log_size = layer_evaluation.domain().log_size();
 
         // Apply any additional line folds requested for the first stage.
-        if params.fold_step > 1 {
-            let extra_line_folds = params.fold_step - 1;
+        if config.fold_step > 1 {
+            let extra_line_folds = config.fold_step - 1;
             let alpha_sq_powers =
                 squared_alpha_powers(folding_alpha * folding_alpha, extra_line_folds);
             layer_evaluation = B::fold_line(&layer_evaluation, &alpha_sq_powers, twiddles);
             line_log_size -= extra_line_folds;
         }
 
-        let last_layer_log_domain_size = params.last_layer_domain_size().ilog2();
+        let last_layer_log_domain_size = config.last_layer_domain_size().ilog2();
         assert!(
             line_log_size >= last_layer_log_domain_size,
             "The circle-to-line fold results in a smaller line domain than the last layer."
@@ -172,18 +169,18 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
         if line_log_size == last_layer_log_domain_size {
             return (layers, layer_evaluation);
         }
-        // While we can, skip `params.fold_step` layers.
-        while line_log_size > last_layer_log_domain_size + params.fold_step {
-            let layer = FriInnerLayerProver::new(layer_evaluation, params.fold_step);
+        // While we can, skip `config.fold_step` layers.
+        while line_log_size > last_layer_log_domain_size + config.fold_step {
+            let layer = FriInnerLayerProver::new(layer_evaluation, config.fold_step);
             MC::mix_hash(channel, layer.merkle_tree.root());
             let folding_alpha = channel.draw_secure_felt();
-            let alpha_sq_powers = squared_alpha_powers(folding_alpha, params.fold_step);
+            let alpha_sq_powers = squared_alpha_powers(folding_alpha, config.fold_step);
             layer_evaluation = B::fold_line(&layer.evaluation, &alpha_sq_powers, twiddles);
             layers.push(layer);
-            line_log_size -= params.fold_step;
+            line_log_size -= config.fold_step;
         }
 
-        // Do one last fold (of size 0 < k <= params.fold_step) to reach the correct size.
+        // Do one last fold (of size 0 < k <= config.fold_step) to reach the correct size.
         let last_fold_step = line_log_size - last_layer_log_domain_size;
         let layer = FriInnerLayerProver::new(layer_evaluation, last_fold_step);
         MC::mix_hash(channel, layer.merkle_tree.root());
@@ -207,15 +204,15 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     /// * The evaluation is not of sufficiently low degree.
     fn commit_last_layer(
         channel: &mut MC::C,
-        params: FriParams,
+        config: FriConfig,
         evaluation: LineEvaluation<B>,
     ) -> LinePoly {
-        assert_eq!(evaluation.len(), params.last_layer_domain_size());
+        assert_eq!(evaluation.len(), config.last_layer_domain_size());
 
         let evaluation = evaluation.to_cpu();
         let mut coeffs = evaluation.interpolate().into_ordered_coefficients();
 
-        let last_layer_degree_bound = 1 << params.log_last_layer_degree_bound;
+        let last_layer_degree_bound = 1 << config.log_last_layer_degree_bound;
         let zeros = coeffs.split_off(last_layer_degree_bound);
         assert!(zeros.iter().all(SecureField::is_zero), "invalid degree");
 
@@ -226,19 +223,13 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     }
 
     /// Returns a FRI proof and the query positions.
-    pub fn decommit(self, channel: &mut MC::C, pow_bits: u32) -> FriDecommitResult<MC::H> {
+    pub fn decommit(self, channel: &mut MC::C) -> FriDecommitResult<MC::H> {
         let first_layer_log_size = self.first_layer.column.domain.log_size();
-
-        // Proof of work.
-        let span1 = span!(Level::INFO, "Grind", class = "Queries POW").entered();
-        let proof_of_work = B::grind(channel, pow_bits);
-        span1.exit();
-        channel.mix_u64(proof_of_work);
         let unsorted_query_locations =
-            draw_queries(channel, first_layer_log_size, self.params.n_queries);
+            draw_queries(channel, first_layer_log_size, self.config.n_queries);
         let queries = Queries::new(&unsorted_query_locations, first_layer_log_size);
 
-        let fri_proof = self.decommit_on_queries(&queries, proof_of_work);
+        let fri_proof = self.decommit_on_queries(&queries);
         FriDecommitResult {
             fri_proof,
             query_positions: queries.positions,
@@ -249,18 +240,14 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
     /// # Panics
     ///
     /// Panics if the queries were sampled on the wrong domain size.
-    pub fn decommit_on_queries(
-        self,
-        queries: &Queries,
-        proof_of_work: u64,
-    ) -> ExtendedFriProof<MC::H> {
-        let Self { params, first_layer, inner_layers, last_layer_poly } = self;
+    pub fn decommit_on_queries(self, queries: &Queries) -> ExtendedFriProof<MC::H> {
+        let Self { config, first_layer, inner_layers, last_layer_poly } = self;
 
-        let first_layer_proof = first_layer.decommit(queries, params.fold_step);
+        let first_layer_proof = first_layer.decommit(queries, config.fold_step);
 
         let inner_layer_proofs = inner_layers
             .into_iter()
-            .scan(queries.fold(params.fold_step), |layer_queries, layer| {
+            .scan(queries.fold(config.fold_step), |layer_queries, layer| {
                 let fold_step = layer.fold_step;
                 let layer_proof = layer.decommit(layer_queries);
                 *layer_queries = layer_queries.fold(fold_step);
@@ -276,7 +263,6 @@ impl<'a, B: FriOps + MerkleOpsLifted<MC::H> + GrindOps<MC::C>, MC: MerkleChannel
                 first_layer: first_layer_proof.proof,
                 inner_layers: inner_proofs,
                 last_layer_poly,
-                proof_of_work,
             },
             aux: FriProofAux { first_layer: first_layer_proof.aux, inner_layers: inner_layers_aux },
         }
@@ -447,7 +433,7 @@ mod tests {
     use crate::core::circle::{CirclePointIndex, Coset};
     use crate::core::fields::m31::BaseField;
     use crate::core::fields::qm31::{SECURE_EXTENSION_DEGREE, SecureField};
-    use crate::core::fri::FriParams;
+    use crate::core::fri::FriConfig;
     use crate::core::poly::circle::CircleDomain;
     use crate::core::queries::Queries;
     use crate::core::test_utils::test_channel;
@@ -471,7 +457,7 @@ mod tests {
     fn committing_high_degree_polynomial_fails() {
         const LOG_EXPECTED_BLOWUP_FACTOR: u32 = LOG_BLOWUP_FACTOR;
         const LOG_INVALID_BLOWUP_FACTOR: u32 = LOG_BLOWUP_FACTOR - 1;
-        let config = FriParams::new(0, 2, LOG_EXPECTED_BLOWUP_FACTOR, 3, 1);
+        let config = FriConfig::new(0, 2, LOG_EXPECTED_BLOWUP_FACTOR, 3, 1);
         let column = polynomial_evaluation(6, LOG_INVALID_BLOWUP_FACTOR);
         let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
@@ -483,7 +469,7 @@ mod tests {
     fn committing_column_from_invalid_domain_fails() {
         let invalid_domain = CircleDomain::new(Coset::new(CirclePointIndex::generator(), 3));
         assert!(!invalid_domain.is_canonic(), "must be an invalid domain");
-        let config = FriParams::new(0, 2, 2, 3, 1);
+        let config = FriConfig::new(0, 2, 2, 3, 1);
         let column = SecureEvaluation::new(
             invalid_domain,
             [SecureField::one(); 1 << 4].into_iter().collect(),
@@ -511,32 +497,32 @@ mod tests {
 
     #[test]
     fn test_fri_commit_decommit_with_jumps() {
-        let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
+        let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
         let column = polynomial_evaluation(6, LOG_BLOWUP_FACTOR);
         let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
         let prover = FriProver::commit(&mut test_channel(), config, &column, &twiddles);
         let queries = Queries::from_positions(vec![0, 3], 6 + LOG_BLOWUP_FACTOR);
-        prover.decommit_on_queries(&queries, 0);
+        prover.decommit_on_queries(&queries);
     }
 
     #[test]
     fn test_fri_commit_decommit_with_packed_leaves() {
         for fold_step in 2..=4 {
-            let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
+            let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
             let column = polynomial_evaluation(8, LOG_BLOWUP_FACTOR);
             let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
             let prover = FriProver::commit(&mut test_channel(), config, &column, &twiddles);
             let queries = Queries::from_positions(vec![1, 6, 11], 8 + LOG_BLOWUP_FACTOR);
-            prover.decommit_on_queries(&queries, 0);
+            prover.decommit_on_queries(&queries);
         }
     }
 
     #[test]
     fn test_fri_commit_decommit_with_packed_leaves_simd() {
         for fold_step in 2..=4 {
-            let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
+            let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, fold_step);
             let cpu_eval = polynomial_evaluation(8, LOG_BLOWUP_FACTOR);
             let column = SecureEvaluation::new(
                 cpu_eval.domain,
@@ -550,7 +536,7 @@ mod tests {
                 &twiddles,
             );
             let queries = Queries::from_positions(vec![1, 6, 11], 8 + LOG_BLOWUP_FACTOR);
-            prover.decommit_on_queries(&queries, 0);
+            prover.decommit_on_queries(&queries);
         }
     }
 
@@ -559,7 +545,7 @@ mod tests {
         use crate::core::channel::Keccak256Channel;
         use crate::core::vcs_lifted::keccak256_merkle::Keccak256MerkleChannel;
 
-        let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
+        let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
         let column = polynomial_evaluation(6, LOG_BLOWUP_FACTOR);
         let twiddles = CpuBackend::precompute_twiddles(column.domain.half_coset);
 
@@ -570,7 +556,7 @@ mod tests {
             &twiddles,
         );
         let queries = Queries::from_positions(vec![0, 3], 6 + LOG_BLOWUP_FACTOR);
-        prover.decommit_on_queries(&queries, 0);
+        prover.decommit_on_queries(&queries);
     }
 
     #[test]
@@ -578,7 +564,7 @@ mod tests {
         use crate::core::channel::Keccak256Channel;
         use crate::core::vcs_lifted::keccak256_merkle::Keccak256MerkleChannel;
 
-        let config = FriParams::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
+        let config = FriConfig::new(0, 2, LOG_BLOWUP_FACTOR, 3, 2);
         let cpu_eval = polynomial_evaluation(8, LOG_BLOWUP_FACTOR);
         let column =
             SecureEvaluation::new(cpu_eval.domain, cpu_eval.values.to_vec().into_iter().collect());
@@ -590,7 +576,7 @@ mod tests {
             &twiddles,
         );
         let queries = Queries::from_positions(vec![1, 6, 11], 8 + LOG_BLOWUP_FACTOR);
-        prover.decommit_on_queries(&queries, 0);
+        prover.decommit_on_queries(&queries);
     }
 
     #[test]

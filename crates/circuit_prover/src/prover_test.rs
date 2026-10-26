@@ -2,13 +2,13 @@ use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
-    CircuitInteractionElements, column_log_sizes_per_tree, logup_sum,
+    CircuitInteractionElements, column_log_sizes_per_tree, lookup_sum,
 };
 use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
 };
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
-use circuits::blake::{blake_g_gate, blake2s, m31_to_u32, triple_xor};
+use circuits::blake::{blake_g_gate, blake2s_m31, m31_to_u32, triple_xor};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
@@ -22,7 +22,7 @@ use stwo::core::channel::{Channel, MerkleChannel};
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::CommitmentSchemeVerifier;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
-use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sM31MerkleChannel, Blake2sMerkleHasher};
 use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
 
 use crate::circuit_air::circuit_components::CircuitComponents;
@@ -88,11 +88,8 @@ pub fn build_blake_context() -> Context<QM31> {
         ));
     }
     for _ in 0..n_blakes {
-        let output = blake2s(&mut context, &inputs, n_bytes as usize).0;
-        eval!(&mut context, (*output[0].raw()) + (*output[1].raw()));
-        eval!(&mut context, (*output[2].raw()) + (*output[3].raw()));
-        eval!(&mut context, (*output[4].raw()) + (*output[5].raw()));
-        eval!(&mut context, (*output[6].raw()) + (*output[7].raw()));
+        let output = blake2s_m31(&mut context, &inputs, n_bytes as usize);
+        eval!(&mut context, (output.0) + (output.1));
     }
 
     context
@@ -221,10 +218,10 @@ fn stwo_verify<MC: MerkleChannel>(
         &preprocessed_column_log_sizes,
     );
 
-    let log_blowup_factor = pcs_config.fri_params.log_blowup_factor;
+    let log_blowup_factor = pcs_config.fri_config.log_blowup_factor;
     let verifier_channel = &mut MC::C::default();
     verifier_channel.mix_felts(&[channel_salt.into()]);
-    pcs_config.fri_params.mix_into(verifier_channel);
+    pcs_config.fri_config.mix_into(verifier_channel);
     let commitment_scheme = &mut CommitmentSchemeVerifier::<MC>::new(pcs_config);
 
     let [trace_log_sizes, interaction_log_sizes] = column_log_sizes_per_tree(&log_sizes);
@@ -266,7 +263,7 @@ fn stwo_verify<MC: MerkleChannel>(
     )
     .unwrap();
 
-    assert_eq!(logup_sum(&claim, &interaction_claim, &interaction_elements,), QM31::zero());
+    assert_eq!(lookup_sum(&claim, &interaction_claim, &interaction_elements,), QM31::zero());
 }
 
 #[test]
@@ -298,7 +295,7 @@ fn test_prove_and_stark_verify_blake_gate_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -314,7 +311,7 @@ fn test_prove_and_stark_verify_permutation_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -330,7 +327,7 @@ fn test_prove_and_stark_verify_fibonacci_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -346,7 +343,7 @@ fn test_prove_and_stark_verify_triple_xor_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -362,7 +359,7 @@ fn test_prove_and_stark_verify_m31_to_u32_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 #[test]
@@ -378,7 +375,7 @@ fn test_prove_and_stark_verify_blake_g_gate_context() {
         default_circuit_pcs_config(preprocessed_circuit.trace_log_size()),
     )
     .unwrap();
-    stwo_verify::<Blake2sMerkleChannel>(circuit_proof, &preprocessed_circuit);
+    stwo_verify::<Blake2sM31MerkleChannel>(circuit_proof, &preprocessed_circuit);
 }
 
 /// Verifies a [`CircuitProof`] using the circuit verifier. Requires the expected
@@ -419,7 +416,7 @@ fn test_prove_and_circuit_verify_triple_xor_context() {
 }
 
 /// Extract the preprocessed-trace Merkle root (`commitments[0]`) from a `CircuitProof` as
-/// `[u32; 8]`.
+/// `[u32; 8]`, matching the layout `ReducedHashValue<QM31>` consumes via `From<[u32; 8]>`.
 fn preprocessed_root_from_proof(circuit_proof: &CircuitProof<Blake2sMerkleHasher>) -> [u32; 8] {
     let hash: Blake2sHash = circuit_proof.stark_proof.proof.commitments[0];
     le_u32s_from_bytes(hash.0)

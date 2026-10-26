@@ -1,16 +1,24 @@
+pub mod consts;
+#[cfg(test)]
+mod tests;
+pub mod utils;
+
 use std::error::Error;
 use std::sync::Arc;
 
 use anyhow::Result;
 use cairo_air::verifier::INTERACTION_POW_BITS;
+use cairo_vm::types::program::Program;
 use circuit_cairo_verifier::all_components::all_components;
-use circuit_cairo_verifier::privacy::PRIVACY_TRANSACTION_COMPONENTS;
+use circuit_cairo_verifier::statement::AUX_DATA_FIXED_LEN;
 use circuit_cairo_verifier::verify::{
     CairoVerifierConfig, NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit, get_preprocessed_root,
+    verify_fixed_cairo_circuit,
 };
 use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_sizes};
-use circuit_registry::CircuitProofConfig;
+use circuit_registry::{CircuitProofConfig, CircuitRegistry};
 use circuit_serialize::deserialize::deserialize_proof_with_config;
+use circuit_verifier::components::prelude::PreProcessedColumnId;
 use circuit_verifier::statement::{
     INTERACTION_POW_BITS as CIRCUIT_INTERACTION_POW_BITS, all_circuit_components,
     circuit_component_log_sizes,
@@ -21,30 +29,35 @@ use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::ProofConfig;
 use itertools::Itertools;
-use privacy_common::consts::{
-    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG,
-    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_CIRCUIT_PREPROCESSED_IDS,
-    PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
-};
-use privacy_common::utils::ProofHeader;
-use privacy_common::{
-    compute_privacy_bootloader_output_hash, get_large_proofs_circuit_registry,
-    get_privacy_bootloader_program,
-};
+use starknet_types_core::felt::Felt;
+use starknet_types_core::hash::Blake2Felt252;
+use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
-use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
+use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::Felt252;
-use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 use tracing::{Level, info, span};
+pub use utils::{VERSION_BYTES, Version};
 
-#[cfg(test)]
-mod tests;
+use crate::consts::{
+    CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG, LARGE_PROOFS_CIRCUIT_REGISTRY_JSON,
+    LEAF_BOOTLOADER_JSON, MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES,
+    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_BOOTLOADER_JSON,
+    PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, PRIVACY_TRANSACTION_COMPONENTS,
+};
+use crate::utils::ProofHeader;
 
-// Re-exported for external consumers (the sequencer uses `PrivacyProofOutput` and
-// `utils::ProofHeader` through this crate).
-pub use privacy_common::{PrivacyProofOutput, utils};
+pub struct PrivacyProofOutput {
+    /// Proof bytes, laid out as the serialized [`ProofHeader`] of the `privacy-prove` crate that
+    /// generated the proof, followed by the compressed proof. The format must be consistent
+    /// between the prover and verifier:
+    /// - `privacy_prove` / `verify_cairo`
+    /// - `privacy_recursive_prove` / `verify_recursive_circuit`
+    pub proof: Vec<u8>,
+    pub output_preimage: Vec<Felt>,
+}
 
 /// Splits the version-prefixed proof bytes into the embedded header and the remaining
 /// compressed proof bytes.
@@ -60,6 +73,39 @@ pub(crate) fn decompress_proof(
     max_bytes: usize,
 ) -> Result<Vec<u8>, Box<dyn Error>> {
     Ok(zstd::bulk::decompress(compressed, max_bytes)?)
+}
+
+pub fn verify_cairo(proof_output: &PrivacyProofOutput) -> Result<(), Box<dyn Error>> {
+    let _span = span!(Level::INFO, "verify_privacy_bootloader").entered();
+
+    let verifier_config = get_cairo_verifier_config()?;
+
+    info!("Decompress and deserialize the proof");
+    let (_header, compressed_proof) = split_proof_header(&proof_output.proof)?;
+    let proof_bytes = decompress_proof(compressed_proof, MAX_CAIRO_PROOF_UNCOMPRESSED_BYTES)?;
+    let bootloader_program = get_privacy_bootloader_program()?;
+    let program_len = bootloader_program.data_len();
+    let n_components = verifier_config.proof_config.n_components();
+    let (serialized_aux_data_bytes, serialized_proof_bytes) =
+        proof_bytes.split_at((AUX_DATA_FIXED_LEN + program_len + n_components) * 4);
+    let serialized_aux_data: Vec<M31> = serialized_aux_data_bytes
+        .chunks_exact(4)
+        .map(|c| M31::from(u32::from_le_bytes(c.try_into().unwrap())))
+        .collect();
+    let mut serialized_proof: &[u8] = serialized_proof_bytes;
+    let proof =
+        deserialize_proof_with_config(&mut serialized_proof, &verifier_config.proof_config)?;
+    if !serialized_proof.is_empty() {
+        return Err("Proof deserialization failed".into());
+    }
+
+    info!("Compute the output");
+    let output_hash = compute_privacy_bootloader_output_hash(&proof_output.output_preimage);
+
+    info!("Call the verifier");
+    verify_fixed_cairo_circuit(&verifier_config, proof, serialized_aux_data, output_hash)?;
+
+    Ok(())
 }
 
 pub fn verify_recursive_circuit(proof_output: &PrivacyProofOutput) -> Result<(), Box<dyn Error>> {
@@ -136,7 +182,7 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
         program_entries.push(Felt252::from(value).get_limbs());
     }
 
-    let cairo_lifting_log_size = cairo_proof_config.log_evaluation_domain_size();
+    let cairo_lifting_log_size: u32 = cairo_proof_config.log_evaluation_domain_size() as u32;
     let preprocessed_trace_variant = PreProcessedTraceVariant::CanonicalSmall;
 
     Ok(CairoVerifierConfig {
@@ -145,8 +191,30 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
         program: Arc::from(program_entries.as_slice()),
         preprocessed_root: get_preprocessed_root(cairo_lifting_log_size),
         preprocessed_trace_variant,
-        zk_blinding_amount: Some(CIRCUIT_FRI_CONFIG.params.n_queries + NON_QUERY_INFO_LEAK),
+        zk_blinding_amount: Some(CIRCUIT_FRI_CONFIG.n_queries + NON_QUERY_INFO_LEAK),
     })
+}
+
+pub fn get_privacy_bootloader_program() -> Result<Program, Box<dyn Error>> {
+    let bootloader_program = Program::from_bytes(PRIVACY_BOOTLOADER_JSON, Some("main"))?;
+    Ok(bootloader_program)
+}
+
+pub fn get_leaf_bootloader_program() -> Result<Program, Box<dyn Error>> {
+    let bootloader_program = Program::from_bytes(LEAF_BOOTLOADER_JSON, Some("main"))?;
+    Ok(bootloader_program)
+}
+
+/// Computes the Blake2s digest that the privacy bootloader emits as its output memory cells.
+///
+/// The bootloader hashes the felt-encoded `output_preimage` with Blake2s (the same encoding as
+/// [`Blake2Felt252::encode_felt252_data_and_calc_blake_hash`]) and stores the raw 256-bit digest
+/// across its output cells. This returns that digest directly (before any packing/reduction into
+/// a felt), which is the `output_hash` the circuit cairo verifier expects.
+pub fn compute_privacy_bootloader_output_hash(output_preimage: &[Felt]) -> Blake2sHash {
+    let u32_words = Blake2Felt252::encode_felts_to_u32s(output_preimage);
+    let byte_stream: Vec<u8> = u32_words.iter().flat_map(|word| word.to_le_bytes()).collect();
+    Blake2sHasher::hash(&byte_stream)
 }
 
 pub fn get_recursive_circuit_config(
@@ -162,7 +230,7 @@ pub fn get_recursive_circuit_config(
     } else {
         let config = leaf_verifier_config(preprocessed_root)?;
         let preprocessed_column_log_sizes =
-            layout_from_component_sizes(&(config.component_log_sizes).to_component_sizes());
+            layout_from_component_sizes(&(&config.component_log_sizes).into());
         Ok(CircuitConfig {
             config: pcs_config_from_circuit_proof_config(&config),
             preprocessed_column_log_sizes,
@@ -171,7 +239,7 @@ pub fn get_recursive_circuit_config(
 }
 
 pub fn get_proof_config(preprocessed_root: &[u32; 8]) -> Result<ProofConfig, Box<dyn Error>> {
-    let components = all_circuit_components::<QM31>().into_index_map();
+    let components = all_circuit_components::<QM31>();
     if *preprocessed_root == PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT {
         Ok(ProofConfig::new(
             &components,
@@ -182,7 +250,7 @@ pub fn get_proof_config(preprocessed_root: &[u32; 8]) -> Result<ProofConfig, Box
     } else {
         let config = leaf_verifier_config(preprocessed_root)?;
         let n_preprocessed_columns =
-            layout_from_component_sizes(&(config.component_log_sizes).to_component_sizes()).len();
+            layout_from_component_sizes(&(&config.component_log_sizes).into()).len();
         let pcs_config = pcs_config_from_circuit_proof_config(&config);
         Ok(ProofConfig::new(
             &components,
@@ -195,9 +263,8 @@ pub fn get_proof_config(preprocessed_root: &[u32; 8]) -> Result<ProofConfig, Box
 
 fn pcs_config_from_circuit_proof_config(circuit_proof_config: &CircuitProofConfig) -> PcsConfig {
     // Compute the trace size
-    let preprocessed_column_log_sizes = layout_from_component_sizes(
-        &(circuit_proof_config.component_log_sizes).to_component_sizes(),
-    );
+    let preprocessed_column_log_sizes =
+        layout_from_component_sizes(&(&circuit_proof_config.component_log_sizes).into());
     let component_sizes = circuit_component_log_sizes(
         &all_circuit_components::<NoValue>(),
         &preprocessed_column_log_sizes,
@@ -206,10 +273,7 @@ fn pcs_config_from_circuit_proof_config(circuit_proof_config: &CircuitProofConfi
     let trace_size = component_sizes.iter().max().unwrap();
 
     // Build the PcsConfig
-    PcsConfig::from_fri_config(FriConfig {
-        params: circuit_proof_config.fri_params,
-        trace_log_size: *trace_size,
-    })
+    PcsConfig::from_fri_and_trace_size(circuit_proof_config.fri_config, *trace_size)
 }
 
 // The config used to prove the leaf verifier with the given preprocessed root.
@@ -230,4 +294,8 @@ pub fn get_cairo_preprocessed_circuit(
 ) -> PreprocessedCircuit {
     let mut novalue_context = build_cairo_verifier_circuit(cairo_verifier_config);
     PreprocessedCircuit::preprocess_circuit(&mut novalue_context)
+}
+
+pub fn get_large_proofs_circuit_registry() -> CircuitRegistry {
+    serde_json::from_str(LARGE_PROOFS_CIRCUIT_REGISTRY_JSON).unwrap()
 }

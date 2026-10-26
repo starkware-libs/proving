@@ -47,12 +47,11 @@ impl<T> AuthPaths<T> {
 
     /// Validates that the structure of the authentication paths is consistent with the tree heights
     /// and the number of queries.
-    pub fn validate_structure(&self, tree_heights: &[u32], n_queries: usize) {
+    pub fn validate_structure(&self, tree_heights: &[usize], n_queries: usize) {
         for (tree_data, height) in zip_eq(&self.data, tree_heights) {
             assert_eq!(tree_data.len(), n_queries);
-            let height: usize = (*height).try_into().unwrap();
             for path in tree_data {
-                assert_eq!(path.0.len(), height);
+                assert_eq!(path.0.len(), *height);
             }
         }
     }
@@ -71,7 +70,8 @@ fn hash_leaf_m31s(
     context: &mut Context<impl IValue>,
     values: &[M31Wrapper<Var>],
 ) -> HashValue<Var> {
-    // Convert each `M31` directly into a single Blake2s message word.
+    // Convert each `M31` directly into a single Blake2s message word. `m31_to_u32` already emits a
+    // valid `(low_u16, high_u16, 0, 0)` u32 encoding, so `new_unsafe` (no range check) is safe.
     let message_u32s = values.iter().map(|value| m31_to_u32(context, *value)).collect();
     blake2s_u32s(context, message_u32s, values.len() * 4)
 }

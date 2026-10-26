@@ -131,9 +131,6 @@ Type: Intentional deviation (efficiency)
 Risk: NEUTRAL (reduces number of Merkle trees and proof size)
 Status: OPEN
 Notes: The `vcs_lifted` module is a newer addition alongside the original `vcs`.
-The Cairo verifier (`stwo_cairo_verifier/crates/verifier_core`) does not support a
-preprocessed tree lifted to a height of its own, matching the
-circuit prover.
 
 ### DIVERGENCE-007: Security Parameter Defaults
 
@@ -212,13 +209,13 @@ Risk: NEUTRAL for completeness (an honest prover always finds a nonce);
 strictly raises the cost of re-rolling the OODS challenge to search for a
 favorable point.
 Status: OPEN
-Notes: The grind is *not* counted in `FriParams::security_bits()`, so claimed
+Notes: The grind is *not* counted in `FriConfig::security_bits()`, so claimed
 security is unchanged and the accounting stays conservative. Prover and all
 three verifiers mix the nonce at the same transcript position (immediately after
 the composition commitment, before the point is drawn), so the transcript stays
 byte-identical across implementations; a mismatch in that position or in
 `OODS_POW_BITS` between any two of them would desync Fiat-Shamir. The 16-bit
-difficulty is a global constant, independent of `FriParams::pow_bits`, and is
+difficulty is a global constant, independent of `FriConfig::pow_bits`, and is
 therefore not mixed into the channel.
 
 ## Resolved Divergences

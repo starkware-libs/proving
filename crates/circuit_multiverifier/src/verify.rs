@@ -1,4 +1,6 @@
 use circuit_common::N_RESERVED;
+use circuit_verifier::statement::{CircuitStatement, circuit_verifier_proof_config};
+use circuit_verifier::verify::CircuitConfig;
 use circuits::blake::{HashValue, blake2s_u32s};
 use circuits::context::{Context, FinalizedContext, Var};
 use circuits::ivalue::{IValue, NoValue};
@@ -10,8 +12,13 @@ use itertools::{Itertools, chain};
 use stwo::core::pcs::PcsConfig;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
-use crate::statement::{CircuitStatement, circuit_verifier_proof_config};
-use crate::verify::CircuitConfig;
+#[cfg(test)]
+#[path = "verify_test.rs"]
+mod verify_test;
+
+#[cfg(test)]
+#[path = "backward_compatibility_test.rs"]
+mod backward_compatibility_test;
 
 /// A circuit proof together with metadata needed to build the [`CircuitStatement`] against which
 /// the proof will be verified. The verifying circuit expects the output gates of a verified

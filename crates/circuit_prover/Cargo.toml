@@ -6,7 +6,7 @@ edition.workspace = true
 [features]
 # Exposes `test_utils` to other crates' test builds. Off by default, so the helpers
 # are excluded from normal/release builds. Consumers enable it via dev-dependencies.
-test-utils = ["dep:circuit-cairo-verifier", "circuit-verifier/test-utils"]
+test-utils = []
 
 [dependencies]
 itertools.workspace = true
@@ -20,18 +20,12 @@ rayon.workspace = true
 stwo_cairo_prover.workspace = true
 stwo_cairo_common = { workspace = true, features = ["prover"] }
 circuits.workspace = true
-circuit-cairo-verifier = { workspace = true, features = ["test-utils"], optional = true }
 circuit-verifier.workspace = true
 circuit-common = { workspace = true, features = ["prover"] }
 circuits-stark-verifier.workspace = true
 rand.workspace = true
 
 [dev-dependencies]
-circuit-prover = { path = ".", features = ["test-utils"] }
 circuits = { workspace = true, features = ["test-utils"] }
 expect-test.workspace = true
 starknet-ff.workspace = true
-
-[package.metadata.cargo-shear]
-# The self dev-dependency only turns `test-utils` on for this crate's own tests.
-ignored = ["circuit-prover"]

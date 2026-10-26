@@ -50,7 +50,7 @@ impl CircuitComponents {
                     claimed_sum,
                 )) as Box<dyn ComponentProver<SimdBackend>>
             }),
-            qm_31_ops: Box::new(|tsp, log_size, claimed_sum| {
+            qm31_ops: Box::new(|tsp, log_size, claimed_sum| {
                 Box::new(qm_31_ops::Component::new(
                     tsp,
                     qm_31_ops::Eval {

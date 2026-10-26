@@ -19,8 +19,8 @@
     "verify_triple_sum_32_input_b_limb_1",
     "verify_triple_sum_32_input_c_limb_0",
     "verify_triple_sum_32_input_c_limb_1",
-    "verify_triple_sum_32_input_res_limb_0",
-    "verify_triple_sum_32_input_res_limb_1"
+    "verify_triple_sum_32_input_s_limb_0",
+    "verify_triple_sum_32_input_s_limb_1"
   ],
   "input_const_columns": [],
   "prover_output": [
@@ -86,7 +86,7 @@
                 {
                   "Var": [
                     "M31",
-                    "verify_triple_sum_32_input_res_limb_0"
+                    "verify_triple_sum_32_input_s_limb_0"
                   ]
                 }
               ]
@@ -209,7 +209,7 @@
                 {
                   "Var": [
                     "M31",
-                    "verify_triple_sum_32_input_res_limb_1"
+                    "verify_triple_sum_32_input_s_limb_1"
                   ]
                 }
               ]

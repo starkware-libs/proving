@@ -1,5 +1,5 @@
-use circuit_prover::test_utils::{PCS_CONFIG, multiverifier_preprocessed_column_log_sizes};
-use circuit_verifier::multiverifier::{SharedConfig, shared_config};
+use circuit_multiverifier::test_utils::{PCS_CONFIG, multiverifier_preprocessed_column_log_sizes};
+use circuit_multiverifier::verify::{SharedConfig, shared_config};
 use circuits::blake::HashValue;
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::Node;
@@ -37,7 +37,7 @@ fn topology_builds() {
 /// The emitted circuit depends only on the parameters, never on the witness tree's shape.
 #[test]
 fn circuit_is_fixed_across_tree_shapes() {
-    use circuit_verifier::multiverifier::CircuitVerifierInput;
+    use circuit_multiverifier::verify::CircuitVerifierInput;
     use circuits::ivalue::NoValue;
     use circuits_stark_verifier::proof::empty_proof;
 

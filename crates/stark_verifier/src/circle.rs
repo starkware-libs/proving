@@ -4,6 +4,7 @@ use circuits::ivalue::IValue;
 use circuits::ops::{CircuitOps, inv};
 use circuits::simd::Simd;
 use circuits::wrappers::M31Wrapper;
+use num_traits::CheckedSub;
 use stwo::core::circle::{CirclePoint, M31_CIRCLE_GEN};
 use stwo::core::fields::m31::M31;
 
@@ -43,7 +44,7 @@ pub fn double_point_simd(
 pub fn repeated_double_point_simd(
     context: &mut Context<impl IValue>,
     p: &CirclePoint<Simd>,
-    n_doubles: u32,
+    n_doubles: usize,
 ) -> CirclePoint<Simd> {
     let mut p = p.clone();
     for _ in 0..n_doubles {
@@ -94,14 +95,14 @@ pub fn sub_points_simd(
 }
 
 /// Computes the generator point of the subgroup of size `2^log_domain_size`.
-pub fn generator_point(log_domain_size: u32) -> CirclePoint<M31> {
-    M31_CIRCLE_GEN.repeated_double(31_u32.checked_sub(log_domain_size).unwrap())
+pub fn generator_point(log_domain_size: usize) -> CirclePoint<M31> {
+    M31_CIRCLE_GEN.repeated_double(31.checked_sub(&log_domain_size).unwrap() as u32)
 }
 
 /// Computes the generator point of the subgroup of size `2^log_domain_size`, repeated `size` times.
 pub fn generator_point_simd(
     context: &mut Context<impl IValue>,
-    log_domain_size: u32,
+    log_domain_size: usize,
     size: usize,
 ) -> CirclePoint<Simd> {
     let pt = generator_point(log_domain_size);
@@ -114,7 +115,7 @@ pub fn generator_point_simd(
 pub fn coset_vanishing_poly(
     context: &mut Context<impl IValue>,
     mut x: Var,
-    log_trace_size: u32,
+    log_trace_size: usize,
 ) -> Var {
     assert!(log_trace_size >= 1);
 
@@ -127,7 +128,7 @@ pub fn coset_vanishing_poly(
 /// Computes the inverse of the domain polynomial at `x`. See [coset_vanishing_poly].
 ///
 /// The caller must ensure `x` is not on the trace coset.
-pub fn denom_inverse(context: &mut Context<impl IValue>, x: Var, log_trace_size: u32) -> Var {
+pub fn denom_inverse(context: &mut Context<impl IValue>, x: Var, log_trace_size: usize) -> Var {
     let denom = coset_vanishing_poly(context, x, log_trace_size);
     inv(context, denom)
 }
@@ -140,7 +141,7 @@ pub fn compute_half_coset_points<Value: IValue>(
     log_size: u32,
 ) -> Vec<CirclePoint<Simd>> {
     assert!(log_size > 0);
-    let gen_pt = generator_point_simd(context, log_size, base_points.x.len());
+    let gen_pt = generator_point_simd(context, log_size as usize, base_points.x.len());
     let mut curr_pt = base_points.clone();
     let mut half_coset = vec![curr_pt.clone()];
     let half_log_size = log_size - 1;

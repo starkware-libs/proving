@@ -28,12 +28,12 @@ pub fn proof_from_stark_proof(
     let fri_proof = &proof.proof.fri_proof;
 
     let (oods_pow_low, oods_pow_high) = split_u64(proof.proof.oods_proof_of_work);
-    let (pow_low, pow_high) = split_u64(proof.proof.fri_proof.proof_of_work);
+    let (pow_low, pow_high) = split_u64(proof.proof.proof_of_work);
     let (interaction_pow_low, interaction_pow_high) = split_u64(interaction_pow_nonce);
 
     let all_fold_steps = compute_all_fold_steps(
-        config.log_trace_size() - config.fri.params.log_last_layer_degree_bound,
-        config.fri.params.fold_step,
+        config.log_trace_size - config.fri.log_last_layer_degree_bound as usize,
+        config.fri.fold_step as usize,
     );
 
     Proof {
@@ -63,11 +63,11 @@ pub fn proof_from_stark_proof(
                 .collect(),
                 last_layer_coefs: (*fri_proof.last_layer_poly).to_vec(),
             },
-            pow_nonce: qm31_from_u32s(pow_low, pow_high, 0, 0),
             auth_paths: construct_fri_auth_paths(proof, config, &all_fold_steps),
             witness: construct_fri_witness(proof, &all_fold_steps),
         },
         oods_pow_nonce: qm31_from_u32s(oods_pow_low, oods_pow_high, 0, 0),
+        pow_nonce: qm31_from_u32s(pow_low, pow_high, 0, 0),
         interaction_pow_nonce: qm31_from_u32s(interaction_pow_low, interaction_pow_high, 0, 0),
         channel_salt: qm31_from_u32s(channel_salt, 0, 0, 0),
     }
@@ -137,7 +137,6 @@ fn construct_eval_domain_auth_paths(
     config: &ProofConfig,
 ) -> AuthPaths<QM31> {
     let unsorted_query_locations = &proof.aux.unsorted_query_locations;
-    let path_len: usize = config.log_evaluation_domain_size().try_into().unwrap();
     let res = proof
         .aux
         .trace_decommitment
@@ -148,8 +147,8 @@ fn construct_eval_domain_auth_paths(
                 .map(|query_idx| {
                     let mut auth_path: AuthPath<QM31> = AuthPath(vec![]);
                     let mut pos = *query_idx;
-                    for node_values in &merkle_decommitment_aux.all_node_values[..path_len] {
-                        let hash = node_values[&(pos ^ 1)];
+                    for j in 0..config.log_evaluation_domain_size() {
+                        let hash = merkle_decommitment_aux.all_node_values[j][&(pos ^ 1)];
                         auth_path.0.push(hash.into());
                         pos >>= 1;
                     }
@@ -167,7 +166,7 @@ fn construct_eval_domain_auth_paths(
 fn construct_fri_auth_paths(
     proof: &ExtendedStarkProof<Blake2sMerkleHasher>,
     config: &ProofConfig,
-    all_fold_steps: &[u32],
+    all_fold_steps: &[usize],
 ) -> AuthPaths<QM31> {
     let unsorted_query_locations = &proof.aux.unsorted_query_locations;
     let layers = chain!([&proof.aux.fri.first_layer], &proof.aux.fri.inner_layers);
@@ -176,22 +175,18 @@ fn construct_fri_auth_paths(
     let mut res = vec![];
 
     for (layer_proof, step) in zip_eq(layers, all_fold_steps) {
-        let pack_leaves = log_layer_size >= LOG_PACKED_LEAF_SIZE && *step > 1;
-        let pack_shift = if pack_leaves { LOG_PACKED_LEAF_SIZE } else { 0 };
-        // The auth path covers the tree layers from `step` up to `log_layer_size`; packed leaves
-        // shift the layer indices down by `pack_shift`.
-        let first_layer: usize = (step - pack_shift).try_into().unwrap();
-        let last_layer: usize = (log_layer_size - pack_shift).try_into().unwrap();
         res.push(
             unsorted_query_locations
                 .iter()
                 .map(|query| {
-                    let mut pos = *query >> (fold_sum + step);
+                    let mut pos = *query;
+                    let pack_leaves = log_layer_size >= LOG_PACKED_LEAF_SIZE as usize && *step > 1;
+                    let pack_shift = if pack_leaves { LOG_PACKED_LEAF_SIZE as usize } else { 0 };
+                    pos >>= fold_sum + step;
                     let mut auth_path: AuthPath<QM31> = AuthPath(vec![]);
-                    for node_values in
-                        &layer_proof.decommitment.all_node_values[first_layer..last_layer]
-                    {
-                        let hash = node_values[&(pos ^ 1)];
+                    for j in *step..log_layer_size {
+                        let hash =
+                            layer_proof.decommitment.all_node_values[j - pack_shift][&(pos ^ 1)];
                         auth_path.0.push(hash.into());
                         pos >>= 1;
                     }
@@ -216,7 +211,7 @@ fn construct_fri_auth_paths(
 ///   query.
 pub fn construct_fri_witness(
     proof: &ExtendedStarkProof<Blake2sMerkleHasher>,
-    all_fold_steps: &[u32],
+    all_fold_steps: &[usize],
 ) -> FriWitness<QM31> {
     let all_layers: Vec<_> = chain![
         std::slice::from_ref(&proof.aux.fri.first_layer),

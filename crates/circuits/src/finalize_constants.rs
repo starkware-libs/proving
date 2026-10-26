@@ -90,10 +90,8 @@ pub(crate) fn finalize_constants_with_min_base(
     assert!(m31_constants.is_empty());
 
     // Deal with the QM31 constants.
-    // Build `i` (used by `decompose_qm31_constants`), and build `1 + i + u + iu` (used by
-    // `decompose_broadcast_constants`) from `1 + i` and `u + iu`. We know `2` is already produced
-    // because `min_base >= 2`.
-
+    // Build `i` and `i * u` to get the qm31_basis [i, u, iu].
+    // We know `2` is already produced because `min_base >= 2`.
     let two_var = *m31_cache.get(&2.into()).unwrap();
     // `u * u = 2 + i`.
     let i_plus_two = qm31_from_u32s(2, 1, 0, 0);
@@ -213,9 +211,8 @@ fn build_m31_from_base(
     val: M31,
 ) -> Var {
     // If already in cache, return directly.
-    if let Some(var) = m31_cache.get(&val) {
-        assert!(!m31_constants.contains_key(&val));
-        return *var;
+    if m31_cache.contains_key(&val) {
+        return *m31_cache.get(&val).unwrap();
     }
 
     // Decompose `val` into its base `base` limbs (least significant first).
@@ -295,7 +292,7 @@ fn decompose_broadcast_constants(
     });
 }
 
-/// Computes the constant a + bi, adds it to the cache, and returns its corresponding var.
+/// Computes the constant a + bi, adds it to the cache, and returns its index.
 fn add_cm31_constant(
     context: &mut Context<impl IValue>,
     qm31_constants: &mut IndexMap<QM31, Var>,

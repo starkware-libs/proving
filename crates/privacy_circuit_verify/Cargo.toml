@@ -12,11 +12,19 @@ slow-tests = []
 [dependencies]
 anyhow.workspace = true
 itertools.workspace = true
+serde_json.workspace = true
+starknet-types-core.workspace = true
 tracing.workspace = true
 zstd.workspace = true
 
 circuit-registry.workspace = true
-privacy_common.workspace = true
+
+# cairo-vm
+cairo-vm = { workspace = true, features = [
+    "extensive_hints",
+    "mod_builtin",
+    "clap",
+] }
 
 # stwo cairo
 cairo-air.workspace = true
@@ -32,15 +40,8 @@ circuit-verifier.workspace = true
 
 # stwo
 stwo.workspace = true
-stwo-constraint-framework.workspace = true
 
 [dev-dependencies]
-circuit-params.workspace = true
-cairo-vm = { workspace = true, features = [
-    "extensive_hints",
-    "mod_builtin",
-    "clap",
-] }
 tracing-subscriber = { workspace = true, features = ["fmt"] }
 privacy-prove.workspace = true
 stwo = { workspace = true, features = ["parallel"] }
