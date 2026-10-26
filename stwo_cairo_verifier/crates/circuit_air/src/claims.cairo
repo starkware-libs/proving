@@ -26,7 +26,8 @@ pub struct CircuitClaim {
 
 impl CircuitClaimSerde of Serde<CircuitClaim> {
     fn serialize(self: @CircuitClaim, ref output: Array<felt252>) {
-        let [w0, w1, w2, w3, w4, w5, w6, w7] = self.output_digest.unbox();
+        let CircuitClaim { output_digest } = self;
+        let [w0, w1, w2, w3, w4, w5, w6, w7] = output_digest.unbox();
         output.append(w0.into());
         output.append(w1.into());
         output.append(w2.into());
