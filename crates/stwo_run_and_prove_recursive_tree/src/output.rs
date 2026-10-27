@@ -36,7 +36,7 @@ pub fn write_root_outputs(
     }
     .map_err(|e| RecursiveTreeError::PathIO(e, proof_path.to_path_buf()))?;
 
-    std::fs::write(program_output, sonic_rs::to_string(&root.proof_data.output_digest)?)
+    std::fs::write(program_output, sonic_rs::to_string(&root.proof_data.output_digest.0)?)
         .map_err(|e| RecursiveTreeError::PathIO(e, program_output.to_path_buf()))?;
 
     std::fs::write(packed_node_tree_path, serde_json::to_string(&root.packed_node)?)

@@ -15,7 +15,7 @@ use circuit_verifier::statement::{all_circuit_components, circuit_component_log_
 use circuits::blake::HashValue;
 use circuits::ivalue::{IValue, NoValue};
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
-use leaf_proof_format::PackedNode;
+use leaf_proof_format::{DigestHex, PackedNode};
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
@@ -61,10 +61,10 @@ pub struct NodeProofData {
     /// Preprocessed root of this node's proof: for a layer-0 leaf it's whatever root the manifest
     /// declared; for an internal/carried node it's the multiverifier root read from the freshly
     /// proved proof.
-    pub preprocessed_root: HashValue<QM31>,
+    pub preprocessed_root: DigestHex,
     /// This node's circuit output digest, a public input to the multiverifier that verifies this
     /// node.
-    pub output_digest: [u32; N_RESERVED],
+    pub output_digest: DigestHex,
 }
 
 impl LayerEntry {
@@ -81,11 +81,11 @@ impl LayerEntry {
         Ok(Self {
             proof_data: NodeProofData {
                 proof: NodeProof::Circuit(Box::new(proof)),
-                preprocessed_root: HashValue::from(leaf.proof.circuit_preprocessed_root.0),
+                preprocessed_root: leaf.proof.circuit_preprocessed_root,
                 output_digest: leaf.output_digest()?,
             },
             // The preimage whose (blake or poseidon) digest is the leaf's output.
-            packed_node: PackedNode::leaf(leaf.proof.circuit_hash.0, leaf.output.preimage),
+            packed_node: PackedNode::leaf(leaf.proof.circuit_hash, leaf.output.preimage),
         })
     }
 }
@@ -150,7 +150,11 @@ fn build_circuit_verifier_input(proof_data: NodeProofData) -> CircuitVerifierInp
     let NodeProof::Circuit(proof) = proof else {
         panic!("a Cairo-verifier-format root proof never re-enters a fold");
     };
-    CircuitVerifierInput { proof: *proof, preprocessed_root, output_digest: output_digest.into() }
+    CircuitVerifierInput {
+        proof: *proof,
+        preprocessed_root: HashValue::from(preprocessed_root.0),
+        output_digest: output_digest.0.into(),
+    }
 }
 
 /// Shared reduction body: proves a multiverifier over the two inputs and wraps the result in the
@@ -213,7 +217,7 @@ fn reduce(
             preprocessed_root: extracted.preprocessed_root,
             output_digest: extracted.output_digest,
         },
-        packed_node: PackedNode::Composite { circuit_hash: extracted.circuit_hash_words, subtasks },
+        packed_node: PackedNode::Composite { circuit_hash: extracted.circuit_hash, subtasks },
     })
 }
 
@@ -221,9 +225,9 @@ fn reduce(
 /// the multiverifier input that re-verifies this node), the `circuit_hash` identifying the circuit
 /// (the unpacker's trust anchor, carried in `PackedNode`), and its circuit output digest.
 pub(crate) struct ExtractedProofData {
-    pub(crate) preprocessed_root: HashValue<QM31>,
-    pub(crate) circuit_hash_words: [u32; N_RESERVED],
-    pub(crate) output_digest: [u32; N_RESERVED],
+    pub(crate) preprocessed_root: DigestHex,
+    pub(crate) circuit_hash: DigestHex,
+    pub(crate) output_digest: DigestHex,
 }
 
 /// Extracts the parent entry's preprocessed root and output digest from a freshly proven circuit
@@ -233,19 +237,17 @@ pub(crate) fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>
     circuit_proof: &CircuitProof<H>,
 ) -> Result<ExtractedProofData, RecursiveTreeError> {
     let root_hash = circuit_proof.stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];
-    let preprocessed_root: HashValue<QM31> = root_hash.into();
+    let preprocessed_root = DigestHex::from(root_hash.0);
     // The circuit's full identity, as the multiverifier mixes it and the unpacker recomputes it.
-    let circuit_hash_words = digest_bytes_to_words(&circuit_proof.circuit_hash.0);
+    let circuit_hash = DigestHex::from(circuit_proof.circuit_hash.0);
     let outputs: Vec<u32> =
         circuit_proof.claim.output_values.iter().map(|qm31| qm31.unpack_u32()).collect();
     let output_digest: [u32; N_RESERVED] = outputs.try_into().map_err(|v: Vec<u32>| {
         RecursiveTreeError::BadOutputArity { expected: N_RESERVED, got: v.len() }
     })?;
-    Ok(ExtractedProofData { preprocessed_root, circuit_hash_words, output_digest })
-}
-
-/// Reads a 32-byte digest as eight little-endian u32 words — the wire encoding of a preprocessed
-/// root everywhere outside the circuits (matching `HashValue`'s `From<Blake2sHash>`).
-pub fn digest_bytes_to_words(bytes: &[u8; 32]) -> [u32; N_RESERVED] {
-    std::array::from_fn(|i| u32::from_le_bytes(bytes[i * 4..i * 4 + 4].try_into().unwrap()))
+    Ok(ExtractedProofData {
+        preprocessed_root,
+        circuit_hash,
+        output_digest: DigestHex(output_digest),
+    })
 }

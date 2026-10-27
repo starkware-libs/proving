@@ -6,8 +6,7 @@
 use std::path::PathBuf;
 
 use blake2::{Blake2s256, Digest};
-use circuit_common::N_RESERVED;
-use leaf_proof_format::SerializedLeafProof;
+use leaf_proof_format::{DigestHex, SerializedLeafProof};
 use serde::{Deserialize, Serialize};
 use starknet_types_core::felt::Felt;
 use starknet_types_core::hash::{Blake2Felt252, Poseidon, StarkHash};
@@ -49,7 +48,7 @@ impl LeafInput {
     /// its output segment as a Uint256 (low, high) and the leaf circuit emits verbatim (see
     /// `CairoStatement::new`'s `set_outputs(output_hash)`). A poseidon leaf's is
     /// `poseidon_hash_many(preimage)` in the same layout.
-    pub fn output_digest(&self) -> Result<[u32; N_RESERVED], RecursiveTreeError> {
+    pub fn output_digest(&self) -> Result<DigestHex, RecursiveTreeError> {
         let preimage: Vec<Felt> = self
             .output
             .preimage
@@ -72,10 +71,7 @@ impl LeafInput {
             }
             LeafOutputHashType::Poseidon => Poseidon::hash_array(&preimage).to_bytes_le(),
         };
-        // The digest's 32 bytes read as eight little-endian words.
-        Ok(std::array::from_fn(|i| {
-            u32::from_le_bytes(digest_bytes[i * 4..i * 4 + 4].try_into().unwrap())
-        }))
+        Ok(DigestHex::from(digest_bytes))
     }
 }
 

@@ -79,15 +79,15 @@ pub enum PackedNode {
     /// A verifier node — a fold over two children, a self-fold over one `Composite` child (the
     /// single-leaf tree's root pass, where the multiverifier verifies the same proof in both
     /// slots), or the leaf circuit over its single `Plain` child. Carries the `circuit_hash` of
-    /// this node's proof (eight little-endian u32 words) — the full circuit identity
+    /// this node's proof (a [`DigestHex`]) — the full circuit identity
     /// (`blake2s(log_blowup ‖ component_log_sizes ‖ preprocessed_root)`) that the unpacker mixes
     /// into this node's fold contribution and looks up in its supported trust list.
-    Composite { circuit_hash: [u32; N_DIGEST_WORDS], subtasks: Vec<PackedNode> },
+    Composite { circuit_hash: DigestHex, subtasks: Vec<PackedNode> },
 }
 
 impl PackedNode {
     /// A leaf entry: the leaf circuit node over the `Plain` preimage reveal.
-    pub fn leaf(circuit_hash: [u32; N_DIGEST_WORDS], output_preimage: Vec<String>) -> Self {
+    pub fn leaf(circuit_hash: DigestHex, output_preimage: Vec<String>) -> Self {
         PackedNode::Composite {
             circuit_hash,
             subtasks: vec![PackedNode::Plain { output_preimage }],
@@ -112,18 +112,18 @@ mod tests {
     }
 
     /// The packed tree round-trips through its externally tagged JSON, with circuit hashes as
-    /// plain word arrays (the encoding the tree prover writes and the bootloader hints read).
+    /// [`DigestHex`] (the encoding the tree prover writes and the bootloader hints read).
     #[test]
     fn test_packed_node_round_trips() {
-        let leaf = PackedNode::leaf([1, 2, 3, 4, 5, 6, 7, 8], vec!["11".to_string()]);
+        let leaf = PackedNode::leaf(DigestHex([1, 2, 3, 4, 5, 6, 7, 8]), vec!["11".to_string()]);
         let tree = PackedNode::Composite {
-            circuit_hash: [9; N_DIGEST_WORDS],
+            circuit_hash: DigestHex([9; N_DIGEST_WORDS]),
             subtasks: vec![leaf.clone(), leaf],
         };
 
         let json: serde_json::Value =
             serde_json::from_str(&serde_json::to_string(&tree).unwrap()).unwrap();
-        assert_eq!(json["Composite"]["circuit_hash"][0], 9);
+        assert_eq!(json["Composite"]["circuit_hash"][0], "0x00000009");
         assert_eq!(
             json["Composite"]["subtasks"][0]["Composite"]["subtasks"][0]["Plain"]
                 ["output_preimage"][0],
@@ -137,7 +137,7 @@ mod tests {
     /// lets consumers use it without re-validating its length.
     #[test]
     fn test_packed_node_rejects_wrong_length_circuit_hash() {
-        let json = r#"{"Composite":{"circuit_hash":[1,2,3],"subtasks":[]}}"#;
+        let json = r#"{"Composite":{"circuit_hash":["0x1","0x2","0x3"],"subtasks":[]}}"#;
         assert!(serde_json::from_str::<PackedNode>(json).is_err());
     }
 }

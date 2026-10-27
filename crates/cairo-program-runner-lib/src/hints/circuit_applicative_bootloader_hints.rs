@@ -269,7 +269,7 @@ fn set_circuit_hash_index_in_list(
     list_name: &str,
 ) -> Result<(), HintError> {
     let node_circuit_hash: [u32; N_DIGEST_WORDS] = match get_node(exec_scopes)? {
-        PackedNode::Composite { circuit_hash, .. } => *circuit_hash,
+        PackedNode::Composite { circuit_hash, .. } => circuit_hash.0,
         _ => {
             return Err(HintError::CustomHint(
                 "Packed node is not a Composite with a circuit hash.".into(),
@@ -448,6 +448,7 @@ mod tests {
     use cairo_vm::types::program::Program;
     use cairo_vm::types::relocatable::Relocatable;
     use cairo_vm::vm::runners::builtin_runner::OutputBuiltinRunner;
+    use leaf_proof_format::DigestHex;
 
     use super::*;
     use crate::hints::types::{Cairo0Executable, HashFunc, Task, TaskSpec};
@@ -491,7 +492,7 @@ mod tests {
 
     fn leaf_node(circuit_hash_seed: u32) -> PackedNode {
         PackedNode::Composite {
-            circuit_hash: sample_digest(circuit_hash_seed),
+            circuit_hash: DigestHex(sample_digest(circuit_hash_seed)),
             subtasks: vec![PackedNode::Plain {
                 output_preimage: vec!["7".to_string(), "11".to_string(), "13".to_string()],
             }],
@@ -500,7 +501,7 @@ mod tests {
 
     fn internal_node(circuit_hash_seed: u32, left: PackedNode, right: PackedNode) -> PackedNode {
         PackedNode::Composite {
-            circuit_hash: sample_digest(circuit_hash_seed),
+            circuit_hash: DigestHex(sample_digest(circuit_hash_seed)),
             subtasks: vec![left, right],
         }
     }
@@ -552,7 +553,7 @@ mod tests {
 
         // A Composite with an unsupported number of subtasks.
         let mut exec_scopes = scopes_with_node(PackedNode::Composite {
-            circuit_hash: sample_digest(10),
+            circuit_hash: DigestHex(sample_digest(10)),
             subtasks: vec![leaf_node(20), leaf_node(20), leaf_node(20)],
         });
         assert!(
@@ -805,7 +806,7 @@ mod tests {
                     "aggregator_task": task,
                     "verifier_task": task,
                     "packed_output": {"Composite": {
-                        "circuit_hash": sample_digest(20),
+                        "circuit_hash": DigestHex(sample_digest(20)),
                         "subtasks": [{"Plain": {"output_preimage": ["7"]}}],
                     }},
                     "multiverifier_hashes": [sample_digest(10)],
@@ -943,7 +944,7 @@ mod tests {
             "aggregator_task": task,
             "verifier_task": task,
             "packed_output": {"Composite": {
-                "circuit_hash": sample_digest(20),
+                "circuit_hash": DigestHex(sample_digest(20)),
                 "subtasks": [{"Plain": {"output_preimage": ["7"]}}],
             }},
             "multiverifier_hashes": [sample_digest(10)],

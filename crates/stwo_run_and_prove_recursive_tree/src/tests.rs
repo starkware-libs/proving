@@ -1,5 +1,8 @@
 use circuit_registry::CircuitRegistry;
-use leaf_proof_format::{PackedNode, SerializedLeafProof};
+use circuits::blake::HashValue;
+use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
+use stwo::core::fields::qm31::QM31;
+use stwo::core::vcs::blake2_hash::Blake2sHash;
 
 use crate::canonical::CanonicalCircuit;
 use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
@@ -82,7 +85,7 @@ fn test_leaf_output_values_derived_from_preimage() {
         },
     };
     assert_eq!(
-        leaf.output_digest().unwrap(),
+        leaf.output_digest().unwrap().0,
         [
             1603116091, 3258597502, 2711032228, 4175407283, 343882323, 1898618121, 1344732087,
             1064799167,
@@ -112,23 +115,30 @@ fn test_leaf_output_values_rejects_invalid_felt() {
 }
 
 #[test]
+fn test_digest_hex_from_matches_hash_value_from() {
+    // Distinct bytes, so any byte-order or word-order mismatch shows up.
+    let hash = Blake2sHash(std::array::from_fn(|i| i as u8 * 7 + 1));
+    assert_eq!(HashValue::<QM31>::from(DigestHex::from(hash.0).0), HashValue::from(hash));
+}
+
+#[test]
 fn test_packed_node_serializes_leaf_and_internal() {
     // A leaf: a `Composite` (the leaf circuit) over `Plain` (the raw preimage reveal).
     let leaf_a = PackedNode::leaf(
-        std::array::from_fn(|i| i as u32 + 30),
+        DigestHex(std::array::from_fn(|i| i as u32 + 30)),
         vec!["1".to_string(), "2".to_string()],
     );
     // Serializes as `{"Composite": { circuit_hash, subtasks: [{"Plain": {
     // output_preimage }}] }}`.
     let leaf_json: serde_json::Value =
         serde_json::from_str(&serde_json::to_string(&leaf_a).unwrap()).unwrap();
-    assert_eq!(leaf_json["Composite"]["circuit_hash"][0], 30);
+    assert_eq!(leaf_json["Composite"]["circuit_hash"][0], "0x0000001e");
     assert_eq!(leaf_json["Composite"]["subtasks"][0]["Plain"]["output_preimage"][0], "1");
 
     // Internal: a `Composite` over two child subtasks.
-    let leaf_b = PackedNode::leaf(std::array::from_fn(|i| i as u32 + 40), vec![]);
+    let leaf_b = PackedNode::leaf(DigestHex(std::array::from_fn(|i| i as u32 + 40)), vec![]);
     let internal = PackedNode::Composite {
-        circuit_hash: std::array::from_fn(|i| i as u32 + 50),
+        circuit_hash: DigestHex(std::array::from_fn(|i| i as u32 + 50)),
         subtasks: vec![leaf_a, leaf_b],
     };
 
@@ -258,12 +268,11 @@ mod e2e {
 
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
-    use leaf_proof_format::PackedNode;
+    use leaf_proof_format::{DigestHex, PackedNode};
     use stwo::core::fields::qm31::QM31;
 
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
-    use crate::fold::digest_bytes_to_words;
     use crate::test_support::{LEAF_TASK_OUTPUT, generate_leaf};
     use crate::{
         LeafInput, LeafOutputHashType, LeafOutputPreimage, ProofFormat,
@@ -294,7 +303,7 @@ mod e2e {
             hasher.update(word.to_le_bytes());
         }
         let hash: [u8; 32] = hasher.finalize().into();
-        std::array::from_fn(|i| u32::from_le_bytes(hash[i * 4..i * 4 + 4].try_into().unwrap()))
+        DigestHex::from(hash).0
     }
 
     /// The canonical multiverifier's `circuit_hash` — the identity every internal node carries.
@@ -305,7 +314,7 @@ mod e2e {
             &canonical.preprocessed_multiverifier,
             canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
         );
-        digest_bytes_to_words(&hash.0)
+        DigestHex::from(hash.0).0
     }
 
     /// An expected tree node: the raw u32 output words + `circuit_hash` (both needed to hash a
@@ -318,9 +327,9 @@ mod e2e {
 
     fn expected_leaf(leaf: &LeafInput) -> ExpectedNode {
         ExpectedNode {
-            output_digest: leaf.output_digest().unwrap(),
+            output_digest: leaf.output_digest().unwrap().0,
             circuit_hash: leaf_circuit_hash(leaf),
-            packed: PackedNode::leaf(leaf_circuit_hash(leaf), leaf.output.preimage.clone()),
+            packed: PackedNode::leaf(leaf.proof.circuit_hash, leaf.output.preimage.clone()),
         }
     }
 
@@ -342,7 +351,7 @@ mod e2e {
             output_digest,
             circuit_hash: multiverifier_circuit_hash,
             packed: PackedNode::Composite {
-                circuit_hash: multiverifier_circuit_hash,
+                circuit_hash: DigestHex(multiverifier_circuit_hash),
                 subtasks: vec![left.packed, right.packed],
             },
         }
@@ -363,7 +372,7 @@ mod e2e {
             output_digest: blake2s_u32s_host(&preimage),
             circuit_hash: multiverifier_circuit_hash,
             packed: PackedNode::Composite {
-                circuit_hash: multiverifier_circuit_hash,
+                circuit_hash: DigestHex(multiverifier_circuit_hash),
                 subtasks: vec![child.packed],
             },
         }
@@ -535,12 +544,12 @@ mod e2e {
                         .collect();
                     let digest = blake2s_u32s_host(&Blake2Felt252::encode_felts_to_u32s(&felts));
                     BinaryTree::Leaf(Node {
-                        circuit_hash: HashValue::from(*circuit_hash),
+                        circuit_hash: HashValue::from(circuit_hash.0),
                         subtree_hash: HashValue::from(digest),
                     })
                 }
                 [left, right] => BinaryTree::Internal(
-                    HashValue::from(*circuit_hash),
+                    HashValue::from(circuit_hash.0),
                     Box::new([packed_to_witness_tree(left), packed_to_witness_tree(right)]),
                 ),
                 _ => panic!("unexpected packed-node arity"),
@@ -616,7 +625,7 @@ mod e2e {
         let output_words: Vec<u32> = preimage_felts[1..].iter().map(|f| u32_from_hex(f)).collect();
         let capacity = applicative_unpacking_verifier::aggregator::CAPACITY;
         assert_eq!(output_words.len(), capacity * circuit_common::N_RESERVED);
-        let leaf_digest = leaf.output_digest().unwrap();
+        let leaf_digest = leaf.output_digest().unwrap().0;
         for digest in
             output_words[..n * circuit_common::N_RESERVED].chunks(circuit_common::N_RESERVED)
         {
@@ -739,7 +748,7 @@ mod e2e {
             "the proven unpacking verifier differs from the registry entry"
         );
         assert_eq!(
-            extracted.output_digest.to_vec(),
+            extracted.output_digest.0.to_vec(),
             expected_final_digest,
             "the unpacking verifier's outputs differ from the aggregated-output digest"
         );
@@ -791,8 +800,7 @@ mod e2e {
             &std::fs::read_to_string(outer_dir.join("root_outputs.json")).unwrap(),
         )
         .unwrap();
-        let contribution: Vec<u32> =
-            [extracted.circuit_hash_words, extracted.output_digest].concat();
+        let contribution: Vec<u32> = [extracted.circuit_hash.0, extracted.output_digest.0].concat();
         assert_eq!(
             outer_outputs,
             blake2s_u32s_host(&[contribution.clone(), contribution].concat()),
