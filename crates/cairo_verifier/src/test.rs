@@ -9,8 +9,9 @@ use cairo_vm::types::layout_name::LayoutName;
 use circuit_common::N_RESERVED;
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
-use circuits::ivalue::NoValue;
+use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
+use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::{ProofConfig, empty_proof};
 use circuits_stark_verifier::statement::Statement;
 use circuits_stark_verifier::verify::verify;
@@ -140,4 +141,24 @@ fn test_verify_all_opcodes() {
 fn analyze_all_opcode_components() {
     let context = all_opcode_components_context();
     crate::circuit_analysis::analyze(context.circuit(), &context.context.debug_info);
+}
+
+#[test]
+fn test_circuit_cairo_preprocessed_roots_up_to_date() {
+    use stwo_cairo_prover::witness::utils::export_circuit_cairo_verifier_preprocessed_roots;
+    let small_trace = PreProcessedTraceVariant::CanonicalSmall;
+
+    let expected = export_circuit_cairo_verifier_preprocessed_roots();
+    for (log_blowup_factor, root) in expected.iter() {
+        let lifting_log_size = small_trace.max_log_trace_size() + log_blowup_factor;
+
+        // Compare the [u32; 8] representation instead of the HashValue<QM31> themselves
+        // for better error messages.
+        assert_eq!(
+            le_u32s_from_bytes(root.0),
+            get_preprocessed_root(lifting_log_size).as_array().map(|qm31| qm31.get().unpack_u32()),
+            "get_preprocessed_root returns incorrect root for log_blowup_factor \
+             {log_blowup_factor}"
+        );
+    }
 }
