@@ -337,3 +337,97 @@ fn lookup_constraints(
         + (sum_15 * num_14);
     sum = sum * random_coeff + q;
 }
+
+#[cfg(test)]
+mod tests {
+    use core::num::traits::Zero;
+    use stwo_constraint_framework::test_utils::{make_interaction_trace, new_preprocessed_mask};
+    use stwo_constraint_framework::{AirComponent, CommonLookupElements, Component};
+    use stwo_verifier_core::fields::m31::M31;
+    use stwo_verifier_core::fields::qm31::{QM31, QM31Trait, qm31_const};
+    use crate::preprocessed_columns::{
+        BITWISE_XOR_10_0_IDX, BITWISE_XOR_10_1_IDX, BITWISE_XOR_10_2_IDX, NUM_PREPROCESSED_COLUMNS,
+    };
+    use super::AirComponentImpl;
+
+    /// The evaluation result of `verify_bitwise_xor_12_point_evaluation` in
+    /// `crates/circuit_prover/src/circuit_air/components/verify_bitwise_xor_12.rs`.
+    const VERIFY_BITWISE_XOR_12_EVAL_RESULT: [M31; 4] = [
+        M31 { inner: 1192162821 }, M31 { inner: 798775654 }, M31 { inner: 402281409 },
+        M31 { inner: 1482006777 },
+    ];
+
+    /// Checks this hand-written component against the prover's hand-written Rust component: the
+    /// inputs and the result are taken from `verify_bitwise_xor_12_point_evaluation` in
+    /// `crates/circuit_prover/src/circuit_air/components/verify_bitwise_xor_12.rs`. Keep the two
+    /// tests in sync.
+    #[test]
+    fn test_evaluation_matches_rust() {
+        let component = Component {
+            log_size: super::LOG_SIZE,
+            claimed_sum: qm31_const::<780228864, 797287743, 1098116836, 1231001529>(),
+        };
+        let mut sum: QM31 = Zero::zero();
+
+        let mut preprocessed_trace = new_preprocessed_mask(
+            array![
+                (
+                    BITWISE_XOR_10_0_IDX,
+                    qm31_const::<1019132783, 577662261, 1411911446, 1136299686>(),
+                ),
+                (BITWISE_XOR_10_1_IDX, qm31_const::<1431105596, 751158381, 306231922, 819567871>()),
+                (BITWISE_XOR_10_2_IDX, qm31_const::<23322617, 2140229949, 804779144, 1036244209>()),
+            ]
+                .span(),
+            NUM_PREPROCESSED_COLUMNS,
+        );
+
+        let mut trace_columns = [
+            [qm31_const::<588513901, 1381709766, 1740209196, 988311219>()].span(),
+            [qm31_const::<1483036430, 1856165774, 1291619160, 488862552>()].span(),
+            [qm31_const::<1198704003, 3577443, 1420176220, 1340529904>()].span(),
+            [qm31_const::<312035360, 2100325867, 945010468, 789533884>()].span(),
+            [qm31_const::<348466428, 729457621, 1945562163, 451511994>()].span(),
+            [qm31_const::<126324276, 1237411384, 1758402834, 428709849>()].span(),
+            [qm31_const::<160222960, 1102775500, 1475204238, 1759325703>()].span(),
+            [qm31_const::<723701119, 1463373183, 868902551, 1713425711>()].span(),
+            [qm31_const::<1809047471, 187583509, 39952429, 1973337145>()].span(),
+            [qm31_const::<130534135, 1760192857, 1965019790, 1421731346>()].span(),
+            [qm31_const::<1092910081, 479412797, 195373735, 2124831833>()].span(),
+            [qm31_const::<2119854101, 910123658, 2033050727, 952931272>()].span(),
+            [qm31_const::<241651259, 1419195850, 908829278, 2085896844>()].span(),
+            [qm31_const::<290059540, 1158547345, 671176026, 1894142936>()].span(),
+            [qm31_const::<1334557888, 1198650582, 351165390, 2096275069>()].span(),
+            [qm31_const::<1496440658, 1901757808, 110280401, 1192176288>()].span(),
+        ]
+            .span();
+        let interaction_values = array![
+            qm31_const::<367679456, 1089306077, 1751697368, 179535632>(),
+            qm31_const::<860107359, 1304465315, 899452500, 1434838909>(),
+            qm31_const::<1279837932, 1008437098, 1023852013, 1308454055>(),
+            qm31_const::<825882243, 1162108979, 65486191, 1375952774>(),
+            qm31_const::<1559776274, 177519278, 2077602132, 412029966>(),
+            qm31_const::<2096596382, 1690725615, 1425061651, 561703855>(),
+            qm31_const::<765245467, 2020970709, 779812626, 1860003928>(),
+            qm31_const::<1482009533, 828057215, 1446916125, 665510814>(),
+        ];
+        let mut interaction_columns = make_interaction_trace(
+            interaction_values, qm31_const::<244453227, 541976962, 504599444, 719906632>(),
+        );
+        component
+            .evaluate_constraints_at_point(
+                ref sum,
+                ref preprocessed_trace,
+                ref trace_columns,
+                ref interaction_columns,
+                qm31_const::<1739691684, 1643001086, 1073767856, 385276755>(),
+                // `CommonLookupElements::dummy()` in Rust.
+                @CommonLookupElements {
+                    z: qm31_const::<1, 2, 3, 4>(), alpha: qm31_const::<4, 3, 2, 1>(),
+                },
+            );
+        assert!(trace_columns.is_empty());
+        assert!(interaction_columns.is_empty());
+        assert_eq!(sum, QM31Trait::from_fixed_array(VERIFY_BITWISE_XOR_12_EVAL_RESULT));
+    }
+}
