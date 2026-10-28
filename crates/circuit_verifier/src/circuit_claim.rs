@@ -77,7 +77,7 @@ pub fn logup_sum(
 
     // Compute the public logup sum from output gates.
     let mut output_sum = QM31::zero();
-    let gate_relation_id = M31::from(GATE_RELATION_ID);
+    let gate_relation_id = GATE_RELATION_ID;
     for (i, value) in claim.output_values.iter().enumerate() {
         let values = [
             gate_relation_id,

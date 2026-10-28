@@ -1,6 +1,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use air_code_gen::cairo::relations::generate_relations_cairo_file;
 use air_code_gen::cairo::sample_evaluations as cairo_sample_evaluations;
 use air_code_gen::circuit::all_components::generate_all_components_file;
 use air_code_gen::circuit::sample_evaluations as circuit_sample_evaluations;
@@ -8,6 +9,7 @@ use air_code_gen::rust::claims::generate_claims_rust_file;
 use air_code_gen::rust::claims_generator::generate_claim_generator_file;
 use air_code_gen::rust::components::generate_components_rust_file;
 use air_code_gen::rust::provers::generate_provers_rust_file;
+use air_code_gen::rust::relations::generate_relations_rust_file;
 use air_code_gen::supported_components::{AutogenCodeFile, AutogenCodeType, is_supported};
 use air_code_gen::utils::{
     STWO_CAIRO_AIR_CONFIG, STWO_CIRCUITS_AIR_CONFIG, add_file_to_module, format_air_fn_code,
@@ -16,7 +18,8 @@ use air_code_gen::utils::{
 use air_common::REGISTRY_PROPERTIES_FILE_NAME;
 use air_compile::compiled_structs::CompiledAirFn;
 use air_infra::core::air_fn_registry::AirFnStat;
-use airs::casm::casm_registry::create_casm_registry_ordered_by_stwo_cairo;
+use airs::casm::casm_registry::{create_casm_registry, create_casm_registry_ordered_by_stwo_cairo};
+use airs::circuit::circuit_registry::create_circuit_registry;
 use clap::Parser;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
@@ -30,6 +33,10 @@ pub const CLAIM_GENERATOR_FILE_PATH: &str = "crates/prover/src/witness/cairo_cla
 pub const CLAIMS_RUST_FILE_PATH: &str = "crates/cairo-air/src/claims.rs";
 pub const COMPONENTS_RUST_FILE_PATH: &str = "crates/cairo-air/src/cairo_components.rs";
 pub const PROVERS_UTILS_FILE_PATH: &str = "crates/prover/src/utils.rs";
+pub const CASM_RELATIONS_RUST_FILE_PATH: &str = "crates/cairo-air/src/relations.rs";
+pub const CIRCUIT_RELATIONS_RUST_FILE_PATH: &str = "crates/circuit_verifier/src/relations.rs";
+pub const CIRCUIT_RELATIONS_CAIRO_FILE_PATH: &str =
+    "stwo_cairo_verifier/crates/circuit_air/src/relations.cairo";
 
 #[derive(Serialize)]
 struct CasmRegistry {
@@ -315,12 +322,28 @@ fn generate_stwo_cairo(args: GenerateArgs) {
         }
     }
 
+    let casm_registry = create_casm_registry();
+    let casm_relations_path = args.root_dir.join(CASM_RELATIONS_RUST_FILE_PATH);
+    fs::write(
+        &casm_relations_path,
+        generate_relations_rust_file(&casm_registry.relation_ids.borrow()).to_string().unwrap(),
+    )
+    .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", casm_relations_path.display()));
+    let circuit_relations_path = args.root_dir.join(CIRCUIT_RELATIONS_CAIRO_FILE_PATH);
+    fs::write(
+        &circuit_relations_path,
+        generate_relations_cairo_file(&create_circuit_registry().relation_ids.take())
+            .to_string()
+            .unwrap(),
+    )
+    .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", circuit_relations_path.display()));
+
     generate_registry_properties_file(
         &compiled_casm_dir,
         &args.root_dir.join("crates/common/casm_registry.json"),
     );
 
-    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo();
+    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo(&casm_registry);
 
     let claim_generator_code = generate_claim_generator_file(&compiled_registry);
     fs::write(
@@ -394,7 +417,16 @@ fn generate_stwo_circuits(args: GenerateArgs) {
         }
     }
 
-    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo();
+    let circuit_relations_path = args.root_dir.join(CIRCUIT_RELATIONS_RUST_FILE_PATH);
+    fs::write(
+        &circuit_relations_path,
+        generate_relations_rust_file(&create_circuit_registry().relation_ids.take())
+            .to_string()
+            .unwrap(),
+    )
+    .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", circuit_relations_path.display()));
+
+    let compiled_registry = create_casm_registry_ordered_by_stwo_cairo(&create_casm_registry());
     generate_all_components_file(
         &args.root_dir.join("crates/cairo_verifier/src"),
         &compiled_registry,

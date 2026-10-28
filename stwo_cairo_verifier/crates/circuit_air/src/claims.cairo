@@ -109,10 +109,12 @@ pub fn logup_sum(
         .map(|claimed_sum| *claimed_sum)
         .sum();
 
+    let gate_relation_id = M31 { inner: GATE_RELATION_ID };
+
     // u_sum = the `u` input is yielded at `U_VAR_IDX` with value `U_VALUE = (0, 0, 1, 0)`.
     let u_denom = common_lookup_elements
         .combine(
-            [GATE_RELATION_ID, m31(U_VAR_IDX), Zero::zero(), Zero::zero(), One::one(), Zero::zero()]
+            [gate_relation_id, m31(U_VAR_IDX), Zero::zero(), Zero::zero(), One::one(), Zero::zero()]
                 .span(),
         );
     let u_sum = u_denom.inverse();
@@ -125,7 +127,7 @@ pub fn logup_sum(
     for value in @claim.output_digest.unbox() {
         let [lo, hi] = output_limbs(*value);
         let denom = common_lookup_elements
-            .combine([GATE_RELATION_ID, addr, lo, hi, Zero::zero(), Zero::zero()].span());
+            .combine([gate_relation_id, addr, lo, hi, Zero::zero(), Zero::zero()].span());
         output_sum = output_sum + denom.inverse();
         addr += One::one();
     }

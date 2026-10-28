@@ -68,11 +68,12 @@ pub fn create_components_casm_registry_reversed() -> IndexMap<String, CompiledAi
     compiled_registry
 }
 
-// Returns a CASM registry filtered to exclude inline and const AIR functions,
+// Compiles the CASM `registry`, filtered to exclude inline and const AIR functions,
 // ordered according to the arbitrary order defined in stwo-cairo.
 // TODO(Stav): delete after the components are auto-generated.
-pub fn create_casm_registry_ordered_by_stwo_cairo() -> IndexMap<String, CompiledAirFn> {
-    let registry = create_casm_registry();
+pub fn create_casm_registry_ordered_by_stwo_cairo(
+    registry: &AirFnRegistry,
+) -> IndexMap<String, CompiledAirFn> {
     let mut compiled_registry: IndexMap<String, CompiledAirFn> = registry
         .compile()
         .into_iter()

@@ -46,7 +46,7 @@ pub impl AirComponentImpl of AirComponent<Component> {
 
         core::internal::revoke_ap_tracking();
 
-        let gate_relation_id = GATE_RELATION_ID.into();
+        let gate_relation_id = qm31_const::<GATE_RELATION_ID, 0, 0, 0>();
         // The two yields differ only in the address slot.
         let eq_sum_0 = common_lookup_elements
             .combine([gate_relation_id, eq_in0_address, in_col0, in_col1, in_col2, in_col3].span());
