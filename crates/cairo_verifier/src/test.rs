@@ -156,7 +156,7 @@ fn test_circuit_cairo_preprocessed_roots_up_to_date() {
         // for better error messages.
         assert_eq!(
             le_u32s_from_bytes(root.0),
-            get_preprocessed_root(lifting_log_size).as_array().map(|qm31| qm31.get().unpack_u32()),
+            get_preprocessed_root(lifting_log_size).as_array().map(|qm31| qm31.raw().unpack_u32()),
             "get_preprocessed_root returns incorrect root for log_blowup_factor \
              {log_blowup_factor}"
         );
