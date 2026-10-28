@@ -36,7 +36,7 @@ use circuit_verifier::multiverifier::{
 use circuits::blake::HashValue;
 use circuits::context::FinalizedContext;
 use circuits::ivalue::NoValue;
-use leaf_prover::prove_leaf::leaf_verifier_config;
+use leaf_prover::verifier_config::leaf_verifier_config;
 use starknet_types_core::felt::Felt;
 use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
