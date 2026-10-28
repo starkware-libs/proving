@@ -308,7 +308,7 @@ fn leaf_verifier_components(component_names: &[String]) -> LeafVerifierComponent
         component_names
     );
     for (name, component) in all_components {
-        if component_names.contains(&name.to_owned()) {
+        if component_names.contains(&name.into()) {
             components.insert(name, component);
             enabled_bits.push(true);
         } else {
