@@ -1,5 +1,5 @@
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
-use itertools::Itertools;
+use itertools::{Itertools, chain};
 
 /// Number of bytes a serialized [`Version`] occupies (major, minor, patch).
 pub const VERSION_BYTES: usize = 3;
@@ -41,13 +41,7 @@ impl ProofHeader {
     pub const SIZE: usize = BLAKE2S_DIGEST_N_BYTES + VERSION_BYTES;
 
     pub fn serialize(&self) -> [u8; Self::SIZE] {
-        self.version
-            .serialize()
-            .into_iter()
-            .chain(self.preprocessed_root)
-            .collect_vec()
-            .try_into()
-            .unwrap()
+        chain!(self.version.serialize(), self.preprocessed_root).collect_vec().try_into().unwrap()
     }
 
     pub fn deserialize(bytes: &[u8; Self::SIZE]) -> Self {

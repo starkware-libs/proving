@@ -109,7 +109,7 @@ pub fn prepare_recursive_prover_precomputes()
     let preprocessed_circuit = get_cairo_preprocessed_circuit(&cairo_verifier_config);
     let circuit_config =
         get_recursive_circuit_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT)?;
-    let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT)?;
+    let proof_config = get_proof_config(&circuit_config);
 
     info!("Prepare the twiddles");
     let base_column_pool = BaseColumnPool::<SimdBackend>::new();

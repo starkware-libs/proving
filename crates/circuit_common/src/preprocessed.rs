@@ -209,10 +209,10 @@ enum OpCode {
 impl Qm31OpsColumns {
     /// Appends a row of the one-hot op-code flags, set for `op_code` and clear elsewhere.
     fn push_op_code_flags(&mut self, op_code: OpCode) {
-        self.qm_31_ops_add_flag.push((op_code == OpCode::Add) as usize);
-        self.qm_31_ops_sub_flag.push((op_code == OpCode::Sub) as usize);
-        self.qm_31_ops_mul_flag.push((op_code == OpCode::Mul) as usize);
-        self.qm_31_ops_pointwise_mul_flag.push((op_code == OpCode::PointwiseMul) as usize);
+        self.qm_31_ops_add_flag.push((op_code == OpCode::Add).into());
+        self.qm_31_ops_sub_flag.push((op_code == OpCode::Sub).into());
+        self.qm_31_ops_mul_flag.push((op_code == OpCode::Mul).into());
+        self.qm_31_ops_pointwise_mul_flag.push((op_code == OpCode::PointwiseMul).into());
     }
 }
 

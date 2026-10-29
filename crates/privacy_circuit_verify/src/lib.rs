@@ -12,19 +12,17 @@ use circuit_common::preprocessed::{PreprocessedCircuit, layout_from_component_si
 use circuit_registry::CircuitProofConfig;
 use circuit_serialize::deserialize::deserialize_proof_with_config;
 use circuit_verifier::statement::{
-    INTERACTION_POW_BITS as CIRCUIT_INTERACTION_POW_BITS, all_circuit_components,
-    circuit_component_log_sizes,
+    all_circuit_components, circuit_component_log_sizes, circuit_verifier_proof_config,
 };
 use circuit_verifier::verify::{CircuitConfig, CircuitPublicData, verify_circuit};
 use circuits::blake::HashValue;
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::ProofConfig;
-use itertools::Itertools;
 use privacy_common::consts::{
     CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG,
-    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_CIRCUIT_PREPROCESSED_IDS,
-    PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
+    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
 };
 use privacy_common::utils::ProofHeader;
 use privacy_common::{
@@ -67,12 +65,12 @@ pub fn verify_recursive_circuit(proof_output: &PrivacyProofOutput) -> Result<(),
     let (header, compressed_proof) = split_proof_header(&proof_output.proof)?;
 
     let preprocessed_root = le_u32s_from_bytes(header.preprocessed_root);
-    // Compare `preprocessed_root` to the known roots to get the corresponding configs.
+    // Compare `preprocessed_root` to the known roots to get the corresponding config.
     // If `preprocessed_root` is invalid, we return early with an error.
-    // TODO(Leo): consider moving the preprocessed_root validation outside of these config
-    // getters.
+    // TODO(Leo): consider moving the preprocessed_root validation outside of
+    // `get_recursive_circuit_config`.
     let circuit_config = get_recursive_circuit_config(&preprocessed_root)?;
-    let proof_config = get_proof_config(&preprocessed_root)?;
+    let proof_config = get_proof_config(&circuit_config);
 
     info!("Decompress and deserialize the proof");
     let proof_bytes = decompress_proof(compressed_proof, MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES)?;
@@ -93,7 +91,7 @@ pub fn verify_recursive_circuit(proof_output: &PrivacyProofOutput) -> Result<(),
     verify_circuit(
         circuit_config,
         // We know that `preprocessed_root` is valid because we compared it to the known roots
-        // when gathering the configs.
+        // when getting the circuit config.
         preprocessed_root.into(),
         proof,
         CircuitPublicData { output_digest },
@@ -130,11 +128,12 @@ pub fn get_cairo_verifier_config() -> Result<CairoVerifierConfig, Box<dyn Error>
     let enabled_bits = get_cairo_enabled_bits();
 
     let bootloader_program = get_privacy_bootloader_program()?;
-    let mut program_entries = vec![];
-    for value in bootloader_program.iter_data() {
-        let value = value.get_int().ok_or("Failed to get value")?;
-        program_entries.push(Felt252::from(value).get_limbs());
-    }
+    let program_entries = bootloader_program
+        .iter_data()
+        .map(|value| {
+            value.get_int().map(|felt| Felt252::from(felt).get_limbs()).ok_or("Failed to get value")
+        })
+        .collect::<Result<Vec<_>, _>>()?;
 
     let cairo_lifting_log_size = cairo_proof_config.log_evaluation_domain_size();
     let preprocessed_trace_variant = PreProcessedTraceVariant::CanonicalSmall;
@@ -153,47 +152,26 @@ pub fn get_recursive_circuit_config(
     preprocessed_root: &[u32; 8],
 ) -> Result<CircuitConfig, Box<dyn Error>> {
     if *preprocessed_root == PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT {
-        let preprocessed_column_log_sizes = PRIVACY_CIRCUIT_PREPROCESSED_IDS
+        let preprocessed_column_log_sizes = PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS
             .iter()
-            .zip_eq(PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES.iter())
-            .map(|(&id, &log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))
+            .map(|&(id, log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))
             .collect();
         Ok(CircuitConfig { config: CIRCUIT_PCS_CONFIG, preprocessed_column_log_sizes })
     } else {
-        let config = leaf_verifier_config(preprocessed_root)?;
-        let preprocessed_column_log_sizes =
-            layout_from_component_sizes(&(config.component_log_sizes).to_component_sizes());
-        Ok(CircuitConfig {
-            config: pcs_config_from_circuit_proof_config(&config),
-            preprocessed_column_log_sizes,
-        })
+        Ok(circuit_config_from_circuit_proof_config(&leaf_verifier_config(preprocessed_root)?))
     }
 }
 
-pub fn get_proof_config(preprocessed_root: &[u32; 8]) -> Result<ProofConfig, Box<dyn Error>> {
-    let components = all_circuit_components::<QM31>().into_index_map();
-    if *preprocessed_root == PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT {
-        Ok(ProofConfig::new(
-            &components,
-            PRIVACY_CIRCUIT_PREPROCESSED_IDS.len(),
-            &CIRCUIT_PCS_CONFIG,
-            CIRCUIT_INTERACTION_POW_BITS,
-        ))
-    } else {
-        let config = leaf_verifier_config(preprocessed_root)?;
-        let n_preprocessed_columns =
-            layout_from_component_sizes(&(config.component_log_sizes).to_component_sizes()).len();
-        let pcs_config = pcs_config_from_circuit_proof_config(&config);
-        Ok(ProofConfig::new(
-            &components,
-            n_preprocessed_columns,
-            &pcs_config,
-            CIRCUIT_INTERACTION_POW_BITS,
-        ))
-    }
+pub fn get_proof_config(circuit_config: &CircuitConfig) -> ProofConfig {
+    circuit_verifier_proof_config(
+        &circuit_config.preprocessed_column_log_sizes,
+        &circuit_config.config,
+    )
 }
 
-fn pcs_config_from_circuit_proof_config(circuit_proof_config: &CircuitProofConfig) -> PcsConfig {
+fn circuit_config_from_circuit_proof_config(
+    circuit_proof_config: &CircuitProofConfig,
+) -> CircuitConfig {
     // Compute the trace size
     let preprocessed_column_log_sizes = layout_from_component_sizes(
         &(circuit_proof_config.component_log_sizes).to_component_sizes(),
@@ -205,11 +183,11 @@ fn pcs_config_from_circuit_proof_config(circuit_proof_config: &CircuitProofConfi
     .into_array();
     let trace_size = component_sizes.iter().max().unwrap();
 
-    // Build the PcsConfig
-    PcsConfig::from_fri_config(FriConfig {
+    let config = PcsConfig::from_fri_config(FriConfig {
         params: circuit_proof_config.fri_params,
         trace_log_size: *trace_size,
-    })
+    });
+    CircuitConfig { config, preprocessed_column_log_sizes }
 }
 
 // The config used to prove the leaf verifier with the given preprocessed root.

@@ -112,6 +112,9 @@ pub impl Blake2sChannelImpl of ChannelTrait {
 
     fn draw_secure_felt(ref self: Blake2sChannel) -> SecureField {
         let [w0, w1, w2, w3, w4, w5, w6, w7] = draw_random_words(ref self).hash.unbox();
+        // Each M31 coordinate comes from two consecutive words `(w_lo, w_hi)`, read as the u64
+        // `w_lo + 2^32 * w_hi` and reduced mod `P = 2^31 - 1`. Since `2^31 == 1 (mod P)`,
+        // `2^32 == 2 (mod P)`, so `w_lo + 2^32 * w_hi == w_lo + 2 * w_hi (mod P)`.
         QM31Trait::from_fixed_array(
             [
                 M31Trait::reduce_u64(w0.into() + 2 * w1.into()),

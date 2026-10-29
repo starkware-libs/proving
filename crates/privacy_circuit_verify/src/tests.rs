@@ -1,7 +1,7 @@
+use circuit_common::N_RESERVED;
 use privacy_common::consts::{
     CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,
-    CIRCUIT_OUTPUT_ADDRESSES, CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE,
-    PRIVACY_CIRCUIT_PREPROCESSED_IDS, PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
+    CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE, PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS,
     PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
 };
 use stwo::core::poly::circle::CanonicCoset;
@@ -11,13 +11,18 @@ use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::mempool::BaseColumnPool;
 use stwo::prover::poly::circle::PolyOps;
 
-use crate::{get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config};
+use crate::{
+    get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config,
+    get_recursive_circuit_config,
+};
 
 const CONJECTURED_SECURITY_BITS: u32 = 96;
 
 #[test]
 fn check_proof_config() {
-    let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
+    let proof_config = get_proof_config(
+        &get_recursive_circuit_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap(),
+    );
     // All circuit components should be enabled.
     assert!(proof_config.component_shapes.iter().all(|s| s.trace_columns > 0));
 }
@@ -61,18 +66,21 @@ fn check_circuit_verifier_configs() {
         preprocessed_circuit.trace_log_size() + CIRCUIT_LOG_BLOWUP_FACTOR,
         CIRCUIT_PCS_CONFIG.trace_lifting_log_size
     );
-    // `params.n_outputs` counts the circuit output gates excluding the `u` constant wire, while
-    // `CIRCUIT_OUTPUT_ADDRESSES` includes the `u` anchor address.
-    assert_eq!(preprocessed_circuit.n_outputs, CIRCUIT_OUTPUT_ADDRESSES.len() - 1);
-    let preprocessed_column_ids: Vec<String> =
-        preprocessed_circuit.preprocessed_trace.ids().into_iter().map(|id| id.id).collect();
-    assert_eq!(preprocessed_column_ids.as_slice(), PRIVACY_CIRCUIT_PREPROCESSED_IDS);
-    let actual_log_sizes: Vec<u32> =
-        preprocessed_circuit.preprocessed_trace.log_sizes().values().copied().collect();
+    // The output gates, excluding the `u` constant wire, hold the output digest's words.
+    assert_eq!(preprocessed_circuit.n_outputs, N_RESERVED);
+    let actual_columns: Vec<(String, u32)> = preprocessed_circuit
+        .preprocessed_trace
+        .log_sizes()
+        .into_iter()
+        .map(|(id, log_size)| (id.id, log_size))
+        .collect();
+    let expected_columns: Vec<(String, u32)> = PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS
+        .iter()
+        .map(|&(id, log_size)| (id.to_string(), log_size))
+        .collect();
     assert_eq!(
-        actual_log_sizes.as_slice(),
-        PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES,
-        "Update PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES in consts.rs"
+        actual_columns, expected_columns,
+        "Update PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS in consts.rs"
     );
 
     // Check that the lifting log sizes are correct
@@ -119,7 +127,9 @@ pub mod slow_tests {
     use privacy_prove::{prepare_recursive_prover_precomputes, privacy_recursive_prove};
     use tracing_subscriber::fmt;
 
-    use crate::{PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, get_proof_config};
+    use crate::{
+        PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, get_proof_config, get_recursive_circuit_config,
+    };
 
     #[test]
     fn check_recursive_circuit_proof_deserializes() {
@@ -131,7 +141,9 @@ pub mod slow_tests {
         let precomputes = prepare_recursive_prover_precomputes().unwrap();
         let proof_output = privacy_recursive_prove(pie, precomputes).unwrap();
 
-        let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
+        let proof_config = get_proof_config(
+            &get_recursive_circuit_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap(),
+        );
         let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
         let proof_bytes =
             crate::decompress_proof(compressed_proof, MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES)
