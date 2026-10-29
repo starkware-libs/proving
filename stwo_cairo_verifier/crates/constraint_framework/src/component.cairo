@@ -4,9 +4,10 @@ use stwo_verifier_core::fields::qm31::QM31;
 use crate::{CommonLookupElements, PreprocessedMaskValues};
 
 /// A component is a set of trace columns of the same sizes along with a set of constraints on them.
-pub trait AirComponent<T> {
+/// Each component implements this trait with its own constraints.
+pub trait AirComponent {
     fn evaluate_constraints_at_point(
-        self: @T,
+        self: @Component,
         ref sum: QM31,
         ref preprocessed_mask_values: PreprocessedMaskValues,
         ref trace_mask_values: ColumnSpan<Span<QM31>>,

@@ -6,7 +6,7 @@ pub const N_TRACE_COLUMNS: usize = 4;
 pub const N_INTERACTION_COLUMNS: usize = 12;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 2] = [('RangeCheck_16', 3), ('Gate', 1)];
 
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent {
     fn evaluate_constraints_at_point(
         self: @Component,
         ref sum: QM31,

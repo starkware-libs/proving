@@ -22,7 +22,7 @@ pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 /// `1 << LIMB_BITS = 1024`. Used as the offset shift between expansion bands.
 const LIMB_OFFSET: u32 = 1024;
 
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent {
     fn evaluate_constraints_at_point(
         self: @Component,
         ref sum: QM31,

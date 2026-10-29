@@ -7,7 +7,7 @@ pub const N_INTERACTION_COLUMNS: usize = 4;
 pub const RELATION_USES_PER_ROW: [(felt252, u32); 0] = [];
 pub const LOG_SIZE: u32 = 8;
 
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent {
     fn evaluate_constraints_at_point(
         self: @Component,
         ref sum: QM31,
