@@ -3,9 +3,9 @@ use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::{IValue, qm31_from_u32s};
-use circuits::ops::{eq, from_partial_evals, inv, pointwise_mul};
+use circuits::ops::{eq, inv, pointwise_mul, qm31_from_coords};
 use circuits::simd::Simd;
-use circuits::wrappers::U32Wrapper;
+use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use stwo::core::circle::CirclePoint;
 #[cfg(test)]
 #[path = "channel_test.rs"]
@@ -184,15 +184,15 @@ impl Channel {
 pub fn random_qm31_from_hash<Value: IValue>(ctx: &mut Context<Value>, hash: HashValue<Var>) -> Var {
     // The QM31 constant 1 - 2^16 * i.
     let combiner = ctx.constant(qm31_from_u32s(1, (1 << 31) - (1 << 16) - 1, 0, 0));
-    let reduced: [Var; BLAKE2S_DIGEST_N_WORDS / 2] = std::array::from_fn(|i| {
+    let reduced: [M31Wrapper<Var>; BLAKE2S_DIGEST_N_WORDS / 2] = std::array::from_fn(|i| {
         let low_32 = *hash[2 * i].raw();
         let high_32 = *hash[2 * i + 1].raw();
         let reduced_32 = eval!(ctx, (low_32) + ((high_32) + (high_32)));
         let combined = eval!(ctx, (reduced_32) * (combiner));
         let simd = Simd::from_packed(vec![combined], 2);
 
-        *Simd::unpack_idx(ctx, &simd, 0).raw()
+        Simd::unpack_idx(ctx, &simd, 0)
     });
 
-    from_partial_evals(ctx, reduced)
+    qm31_from_coords(ctx, reduced)
 }

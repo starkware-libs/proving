@@ -2,13 +2,14 @@ use expect_test::expect;
 use num_traits::Zero;
 use rstest::rstest;
 use stwo::core::fields::cm31::CM31;
-use stwo::core::fields::m31::P;
+use stwo::core::fields::m31::{M31, P};
 
 use crate::context::TraceContext;
 use crate::eval;
 use crate::ivalue::qm31_from_u32s;
 use crate::ops::{
-    Guess, add, cond_flip, conj, eq, from_partial_evals, guess, im, inv, mul, pointwise_mul,
+    Guess, add, cond_flip, conj, eq, from_partial_evals, guess, guess_m31, im, inv, mul,
+    pointwise_mul, qm31_from_coords,
 };
 use crate::stats::Stats;
 
@@ -179,6 +180,15 @@ fn test_from_partial_evals() {
     ];
     let res = from_partial_evals(&mut context, values);
     assert_eq!(context.get(res), qm31_from_u32s(1, 12, 103, 1004));
+    context.validate_circuit();
+}
+
+#[test]
+fn test_qm31_from_coords() {
+    let mut context = TraceContext::default();
+    let coords = [1, 2, 3, 4].map(|coord: u32| guess_m31(&mut context, M31::from(coord).into()));
+    let res = qm31_from_coords(&mut context, coords);
+    assert_eq!(context.get(res), qm31_from_u32s(1, 2, 3, 4));
     context.validate_circuit();
 }
 

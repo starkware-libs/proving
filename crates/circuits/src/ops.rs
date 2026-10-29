@@ -290,8 +290,12 @@ pub fn guess_m31<Value: IValue>(
     M31Wrapper::new_unsafe(out)
 }
 
-/// Computes the map `(a, b, c, d) -> a + b * i + c * u + d * iu`. Note that the input values are
-/// not necessarily in the base field `M31`.
+/// Returns `a + b * i + c * u + d * iu`, where `[a, b, c, d] = values`: a secure column's value at
+/// a point, given its four coordinate polynomials' values there. Mirrors
+/// [`QM31::from_partial_evals`].
+///
+/// The values are not necessarily in the base field `M31`; for `M31` coordinates use
+/// [`qm31_from_coords`].
 pub fn from_partial_evals(context: &mut Context<impl IValue>, values: [Var; 4]) -> Var {
     let i = context.i();
     let u = context.u();
@@ -301,6 +305,11 @@ pub fn from_partial_evals(context: &mut Context<impl IValue>, values: [Var; 4]) 
         context,
         (((values[0]) + ((values[1]) * (i))) + ((values[2]) * (u))) + ((values[3]) * (iu))
     )
+}
+
+/// Returns the QM31 whose coordinates in the `{1, i, u, iu}` basis are `coords`.
+pub fn qm31_from_coords(context: &mut Context<impl IValue>, coords: [M31Wrapper<Var>; 4]) -> Var {
+    from_partial_evals(context, coords.map(|coord| *coord.raw()))
 }
 
 /// A trait for creating [Var]s from values in a recursive structure.
