@@ -11,13 +11,18 @@ use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::mempool::BaseColumnPool;
 use stwo::prover::poly::circle::PolyOps;
 
-use crate::{get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config};
+use crate::{
+    get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config,
+    get_recursive_circuit_config,
+};
 
 const CONJECTURED_SECURITY_BITS: u32 = 96;
 
 #[test]
 fn check_proof_config() {
-    let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
+    let proof_config = get_proof_config(
+        &get_recursive_circuit_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap(),
+    );
     // All circuit components should be enabled.
     assert!(proof_config.component_shapes.iter().all(|s| s.trace_columns > 0));
 }
@@ -119,7 +124,9 @@ pub mod slow_tests {
     use privacy_prove::{prepare_recursive_prover_precomputes, privacy_recursive_prove};
     use tracing_subscriber::fmt;
 
-    use crate::{PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, get_proof_config};
+    use crate::{
+        PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT, get_proof_config, get_recursive_circuit_config,
+    };
 
     #[test]
     fn check_recursive_circuit_proof_deserializes() {
@@ -131,7 +138,9 @@ pub mod slow_tests {
         let precomputes = prepare_recursive_prover_precomputes().unwrap();
         let proof_output = privacy_recursive_prove(pie, precomputes).unwrap();
 
-        let proof_config = get_proof_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap();
+        let proof_config = get_proof_config(
+            &get_recursive_circuit_config(&PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT).unwrap(),
+        );
         let (_header, compressed_proof) = crate::split_proof_header(&proof_output.proof).unwrap();
         let proof_bytes =
             crate::decompress_proof(compressed_proof, MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES)
