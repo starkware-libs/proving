@@ -19,11 +19,10 @@ use circuits::blake::HashValue;
 use circuits::ivalue::NoValue;
 use circuits::utils::le_u32s_from_bytes;
 use circuits_stark_verifier::proof::ProofConfig;
-use itertools::Itertools;
 use privacy_common::consts::{
     CAIRO_PCS_CONFIG, CIRCUIT_FRI_CONFIG, CIRCUIT_PCS_CONFIG,
-    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_CIRCUIT_PREPROCESSED_IDS,
-    PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
+    MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES, PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS,
+    PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
 };
 use privacy_common::utils::ProofHeader;
 use privacy_common::{
@@ -153,10 +152,9 @@ pub fn get_recursive_circuit_config(
     preprocessed_root: &[u32; 8],
 ) -> Result<CircuitConfig, Box<dyn Error>> {
     if *preprocessed_root == PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT {
-        let preprocessed_column_log_sizes = PRIVACY_CIRCUIT_PREPROCESSED_IDS
+        let preprocessed_column_log_sizes = PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS
             .iter()
-            .zip_eq(PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES.iter())
-            .map(|(&id, &log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))
+            .map(|&(id, log_size)| (PreProcessedColumnId { id: id.to_string() }, log_size))
             .collect();
         Ok(CircuitConfig { config: CIRCUIT_PCS_CONFIG, preprocessed_column_log_sizes })
     } else {

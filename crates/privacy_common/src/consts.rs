@@ -21,7 +21,6 @@ pub const PRIVACY_BOOTLOADER_JSON: &[u8] = include_bytes!(
 );
 pub const LARGE_PROOFS_CIRCUIT_REGISTRY_JSON: &str =
     include_str!("../large_proofs_circuit_registry.json");
-pub const CIRCUIT_OUTPUT_ADDRESSES: [usize; 9] = [3, 4, 5, 6, 7, 8, 9, 10, 2];
 pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] =
     [1316794341, 3213136260, 4025293663, 2147676548, 491405811, 1322677440, 2552392821, 3026690267];
 pub const CAIRO_LOG_BLOWUP_FACTOR: u32 = 3;
@@ -55,66 +54,52 @@ pub const CIRCUIT_FRI_CONFIG: FriConfig = FriConfig {
 
 pub const CIRCUIT_PCS_CONFIG: PcsConfig = PcsConfig::from_fri_config(CIRCUIT_FRI_CONFIG);
 
-/// Log sizes (in size-sorted order, matching `PRIVACY_CIRCUIT_PREPROCESSED_IDS`) of the
-/// preprocessed columns in the recursive circuit. Each entry is the `ilog2` of the number of
-/// rows in the corresponding column.
-pub const PRIVACY_CIRCUIT_PREPROCESSED_LOG_SIZES: [u32; 45] = [
-    8, 8, 8, // bitwise_xor_4_{0,1,2}: 2^(2*4) = 2^8
-    14, 14, 14, //  bitwise_xor_7_{0,1,2}: 2^(2*7) = 2^14
-    16, 16, 16, 16, // bitwise_xor_8_{0,1,2}: 2^(2*8) = 2^16
-    17, 17, // eq
-    17, 17, 17, 17, 17, // triple_xor
-    18, 18, 18, // m31_to_u32
-    18, 18, 18, // bitwise_xor_9_{0,1,2}: 2^(2*9) = 2^18
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, // blake_g_gate
-    20, 20, 20, // bitwise_xor_10_{0,1,2}: 2^(2*10) = 2^20
-    21, 21, 21, 21, 21, 21, 21, 21, // qm31 ops
-];
-
-pub const PRIVACY_CIRCUIT_PREPROCESSED_IDS: [&str; 45] = [
-    "bitwise_xor_4_0",
-    "bitwise_xor_4_1",
-    "bitwise_xor_4_2",
-    "bitwise_xor_7_0",
-    "bitwise_xor_7_1",
-    "bitwise_xor_7_2",
-    "seq_16",
-    "bitwise_xor_8_0",
-    "bitwise_xor_8_1",
-    "bitwise_xor_8_2",
-    "eq_in0_address",
-    "eq_in1_address",
-    "triple_xor_input_addr_0",
-    "triple_xor_input_addr_1",
-    "triple_xor_input_addr_2",
-    "triple_xor_output_addr",
-    "triple_xor_multiplicity",
-    "m31_to_u32_input_addr",
-    "m31_to_u32_output_addr",
-    "m31_to_u32_multiplicity",
-    "bitwise_xor_9_0",
-    "bitwise_xor_9_1",
-    "bitwise_xor_9_2",
-    "blake_g_gate_input_addr_a",
-    "blake_g_gate_input_addr_b",
-    "blake_g_gate_input_addr_c",
-    "blake_g_gate_input_addr_d",
-    "blake_g_gate_input_addr_f0",
-    "blake_g_gate_input_addr_f1",
-    "blake_g_gate_output_addr_a",
-    "blake_g_gate_output_addr_b",
-    "blake_g_gate_output_addr_c",
-    "blake_g_gate_output_addr_d",
-    "blake_g_gate_multiplicity",
-    "bitwise_xor_10_0",
-    "bitwise_xor_10_1",
-    "bitwise_xor_10_2",
-    "qm_31_ops_add_flag",
-    "qm_31_ops_sub_flag",
-    "qm_31_ops_mul_flag",
-    "qm_31_ops_pointwise_mul_flag",
-    "qm_31_ops_in_0_address",
-    "qm_31_ops_in_1_address",
-    "qm_31_ops_out_address",
-    "qm_31_ops_mults",
+/// The preprocessed columns of the recursive circuit, in size-sorted order (the order of the
+/// prover's preprocessed trace): each column's id and the `ilog2` of its number of rows.
+pub const PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS: [(&str, u32); 45] = [
+    ("bitwise_xor_4_0", 8),
+    ("bitwise_xor_4_1", 8),
+    ("bitwise_xor_4_2", 8),
+    ("bitwise_xor_7_0", 14),
+    ("bitwise_xor_7_1", 14),
+    ("bitwise_xor_7_2", 14),
+    ("seq_16", 16),
+    ("bitwise_xor_8_0", 16),
+    ("bitwise_xor_8_1", 16),
+    ("bitwise_xor_8_2", 16),
+    ("eq_in0_address", 17),
+    ("eq_in1_address", 17),
+    ("triple_xor_input_addr_0", 17),
+    ("triple_xor_input_addr_1", 17),
+    ("triple_xor_input_addr_2", 17),
+    ("triple_xor_output_addr", 17),
+    ("triple_xor_multiplicity", 17),
+    ("m31_to_u32_input_addr", 18),
+    ("m31_to_u32_output_addr", 18),
+    ("m31_to_u32_multiplicity", 18),
+    ("bitwise_xor_9_0", 18),
+    ("bitwise_xor_9_1", 18),
+    ("bitwise_xor_9_2", 18),
+    ("blake_g_gate_input_addr_a", 20),
+    ("blake_g_gate_input_addr_b", 20),
+    ("blake_g_gate_input_addr_c", 20),
+    ("blake_g_gate_input_addr_d", 20),
+    ("blake_g_gate_input_addr_f0", 20),
+    ("blake_g_gate_input_addr_f1", 20),
+    ("blake_g_gate_output_addr_a", 20),
+    ("blake_g_gate_output_addr_b", 20),
+    ("blake_g_gate_output_addr_c", 20),
+    ("blake_g_gate_output_addr_d", 20),
+    ("blake_g_gate_multiplicity", 20),
+    ("bitwise_xor_10_0", 20),
+    ("bitwise_xor_10_1", 20),
+    ("bitwise_xor_10_2", 20),
+    ("qm_31_ops_add_flag", 21),
+    ("qm_31_ops_sub_flag", 21),
+    ("qm_31_ops_mul_flag", 21),
+    ("qm_31_ops_pointwise_mul_flag", 21),
+    ("qm_31_ops_in_0_address", 21),
+    ("qm_31_ops_in_1_address", 21),
+    ("qm_31_ops_out_address", 21),
+    ("qm_31_ops_mults", 21),
 ];
