@@ -22,7 +22,7 @@ serde_json.workspace = true
 
 [dev-dependencies]
 circuits-stark-verifier = { workspace = true, features = ["test-utils"] }
-cairo-vm = { workspace = true, default-features = true }
+cairo-vm.workspace = true
 stwo_cairo_prover.workspace = true
 stwo_cairo_dev_utils.workspace = true
 circuit-prover = { workspace = true, features = ["test-utils"] }

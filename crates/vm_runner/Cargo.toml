@@ -15,7 +15,7 @@ stwo-cairo-adapter.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 cairo-program-runner-lib.workspace = true
-cairo-vm.workspace = true
+cairo-vm = { workspace = true, features = ["clap"] }
 anyhow.workspace = true
 
 [dev-dependencies]
