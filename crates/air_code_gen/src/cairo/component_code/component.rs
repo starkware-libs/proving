@@ -21,7 +21,7 @@ pub fn generate_component_cairo_constraints_code(
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))
 
-        pub impl AirComponentImpl of AirComponent<Component> {
+        pub impl AirComponentImpl of AirComponent {
             fn evaluate_constraints_at_point(
                 self: @Component,
                 ref sum: QM31,

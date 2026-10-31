@@ -15,7 +15,7 @@ pub const RELATION_USES_PER_ROW: [(felt252, u32); 7] = [
     ('VerifyBitwiseXor_4', 2), ('VerifyBitwiseXor_9', 2), ('VerifyBitwiseXor_7', 2), ('Gate', 6),
 ];
 
-pub impl AirComponentImpl of AirComponent<Component> {
+pub impl AirComponentImpl of AirComponent {
     fn evaluate_constraints_at_point(
         self: @Component,
         ref sum: QM31,
