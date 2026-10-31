@@ -8,6 +8,10 @@ use rand_chacha::rand_core::{RngCore, SeedableRng};
 
 use crate::N_LANES;
 
+#[cfg(test)]
+#[path = "finalize_test.rs"]
+pub mod test;
+
 fn pad_qm31_ops(context: &mut Context<impl IValue>, target: usize) {
     let qm31_ops_n_rows = context.circuit.n_qm31_ops_rows();
     assert!(qm31_ops_n_rows <= target);
@@ -173,9 +177,28 @@ fn blake_g_gate_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl R
     blake_g_gate(context, a, b, c, d, f0, f1);
 }
 
+// Blinding rows per unit of `n_padding`.
+//
+// Every value the proof reveals about a column is an M31 (~31 bits), so for each revealed value
+// the blinding rows must add ~31 random bits to every column the component commits to: its trace
+// columns and its interaction columns (each secure interaction column is 4 M31 columns). All the
+// columns of a row are computed from the row's random inputs, so a row adds only as many random
+// bits as its inputs have: a component needs ~`n_columns * 31 / input_bits` rows. This is a rough
+// estimate.
+
+/// 20 trace + 24 interaction columns; 3 random u32 inputs (96 bits): 44 * 31 / 96 ≈ 15.
+pub const TRIPLE_XOR_BLINDING_FACTOR: usize = 15;
+/// 4 trace + 12 interaction columns; 1 random M31 input (31 bits): 16 * 31 / 31 = 16.
+pub const M31_TO_U32_BLINDING_FACTOR: usize = 16;
+/// 52 trace + 52 interaction columns; 6 random u32 inputs (192 bits): 104 * 31 / 192 ≈ 17.
+pub const BLAKE_G_GATE_BLINDING_FACTOR: usize = 17;
+
 /// Adds ZK blinding to the circuit by adding random rows to all the witness components: qm31_ops,
 /// eq, triple_xor, m31_to_u32, and blake_g_gate. The fresh input variables are yielded through
 /// trivial `x + 0 = x` add gates in the qm31_ops component.
+///
+/// Each unit of `n_padding` blinds the values exposed by one query in the proof
+/// (amount of added randomness = amount of data exposed by query = size of one trace row).
 pub fn add_zk_blinding(
     context: &mut FinalizedContext<impl IValue>,
     seed_bytes: [u8; 32],
@@ -186,9 +209,15 @@ pub fn add_zk_blinding(
     for _ in 0..n_padding {
         qm31_zk_blinding(context, &mut rng);
         eq_zk_blinding(context, &mut rng);
-        triple_xor_zk_blinding(context, &mut rng);
-        m31_to_u32_zk_blinding(context, &mut rng);
-        blake_g_gate_zk_blinding(context, &mut rng);
+        for _ in 0..TRIPLE_XOR_BLINDING_FACTOR {
+            triple_xor_zk_blinding(context, &mut rng);
+        }
+        for _ in 0..M31_TO_U32_BLINDING_FACTOR {
+            m31_to_u32_zk_blinding(context, &mut rng);
+        }
+        for _ in 0..BLAKE_G_GATE_BLINDING_FACTOR {
+            blake_g_gate_zk_blinding(context, &mut rng);
+        }
     }
 }
 

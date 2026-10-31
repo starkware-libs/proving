@@ -9,6 +9,7 @@ use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::m31::M31;
 use stwo::core::pcs::{TreeSubspan, TreeVec};
 use stwo::core::utils::SliceExt;
+use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo::prover::backend::simd::conversion::{Pack, Unpack};
 use stwo::prover::backend::simd::m31::{LOG_N_LANES, N_LANES, PackedBaseField, PackedM31};
@@ -164,11 +165,11 @@ pub fn export_preprocessed_roots() {
 }
 
 /// Exports the preprocessed roots for the circuit cairo verifier.
-/// Note: This function is very slow and is intended for generating the preprocessed roots when
-/// needed.
-pub fn export_circuit_cairo_verifier_preprocessed_roots() {
+/// Returns a map log-blowup-factor -> Cairo CanonicalSmall preprocessed root
+pub fn export_circuit_cairo_verifier_preprocessed_roots() -> HashMap<u32, Blake2sHash> {
     let max_log_blowup_factor = 3;
     let small_trace = PreProcessedTraceVariant::CanonicalSmall;
+    let mut roots = HashMap::new();
 
     for log_blowup_factor in 1..=max_log_blowup_factor {
         let root = generate_preprocessed_commitment_root::<Blake2sMerkleChannel>(
@@ -176,6 +177,8 @@ pub fn export_circuit_cairo_verifier_preprocessed_roots() {
             small_trace,
             small_trace.max_log_trace_size(),
         );
+
+        roots.insert(log_blowup_factor, root);
 
         let root_bytes = root.0;
         let u32s = root_bytes
@@ -187,6 +190,8 @@ pub fn export_circuit_cairo_verifier_preprocessed_roots() {
 
         println!("log_blowup_factor: {log_blowup_factor}, blake root: [{u32s}]");
     }
+
+    roots
 }
 
 /// Create the input_to_row map used in const-size components.
