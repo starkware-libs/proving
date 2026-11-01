@@ -7,6 +7,7 @@ use circuits::ops::{eq, inv, pointwise_mul, qm31_from_coords};
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use stwo::core::circle::CirclePoint;
+use stwo::core::fields::m31::P;
 #[cfg(test)]
 #[path = "channel_test.rs"]
 pub mod test;
@@ -62,11 +63,8 @@ impl Channel {
         context: &mut Context<impl IValue>,
         values: impl IntoIterator<Item = Var>,
     ) {
-        let mut message = self.digest.to_vec();
-        message.extend(unpack_qm31s_to_u32_words(context, values));
-        let n_words = message.len();
-        let hash = blake2s_u32s(context, message, 4 * n_words);
-        self.update_digest(hash);
+        let words = unpack_qm31s_to_u32_words(context, values);
+        self.mix_u32s(context, words.into_iter());
     }
 
     /// Mixes the given list of `u32` values into the channel.
@@ -75,7 +73,7 @@ impl Channel {
         context: &mut Context<impl IValue>,
         values: impl ExactSizeIterator<Item = U32Wrapper<Var>>,
     ) {
-        let n_words = 8 + values.len();
+        let n_words = self.digest.0.len() + values.len();
         let mut message = Vec::with_capacity(n_words);
         message.extend(self.digest.0);
         message.extend(values);
@@ -92,7 +90,7 @@ impl Channel {
         let mut message = self.digest.to_vec();
         message.push(n_draw_u32_var);
         message.push(U32Wrapper::const_u32(context, 0));
-        blake2s_u32s(context, message, (8 + 1) * 4 + 1)
+        blake2s_u32s(context, message, 4 * (BLAKE2S_DIGEST_N_WORDS + 1) + 1)
     }
 
     /// Draws one `QM31` random value from the channel.
@@ -123,15 +121,16 @@ impl Channel {
         assert!(n_bits <= 30);
 
         // Compute `H(POW_PREFIX, [0_u8; 12], digest, n_bits)`.
-        let mut input = vec![
+        let mut prefixed_digest_preimage = vec![
             U32Wrapper::const_u32(context, Self::POW_PREFIX),
             U32Wrapper::const_u32(context, 0),
             U32Wrapper::const_u32(context, 0),
             U32Wrapper::const_u32(context, 0),
         ];
-        input.extend(self.digest.0);
-        input.push(U32Wrapper::const_u32(context, n_bits));
-        let prefixed_digest = blake2s_u32s(context, input, 4 * 13);
+        prefixed_digest_preimage.extend(self.digest.0);
+        prefixed_digest_preimage.push(U32Wrapper::const_u32(context, n_bits));
+        let n_bytes = 4 * prefixed_digest_preimage.len();
+        let prefixed_digest = blake2s_u32s(context, prefixed_digest_preimage, n_bytes);
 
         // TODO: Update nonce to be [U32Wrapper; 2].
         // Check that `nonce` consists of only the first two M31 elements.
@@ -183,7 +182,7 @@ impl Channel {
 ///  in the 0-th limb of the result.
 pub fn random_qm31_from_hash<Value: IValue>(ctx: &mut Context<Value>, hash: HashValue<Var>) -> Var {
     // The QM31 constant 1 - 2^16 * i.
-    let combiner = ctx.constant(qm31_from_u32s(1, (1 << 31) - (1 << 16) - 1, 0, 0));
+    let combiner = ctx.constant(qm31_from_u32s(1, P - (1 << 16), 0, 0));
     let reduced: [M31Wrapper<Var>; BLAKE2S_DIGEST_N_WORDS / 2] = std::array::from_fn(|i| {
         let low_32 = *hash[2 * i].raw();
         let high_32 = *hash[2 * i + 1].raw();
