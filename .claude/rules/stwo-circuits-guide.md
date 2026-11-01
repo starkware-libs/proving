@@ -45,7 +45,6 @@ crates/
   cairo_verifier/            [SOUNDNESS-CRITICAL] Cairo constraint definitions  (pkg: circuit-cairo-verifier)
     src/components/          [AIR-GENERATED] 50+ opcode/builtin evaluators + subroutines/
     src/all_components.rs    [AIR-GENERATED] Component registry
-    src/privacy.rs           Privacy-related circuit logic
     src/verify.rs            Cairo AIR verification entry point
   stark_verifier/            [SOUNDNESS-CRITICAL] STARK proof verification  (pkg: circuits-stark-verifier)
     src/fri.rs               [SOUNDNESS-CRITICAL] FRI protocol verification

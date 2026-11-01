@@ -49,7 +49,9 @@ crates/
   privacy_circuit_verify/       Verify a proof with a cairo-circuit verifier.
                                 (pkg: privacy-circuit-verify)
   privacy_common/               The privacy proof format shared by privacy_prove and
-                                privacy_circuit_verify: consts, the proof header, and the
+                                privacy_circuit_verify: the privacy constants (proof
+                                configs, preprocessed-trace layout, and the Cairo components
+                                the privacy transaction enables), the proof header, and the
                                 bootloader programs.  (pkg: privacy_common)
   leaf_prover/                  CLI: run Cairo programs, prove their runs, verify that proof
                                 with a circuit-cairo verifier and output a proof of the run of

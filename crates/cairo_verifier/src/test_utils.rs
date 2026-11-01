@@ -18,7 +18,6 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTra
 use stwo_cairo_common::prover_types::felt::split_f252;
 
 use crate::all_components::all_components;
-use crate::privacy::PRIVACY_TRANSACTION_COMPONENTS;
 use crate::statement::{N_OUTPUTS, N_WORDS_PER_OUTPUT_CELL};
 use crate::utils::{get_test_data_dir, load_program};
 use crate::verify::{
@@ -37,20 +36,20 @@ mod privacy_test;
 /// [`PreProcessedTraceVariant::CanonicalSmall`] preprocessed trace.
 const PRIVACY_CAIRO_TRACE_LOG_SIZE: u32 = 20;
 
-/// Returns a [CairoVerifierConfig] for the privacy proof setup with the given log blowup factor.
-/// See [CairoVerifierConfig] for the meaning of zk_blinding_amount.
+/// Returns a [CairoVerifierConfig] for the privacy proof setup with the given enabled components
+/// and log blowup factor. See [CairoVerifierConfig] for the meaning of zk_blinding_amount.
 pub fn privacy_cairo_verifier_config(
+    enabled_components: &HashSet<&'static str>,
     log_blowup_factor: u32,
     zk_blinding_amount: Option<usize>,
 ) -> CairoVerifierConfig {
     let preprocessed_trace_variant = PreProcessedTraceVariant::CanonicalSmall;
-    let privacy_set = privacy_components();
     // Build `enabled_bits` (one flag per component in the full list) and `components` (only the
     // enabled entries, as expected by `ProofConfig::new`) in a single pass.
     let (enabled_bits, components): (Vec<bool>, Vec<_>) = all_components::<NoValue>()
         .into_iter()
         .map(|(name, component)| {
-            let enabled = privacy_set.contains(name);
+            let enabled = enabled_components.contains(name);
             (enabled, enabled.then_some((name, component)))
         })
         .unzip();
@@ -78,11 +77,6 @@ pub fn privacy_cairo_verifier_config(
         preprocessed_trace_variant,
         zk_blinding_amount,
     }
-}
-
-/// Returns [`PRIVACY_TRANSACTION_COMPONENTS`] as a set.
-pub fn privacy_components() -> HashSet<&'static str> {
-    HashSet::from_iter(PRIVACY_TRANSACTION_COMPONENTS)
 }
 
 pub const fn privacy_pcs_config(trace_log_size: u32, log_blowup_factor: u32) -> PcsConfig {

@@ -22,14 +22,13 @@ use circuits_stark_verifier::proof::ProofConfig;
 use circuits_stark_verifier::proof_info::ProofInfo;
 use circuits_stark_verifier::statement::Statement;
 use itertools::Itertools;
+use privacy_common::privacy_components;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::fri::FriParams;
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 
-use crate::test_utils::{
-    privacy_cairo_verifier_config, privacy_components, verify_cairo_with_component_set,
-};
+use crate::test_utils::{privacy_cairo_verifier_config, verify_cairo_with_component_set};
 use crate::utils::{get_proof_file_path, get_test_data_dir};
 use crate::verify::build_cairo_verifier_circuit;
 
@@ -74,7 +73,8 @@ fn test_verify_privacy() {
 
     // Build the verifier circuit via NoValue.
     let log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(log_blowup_factor, None);
+    let const_config =
+        privacy_cairo_verifier_config(&privacy_components(), log_blowup_factor, None);
     let novalue_context = build_cairo_verifier_circuit(&const_config);
 
     // Check that building the verifier circuit via NoValue produces the same topology.
@@ -96,7 +96,8 @@ fn test_verify_privacy_with_recursion() {
 
     // Build the preprocessed circuit from the NoValue topology (matching the real proving flow).
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
+    let const_config =
+        privacy_cairo_verifier_config(&privacy_components(), cairo_proof_log_blowup_factor, None);
     assert_eq!(
         const_config.preprocessed_root,
         cairo_proof.extended_stark_proof.proof.commitments.0[0].into(),
@@ -149,7 +150,8 @@ fn test_verify_privacy_with_recursion() {
 fn test_privacy_recursion_with_preprocessed_context() {
     // Build the verifier circuit via NoValue and preprocess it.
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
+    let const_config =
+        privacy_cairo_verifier_config(&privacy_components(), cairo_proof_log_blowup_factor, None);
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
 
@@ -201,7 +203,8 @@ fn test_privacy_recursion_with_preprocessed_context() {
 #[test]
 fn test_privacy_proof_info() {
     let cairo_proof_log_blowup_factor = 3;
-    let const_config = privacy_cairo_verifier_config(cairo_proof_log_blowup_factor, None);
+    let const_config =
+        privacy_cairo_verifier_config(&privacy_components(), cairo_proof_log_blowup_factor, None);
 
     let mut novalue_context = build_cairo_verifier_circuit(&const_config);
     let preprocessed_circuit = PreprocessedCircuit::preprocess_circuit(&mut novalue_context);
