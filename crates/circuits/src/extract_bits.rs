@@ -25,12 +25,6 @@ pub trait BitPackingOps: CircuitOps + Clone {
     /// indeed the LSB of `self`.
     fn guess_lsb(&self, context: &mut Context<impl IValue>) -> Self;
 
-    /// Returns an *unconstrained* value initialized (hint) with `1/x` if `x != 0` and `0` if
-    /// `x = 0` (applied to every element of `self` for vector types such as [Simd]).
-    ///
-    /// NOTE: The caller MUST verify that the result is correct.
-    fn guess_inv_or_zero(&self, context: &mut Context<impl IValue>) -> Self;
-
     /// Asserts that the value is either 0 or 1.
     fn assert_bit(&self, context: &mut Context<impl IValue>);
 
@@ -47,10 +41,6 @@ impl BitPackingOps for Simd {
         self.guess_lsb(context)
     }
 
-    fn guess_inv_or_zero(&self, context: &mut Context<impl IValue>) -> Self {
-        self.guess_inv_or_zero(context)
-    }
-
     fn assert_bit(&self, context: &mut Context<impl IValue>) {
         self.assert_bits(context);
     }
@@ -62,15 +52,17 @@ impl BitPackingOps for Simd {
 
 /// Returns the `n_bits`-bit binary decomposition of `input` (per lane for vector types such as
 /// [Simd]).
-/// If `n_bits == 31`, additionally enforces that `0` is encoded canonically as
-/// `0b0000...0000` (and not `0b1111...1111`).
 /// If any input exceeds `2^n_bits - 1`, a circuit constraints is going to be violated and
 /// `context.is_circuit_valid()` will return `false`.
+///
+/// `n_bits` must be at most 30, so that the decomposition is unique (a 31-bit decomposition
+/// would allow `0` to be represented both as `0b0000...0000` and as `0b1111...1111`).
 pub fn extract_bits<T: BitPackingOps>(
     context: &mut Context<impl IValue>,
     input: &T,
     n_bits: u32,
 ) -> Vec<T> {
+    assert!(n_bits <= 30, "extract_bits supports at most 30 bits, got {n_bits}.");
     let inv_two = M31Wrapper::const_m31(context, M31::from(2).inverse());
 
     let mut value = input.clone();
@@ -85,12 +77,6 @@ pub fn extract_bits<T: BitPackingOps>(
     // `value` is now the MSB. Check that it is 0 or 1.
     value.assert_bit(context);
     bits.push(value.clone());
-
-    if n_bits >= 31 {
-        assert_eq!(n_bits, 31);
-        // Check that `0` is represented as `0b0000...0000`, rather than `0b1111...1111`.
-        validate_extract_bits(context, input, &bits[0]);
-    }
 
     bits
 }
@@ -113,19 +99,4 @@ pub fn combine_bits<T: BitPackingOps>(context: &mut Context<impl IValue>, bits: 
         res = eval!(context, (res) + (*bit));
     }
     res
-}
-
-/// Forbids the case `0b1111...1111`, as this number should be represented as `0`.
-fn validate_extract_bits<T: BitPackingOps>(context: &mut Context<impl IValue>, input: &T, lsb: &T) {
-    // Add a new variable `aux` and check the constraint:
-    //   (there exists `aux` such that:) `(input * aux - 1) * lsb = 0`,
-    // which guarantees that if the input is 0, then the LSB must be 0.
-    //
-    // If `input != 0`, we simply choose `aux = 1/input` which satisfies the constraint.
-    let zero = T::zero(context, input);
-    let one = T::one(context, input);
-
-    let aux = input.guess_inv_or_zero(context);
-    let constraint_val = eval!(context, (((*input) * (aux)) - (one)) * (*lsb));
-    T::eq(context, &constraint_val, &zero);
 }
