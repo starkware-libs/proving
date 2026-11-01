@@ -140,7 +140,7 @@ fn test_broadcast_decomposition() {
 }
 
 #[test]
-fn test_mixed_m31_and_qm31_constants_small() {
+fn test_qm31_decomposition() {
     let mut context = TraceContext::default();
     // General (non-broadcast, non-base-field) QM31 constant. All limbs (1, 2, 3, 4) live in the
     // chain, so no base decomposition is triggered.
@@ -201,6 +201,75 @@ fn test_mixed_m31_and_qm31_constants_large() {
     context.constant(qm31_from_u32s(0, 0, 1234, 0));
     context.constant(qm31_from_u32s(0, 0, 0, 1234));
     finalize_constants(&mut context);
+    context.circuit.check_yields();
+    context.validate_circuit();
+}
+
+#[test]
+fn test_mixed_m31_and_qm31_constants_small() {
+    let mut context = TraceContext::default();
+    // Add constants of various types: multiple m31s outside the +1 chain, broadcasts and general
+    // qm31s. The purpose of this test is to detect changes to the order of the yielded constants,
+    // which would affect hash digests of the preprocessed circuit.
+    context.constant(qm31_from_u32s(1, 1, 1, 1));
+    context.constant(qm31_from_u32s(299, 0, 0, 0));
+    context.constant(qm31_from_u32s(2, 2, 2, 2));
+    context.constant(qm31_from_u32s(111, 2, 0, 0));
+    context.constant(qm31_from_u32s(603, 0, 0, 0));
+    context.constant(qm31_from_u32s(12, 12, 12, 12));
+    context.constant(qm31_from_u32s(707, 0, 0, 0));
+    context.constant(qm31_from_u32s(0, 112, 0, 0));
+    context.constant(qm31_from_u32s(0, 0, 113, 0));
+    context.constant(qm31_from_u32s(0, 0, 0, 114));
+    finalize_constants_with_min_base(&mut context, 5);
+    expect![[r#"
+        [0] = [0] + [0]
+        [1] = [1] + [0]
+        [13] = [1] + [1]
+        [14] = [13] + [1]
+        [15] = [14] + [1]
+        [16] = [15] + [1]
+        [18] = [17] + [14]
+        [20] = [19] + [1]
+        [9] = [21] + [13]
+        [23] = [22] + [1]
+        [25] = [24] + [15]
+        [4] = [26] + [15]
+        [28] = [27] + [15]
+        [7] = [30] + [14]
+        [33] = [32] + [1]
+        [3] = [33] + [34]
+        [35] = [22] + [13]
+        [36] = [27] + [13]
+        [38] = [37] + [15]
+        [40] = [37] + [13]
+        [41] = [37] + [1]
+        [6] = [41] + [42]
+        [43] = [37] + [14]
+        [32] = [31] - [13]
+        [2] = [2] * [1]
+        [17] = [16] * [16]
+        [19] = [18] * [16]
+        [21] = [20] * [16]
+        [22] = [13] * [16]
+        [24] = [23] * [16]
+        [26] = [25] * [16]
+        [27] = [15] * [16]
+        [29] = [28] * [16]
+        [30] = [29] * [16]
+        [31] = [2] * [2]
+        [34] = [33] * [2]
+        [5] = [13] * [3]
+        [8] = [35] * [3]
+        [37] = [36] * [16]
+        [39] = [32] * [38]
+        [12] = [39] * [2]
+        [10] = [32] * [40]
+        [42] = [32] * [13]
+        [11] = [43] * [2]
+        output [2]
+    "#]]
+    .assert_eq(&format!("{:?}", context.circuit));
     context.circuit.check_yields();
     context.validate_circuit();
 }
