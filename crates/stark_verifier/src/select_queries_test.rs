@@ -19,12 +19,12 @@ fn test_select_queries() {
 
     let input = simd_from_u32s(&mut context, vec![24, 25]);
     let bits = extract_bits(&mut context, &input, LOG_DOMAIN_SIZE);
-    let queries = select_queries(&mut context, bits);
+    let points = select_queries(&mut context, &bits);
 
     // Check that the first point is on the circle and in the relevant coset
     // (after `LOG_DOMAIN_SIZE` times doubling, we should get `(-1, 0)`).
-    let x = packed_values(&context, &queries.points.x)[0].0.0;
-    let y = packed_values(&context, &queries.points.y)[0].0.0;
+    let x = packed_values(&context, &points.x)[0].0.0;
+    let y = packed_values(&context, &points.y)[0].0.0;
     assert_eq!(x * x + y * y, 1.into());
     assert_eq!(
         CirclePoint { x, y }.repeated_double(LOG_DOMAIN_SIZE),
@@ -40,8 +40,8 @@ fn test_select_queries() {
 
     // The second query index is `25 = 0b11001`. Removing the LSB and computing bit-reverse we
     // get 0b0011. Since the LSB is 1, we negate the result.
-    let x = packed_values(&context, &queries.points.x)[0].0.1;
-    let y = packed_values(&context, &queries.points.y)[0].0.1;
+    let x = packed_values(&context, &points.x)[0].0.1;
+    let y = packed_values(&context, &points.y)[0].0.1;
     assert_eq!(
         CirclePoint { x, y },
         -(generator_point(LOG_DOMAIN_SIZE + 1) + generator_point(LOG_DOMAIN_SIZE - 1).mul(0b0011))
@@ -66,20 +66,20 @@ fn test_full_select_queries_regression() {
     assert_eq!(Ok(bits.len()), LOG_DOMAIN_SIZE.try_into());
     assert_eq!(bits[0].len(), N_QUERIES);
 
-    let queries = select_queries(&mut context, bits);
+    let points = select_queries(&mut context, &bits);
 
-    assert_eq!(queries.points.x.len(), N_QUERIES);
-    assert_eq!(queries.points.y.len(), N_QUERIES);
+    assert_eq!(points.x.len(), N_QUERIES);
+    assert_eq!(points.y.len(), N_QUERIES);
     assert_eq!(
-        packed_values(&context, &queries.points.x),
+        packed_values(&context, &points.x),
         vec![qm31_from_u32s(567259857, 1952787376, 194696271, 579625837)]
     );
     assert_eq!(
-        packed_values(&context, &queries.points.y),
+        packed_values(&context, &points.y),
         vec![qm31_from_u32s(1952787376, 1580223790, 567259857, 1690787918)]
     );
     assert_eq!(
-        queries.bits.iter().map(|bits| packed_values(&context, bits)).collect_vec(),
+        bits.iter().map(|bits| packed_values(&context, bits)).collect_vec(),
         vec![
             vec![qm31_from_u32s(0, 0, 0, 0)],
             vec![qm31_from_u32s(1, 0, 1, 0)],
