@@ -18,7 +18,7 @@ use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
-use crate::circuit_components::PerComponent;
+use crate::circuit_components::{N_COMPONENTS, PerComponent};
 use crate::circuit_hash::compute_circuit_hash;
 use crate::components::eq::CircuitEqComponent;
 use crate::components::{
@@ -40,8 +40,8 @@ pub struct CircuitStatement<Value: IValue> {
     /// The verified circuit's output digest, held at the output gates, excluding the wire of `u`
     /// (index 2).
     pub output_digest: HashValue<Var>,
-    /// Per-component trace log sizes packed as a [`Simd`].
-    pub component_log_sizes: Simd,
+    /// Per-component trace log sizes.
+    pub component_log_sizes: PerComponent<u32>,
     /// Maps preprocessed column ids to their log sizes.
     /// The order of the keys is the same as the order of the columns in the prover's preprocessed
     /// trace.
@@ -61,20 +61,16 @@ impl<Value: IValue> CircuitStatement<Value> {
         let CircuitConfig { config, preprocessed_column_log_sizes } = circuit_config;
 
         let components = all_circuit_components::<Value>();
-        let log_sizes = circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
+        let component_log_sizes =
+            circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
         let components = components.into_index_map();
 
         let circuit_hash = compute_circuit_hash(
             context,
-            &log_sizes,
+            &component_log_sizes,
             config.fri_params.log_blowup_factor,
             &preprocessed_root,
         );
-
-        let component_log_sizes = log_sizes.into_array();
-        let n_components = component_log_sizes.len();
-        let packed_log_sizes = pack_into_qm31s(component_log_sizes.into_iter()).constant(context);
-        let component_log_sizes = Simd::from_packed(packed_log_sizes, n_components);
 
         Self {
             components,
@@ -98,8 +94,10 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
         &self.components
     }
 
-    fn get_component_log_sizes(&self) -> &Simd {
-        &self.component_log_sizes
+    fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd {
+        let log_sizes = self.component_log_sizes.into_array();
+        let packed_log_sizes = pack_into_qm31s(log_sizes.into_iter()).constant(context);
+        Simd::from_packed(packed_log_sizes, N_COMPONENTS)
     }
 
     fn public_logup_sum(

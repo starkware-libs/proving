@@ -208,8 +208,6 @@ pub struct CairoStatement<Value: IValue> {
     /// the AIR can be set dynamically.
     pub enabled_bits: Vec<bool>,
     pub aux_data: AuxData,
-    // The same component_log_sizes that are in aux_data only packed.
-    pub packed_component_log_sizes: Simd,
     pub program: Arc<[[M31; MEMORY_VALUES_LIMBS]]>,
     pub outputs: [[M31Wrapper<Var>; MEMORY_VALUES_LIMBS]; N_OUTPUTS],
     pub preprocessed_root: HashValue<QM31>,
@@ -418,11 +416,9 @@ impl<Value: IValue> CairoStatement<Value> {
             .collect_vec();
 
         let aux_data = AuxData::parse_from_vars(&aux_data_vars, program.len(), n_components);
-        let packed_component_log_sizes = Simd::pack(context, &aux_data.component_log_sizes[..]);
 
         Self {
             aux_data,
-            packed_component_log_sizes,
             program,
             outputs,
             components,
@@ -438,8 +434,8 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
         &self.components
     }
 
-    fn get_component_log_sizes(&self) -> &Simd {
-        &self.packed_component_log_sizes
+    fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd {
+        Simd::pack(context, &self.aux_data.component_log_sizes)
     }
 
     fn claims_to_mix(&self, context: &mut Context<Value>) -> Vec<Vec<U32Wrapper<Var>>> {
@@ -450,7 +446,6 @@ impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
             program,
             outputs,
             preprocessed_root: _preprocessed_root,
-            packed_component_log_sizes: _packed_component_log_sizes,
             preprocessed_trace_variant: _preprocessed_trace_variant,
         } = self;
 
