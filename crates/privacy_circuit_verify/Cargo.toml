@@ -35,11 +35,7 @@ stwo-constraint-framework.workspace = true
 
 [dev-dependencies]
 circuit-params.workspace = true
-cairo-vm = { workspace = true, features = [
-    "extensive_hints",
-    "mod_builtin",
-    "clap",
-] }
+cairo-vm.workspace = true
 tracing-subscriber = { workspace = true, features = ["fmt"] }
 privacy-prove.workspace = true
 stwo = { workspace = true, features = ["parallel"] }
