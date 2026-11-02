@@ -58,8 +58,8 @@ pub enum RecursiveTreeError {
     SonicSerialize(#[from] sonic_rs::error::Error),
     #[error("Failed to deserialize a circuit proof: {0}")]
     Deserialize(String),
-    #[error("Circuit proving failed: {0}")]
-    Proving(String),
+    #[error("Circuit proving failed at layer {layer_idx} pair {pair_idx}: {reason}")]
+    Proving { layer_idx: usize, pair_idx: usize, reason: String },
     #[error("Expected {expected} output values from a circuit proof, got {got}.")]
     BadOutputArity { expected: usize, got: usize },
     #[error(
