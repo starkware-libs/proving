@@ -1,15 +1,10 @@
 use circuit_common::N_RESERVED;
+use circuits::utils::le_u32s_from_bytes;
 use privacy_common::consts::{
     CAIRO_LOG_BLOWUP_FACTOR, CAIRO_PCS_CONFIG, CAIRO_TRACE_LOG_SIZE, CIRCUIT_LOG_BLOWUP_FACTOR,
     CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE, PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS,
     PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
 };
-use stwo::core::poly::circle::CanonicCoset;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
-use stwo::prover::CommitmentTreeProver;
-use stwo::prover::backend::simd::SimdBackend;
-use stwo::prover::mempool::BaseColumnPool;
-use stwo::prover::poly::circle::PolyOps;
 
 use crate::{
     get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config,
@@ -31,26 +26,15 @@ fn check_proof_config() {
 fn check_privacy_recursion_circuit_preprocessed_root() {
     let cairo_verifier_config = get_cairo_verifier_config().unwrap();
     let preprocessed_circuit = get_cairo_preprocessed_circuit(&cairo_verifier_config);
-    let preprocessed_trace = preprocessed_circuit.preprocessed_trace.get_trace::<SimdBackend>();
-    let max_domain_size = CIRCUIT_PCS_CONFIG.preprocessed_lifting_log_size;
-    let twiddles = SimdBackend::precompute_twiddles(
-        CanonicCoset::new(max_domain_size).circle_domain().half_coset,
+    // The prover commits the preprocessed trace at the config's lifting size, so
+    // `preprocessed_root` must lift to the same size for the roots to match.
+    let log_blowup_factor = CIRCUIT_PCS_CONFIG.fri_params.log_blowup_factor;
+    assert_eq!(
+        preprocessed_circuit.trace_log_size() + log_blowup_factor,
+        CIRCUIT_PCS_CONFIG.preprocessed_lifting_log_size
     );
-    let preprocessed_trace_polys = SimdBackend::interpolate_columns(preprocessed_trace, &twiddles);
-    let store_polynomials_coefficients = true;
-    let base_column_pool = BaseColumnPool::<SimdBackend>::new();
-    let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sMerkleChannel>::new(
-        preprocessed_trace_polys,
-        CIRCUIT_PCS_CONFIG.fri_params.log_blowup_factor,
-        &twiddles,
-        store_polynomials_coefficients,
-        CIRCUIT_PCS_CONFIG.preprocessed_lifting_log_size,
-        &base_column_pool,
-    );
-    let root_hash = preprocessed_tree.commitment.root();
-    let raw_words: [u32; 8] = std::array::from_fn(|i| {
-        u32::from_le_bytes(root_hash.0[i * 4..i * 4 + 4].try_into().unwrap())
-    });
+    let root_hash = preprocessed_circuit.preprocessed_root(log_blowup_factor);
+    let raw_words: [u32; 8] = le_u32s_from_bytes(root_hash.0);
 
     assert_eq!(raw_words, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT);
 }
