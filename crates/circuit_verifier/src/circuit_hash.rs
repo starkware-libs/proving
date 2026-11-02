@@ -13,18 +13,23 @@ use crate::circuit_components::{N_COMPONENTS, PerComponent};
 #[path = "circuit_hash_test.rs"]
 mod test;
 
-/// Number of bytes in `config_words`: one for `log_blowup_factor` plus one per component log size.
+/// Number of bytes in [`config_words`]: one for `log_blowup_factor` plus one per component log
+/// size.
 const CONFIG_N_BYTES: usize = 1 + N_COMPONENTS;
 // `config_bytes` is packed 4 per u32 with no padding, so its length must be a multiple of 4.
 const _: () =
     assert!(CONFIG_N_BYTES.is_multiple_of(4), "CONFIG_N_BYTES must pack into whole u32 words");
+/// Number of u32 words in [`config_words`]; named for rust-analyzer, which cannot evaluate
+/// `CONFIG_N_BYTES / 4` as an array length.
+const CONFIG_N_WORDS: usize = CONFIG_N_BYTES / 4;
 
 /// Packs `log_blowup_factor` (byte 0) then each component's preprocessed log size (in
-/// [`COMPONENT_NAMES`] order), one byte each, into little-endian u32 words.
+/// [`COMPONENT_NAMES`](crate::circuit_components::COMPONENT_NAMES) order), one byte each, into
+/// little-endian u32 words.
 pub fn config_words(
     log_blowup_factor: u32,
     component_log_sizes: &PerComponent<u32>,
-) -> [u32; CONFIG_N_BYTES / 4] {
+) -> [u32; CONFIG_N_WORDS] {
     let log_blowup_factor =
         u8::try_from(log_blowup_factor).expect("log_blowup_factor does not fit in a byte");
     // Sizes in declaration (i.e. `COMPONENT_NAMES`) order, one byte each after the blowup byte.
