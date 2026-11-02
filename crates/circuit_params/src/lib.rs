@@ -6,7 +6,7 @@
 //! The `circuit-params` binary uses these to emit the registry (see `main.rs`); tests use them to
 //! derive its circuits' shape without committing anything.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::Path;
 use std::sync::Arc;
@@ -16,6 +16,7 @@ use applicative_unpacking_verifier::unpacking_verifier::{
 };
 use cairo_program_runner_lib::compiled_program_hash;
 use cairo_program_runner_lib::types::HashFunc;
+use circuit_cairo_verifier::all_components::all_components;
 use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
 use circuit_cairo_verifier::utils::load_program;
 use circuit_cairo_verifier::verify::{NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit};
@@ -130,11 +131,13 @@ impl CircuitsBuilder {
 }
 
 pub fn circuits_builder_from_definition(definition: &RegistryDefinition) -> CircuitsBuilder {
-    let program = load_program(&definition.program);
-
     // The definition's params, recorded in the registry for the proving binaries to run with.
     let cairo_prover_params: ProverParameters = definition.cairo_prover_params;
     let circuit_fri_params: FriParams = definition.circuit_fri_params;
+
+    definition.check_id_to_big_components();
+
+    let program = load_program(&definition.program);
 
     CircuitsBuilder {
         cairo_roots_cache: Default::default(),
@@ -391,6 +394,9 @@ pub struct RegistryDefinition {
     /// The verified Cairo proofs' prover params. Shape the leaf circuits (via the FRI params and
     /// preprocessed trace variant) and are recorded in the registry for the leaf prover to run
     /// with.
+    ///
+    /// Must set `opt_n_id_to_big_components` to `n`, with [`Self::cairo_components`] listing
+    /// exactly the first `n` `memory_id_to_big` components, in any order.
     pub cairo_prover_params: ProverParameters,
     /// The circuit proofs' FRI params, recorded in the registry for the leaf prover and the
     /// recursive tree to run with. Their lifting size is not configurable: each circuit is built
@@ -433,6 +439,35 @@ impl RegistryDefinition {
     /// verifier, or `None` when the definition names none.
     pub fn aggregator_wrapper_program_hash(&self) -> Option<Felt> {
         self.aggregator_wrapper_program.as_deref().map(blake_program_hash)
+    }
+
+    /// Asserts that [`Self::cairo_components`] lists exactly the first
+    /// `opt_n_id_to_big_components` `memory_id_to_big` components: the prover fills those, and the
+    /// leaf circuit verifies exactly the listed ones.
+    fn check_id_to_big_components(&self) {
+        let n_id_to_big_components = self.cairo_prover_params.opt_n_id_to_big_components.expect(
+            "The definition's prover params must set opt_n_id_to_big_components: the leaf circuit \
+             verifies a fixed set of memory_id_to_big components",
+        );
+        let listed_id_to_big_components: BTreeSet<&str> = self
+            .cairo_components
+            .iter()
+            .map(String::as_str)
+            .filter(|name| name.starts_with("memory_id_to_big"))
+            .collect();
+        let all_id_to_big_components: Vec<&str> = all_components::<NoValue>()
+            .into_keys()
+            .filter(|name| name.starts_with("memory_id_to_big"))
+            .collect();
+        let first_n_id_to_big_components: Option<BTreeSet<&str>> = all_id_to_big_components
+            .get(..n_id_to_big_components)
+            .map(|names| names.iter().copied().collect());
+        assert!(
+            first_n_id_to_big_components.as_ref() == Some(&listed_id_to_big_components),
+            "The definition lists the memory_id_to_big components \
+             {listed_id_to_big_components:?}, but its prover params set \
+             opt_n_id_to_big_components to {n_id_to_big_components}"
+        );
     }
 }
 

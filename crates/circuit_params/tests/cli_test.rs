@@ -3,6 +3,7 @@ use std::process::Command;
 
 #[cfg(feature = "slow-tests")]
 use circuit_params::assert_committed_registry_is_up_to_date;
+use circuit_params::{RegistryDefinition, circuits_builder_from_definition};
 use stwo_cairo_utils::file_utils::repo_root;
 
 /// A registry to be generated during tests. Paths are repo-root-relative.
@@ -66,6 +67,54 @@ fn run(definition_path: &str, as_registry: bool, output_path: Option<&Path>) -> 
 #[test]
 fn run_circuit_params_binary_info() {
     run(RECURSIVE_TREE.definition_path, false, None);
+}
+
+/// A definition whose `opt_n_id_to_big_components` disagrees with its listed `memory_id_to_big`
+/// components is rejected.
+#[test]
+#[should_panic(expected = "but its prover params set opt_n_id_to_big_components to 15")]
+fn test_rejects_mismatched_n_id_to_big_components() {
+    let mut definition = RegistryDefinition::load(&repo_root(), RECURSIVE_TREE.definition_path);
+    definition.cairo_prover_params.opt_n_id_to_big_components = Some(15);
+    circuits_builder_from_definition(&definition);
+}
+
+/// A definition listing as many `memory_id_to_big` components as its
+/// `opt_n_id_to_big_components`, but not the first ones, is rejected.
+#[test]
+#[should_panic(expected = "but its prover params set opt_n_id_to_big_components to 15")]
+fn test_rejects_wrong_id_to_big_components() {
+    let mut definition = RegistryDefinition::load(&repo_root(), RECURSIVE_TREE.definition_path);
+    definition.cairo_prover_params.opt_n_id_to_big_components = Some(15);
+    definition.cairo_components.retain(|name| name != "memory_id_to_big");
+    circuits_builder_from_definition(&definition);
+}
+
+/// A definition listing its `memory_id_to_big` components in another order is accepted.
+#[test]
+fn test_accepts_id_to_big_components_in_any_order() {
+    let mut definition = RegistryDefinition::load(&repo_root(), RECURSIVE_TREE.definition_path);
+    definition.cairo_components.reverse();
+    circuits_builder_from_definition(&definition);
+}
+
+/// A definition whose `opt_n_id_to_big_components` exceeds the number of `memory_id_to_big`
+/// components is rejected.
+#[test]
+#[should_panic(expected = "but its prover params set opt_n_id_to_big_components to 17")]
+fn test_rejects_too_many_id_to_big_components() {
+    let mut definition = RegistryDefinition::load(&repo_root(), RECURSIVE_TREE.definition_path);
+    definition.cairo_prover_params.opt_n_id_to_big_components = Some(17);
+    circuits_builder_from_definition(&definition);
+}
+
+/// A definition that doesn't set `opt_n_id_to_big_components` is rejected.
+#[test]
+#[should_panic(expected = "must set opt_n_id_to_big_components")]
+fn test_rejects_missing_n_id_to_big_components() {
+    let mut definition = RegistryDefinition::load(&repo_root(), RECURSIVE_TREE.definition_path);
+    definition.cairo_prover_params.opt_n_id_to_big_components = None;
+    circuits_builder_from_definition(&definition);
 }
 
 // Slow: commits the verified Cairo proofs' preprocessed trace (lifted to trace + blowup).
