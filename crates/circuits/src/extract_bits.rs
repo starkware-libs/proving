@@ -3,7 +3,7 @@ use stwo::core::fields::m31::M31;
 use crate::context::{Context, Var};
 use crate::eval;
 use crate::ivalue::IValue;
-use crate::ops::CircuitOps;
+use crate::ops::{CircuitOps, Guess};
 use crate::simd::Simd;
 use crate::wrappers::M31Wrapper;
 
@@ -30,6 +30,32 @@ pub trait BitPackingOps: CircuitOps + Clone {
 
     /// Adds gates to the circuit that assert that `a` and `b` are equal.
     fn eq(context: &mut Context<impl IValue>, a: &Self, b: &Self);
+}
+
+impl BitPackingOps for M31Wrapper<Var> {
+    fn scalar_mul(&self, context: &mut Context<impl IValue>, scalar: M31Wrapper<Var>) -> Self {
+        eval!(context, (*self) * (scalar))
+    }
+
+    fn guess_lsb(&self, context: &mut Context<impl IValue>) -> Self {
+        // Guess the LSB of the value.
+        let value = context.get(*self.raw()).pointwise_lsb();
+        // Wrapping with `M31Wrapper::new_unsafe` is sound, because of the `assert_bit` call
+        // below.
+        let var = M31Wrapper::new_unsafe(value.guess(context));
+        var.assert_bit(context);
+        var
+    }
+
+    fn assert_bit(&self, context: &mut Context<impl IValue>) {
+        // Make sure self is either 0 or 1 by checking that `self * self == self`.
+        let self_sqr = eval!(context, (*self) * (*self));
+        crate::ops::eq(context, *self.raw(), *self_sqr.raw());
+    }
+
+    fn eq(context: &mut Context<impl IValue>, a: &Self, b: &Self) {
+        crate::ops::eq(context, *a.raw(), *b.raw());
+    }
 }
 
 impl BitPackingOps for Simd {

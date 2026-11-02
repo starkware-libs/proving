@@ -1,7 +1,7 @@
 use stwo::core::fields::qm31::QM31;
 
 use crate::context::{Context, TraceContext, Var};
-use crate::ivalue::{IValue, qm31_from_u32s};
+use crate::ivalue::{IValue, NoValue, qm31_from_u32s};
 use crate::ops::Guess;
 use crate::simd::Simd;
 use crate::wrappers::M31Wrapper;
@@ -39,6 +39,11 @@ pub fn simd_from_u32s(context: &mut TraceContext, mut values: Vec<u32>) -> Simd 
 /// Constructs an [M31Wrapper] variable from a `u32` value.
 pub fn guess_m31_from_u32(context: &mut TraceContext, value: u32) -> M31Wrapper<Var> {
     M31Wrapper::from_m31(value.into()).guess(context)
+}
+
+/// Constructs an [M31Wrapper] variable with no value.
+pub fn guess_m31_no_value(context: &mut Context<NoValue>) -> M31Wrapper<Var> {
+    M31Wrapper::from(NoValue).guess(context)
 }
 
 /// Given a [Simd], returns the values of the packed `QM31`s.
