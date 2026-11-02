@@ -120,13 +120,8 @@ impl Channel {
     pub fn pow(&mut self, context: &mut Context<impl IValue>, n_bits: u32, nonce: Var) {
         assert!(n_bits <= 30);
 
-        // Compute `H(POW_PREFIX, [0_u8; 12], digest, n_bits)`.
-        let mut prefixed_digest_preimage = vec![
-            U32Wrapper::const_u32(context, Self::POW_PREFIX),
-            U32Wrapper::const_u32(context, 0),
-            U32Wrapper::const_u32(context, 0),
-            U32Wrapper::const_u32(context, 0),
-        ];
+        // Compute `H(POW_PREFIX, digest, n_bits)`.
+        let mut prefixed_digest_preimage = vec![U32Wrapper::const_u32(context, Self::POW_PREFIX)];
         prefixed_digest_preimage.extend(self.digest.0);
         prefixed_digest_preimage.push(U32Wrapper::const_u32(context, n_bits));
         let n_bytes = 4 * prefixed_digest_preimage.len();
