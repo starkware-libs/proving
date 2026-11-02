@@ -177,6 +177,10 @@ fn reduce(
         context.is_circuit_valid(),
         "multiverifier circuit rejected its inputs at layer {layer_idx} pair {pair_idx}"
     );
+    // In a release build the check above is compiled out, so a bad child first surfaces as a
+    // prover error; this is where the failing reduction gets named.
+    let proving_error =
+        |e| RecursiveTreeError::Proving { layer_idx, pair_idx, reason: format!("{e:?}") };
 
     let (proof, extracted) = if proof_format == ProofFormat::CairoVerifier {
         let circuit_proof = prove_circuit_assignment_with_channel::<Blake2sMerkleChannel>(
@@ -185,7 +189,7 @@ fn reduce(
             &canonical.base_column_pool,
             canonical.shared_config.pcs_config,
         )
-        .map_err(|e| RecursiveTreeError::Proving(format!("{e:?}")))?;
+        .map_err(proving_error)?;
         let extracted = extract_root_and_outputs(&circuit_proof)?;
 
         // Serialize for the Cairo circuit verifier: only the proof goes on the wire; the
@@ -204,7 +208,7 @@ fn reduce(
             &canonical.base_column_pool,
             canonical.shared_config.pcs_config,
         )
-        .map_err(|e| RecursiveTreeError::Proving(format!("{e:?}")))?;
+        .map_err(proving_error)?;
         let extracted = extract_root_and_outputs(&circuit_proof)?;
 
         let (proof, _public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
