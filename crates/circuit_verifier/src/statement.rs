@@ -12,7 +12,6 @@ use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use circuits_stark_verifier::proof::ProofConfig;
 use circuits_stark_verifier::proof_from_stark_proof::pack_into_qm31s;
 use circuits_stark_verifier::statement::Statement;
-use indexmap::IndexMap;
 use itertools::{Itertools, chain, zip_eq};
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
@@ -36,7 +35,7 @@ mod test;
 pub const INTERACTION_POW_BITS: u32 = 20;
 
 pub struct CircuitStatement<Value: IValue> {
-    pub components: IndexMap<&'static str, Box<dyn CircuitEval<Value>>>,
+    pub components: PerComponent<Box<dyn CircuitEval<Value>>>,
     /// The verified circuit's output digest, held at the output gates, excluding the wire of `u`
     /// (index 2).
     pub output_digest: HashValue<Var>,
@@ -63,7 +62,6 @@ impl<Value: IValue> CircuitStatement<Value> {
         let components = all_circuit_components::<Value>();
         let component_log_sizes =
             circuit_component_log_sizes(&components, preprocessed_column_log_sizes);
-        let components = components.into_index_map();
 
         let circuit_hash = compute_circuit_hash(
             context,
@@ -90,8 +88,8 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
         vec![circuit_hash_words, output_words]
     }
 
-    fn get_components(&self) -> &IndexMap<&'static str, Box<dyn CircuitEval<Value>>> {
-        &self.components
+    fn get_components(&self) -> Vec<&dyn CircuitEval<Value>> {
+        self.components.as_ref().into_array().map(|component| component.as_ref()).to_vec()
     }
 
     fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd {
@@ -183,7 +181,7 @@ pub fn circuit_component_log_sizes<Value: IValue>(
 }
 
 /// Builds the [`ProofConfig`] for the circuit verifier circuit, with the components in the order
-/// in which `CircuitStatement::new` iterates them.
+/// of [`CircuitStatement`]'s [`Statement::get_components`].
 pub fn circuit_verifier_proof_config(
     preprocessed_column_log_sizes: &OrderedHashMap<PreProcessedColumnId, u32>,
     pcs_config: &PcsConfig,

@@ -278,10 +278,7 @@ pub fn compute_composition_polynomial<Value: IValue>(
 
     for (component_index, (((component, component_shape), &claimed_sum), &component_size)) in
         zip_eq(
-            zip_eq(
-                zip_eq(statement.get_components().values(), &config.component_shapes),
-                claimed_sums,
-            ),
+            zip_eq(zip_eq(statement.get_components(), &config.component_shapes), claimed_sums),
             component_sizes,
         )
         .enumerate()

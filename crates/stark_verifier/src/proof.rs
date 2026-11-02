@@ -33,10 +33,10 @@ pub struct ProofConfig {
     pub n_trace_columns: usize,
     pub n_interaction_columns: usize,
     // One entry per component, in the order of the components map passed to `new`. This must match
-    // the order in which the statement iterates its components in
-    // `compute_composition_polynomial`; callers ensure this by building this config from the same
-    // components map the statement uses. Note this is not necessarily the committed-column order:
-    // The verifier sorts the query columns to the committed order during decommitment.
+    // the order of `Statement::get_components`, which `compute_composition_polynomial` zips
+    // against it; callers must pass `new` the components in that order. Note this is not
+    // necessarily the committed-column order: The verifier sorts the query columns to the
+    // committed order during decommitment.
     pub component_shapes: Vec<ComponentShape>,
 
     // Per column in the interaction trace, an indicator of whether it is a cumulative sum column.
