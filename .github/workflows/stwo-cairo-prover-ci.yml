@@ -79,6 +79,7 @@ jobs:
           save-if: ${{ matrix.shard == 1 }}
       - run: |
           cargo nextest run -p stwo-cairo-prover \
+            --features slow-tests \
             --test slow_tests \
             --cargo-profile ci \
             -j ${{ env.NEXTTEST_THREADS }} \

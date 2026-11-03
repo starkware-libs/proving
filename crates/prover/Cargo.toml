@@ -8,6 +8,7 @@ description = "STARK prover for Cairo programs using the Stwo proving system"
 
 [features]
 relation-tracker = []
+slow-tests = []
 
 # Define Nightly features in order to allow selective tests
 # Use the following #[cfg(feature = "nightly")]
@@ -50,8 +51,9 @@ getrandom_v2.workspace = true
 [[test]]
 name = "slow_tests"
 path = "tests/slow_tests.rs"
-# Exclude from `cargo test` or `cargo nextest run`.
-test = false
+# Excludes from `cargo test` or `cargo nextest run`, but still visible to
+# clippy's `--all-targets --all-features` (run by CI).
+required-features = ["slow-tests"]
 
 [dev-dependencies]
 stwo-cairo-dev-utils.workspace = true

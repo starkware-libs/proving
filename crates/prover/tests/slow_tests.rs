@@ -1,5 +1,5 @@
 //! Heavy end-to-end proving and constraint-checking tests.
-//! Run it explicitly with `--test slow_tests`.
+//! Run it explicitly with `cargo test --features slow-tests --test slow_tests`.
 
 use std::io::Write;
 use std::sync::Arc;
