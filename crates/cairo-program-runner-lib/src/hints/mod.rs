@@ -12,6 +12,7 @@ mod fibonacci_hints;
 mod fri_layer;
 mod hint_processors;
 mod inner_select_builtins;
+mod leaf_simple_bootloader_hints;
 mod load_cairo_pie;
 mod mock_cairo_verifier_hints;
 mod pedersen_merkle_hints;

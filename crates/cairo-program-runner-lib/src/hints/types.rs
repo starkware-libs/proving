@@ -260,7 +260,7 @@ impl Task {
 struct TaskSpecHelper {
     #[serde(rename = "type")]
     task_type: String,
-    program_hash_function: String,
+    program_hash_function: HashFunc,
     path: Option<PathBuf>,
     program: Option<Value>,
     program_input: Option<Value>,
@@ -277,6 +277,7 @@ pub struct TaskSpec {
 }
 
 /// A hash function. These can be used e.g. for hashing a program within the bootloader.
+/// The values match the Cairo bootloader's `PEDERSEN_HASH`, `POSEIDON_HASH` and `BLAKE_HASH`.
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HashFunc {
@@ -293,10 +294,15 @@ impl TryFrom<String> for HashFunc {
             "poseidon" => Ok(HashFunc::Poseidon),
             "blake" => Ok(HashFunc::Blake),
             _ => Err(format!(
-                "Invalid program hash function: {value}.
-                Expected `pedersen`, `poseidon`, or `blake`."
+                "Unknown hash function: {value}. Expected pedersen, poseidon or blake."
             )),
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for HashFunc {
+    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        HashFunc::try_from(String::deserialize(deserializer)?).map_err(D::Error::custom)
     }
 }
 
@@ -373,11 +379,7 @@ impl<'de> Deserialize<'de> for TaskSpec {
             }
         };
 
-        Ok(TaskSpec {
-            task: Rc::new(task),
-            program_hash_function: HashFunc::try_from(helper.program_hash_function)
-                .map_err(|e| D::Error::custom(format!("Invalid program hash function: {e:?}")))?,
-        })
+        Ok(TaskSpec { task: Rc::new(task), program_hash_function: helper.program_hash_function })
     }
 }
 
@@ -403,6 +405,17 @@ pub struct PrivacySimpleBootloaderInput {
     #[serde(flatten)]
     pub simple_bootloader_input: SimpleBootloaderInput,
     pub output_preimage_dump_path: PathBuf,
+}
+
+/// The leaf simple bootloader's program input: the privacy simple bootloader's, over exactly one
+/// task, and the hash function of the output.
+#[derive(Debug, Clone, Deserialize)]
+pub struct LeafSimpleBootloaderInput {
+    #[serde(flatten)]
+    pub privacy_input: PrivacySimpleBootloaderInput,
+    /// `blake` or `poseidon`.
+    // TODO(yairv): Consider using `LeafOutputHashType` instead.
+    pub output_hash_func: HashFunc,
 }
 
 /// The aggregator wrapper task's program input: the aggregator task it runs, and the dump paths

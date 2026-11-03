@@ -15,6 +15,10 @@ simple_bootloader_input = SimpleBootloaderInput.Schema().load(program_input)";
 
 pub const LOAD_PRIVACY_SIMPLE_BOOTLOADER_INPUT: &str = "LOAD_PRIVACY_SIMPLE_BOOTLOADER_INPUT";
 
+pub const LOAD_LEAF_SIMPLE_BOOTLOADER_INPUT: &str = "LOAD_LEAF_SIMPLE_BOOTLOADER_INPUT";
+
+pub const OUTPUT_HASH_FUNC_TO_AP: &str = "memory[ap] = to_felt_or_relocatable(output_hash_func)";
+
 pub const LOAD_AGGREGATOR_WRAPPER_INPUT: &str = "LOAD_AGGREGATOR_WRAPPER_INPUT";
 
 pub const DUMP_AGGREGATOR_WRAPPER_POSEIDON_PREIMAGE: &str =

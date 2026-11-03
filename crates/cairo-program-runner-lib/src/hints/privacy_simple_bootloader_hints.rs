@@ -20,10 +20,18 @@ pub fn load_privacy_simple_bootloader_input(
     exec_scopes: &mut ExecutionScopes,
 ) -> Result<(), HintError> {
     let privacy_input: PrivacySimpleBootloaderInput = get_program_input_value(exec_scopes)?;
-    exec_scopes.insert_value(SIMPLE_BOOTLOADER_INPUT, privacy_input.simple_bootloader_input);
-    exec_scopes
-        .insert_value(vars::OUTPUT_PREIMAGE_DUMP_PATH, privacy_input.output_preimage_dump_path);
+    insert_privacy_simple_bootloader_input(exec_scopes, privacy_input);
     Ok(())
+}
+
+/// Stores `input`'s inner `SimpleBootloaderInput` and `output_preimage_dump_path` separately in
+/// the execution scopes, for the privacy and leaf simple bootloaders' loading hints.
+pub(super) fn insert_privacy_simple_bootloader_input(
+    exec_scopes: &mut ExecutionScopes,
+    input: PrivacySimpleBootloaderInput,
+) {
+    exec_scopes.insert_value(SIMPLE_BOOTLOADER_INPUT, input.simple_bootloader_input);
+    exec_scopes.insert_value(vars::OUTPUT_PREIMAGE_DUMP_PATH, input.output_preimage_dump_path);
 }
 
 /// Reads the output elements between `simple_bl_output_start` and `simple_bl_output` pointers

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
-    get_ptr_from_var_name, insert_value_from_var_name, insert_value_into_ap,
+    get_ptr_from_var_name, insert_value_from_var_name,
 };
 use cairo_vm::hint_processor::hint_processor_definition::HintReference;
 use cairo_vm::serde::deserialize_program::ApTracking;
@@ -19,7 +19,7 @@ use crate::hints::fact_topologies::{
     GPS_FACT_TOPOLOGY, add_consecutive_output_pages, write_to_fact_topologies_file,
 };
 use crate::hints::types::BOOTLOADER_CONFIG_SIZE;
-use crate::hints::utils::get_program_input_value;
+use crate::hints::utils::{get_program_input_value, scope_usize_to_ap};
 
 /// Implements nondet %{ aggregator_program_hash_function %}
 /// Compiles to: memory[ap] = to_felt_or_relocatable(aggregator_program_hash_function)
@@ -30,8 +30,7 @@ pub fn aggregator_program_hash_function_to_ap(
     vm: &mut VirtualMachine,
     exec_scopes: &mut ExecutionScopes,
 ) -> Result<(), HintError> {
-    let program_hash_function: usize = exec_scopes.get(vars::AGGREGATOR_PROGRAM_HASH_FUNCTION)?;
-    insert_value_into_ap(vm, program_hash_function)
+    scope_usize_to_ap(vm, exec_scopes, vars::AGGREGATOR_PROGRAM_HASH_FUNCTION)
 }
 
 /// Implements

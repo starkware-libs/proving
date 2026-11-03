@@ -525,7 +525,8 @@ mod e2e {
     }}],
     "fact_topologies_path": null,
     "single_page": true,
-    "output_preimage_dump_path": {output_preimage_dump_path:?}
+    "output_preimage_dump_path": {output_preimage_dump_path:?},
+    "output_hash_func": "blake"
 }}"#
         )
     }

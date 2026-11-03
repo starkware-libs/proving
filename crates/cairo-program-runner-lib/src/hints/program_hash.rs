@@ -251,6 +251,7 @@ mod tests {
             }],
             "single_page": true,
             "output_preimage_dump_path": preimage_dump.path().to_str().unwrap(),
+            "output_hash_func": "blake",
         });
 
         let cairo_run_config = RunMode::Proof {

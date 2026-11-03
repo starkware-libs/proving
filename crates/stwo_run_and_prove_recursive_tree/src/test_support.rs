@@ -19,7 +19,7 @@ pub fn circuit_registry_path() -> PathBuf {
 pub const LEAF_TASK_OUTPUT: [u32; 3] = [11, 13, 17];
 
 /// The leaf bootloader's input: one simple-output task over `task_output` with a blake program
-/// hash, and the path to dump the output preimage to.
+/// hash, the path to dump the output preimage to, and blake as the output hash.
 fn leaf_bl_input_json(dump_path: &Path, task_output: &[u32]) -> String {
     let task_path =
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/simple_output_compiled.json");
@@ -33,6 +33,7 @@ fn leaf_bl_input_json(dump_path: &Path, task_output: &[u32]) -> String {
         "fact_topologies_path": null,
         "single_page": true,
         "output_preimage_dump_path": dump_path.to_str().unwrap(),
+        "output_hash_func": "blake",
     }))
     .unwrap()
 }

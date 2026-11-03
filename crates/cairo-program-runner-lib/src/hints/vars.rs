@@ -34,6 +34,9 @@ pub const FACT_TOPOLOGIES: &str = "fact_topologies";
 
 /// Aggregator fact topologies for an applicative bootloader run.
 pub const AGGREGATOR_FACT_TOPOLOGIES: &str = "aggregator_fact_topologies";
+/// The aggregator's program hash function, as a `HashFunc` number, set by the loading hint of the
+/// bootloader running it: the applicative bootloader, the circuit applicative bootloader or the
+/// aggregator wrapper.
 pub const AGGREGATOR_PROGRAM_HASH_FUNCTION: &str = "aggregator_program_hash_function";
 
 /// Simple bootloader tasks.
@@ -73,8 +76,11 @@ pub const SIMPLE_OUTPUT_INPUT: &str = "simple_output_input";
 /// Mock Cairo verifier input.
 pub const MOCK_CAIRO_VERIFIER_INPUT: &str = "mock_cairo_verifier_input";
 
-/// Path to dump the output preimage for privacy simple bootloader.
+/// Path to dump the output preimage for the privacy and leaf simple bootloaders.
 pub const OUTPUT_PREIMAGE_DUMP_PATH: &str = "output_preimage_dump_path";
+
+/// The leaf simple bootloader's output hash function, as a `HashFunc` number.
+pub const OUTPUT_HASH_FUNC: &str = "output_hash_func";
 
 /// Path to dump the aggregator wrapper's poseidon preimage.
 pub const POSEIDON_PREIMAGE_DUMP_PATH: &str = "poseidon_preimage_dump_path";

@@ -39,6 +39,9 @@ use super::concat_aggregator_hints::{
 };
 use super::fibonacci_hints::{fibonacci_load_claim_idx, fibonacci_load_second_element};
 use super::fri_layer::divide_queries_ind_by_coset_size_to_fp_offset;
+use super::leaf_simple_bootloader_hints::{
+    load_leaf_simple_bootloader_input, output_hash_func_to_ap,
+};
 use super::mock_cairo_verifier_hints::{
     load_mock_cairo_verifier_input, mock_cairo_verifier_hash_to_fp,
     mock_cairo_verifier_len_output_to_fp, mock_cairo_verifier_n_steps_to_ap,
@@ -123,6 +126,8 @@ impl HintProcessorLogic for MinimalBootloaderHintProcessor {
             LOAD_PRIVACY_SIMPLE_BOOTLOADER_INPUT => {
                 load_privacy_simple_bootloader_input(exec_scopes)
             }
+            LOAD_LEAF_SIMPLE_BOOTLOADER_INPUT => load_leaf_simple_bootloader_input(exec_scopes),
+            OUTPUT_HASH_FUNC_TO_AP => output_hash_func_to_ap(vm, exec_scopes),
             DUMP_INNER_TASK_FACT_TOPOLOGY => dump_inner_task_fact_topology(exec_scopes),
             LOAD_AGGREGATOR_WRAPPER_INPUT => load_aggregator_wrapper_input(exec_scopes),
             DUMP_AGGREGATED_OUTPUT_FACT_TOPOLOGY => {

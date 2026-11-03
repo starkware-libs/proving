@@ -3,7 +3,9 @@ use std::cmp::min;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::get_ptr_from_var_name;
+use cairo_vm::hint_processor::builtin_hint_processor::hint_utils::{
+    get_ptr_from_var_name, insert_value_into_ap,
+};
 use cairo_vm::hint_processor::hint_processor_definition::HintReference;
 use cairo_vm::serde::deserialize_program::{ApTracking, Identifier};
 use cairo_vm::types::exec_scope::ExecutionScopes;
@@ -199,4 +201,43 @@ pub fn output_builtin_set_pages_by_size_and_fact_topology(
     let n_pages = split_outputs_to_pages(output_start, output_ptr, output_builtin, page_size)?;
     add_fact_topology(output_builtin, n_pages);
     Ok(())
+}
+
+/// Writes the `usize` scope variable `var` to `memory[ap]`, for the nondet hints
+/// `memory[ap] = to_felt_or_relocatable(<var>)`. Fails if `var` isn't in scope as a `usize`.
+pub fn scope_usize_to_ap(
+    vm: &mut VirtualMachine,
+    exec_scopes: &ExecutionScopes,
+    var: &str,
+) -> Result<(), HintError> {
+    let value: usize = exec_scopes.get(var)?;
+    insert_value_into_ap(vm, value)
+}
+
+#[cfg(test)]
+mod tests {
+    use cairo_vm::Felt252;
+
+    use super::*;
+
+    #[test]
+    fn test_scope_usize_to_ap() {
+        let mut vm = VirtualMachine::new(false, false);
+        vm.add_memory_segment();
+        vm.add_memory_segment();
+        let mut exec_scopes = ExecutionScopes::new();
+        exec_scopes.insert_value("hash_func", 2usize);
+
+        scope_usize_to_ap(&mut vm, &exec_scopes, "hash_func").unwrap();
+
+        assert_eq!(*vm.get_integer(Relocatable::from((1, 0))).unwrap().as_ref(), Felt252::from(2));
+    }
+
+    #[test]
+    fn test_scope_usize_to_ap_requires_the_scope_variable() {
+        let mut vm = VirtualMachine::new(false, false);
+        vm.add_memory_segment();
+        vm.add_memory_segment();
+        assert!(scope_usize_to_ap(&mut vm, &ExecutionScopes::new(), "hash_func").is_err());
+    }
 }
