@@ -8,9 +8,11 @@ use circuit_common::N_RESERVED;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment_with_channel};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
+use circuits::blake::HashValue;
 use circuits::context::Context;
 use circuits::ivalue::{NoValue, qm31_from_u32s};
 use circuits::ops::guess;
+use circuits::wrappers::U32Wrapper;
 use num_traits::{One, Zero};
 use starknet_ff::FieldElement;
 use stwo::core::channel::MerkleChannel;
@@ -75,9 +77,10 @@ fn build_minimal_context() -> Context<QM31> {
     let mut outputs = Vec::with_capacity(N);
     for _ in 2..N {
         (a, b) = (b, circuits::eval!(&mut ctx, (a) + (b)));
-        outputs.push(b);
+        // Fibonacci numbers this small are below 2^16.
+        outputs.push(U32Wrapper::new_unsafe(b));
     }
-    ctx.set_outputs(&outputs[outputs.len() - N_RESERVED..]);
+    ctx.set_outputs(&HashValue(*outputs.last_chunk().unwrap()));
     ctx
 }
 

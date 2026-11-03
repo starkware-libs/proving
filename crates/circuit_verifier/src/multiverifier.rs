@@ -6,7 +6,7 @@ use circuits::ops::Guess;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use circuits_stark_verifier::proof::{Proof, ProofConfig, empty_proof};
 use circuits_stark_verifier::verify::verify;
-use itertools::{Itertools, chain};
+use itertools::chain;
 use stwo::core::pcs::PcsConfig;
 use stwo_constraint_framework::preprocessed_columns::PreProcessedColumnId;
 
@@ -79,7 +79,7 @@ pub fn build_multiverifier_circuit<Value: IValue>(
     let n_bytes = 4 * outer_verifier_output_preimage.len();
     let output_hash = blake2s_u32s(&mut context, outer_verifier_output_preimage, n_bytes);
     // Copy the unreduced digest words into the reserved variables.
-    context.set_outputs(&output_hash.iter().map(|word| *word.raw()).collect_vec());
+    context.set_outputs(&output_hash);
 
     let context = context.finalize(false);
     #[cfg(test)]

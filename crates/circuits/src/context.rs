@@ -5,7 +5,7 @@ use num_traits::{One, Zero};
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::m31_to_u32_into;
+use crate::blake::{HashValue, m31_to_u32_into};
 use crate::circuit::{Add, Circuit};
 use crate::finalize_constants::finalize_constants;
 use crate::ivalue::{IValue, qm31_from_u32s};
@@ -153,13 +153,18 @@ impl<Value: IValue> Context<Value> {
         reserved
     }
 
-    /// Given a vector of variables, it copies their values into the reserved variables and marks
-    /// the reserved variables as outputs. It also adds an `Add` gate to yield and constrain the
+    /// Given a Blake2s digest, it copies its words into the reserved variables and marks the
+    /// reserved variables as outputs. It also adds an `Add` gate to yield and constrain the
     /// reserved vars.
     ///
-    /// Panics if `vars` has a different length than the number of the currently reserved variables.
-    pub fn set_outputs(&mut self, vars: &[Var]) {
-        for (reserved, var) in zip_eq(std::mem::take(&mut self.reserved_vars), vars) {
+    /// The outputs are words since they are the circuit's claim, a Blake2s digest. Each word is a
+    /// [`U32Wrapper`](crate::wrappers::U32Wrapper), as a digest word may not fit in an M31.
+    ///
+    /// Panics if the number of the currently reserved variables is not
+    /// [`BLAKE2S_DIGEST_N_WORDS`](crate::blake::BLAKE2S_DIGEST_N_WORDS).
+    pub fn set_outputs(&mut self, digest: &HashValue<Var>) {
+        for (reserved, word) in zip_eq(std::mem::take(&mut self.reserved_vars), digest.iter()) {
+            let var = word.raw();
             let value = self.get(*var);
             self.values[reserved] = value;
             self.circuit.add.push(Add { in0: var.idx, in1: self.zero().idx, out: reserved });

@@ -8,7 +8,7 @@ use circuit_verifier::statement::{
     INTERACTION_POW_BITS, all_circuit_components, circuit_component_log_sizes,
 };
 use circuit_verifier::verify::{CircuitConfig, verify_circuit};
-use circuits::blake::{blake_g_gate, blake2s, m31_to_u32, triple_xor};
+use circuits::blake::{HashValue, blake_g_gate, blake2s, m31_to_u32, triple_xor};
 use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::ivalue::{IValue, NoValue, qm31_from_u32s};
@@ -39,8 +39,7 @@ const N: usize = 1030;
 /// fill the digest width. A circuit verified by the circuit verifier outputs a Blake2s digest;
 /// these test circuits have no digest of their own, so any `u32`-encoded wires will do.
 fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
-    let outputs: Vec<Var> = words.iter().cycle().take(N_RESERVED).map(|w| *w.raw()).collect();
-    context.set_outputs(&outputs);
+    context.set_outputs(&HashValue(std::array::from_fn(|i| words[i % words.len()])));
 }
 
 pub fn build_fibonacci_context() -> Context<QM31> {

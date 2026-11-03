@@ -6,7 +6,6 @@ use circuits::ivalue::{IValue, NoValue};
 use circuits_stark_verifier::proof::empty_proof;
 use circuits_unpacker::tree::BinaryTree;
 use circuits_unpacker::unpacker::{Node, RecursionTreeParams};
-use itertools::Itertools;
 use starknet_types_core::felt::Felt;
 use stwo::core::fields::qm31::QM31;
 
@@ -72,7 +71,7 @@ pub fn build_applicative_unpacking_verifier_circuit<Value: IValue>(
         &wrapper_leaf.subtree_hash,
         task_leaves,
     );
-    context.set_outputs(&aggregated_output_digest.iter().map(|word| *word.raw()).collect_vec());
+    context.set_outputs(&aggregated_output_digest);
 
     let context = context.finalize(false);
     #[cfg(test)]

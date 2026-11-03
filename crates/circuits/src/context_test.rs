@@ -1,7 +1,9 @@
-use itertools::Itertools;
+use itertools::{Itertools, chain};
 
-use crate::context::{Context, GuessVar, TraceContext, U_VAR_IDX};
+use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
+use crate::context::{Context, GuessVar, TraceContext, U_VAR_IDX, Var};
 use crate::ivalue::qm31_from_u32s;
+use crate::wrappers::U32Wrapper;
 
 #[test]
 fn test_constants() {
@@ -24,16 +26,17 @@ fn test_constants() {
 fn test_set_outputs() {
     let mut context = TraceContext::default();
 
-    let a = context.constant(qm31_from_u32s(3, 0, 0, 0));
+    let words: [U32Wrapper<Var>; BLAKE2S_DIGEST_N_WORDS] =
+        std::array::from_fn(|i| U32Wrapper::const_u32(&mut context, i as u32));
 
-    let reserved0 = context.reserve();
-    let reserved1 = context.reserve();
-    context.set_outputs(&[a, a]);
-    assert_eq!(context.get(reserved0), qm31_from_u32s(3, 0, 0, 0));
-    assert_eq!(context.get(reserved1), qm31_from_u32s(3, 0, 0, 0));
+    let reserved: [Var; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|_| context.reserve());
+    context.set_outputs(&HashValue(words));
+    for (i, var) in reserved.into_iter().enumerate() {
+        assert_eq!(context.get(var), qm31_from_u32s(i as u32, 0, 0, 0));
+    }
 
     for (actual, expected) in
-        context.circuit.output.iter().zip_eq([U_VAR_IDX, reserved0.idx, reserved1.idx])
+        context.circuit.output.iter().zip_eq(chain!([U_VAR_IDX], reserved.map(|var| var.idx)))
     {
         assert_eq!(actual.in0, expected);
     }

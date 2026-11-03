@@ -403,7 +403,7 @@ impl<Value: IValue> CairoStatement<Value> {
         let components = enabled_components::<Value>(&enabled_bits);
         let n_components = components.len();
         let output_hash = output_hash.guess(context);
-        context.set_outputs(&output_hash.iter().map(|word| *word.raw()).collect_vec());
+        context.set_outputs(&output_hash);
 
         let outputs = output_limbs_from_hash(context, &output_hash);
 
