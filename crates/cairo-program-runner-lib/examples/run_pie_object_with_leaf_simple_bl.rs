@@ -3,7 +3,9 @@
 use std::error::Error;
 use std::path::{Path, PathBuf};
 
-use cairo_program_runner_lib::types::{HashFunc, PrivacySimpleBootloaderInput, RunMode};
+use cairo_program_runner_lib::types::{
+    HashFunc, LeafSimpleBootloaderInput, PrivacySimpleBootloaderInput, RunMode,
+};
 use cairo_program_runner_lib::{
     ProgramInput, SimpleBootloaderInput, Task, TaskSpec, cairo_run_program,
 };
@@ -29,14 +31,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let pie_task_spec = prepare_fibonnaci_pie_task_spec(&project_dir)?;
     let preimage_dump = tempfile::NamedTempFile::new()?;
-    // The leaf simple bootloader reads the privacy simple bootloader's input format.
-    let leaf_bootloader_input = PrivacySimpleBootloaderInput {
-        simple_bootloader_input: SimpleBootloaderInput {
-            fact_topologies_path: None,
-            single_page: true,
-            tasks: vec![pie_task_spec],
+    let leaf_bootloader_input = LeafSimpleBootloaderInput {
+        privacy_input: PrivacySimpleBootloaderInput {
+            simple_bootloader_input: SimpleBootloaderInput {
+                fact_topologies_path: None,
+                single_page: true,
+                tasks: vec![pie_task_spec],
+            },
+            output_preimage_dump_path: preimage_dump.path().to_path_buf(),
         },
-        output_preimage_dump_path: preimage_dump.path().to_path_buf(),
+        output_hash_func: HashFunc::Blake,
     };
     let leaf_bootloader_program = Program::from_file(
         &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
