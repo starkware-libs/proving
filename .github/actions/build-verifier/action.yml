@@ -5,13 +5,13 @@ description: >
 
 inputs:
   package:
-    description: Scarb package to compile (e.g. stwo_cairo_verifier).
+    description: Scarb package to compile (e.g. stwo_circuit_verifier).
     required: true
   features:
     description: Comma-separated scarb features to enable.
     required: true
   out:
-    description: Output artifact file name (e.g. stwo_cairo_verifier.json).
+    description: Output artifact file name (e.g. stwo_circuit_verifier.json).
     required: true
 
 runs:
@@ -24,7 +24,7 @@ runs:
         VERIFIER_FEATURES: ${{ inputs.features }}
         VERIFIER_OUT: ${{ inputs.out }}
       run: |
-        # Isolate each build in its own target dir so the shared `stwo_cairo_verifier` package
+        # Isolate each build in its own target dir so the shared `stwo_circuit_verifier` package
         # (compiled with different feature sets) does not clobber the previous executable JSON.
         export SCARB_TARGET_DIR="$(pwd)/verifier_target_${VERIFIER_OUT%.json}"
         scarb --manifest-path stwo_cairo_verifier/Scarb.toml --profile proving \

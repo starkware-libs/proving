@@ -227,7 +227,7 @@ fn lookup_constraints(
         + numerator_2);
     sum = sum * random_coeff + constraint_eval;
 }
-#[cfg(and(test, feature: "qm31_opcode"))]
+#[cfg(test)]
 mod tests {
     use core::array::ArrayImpl;
     use core::num::traits::Zero;

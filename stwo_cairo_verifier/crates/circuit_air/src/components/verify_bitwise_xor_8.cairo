@@ -105,7 +105,7 @@ fn lookup_constraints(
         + (verify_bitwise_xor_8_b_sum_1 * numerator_0));
     sum = sum * random_coeff + constraint_eval;
 }
-#[cfg(and(test, feature: "qm31_opcode"))]
+#[cfg(test)]
 mod tests {
     use core::array::ArrayImpl;
     use core::num::traits::Zero;

@@ -107,10 +107,7 @@ fn gen_tests_module(air_fn: &CompiledAirFn, assignment: &Assignment) -> rust::To
         format!("{}{}", air_fn.name.to_case(Case::UpperSnake), SAMPLE_EVALUATION_RESULT_SUFFIX);
 
     quote! {
-        // Compiling for the "poseidon verifier", i.e. without the QM31 opcode, makes evaluate_constraints_at_point
-        // too long to compile for some components (e.g. generic_opcode). Therefore we only test the evaluation
-        // result when the opcode is available.
-        #[cfg(and(test, feature: "qm31_opcode"))]
+        #[cfg(test)]
         mod tests {
             use stwo_constraint_framework::Component;
             use crate::components::sample_evaluations_test_data::*;
