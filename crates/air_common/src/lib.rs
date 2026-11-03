@@ -11,7 +11,6 @@ use serde::{Deserialize, Serialize};
 pub const WRITE_TRACE_FUNCTION_NAME: &str = "write_trace";
 pub const CONSTRAINT_EVAL_FUNCTION_NAME: &str = "evaluate";
 
-pub const REGISTRY_PROPERTIES_FILE_NAME: &str = "registry.json";
 pub const SAMPLE_EVALUATIONS_FILE_NAME: &str = "sample_evaluations.json";
 
 // These relation names should be taken from stwo-cairo.

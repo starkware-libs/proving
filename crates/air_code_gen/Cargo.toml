@@ -4,7 +4,6 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-air_infra.workspace = true
 airs.workspace = true
 air_compile.workspace = true
 air_common.workspace = true
@@ -15,7 +14,6 @@ itertools.workspace = true
 xshell.workspace = true
 tempfile.workspace = true
 clap.workspace = true
-serde.workspace = true
 # `preserve_order`: see the note in `air_infra/Cargo.toml`.
 serde_json = { workspace = true, features = ["preserve_order"] }
 convert_case.workspace = true

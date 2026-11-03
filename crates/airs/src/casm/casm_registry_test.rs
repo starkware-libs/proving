@@ -1,13 +1,24 @@
 use std::path::Path;
 
-use air_common::REGISTRY_PROPERTIES_FILE_NAME;
 use air_infra::core::air_fn_registry::AirFnStat;
 use air_infra::test_utils::{compare_json, compare_registry_jsons};
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
+use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
 use crate::casm::casm_registry::create_casm_registry;
+
+/// The stats of the CASM registry, published to downstream systems (e.g. SHARP) as
+/// `crates/common/casm_registry.json`.
+#[derive(Serialize)]
+struct CasmRegistry {
+    /// The total number of trace cells in the preprocessed tables, taken from stwo-cairo.
+    pub canonical_ppt_n_trace_cells: u32,
+    pub canonical_without_pedersen_ppt_n_trace_cells: u32,
+    pub canonical_small_ppt_n_trace_cells: u32,
+    pub air_fns: IndexMap<String, AirFnStat>,
+}
 
 // TODO(AnatG): Remove this
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -19,6 +30,8 @@ pub struct NonComponentStat {
     pub max_num_instances_steps: usize,
 }
 
+/// Checks the committed CASM registry files. This is also how `crates/common/casm_registry.json` is
+/// produced: run `FIX=1 cargo test -p airs test_casm_registry`.
 #[test]
 fn test_casm_registry() {
     let reg = create_casm_registry();
@@ -28,8 +41,15 @@ fn test_casm_registry() {
 
     let stat = reg.collect_stats();
     compare_json(
-        &stat,
-        &Path::new("../../outputs/compiled_casm_air/").join(REGISTRY_PROPERTIES_FILE_NAME),
+        &CasmRegistry {
+            canonical_ppt_n_trace_cells: PreProcessedTraceVariant::Canonical.n_trace_cells(),
+            canonical_without_pedersen_ppt_n_trace_cells:
+                PreProcessedTraceVariant::CanonicalWithoutPedersen.n_trace_cells(),
+            canonical_small_ppt_n_trace_cells: PreProcessedTraceVariant::CanonicalSmall
+                .n_trace_cells(),
+            air_fns: stat.clone(),
+        },
+        Path::new("../../crates/common/casm_registry.json"),
     );
 
     compare_json(

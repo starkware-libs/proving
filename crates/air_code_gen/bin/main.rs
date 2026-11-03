@@ -15,17 +15,13 @@ use air_code_gen::utils::{
     STWO_CAIRO_AIR_CONFIG, STWO_CIRCUITS_AIR_CONFIG, add_file_to_module, format_air_fn_code,
     generate_air_fn_code, generated_code_path, load_air_fns,
 };
-use air_common::REGISTRY_PROPERTIES_FILE_NAME;
 use air_compile::compiled_structs::CompiledAirFn;
-use air_infra::core::air_fn_registry::AirFnStat;
 use airs::casm::casm_registry::{create_casm_registry, create_casm_registry_ordered_by_stwo_cairo};
 use airs::circuit::circuit_registry::create_circuit_registry;
 use clap::Parser;
 use eval_air_fn_constraints::SampleEvaluation;
 use indexmap::IndexMap;
 use itertools::Itertools;
-use serde::Serialize;
-use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTraceVariant;
 use xshell::{Shell, cmd};
 
 const DEFAULT_ROOT_DIR: &str = ".";
@@ -37,15 +33,6 @@ pub const CASM_RELATIONS_RUST_FILE_PATH: &str = "crates/cairo-air/src/relations.
 pub const CIRCUIT_RELATIONS_RUST_FILE_PATH: &str = "crates/circuit_verifier/src/relations.rs";
 pub const CIRCUIT_RELATIONS_CAIRO_FILE_PATH: &str =
     "stwo_cairo_verifier/crates/circuit_air/src/relations.cairo";
-
-#[derive(Serialize)]
-struct CasmRegistry {
-    /// The total number of trace cells in the preprocessed tables, taken from stwo-cairo
-    pub canonical_ppt_n_trace_cells: u32,
-    pub canonical_without_pedersen_ppt_n_trace_cells: u32,
-    pub canonical_small_ppt_n_trace_cells: u32,
-    pub air_fns: IndexMap<String, AirFnStat>,
-}
 
 fn jsons_in_dir(dir: &Path) -> Vec<PathBuf> {
     let mut result = vec![];
@@ -150,24 +137,6 @@ fn format_cairo(path: &Path) {
     println!("Formatting Cairo code...");
     shell.change_dir(path.join("stwo_cairo_verifier"));
     cmd!(shell, "scarb fmt").quiet().run().unwrap();
-}
-
-fn generate_registry_properties_file(src: &Path, dst: &Path) {
-    let registry_path = src.join(REGISTRY_PROPERTIES_FILE_NAME);
-    let registry_file = fs::read_to_string(&registry_path)
-        .unwrap_or_else(|e| panic!("Failed to read {}: {e}", registry_path.display()));
-    let registry_src = serde_json::from_str(&registry_file).expect("Invalid registry.json file");
-
-    let registry_out = CasmRegistry {
-        canonical_ppt_n_trace_cells: PreProcessedTraceVariant::Canonical.n_trace_cells(),
-        canonical_without_pedersen_ppt_n_trace_cells:
-            PreProcessedTraceVariant::CanonicalWithoutPedersen.n_trace_cells(),
-        canonical_small_ppt_n_trace_cells: PreProcessedTraceVariant::CanonicalSmall.n_trace_cells(),
-        air_fns: registry_src,
-    };
-
-    fs::write(dst, serde_json::to_string_pretty(&registry_out).expect("Cannot serialize registry"))
-        .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", dst.display()))
 }
 
 #[derive(Debug, Parser)]
@@ -337,11 +306,6 @@ fn generate_stwo_cairo(args: GenerateArgs) {
             .unwrap(),
     )
     .unwrap_or_else(|e| panic!("Cannot write to {}: {e}", circuit_relations_path.display()));
-
-    generate_registry_properties_file(
-        &compiled_casm_dir,
-        &args.root_dir.join("crates/common/casm_registry.json"),
-    );
 
     let compiled_registry = create_casm_registry_ordered_by_stwo_cairo(&casm_registry);
 

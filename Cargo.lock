@@ -35,7 +35,6 @@ version = "2.4.0"
 dependencies = [
  "air_common",
  "air_compile",
- "air_infra",
  "airs",
  "clap",
  "convert_case 0.8.0",
@@ -43,7 +42,6 @@ dependencies = [
  "genco 0.18.1",
  "indexmap 2.14.0",
  "itertools 0.12.1",
- "serde",
  "serde_json",
  "stwo-cairo-common",
  "tempfile",
@@ -4824,6 +4822,7 @@ dependencies = [
  "ruint",
  "serde",
  "serde_arrays",
+ "serde_json",
  "starknet-curve 0.6.0",
  "starknet-ff",
  "starknet-types-core",
