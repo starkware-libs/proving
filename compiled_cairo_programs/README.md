@@ -4,8 +4,8 @@ The compiled Cairo0 programs the proving pipeline runs or commits to, built in t
 repo and copied here:
 
 - `leaf_simple_bootloader_compiled.json`: the leaf simple bootloader, the program the `production`
-  and `canonical_small` registries (`circuit_registry_definitions/`) build their leaf verifier
-  circuits on.
+  and `canonical_small_for_tests` registries (`circuit_registry_definitions/`) build their leaf
+  verifier circuits on.
 - `aggregator_wrapper_compiled.json`: the aggregator wrapper, the leaf whose program hash those two
   registries' applicative unpacking verifier takes.
 - `privacy_simple_bootloader_compiled.json`: the privacy simple bootloader, the program the

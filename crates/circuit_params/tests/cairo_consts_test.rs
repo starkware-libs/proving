@@ -283,19 +283,19 @@ fn test_cairo_verifier_consts_match_production_registry() {
         &render_preprocessed_columns(&target_sizes),
     );
 
-    // The recursive-tree e2e runs the Cairo verifier on roots proven with canonical_small, so
-    // canonical_small must pad to the production sizes.
-    let small = RegistryDefinition::load(
+    // The recursive-tree e2e runs the Cairo verifier on roots proven with
+    // canonical_small_for_tests, so canonical_small_for_tests must pad to the production sizes.
+    let tests_registry_def = RegistryDefinition::load(
         &repo_root(),
-        "circuit_registry_definitions/canonical_small/definition.json",
+        "circuit_registry_definitions/canonical_small_for_tests/definition.json",
     );
     assert_eq!(
-        small.pad_to_component_log_sizes.as_ref(),
+        tests_registry_def.pad_to_component_log_sizes.as_ref(),
         Some(&circuit_registry::LogSizes::of(&target_sizes)),
-        "canonical_small's pad_to_component_log_sizes must equal the production target"
+        "canonical_small_for_tests's pad_to_component_log_sizes must equal the production target"
     );
     assert_eq!(
-        small.circuit_fri_params, fri_params,
-        "canonical_small's circuit FRI params must equal production's"
+        tests_registry_def.circuit_fri_params, fri_params,
+        "canonical_small_for_tests's circuit FRI params must equal production's"
     );
 }

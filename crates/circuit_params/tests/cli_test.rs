@@ -19,9 +19,10 @@ struct RegistryTestFixture {
 /// bootloader, and it pads to the production sizes so the Cairo circuit verifier accepts the e2e's
 /// root proofs.
 const RECURSIVE_TREE: RegistryTestFixture = RegistryTestFixture {
-    definition_path: "circuit_registry_definitions/canonical_small/definition.json",
+    definition_path: "circuit_registry_definitions/canonical_small_for_tests/definition.json",
     #[cfg(feature = "slow-tests")]
-    committed_path: "crates/stwo_run_and_prove_recursive_tree/test_data/circuit_registry.json",
+    committed_path: "crates/stwo_run_and_prove_recursive_tree/test_data/\
+                     canonical_small_for_tests_circuit_registry.json",
 };
 
 /// A registry over the leaf prover's own test data; only its committed registry is checked, by a

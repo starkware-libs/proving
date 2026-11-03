@@ -7,12 +7,8 @@ use leaf_prover::prove_leaf::prove_leaf_from_files;
 use starknet_types_core::felt::Felt;
 use stwo_cairo_utils::file_utils::repo_root;
 
+use crate::test_data::canonical_small_for_tests_circuit_registry_path;
 use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage};
-
-/// The committed canonical_small registry the e2e proves against.
-pub fn circuit_registry_path() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
-}
 
 /// The simple-output task's input for the leaf most tests fold; the program copies it to its
 /// output.
@@ -48,7 +44,7 @@ pub fn generate_leaf(dir: &Path, task_output: &[u32]) -> LeafInput {
     let leaf = prove_leaf_from_files(
         &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
         &Some(input_path),
-        &circuit_registry_path(),
+        &canonical_small_for_tests_circuit_registry_path(),
     );
     let output_preimage: Vec<Felt> =
         serde_json::from_str(&std::fs::read_to_string(&dump_path).unwrap()).unwrap();

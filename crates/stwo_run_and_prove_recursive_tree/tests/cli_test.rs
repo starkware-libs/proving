@@ -1,10 +1,6 @@
-use std::path::PathBuf;
 use std::process::Command;
 
-/// The committed canonical_small circuit registry.
-fn circuit_registry_path() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
-}
+use stwo_run_and_prove_recursive_tree::test_data::canonical_small_for_tests_circuit_registry_path;
 
 /// A malformed `--program_input` makes `load_leaves` fail (before any expensive setup); the binary
 /// must exit non-zero (the `run_binary` error arm) rather than panicking or silently succeeding.
@@ -24,7 +20,7 @@ fn test_invalid_program_input_exits_nonzero() {
         .arg("--packed_node_tree_path")
         .arg(dir.join("pout"))
         .arg("--circuit_registry_json")
-        .arg(circuit_registry_path())
+        .arg(canonical_small_for_tests_circuit_registry_path())
         .status()
         .expect("spawn recursive-tree binary");
     assert!(!status.success(), "binary should exit non-zero on malformed input, got: {status:?}",);
@@ -58,7 +54,7 @@ fn test_single_leaf_cli_succeeds() {
         .arg("--packed_node_tree_path")
         .arg(dir.join("root_packed.json"))
         .arg("--circuit_registry_json")
-        .arg(circuit_registry_path())
+        .arg(canonical_small_for_tests_circuit_registry_path())
         .status()
         .expect("spawn recursive-tree binary");
 

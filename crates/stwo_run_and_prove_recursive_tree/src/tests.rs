@@ -9,6 +9,7 @@ use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::canonical::CanonicalCircuit;
+use crate::test_data::canonical_small_for_tests_circuit_registry_path;
 use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
@@ -265,15 +266,9 @@ fn test_applicative_inputs_are_checked_before_the_fold() {
     );
 }
 
-/// The circuit registry file used for tests. Output of `circuit_params --registry` (see
-/// `circuit_params`' cli test, which regenerates it).
-fn circuit_registry_path() -> std::path::PathBuf {
-    std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/circuit_registry.json")
-}
-
 /// The committed circuit registry, deserialized.
 fn circuit_registry() -> CircuitRegistry {
-    CircuitRegistry::from_path(&circuit_registry_path()).unwrap()
+    CircuitRegistry::from_path(&canonical_small_for_tests_circuit_registry_path()).unwrap()
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -376,8 +371,9 @@ mod e2e {
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
 
-    use super::{circuit_registry, circuit_registry_path};
+    use super::circuit_registry;
     use crate::canonical::CanonicalCircuit;
+    use crate::test_data::canonical_small_for_tests_circuit_registry_path;
     use crate::test_support::{LEAF_TASK_OUTPUT, generate_leaf};
     use crate::{
         LeafInput, LeafOutputHashType, LeafOutputPreimage, ProofFormat, RootOutputPaths,
@@ -657,7 +653,7 @@ mod e2e {
         let wrapper = prove_leaf_from_files(
             &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
             &Some(input_path),
-            &circuit_registry_path(),
+            &canonical_small_for_tests_circuit_registry_path(),
         );
 
         // 2. The bootloader dumped the preimage it hashed: the wrapper's program hash (asserted

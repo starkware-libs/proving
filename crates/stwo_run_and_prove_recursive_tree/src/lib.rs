@@ -43,6 +43,7 @@ pub mod canonical;
 pub mod fold;
 pub mod leaf_io;
 pub mod output;
+pub mod test_data;
 #[cfg(feature = "slow-tests")]
 pub mod test_support;
 pub mod unpacking;

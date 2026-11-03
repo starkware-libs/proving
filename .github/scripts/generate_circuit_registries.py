@@ -21,8 +21,8 @@ from pathlib import Path
 #
 # `production` is what the backend proves with (its definition is also the source of the Cairo
 # circuit verifier's generated consts — see `circuit_params/tests/cairo_consts_test.rs`);
-# `canonical_small` is the cheap one the tests and goldens use.
-REGISTRY_NAMES = ["production", "canonical_small"]
+# `canonical_small_for_tests` is the cheap one only used for tests.
+REGISTRY_NAMES = ["production", "canonical_small_for_tests"]
 
 
 def main():
