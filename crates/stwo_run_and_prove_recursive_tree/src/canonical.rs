@@ -15,6 +15,7 @@ use circuit_registry::{CircuitRegistry, DigestHex};
 use circuit_verifier::multiverifier::{
     SharedConfig, build_multiverifier_context_from_shared_config, shared_config,
 };
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use tracing::{Level, info, span};
 
 use crate::RecursiveTreeError;
@@ -79,7 +80,7 @@ impl CanonicalCircuit {
         // TODO(yairv): consider reading the hash off the first fold's proof instead (the prover
         // computes it anyway), trading this preprocessed-trace commitment for a later failure.
         let circuit_hash = DigestHex::from(
-            preprocessed_circuit_hash(
+            preprocessed_circuit_hash::<Blake2sMerkleChannel>(
                 &preprocessed_multiverifier,
                 circuit_pcs_config.fri_params.log_blowup_factor,
             )

@@ -5,6 +5,7 @@ use privacy_common::consts::{
     CIRCUIT_PCS_CONFIG, CIRCUIT_TRACE_LOG_SIZE, PRIVACY_CIRCUIT_PREPROCESSED_COLUMNS,
     PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT,
 };
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 
 use crate::{
     get_cairo_preprocessed_circuit, get_cairo_verifier_config, get_proof_config,
@@ -33,7 +34,8 @@ fn check_privacy_recursion_circuit_preprocessed_root() {
         preprocessed_circuit.trace_log_size() + log_blowup_factor,
         CIRCUIT_PCS_CONFIG.preprocessed_lifting_log_size
     );
-    let root_hash = preprocessed_circuit.preprocessed_root(log_blowup_factor);
+    let root_hash =
+        preprocessed_circuit.preprocessed_root::<Blake2sMerkleChannel>(log_blowup_factor);
     let raw_words: [u32; 8] = le_u32s_from_bytes(root_hash.0);
 
     assert_eq!(raw_words, PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT);

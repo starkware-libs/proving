@@ -284,6 +284,7 @@ mod e2e {
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use leaf_proof_format::{DigestHex, PackedNode};
     use stwo::core::fields::qm31::QM31;
+    use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
 
     use super::{circuit_registry, circuit_registry_path};
@@ -325,7 +326,7 @@ mod e2e {
     fn multiverifier_circuit_hash(
         canonical: &CanonicalCircuit,
     ) -> [u32; circuit_common::N_RESERVED] {
-        let hash = preprocessed_circuit_hash(
+        let hash = preprocessed_circuit_hash::<Blake2sMerkleChannel>(
             &canonical.preprocessed_multiverifier,
             canonical.shared_config.pcs_config.fri_params.log_blowup_factor,
         );
@@ -704,7 +705,9 @@ mod e2e {
             proof: deserialize_proof_with_config(&mut root_bytes.as_slice(), proof_config).unwrap(),
             preprocessed_root: canonical
                 .preprocessed_multiverifier
-                .preprocessed_root(proof_config.fri.params.log_blowup_factor)
+                .preprocessed_root::<Blake2sMerkleChannel>(
+                    proof_config.fri.params.log_blowup_factor,
+                )
                 .into(),
             output_digest: <[u32; 8]>::try_from(root_outputs.clone()).unwrap().into(),
         };

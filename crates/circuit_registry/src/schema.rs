@@ -7,6 +7,7 @@ use std::collections::BTreeMap;
 use circuit_common::finalize::ComponentSizes;
 use leaf_proof_format::DigestHex;
 use serde::{Deserialize, Serialize};
+use starknet_types_core::felt::Felt;
 use stwo::core::fri::FriParams;
 use stwo_cairo_common::prover_params::ProverParameters;
 
@@ -98,6 +99,10 @@ pub struct Multiverifier {
     /// `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)` — the value that
     /// identifies this circuit in a verifier's public output.
     pub circuit_hash: DigestHex,
+    /// The same identity when the circuit is proven with Poseidon252 instead of Blake2s. The
+    /// `poseidon252_verifier` Cairo verifier hashes this felt252, with the circuit's outputs, into
+    /// its own output. Serialized as one `0x` hex string, the felt's own form, not as `DigestHex`.
+    pub poseidon_circuit_hash: Felt,
 }
 
 /// The applicative unpacking verifier circuit, padded to its config's component sizes. It verifies

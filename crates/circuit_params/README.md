@@ -57,6 +57,10 @@ A JSON circuit registry, with three top-level fields:
   and the padded `component_log_sizes` circuits are padded to. Circuits proven using the same
   config can be verified using the same verifier circuit.
 - `leaf_verifiers`: the leaf verifier circuits, each referencing its `config` (by id), its
-  `trace_log_size`, the verified proof's `log_blowup_factor`, and its `circuit_hash`.
+  `trace_log_size`, the verified proof's `log_blowup_factor`, and its `circuit_hash`. The hash is
+  `blake2s(log_blowup_factor || component_log_sizes || preprocessed_root)`, the circuit's identity
+  in a verifier's output.
 - `multiverifiers`: the multiverifier circuits, each referencing its own `config` (by id), the
-  `input_configs` (by id) of the circuits whose proofs it verifies, and its `circuit_hash`.
+  `input_configs` (by id) of the circuits whose proofs it verifies, its `circuit_hash`, and its
+  `poseidon_circuit_hash`, the same identity computed with Poseidon252 in place of Blake2s for
+  proofs under that channel, as a felt252 in one `0x` hex string.

@@ -8,6 +8,7 @@ description = "The circuit registry JSON schema: the verifier circuits the syste
 [dependencies]
 serde.workspace = true
 serde_json.workspace = true
+starknet-types-core.workspace = true
 thiserror.workspace = true
 
 circuit-common.workspace = true

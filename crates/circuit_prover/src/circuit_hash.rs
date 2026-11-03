@@ -2,10 +2,13 @@ use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_components::PerComponent;
 use circuit_verifier::circuit_hash::config_words;
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
+use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo::core::vcs_lifted::Hasher;
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
+use stwo::core::vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
+use stwo::prover::backend::BackendForChannel;
+use stwo::prover::backend::simd::SimdBackend;
 
 /// Computes the circuit hash: `H(log_blowup_factor || component_log_sizes || preprocessed_root)`,
 /// where `H` is the hash function the circuit is proven with, so that the circuit's identity is
@@ -23,25 +26,27 @@ pub fn compute_circuit_hash<H: Hasher>(
     H::hash_u32s_followed_by_digest(&config_words, preprocessed_root)
 }
 
-/// The circuit hash identifying `preprocessed_circuit` when proven with `log_blowup_factor`.
-///
-/// Currently hardcoded to use Blake2s.
-pub fn preprocessed_circuit_hash(
+/// The circuit hash identifying `preprocessed_circuit` when proven with `log_blowup_factor` under
+/// the Merkle channel `MC`. Both the preprocessed root and the hash over it are `MC`'s.
+pub fn preprocessed_circuit_hash<MC: MerkleChannel>(
     preprocessed_circuit: &PreprocessedCircuit,
     log_blowup_factor: u32,
-) -> Blake2sHash {
+) -> <MC::H as Hasher>::Hash
+where
+    SimdBackend: BackendForChannel<MC>,
+{
     let component_log_sizes = circuit_component_log_sizes(
         &all_circuit_components::<QM31>(),
         &preprocessed_circuit.preprocessed_trace.log_sizes(),
     );
-    compute_circuit_hash::<Blake2sMerkleHasher>(
+    compute_circuit_hash::<MC::H>(
         &component_log_sizes,
         log_blowup_factor,
-        preprocessed_circuit.preprocessed_root(log_blowup_factor),
+        preprocessed_circuit.preprocessed_root::<MC>(log_blowup_factor),
     )
 }
 
-/// Compute the circuit hash and preprocessed root together.
+/// Compute the Blake2s circuit hash and preprocessed root together.
 ///
 /// More efficient than computing each one separately since computing the circuit
 /// hash requires computing the preprocessed root.
@@ -53,7 +58,7 @@ pub fn circuit_hash_and_preprocessed_root(
         &all_circuit_components::<QM31>(),
         &circuit.preprocessed_trace.log_sizes(),
     );
-    let preprocessed_root = circuit.preprocessed_root(log_blowup_factor);
+    let preprocessed_root = circuit.preprocessed_root::<Blake2sMerkleChannel>(log_blowup_factor);
     let circuit_hash = compute_circuit_hash::<Blake2sMerkleHasher>(
         &component_log_sizes,
         log_blowup_factor,

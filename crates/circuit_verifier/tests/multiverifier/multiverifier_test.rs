@@ -29,6 +29,7 @@ use itertools::chain;
 use privacy_common::privacy_components;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::pcs::PcsConfig;
+use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
 use stwo::prover::backend::simd::SimdBackend;
 use stwo::prover::mempool::BaseColumnPool;
 
@@ -140,10 +141,14 @@ fn test_regression_constants() {
         Some(target_padding),
     );
     let cairo_verifier_root: [u32; 8] = le_u32s_from_bytes(
-        pp_cairo_circuit.preprocessed_root(pcs_config.fri_params.log_blowup_factor).0,
+        pp_cairo_circuit
+            .preprocessed_root::<Blake2sMerkleChannel>(pcs_config.fri_params.log_blowup_factor)
+            .0,
     );
     let multiverifier_root: [u32; 8] = le_u32s_from_bytes(
-        pp_multiverifier.preprocessed_root(pcs_config.fri_params.log_blowup_factor).0,
+        pp_multiverifier
+            .preprocessed_root::<Blake2sMerkleChannel>(pcs_config.fri_params.log_blowup_factor)
+            .0,
     );
     assert_eq!(PRIVACY_CAIRO_VERIFIER_PREPROCESSED_ROOT, cairo_verifier_root);
     assert_eq!(MULTIVERIFIER_PREPROCESSED_ROOT, multiverifier_root);
@@ -319,7 +324,9 @@ fn test_verify_cairo_proof_and_multiverifier_proof() {
     // multiverifier proof and a cairo verifier proof.
     let preprocessed_multiverifier = PreprocessedCircuit::preprocess_circuit(&mut context);
     let preprocessed_root_multiverifier: [u32; 8] = le_u32s_from_bytes(
-        preprocessed_multiverifier.preprocessed_root(PCS_CONFIG.fri_params.log_blowup_factor).0,
+        preprocessed_multiverifier
+            .preprocessed_root::<Blake2sMerkleChannel>(PCS_CONFIG.fri_params.log_blowup_factor)
+            .0,
     );
     assert_eq!(preprocessed_root_multiverifier, MULTIVERIFIER_PREPROCESSED_ROOT);
 }

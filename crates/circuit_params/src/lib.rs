@@ -26,7 +26,7 @@ use circuit_common::finalize::{
 use circuit_common::preprocessed::{
     PreprocessedCircuit, layout_and_pcs_config, layout_from_component_sizes,
 };
-use circuit_prover::circuit_hash::circuit_hash_and_preprocessed_root;
+use circuit_prover::circuit_hash::{circuit_hash_and_preprocessed_root, preprocessed_circuit_hash};
 use circuit_registry::{
     CircuitProofConfig, CircuitRegistry, DigestHex, LeafVerifier, LogSizes, Multiverifier,
     UnpackingVerifier,
@@ -42,6 +42,7 @@ use starknet_types_core::felt::Felt;
 use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+use stwo::core::vcs_lifted::poseidon252_merkle::Poseidon252MerkleChannel;
 use stwo_cairo_common::prover_types::cpu::M31;
 use stwo_cairo_prover::prover::ProverParameters;
 use stwo_cairo_prover::witness::prelude::QM31;
@@ -217,11 +218,20 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
     // `input_configs = [CONFIG_ID, CONFIG_ID]`.
     let (mv_circuit_hash, mv_preprocessed_root) =
         circuit_hash_and_preprocessed_root(&preprocessed_multiverifier, circuit_log_blowup_factor);
+    // The multiverifier's identity when proven for the `poseidon252_verifier` Cairo verifier.
+    // Both the preprocessed root and the circuit hash use the Poseidon channel.
+    let mv_poseidon_circuit_hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
+        &preprocessed_multiverifier,
+        circuit_log_blowup_factor,
+    );
     let multiverifiers = vec![Multiverifier {
         config: CONFIG_ID.to_string(),
         input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
         circuit_hash: DigestHex::from(mv_circuit_hash.0),
         preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
+        // The hash is stwo's `starknet_ff::FieldElement`. It has no conversion to the
+        // `starknet_types_core` `Felt` the registry stores, so it goes through its bytes.
+        poseidon_circuit_hash: Felt::from_bytes_be(&mv_poseidon_circuit_hash.to_bytes_be()),
     }];
 
     // The unpacking verifier's whitelists are the hashes computed above, baked in as circuit

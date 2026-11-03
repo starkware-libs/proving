@@ -8,15 +8,15 @@ use circuits::ivalue::IValue;
 use circuits_stark_verifier::order_hash_map::OrderedHashMap;
 use itertools::{chain, zip_eq};
 #[cfg(feature = "prover")]
+use stwo::core::channel::MerkleChannel;
+#[cfg(feature = "prover")]
 use stwo::core::fields::m31::BaseField;
 use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 #[cfg(feature = "prover")]
 use stwo::core::poly::circle::CanonicCoset;
 #[cfg(feature = "prover")]
-use stwo::core::vcs::blake2_hash::Blake2sHash;
-#[cfg(feature = "prover")]
-use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
+use stwo::core::vcs_lifted::Hasher;
 #[cfg(feature = "prover")]
 use stwo::prover::CommitmentTreeProver;
 #[cfg(feature = "prover")]
@@ -24,7 +24,7 @@ use stwo::prover::backend::simd::SimdBackend;
 #[cfg(feature = "prover")]
 use stwo::prover::backend::simd::m31::PackedM31;
 #[cfg(feature = "prover")]
-use stwo::prover::backend::{Backend, Col};
+use stwo::prover::backend::{Backend, BackendForChannel, Col};
 #[cfg(feature = "prover")]
 use stwo::prover::mempool::BaseColumnPool;
 #[cfg(feature = "prover")]
@@ -521,14 +521,20 @@ impl PreprocessedCircuit {
         self.preprocessed_trace.trace_log_size()
     }
 
-    /// The Merkle root of this circuit's preprocessed trace, committed exactly as
+    /// The Merkle root of this circuit's preprocessed trace under `MC`, committed exactly as
     /// [`stwo::prover::CommitmentTreeProver`] does inside the circuit prover, so the result equals
-    /// tree 0's commitment in a proof of this circuit.
+    /// tree 0's commitment in a proof of this circuit committed with that channel.
     ///
     /// `log_blowup_factor` is the circuit prover's blowup (the one in the proof's `PcsConfig`),
     /// which also fixes the lifting log size at `trace_log_size + log_blowup_factor`.
     #[cfg(feature = "prover")]
-    pub fn preprocessed_root(&self, log_blowup_factor: u32) -> Blake2sHash {
+    pub fn preprocessed_root<MC: MerkleChannel>(
+        &self,
+        log_blowup_factor: u32,
+    ) -> <MC::H as Hasher>::Hash
+    where
+        SimdBackend: BackendForChannel<MC>,
+    {
         let lifting_log_size = self.trace_log_size() + log_blowup_factor;
         let twiddles = SimdBackend::precompute_twiddles(
             CanonicCoset::new(lifting_log_size).circle_domain().half_coset,
@@ -536,7 +542,7 @@ impl PreprocessedCircuit {
         let preprocessed_trace = self.preprocessed_trace.get_trace::<SimdBackend>();
         let preprocessed_trace_polys =
             SimdBackend::interpolate_columns(preprocessed_trace, &twiddles);
-        let preprocessed_tree = CommitmentTreeProver::<SimdBackend, Blake2sMerkleChannel>::new(
+        let preprocessed_tree = CommitmentTreeProver::<SimdBackend, MC>::new(
             preprocessed_trace_polys,
             log_blowup_factor,
             &twiddles,
