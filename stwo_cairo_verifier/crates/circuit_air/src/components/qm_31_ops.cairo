@@ -19,12 +19,6 @@ pub impl AirComponentImpl of AirComponent {
         let log_size = *(self.log_size);
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
-        let mut gate_sum_0: QM31 = Zero::zero();
-        let mut numerator_0: QM31 = Zero::zero();
-        let mut gate_sum_1: QM31 = Zero::zero();
-        let mut numerator_1: QM31 = Zero::zero();
-        let mut gate_sum_2: QM31 = Zero::zero();
-        let mut numerator_2: QM31 = Zero::zero();
         let qm_31_ops_add_flag = preprocessed_mask_values.get(QM_31_OPS_ADD_FLAG_IDX);
         let qm_31_ops_mul_flag = preprocessed_mask_values.get(QM_31_OPS_MUL_FLAG_IDX);
         let qm_31_ops_pointwise_mul_flag = preprocessed_mask_values
@@ -124,7 +118,7 @@ pub impl AirComponentImpl of AirComponent {
                 + ((input_op0_limb3_col3 * input_op1_limb3_col7) * qm_31_ops_pointwise_mul_flag))));
         sum = sum * random_coeff + constraint_eval;
 
-        gate_sum_0 = common_lookup_elements
+        let gate_sum_0: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_in_0_address,
@@ -133,9 +127,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_0 = qm31_const::<1, 0, 0, 0>();
+        let numerator_0: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_1 = common_lookup_elements
+        let gate_sum_1: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_in_1_address,
@@ -144,9 +138,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_1 = qm31_const::<1, 0, 0, 0>();
+        let numerator_1: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_2 = common_lookup_elements
+        let gate_sum_2: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), qm_31_ops_out_address, input_dst_limb0_col8,
@@ -154,7 +148,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_2 = qm_31_ops_mults;
+        let numerator_2: QM31 = qm_31_ops_mults;
 
         lookup_constraints(
             ref sum,

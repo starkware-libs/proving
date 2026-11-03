@@ -29,22 +29,6 @@ pub impl AirComponentImpl of AirComponent {
         let mut numerator_2: QM31 = Zero::zero();
         let mut verify_bitwise_xor_8_sum_3: QM31 = Zero::zero();
         let mut numerator_3: QM31 = Zero::zero();
-        let mut verify_bitwise_xor_8_sum_4: QM31 = Zero::zero();
-        let mut numerator_4: QM31 = Zero::zero();
-        let mut verify_bitwise_xor_8_sum_5: QM31 = Zero::zero();
-        let mut numerator_5: QM31 = Zero::zero();
-        let mut verify_bitwise_xor_8_sum_6: QM31 = Zero::zero();
-        let mut numerator_6: QM31 = Zero::zero();
-        let mut verify_bitwise_xor_8_sum_7: QM31 = Zero::zero();
-        let mut numerator_7: QM31 = Zero::zero();
-        let mut gate_sum_8: QM31 = Zero::zero();
-        let mut numerator_8: QM31 = Zero::zero();
-        let mut gate_sum_9: QM31 = Zero::zero();
-        let mut numerator_9: QM31 = Zero::zero();
-        let mut gate_sum_10: QM31 = Zero::zero();
-        let mut numerator_10: QM31 = Zero::zero();
-        let mut gate_sum_11: QM31 = Zero::zero();
-        let mut numerator_11: QM31 = Zero::zero();
         let triple_xor_input_addr_0 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_0_IDX);
         let triple_xor_input_addr_1 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_1_IDX);
         let triple_xor_input_addr_2 = preprocessed_mask_values.get(TRIPLE_XOR_INPUT_ADDR_2_IDX);
@@ -225,7 +209,7 @@ pub impl AirComponentImpl of AirComponent {
             random_coeff,
         );
 
-        verify_bitwise_xor_8_sum_4 = common_lookup_elements
+        let verify_bitwise_xor_8_sum_4: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), xor_col16,
@@ -234,16 +218,16 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_4 = qm31_const::<1, 0, 0, 0>();
+        let numerator_4: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        verify_bitwise_xor_8_sum_5 = common_lookup_elements
+        let verify_bitwise_xor_8_sum_5: QM31 = common_lookup_elements
             .combine(
                 [qm31_const::<112558620, 0, 0, 0>(), xor_col17, ms_8_bits_col12, ms_8_bits_col14]
                     .span(),
             );
-        numerator_5 = qm31_const::<1, 0, 0, 0>();
+        let numerator_5: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        verify_bitwise_xor_8_sum_6 = common_lookup_elements
+        let verify_bitwise_xor_8_sum_6: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), xor_col18,
@@ -252,16 +236,16 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_6 = qm31_const::<1, 0, 0, 0>();
+        let numerator_6: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        verify_bitwise_xor_8_sum_7 = common_lookup_elements
+        let verify_bitwise_xor_8_sum_7: QM31 = common_lookup_elements
             .combine(
                 [qm31_const::<112558620, 0, 0, 0>(), xor_col19, ms_8_bits_col13, ms_8_bits_col15]
                     .span(),
             );
-        numerator_7 = qm31_const::<1, 0, 0, 0>();
+        let numerator_7: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_8 = common_lookup_elements
+        let gate_sum_8: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_0,
@@ -269,9 +253,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_8 = qm31_const::<1, 0, 0, 0>();
+        let numerator_8: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_9 = common_lookup_elements
+        let gate_sum_9: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_1,
@@ -279,9 +263,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_9 = qm31_const::<1, 0, 0, 0>();
+        let numerator_9: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_10 = common_lookup_elements
+        let gate_sum_10: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_input_addr_2,
@@ -289,9 +273,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_10 = qm31_const::<1, 0, 0, 0>();
+        let numerator_10: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_11 = common_lookup_elements
+        let gate_sum_11: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), triple_xor_output_addr,
@@ -299,7 +283,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_11 = triple_xor_multiplicity;
+        let numerator_11: QM31 = triple_xor_multiplicity;
 
         lookup_constraints(
             ref sum,

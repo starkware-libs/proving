@@ -19,16 +19,6 @@ pub impl AirComponentImpl of AirComponent {
         let log_size = *(self.log_size);
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
-        let mut range_check_16_sum_0: QM31 = Zero::zero();
-        let mut numerator_0: QM31 = Zero::zero();
-        let mut range_check_16_sum_1: QM31 = Zero::zero();
-        let mut numerator_1: QM31 = Zero::zero();
-        let mut range_check_16_sum_2: QM31 = Zero::zero();
-        let mut numerator_2: QM31 = Zero::zero();
-        let mut gate_sum_3: QM31 = Zero::zero();
-        let mut numerator_3: QM31 = Zero::zero();
-        let mut gate_sum_4: QM31 = Zero::zero();
-        let mut numerator_4: QM31 = Zero::zero();
         let m31_to_u32_input_addr = preprocessed_mask_values.get(M_31_TO_U_32_INPUT_ADDR_IDX);
         let m31_to_u32_output_addr = preprocessed_mask_values.get(M_31_TO_U_32_OUTPUT_ADDR_IDX);
         let m31_to_u32_multiplicity = preprocessed_mask_values.get(M_31_TO_U_32_MULTIPLICITY_IDX);
@@ -49,15 +39,15 @@ pub impl AirComponentImpl of AirComponent {
 
         core::internal::revoke_ap_tracking();
 
-        range_check_16_sum_0 = common_lookup_elements
+        let range_check_16_sum_0: QM31 = common_lookup_elements
             .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_0_col1].span());
-        numerator_0 = qm31_const::<1, 0, 0, 0>();
+        let numerator_0: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        range_check_16_sum_1 = common_lookup_elements
+        let range_check_16_sum_1: QM31 = common_lookup_elements
             .combine([qm31_const::<1008385708, 0, 0, 0>(), input_u32_limb_1_col2].span());
-        numerator_1 = qm31_const::<1, 0, 0, 0>();
+        let numerator_1: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        range_check_16_sum_2 = common_lookup_elements
+        let range_check_16_sum_2: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<1008385708, 0, 0, 0>(),
@@ -65,7 +55,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_2 = qm31_const::<1, 0, 0, 0>();
+        let numerator_2: QM31 = qm31_const::<1, 0, 0, 0>();
 
         // Constraint - input is zero then limb_low is zero
         let constraint_eval = ((((input_m31_col0 * inv_or_one_col3) - qm31_const::<1, 0, 0, 0>())
@@ -77,13 +67,13 @@ pub impl AirComponentImpl of AirComponent {
             - (input_u32_limb_0_col1 + (input_u32_limb_1_col2 * qm31_const::<65536, 0, 0, 0>()))));
         sum = sum * random_coeff + constraint_eval;
 
-        gate_sum_3 = common_lookup_elements
+        let gate_sum_3: QM31 = common_lookup_elements
             .combine(
                 [qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_input_addr, input_m31_col0].span(),
             );
-        numerator_3 = qm31_const::<1, 0, 0, 0>();
+        let numerator_3: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_4 = common_lookup_elements
+        let gate_sum_4: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), m31_to_u32_output_addr,
@@ -91,7 +81,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_4 = m31_to_u32_multiplicity;
+        let numerator_4: QM31 = m31_to_u32_multiplicity;
 
         lookup_constraints(
             ref sum,

@@ -20,10 +20,6 @@ pub impl AirComponentImpl of AirComponent {
         let log_size = LOG_SIZE;
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
-        let mut verify_bitwise_xor_8_sum_0: QM31 = Zero::zero();
-        let mut numerator_0: QM31 = Zero::zero();
-        let mut verify_bitwise_xor_8_b_sum_1: QM31 = Zero::zero();
-        let mut numerator_1: QM31 = Zero::zero();
         let bitwise_xor_8_0 = preprocessed_mask_values.get(BITWISE_XOR_8_0_IDX);
         let bitwise_xor_8_1 = preprocessed_mask_values.get(BITWISE_XOR_8_1_IDX);
         let bitwise_xor_8_2 = preprocessed_mask_values.get(BITWISE_XOR_8_2_IDX);
@@ -37,7 +33,7 @@ pub impl AirComponentImpl of AirComponent {
 
         core::internal::revoke_ap_tracking();
 
-        verify_bitwise_xor_8_sum_0 = common_lookup_elements
+        let verify_bitwise_xor_8_sum_0: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<112558620, 0, 0, 0>(), bitwise_xor_8_0, bitwise_xor_8_1,
@@ -45,9 +41,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_0 = multiplicity_0_col0;
+        let numerator_0: QM31 = multiplicity_0_col0;
 
-        verify_bitwise_xor_8_b_sum_1 = common_lookup_elements
+        let verify_bitwise_xor_8_b_sum_1: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<521092554, 0, 0, 0>(), bitwise_xor_8_0, bitwise_xor_8_1,
@@ -55,7 +51,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_1 = multiplicity_1_col1;
+        let numerator_1: QM31 = multiplicity_1_col1;
 
         lookup_constraints(
             ref sum,

@@ -17,6 +17,7 @@ pub fn generate_component_cairo_constraints_code(
     air_fn: &CompiledAirFn,
     sample_assignment: &Assignment,
 ) -> rust::Tokens {
+    let (constraints, direct_lookup_indices) = parse_constraints(air_fn);
     let mut result = quote! {
         $(gen_imports(air_fn))$("\n")
         $(gen_consts(air_fn))
@@ -34,11 +35,11 @@ pub fn generate_component_cairo_constraints_code(
                 let log_size = $(get_log_size(air_fn));
                 let claimed_sum = *self.claimed_sum;
                 let column_size = m31(pow2(log_size));
-                $(get_evaluate_locals(air_fn))$("\n")
+                $(get_evaluate_locals(air_fn, &direct_lookup_indices))$("\n")
                 $(get_trace_vars(air_fn))$("\n")
                 // Revoke the AP tracking to avoid offset overflow.
                 core::internal::revoke_ap_tracking();$("\n")
-                $(parse_constraints(air_fn))
+                $(constraints)
 
                 lookup_constraints(
                     ref sum,
@@ -151,11 +152,16 @@ fn make_qm31(value: &QM31) -> rust::Tokens {
     }
 }
 
-fn get_evaluate_locals(air_fn: &CompiledAirFn) -> rust::Tokens {
+fn get_evaluate_locals(air_fn: &CompiledAirFn, direct_lookup_indices: &[usize]) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
-    // Relation sums and numerators
+    // Initialize to zero the relation sums and numerators of the subroutines' lookups, which the
+    // subroutines fill through `ref`. Direct (= non-subroutine) lookups declare theirs where they
+    // are produced.
     for (i, (relation, _)) in air_fn.constraint_lookups.iter().enumerate() {
+        if direct_lookup_indices.contains(&i) {
+            continue;
+        }
         code.append(quote! {
             let mut $(relation.to_case(Case::Snake))_sum_$(i): QM31 = Zero::zero();
             let mut numerator_$(i): QM31 = Zero::zero();

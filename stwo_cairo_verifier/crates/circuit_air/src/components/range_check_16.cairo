@@ -20,8 +20,6 @@ pub impl AirComponentImpl of AirComponent {
         let log_size = LOG_SIZE;
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
-        let mut range_check_16_sum_0: QM31 = Zero::zero();
-        let mut numerator_0: QM31 = Zero::zero();
         let seq_16 = preprocessed_mask_values.get(SEQ_16_IDX);
 
         let [multiplicity_0_col0]: [Span<QM31>; 1] = (*trace_mask_values.multi_pop_front().unwrap())
@@ -30,9 +28,9 @@ pub impl AirComponentImpl of AirComponent {
 
         core::internal::revoke_ap_tracking();
 
-        range_check_16_sum_0 = common_lookup_elements
+        let range_check_16_sum_0: QM31 = common_lookup_elements
             .combine([qm31_const::<1008385708, 0, 0, 0>(), seq_16].span());
-        numerator_0 = multiplicity_0_col0;
+        let numerator_0: QM31 = multiplicity_0_col0;
 
         lookup_constraints(
             ref sum,

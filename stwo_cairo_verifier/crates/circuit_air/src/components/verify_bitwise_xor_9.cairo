@@ -20,8 +20,6 @@ pub impl AirComponentImpl of AirComponent {
         let log_size = LOG_SIZE;
         let claimed_sum = *self.claimed_sum;
         let column_size = m31(pow2(log_size));
-        let mut verify_bitwise_xor_9_sum_0: QM31 = Zero::zero();
-        let mut numerator_0: QM31 = Zero::zero();
         let bitwise_xor_9_0 = preprocessed_mask_values.get(BITWISE_XOR_9_0_IDX);
         let bitwise_xor_9_1 = preprocessed_mask_values.get(BITWISE_XOR_9_1_IDX);
         let bitwise_xor_9_2 = preprocessed_mask_values.get(BITWISE_XOR_9_2_IDX);
@@ -32,7 +30,7 @@ pub impl AirComponentImpl of AirComponent {
 
         core::internal::revoke_ap_tracking();
 
-        verify_bitwise_xor_9_sum_0 = common_lookup_elements
+        let verify_bitwise_xor_9_sum_0: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<95781001, 0, 0, 0>(), bitwise_xor_9_0, bitwise_xor_9_1,
@@ -40,7 +38,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_0 = multiplicity_0_col0;
+        let numerator_0: QM31 = multiplicity_0_col0;
 
         lookup_constraints(
             ref sum,

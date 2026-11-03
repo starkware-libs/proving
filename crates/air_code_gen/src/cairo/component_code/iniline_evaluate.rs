@@ -26,6 +26,7 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
     } else {
         format!("[QM31; {}]", output_array.len())
     };
+    let (constraints, _) = parse_constraints(air_fn);
     let mut code = rust::Tokens::new();
 
     code.append(quote! {
@@ -43,7 +44,7 @@ pub fn generate_inline_cairo_constraints_code(air_fn: &CompiledAirFn) -> rust::T
             random_coeff: QM31,
         ) -> $(output_type) {
             let $(input_name) = input;
-            $(parse_constraints(air_fn))$("\n")
+            $(constraints)$("\n")
             $(parse_var(air_fn, &air_fn.verifier_output.0, &mut 0))
         }
     });

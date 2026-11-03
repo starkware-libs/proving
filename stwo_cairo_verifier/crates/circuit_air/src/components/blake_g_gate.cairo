@@ -60,26 +60,6 @@ pub impl AirComponentImpl of AirComponent {
         let mut numerator_14: QM31 = Zero::zero();
         let mut verify_bitwise_xor_7_sum_15: QM31 = Zero::zero();
         let mut numerator_15: QM31 = Zero::zero();
-        let mut gate_sum_16: QM31 = Zero::zero();
-        let mut numerator_16: QM31 = Zero::zero();
-        let mut gate_sum_17: QM31 = Zero::zero();
-        let mut numerator_17: QM31 = Zero::zero();
-        let mut gate_sum_18: QM31 = Zero::zero();
-        let mut numerator_18: QM31 = Zero::zero();
-        let mut gate_sum_19: QM31 = Zero::zero();
-        let mut numerator_19: QM31 = Zero::zero();
-        let mut gate_sum_20: QM31 = Zero::zero();
-        let mut numerator_20: QM31 = Zero::zero();
-        let mut gate_sum_21: QM31 = Zero::zero();
-        let mut numerator_21: QM31 = Zero::zero();
-        let mut gate_sum_22: QM31 = Zero::zero();
-        let mut numerator_22: QM31 = Zero::zero();
-        let mut gate_sum_23: QM31 = Zero::zero();
-        let mut numerator_23: QM31 = Zero::zero();
-        let mut gate_sum_24: QM31 = Zero::zero();
-        let mut numerator_24: QM31 = Zero::zero();
-        let mut gate_sum_25: QM31 = Zero::zero();
-        let mut numerator_25: QM31 = Zero::zero();
         let blake_g_gate_input_addr_a = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_A_IDX);
         let blake_g_gate_input_addr_b = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_B_IDX);
         let blake_g_gate_input_addr_c = preprocessed_mask_values.get(BLAKE_G_GATE_INPUT_ADDR_C_IDX);
@@ -392,7 +372,7 @@ pub impl AirComponentImpl of AirComponent {
             random_coeff,
         );
 
-        gate_sum_16 = common_lookup_elements
+        let gate_sum_16: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_a,
@@ -400,9 +380,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_16 = qm31_const::<1, 0, 0, 0>();
+        let numerator_16: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_17 = common_lookup_elements
+        let gate_sum_17: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_b,
@@ -410,9 +390,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_17 = qm31_const::<1, 0, 0, 0>();
+        let numerator_17: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_18 = common_lookup_elements
+        let gate_sum_18: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_c,
@@ -420,9 +400,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_18 = qm31_const::<1, 0, 0, 0>();
+        let numerator_18: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_19 = common_lookup_elements
+        let gate_sum_19: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_d,
@@ -430,9 +410,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_19 = qm31_const::<1, 0, 0, 0>();
+        let numerator_19: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_20 = common_lookup_elements
+        let gate_sum_20: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_f0,
@@ -440,9 +420,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_20 = qm31_const::<1, 0, 0, 0>();
+        let numerator_20: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_21 = common_lookup_elements
+        let gate_sum_21: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_input_addr_f1,
@@ -450,9 +430,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_21 = qm31_const::<1, 0, 0, 0>();
+        let numerator_21: QM31 = qm31_const::<1, 0, 0, 0>();
 
-        gate_sum_22 = common_lookup_elements
+        let gate_sum_22: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_a,
@@ -460,9 +440,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_22 = blake_g_gate_multiplicity;
+        let numerator_22: QM31 = blake_g_gate_multiplicity;
 
-        gate_sum_23 = common_lookup_elements
+        let gate_sum_23: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_b,
@@ -470,9 +450,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_23 = blake_g_gate_multiplicity;
+        let numerator_23: QM31 = blake_g_gate_multiplicity;
 
-        gate_sum_24 = common_lookup_elements
+        let gate_sum_24: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_c,
@@ -480,9 +460,9 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_24 = blake_g_gate_multiplicity;
+        let numerator_24: QM31 = blake_g_gate_multiplicity;
 
-        gate_sum_25 = common_lookup_elements
+        let gate_sum_25: QM31 = common_lookup_elements
             .combine(
                 [
                     qm31_const::<378353459, 0, 0, 0>(), blake_g_gate_output_addr_d,
@@ -490,7 +470,7 @@ pub impl AirComponentImpl of AirComponent {
                 ]
                     .span(),
             );
-        numerator_25 = blake_g_gate_multiplicity;
+        let numerator_25: QM31 = blake_g_gate_multiplicity;
 
         lookup_constraints(
             ref sum,

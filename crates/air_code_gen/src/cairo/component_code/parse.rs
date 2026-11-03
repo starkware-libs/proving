@@ -1,4 +1,4 @@
-use air_common::CONSTRAINT_EVAL_FUNCTION_NAME;
+use air_common::{CONSTRAINT_EVAL_FUNCTION_NAME, TraceType};
 use air_compile::compiled_structs::{
     CompiledAirFn, CompiledAirVar, CompiledConstraintIntermediate, ConstraintEvalStep, LookupTerm,
 };
@@ -6,8 +6,11 @@ use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 
-pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
+/// Returns the code evaluating the constraints of `air_fn`, and the indices of its direct lookups
+/// (not from subroutine calls), as positions in `[0, air_fn.constraint_lookups.len())`.
+pub fn parse_constraints(air_fn: &CompiledAirFn) -> (rust::Tokens, Vec<usize>) {
     let mut code = rust::Tokens::new();
+    let mut direct_lookup_indices = vec![];
 
     let mut relation_offset = 0;
     for constraint in air_fn.constraints.iter() {
@@ -46,21 +49,25 @@ pub fn parse_constraints(air_fn: &CompiledAirFn) -> rust::Tokens {
                     .map(|f| parse_var(air_fn, f, &mut relation_offset))
                     .collect::<Vec<_>>();
                 let relation_name = relation_name.to_case(Case::Snake);
+                direct_lookup_indices.push(relation_offset);
+                // A component declares its lookups where they are defined, while a subroutine
+                // assigns into the `ref` parameters its caller passes.
+                let should_declare = air_fn.r#type != TraceType::Inline;
                 code.append(quote! {
                     $("\n")
-                    $(relation_name.clone())_sum_$(relation_offset) = common_lookup_elements.combine(
+                    $(if should_declare => let) $(relation_name.clone())_sum_$(relation_offset)$(if should_declare => : QM31) = common_lookup_elements.combine(
                         [
                             $(felts.join(",\n"))
                         ].span(),
                     );
-                    numerator_$(relation_offset) = $(parse_var(air_fn, multiplicity, &mut relation_offset));
+                    $(if should_declare => let) numerator_$(relation_offset)$(if should_declare => : QM31) = $(parse_var(air_fn, multiplicity, &mut relation_offset));
                 });
                 relation_offset += 1;
             }
         }
     }
 
-    code
+    (code, direct_lookup_indices)
 }
 
 pub fn parse_var(
