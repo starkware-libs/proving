@@ -8,7 +8,7 @@ use circuit_verifier::circuit_claim::{
 };
 use circuit_verifier::circuit_components::PerComponent;
 use circuits::context::OUTPUT_START;
-use itertools::Itertools;
+use circuits::ivalue::IValue;
 use rayon::scope;
 use stwo::core::channel::MerkleChannel;
 use stwo::core::fields::qm31::QM31;
@@ -27,10 +27,9 @@ pub struct TraceGenerator {
     pub qm31_ops_trace_generator: Qm31OpsTraceGenerator,
 }
 
-pub fn write_trace<MC: MerkleChannel>(
+pub(crate) fn write_trace<MC: MerkleChannel>(
     context_values: &[QM31],
     preprocessed_trace: Arc<PreProcessedTrace>,
-    n_outputs: usize,
     tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
     trace_generator: &TraceGenerator,
     twiddles: &TwiddleTree<SimdBackend>,
@@ -274,11 +273,10 @@ where
         tree_builder.extend_polys(polys);
     }
 
-    let output_values =
-        (OUTPUT_START..(OUTPUT_START + n_outputs)).map(|addr| context_values[addr]).collect_vec();
+    let output_digest = std::array::from_fn(|i| context_values[OUTPUT_START + i].unpack_u32());
 
     (
-        CircuitClaim { output_values },
+        CircuitClaim { output_digest },
         log_sizes,
         CircuitInteractionClaimGenerator {
             eq_lookup_data,

@@ -1,11 +1,10 @@
+use circuit_common::Qm31OpsTraceGenerator;
 use circuit_common::preprocessed::PreprocessedCircuit;
-use circuit_common::{N_RESERVED, Qm31OpsTraceGenerator};
 use circuit_verifier::circuit_claim::{CircuitInteractionElements, logup_sum};
 use circuit_verifier::circuit_proof::CircuitProof;
 use circuit_verifier::statement::{INTERACTION_POW_BITS, all_circuit_components};
 use circuit_verifier::verify::CircuitPublicData;
-use circuits::blake::HashValue;
-use circuits::wrappers::U32Wrapper;
+use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use circuits_stark_verifier::proof_from_stark_proof::proof_from_stark_proof;
 use num_traits::Zero;
@@ -109,6 +108,7 @@ where
 {
     let PreprocessedCircuit { preprocessed_trace, first_permutation_row, n_outputs } =
         preprocessed_circuit;
+    assert_eq!(*n_outputs, BLAKE2S_DIGEST_N_WORDS, "The circuit must output a Blake2s digest.");
     let trace_generator = TraceGenerator {
         qm31_ops_trace_generator: Qm31OpsTraceGenerator {
             first_permutation_row: *first_permutation_row,
@@ -141,7 +141,6 @@ where
     let (claim, component_log_sizes, interaction_generator) = write_trace(
         values,
         preprocessed_trace.clone(),
-        *n_outputs,
         &mut tree_builder,
         &trace_generator,
         twiddles,
@@ -211,15 +210,7 @@ pub fn prepare_circuit_proof_for_circuit_verifier(
         circuit_hash: _,
     } = circuit_proof;
 
-    // The claim's output values are the digest words the proven circuit wrote to its reserved
-    // output wires, each already encoded as a `u32`.
-    let output_words: [QM31; N_RESERVED] = claim
-        .output_values
-        .clone()
-        .try_into()
-        .expect("A circuit verified by the circuit verifier must output a Blake2s digest.");
-    let public_data =
-        CircuitPublicData { output_digest: HashValue(output_words.map(U32Wrapper::new_unsafe)) };
+    let public_data = CircuitPublicData { output_digest: claim.output_digest.into() };
 
     let proof_config = ProofConfig::new(
         &all_circuit_components::<QM31>().into_index_map(),

@@ -2,7 +2,6 @@
 //! Cairo simple-bootloader pair run).
 
 use circuit_cairo_serialize::prepare_circuit_proof_for_cairo_verifier;
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_to_targets;
 use circuit_prover::prover::{
     prepare_circuit_proof_for_circuit_verifier, prove_circuit_assignment,
@@ -13,7 +12,7 @@ use circuit_verifier::circuit_proof::CircuitProof;
 use circuit_verifier::multiverifier::{CircuitVerifierInput, build_multiverifier_circuit};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
 use circuits::blake::HashValue;
-use circuits::ivalue::{IValue, NoValue};
+use circuits::ivalue::NoValue;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
 use leaf_proof_format::{DigestHex, PackedNode};
 use stwo::core::fields::qm31::QM31;
@@ -190,7 +189,7 @@ fn reduce(
             canonical.shared_config.pcs_config,
         )
         .map_err(proving_error)?;
-        let extracted = extract_root_and_outputs(&circuit_proof)?;
+        let extracted = extract_root_and_outputs(&circuit_proof);
 
         // Serialize for the Cairo circuit verifier: only the proof goes on the wire; the
         // verifier-config constants are baked into the Cairo binary.
@@ -209,7 +208,7 @@ fn reduce(
             canonical.shared_config.pcs_config,
         )
         .map_err(proving_error)?;
-        let extracted = extract_root_and_outputs(&circuit_proof)?;
+        let extracted = extract_root_and_outputs(&circuit_proof);
 
         let (proof, _public_data) = prepare_circuit_proof_for_circuit_verifier(circuit_proof);
         (NodeProof::Circuit(Box::new(proof)), extracted)
@@ -235,23 +234,14 @@ pub(crate) struct ExtractedProofData {
 }
 
 /// Extracts the parent entry's preprocessed root and output digest from a freshly proven circuit
-/// proof. The claim's outputs are packed-`u32` `QM31`s; they are unpacked back to the raw digest
-/// words.
+/// proof.
 pub(crate) fn extract_root_and_outputs<H: MerkleHasherLifted<Hash = Blake2sHash>>(
     circuit_proof: &CircuitProof<H>,
-) -> Result<ExtractedProofData, RecursiveTreeError> {
+) -> ExtractedProofData {
     let root_hash = circuit_proof.stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX];
     let preprocessed_root = DigestHex::from(root_hash.0);
     // The circuit's full identity, as the multiverifier mixes it and the unpacker recomputes it.
     let circuit_hash = DigestHex::from(circuit_proof.circuit_hash.0);
-    let outputs: Vec<u32> =
-        circuit_proof.claim.output_values.iter().map(|qm31| qm31.unpack_u32()).collect();
-    let output_digest: [u32; N_RESERVED] = outputs.try_into().map_err(|v: Vec<u32>| {
-        RecursiveTreeError::BadOutputArity { expected: N_RESERVED, got: v.len() }
-    })?;
-    Ok(ExtractedProofData {
-        preprocessed_root,
-        circuit_hash,
-        output_digest: DigestHex(output_digest),
-    })
+    let output_digest = DigestHex(circuit_proof.claim.output_digest);
+    ExtractedProofData { preprocessed_root, circuit_hash, output_digest }
 }

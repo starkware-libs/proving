@@ -60,8 +60,6 @@ pub enum RecursiveTreeError {
     Deserialize(String),
     #[error("Circuit proving failed at layer {layer_idx} pair {pair_idx}: {reason}")]
     Proving { layer_idx: usize, pair_idx: usize, reason: String },
-    #[error("Expected {expected} output values from a circuit proof, got {got}.")]
-    BadOutputArity { expected: usize, got: usize },
     #[error(
         "Padding parity broken: the leaf and multiverifier circuits do not share the same \
          preprocessed-trace layout (column log sizes / trace_log_size). The registry's target \

@@ -62,19 +62,21 @@ pub fn build_fibonacci_context() -> Context<QM31> {
 }
 
 pub fn build_permutation_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
 
     let a = guess(&mut context, qm31_from_u32s(0, 2, 0, 2));
     let b = guess(&mut context, qm31_from_u32s(1, 1, 1, 1));
 
     let outputs = permute(&mut context, &[a, b], IValue::sort_by_u_coordinate);
     let _outputs = permute(&mut context, &outputs, IValue::sort_by_u_coordinate);
+    let out = U32Wrapper::const_u32(&mut context, 0);
+    set_digest_outputs(&mut context, &[out]);
 
     context
 }
 
 pub fn build_blake_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::default();
+    let mut context = Context::<QM31>::new(N_RESERVED);
     context.enable_assert_eq_on_eval();
 
     let mut inputs: Vec<Var> = vec![];
@@ -94,6 +96,8 @@ pub fn build_blake_context() -> Context<QM31> {
         eval!(&mut context, (*output[4].raw()) + (*output[5].raw()));
         eval!(&mut context, (*output[6].raw()) + (*output[7].raw()));
     }
+    let out = U32Wrapper::const_u32(&mut context, 0);
+    set_digest_outputs(&mut context, &[out]);
 
     context
 }

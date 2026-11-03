@@ -65,7 +65,7 @@ fn test_load_leaves_reads_manifest_of_paths() {
 /// cairo0-encoded Blake2s of the preimage) — the value the leaf cairo-verifier circuit emits
 /// verbatim as its public output. Golden recomputed independently (matches a real leaf run).
 #[test]
-fn test_leaf_output_values_derived_from_preimage() {
+fn test_leaf_output_digest_derived_from_preimage() {
     let leaf = LeafInput {
         proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
@@ -94,7 +94,7 @@ fn test_leaf_output_values_derived_from_preimage() {
 }
 
 #[test]
-fn test_leaf_output_values_rejects_invalid_felt() {
+fn test_leaf_output_digest_rejects_invalid_felt() {
     let leaf = LeafInput {
         proof: SerializedLeafProof {
             circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
@@ -741,7 +741,7 @@ mod e2e {
             canonical.shared_config.pcs_config,
         )
         .unwrap();
-        let extracted = extract_root_and_outputs(&unpacking_proof).unwrap();
+        let extracted = extract_root_and_outputs(&unpacking_proof);
         assert_eq!(
             DigestHex::from(unpacking_proof.circuit_hash.0),
             registry.unpacking_verifiers[0].circuit_hash,

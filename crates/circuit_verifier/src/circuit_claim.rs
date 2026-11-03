@@ -1,8 +1,8 @@
 use std::iter::repeat_n;
 
+use circuits::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
 use circuits::context::{OUTPUT_START, U_VALUE, U_VAR_IDX};
-use circuits::ivalue::{IValue, NoValue};
-use itertools::Itertools;
+use circuits::ivalue::NoValue;
 use num_traits::Zero;
 use stwo::core::channel::Channel;
 use stwo::core::fields::FieldExpOps;
@@ -17,17 +17,17 @@ use crate::statement::all_circuit_components;
 pub type ComponentLogSize = u32;
 pub type ClaimedSum = QM31;
 
-// TODO(noa): Consider replacing QM31 with u32 (see `CairoCircuitClaim`).
 #[derive(Debug, PartialEq)]
 pub struct CircuitClaim {
-    pub output_values: Vec<QM31>,
+    /// The Blake2s digest the circuit outputs, one `u32` word per output wire (packed in a `QM31`
+    /// as `(low_u16, high_u16, 0, 0)`).
+    pub output_digest: [u32; BLAKE2S_DIGEST_N_WORDS],
 }
 impl CircuitClaim {
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        let Self { output_values } = self;
+        let Self { output_digest } = self;
 
-        let output_words = output_values.iter().map(|value| value.unpack_u32()).collect_vec();
-        channel.mix_u32s(&output_words);
+        channel.mix_u32s(output_digest);
     }
 }
 
@@ -78,7 +78,9 @@ pub fn logup_sum(
     // Compute the public logup sum from output gates.
     let mut output_sum = QM31::zero();
     let gate_relation_id = GATE_RELATION_ID;
-    for (i, value) in claim.output_values.iter().enumerate() {
+    let output_digest: HashValue<QM31> = claim.output_digest.into();
+    for (i, word) in output_digest.into_iter().enumerate() {
+        let value = *word.raw();
         let values = [
             gate_relation_id,
             M31::from((OUTPUT_START + i) as u32),
