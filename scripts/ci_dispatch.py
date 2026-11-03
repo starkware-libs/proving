@@ -114,6 +114,7 @@ RUST_GROUPS: dict[str, Group] = {
         extra_paths=[
             ".github/workflows/proving-utils-ci.yml",
             "circuit_registry_definitions/",
+            "compiled_cairo_programs/",
         ],
     ),
     "stwo_air_infra": Group(

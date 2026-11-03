@@ -13,19 +13,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let simple_bootloader_program =
         Program::from_file(simple_bootloader_compiled_path.as_path(), Some("main"))?;
     let fibonacci_compiled_program_path = project_dir.join("examples/fibonacci.json");
-    let program_input_contents = format!(
-        r#"{{
-            "tasks": [
-              {{
-                "path": "{}",
-                "program_hash_function": "pedersen",
-                "type": "RunProgramTask"
-              }}
-            ],
-            "single_page": true
-        }}"#,
-        fibonacci_compiled_program_path.display()
-    );
+    let program_input = serde_json::json!({
+        "tasks": [{
+            "type": "RunProgramTask",
+            "path": fibonacci_compiled_program_path.to_str().unwrap(),
+            "program_hash_function": "pedersen",
+        }],
+        "single_page": true,
+    });
 
     let cairo_run_config = RunMode::Proof {
         layout: LayoutName::starknet_with_keccak,
@@ -37,7 +32,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let mut runner = cairo_run_program(
         &simple_bootloader_program,
-        Some(ProgramInput::Json(program_input_contents)),
+        Some(ProgramInput::Json(program_input.to_string())),
         cairo_run_config,
         None,
     )?;

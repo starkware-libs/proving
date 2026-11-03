@@ -125,3 +125,25 @@ pub fn prepare_vm_for_load_program_loading_test(
         task,
     )
 }
+
+/// Asserts that the VM's output is the Blake2s digest of `preimage`, as two 128-bit cells, low
+/// first.
+#[cfg(test)]
+pub fn assert_output_is_blake2s_digest(vm: &mut VirtualMachine, preimage: &[cairo_vm::Felt252]) {
+    use blake2::{Blake2s256, Digest};
+    use starknet_types_core::hash::Blake2Felt252;
+
+    let encoded_words = Blake2Felt252::encode_felts_to_u32s(preimage);
+    let encoded_bytes: Vec<u8> = encoded_words.iter().flat_map(|w| w.to_le_bytes()).collect();
+    let digest: [u8; 32] = Blake2s256::digest(&encoded_bytes).into();
+    let expected = [
+        u128::from_le_bytes(digest[..16].try_into().unwrap()),
+        u128::from_le_bytes(digest[16..].try_into().unwrap()),
+    ];
+
+    let mut output = String::new();
+    vm.write_output(&mut output).expect("Failed to write the VM output.");
+    let actual: Vec<u128> =
+        output.lines().map(|cell| cell.parse().expect("Output cell is not a u128.")).collect();
+    assert_eq!(actual, expected, "The output should be the preimage's Blake2s digest.");
+}

@@ -58,7 +58,6 @@ pub fn dump_privacy_simple_bootloader_output_preimage(
 mod tests {
     use std::path::PathBuf;
 
-    use blake2::{Blake2s256, Digest};
     use cairo_vm::serde::deserialize_program::ApTracking;
     use cairo_vm::types::exec_scope::ExecutionScopes;
     use cairo_vm::types::layout_name::LayoutName;
@@ -66,12 +65,14 @@ mod tests {
     use cairo_vm::types::relocatable::{MaybeRelocatable, Relocatable};
     use cairo_vm::vm::vm_core::VirtualMachine;
     use starknet_types_core::felt::Felt;
-    use starknet_types_core::hash::Blake2Felt252;
+    use stwo_cairo_utils::file_utils::repo_root;
 
     use super::*;
     use crate::hints::program_hash::compute_program_hash_chain;
     use crate::hints::types::{HashFunc, SimpleBootloaderInput};
-    use crate::test_utils::prepare_non_continuous_ids_data_for_test;
+    use crate::test_utils::{
+        assert_output_is_blake2s_digest, prepare_non_continuous_ids_data_for_test,
+    };
     use crate::types::RunMode;
     use crate::{PROGRAM_INPUT, ProgramInput, cairo_run_program};
 
@@ -161,9 +162,8 @@ mod tests {
     #[test]
     fn test_privacy_simple_bootloader_output_hash() {
         let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let privacy_bl_path = manifest_dir.join(
-            "resources/compiled_programs/bootloaders/privacy_simple_bootloader_compiled.json",
-        );
+        let privacy_bl_path =
+            repo_root().join("compiled_cairo_programs/privacy_simple_bootloader_compiled.json");
         let simple_output_path = manifest_dir
             .join("resources/compiled_programs/test_programs/simple_output_compiled.json");
 
@@ -252,29 +252,6 @@ mod tests {
             "Preimage length should be 1 + task_size (1 being n_tasks in this case)"
         );
 
-        // The bootloader emits the raw 256-bit Blake2s digest of the preimage as two 128-bit
-        // output cells: the low half followed by the high half. Recompute the digest directly
-        // (the same felt encoding the Cairo hash uses, then a plain Blake2s-256) and compare each
-        // half, avoiding the lossy `blake2s_to_felt` packing.
-        let encoded_words = Blake2Felt252::encode_felts_to_u32s(&preimage_felts);
-        let encoded_bytes: Vec<u8> = encoded_words.iter().flat_map(|w| w.to_le_bytes()).collect();
-        let digest: [u8; 32] = Blake2s256::digest(&encoded_bytes).into();
-        let expected_low = u128::from_le_bytes(digest[..16].try_into().unwrap());
-        let expected_high = u128::from_le_bytes(digest[16..].try_into().unwrap());
-
-        let mut output_buffer = String::new();
-        runner.vm.write_output(&mut output_buffer).expect("Failed to write VM output.");
-
-        let output_lines: Vec<&str> = output_buffer.lines().collect();
-        assert_eq!(
-            output_lines.len(),
-            2,
-            "Expected 2 output lines (the 128-bit halves of the Blake2s digest). \
-             Got:\n{output_buffer}"
-        );
-        let actual_low: u128 = output_lines[0].parse().expect("Failed to parse low output half");
-        let actual_high: u128 = output_lines[1].parse().expect("Failed to parse high output half");
-        assert_eq!(actual_low, expected_low, "Low half of the Blake2s digest mismatch");
-        assert_eq!(actual_high, expected_high, "High half of the Blake2s digest mismatch");
+        assert_output_is_blake2s_digest(&mut runner.vm, &preimage_felts);
     }
 }

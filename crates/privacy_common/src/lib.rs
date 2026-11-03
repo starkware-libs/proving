@@ -12,9 +12,7 @@ use starknet_types_core::felt::Felt;
 use starknet_types_core::hash::Blake2Felt252;
 use stwo::core::vcs::blake2_hash::{Blake2sHash, Blake2sHasher};
 
-use crate::consts::{
-    LARGE_PROOFS_CIRCUIT_REGISTRY_JSON, PRIVACY_BOOTLOADER_JSON, PRIVACY_TRANSACTION_COMPONENTS,
-};
+use crate::consts::{LARGE_PROOFS_CIRCUIT_REGISTRY_JSON, PRIVACY_TRANSACTION_COMPONENTS};
 
 pub struct PrivacyProofOutput {
     /// Proof bytes, laid out as the serialized [`utils::ProofHeader`] of the `privacy-prove` crate
@@ -31,7 +29,12 @@ pub fn privacy_components() -> HashSet<&'static str> {
 }
 
 pub fn get_privacy_bootloader_program() -> Result<Program, Box<dyn Error>> {
-    let bootloader_program = Program::from_bytes(PRIVACY_BOOTLOADER_JSON, Some("main"))?;
+    // See the comment in privacy_prove::tests::test_privacy_bootloader_program_hash_snapshot for
+    // how this file was compiled.
+    let bootloader_program = Program::from_bytes(
+        include_bytes!("../../../compiled_cairo_programs/privacy_simple_bootloader_compiled.json"),
+        Some("main"),
+    )?;
     Ok(bootloader_program)
 }
 

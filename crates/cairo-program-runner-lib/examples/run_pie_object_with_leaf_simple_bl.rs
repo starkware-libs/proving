@@ -1,12 +1,15 @@
+//! Runs a fibonacci PIE under the leaf simple bootloader and prints its output and preimage dump.
+
 use std::error::Error;
 use std::path::{Path, PathBuf};
 
-use cairo_program_runner_lib::types::{HashFunc, RunMode};
+use cairo_program_runner_lib::types::{HashFunc, PrivacySimpleBootloaderInput, RunMode};
 use cairo_program_runner_lib::{
     ProgramInput, SimpleBootloaderInput, Task, TaskSpec, cairo_run_program,
 };
 use cairo_vm::types::layout_name::LayoutName;
 use cairo_vm::types::program::Program;
+use stwo_cairo_utils::file_utils::repo_root;
 
 fn prepare_fibonnaci_pie_task_spec(project_dir: &Path) -> Result<TaskSpec, Box<dyn Error>> {
     let fibonacci_compiled_program_path = project_dir.join("examples/fibonacci.json");
@@ -25,17 +28,22 @@ fn prepare_fibonnaci_pie_task_spec(project_dir: &Path) -> Result<TaskSpec, Box<d
 fn main() -> Result<(), Box<dyn Error>> {
     let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let pie_task_spec = prepare_fibonnaci_pie_task_spec(&project_dir)?;
-    let simple_bootloader_input: SimpleBootloaderInput = SimpleBootloaderInput {
-        fact_topologies_path: None,
-        single_page: true,
-        tasks: vec![pie_task_spec],
+    let preimage_dump = tempfile::NamedTempFile::new()?;
+    // The leaf simple bootloader reads the privacy simple bootloader's input format.
+    let leaf_bootloader_input = PrivacySimpleBootloaderInput {
+        simple_bootloader_input: SimpleBootloaderInput {
+            fact_topologies_path: None,
+            single_page: true,
+            tasks: vec![pie_task_spec],
+        },
+        output_preimage_dump_path: preimage_dump.path().to_path_buf(),
     };
-    let simple_bootloader_compiled_path =
-        project_dir.join("resources/compiled_programs/bootloaders/simple_bootloader_compiled.json");
-    let simple_bootloader_program =
-        Program::from_file(simple_bootloader_compiled_path.as_path(), Some("main"))?;
+    let leaf_bootloader_program = Program::from_file(
+        &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
+        Some("main"),
+    )?;
     let cairo_run_config = RunMode::Proof {
-        layout: LayoutName::starknet_with_keccak,
+        layout: LayoutName::all_cairo_stwo,
         dynamic_layout_params: None,
         disable_trace_padding: false,
         relocate_mem: true,
@@ -43,8 +51,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     .create_config();
 
     let mut runner = cairo_run_program(
-        &simple_bootloader_program,
-        Some(ProgramInput::Value(Box::new(simple_bootloader_input))),
+        &leaf_bootloader_program,
+        Some(ProgramInput::Value(Box::new(leaf_bootloader_input))),
         cairo_run_config,
         None,
     )?;
@@ -52,6 +60,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut output_buffer = "Program Output:\n".to_string();
     runner.vm.write_output(&mut output_buffer)?;
     print!("{output_buffer}");
+    println!("Output preimage: {}", std::fs::read_to_string(preimage_dump.path())?);
 
     Ok(())
 }

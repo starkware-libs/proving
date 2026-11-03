@@ -13,12 +13,6 @@ pub const PROOF_MAX_DECOMPRESSED_RATIO: usize = 2;
 pub const MAX_RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize =
     RECURSIVE_PROOF_UNCOMPRESSED_BYTES * PROOF_MAX_DECOMPRESSED_RATIO;
 
-// See comment in privacy_prove::tests::test_{privacy,leaf}_bootloader_program_hash_snapshot
-// for more details on how these files were compiled.
-pub const PRIVACY_BOOTLOADER_JSON: &[u8] = include_bytes!(
-    "../../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
-     privacy_simple_bootloader_compiled.json"
-);
 pub const LARGE_PROOFS_CIRCUIT_REGISTRY_JSON: &str =
     include_str!("../large_proofs_circuit_registry.json");
 /// The components used to verify the privacy transaction, in the order of

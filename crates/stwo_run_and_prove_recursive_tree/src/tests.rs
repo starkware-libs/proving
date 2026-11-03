@@ -3,6 +3,7 @@ use circuits::blake::HashValue;
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
+use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::canonical::CanonicalCircuit;
 use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
@@ -190,18 +191,16 @@ fn program_hash(path: &std::path::Path) -> String {
         .to_string()
 }
 
-// The leaf simple bootloader the e2e folds run, shared with the privacy flow (which pins the same
-// hash): built from starkware#41232's
+// The leaf simple bootloader the e2e folds run, built from starkware#41232's
 // //src/starkware/cairo/bootloaders/simple_bootloader:leaf_simple_bootloader_program.
 #[test]
 fn test_leaf_simple_bootloader_program_hash_snapshot() {
     let expected = expect_test::expect![
         "182007537687310579697542984331198756973092309284201401073437552481857403195"
     ];
-    expected.assert_eq(&program_hash(&std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-        "../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
-         leaf_simple_bootloader_compiled.json",
-    )));
+    expected.assert_eq(&program_hash(
+        &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
+    ));
 }
 
 // Built at dev commit "c9180c2c9d9dd6df31fcdafcb86ede8a44402a73" from
@@ -225,8 +224,7 @@ fn test_aggregator_wrapper_program_hash_snapshot() {
         "828474924517741145847165707602666455661714061056494467766548351125989539667"
     ];
     expected.assert_eq(&program_hash(
-        &std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("test_data/aggregator_wrapper_compiled.json"),
+        &repo_root().join("compiled_cairo_programs/aggregator_wrapper_compiled.json"),
     ));
 }
 
@@ -254,9 +252,8 @@ fn test_concat_aggregator_program_hash_snapshot() {
 // against its definition), and Cairo-verifier-format root proofs are checked by running the Cairo
 // circuit verifier in `stwo_cairo_verifier/` on them.
 //
-// The compiled programs are inputs: `simple_output_compiled.json` and
-// `aggregator_wrapper_compiled.json` in `test_data/`, and the leaf simple bootloader shared with
-// the privacy flow at `crates/cairo-program-runner-lib/resources/compiled_programs/bootloaders/`.
+// The compiled programs are inputs: `simple_output_compiled.json` in `test_data/`, and the
+// aggregator wrapper and the leaf simple bootloader in `compiled_cairo_programs/`.
 // They are compiled from the main starkware repo via `bazel run
 // //src/services/gps/bin/rust/test:compile_cairo_run_programs_with_rust_hints_script`.
 // ------------------------------------------------------------------------------------------------
@@ -270,6 +267,7 @@ mod e2e {
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use leaf_proof_format::{DigestHex, PackedNode};
     use stwo::core::fields::qm31::QM31;
+    use stwo_cairo_utils::file_utils::repo_root;
 
     use super::{circuit_registry, circuit_registry_path};
     use crate::canonical::CanonicalCircuit;
@@ -474,8 +472,8 @@ mod e2e {
         poseidon_dump_path: &Path,
         output_preimage_dump_path: &Path,
     ) -> String {
-        let wrapper_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("test_data/aggregator_wrapper_compiled.json");
+        let wrapper_path =
+            repo_root().join("compiled_cairo_programs/aggregator_wrapper_compiled.json");
         let task_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("test_data/concat_aggregator_compiled.json");
         // A bootloader output: [config (one felt, skipped), n_tasks, records...], one
@@ -598,10 +596,7 @@ mod e2e {
         )
         .unwrap();
         let wrapper = prove_leaf_from_files(
-            &PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-                "../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
-                 leaf_simple_bootloader_compiled.json",
-            ),
+            &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
             &Some(input_path),
             &circuit_registry_path(),
         );
@@ -615,8 +610,7 @@ mod e2e {
         assert_eq!(
             wrapper_program_hash,
             starknet_crypto::Felt::from_dec_str(&super::program_hash(
-                &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-                    .join("test_data/aggregator_wrapper_compiled.json"),
+                &repo_root().join("compiled_cairo_programs/aggregator_wrapper_compiled.json"),
             ))
             .unwrap(),
             "the leaf hashed a different wrapper program"

@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 
 use leaf_prover::prove_leaf::prove_leaf_from_files;
 use num_bigint::BigUint;
+use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage};
 
@@ -45,10 +46,7 @@ pub fn generate_leaf(dir: &Path, task_output: &[u32]) -> LeafInput {
     std::fs::write(&input_path, leaf_bl_input_json(&dump_path, task_output)).unwrap();
 
     let leaf = prove_leaf_from_files(
-        &PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-            "../cairo-program-runner-lib/resources/compiled_programs/bootloaders/\
-             leaf_simple_bootloader_compiled.json",
-        ),
+        &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
         &Some(input_path),
         &circuit_registry_path(),
     );

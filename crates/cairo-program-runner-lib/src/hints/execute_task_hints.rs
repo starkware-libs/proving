@@ -582,6 +582,7 @@ mod tests {
     use cairo_vm::vm::runners::builtin_runner::BuiltinRunner;
     use cairo_vm::vm::runners::cairo_pie::PublicMemoryPage;
     use rstest::{fixture, rstest};
+    use stwo_cairo_utils::file_utils::repo_root;
 
     use super::*;
     use crate::hints::codes::*;
@@ -799,14 +800,12 @@ mod tests {
         assert_eq!(data, expected_output_runner_data);
     }
 
-    fn get_simple_bootloader_program() -> Program {
-        let bootloader_program_content = include_bytes!(
-            "../../resources/compiled_programs/bootloaders/simple_bootloader_compiled.json"
+    fn get_leaf_simple_bootloader_program() -> Program {
+        Program::from_file(
+            &repo_root().join("compiled_cairo_programs/leaf_simple_bootloader_compiled.json"),
+            Some("main"),
         )
-        .to_vec();
-
-        Program::from_bytes(&bootloader_program_content, Some("main"))
-            .expect("Loading simple bootloader program failed unexpectedly")
+        .expect("Loading the leaf simple bootloader program failed unexpectedly")
     }
 
     /// This test checks that the call_task hint works correctly for a Cairo PIE task. It sets up
@@ -863,7 +862,7 @@ mod tests {
 
         let task = Rc::new(Task::Pie(fibonacci_pie.clone()));
         exec_scopes.insert_value(vars::TASK, task);
-        let bootloader_program = get_simple_bootloader_program();
+        let bootloader_program = get_leaf_simple_bootloader_program();
         exec_scopes.insert_value(vars::PROGRAM_DATA_BASE, program_header_ptr);
         exec_scopes.insert_value(vars::PROGRAM_OBJECT, bootloader_program);
 

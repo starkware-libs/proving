@@ -42,7 +42,7 @@ jobs:
       - name: "Test examples"
         run: |
           cargo run -p cairo-program-runner-lib --example run_program_with_simple_bl
-          cargo run -p cairo-program-runner-lib --example run_pie_object_with_simple_bl
+          cargo run -p cairo-program-runner-lib --example run_pie_object_with_leaf_simple_bl
 
   slow-tests:
     # The applicative e2e test needs more memory than the xlarge profile has.
