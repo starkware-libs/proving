@@ -15,7 +15,8 @@ use circuit_registry::CircuitRegistry;
 use clap::Parser;
 use stwo_cairo_utils::binary_utils::run_binary;
 use stwo_run_and_prove_recursive_tree::{
-    ProofFormat, RecursiveTreeError, load_leaves, stwo_run_and_prove_recursive_tree,
+    ProofFormat, RecursiveTreeError, RootOutputPaths, load_leaves,
+    stwo_run_and_prove_recursive_tree,
 };
 use tracing::{Level, info, span};
 
@@ -34,11 +35,12 @@ struct Args {
     #[clap(long = "proof_path")]
     proof_path: PathBuf,
 
-    /// Output path for the root node's output values (JSON array of raw `u32` digest words).
+    /// Output path for the proven circuit's output values (JSON array of raw `u32` digest words):
+    /// the root node's, or the unpacking verifier's under `--proof_format=applicative_circuit`.
     #[clap(long = "program_output")]
     program_output: PathBuf,
 
-    /// Output path for the nested `PackedNode` JSON tree consumed by a future per-leaf unpacker.
+    /// Output path for the nested `PackedNode` JSON tree of the fold.
     #[clap(long = "packed_node_tree_path")]
     packed_node_tree_path: PathBuf,
 
@@ -53,8 +55,11 @@ struct Args {
     max_concurrency: NonZeroUsize,
 
     /// Who consumes the root proof: `cairo_verifier` (the default) emits the Cairo circuit
-    /// verifier's felt252 arguments stream; `circuit` emits CircuitSerialize bytes for the
-    /// applicative unpacking verifier.
+    /// verifier's felt252 arguments stream; `circuit` emits CircuitSerialize bytes for an
+    /// enclosing circuit; `applicative_circuit` takes the first leaf as the aggregator
+    /// wrapper's and the others as its tasks', in the wrapper's task order, proves the
+    /// applicative unpacking verifier over the folded tree, and emits that proof in the
+    /// `leaf_prover` output format, as the outer tree's leaf.
     #[clap(long = "proof_format", value_enum, default_value_t = ProofFormat::CairoVerifier)]
     proof_format: ProofFormat,
 }
@@ -72,9 +77,11 @@ fn run() -> Result<(), RecursiveTreeError> {
     let stats = stwo_run_and_prove_recursive_tree(
         leaves,
         &registry,
-        &args.proof_path,
-        &args.program_output,
-        &args.packed_node_tree_path,
+        &RootOutputPaths {
+            proof: &args.proof_path,
+            program_output: &args.program_output,
+            packed_node_tree: &args.packed_node_tree_path,
+        },
         args.max_concurrency,
         args.proof_format,
     )?;

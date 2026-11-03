@@ -1,6 +1,6 @@
 use std::path::{Path, PathBuf};
 
-use circuit_registry::CircuitRegistry;
+use circuit_registry::{CircuitRegistry, RegistryError};
 use circuits::blake::HashValue;
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
 use starknet_types_core::felt::Felt;
@@ -9,7 +9,7 @@ use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::canonical::CanonicalCircuit;
-use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, load_leaves};
+use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -175,6 +175,96 @@ fn test_canonical_circuit_builds_with_matching_preprocessed_root() {
         .expect("canonical circuit should build and match the registry");
 }
 
+/// The applicative flow rejects, before any proving, what its unpacking verifier could not take:
+/// a leaf count outside two to `CAPACITY`, a leaf circuit outside the registry's whitelist, a
+/// malformed wrapper leaf, task leaves out of the wrapper's task order and a registry without an
+/// unpacking verifier.
+#[test]
+fn test_applicative_inputs_are_checked_before_the_fold() {
+    use applicative_unpacking_verifier::aggregator::CAPACITY;
+
+    use crate::unpacking::validate_applicative_inputs;
+
+    // The checks read only a leaf's circuit hash, its preprocessed root and its output preimage,
+    // so the proofs are placeholders.
+    let registry = circuit_registry();
+    let leaf_circuit_hash = registry.leaf_verifiers[0].circuit_hash;
+    let leaf_pp_root = registry.leaf_verifiers[0].preprocessed_root;
+    let placeholder_leaf = |circuit_hash: DigestHex, preimage: Vec<Felt>| LeafInput {
+        proof: SerializedLeafProof {
+            circuit_preprocessed_root: leaf_pp_root,
+            circuit_hash,
+            proof: vec![],
+        },
+        output: LeafOutputPreimage { hash_type: LeafOutputHashType::Blake2s, preimage },
+    };
+    // The wrapper over `tasks`: its output is their digests in order, zero digests in the
+    // remaining slots, then a zero aggregated-output digest.
+    let wrapper_over = |tasks: &[&LeafInput]| {
+        let mut preimage = vec![Felt::ZERO];
+        preimage.extend(tasks.iter().flat_map(|task| task.output_digest().0).map(Felt::from));
+        preimage.resize(1 + CAPACITY * circuit_common::N_RESERVED, Felt::ZERO);
+        placeholder_leaf(leaf_circuit_hash, preimage)
+    };
+    let task = placeholder_leaf(leaf_circuit_hash, vec![Felt::ZERO]);
+    let wrapper = wrapper_over(&[&task]);
+    let two = [wrapper.clone(), task.clone()];
+    validate_applicative_inputs(&two, &registry).unwrap();
+
+    // Two tasks the wrapper aggregated as `[task, other]`: swapped, and with the second missing.
+    let other = placeholder_leaf(leaf_circuit_hash, vec![Felt::ONE]);
+    let wrapper_of_two = wrapper_over(&[&task, &other]);
+    let in_order = [wrapper_of_two.clone(), task.clone(), other.clone()];
+    validate_applicative_inputs(&in_order, &registry).unwrap();
+    let swapped = [wrapper_of_two.clone(), other.clone(), task.clone()];
+    let err = validate_applicative_inputs(&swapped, &registry).unwrap_err();
+    assert!(matches!(err, RecursiveTreeError::WrapperTaskSlotMismatch { slot: 0, .. }), "{err}");
+    let err = validate_applicative_inputs(&[wrapper_of_two, task.clone()], &registry).unwrap_err();
+    assert!(
+        matches!(
+            err,
+            RecursiveTreeError::WrapperTaskSlotMismatch { slot: 1, leaf_digest, .. }
+                if leaf_digest == DigestHex([0; 8])
+        ),
+        "{err}"
+    );
+
+    let err = validate_applicative_inputs(&two[..1], &registry).unwrap_err();
+    assert!(matches!(err, RecursiveTreeError::BadLeafCount { n: 1, .. }), "{err}");
+    let mut too_many = vec![wrapper.clone()];
+    too_many.extend(std::iter::repeat_n(task.clone(), CAPACITY));
+    let err = validate_applicative_inputs(&too_many, &registry).unwrap_err();
+    assert!(
+        matches!(err, RecursiveTreeError::BadLeafCount { n, .. } if n == CAPACITY + 1),
+        "{err}"
+    );
+
+    let unknown = placeholder_leaf(DigestHex([7; 8]), vec![Felt::ZERO]);
+    let err = validate_applicative_inputs(&[wrapper.clone(), unknown], &registry).unwrap_err();
+    assert!(matches!(err, RecursiveTreeError::LeafCircuitNotWhitelisted { index: 1, .. }), "{err}");
+
+    // A whitelisted circuit hash with another circuit's preprocessed root.
+    let mut wrong_root = task.clone();
+    wrong_root.proof.circuit_preprocessed_root = DigestHex([7; 8]);
+    let err = validate_applicative_inputs(&[wrapper.clone(), wrong_root], &registry).unwrap_err();
+    assert!(matches!(err, RecursiveTreeError::LeafCircuitNotWhitelisted { index: 1, .. }), "{err}");
+
+    let short_wrapper = placeholder_leaf(leaf_circuit_hash, vec![Felt::ZERO]);
+    let err = validate_applicative_inputs(&[short_wrapper, task], &registry).unwrap_err();
+    assert!(matches!(err, RecursiveTreeError::BadWrapperLeaf { .. }), "{err}");
+
+    let mut no_unpacking_verifier = circuit_registry();
+    no_unpacking_verifier.unpacking_verifiers.clear();
+    let err = validate_applicative_inputs(&two, &no_unpacking_verifier).unwrap_err();
+    assert!(
+        matches!(
+            err,
+            RecursiveTreeError::Registry(RegistryError::NotExactlyOneUnpackingVerifier(0))
+        ),
+        "{err}"
+    );
+}
+
 /// The circuit registry file used for tests. Output of `circuit_params --registry` (see
 /// `circuit_params`' cli test, which regenerates it).
 fn circuit_registry_path() -> std::path::PathBuf {
@@ -283,7 +373,6 @@ mod e2e {
     use blake2::{Blake2s256, Digest};
     use circuit_prover::circuit_hash::preprocessed_circuit_hash;
     use leaf_proof_format::{DigestHex, PackedNode};
-    use stwo::core::fields::qm31::QM31;
     use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
     use stwo_cairo_utils::file_utils::repo_root;
 
@@ -291,7 +380,7 @@ mod e2e {
     use crate::canonical::CanonicalCircuit;
     use crate::test_support::{LEAF_TASK_OUTPUT, generate_leaf};
     use crate::{
-        LeafInput, LeafOutputHashType, LeafOutputPreimage, ProofFormat,
+        LeafInput, LeafOutputHashType, LeafOutputPreimage, ProofFormat, RootOutputPaths,
         stwo_run_and_prove_recursive_tree,
     };
 
@@ -422,22 +511,23 @@ mod e2e {
     }
 
     /// Folds the leaves with [`stwo_run_and_prove_recursive_tree`], validating the shape stats,
-    /// root outputs and packed tree against an independent recomputation. Returns the
-    /// packed tree.
+    /// root outputs and packed tree against an independent recomputation.
     fn fold_and_check(
         leaves: &[LeafInput],
         dir: &Path,
         canonical: &CanonicalCircuit,
         root_proof_format: ProofFormat,
-    ) -> PackedNode {
+    ) {
         init_tracing();
         let n = leaves.len();
         let stats = stwo_run_and_prove_recursive_tree(
             leaves.to_vec(),
             &circuit_registry(),
-            &dir.join("root.proof"),
-            &dir.join("root_outputs.json"),
-            &dir.join("root_packed.json"),
+            &RootOutputPaths {
+                proof: &dir.join("root.proof"),
+                program_output: &dir.join("root_outputs.json"),
+                packed_node_tree: &dir.join("root_packed.json"),
+            },
             NonZeroUsize::new(1).unwrap(),
             root_proof_format,
         )
@@ -459,10 +549,19 @@ mod e2e {
         let multiverifier_circuit_hash = multiverifier_circuit_hash(canonical);
         let expected = expected_root(leaves, multiverifier_circuit_hash);
 
-        let actual_outputs: Vec<u32> =
-            serde_json::from_str(&std::fs::read_to_string(dir.join("root_outputs.json")).unwrap())
-                .unwrap();
-        assert_eq!(actual_outputs, expected.output_digest.to_vec(), "root output values mismatch");
+        // In the applicative format the written outputs are the unpacking verifier's, which the
+        // caller checks.
+        if root_proof_format != ProofFormat::ApplicativeCircuit {
+            let actual_outputs: Vec<u32> = serde_json::from_str(
+                &std::fs::read_to_string(dir.join("root_outputs.json")).unwrap(),
+            )
+            .unwrap();
+            assert_eq!(
+                actual_outputs,
+                expected.output_digest.to_vec(),
+                "root output values mismatch"
+            );
+        }
 
         let actual_packed: PackedNode =
             serde_json::from_str(&std::fs::read_to_string(dir.join("root_packed.json")).unwrap())
@@ -471,7 +570,6 @@ mod e2e {
             actual_packed, expected.packed,
             "packed output tree (topology + values) mismatch"
         );
-        actual_packed
     }
 
     /// Folds `n` identical copies of `leaf` (see [`fold_and_check`]).
@@ -532,67 +630,17 @@ mod e2e {
         )
     }
 
-    /// Maps the fold's packed output onto the unpacker's witness tree.
-    ///
-    /// Leaves are encoded as `Composite { subtasks: [Plain { .. }], .. }`; internal nodes as
-    /// `Composite { circuit_hash, subtasks: [Composite { .. }, ..] }`.
-    fn packed_to_witness_tree(
-        node: &PackedNode,
-    ) -> circuits_unpacker::tree::BinaryTree<
-        circuits_unpacker::unpacker::Node<QM31>,
-        circuits::blake::HashValue<QM31>,
-    > {
-        use circuits::blake::HashValue;
-        use circuits_unpacker::tree::BinaryTree;
-        use circuits_unpacker::unpacker::Node;
-        use starknet_types_core::hash::Blake2Felt252;
-        match node {
-            PackedNode::Composite { circuit_hash, subtasks } => match subtasks.as_slice() {
-                // A leaf node: the leaf circuit outputs the Blake2s hash of its output preimage.
-                [PackedNode::Plain { output_preimage }] => {
-                    let digest =
-                        blake2s_u32s_host(&Blake2Felt252::encode_felts_to_u32s(output_preimage));
-                    BinaryTree::Leaf(Node {
-                        circuit_hash: HashValue::from(circuit_hash.0),
-                        subtree_hash: HashValue::from(digest),
-                    })
-                }
-                [left, right] => BinaryTree::Internal(
-                    HashValue::from(circuit_hash.0),
-                    Box::new([packed_to_witness_tree(left), packed_to_witness_tree(right)]),
-                ),
-                _ => panic!("unexpected packed-node arity"),
-            },
-            PackedNode::Plain { .. } => panic!("a plain node outside a composite leaf"),
-        }
-    }
-
     /// The applicative flow end to end:
     /// a. Prove the aggregator wrapper's leaf.
     /// b. Fold it as the tree's first leaf, next to the `n` task leaves.
-    /// c. Prove the unpacking verifier circuit over the root proof.
-    /// d. Self-fold the proof from c into a root the Cairo circuit verifier executes.
+    /// c. Continue the fold into the unpacking verifier's proof.
+    /// d. Self-fold that proof into a root the Cairo circuit verifier executes.
     fn applicative_fold_and_unpack(leaf: &LeafInput, n: usize, dir: &Path) {
-        use applicative_unpacking_verifier::unpacking_verifier::{
-            UnpackingCircuitParams, build_applicative_unpacking_verifier_circuit,
-        };
-        use circuit_common::finalize::pad_to_targets;
-        use circuit_common::preprocessed::PreprocessedCircuit;
-        use circuit_prover::prover::prove_circuit_assignment;
-        use circuit_serialize::deserialize::deserialize_proof_with_config;
-        use circuit_serialize::serialize::CircuitSerialize;
-        use circuit_verifier::multiverifier::CircuitVerifierInput;
-        use circuits::blake::HashValue;
-        use leaf_proof_format::DigestHex;
         use leaf_prover::prove_leaf::prove_leaf_from_files;
         use starknet_crypto::poseidon_hash_many;
-        use stwo::core::verifier::PREPROCESSED_TRACE_IDX;
-
-        use crate::fold::extract_root_and_outputs;
 
         let registry = circuit_registry();
         let canonical = &CanonicalCircuit::build(&registry).unwrap();
-        let proof_config = &canonical.shared_config.proof_config;
         let u32_from_hex =
             |hex: &str| u32::from_str_radix(hex.trim_start_matches("0x"), 16).unwrap();
 
@@ -694,88 +742,33 @@ mod e2e {
         };
         let mut leaves = vec![wrapper_leaf];
         leaves.extend(std::iter::repeat_n(leaf.clone(), n));
-        let packed = fold_and_check(&leaves, dir, canonical, ProofFormat::Circuit);
+        fold_and_check(&leaves, dir, canonical, ProofFormat::ApplicativeCircuit);
 
-        // 4. Assemble and check the applicative unpacking verifier over the root proof.
-        let root_bytes = std::fs::read(dir.join("root.proof")).unwrap();
-        let root_outputs: Vec<u32> =
+        // 4. In the applicative format the fold continues into the unpacking verifier, so
+        //    root.proof is that circuit's proof in the `leaf_prover` output format, carrying the
+        //    registry's unpacking-verifier circuit hash, and root_outputs.json is its output, the
+        //    digest of the aggregated output.
+        let unpacking_proof: leaf_proof_format::SerializedLeafProof =
+            serde_json::from_str(&std::fs::read_to_string(dir.join("root.proof")).unwrap())
+                .unwrap();
+        assert_eq!(
+            unpacking_proof.circuit_hash, registry.unpacking_verifiers[0].circuit_hash,
+            "the emitted proof is not the registry's unpacking verifier's"
+        );
+        let unpacking_outputs: Vec<u32> =
             serde_json::from_str(&std::fs::read_to_string(dir.join("root_outputs.json")).unwrap())
                 .unwrap();
-        let root_input = CircuitVerifierInput::<QM31> {
-            proof: deserialize_proof_with_config(&mut root_bytes.as_slice(), proof_config).unwrap(),
-            preprocessed_root: canonical
-                .preprocessed_multiverifier
-                .preprocessed_root::<Blake2sMerkleChannel>(
-                    proof_config.fri.params.log_blowup_factor,
-                )
-                .into(),
-            output_digest: <[u32; 8]>::try_from(root_outputs.clone()).unwrap().into(),
-        };
-        let tree = packed_to_witness_tree(&packed);
-        let to_hashes = |verifiers: &[circuit_registry::LeafVerifier]| -> Vec<HashValue<QM31>> {
-            verifiers.iter().map(|v| HashValue::from(v.circuit_hash.0)).collect()
-        };
-        let leaf_set = to_hashes(&registry.leaf_verifiers);
-        let node_set = vec![HashValue::from(registry.multiverifiers[0].circuit_hash.0)];
-        let params = UnpackingCircuitParams {
-            leaf_circuit_whitelist: &leaf_set,
-            internal_node_circuit_whitelist: &node_set,
-            aggregator_wrapper_program_hash: wrapper_program_hash,
-        };
-
-        let aggregated_output_digest: [u32; 8] =
-            output_words[(capacity - 1) * circuit_common::N_RESERVED..].try_into().unwrap();
-        let mut context = build_applicative_unpacking_verifier_circuit(
-            root_input,
-            &canonical.shared_config,
-            &tree,
-            aggregated_output_digest,
-            &params,
-        );
-        assert!(context.is_circuit_valid(), "the unpacking verifier rejected the flow");
-
-        // 5. Prove the unpacking verifier's run at the registry's shared target; the proof's
-        //    circuit hash must be the registry's unpacking-verifier entry.
-        pad_to_targets(&mut context, &canonical.target_sizes);
-        let preprocessed = PreprocessedCircuit::preprocess_circuit(&mut context);
-        let unpacking_proof = prove_circuit_assignment(
-            context.values(),
-            &preprocessed,
-            &canonical.base_column_pool,
-            canonical.shared_config.pcs_config,
-        )
-        .unwrap();
-        let extracted = extract_root_and_outputs(&unpacking_proof);
         assert_eq!(
-            DigestHex::from(unpacking_proof.circuit_hash.0),
-            registry.unpacking_verifiers[0].circuit_hash,
-            "the proven unpacking verifier differs from the registry entry"
-        );
-        assert_eq!(
-            extracted.output_digest.0.to_vec(),
-            expected_final_digest,
+            unpacking_outputs, expected_final_digest,
             "the unpacking verifier's outputs differ from the aggregated-output digest"
         );
 
-        // 6. Fold the unpacking verifier's proof as the single leaf of a new tree with
+        // 5. Fold the unpacking verifier's proof as the single leaf of a new tree with
         //    `stwo_run_and_prove_recursive_tree`, which self-folds it into a Cairo-verifier-format
         //    root proof; its outputs are checked against a recomputation, and the Cairo circuit
         //    verifier in `stwo_cairo_verifier/` executes it.
-        let unpacking_preprocessed_digest = leaf_proof_format::DigestHex::from(
-            unpacking_proof.stark_proof.proof.commitments[PREPROCESSED_TRACE_IDX].0,
-        );
-        let mut unpacking_bytes = Vec::new();
-        let (unpacking_serialized, _public_data) =
-            circuit_prover::prover::prepare_circuit_proof_for_circuit_verifier(unpacking_proof);
-        unpacking_serialized.serialize(&mut unpacking_bytes);
         let outer_leaf = LeafInput {
-            proof: leaf_proof_format::SerializedLeafProof {
-                circuit_preprocessed_root: unpacking_preprocessed_digest,
-                circuit_hash: registry.unpacking_verifiers[0].circuit_hash,
-                proof: unpacking_bytes,
-            },
-            // The fold recomputes the unpacking verifier's output digest from this poseidon
-            // preimage.
+            proof: unpacking_proof.clone(),
             output: LeafOutputPreimage {
                 hash_type: LeafOutputHashType::Poseidon,
                 preimage: poseidon_felts.clone(),
@@ -786,9 +779,11 @@ mod e2e {
         let stats = stwo_run_and_prove_recursive_tree(
             vec![outer_leaf],
             &registry,
-            &outer_dir.join("root.proof"),
-            &outer_dir.join("root_outputs.json"),
-            &outer_dir.join("root_packed.json"),
+            &RootOutputPaths {
+                proof: &outer_dir.join("root.proof"),
+                program_output: &outer_dir.join("root_outputs.json"),
+                packed_node_tree: &outer_dir.join("root_packed.json"),
+            },
             NonZeroUsize::new(1).unwrap(),
             ProofFormat::CairoVerifier,
         )
@@ -804,7 +799,8 @@ mod e2e {
             &std::fs::read_to_string(outer_dir.join("root_outputs.json")).unwrap(),
         )
         .unwrap();
-        let contribution: Vec<u32> = [extracted.circuit_hash.0, extracted.output_digest.0].concat();
+        let contribution: Vec<u32> =
+            [unpacking_proof.circuit_hash.0.to_vec(), expected_final_digest].concat();
         assert_eq!(
             outer_outputs,
             blake2s_u32s_host(&[contribution.clone(), contribution].concat()),

@@ -100,6 +100,10 @@ pub enum ProofFormat {
     /// For an enclosing circuit (the applicative unpacking verifier): proven like the internal
     /// folds and written as the serialized `Proof<QM31>`, consumable as a `CircuitVerifierInput`.
     Circuit,
+    /// The applicative flow: the tree is folded as `Circuit`, the applicative unpacking verifier
+    /// is proven over it, and that proof is the one written, in the `leaf_prover` output format,
+    /// as the outer tree's leaf (see [`crate::unpacking`]).
+    ApplicativeCircuit,
 }
 
 /// Folds two children into a new parent entry: builds a multiverifier circuit that verifies both
@@ -144,7 +148,9 @@ pub(crate) fn reduce_root_single(
 ///
 /// Panics on a [`ProofFormat::CairoVerifier`] proof. Only the root is proven in that format, and
 /// the root never re-enters a fold.
-fn build_circuit_verifier_input(proof_data: NodeProofData) -> CircuitVerifierInput<QM31> {
+pub(crate) fn build_circuit_verifier_input(
+    proof_data: NodeProofData,
+) -> CircuitVerifierInput<QM31> {
     let NodeProofData { proof, preprocessed_root, output_digest } = proof_data;
     let NodeProof::Circuit(proof) = proof else {
         panic!("a Cairo-verifier-format root proof never re-enters a fold");

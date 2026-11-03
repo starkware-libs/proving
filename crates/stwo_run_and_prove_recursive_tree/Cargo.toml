@@ -27,6 +27,7 @@ slow-tests = ["dep:leaf-prover"]
 # Host Blake2s for recomputing a leaf's output digests from its output preimage.
 blake2 = "0.10"
 clap.workspace = true
+itertools.workspace = true
 leaf-proof-format.workspace = true
 mimalloc = "0.1"
 serde.workspace = true
@@ -39,6 +40,7 @@ stwo-cairo-utils.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 
+applicative-unpacking-verifier.workspace = true
 circuit-cairo-serialize.workspace = true
 circuit-registry.workspace = true
 circuit-verifier.workspace = true
@@ -47,14 +49,13 @@ circuit-prover.workspace = true
 circuit-serialize.workspace = true
 circuits.workspace = true
 circuits-stark-verifier.workspace = true
+circuits-unpacker.workspace = true
 stwo.workspace = true
 
 # Used by `test_support` to prove a leaf.
 leaf-prover = { workspace = true, optional = true }
 
 [dev-dependencies]
-applicative-unpacking-verifier.workspace = true
-circuits-unpacker.workspace = true
 starknet-crypto.workspace = true
 tracing-subscriber.workspace = true
 tempfile.workspace = true

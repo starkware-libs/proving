@@ -22,14 +22,20 @@
 //! proof in the requested format.
 //!
 //! Outputs written for the root layer: the root proof (see above), a flat JSON file with the
-//! root node's circuit output values, and a nested packed JSON tree mirroring the fold —
+//! root node's circuit output values, and a nested packed JSON tree mirroring the fold, with
 //! `Composite` verifier nodes down to each leaf's `Plain` node carrying the raw hashed-output
-//! preimage, from which a future unpacker recomputes every digest in the tree.
+//! preimage, from which the unpacker bootloader verifying the root recomputes every digest in the
+//! tree.
+//!
+//! In the `ApplicativeCircuit` format the fold continues into the applicative unpacking verifier.
+//! The proof and output values written are that verifier's, the output being the aggregated
+//! output's digest, while the packed tree is still the fold's, rooted at the multiverifier.
 
 use std::num::NonZeroUsize;
 use std::path::{Path, PathBuf};
 
 use circuit_registry::{CircuitRegistry, DigestHex, RegistryError};
+use starknet_types_core::felt::Felt;
 use thiserror::Error;
 use tracing::{Level, info, span};
 
@@ -39,6 +45,7 @@ pub mod leaf_io;
 pub mod output;
 #[cfg(feature = "slow-tests")]
 pub mod test_support;
+pub mod unpacking;
 
 use canonical::CanonicalCircuit;
 pub use fold::ProofFormat;
@@ -75,6 +82,42 @@ pub enum RecursiveTreeError {
     MultiverifierCircuitHash { expected: DigestHex, got: DigestHex },
     #[error(transparent)]
     Registry(#[from] RegistryError),
+    #[error("The applicative flow folds two to {capacity} leaves, the wrapper included; got {n}.")]
+    BadLeafCount { n: usize, capacity: usize },
+    #[error(
+        "Leaf {index}'s circuit {circuit_hash:?} with preprocessed root {preprocessed_root:?} is \
+         not one of the registry's leaf verifiers, which the unpacking verifier holds the tree to."
+    )]
+    LeafCircuitNotWhitelisted {
+        index: usize,
+        circuit_hash: DigestHex,
+        preprocessed_root: DigestHex,
+    },
+    #[error("Invalid aggregator wrapper leaf: {reason}")]
+    BadWrapperLeaf { reason: String },
+    #[error(
+        "Task slot {slot} of the wrapper's output holds {slot_digest:?}, but the task leaves put \
+         {leaf_digest:?} there; they must follow the wrapper's task order, with zero digests in \
+         the slots past the last one."
+    )]
+    WrapperTaskSlotMismatch { slot: usize, slot_digest: DigestHex, leaf_digest: DigestHex },
+    #[error("The packed tree does not fit the unpacking verifier: {reason}")]
+    BadPackedTree { reason: String },
+    #[error(
+        "The applicative unpacking verifier rejected the tree: the root proof does not verify, \
+         the packed tree does not match it, a node's circuit is outside the registry's \
+         whitelists, or the wrapper's output does not match the task leaves."
+    )]
+    UnpackingVerifierRejected,
+    #[error("Proving the applicative unpacking verifier failed: {0}")]
+    UnpackingVerifierProving(String),
+    #[error(
+        "The unpacking verifier built here hashes to {got:?}, but the circuit registry describes \
+         {expected:?}; the registry does not match the circuits this binary builds, for example \
+         because the wrapper leaf's program hash {wrapper_program_hash:#x} is not the aggregator \
+         wrapper's the registry was built for."
+    )]
+    UnpackingVerifierCircuitHash { expected: DigestHex, got: DigestHex, wrapper_program_hash: Felt },
 }
 
 /// Aggregate statistics for the completed reduction, returned for logging.
@@ -85,20 +128,35 @@ pub struct RecursiveTreeStats {
     pub n_pair_reductions: usize,
 }
 
+/// Where the root layer's files go. In the `ApplicativeCircuit` format the proof and output values
+/// are the unpacking verifier's, not the root node's, while the packed tree is still the fold's.
+pub struct RootOutputPaths<'a> {
+    /// The root node's proof in the requested [`ProofFormat`], or, in the `ApplicativeCircuit`
+    /// format, the unpacking verifier's as a `SerializedLeafProof` JSON.
+    pub proof: &'a Path,
+    /// The proven circuit's output values, the root node's or the unpacking verifier's, as a flat
+    /// JSON array of raw `u32` digest words. The unpacking verifier's is the aggregated output's
+    /// digest.
+    pub program_output: &'a Path,
+    /// The nested `PackedNode` JSON tree of the fold, rooted at the multiverifier in every format.
+    // TODO(yairv): Consider not writing it in the `ApplicativeCircuit` format, where the unpacking
+    // verifier has already consumed it in-process.
+    pub packed_node_tree: &'a Path,
+}
+
 /// Entry point: folds the entire recursive tree above `leaves` (consumed in order by the layer-0
-/// entry list) and writes the three root-layer output files:
-/// - `proof_path`: the root proof, in `root_proof_format` (see [`ProofFormat`]).
-/// - `program_output`: the root node's output values (flat JSON array of raw `u32` digest words).
-/// - `packed_node_tree_path`: the nested `PackedNode` JSON tree.
+/// entry list) and writes the root layer's files to `outputs`.
 /// - `registry`: the circuit registry, which MUST be the one the leaves were proven against.
 /// - `max_concurrency`: upper bound on the number of pair reductions to run in parallel within a
 ///   single layer.
+/// - `root_proof_format`: who consumes the proof written (see [`ProofFormat`]). In the
+///   `ApplicativeCircuit` format `leaves[0]` is the aggregator wrapper's leaf and the others are
+///   its tasks' leaves, in the wrapper's task order, and the proof written is the applicative
+///   unpacking verifier's over the folded tree (see [`unpacking`]).
 pub fn stwo_run_and_prove_recursive_tree(
     leaves: Vec<LeafInput>,
     registry: &CircuitRegistry,
-    proof_path: &Path,
-    program_output: &Path,
-    packed_node_tree_path: &Path,
+    outputs: &RootOutputPaths<'_>,
     max_concurrency: NonZeroUsize,
     root_proof_format: ProofFormat,
 ) -> Result<RecursiveTreeStats, RecursiveTreeError> {
@@ -111,29 +169,65 @@ pub fn stwo_run_and_prove_recursive_tree(
         return Err(RecursiveTreeError::EmptyLeaves);
     }
     let n_leaves = leaves.len();
-    info!(n_leaves, "Folding leaf circuit proofs into a recursive tree.");
+    if root_proof_format == ProofFormat::ApplicativeCircuit {
+        // The first leaf is the aggregator wrapper's, the others are the tasks'.
+        let n_task_leaves = n_leaves - 1;
+        info!(
+            "Folding the wrapper leaf and the {n_task_leaves} task leaves into a recursive tree."
+        );
+    } else {
+        info!(n_leaves, "Folding leaf circuit proofs into a recursive tree.");
+    }
+
+    // The applicative flow's inputs are checked first, so bad input fails before the canonical
+    // circuit is built and before any proving.
+    let applicative_inputs = (root_proof_format == ProofFormat::ApplicativeCircuit)
+        .then(|| unpacking::validate_applicative_inputs(&leaves, registry))
+        .transpose()?;
 
     let canonical = CanonicalCircuit::build(registry)?;
-
     let proof_config = &canonical.shared_config.proof_config;
     let current_layer: Vec<LayerEntry> = leaves
         .into_iter()
         .map(|leaf| LayerEntry::from_leaf(leaf, proof_config))
         .collect::<Result<Vec<_>, _>>()?;
+    // The unpacking verifier's leaf digests, taken before the fold consumes the entries.
+    let leaf_digests: Vec<_> =
+        current_layer.iter().map(|entry| entry.proof_data.output_digest.0).collect();
 
-    let (root, stats) = fold_entries(current_layer, &canonical, root_proof_format)?;
-    output::write_root_outputs(
-        &root,
-        root_proof_format,
-        proof_path,
-        program_output,
-        packed_node_tree_path,
-    )?;
+    // The applicative flow's root is the unpacking verifier's input, an ordinary circuit proof.
+    let fold_format = match root_proof_format {
+        ProofFormat::ApplicativeCircuit => ProofFormat::Circuit,
+        other => other,
+    };
+    let (root, stats) = fold_entries(current_layer, &canonical, fold_format)?;
     info!(
         n_layers = stats.n_layers,
         n_pair_reductions = stats.n_pair_reductions,
         "Recursive tree reduction complete."
     );
+
+    match applicative_inputs {
+        Some(inputs) => {
+            let LayerEntry { proof_data, packed_node } = root;
+            let unpacking = unpacking::prove_unpacking_verifier(
+                proof_data,
+                &packed_node,
+                &leaf_digests,
+                &inputs,
+                registry,
+                &canonical,
+            )?;
+            let proof_json = serde_json::to_string_pretty(&unpacking.proof)?;
+            output::write_outputs(
+                proof_json.as_bytes(),
+                &unpacking.output_digest.0,
+                &packed_node,
+                outputs,
+            )?;
+        }
+        None => output::write_root_outputs(&root, root_proof_format, outputs)?,
+    }
     Ok(stats)
 }
 
