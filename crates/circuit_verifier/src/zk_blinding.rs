@@ -4,6 +4,9 @@ use circuits::ivalue::{IValue, qm31_from_u32s};
 use circuits::ops::{add_into, eq};
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use rand_chacha::rand_core::{RngCore, SeedableRng};
+use stwo::core::fields::m31::MODULUS_BITS;
+
+use crate::components;
 
 #[cfg(test)]
 #[path = "zk_blinding_test.rs"]
@@ -106,28 +109,67 @@ fn blake_g_gate_zk_blinding(context: &mut Context<impl IValue>, rng: &mut impl R
     blake_g_gate(context, a, b, c, d, f0, f1);
 }
 
-// Blinding rows per unit of `n_padding`.
+/// The number of random bits in a random QM31.
+const QM31_N_RANDOM_BITS: usize = 4 * MODULUS_BITS as usize;
+/// `qm31_zk_blinding` draws 3 random QM31s per call.
+const QM31_OPS_N_RANDOM_BITS: usize = 3 * QM31_N_RANDOM_BITS;
+/// `eq_zk_blinding` draws 1 random QM31 per call.
+const EQ_N_RANDOM_BITS: usize = QM31_N_RANDOM_BITS;
+/// `triple_xor_zk_blinding` draws 3 random u32s per call.
+const TRIPLE_XOR_N_RANDOM_BITS: usize = 3 * u32::BITS as usize;
+/// `m31_to_u32_zk_blinding` draws 1 random M31 per call.
+const M31_TO_U32_N_RANDOM_BITS: usize = MODULUS_BITS as usize;
+/// `blake_g_gate_zk_blinding` draws 6 random u32s per call.
+const BLAKE_G_GATE_N_RANDOM_BITS: usize = 6 * u32::BITS as usize;
+
+// For every component (except lookup tables), the number of calls to the component's blinding
+// function, per unit of `n_padding`.
 //
 // Every value the proof reveals about a column is an M31 (~31 bits), so for each revealed value
 // the blinding rows must add ~31 random bits to every column the component commits to: its trace
 // columns and its interaction columns (each secure interaction column is 4 M31 columns). All the
 // columns of a row are computed from the row's random inputs, so a row adds only as many random
-// bits as its inputs have: a component needs ~`n_columns * 31 / input_bits` rows. This is a rough
-// estimate.
+// bits as its inputs have: a component needs ~`n_columns * 31 / n_random_bits` calls of its
+// `*_zk_blinding` function, where `n_random_bits` is the number of random bits the function
+// draws. This is a rough estimate.
+//
+// The lookup-table components (verify_bitwise_xor_*, range_check_16) are preprocessed with a fixed
+// number of rows, so no rows can be added to them. Their only witness columns are multiplicities,
+// which are blinded by the random lookups that the blinding rows of the other components make.
 
-/// 20 trace + 24 interaction columns; 3 random u32 inputs (96 bits): 44 * 31 / 96 ≈ 15.
-pub const TRIPLE_XOR_BLINDING_FACTOR: usize = 15;
-/// 4 trace + 12 interaction columns; 1 random M31 input (31 bits): 16 * 31 / 31 = 16.
-pub const M31_TO_U32_BLINDING_FACTOR: usize = 16;
-/// 52 trace + 52 interaction columns; 6 random u32 inputs (192 bits): 104 * 31 / 192 ≈ 17.
-pub const BLAKE_G_GATE_BLINDING_FACTOR: usize = 17;
+/// The number of `*_zk_blinding` calls per unit of `n_padding` for a component with `n_columns`
+/// columns whose `*_zk_blinding` function draws `n_random_bits` random bits per call.
+const fn blinding_factor(n_columns: usize, n_random_bits: usize) -> usize {
+    (n_columns * MODULUS_BITS as usize).div_ceil(n_random_bits)
+}
+
+const QM31_OPS_BLINDING_FACTOR: usize = blinding_factor(
+    components::qm_31_ops::N_TRACE_COLUMNS + components::qm_31_ops::N_INTERACTION_COLUMNS,
+    QM31_OPS_N_RANDOM_BITS,
+);
+const EQ_BLINDING_FACTOR: usize = blinding_factor(
+    components::eq::N_TRACE_COLUMNS + components::eq::N_INTERACTION_COLUMNS,
+    EQ_N_RANDOM_BITS,
+);
+const TRIPLE_XOR_BLINDING_FACTOR: usize = blinding_factor(
+    components::triple_xor::N_TRACE_COLUMNS + components::triple_xor::N_INTERACTION_COLUMNS,
+    TRIPLE_XOR_N_RANDOM_BITS,
+);
+const M31_TO_U32_BLINDING_FACTOR: usize = blinding_factor(
+    components::m_31_to_u_32::N_TRACE_COLUMNS + components::m_31_to_u_32::N_INTERACTION_COLUMNS,
+    M31_TO_U32_N_RANDOM_BITS,
+);
+const BLAKE_G_GATE_BLINDING_FACTOR: usize = blinding_factor(
+    components::blake_g_gate::N_TRACE_COLUMNS + components::blake_g_gate::N_INTERACTION_COLUMNS,
+    BLAKE_G_GATE_N_RANDOM_BITS,
+);
 
 /// Adds ZK blinding to the circuit by adding random rows to all the witness components: qm31_ops,
 /// eq, triple_xor, m31_to_u32, and blake_g_gate. The fresh input variables are yielded through
 /// trivial `x + 0 = x` add gates in the qm31_ops component.
 ///
-/// Each unit of `n_padding` blinds the values exposed by one query in the proof
-/// (amount of added randomness = amount of data exposed by query = size of one trace row).
+/// Each unit of `n_padding` calls each component's `*_zk_blinding` function `*_BLINDING_FACTOR`
+/// times.
 pub fn add_zk_blinding(
     context: &mut FinalizedContext<impl IValue>,
     seed_bytes: [u8; 32],
@@ -136,8 +178,12 @@ pub fn add_zk_blinding(
     let context = &mut context.context;
     let mut rng = rand_chacha::ChaCha20Rng::from_seed(seed_bytes);
     for _ in 0..n_padding {
-        qm31_zk_blinding(context, &mut rng);
-        eq_zk_blinding(context, &mut rng);
+        for _ in 0..QM31_OPS_BLINDING_FACTOR {
+            qm31_zk_blinding(context, &mut rng);
+        }
+        for _ in 0..EQ_BLINDING_FACTOR {
+            eq_zk_blinding(context, &mut rng);
+        }
         for _ in 0..TRIPLE_XOR_BLINDING_FACTOR {
             triple_xor_zk_blinding(context, &mut rng);
         }
