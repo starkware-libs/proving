@@ -494,7 +494,7 @@ mod tests {
         PackedNode::Composite {
             circuit_hash: DigestHex(sample_digest(circuit_hash_seed)),
             subtasks: vec![PackedNode::Plain {
-                output_preimage: vec!["7".to_string(), "11".to_string(), "13".to_string()],
+                output_preimage: vec![Felt252::from(7), Felt252::from(11), Felt252::from(13)],
             }],
         }
     }
@@ -807,7 +807,7 @@ mod tests {
                     "verifier_task": task,
                     "packed_output": {"Composite": {
                         "circuit_hash": DigestHex(sample_digest(20)),
-                        "subtasks": [{"Plain": {"output_preimage": ["7"]}}],
+                        "subtasks": [{"Plain": {"output_preimage": ["0x7"]}}],
                     }},
                     "multiverifier_hashes": [sample_digest(10)],
                     "leaf_verifier_hashes": [sample_digest(20)],
@@ -945,7 +945,7 @@ mod tests {
             "verifier_task": task,
             "packed_output": {"Composite": {
                 "circuit_hash": DigestHex(sample_digest(20)),
-                "subtasks": [{"Plain": {"output_preimage": ["7"]}}],
+                "subtasks": [{"Plain": {"output_preimage": ["0x7"]}}],
             }},
             "multiverifier_hashes": [sample_digest(10)],
             "leaf_verifier_hashes": [[1, 2, 3]],

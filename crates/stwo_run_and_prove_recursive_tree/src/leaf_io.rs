@@ -28,8 +28,8 @@ pub struct LeafInput {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LeafOutputPreimage {
     pub hash_type: LeafOutputHashType,
-    /// The preimage's felts as decimal strings, as the leaf's run dumped them.
-    pub preimage: Vec<String>,
+    /// The preimage's felts, as the leaf's run dumped them.
+    pub preimage: Vec<Felt>,
 }
 
 /// The hash a leaf's output preimage opens with; see [`LeafInput::output_digest`].
@@ -48,30 +48,21 @@ impl LeafInput {
     /// its output segment as a Uint256 (low, high) and the leaf circuit emits verbatim (see
     /// `CairoStatement::new`'s `set_outputs(output_hash)`). A poseidon leaf's is
     /// `poseidon_hash_many(preimage)` in the same layout.
-    pub fn output_digest(&self) -> Result<DigestHex, RecursiveTreeError> {
-        let preimage: Vec<Felt> = self
-            .output
-            .preimage
-            .iter()
-            .map(|felt| {
-                Felt::from_dec_str(felt).map_err(|e| RecursiveTreeError::BadLeafOutputs {
-                    reason: format!("invalid decimal felt {felt:?} in the preimage: {e}"),
-                })
-            })
-            .collect::<Result<_, _>>()?;
+    pub fn output_digest(&self) -> DigestHex {
+        let preimage = &self.output.preimage;
 
         let digest_bytes: [u8; 32] = match self.output.hash_type {
             // The u32-word encoding Cairo's `encode_felt252_data_and_calc_blake2s` hashes.
             LeafOutputHashType::Blake2s => {
-                let encoded_bytes: Vec<u8> = Blake2Felt252::encode_felts_to_u32s(&preimage)
+                let encoded_bytes: Vec<u8> = Blake2Felt252::encode_felts_to_u32s(preimage)
                     .iter()
                     .flat_map(|word| word.to_le_bytes())
                     .collect();
                 Blake2s256::digest(&encoded_bytes).into()
             }
-            LeafOutputHashType::Poseidon => Poseidon::hash_array(&preimage).to_bytes_le(),
+            LeafOutputHashType::Poseidon => Poseidon::hash_array(preimage).to_bytes_le(),
         };
-        Ok(DigestHex::from(digest_bytes))
+        DigestHex::from(digest_bytes)
     }
 }
 
@@ -91,7 +82,8 @@ pub fn load_leaves(path: &PathBuf) -> Result<Vec<LeafInput>, RecursiveTreeError>
         .map(|leaf_path| {
             let leaf_json = std::fs::read_to_string(leaf_path)
                 .map_err(|e| RecursiveTreeError::PathIO(e, leaf_path.clone()))?;
-            Ok(serde_json::from_str(&leaf_json)?)
+            serde_json::from_str(&leaf_json)
+                .map_err(|e| RecursiveTreeError::LeafParse(e, leaf_path.clone()))
         })
         .collect()
 }

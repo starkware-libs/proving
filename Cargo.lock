@@ -3087,6 +3087,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_with",
+ "starknet-types-core",
 ]
 
 [[package]]
@@ -5004,7 +5005,6 @@ dependencies = [
  "leaf-proof-format",
  "leaf-prover",
  "mimalloc",
- "num-bigint",
  "serde",
  "serde_json",
  "sonic-rs",

@@ -4,7 +4,7 @@
 use std::path::{Path, PathBuf};
 
 use leaf_prover::prove_leaf::prove_leaf_from_files;
-use num_bigint::BigUint;
+use starknet_types_core::felt::Felt;
 use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage};
@@ -38,8 +38,7 @@ fn leaf_bl_input_json(dump_path: &Path, task_output: &[u32]) -> String {
 }
 
 /// Proves the leaf simple bootloader running the simple-output task over `task_output` and builds
-/// the `LeafInput` the backend would: the proof plus the dumped output preimage, re-encoded from
-/// hex to decimal.
+/// the `LeafInput` the backend would: the proof plus the dumped output preimage.
 pub fn generate_leaf(dir: &Path, task_output: &[u32]) -> LeafInput {
     let dump_path = dir.join("leaf_preimage.json");
     let input_path = dir.join("leaf_bl_input.json");
@@ -50,16 +49,8 @@ pub fn generate_leaf(dir: &Path, task_output: &[u32]) -> LeafInput {
         &Some(input_path),
         &circuit_registry_path(),
     );
-    let dumped: Vec<String> =
+    let output_preimage: Vec<Felt> =
         serde_json::from_str(&std::fs::read_to_string(&dump_path).unwrap()).unwrap();
-    let output_preimage = dumped
-        .iter()
-        .map(|hex| {
-            BigUint::parse_bytes(hex.trim_start_matches("0x").as_bytes(), 16)
-                .expect("dump entries are hex felts")
-                .to_string()
-        })
-        .collect();
     LeafInput {
         proof: leaf,
         output: LeafOutputPreimage {

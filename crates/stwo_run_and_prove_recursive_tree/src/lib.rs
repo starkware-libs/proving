@@ -52,6 +52,8 @@ pub enum RecursiveTreeError {
     EmptyLeaves,
     #[error("IO error on file '{1:?}': {0}")]
     PathIO(std::io::Error, PathBuf),
+    #[error("Failed to parse the leaf input file '{1:?}': {0}")]
+    LeafParse(serde_json::Error, PathBuf),
     #[error("Failed to (de)serialize JSON: {0}")]
     Serde(#[from] serde_json::Error),
     #[error(transparent)]
@@ -73,8 +75,6 @@ pub enum RecursiveTreeError {
     MultiverifierCircuitHash { expected: DigestHex, got: DigestHex },
     #[error(transparent)]
     Registry(#[from] RegistryError),
-    #[error("Could not parse leaf circuit output values: {reason}")]
-    BadLeafOutputs { reason: String },
 }
 
 /// Aggregate statistics for the completed reduction, returned for logging.

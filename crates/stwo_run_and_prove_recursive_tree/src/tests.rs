@@ -1,12 +1,15 @@
+use std::path::{Path, PathBuf};
+
 use circuit_registry::CircuitRegistry;
 use circuits::blake::HashValue;
 use leaf_proof_format::{DigestHex, PackedNode, SerializedLeafProof};
+use starknet_types_core::felt::Felt;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
 use stwo_cairo_utils::file_utils::repo_root;
 
 use crate::canonical::CanonicalCircuit;
-use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeError, load_leaves};
+use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, load_leaves};
 
 // ------------------------------------------------------------------------------------------------
 // Serde shapes.
@@ -16,13 +19,13 @@ use crate::{LeafInput, LeafOutputHashType, LeafOutputPreimage, RecursiveTreeErro
 fn test_leaf_input_roundtrips() {
     // A representative leaf: `proof` is base64 ("AQID" = bytes [1, 2, 3]); the two digests are
     // eight little-endian `0x`-hex words each, with the injected `output` next to them.
-    let json = r#"{"output":{"hash_type":"blake2s","preimage":["5","11"]},"circuit_preprocessed_root":["0x00000000","0x00000001","0x00000002","0x00000003","0x00000004","0x00000005","0x00000006","0x00000007"],"circuit_hash":["0x0000000a","0x0000000b","0x0000000c","0x0000000d","0x0000000e","0x0000000f","0x00000010","0x00000011"],"proof":"AQID"}"#;
+    let json = r#"{"output":{"hash_type":"blake2s","preimage":["0x5","0xb"]},"circuit_preprocessed_root":["0x00000000","0x00000001","0x00000002","0x00000003","0x00000004","0x00000005","0x00000006","0x00000007"],"circuit_hash":["0x0000000a","0x0000000b","0x0000000c","0x0000000d","0x0000000e","0x0000000f","0x00000010","0x00000011"],"proof":"AQID"}"#;
     let leaf: LeafInput = serde_json::from_str(json).unwrap();
     assert_eq!(
         leaf.output,
         LeafOutputPreimage {
             hash_type: LeafOutputHashType::Blake2s,
-            preimage: vec!["5".to_string(), "11".to_string()],
+            preimage: vec![Felt::from(5), Felt::from(11)],
         }
     );
     assert_eq!(leaf.proof.circuit_preprocessed_root.0[0], 0);
@@ -44,22 +47,44 @@ fn test_leaf_input_roundtrips() {
     assert_eq!(serde_json::from_str::<LeafInput>(&poseidon_back).unwrap(), poseidon_leaf);
 }
 
+/// Writes a one-leaf manifest into `dir`, the leaf input file holding `preimage`; returns the
+/// manifest's and the leaf file's paths.
+fn write_one_leaf_manifest(dir: &Path, preimage: &str) -> (PathBuf, PathBuf) {
+    let leaf_path = dir.join("leaf0.json");
+    std::fs::write(
+        &leaf_path,
+        format!(
+            r#"{{"output":{{"hash_type":"blake2s","preimage":{preimage}}},"circuit_preprocessed_root":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"circuit_hash":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"proof":"AQID"}}"#
+        ),
+    )
+    .unwrap();
+    let manifest = dir.join("leaves.json");
+    std::fs::write(&manifest, format!(r#"{{"leaves":[{:?}]}}"#, leaf_path.to_str().unwrap()))
+        .unwrap();
+    (manifest, leaf_path)
+}
+
 #[test]
 fn test_load_leaves_reads_manifest_of_paths() {
     let tmp = tempfile::tempdir().unwrap();
-    let leaf_path = tmp.path().join("leaf0.json");
-    std::fs::write(
-        &leaf_path,
-        r#"{"output":{"hash_type":"blake2s","preimage":["2"]},"circuit_preprocessed_root":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"circuit_hash":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"proof":"AQID"}"#,
-    )
-    .unwrap();
-    let manifest = tmp.path().join("leaves.json");
-    std::fs::write(&manifest, format!(r#"{{"leaves":[{:?}]}}"#, leaf_path.to_str().unwrap()))
-        .unwrap();
+    let (manifest, _) = write_one_leaf_manifest(tmp.path(), r#"["0x2"]"#);
     let leaves = load_leaves(&manifest).unwrap();
     assert_eq!(leaves.len(), 1);
-    assert_eq!(leaves[0].output.preimage, ["2"]);
+    assert_eq!(leaves[0].output.preimage, [Felt::from(2)]);
     assert_eq!(leaves[0].proof.proof, vec![1, 2, 3]);
+}
+
+/// A leaf input file that fails to parse is named in the error, since the felt parser's message
+/// names neither the file nor the offending entry.
+#[test]
+fn test_load_leaves_names_the_unparsable_leaf_file() {
+    let tmp = tempfile::tempdir().unwrap();
+    let (manifest, leaf_path) = write_one_leaf_manifest(tmp.path(), r#"["11"]"#);
+    let err = load_leaves(&manifest).unwrap_err();
+    assert!(
+        matches!(&err, crate::RecursiveTreeError::LeafParse(_, path) if *path == leaf_path),
+        "{err}"
+    );
 }
 
 /// [`LeafInput::output_digest`] must reproduce the leaf bootloader's output digest `H1` (the
@@ -75,18 +100,18 @@ fn test_leaf_output_digest_derived_from_preimage() {
         },
         output: LeafOutputPreimage {
             hash_type: LeafOutputHashType::Blake2s,
-            preimage: [
-                "1433852663250257978909904594223798547176815246431631498282706690602142197827",
-                "11",
-                "13",
-                "17",
-            ]
-            .map(str::to_string)
-            .to_vec(),
+            preimage: vec![
+                Felt::from_hex_unchecked(
+                    "0x32b88272d54b83880ebebd9c4292a650bee27d1575e82123391b6df2932e843",
+                ),
+                Felt::from(11),
+                Felt::from(13),
+                Felt::from(17),
+            ],
         },
     };
     assert_eq!(
-        leaf.output_digest().unwrap().0,
+        leaf.output_digest().0,
         [
             1603116091, 3258597502, 2711032228, 4175407283, 343882323, 1898618121, 1344732087,
             1064799167,
@@ -94,24 +119,16 @@ fn test_leaf_output_digest_derived_from_preimage() {
     );
 }
 
+/// A preimage that is not `0x` hex felts, a decimal one included, is rejected when the leaf input
+/// is parsed.
 #[test]
-fn test_leaf_output_digest_rejects_invalid_felt() {
-    let leaf = LeafInput {
-        proof: SerializedLeafProof {
-            circuit_preprocessed_root: leaf_proof_format::DigestHex([0; 8]),
-            circuit_hash: leaf_proof_format::DigestHex([0; 8]),
-            proof: vec![],
-        },
-        output: LeafOutputPreimage {
-            hash_type: LeafOutputHashType::Blake2s,
-            preimage: vec!["not-a-felt".to_string()],
-        },
-    };
-    match leaf.output_digest() {
-        Err(RecursiveTreeError::BadLeafOutputs { reason }) => {
-            assert!(reason.contains("not-a-felt"))
-        }
-        other => panic!("expected BadLeafOutputs, got {other:?}"),
+fn test_leaf_input_rejects_non_hex_preimage() {
+    for preimage in [r#"["not-a-felt"]"#, r#"["11"]"#] {
+        let json = format!(
+            r#"{{"output":{{"hash_type":"blake2s","preimage":{preimage}}},"circuit_preprocessed_root":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"circuit_hash":["0x0","0x0","0x0","0x0","0x0","0x0","0x0","0x0"],"proof":"AQID"}}"#
+        );
+        let err = serde_json::from_str::<LeafInput>(&json).unwrap_err().to_string();
+        assert!(err.contains("expected hex string to be prefixed by '0x'"), "{preimage}: {err}");
     }
 }
 
@@ -127,14 +144,14 @@ fn test_packed_node_serializes_leaf_and_internal() {
     // A leaf: a `Composite` (the leaf circuit) over `Plain` (the raw preimage reveal).
     let leaf_a = PackedNode::leaf(
         DigestHex(std::array::from_fn(|i| i as u32 + 30)),
-        vec!["1".to_string(), "2".to_string()],
+        vec![Felt::from(1), Felt::from(2)],
     );
     // Serializes as `{"Composite": { circuit_hash, subtasks: [{"Plain": {
     // output_preimage }}] }}`.
     let leaf_json: serde_json::Value =
         serde_json::from_str(&serde_json::to_string(&leaf_a).unwrap()).unwrap();
     assert_eq!(leaf_json["Composite"]["circuit_hash"][0], "0x0000001e");
-    assert_eq!(leaf_json["Composite"]["subtasks"][0]["Plain"]["output_preimage"][0], "1");
+    assert_eq!(leaf_json["Composite"]["subtasks"][0]["Plain"]["output_preimage"][0], "0x1");
 
     // Internal: a `Composite` over two child subtasks.
     let leaf_b = PackedNode::leaf(DigestHex(std::array::from_fn(|i| i as u32 + 40)), vec![]);
@@ -325,7 +342,7 @@ mod e2e {
 
     fn expected_leaf(leaf: &LeafInput) -> ExpectedNode {
         ExpectedNode {
-            output_digest: leaf.output_digest().unwrap().0,
+            output_digest: leaf.output_digest().0,
             circuit_hash: leaf_circuit_hash(leaf),
             packed: PackedNode::leaf(leaf.proof.circuit_hash, leaf.output.preimage.clone()),
         }
@@ -482,12 +499,7 @@ mod e2e {
         let hex_token = |value: usize| format!("{:?}", format!("{value:#x}"));
         let preimage = &leaf.output.preimage;
         let record: Vec<String> = std::iter::once(hex_token(preimage.len() + 1))
-            .chain(preimage.iter().map(|felt| {
-                format!(
-                    "{:?}",
-                    format!("{:#x}", starknet_crypto::Felt::from_dec_str(felt).unwrap())
-                )
-            }))
+            .chain(preimage.iter().map(|felt| format!("{:?}", format!("{felt:#x}"))))
             .collect();
         let bootloader_output = [hex_token(0), hex_token(n)]
             .into_iter()
@@ -536,11 +548,8 @@ mod e2e {
             PackedNode::Composite { circuit_hash, subtasks } => match subtasks.as_slice() {
                 // A leaf node: the leaf circuit outputs the Blake2s hash of its output preimage.
                 [PackedNode::Plain { output_preimage }] => {
-                    let felts: Vec<starknet_crypto::Felt> = output_preimage
-                        .iter()
-                        .map(|felt| starknet_crypto::Felt::from_dec_str(felt).unwrap())
-                        .collect();
-                    let digest = blake2s_u32s_host(&Blake2Felt252::encode_felts_to_u32s(&felts));
+                    let digest =
+                        blake2s_u32s_host(&Blake2Felt252::encode_felts_to_u32s(output_preimage));
                     BinaryTree::Leaf(Node {
                         circuit_hash: HashValue::from(circuit_hash.0),
                         subtree_hash: HashValue::from(digest),
@@ -619,7 +628,7 @@ mod e2e {
         let output_words: Vec<u32> = preimage_felts[1..].iter().map(|f| u32_from_hex(f)).collect();
         let capacity = applicative_unpacking_verifier::aggregator::CAPACITY;
         assert_eq!(output_words.len(), capacity * circuit_common::N_RESERVED);
-        let leaf_digest = leaf.output_digest().unwrap().0;
+        let leaf_digest = leaf.output_digest().0;
         for digest in
             output_words[..n * circuit_common::N_RESERVED].chunks(circuit_common::N_RESERVED)
         {
@@ -652,10 +661,7 @@ mod e2e {
             "aggregated output opens with another aggregator's program hash"
         );
         let expected_records: Vec<starknet_crypto::Felt> =
-            std::iter::repeat_n(&leaf.output.preimage, n)
-                .flatten()
-                .map(|felt| starknet_crypto::Felt::from_dec_str(felt).unwrap())
-                .collect();
+            std::iter::repeat_n(&leaf.output.preimage, n).flatten().copied().collect();
         assert_eq!(
             poseidon_felts[1..],
             expected_records,
@@ -680,7 +686,7 @@ mod e2e {
                 hash_type: LeafOutputHashType::Blake2s,
                 preimage: preimage_felts
                     .iter()
-                    .map(|f| starknet_crypto::Felt::from_hex(f).unwrap().to_biguint().to_string())
+                    .map(|f| starknet_crypto::Felt::from_hex(f).unwrap())
                     .collect(),
             },
         };
@@ -768,7 +774,7 @@ mod e2e {
             // preimage.
             output: LeafOutputPreimage {
                 hash_type: LeafOutputHashType::Poseidon,
-                preimage: poseidon_felts.iter().map(|felt| felt.to_biguint().to_string()).collect(),
+                preimage: poseidon_felts.clone(),
             },
         };
         let outer_dir = dir.join("outer");

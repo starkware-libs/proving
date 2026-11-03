@@ -4,6 +4,7 @@
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_with::base64::Base64;
 use serde_with::serde_as;
+use starknet_types_core::felt::Felt;
 
 /// The number of little-endian u32 words in a Blake2s digest.
 pub const N_DIGEST_WORDS: usize = 8;
@@ -72,10 +73,9 @@ pub struct SerializedLeafProof {
 /// circuit output — bottom-up from the preimages.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum PackedNode {
-    /// A leaf's hashed-output preimage — the task's program hash followed by the task's raw output.
-    /// The preimage felts are stored as decimal strings.
-    // TODO(yair): store the preimage felts as felt252s rather than decimal strings.
-    Plain { output_preimage: Vec<String> },
+    /// A leaf's hashed-output preimage, the task's program hash followed by the task's raw output.
+    /// Each felt is a `0x`-prefixed hex string.
+    Plain { output_preimage: Vec<Felt> },
     /// A verifier node — a fold over two children, a self-fold over one `Composite` child (the
     /// single-leaf tree's root pass, where the multiverifier verifies the same proof in both
     /// slots), or the leaf circuit over its single `Plain` child. Carries the `circuit_hash` of
@@ -87,7 +87,7 @@ pub enum PackedNode {
 
 impl PackedNode {
     /// A leaf entry: the leaf circuit node over the `Plain` preimage reveal.
-    pub fn leaf(circuit_hash: DigestHex, output_preimage: Vec<String>) -> Self {
+    pub fn leaf(circuit_hash: DigestHex, output_preimage: Vec<Felt>) -> Self {
         PackedNode::Composite {
             circuit_hash,
             subtasks: vec![PackedNode::Plain { output_preimage }],
@@ -115,7 +115,7 @@ mod tests {
     /// [`DigestHex`] (the encoding the tree prover writes and the bootloader hints read).
     #[test]
     fn test_packed_node_round_trips() {
-        let leaf = PackedNode::leaf(DigestHex([1, 2, 3, 4, 5, 6, 7, 8]), vec!["11".to_string()]);
+        let leaf = PackedNode::leaf(DigestHex([1, 2, 3, 4, 5, 6, 7, 8]), vec![Felt::from(11)]);
         let tree = PackedNode::Composite {
             circuit_hash: DigestHex([9; N_DIGEST_WORDS]),
             subtasks: vec![leaf.clone(), leaf],
@@ -127,7 +127,7 @@ mod tests {
         assert_eq!(
             json["Composite"]["subtasks"][0]["Composite"]["subtasks"][0]["Plain"]
                 ["output_preimage"][0],
-            "11"
+            "0xb"
         );
 
         assert_eq!(serde_json::from_value::<PackedNode>(json).unwrap(), tree);

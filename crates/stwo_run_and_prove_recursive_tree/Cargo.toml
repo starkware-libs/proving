@@ -21,7 +21,7 @@ path = "src/lib.rs"
 # Too heavy for the regular `tests` CI job. Gates:
 # - the end-to-end fold tests, which prove real circuits;
 # - `test_support`, which proves the leaf they fold.
-slow-tests = ["dep:leaf-prover", "dep:num-bigint"]
+slow-tests = ["dep:leaf-prover"]
 
 [dependencies]
 # Host Blake2s for recomputing a leaf's output digests from its output preimage.
@@ -51,7 +51,6 @@ stwo.workspace = true
 
 # Used by `test_support` to prove a leaf.
 leaf-prover = { workspace = true, optional = true }
-num-bigint = { workspace = true, optional = true }
 
 [dev-dependencies]
 applicative-unpacking-verifier.workspace = true

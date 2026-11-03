@@ -81,7 +81,7 @@ impl LayerEntry {
             proof_data: NodeProofData {
                 proof: NodeProof::Circuit(Box::new(proof)),
                 preprocessed_root: leaf.proof.circuit_preprocessed_root,
-                output_digest: leaf.output_digest()?,
+                output_digest: leaf.output_digest(),
             },
             // The preimage whose (blake or poseidon) digest is the leaf's output.
             packed_node: PackedNode::leaf(leaf.proof.circuit_hash, leaf.output.preimage),
