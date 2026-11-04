@@ -1,5 +1,6 @@
 use circuits::blake::HashValue;
-use circuits::wrappers::M31Wrapper;
+use circuits::ivalue::IValue;
+use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use circuits_stark_verifier::fri_proof::{FriCommitProof, FriProof, FriWitness};
 use circuits_stark_verifier::merkle::{AuthPath, AuthPaths};
 use circuits_stark_verifier::oods::EvalDomainSamples;
@@ -79,15 +80,18 @@ impl<T: CircuitSerialize> CircuitSerialize for Vec<T> {
     }
 }
 
+impl CircuitSerialize for U32Wrapper<QM31> {
+    fn serialize(&self, output: &mut Vec<u8>) {
+        // A `u32` is stored as `(low_u16, high_u16, 0, 0)`; write its four little-endian bytes.
+        output.extend_from_slice(&self.raw().unpack_u32().to_le_bytes());
+    }
+}
+
 impl CircuitSerialize for HashValue<QM31> {
     fn serialize(&self, output: &mut Vec<u8>) {
-        // Each word is stored as `(low_u16, high_u16, 0, 0)`; recombine it into its 32-bit value
-        // and write the four little-endian bytes, so the whole hash occupies exactly 32 bytes.
+        // Write each word as four little-endian bytes, so the whole hash occupies exactly 32 bytes.
         let Self(words) = self;
-        for word in words {
-            let (low, high) = (word.raw().0.0.0, word.raw().0.1.0);
-            output.extend_from_slice(&((high << 16) | low).to_le_bytes());
-        }
+        words.serialize(output);
     }
 }
 

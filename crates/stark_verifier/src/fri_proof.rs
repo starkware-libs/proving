@@ -2,9 +2,11 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
+use circuits::wrappers::U32Wrapper;
 use itertools::zip_eq;
 pub use stwo::core::fri::{FriConfig, FriParams};
 
+use crate::channel::N_POW_NONCE_WORDS;
 use crate::merkle::{AuthPath, AuthPaths};
 
 /// Represents the information for the FRI commitment phase of the proof.
@@ -68,7 +70,7 @@ pub struct FriProof<T> {
     /// Information regarding the FRI commitment phase.
     pub commit: FriCommitProof<T>,
     /// Nonce for the proof of work that gates query selection.
-    pub pow_nonce: T,
+    pub pow_nonce: [U32Wrapper<T>; N_POW_NONCE_WORDS],
     /// Authentication paths for all the FRI trees.
     pub auth_paths: AuthPaths<T>,
     /// Witness for the FRI decommitment phase.
@@ -143,7 +145,7 @@ pub fn empty_fri_proof(config: &FriConfig) -> FriProof<NoValue> {
             layer_commitments: vec![HashValue::no_value(); all_fold_steps.len()],
             last_layer_coefs: vec![NoValue; 1 << config.params.log_last_layer_degree_bound],
         },
-        pow_nonce: NoValue,
+        pow_nonce: [U32Wrapper::no_value(); N_POW_NONCE_WORDS],
         auth_paths,
         witness: FriWitness(witness_per_query_per_tree),
     }

@@ -113,7 +113,7 @@ in `stark_verifier/src/proof_info.rs` (behind the `test-utils` feature; enable i
 
 | Component | Scaling |
 |-----------|---------|
-| `fixed` (salt, 4 roots, nonces) | constant (44 u32s) |
+| `fixed` (salt, 3 roots, nonces) | constant (34 u32s) |
 | `claim` | O(n_components) |
 | `oods` | O(n_columns) |
 | `fri_commitments` | O(log(trace_size)) |

@@ -2,12 +2,14 @@ use circuits::blake::HashValue;
 use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
+use circuits::wrappers::U32Wrapper;
 use indexmap::IndexMap;
 use itertools::zip_eq;
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
 use stwo::core::fri::FriConfig;
 use stwo::core::pcs::PcsConfig;
 
+use crate::channel::N_POW_NONCE_WORDS;
 use crate::constraint_eval::CircuitEval;
 use crate::fri_proof::{FriProof, empty_fri_proof};
 use crate::merkle::{AuthPath, AuthPaths};
@@ -178,8 +180,10 @@ pub struct Proof<T> {
     pub eval_domain_samples: EvalDomainSamples<T>,
     pub eval_domain_auth_paths: AuthPaths<T>,
 
-    pub oods_pow_nonce: T,
-    pub interaction_pow_nonce: T,
+    /// The proof-of-work nonces, as the little-endian `u32` words of the `u64` nonces stwo's
+    /// channel hashes.
+    pub oods_pow_nonce: [U32Wrapper<T>; N_POW_NONCE_WORDS],
+    pub interaction_pow_nonce: [U32Wrapper<T>; N_POW_NONCE_WORDS],
     pub fri: FriProof<T>,
 }
 impl<T> Proof<T> {
@@ -270,8 +274,8 @@ pub fn empty_proof(config: &ProofConfig) -> Proof<NoValue> {
         eval_domain_auth_paths: AuthPaths {
             data: vec![vec![auth_path; config.n_queries()]; N_TRACES],
         },
-        oods_pow_nonce: NoValue,
-        interaction_pow_nonce: NoValue,
+        oods_pow_nonce: [U32Wrapper::no_value(); N_POW_NONCE_WORDS],
+        interaction_pow_nonce: [U32Wrapper::no_value(); N_POW_NONCE_WORDS],
         fri: empty_fri_proof(&config.fri),
         channel_salt: NoValue,
     }

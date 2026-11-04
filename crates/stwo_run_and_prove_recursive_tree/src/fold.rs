@@ -75,8 +75,15 @@ impl LayerEntry {
         leaf: LeafInput,
         proof_config: &ProofConfig,
     ) -> Result<Self, RecursiveTreeError> {
-        let proof = deserialize_proof_with_config(&mut leaf.proof.proof.as_slice(), proof_config)
+        let mut proof_bytes = leaf.proof.proof.as_slice();
+        let proof = deserialize_proof_with_config(&mut proof_bytes, proof_config)
             .map_err(|e| RecursiveTreeError::Deserialize(format!("{e:?}")))?;
+        if !proof_bytes.is_empty() {
+            return Err(RecursiveTreeError::Deserialize(format!(
+                "{} trailing bytes after the proof",
+                proof_bytes.len()
+            )));
+        }
         Ok(Self {
             proof_data: NodeProofData {
                 proof: NodeProof::Circuit(Box::new(proof)),

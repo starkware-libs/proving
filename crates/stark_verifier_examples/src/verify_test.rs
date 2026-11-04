@@ -7,7 +7,7 @@ use circuits_stark_verifier::proof::{ProofConfig, empty_proof};
 use circuits_stark_verifier::proof_from_stark_proof::proof_from_stark_proof;
 use circuits_stark_verifier::proof_info::ProofInfo;
 use circuits_stark_verifier::verify::verify;
-use num_traits::One;
+use num_traits::{One, Zero};
 use rstest::rstest;
 use stwo::core::fields::qm31::QM31;
 use stwo::core::vcs::blake2_hash::Blake2sHash;
@@ -26,6 +26,8 @@ enum ProofModifier {
     WrongFriAuthPath,
     /// Modify the queried coset value at the last inner layer of FRI.
     WrongFriWitness,
+    /// Flip a bit in the high word of the FRI proof-of-work nonce.
+    WrongFriPowNonce,
 }
 
 #[rstest]
@@ -33,6 +35,7 @@ enum ProofModifier {
 #[case::wrong_trace_auth_path(ProofModifier::WrongTraceAuthPath)]
 #[case::wrong_fri_auth_path(ProofModifier::WrongFriAuthPath)]
 #[case::wrong_fri_witness(ProofModifier::WrongFriWitness)]
+#[case::wrong_fri_pow_nonce(ProofModifier::WrongFriPowNonce)]
 fn test_verify(#[case] proof_modifier: ProofModifier) {
     let (_components, claim, pcs_config, mut proof, interaction_pow_nonce, channel_salt) =
         create_proof();
@@ -70,6 +73,9 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
             for (_, value) in values.iter_mut() {
                 *value += QM31::one();
             }
+        }
+        ProofModifier::WrongFriPowNonce => {
+            proof.proof.0.fri_proof.proof_of_work ^= 1 << 32;
         }
     }
 
@@ -118,6 +124,11 @@ fn test_verify(#[case] proof_modifier: ProofModifier) {
             let expected_value =
                 context.get(proof_vars.fri.witness.0.last().unwrap()[0][index_in_coset]);
             assert!(err.contains(&expected_value.to_string()));
+        }
+        ProofModifier::WrongFriPowNonce => {
+            let err = result.unwrap_err();
+            // The error should be a proof-of-work hash bit that is required to be zero.
+            assert_eq!(err, format!("{} != {}", QM31::one(), QM31::zero()));
         }
     }
 

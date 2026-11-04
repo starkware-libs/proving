@@ -7,7 +7,7 @@ use rstest::rstest;
 use stwo::core::channel::{Blake2sChannel, Channel as StwoChannel};
 use stwo::core::fields::qm31::QM31;
 
-use super::Channel;
+use super::{Channel, pow_nonce_words};
 
 #[test]
 fn test_mix_commitment_regression() {
@@ -191,7 +191,7 @@ fn test_draw_point_regression() {
 #[case::wrong_n_bits1(9, 649, false)]
 #[case::wrong_nonce0(10, 648, false)]
 #[case::wrong_nonce1(10, 650, false)]
-fn test_pow_regression(#[case] n_bits: u32, #[case] nonce: u32, #[case] success: bool) {
+fn test_pow_regression(#[case] n_bits: u32, #[case] nonce: u64, #[case] success: bool) {
     let mut context = TraceContext::default();
 
     let init_digest =
@@ -199,7 +199,7 @@ fn test_pow_regression(#[case] n_bits: u32, #[case] nonce: u32, #[case] success:
 
     let mut channel = Channel::from_digest(&mut context, init_digest);
 
-    let nonce = context.new_var(qm31_from_u32s(nonce, 0, 0, 0));
+    let nonce = pow_nonce_words(nonce).guess(&mut context);
     channel.pow(&mut context, n_bits, nonce);
 
     assert_eq!(context.is_circuit_valid(), success);

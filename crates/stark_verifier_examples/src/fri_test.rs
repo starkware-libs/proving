@@ -3,6 +3,7 @@ use circuits::extract_bits::extract_bits;
 use circuits::ops::Guess;
 use circuits::simd::Simd;
 use circuits::test_utils::simd_from_u32s;
+use circuits_stark_verifier::channel::pow_nonce_words;
 use circuits_stark_verifier::fri::fri_decommit;
 use circuits_stark_verifier::fri_proof::{
     FriCommitProof, FriProof, FriWitness, compute_all_fold_steps,
@@ -87,7 +88,7 @@ fn test_fri_decommit_with_jumps(
             .collect(),
             last_layer_coefs: last_layer_coefficients.clone(),
         },
-        pow_nonce: QM31::from_u32_unchecked(0, 0, 0, 0),
+        pow_nonce: pow_nonce_words(0),
         auth_paths,
         witness,
     };

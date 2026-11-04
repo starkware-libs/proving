@@ -17,7 +17,7 @@ use crate::multiverifier_test_utils::{
 
 /// The preprocessed root of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_PREPROCESSED_ROOT: [u32; 8] =
-    [4055952103, 978158926, 1345114699, 692283279, 672614992, 3611593766, 475245270, 1827057967];
+    [2809905799, 4048327763, 1360186778, 3026201578, 933695076, 889123213, 2461099942, 3095414109];
 /// The output digest of the backward-compatibility Cairo verifier circuit.
 const BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST: [u32; 8] =
     [2238863647, 930608170, 3577551515, 250236175, 3905226011, 365840198, 2418738012, 3030158971];
@@ -45,9 +45,10 @@ fn test_backward_compatibility() {
     // Slot 0: the older Cairo verifier proof (backward-compatibility fixture), deserialized with
     // the current proof config.
     let old_bytes = std::fs::read(BACKWARD_COMPATIBILITY_CAIRO_PROOF_PATH).unwrap();
+    let mut old_bytes = old_bytes.as_slice();
     let old_cairo_proof =
-        deserialize_proof_with_config(&mut old_bytes.as_slice(), &shared_config.proof_config)
-            .unwrap();
+        deserialize_proof_with_config(&mut old_bytes, &shared_config.proof_config).unwrap();
+    assert!(old_bytes.is_empty(), "trailing bytes after the old Cairo verifier proof");
     let old_input = CircuitVerifierInput {
         proof: old_cairo_proof,
         output_digest: BACKWARD_COMPATIBILITY_CAIRO_VERIFIER_OUTPUT_DIGEST.into(),
@@ -66,9 +67,10 @@ fn test_backward_compatibility() {
     let current_output_digest: [u32; N_RESERVED] = native_blake_u32s(&payload_words);
 
     let current_bytes = std::fs::read(MULTIVERIFIER_OF_TWO_CAIRO_PROOFS_PATH).unwrap();
+    let mut current_bytes = current_bytes.as_slice();
     let current_proof =
-        deserialize_proof_with_config(&mut current_bytes.as_slice(), &shared_config.proof_config)
-            .unwrap();
+        deserialize_proof_with_config(&mut current_bytes, &shared_config.proof_config).unwrap();
+    assert!(current_bytes.is_empty(), "trailing bytes after the multiverifier proof");
     let current_input = CircuitVerifierInput {
         proof: current_proof,
         output_digest: current_output_digest.into(),

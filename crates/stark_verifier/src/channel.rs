@@ -3,14 +3,26 @@ use circuits::context::{Context, Var};
 use circuits::eval;
 use circuits::extract_bits::extract_bits;
 use circuits::ivalue::{IValue, qm31_from_u32s};
-use circuits::ops::{eq, inv, pointwise_mul, qm31_from_coords};
+use circuits::ops::{eq, inv, qm31_from_coords};
 use circuits::simd::Simd;
 use circuits::wrappers::{M31Wrapper, U32Wrapper};
 use stwo::core::circle::CirclePoint;
 use stwo::core::fields::m31::P;
+use stwo::core::fields::qm31::QM31;
+
 #[cfg(test)]
 #[path = "channel_test.rs"]
 pub mod test;
+
+/// Number of `u32` words in a proof-of-work nonce: the little-endian words of the `u64` nonce.
+pub const N_POW_NONCE_WORDS: usize = 2;
+
+/// Splits a `u64` proof-of-work nonce into the little-endian `u32` words [`Channel::pow`] takes.
+pub fn pow_nonce_words(nonce: u64) -> [U32Wrapper<QM31>; N_POW_NONCE_WORDS] {
+    let low = u32::try_from(nonce & 0xFFFF_FFFF).unwrap();
+    let high = u32::try_from(nonce >> 32).unwrap();
+    [QM31::pack_u32(low), QM31::pack_u32(high)]
+}
 
 pub struct Channel {
     /// The current digest of the channel.
@@ -117,7 +129,15 @@ impl Channel {
         CirclePoint { x, y }
     }
 
-    pub fn pow(&mut self, context: &mut Context<impl IValue>, n_bits: u32, nonce: Var) {
+    /// Verifies the proof-of-work nonce and mixes it into the channel.
+    ///
+    /// `nonce` holds the little-endian `u32` words of the `u64` nonce stwo's channel hashes.
+    pub fn pow(
+        &mut self,
+        context: &mut Context<impl IValue>,
+        n_bits: u32,
+        nonce: [U32Wrapper<Var>; N_POW_NONCE_WORDS],
+    ) {
         assert!(n_bits <= 30);
 
         // Compute `H(POW_PREFIX, digest, n_bits)`.
@@ -127,24 +147,17 @@ impl Channel {
         let n_bytes = 4 * prefixed_digest_preimage.len();
         let prefixed_digest = blake2s_u32s(context, prefixed_digest_preimage, n_bytes);
 
-        // TODO: Update nonce to be [U32Wrapper; 2].
-        // Check that `nonce` consists of only the first two M31 elements.
-        let nonce_high_mask = context.constant(qm31_from_u32s(0, 0, 1, 1));
-        let masked_nonce = pointwise_mul(context, nonce, nonce_high_mask);
-        eq(context, masked_nonce, context.zero());
-
-        let unpacked_nonce = unpack_qm31s_to_u32_words(context, [nonce]);
-
         // Compute `H(prefixed_digest, nonce)`.
-        let mut input = prefixed_digest.to_vec();
-        input.extend(unpacked_nonce.clone());
-        let hash = blake2s_u32s(context, input, (8 + 2) * 4);
-        for var in hash.0.iter().skip(1) {
+        let mut pow_hash_preimage = prefixed_digest.to_vec();
+        pow_hash_preimage.extend(nonce);
+        let n_bytes = 4 * (BLAKE2S_DIGEST_N_WORDS + N_POW_NONCE_WORDS);
+        let pow_hash = blake2s_u32s(context, pow_hash_preimage, n_bytes);
+        for var in pow_hash.0.iter().skip(1) {
             context.mark_as_unused(*var.raw());
         }
 
         // Check that the n_bits least significant bits are zero.
-        let simd = Simd::from_packed(vec![*hash[0].raw()], 2);
+        let simd = Simd::from_packed(vec![*pow_hash[0].raw()], 2);
         let low = Simd::unpack_idx(context, &simd, 0);
         let (var_to_extract, bits_to_extract) = if n_bits < 16 {
             (low, n_bits)
@@ -158,11 +171,8 @@ impl Channel {
             eq(context, bit.get_packed()[0], context.zero());
         }
 
-        // Mix nonce into the channel.
-        let mut input = self.digest.to_vec();
-        input.extend(unpacked_nonce);
-        let hash = blake2s_u32s(context, input, (8 + 2) * 4);
-        self.update_digest(hash);
+        // Mix the nonce into the channel.
+        self.mix_u32s(context, nonce.into_iter());
     }
 }
 

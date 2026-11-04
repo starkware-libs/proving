@@ -10,6 +10,7 @@ use stwo::core::proof::ExtendedStarkProof;
 use stwo::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasher;
 use stwo::core::vcs_lifted::verifier::LOG_PACKED_LEAF_SIZE;
 
+use crate::channel::pow_nonce_words;
 use crate::fri_proof::{FriCommitProof, FriProof, FriWitness, compute_all_fold_steps};
 use crate::merkle::{AuthPath, AuthPaths};
 use crate::oods::EvalDomainSamples;
@@ -26,10 +27,6 @@ pub fn proof_from_stark_proof(
     let commitments = &proof.proof.commitments;
     let sampled_values = &proof.proof.sampled_values;
     let fri_proof = &proof.proof.fri_proof;
-
-    let (oods_pow_low, oods_pow_high) = split_u64(proof.proof.oods_proof_of_work);
-    let (pow_low, pow_high) = split_u64(proof.proof.fri_proof.proof_of_work);
-    let (interaction_pow_low, interaction_pow_high) = split_u64(interaction_pow_nonce);
 
     let all_fold_steps = compute_all_fold_steps(
         config.log_trace_size() - config.fri.params.log_last_layer_degree_bound,
@@ -63,21 +60,14 @@ pub fn proof_from_stark_proof(
                 .collect(),
                 last_layer_coefs: (*fri_proof.last_layer_poly).to_vec(),
             },
-            pow_nonce: qm31_from_u32s(pow_low, pow_high, 0, 0),
+            pow_nonce: pow_nonce_words(fri_proof.proof_of_work),
             auth_paths: construct_fri_auth_paths(proof, config, &all_fold_steps),
             witness: construct_fri_witness(proof, &all_fold_steps),
         },
-        oods_pow_nonce: qm31_from_u32s(oods_pow_low, oods_pow_high, 0, 0),
-        interaction_pow_nonce: qm31_from_u32s(interaction_pow_low, interaction_pow_high, 0, 0),
+        oods_pow_nonce: pow_nonce_words(proof.proof.oods_proof_of_work),
+        interaction_pow_nonce: pow_nonce_words(interaction_pow_nonce),
         channel_salt: qm31_from_u32s(channel_salt, 0, 0, 0),
     }
-}
-
-/// Splits `value` into its low and high `u32` words.
-fn split_u64(value: u64) -> (u32, u32) {
-    let low = u32::try_from(value & 0xFFFF_FFFF).unwrap();
-    let high = u32::try_from(value >> 32).unwrap();
-    (low, high)
 }
 
 /// Converts a 2D vector of singletons to a 1D vector.

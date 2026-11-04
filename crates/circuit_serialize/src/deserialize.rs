@@ -1,7 +1,9 @@
 use std::fmt;
 
 use circuits::blake::HashValue;
-use circuits::wrappers::M31Wrapper;
+use circuits::ivalue::IValue;
+use circuits::wrappers::{M31Wrapper, U32Wrapper};
+use circuits_stark_verifier::channel::N_POW_NONCE_WORDS;
 use circuits_stark_verifier::fri_proof::{
     FriCommitProof, FriConfig, FriParams, FriProof, FriWitness, compute_all_fold_steps,
 };
@@ -77,6 +79,13 @@ impl CircuitDeserialize for HashValue<QM31> {
     }
 }
 
+impl CircuitDeserialize for U32Wrapper<QM31> {
+    fn deserialize(data: &mut &[u8]) -> DeserializeResult<Self> {
+        let bytes: [u8; 4] = take_bytes(data, 4)?.try_into().unwrap();
+        Ok(QM31::pack_u32(u32::from_le_bytes(bytes)))
+    }
+}
+
 impl CircuitDeserialize for M31Wrapper<QM31> {
     fn deserialize(data: &mut &[u8]) -> DeserializeResult<Self> {
         let m31 = M31::deserialize(data)?;
@@ -114,8 +123,8 @@ pub fn deserialize_proof_with_config(
     let composition_eval_at_oods = <[QM31; N_COMPOSITION_COLUMNS]>::deserialize(data)?;
     let eval_domain_samples = deserialize_eval_domain_samples(data, config)?;
     let eval_domain_auth_paths = deserialize_eval_domain_auth_paths(data, config)?;
-    let oods_pow_nonce = QM31::deserialize(data)?;
-    let interaction_pow_nonce = QM31::deserialize(data)?;
+    let oods_pow_nonce = <[U32Wrapper<QM31>; N_POW_NONCE_WORDS]>::deserialize(data)?;
+    let interaction_pow_nonce = <[U32Wrapper<QM31>; N_POW_NONCE_WORDS]>::deserialize(data)?;
     let fri = deserialize_fri_proof(data, &config.fri)?;
 
     Ok(Proof {
@@ -210,7 +219,7 @@ fn deserialize_fri_proof(
         fri_params.fold_step,
     );
     let commit = deserialize_fri_commit_proof(data, fri_params, &all_fold_steps)?;
-    let pow_nonce = QM31::deserialize(data)?;
+    let pow_nonce = <[U32Wrapper<QM31>; N_POW_NONCE_WORDS]>::deserialize(data)?;
 
     let mut log_layer_size = fri_config.log_evaluation_domain_size();
     let mut auth_path_trees = Vec::with_capacity(all_fold_steps.len());

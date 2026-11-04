@@ -2,7 +2,7 @@ use stwo::core::fri::{FriConfig, FriParams};
 use stwo::core::pcs::PcsConfig;
 
 /// Uncompressed size in bytes of the serialized recursive circuit proof.
-pub const RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize = 263_812;
+pub const RECURSIVE_PROOF_UNCOMPRESSED_BYTES: usize = 263_788;
 
 /// Multiplicative safety factor applied to the proof size constant to derive the decompression
 /// limit used in `verify_recursive_circuit` as zip-bomb protection.
@@ -76,9 +76,8 @@ pub const PRIVACY_TRANSACTION_COMPONENTS: [&str; 57] = [
     "verify_bitwise_xor_8",
     "verify_bitwise_xor_9",
 ];
-pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] = [
-    3967097722, 1124074900, 3494814067, 2728380946, 3439877088, 1587208578, 3780616451, 1492541179,
-];
+pub const PRIVACY_RECURSION_CIRCUIT_PREPROCESSED_ROOT: [u32; 8] =
+    [1475149942, 4224660897, 3674429178, 1635881571, 760274337, 3298100911, 2370379099, 1477965085];
 pub const CAIRO_LOG_BLOWUP_FACTOR: u32 = 3;
 pub const CAIRO_TRACE_LOG_SIZE: u32 = 20;
 pub const CIRCUIT_LOG_BLOWUP_FACTOR: u32 = 2;

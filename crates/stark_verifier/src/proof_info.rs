@@ -2,6 +2,7 @@
 
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
 
+use crate::channel::N_POW_NONCE_WORDS;
 use crate::fri_proof::compute_all_fold_steps;
 use crate::proof::{N_TRACES, ProofConfig};
 
@@ -19,8 +20,8 @@ pub struct ProofInfo {
     pub log_blowup_factor: u32,
     pub n_queries: usize,
     pub n_columns_per_trace: [usize; N_TRACES],
-    // Fixed scalars: channel_salt (QM31) + 3 roots (HashValue, 32 bytes each) +
-    // oods_pow_nonce (QM31) + pow_nonce (QM31) + interaction_pow_nonce (QM31).
+    // Fixed scalars: channel_salt (QM31) + 3 roots (HashValue, 32 bytes each) + the three
+    // proof-of-work nonces (oods, query and interaction; `N_POW_NONCE_WORDS` u32 words each).
     pub fixed: usize,
     // Claim (serialized in packed format): enable bits + log sizes + claimed sums.
     pub claim: usize,
@@ -48,7 +49,8 @@ impl ProofInfo {
         let n_queries = config.fri.params.n_queries;
         let log_eval_domain: usize = config.log_evaluation_domain_size().try_into().unwrap();
 
-        let fixed = (1 + 3 * 2 + 1 + 1 + 1) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
+        let fixed = (1 + 3 * 2) * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32
+            + 3 * N_POW_NONCE_WORDS * N_U8S_PER_U32;
 
         let claim = config.n_components() * SECURE_EXTENSION_DEGREE * N_U8S_PER_U32;
 
