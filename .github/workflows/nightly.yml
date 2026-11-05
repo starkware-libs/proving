@@ -53,6 +53,9 @@ jobs:
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
       - name: Run benchmark
+        # `shell: bash` enables pipefail. This is needed so that CI fails if the bench script
+        # panics.
+        shell: bash
         run: |
           cargo install cargo-criterion
           ./scripts/bench.sh |& tee output.txt
@@ -81,6 +84,9 @@ jobs:
         with:
           toolchain: ${{ env.NIGHTLY_VERSION }}
       - name: Run benchmark
+        # `shell: bash` enables pipefail. This is needed so that CI fails if the bench script
+        # panics.
+        shell: bash
         run: |
           cargo install cargo-criterion
           ./scripts/bench.sh --features="parallel" |& tee output.txt
