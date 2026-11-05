@@ -170,10 +170,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "Var": [

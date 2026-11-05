@@ -432,10 +432,11 @@
         "relation_name": "PoseidonRoundKeys",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1024310512"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1024310512",
+              "name": "POSEIDON_ROUND_KEYS_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_1_col2"
@@ -1337,10 +1338,11 @@
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1343313504"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1343313504",
+              "name": "POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -1480,10 +1482,11 @@
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1343313504"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1343313504",
+              "name": "POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -3157,10 +3160,11 @@
         "relation_name": "PoseidonRoundKeys",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1024310512"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1024310512",
+              "name": "POSEIDON_ROUND_KEYS_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_1_col2"
@@ -3510,10 +3514,11 @@
         "relation_name": "Cube252",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1987997202"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1987997202",
+              "name": "CUBE_252_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_32_col33"
@@ -5230,10 +5235,11 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1027333874"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1027333874",
+              "name": "RANGE_CHECK_4_4_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -5389,10 +5395,11 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1027333874"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1027333874",
+              "name": "RANGE_CHECK_4_4_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -5517,10 +5524,11 @@
         "relation_name": "RangeCheck_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1651211826"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1651211826",
+              "name": "RANGE_CHECK_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -5592,10 +5600,11 @@
         "relation_name": "RangeCheck252Width27",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1090315331"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1090315331",
+              "name": "RANGE_CHECK_252_WIDTH_27_RELATION_ID"
+            }
           },
           {
             "State": "combination_limb_0_col83"
@@ -6722,10 +6731,11 @@
         "relation_name": "Cube252",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1987997202"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1987997202",
+              "name": "CUBE_252_RELATION_ID"
+            }
           },
           {
             "State": "combination_limb_0_col94"
@@ -8442,10 +8452,11 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1027333874"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1027333874",
+              "name": "RANGE_CHECK_4_4_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -8601,10 +8612,11 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1027333874"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1027333874",
+              "name": "RANGE_CHECK_4_4_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -8729,10 +8741,11 @@
         "relation_name": "RangeCheck_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1651211826"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1651211826",
+              "name": "RANGE_CHECK_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -8804,10 +8817,11 @@
         "relation_name": "RangeCheck252Width27",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1090315331"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1090315331",
+              "name": "RANGE_CHECK_252_WIDTH_27_RELATION_ID"
+            }
           },
           {
             "State": "combination_limb_0_col115"
@@ -9934,10 +9948,11 @@
         "relation_name": "Cube252",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1987997202"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1987997202",
+              "name": "CUBE_252_RELATION_ID"
+            }
           },
           {
             "State": "combination_limb_0_col126"
@@ -11654,10 +11669,11 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1027333874"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1027333874",
+              "name": "RANGE_CHECK_4_4_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -11813,10 +11829,11 @@
         "relation_name": "RangeCheck_4_4_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1027333874"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1027333874",
+              "name": "RANGE_CHECK_4_4_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -11941,10 +11958,11 @@
         "relation_name": "RangeCheck_4_4",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1651211826"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1651211826",
+              "name": "RANGE_CHECK_4_4_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -12016,10 +12034,11 @@
         "relation_name": "RangeCheck252Width27",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1090315331"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1090315331",
+              "name": "RANGE_CHECK_252_WIDTH_27_RELATION_ID"
+            }
           },
           {
             "State": "combination_limb_0_col147"
@@ -12903,10 +12922,11 @@
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1343313504"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1343313504",
+              "name": "POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -13046,10 +13066,11 @@
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1343313504"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1343313504",
+              "name": "POSEIDON_3_PARTIAL_ROUNDS_CHAIN_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"

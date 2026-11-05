@@ -27,6 +27,8 @@ where
     pub(super) is_deduction_intermediate: bool,
     // Every variable can be <in_deductions>, but only felts can be <in_constraints>.
     pub(super) visibility: Visibility,
+    // If some, the variable is a constant with this name.
+    pub(super) const_name: Option<String>,
 }
 
 impl<T> VarExpr<T>
@@ -52,6 +54,7 @@ where
                 in_deductions: true,
                 in_constraints: is_const && T::r#type() == Felt::r#type(),
             },
+            const_name: None,
         };
         var.create_complex_or_felt(is_const, deg_in_state);
         var.update_children();
@@ -63,6 +66,16 @@ where
         Self: VarExprUpdate,
     {
         Self::new(value.calc(), Some(value), true, Some(0))
+    }
+
+    /// A constant together with its name in the generated code, e.g. a relation ID.
+    pub fn new_named_const(value: T, name: String) -> Self
+    where
+        Self: VarExprUpdate,
+    {
+        let mut var = Self::new_const(value);
+        var.const_name = Some(name);
+        var
     }
 
     pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
@@ -183,10 +196,11 @@ where
     fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
         // self is a constant
         if self.is_const() {
-            return CompiledAirVar::Const(
-                T::r#type(),
-                self.value.expect("Const must have a value").calc(),
-            );
+            let value = self.value.expect("Const must have a value").calc();
+            return match self.const_name {
+                Some(name) => CompiledAirVar::NamedConst { r#type: T::r#type(), value, name },
+                None => CompiledAirVar::Const(T::r#type(), value),
+            };
         }
 
         // self was written to the trace

@@ -32,7 +32,8 @@ impl Scope {
     /// Compute the value of a CompiledAirVar that evaluates to a single felt.
     pub fn evaluate(&self, expr: &CompiledAirVar) -> QM31 {
         match expr {
-            CompiledAirVar::Const(r#type, value) => {
+            CompiledAirVar::Const(r#type, value)
+            | CompiledAirVar::NamedConst { r#type, value, .. } => {
                 assert_eq!(r#type, "M31");
                 value.parse::<u32>().expect("Const value is not a number").into()
             }

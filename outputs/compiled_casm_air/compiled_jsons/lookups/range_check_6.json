@@ -54,10 +54,11 @@
         "relation_name": "RangeCheck_6",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1185356339"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1185356339",
+              "name": "RANGE_CHECK_6_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_6"
@@ -81,10 +82,11 @@
         "relation_name": "RangeCheck_6",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1185356339"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1185356339",
+              "name": "RANGE_CHECK_6_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_6"

@@ -119,10 +119,11 @@
         "relation_name": "BlakeRoundSigma",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1805967942"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1805967942",
+              "name": "BLAKE_ROUND_SIGMA_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_4"
@@ -194,10 +195,11 @@
         "relation_name": "BlakeRoundSigma",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1805967942"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1805967942",
+              "name": "BLAKE_ROUND_SIGMA_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_4"

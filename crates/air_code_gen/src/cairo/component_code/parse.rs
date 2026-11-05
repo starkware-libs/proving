@@ -76,7 +76,9 @@ pub fn parse_var(
     relation_offset: &mut usize,
 ) -> String {
     match var {
-        CompiledAirVar::Const(_ty, value) => format!("qm31_const::<{value}, 0, 0, 0>()"),
+        CompiledAirVar::Const(_, value) | CompiledAirVar::NamedConst { value, .. } => {
+            format!("qm31_const::<{value}, 0, 0, 0>()")
+        }
         CompiledAirVar::Var(_ty, name) => name.clone(),
         CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(name, args) => {

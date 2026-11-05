@@ -644,7 +644,8 @@ fn simd_parse_air_var(
     constant_names: &[((String, String), String)],
 ) -> String {
     match expr {
-        CompiledAirVar::Const(ty, val) => match ty.as_str() {
+        CompiledAirVar::Const(ty, val)
+        | CompiledAirVar::NamedConst { r#type: ty, value: val, .. } => match ty.as_str() {
             // "usize" is used as index.
             // TODO(Ohad): ask anatg about this.
             "usize" => val.to_string(),

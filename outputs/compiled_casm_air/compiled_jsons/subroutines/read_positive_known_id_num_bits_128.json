@@ -233,10 +233,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "Var": [
@@ -784,10 +785,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "Var": [

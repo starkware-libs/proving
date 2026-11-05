@@ -33,6 +33,11 @@ pub fn fix_str(mut name: String) -> String {
     name.to_case(Case::Snake)
 }
 
+/// The name of the constant holding the ID of `relation_name` in the generated relations files.
+pub fn relation_id_const_name(relation_name: &str) -> String {
+    format!("{}_RELATION_ID", relation_name.to_case(Case::UpperSnake))
+}
+
 // Convert a string to a random QM31 using the FNV hash
 // (see https://en.wikipedia.org/wiki/Fowler-Noll-Vo_hash_function)
 pub fn random_qm31(id: &str) -> QM31 {

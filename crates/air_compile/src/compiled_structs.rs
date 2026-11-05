@@ -99,6 +99,8 @@ pub enum ConstraintEvalStep {
 pub enum CompiledAirVar {
     // A constant expression represented by the type of the constant and its value.
     Const(String, String),
+    // A constant together with its name in the generated code, e.g. a relation ID.
+    NamedConst { r#type: String, value: String, name: String },
     // A variable expression represented by the type of the variable and its name.
     Var(String, String),
     // A name for the variable written to the trace at the given index.

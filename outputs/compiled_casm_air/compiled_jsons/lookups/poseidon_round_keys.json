@@ -103,10 +103,11 @@
         "relation_name": "PoseidonRoundKeys",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1024310512"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1024310512",
+              "name": "POSEIDON_ROUND_KEYS_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_6"
@@ -220,10 +221,11 @@
         "relation_name": "PoseidonRoundKeys",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1024310512"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1024310512",
+              "name": "POSEIDON_ROUND_KEYS_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_6"

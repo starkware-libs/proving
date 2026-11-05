@@ -710,10 +710,11 @@
         "relation_name": "BlakeRoundSigma",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1805967942"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1805967942",
+              "name": "BLAKE_ROUND_SIGMA_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_1_col2"
@@ -1546,10 +1547,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_2_col3"
@@ -1623,10 +1625,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_4_col5"
@@ -1700,10 +1703,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_6_col7"
@@ -1777,10 +1781,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_8_col9"
@@ -1854,10 +1859,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col148"
@@ -1931,10 +1937,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col156"
@@ -2008,10 +2015,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col164"
@@ -2085,10 +2093,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col172"
@@ -2162,10 +2171,11 @@
         "relation_name": "BlakeRound",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "40528774"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "40528774",
+              "name": "BLAKE_ROUND_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -2284,10 +2294,11 @@
         "relation_name": "BlakeRound",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "40528774"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "40528774",
+              "name": "BLAKE_ROUND_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -3246,10 +3257,11 @@
         "relation_name": "BlakeRoundSigma",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1805967942"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1805967942",
+              "name": "BLAKE_ROUND_SIGMA_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_1_col2"
@@ -3769,10 +3781,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col54"
@@ -3852,10 +3865,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -3892,10 +3906,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_0_id_col57"
@@ -4598,10 +4613,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col60"
@@ -4681,10 +4697,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -4721,10 +4738,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_1_id_col63"
@@ -5427,10 +5445,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col66"
@@ -5510,10 +5529,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -5550,10 +5570,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_2_id_col69"
@@ -6256,10 +6277,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col72"
@@ -6339,10 +6361,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -6379,10 +6402,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_3_id_col75"
@@ -7085,10 +7109,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col78"
@@ -7168,10 +7193,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -7208,10 +7234,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_4_id_col81"
@@ -7914,10 +7941,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col84"
@@ -7997,10 +8025,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -8037,10 +8066,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_5_id_col87"
@@ -8743,10 +8773,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col90"
@@ -8826,10 +8857,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -8866,10 +8898,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_6_id_col93"
@@ -9572,10 +9605,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col96"
@@ -9655,10 +9689,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -9695,10 +9730,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_7_id_col99"
@@ -10401,10 +10437,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col102"
@@ -10484,10 +10521,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -10524,10 +10562,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_8_id_col105"
@@ -11230,10 +11269,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col108"
@@ -11313,10 +11353,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -11353,10 +11394,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_9_id_col111"
@@ -12059,10 +12101,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col114"
@@ -12142,10 +12185,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -12182,10 +12226,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_10_id_col117"
@@ -12888,10 +12933,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col120"
@@ -12971,10 +13017,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -13011,10 +13058,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_11_id_col123"
@@ -13717,10 +13765,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col126"
@@ -13800,10 +13849,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -13840,10 +13890,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_12_id_col129"
@@ -14546,10 +14597,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col132"
@@ -14629,10 +14681,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -14669,10 +14722,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_13_id_col135"
@@ -15375,10 +15429,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col138"
@@ -15458,10 +15513,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -15498,10 +15554,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_14_id_col141"
@@ -16204,10 +16261,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "low_7_ms_bits_col144"
@@ -16287,10 +16345,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -16327,10 +16386,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "message_word_15_id_col147"
@@ -16836,10 +16896,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_2_col3"
@@ -17171,10 +17232,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_4_col5"
@@ -17506,10 +17568,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_6_col7"
@@ -17841,10 +17904,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_8_col9"
@@ -18176,10 +18240,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col148"
@@ -18511,10 +18576,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col156"
@@ -18846,10 +18912,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col164"
@@ -19181,10 +19248,11 @@
         "relation_name": "BlakeG",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1139985212"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1139985212",
+              "name": "BLAKE_G_RELATION_ID"
+            }
           },
           {
             "State": "blake_g_output_limb_0_col172"
@@ -19258,10 +19326,11 @@
         "relation_name": "BlakeRound",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "40528774"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "40528774",
+              "name": "BLAKE_ROUND_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -19380,10 +19449,11 @@
         "relation_name": "BlakeRound",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "40528774"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "40528774",
+              "name": "BLAKE_ROUND_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"

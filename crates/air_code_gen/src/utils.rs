@@ -271,11 +271,6 @@ pub fn generate_relation_uses(air_fn: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-/// The name of the constant holding the ID of `relation_name` in the generated relations files.
-pub fn relation_id_const_name(relation_name: &str) -> String {
-    format!("{}_RELATION_ID", relation_name.to_case(Case::UpperSnake))
-}
-
 pub fn expr_iterator<F>(expr: &CompiledAirVar, f: &mut F)
 where
     F: FnMut(&CompiledAirVar),
@@ -285,6 +280,7 @@ where
 
     match expr {
         CompiledAirVar::Const(..) => f(expr),
+        CompiledAirVar::NamedConst { .. } => f(expr),
         CompiledAirVar::Var(..) => f(expr),
         CompiledAirVar::State(..) => f(expr),
         CompiledAirVar::ExternalState { .. } => f(expr),

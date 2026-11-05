@@ -132,6 +132,7 @@ fn run_component_and_collect_steps(
                     }
                     CompiledAirVar::BinaryOp(..)
                     | CompiledAirVar::Const(..)
+                    | CompiledAirVar::NamedConst { .. }
                     | CompiledAirVar::State(..)
                     | CompiledAirVar::Var(..)
                     | CompiledAirVar::ExternalState(..)

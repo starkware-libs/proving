@@ -235,10 +235,11 @@
         "relation_name": "PedersenAggregatorWindowBits9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "194336987"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "194336987",
+              "name": "PEDERSEN_AGGREGATOR_WINDOW_BITS_9_RELATION_ID"
+            }
           },
           {
             "State": "input_state_0_id_col0"
@@ -335,10 +336,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "Var": [
@@ -428,10 +430,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -532,10 +535,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -595,10 +599,11 @@
         "relation_name": "PedersenAggregatorWindowBits9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "194336987"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "194336987",
+              "name": "PEDERSEN_AGGREGATOR_WINDOW_BITS_9_RELATION_ID"
+            }
           },
           {
             "State": "input_state_0_id_col0"

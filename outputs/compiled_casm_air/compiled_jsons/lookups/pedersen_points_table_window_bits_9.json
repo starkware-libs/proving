@@ -123,10 +123,11 @@
         "relation_name": "PedersenPointsTableWindowBits9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1791500038"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1791500038",
+              "name": "PEDERSEN_POINTS_TABLE_WINDOW_BITS_9_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_15"
@@ -318,10 +319,11 @@
         "relation_name": "PedersenPointsTableWindowBits9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1791500038"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1791500038",
+              "name": "PEDERSEN_POINTS_TABLE_WINDOW_BITS_9_RELATION_ID"
+            }
           },
           {
             "ExternalState": "seq_15"

@@ -304,7 +304,9 @@ fn make_var_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
 /// to create a Var for the given expression.
 fn make_eval_body_for_expr(expr: &CompiledAirVar) -> rust::Tokens {
     match expr {
-        CompiledAirVar::Const(_ty, val) => quote! { $(val) },
+        CompiledAirVar::Const(_, val) | CompiledAirVar::NamedConst { value: val, .. } => {
+            quote! { $(val) }
+        }
         CompiledAirVar::Var(_ty, id) => quote! { $(id) },
         CompiledAirVar::State(name) => quote! { $(name) },
         CompiledAirVar::StaticCall(..) => {

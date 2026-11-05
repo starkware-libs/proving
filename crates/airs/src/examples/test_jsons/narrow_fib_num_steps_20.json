@@ -669,10 +669,11 @@
         "relation_name": "NarrowFibNumSteps20",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1296888527"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1296888527",
+              "name": "NARROW_FIB_NUM_STEPS_20_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"
@@ -1379,10 +1380,11 @@
         "relation_name": "NarrowFibNumSteps20",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1296888527"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1296888527",
+              "name": "NARROW_FIB_NUM_STEPS_20_RELATION_ID"
+            }
           },
           {
             "State": "input_limb_0_col1"

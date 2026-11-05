@@ -381,10 +381,11 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1719106205"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1719106205",
+              "name": "VERIFY_INSTRUCTION_RELATION_ID"
+            }
           },
           {
             "State": "input_pc_col1"
@@ -853,10 +854,11 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "371240602"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "371240602",
+              "name": "RANGE_CHECK_7_2_5_RELATION_ID"
+            }
           },
           {
             "State": "offset0_mid_col9"
@@ -897,10 +899,11 @@
         "relation_name": "RangeCheck_4_3",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1567323731"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1567323731",
+              "name": "RANGE_CHECK_4_3_RELATION_ID"
+            }
           },
           {
             "State": "offset2_low_col13"
@@ -1028,10 +1031,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "State": "input_pc_col1"
@@ -1063,10 +1067,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "instruction_id_col16"
@@ -1245,10 +1250,11 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1719106205"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1719106205",
+              "name": "VERIFY_INSTRUCTION_RELATION_ID"
+            }
           },
           {
             "State": "input_pc_col1"

@@ -4,7 +4,7 @@ use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::rc::Rc;
 
-use air_common::utils::fix_str;
+use air_common::utils::{fix_str, relation_id_const_name};
 use air_common::{GATE_RELATION_NAME, OPCODES_RELATION_NAME, PaddingType, TraceType, UseOrYield};
 use convert_case::{Case, Casing};
 use regex::Regex;
@@ -399,13 +399,14 @@ impl AirBuilder {
         use_or_yield: UseOrYield,
         multiplicity: FeltExpr,
     ) {
-        let relation_id_expr = FeltExpr::Var(VarExpr::new_const(
+        let relation_id_expr = FeltExpr::Var(VarExpr::new_named_const(
             *self
                 .registry
                 .relation_ids
                 .borrow()
                 .get(relation_name)
                 .unwrap_or_else(|| panic!("Relation {relation_name} not found")),
+            relation_id_const_name(relation_name),
         ));
         felts.insert(0, relation_id_expr);
         self.air_body.push(AirBodyComponent::LookupTerm {

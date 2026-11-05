@@ -241,10 +241,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -678,10 +679,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "value_id_col0"

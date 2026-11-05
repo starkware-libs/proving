@@ -2458,10 +2458,11 @@
         "relation_name": "Opcodes",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "428564188"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "428564188",
+              "name": "OPCODES_RELATION_ID"
+            }
           },
           {
             "State": "input_pc_col1"
@@ -2484,10 +2485,11 @@
         "relation_name": "Opcodes",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "428564188"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "428564188",
+              "name": "OPCODES_RELATION_ID"
+            }
           },
           {
             "State": "next_pc_col239"
@@ -5097,10 +5099,11 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1719106205"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1719106205",
+              "name": "VERIFY_INSTRUCTION_RELATION_ID"
+            }
           },
           {
             "State": "input_pc_col1"
@@ -5903,10 +5906,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -6553,10 +6557,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "dst_id_col23"
@@ -6879,10 +6884,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -7529,10 +7535,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "op0_id_col53"
@@ -8008,10 +8015,11 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1444891767"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1444891767",
+              "name": "MEMORY_ADDRESS_TO_ID_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -8658,10 +8666,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1662111297"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1662111297",
+              "name": "MEMORY_ID_TO_BIG_RELATION_ID"
+            }
           },
           {
             "State": "op1_id_col84"
@@ -9516,10 +9525,11 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "517791011"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "517791011",
+              "name": "RANGE_CHECK_9_9_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_0_col113"
@@ -9554,10 +9564,11 @@
         "relation_name": "RangeCheck_9_9_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1897792095"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1897792095",
+              "name": "RANGE_CHECK_9_9_B_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_2_col115"
@@ -9592,10 +9603,11 @@
         "relation_name": "RangeCheck_9_9_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1881014476"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1881014476",
+              "name": "RANGE_CHECK_9_9_C_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_4_col117"
@@ -9630,10 +9642,11 @@
         "relation_name": "RangeCheck_9_9_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1864236857"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1864236857",
+              "name": "RANGE_CHECK_9_9_D_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_6_col119"
@@ -9668,10 +9681,11 @@
         "relation_name": "RangeCheck_9_9_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1847459238"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1847459238",
+              "name": "RANGE_CHECK_9_9_E_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_8_col121"
@@ -9706,10 +9720,11 @@
         "relation_name": "RangeCheck_9_9_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1830681619"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1830681619",
+              "name": "RANGE_CHECK_9_9_F_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_10_col123"
@@ -9744,10 +9759,11 @@
         "relation_name": "RangeCheck_9_9_G",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1813904000"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1813904000",
+              "name": "RANGE_CHECK_9_9_G_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_12_col125"
@@ -9782,10 +9798,11 @@
         "relation_name": "RangeCheck_9_9_H",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "2065568285"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "2065568285",
+              "name": "RANGE_CHECK_9_9_H_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_14_col127"
@@ -9820,10 +9837,11 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "517791011"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "517791011",
+              "name": "RANGE_CHECK_9_9_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_16_col129"
@@ -9858,10 +9876,11 @@
         "relation_name": "RangeCheck_9_9_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1897792095"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1897792095",
+              "name": "RANGE_CHECK_9_9_B_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_18_col131"
@@ -9896,10 +9915,11 @@
         "relation_name": "RangeCheck_9_9_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1881014476"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1881014476",
+              "name": "RANGE_CHECK_9_9_C_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_20_col133"
@@ -9934,10 +9954,11 @@
         "relation_name": "RangeCheck_9_9_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1864236857"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1864236857",
+              "name": "RANGE_CHECK_9_9_D_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_22_col135"
@@ -9972,10 +9993,11 @@
         "relation_name": "RangeCheck_9_9_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1847459238"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1847459238",
+              "name": "RANGE_CHECK_9_9_E_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_24_col137"
@@ -10010,10 +10032,11 @@
         "relation_name": "RangeCheck_9_9_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1830681619"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1830681619",
+              "name": "RANGE_CHECK_9_9_F_RELATION_ID"
+            }
           },
           {
             "State": "add_res_limb_26_col139"
@@ -10754,10 +10777,11 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "517791011"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "517791011",
+              "name": "RANGE_CHECK_9_9_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_0_col142"
@@ -10792,10 +10816,11 @@
         "relation_name": "RangeCheck_9_9_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1897792095"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1897792095",
+              "name": "RANGE_CHECK_9_9_B_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_2_col144"
@@ -10830,10 +10855,11 @@
         "relation_name": "RangeCheck_9_9_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1881014476"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1881014476",
+              "name": "RANGE_CHECK_9_9_C_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_4_col146"
@@ -10868,10 +10894,11 @@
         "relation_name": "RangeCheck_9_9_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1864236857"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1864236857",
+              "name": "RANGE_CHECK_9_9_D_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_6_col148"
@@ -10906,10 +10933,11 @@
         "relation_name": "RangeCheck_9_9_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1847459238"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1847459238",
+              "name": "RANGE_CHECK_9_9_E_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_8_col150"
@@ -10944,10 +10972,11 @@
         "relation_name": "RangeCheck_9_9_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1830681619"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1830681619",
+              "name": "RANGE_CHECK_9_9_F_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_10_col152"
@@ -10982,10 +11011,11 @@
         "relation_name": "RangeCheck_9_9_G",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1813904000"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1813904000",
+              "name": "RANGE_CHECK_9_9_G_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_12_col154"
@@ -11020,10 +11050,11 @@
         "relation_name": "RangeCheck_9_9_H",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "2065568285"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "2065568285",
+              "name": "RANGE_CHECK_9_9_H_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_14_col156"
@@ -11058,10 +11089,11 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "517791011"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "517791011",
+              "name": "RANGE_CHECK_9_9_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_16_col158"
@@ -11096,10 +11128,11 @@
         "relation_name": "RangeCheck_9_9_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1897792095"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1897792095",
+              "name": "RANGE_CHECK_9_9_B_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_18_col160"
@@ -11134,10 +11167,11 @@
         "relation_name": "RangeCheck_9_9_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1881014476"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1881014476",
+              "name": "RANGE_CHECK_9_9_C_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_20_col162"
@@ -11172,10 +11206,11 @@
         "relation_name": "RangeCheck_9_9_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1864236857"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1864236857",
+              "name": "RANGE_CHECK_9_9_D_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_22_col164"
@@ -11210,10 +11245,11 @@
         "relation_name": "RangeCheck_9_9_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1847459238"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1847459238",
+              "name": "RANGE_CHECK_9_9_E_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_24_col166"
@@ -11248,10 +11284,11 @@
         "relation_name": "RangeCheck_9_9_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1830681619"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1830681619",
+              "name": "RANGE_CHECK_9_9_F_RELATION_ID"
+            }
           },
           {
             "State": "mul_res_limb_26_col168"
@@ -25774,10 +25811,11 @@
         "relation_name": "RangeCheck_20",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1410849886"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1410849886",
+              "name": "RANGE_CHECK_20_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -25855,10 +25893,11 @@
         "relation_name": "RangeCheck_20_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "514232941"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "514232941",
+              "name": "RANGE_CHECK_20_B_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -25936,10 +25975,11 @@
         "relation_name": "RangeCheck_20_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "531010560"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "531010560",
+              "name": "RANGE_CHECK_20_C_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26017,10 +26057,11 @@
         "relation_name": "RangeCheck_20_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "480677703"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "480677703",
+              "name": "RANGE_CHECK_20_D_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26098,10 +26139,11 @@
         "relation_name": "RangeCheck_20_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "497455322"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "497455322",
+              "name": "RANGE_CHECK_20_E_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26179,10 +26221,11 @@
         "relation_name": "RangeCheck_20_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "447122465"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "447122465",
+              "name": "RANGE_CHECK_20_F_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26260,10 +26303,11 @@
         "relation_name": "RangeCheck_20_G",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "463900084"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "463900084",
+              "name": "RANGE_CHECK_20_G_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26341,10 +26385,11 @@
         "relation_name": "RangeCheck_20_H",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "682009131"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "682009131",
+              "name": "RANGE_CHECK_20_H_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26422,10 +26467,11 @@
         "relation_name": "RangeCheck_20",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1410849886"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1410849886",
+              "name": "RANGE_CHECK_20_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26503,10 +26549,11 @@
         "relation_name": "RangeCheck_20_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "514232941"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "514232941",
+              "name": "RANGE_CHECK_20_B_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26584,10 +26631,11 @@
         "relation_name": "RangeCheck_20_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "531010560"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "531010560",
+              "name": "RANGE_CHECK_20_C_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26665,10 +26713,11 @@
         "relation_name": "RangeCheck_20_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "480677703"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "480677703",
+              "name": "RANGE_CHECK_20_D_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26746,10 +26795,11 @@
         "relation_name": "RangeCheck_20_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "497455322"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "497455322",
+              "name": "RANGE_CHECK_20_E_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26827,10 +26877,11 @@
         "relation_name": "RangeCheck_20_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "447122465"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "447122465",
+              "name": "RANGE_CHECK_20_F_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26908,10 +26959,11 @@
         "relation_name": "RangeCheck_20_G",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "463900084"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "463900084",
+              "name": "RANGE_CHECK_20_G_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -26989,10 +27041,11 @@
         "relation_name": "RangeCheck_20_H",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "682009131"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "682009131",
+              "name": "RANGE_CHECK_20_H_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27070,10 +27123,11 @@
         "relation_name": "RangeCheck_20",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1410849886"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1410849886",
+              "name": "RANGE_CHECK_20_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27151,10 +27205,11 @@
         "relation_name": "RangeCheck_20_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "514232941"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "514232941",
+              "name": "RANGE_CHECK_20_B_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27232,10 +27287,11 @@
         "relation_name": "RangeCheck_20_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "531010560"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "531010560",
+              "name": "RANGE_CHECK_20_C_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27313,10 +27369,11 @@
         "relation_name": "RangeCheck_20_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "480677703"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "480677703",
+              "name": "RANGE_CHECK_20_D_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27394,10 +27451,11 @@
         "relation_name": "RangeCheck_20_E",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "497455322"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "497455322",
+              "name": "RANGE_CHECK_20_E_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27475,10 +27533,11 @@
         "relation_name": "RangeCheck_20_F",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "447122465"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "447122465",
+              "name": "RANGE_CHECK_20_F_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27575,10 +27634,11 @@
         "relation_name": "RangeCheck_20_G",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "463900084"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "463900084",
+              "name": "RANGE_CHECK_20_G_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27656,10 +27716,11 @@
         "relation_name": "RangeCheck_20_H",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "682009131"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "682009131",
+              "name": "RANGE_CHECK_20_H_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27737,10 +27798,11 @@
         "relation_name": "RangeCheck_20",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1410849886"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1410849886",
+              "name": "RANGE_CHECK_20_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27818,10 +27880,11 @@
         "relation_name": "RangeCheck_20_B",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "514232941"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "514232941",
+              "name": "RANGE_CHECK_20_B_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27899,10 +27962,11 @@
         "relation_name": "RangeCheck_20_C",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "531010560"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "531010560",
+              "name": "RANGE_CHECK_20_C_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -27980,10 +28044,11 @@
         "relation_name": "RangeCheck_20_D",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "480677703"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "480677703",
+              "name": "RANGE_CHECK_20_D_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -30734,10 +30799,11 @@
         "relation_name": "RangeCheck_18",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "1109051422"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "1109051422",
+              "name": "RANGE_CHECK_18_RELATION_ID"
+            }
           },
           {
             "BinaryOp": [
@@ -30785,10 +30851,11 @@
         "relation_name": "RangeCheck_11",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "991608089"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "991608089",
+              "name": "RANGE_CHECK_11_RELATION_ID"
+            }
           },
           {
             "State": "range_check_29_bot11bits_col241"
@@ -30900,10 +30967,11 @@
         "relation_name": "Opcodes",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "428564188"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "428564188",
+              "name": "OPCODES_RELATION_ID"
+            }
           },
           {
             "State": "input_pc_col1"
@@ -30926,10 +30994,11 @@
         "relation_name": "Opcodes",
         "felts": [
           {
-            "Const": [
-              "M31",
-              "428564188"
-            ]
+            "NamedConst": {
+              "type": "M31",
+              "value": "428564188",
+              "name": "OPCODES_RELATION_ID"
+            }
           },
           {
             "State": "next_pc_col239"

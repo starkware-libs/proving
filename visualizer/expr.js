@@ -140,6 +140,16 @@ export class ConstNode {
     }
 }
 
+export class NamedConstNode {
+    constructor(json, air) {
+        this.name = json.name
+    }
+
+    get_html(air_view) {
+        return html`<span>${this.name}</span>`
+    }
+}
+
 /**
  * @param {Expr} expr 
  * @returns {Set<string>}
@@ -167,6 +177,9 @@ export function expr_from_json(json, air) {
     }
     if (json.hasOwnProperty("Const")) {
         return new ConstNode(json.Const, air)
+    }
+    if (json.hasOwnProperty("NamedConst")) {
+        return new NamedConstNode(json.NamedConst, air)
     }
     if (json.hasOwnProperty("Var")) {
         return intermediate_var_node(json.Var, air)

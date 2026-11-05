@@ -1,4 +1,4 @@
-import { BinaryOpNode, ConstNode, EnablerNode, ExternalCellNode, PublicParamNode, VarNode } from "./expr.js"
+import { BinaryOpNode, ConstNode, EnablerNode, ExternalCellNode, NamedConstNode, PublicParamNode, VarNode } from "./expr.js"
 import { strings_maximal_template } from "./string_templates.js"
 import { all_used_once, create_var_span, html, intersperse } from "./utils.js"
 
@@ -127,6 +127,10 @@ function structure_matches(expr1, expr2) {
 
     if (expr1 instanceof ConstNode) {
         return (expr2 instanceof ConstNode) && expr1.value == expr2.value
+    }
+
+    if (expr1 instanceof NamedConstNode) {
+        return (expr2 instanceof NamedConstNode) && expr1.name == expr2.name
     }
 
     if (expr1 instanceof ExternalCellNode) {

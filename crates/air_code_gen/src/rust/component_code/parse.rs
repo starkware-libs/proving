@@ -46,7 +46,9 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String
 pub fn seek_consts(expr: &CompiledAirVar) -> BTreeSet<(String, String)> {
     let mut hashset = BTreeSet::new();
     let mut insert = |expr: &CompiledAirVar| {
-        if let CompiledAirVar::Const(ty, val) = expr {
+        if let CompiledAirVar::Const(ty, val)
+        | CompiledAirVar::NamedConst { r#type: ty, value: val, .. } = expr
+        {
             // Usize are used for array indexing, handled differently.
             if ty != "usize" {
                 hashset.insert((ty.to_string(), val.to_string()));
@@ -63,7 +65,8 @@ pub fn parse_eval_constraint(
     constant_names: &HashMap<(String, String), String>,
 ) -> String {
     match expr {
-        CompiledAirVar::Const(ty, val) => {
+        CompiledAirVar::Const(ty, val)
+        | CompiledAirVar::NamedConst { r#type: ty, value: val, .. } => {
             constant_names.get(&(ty.to_owned(), val.to_owned())).unwrap().to_string() + ".clone()"
         }
         CompiledAirVar::State(name) => format!("{name}.clone()"),
