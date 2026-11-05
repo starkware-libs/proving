@@ -27,6 +27,7 @@
     "max_trace_log_size": 20,
     "add_zk_blinding": false,
     "aggregator_wrapper_program": "compiled_cairo_programs/aggregator_wrapper_compiled.json",
+    "include_multiverifier": true,
     "cairo_components": [
         "add_opcode",
         "add_opcode_small",

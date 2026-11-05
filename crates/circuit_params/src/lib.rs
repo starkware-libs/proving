@@ -1,6 +1,6 @@
 //! Building blocks for the circuits of one registry: a leaf (cairo-verifier) circuit per
-//! verified Cairo trace log size in a range, plus the multiverifier that verifies their proofs —
-//! all padded to a shared component-size target (the elementwise max over them), so one
+//! verified Cairo trace log size in a range, plus optionally a multiverifier that verifies their
+//! proofs — all padded to a shared component-size target (the elementwise max over them), so one
 //! circuit shape verifies proofs of any of them.
 //!
 //! The `circuit-params` binary uses these to emit the registry (see `main.rs`); tests use them to
@@ -180,11 +180,20 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
         .map(|(_, padded)| padded.clone())
         .reduce(|max_sizes, sizes| max_sizes.elementwise_max(&sizes))
         .expect("the trace range is non-empty");
-    let (target_sizes, preprocessed_multiverifier) = padded_shared_target(
-        leaves_max_sizes,
-        circuits_builder.circuit_fri_params,
-        definition.pad_to_component_log_sizes.as_ref(),
-    );
+    let (target_sizes, preprocessed_multiverifier) = if definition.include_multiverifier {
+        let (target_sizes, preprocessed_multiverifier) = padded_shared_target(
+            leaves_max_sizes,
+            circuits_builder.circuit_fri_params,
+            definition.pad_to_component_log_sizes.as_ref(),
+        );
+        (target_sizes, Some(preprocessed_multiverifier))
+    } else {
+        let target_sizes = match &definition.pad_to_component_log_sizes {
+            Some(sizes) => leaves_max_sizes.elementwise_max(&sizes.to_component_sizes()),
+            None => leaves_max_sizes,
+        };
+        (target_sizes, None)
+    };
 
     // All circuits are padded to `target_sizes` and proven with
     // `circuit_log_blowup_factor`, so they share a single config.
@@ -216,29 +225,41 @@ pub fn create_registry_from_definition(definition: &RegistryDefinition) -> Circu
 
     // The multiverifier verifies two proofs of the leaf circuit, hence
     // `input_configs = [CONFIG_ID, CONFIG_ID]`.
-    let (mv_circuit_hash, mv_preprocessed_root) =
-        circuit_hash_and_preprocessed_root(&preprocessed_multiverifier, circuit_log_blowup_factor);
-    // The multiverifier's identity when proven for the `poseidon252_verifier` Cairo verifier.
-    // Both the preprocessed root and the circuit hash use the Poseidon channel.
-    let mv_poseidon_circuit_hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
-        &preprocessed_multiverifier,
-        circuit_log_blowup_factor,
-    );
-    let multiverifiers = vec![Multiverifier {
-        config: CONFIG_ID.to_string(),
-        input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
-        circuit_hash: DigestHex::from(mv_circuit_hash.0),
-        preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
-        // The hash is stwo's `starknet_ff::FieldElement`. It has no conversion to the
-        // `starknet_types_core` `Felt` the registry stores, so it goes through its bytes.
-        poseidon_circuit_hash: Felt::from_bytes_be(&mv_poseidon_circuit_hash.to_bytes_be()),
-    }];
+    let multiverifiers = match preprocessed_multiverifier {
+        Some(preprocessed_multiverifier) => {
+            let (mv_circuit_hash, mv_preprocessed_root) = circuit_hash_and_preprocessed_root(
+                &preprocessed_multiverifier,
+                circuit_log_blowup_factor,
+            );
+            // The multiverifier's identity when proven for the `poseidon252_verifier` Cairo
+            // verifier. Both the preprocessed root and the circuit hash use the
+            // Poseidon channel.
+            let mv_poseidon_circuit_hash = preprocessed_circuit_hash::<Poseidon252MerkleChannel>(
+                &preprocessed_multiverifier,
+                circuit_log_blowup_factor,
+            );
+            vec![Multiverifier {
+                config: CONFIG_ID.to_string(),
+                input_configs: [CONFIG_ID.to_string(), CONFIG_ID.to_string()],
+                circuit_hash: DigestHex::from(mv_circuit_hash.0),
+                preprocessed_root: DigestHex::from(mv_preprocessed_root.0),
+                // The hash is stwo's `starknet_ff::FieldElement`. It has no conversion to the
+                // `starknet_types_core` `Felt` the registry stores, so it goes through its bytes.
+                poseidon_circuit_hash: Felt::from_bytes_be(&mv_poseidon_circuit_hash.to_bytes_be()),
+            }]
+        }
+        None => vec![],
+    };
 
     // The unpacking verifier's whitelists are the hashes computed above, baked in as circuit
     // constants — so it is built last and its own hash lives in no whitelist. It must fit the
     // target those circuits fixed: it never grows it.
     let unpacking_verifiers = match definition.aggregator_wrapper_program_hash() {
         Some(aggregator_wrapper_program_hash) => {
+            assert!(
+                !multiverifiers.is_empty(),
+                "Cannot build unpacking verifier without a multiverifier"
+            );
             let leaf_set: Vec<HashValue<QM31>> = leaf_verifiers
                 .iter()
                 .map(|verifier| HashValue::from(verifier.circuit_hash.0))
@@ -430,6 +451,9 @@ pub struct RegistryDefinition {
     /// (blake) program hash is baked into the unpacking verifier. Absent for registries without
     /// that flow, which then have no unpacking verifier.
     pub aggregator_wrapper_program: Option<std::path::PathBuf>,
+    /// Whether the registry should include a multiverifier that can verify all leaf circuits.
+    /// If `false`, the registry will include just the leaf circuits.
+    pub include_multiverifier: bool,
 }
 
 impl RegistryDefinition {
