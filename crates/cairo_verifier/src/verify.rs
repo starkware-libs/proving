@@ -23,7 +23,7 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTra
 
 use crate::all_components::all_components;
 use crate::statement::{
-    AUX_DATA_FIXED_LEN, CairoStatement, MEMORY_VALUES_LIMBS, serialize_aux_data,
+    AUX_DATA_FIXED_LEN, CairoStatement, MEMORY_VALUES_LIMBS, serialize_aux_data, to_component_vec,
 };
 
 /// Logup security is defined by the `QM31` space (~124 bits) + `INTERACTION_POW_BITS` -
@@ -220,7 +220,7 @@ pub fn prepare_cairo_proof_for_circuit_verifier(
         .collect::<IndexMap<_, _>>();
 
     let proof_config = ProofConfig::new(
-        &components,
+        &to_component_vec(&components),
         preprocessed_trace_variant.n_columns(),
         &extended_stark_proof.proof.config,
         INTERACTION_POW_BITS,

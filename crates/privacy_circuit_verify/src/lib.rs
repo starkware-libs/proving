@@ -4,6 +4,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use cairo_air::verifier::INTERACTION_POW_BITS;
 use circuit_cairo_verifier::all_components::all_components;
+use circuit_cairo_verifier::statement::to_component_vec;
 use circuit_cairo_verifier::verify::{
     CairoVerifierConfig, NON_QUERY_INFO_LEAK, build_cairo_verifier_circuit, get_preprocessed_root,
 };
@@ -109,13 +110,11 @@ fn get_cairo_enabled_bits() -> Vec<bool> {
 }
 
 pub fn get_cairo_proof_config() -> ProofConfig {
-    let enabled_components = all_components::<NoValue>()
-        .into_iter()
-        .filter(|(name, _)| PRIVACY_TRANSACTION_COMPONENTS.contains(name))
-        .collect();
+    let mut enabled_components = all_components::<NoValue>();
+    enabled_components.retain(|name, _| PRIVACY_TRANSACTION_COMPONENTS.contains(name));
 
     ProofConfig::new(
-        &enabled_components,
+        &to_component_vec(&enabled_components),
         PreProcessedTraceVariant::CanonicalSmall.n_columns(),
         &CAIRO_PCS_CONFIG,
         INTERACTION_POW_BITS,

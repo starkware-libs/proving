@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use cairo_air::verifier::INTERACTION_POW_BITS;
 use circuit_cairo_verifier::all_components::all_components;
-use circuit_cairo_verifier::statement::MEMORY_VALUES_LIMBS;
+use circuit_cairo_verifier::statement::{MEMORY_VALUES_LIMBS, to_component_vec};
 use circuit_cairo_verifier::verify::CairoVerifierConfig;
 use circuits::blake::HashValue;
 use circuits_stark_verifier::constraint_eval::CircuitEval;
@@ -46,7 +46,7 @@ pub fn leaf_verifier_config(
     let LeafVerifierComponents { components, enabled_bits } =
         leaf_verifier_components(cairo_component_names);
     let proof_config = ProofConfig::new(
-        &components,
+        &to_component_vec(&components),
         preprocessed_trace_variant.n_columns(),
         pcs_config,
         INTERACTION_POW_BITS,

@@ -89,7 +89,7 @@ impl<Value: IValue> Statement<Value> for CircuitStatement<Value> {
     }
 
     fn get_components(&self) -> Vec<&dyn CircuitEval<Value>> {
-        self.components.as_ref().into_array().map(|component| component.as_ref()).to_vec()
+        to_component_array(&self.components).to_vec()
     }
 
     fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd {
@@ -168,6 +168,13 @@ pub fn all_circuit_components<Value: IValue>() -> PerComponent<Box<dyn CircuitEv
     }
 }
 
+/// Returns the components in the order that they appear in the trace.
+pub fn to_component_array<Value: IValue>(
+    components: &PerComponent<Box<dyn CircuitEval<Value>>>,
+) -> [&dyn CircuitEval<Value>; N_COMPONENTS] {
+    components.as_ref().into_array().map(Box::as_ref)
+}
+
 /// Resolves the (static) log size of every circuit component.
 pub fn circuit_component_log_sizes<Value: IValue>(
     components: &PerComponent<Box<dyn CircuitEval<Value>>>,
@@ -187,7 +194,7 @@ pub fn circuit_verifier_proof_config(
     pcs_config: &PcsConfig,
 ) -> ProofConfig {
     ProofConfig::new(
-        &all_circuit_components::<QM31>().into_index_map(),
+        &to_component_array(&all_circuit_components::<QM31>()),
         preprocessed_column_log_sizes.len(),
         pcs_config,
         INTERACTION_POW_BITS,

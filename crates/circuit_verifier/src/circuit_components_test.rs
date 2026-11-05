@@ -35,8 +35,4 @@ fn test_per_component_helpers_keep_component_list_order() {
 
     let zipped = indices().zip(indices().map(|idx| COMPONENT_NAMES[idx])).into_array();
     assert_eq!(zipped, std::array::from_fn(|i| (i, COMPONENT_NAMES[i])));
-
-    let map = indices().into_index_map();
-    assert!(map.keys().copied().eq(COMPONENT_NAMES));
-    assert!(map.values().copied().eq(expected));
 }

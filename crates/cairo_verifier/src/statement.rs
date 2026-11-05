@@ -429,9 +429,16 @@ impl<Value: IValue> CairoStatement<Value> {
     }
 }
 
+/// Returns the components in the map's order (which is the order they appear in the trace).
+pub fn to_component_vec<'a, Value: IValue>(
+    components: &'a IndexMap<&'static str, Box<dyn CircuitEval<Value>>>,
+) -> Vec<&'a dyn CircuitEval<Value>> {
+    components.values().map(Box::as_ref).collect()
+}
+
 impl<Value: IValue> Statement<Value> for CairoStatement<Value> {
     fn get_components(&self) -> Vec<&dyn CircuitEval<Value>> {
-        self.components.values().map(|component| component.as_ref()).collect()
+        to_component_vec(&self.components)
     }
 
     fn pack_component_log_sizes(&self, context: &mut Context<Value>) -> Simd {

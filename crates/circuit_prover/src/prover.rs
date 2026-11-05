@@ -2,7 +2,9 @@ use circuit_common::Qm31OpsTraceGenerator;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{CircuitInteractionElements, logup_sum};
 use circuit_verifier::circuit_proof::CircuitProof;
-use circuit_verifier::statement::{INTERACTION_POW_BITS, all_circuit_components};
+use circuit_verifier::statement::{
+    INTERACTION_POW_BITS, all_circuit_components, to_component_array,
+};
 use circuit_verifier::verify::CircuitPublicData;
 use circuits::blake::BLAKE2S_DIGEST_N_WORDS;
 use circuits_stark_verifier::proof::{Proof, ProofConfig};
@@ -213,7 +215,7 @@ pub fn prepare_circuit_proof_for_circuit_verifier(
     let public_data = CircuitPublicData { output_digest: claim.output_digest.into() };
 
     let proof_config = ProofConfig::new(
-        &all_circuit_components::<QM31>().into_index_map(),
+        &to_component_array(&all_circuit_components::<QM31>()),
         stark_proof.proof.sampled_values[PREPROCESSED_TRACE_IDX].len(),
         &pcs_config,
         INTERACTION_POW_BITS,

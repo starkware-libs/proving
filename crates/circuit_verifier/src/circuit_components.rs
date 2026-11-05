@@ -45,12 +45,6 @@ macro_rules! define_component_list {
                 itertools::zip_eq(COMPONENT_NAMES, self.into_array())
             }
 
-            /// Consumes `self`, returning a map from component name to value, in
-            /// `ComponentList` order.
-            pub fn into_index_map(self) -> indexmap::IndexMap<&'static str, T> {
-                self.into_named_iter().collect()
-            }
-
             /// Applies `f` to every component's value, in `ComponentList` order.
             pub fn map<U>(self, mut f: impl FnMut(T) -> U) -> PerComponent<U> {
                 PerComponent { $($field: f(self.$field)),* }

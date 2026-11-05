@@ -18,7 +18,7 @@ use stwo_cairo_common::preprocessed_columns::preprocessed_trace::PreProcessedTra
 use stwo_cairo_common::prover_types::felt::split_f252;
 
 use crate::all_components::all_components;
-use crate::statement::{N_OUTPUTS, N_WORDS_PER_OUTPUT_CELL};
+use crate::statement::{N_OUTPUTS, N_WORDS_PER_OUTPUT_CELL, to_component_vec};
 use crate::utils::{get_test_data_dir, load_program};
 use crate::verify::{
     CairoVerifierConfig, INTERACTION_POW_BITS, get_preprocessed_root,
@@ -45,7 +45,7 @@ pub fn privacy_cairo_verifier_config(
 ) -> CairoVerifierConfig {
     let preprocessed_trace_variant = PreProcessedTraceVariant::CanonicalSmall;
     // Build `enabled_bits` (one flag per component in the full list) and `components` (only the
-    // enabled entries, as expected by `ProofConfig::new`) in a single pass.
+    // enabled entries, in the full list's order) in a single pass.
     let (enabled_bits, components): (Vec<bool>, Vec<_>) = all_components::<NoValue>()
         .into_iter()
         .map(|(name, component)| {
@@ -60,7 +60,7 @@ pub fn privacy_cairo_verifier_config(
     let pcs_config = privacy_pcs_config(PRIVACY_CAIRO_TRACE_LOG_SIZE, log_blowup_factor);
 
     let proof_config = ProofConfig::new(
-        &components,
+        &to_component_vec(&components),
         preprocessed_trace_variant.n_columns(),
         &pcs_config,
         INTERACTION_POW_BITS,
@@ -170,7 +170,7 @@ pub fn verify_cairo_with_component_set(
 
     let ppt_root = cairo_proof.extended_stark_proof.proof.commitments[0];
     let proof_config = ProofConfig::new(
-        &components,
+        &to_component_vec(&components),
         cairo_proof.preprocessed_trace_variant.n_columns(),
         &cairo_proof.extended_stark_proof.proof.config,
         INTERACTION_POW_BITS,

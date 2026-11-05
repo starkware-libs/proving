@@ -3,7 +3,6 @@ use circuits::context::{Context, Var};
 use circuits::ivalue::{IValue, NoValue};
 use circuits::ops::Guess;
 use circuits::wrappers::U32Wrapper;
-use indexmap::IndexMap;
 use itertools::zip_eq;
 use stwo::core::fields::qm31::SECURE_EXTENSION_DEGREE;
 use stwo::core::fri::FriConfig;
@@ -34,7 +33,7 @@ pub struct ProofConfig {
     pub n_preprocessed_columns: usize,
     pub n_trace_columns: usize,
     pub n_interaction_columns: usize,
-    // One entry per component, in the order of the components map passed to `new`. This must match
+    // One entry per component, in the order of the components passed to `new`. This must match
     // the order of `Statement::get_components`, which `compute_composition_polynomial` zips
     // against it; callers must pass `new` the components in that order. Note this is not
     // necessarily the committed-column order: The verifier sorts the query columns to the
@@ -51,13 +50,13 @@ pub struct ProofConfig {
 }
 impl ProofConfig {
     pub fn new<Value: IValue>(
-        components: &IndexMap<&'static str, Box<dyn CircuitEval<Value>>>,
+        components: &[&dyn CircuitEval<Value>],
         n_preprocessed_columns: usize,
         pcs_config: &PcsConfig,
         n_interaction_pow_bits: u32,
     ) -> Self {
         let mut component_shapes = Vec::with_capacity(components.len());
-        for component in components.values() {
+        for component in components {
             component_shapes.push(ComponentShape {
                 trace_columns: component.trace_columns(),
                 interaction_columns: component.interaction_columns(),

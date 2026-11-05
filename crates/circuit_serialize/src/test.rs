@@ -16,7 +16,12 @@ fn test_serialize_deserialize() {
         create_proof();
 
     let components = simple_statement_components::<QM31>();
-    let config = ProofConfig::new(&components, PREPROCESSED_COLUMN_LOG_SIZES.len(), &pcs_config, 8);
+    let config = ProofConfig::new(
+        &components.values().map(Box::as_ref).collect::<Vec<_>>(),
+        PREPROCESSED_COLUMN_LOG_SIZES.len(),
+        &pcs_config,
+        8,
+    );
     let proof = proof_from_stark_proof(&proof, &config, claim, interaction_pow_nonce, channel_salt);
 
     let mut serialized = Vec::new();
