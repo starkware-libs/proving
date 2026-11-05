@@ -1,4 +1,3 @@
-use circuit_common::N_RESERVED;
 use circuit_verifier::multiverifier::{CircuitVerifierInput, SharedConfig, verify_child};
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
@@ -45,7 +44,7 @@ pub fn build_applicative_unpacking_verifier_circuit<Value: IValue>(
     aggregated_output_digest: [u32; 8],
     params: &UnpackingCircuitParams<'_>,
 ) -> FinalizedContext<Value> {
-    let mut context = Context::new(N_RESERVED);
+    let mut context = Context::new();
 
     let recursion_tree = RecursionTreeParams::new(
         CAPACITY,

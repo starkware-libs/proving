@@ -1,7 +1,7 @@
 use itertools::{Itertools, chain};
 
 use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue};
-use crate::context::{Context, GuessVar, TraceContext, U_VAR_IDX, Var};
+use crate::context::{Context, GuessVar, OUTPUT_START, TraceContext, U_VAR_IDX, Var};
 use crate::ivalue::qm31_from_u32s;
 use crate::wrappers::U32Wrapper;
 
@@ -24,12 +24,12 @@ fn test_constants() {
 
 #[test]
 fn test_set_outputs() {
-    let mut context = TraceContext::default();
+    let mut context = TraceContext::new();
+    let reserved: [Var; BLAKE2S_DIGEST_N_WORDS] =
+        std::array::from_fn(|i| Var { idx: OUTPUT_START + i });
 
     let words: [U32Wrapper<Var>; BLAKE2S_DIGEST_N_WORDS] =
         std::array::from_fn(|i| U32Wrapper::const_u32(&mut context, i as u32));
-
-    let reserved: [Var; BLAKE2S_DIGEST_N_WORDS] = std::array::from_fn(|_| context.reserve());
     context.set_outputs(&HashValue(words));
     for (i, var) in reserved.into_iter().enumerate() {
         assert_eq!(context.get(var), qm31_from_u32s(i as u32, 0, 0, 0));
@@ -49,18 +49,15 @@ fn test_set_outputs() {
 #[test]
 #[should_panic(expected = "were never assigned")]
 fn test_unfulfilled_reservation_panics_at_finalize() {
-    let mut context = TraceContext::default();
-    context.reserve();
-    context.finalize(false);
+    TraceContext::new().finalize(false);
 }
 
 #[test]
 #[cfg(debug_assertions)]
 #[should_panic(expected = "read of reserved variable")]
 fn test_read_before_fulfill_panics_in_debug() {
-    let mut context = TraceContext::default();
-    let r = context.reserve();
-    context.get(r);
+    let context = TraceContext::new();
+    context.get(Var { idx: OUTPUT_START });
 }
 
 /// Builds a circuit with a single `U16` guess holding `value`, finalizes the guessed

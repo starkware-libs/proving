@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use cairo_air::CairoProof;
 use cairo_air::flat_claims::FlatClaim;
-use circuit_common::N_RESERVED;
 use circuit_verifier::zk_blinding::add_zk_blinding;
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
@@ -138,7 +137,7 @@ pub fn build_and_fill_cairo_verifier_circuit(
 ) -> FinalizedContext<QM31> {
     let config = &verifier_config.proof_config;
 
-    let mut context = Context::new(N_RESERVED);
+    let mut context = Context::new();
     let statement = CairoStatement::<QM31>::new(
         &mut context,
         serialized_aux_data,
@@ -174,7 +173,7 @@ pub fn build_cairo_verifier_circuit(
     let n_components = verifier_config.enabled_bits.iter().filter(|b| **b).count();
     let serialized_aux_data = vec![M31::zero(); AUX_DATA_FIXED_LEN + program_len + n_components];
 
-    let mut context: Context<NoValue> = Context::new(N_RESERVED);
+    let mut context: Context<NoValue> = Context::new();
     let statement = CairoStatement::new(
         &mut context,
         serialized_aux_data,

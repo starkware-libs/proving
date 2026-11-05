@@ -1,4 +1,3 @@
-use circuit_common::N_RESERVED;
 use circuit_common::finalize::pad_context;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_verifier::circuit_claim::{
@@ -35,7 +34,7 @@ use crate::test_utils::default_circuit_pcs_config;
 // Not a power of 2 so that we can test component padding.
 const N: usize = 1030;
 
-/// Copies `words` into the context's [`N_RESERVED`] reserved output wires, cycling through them to
+/// Copies `words` into the context's `N_RESERVED` reserved output wires, cycling through them to
 /// fill the digest width. A circuit verified by the circuit verifier outputs a Blake2s digest;
 /// these test circuits have no digest of their own, so any `u32`-encoded wires will do.
 fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
@@ -43,7 +42,7 @@ fn set_digest_outputs(context: &mut Context<QM31>, words: &[U32Wrapper<Var>]) {
 }
 
 pub fn build_fibonacci_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(N_RESERVED);
+    let mut context = Context::<QM31>::new();
 
     let (mut a, mut b) = (guess(&mut context, QM31::zero()), guess(&mut context, QM31::one()));
     for _ in 2..N {
@@ -61,7 +60,7 @@ pub fn build_fibonacci_context() -> Context<QM31> {
 }
 
 pub fn build_permutation_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(N_RESERVED);
+    let mut context = Context::<QM31>::new();
 
     let a = guess(&mut context, qm31_from_u32s(0, 2, 0, 2));
     let b = guess(&mut context, qm31_from_u32s(1, 1, 1, 1));
@@ -75,7 +74,7 @@ pub fn build_permutation_context() -> Context<QM31> {
 }
 
 pub fn build_blake_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(N_RESERVED);
+    let mut context = Context::<QM31>::new();
     context.enable_assert_eq_on_eval();
 
     let mut inputs: Vec<Var> = vec![];
@@ -102,7 +101,7 @@ pub fn build_blake_context() -> Context<QM31> {
 }
 
 pub fn build_triple_xor_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(N_RESERVED);
+    let mut context = Context::<QM31>::new();
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // 42 ^ 17 ^ 55 = 12
@@ -140,7 +139,7 @@ pub fn build_triple_xor_context() -> Context<QM31> {
 }
 
 pub fn build_m31_to_u32_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(N_RESERVED);
+    let mut context = Context::<QM31>::new();
 
     let a = guess_m31_from_u32(&mut context, 42);
     let out_a = m31_to_u32(&mut context, a);
@@ -168,7 +167,7 @@ pub fn build_m31_to_u32_context() -> Context<QM31> {
 }
 
 pub fn build_blake_g_gate_context() -> Context<QM31> {
-    let mut context = Context::<QM31>::new(N_RESERVED);
+    let mut context = Context::<QM31>::new();
 
     // Inputs are u32 values packed as (low_16, high_16, 0, 0).
     // G(305419896, 4294967295, 2147483647, 123456789, 987654321, 468798)

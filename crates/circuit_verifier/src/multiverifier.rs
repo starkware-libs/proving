@@ -1,4 +1,3 @@
-use circuit_common::N_RESERVED;
 use circuits::blake::{HashValue, blake2s_u32s};
 use circuits::context::{Context, FinalizedContext, Var};
 use circuits::ivalue::{IValue, NoValue};
@@ -60,7 +59,7 @@ pub fn build_multiverifier_circuit<Value: IValue>(
     shared_config: &SharedConfig,
 ) -> FinalizedContext<Value> {
     assert!(!inputs.is_empty(), "multiverifier node needs at least one input");
-    let mut context = Context::new(N_RESERVED);
+    let mut context = Context::new();
 
     let mut outer_verifier_output_preimage = vec![];
     // Verify the `k` proofs sequentially, in the fixed left-to-right order of `inputs`.

@@ -5,7 +5,7 @@ use num_traits::{One, Zero};
 use stwo::core::fields::m31::M31;
 use stwo::core::fields::qm31::QM31;
 
-use crate::blake::{HashValue, m31_to_u32_into};
+use crate::blake::{BLAKE2S_DIGEST_N_WORDS, HashValue, m31_to_u32_into};
 use crate::circuit::{Add, Circuit};
 use crate::finalize_constants::finalize_constants;
 use crate::ivalue::{IValue, qm31_from_u32s};
@@ -94,11 +94,15 @@ pub struct Context<Value: IValue> {
 }
 
 impl<Value: IValue> Context<Value> {
-    /// Creates a new context with `n_reserved` wires at addresses `3 + i`, for `i ∈ [0,
-    /// n_reserved)`.
-    pub fn new(n_reserved: usize) -> Self {
+    /// Creates a new context whose outputs are a 256-bit digest (e.g. Blake2s), held as
+    /// `BLAKE2S_DIGEST_N_WORDS` `u32` words: reserves the wires at addresses `OUTPUT_START + i`,
+    /// for `i ∈ [0, BLAKE2S_DIGEST_N_WORDS)`, for [`Self::set_outputs`] to fill.
+    ///
+    /// [`Self::default`], by contrast, reserves no output wires, so [`Self::set_outputs`] panics
+    /// on it.
+    pub fn new() -> Self {
         let mut context = Context::default();
-        for _ in 0..n_reserved {
+        for _ in 0..BLAKE2S_DIGEST_N_WORDS {
             context.reserve();
         }
         context
@@ -147,21 +151,21 @@ impl<Value: IValue> Context<Value> {
     /// Allocates a fresh variable with no concrete value yet.
     ///
     /// Reading the value before assignment triggers a debug assertion in [`Self::get`].
-    pub fn reserve(&mut self) -> Var {
+    fn reserve(&mut self) -> Var {
         let reserved = self.new_var(Value::placeholder());
         self.reserved_vars.push(reserved.idx);
         reserved
     }
 
-    /// Given a Blake2s digest, it copies its words into the reserved variables and marks the
+    /// Given a 256-bit digest, it copies its words into the reserved variables and marks the
     /// reserved variables as outputs. It also adds an `Add` gate to yield and constrain the
     /// reserved vars.
     ///
-    /// The outputs are words since they are the circuit's claim, a Blake2s digest. Each word is a
+    /// The outputs are words since they are the circuit's claim, a 256-bit digest. Each word is a
     /// [`U32Wrapper`](crate::wrappers::U32Wrapper), as a digest word may not fit in an M31.
     ///
-    /// Panics if the number of the currently reserved variables is not
-    /// [`BLAKE2S_DIGEST_N_WORDS`](crate::blake::BLAKE2S_DIGEST_N_WORDS).
+    /// Panics unless the context holds the `BLAKE2S_DIGEST_N_WORDS` unfilled wires that
+    /// [`Self::new`] reserves.
     pub fn set_outputs(&mut self, digest: &HashValue<Var>) {
         for (reserved, word) in zip_eq(std::mem::take(&mut self.reserved_vars), digest.iter()) {
             let var = word.raw();

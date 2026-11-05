@@ -32,8 +32,7 @@ pub trait IValue:
 {
     fn from_qm31(value: QM31) -> Self;
 
-    /// A dummy value used by [`Context::reserve`](crate::context::Context::reserve) for variables
-    /// whose value will be supplied later.
+    /// A dummy value used by `Context::reserve` for variables whose value will be supplied later.
     fn placeholder() -> Self;
 
     /// Computes pointwise multiplication of two [QM31] values.

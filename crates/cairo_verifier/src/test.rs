@@ -6,7 +6,6 @@ use cairo_air::CairoProof;
 use cairo_air::flat_claims::FlatClaim;
 use cairo_air::utils::{binary_deserialize_from_file, binary_serialize_to_file};
 use cairo_vm::types::layout_name::LayoutName;
-use circuit_common::N_RESERVED;
 use circuits::blake::HashValue;
 use circuits::context::{Context, FinalizedContext};
 use circuits::ivalue::{IValue, NoValue};
@@ -53,7 +52,7 @@ fn test_verify() {
         trace_log_size: SMALL_MAX_SEQUENCE_LOG_SIZE,
     });
 
-    let mut novalue_context: Context<NoValue> = Context::new(N_RESERVED);
+    let mut novalue_context: Context<NoValue> = Context::new();
     let program_len = 128;
     let program: Arc<[[M31; MEMORY_VALUES_LIMBS]]> =
         std::iter::repeat_n([M31::zero(); MEMORY_VALUES_LIMBS], program_len).collect();

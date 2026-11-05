@@ -4,7 +4,6 @@
 //! `CairoSerialize` impls, deserializes the felt252 stream back via `CairoDeserialize`,
 //! and asserts the result equals the original.
 
-use circuit_common::N_RESERVED;
 use circuit_common::preprocessed::PreprocessedCircuit;
 use circuit_prover::prover::{BaseColumnPool, SimdBackend, prove_circuit_assignment_with_channel};
 use circuit_verifier::statement::{all_circuit_components, circuit_component_log_sizes};
@@ -71,7 +70,7 @@ fn qm31(a: u32, b: u32, c: u32, d: u32) -> QM31 {
 /// in `circuit_prover::test`, just smaller.
 fn build_minimal_context() -> Context<QM31> {
     const N: usize = 16;
-    let mut ctx = Context::<QM31>::new(N_RESERVED);
+    let mut ctx = Context::<QM31>::new();
     let (mut a, mut b) = (guess(&mut ctx, QM31::zero()), guess(&mut ctx, QM31::one()));
     // The Cairo verifier's claim holds a fixed-size digest, so emit exactly that many outputs.
     let mut outputs = Vec::with_capacity(N);
