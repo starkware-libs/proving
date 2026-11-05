@@ -157,7 +157,7 @@ pub mod builtin_tests {
     /// *unsorted* preprocessed query positions that the Merkle verifier must
     /// sort.
     ///
-    /// `channel_salt = 14` with `n_queries = 1000` is a seed where the folded positions
+    /// `channel_salt = 15` with `n_queries = 1000` is a seed where the folded positions
     /// come out unsorted.
     #[test]
     fn test_prove_verify_large_trace_canonical_small() {
@@ -170,7 +170,7 @@ pub mod builtin_tests {
             channel_hash: ChannelHash::Blake2s,
             fri_params: FriParams::new(10, 0, 1, 1000, 1),
             preprocessed_trace_variant: PreProcessedTraceVariant::CanonicalSmall,
-            channel_salt: 14,
+            channel_salt: 15,
             store_polynomials_coefficients: false,
             include_all_preprocessed_columns: false,
             opt_n_id_to_big_components: None,

@@ -9,19 +9,16 @@ use tracing::{Level, span};
 
 use super::SimdBackend;
 use crate::core::channel::{Blake2sChannel, Channel, Keccak256Channel};
-use crate::core::fields::m31::P;
 use crate::core::proof_of_work::GrindOps;
 use crate::core::vcs::blake2_hash::Blake2sHasher;
 use crate::prover::backend::simd::blake2s::hash_16;
 use crate::prover::backend::simd::m31::N_LANES;
 
 // Note: GRIND_LOW_BITS is a cap on how much extra time we need to wait for all threads to finish.
-// It must be <= 30 if we want to guarantee that the lowest 32 bits of the nonce are < 2^31 - 1.
 const GRIND_LOW_BITS: u32 = 20;
 
 impl GrindOps<Blake2sChannel> for SimdBackend {
-    /// Outputs the smallest nonce of the form `(a << 32) | b`, where `0 <= a < 2^31 - 1` and
-    /// `0 <= b < 2^GRIND_LOW_BITS`.
+    /// Outputs the smallest nonce that satisfies the proof of work.
     fn grind(channel: &Blake2sChannel, pow_bits: u32) -> u64 {
         let _span = span!(Level::TRACE, "Simd Blake2s Grind", class = "Blake2s Grind");
 
@@ -45,19 +42,11 @@ impl GrindOps<Blake2sChannel> for SimdBackend {
         #[cfg(feature = "parallel")]
         let res = parallel_grind(prefixed_digest, pow_bits, grind_blake);
 
-        assert!(
-            ((res >> 32) as u32) < P,
-            "The 32 high bits of the nonce are not reduced modulo the M31 prime."
-        );
-        assert!(
-            (res as u32) < P,
-            "The 32 low bits of the nonce are not reduced modulo the M31 prime."
-        );
         res
     }
 }
 
-fn grind_blake(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
+fn grind_blake(digest: &[u32], hi: u64, pow_bits: u32) -> Option<u64> {
     const DIGEST_SIZE: usize = std::mem::size_of::<[u32; 8]>();
     const NONCE_SIZE: usize = std::mem::size_of::<u64>();
     let zero: u32x16 = u32x16::splat(0);
@@ -66,8 +55,8 @@ fn grind_blake(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
 
     let state: [_; 8] = std::array::from_fn(|i| u32x16::splat(digest[i]));
 
-    let mut attempt_low = offsets_vec;
-    let attempt_high = u32x16::splat(hi);
+    let mut attempt_low = u32x16::splat((hi << GRIND_LOW_BITS) as u32) + offsets_vec;
+    let attempt_high = u32x16::splat((hi >> (32 - GRIND_LOW_BITS)) as u32);
     for low in (0..(1 << GRIND_LOW_BITS)).step_by(N_LANES) {
         let msgs = std::array::from_fn(|i| match i {
             0..=7 => state[i],
@@ -79,7 +68,7 @@ fn grind_blake(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
         let success_mask = res[0].trailing_zeros().simd_ge(pow_bits);
         if success_mask.any() {
             let i = success_mask.to_array().iter().position(|&x| x).unwrap();
-            return Some(((hi as u64) << 32) + low as u64 + i as u64);
+            return Some((hi << GRIND_LOW_BITS) + low as u64 + i as u64);
         }
         attempt_low += u32x16::splat(N_LANES as u32);
     }
@@ -91,15 +80,14 @@ fn grind_blake(digest: &[u32], hi: u32, pow_bits: u32) -> Option<u64> {
 #[cfg(feature = "parallel")]
 fn parallel_grind<GRIND, DIGEST>(digest: DIGEST, pow_bits: u32, grind: GRIND) -> u64
 where
-    GRIND: Fn(DIGEST, u32, u32) -> Option<u64> + Send + Sync,
+    GRIND: Fn(DIGEST, u64, u32) -> Option<u64> + Send + Sync,
     DIGEST: Send + Sync + Copy,
 {
-    use core::sync::atomic::Ordering;
-    use std::sync::atomic::AtomicU32;
+    use core::sync::atomic::{AtomicU64, Ordering};
 
-    let n_workers = rayon::current_num_threads() as u32;
-    let next_chunk = AtomicU32::new(n_workers);
-    let smallest_good_chunk = AtomicU32::new(u32::MAX);
+    let n_workers = rayon::current_num_threads() as u64;
+    let next_chunk = AtomicU64::new(n_workers);
+    let smallest_good_chunk = AtomicU64::new(u64::MAX);
     let found = (0..n_workers)
         .into_par_iter()
         .filter_map(|thread_id| {
@@ -159,8 +147,7 @@ pub mod poseidon252 {
     const GRIND_LOW_BITS: u32 = 14;
 
     impl GrindOps<Poseidon252Channel> for SimdBackend {
-        /// Outputs the smallest nonce of the form `(a << 32) | b`, where `0 <= a < 2^31 - 1` and
-        /// `0 <= b < 2^GRIND_LOW_BITS`.
+        /// Outputs the smallest nonce that satisfies the proof of work.
         fn grind(channel: &Poseidon252Channel, pow_bits: u32) -> u64 {
             let digest = channel.digest();
             let prefixed_digest = poseidon_hash_many(&[
@@ -175,18 +162,13 @@ pub mod poseidon252 {
 
             #[cfg(feature = "parallel")]
             let res = parallel_grind(prefixed_digest, pow_bits, grind_poseidon);
-
-            assert!(
-                ((res >> 32) as u32) < P,
-                "The 32 high bits of the solution are larger than the M31 prime."
-            );
             res
         }
     }
 
-    fn grind_poseidon(digest: FieldElement252, chunk_id: u32, pow_bits: u32) -> Option<u64> {
+    fn grind_poseidon(digest: FieldElement252, chunk_id: u64, pow_bits: u32) -> Option<u64> {
         for low in 0..(1 << GRIND_LOW_BITS) {
-            let nonce = low | ((chunk_id as u64) << 32);
+            let nonce = low | (chunk_id << GRIND_LOW_BITS);
             let hash = starknet_crypto::poseidon_hash(digest, nonce.into());
             let trailing_zeros =
                 u128::from_be_bytes(hash.to_bytes_be()[16..].try_into().unwrap()).trailing_zeros();
