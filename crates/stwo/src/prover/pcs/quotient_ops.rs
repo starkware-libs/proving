@@ -171,6 +171,7 @@ mod tests {
     use crate::core::fields::m31::M31;
     use crate::core::fri::{FriConfig, FriParams};
     use crate::core::pcs::quotients::PointSample;
+    use crate::core::pcs::utils::prepare_preprocessed_query_positions;
     use crate::core::pcs::{CommitmentSchemeVerifier, PcsConfig, TreeVec};
     use crate::core::poly::circle::CanonicCoset;
     use crate::core::vcs_lifted::blake2_merkle::Blake2sMerkleChannel;
@@ -300,6 +301,59 @@ mod tests {
     #[test]
     fn test_pcs_prove_and_verify_simd_with_barycentric() {
         assert!(prove_and_verify_pcs::<SimdBackend, false>().is_ok());
+    }
+
+    /// Proves and verifies a witness with a preprocessed trace size smaller than the trace size,
+    /// and with query positions that end up unsorted when folded down to the preprocessed trace
+    /// eval domain.
+    #[test]
+    fn test_pcs_prove_and_verify_unsorted_preprocessed_query_positions() {
+        const PREPROCESSED_LOG_SIZE: u32 = 4;
+        const TRACE_LOG_SIZE: u32 = 8;
+        let fri_params = FriParams::new(10, 0, 1, 64, 1);
+        let config = PcsConfig {
+            fri_params,
+            trace_lifting_log_size: TRACE_LOG_SIZE + fri_params.log_blowup_factor,
+            preprocessed_lifting_log_size: PREPROCESSED_LOG_SIZE + fri_params.log_blowup_factor,
+        };
+        let twiddles = SimdBackend::precompute_twiddles(
+            CanonicCoset::new(config.trace_lifting_log_size).half_coset(),
+        );
+
+        // Prover side: a preprocessed tree and a trace tree, one column each.
+        let mut channel = Blake2sChannel::default();
+        let mut commitment_scheme =
+            CommitmentSchemeProver::<SimdBackend, Blake2sMerkleChannel>::new(config, &twiddles);
+        let log_sizes = [PREPROCESSED_LOG_SIZE, TRACE_LOG_SIZE];
+        for log_size in log_sizes {
+            let mut tree_builder = commitment_scheme.tree_builder();
+            tree_builder.extend_polys([CircleCoefficients::new(
+                (0..1 << log_size).map(M31::from).collect(),
+            )]);
+            tree_builder.commit(&mut channel);
+        }
+        let point = SECURE_FIELD_CIRCLE_GEN.mul(SmallRng::seed_from_u64(0).random::<u128>());
+        let sampled_points = TreeVec(vec![vec![vec![point]]; log_sizes.len()]);
+        let proof = commitment_scheme.prove_values(sampled_points.clone(), &mut channel, 0);
+
+        let query_positions =
+            proof.aux.unsorted_query_locations.iter().copied().sorted().collect_vec();
+        assert!(
+            !prepare_preprocessed_query_positions(
+                &query_positions,
+                config.trace_lifting_log_size,
+                config.preprocessed_lifting_log_size,
+            )
+            .is_sorted()
+        );
+
+        // Verifier side.
+        let mut channel = Blake2sChannel::default();
+        let mut verifier = CommitmentSchemeVerifier::<Blake2sMerkleChannel>::new(config);
+        for (&commitment, log_size) in proof.proof.commitments.iter().zip(log_sizes) {
+            verifier.commit(commitment, &[log_size], &mut channel);
+        }
+        verifier.verify_values(sampled_points, proof.proof, &mut channel).unwrap();
     }
 
     /// Tests that SIMD quotient computation produces low-degree quotients even when the trace
