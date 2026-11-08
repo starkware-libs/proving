@@ -23,12 +23,14 @@ use crate::select_queries::Queries;
 #[path = "fri_test.rs"]
 pub mod test;
 
-/// Mixes the FRI params into the channel.
-pub fn mix_fri_params<Value: IValue>(
+/// Mixes the FRI config into the channel.
+pub fn mix_fri_config<Value: IValue>(
     context: &mut Context<Value>,
     channel: &mut Channel,
-    params: &FriParams,
+    config: &FriConfig,
 ) {
+    // The stwo protocol does not mix the trace log size (see `stwo::core::pcs::PcsConfig`).
+    let FriConfig { params, trace_log_size: _ } = config;
     let FriParams {
         pow_bits,
         log_blowup_factor,
